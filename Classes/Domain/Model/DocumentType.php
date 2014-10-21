@@ -39,13 +39,6 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $title = '';
 
 	/**
-	 * xmlPath
-	 *
-	 * @var string
-	 */
-	protected $xmlPath = '';
-
-	/**
 	 * Returns the title
 	 *
 	 * @return string $title
@@ -62,25 +55,6 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-
-	/**
-	 * Returns the xmlPath
-	 *
-	 * @return string $xmlPath
-	 */
-	public function getXmlPath() {
-		return $this->xmlPath;
-	}
-
-	/**
-	 * Sets the xmlPath
-	 *
-	 * @param string $xmlPath
-	 * @return void
-	 */
-	public function setXmlPath($xmlPath) {
-		$this->xmlPath = $xmlPath;
 	}
 
 }

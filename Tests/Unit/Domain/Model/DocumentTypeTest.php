@@ -69,27 +69,4 @@ class DocumentTypeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			$this->subject
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getXmlPathReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getXmlPath()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setXmlPathForStringSetsXmlPath() {
-		$this->subject->setXmlPath('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'xmlPath',
-			$this->subject
-		);
-	}
 }

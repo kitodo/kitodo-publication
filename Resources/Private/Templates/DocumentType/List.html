@@ -20,7 +20,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <table  class="tx_dpf" >
 	<tr>
 		<th><f:translate key="tx_dpf_domain_model_documenttype.title" /></th>
-		<th><f:translate key="tx_dpf_domain_model_documenttype.xml_path" /></th>
 		<th> </th>
 		<th> </th>
 	</tr>
@@ -28,7 +27,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<f:for each="{documentTypes}" as="documentType">
 		<tr>
 			<td><f:link.action action="show" arguments="{documentType : documentType}"> {documentType.title}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{documentType : documentType}"> {documentType.xmlPath}</f:link.action></td>
 			<td><f:link.action action="edit" arguments="{documentType : documentType}">Edit</f:link.action></td>
 			<td><f:link.action action="delete" arguments="{documentType : documentType}">Delete</f:link.action></td>
 		</tr>

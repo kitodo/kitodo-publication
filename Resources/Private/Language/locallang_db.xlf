@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T17:31:49Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T18:07:52Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
@@ -8,9 +8,6 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype.title">
 				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttype.xml_path">
-				<source>Xml Path</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documents">
 				<source>Documents</source>

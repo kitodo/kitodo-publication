@@ -3,8 +3,8 @@
         {
             "config": {
                 "position": [
-                    65,
-                    378
+                    70,
+                    271
                 ]
             },
             "name": "New Model Object",
@@ -44,16 +44,6 @@
                             "propertyName": "title",
                             "propertyType": "String",
                             "uid": "975599566711"
-                        },
-                        {
-                            "allowedFileTypes": "",
-                            "maxItems": "1",
-                            "propertyDescription": "",
-                            "propertyIsExcludeField": true,
-                            "propertyIsRequired": false,
-                            "propertyName": "xmlPath",
-                            "propertyType": "String",
-                            "uid": "1227863353341"
                         }
                     ]
                 },
@@ -119,7 +109,7 @@
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
                             "relationName": "documentType",
-                            "relationType": "zeroToOne",
+                            "relationType": "manyToOne",
                             "relationWire": "[wired]",
                             "uid": "1320809813155"
                         }
@@ -130,8 +120,8 @@
         {
             "config": {
                 "position": [
-                    491,
-                    346
+                    493,
+                    257
                 ]
             },
             "name": "New Model Object",
@@ -202,7 +192,7 @@
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
                             "relationName": "documentType",
-                            "relationType": "zeroToOne",
+                            "relationType": "manyToOne",
                             "relationWire": "[wired]",
                             "uid": "938176479033"
                         },
@@ -212,7 +202,7 @@
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
                             "relationName": "parentGroup",
-                            "relationType": "zeroToOne",
+                            "relationType": "manyToOne",
                             "relationWire": "[wired]",
                             "uid": "286984048220"
                         }
@@ -305,7 +295,7 @@
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
                             "relationName": "metadataGroup",
-                            "relationType": "zeroToOne",
+                            "relationType": "manyToOne",
                             "relationWire": "[wired]",
                             "uid": "459939775141"
                         }
@@ -400,7 +390,7 @@
         }
     ],
     "log": {
-        "last_modified": "2014-10-21 05:31",
+        "last_modified": "2014-10-21 06:07",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }
