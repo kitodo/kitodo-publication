@@ -1,0 +1,14 @@
+
+config.tx_extbase{
+    persistence{
+        classes{
+
+            EWW\Dpf\Domain\Model\MetadataObject {
+                mapping {
+                    
+                }
+            }
+            
+    	}
+    }
+}

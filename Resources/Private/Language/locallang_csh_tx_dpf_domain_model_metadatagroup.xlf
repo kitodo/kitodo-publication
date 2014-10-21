@@ -3,11 +3,20 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T17:31:49Z" product-name="dpf">
 		<header/>
 		<body>
-			<trans-unit id="xml_data.description">
-				<source>xmlData</source>
+			<trans-unit id="title.description">
+				<source>title</source>
+			</trans-unit>
+			<trans-unit id="mandatory.description">
+				<source>mandatory</source>
+			</trans-unit>
+			<trans-unit id="max_iteration.description">
+				<source>maxIteration</source>
 			</trans-unit>
 			<trans-unit id="document_type.description">
 				<source>documentType</source>
+			</trans-unit>
+			<trans-unit id="parent_group.description">
+				<source>parentGroup</source>
 			</trans-unit>
 		</body>
 	</file>

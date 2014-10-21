@@ -3,13 +3,13 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_dpf_domain_model_documents'] = array(
-	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_documents']['ctrl'],
+$GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, xml_data, document_type',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, mandatory, max_iteration, document_type, parent_group',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, xml_data, document_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, mandatory, max_iteration, document_type, parent_group, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -38,8 +38,8 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documents'] = array(
 				'items' => array(
 					array('', 0),
 				),
-				'foreign_table' => 'tx_dpf_domain_model_documents',
-				'foreign_table_where' => 'AND tx_dpf_domain_model_documents.pid=###CURRENT_PID### AND tx_dpf_domain_model_documents.sys_language_uid IN (-1,0)',
+				'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
+				'foreign_table_where' => 'AND tx_dpf_domain_model_metadatagroup.pid=###CURRENT_PID### AND tx_dpf_domain_model_metadatagroup.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -97,22 +97,55 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documents'] = array(
 			),
 		),
 
-		'xml_data' => array(
+		'title' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documents.xml_data',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.title',
 			'config' => array(
-				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
+				'type' => 'input',
+				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'mandatory' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'max_iteration' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.max_iteration',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
 			)
 		),
 		'document_type' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documents.document_type',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.document_type',
 			'config' => array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dpf_domain_model_documenttype',
+				'minitems' => 0,
+				'maxitems' => 1,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+		),
+		'parent_group' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.parent_group',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
 				'minitems' => 0,
 				'maxitems' => 1,
 				'appearance' => array(

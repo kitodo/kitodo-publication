@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Controller;
 
-
 /***************************************************************
  *
  *  Copyright notice

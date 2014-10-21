@@ -27,9 +27,9 @@ namespace EWW\Dpf\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for DocumentTypes
+ * The repository for MetadataObjects
  */
-class DocumentTypeRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class MetadataObjectRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	
 }

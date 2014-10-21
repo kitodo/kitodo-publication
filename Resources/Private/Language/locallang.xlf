@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T15:20:12Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T17:31:49Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
@@ -18,8 +18,44 @@
 			<trans-unit id="tx_dpf_domain_model_documents.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documents.type">
-				<source>Type</source>
+			<trans-unit id="tx_dpf_domain_model_documents.document_type">
+				<source>Document Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup">
+				<source>Metadata Group</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.document_type">
+				<source>Document Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.parent_group">
+				<source>Parent Group</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject">
+				<source>Metadata Object</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
+				<source>Mapping</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.metadata_group">
+				<source>Metadata Group</source>
 			</trans-unit>
 		</body>
 	</file>

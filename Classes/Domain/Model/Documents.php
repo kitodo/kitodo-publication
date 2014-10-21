@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -40,11 +39,11 @@ class Documents extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $xmlData = '';
 
 	/**
-	 * type
+	 * documentType
 	 *
 	 * @var \EWW\Dpf\Domain\Model\DocumentType
 	 */
-	protected $type = NULL;
+	protected $documentType = NULL;
 
 	/**
 	 * Returns the xmlData
@@ -66,22 +65,22 @@ class Documents extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the type
+	 * Returns the documentType
 	 *
-	 * @return \EWW\Dpf\Domain\Model\DocumentType $type
+	 * @return \EWW\Dpf\Domain\Model\DocumentType documentType
 	 */
-	public function getType() {
-		return $this->type;
+	public function getDocumentType() {
+		return $this->documentType;
 	}
 
 	/**
-	 * Sets the type
+	 * Sets the documentType
 	 *
-	 * @param \EWW\Dpf\Domain\Model\DocumentType $type
-	 * @return void
+	 * @param \EWW\Dpf\Domain\Model\DocumentType $documentType
+	 * @return \EWW\Dpf\Domain\Model\DocumentType documentType
 	 */
-	public function setType(\EWW\Dpf\Domain\Model\DocumentType $type) {
-		$this->type = $type;
+	public function setDocumentType(\EWW\Dpf\Domain\Model\DocumentType $documentType) {
+		$this->documentType = $documentType;
 	}
 
 }
