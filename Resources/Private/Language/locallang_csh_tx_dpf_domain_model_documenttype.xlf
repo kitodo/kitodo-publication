@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-21T15:20:12Z" product-name="dpf">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>title</source>
+			</trans-unit>
+			<trans-unit id="xml_path.description">
+				<source>xmlPath</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
