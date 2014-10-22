@@ -3,8 +3,8 @@
         {
             "config": {
                 "position": [
-                    70,
-                    271
+                    467,
+                    459
                 ]
             },
             "name": "New Model Object",
@@ -57,8 +57,8 @@
         {
             "config": {
                 "position": [
-                    140,
-                    60
+                    438,
+                    179
                 ]
             },
             "name": "New Model Object",
@@ -120,8 +120,8 @@
         {
             "config": {
                 "position": [
-                    493,
-                    257
+                    963,
+                    230
                 ]
             },
             "name": "New Model Object",
@@ -213,8 +213,8 @@
         {
             "config": {
                 "position": [
-                    869,
-                    26
+                    961,
+                    20
                 ]
             },
             "name": "New Model Object",
@@ -299,6 +299,193 @@
                             "relationWire": "[wired]",
                             "uid": "459939775141"
                         }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    20,
+                    60
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "DocumentTransfer",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1173229130871"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "status",
+                            "propertyType": "Integer",
+                            "uid": "622091567225"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "startDate",
+                            "propertyType": "DateTime",
+                            "uid": "983980146156"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "endDate",
+                            "propertyType": "DateTime",
+                            "uid": "1128542266875"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "httpStatus",
+                            "propertyType": "String",
+                            "uid": "87929286685"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "response",
+                            "propertyType": "String",
+                            "uid": "343212120432"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "error",
+                            "propertyType": "Integer",
+                            "uid": "484214464987"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "parentDocument",
+                            "relationType": "zeroToOne",
+                            "relationWire": "[wired]",
+                            "uid": "663540457091"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "config": {
+                "position": [
+                    27,
+                    319
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "FedoraConnection",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1327026927315"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "url",
+                            "propertyType": "String",
+                            "uid": "48613785791"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "user",
+                            "propertyType": "String",
+                            "uid": "1067414989203"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "password",
+                            "propertyType": "String",
+                            "uid": "354529339872"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+
                     ]
                 }
             }
@@ -387,10 +574,22 @@
                 "terminal": "SOURCES",
                 "uid": "1017222415703"
             }
+        },
+        {
+            "src": {
+                "moduleId": 4,
+                "terminal": "relationWire_0",
+                "uid": "663540457091"
+            },
+            "tgt": {
+                "moduleId": 1,
+                "terminal": "SOURCES",
+                "uid": "196508614441"
+            }
         }
     ],
     "log": {
-        "last_modified": "2014-10-21 06:25",
+        "last_modified": "2014-10-22 11:16",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }
