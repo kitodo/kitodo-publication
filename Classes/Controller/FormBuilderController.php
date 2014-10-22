@@ -39,6 +39,15 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	protected $documentTypeRepository = NULL;
 
+  /**
+	 * metadataGroupRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+	 * @inject
+	 */
+	protected $metadataGroupRepository = NULL;
+	
+	
 	/**
 	 * action list
 	 *
@@ -46,13 +55,17 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	public function listAction() {
 	
-		
-		//$this->documentTypeRepository->find
-		
-		if ( $this->settings['documenttype'] ) {	
+		$this->settings['documenttype'];
 			$documentTypes = $this->documentTypeRepository->findAll();
 			$this->view->assign('documentTypes', $documentTypes);
-		}	
+		
+		//$this->metadataGroupRepository->findByDocumentType();
+		//$this->documentTypeRepository->findByDocumentType();
+		
+		//if ( $this->settings['documenttype'] ) {	
+		//	$documentTypes = $this->documentTypeRepository->findAll();
+		//	$this->view->assign('documentTypes', $documentTypes);
+		// }	
 	}
 
 }
