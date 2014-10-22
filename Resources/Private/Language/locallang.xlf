@@ -90,6 +90,9 @@
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection.password">
 				<source>Password</source>
 			</trans-unit>
+			<trans-unit id="tx_dpf_qucosaform.options">
+				<source>Options</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

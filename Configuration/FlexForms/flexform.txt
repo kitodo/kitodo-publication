@@ -1,0 +1,3 @@
+<foreign_table_where>
+     						  AND tx_dpf_domain_model_documenttype.pid = 37
+                </foreign_table_where>

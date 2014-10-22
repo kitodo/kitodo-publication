@@ -1,0 +1,32 @@
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.documenttype>
+            <TCEforms>
+              <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype</label>                
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0"></numIndex>
+                    <numIndex index="1"></numIndex>
+                  </numIndex>
+                </items>
+                <foreign_table>tx_dpf_domain_model_documenttype</foreign_table>                                   
+              </config>
+            </TCEforms>
+          </settings.documenttype>   
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>
