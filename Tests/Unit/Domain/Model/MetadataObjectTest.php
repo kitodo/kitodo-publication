@@ -138,28 +138,4 @@ class MetadataObjectTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			$this->subject
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getMetadataGroupReturnsInitialValueForMetadataGroup() {
-		$this->assertEquals(
-			NULL,
-			$this->subject->getMetadataGroup()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setMetadataGroupForMetadataGroupSetsMetadataGroup() {
-		$metadataGroupFixture = new \EWW\Dpf\Domain\Model\MetadataGroup();
-		$this->subject->setMetadataGroup($metadataGroupFixture);
-
-		$this->assertAttributeEquals(
-			$metadataGroupFixture,
-			'metadataGroup',
-			$this->subject
-		);
-	}
 }

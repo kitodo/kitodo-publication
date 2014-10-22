@@ -60,13 +60,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $mapping = '';
 
 	/**
-	 * metadataGroup
-	 *
-	 * @var \EWW\Dpf\Domain\Model\MetadataGroup
-	 */
-	protected $metadataGroup = NULL;
-
-	/**
 	 * Returns the title
 	 *
 	 * @return string $title
@@ -83,25 +76,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-
-	/**
-	 * Returns the metadataGroup
-	 *
-	 * @return \EWW\Dpf\Domain\Model\MetadataGroup metadataGroup
-	 */
-	public function getMetadataGroup() {
-		return $this->metadataGroup;
-	}
-
-	/**
-	 * Sets the metadataGroup
-	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup
-	 * @return \EWW\Dpf\Domain\Model\MetadataGroup metadataGroup
-	 */
-	public function setMetadataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup) {
-		$this->metadataGroup = $metadataGroup;
 	}
 
 	/**

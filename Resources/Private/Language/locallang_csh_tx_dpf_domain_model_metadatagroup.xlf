@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-22T11:16:36Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-22T13:41:02Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="title.description">
@@ -12,11 +12,11 @@
 			<trans-unit id="max_iteration.description">
 				<source>maxIteration</source>
 			</trans-unit>
-			<trans-unit id="document_type.description">
-				<source>documentType</source>
-			</trans-unit>
 			<trans-unit id="parent_group.description">
 				<source>parentGroup</source>
+			</trans-unit>
+			<trans-unit id="metadata_object.description">
+				<source>metadataObject</source>
 			</trans-unit>
 		</body>
 	</file>

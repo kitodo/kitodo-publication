@@ -53,18 +53,19 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $maxIteration = 0;
 
 	/**
-	 * documentType
-	 *
-	 * @var \EWW\Dpf\Domain\Model\DocumentType
-	 */
-	protected $documentType = NULL;
-
-	/**
 	 * parentGroup
 	 *
 	 * @var \EWW\Dpf\Domain\Model\MetadataGroup
 	 */
 	protected $parentGroup = NULL;
+
+	/**
+	 * metadataObject
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject>
+	 * @cascade remove
+	 */
+	protected $metadataObject = NULL;
 
 	/**
 	 * Returns the title
@@ -83,25 +84,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-
-	/**
-	 * Returns the documentType
-	 *
-	 * @return \EWW\Dpf\Domain\Model\DocumentType documentType
-	 */
-	public function getDocumentType() {
-		return $this->documentType;
-	}
-
-	/**
-	 * Sets the documentType
-	 *
-	 * @param \EWW\Dpf\Domain\Model\DocumentType $documentType
-	 * @return \EWW\Dpf\Domain\Model\DocumentType documentType
-	 */
-	public function setDocumentType(\EWW\Dpf\Domain\Model\DocumentType $documentType) {
-		$this->documentType = $documentType;
 	}
 
 	/**
@@ -168,6 +150,65 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setParentGroup(\EWW\Dpf\Domain\Model\MetadataGroup $parentGroup) {
 		$this->parentGroup = $parentGroup;
+	}
+
+	/**
+	 * __construct
+	 */
+	public function __construct() {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+	}
+
+	/**
+	 * Initializes all ObjectStorage properties
+	 * Do not modify this method!
+	 * It will be rewritten on each save in the extension builder
+	 * You may modify the constructor of this class instead
+	 *
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		$this->metadataObject = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
+
+	/**
+	 * Adds a MetadataObject
+	 *
+	 * @param \EWW\Dpf\Domain\Model\MetadataObject $metadataObject
+	 * @return void
+	 */
+	public function addMetadataObject(\EWW\Dpf\Domain\Model\MetadataObject $metadataObject) {
+		$this->metadataObject->attach($metadataObject);
+	}
+
+	/**
+	 * Removes a MetadataObject
+	 *
+	 * @param \EWW\Dpf\Domain\Model\MetadataObject $metadataObjectToRemove The MetadataObject to be removed
+	 * @return void
+	 */
+	public function removeMetadataObject(\EWW\Dpf\Domain\Model\MetadataObject $metadataObjectToRemove) {
+		$this->metadataObject->detach($metadataObjectToRemove);
+	}
+
+	/**
+	 * Returns the metadataObject
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject> $metadataObject
+	 */
+	public function getMetadataObject() {
+		return $this->metadataObject;
+	}
+
+	/**
+	 * Sets the metadataObject
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject> $metadataObject
+	 * @return void
+	 */
+	public function setMetadataObject(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataObject) {
+		$this->metadataObject = $metadataObject;
 	}
 
 }

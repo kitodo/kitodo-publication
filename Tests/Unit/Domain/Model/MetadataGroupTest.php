@@ -119,30 +119,6 @@ class MetadataGroupTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getDocumentTypeReturnsInitialValueForDocumentType() {
-		$this->assertEquals(
-			NULL,
-			$this->subject->getDocumentType()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setDocumentTypeForDocumentTypeSetsDocumentType() {
-		$documentTypeFixture = new \EWW\Dpf\Domain\Model\DocumentType();
-		$this->subject->setDocumentType($documentTypeFixture);
-
-		$this->assertAttributeEquals(
-			$documentTypeFixture,
-			'documentType',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function getParentGroupReturnsInitialValueForMetadataGroup() {
 		$this->assertEquals(
 			NULL,
@@ -162,5 +138,57 @@ class MetadataGroupTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			'parentGroup',
 			$this->subject
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getMetadataObjectReturnsInitialValueForMetadataObject() {
+		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->assertEquals(
+			$newObjectStorage,
+			$this->subject->getMetadataObject()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMetadataObjectForObjectStorageContainingMetadataObjectSetsMetadataObject() {
+		$metadataObject = new \EWW\Dpf\Domain\Model\MetadataObject();
+		$objectStorageHoldingExactlyOneMetadataObject = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneMetadataObject->attach($metadataObject);
+		$this->subject->setMetadataObject($objectStorageHoldingExactlyOneMetadataObject);
+
+		$this->assertAttributeEquals(
+			$objectStorageHoldingExactlyOneMetadataObject,
+			'metadataObject',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addMetadataObjectToObjectStorageHoldingMetadataObject() {
+		$metadataObject = new \EWW\Dpf\Domain\Model\MetadataObject();
+		$metadataObjectObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$metadataObjectObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($metadataObject));
+		$this->inject($this->subject, 'metadataObject', $metadataObjectObjectStorageMock);
+
+		$this->subject->addMetadataObject($metadataObject);
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeMetadataObjectFromObjectStorageHoldingMetadataObject() {
+		$metadataObject = new \EWW\Dpf\Domain\Model\MetadataObject();
+		$metadataObjectObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$metadataObjectObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($metadataObject));
+		$this->inject($this->subject, 'metadataObject', $metadataObjectObjectStorageMock);
+
+		$this->subject->removeMetadataObject($metadataObject);
+
 	}
 }

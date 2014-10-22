@@ -69,4 +69,56 @@ class DocumentTypeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getMetadataGroupReturnsInitialValueForMetadataGroup() {
+		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->assertEquals(
+			$newObjectStorage,
+			$this->subject->getMetadataGroup()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMetadataGroupForObjectStorageContainingMetadataGroupSetsMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$objectStorageHoldingExactlyOneMetadataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneMetadataGroup->attach($metadataGroup);
+		$this->subject->setMetadataGroup($objectStorageHoldingExactlyOneMetadataGroup);
+
+		$this->assertAttributeEquals(
+			$objectStorageHoldingExactlyOneMetadataGroup,
+			'metadataGroup',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addMetadataGroupToObjectStorageHoldingMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$metadataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$metadataGroupObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($metadataGroup));
+		$this->inject($this->subject, 'metadataGroup', $metadataGroupObjectStorageMock);
+
+		$this->subject->addMetadataGroup($metadataGroup);
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeMetadataGroupFromObjectStorageHoldingMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$metadataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$metadataGroupObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($metadataGroup));
+		$this->inject($this->subject, 'metadataGroup', $metadataGroupObjectStorageMock);
+
+		$this->subject->removeMetadataGroup($metadataGroup);
+
+	}
 }

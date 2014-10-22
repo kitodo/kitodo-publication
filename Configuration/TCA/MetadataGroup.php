@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, mandatory, max_iteration, document_type, parent_group',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, mandatory, max_iteration, parent_group, metadata_object',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, mandatory, max_iteration, document_type, parent_group, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, mandatory, max_iteration, parent_group, metadata_object, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -123,16 +123,6 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 				'eval' => 'int'
 			)
 		),
-		'document_type' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.document_type',
-			'config' => array(
-				'type' => 'select',
-				'foreign_table' => 'tx_dpf_domain_model_documenttype',
-				'minitems' => 0,
-				'maxitems' => 1,
-			),
-		),
 		'parent_group' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.parent_group',
@@ -142,6 +132,24 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 				'minitems' => 0,
 				'maxitems' => 1,
 			),
+		),
+		'metadata_object' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.metadata_object',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dpf_domain_model_metadataobject',
+				'foreign_field' => 'metadatagroup',
+				'maxitems'      => 9999,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+
 		),
 		
 	),
