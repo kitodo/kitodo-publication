@@ -165,7 +165,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$newPath = explode('#', $xPath);
 
 		if($sxe->xPath($newPath[0])){
-			$sxe->addChild
+			$sxe->addChild('bla', 'blubb');
 		}
 
 		print_r($newPath);
