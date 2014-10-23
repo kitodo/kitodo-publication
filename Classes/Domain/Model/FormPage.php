@@ -53,11 +53,11 @@ class FormPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $displayTitle = '';
 
 	/**
-	 * medataGroup
+	 * metadataGroup
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup>
 	 */
-	protected $medataGroup = NULL;
+	protected $metadataGroup = NULL;
 
 	/**
 	 * __construct
@@ -76,7 +76,7 @@ class FormPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	protected function initStorageObjects() {
-		$this->medataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->metadataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -139,40 +139,40 @@ class FormPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Adds a MetadataGroup
 	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $medataGroup
+	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup
 	 * @return void
 	 */
-	public function addMedataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $medataGroup) {
-		$this->medataGroup->attach($medataGroup);
+	public function addMetadataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup) {
+		$this->metadataGroup->attach($metadataGroup);
 	}
 
 	/**
 	 * Removes a MetadataGroup
 	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $medataGroupToRemove The MetadataGroup to be removed
+	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $metadataGroupToRemove The MetadataGroup to be removed
 	 * @return void
 	 */
-	public function removeMedataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $medataGroupToRemove) {
-		$this->medataGroup->detach($medataGroupToRemove);
+	public function removeMetadataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $metadataGroupToRemove) {
+		$this->metadataGroup->detach($metadataGroupToRemove);
 	}
 
 	/**
-	 * Returns the medataGroup
+	 * Returns the metadataGroup
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $medataGroup
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $metadataGroup
 	 */
-	public function getMedataGroup() {
-		return $this->medataGroup;
+	public function getMetadataGroup() {
+		return $this->metadataGroup;
 	}
 
 	/**
-	 * Sets the medataGroup
+	 * Sets the metadataGroup
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $medataGroup
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $metadataGroup
 	 * @return void
 	 */
-	public function setMedataGroup(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $medataGroup) {
-		$this->medataGroup = $medataGroup;
+	public function setMetadataGroup(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataGroup) {
+		$this->metadataGroup = $metadataGroup;
 	}
 
 }

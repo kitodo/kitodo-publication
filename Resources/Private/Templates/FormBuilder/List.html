@@ -17,31 +17,39 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
+
+<f:debug title="Debug myArray">{mg}</f:debug>
+
 <table  class="tx_dpf" >
 	<tr>
-		<th>Document type</th>
+		<th>{qucosaForm.name}</th>
 		<th> </th>
 		<th> </th>
 	</tr>
 </table>
 
-{documentType.title}
-
-
-		
-    <f:form object="{documentType.title}" objectName="{documentType.title}">
+   	
+    <f:form object="{qucosaForm.name}" objectName="{qucosaForm.name}">
       
-      <f:for each="{metadataGroups}" as="metadataGroup">  
+      <f:for each="{qucosaForm.children}" as="formPage">  
         
         <fieldset>
-          <legend>{metadataGroup.title}</legend>
-        
-          <label>Titel</label>
-          <f:form.textfield name="text" value="" class="testfield"/>
-          <br />
+          <legend>{formPage.name}</legend>
+                  
+          
+          <f:for each="{formPage.children}" as="group">  
+            <b>{group.name}</b><br />                      
+          
+            <f:for each="{group.children}" as="field">  
+              {field.name}
+            </f:for>
+          
+          </f:for>
+                                 
         <fieldset>
 
       </f:for>
       
     </f:form>
-  </f:section>
+
+</f:section>

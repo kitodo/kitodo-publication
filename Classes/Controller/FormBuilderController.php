@@ -39,7 +39,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	protected $documentTypeRepository = NULL;
 
-  /**
+        /**
 	 * metadataGroupRepository
 	 *
 	 * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
@@ -47,7 +47,15 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	protected $metadataGroupRepository = NULL;
 	
-	
+        /**
+	 * formPageRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\FormPageRepository
+	 * @inject
+	 */
+	protected $formPageRepository = NULL;
+
+        
 	/**
 	 * action list
 	 *
@@ -59,11 +67,56 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                 $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
-                $metadataGroups = $documentType->getMetadataGroup();
-                			
-                  $this->view->assign('documentType', $documentType);		
-                  $this->view->assign('metadataGroups', $metadataGroups);
-
+                $formPages = $documentType->getFormPage();
+                                
+                $qucosaForm = new \EWW\Dpf\Helper\FormNode();                   
+                $qucosaForm->setName($documentType->getTitle());
+                               
+                
+                // Form pages
+                foreach ($formPages as $formPage) {
+                  
+                  $formPageNode = new \EWW\Dpf\Helper\FormNode();     
+                  $formPageNode->setName($formPage->getDisplayTitle());                  
+                                                                         
+                  $metadataGroups = $formPage->getMetadataGroup();                                                     
+                                   
+                  
+                  // Metadata groups
+                  foreach ($metadataGroups as $metadataGroup) {
+                                        
+                    $metadataGroupNode = new \EWW\Dpf\Helper\FormNode();     
+                    $metadataGroupNode->setName($metadataGroup->getTitle());           
+                                                            
+                    /*
+                    $metadataObjects = $metadataGroup->getMetadataObject();
+                                    
+                    // Metadata objects / fields
+                    foreach ($metadataObjects as $metadataObject) {
+                      
+                      $metadataObjectNode = new \EWW\Dpf\Helper\FormNode();     
+                      $metadataObjectNode->setName($metadataObject->getTitle());
+                      
+                      $metadataGroupNode->addChild($metadataObjectNode);
+                      
+                    }
+                    */
+                    
+                    $formPageNode->addChild($metadataGroupNode);
+                    
+                  }
+                  
+                  $qucosaForm->addChild($formPageNode);                  
+                }
+                
+                
+                $testFp = $this->formPageRepository->findByUid(1);
+                $testMg = $testFp->getMetadataGroup();	
+                $this->view->assign('mg', $testMg);	
+                
+                
+                $this->view->assign('qucosaForm', $qucosaForm);	
+                                
                         //$this->metadataGroupRepository->findByDocumentType();
 		//$this->documentTypeRepository->findByDocumentType();
 		
