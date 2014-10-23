@@ -190,7 +190,7 @@ class DocumentTransferTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getParentDocumentReturnsInitialValueForDocuments() {
+	public function getParentDocumentReturnsInitialValueForDocument() {
 		$this->assertEquals(
 			NULL,
 			$this->subject->getParentDocument()
@@ -200,8 +200,8 @@ class DocumentTransferTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function setParentDocumentForDocumentsSetsParentDocument() {
-		$parentDocumentFixture = new \EWW\Dpf\Domain\Model\Documents();
+	public function setParentDocumentForDocumentSetsParentDocument() {
+		$parentDocumentFixture = new \EWW\Dpf\Domain\Model\Document();
 		$this->subject->setParentDocument($parentDocumentFixture);
 
 		$this->assertAttributeEquals(

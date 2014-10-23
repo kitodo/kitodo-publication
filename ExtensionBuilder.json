@@ -3,8 +3,8 @@
         {
             "config": {
                 "position": [
-                    442,
-                    437
+                    324,
+                    384
                 ]
             },
             "name": "New Model Object",
@@ -54,8 +54,8 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "metadataGroup",
-                            "relationType": "manyToMany",
+                            "relationName": "formPage",
+                            "relationType": "zeroToMany",
                             "relationWire": "[wired]",
                             "uid": "1050094878690"
                         }
@@ -66,8 +66,8 @@
         {
             "config": {
                 "position": [
-                    438,
-                    139
+                    440,
+                    120
                 ]
             },
             "name": "New Model Object",
@@ -82,7 +82,7 @@
 
                     ]
                 },
-                "name": "Documents",
+                "name": "Document",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -489,6 +489,89 @@
                     ]
                 }
             }
+        },
+        {
+            "config": {
+                "position": [
+                    620,
+                    340
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "FormPage",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "255685744830"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "title",
+                            "propertyType": "String",
+                            "uid": "419487943196"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "page",
+                            "propertyType": "Integer",
+                            "uid": "399190294893"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "displayTitle",
+                            "propertyType": "String",
+                            "uid": "794466926868"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "medataGroup",
+                            "relationType": "manyToMany",
+                            "relationWire": "[wired]",
+                            "uid": "1200262102832"
+                        }
+                    ]
+                }
+            }
         }
     ],
     "properties": {
@@ -565,18 +648,6 @@
         },
         {
             "src": {
-                "moduleId": 0,
-                "terminal": "relationWire_0",
-                "uid": "1050094878690"
-            },
-            "tgt": {
-                "moduleId": 2,
-                "terminal": "SOURCES",
-                "uid": "1017222415703"
-            }
-        },
-        {
-            "src": {
                 "moduleId": 2,
                 "terminal": "relationWire_1",
                 "uid": "521212125268"
@@ -586,10 +657,34 @@
                 "terminal": "SOURCES",
                 "uid": "15033753560"
             }
+        },
+        {
+            "src": {
+                "moduleId": 0,
+                "terminal": "relationWire_0",
+                "uid": "1050094878690"
+            },
+            "tgt": {
+                "moduleId": 6,
+                "terminal": "SOURCES",
+                "uid": "255685744830"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 6,
+                "terminal": "relationWire_0",
+                "uid": "1200262102832"
+            },
+            "tgt": {
+                "moduleId": 2,
+                "terminal": "SOURCES",
+                "uid": "1017222415703"
+            }
         }
     ],
     "log": {
-        "last_modified": "2014-10-22 01:41",
+        "last_modified": "2014-10-23 03:09",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }

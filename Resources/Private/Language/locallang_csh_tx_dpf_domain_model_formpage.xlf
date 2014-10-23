@@ -6,17 +6,14 @@
 			<trans-unit id="title.description">
 				<source>title</source>
 			</trans-unit>
-			<trans-unit id="mandatory.description">
-				<source>mandatory</source>
+			<trans-unit id="page.description">
+				<source>page</source>
 			</trans-unit>
-			<trans-unit id="max_iteration.description">
-				<source>maxIteration</source>
+			<trans-unit id="display_title.description">
+				<source>displayTitle</source>
 			</trans-unit>
-			<trans-unit id="parent_group.description">
-				<source>parentGroup</source>
-			</trans-unit>
-			<trans-unit id="metadata_object.description">
-				<source>metadataObject</source>
+			<trans-unit id="medata_group.description">
+				<source>medataGroup</source>
 			</trans-unit>
 		</body>
 	</file>

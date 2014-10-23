@@ -27,9 +27,9 @@ namespace EWW\Dpf\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Documents
+ * The repository for FormPages
  */
-class DocumentsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class FormPageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	
 }

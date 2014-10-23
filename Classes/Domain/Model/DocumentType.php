@@ -39,11 +39,11 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $title = '';
 
 	/**
-	 * metadataGroup
+	 * formPage
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage>
 	 */
-	protected $metadataGroup = NULL;
+	protected $formPage = NULL;
 
 	/**
 	 * Returns the title
@@ -81,46 +81,46 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	protected function initStorageObjects() {
-		$this->metadataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->formPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
 	 * Adds a MetadataGroup
 	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup
-	 * @return void
+	 * @param \EWW\Dpf\Domain\Model\FormPage $formPage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
 	 */
-	public function addMetadataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $metadataGroup) {
-		$this->metadataGroup->attach($metadataGroup);
+	public function addFormPage(\EWW\Dpf\Domain\Model\FormPage $formPage) {
+		$this->formPage->attach($formPage);
 	}
 
 	/**
 	 * Removes a MetadataGroup
 	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $metadataGroupToRemove The MetadataGroup to be removed
-	 * @return void
+	 * @param \EWW\Dpf\Domain\Model\FormPage $formPageToRemove The FormPage to be removed
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
 	 */
-	public function removeMetadataGroup(\EWW\Dpf\Domain\Model\MetadataGroup $metadataGroupToRemove) {
-		$this->metadataGroup->detach($metadataGroupToRemove);
+	public function removeFormPage(\EWW\Dpf\Domain\Model\FormPage $formPageToRemove) {
+		$this->formPage->detach($formPageToRemove);
 	}
 
 	/**
-	 * Returns the metadataGroup
+	 * Returns the formPage
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $metadataGroup
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
 	 */
-	public function getMetadataGroup() {
-		return $this->metadataGroup;
+	public function getFormPage() {
+		return $this->formPage;
 	}
 
 	/**
-	 * Sets the metadataGroup
+	 * Sets the formPage
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $metadataGroup
-	 * @return void
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> $formPage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
 	 */
-	public function setMetadataGroup(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataGroup) {
-		$this->metadataGroup = $metadataGroup;
+	public function setFormPage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $formPage) {
+		$this->formPage = $formPage;
 	}
 
 }

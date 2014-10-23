@@ -29,7 +29,7 @@ namespace EWW\Dpf\Domain\Model;
 /**
  * Documents
  */
-class Documents extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * xmlData

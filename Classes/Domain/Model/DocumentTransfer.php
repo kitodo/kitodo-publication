@@ -76,7 +76,7 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * parentDocument
 	 *
-	 * @var \EWW\Dpf\Domain\Model\Documents
+	 * @var \EWW\Dpf\Domain\Model\Document
 	 */
 	protected $parentDocument = NULL;
 
@@ -157,25 +157,6 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the parentDocument
-	 *
-	 * @return \EWW\Dpf\Domain\Model\Documents $parentDocument
-	 */
-	public function getParentDocument() {
-		return $this->parentDocument;
-	}
-
-	/**
-	 * Sets the parentDocument
-	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $parentDocument
-	 * @return void
-	 */
-	public function setParentDocument(\EWW\Dpf\Domain\Model\Documents $parentDocument) {
-		$this->parentDocument = $parentDocument;
-	}
-
-	/**
 	 * Returns the endDate
 	 *
 	 * @return \DateTime endDate
@@ -211,6 +192,25 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setStartDate(\DateTime $startDate) {
 		$this->startDate = $startDate;
+	}
+
+	/**
+	 * Returns the parentDocument
+	 *
+	 * @return \EWW\Dpf\Domain\Model\Document parentDocument
+	 */
+	public function getParentDocument() {
+		return $this->parentDocument;
+	}
+
+	/**
+	 * Sets the parentDocument
+	 *
+	 * @param \EWW\Dpf\Domain\Model\Document $parentDocument
+	 * @return \EWW\Dpf\Domain\Model\Document parentDocument
+	 */
+	public function setParentDocument(\EWW\Dpf\Domain\Model\Document $parentDocument) {
+		$this->parentDocument = $parentDocument;
 	}
 
 }

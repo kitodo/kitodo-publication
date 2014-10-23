@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-22T13:41:02Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-23T15:09:53Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
@@ -9,16 +9,16 @@
 			<trans-unit id="tx_dpf_domain_model_documenttype.title">
 				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_group">
-				<source>Metadata Group</source>
+			<trans-unit id="tx_dpf_domain_model_documenttype.form_page">
+				<source>Form Page</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documents">
-				<source>Documents</source>
+			<trans-unit id="tx_dpf_domain_model_document">
+				<source>Document</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documents.xml_data">
+			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documents.document_type">
+			<trans-unit id="tx_dpf_domain_model_document.document_type">
 				<source>Document Type</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
@@ -92,6 +92,21 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_qucosaform.options">
 				<source>Options</source>
+                        </trans-unit>        
+			<trans-unit id="tx_dpf_domain_model_formpage">
+				<source>Form Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_formpage.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_formpage.page">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_formpage.display_title">
+				<source>Display Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_formpage.medata_group">
+				<source>Medata Group</source>
 			</trans-unit>
 		</body>
 	</file>

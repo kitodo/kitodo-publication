@@ -27,21 +27,22 @@ namespace EWW\Dpf\Controller;
  ***************************************************************/
 
 /**
- * DocumentsController
+ * DocumentController
  */
-class DocumentsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * documentsRepository
+	 * documentRepository
 	 *
-	 * @var \EWW\Dpf\Domain\Repository\DocumentsRepository
+	 * @var \EWW\Dpf\Domain\Repository\DocumentRepository
 	 * @inject
 	 */
-	protected $documentsRepository = NULL;
+	protected $documentRepository = NULL;
 
 	/**
 	 * action list
 	 *
+	 * @param EWW\Dpf\Domain\Model\Document
 	 * @return void
 	 */
 	public function listAction() {
@@ -52,31 +53,31 @@ class DocumentsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	/**
 	 * action show
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $documents
+	 * @param EWW\Dpf\Domain\Model\Document
 	 * @return void
 	 */
-	public function showAction(\EWW\Dpf\Domain\Model\Documents $documents) {
+	public function showAction(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->view->assign('documents', $documents);
 	}
 
 	/**
 	 * action new
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $newDocuments
-	 * @ignorevalidation $newDocuments
+	 * @param EWW\Dpf\Domain\Model\Document
+	 * @ignorevalidation $newDocument
 	 * @return void
 	 */
-	public function newAction(\EWW\Dpf\Domain\Model\Documents $newDocuments = NULL) {
+	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
 		$this->view->assign('newDocuments', $newDocuments);
 	}
 
 	/**
 	 * action create
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $newDocuments
+	 * @param EWW\Dpf\Domain\Model\Document
 	 * @return void
 	 */
-	public function createAction(\EWW\Dpf\Domain\Model\Documents $newDocuments) {
+	public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument) {
 		$this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentsRepository->add($newDocuments);
 		$this->redirect('list');
@@ -85,21 +86,21 @@ class DocumentsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	/**
 	 * action edit
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $documents
-	 * @ignorevalidation $documents
+	 * @param EWW\Dpf\Domain\Model\Document
+	 * @ignorevalidation $document
 	 * @return void
 	 */
-	public function editAction(\EWW\Dpf\Domain\Model\Documents $documents) {
+	public function editAction(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->view->assign('documents', $documents);
 	}
 
 	/**
 	 * action update
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $documents
+	 * @param EWW\Dpf\Domain\Model\Document
 	 * @return void
 	 */
-	public function updateAction(\EWW\Dpf\Domain\Model\Documents $documents) {
+	public function updateAction(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentsRepository->update($documents);
 		$this->redirect('list');
@@ -108,10 +109,10 @@ class DocumentsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	/**
 	 * action delete
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Documents $documents
+	 * @param EWW\Dpf\Domain\Model\Document
 	 * @return void
 	 */
-	public function deleteAction(\EWW\Dpf\Domain\Model\Documents $documents) {
+	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentsRepository->remove($documents);
 		$this->redirect('list');
