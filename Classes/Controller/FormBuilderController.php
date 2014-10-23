@@ -54,12 +54,17 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 * @return void
 	 */
 	public function listAction() {
-	
-		$this->settings['documenttype'];
-			$documentTypes = $this->documentTypeRepository->findAll();
-			$this->view->assign('documentTypes', $documentTypes);
-		
-		//$this->metadataGroupRepository->findByDocumentType();
+
+          	$docTypeUid = $this->settings['documenttype'];
+
+                $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+                
+                $metadataGroups = $documentType->getMetadataGroup();
+                			
+                  $this->view->assign('documentType', $documentType);		
+                  $this->view->assign('metadataGroups', $metadataGroups);
+
+                        //$this->metadataGroupRepository->findByDocumentType();
 		//$this->documentTypeRepository->findByDocumentType();
 		
 		//if ( $this->settings['documenttype'] ) {	
