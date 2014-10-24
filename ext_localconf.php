@@ -7,10 +7,10 @@ if (!defined('TYPO3_MODE')) {
 	'EWW.' . $_EXTKEY,
 	'Qucosaform',
 	array(
-		'FormBuilder' => 'list, show, new, create, edit, update, delete',	
+		'FormBuilder' => 'show',	
 	),
 	// non-cacheable actions
 	array(
-		'FormBuilder' => 'create, update, delete',
+		'FormBuilder' => 'show',
 	)
 );

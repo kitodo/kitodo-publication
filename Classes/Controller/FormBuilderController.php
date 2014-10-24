@@ -38,30 +38,14 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 * @inject
 	 */
 	protected $documentTypeRepository = NULL;
-
-        /**
-	 * metadataGroupRepository
-	 *
-	 * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-	 * @inject
-	 */
-	protected $metadataGroupRepository = NULL;
-	
-        /**
-	 * metadataPageRepository
-	 *
-	 * @var \EWW\Dpf\Domain\Repository\MetadataPageRepository
-	 * @inject
-	 */
-	protected $metadaPageRepository = NULL;
-
+        
         
 	/**
-	 * action list
+	 * action show
 	 *
 	 * @return void
 	 */
-	public function listAction() {
+	public function showAction() {
 
           	$docTypeUid = $this->settings['documenttype'];
 
