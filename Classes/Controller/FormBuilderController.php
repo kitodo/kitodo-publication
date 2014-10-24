@@ -48,12 +48,12 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	protected $metadataGroupRepository = NULL;
 	
         /**
-	 * formPageRepository
+	 * metadataPageRepository
 	 *
-	 * @var \EWW\Dpf\Domain\Repository\FormPageRepository
+	 * @var \EWW\Dpf\Domain\Repository\MetadataPageRepository
 	 * @inject
 	 */
-	protected $formPageRepository = NULL;
+	protected $metadaPageRepository = NULL;
 
         
 	/**
@@ -63,26 +63,23 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	public function listAction() {
 
-
-                //$test = $this->objectManager->get('\\GK\\Stdapp\\Domain\\Repository\\FormPageRepository');
-
           	$docTypeUid = $this->settings['documenttype'];
 
                 $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
-                $formPages = $documentType->getFormPage();
+                $metadataPages = $documentType->getMetadataPage();
                                 
                 $qucosaForm = new \EWW\Dpf\Helper\FormNode();                   
                 $qucosaForm->setName($documentType->getTitle());
                                
                 
                 // Form pages
-                foreach ($formPages as $formPage) {
+                foreach ($metadataPages as $metadataPage) {
                   
-                  $formPageNode = new \EWW\Dpf\Helper\FormNode();     
-                  $formPageNode->setName($formPage->getDisplayTitle());                  
+                  $metadataPageNode = new \EWW\Dpf\Helper\FormNode();
+                  $metadataPageNode->setName($metadataPage->getDisplayTitle());
                                                                          
-                  $metadataGroups = $formPage->getMetadataGroup();                                                     
+                  $metadataGroups = $metadataPage->getMetadataGroup();
                                    
                   
                   // Metadata groups
@@ -105,11 +102,11 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                     }
                     
                     
-                    $formPageNode->addChild($metadataGroupNode);
+                    $metadataPageNode->addChild($metadataGroupNode);
                     
                   }
                   
-                  $qucosaForm->addChild($formPageNode);                  
+                  $qucosaForm->addChild($metadataPageNode);
                 }
 
                                                                 
