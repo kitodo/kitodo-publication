@@ -28,9 +28,9 @@ namespace EWW\Dpf\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for MetadataGroups
+ * The repository for MetadataPages
  */
-class MetadataGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class MetadataPageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	
 }

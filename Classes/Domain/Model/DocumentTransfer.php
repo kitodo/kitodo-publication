@@ -1,6 +1,7 @@
 <?php
 namespace EWW\Dpf\Domain\Model;
 
+
 /***************************************************************
  *
  *  Copyright notice
@@ -100,41 +101,41 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the error
+	 * Returns the startDate
 	 *
-	 * @return integer $error
+	 * @return \DateTime $startDate
 	 */
-	public function getError() {
-		return $this->error;
+	public function getStartDate() {
+		return $this->startDate;
 	}
 
 	/**
-	 * Sets the error
+	 * Sets the startDate
 	 *
-	 * @param integer $error
+	 * @param \DateTime $startDate
 	 * @return void
 	 */
-	public function setError($error) {
-		$this->error = $error;
+	public function setStartDate(\DateTime $startDate) {
+		$this->startDate = $startDate;
 	}
 
 	/**
-	 * Returns the response
+	 * Returns the endDate
 	 *
-	 * @return string $response
+	 * @return \DateTime $endDate
 	 */
-	public function getResponse() {
-		return $this->response;
+	public function getEndDate() {
+		return $this->endDate;
 	}
 
 	/**
-	 * Sets the response
+	 * Sets the endDate
 	 *
-	 * @param string $response
+	 * @param \DateTime $endDate
 	 * @return void
 	 */
-	public function setResponse($response) {
-		$this->response = $response;
+	public function setEndDate(\DateTime $endDate) {
+		$this->endDate = $endDate;
 	}
 
 	/**
@@ -157,47 +158,47 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the endDate
+	 * Returns the response
 	 *
-	 * @return \DateTime endDate
+	 * @return string $response
 	 */
-	public function getEndDate() {
-		return $this->endDate;
+	public function getResponse() {
+		return $this->response;
 	}
 
 	/**
-	 * Sets the endDate
+	 * Sets the response
 	 *
-	 * @param \DateTime $endDate
-	 * @return \DateTime endDate
+	 * @param string $response
+	 * @return void
 	 */
-	public function setEndDate(\DateTime $endDate) {
-		$this->endDate = $endDate;
+	public function setResponse($response) {
+		$this->response = $response;
 	}
 
 	/**
-	 * Returns the startDate
+	 * Returns the error
 	 *
-	 * @return \DateTime startDate
+	 * @return integer $error
 	 */
-	public function getStartDate() {
-		return $this->startDate;
+	public function getError() {
+		return $this->error;
 	}
 
 	/**
-	 * Sets the startDate
+	 * Sets the error
 	 *
-	 * @param \DateTime $startDate
-	 * @return \DateTime startDate
+	 * @param integer $error
+	 * @return void
 	 */
-	public function setStartDate(\DateTime $startDate) {
-		$this->startDate = $startDate;
+	public function setError($error) {
+		$this->error = $error;
 	}
 
 	/**
 	 * Returns the parentDocument
 	 *
-	 * @return \EWW\Dpf\Domain\Model\Document parentDocument
+	 * @return \EWW\Dpf\Domain\Model\Document $parentDocument
 	 */
 	public function getParentDocument() {
 		return $this->parentDocument;
@@ -207,7 +208,7 @@ class DocumentTransfer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the parentDocument
 	 *
 	 * @param \EWW\Dpf\Domain\Model\Document $parentDocument
-	 * @return \EWW\Dpf\Domain\Model\Document parentDocument
+	 * @return void
 	 */
 	public function setParentDocument(\EWW\Dpf\Domain\Model\Document $parentDocument) {
 		$this->parentDocument = $parentDocument;

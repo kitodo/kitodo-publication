@@ -6,8 +6,14 @@
 			<trans-unit id="title.description">
 				<source>title</source>
 			</trans-unit>
-			<trans-unit id="metadata_page.description">
-				<source>metadataPage</source>
+			<trans-unit id="page.description">
+				<source>page</source>
+			</trans-unit>
+			<trans-unit id="display_title.description">
+				<source>displayTitle</source>
+			</trans-unit>
+			<trans-unit id="metadata_group.description">
+				<source>metadataGroup</source>
 			</trans-unit>
 		</body>
 	</file>

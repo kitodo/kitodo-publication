@@ -1,6 +1,7 @@
 <?php
 namespace EWW\Dpf\Domain\Model;
 
+
 /***************************************************************
  *
  *  Copyright notice
@@ -39,11 +40,32 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $title = '';
 
 	/**
-	 * formPage
+	 * metadataPage
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage>
+	 * @cascade remove
 	 */
-	protected $formPage = NULL;
+	protected $metadataPage = NULL;
+
+	/**
+	 * __construct
+	 */
+	public function __construct() {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+	}
+
+	/**
+	 * Initializes all ObjectStorage properties
+	 * Do not modify this method!
+	 * It will be rewritten on each save in the extension builder
+	 * You may modify the constructor of this class instead
+	 *
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		$this->metadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
 
 	/**
 	 * Returns the title
@@ -65,62 +87,42 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * __construct
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
-
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
+	 * Adds a MetadataPage
 	 *
+	 * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPage
 	 * @return void
 	 */
-	protected function initStorageObjects() {
-		$this->formPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	public function addMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPage) {
+		$this->metadataPage->attach($metadataPage);
 	}
 
 	/**
-	 * Adds a MetadataGroup
+	 * Removes a MetadataPage
 	 *
-	 * @param \EWW\Dpf\Domain\Model\FormPage $formPage
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
+	 * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove The MetadataPage to be removed
+	 * @return void
 	 */
-	public function addFormPage(\EWW\Dpf\Domain\Model\FormPage $formPage) {
-		$this->formPage->attach($formPage);
+	public function removeMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove) {
+		$this->metadataPage->detach($metadataPageToRemove);
 	}
 
 	/**
-	 * Removes a MetadataGroup
+	 * Returns the metadataPage
 	 *
-	 * @param \EWW\Dpf\Domain\Model\FormPage $formPageToRemove The FormPage to be removed
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
 	 */
-	public function removeFormPage(\EWW\Dpf\Domain\Model\FormPage $formPageToRemove) {
-		$this->formPage->detach($formPageToRemove);
+	public function getMetadataPage() {
+		return $this->metadataPage;
 	}
 
 	/**
-	 * Returns the formPage
+	 * Sets the metadataPage
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
+	 * @return void
 	 */
-	public function getFormPage() {
-		return $this->formPage;
-	}
-
-	/**
-	 * Sets the formPage
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> $formPage
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\FormPage> formPage
-	 */
-	public function setFormPage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $formPage) {
-		$this->formPage = $formPage;
+	public function setMetadataPage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataPage) {
+		$this->metadataPage = $metadataPage;
 	}
 
 }

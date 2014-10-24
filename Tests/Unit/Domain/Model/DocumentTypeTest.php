@@ -73,26 +73,26 @@ class DocumentTypeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getFormPageReturnsInitialValueForFormPage() {
+	public function getMetadataPageReturnsInitialValueForMetadataPage() {
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(
 			$newObjectStorage,
-			$this->subject->getFormPage()
+			$this->subject->getMetadataPage()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setFormPageForObjectStorageContainingFormPageSetsFormPage() {
-		$formPage = new \EWW\Dpf\Domain\Model\FormPage();
-		$objectStorageHoldingExactlyOneFormPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneFormPage->attach($formPage);
-		$this->subject->setFormPage($objectStorageHoldingExactlyOneFormPage);
+	public function setMetadataPageForObjectStorageContainingMetadataPageSetsMetadataPage() {
+		$metadataPage = new \EWW\Dpf\Domain\Model\MetadataPage();
+		$objectStorageHoldingExactlyOneMetadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneMetadataPage->attach($metadataPage);
+		$this->subject->setMetadataPage($objectStorageHoldingExactlyOneMetadataPage);
 
 		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneFormPage,
-			'formPage',
+			$objectStorageHoldingExactlyOneMetadataPage,
+			'metadataPage',
 			$this->subject
 		);
 	}
@@ -100,25 +100,25 @@ class DocumentTypeTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function addFormPageToObjectStorageHoldingFormPage() {
-		$formPage = new \EWW\Dpf\Domain\Model\FormPage();
-		$formPageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$formPageObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($formPage));
-		$this->inject($this->subject, 'formPage', $formPageObjectStorageMock);
+	public function addMetadataPageToObjectStorageHoldingMetadataPage() {
+		$metadataPage = new \EWW\Dpf\Domain\Model\MetadataPage();
+		$metadataPageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$metadataPageObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($metadataPage));
+		$this->inject($this->subject, 'metadataPage', $metadataPageObjectStorageMock);
 
-		$this->subject->addFormPage($formPage);
+		$this->subject->addMetadataPage($metadataPage);
 	}
 
 	/**
 	 * @test
 	 */
-	public function removeFormPageFromObjectStorageHoldingFormPage() {
-		$formPage = new \EWW\Dpf\Domain\Model\FormPage();
-		$formPageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$formPageObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($formPage));
-		$this->inject($this->subject, 'formPage', $formPageObjectStorageMock);
+	public function removeMetadataPageFromObjectStorageHoldingMetadataPage() {
+		$metadataPage = new \EWW\Dpf\Domain\Model\MetadataPage();
+		$metadataPageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$metadataPageObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($metadataPage));
+		$this->inject($this->subject, 'metadataPage', $metadataPageObjectStorageMock);
 
-		$this->subject->removeFormPage($formPage);
+		$this->subject->removeMetadataPage($metadataPage);
 
 	}
 }

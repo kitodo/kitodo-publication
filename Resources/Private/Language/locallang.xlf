@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-23T15:09:53Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-24T11:06:30Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
@@ -9,8 +9,8 @@
 			<trans-unit id="tx_dpf_domain_model_documenttype.title">
 				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttype.form_page">
-				<source>Form Page</source>
+			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
+				<source>Metadata Page</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document">
 				<source>Document</source>
@@ -93,19 +93,19 @@
 			<trans-unit id="tx_dpf_qucosaform.options">
 				<source>Options</source>
                         </trans-unit>        
-			<trans-unit id="tx_dpf_domain_model_formpage">
-				<source>Form Page</source>
+			<trans-unit id="tx_dpf_domain_model_metadatapage">
+				<source>Metadata Page</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_formpage.title">
+			<trans-unit id="tx_dpf_domain_model_metadatapage.title">
 				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_formpage.page">
+			<trans-unit id="tx_dpf_domain_model_metadatapage.page">
 				<source>Page</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_formpage.display_title">
+			<trans-unit id="tx_dpf_domain_model_metadatapage.display_title">
 				<source>Display Title</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_formpage.metadata_group">
+			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
 			</trans-unit>
 		</body>

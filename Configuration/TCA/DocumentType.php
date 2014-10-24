@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_documenttype']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, form_page',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, metadata_page',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, form_page, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, metadata_page, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -106,12 +106,12 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 				'eval' => 'trim'
 			),
 		),
-		'form_page' => array(
+		'metadata_page' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.form_page',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.metadata_page',
 			'config' => array(
 				'type' => 'inline',
-				'foreign_table' => 'tx_dpf_domain_model_formpage',
+				'foreign_table' => 'tx_dpf_domain_model_metadatapage',
 				'foreign_field' => 'documenttype',
 				'maxitems'      => 9999,
 				'appearance' => array(

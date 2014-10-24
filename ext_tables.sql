@@ -7,7 +7,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
-	form_page int(11) unsigned DEFAULT '0' NOT NULL,
+	metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -252,9 +252,9 @@ CREATE TABLE tx_dpf_domain_model_fedoraconnection (
 );
 
 #
-# Table structure for table 'tx_dpf_domain_model_formpage'
+# Table structure for table 'tx_dpf_domain_model_metadatapage'
 #
-CREATE TABLE tx_dpf_domain_model_formpage (
+CREATE TABLE tx_dpf_domain_model_metadatapage (
 
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
@@ -296,9 +296,9 @@ CREATE TABLE tx_dpf_domain_model_formpage (
 );
 
 #
-# Table structure for table 'tx_dpf_domain_model_formpage'
+# Table structure for table 'tx_dpf_domain_model_metadatapage'
 #
-CREATE TABLE tx_dpf_domain_model_formpage (
+CREATE TABLE tx_dpf_domain_model_metadatapage (
 
 	documenttype  int(11) unsigned DEFAULT '0' NOT NULL,
 
@@ -314,9 +314,9 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 );
 
 #
-# Table structure for table 'tx_dpf_formpage_metadatagroup_mm'
+# Table structure for table 'tx_dpf_metadatapage_metadatagroup_mm'
 #
-CREATE TABLE tx_dpf_formpage_metadatagroup_mm (
+CREATE TABLE tx_dpf_metadatapage_metadatagroup_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,

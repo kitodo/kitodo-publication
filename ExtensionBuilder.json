@@ -54,7 +54,7 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "formPage",
+                            "relationName": "metadataPage",
                             "relationType": "zeroToMany",
                             "relationWire": "[wired]",
                             "uid": "1050094878690"
@@ -509,7 +509,7 @@
 
                     ]
                 },
-                "name": "FormPage",
+                "name": "MetadataPage",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -684,7 +684,7 @@
         }
     ],
     "log": {
-        "last_modified": "2014-10-23 03:09",
+        "last_modified": "2014-10-24 11:06",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }
