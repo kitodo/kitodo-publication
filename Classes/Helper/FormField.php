@@ -5,11 +5,9 @@ namespace EWW\Dpf\Helper;
  * and open the template in the editor.
  */
 
- /**
-  * FormNode
-  */
-  abstract class FormNode {
-    
+
+class FormField {
+
     /**
      * name
      *
@@ -23,30 +21,30 @@ namespace EWW\Dpf\Helper;
      * @var string
      */
     protected $displayName;
- 
+
     /**
-     * children
-     * 
-     * @var array
+     * inputField
+     *
+     * @var string
      */
-    protected $children;
-    
-   
+    protected $inputField;
+
+
     /**
-     * 
+     *
      * @return string
      */
     public function getName() {
-      return $this->name;      
+      return $this->name;
     }
 
-    
+
     /**
-     * 
+     *
      * @param string $name
      */
     public function setName($name) {
-      $this->name = $name;      
+      $this->name = $name;
     }
 
 
@@ -68,31 +66,24 @@ namespace EWW\Dpf\Helper;
     }
 
 
-    /**
-     * 
-     * @return array
+     /**
+     *
+     * @return string
      */
-    public function getChildren() {
-      return $this->children;      
+    public function getInputField() {
+      return $this->inputField;
     }
-    
-    
+
+
     /**
-     * 
-     * @param array $children
+     *
+     * @param string $displayName
      */
-    public function setChildren($children) {
-      $this->children = $children;      
+    public function setInputField($inputField) {
+      $this->inputField = $inputField;
     }
-    
-    
-    /**
-     * 
-     * @param \EWW\Dpf\Helper\FormNode $child
-     */
-    public function addChild($child) {
-      $this->children[] = $child;
-    }
-  }
+
+}
+
 
 ?>

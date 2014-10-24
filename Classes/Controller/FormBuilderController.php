@@ -67,48 +67,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                 $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
-                $metadataPages = $documentType->getMetadataPage();
-                                
-                $qucosaForm = new \EWW\Dpf\Helper\FormNode();                   
-                $qucosaForm->setName($documentType->getTitle());
-                               
-                
-                // Form pages
-                foreach ($metadataPages as $metadataPage) {
-                  
-                  $metadataPageNode = new \EWW\Dpf\Helper\FormNode();
-                  $metadataPageNode->setName($metadataPage->getDisplayTitle());
-                                                                         
-                  $metadataGroups = $metadataPage->getMetadataGroup();
-                                   
-                  
-                  // Metadata groups
-                  foreach ($metadataGroups as $metadataGroup) {
-                                        
-                    $metadataGroupNode = new \EWW\Dpf\Helper\FormNode();     
-                    $metadataGroupNode->setName($metadataGroup->getTitle());           
-                                                            
-                    
-                    $metadataObjects = $metadataGroup->getMetadataObject();
-                                    
-                    // Metadata objects / fields
-                    foreach ($metadataObjects as $metadataObject) {
-                      
-                      $metadataObjectNode = new \EWW\Dpf\Helper\FormNode();     
-                      $metadataObjectNode->setName($metadataObject->getTitle());
-                      
-                      $metadataGroupNode->addChild($metadataObjectNode);
-                      
-                    }
-                    
-                    
-                    $metadataPageNode->addChild($metadataGroupNode);
-                    
-                  }
-                  
-                  $qucosaForm->addChild($metadataPageNode);
-                }
-
+                $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
                                                                 
                 $this->view->assign('qucosaForm', $qucosaForm);	
                                 

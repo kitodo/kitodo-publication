@@ -22,7 +22,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <table  class="tx_dpf" >
 	<tr>
-		<th>{qucosaForm.name}</th>
+		<th>{qucosaForm.displayName}</th>
 		<th> </th>
 		<th> </th>
 	</tr>
@@ -34,19 +34,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <f:for each="{qucosaForm.children}" as="formPage">  
         
         <fieldset>
-          <legend>{formPage.name}</legend>
+          <legend>{formPage.displayName}</legend>
                   
           
           <f:for each="{formPage.children}" as="group">  
-            <b>{group.name}</b><br />                      
+            <b>{group.displayName}</b><br />
           
             <f:for each="{group.children}" as="field">  
-              {field.name}
+              <label>{field.displayName}</label>
+
+              <f:switch expression="{field.inputField}">
+                <f:case value="0"><f:form.textfield name="{field.name}" /></f:case>
+                <f:case value="1"><f:form.textarea  name="{field.name}" /></f:case>
+              </f:switch>
+
             </f:for>
           
           </f:for>
                                  
-        <fieldset>
+        </fieldset>
 
       </f:for>
       
