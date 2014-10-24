@@ -63,6 +63,9 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	public function listAction() {
 
+
+                //$test = $this->objectManager->get('\\GK\\Stdapp\\Domain\\Repository\\FormPageRepository');
+
           	$docTypeUid = $this->settings['documenttype'];
 
                 $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
@@ -88,7 +91,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                     $metadataGroupNode = new \EWW\Dpf\Helper\FormNode();     
                     $metadataGroupNode->setName($metadataGroup->getTitle());           
                                                             
-                    /*
+                    
                     $metadataObjects = $metadataGroup->getMetadataObject();
                                     
                     // Metadata objects / fields
@@ -100,7 +103,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                       $metadataGroupNode->addChild($metadataObjectNode);
                       
                     }
-                    */
+                    
                     
                     $formPageNode->addChild($metadataGroupNode);
                     
@@ -108,13 +111,8 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                   
                   $qucosaForm->addChild($formPageNode);                  
                 }
-                
-                
-                $testFp = $this->formPageRepository->findByUid(1);
-                $testMg = $testFp->getMetadataGroup();	
-                $this->view->assign('mg', $testMg);	
-                
-                
+
+                                                                
                 $this->view->assign('qucosaForm', $qucosaForm);	
                                 
                         //$this->metadataGroupRepository->findByDocumentType();

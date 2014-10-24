@@ -564,7 +564,7 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "medataGroup",
+                            "relationName": "metadataGroup",
                             "relationType": "manyToMany",
                             "relationWire": "[wired]",
                             "uid": "1200262102832"

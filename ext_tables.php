@@ -218,7 +218,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_formpage'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'title,page,display_title,medata_group,',
+		'searchFields' => 'title,page,display_title,metadata_group,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/FormPage.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_formpage.gif'
 	),

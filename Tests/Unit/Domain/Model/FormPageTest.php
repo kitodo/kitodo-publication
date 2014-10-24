@@ -119,26 +119,26 @@ class FormPageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getMedataGroupReturnsInitialValueForMetadataGroup() {
+	public function getMetadataGroupReturnsInitialValueForMetadataGroup() {
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(
 			$newObjectStorage,
-			$this->subject->getMedataGroup()
+			$this->subject->getMetadataGroup()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setMedataGroupForObjectStorageContainingMetadataGroupSetsMedataGroup() {
-		$medataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
-		$objectStorageHoldingExactlyOneMedataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneMedataGroup->attach($medataGroup);
-		$this->subject->setMedataGroup($objectStorageHoldingExactlyOneMedataGroup);
+	public function setMetadataGroupForObjectStorageContainingMetadataGroupSetsMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$objectStorageHoldingExactlyOneMetadataGroup = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneMetadataGroup->attach($metadataGroup);
+		$this->subject->setMetadataGroup($objectStorageHoldingExactlyOneMetadataGroup);
 
 		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneMedataGroup,
-			'medataGroup',
+			$objectStorageHoldingExactlyOneMetadataGroup,
+			'metadataGroup',
 			$this->subject
 		);
 	}
@@ -146,25 +146,25 @@ class FormPageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function addMedataGroupToObjectStorageHoldingMedataGroup() {
-		$medataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
-		$medataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$medataGroupObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($medataGroup));
-		$this->inject($this->subject, 'medataGroup', $medataGroupObjectStorageMock);
+	public function addMetadataGroupToObjectStorageHoldingMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$metadataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$metadataGroupObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($metadataGroup));
+		$this->inject($this->subject, 'metadataGroup', $metadataGroupObjectStorageMock);
 
-		$this->subject->addMedataGroup($medataGroup);
+		$this->subject->addMetadataGroup($metadataGroup);
 	}
 
 	/**
 	 * @test
 	 */
-	public function removeMedataGroupFromObjectStorageHoldingMedataGroup() {
-		$medataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
-		$medataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$medataGroupObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($medataGroup));
-		$this->inject($this->subject, 'medataGroup', $medataGroupObjectStorageMock);
+	public function removeMetadataGroupFromObjectStorageHoldingMetadataGroup() {
+		$metadataGroup = new \EWW\Dpf\Domain\Model\MetadataGroup();
+		$metadataGroupObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$metadataGroupObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($metadataGroup));
+		$this->inject($this->subject, 'metadataGroup', $metadataGroupObjectStorageMock);
 
-		$this->subject->removeMedataGroup($medataGroup);
+		$this->subject->removeMetadataGroup($metadataGroup);
 
 	}
 }

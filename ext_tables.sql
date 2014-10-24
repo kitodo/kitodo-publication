@@ -264,7 +264,7 @@ CREATE TABLE tx_dpf_domain_model_formpage (
 	title varchar(255) DEFAULT '' NOT NULL,
 	page int(11) DEFAULT '0' NOT NULL,
 	display_title varchar(255) DEFAULT '' NOT NULL,
-	medata_group int(11) unsigned DEFAULT '0' NOT NULL,
+	metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

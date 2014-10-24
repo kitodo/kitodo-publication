@@ -102,8 +102,8 @@
 			<trans-unit id="tx_dpf_domain_model_formpage.display_title">
 				<source>Display Title</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_formpage.medata_group">
-				<source>Medata Group</source>
+			<trans-unit id="tx_dpf_domain_model_formpage.metadata_group">
+				<source>Metadata Group</source>
 			</trans-unit>
 		</body>
 	</file>

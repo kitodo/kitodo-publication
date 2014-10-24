@@ -12,8 +12,8 @@
 			<trans-unit id="display_title.description">
 				<source>displayTitle</source>
 			</trans-unit>
-			<trans-unit id="medata_group.description">
-				<source>medataGroup</source>
+			<trans-unit id="metadata_group.description">
+				<source>metadataGroup</source>
 			</trans-unit>
 		</body>
 	</file>
