@@ -27,7 +27,7 @@ $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_
 $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype',
-		'label' => 'title',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -45,7 +45,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'title,metadata_page,',
+		'searchFields' => 'name,display_name,metadata_page,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/DocumentType.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif'
 	),
@@ -85,7 +85,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup',
-		'label' => 'title',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -103,7 +103,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'title,mandatory,max_iteration,parent_group,metadata_object,',
+		'searchFields' => 'name,display_name,mandatory,max_iteration,parent_group,metadata_object,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/MetadataGroup.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_metadatagroup.gif'
 	),
@@ -114,7 +114,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject',
-		'label' => 'title',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -132,7 +132,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'title,max_iteration,mandatory,mapping,',
+		'searchFields' => 'name,display_name,max_iteration,mandatory,mapping,input_field,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/MetadataObject.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif'
 	),
@@ -201,7 +201,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_fedoraconnection'] = array(
 $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage',
-		'label' => 'title',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -219,7 +219,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'title,page,display_title,metadata_group,',
+		'searchFields' => 'name,display_name,page_number,metadata_group,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/MetadataPage.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_metadatapage.gif'
 	),

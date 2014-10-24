@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-24T11:06:30Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-24T12:52:36Z" product-name="dpf">
 		<header/>
 		<body>
-			<trans-unit id="title.description">
-				<source>title</source>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="display_name.description">
+				<source>displayName</source>
 			</trans-unit>
 			<trans-unit id="max_iteration.description">
 				<source>maxIteration</source>
@@ -14,6 +17,9 @@
 			</trans-unit>
 			<trans-unit id="mapping.description">
 				<source>mapping</source>
+			</trans-unit>
+			<trans-unit id="input_field.description">
+				<source>inputField</source>
 			</trans-unit>
 		</body>
 	</file>

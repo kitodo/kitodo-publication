@@ -6,7 +6,8 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
 	metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -86,7 +87,8 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
 	parent_group int(11) unsigned DEFAULT '0',
@@ -131,10 +133,12 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 
 	metadatagroup int(11) unsigned DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	mapping varchar(255) DEFAULT '' NOT NULL,
+	input_field int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -261,9 +265,9 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 
 	documenttype int(11) unsigned DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
-	page int(11) DEFAULT '0' NOT NULL,
-	display_title varchar(255) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
+	page_number int(11) DEFAULT '0' NOT NULL,
 	metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

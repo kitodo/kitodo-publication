@@ -50,22 +50,45 @@ class MetadataGroupTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getTitleReturnsInitialValueForString() {
+	public function getNameReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getTitle()
+			$this->subject->getName()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setTitleForStringSetsTitle() {
-		$this->subject->setTitle('Conceived at T3CON10');
+	public function setNameForStringSetsName() {
+		$this->subject->setName('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'title',
+			'name',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDisplayNameReturnsInitialValueForString() {
+		$this->assertSame(
+			'',
+			$this->subject->getDisplayName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDisplayNameForStringSetsDisplayName() {
+		$this->subject->setDisplayName('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'displayName',
 			$this->subject
 		);
 	}

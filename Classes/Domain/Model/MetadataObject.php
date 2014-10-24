@@ -33,11 +33,18 @@ namespace EWW\Dpf\Domain\Model;
 class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * title
+	 * name
 	 *
 	 * @var string
 	 */
-	protected $title = '';
+	protected $name = '';
+
+	/**
+	 * displayName
+	 *
+	 * @var string
+	 */
+	protected $displayName = '';
 
 	/**
 	 * maxIteration
@@ -61,22 +68,48 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $mapping = '';
 
 	/**
-	 * Returns the title
+	 * inputField
 	 *
-	 * @return string $title
+	 * @var integer
 	 */
-	public function getTitle() {
-		return $this->title;
+	protected $inputField = 0;
+
+	/**
+	 * Returns the name
+	 *
+	 * @return string $name
+	 */
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * Sets the title
+	 * Sets the name
 	 *
-	 * @param string $title
+	 * @param string $name
 	 * @return void
 	 */
-	public function setTitle($title) {
-		$this->title = $title;
+	public function setName($name) {
+		$this->name = $name;
+	}
+
+	/**
+	 * Returns the displayName
+	 *
+	 * @return string $displayName
+	 */
+	public function getDisplayName() {
+		return $this->displayName;
+	}
+
+	/**
+	 * Sets the displayName
+	 *
+	 * @param string $displayName
+	 * @return void
+	 */
+	public function setDisplayName($displayName) {
+		$this->displayName = $displayName;
 	}
 
 	/**
@@ -143,6 +176,25 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setMapping($mapping) {
 		$this->mapping = $mapping;
+	}
+
+	/**
+	 * Returns the inputField
+	 *
+	 * @return integer $inputField
+	 */
+	public function getInputField() {
+		return $this->inputField;
+	}
+
+	/**
+	 * Sets the inputField
+	 *
+	 * @param integer $inputField
+	 * @return void
+	 */
+	public function setInputField($inputField) {
+		$this->inputField = $inputField;
 	}
 
 }

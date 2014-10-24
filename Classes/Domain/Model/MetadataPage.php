@@ -33,25 +33,25 @@ namespace EWW\Dpf\Domain\Model;
 class MetadataPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * title
+	 * name
 	 *
 	 * @var string
 	 */
-	protected $title = '';
+	protected $name = '';
 
 	/**
-	 * page
+	 * displayName
+	 *
+	 * @var string
+	 */
+	protected $displayName = '';
+
+	/**
+	 * pageNumber
 	 *
 	 * @var integer
 	 */
-	protected $page = 0;
-
-	/**
-	 * displayTitle
-	 *
-	 * @var string
-	 */
-	protected $displayTitle = '';
+	protected $pageNumber = 0;
 
 	/**
 	 * metadataGroup
@@ -81,60 +81,60 @@ class MetadataPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the title
+	 * Returns the name
 	 *
-	 * @return string $title
+	 * @return string $name
 	 */
-	public function getTitle() {
-		return $this->title;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * Sets the title
+	 * Sets the name
 	 *
-	 * @param string $title
+	 * @param string $name
 	 * @return void
 	 */
-	public function setTitle($title) {
-		$this->title = $title;
+	public function setName($name) {
+		$this->name = $name;
 	}
 
 	/**
-	 * Returns the page
+	 * Returns the displayName
 	 *
-	 * @return integer $page
+	 * @return string $displayName
 	 */
-	public function getPage() {
-		return $this->page;
+	public function getDisplayName() {
+		return $this->displayName;
 	}
 
 	/**
-	 * Sets the page
+	 * Sets the displayName
 	 *
-	 * @param integer $page
+	 * @param string $displayName
 	 * @return void
 	 */
-	public function setPage($page) {
-		$this->page = $page;
+	public function setDisplayName($displayName) {
+		$this->displayName = $displayName;
 	}
 
 	/**
-	 * Returns the displayTitle
+	 * Returns the pageNumber
 	 *
-	 * @return string $displayTitle
+	 * @return integer $pageNumber
 	 */
-	public function getDisplayTitle() {
-		return $this->displayTitle;
+	public function getPageNumber() {
+		return $this->pageNumber;
 	}
 
 	/**
-	 * Sets the displayTitle
+	 * Sets the pageNumber
 	 *
-	 * @param string $displayTitle
+	 * @param integer $pageNumber
 	 * @return void
 	 */
-	public function setDisplayTitle($displayTitle) {
-		$this->displayTitle = $displayTitle;
+	public function setPageNumber($pageNumber) {
+		$this->pageNumber = $pageNumber;
 	}
 
 	/**

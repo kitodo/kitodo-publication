@@ -50,22 +50,22 @@ class MetadataPageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getTitleReturnsInitialValueForString() {
+	public function getNameReturnsInitialValueForString() {
 		$this->assertSame(
 			'',
-			$this->subject->getTitle()
+			$this->subject->getName()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setTitleForStringSetsTitle() {
-		$this->subject->setTitle('Conceived at T3CON10');
+	public function setNameForStringSetsName() {
+		$this->subject->setName('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
-			'title',
+			'name',
 			$this->subject
 		);
 	}
@@ -73,45 +73,45 @@ class MetadataPageTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getPageReturnsInitialValueForInteger() {
+	public function getDisplayNameReturnsInitialValueForString() {
 		$this->assertSame(
-			0,
-			$this->subject->getPage()
+			'',
+			$this->subject->getDisplayName()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setPageForIntegerSetsPage() {
-		$this->subject->setPage(12);
+	public function setDisplayNameForStringSetsDisplayName() {
+		$this->subject->setDisplayName('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'displayName',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPageNumberReturnsInitialValueForInteger() {
+		$this->assertSame(
+			0,
+			$this->subject->getPageNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPageNumberForIntegerSetsPageNumber() {
+		$this->subject->setPageNumber(12);
 
 		$this->assertAttributeEquals(
 			12,
-			'page',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getDisplayTitleReturnsInitialValueForString() {
-		$this->assertSame(
-			'',
-			$this->subject->getDisplayTitle()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setDisplayTitleForStringSetsDisplayTitle() {
-		$this->subject->setDisplayTitle('Conceived at T3CON10');
-
-		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'displayTitle',
+			'pageNumber',
 			$this->subject
 		);
 	}

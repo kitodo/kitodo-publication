@@ -41,9 +41,19 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "title",
+                            "propertyName": "name",
                             "propertyType": "String",
                             "uid": "975599566711"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "displayName",
+                            "propertyType": "String",
+                            "uid": "431907817704"
                         }
                     ]
                 },
@@ -167,9 +177,19 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "title",
+                            "propertyName": "name",
                             "propertyType": "String",
                             "uid": "10908551196"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "displayName",
+                            "propertyType": "String",
+                            "uid": "582811191304"
                         },
                         {
                             "allowedFileTypes": "",
@@ -260,9 +280,19 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "title",
+                            "propertyName": "name",
                             "propertyType": "String",
                             "uid": "51052891986"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "displayName",
+                            "propertyType": "String",
+                            "uid": "1000652760974"
                         },
                         {
                             "allowedFileTypes": "",
@@ -293,6 +323,16 @@
                             "propertyName": "mapping",
                             "propertyType": "String",
                             "uid": "517384801759"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "inputField",
+                            "propertyType": "Select",
+                            "uid": "1182779309747"
                         }
                     ]
                 },
@@ -531,7 +571,7 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "title",
+                            "propertyName": "name",
                             "propertyType": "String",
                             "uid": "419487943196"
                         },
@@ -541,9 +581,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "page",
-                            "propertyType": "Integer",
-                            "uid": "399190294893"
+                            "propertyName": "displayName",
+                            "propertyType": "String",
+                            "uid": "318050381760"
                         },
                         {
                             "allowedFileTypes": "",
@@ -551,9 +591,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "displayTitle",
-                            "propertyType": "String",
-                            "uid": "794466926868"
+                            "propertyName": "pageNumber",
+                            "propertyType": "Integer",
+                            "uid": "399190294893"
                         }
                     ]
                 },
@@ -684,7 +724,7 @@
         }
     ],
     "log": {
-        "last_modified": "2014-10-24 11:06",
+        "last_modified": "2014-10-24 12:52",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }

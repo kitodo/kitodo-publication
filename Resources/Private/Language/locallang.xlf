@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-24T11:06:30Z" product-name="dpf">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-24T12:52:36Z" product-name="dpf">
 		<header/>
 		<body>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
 				<source>Document Type</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttype.title">
-				<source>Title</source>
+			<trans-unit id="tx_dpf_domain_model_documenttype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
+				<source>Display Name</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
 				<source>Metadata Page</source>
@@ -24,8 +27,11 @@
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
 				<source>Metadata Group</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_metadatagroup.title">
-				<source>Title</source>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name">
+				<source>Display Name</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
 				<source>Mandatory</source>
@@ -42,8 +48,11 @@
 			<trans-unit id="tx_dpf_domain_model_metadataobject">
 				<source>Metadata Object</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_metadataobject.title">
-				<source>Title</source>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.display_name">
+				<source>Display Name</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
 				<source>Max Iteration</source>
@@ -53,6 +62,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
+				<source>Input Field</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttransfer">
 				<source>Document Transfer</source>
@@ -96,14 +108,14 @@
 			<trans-unit id="tx_dpf_domain_model_metadatapage">
 				<source>Metadata Page</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_metadatapage.title">
-				<source>Title</source>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.name">
+				<source>Name</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_metadatapage.page">
-				<source>Page</source>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.display_name">
+				<source>Display Name</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_metadatapage.display_title">
-				<source>Display Title</source>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.page_number">
+				<source>Page Number</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
