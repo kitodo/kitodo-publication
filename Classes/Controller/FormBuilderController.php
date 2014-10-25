@@ -41,15 +41,16 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         
         
 	/**
-	 * action show
+	 * action new
 	 *
+         * @param \EWW\Dpf\Helper\Form $newForm
 	 * @return void
 	 */
-	public function showAction() {
+	public function newAction( \EWW\Dpf\Helper $newForm=NULL) {
 
           	$docTypeUid = $this->settings['documenttype'];
 
-                if ($docTypeUid ) {
+                if ($docTypeUid) {
 
                     $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
@@ -58,13 +59,24 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                     $this->view->assign('qucosaForm', $qucosaForm);
 
                 }
-                        //$this->metadataGroupRepository->findByDocumentType();
-		//$this->documentTypeRepository->findByDocumentType();
-		
-		//if ( $this->settings['documenttype'] ) {	
-		//	$documentTypes = $this->documentTypeRepository->findAll();
-		//	$this->view->assign('documentTypes', $documentTypes);
-		// }	
+                
 	}
+
+
+        /**
+         * action create
+         *
+         * @param \EWW\Dpf\Helper $newForm
+         * @return void
+         */
+        public function createAction( \EWW\Dpf\Helper\Form $newForm ) {
+                $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+		//$this->documentTypeRepository->add($newDocumentType);		
+                //$this->view->assign('qucosaForm', $qucosaForm);
+
+                $this->redirect('new');
+            
+        }
+
 
 }

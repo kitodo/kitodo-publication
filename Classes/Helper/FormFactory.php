@@ -45,6 +45,7 @@ class FormFactory {
             foreach ($metadataObjects as $metadataObject) {
 
               $formField = new \EWW\Dpf\Helper\FormField();
+              $formField->setUid($metadataObject->getUid());
               $formField->setDisplayName($metadataObject->getDisplayName());
               $formField->setName($metadataObject->getName());
               $formField->setInputField($metadataObject->getInputField());

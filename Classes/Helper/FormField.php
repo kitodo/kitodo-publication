@@ -8,6 +8,15 @@ namespace EWW\Dpf\Helper;
 
 class FormField {
 
+
+    /**
+     * uid
+     *
+     * @var integer
+     */
+    protected $uid;
+
+
     /**
      * name
      *
@@ -29,6 +38,24 @@ class FormField {
      */
     protected $inputField;
 
+
+    /**
+     *
+     * @return integer
+     */
+    public function getUid() {
+      return $this->uid;
+    }
+
+
+    /**
+     *
+     * @param integer $uid
+     */
+    public function setUid($uid) {
+      $this->uid = $uid;
+    }
+    
 
     /**
      *

@@ -1,0 +1,57 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        New.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1>Qucosa Form Builder</h1>
+
+<f:flashMessages renderMode="div" />
+
+<f:comment>
+  <f:debug title="Debug"></f:debug>
+</f:comment>
+
+    <h2>{qucosaForm.displayName}</h2>
+
+    <f:form action="create" name="newForm" object="{newForm}">
+      
+      <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
+        
+        <fieldset id="p{pageIterator.cycle}" class="fs_page">
+          <legend>{formPage.displayName}</legend>
+                  
+          
+          <f:for each="{formPage.children}" as="group" iteration="groupIterator">
+            
+            <fieldset id="p{pageIterator.cycle}g{groupIterator.cycle}" class="fs_group">
+              <legend>{group.displayName}</legend>
+
+              <f:for each="{group.children}" as="field" iteration="fieldIterator">
+                <label>{field.displayName}</label>
+                <f:switch expression="{field.inputField}">
+                  <f:case value="0"><f:form.textfield name="test[{pageIterator.cycle}{groupIterator.cycle}{fieldIterator.cycle}][{field.name}]" /></f:case>
+                  <f:case value="1"><f:form.textarea  name="test[{pageIterator.cycle}{groupIterator.cycle}{fieldIterator.cycle}][{field.name}]" /></f:case>
+                </f:switch>
+              </f:for>
+
+            </fieldset>
+
+          </f:for>
+                                 
+        </fieldset>
+
+      </f:for>
+      <f:form.submit value="Save" />
+    </f:form>
+
+</f:section>

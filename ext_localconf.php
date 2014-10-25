@@ -6,11 +6,11 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'EWW.' . $_EXTKEY,
 	'Qucosaform',
-	array(
-		'FormBuilder' => 'show',	
+	array(                
+		'FormBuilder' => 'new,create',
 	),
 	// non-cacheable actions
 	array(
-		'FormBuilder' => 'show',
+		'FormBuilder' => 'new,create',
 	)
 );
