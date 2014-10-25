@@ -156,10 +156,5 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			),
 		),
 		
-		'metadatagroup' => array(
-			'config' => array(
-				'type' => 'passthrough',
-			),
-		),
 	),
 );

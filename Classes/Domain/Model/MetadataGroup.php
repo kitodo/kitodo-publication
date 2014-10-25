@@ -61,17 +61,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $maxIteration = 0;
 
 	/**
-	 * parentGroup
-	 *
-	 * @var \EWW\Dpf\Domain\Model\MetadataGroup
-	 */
-	protected $parentGroup = NULL;
-
-	/**
 	 * metadataObject
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject>
-	 * @cascade remove
 	 */
 	protected $metadataObject = NULL;
 
@@ -178,25 +170,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setMaxIteration($maxIteration) {
 		$this->maxIteration = $maxIteration;
-	}
-
-	/**
-	 * Returns the parentGroup
-	 *
-	 * @return \EWW\Dpf\Domain\Model\MetadataGroup $parentGroup
-	 */
-	public function getParentGroup() {
-		return $this->parentGroup;
-	}
-
-	/**
-	 * Sets the parentGroup
-	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataGroup $parentGroup
-	 * @return void
-	 */
-	public function setParentGroup(\EWW\Dpf\Domain\Model\MetadataGroup $parentGroup) {
-		$this->parentGroup = $parentGroup;
 	}
 
 	/**

@@ -91,7 +91,6 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
-	parent_group int(11) unsigned DEFAULT '0',
 	metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -130,8 +129,6 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-
-	metadatagroup int(11) unsigned DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
@@ -309,12 +306,16 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 );
 
 #
-# Table structure for table 'tx_dpf_domain_model_metadataobject'
+# Table structure for table 'tx_dpf_metadatagroup_metadataobject_mm'
 #
-CREATE TABLE tx_dpf_domain_model_metadataobject (
+CREATE TABLE tx_dpf_metadatagroup_metadataobject_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 
-	metadatagroup  int(11) unsigned DEFAULT '0' NOT NULL,
-
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );
 
 #

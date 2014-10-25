@@ -3,8 +3,8 @@
         {
             "config": {
                 "position": [
-                    324,
-                    384
+                    420,
+                    258
                 ]
             },
             "name": "New Model Object",
@@ -76,8 +76,8 @@
         {
             "config": {
                 "position": [
-                    440,
-                    120
+                    541,
+                    61
                 ]
             },
             "name": "New Model Object",
@@ -139,8 +139,8 @@
         {
             "config": {
                 "position": [
-                    958,
-                    249
+                    1099,
+                    299
                 ]
             },
             "name": "New Model Object",
@@ -220,18 +220,8 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "parentGroup",
-                            "relationType": "manyToOne",
-                            "relationWire": "[wired]",
-                            "uid": "286984048220"
-                        },
-                        {
-                            "foreignRelationClass": "",
-                            "lazyLoading": false,
-                            "propertyIsExcludeField": true,
-                            "relationDescription": "",
                             "relationName": "metadataObject",
-                            "relationType": "zeroToMany",
+                            "relationType": "manyToMany",
                             "relationWire": "[wired]",
                             "uid": "521212125268"
                         }
@@ -242,8 +232,8 @@
         {
             "config": {
                 "position": [
-                    961,
-                    20
+                    1089,
+                    509
                 ]
             },
             "name": "New Model Object",
@@ -346,8 +336,8 @@
         {
             "config": {
                 "position": [
-                    20,
-                    60
+                    181,
+                    20
                 ]
             },
             "name": "New Model Object",
@@ -459,8 +449,8 @@
         {
             "config": {
                 "position": [
-                    27,
-                    319
+                    77,
+                    342
                 ]
             },
             "name": "New Model Object",
@@ -533,8 +523,8 @@
         {
             "config": {
                 "position": [
-                    620,
-                    340
+                    737,
+                    282
                 ]
             },
             "name": "New Model Object",
@@ -664,18 +654,6 @@
         },
         {
             "src": {
-                "moduleId": 2,
-                "terminal": "relationWire_0",
-                "uid": "286984048220"
-            },
-            "tgt": {
-                "moduleId": 2,
-                "terminal": "SOURCES",
-                "uid": "1017222415703"
-            }
-        },
-        {
-            "src": {
                 "moduleId": 4,
                 "terminal": "relationWire_0",
                 "uid": "663540457091"
@@ -689,7 +667,7 @@
         {
             "src": {
                 "moduleId": 2,
-                "terminal": "relationWire_1",
+                "terminal": "relationWire_0",
                 "uid": "521212125268"
             },
             "tgt": {
@@ -724,7 +702,7 @@
         }
     ],
     "log": {
-        "last_modified": "2014-10-24 12:52",
+        "last_modified": "2014-10-25 09:27",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }

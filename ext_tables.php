@@ -103,7 +103,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,display_name,mandatory,max_iteration,parent_group,metadata_object,',
+		'searchFields' => 'name,display_name,mandatory,max_iteration,metadata_object,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/MetadataGroup.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_metadatagroup.gif'
 	),

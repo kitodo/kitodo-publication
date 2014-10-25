@@ -49,12 +49,15 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
           	$docTypeUid = $this->settings['documenttype'];
 
-                $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+                if ($docTypeUid ) {
+
+                    $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
-                $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
+                    $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
                                                                 
-                $this->view->assign('qucosaForm', $qucosaForm);	
-                                
+                    $this->view->assign('qucosaForm', $qucosaForm);
+
+                }
                         //$this->metadataGroupRepository->findByDocumentType();
 		//$this->documentTypeRepository->findByDocumentType();
 		

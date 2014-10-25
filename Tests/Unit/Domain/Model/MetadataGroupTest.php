@@ -142,30 +142,6 @@ class MetadataGroupTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function getParentGroupReturnsInitialValueForMetadataGroup() {
-		$this->assertEquals(
-			NULL,
-			$this->subject->getParentGroup()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setParentGroupForMetadataGroupSetsParentGroup() {
-		$parentGroupFixture = new \EWW\Dpf\Domain\Model\MetadataGroup();
-		$this->subject->setParentGroup($parentGroupFixture);
-
-		$this->assertAttributeEquals(
-			$parentGroupFixture,
-			'parentGroup',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function getMetadataObjectReturnsInitialValueForMetadataObject() {
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(
