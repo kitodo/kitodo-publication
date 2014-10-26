@@ -14,16 +14,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 <h1>Qucosa Form Builder</h1>
-
+<f:debug title="Form">{qucosaForm}</f:debug>
 <f:flashMessages renderMode="div" />
-
-<f:comment>
-  <f:debug title="Debug"></f:debug>
-</f:comment>
-
+  
     <h2>{qucosaForm.displayName}</h2>
 
-    <f:form action="create" name="newForm" object="{newForm}">
+    <f:form action="create" name="newDocument" object="{newDocument}">
       
       <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
         
@@ -32,15 +28,15 @@ Otherwise your changes will be overwritten the next time you save the extension 
                   
           
           <f:for each="{formPage.children}" as="group" iteration="groupIterator">
-            
+
             <fieldset id="p{pageIterator.cycle}g{groupIterator.cycle}" class="fs_group">
               <legend>{group.displayName}</legend>
-
+               
               <f:for each="{group.children}" as="field" iteration="fieldIterator">
-                <label>{field.displayName}</label>
-                <f:switch expression="{field.inputField}">
-                  <f:case value="0"><f:form.textfield name="test[{pageIterator.cycle}{groupIterator.cycle}{fieldIterator.cycle}][{field.name}]" /></f:case>
-                  <f:case value="1"><f:form.textarea  name="test[{pageIterator.cycle}{groupIterator.cycle}{fieldIterator.cycle}][{field.name}]" /></f:case>
+                <label>{field.displayName}</label>                 
+                <f:switch expression="{field.fieldType}">
+                  <f:case value="0"><f:form.textfield name="newDocument{field.fieldId}" value="{field.value}" /></f:case>
+                  <f:case value="1"><f:form.textarea  name="newDocument{field.fieldId}" value="{field.value}" /></f:case>
                 </f:switch>
               </f:for>
 
@@ -51,7 +47,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
         </fieldset>
 
       </f:for>
-      <f:form.submit value="Save" />
+      <f:form.submit value="Save" name="save" />
+      <f:form.submit value="Save and more" name="savemore" />
+      <f:form.submit value="Cancel" name="cancel" />
     </f:form>
 
 </f:section>

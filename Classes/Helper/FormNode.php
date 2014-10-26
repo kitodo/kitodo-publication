@@ -9,6 +9,7 @@ namespace EWW\Dpf\Helper;
   * FormNode
   */
   abstract class FormNode {
+
     
     /**
      * name
@@ -31,7 +32,32 @@ namespace EWW\Dpf\Helper;
      */
     protected $children;
     
-   
+
+    /**
+     * uid
+     *
+     * @var integer
+     */
+    protected $uid;
+
+    /**
+     *
+     * @return integer
+     */
+    public function getUid() {
+      return $this->uid;
+    }
+
+
+    /**
+     *
+     * @param integer $uid
+     */
+    public function setUid($uid) {
+      $this->uid = $uid;
+    }
+
+
     /**
      * 
      * @return string

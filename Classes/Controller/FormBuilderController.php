@@ -38,27 +38,81 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 * @inject
 	 */
 	protected $documentTypeRepository = NULL;
-        
-        
+
+
+        /**
+	 * metadataPageRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataPageRepository
+	 * @inject
+	 */
+	protected $metadataPageRepository = NULL;
+
+
+        /**
+	 * MetadataGroupRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+	 * @inject
+	 */
+	protected $metadataGroupRepository = NULL;
+
+
+        /**
+	 * metadataObjectRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+	 * @inject
+	 */
+	protected $metadataObjectRepository = NULL;
+
+
+        /**
+	 * documentRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+	 * @inject
+	 */
+	protected $documentRepository = NULL;
+
+
 	/**
 	 * action new
 	 *
-         * @param \EWW\Dpf\Helper\Form $newForm
+         * @param array $newDocument
 	 * @return void
 	 */
-	public function newAction( \EWW\Dpf\Helper $newForm=NULL) {
+	public function newAction( array $newDocument = NULL ) {
+            
+                $docTypeUid = $this->settings['documenttype'];
 
-          	$docTypeUid = $this->settings['documenttype'];
+                if (!$newDocument) {
+                  
+                    if ($docTypeUid) {
+                        $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+                        $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
+                    }
 
-                if ($docTypeUid) {
+                } else {
 
-                    $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-                
-                    $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
-                                                                
-                    $this->view->assign('qucosaForm', $qucosaForm);
+                    $formFactory = new \EWW\Dpf\Helper\FormFactory(
+                            $this->documentTypeRepository,
+                            $this->metadataPageRepository,
+                            $this->metadataGroupRepository,
+                            $this->metadataObjectRepository);
 
+                    $qucosaForm = $formFactory->createFromDataArray($newDocument, $docTypeUid);
+                   
                 }
+
+             /*$document = $this->documentRepository->findByUid();
+             if ($document) {
+                  $qucosaForm = \unserialize($document->getXmlData());
+                 
+             }
+             */              
+                    
+             $this->view->assign('qucosaForm', $qucosaForm);
                 
 	}
 
@@ -66,17 +120,44 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         /**
          * action create
          *
-         * @param \EWW\Dpf\Helper $newForm
+         * @param array $newDocument
          * @return void
          */
-        public function createAction( \EWW\Dpf\Helper\Form $newForm ) {
+        public function createAction( array $newDocument ) {
                 $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-		//$this->documentTypeRepository->add($newDocumentType);		
-                //$this->view->assign('qucosaForm', $qucosaForm);
 
-                $this->redirect('new');
+                if ($this->request->hasArgument('cancel')) {
+
+                  $this->redirect('new');
+                  
+                } else {
+
+                    $docTypeUid = $this->settings['documenttype'];
+
+                    $formFactory = new \EWW\Dpf\Helper\FormFactory(
+                            $this->documentTypeRepository,
+                            $this->metadataPageRepository,
+                            $this->metadataGroupRepository,
+                            $this->metadataObjectRepository);
+
+                    $qucosaForm = $formFactory->createFromDataArray($newDocument, $docTypeUid);
+
+                    $document = new \EWW\Dpf\Domain\Model\Document();
+                    $document->setXmlData(serialize($qucosaForm));
+
+                    $this->documentRepository->add($document);
+
+                    if ($this->request->hasArgument('savemore')) {
+
+                        $this->redirect('new',NULL,NULL,array('newDocument'=>$newDocument));
+
+                    } else {
+
+                        $this->redirect('new');
+                    }
+                    
+                }
             
         }
-
 
 }

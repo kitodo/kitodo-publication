@@ -32,12 +32,26 @@ class FormField {
     protected $displayName;
 
     /**
-     * inputField
+     * fieldType
      *
      * @var string
      */
-    protected $inputField;
+    protected $fieldType;
 
+
+    /**
+     * fieldId
+     *
+     * @var fieldId
+     */
+    protected $fieldId;
+
+    /**
+     * value
+     *
+     * @var string
+     */
+    protected $value;
 
     /**
      *
@@ -93,24 +107,64 @@ class FormField {
     }
 
 
-     /**
+    /**
      *
-     * @return string
+     * @return integer
      */
-    public function getInputField() {
-      return $this->inputField;
+    public function getFieldType() {
+      return $this->fieldType;
     }
 
 
     /**
      *
-     * @param string $displayName
+     * @param integer $fieldType
      */
-    public function setInputField($inputField) {
-      $this->inputField = $inputField;
+    public function setFieldType($fieldType) {
+      $this->fieldType = $fieldType;
+    }
+
+
+    /**
+     *
+     * @return string
+     */
+    public function getValue() {
+      return $this->value;
+    }
+
+
+    /**
+     *
+     * @param string $value
+     */
+    public function setValue($value) {
+      $this->value = $value;
+    }
+
+
+    /**
+     *
+     * @return string
+     */
+    public function getFieldId() {
+        return $this->fieldId;
+    }
+
+    
+    /**
+     *
+     * @param $fieldId
+     * @return void
+     */
+    public function setFieldId($fieldId) {
+         $this->fieldId = $fieldId;
+        
     }
 
 }
+
+
 
 
 ?>
