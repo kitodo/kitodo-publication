@@ -14,15 +14,26 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 <h1>Qucosa Form Builder</h1>
-<f:debug title="Form">{qucosaForm}</f:debug>
+ <f:comment><f:debug title="Form">{qucosaForm}</f:debug></f:comment>
 <f:flashMessages renderMode="div" />
   
     <h2>{qucosaForm.displayName}</h2>
-
+            
     <f:form action="create" name="newDocument" object="{newDocument}">
       
-      <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
-        
+      
+      <div id="tabs">
+      
+        <f:comment>
+        <ul>
+          <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
+            <li><a href="#tabs-{pageIterator.cycle}">{formPage.displayName}</a></li>
+          </f:for>
+        </ul>
+        </f:comment>  
+      
+      <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">            
+        <div id="tabs-{pageIterator.cycle}">
         <fieldset id="p{pageIterator.cycle}" class="fs_page">
           <legend>{formPage.displayName}</legend>
                   
@@ -45,11 +56,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:for>
                                  
         </fieldset>
+        </div>  
 
       </f:for>
-      <f:form.submit value="Save" name="save" />
-      <f:form.submit value="Save and more" name="savemore" />
-      <f:form.submit value="Cancel" name="cancel" />
+      
+      </div> 
+      
+      <f:form.submit value="Save" name="save" id="save" />
+      <f:form.submit value="Save and continue" name="savecontinue" id="savecontinue" />
+      <f:form.submit value="Cancel" name="cancel" id="cancel" />
     </f:form>
+     
 
 </f:section>

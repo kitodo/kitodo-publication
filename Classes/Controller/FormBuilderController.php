@@ -147,7 +147,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     $this->documentRepository->add($document);
 
-                    if ($this->request->hasArgument('savemore')) {
+                    if ($this->request->hasArgument('savecontinue')) {
 
                         $this->redirect('new',NULL,NULL,array('newDocument'=>$newDocument));
 
