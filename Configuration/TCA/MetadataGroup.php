@@ -136,37 +136,19 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.metadata_object',
 			'config' => array(
-				'type' => 'select',
+				'type' => 'inline',
 				'foreign_table' => 'tx_dpf_domain_model_metadataobject',
-				'MM' => 'tx_dpf_metadatagroup_metadataobject_mm',
-				'size' => 10,
-				'autoSizeMax' => 30,
-				'maxitems' => 9999,
-				'multiple' => 0,
-				'wizards' => array(
-					'_PADDING' => 1,
-					'_VERTICAL' => 1,
-					'edit' => array(
-						'type' => 'popup',
-						'title' => 'Edit',
-						'script' => 'wizard_edit.php',
-						'icon' => 'edit2.gif',
-						'popup_onlyOpenIfSelected' => 1,
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-						),
-					'add' => Array(
-						'type' => 'script',
-						'title' => 'Create new',
-						'icon' => 'add.gif',
-						'params' => array(
-							'table' => 'tx_dpf_domain_model_metadataobject',
-							'pid' => '###CURRENT_PID###',
-							'setValue' => 'prepend'
-							),
-						'script' => 'wizard_add.php',
-					),
+				'foreign_field' => 'metadatagroup',
+				'maxitems'      => 9999,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
 				),
 			),
+
 		),
 		
 	),

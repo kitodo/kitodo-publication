@@ -221,7 +221,7 @@
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
                             "relationName": "metadataObject",
-                            "relationType": "manyToMany",
+                            "relationType": "zeroToMany",
                             "relationWire": "[wired]",
                             "uid": "521212125268"
                         }
@@ -702,7 +702,7 @@
         }
     ],
     "log": {
-        "last_modified": "2014-10-25 09:27",
+        "last_modified": "2014-10-28 09:42",
         "extension_builder_version": "6.2.0",
         "be_user": " (1)"
     }

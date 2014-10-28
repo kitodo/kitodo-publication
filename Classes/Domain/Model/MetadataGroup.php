@@ -64,6 +64,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * metadataObject
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject>
+	 * @cascade remove
 	 */
 	protected $metadataObject = NULL;
 

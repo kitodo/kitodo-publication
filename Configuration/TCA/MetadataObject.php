@@ -147,8 +147,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('textfield', 0),
-                                        array('textarea', 1),
+					array('-- Label --', 0),
 				),
 				'size' => 1,
 				'maxitems' => 1,
@@ -156,5 +155,10 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			),
 		),
 		
+		'metadatagroup' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
 	),
 );
