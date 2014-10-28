@@ -20,51 +20,36 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <h2>{qucosaForm.displayName}</h2>
             
     <f:form action="create" name="newDocument" object="{newDocument}">
-      
-      
-      <div id="tabs">
-      
-        <f:comment>
-        <ul>
+                 
+      <ul class="tx-dpf-tabs">
           <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
-            <li><a href="#tabs-{pageIterator.cycle}">{formPage.displayName}</a></li>
+            <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>
           </f:for>
-        </ul>
-        </f:comment>  
-      
-      <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">            
-        <div id="tabs-{pageIterator.cycle}">
-        <fieldset id="p{pageIterator.cycle}" class="fs_page">
-          <legend>{formPage.displayName}</legend>
-                  
-          
-          <f:for each="{formPage.children}" as="group" iteration="groupIterator">
-
-            <fieldset id="p{pageIterator.cycle}g{groupIterator.cycle}" class="fs_group">
-              <legend>{group.displayName}</legend>
-               
-              <f:for each="{group.children}" as="field" iteration="fieldIterator">
-                <label>{field.displayName}</label>                 
-                <f:switch expression="{field.fieldType}">
-                  <f:case value="0"><f:form.textfield name="newDocument{field.fieldId}" value="{field.value}" /></f:case>
-                  <f:case value="1"><f:form.textarea  name="newDocument{field.fieldId}" value="{field.value}" /></f:case>
-                </f:switch>
-              </f:for>
-
-            </fieldset>
-
-          </f:for>
-                                 
-        </fieldset>
-        </div>  
-
-      </f:for>
-      
-      </div> 
-      
-      <f:form.submit value="Save" name="save" id="save" />
-      <f:form.submit value="Save and continue" name="savecontinue" id="savecontinue" />
-      <f:form.submit value="Cancel" name="cancel" id="cancel" />
+      </ul>
+      <div class="tx-dpf-panes">
+          <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
+            <div id="tab-{pageIterator.cycle}" class="fs_page">
+                <f:for each="{formPage.children}" as="group" iteration="groupIterator">
+                    <fieldset id="{pageIterator.cycle}-0-{groupIterator.cycle}-0" class="fs_group">
+                       <legend>{group.displayName}</legend>
+                       <f:form.submit value="+" name="add_group" class="add_group"/>
+                        <f:for each="{group.children}" as="field" iteration="fieldIterator">
+                            <label>{field.displayName}</label>
+                            <f:switch expression="{field.fieldType}">
+                                <f:case value="0"><f:form.textfield name="newDocument{field.fieldId}" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="1"><f:form.textarea  name="newDocument{field.fieldId}" value="{field.value}" class="input-field" /></f:case>
+                            </f:switch>
+                        </f:for>
+                    </fieldset>
+                </f:for>
+            </div>
+          </f:for>          
+      </div>
+      <div class="form-submit">
+            <f:form.submit value="Save" name="save" id="save" />
+            <f:form.submit value="Save and continue" name="savecontinue" id="savecontinue" />
+            <f:form.submit value="Cancel" name="cancel" id="cancel" />
+      </div>
     </f:form>
      
 

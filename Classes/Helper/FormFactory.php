@@ -159,9 +159,8 @@ class FormFactory {
      */
     public function createFromDataArray(array $data, integer $documentUid) {
 
-        
         $documentType = $this->documentTypeRepository->findByUid($documentUid);
-
+        
         $qucosaForm = new \EWW\Dpf\Helper\Form();
         $qucosaForm->setDisplayName($documentType->getDisplayName());
         $qucosaForm->setName($documentType->getName());
