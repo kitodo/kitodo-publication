@@ -56,6 +56,8 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $sxe = NULL;
 
+	protected $parser = NULL;
+
 	/**
 	 * Constructor
 	 */
@@ -65,6 +67,11 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		// Constructor
 		$this->sxe = new SimpleXMLElement($this->metsHeader);
+
+		// Parser
+		include_once('XmlParser.php');
+
+		$this->parser = new XmlParser();
 	}
 
 	/**
@@ -127,6 +134,14 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		$this->walkFormDataRecursive($this->formData);
 
+	}
+
+	public function parseXPath($xPath)
+	{
+		//
+		$xml = $this->parser->parse($xPath)
+
+		$return $xml;
 	}
 
 	/**
@@ -283,12 +298,12 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	}
 
-	public function addXMLTag($xPath, $name, $value)
-	{
-		// Add XML Tag to the defined xpath
-		$result = $this->sxe->xpath($xPath);
-		$result[0]->addChild($name, $value);
-	}
+	// public function addXMLTag($xPath, $name, $value)
+	// {
+	// 	// Add XML Tag to the defined xpath
+	// 	$result = $this->sxe->xpath($xPath);
+	// 	$result[0]->addChild($name, $value);
+	// }
 
 
 	public function buildTestDataArray()
