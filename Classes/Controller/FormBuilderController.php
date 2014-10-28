@@ -117,12 +117,70 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
          * @return void
          */
         public function createAction( array $newDocument ) {
-                $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 
-                if ($this->request->hasArgument('cancel')) {
- 
-                  $this->redirect('new');
+                 $data = $newDocument;
+
+                 foreach ($data as $key => $value) {
+                    if (!$value) {
+                        unset($data[$key]);
+                    }                     
+                 }
+
+                 
+                 $docTypeUid = $this->settings['documenttype'];
+                 $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+                 $formStructure = \EWW\Dpf\Helper\FormFactory::createFormDataArray($documentType);
+
+
+                 $formData = array();
+                 foreach ($data as $key => $value) {
+
+                    $field_id = split("-", $key);
                   
+                    $pageUid = $field_id[0];
+                    $pageNumber = $field_id[1];
+
+                    $groupUid = $field_id[2];
+                    $groupNumber = $field_id[3];
+
+                    $fieldUid = $field_id[4];
+                    $fieldNumber = $field_id[5];
+
+
+                    if (!key_exists($pageUid, $formData)) {
+                        $formData[$pageUid] = $formStructure[$pageUid];
+                    }
+
+                    if (!key_exists($pageNumber, $formData[$pageUid])) {
+                        $formData[$pageUid][$pageNumber] = $formStructure[$pageUid][0];
+                    }
+
+                    if (!key_exists($groupUid, $formData[$pageUid][$pageNumber])) {
+                        $formData[$pageUid][$pageNumber][$groupUid] = $formStructure[$pageUid][0][$groupUid];
+                    }
+
+                    if (!key_exists($groupNumber, $formData[$pageUid][$pageNumber][$groupUid])) {
+                        $formData[$pageUid][$pageNumber][$groupUid][$groupNumber] = $formStructure[$pageUid][0][$groupUid][0];
+                    }
+
+                    if (!key_exists($fieldUid, $formData[$pageUid][$pageNumber][$groupUid][$groupNumber])) {
+                        $formData[$pageUid][$pageNumber][$groupUid][$groupNumber][$fieldUid] = $formStructure[$pageUid][0][$groupUid][0][$fieldUid];
+                    }
+
+                    if (!key_exists($fieldNumber, $formData[$pageUid][$pageNumber][$groupUid][$groupNumber][$fieldUid])) {
+                        $formData[$pageUid][$pageNumber][$groupUid][$groupNumber][$fieldUid][$fieldNumber] = $formStructure[$pageUid][0][$groupUid][0][$fieldUid][0];
+                    }
+
+                    $formData[$pageUid][$pageNumber][$groupUid][$groupNumber][$fieldUid][$fieldNumber] = $value;
+
+                    
+                 }
+
+
+                if ($this->request->hasArgument('cancel') || empty($data)) {
+
+                  $this->redirect('new');
+
                 } else {
 
                     $docTypeUid = $this->settings['documenttype'];
@@ -133,7 +191,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                             $this->metadataGroupRepository,
                             $this->metadataObjectRepository);
 
-                    $qucosaForm = $formFactory->createFromDataArray($newDocument, $docTypeUid);
+                    $qucosaForm = $formFactory->createFromDataArray($formData, $docTypeUid);
 
                     $document = new \EWW\Dpf\Domain\Model\Document();
                     $document->setXmlData(serialize($qucosaForm));
@@ -142,6 +200,9 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     $persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
                     $persistenceManager->persistAll();
+
+                    $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+
 
                     if ($this->request->hasArgument('savecontinue')) {
 
@@ -152,9 +213,11 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                         $this->redirect('new');
                     }
-                    
+
                 }
-            
+
+               // $this->view->assign('debugData', $formData);
         }
 
+       
 }

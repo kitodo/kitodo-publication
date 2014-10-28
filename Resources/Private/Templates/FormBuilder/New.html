@@ -36,8 +36,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <f:for each="{group.children}" as="field" iteration="fieldIterator">
                             <label>{field.displayName}</label>
                             <f:switch expression="{field.fieldType}">
-                                <f:case value="0"><f:form.textfield name="newDocument{field.fieldId}" value="{field.value}" class="input-field" /></f:case>
-                                <f:case value="1"><f:form.textarea  name="newDocument{field.fieldId}" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="0"><f:form.textfield name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                             </f:switch>
                         </f:for>
                     </fieldset>

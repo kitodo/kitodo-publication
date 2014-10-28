@@ -125,14 +125,14 @@ class FormFactory {
               $prevFieldUid = $fieldUid;
 
 
-              $fieldId  = "[p".$metadataPage->getUid()."]";
-              $fieldId .= "[".$pageCount."]";
+              $fieldId  = "".$metadataPage->getUid()."-";
+              $fieldId .= "".$pageCount."-";
 
-              $fieldId .= "[g".$metadataGroup->getUid()."]";
-              $fieldId .= "[".$groupCount."]";
+              $fieldId .= "".$metadataGroup->getUid()."-";
+              $fieldId .= "".$groupCount."-";
               
-              $fieldId .= "[f".$fieldUid."]";
-              $fieldId .= "[".$fieldCount."]";
+              $fieldId .= "".$fieldUid."-";
+              $fieldId .= "".$fieldCount."";
 
               $formField->setFieldId($fieldId);
 
@@ -151,7 +151,77 @@ class FormFactory {
         return $qucosaForm;
     }
 
+    /**
+     *
+     * @param \EWW\Dpf\Domain\Model\DocumentType $documentType
+     */
+    public function createFormDataArray(\EWW\Dpf\Domain\Model\DocumentType $documentType) {
 
+        $metadataPages = $documentType->getMetadataPage();
+      
+        $prevPageUid = 0;
+        $pageCount = 0;
+
+        $formData = array();
+        
+        // Form pages
+        foreach ($metadataPages as $metadataPageKey => $metadataPage) {
+
+          $pageUid = $metadataPage->getUid();
+          $metadataGroups = $metadataPage->getMetadataGroup();
+
+          $prevGroupUid = 0;
+          $groupCount = 0;
+
+          $formData[$pageUid] = array();
+          $formData[$pageUid][$pageCount] = array();
+
+          // Form groups
+          foreach ($metadataGroups as $metadataGroupKey => $metadataGroup) {
+
+            $groupUid = $metadataGroup->getUid();
+            $metadataObjects = $metadataGroup->getMetadataObject();
+
+
+            if ($prevGroupUid == $groupUid) {
+                  $groupCount++;
+              } else {
+                  $groupCount = 0;
+              }
+
+            $prevGroupUid = $groupUid;
+
+            $formData[$pageUid][$pageCount][$groupUid] = array();
+            $formData[$pageUid][$pageCount][$groupUid][$groupCount] = array();
+
+            $prevFieldUid = 0;
+            $fieldCount = 0;
+
+            // Form fields
+            foreach ($metadataObjects as $metadataObjectKey => $metadataObject) {
+
+              $fieldUid = $metadataObject->getUid();
+
+              if ($prevFieldUid == $fieldUid) {
+                  $fieldCount++;
+              } else {
+                  $fieldCount = 0;
+              }
+
+              $prevFieldUid = $fieldUid;
+
+              $formData[$pageUid][$pageCount][$groupUid][$groupCount][$fieldUid] = array();
+              $formData[$pageUid][$pageCount][$groupUid][$groupCount][$fieldUid][$fieldCount] = "";
+                                  
+            }
+          }
+        }
+
+        return $formData;
+    }
+
+
+    
     /**
      *
      * @param array $data
@@ -167,7 +237,7 @@ class FormFactory {
 
         foreach ($data as $pageUid => $pageClass) {
 
-            $pageUid = (integer)str_replace("p", "", $pageUid);
+            //$pageUid = (integer)str_replace("p", "", $pageUid);
 
             foreach ($pageClass as $pageNum => $pageObject) {
 
@@ -180,7 +250,7 @@ class FormFactory {
 
                 foreach ($pageObject as $groupUid => $groupClass) {
 
-                    $groupUid = (integer)str_replace("g", "", $groupUid);
+                    //$groupUid = (integer)str_replace("g", "", $groupUid);
 
                     foreach ($groupClass as $groupNum => $groupObject) {
 
@@ -193,7 +263,7 @@ class FormFactory {
 
                         foreach ($groupObject as $fieldUid => $fieldClass) {
 
-                            $fieldUid = (integer)str_replace("f", "", $fieldUid);
+                            //$fieldUid = (integer)str_replace("f", "", $fieldUid);
                                   
                             foreach ($fieldClass as $fieldNum => $fieldObject) {
 
@@ -207,14 +277,14 @@ class FormFactory {
                                 $formField->setValue($fieldObject);
 
 
-                                $fieldId  = "[p".$pageUid."]";
-                                $fieldId .= "[".$pageNum."]";
+                                $fieldId  = "".$pageUid."-";
+                                $fieldId .= "".$pageNum."-";
 
-                                $fieldId .= "[g".$groupUid."]";
-                                $fieldId .= "[".$groupNum."]";
+                                $fieldId .= "".$groupUid."-";
+                                $fieldId .= "".$groupNum."-";
 
-                                $fieldId .= "[f".$fieldUid."]";
-                                $fieldId .= "[".$fieldNum."]";
+                                $fieldId .= "".$fieldUid."-";
+                                $fieldId .= "".$fieldNum."";
 
                                 $formField->setFieldId($fieldId);
                                 
@@ -231,6 +301,7 @@ class FormFactory {
         return $qucosaForm;
 
     }
+    
 
 }
 
