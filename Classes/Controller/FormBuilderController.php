@@ -79,40 +79,33 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	/**
 	 * action new
 	 *
-         * @param array $newDocument
+         * @param integer $document
 	 * @return void
 	 */
-	public function newAction( array $newDocument = NULL ) {
+	public function newAction( integer $document = NULL ) {
             
-                $docTypeUid = $this->settings['documenttype'];
+            $docTypeUid = $this->settings['documenttype'];
+            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
 
-                if (!$newDocument) {
-                  
-                    if ($docTypeUid) {
-                        $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+
+            if (!$documentType) {
+                $this->addFlashMessage('Es wurde kein Dokument-Typ angegeben.');
+            } else {
+
+                if (!$document) {
                         $qucosaForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
-                    }
-
                 } else {
 
-                    $formFactory = new \EWW\Dpf\Helper\FormFactory(
-                            $this->documentTypeRepository,
-                            $this->metadataPageRepository,
-                            $this->metadataGroupRepository,
-                            $this->metadataObjectRepository);
+                    $document = $this->documentRepository->findByUid($document);
+                    if ($document) {
+                        $qucosaForm = \unserialize($document->getXmlData());
 
-                    $qucosaForm = $formFactory->createFromDataArray($newDocument, $docTypeUid);
+                    }
                    
                 }
+            }
 
-             /*$document = $this->documentRepository->findByUid();
-             if ($document) {
-                  $qucosaForm = \unserialize($document->getXmlData());
-                 
-             }
-             */              
-                    
-             $this->view->assign('qucosaForm', $qucosaForm);
+            $this->view->assign('qucosaForm', $qucosaForm);
                 
 	}
 
@@ -147,9 +140,12 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     $this->documentRepository->add($document);
 
+                    $persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+                    $persistenceManager->persistAll();
+
                     if ($this->request->hasArgument('savecontinue')) {
 
-                        $this->redirect('new',NULL,NULL,array('newDocument'=>$newDocument));
+                        $this->redirect('new',NULL,NULL,array('document'=>$document->getUid()));
 
                     } else {
 
