@@ -1,0 +1,1 @@
+/data//*[starts-with(name(), 'B') and .[@position &lt; 2 and @position > $limit]]/parent::*
