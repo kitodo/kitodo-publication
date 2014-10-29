@@ -87,6 +87,8 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $docTypeUid = $this->settings['documenttype'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
 
+            $basicForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
+            
 
             if (!$documentType) {
                 $this->addFlashMessage('Es wurde kein Dokument-Typ angegeben.');
@@ -105,6 +107,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 }
             }
 
+            $this->view->assign('basicForm', $basicForm);
             $this->view->assign('qucosaForm', $qucosaForm);
                 
 	}

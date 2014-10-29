@@ -26,22 +26,23 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>
           </f:for>
       </ul>
-      <div class="tx-dpf-panes">
+      <div class="css-panes">
           <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
-            <div id="tab-{pageIterator.cycle}" class="fs_page">
+            <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.uid}">
                 <f:for each="{formPage.children}" as="group" iteration="groupIterator">
-                    <fieldset id="{pageIterator.cycle}-0-{groupIterator.cycle}-0" class="fs_group">
-                       <legend>{group.displayName}</legend>
-                       <f:form.submit value="+" name="add_group" class="add_group"/>
-                        <f:for each="{group.children}" as="field" iteration="fieldIterator">
+                      <fieldset class="fs_group" data-group="{group.uid}">
+                        <legend>{group.displayName}</legend>                       
+                          <f:for each="{group.children}" as="field" iteration="fieldIterator">
                             <label>{field.displayName}</label>
                             <f:switch expression="{field.fieldType}">
                                 <f:case value="0"><f:form.textfield name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                                 <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                             </f:switch>
-                        </f:for>
-                    </fieldset>
-                </f:for>
+                          </f:for>
+                         <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                      </fieldset>                    
+                      <input type="submit" value="hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>
+                </f:for>                
             </div>
           </f:for>          
       </div>
@@ -51,6 +52,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:form.submit value="Cancel" name="cancel" id="cancel" />
       </div>
     </f:form>
-     
+    <div id="default-templates">
+      <f:for each="{basicForm.children}" as="formPage" iteration="pageIterator">           
+                <f:for each="{formPage.children}" as="group" iteration="groupIterator">
+                    <fieldset class="fs_group" data-group="{group.uid}">
+                       <legend>{group.displayName}</legend>                       
+                        <f:for each="{group.children}" as="field" iteration="fieldIterator">
+                            <label>{field.displayName}</label>
+                            <f:switch expression="{field.fieldType}">
+                                <f:case value="0"><f:form.textfield name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
+                            </f:switch>
+                        </f:for>
+                       <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                    </fieldset>                    
+                </f:for>                
+      </f:for>           
+    </div>  
 
 </f:section>
