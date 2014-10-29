@@ -70,7 +70,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->buildMets();
 
 		// Constructor
-		$this->sxe = new SimpleXMLElement($this->metsHeader);
+		$this->sxe = new \SimpleXMLElement($this->metsHeader);
 
 		// Parser
 		include_once('xPathXMLGenerator.php');
@@ -143,7 +143,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function parseXPath($xPath)
 	{
 		//
-		$xml = $this->parser->parse($xPath)
+		$xml = $this->parser->parse($xPath);
 
 		return $xml;
 	}
@@ -182,15 +182,73 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	{
 		// Explode xPath
 		$newPath = explode('#', $xPath);
+		print_r($newPath);
+
+		// xml erstellen...
+		// und dann nacheinander schauen ob der pfad schon existiert
+		// in dem gesamten xml !?
+		// xml merge bauen!?
+		// 
+		// sxe in domdocument umwandeln
+		// per importNode das soeben generierte xml importieren
+		
+		$praedicateFlag = false;
+
+		if(count($test) > 1) {
+			// praedicate is given
+			// den 1. teil des xpath vor dem prädikat per sxe und dann value hinzufügen
+			$path = $test[0]; 
+			$praedicateFlag = true;
+
+		} else {
+			$path = $newPath[0];
+			//$xPathAdd = $newPath[0].'='.$newPath[1];
+		}
+
 
 		if($sxe->xPath($newPath[0])) {
-			//
+			// der xPath existiert es muss nur noch der 2. part hinzugefügt werden
+			$node = $sxe->xPath($path);
+			$domElement = dom_import_simplexml($node);
+			$domElement->importNode($this->parseXPath($newPath[1]));
+
+			print_r($domElement);
 			// $sxe->addChild('bla', 'blubb');
 			
 			// 
 		} else {
-			$xPathAdd = $newPath[0].'='.$newPath[1];
-			$this->parseXPath($xPathAdd);
+			// der xPath existiert nicht bzw. nur zum Teil
+			// aktuelles XML Dokument nehmen
+			// um importNode benutzen zu können
+			
+			$xml = $this->parseXPath($newPath[0]);
+
+
+			print_r($xml);
+			#print_r($this->parseXPath($newPath[1]));
+			$sxe2 = new \SimpleXMLElement($xml); 
+			print_r("test\n");
+			print_r($sxe2->xPath('/mods:name'));
+			$sxe2 = $sxe2->xPath($newPath[0]);
+
+			
+			// print_r($sxe2->asXML());
+
+			// get node by xpath with path
+			// importNode parseXPath newPath
+			
+
+
+			// add to xpath only if no praedicate is given
+			// $test = explode('[', $newPath[0]);
+			// print_r($test);
+
+			
+
+			
+
+
+			return $this->parseXPath($xPathAdd);
 
 		}
 
@@ -206,7 +264,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	{
 		// Build wrap for mods
 		
-		$sxe = new SimpleXMLElement($this->metsHeader);
+		$sxe = new \SimpleXMLElement($this->metsHeader);
 
 		$dmdSec = $sxe->addChild('dmdSec');
 		$dmdSec->addAttribute('ID', 'DMD_000');
@@ -216,7 +274,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		$xmlData = $mdWrap->addChild('xmlData');
 
-		return $sxe[0]->asXML();
+		return $sxe;
 
 	}
 
