@@ -69,9 +69,9 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->sxe = new SimpleXMLElement($this->metsHeader);
 
 		// Parser
-		include_once('XmlParser.php');
+		include_once('xPathXMLGenerator.php');
 
-		$this->parser = new XmlParser();
+		$this->parser = new xPathXMLGenerator();
 	}
 
 	/**

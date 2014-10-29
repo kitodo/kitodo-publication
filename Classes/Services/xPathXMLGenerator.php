@@ -33,9 +33,9 @@ use nbsp\bitter\Lexers\XPath;
 require_once 'parser/vendor/autoload.php';
 
 /**
- * MetsExporter
+ * xPathXMLGenerator
  */
-class XmlParser extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class xPathXMLGenerator extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
 	public function parse($xPath)
