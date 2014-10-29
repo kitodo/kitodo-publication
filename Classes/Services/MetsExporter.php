@@ -56,6 +56,10 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $sxe = NULL;
 
+	/**
+	 * xPathXMLGenerator
+	 * @var object
+	 */
 	protected $parser = NULL;
 
 	/**
@@ -130,7 +134,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function buildModsFromForm()
 	{
 		// Build xml mods from form fields
-		print_r($this->formData);
+		// print_r($this->formData);
 
 		$this->walkFormDataRecursive($this->formData);
 
@@ -141,7 +145,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		//
 		$xml = $this->parser->parse($xPath)
 
-		$return $xml;
+		return $xml;
 	}
 
 	/**
@@ -179,11 +183,18 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		// Explode xPath
 		$newPath = explode('#', $xPath);
 
-		if($sxe->xPath($newPath[0])){
-			$sxe->addChild('bla', 'blubb');
+		if($sxe->xPath($newPath[0])) {
+			//
+			// $sxe->addChild('bla', 'blubb');
+			
+			// 
+		} else {
+			$xPathAdd = $newPath[0].'='.$newPath[1];
+			$this->parseXPath($xPathAdd);
+
 		}
 
-		print_r($newPath);
+		// print_r($newPath);
 	}
 
 
