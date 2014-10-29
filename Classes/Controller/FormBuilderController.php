@@ -123,6 +123,8 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                  $data = $newDocument;
 
+                 //$this->view->assign('debugData', $data);
+
                  foreach ($data as $key => $value) {
                     if (!$value) {
                         unset($data[$key]);
@@ -135,7 +137,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                  $formStructure = \EWW\Dpf\Helper\FormFactory::createFormDataArray($documentType);
 
 
-                 $formData = array();
+                 $formData = $formStructure;
                  foreach ($data as $key => $value) {
 
                     $field_id = split("-", $key);
@@ -178,8 +180,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     
                  }
-
-
+                               
                 if ($this->request->hasArgument('cancel') || empty($data)) {
 
                   $this->redirect('new');

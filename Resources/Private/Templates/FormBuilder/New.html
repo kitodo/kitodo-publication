@@ -60,8 +60,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <f:for each="{group.children}" as="field" iteration="fieldIterator">
                             <label>{field.displayName}</label>
                             <f:switch expression="{field.fieldType}">
-                                <f:case value="0"><f:form.textfield name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
-                                <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="0"><input type="text" name="tx_dpf_qucosaform[newDocument][{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
+                                <f:case value="1"><textarea  name="tx_dpf_qucosaform[newDocument][{field.fieldId}]" value="{field.value}" class="input-field"></textarea></f:case>
                             </f:switch>
                         </f:for>
                        <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
