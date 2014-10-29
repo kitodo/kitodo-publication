@@ -91,12 +91,12 @@ class FormFactory {
             $formGroup->setMandatory($metadataGroup->isMandatory());
 
             $metadataObjects = $metadataGroup->getMetadataObject();
-
+                               
             
             if ($prevGroupUid == $groupUid) {
                   $groupCount++;
               } else {
-                  $groupCount = 0;
+                  $groupCount = 0;                  
               }
 
             $prevGroupUid = $groupUid;
@@ -116,7 +116,7 @@ class FormFactory {
               $formField->setName($metadataObject->getName());
               $formField->setFieldType($metadataObject->getInputField());
               $formField->setMandatory($metadataObject->isMandatory());
-              
+             
               if ($prevFieldUid == $fieldUid) {
                   $fieldCount++;
               } else {
@@ -261,6 +261,7 @@ class FormFactory {
                         $formGroup->setDisplayName($metadataGroup->getDisplayName());
                         $formGroup->setName($metadataGroup->getName());
                         $formGroup->setUid($groupUid);
+                        $formGroup->setMandatory($metadataGroup->isMandatory());                       
 
                         foreach ($groupObject as $fieldUid => $fieldClass) {
 
@@ -276,8 +277,9 @@ class FormFactory {
                                 $formField->setName($metadataObject->getName());
                                 $formField->setFieldType($metadataObject->getInputField());
                                 $formField->setValue($fieldObject);
+                                $formField->setMandatory($metadataObject->isMandatory());
 
-
+                                
                                 $fieldId  = "".$pageUid."-";
                                 $fieldId .= "".$pageNum."-";
 

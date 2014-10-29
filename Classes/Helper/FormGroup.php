@@ -18,6 +18,12 @@ class FormGroup extends \EWW\Dpf\Helper\FormNode {
 
     /**
      *
+     * @var boolean
+     */
+    protected $last;
+
+    /**
+     *
      * @return boolean
      */
     public function getMandatory() {
@@ -38,13 +44,31 @@ class FormGroup extends \EWW\Dpf\Helper\FormNode {
      *
      * @return boolean
      */
-    public function hasMandatoryFields() {
+    public function getHasMandatoryFields() { 
         foreach ($this->children as $object) {
-            if ($object->isMandatory() || $this->mandatory) {
+            if ($object->getMandatory() || $this->mandatory) {
                 return TRUE;
             }
         }
         return FALSE;
+    }
+
+
+    /**
+     *
+     * @param boolean $last
+     */
+    public function setLast($last) {
+        $this->last = $last;
+    }
+
+
+    /**
+     *
+     * @return boolean
+     */
+    public function getLast() {
+        return $this->last;
     }
 }
 

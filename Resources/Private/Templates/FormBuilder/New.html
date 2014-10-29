@@ -14,7 +14,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 <h1>Qucosa Form Builder</h1>
- <f:comment><f:debug title="Form">{qucosaForm}</f:debug></f:comment>
+ <f:debug title="Form">{qucosaForm}</f:debug>
 <f:flashMessages renderMode="div" />
   
     <h2>{qucosaForm.displayName}</h2>
@@ -39,12 +39,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                             </f:switch>
                           </f:for>
-                         <f:if condition="{group.mandatory">
-                            <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                        <f:if condition="{group.hasMandatoryFields}">
+                             <f:then>
+                             </f:then>
+                             <f:else>
+                                 <f:if condition="{groupIterator.cycle}">
+                                 <p><input type="submit" value="{group.displayName} entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                                 </f:if>
+                             </f:else>
                          </f:if>
                       </fieldset>                    
-                      <input type="submit" value="hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>
-                </f:for>                
+                      <f:if condition="{groupIterator.isLast}">
+                        <input type="submit" value="{group.displayName} hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>
+                      </f:if>
+                </f:for>
             </div>
           </f:for>          
       </div>
@@ -66,7 +74,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <f:case value="1"><textarea  name="tx_dpf_qucosaform[newDocument][{field.fieldId}]" value="{field.value}" class="input-field"></textarea></f:case>
                             </f:switch>
                         </f:for>
-                       <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                       <p><input type="submit" value="{group.displayName} entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
                     </fieldset>                    
                 </f:for>                
       </f:for>           
