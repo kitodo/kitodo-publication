@@ -151,7 +151,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return boolean
 	 */
 	public function isMandatory() {
-		return $this->mandatory;
+            return $this->mandatory;
 	}
 
 	/**
@@ -211,5 +211,5 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setMetadataObject(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataObject) {
 		$this->metadataObject = $metadataObject;
 	}
-
+                   
 }

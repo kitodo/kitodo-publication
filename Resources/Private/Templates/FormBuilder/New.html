@@ -31,15 +31,17 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.uid}">
                 <f:for each="{formPage.children}" as="group" iteration="groupIterator">
                       <fieldset class="fs_group" data-group="{group.uid}">
-                        <legend>{group.displayName}</legend>                       
+                        <legend>{group.displayName}</legend>     
                           <f:for each="{group.children}" as="field" iteration="fieldIterator">
-                            <label>{field.displayName}</label>
+                            <label>{field.displayName}</label><f:if condition="{field.mandatory}"><span class="mandatory">*</span></f:if>
                             <f:switch expression="{field.fieldType}">
                                 <f:case value="0"><f:form.textfield name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                                 <f:case value="1"><f:form.textarea  name="newDocument[{field.fieldId}]" value="{field.value}" class="input-field" /></f:case>
                             </f:switch>
                           </f:for>
-                         <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                         <f:if condition="{group.mandatory">
+                            <p><input type="submit" value="entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+                         </f:if>
                       </fieldset>                    
                       <input type="submit" value="hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>
                 </f:for>                

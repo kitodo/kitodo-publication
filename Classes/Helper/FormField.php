@@ -53,6 +53,15 @@ class FormField {
      */
     protected $value;
 
+
+    /**
+     * mandatory
+     *
+     * @var boolean
+     */
+    protected $mandatory;
+
+    
     /**
      *
      * @return integer
@@ -161,6 +170,25 @@ class FormField {
          $this->fieldId = $fieldId;
         
     }
+
+
+    /**
+     *
+     * @return boolean
+     */
+    public function getMandatory() {
+        return $this->mandatory;
+    }
+
+
+    /**
+     *
+     * @param boolean $mandatory
+     */
+    public function setMandatory($mandatory) {
+        $this->mandatory = $mandatory;
+    }
+    
 
 }
 

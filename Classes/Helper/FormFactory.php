@@ -88,6 +88,7 @@ class FormFactory {
             $formGroup->setDisplayName($metadataGroup->getDisplayName());
             $formGroup->setName($metadataGroup->getName());
             $formGroup->setUid($groupUid);
+            $formGroup->setMandatory($metadataGroup->isMandatory());
 
             $metadataObjects = $metadataGroup->getMetadataObject();
 
@@ -114,7 +115,7 @@ class FormFactory {
               $formField->setDisplayName($metadataObject->getDisplayName());
               $formField->setName($metadataObject->getName());
               $formField->setFieldType($metadataObject->getInputField());
-
+              $formField->setMandatory($metadataObject->isMandatory());
               
               if ($prevFieldUid == $fieldUid) {
                   $fieldCount++;
