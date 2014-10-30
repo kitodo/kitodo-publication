@@ -45,11 +45,15 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $metsData = '';
 
+	protected $modsData = '';
+
 	/**
 	 * metsHeader
 	 * @var string
 	 */
 	protected $metsHeader = '';
+
+	protected $modsHeader = '';
 
 	/**
 	 * simpleXMLElement
@@ -105,6 +109,17 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     	$this->metsHeader .= '</mets:mets>';
 
 
+
+    	$this->modsHeader = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
+    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
+    version="3.5">';
+
+    	$this->modsHeader .= '</mods:mods>';
+
+    	$this->modsData = new \DOMDocument();
+    	$this->modsData->loadXML($this->modsHeader);
+
     	// $this->metsData .= '<mets:dmdSec ID="DMD_000">
      //    					<mets:mdWrap MDTYPE="MODS">
      //        				  <mets:xmlData>';
@@ -129,6 +144,19 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
     	
+	}
+
+	public function wrapMods($xml)
+	{
+		$newXML = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
+    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
+    version="3.5">';
+
+    	$newXML .= $xml;
+    	$newXML .= '</mods:mods>';
+
+    	return $newXML;
 	}
 
 	public function buildModsFromForm()
@@ -178,8 +206,9 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param  SimpleXMLElement $sxe   SimpleXMLElement
 	 * @return [type]        [description]
 	 */
-	public function customXPath($xPath, $sxe)
+	public function customXPath($xPath)
 	{
+		$sxe = new \SimpleXMLElement($this->wrapMods('<mods:test>bla</mods:test>'));
 		// Explode xPath
 		$newPath = explode('#', $xPath);
 		print_r($newPath);
@@ -193,7 +222,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		// per importNode das soeben generierte xml importieren
 		
 		$praedicateFlag = false;
-
+		$test = explode('[', $newPath[0]);
 		if(count($test) > 1) {
 			// praedicate is given
 			// den 1. teil des xpath vor dem prädikat per sxe und dann value hinzufügen
@@ -221,15 +250,96 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			// aktuelles XML Dokument nehmen
 			// um importNode benutzen zu können
 			
-			$xml = $this->parseXPath($newPath[0]);
+			$xml1 = $this->parseXPath($newPath[0]);
+
+			$doc1 = new \DOMDocument();
+			$doc1->loadXML($this->wrapMods($xml1));
+
+			$domXPath = new \DOMXpath($doc1);
+
+			// pfad bis 1 praedikat
+			// print_r($path);
+			$testElement = $domXPath->query('/mods:mods'.$path);
 
 
-			print_r($xml);
-			#print_r($this->parseXPath($newPath[1]));
-			$sxe2 = new \SimpleXMLElement($xml); 
-			print_r("test\n");
-			print_r($sxe2->xPath('/mods:name'));
-			$sxe2 = $sxe2->xPath($newPath[0]);
+
+
+
+
+			$xml2 = $this->parseXPath($path.$newPath[1]);
+
+			$doc2 = new \DOMDocument();
+			$doc2->loadXML($this->wrapMods($xml2));
+
+			$node = $doc2->getElementsByTagName("name")->item(0); //DOMNode
+
+
+			// füge pfad nach # hinzu
+			// print_r($testElement->item(0)); // DOMNode
+			// print_r($testElement->item(0)->appendChild($node));
+
+			// print_r($doc1->importNode($node));
+
+
+
+			// print_r($node);
+
+			$nodeToBeAppended = $doc1->importNode($node, true);
+			// $doc1->documentElement->appendChild($nodeToBeAppended);
+			$testElement->item(0)->appendChild($nodeToBeAppended);
+			print_r($doc1);
+
+			// print_r($xml1);
+			// print_r($xml2);
+			print_r("merged");
+			print_r($doc1->saveXML());
+
+
+
+
+
+
+
+
+
+			//print_r($this->wrapMods('<mods:test>bla</mods:test>'));print_r("\n");
+
+			$sxe = new \SimpleXMLElement($this->wrapMods('<mods:test>bla</mods:test>'));
+
+
+			$sxe2 = new \SimpleXMLElement($this->wrapMods($xml2));
+			// $sxe2 = simplexml_load_string($xml);
+
+			// print_r("\nSXE1");
+			// print_r($sxe->asXML());
+			// print_r("\nSXE2");
+			// print_r($sxe2->asXML());
+
+			// print_r($sxe2->xPath('/mods:mods')[0]->asXML());
+
+
+			// foreach ($sxe2->children('mods') as $test) {print_r("test");
+			// 	print_r($test);
+			// }
+
+			// $this->mergeXML($sxe, $sxe2);
+
+			// print_r("\nmerged");
+			// print_r($sxe->asXML());
+			
+			// $xml = $this->parseXPath($newPath[0]);
+			// $doc = new \DOMDocument();
+			// $doc->loadXML($this->wrapMods($xml));
+			// $this->modsData->importNode($doc);
+
+			// print_r($xml);
+			// #print_r($this->parseXPath($newPath[1]));
+			// $sxe2 = new \SimpleXMLElement($this->modsHeader); 
+			// // $sxe = simplexml_load_string($xml);
+			// print_r("test\n");
+			// print_r($sxe2->xPath('mods:name'));
+			// var_dump($newPath[0]);
+			// $sxe2 = $sxe2->xPath($newPath[0]);
 
 			
 			// print_r($sxe2->asXML());
@@ -248,13 +358,32 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			
 
 
-			return $this->parseXPath($xPathAdd);
+			// return $this->parseXPath($xPathAdd);
 
 		}
 
 		// print_r($newPath);
 	}
 
+
+	function mergeXML(&$base, $add) 
+	{ 
+	    if ( $add->count() != 0 ) 
+	        $new = $base->addChild($add->getName()); 
+	    else 
+	        $new = $base->addChild($add->getName(), $add); 
+	    foreach ($add->attributes() as $a => $b) 
+	    { 
+	        $new->addAttribute($a, $b); 
+	    } 
+	    if ( $add->count() != 0 ) 
+	    { 
+	        foreach ($add->children() as $child) 
+	        { 
+	            mergeXML($new, $child); 
+	        } 
+	    } 
+	} 
 
 	/**
 	 * Builds the xml wrapping part for mods
@@ -409,6 +538,5 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		var_dump($post);
 	}
-
 
 }
