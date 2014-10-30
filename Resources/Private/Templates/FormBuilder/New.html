@@ -15,14 +15,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 {namespace v=Tx_Vhs_ViewHelpers}
 
 <f:section name="main">
-<h1>Qucosa Form Builder</h1>
- <f:debug title="Form">{qucosaForm}</f:debug>
+ <f:comment><f:debug title="Form">{qucosaForm}</f:debug></f:comment>
 <f:flashMessages renderMode="div" />
   
     <h2>{qucosaForm.displayName}</h2>
                                         
-    <f:form action="create" name="newDocument" object="{newDocument}">
-                                     
+    <f:form action="create" name="newDocument" object="{newDocument}">    
+      <f:form.hidden name="documentType" value="{basicForm.uid}" />
       <ul class="tx-dpf-tabs">
           <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
             <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>

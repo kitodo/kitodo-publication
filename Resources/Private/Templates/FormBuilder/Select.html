@@ -1,0 +1,31 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Select.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+
+<f:flashMessages renderMode="div" />
+
+<f:form action="new" name="documentType" object="{documentType}">
+    
+  
+    <f:for each="{docTypes}" as="docType" key="id" iteration="iteration">
+      <div class="doctype-radio">
+            <f:form.radio property="id" value="{id}" checked="{iteration.isFirst}" /><label>{docType}</label>            
+      </div>  
+    </f:for>
+ 
+    <f:form.submit value="Weiter" name="more" id="more" />
+  
+</f:form>
+
+</f:section>

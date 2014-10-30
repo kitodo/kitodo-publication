@@ -58,7 +58,7 @@ class FormFactory {
         $qucosaForm = new \EWW\Dpf\Helper\Form();
         $qucosaForm->setDisplayName($documentType->getDisplayName());
         $qucosaForm->setName($documentType->getName());
-
+        $qucosaForm->setUid($documentType->getUid());
 
         $prevPageUid = 0;
         $pageCount = 0;
@@ -235,7 +235,8 @@ class FormFactory {
         $qucosaForm = new \EWW\Dpf\Helper\Form();
         $qucosaForm->setDisplayName($documentType->getDisplayName());
         $qucosaForm->setName($documentType->getName());
-
+        $qucosaForm->setUid($documentType->getUid());
+ 
         foreach ($data as $pageUid => $pageClass) {
 
             //$pageUid = (integer)str_replace("p", "", $pageUid);

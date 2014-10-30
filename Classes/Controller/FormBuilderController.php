@@ -75,16 +75,39 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	 */
 	protected $documentRepository = NULL;
 
+        
+        
+	/**
+	 * action newDocument
+	 *
+	 * @return void
+	 */
+	public function selectAction() {
+            
+            
+           $documentTypes = $this->documentTypeRepository->findAll();
+            
+           $docTypes = array();
+            foreach ($documentTypes as $documentType) {              
+              $docTypes[$documentType->getUid()] = $documentType->getDisplayname();              
+            }
+          
+          $this->view->assign('docTypes', $docTypes);
+           // $this->redirect('new',NULL,NULL,array('dtuid'=>$docTypeUid));
+            
+        }
 
 	/**
 	 * action new
 	 *
          * @param integer $document
+         * @param array $documentType
 	 * @return void
 	 */
-	public function newAction( integer $document = NULL ) {
+	public function newAction( integer $document = NULL, array $documentType = NULL ) {
+                                                                  
+            $docTypeUid =  $documentType['id']; //$this->settings['documenttype'];
             
-            $docTypeUid = $this->settings['documenttype'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
 
             $basicForm = \EWW\Dpf\Helper\FormFactory::createForm($documentType);
@@ -106,10 +129,10 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                    
                 }
             }
-            $this->view->assign('test', 100);
+            
             $this->view->assign('basicForm', $basicForm);
             $this->view->assign('qucosaForm', $qucosaForm);
-                
+               
 	}
 
 
@@ -117,15 +140,16 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
          * action create
          *
          * @param array $newDocument
+         * @param integer $documentType
          * @return void
          */
-        public function createAction( array $newDocument ) {
+        public function createAction( array $newDocument = NULL, integer $documentType = NULL ) {
 
                  $files = $newDocument['files']; 
                  unset($newDocument['files']); 
                  $data = $newDocument;
 
-                 //$this->view->assign('debugData', $data);
+//                 $this->view->assign('debugData', $documentType);
 
                  foreach ($data as $key => $value) {
                     if (!$value) {
@@ -134,11 +158,11 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                  }
 
                  
-                 $docTypeUid = $this->settings['documenttype'];
+                 $docTypeUid = $documentType;
                  $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                  $formStructure = \EWW\Dpf\Helper\FormFactory::createFormDataArray($documentType);
 
-
+      //$this->view->assign('debugData', $documentType); 
                  $formData = $formStructure;
                  foreach ($data as $key => $value) {
 
@@ -185,7 +209,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                                
                 if ($this->request->hasArgument('cancel') || empty($data)) {
 
-                  $this->redirect('new');
+                  $this->redirect('select');
 
                 } else {
 
@@ -212,7 +236,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     if ($this->request->hasArgument('savecontinue')) {
 
-                        $this->redirect('new',NULL,NULL,array('document'=>$document->getUid()));
+                        $this->redirect('new',NULL,NULL,array('document'=>$document->getUid(), 'documentType' => array( 'id' => $docTypeUid)));
 
                     } else {
 
@@ -223,7 +247,9 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 }
 
                // $this->view->assign('debugData', $formData);
-        }
-
+        
+                
+             }
+ 
        
 }
