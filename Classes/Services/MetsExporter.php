@@ -210,37 +210,24 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	{
 		// Explode xPath
 		$newPath = explode('#', $xPath);
-
-		// xml erstellen...
-		// und dann nacheinander schauen ob der pfad schon existiert
-		// in dem gesamten xml !?
-		// xml merge bauen!?
-		// 
-		// sxe in domdocument umwandeln
-		// per importNode das soeben generierte xml importieren
 		
 		$praedicateFlag = false;
 		$explodedXPath = explode('[', $newPath[0]);
 		if(count($explodedXPath) > 1) {
+
 			// praedicate is given
-			// den 1. teil des xpath vor dem prädikat per sxe und dann value hinzufügen
 			$path = $explodedXPath[0]; 
 			$praedicateFlag = true;
 
 		} else {
+
 			$path = $newPath[0];
-			//$xPathAdd = $newPath[0].'='.$newPath[1];
+
 		}
-		// print_r("ModsData");
-		// print_r($this->modsData->saveXML());
+
 		$modsDataXPath = new \DOMXpath($this->modsData);
-		// print_r($newPath[0]);
-		// print_r($modsDataXPath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]]'));
-		#print_r($modsDataXPath->query($newPath[0]));
-		// print_r($newPath);
 
-
-		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {print_r("EEESSSTTTTTEEETTETTETET");
+		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
 			
 			// build xml from second xpath part
 			$xml = $this->parseXPath($newPath[1]);
@@ -258,9 +245,6 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
 		} else {
-			// der xPath existiert nicht bzw. nur zum Teil
-			// aktuelles XML Dokument nehmen
-			// um importNode benutzen zu können
 			
 			// parse first xpath part
 			$xml1 = $this->parseXPath($newPath[0]);
@@ -289,10 +273,6 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$domNode->item(0)->appendChild($nodeToBeAppended);
 
 
-
-			// print_r("merged");
-			// print_r($doc1->saveXML());
-
 			// add to modsData (merge not required)
 			// get mods tag
 			$firstChild = $this->modsData->firstChild;
@@ -306,8 +286,8 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			return $doc1->saveXML();
 
 		}
-		print_r($this->modsData->saveXML());
-
+		// print_r($this->modsData->saveXML());
+		return $this->modsData->saveXML();
 		// print_r($newPath);
 	}
 
@@ -465,5 +445,4 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		var_dump($post);
 	}
-
 }
