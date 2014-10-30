@@ -208,10 +208,8 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function customXPath($xPath)
 	{
-		$sxe = new \SimpleXMLElement($this->wrapMods('<mods:test>bla</mods:test>'));
 		// Explode xPath
 		$newPath = explode('#', $xPath);
-		print_r($newPath);
 
 		// xml erstellen...
 		// und dann nacheinander schauen ob der pfad schon existiert
@@ -222,168 +220,97 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		// per importNode das soeben generierte xml importieren
 		
 		$praedicateFlag = false;
-		$test = explode('[', $newPath[0]);
-		if(count($test) > 1) {
+		$explodedXPath = explode('[', $newPath[0]);
+		if(count($explodedXPath) > 1) {
 			// praedicate is given
 			// den 1. teil des xpath vor dem prädikat per sxe und dann value hinzufügen
-			$path = $test[0]; 
+			$path = $explodedXPath[0]; 
 			$praedicateFlag = true;
 
 		} else {
 			$path = $newPath[0];
 			//$xPathAdd = $newPath[0].'='.$newPath[1];
 		}
+		// print_r("ModsData");
+		// print_r($this->modsData->saveXML());
+		$modsDataXPath = new \DOMXpath($this->modsData);
+		// print_r($newPath[0]);
+		// print_r($modsDataXPath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]]'));
+		#print_r($modsDataXPath->query($newPath[0]));
+		// print_r($newPath);
 
 
-		if($sxe->xPath($newPath[0])) {
-			// der xPath existiert es muss nur noch der 2. part hinzugefügt werden
-			$node = $sxe->xPath($path);
-			$domElement = dom_import_simplexml($node);
-			$domElement->importNode($this->parseXPath($newPath[1]));
-
-			print_r($domElement);
-			// $sxe->addChild('bla', 'blubb');
+		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {print_r("EEESSSTTTTTEEETTETTETET");
 			
-			// 
+			// build xml from second xpath part
+			$xml = $this->parseXPath($newPath[1]);
+
+			$docXML = new \DOMDocument();
+			$docXML->loadXML($this->wrapMods($xml));
+
+			$domXPath = new \DOMXpath($this->modsData);
+			$domNode = $domXPath->query('/mods:mods'.$path);
+
+			$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
+
+			$nodeAppendModsData = $this->modsData->importNode($node, true);
+			$domNode->item(0)->appendChild($nodeAppendModsData);
+
+
 		} else {
 			// der xPath existiert nicht bzw. nur zum Teil
 			// aktuelles XML Dokument nehmen
 			// um importNode benutzen zu können
 			
+			// parse first xpath part
 			$xml1 = $this->parseXPath($newPath[0]);
 
 			$doc1 = new \DOMDocument();
 			$doc1->loadXML($this->wrapMods($xml1));
 
 			$domXPath = new \DOMXpath($doc1);
-
-			// pfad bis 1 praedikat
-			// print_r($path);
-			$testElement = $domXPath->query('/mods:mods'.$path);
+			$domNode = $domXPath->query('/mods:mods'.$path);
 
 
-
-
-
-
+			// parse second xpath part
 			$xml2 = $this->parseXPath($path.$newPath[1]);
 
 			$doc2 = new \DOMDocument();
 			$doc2->loadXML($this->wrapMods($xml2));
 
-			$node = $doc2->getElementsByTagName("name")->item(0); //DOMNode
+			$domXPath2 = new \DOMXpath($doc2);
+			$domNode2 = $domXPath2->query('/mods:mods'.$path)->item(0)->childNodes->item(0);			
 
+			// $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
 
-			// füge pfad nach # hinzu
-			// print_r($testElement->item(0)); // DOMNode
-			// print_r($testElement->item(0)->appendChild($node));
-
-			// print_r($doc1->importNode($node));
-
-
-
-			// print_r($node);
-
-			$nodeToBeAppended = $doc1->importNode($node, true);
+			// merge xml nodes
+			$nodeToBeAppended = $doc1->importNode($domNode2, true);
 			// $doc1->documentElement->appendChild($nodeToBeAppended);
-			$testElement->item(0)->appendChild($nodeToBeAppended);
-			print_r($doc1);
-
-			// print_r($xml1);
-			// print_r($xml2);
-			print_r("merged");
-			print_r($doc1->saveXML());
+			$domNode->item(0)->appendChild($nodeToBeAppended);
 
 
 
+			// print_r("merged");
+			// print_r($doc1->saveXML());
+
+			// add to modsData (merge not required)
+			// get mods tag
+			$firstChild = $this->modsData->firstChild;
+			$firstItem = $doc1->getElementsByTagName('mods')->item(0)->firstChild;
+
+			$nodeAppendModsData = $this->modsData->importNode($firstItem, true);
+			$firstChild->appendChild($nodeAppendModsData);
 
 
 
-
-
-
-			//print_r($this->wrapMods('<mods:test>bla</mods:test>'));print_r("\n");
-
-			$sxe = new \SimpleXMLElement($this->wrapMods('<mods:test>bla</mods:test>'));
-
-
-			$sxe2 = new \SimpleXMLElement($this->wrapMods($xml2));
-			// $sxe2 = simplexml_load_string($xml);
-
-			// print_r("\nSXE1");
-			// print_r($sxe->asXML());
-			// print_r("\nSXE2");
-			// print_r($sxe2->asXML());
-
-			// print_r($sxe2->xPath('/mods:mods')[0]->asXML());
-
-
-			// foreach ($sxe2->children('mods') as $test) {print_r("test");
-			// 	print_r($test);
-			// }
-
-			// $this->mergeXML($sxe, $sxe2);
-
-			// print_r("\nmerged");
-			// print_r($sxe->asXML());
-			
-			// $xml = $this->parseXPath($newPath[0]);
-			// $doc = new \DOMDocument();
-			// $doc->loadXML($this->wrapMods($xml));
-			// $this->modsData->importNode($doc);
-
-			// print_r($xml);
-			// #print_r($this->parseXPath($newPath[1]));
-			// $sxe2 = new \SimpleXMLElement($this->modsHeader); 
-			// // $sxe = simplexml_load_string($xml);
-			// print_r("test\n");
-			// print_r($sxe2->xPath('mods:name'));
-			// var_dump($newPath[0]);
-			// $sxe2 = $sxe2->xPath($newPath[0]);
-
-			
-			// print_r($sxe2->asXML());
-
-			// get node by xpath with path
-			// importNode parseXPath newPath
-			
-
-
-			// add to xpath only if no praedicate is given
-			// $test = explode('[', $newPath[0]);
-			// print_r($test);
-
-			
-
-			
-
-
-			// return $this->parseXPath($xPathAdd);
+			return $doc1->saveXML();
 
 		}
+		print_r($this->modsData->saveXML());
 
 		// print_r($newPath);
 	}
 
-
-	function mergeXML(&$base, $add) 
-	{ 
-	    if ( $add->count() != 0 ) 
-	        $new = $base->addChild($add->getName()); 
-	    else 
-	        $new = $base->addChild($add->getName(), $add); 
-	    foreach ($add->attributes() as $a => $b) 
-	    { 
-	        $new->addAttribute($a, $b); 
-	    } 
-	    if ( $add->count() != 0 ) 
-	    { 
-	        foreach ($add->children() as $child) 
-	        { 
-	            mergeXML($new, $child); 
-	        } 
-	    } 
-	} 
 
 	/**
 	 * Builds the xml wrapping part for mods
