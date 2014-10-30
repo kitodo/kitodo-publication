@@ -240,8 +240,8 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
                     } else {
 
-
-                        $this->redirect('new');
+                        $this->redirect('new',NULL,NULL,array('documentType' => array( 'id' => $docTypeUid)));
+                                           
                     }
 
                 }
