@@ -106,7 +106,7 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                    
                 }
             }
-
+            $this->view->assign('test', 100);
             $this->view->assign('basicForm', $basicForm);
             $this->view->assign('qucosaForm', $qucosaForm);
                 

@@ -12,15 +12,17 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
+{namespace v=Tx_Vhs_ViewHelpers}
+
 <f:section name="main">
 <h1>Qucosa Form Builder</h1>
  <f:debug title="Form">{qucosaForm}</f:debug>
 <f:flashMessages renderMode="div" />
   
     <h2>{qucosaForm.displayName}</h2>
-            
+                                        
     <f:form action="create" name="newDocument" object="{newDocument}">
-                 
+                                     
       <ul class="tx-dpf-tabs">
           <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
             <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>
@@ -29,8 +31,18 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <div class="css-panes">
           <f:for each="{qucosaForm.children}" as="formPage" iteration="pageIterator">
             <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.uid}">
+                <v:var.set name="lastGroup" value="0"></v:var.set>
                 <f:for each="{formPage.children}" as="group" iteration="groupIterator">
-                      <fieldset class="fs_group" data-group="{group.uid}">
+                  
+                  <f:if condition="{groupIterator.isFirst}">
+                    <f:else>
+                      <f:if condition="{lastGroup.uid}!={group.uid}">                    
+                        <input type="submit" value="{lastGroup.displayName} hinzufügen" name="add_group" class="add_group" data-group="{lastGroup.uid}"/>
+                      </f:if> 
+                    </f:else>
+                  </f:if>  
+                  
+                  <fieldset class="fs_group" data-group="{group.uid}">
                         <legend>{group.displayName}</legend>     
                           <f:for each="{group.children}" as="field" iteration="fieldIterator">
                             <label>{field.displayName}</label><f:if condition="{field.mandatory}"><span class="mandatory">*</span></f:if>
@@ -48,10 +60,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                  </f:if>
                              </f:else>
                          </f:if>
-                      </fieldset>                    
-                      <f:if condition="{groupIterator.isLast}">
-                        <input type="submit" value="{group.displayName} hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>
-                      </f:if>
+                      </fieldset>                      
+                      
+                      <f:if condition="{groupIterator.isLast}">                        
+                        <input type="submit" value="{group.displayName} hinzufügen" name="add_group" class="add_group" data-group="{group.uid}"/>                        
+                      </f:if>  
+                  
+                      <v:var.set name="lastGroup" value="{group}"></v:var.set>
                 </f:for>
             </div>
           </f:for>          
