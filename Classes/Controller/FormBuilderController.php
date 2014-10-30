@@ -121,6 +121,8 @@ class FormBuilderController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
          */
         public function createAction( array $newDocument ) {
 
+                 $files = $newDocument['files']; 
+                 unset($newDocument['files']); 
                  $data = $newDocument;
 
                  //$this->view->assign('debugData', $data);
