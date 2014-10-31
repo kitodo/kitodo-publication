@@ -41,10 +41,14 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * metsData
 	 *
-	 * @var  string
+	 * @var  DOMDocument
 	 */
 	protected $metsData = '';
 
+	/**
+	 * mods xml data
+	 * @var DOMDocument
+	 */
 	protected $modsData = '';
 
 	/**
@@ -53,6 +57,10 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $metsHeader = '';
 
+	/**
+	 * mods xml header
+	 * @var string
+	 */
 	protected $modsHeader = '';
 
 	/**
@@ -71,7 +79,26 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function __construct()
 	{
-		$this->buildMets();
+
+		// mets data beginning
+		$this->metsHeader = '<mets:mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    						xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink"
+    						xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">';
+
+    	// Mets structure end
+    	$this->metsHeader .= '</mets:mets>';
+
+
+
+    	$this->modsHeader = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    						xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
+    						xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
+    						version="3.5">';
+
+    	$this->modsHeader .= '</mods:mods>';
+
+    	$this->modsData = new \DOMDocument();
+    	$this->modsData->loadXML($this->modsHeader);
 
 		// Constructor
 		$this->sxe = new \SimpleXMLElement($this->metsHeader);
@@ -98,54 +125,45 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function buildMets()
 	{
-		// Try to build mets structure
+
+		// get mods domDocument
+		$modsWrap = $this->buildModsWrap();
+		// get mets filesection
+		$fileSection = $this->buildFileSection();
+		// get mets structuremap
+		$structureMap = $this->buildStructureMap();
+
+
+
+		$xmlData = $modsWrap->firstChild->firstChild->firstChild->firstChild;
+
+		// import mods into mets
+		$nodeAppendModsData = $modsWrap->importNode($this->modsData->firstChild, true);
+		$xmlData->appendChild($nodeAppendModsData);
+
+		// add filesection
+		$nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
+		$modsWrap->firstChild->appendChild($nodeAppendModsData);
+
+		// add structure map
+		$nodeAppendModsData = $modsWrap->importNode($structureMap->firstChild->firstChild, true);
+		$modsWrap->firstChild->appendChild($nodeAppendModsData);
+
+		$modsWrap->formatOutput = true;
+		$modsWrap->encoding = 'UTF-8';
+
+		print_r($modsWrap->saveXML());
+		return $modsWrap->saveXML();
 		
-		// mets data beginning
-		$this->metsHeader = '<mets:mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    						xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink"
-    						xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">';
-
-    	// Mets structure end
-    	$this->metsHeader .= '</mets:mets>';
-
-
-
-    	$this->modsHeader = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
-    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
-    version="3.5">';
-
-    	$this->modsHeader .= '</mods:mods>';
-
-    	$this->modsData = new \DOMDocument();
-    	$this->modsData->loadXML($this->modsHeader);
-
-    	// $this->metsData .= '<mets:dmdSec ID="DMD_000">
-     //    					<mets:mdWrap MDTYPE="MODS">
-     //        				  <mets:xmlData>';
-
-
-        // Put mods xml here
-
-
-        // $this->metsData .= '</mets:xmlData>
-        // 					</mets:mdWrap>
-    				// 		  </mets:dmdSec>';
-
-    	// Put file sec here
-    	// 
-    	// 
-    	
-
-    	// Put structMap here
-    	// 
-    	//
-
-
 
     	
 	}
 
+	/**
+	 * Wrapping xml with mods header
+	 * @param  [type] $xml [description]
+	 * @return [type]      [description]
+	 */
 	public function wrapMods($xml)
 	{
 		$newXML = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -201,12 +219,12 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
 	/**
-	 * [customXPath description]
+	 * Customized xPath parser
 	 * @param  [type] $xPath [description]
 	 * @param  SimpleXMLElement $sxe   SimpleXMLElement
 	 * @return [type]        [description]
 	 */
-	public function customXPath($xPath)
+	public function customXPath($xPath, $value = '')
 	{
 		// Explode xPath
 		$newPath = explode('#', $xPath);
@@ -225,10 +243,15 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		}
 
+		if(!empty($value)) {
+			$newPath[1] = $newPath[1].'="'.$value.'"';
+		}
+
 		$modsDataXPath = new \DOMXpath($this->modsData);
 
 		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
-			
+			// first xpath path exist
+
 			// build xml from second xpath part
 			$xml = $this->parseXPath($newPath[1]);
 
@@ -245,6 +268,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
 		} else {
+			// first xpath doesnt exist
 			
 			// parse first xpath part
 			$xml1 = $this->parseXPath($newPath[0]);
@@ -286,9 +310,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			return $doc1->saveXML();
 
 		}
-		// print_r($this->modsData->saveXML());
 		return $this->modsData->saveXML();
-		// print_r($newPath);
 	}
 
 
@@ -298,19 +320,33 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function buildModsWrap()
 	{
-		// Build wrap for mods
+		// Build wrap for mod
 		
-		$sxe = new \SimpleXMLElement($this->metsHeader);
+		$domDocument = new \DOMDocument();
+		$domDocument->loadXML($this->metsHeader);
 
-		$dmdSec = $sxe->addChild('dmdSec');
-		$dmdSec->addAttribute('ID', 'DMD_000');
+		$domElement = $domDocument->firstChild;
 
-		$mdWrap = $dmdSec->addChild('mdWrap');
-		$mdWrap->addAttribute('MDTYPE', 'MODS');
+		$dmdSec = $domDocument->createElement('mets:dmdSec', '');
+		$dmdSec->setAttribute('ID', 'DMD_000');
 
-		$xmlData = $mdWrap->addChild('xmlData');
+		$domElement->appendChild($dmdSec);
 
-		return $sxe;
+		// add mdWrap element
+		$mdWrap = $domDocument->createElement('mets:mdWrap');
+		$mdWrap->setAttribute('MDTYPE', 'MODS');
+
+		$domElement = $domElement->firstChild;
+		$domElement->appendChild($mdWrap);
+
+		//add xmlData element
+		$xmlData = $domDocument->createElement('mets:xmlData');
+
+		$domElement = $domElement->firstChild;
+		$domElement->appendChild($xmlData);
+
+
+		return $domDocument; 
 
 	}
 
@@ -321,13 +357,21 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function buildFileSection()
 	{
 		// Build xml Mets:fileSec
-		$sxe = new SimpleXMLElement($this->metsHeader);
-
-		// file section
-		$fileSec = $sxe->addChild('fileSec');
-
-		$fileGrp = $fileSec->addChild('fileGrp');
 		
+		$domDocument = new \DOMDocument();
+		$domDocument->loadXML($this->metsHeader);
+
+		$domElement = $domDocument->firstChild;
+
+		$fileSec = $domDocument->createElement('mets:fileSec');
+		$domElement->appendChild($fileSec);
+
+		$domElement = $domElement->firstChild;
+
+		$fileGrp = $domDocument->createElement('mets:fileGrp');
+		$domElement->appendChild($fileGrp);
+
+		$domElement = $domElement->firstChild;
 
 		$i = 0;
 		// set xml for uploded files
@@ -345,20 +389,26 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 			}
 
-			// set xml
-			$file = $fileGrp->addChild('file');
+			$file = $domDocument->createElement('mets:file');
+			$file->setAttribute('ID', 'FILE_'.$fileId);
+			$file->setAttribute('MIMETYPE', 'application/pdf');
+			$domElement->appendChild($file);
 
-			$file->addAttribute('ID', 'FILE_'.$fileId);
-			$file->addAttribute('MIMETYPE', 'application/pdf');
+			$domElementFLocat = $domElement->childNodes->item($i);
+			// print_r($domElement->childNodes->item(0));
 
-			$FLocat = $file->addChild('FLocat');
-			$FLocat->addAttribute('LOCTYPE', 'URL');
-			$FLocat->addAttribute('xlink:href', $value);
+			$fLocat = $domDocument->createElement('mets:FLocat');
+			$fLocat->setAttribute('LOCTYPE', 'URL');
+			$fLocat->setAttribute('xlink:href', $value);
+			$domElementFLocat->appendChild($fLocat);
+
 
 			$i++;
-		}		
+		}
 
-		return $sxe[0]->asXML();
+
+		return $domDocument;
+
 	}
 
 	/**
@@ -369,13 +419,22 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	{
 		// Build xml Mets:structMap
 		
-		$sxe = new SimpleXMLElement($this->metsHeader);
+		$domDocument = new \DOMDocument();
+		$domDocument->loadXML($this->metsHeader);
 
-		$structMap = $sxe->addChild('structMap');
-		$structMap->addAttribute('TYPE', 'LOGICAL');
+		$domElement = $domDocument->firstChild;
 
-		$div = $structMap->addChild('div');
-		$div->addAttribute('DMDID', 'DMD_000');
+		$structMap = $domDocument->createElement('mets:structMap');
+		$structMap->setAttribute('TYPE', 'LOGICAL');
+		$domElement->appendChild($structMap);
+
+		$domElement = $domElement->firstChild;
+
+		$div = $domDocument->createElement('mets:div');
+		$div->setAttribute('DMDID', 'DMD_000');
+		$domElement->appendChild($div);
+
+		$domElement = $domElement->firstChild;
 
 		$i = 0;
 		// set xml for uploded files
@@ -392,24 +451,18 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 				$fileId = '0'.$counter;
 
 			}
-
-			$fptr = $div->addChild('fptr');
-			$fptr->addAttribute('FILEID', 'FILE_'.$fileId);
+			
+			$fptr = $domDocument->createElement('mets:fptr');
+			$fptr->setAttribute('FILEID', 'FILE_'.$fileId);
+			$domElement->appendChild($fptr);
 
 			$i++;
 		}
 
-		var_dump($sxe->asXML());
+		return $domDocument;
+
 
 	}
-
-	// public function addXMLTag($xPath, $name, $value)
-	// {
-	// 	// Add XML Tag to the defined xpath
-	// 	$result = $this->sxe->xpath($xPath);
-	// 	$result[0]->addChild($name, $value);
-	// }
-
 
 	public function buildTestDataArray()
 	{
@@ -443,6 +496,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 		$this->formData = $post;
 
-		var_dump($post);
+		//var_dump($post);
 	}
+
 }
