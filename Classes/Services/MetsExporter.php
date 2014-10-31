@@ -152,7 +152,7 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$modsWrap->formatOutput = true;
 		$modsWrap->encoding = 'UTF-8';
 
-		print_r($modsWrap->saveXML());
+		// print_r($modsWrap->saveXML());
 		return $modsWrap->saveXML();
 		
 
