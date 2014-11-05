@@ -1,28 +1,26 @@
 
 <f:layout name="Default" />
 
-This template displays a NEW form for the current domain object.
+This template displays a EDIT form for the current domain object.
 
 If you modify this template, do not forget to change the overwrite settings
 in /Configuration/ExtensionBuilder/settings.yaml:
   Resources:
     Private:
       Templates:
-        New.html: keep
+        Edit.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Document Form</h1>
+<h1>Edit Document</h1>
 
 <f:flashMessages renderMode="div" />
 
-<f:debug title="Form" maxDepth="20">{form}</f:debug>
-  
+<f:render partial="FormErrors" arguments="{object:Document}" />
 
-   
-   
-
-
-
+<f:form action="update" name="document" object="{document}" >
+<f:render partial="Document/FormFields" arguments="{document:document}" />
+	<f:form.submit value="Save" />
+</f:form>
 </f:section>

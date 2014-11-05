@@ -53,6 +53,13 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $mandatory = FALSE;
 
+        /**
+	 * mapping
+	 *
+	 * @var string
+	 */
+	protected $mapping = '';
+        
 	/**
 	 * maxIteration
 	 *
@@ -154,6 +161,25 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             return $this->mandatory;
 	}
 
+        /**
+	 * Returns the mapping
+	 *
+	 * @return string $mapping
+	 */
+	public function getMapping() {
+		return $this->mapping;
+	}
+
+	/**
+	 * Sets the mapping
+	 *
+	 * @param string $mapping
+	 * @return void
+	 */
+	public function setMapping($mapping) {
+		$this->mapping = $mapping;
+	}
+        
 	/**
 	 * Returns the maxIteration
 	 *

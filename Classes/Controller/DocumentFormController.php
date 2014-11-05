@@ -28,9 +28,9 @@ namespace EWW\Dpf\Controller;
  ***************************************************************/
 
 /**
- * DocumentController
+ * DocumentFormController
  */
-class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * documentRepository
@@ -40,16 +40,6 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 */
 	protected $documentRepository = NULL;
 
-        
-        /**
-	 * documentTypeRepository
-	 *
-	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-	 * @inject
-	 */
-	protected $documentTypeRepository = NULL;
-
-        
 	/**
 	 * action list
 	 *
@@ -67,8 +57,7 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 * @return void
 	 */
 	public function showAction(\EWW\Dpf\Domain\Model\Document $document) {
-                                                          
-            $this->view->assign('document', $document);
+		$this->view->assign('document', $document);
 	}
 
 	/**
@@ -79,17 +68,7 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 * @return void
 	 */
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
-          
-                $documentType = $this->documentTypeRepository->findByUid(1);
-                $document = $this->documentRepository->findByUid(7);
-                
-                $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
-                $mapper->setDocument($document);
-                $this->view->assign('form', $mapper->getForm($documentType));
-          
-                //$this->view->assign('documentType', $documentType);		
-          
-		//$this->view->assign('newDocument', $newDocument);
+		$this->view->assign('newDocument', $newDocument);
 	}
 
 	/**

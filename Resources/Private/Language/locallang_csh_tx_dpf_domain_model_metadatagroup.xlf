@@ -12,6 +12,9 @@
 			<trans-unit id="mandatory.description">
 				<source>mandatory</source>
 			</trans-unit>
+                        <trans-unit id="mapping.description">
+				<source>mapping</source>
+			</trans-unit>
 			<trans-unit id="max_iteration.description">
 				<source>maxIteration</source>
 			</trans-unit>
