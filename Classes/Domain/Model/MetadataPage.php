@@ -176,4 +176,14 @@ class MetadataPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->metadataGroup = $metadataGroup;
 	}
 
+
+        /**
+         * Alias for function getMetadataGroup()
+         *
+ 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataGroup> $metadataGroup
+         */
+        public function getChildren() {
+           return $this->getMetadataGroup();
+        }
+
 }

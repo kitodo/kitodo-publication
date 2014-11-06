@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Helper;
 
-
 class DocumentFormMapper {
   
   protected $form = array();
@@ -16,161 +15,77 @@ class DocumentFormMapper {
     $this->xmlData = new \SimpleXMLElement($document->getXmlData());
   }      
   
-  public function getForm($node) { 
-    
-    $form = array( 
-        'uid' => $node->getUid(),
-        'name' => $node->getDisplayName(),
-        'children' => $this->getDocumentForm($node),
-    );    
-       
-    return $form;
-  }
-  
   public function getDocumentForm($node) {
-           
-    $children = array();
-    $type = NULL;
-               
-    switch (get_class($node)) {
-      
-      case 'EWW\Dpf\Domain\Model\DocumentType':
-        $children = $node->getMetadataPage();
-        $type = 'page';
+
+    $form['config']['uid'] = $node->getUid();
+    $form['config']['displayName'] = $node->getDisplayName();
+    $form['pages'] = $this->createDocumentForm($node);
        
-        break;
-      
-      case 'EWW\Dpf\Domain\Model\MetadataPage':
-        $children = $node->getMetadataGroup();  
-        $type = 'group';
-        break;
-      
-      case 'EWW\Dpf\Domain\Model\MetadataGroup':
-        $children = $node->getMetadataObject();        
-        $type = 'object';
-        break;
-        
-      case 'EWW\Dpf\Domain\Model\MetadataObject':                
-        break;      
-    }
-                     
-    foreach ($children as $child) {
-                                               
-      
-      if ($type == 'group') {
-        $fields = $this->getObjectData($child->getMetadataObject(),$child->getMapping());
-        $mapping = $child->getMapping();
-      }                
-      
-      $form[] = array(          
-          'uid' => $child->getUid(),
-          'name' => $child->getDisplayName(),
-          'children' => $this->getDocumentForm($child),
-          'fields' => $fields,
-          'mapping' => $mapping,
-      );
-                      
-    }                     
-    
     return $form;
-      
-    
-    
-  }               
-
-
-  public function getObjectData($objects,$groupMapping) {
-        
-    $groupXml = $this->xmlData->xpath($groupMapping);
-    
-    foreach ($groupXml as $xml) {
-                       
-      // Map xml data to the fields
-      foreach ($objects as $object) {
-      
-        $objectMapping = $object->getMapping();      
-      
-        preg_match("/^.*?[:|@](\w*?)(\[.*\]){0,1}$/", $objectMapping, $match);
-        $nodeName = $match[1];  
-                         
-        
-        if ($objectMapping) {
-        
-          $fieldsXml = $xml->xpath(trim($objectMapping,'/'));
-        
-               
-          
-          foreach ($fieldsXml as $fieldXml) {
-            
-                 echo "<pre>";
-          //var_dump(trim($objectMapping,'/'));
-          var_dump($fieldXml->asXML());
-          echo "</pre>";   
-       
-              
-            
-              $result[$object->getDisplayName()][] = $fieldXml->asXML(); 
-              
-            
-          }
-          
-        
-        } else {
-        
-        // Error: Missing mapping.
-        
-        }                  
-      }          
-    }  
-     die();
-    return $result;  
-    
   }
   
-  
-  public function getDocumentData($node) {
-           
-    $children = array();
-    $type = NULL;
-               
-    switch (get_class($node)) {
+  protected function createDocumentForm($node, \SimpleXMLElement $xmlData = NULL) {
       
-      case 'EWW\Dpf\Domain\Model\DocumentType':
-        $children = $node->getMetadataPage();
-        $type = 'page';
-       
-        break;
-      
-      case 'EWW\Dpf\Domain\Model\MetadataPage':
-        $children = $node->getMetadataGroup();  
-        $type = 'group';
-        break;
-      
-      case 'EWW\Dpf\Domain\Model\MetadataGroup':
-        $children = $node->getMetadataObject();        
-        $type = 'object';
-        break;
-        
-      case 'EWW\Dpf\Domain\Model\MetadataObject':                
-        break;      
-    }
-                     
-    foreach ($children as $child) {
-                                                                                                                     
-      
-                      
+    foreach ($node->getChildren() as $child) {
+
+      $item = array();
+      $field = array();
+
+      switch (get_class($child)) {
+
+        case 'EWW\Dpf\Domain\Model\MetadataGroup':
+          $item['uid'] = $child->getUid();
+          $item['displayName'] = $child->getDisplayName();
+          $item['mandatory'] = $child->getMandatory();
+
+          // Read the group data.
+          $xmlData = $this->xmlData->xpath($child->getMapping());
+
+          if ($xmlData) {
+            foreach ($xmlData as $key => $data) {
+             $item['items'][$key]['fields'] = $this->createDocumentForm($child, $data);
+            }
+          } else {
+            $item['items'][0]['fields'] = $this->createDocumentForm($child);
+          }
+          break;
+
+        case 'EWW\Dpf\Domain\Model\MetadataObject':         
+          $item['uid'] = $child->getUid();
+          $item['displayName'] = $child->getDisplayName();
+          $item['mandatory'] = $child->getMandatory();
+          $item['inputField'] = $child->getInputField();
+
+          $objectMapping = $child->getMapping();
+          $objectMapping = trim($objectMapping,'/');                    
+
+          if ($xmlData) {
+            $objectXml = $xmlData->xpath($objectMapping);
+            if ($objectXml) {
+              foreach ($objectXml as $key => $value) {
+                $item['items'][] = (string)$value;
+              }
+            } else {
+              $item['items'][] = NULL;
+            }
+          } else {
+            $item['items'][] = NULL;
+          }     
+          break;
+
+        default:
+          $item['config']['uid'] = $child->getUid();
+          $item['config']['displayName'] = $child->getDisplayName();
+          $item['groups'] = $this->createDocumentForm($child, $xmlData);
+          break;
+      }
+     
+      $form[] = $item;                          
     }                     
     
-    return $form;
-      
-    
-    
-  }               
-  
-  
+    return $form;              
+  }                 
   
 }
-
-
 
 ?>

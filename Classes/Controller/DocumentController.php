@@ -85,7 +85,7 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 $mapper->setDocument($document);
-                $this->view->assign('form', $mapper->getForm($documentType));
+                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType));
           
                 //$this->view->assign('documentType', $documentType);		
           

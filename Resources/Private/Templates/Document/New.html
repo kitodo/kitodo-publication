@@ -17,11 +17,73 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
-<f:debug title="Form" maxDepth="20">{form}</f:debug>
-  
+<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 
-   
-   
+
+<h2>{documentForm.config.displayName}</h2>
+<f:form action="create" name="newDocument" object="{newDocument}">
+  <f:form.hidden name="documentType" value="{basicForm.uid}" />
+
+    <ul class="tx-dpf-tabs">
+      <f:for each="{documentForm.children}" as="formPage" iteration="pageIterator">
+        <li><a href="#tab-{pageIterator.cycle}">{formPage.config.displayName}</a></li>
+      </f:for>
+      <li><a href="#tab-file-upload">Dateien</a></li>
+    </ul>
+
+    <div class="css-panes">
+
+      <f:for each="{documentForm.pages}" as="formPage" iteration="pageIterator">
+        <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.uid}">
+
+          <f:for each="{formPage.groups}" as="formGroup" iteration="groupIterator">
+
+            <f:for each="{formGroup.items}" as="groupItem" iteration="groupItemIterator">
+
+              <fieldset class="fs_group" data-group="{group.uid}">
+                <legend>{formGroup.displayName}</legend>
+
+                <f:for each="{groupItem.fields}" as="formField" iteration="fieldIterator">
+
+                  <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
+                    <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
+                    <f:switch expression="{formField.inputField}">
+                        <f:case value="0"><f:form.textfield name="newDocument[{fieldItem.fieldId}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="1"><f:form.textarea  name="newDocument[{fieldItem.fieldId}]" value="{fieldItem}" class="input-field" /></f:case>
+                    </f:switch>
+                  </f:for>
+                    
+                </f:for>
+              </fieldset>
+              
+              <f:if condition="{groupItemIterator.isLast}">                        
+                <input type="submit" value="{formGroup.displayName} hinzufügen" name="add_group" class="add_group" data-group="{formGroup.config.uid}"/>                        
+              </f:if>
+
+
+            </f:for>
+
+          </f:for>
+
+        </div>
+      </f:for>
+
+      <div id="tab-file-upload" class="fs_page">
+        <fieldset class="fs_file_group" data-group="file-upload">
+          <label>Volltextdokument (PDF-Datei)</label><span class="mandatory">*</span>
+          <f:form.upload property="files" />
+        </fieldset>
+        <input type="submit" value="Weitere Datei hinzufügen" name="add_group" class="add_group" data-group="file-upload"/>
+      </div>
+
+    </div>
+
+  <div class="form-submit">
+      <f:form.submit value="Speichern" name="save" id="save" />
+      <f:form.submit value="Speichern und fortsezen" name="savecontinue" id="savecontinue" />
+      <f:form.submit value="Abbrechen" name="cancel" id="cancel" />
+    </div>
+</f:form>
 
 
 

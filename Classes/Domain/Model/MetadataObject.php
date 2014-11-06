@@ -197,4 +197,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->inputField = $inputField;
 	}
 
+        /**
+         * Returns always NULL because an Object never has children.
+         *
+ 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject> $metadataObject
+         */
+        public function getChildren() {
+           return NULL;
+        }
+
 }

@@ -151,4 +151,13 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->metadataPage = $metadataPage;
 	}
 
+        /**
+         * Alias for function getMetadataPage()
+         *
+ 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
+         */
+        public function getChildren() {
+           return $this->getMetadataPage();
+        }
+
 }
