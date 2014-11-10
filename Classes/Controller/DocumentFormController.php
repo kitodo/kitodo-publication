@@ -39,6 +39,16 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @inject
 	 */
 	protected $documentRepository = NULL;
+        
+        
+        /**
+	 * documentTypeRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+	 * @inject
+	 */
+	protected $documentTypeRepository = NULL;        
+        
 
 	/**
 	 * action list
@@ -57,6 +67,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function showAction(\EWW\Dpf\Domain\Model\Document $document) {
+                                  
 		$this->view->assign('document', $document);
 	}
 
@@ -68,7 +79,15 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
-		$this->view->assign('newDocument', $newDocument);
+          
+                $documentType = $this->documentTypeRepository->findByUid(1);
+                $document = $this->documentRepository->findByUid(7);
+                
+                $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
+                $mapper->setDocument($document);
+                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType));          
+          
+		//$this->view->assign('newDocument', $newDocument);
 	}
 
 	/**

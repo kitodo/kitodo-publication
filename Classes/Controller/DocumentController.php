@@ -40,16 +40,7 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 */
 	protected $documentRepository = NULL;
 
-        
-        /**
-	 * documentTypeRepository
-	 *
-	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-	 * @inject
-	 */
-	protected $documentTypeRepository = NULL;
-
-        
+                        
 	/**
 	 * action list
 	 *
@@ -80,16 +71,7 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 */
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
           
-                $documentType = $this->documentTypeRepository->findByUid(1);
-                $document = $this->documentRepository->findByUid(7);
-                
-                $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
-                $mapper->setDocument($document);
-                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType));
-          
-                //$this->view->assign('documentType', $documentType);		
-          
-		//$this->view->assign('newDocument', $newDocument);
+		$this->view->assign('newDocument', $newDocument);
 	}
 
 	/**
