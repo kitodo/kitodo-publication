@@ -20,13 +20,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 
 
-<h2>{documentForm.config.displayName}</h2>
+<h2>{documentForm.displayName}</h2>
 <f:form action="create" name="newDocument" object="{newDocument}">
   <f:form.hidden name="documentType" value="{basicForm.uid}" />
 
     <ul class="tx-dpf-tabs">
       <f:for each="{documentForm.children}" as="formPage" iteration="pageIterator">
-        <li><a href="#tab-{pageIterator.cycle}">{formPage.config.displayName}</a></li>
+        <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>
       </f:for>
       <li><a href="#tab-file-upload">Dateien</a></li>
     </ul>
@@ -48,8 +48,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                   <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
                     <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
                     <f:switch expression="{formField.inputField}">
-                        <f:case value="0"><f:form.textfield name="newDocument[{fieldItem.fieldId}]" value="{fieldItem}" class="input-field" /></f:case>
-                        <f:case value="1"><f:form.textarea  name="newDocument[{fieldItem.fieldId}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="0"><f:form.textfield name="newDocument[{documentForm.uid}][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="1"><f:form.textarea  name="newDocument[{documentForm.uid}][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
                     </f:switch>
                   </f:for>
                     
@@ -57,7 +57,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
               </fieldset>
               
               <f:if condition="{groupItemIterator.isLast}">                        
-                <input type="submit" value="{formGroup.displayName} hinzufügen" name="add_group" class="add_group" data-group="{formGroup.config.uid}"/>                        
+                <input type="submit" value="{formGroup.displayName} hinzufügen" name="add_group" class="add_group" data-group="{formGroup.uid}"/>                        
               </f:if>
 
 
