@@ -2,35 +2,24 @@
 namespace EWW\Dpf\Helper;
 
 class DocumentFormMapper {
-  
-  //protected $form = array();
-  
-  //protected $document;
-  
-  //protected $xmlData;
-  
     
-  //public function setDocument($document) {    
-   // $this->document = $document;    
-   // $this->xmlData = new \SimpleXMLElement($document->getXmlData());
-  //}      
-  
-  public function getDocumentForm($node,$document) {
+  protected $flatFormData = array();
 
-    $form['uid'] = $node->getUid();
-    $form['displayName'] = $node->getDisplayName();
+
+  public function getDocumentForm($documentType,$document) {
+
+    $form['uid'] = $documentType->getUid();
+    $form['displayName'] = $documentType->getDisplayName();
     
-//     $this->document = $document;    
     $xmlData = new \SimpleXMLElement($document->getXmlData());
-
-//     var_dump($xmlData);die();
     
-    $form['pages'] = $this->createDocumentForm($node,$xmlData);
+    $form['pages'] = $this->readDocument($documentType,$xmlData);
        
     return $form;
   }
+
   
-  protected function createDocumentForm($node, \SimpleXMLElement $xmlData = NULL) {
+  protected function readDocument($node, $nodeData = NULL) {
       
     foreach ($node->getChildren() as $child) {
 
@@ -46,14 +35,14 @@ class DocumentFormMapper {
 
           // Read the group data.
           //$xmlData = $this->xmlData->xpath($child->getMapping());
-          $groupXmlData = $xmlData->xpath($child->getMapping());
-                    
-          if ($groupXmlData) {
-            foreach ($groupXmlData as $key => $data) {
-             $item['items'][$key]['fields'] = $this->createDocumentForm($child, $data);
+          $groupData = $nodeData->xpath($child->getMapping());
+          
+          if ($groupData) {
+            foreach ($groupData as $key => $data) {
+             $item['items'][$key]['fields'] = $this->readDocument($child, $data);
             }
           } else {
-            $item['items'][0]['fields'] = $this->createDocumentForm($child);
+            $item['items'][0]['fields'] = $this->readDocument($child);
           }
           break;
 
@@ -62,14 +51,15 @@ class DocumentFormMapper {
           $item['displayName'] = $child->getDisplayName();
           $item['mandatory'] = $child->getMandatory();
           $item['inputField'] = $child->getInputField();
-
-          $objectMapping = $child->getMapping();
-          $objectMapping = trim($objectMapping,'/');                    
-
-          if ($xmlData) {
-            $objectXml = $xmlData->xpath($objectMapping);
-            if ($objectXml) {
-              foreach ($objectXml as $key => $value) {
+                      
+          if ($nodeData) {
+                
+              $objectMapping = $child->getMapping();
+              $objectMapping = trim($objectMapping,'/');
+              $objectData = $nodeData->xpath($objectMapping);
+            
+            if ($objectData) {
+              foreach ($objectData as $key => $value) {
                 $item['items'][] = (string)$value;
               }
             } else {
@@ -83,7 +73,7 @@ class DocumentFormMapper {
         default:
           $item['uid'] = $child->getUid();
           $item['displayName'] = $child->getDisplayName();
-          $item['groups'] = $this->createDocumentForm($child, $xmlData);
+          $item['groups'] = $this->readDocument($child, $nodeData);
           break;
       }
      
@@ -92,83 +82,63 @@ class DocumentFormMapper {
     
     return $form;              
   }                 
- 
-  
-  public function getDocumentFormByFormData($node, array $formData = NULL) {
 
-    $form['uid'] = $node->getUid();            
-    $form['displayName'] = $node->getDisplayName();
+
+  public function getDocumentData($documentType, $formData) {
+
+    $this->flatFormData = array();
+
+    $this->readFormData($documentType, $formData['metadata']);
     
-//    $xmlData = new \SimpleXMLElement($document->getXmlData());
-    
-//    $pages = array_shift($formData);
-        
-    $form['pages'] = $this->createDocumentForm($node,$xmlData);
-       
-    return $form;  
+    $data['metadata'] = $this->flatFormData;
+    $data['files'] = $formData['files'];
+
+    return $data;
   }
-  
-  protected function createDocumentFormByFormData($node, array $formData = NULL) {
+
+
+  public function readFormData($node, $nodeData, $key=NULL, $mapping=NULL) {
       
     foreach ($node->getChildren() as $child) {
-
+      
       $item = array();
-      $field = array();
-
+      
       switch (get_class($child)) {
 
         case 'EWW\Dpf\Domain\Model\MetadataGroup':
-          $item['uid'] = $child->getUid();
-          $item['displayName'] = $child->getDisplayName();
-          $item['mandatory'] = $child->getMandatory();
-
-          // Read the group data.
-          $xmlData = $this->xmlData->xpath($child->getMapping());
-
-          if ($xmlData) {
-            foreach ($xmlData as $key => $data) {
-             $item['items'][$key]['fields'] = $this->createDocumentForm($child, $data);
-            }
-          } else {
-            $item['items'][0]['fields'] = $this->createDocumentForm($child);
-          }
+          $groupKey = $key ."-g" . $child->getUid();
+          $mapping =  "/" .  trim($child->getMapping()," /");
+          
+          $uid = $child->getUid();        
+          $groupData = $nodeData['g'][$uid];
+          foreach ($groupData as $index => $group) {
+            $this->readFormData($child, $group, $groupKey."-".$index,$mapping);
+          }         
           break;
 
-        case 'EWW\Dpf\Domain\Model\MetadataObject':         
-          $item['uid'] = $child->getUid();
-          $item['displayName'] = $child->getDisplayName();
-          $item['mandatory'] = $child->getMandatory();
-          $item['inputField'] = $child->getInputField();
+        case 'EWW\Dpf\Domain\Model\MetadataObject':
+          $fieldKey = $key . "-f" . $child->getUid();
+          $fieldMapping = $mapping. "/". trim($child->getMapping()," /");
 
-          $objectMapping = $child->getMapping();
-          $objectMapping = trim($objectMapping,'/');                    
-
-          if ($xmlData) {
-            $objectXml = $xmlData->xpath($objectMapping);
-            if ($objectXml) {
-              foreach ($objectXml as $key => $value) {
-                $item['items'][] = (string)$value;
-              }
-            } else {
-              $item['items'][] = NULL;
-            }
-          } else {
-            $item['items'][] = NULL;
-          }     
+          $uid = $child->getUid();         
+          $fieldData = $nodeData['f'][$uid];
+          foreach ($fieldData as $index => $value) {
+            $item['mapping'] = $fieldMapping;
+            $item['value'] = $value;
+            $this->flatFormData[$fieldKey."-".$index] = $item;
+          }         
           break;
 
         default:
-          $item['config']['uid'] = $child->getUid();
-          $item['config']['displayName'] = $child->getDisplayName();
-          $item['groups'] = $this->createDocumentForm($child, $xmlData);
+          $data = $nodeData['p'][$child->getUid()];
+          $this->readFormData($child, $data, "p".$child->getUid());
           break;
       }
      
-      $form[] = $item;                          
-    }                     
-    
-    return $form;              
-  }                 
+    }
+  }
+
+
   
 }
 

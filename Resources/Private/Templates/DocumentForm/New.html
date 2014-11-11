@@ -22,7 +22,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <h2>{documentForm.displayName}</h2>
 <f:form action="create" name="newDocument" object="{newDocument}">
-  <f:form.hidden name="documentType" value="{basicForm.uid}" />
+  <f:form.hidden name="newDocument[type]" value="{documentForm.uid}" />
 
     <ul class="tx-dpf-tabs">
       <f:for each="{documentForm.children}" as="formPage" iteration="pageIterator">
@@ -48,8 +48,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                   <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
                     <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
                     <f:switch expression="{formField.inputField}">
-                        <f:case value="0"><f:form.textfield name="newDocument[{documentForm.uid}][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
-                        <f:case value="1"><f:form.textarea  name="newDocument[{documentForm.uid}][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="0"><f:form.textfield name="newDocument[metadata][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="1"><f:form.textarea  name="newDocument[metadata][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
                     </f:switch>
                   </f:for>
                     
