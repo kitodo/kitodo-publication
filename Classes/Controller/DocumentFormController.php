@@ -82,7 +82,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
           
                 $documentType = $this->documentTypeRepository->findByUid(1);
                 $document = $this->documentRepository->findByUid(7);
-                
+               
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 //$mapper->setDocument($document);
                 $this->view->assign('documentForm', $mapper->getDocumentForm($documentType,$document));          

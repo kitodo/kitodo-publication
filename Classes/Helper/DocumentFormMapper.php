@@ -22,7 +22,8 @@ class DocumentFormMapper {
     
 //     $this->document = $document;    
     $xmlData = new \SimpleXMLElement($document->getXmlData());
-    
+
+//     var_dump($xmlData);die();
     
     $form['pages'] = $this->createDocumentForm($node,$xmlData);
        
@@ -45,11 +46,10 @@ class DocumentFormMapper {
 
           // Read the group data.
           //$xmlData = $this->xmlData->xpath($child->getMapping());
-          $xmlData = $xmlData->xpath($child->getMapping());
-
-          
-          if ($xmlData) {
-            foreach ($xmlData as $key => $data) {
+          $groupXmlData = $xmlData->xpath($child->getMapping());
+                    
+          if ($groupXmlData) {
+            foreach ($groupXmlData as $key => $data) {
              $item['items'][$key]['fields'] = $this->createDocumentForm($child, $data);
             }
           } else {
