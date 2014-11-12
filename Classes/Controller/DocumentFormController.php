@@ -110,11 +110,31 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $newDocument = $mapper->getDocumentData($documentType,$newDocument);
 
+                foreach ($newDocument['files'] as $tmpFile ) {
+                                                      
+                  $path = "uploads/tx_dpf";
+                  $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
+                  
+                  if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
+                     $file['type'] = $mimeType = $tmpFile['type'];  
+                     $file['path'] = $fileName;
+                  
+                     $files[] = $file;
+                     
+                  }
+                                                                       
+                }
+                
+                $newDocument['files'] = $files;
+                
+                
                 $exporter = new \EWW\Dpf\Services\MetsExporter();                
                 $exporter->buildModsFromForm($newDocument);
                 
                 $newDocument = $exporter->getMetsData();
 	                
+                
+                
                 $this->view->assign('newDocument', $newDocument);
                 
                 //  $this->redirect('list');

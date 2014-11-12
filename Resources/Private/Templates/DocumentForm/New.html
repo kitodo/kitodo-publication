@@ -21,7 +21,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <h2>{documentForm.displayName}</h2>
-<f:form action="create" name="newDocument" object="{newDocument}">
+<f:form action="create" name="newDocument" object="{newDocument}" enctype="multipart/form-data">
   <f:form.hidden name="newDocument[type]" value="{documentForm.uid}" />
 
     <ul class="tx-dpf-tabs">
@@ -72,7 +72,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <div id="tab-file-upload" class="fs_page">
         <fieldset class="fs_file_group" data-group="file-upload">
           <label>Volltextdokument (PDF-Datei)</label><span class="mandatory">*</span>
-          <f:form.upload property="files" />
+          <f:form.upload property="files.0" />
         </fieldset>
         <input type="submit" value="Weitere Datei hinzufügen" name="add_group" class="add_group" data-group="file-upload"/>
       </div>
