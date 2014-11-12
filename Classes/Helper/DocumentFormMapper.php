@@ -3,9 +3,6 @@ namespace EWW\Dpf\Helper;
 
 class DocumentFormMapper {
     
-  protected $flatFormData = array();
-
-
   public function getDocumentForm($documentType,$document) {
 
     $form['uid'] = $documentType->getUid();
@@ -85,57 +82,77 @@ class DocumentFormMapper {
 
 
   public function getDocumentData($documentType, $formData) {
+        
+    $data['metadata'] = $this->readFormData($documentType, $formData['metadata']);
 
-    $this->flatFormData = array();
-
-    $this->readFormData($documentType, $formData['metadata']);
-    
-    $data['metadata'] = $this->flatFormData;
     $data['files'] = $formData['files'];
 
     return $data;
   }
 
 
-  public function readFormData($node, $nodeData, $key=NULL, $mapping=NULL) {
-      
+  public function readFormData($node, $nodeData) {
+    
+    $form = array();
+    
     foreach ($node->getChildren() as $child) {
       
       $item = array();
+      $field = array();
       
       switch (get_class($child)) {
 
-        case 'EWW\Dpf\Domain\Model\MetadataGroup':
-          $groupKey = $key ."-g" . $child->getUid();
-          $mapping =  "/" .  trim($child->getMapping()," /");
+        case 'EWW\Dpf\Domain\Model\MetadataGroup': 
           
+          $groupMapping =  "/" .  trim($child->getMapping()," /");          
           $uid = $child->getUid();        
           $groupData = $nodeData['g'][$uid];
+          
           foreach ($groupData as $index => $group) {
-            $this->readFormData($child, $group, $groupKey."-".$index,$mapping);
+            $item = $this->readFormData($child, $group);            
+            $item['mapping'] = $groupMapping;
+            $form[] = $item; 
           }         
+          
           break;
 
-        case 'EWW\Dpf\Domain\Model\MetadataObject':
-          $fieldKey = $key . "-f" . $child->getUid();
-          $fieldMapping = $mapping. "/". trim($child->getMapping()," /");
-
+        case 'EWW\Dpf\Domain\Model\MetadataObject':          
+          
+          $fieldMapping = trim($child->getMapping()," /");                                                 
+            
           $uid = $child->getUid();         
           $fieldData = $nodeData['f'][$uid];
+                                                
           foreach ($fieldData as $index => $value) {
-            $item['mapping'] = $fieldMapping;
-            $item['value'] = $value;
-            $this->flatFormData[$fieldKey."-".$index] = $item;
-          }         
-          break;
-
+            $field['mapping'] = $fieldMapping;
+            $field['value'] = $value;                                             
+                                  
+            if ( strpos($fieldMapping, "@") === 0) {
+              $form['attributes'][] = $field;                     
+            } else {
+              $form['values'][] = $field;
+            }
+            
+            if (!key_exists('attributes', $form)) $form['attributes'] = array();
+            if (!key_exists('values', $form)) $form['values'] = array();            
+           
+          }                                    
+          break;          
+        
         default:
           $data = $nodeData['p'][$child->getUid()];
-          $this->readFormData($child, $data, "p".$child->getUid());
+          
+          $items = $this->readFormData($child, $data);   
+          
+          foreach ($items as $item) {            
+            $form[] = $item;            
+          }                    
           break;
-      }
-     
+      }     
+             
     }
+   
+     return $form;        
   }
 
 
