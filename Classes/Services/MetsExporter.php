@@ -29,7 +29,7 @@ namespace EWW\Dpf\Services;
 /**
  * MetsExporter
  */
-class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class MetsExporter {
 
 	/**
 	 * formData
@@ -176,13 +176,17 @@ class MetsExporter extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
     	return $newXML;
 	}
-
-	public function buildModsFromForm()
+        
+        /**
+         * 
+         * @param array $array
+         */
+	public function buildModsFromForm($array)
 	{
 		// Build xml mods from form fields
 		// print_r($this->formData);
 
-		$this->walkFormDataRecursive($this->formData);
+		$this->walkFormDataRecursive($array);
 
 	}
 

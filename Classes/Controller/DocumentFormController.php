@@ -110,7 +110,11 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $newDocument = $mapper->getDocumentData($documentType,$newDocument);
 
-
+                $exporter = new \EWW\Dpf\Services\MetsExporter();                
+                $exporter->buildModsFromForm($newDocument);
+                
+                $newDocument = $exporter->getMetsData();
+	                
                 $this->view->assign('newDocument', $newDocument);
                 
                 //  $this->redirect('list');
