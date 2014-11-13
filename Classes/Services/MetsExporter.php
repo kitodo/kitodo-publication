@@ -115,7 +115,6 @@ class MetsExporter {
 	 */
 	public function getMetsData()
 	{
-		var_dump($this->metsData);
 		return $this->metsData->saveXML();
 	}
 
@@ -161,6 +160,8 @@ class MetsExporter {
 
 		$modsWrap->formatOutput = true;
 		$modsWrap->encoding = 'UTF-8';
+
+		$this->metsData = $modsWrap;
 
 		// print_r($modsWrap->saveXML());
 		return $modsWrap->saveXML();
