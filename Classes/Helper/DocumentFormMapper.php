@@ -2,21 +2,41 @@
 namespace EWW\Dpf\Helper;
 
 class DocumentFormMapper {
+  
+  
+  protected $domXpath;
     
   public function getDocumentForm($documentType,$document) {
 
     $form['uid'] = $documentType->getUid();
     $form['displayName'] = $documentType->getDisplayName();
     
-    $xmlData = new \SimpleXMLElement($document->getXmlData());
+    //$metsData = new \SimpleXMLElement($document->getXmlData());        
+    //$modsData = $metsData->xpath("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+
+    // Get the mods data
+    $metsDom = new \DOMDocument();
+    $metsDom->loadXML($document->getXmlData());
+    $metsXpath = new \DOMXPath($metsDom);  
+    $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+    $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+                   
+    $dom = new \DOMDocument();
+            
+    if ($modsNodes->length == 1) {      
+      $dom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+    } else {
+     $dom->loadXML("");      
+    } 
+      
+    $this->domXpath = new \DOMXPath($dom);     
+    $form['pages'] = $this->readDocument($documentType);
     
-    $form['pages'] = $this->readDocument($documentType,$xmlData);
-       
     return $form;
   }
 
   
-  protected function readDocument($node, $nodeData = NULL) {
+  protected function readDocument($node, \DOMNode $nodeData = NULL) {
       
     foreach ($node->getChildren() as $child) {
 
@@ -30,13 +50,12 @@ class DocumentFormMapper {
           $item['displayName'] = $child->getDisplayName();
           $item['mandatory'] = $child->getMandatory();
 
-          // Read the group data.
-          //$xmlData = $this->xmlData->xpath($child->getMapping());
-          $groupData = $nodeData->xpath($child->getMapping());
+          // Read the group data.                                     
+          $groupData = $this->domXpath->query($child->getMapping());                                     
           
-          if ($groupData) {
+          if ($groupData->length > 0) {
             foreach ($groupData as $key => $data) {
-             $item['items'][$key]['fields'] = $this->readDocument($child, $data);
+              $item['items'][$key]['fields'] = $this->readDocument($child, $data);
             }
           } else {
             $item['items'][0]['fields'] = $this->readDocument($child);
@@ -52,12 +71,12 @@ class DocumentFormMapper {
           if ($nodeData) {
                 
               $objectMapping = $child->getMapping();
-              $objectMapping = trim($objectMapping,'/');
-              $objectData = $nodeData->xpath($objectMapping);
-            
+              $objectMapping = trim($objectMapping,'/');                                                     
+              $objectData = $this->domXpath->query($objectMapping,$nodeData);              
+                                       
             if ($objectData) {
               foreach ($objectData as $key => $value) {
-                $item['items'][] = (string)$value;
+                $item['items'][] = $value->nodeValue;
               }
             } else {
               $item['items'][] = NULL;

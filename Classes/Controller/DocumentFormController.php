@@ -81,7 +81,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
           
                 $documentType = $this->documentTypeRepository->findByUid(1);
-                $document = $this->documentRepository->findByUid(7);
+                $document = $this->documentRepository->findByUid(28);
                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 //$mapper->setDocument($document);
@@ -131,8 +131,12 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $exporter = new \EWW\Dpf\Services\MetsExporter();                
                 $exporter->buildModsFromForm($newDocument);
                 
-                $newDocument = $exporter->getMetsData();
-	                
+                $newDocument1 = $exporter->getMetsData();
+	        
+                $newDoc = new \EWW\Dpf\Domain\Model\Document();
+                $newDoc->setXmlData($newDocument1);                
+                
+                $this->documentRepository->add($newDoc);
                 
                 
                 $this->view->assign('newDocument', $newDocument);
