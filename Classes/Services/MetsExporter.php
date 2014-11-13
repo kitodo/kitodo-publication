@@ -115,6 +115,7 @@ class MetsExporter {
 	 */
 	public function getMetsData()
 	{
+		var_dump($this->metsData);
 		return $this->metsData->saveXML();
 	}
 
@@ -218,6 +219,7 @@ class MetsExporter {
 			}
 
 		}
+		$this->buildMets();
 
 
 	}
