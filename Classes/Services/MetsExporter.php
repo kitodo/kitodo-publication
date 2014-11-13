@@ -115,7 +115,16 @@ class MetsExporter {
 	 */
 	public function getMetsData()
 	{
-		return $this->metsData;
+		return $this->metsData->saveXML();
+	}
+
+	/**
+	 * returns the mods xml string
+	 * @return string mods xml
+	 */
+	public function getModsData()
+	{
+		return $this->modsData->saveXML();
 	}
 
 
@@ -186,7 +195,30 @@ class MetsExporter {
 		// Build xml mods from form fields
 		// print_r($this->formData);
 
-		$this->walkFormDataRecursive($array);
+		// $this->walkFormDataRecursive($array);
+
+		foreach($array['metadata'] as $key => $group) {
+			//groups
+
+			$mapping = $group['mapping'];
+			$mapping = substr($mapping, 10);
+
+			$values = $group['values'];
+			$attributes = $group['attributes'];
+
+			$attributeXPath = '';
+			foreach($attributes as $attribute) {
+				$attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+			}
+
+			foreach($values as $value){
+				$path = $mapping.$attributeXPath.'#/'.$value['mapping'];
+				// print_r($path);print_r("\n");
+				$xml = $this->customXPath($path, $value['value']);
+			}
+
+		}
+
 
 	}
 
@@ -196,29 +228,6 @@ class MetsExporter {
 		$xml = $this->parser->parse($xPath);
 
 		return $xml;
-	}
-
-	/**
-	 * Walks the form data array recursive to build mods xml
-	 * @param  array $array   Array from form
-	 * @param  string $lastKey Last key from node
-	 * @return [type]          [description]
-	 */
-	public function walkFormDataRecursive($array, $lastKey = '')
-	{
-		foreach ($array as $key => $value) {
-			if(is_array($value)){
-				$this->walkFormDataRecursive($value, $key);
-			} else {
-				if($lastKey != 'files'){
-					// $key == metadataObjectId
-					// get object
-					// get xpath and try to build mods xml
-					print_r($key);
-					print_r($value);
-				}
-			}	
-		}
 	}
 
 
@@ -238,7 +247,15 @@ class MetsExporter {
 		if(count($explodedXPath) > 1) {
 
 			// praedicate is given
-			$path = $explodedXPath[0]; 
+			// $path = $explodedXPath[0]; 
+			// $path = $newPath[0]; // TODO unterscheidung attribut und pfad innerhalb eines prädikats
+			
+			if(substr($explodedXPath[1], 0, 1) == "@" ) {
+				$path = $newPath[0];
+			} else {
+				$path = $explodedXPath[0];
+			}
+
 			$praedicateFlag = true;
 
 		} else {
@@ -273,9 +290,9 @@ class MetsExporter {
 
 		} else {
 			// first xpath doesnt exist
-			
 			// parse first xpath part
 			$xml1 = $this->parseXPath($newPath[0]);
+
 
 			$doc1 = new \DOMDocument();
 			$doc1->loadXML($this->wrapMods($xml1));

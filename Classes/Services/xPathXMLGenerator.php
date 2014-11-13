@@ -35,7 +35,7 @@ require_once 'parser/vendor/autoload.php';
 /**
  * xPathXMLGenerator
  */
-class xPathXMLGenerator extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class xPathXMLGenerator {
 
 
 	public function parse($xPath)

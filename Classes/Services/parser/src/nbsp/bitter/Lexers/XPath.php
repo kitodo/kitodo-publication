@@ -24,7 +24,7 @@
 		 */
 		public function parse(Input $in, Output $out) {
 			#$out->startLine();
-			$out->startToken('mods:mods');
+			#$out->startToken('mods:mods');
 
 			// Begin parsing:
 			Lexer::loop($in, $out, $this->tokens());
