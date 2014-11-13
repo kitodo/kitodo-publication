@@ -39,6 +39,12 @@ class MetsExporter {
 	protected $formData = array();
 
 	/**
+	 * files from form
+	 * @var array
+	 */
+	protected $files = array();
+
+	/**
 	 * metsData
 	 *
 	 * @var  DOMDocument
@@ -164,7 +170,7 @@ class MetsExporter {
 		$this->metsData = $modsWrap;
 
 		// print_r($modsWrap->saveXML());
-		return $modsWrap->saveXML();
+		// return $modsWrap->saveXML();
 		
 
     	
@@ -195,13 +201,8 @@ class MetsExporter {
 	public function buildModsFromForm($array)
 	{
 		// Build xml mods from form fields
-		// print_r($this->formData);
-
-		// $this->walkFormDataRecursive($array);
-
 		foreach($array['metadata'] as $key => $group) {
 			//groups
-
 			$mapping = $group['mapping'];
 			$mapping = substr($mapping, 10);
 
@@ -220,8 +221,8 @@ class MetsExporter {
 			}
 
 		}
+		$this->files = $array['files'];
 		$this->buildMets();
-
 
 	}
 
@@ -399,7 +400,7 @@ class MetsExporter {
 
 		$i = 0;
 		// set xml for uploded files
-		foreach ($this->formData[0]['files'] as $key => $value) {
+		foreach ($this->files as $key => $value) {
 			// convert counter to string (FILE_000)
 			$counter = (string) $i;
 			
@@ -415,7 +416,7 @@ class MetsExporter {
 
 			$file = $domDocument->createElement('mets:file');
 			$file->setAttribute('ID', 'FILE_'.$fileId);
-			$file->setAttribute('MIMETYPE', 'application/pdf');
+			$file->setAttribute('MIMETYPE', $value['type']);
 			$domElement->appendChild($file);
 
 			$domElementFLocat = $domElement->childNodes->item($i);
@@ -423,7 +424,7 @@ class MetsExporter {
 
 			$fLocat = $domDocument->createElement('mets:FLocat');
 			$fLocat->setAttribute('LOCTYPE', 'URL');
-			$fLocat->setAttribute('xlink:href', $value);
+			$fLocat->setAttribute('xlink:href', $value['path']);
 			$domElementFLocat->appendChild($fLocat);
 
 
@@ -462,7 +463,7 @@ class MetsExporter {
 
 		$i = 0;
 		// set xml for uploded files
-		foreach ($this->formData[0]['files'] as $key => $value) {
+		foreach ($this->files as $key => $value) {
 			// convert counter to string (FILE_000)
 			$counter = (string) $i;
 			
