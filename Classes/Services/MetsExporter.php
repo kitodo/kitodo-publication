@@ -178,8 +178,8 @@ class MetsExporter {
 
 	/**
 	 * Wrapping xml with mods header
-	 * @param  [type] $xml [description]
-	 * @return [type]      [description]
+	 * @param  xml $xml xml data which should be wrapped with mods
+	 * @return  xml      wrapped xml
 	 */
 	public function wrapMods($xml)
 	{
@@ -194,10 +194,10 @@ class MetsExporter {
     	return $newXML;
 	}
         
-        /**
-         * 
-         * @param array $array
-         */
+    /**
+     * build mods from form array
+     * @param  array $array structured form data array
+     */
 	public function buildModsFromForm($array)
 	{
 		// Build xml mods from form fields
@@ -226,6 +226,11 @@ class MetsExporter {
 
 	}
 
+	/**
+	 * get xml from xpath
+	 * @param  xpath $xPath xPath expression
+	 * @return xml        
+	 */
 	public function parseXPath($xPath)
 	{
 		//
@@ -237,9 +242,9 @@ class MetsExporter {
 
 	/**
 	 * Customized xPath parser
-	 * @param  [type] $xPath [description]
-	 * @param  SimpleXMLElement $sxe   SimpleXMLElement
-	 * @return [type]        [description]
+	 * @param  xpath $xPath xpath expression
+	 * @param  string $value   form value
+	 * @return xml        created xml
 	 */
 	public function customXPath($xPath, $value = '')
 	{
@@ -251,12 +256,11 @@ class MetsExporter {
 		if(count($explodedXPath) > 1) {
 
 			// praedicate is given
-			// $path = $explodedXPath[0]; 
-			// $path = $newPath[0]; // TODO unterscheidung attribut und pfad innerhalb eines prädikats
-			
 			if(substr($explodedXPath[1], 0, 1) == "@" ) {
+				// attribute
 				$path = $newPath[0];
 			} else {
+				// path
 				$path = $explodedXPath[0];
 			}
 
@@ -376,152 +380,120 @@ class MetsExporter {
 	}
 
 	/**
-	 * Builds the xml fileSection part
+	 * Builds the xml fileSection part if files are uploaded
 	 * @return xml
 	 */
 	public function buildFileSection()
 	{
 		// Build xml Mets:fileSec
 		
-		$domDocument = new \DOMDocument();
-		$domDocument->loadXML($this->metsHeader);
+		if(count($this->files) > 0) {
 
-		$domElement = $domDocument->firstChild;
+			$domDocument = new \DOMDocument();
+			$domDocument->loadXML($this->metsHeader);
 
-		$fileSec = $domDocument->createElement('mets:fileSec');
-		$domElement->appendChild($fileSec);
+			$domElement = $domDocument->firstChild;
 
-		$domElement = $domElement->firstChild;
+			$fileSec = $domDocument->createElement('mets:fileSec');
+			$domElement->appendChild($fileSec);
 
-		$fileGrp = $domDocument->createElement('mets:fileGrp');
-		$domElement->appendChild($fileGrp);
+			$domElement = $domElement->firstChild;
 
-		$domElement = $domElement->firstChild;
+			$fileGrp = $domDocument->createElement('mets:fileGrp');
+			$domElement->appendChild($fileGrp);
 
-		$i = 0;
-		// set xml for uploded files
-		foreach ($this->files as $key => $value) {
-			// convert counter to string (FILE_000)
-			$counter = (string) $i;
-			
-			if(strlen($counter) == 1){
+			$domElement = $domElement->firstChild;
 
-				$fileId = '00'.$counter;
+			$i = 0;
+			// set xml for uploded files
+			foreach ($this->files as $key => $value) {
+				// convert counter to string (FILE_000)
+				$counter = (string) $i;
+				
+				if(strlen($counter) == 1){
 
-			} else if(strlen($counter) == 2){
+					$fileId = '00'.$counter;
 
-				$fileId = '0'.$counter;
+				} else if(strlen($counter) == 2){
 
+					$fileId = '0'.$counter;
+
+				}
+
+				$file = $domDocument->createElement('mets:file');
+				$file->setAttribute('ID', 'FILE_'.$fileId);
+				$file->setAttribute('MIMETYPE', $value['type']);
+				$domElement->appendChild($file);
+
+				$domElementFLocat = $domElement->childNodes->item($i);
+				// print_r($domElement->childNodes->item(0));
+
+				$fLocat = $domDocument->createElement('mets:FLocat');
+				$fLocat->setAttribute('LOCTYPE', 'URL');
+				$fLocat->setAttribute('xlink:href', $value['path']);
+				$domElementFLocat->appendChild($fLocat);
+
+
+				$i++;
 			}
 
-			$file = $domDocument->createElement('mets:file');
-			$file->setAttribute('ID', 'FILE_'.$fileId);
-			$file->setAttribute('MIMETYPE', $value['type']);
-			$domElement->appendChild($file);
-
-			$domElementFLocat = $domElement->childNodes->item($i);
-			// print_r($domElement->childNodes->item(0));
-
-			$fLocat = $domDocument->createElement('mets:FLocat');
-			$fLocat->setAttribute('LOCTYPE', 'URL');
-			$fLocat->setAttribute('xlink:href', $value['path']);
-			$domElementFLocat->appendChild($fLocat);
-
-
-			$i++;
+			return $domDocument;
 		}
-
-
-		return $domDocument;
 
 	}
 
 	/**
-	 * Builds the xml structMap part
+	 * Builds the xml structMap part if files are uploaded
 	 * @return xml
 	 */
 	public function buildStructureMap()
 	{
-		// Build xml Mets:structMap
-		
-		$domDocument = new \DOMDocument();
-		$domDocument->loadXML($this->metsHeader);
-
-		$domElement = $domDocument->firstChild;
-
-		$structMap = $domDocument->createElement('mets:structMap');
-		$structMap->setAttribute('TYPE', 'LOGICAL');
-		$domElement->appendChild($structMap);
-
-		$domElement = $domElement->firstChild;
-
-		$div = $domDocument->createElement('mets:div');
-		$div->setAttribute('DMDID', 'DMD_000');
-		$domElement->appendChild($div);
-
-		$domElement = $domElement->firstChild;
-
-		$i = 0;
-		// set xml for uploded files
-		foreach ($this->files as $key => $value) {
-			// convert counter to string (FILE_000)
-			$counter = (string) $i;
+		if(count($this->files) > 0) {
+			// Build xml Mets:structMap
 			
-			if(strlen($counter) == 1){
+			$domDocument = new \DOMDocument();
+			$domDocument->loadXML($this->metsHeader);
 
-				$fileId = '00'.$counter;
+			$domElement = $domDocument->firstChild;
 
-			} else if(strlen($counter) == 2){
+			$structMap = $domDocument->createElement('mets:structMap');
+			$structMap->setAttribute('TYPE', 'LOGICAL');
+			$domElement->appendChild($structMap);
 
-				$fileId = '0'.$counter;
+			$domElement = $domElement->firstChild;
 
+			$div = $domDocument->createElement('mets:div');
+			$div->setAttribute('DMDID', 'DMD_000');
+			$domElement->appendChild($div);
+
+			$domElement = $domElement->firstChild;
+
+			$i = 0;
+			// set xml for uploded files
+			foreach ($this->files as $key => $value) {
+				// convert counter to string (FILE_000)
+				$counter = (string) $i;
+				
+				if(strlen($counter) == 1){
+
+					$fileId = '00'.$counter;
+
+				} else if(strlen($counter) == 2){
+
+					$fileId = '0'.$counter;
+
+				}
+				
+				$fptr = $domDocument->createElement('mets:fptr');
+				$fptr->setAttribute('FILEID', 'FILE_'.$fileId);
+				$domElement->appendChild($fptr);
+
+				$i++;
 			}
-			
-			$fptr = $domDocument->createElement('mets:fptr');
-			$fptr->setAttribute('FILEID', 'FILE_'.$fileId);
-			$domElement->appendChild($fptr);
 
-			$i++;
+			return $domDocument;
 		}
 
-		return $domDocument;
-
-
-	}
-
-	public function buildTestDataArray()
-	{
-		// build test data array
-		
-		$post = array();
-
-		// title example
-		$fields['12'] = 'TitelXY';
-		$fields['13'] = 'SubTitelXY';
-		$group['titleInfo'] = $fields;
-
-
-		$fields2['14'] = 'ger';
-		$group['language'] = $fields2;
-
-
-		$roleTerm['15'] = 'author';
-		$role['role'] = $roleTerm;
-		$name['namePart'] = $role;
-		$group['name'] = $name;
-
-		// files
-		$files[] = 'test.pdf';
-		$files[] = 'document.pdf';
-		$files[] = 'tof.pdf';
-		$group['files'] = $files;
-
-
-		$post['0'] = $group;
-
-		$this->formData = $post;
-
-		//var_dump($post);
 	}
 
 }
