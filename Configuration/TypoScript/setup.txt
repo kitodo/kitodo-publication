@@ -47,3 +47,6 @@ plugin.tx_dpf._CSS_DEFAULT_STYLE (
 	}
 
 )
+
+page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
+page.includeJSFooter.tx_dpf = EXT:dpf/Resources/Public/JavaScript/qucosa.js

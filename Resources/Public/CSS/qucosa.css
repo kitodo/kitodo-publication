@@ -1,0 +1,260 @@
+/* root element for tabs  */
+ul.tx-dpf-tabs {
+    margin:0 !important;
+    padding:0;
+    height:30px;
+    border-bottom:1px solid #d0d0d0;
+}
+
+/* single tab */
+ul.tx-dpf-tabs li {
+    float:left;
+    padding:0;
+    margin:0;
+    list-style-type:none;
+    font-size: 16px;
+}
+
+/* link inside the tab. uses a background image */
+ul.tx-dpf-tabs a {
+    float:left;   
+    display:block;
+    padding:5px 30px;
+    text-decoration:none;
+    border:1px solid #d0d0d0;
+    border-bottom:0px;
+    height:18px;
+    background-color:#efefef;
+    /* color:#777; */
+    color: #444;
+    margin-right:2px;
+    position:relative;
+    top:1px;
+    outline:0;
+    -moz-border-radius:4px 4px 0 0;        
+    line-height: 170%;
+}
+
+ul.tx-dpf-tabs a:hover {
+    background-color:#F7F7F7;
+    color:#333;
+}
+
+/* selected tab */
+ul.tx-dpf-tabs a.current {
+    background-color: #fafafa;
+    border-bottom:1px solid #fafafa;
+    color:#000;
+    font-weight: bold;
+    cursor:default;
+}
+
+
+/* tab pane */
+.css-panes div {
+    display:none;
+    border:1px solid #d0d0d0;
+    border-width:0 1px 1px 1px;
+    min-height:50px;
+    padding:20px 20px;
+    background-color: #fafafa;
+    border-bottom: none;
+}
+
+.tx-dpf-panes {
+   background-color:#ddd;
+}
+
+
+.tx-dpf .form-submit {
+   background-color:#fafafa;
+   border:1px solid #d0d0d0;
+   border-width:0 1px 1px 1px;
+   padding:15px 20px;
+   border-top: none;
+   display: block;
+   height: 25px;
+}
+
+
+.tx-dpf fieldset legend {
+    float: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    display:inline;
+}
+
+.tx-dpf fieldset legend {
+		background: none repeat scroll 0 0 #efefef;
+    color: #999;
+    font-weight: bold;
+    padding: 2px 12px;
+}
+
+
+.tx-dpf label:first-of-type {
+    margin: 0;
+}
+
+.tx-dpf fieldset label {
+    display: inline-block;
+    float: none;
+    width: auto;
+    margin: 10px 0 0 0;
+}
+
+.tx-dpf fieldset label {
+    color: #666;
+    margin: 10px 0px 0 0;
+    padding: 1px 2px 0 0;
+    position: relative;
+    text-align: left;
+    widt: auto;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.tx-dpf input {
+    float: none;
+    display: block;
+    /* width: 50%; */
+    width: 475px;
+    color: #666;
+}
+
+.tx-dpf textarea {
+    float: none;
+    width: 50%;
+    display: block;
+}
+
+.tx-dpf input[type=submit] {
+    float: none;
+    width: auto;   
+}
+
+.tx-dpf input[type=radio] {
+    float: left;
+    width: auto;
+    margin: 2px 4px 0 0;
+    padding: 2px;
+}
+
+.tx-dpf #save {
+}
+
+.tx-dpf #save {
+}
+
+.tx-dpf #save {
+}
+
+.tx-dpf .fs_group,
+.tx-dpf .fs_file_group {
+    border: none;
+    background-color: #efefef;
+    padding: 20px;
+    margin: 40px 0 0 0;
+    width: auto;
+}
+
+.tx-dpf .fs_group:first-child {
+  margin: 0;
+}
+
+.tx-dpf .fs_file_group {
+  margin: 0;
+}
+  
+.tx-dpf .add_group {
+    /* margin: 0 200px 10px 10px; */
+    background: url("../images/addbtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
+    padding: 3px 6px 3px 24px;
+    margin: 10px 0 0 0;
+   
+}
+
+.tx-dpf .rem_group {
+    /* margin: 0 200px 10px 10px; */
+		background: url("../images/rembtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
+    padding: 3px 6px 3px 24px;
+    margin: 10px 0 0 0;  
+}
+
+
+.tx-dpf .add_group,
+.tx-dpf .rem_group {
+    border-color: #eee #999 #999 #eee;
+    border-style: solid;
+    border-width: 1px;
+    color: #666;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    position: relative;
+}
+
+
+.tx-dpf fieldset textarea {
+    border: 1px solid #ccc;
+    color: #666;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    height: 60px;
+    line-height: 160%;
+    padding: 5px;
+    width: 475px;
+}    
+
+
+.tx-dpf fieldset select {
+    border: 1px solid #999;
+    color: #666;
+    margin: 10px 0;
+    padding: 1px;
+    position: relative;
+    width: 200px;
+}
+
+
+#default-templates {
+  display: none; 
+}
+
+.button-wrap {
+	display: block;
+}
+
+fieldset p {
+	margin: 0;
+	padding: 0;
+}
+
+#save,
+#savecontinue,
+#cancel {
+    background: url("../images/clearbtn.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
+    border-color: #eee #999 #999 #eee;
+    border-style: solid;
+    border-width: 1px;
+    color: #666;
+    cursor: pointer;
+    float: left;
+    /* font-size: 10px; */
+    font-weight: normal;
+    /* margin: 43px 5px 0 0; */
+    margin: 0 10px 0 0;
+    padding: 3px 6px 3px 24px;
+    /* position: relative; */
+    z-index: 200;
+    font-size: smaller;
+}
+
+
+#save,
+#savecontinue {
+    background: url("../images/gobtns.gif") no-repeat scroll right top rgba(0, 0, 0, 0);
+     
+    padding: 3px 24px 3px 6px;
+}
