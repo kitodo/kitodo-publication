@@ -178,5 +178,40 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		$this->documentRepository->remove($document);
 		$this->redirect('list');
 	}
+        
+        
+        /**
+         * 
+         * @param string $partialName
+         * @param array $data
+         * @return string
+         * @throws \TYPO3\CMS\Extbase\Mvc\Exception\RequiredArgumentMissingException
+         */
+        private function renderPartial($partialName='', $data = array()){
+            if($partialName==''){
+                throw new \TYPO3\CMS\Extbase\Mvc\Exception\RequiredArgumentMissingException('The Partial name must be defined.', 123456789);
+            }
+            $templateView = $this->objectManager->create('TYPO3\\CMS\\Fluid\\View\\TemplateView');
+            
+            
+            //var_dump($this->templateView); die();
+            
+            //$this->templateView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\TemplateView');
+   
+          
+            $res = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($this->controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/Private/';
+            $templateView->setLayoutRootPath($res);
+            $templateView->setPartialRootPath($res . 'Partials/');
+            //$templateView->setRenderingContext($this->objectManager->create('TYPO3\\CMS\\Fluid\\Core\\Rendering\\RenderingContext'));
+            $templateView->setControllerContext($this->controllerContext);
 
+            return $templateView->renderPartial($partialName, Null, $data);
+        }
+
+           
+        
+        public function getGroupAction() {           
+          return $this->renderPartial("DocumentForm/Group",array());                    
+        }
+        
 }

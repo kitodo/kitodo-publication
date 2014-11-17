@@ -1,0 +1,20 @@
+
+<f:comment>
+<fieldset class="fs_group" data-group="{formGroup.uid}">
+                <legend>{formGroup.displayName}</legend>
+
+                <f:for each="{groupItem.fields}" as="formField" iteration="fieldIterator">
+
+                  <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
+                    <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
+                    <f:switch expression="{formField.inputField}">
+                        <f:case value="0"><f:form.textfield name="newDocument[metadata][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+                        <f:case value="1"><f:form.textarea  name="newDocument[metadata][p][{formPage.uid}][g][{formGroup.uid}][{groupItemIterator.index}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+                    </f:switch>
+                  </f:for>
+                    
+                </f:for>
+              </fieldset>
+ </f:comment> 
+ 
+<h1>test</h1>

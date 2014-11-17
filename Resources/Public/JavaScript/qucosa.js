@@ -8,7 +8,6 @@ $(document).ready(function() {
     // Add a group
     jQuery(".tx-dpf").on("click",".add_group", function() {
 
-
         var group_id = jQuery(this).attr("data-group");
         var page_id = jQuery(this).parent().attr("data-page");
       
@@ -53,6 +52,89 @@ $(document).ready(function() {
       jQuery(this).parent().parent().remove();
       return false;
     });
+
+
+     
+   jQuery(".tx-dpf").on("click","#addgroup", function() {
+   
+           
+	
+			// Build paramters as you want
+			var params = {
+							tx_dpf_qucosaform: {
+							OneOtherParameter: 'Lorem Ipsum....',
+							}
+						};
+
+						//define url controller part 
+						var controller = 'tx_dpf_qucosaform[controller]=DocumentForm';
+
+						//define url action part
+						var action = 'tx_dpf_qucosaform[action]=getGroup';
+
+						//define page type
+						var pagetype = '100';
+                        
+                        // URL
+						//var path = $(location).attr('href');
+						var path="index.php";
+						//Build AJAX URL
+						ajaxURL = path +  '?' + controller + '&' + action + '&type=' + pagetype;
+
+
+						//do the ajax-call
+						jQuery.post(ajaxURL, params, function (json) {
+						console.log(json);
+
+						// (3) evaluate the response from server
+						
+							if (json && json.success) {
+							//Output as alert, log or Magnific Popup
+							//console.log(json.content);
+							 alert(json.content);
+
+								/*
+								$.magnificPopup.open({
+														
+														items:{
+																src: '<div id="test-product" class="white-popup">Beschriftung des Button: ' + (json.content) +'</div>',
+																type: 'inline'
+
+																}
+								});	
+*/
+
+								return;
+							}
+							try {
+									console.log(json);
+							} catch (e) {
+
+							}
+				}, "json");
+
+
+
+	
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      return false;
+    });
+
+
 
 });
 
