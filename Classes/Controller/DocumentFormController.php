@@ -48,7 +48,16 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @inject
 	 */
 	protected $documentTypeRepository = NULL;        
-        
+
+
+        /**
+	 * metadataGroupRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+	 * @inject
+	 */
+	protected $metadataGroupRepository = NULL;
+
 
 	/**
 	 * action list
@@ -81,7 +90,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
           
                 $documentType = $this->documentTypeRepository->findByUid(1);
-                $document = $this->documentRepository->findByUid(28);
+                $document = $this->documentRepository->findByUid(7);
                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 //$mapper->setDocument($document);
@@ -179,39 +188,69 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		$this->redirect('list');
 	}
         
-        
+                         
         /**
-         * 
-         * @param string $partialName
-         * @param array $data
+         *
+         * @param integer $pageUid
+         * @param integer $groupUid
+         * @param integer $groupIndex
          * @return string
-         * @throws \TYPO3\CMS\Extbase\Mvc\Exception\RequiredArgumentMissingException
          */
-        private function renderPartial($partialName='', $data = array()){
-            if($partialName==''){
-                throw new \TYPO3\CMS\Extbase\Mvc\Exception\RequiredArgumentMissingException('The Partial name must be defined.', 123456789);
-            }
-            $templateView = $this->objectManager->create('TYPO3\\CMS\\Fluid\\View\\TemplateView');
-            
-            
-            //var_dump($this->templateView); die();
-            
-            //$this->templateView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\TemplateView');
-   
+        public function getGroupAction(integer $pageUid, integer $groupUid, integer $groupIndex) {
+
+           $group = $this->metadataGroupRepository->findByUid($groupUid);
+
+           $groupItem = array();
+
+           foreach ($group->getMetadataObject() as $object) {
+
+                $field = array(                    
+                    'uid' => $object->getUid(),
+                    'displayName' => $object->getDisplayName(),
+                    'mandatory' => $object->getMandatory(),
+                    'inputField' => $object->getInputField(),
+                    'items' => array(
+                        0 => ""
+                    )
+                );
+
+                $groupItem['fields'][] = $field;
+
+           }
+
+           $variables['formPageUid'] = $pageUid;
+           $variables['formGroupUid'] = $groupUid;
+           $variables['formGroupDisplayName'] = $group->getDisplayName();
+           $variables['groupIndex'] = $groupIndex;
+           $variables['groupItem'] = $groupItem;
+
+           return $this->renderPartial("Group.html",$variables);
+        }
+
+
+        protected function renderPartial($templateFile, $variables) {
+  
+            $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+                      
+            $view->getRequest()->setControllerExtensionName($this->extensionName);
+            //$view->setFormat('txt');
           
-            $res = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($this->controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/Private/';
-            $templateView->setLayoutRootPath($res);
-            $templateView->setPartialRootPath($res . 'Partials/');
-            //$templateView->setRenderingContext($this->objectManager->create('TYPO3\\CMS\\Fluid\\Core\\Rendering\\RenderingContext'));
-            $templateView->setControllerContext($this->controllerContext);
+            $view->setControllerContext($this->controllerContext);
 
-            return $templateView->renderPartial($partialName, Null, $data);
+            $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+
+            // generate the template path
+            $relativeTemplateFilePath =  '/Partials/' . $this->request->getControllerName() . '/' . $templateFile;
+
+            $absoluteTemplateFilePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($this->controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/Private/';
+            $absoluteTemplateFilePath .= $relativeTemplateFilePath;
+
+            $view->setTemplatePathAndFilename($absoluteTemplateFilePath);
+        
+            // asign variables to the template
+            $view->assignMultiple($variables);
+
+            return trim($view->render());
         }
 
-           
-        
-        public function getGroupAction() {           
-          return $this->renderPartial("DocumentForm/Group",array());                    
-        }
-        
 }

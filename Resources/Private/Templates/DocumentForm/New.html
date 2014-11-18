@@ -42,20 +42,27 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:for each="{formGroup.items}" as="groupItem" iteration="groupItemIterator">
 
               <f:render partial="DocumentForm/Group" arguments="{
-                        formPage:formPage, 
-                        formGroup:formGroup, 
+                        formPageUid:formPage.uid,                       
+                        formGroupUid:formGroup.uid,
+                        formGroupDisplayName:formGroup.displayName,
                         groupItem:groupItem, 
-                        groupItemIterator:groupItemIterator}"/>
-              
-              <f:if condition="{groupItemIterator.isLast}">                        
-                <input type="submit" value="{formGroup.displayName} hinzufügen" name="add_group" class="add_group" data-group="{formGroup.uid}"/>                        
-             
-                <f:link.action id="addgroup" action="renderPartial" arguments="{}">Add Group</f:link.action>
-              
-              </f:if>
+                        groupIndex:groupItemIterator.index}"/>
 
-              
-              
+              <f:if condition="{groupItemIterator.isLast}">                               
+                <input type="submit" value="{formGroup.displayName} hinzufügen"
+                       name="add_group" class="add_group"
+                       data-group="{formGroup.uid}"
+                       data-ajax="{f:uri.action(
+                            action:'getGroup',
+                            controller:'DocumentForm',
+                            pageType:110124,
+                            arguments:{
+                                pageUid:formPage.uid,
+                                groupUid:formGroup.uid,
+                                groupIndex:1
+                       })}"/>
+              </f:if>
+             
             </f:for>
 
           </f:for>

@@ -52,19 +52,19 @@ page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
 page.includeJSFooter.tx_dpf = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 
 
-#Define new page type
-ajax_test = PAGE
-ajax_test {
-typeNum = 100
-10 < tt_content.list.20.dpf_qucosaform
-config{
-disableAllHeaderCode = 1
-#Choose your header type (json or text/plain)
-#additionalHeaders = Content-type:application/json
-additionalHeaders = Content-type: text/plain
-xhtml_cleaning = 0
-no_cache = 1
-debug = 0
+#Define ajax page type
+ajax_page = PAGE
+ajax_page {
+    typeNum = 110124
+    10 < tt_content.list.20.dpf_qucosaform
+    config{
+    disableAllHeaderCode = 1
+    #Choose your header type (json or text/plain)
+    #additionalHeaders = Content-type:application/json
+    #additionalHeaders = Content-type: text/plain
+    xhtml_cleaning = 0
+    no_cache = 1
+    debug = 0
   }
 
 }
