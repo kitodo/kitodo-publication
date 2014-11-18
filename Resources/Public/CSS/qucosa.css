@@ -167,7 +167,9 @@ ul.tx-dpf-tabs a.current {
   margin: 0;
 }
   
+.tx-dpf .add_file_group,
 .tx-dpf .add_group {
+
     /* margin: 0 200px 10px 10px; */
     background: url("../images/addbtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
     padding: 3px 6px 3px 24px;
@@ -182,7 +184,7 @@ ul.tx-dpf-tabs a.current {
     margin: 10px 0 0 0;  
 }
 
-
+.tx-dpf .add_file_group,
 .tx-dpf .add_group,
 .tx-dpf .rem_group {
     border-color: #eee #999 #999 #eee;

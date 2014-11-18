@@ -228,6 +228,20 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         }
 
 
+        /**
+         *        
+         * @param integer $groupIndex
+         * @return string
+         */
+        public function getFileGroupAction(integer $groupIndex) {
+                    
+           $variables['groupIndex'] = $groupIndex;
+           $variables['displayName'] = "Sekundärdatei";
+
+           return $this->renderPartial("FileGroup.html",$variables);
+        }
+
+
         protected function renderPartial($templateFile, $variables) {
   
             $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');

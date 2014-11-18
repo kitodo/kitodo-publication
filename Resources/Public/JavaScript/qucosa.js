@@ -9,9 +9,16 @@ $(document).ready(function() {
       return false;
     });
 
-     
-    jQuery(".tx-dpf").on("click",".add_group", function() {
 
+    // Add metadata group
+    jQuery(".tx-dpf").on("click",".add_group", addGroup);
+    jQuery(".tx-dpf").on("click",".add_file_group", addGroup);
+    
+});
+
+
+
+var addGroup = function() {
 
         var element = jQuery(this);
 
@@ -25,8 +32,6 @@ $(document).ready(function() {
 
         var ajaxURL = jQuery(this).attr('data-ajax');
 
-        var test = jQuery(this);
-
         var params = {
             tx_dpf_qucosaform: {
                 groupIndex : groupIndex
@@ -35,23 +40,16 @@ $(document).ready(function() {
 
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
-      
+
             // add the new group
             jQuery(group).insertAfter(jQuery('fieldset[data-group="'+dataGroup+'"]').last());
-          
+
             var height =jQuery('fieldset[data-group="'+dataGroup+'"]').last().outerHeight(true)
-            
+
             jQuery('html, body').animate({
                 scrollTop: element.offset().top - height
             }, 400);
         });
-      
+
       return false;
-    });
-
-
-
-});
-
-
- 
+    }

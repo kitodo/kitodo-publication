@@ -58,8 +58,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                             pageType:110124,
                             arguments:{
                                 pageUid:formPage.uid,
-                                groupUid:formGroup.uid,
-                                groupIndex:1
+                                groupUid:formGroup.uid                               
                        })}"
                        data-index="{groupItemIterator.index}" />
               </f:if>
@@ -72,11 +71,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </f:for>
 
       <div id="tab-file-upload" class="fs_page">
-        <fieldset class="fs_file_group" data-group="file-upload">
-          <label>Volltextdokument (PDF-Datei)</label><span class="mandatory">*</span>
-          <f:form.upload property="files.0" />
-        </fieldset>
-        <input type="submit" value="Weitere Datei hinzufügen" name="add_group" class="add_group" data-group="file-upload"/>
+         <f:render partial="DocumentForm/FileGroup" arguments="{groupIndex:0, displayName:'Volltextdokument (PDF-Datei)'}" />
+        <input type="submit" value="Weitere Datei hinzufügen"
+               name="add_file_group" class="add_file_group"
+               data-group="file-upload"
+               data-ajax="{f:uri.action(
+                            action:'getFileGroup',
+                            controller:'DocumentForm',
+                            pageType:110124
+                           )}"
+              data-index="0" />
       </div>
 
     </div>
