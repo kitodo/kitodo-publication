@@ -19,7 +19,9 @@ $(document).ready(function() {
         var dataGroup = jQuery(this).attr('data-group');
 
         // Number of the next group item
-        var groupIndex = jQuery(this).parent().find('fieldset[data-group="'+dataGroup+'"]').length;
+        // var groupIndex = jQuery(this).parent().find('fieldset[data-group="'+dataGroup+'"]').length;
+        var groupIndex = parseInt(jQuery(this).attr('data-index')) + 1;
+        jQuery(this).attr('data-index', groupIndex);
 
         var ajaxURL = jQuery(this).attr('data-ajax');
 
