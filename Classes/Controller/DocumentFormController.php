@@ -90,12 +90,12 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
           
                 $documentType = $this->documentTypeRepository->findByUid(1);
-                $document = $this->documentRepository->findByUid(7);
+                $document = $this->documentRepository->findByUid(41);
                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 //$mapper->setDocument($document);
                 $this->view->assign('documentForm', $mapper->getDocumentForm($documentType,$document));
-          
+            
 		//$this->view->assign('newDocument', $newDocument);
 	}
 
@@ -194,9 +194,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
          * @param integer $pageUid
          * @param integer $groupUid
          * @param integer $groupIndex
-         * @return string
+         * @return void
          */
-        public function getGroupAction(integer $pageUid, integer $groupUid, integer $groupIndex) {
+        public function ajaxGroupAction(integer $pageUid, integer $groupUid, integer $groupIndex) {
 
            $group = $this->metadataGroupRepository->findByUid($groupUid);
 
@@ -217,54 +217,23 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $groupItem['fields'][] = $field;
 
            }
-
-           $variables['formPageUid'] = $pageUid;
-           $variables['formGroupUid'] = $groupUid;
-           $variables['formGroupDisplayName'] = $group->getDisplayName();
-           $variables['groupIndex'] = $groupIndex;
-           $variables['groupItem'] = $groupItem;
-
-           return $this->renderPartial("Group.html",$variables);
+                              
+           $this->view->assign('formPageUid',$pageUid);
+           $this->view->assign('formGroupUid',$groupUid);
+           $this->view->assign('formGroupDisplayName',$group->getDisplayName());
+           $this->view->assign('groupIndex',$groupIndex);
+           $this->view->assign('groupItem',$groupItem);           
         }
 
 
         /**
          *        
          * @param integer $groupIndex
-         * @return string
+         * @return void
          */
-        public function getFileGroupAction(integer $groupIndex) {
-                    
-           $variables['groupIndex'] = $groupIndex;
-           $variables['displayName'] = "Sekundärdatei";
-
-           return $this->renderPartial("FileGroup.html",$variables);
+        public function ajaxFileGroupAction(integer $groupIndex) {            
+           $this->view->assign('groupIndex',$groupIndex);
+           $this->view->assign('displayName','Sekundärdatei');           
         }
-
-
-        protected function renderPartial($templateFile, $variables) {
-  
-            $view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-                      
-            $view->getRequest()->setControllerExtensionName($this->extensionName);
-            //$view->setFormat('txt');
-          
-            $view->setControllerContext($this->controllerContext);
-
-            $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-
-            // generate the template path
-            $relativeTemplateFilePath =  '/Partials/' . $this->request->getControllerName() . '/' . $templateFile;
-
-            $absoluteTemplateFilePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($this->controllerContext->getRequest()->getControllerExtensionKey()) . 'Resources/Private/';
-            $absoluteTemplateFilePath .= $relativeTemplateFilePath;
-
-            $view->setTemplatePathAndFilename($absoluteTemplateFilePath);
-        
-            // asign variables to the template
-            $view->assignMultiple($variables);
-
-            return trim($view->render());
-        }
-
+                        
 }

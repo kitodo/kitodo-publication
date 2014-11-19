@@ -40,7 +40,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <f:for each="{formPage.groups}" as="formGroup" iteration="groupIterator">
 
             <f:for each="{formGroup.items}" as="groupItem" iteration="groupItemIterator">
-
+                                            
               <f:render partial="DocumentForm/Group" arguments="{
                         formPageUid:formPage.uid,                       
                         formGroupUid:formGroup.uid,
@@ -53,7 +53,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                        name="add_group" class="add_group"
                        data-group="{formGroup.uid}"
                        data-ajax="{f:uri.action(
-                            action:'getGroup',
+                            action:'ajaxGroup',
                             controller:'DocumentForm',
                             pageType:110124,
                             arguments:{
@@ -71,12 +71,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </f:for>
 
       <div id="tab-file-upload" class="fs_page">
-         <f:render partial="DocumentForm/FileGroup" arguments="{groupIndex:0, displayName:'Volltextdokument (PDF-Datei)'}" />
+        <f:render partial="DocumentForm/FileGroup" arguments="{groupIndex:0, displayName:'Volltextdokument (PDF-Datei)'}" />
         <input type="submit" value="Weitere Datei hinzufügen"
                name="add_file_group" class="add_file_group"
                data-group="file-upload"
                data-ajax="{f:uri.action(
-                            action:'getFileGroup',
+                            action:'ajaxFileGroup',
                             controller:'DocumentForm',
                             pageType:110124
                            )}"

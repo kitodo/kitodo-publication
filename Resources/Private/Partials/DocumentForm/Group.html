@@ -5,11 +5,49 @@
 
       <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
         <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
-
+                          
+        <f:alias map="{ 
+                        countries: {
+                          xyz: '',
+                          bul: 'Bulgarisch',
+                          chi: 'Chinesisch',
+                          dan: 'Dänisch',
+                          ger: 'Deutsch',
+                          eng: 'Englisch',
+                          est: 'Estnisch',
+                          fin: 'Finnisch',
+                          fre: 'Französisch',
+                          grc: 'Griechisch',
+                          gle: 'Irisch',
+                          ita: 'Italienisch',
+                          jpn: 'Japanisch',
+                          lat: 'Latein',
+                          lav: 'Lettisch',
+                          lit: 'Litauisch',
+                          mlt: 'Maltesisch',
+                          dut: 'Niederländisch',
+                          dsb: 'Niedersorbisch',
+                          hsb: 'Obersorbisch',
+                          pol: 'Polnisch',
+                          por: 'Portugiesisch',
+                          rum: 'Rumänisch',
+                          rus: 'Russisch',
+                          swe: 'Schwedisch',
+                          slo: 'Slowakisch',
+                          slv: 'Slowenisch',
+                          spa: 'Spanisch',
+                          cze: 'Tschechisch',
+                          hun: 'Ungarisch'
+                        } 
+                       }">                                                 
+                                 
         <f:switch expression="{formField.inputField}">
-            <f:case value="0"><f:form.textfield name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
-            <f:case value="1"><f:form.textarea  name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>
+            <f:case value="0"><f:form.textfield name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>                     
+            <f:case value="1"><f:form.textarea  name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>                               
+            <f:case value="2"><f:form.select name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" options="{countries}" value="{fieldItem}" class="input-field" />
+            </f:case>                       
         </f:switch>
+        </f:alias>
       </f:for>
 
     </f:for>

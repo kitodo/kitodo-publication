@@ -129,6 +129,11 @@ ul.tx-dpf-tabs a.current {
     display: block;
 }
 
+.tx-dpf select {
+  float: none;
+  display: block;
+}  
+
 .tx-dpf input[type=submit] {
     float: none;
     width: auto;   
@@ -213,7 +218,7 @@ ul.tx-dpf-tabs a.current {
 .tx-dpf fieldset select {
     border: 1px solid #999;
     color: #666;
-    margin: 10px 0;
+    /* margin: 10px 0; */
     padding: 1px;
     position: relative;
     width: 200px;

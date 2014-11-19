@@ -41,6 +41,8 @@ var addGroup = function() {
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
 
+            var group = jQuery(group).find("fieldset");
+
             // add the new group
             jQuery(group).insertAfter(jQuery('fieldset[data-group="'+dataGroup+'"]').last());
 
