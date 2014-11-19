@@ -13,20 +13,21 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Listing for Document</h1>
+<h1>Dokumentenliste</h1>
 
 <f:flashMessages renderMode="div" />
 
 <table  class="tx_dpf" >
 	<tr>
-		<th><f:translate key="tx_dpf_domain_model_document.xml_data" /></th>
-		<th> </th>
+		<th>ID<f:translate key="tx_dpf_domain_model_document.uid" /></th>
+		<th>Dokument-Typ</th>
 		<th> </th>
 	</tr>
 
 	<f:for each="{documents}" as="document">
 		<tr>
-			<td><f:link.action action="show" arguments="{document : document}"> {document.xmlData}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{document : document}"> {document.uid}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{document : document}"> {document.documentType.displayName}</f:link.action></td>
 			<td><f:link.action action="edit" arguments="{document : document}">Edit</f:link.action></td>
 			<td><f:link.action action="delete" arguments="{document : document}">Delete</f:link.action></td>
 		</tr>
