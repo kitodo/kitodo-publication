@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
 		<header/>
 		<body>
+                        <trans-unit id="title.description">
+				<source>title</source>
+			</trans-unit>
 			<trans-unit id="xml_data.description">
 				<source>xmlData</source>
 			</trans-unit>

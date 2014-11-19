@@ -47,6 +47,7 @@ CREATE TABLE tx_dpf_domain_model_document (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+        title varchar(255) DEFAULT '' NOT NULL,
 	xml_data text NOT NULL,
 	document_type int(11) unsigned DEFAULT '0',
 

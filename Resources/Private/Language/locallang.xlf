@@ -18,6 +18,9 @@
 			<trans-unit id="tx_dpf_domain_model_document">
 				<source>Document</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.title">
+				<source>title</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
