@@ -12,15 +12,21 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
+
 <f:section name="main">
-<h1>Edit Document</h1>
+<h1>Document Form Edit</h1>
 
 <f:flashMessages renderMode="div" />
 
-<f:render partial="FormErrors" arguments="{object:Document}" />
+<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 
-<f:form action="update" name="document" object="{document}" >
-<f:render partial="Document/FormFields" arguments="{document:document}" />
-	<f:form.submit value="Save" />
+
+<h2>{documentForm.displayName}</h2>
+
+<f:form action="update" name="updateDocument" object="{updateDocument}" enctype="multipart/form-data">
+  <f:form.hidden property="type" value="{documentForm.uid}" />
+  <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
+  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
+
 </f:section>

@@ -42,9 +42,9 @@
                        }">                                                 
                                  
         <f:switch expression="{formField.inputField}">
-            <f:case value="0"><f:form.textfield name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>                     
-            <f:case value="1"><f:form.textarea  name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" value="{fieldItem}" class="input-field" /></f:case>                               
-            <f:case value="2"><f:form.select name="newDocument[metadata][p][{formPageUid}][g][{formGroupUid}][{groupIndex}][f][{formField.uid}][{fieldItemIterator.index}]" options="{countries}" value="{fieldItem}" class="input-field" />
+            <f:case value="0"><f:form.textfield property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" value="{fieldItem}" class="input-field" /></f:case>                     
+            <f:case value="1"><f:form.textarea  property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" value="{fieldItem}" class="input-field" /></f:case>                               
+            <f:case value="2"><f:form.select    property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" options="{countries}" value="{fieldItem}" class="input-field" />
             </f:case>                       
         </f:switch>
         </f:alias>

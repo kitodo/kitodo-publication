@@ -10,6 +10,7 @@ class DocumentFormMapper {
 
     $form['uid'] = $documentType->getUid();
     $form['displayName'] = $documentType->getDisplayName();
+    $form['documentUid'] = $document->getUid();
     
     //$metsData = new \SimpleXMLElement($document->getXmlData());        
     //$modsData = $metsData->xpath("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
@@ -101,7 +102,9 @@ class DocumentFormMapper {
 
 
   public function getDocumentData($documentType, $formData) {
-        
+    
+    $data['documentUid'] = $formData['documentUid'];
+    
     $data['metadata'] = $this->readFormData($documentType, $formData['metadata']);
 
     $data['files'] = $formData['files'];
