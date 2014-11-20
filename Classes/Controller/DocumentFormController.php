@@ -74,6 +74,10 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 */
 	public function listAction() {
 		$documents = $this->documentRepository->findAll();
+                
+                $documentTypes = $this->documentTypeRepository->findAll();
+                                
+                $this->view->assign('documentTypes', $documentTypes);                                
 		$this->view->assign('documents', $documents);
 	}
 
@@ -96,8 +100,10 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
+        
+                $docTypeUid = $this->request->getArgument('documentType');
           
-                $documentType = $this->documentTypeRepository->findByUid(1);
+                $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
                 
                 $document = $this->objectManager->create('\\EWW\\Dpf\\Domain\\Model\\Document');                              
                

@@ -34,5 +34,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	</f:for>
 </table>
 
-<f:link.action action="new">New Document</f:link.action>
+<f:for each="{documentTypes}" as="documentType">
+  <br />
+  <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName} anlegen</f:link.action>
+</f:for>
+
 </f:section>
