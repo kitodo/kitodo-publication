@@ -117,18 +117,18 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	/**
 	 * action create
 	 *
-	 * @param array $newDocument
+	 * @param array $documentData
 	 * @return void
 	 */
-	public function createAction(array $newDocument) {
+	public function createAction(array $documentData) {
 
-                $documentType = $this->documentTypeRepository->findByUid($newDocument['type']);
+                $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
                 $newDoc = new \EWW\Dpf\Domain\Model\Document();
                 $newDoc->setDocumentType($documentType);
                 
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 
-                $newDocument = $mapper->getDocumentData($documentType,$newDocument);
+                $newDocument = $mapper->getDocumentData($documentType,$documentData);
 
                 foreach ($newDocument['files'] as $tmpFile ) {
                                                       
@@ -169,25 +169,27 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function editAction(\EWW\Dpf\Domain\Model\Document $document) {                               
                 $documentType = $document->getDocumentType();                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();               
-                $documentForm = $mapper->getDocumentForm($documentType,$document);
+                $documentForm = $mapper->getDocumentForm($documentType,$document);                                                                
 		$this->view->assign('documentForm', $documentForm);                                                
 	}
 
 	/**
 	 * action update
 	 *
-	 * @param array $updateDocument
+	 * @param array $documentData
 	 * @return void
 	 */
-	public function updateAction(array $updateDocument) {
-                   		
-                $documentType = $this->documentTypeRepository->findByUid($updateDocument['type']);
-                $document = $this->documentRepository->findByUid($updateDocument['documentUid']);  
+	public function updateAction(array $documentData) {
+                
+                //$this->view->assign('documentForm',$documentData); 
+                         
+                $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
+                $document = $this->documentRepository->findByUid($documentData['documentUid']);  
                 $document->setDocumentType($documentType);
                 
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                
-                $updateDocument = $mapper->getDocumentData($documentType,$updateDocument);
+                $updateDocument = $mapper->getDocumentData($documentType,$documentData);
 
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
@@ -217,7 +219,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $this->documentRepository->update($document);
                                 
-		$this->redirect('list');
+          
+          
+		$this->redirect('list'); 
 	}
 
 	/**
