@@ -4,8 +4,7 @@
     <f:for each="{groupItem.fields}" as="formField" iteration="fieldIterator">
 
       <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
-        <label>{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory">*</span></f:if>
-                          
+                                  
         <f:alias map="{ 
                         countries: {
                           xyz: '',
@@ -40,19 +39,43 @@
                           hun: 'Ungarisch'
                         } 
                        }">                                                 
-                                 
-        <f:switch expression="{formField.inputField}">
-            <f:case value="0"><f:form.textfield property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" value="{fieldItem}" class="input-field" /></f:case>                     
-            <f:case value="1"><f:form.textarea  property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" value="{fieldItem}" class="input-field" /></f:case>                               
-            <f:case value="2"><f:form.select    property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldItemIterator.index}" options="{countries}" value="{fieldItem}" class="input-field" />
-            </f:case>                       
-        </f:switch>
+                                        
+            <f:render partial="DocumentForm/Field" arguments="{
+                        formPageUid: formPageUid,                       
+                        formGroupUid: formGroupUid,                                     
+                        groupIndex: groupIndex,                        
+                        formField: formField,
+                        fieldIndex: fieldItemIterator.index,
+                        fieldItem: fieldItem,                                               
+                        countries: countries}"/>
+            
+            <f:if condition="{formField.maxIteration} == 0">
+              <f:if condition="{fieldItemIterator.isLast}">
+              <input type="submit" value="{formField.displayName} hinzufügen"
+                       name="add_field" class="add_field"
+                       data-field="{formField.uid}"
+                       data-ajax="{f:uri.action(
+                            action:'ajaxField',
+                            controller:'DocumentForm',
+                            pageType:110124,
+                            arguments:{
+                                pageUid: formPageUid,
+                                groupUid: formGroupUid,
+                                groupIndex: groupIndex,
+                                fieldUid: formField.uid
+                       })}"
+                       data-index="{fieldItemIterator.index}" />        
+             
+              </f:if>
+            </f:if>
+                              
         </f:alias>
       </f:for>
 
     </f:for>
 
     <f:if condition="{groupIndex}">
-        <p><input type="submit" value="{group.displayName} entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
-    </f:if>
+        <p><input type="submit" value="{formGroupDisplayName} entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+    </f:if> 
+        
 </fieldset>

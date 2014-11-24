@@ -59,6 +59,15 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	protected $metadataGroupRepository = NULL;
 
         
+         /**
+	 * metadataObjectRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+	 * @inject
+	 */
+	protected $metadataObjectRepository = NULL;
+        
+        
         /**
          * persistence manager
          *
@@ -273,6 +282,31 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
            $this->view->assign('groupItem',$groupItem);           
         }
 
+        
+        /**
+         *
+         * @param integer $pageUid
+         * @param integer $groupUid
+         * @param integer $groupIndex
+         * @param integer $fieldUid
+         * @param integer $fieldIndex
+         * @return void
+         */
+        public function ajaxFieldAction(integer $pageUid, integer $groupUid, integer $groupIndex, integer $fieldUid, integer $fieldIndex) {
+
+           $field = $this->metadataObjectRepository->findByUid($fieldUid);         
+           $formField['inputField'] = $field->getInputField();
+           $formField['uid'] = $field->getUid();
+           $formField['displayName'] = $field->getDisplayName();
+           
+           $this->view->assign('formPageUid',$pageUid);
+           $this->view->assign('formGroupUid',$groupUid);           
+           $this->view->assign('groupIndex',$groupIndex);                                           
+           $this->view->assign('formField',$formField);   
+           $this->view->assign('fieldIndex',$fieldIndex);   
+           $this->view->assign('fieldItem',NULL);        
+          // $this->view->assign('countries',);           
+        }
 
         /**
          *        

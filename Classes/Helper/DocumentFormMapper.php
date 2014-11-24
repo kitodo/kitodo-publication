@@ -50,7 +50,8 @@ class DocumentFormMapper {
           $item['uid'] = $child->getUid();
           $item['displayName'] = $child->getDisplayName();
           $item['mandatory'] = $child->getMandatory();
-
+          $item['maxIteration'] = $child->getMaxIteration();
+          
           // Read the group data.                                     
           $groupData = $this->domXpath->query($child->getMapping());                                     
           
@@ -68,15 +69,16 @@ class DocumentFormMapper {
           $item['displayName'] = $child->getDisplayName();
           $item['mandatory'] = $child->getMandatory();
           $item['inputField'] = $child->getInputField();
-                      
+          $item['maxIteration'] = $child->getMaxIteration();
+                   
           if ($nodeData) {
-                
+           
               $objectMapping = $child->getMapping();
               $objectMapping = trim($objectMapping,'/');                                                     
               $objectData = $this->domXpath->query($objectMapping,$nodeData);              
-                                       
-            if ($objectData) {
-              foreach ($objectData as $key => $value) {
+                                                 
+            if ($objectData->length > 0) { 
+              foreach ($objectData as $key => $value) {                                               
                 $item['items'][] = $value->nodeValue;
               }
             } else {
@@ -146,13 +148,16 @@ class DocumentFormMapper {
           $fieldData = $nodeData['f'][$uid];
                                                 
           foreach ($fieldData as $index => $value) {
-            $field['mapping'] = $fieldMapping;
-            $field['value'] = $value;                                             
+           
+            if ($value) {
+              $field['mapping'] = $fieldMapping;
+              $field['value'] = $value;                                             
                                   
-            if ( strpos($fieldMapping, "@") === 0) {
-              $form['attributes'][] = $field;                     
-            } else {
-              $form['values'][] = $field;
+              if ( strpos($fieldMapping, "@") === 0) {
+                $form['attributes'][] = $field;                     
+              } else {
+                $form['values'][] = $field;
+              }
             }
             
             if (!key_exists('attributes', $form)) $form['attributes'] = array();
