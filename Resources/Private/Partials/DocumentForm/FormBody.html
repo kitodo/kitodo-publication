@@ -23,19 +23,21 @@
                         groupItem:groupItem, 
                         groupIndex:groupItemIterator.index}"/>
 
-              <f:if condition="{groupItemIterator.isLast}">                               
-                <input type="submit" value="{formGroup.displayName} hinzufügen"
-                       name="add_group" class="add_group"
-                       data-group="{formGroup.uid}"
-                       data-ajax="{f:uri.action(
-                            action:'ajaxGroup',
-                            controller:'DocumentForm',
-                            pageType:110124,
-                            arguments:{
-                                pageUid:formPage.uid,
-                                groupUid:formGroup.uid                               
-                       })}"
-                       data-index="{groupItemIterator.index}" />
+              <f:if condition="{formGroup.maxIteration} == 0">
+                <f:if condition="{groupItemIterator.isLast}">                               
+                  <input type="submit" value="{formGroup.displayName} hinzufügen"
+                         name="add_group" class="add_group"
+                         data-group="{formGroup.uid}"
+                         data-ajax="{f:uri.action(
+                              action:'ajaxGroup',
+                              controller:'DocumentForm',
+                              pageType:110124,
+                              arguments:{
+                                  pageUid:formPage.uid,
+                                  groupUid:formGroup.uid                               
+                         })}"
+                         data-index="{groupItemIterator.index}" />
+                </f:if>
               </f:if>
              
             </f:for>
