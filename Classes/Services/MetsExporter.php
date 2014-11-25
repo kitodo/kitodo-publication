@@ -356,7 +356,7 @@ class MetsExporter {
 
 		$domElement = $domDocument->firstChild;
 
-		$dmdSec = $domDocument->createElement('mets:dmdSec', '');
+		$dmdSec = $domDocument->createElement('mets:dmdSec');
 		$dmdSec->setAttribute('ID', 'DMD_000');
 
 		$domElement->appendChild($dmdSec);
@@ -378,6 +378,24 @@ class MetsExporter {
 		return $domDocument; 
 
 	}
+
+	/**
+	 * Builds xml amdSection 
+	 * @return xml 
+	 */
+	public function buildAmdSection()
+	{
+		// Build xml amd:sec
+		
+		$domDocument = new \DOMDocument();
+		$domDocument->loadXML($this->metsHeader);
+
+		$domElement = $domDocument->firstChild;
+
+		$amdSec = $domDocument->createElement('mets:amdSec');
+
+	}
+
 
 	/**
 	 * Builds the xml fileSection part if files are uploaded
