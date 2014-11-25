@@ -205,6 +205,8 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function updateAction(array $documentData) {
+          
+                                  
                                             
                 //$this->view->assign('documentForm',$documentData); 
                          
@@ -214,10 +216,18 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                
-                $updateDocument = $mapper->getDocumentData($documentType,$documentData);
+                // $updateDocument = $mapper->getDocumentData($documentType,$documentData);
 
-                //$this->view->assign('debugData', $updateDocument);
-                                          
+                
+                $validator = new \EWW\Dpf\Helper\DocumentFormValidator($documentType);
+                $docForm = $validator->validate($documentData);
+                
+                
+                
+                $this->view->assign('debugData', $documentData);
+              
+                
+                /*
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -252,7 +262,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                 
           
           
-		$this->redirect('list');
+		$this->redirect('list'); */
 	}
 
 	/**

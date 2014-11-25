@@ -103,6 +103,29 @@ class DocumentFormMapper {
   }                 
 
 
+  public function getDocumentFormByFormData($documentType,$formData) { 
+   
+    $data['documentUid'] = $formData['documentUid'];
+    
+    $form = $this->readDocumentFormByFormData($documentType, $formData['metadata']);
+
+    //$data['files'] = $formData['files'];
+
+    return $form;
+  }
+  
+  
+  public function readDocumentFormByFormData($documentType,$formData) { 
+    
+    $form = array();
+               
+    
+    
+    
+    return $formData;  
+  }
+  
+  
   public function getDocumentData($documentType, $formData) {
     
     $data['documentUid'] = $formData['documentUid'];
