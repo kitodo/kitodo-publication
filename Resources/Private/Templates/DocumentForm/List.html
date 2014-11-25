@@ -19,17 +19,17 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <table  class="tx_dpf" >
 	<tr>
-		<th>ID<f:translate key="tx_dpf_domain_model_document.uid" /></th>
-		<th>Dokument-Typ</th>
+		<th>Titel</th>
+		<th>Typ</th>
 		<th> </th>
 	</tr>
 
 	<f:for each="{documents}" as="document">
 		<tr>
-			<td><f:link.action action="show" arguments="{document : document}"> {document.uid}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{document : document}"> {document.title}</f:link.action></td>
                         <td><f:link.action action="show" arguments="{document : document}"> {document.documentType.displayName}</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{document : document}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{document : document}">Delete</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{document : document}">bearbeiten</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{document : document}">löschen</f:link.action></td>
 		</tr>
 	</f:for>
 </table>

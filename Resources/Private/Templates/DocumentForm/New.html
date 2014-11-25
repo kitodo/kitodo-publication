@@ -13,14 +13,14 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Document Form</h1>
 
 <f:flashMessages renderMode="div" />
 
+<f:comment>
 <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
+</f:comment>
 
-
-<h2>{documentForm.displayName}</h2>
+<h2>{documentForm.displayName} anlegen</h2>
 
 <f:form action="create" name="documentData" object="{documentData}" enctype="multipart/form-data">
   <f:form.hidden property="type" value="{documentForm.uid}" />
