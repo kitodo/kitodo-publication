@@ -161,8 +161,24 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $exporter->buildModsFromForm($newDocument);
                 
                 $xml = $exporter->getMetsData();
-	                        
-                $newDoc->setXmlData($xml);                                                
+                                                                
+                $metsDom = new \DOMDocument();
+                $metsDom->loadXML($xml);
+                $metsXpath = new \DOMXPath($metsDom);  
+                $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+                $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+                
+                $modsDom = new \DOMDocument();
+                $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+                     
+                $modsXpath = new \DOMXPath($modsDom);     
+                $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
+	                                        
+                $title = $titleNode->item(0)->nodeValue;                
+                
+                $newDoc->setTitle($title);                                
+                $newDoc->setXmlData($xml);                
+                
                 $this->documentRepository->add($newDoc);
                                 
                 $this->redirect('list');
@@ -201,9 +217,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $updateDocument = $mapper->getDocumentData($documentType,$documentData);
 
                 //$this->view->assign('debugData', $updateDocument);
-                
-                
-                
+                                          
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -226,7 +240,11 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $exporter->buildModsFromForm($updateDocument);
                 
                 $xml = $exporter->getMetsData();
-	                                                 
+	        
+                
+                
+                
+                
                 $document->setXmlData($xml);                
                 
                 

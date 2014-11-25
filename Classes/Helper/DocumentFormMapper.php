@@ -135,6 +135,7 @@ class DocumentFormMapper {
           foreach ($groupData as $index => $group) {
             $item = $this->readFormData($child, $group);            
             $item['mapping'] = $groupMapping;
+            $item['groupUid'] = $uid;
             $form[] = $item; 
           }         
           
@@ -149,6 +150,7 @@ class DocumentFormMapper {
                                                 
           foreach ($fieldData as $index => $value) {
            
+            // Do not save empty fields 
             if ($value) {
               $field['mapping'] = $fieldMapping;
               $field['value'] = $value;                                             
