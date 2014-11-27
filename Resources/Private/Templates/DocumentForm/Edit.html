@@ -17,10 +17,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
-<f:comment>
-<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
-</f:comment>
 
+<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
+
+<f:comment>
 <h2>{documentForm.displayName} bearbeiten</h2>
 
 <f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data">
@@ -29,4 +29,5 @@ Otherwise your changes will be overwritten the next time you save the extension 
   <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
 
+</f:comment>
 </f:section>

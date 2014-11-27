@@ -1,8 +1,8 @@
 <label data-index="{fieldIndex}" data-field="{formField.uid}">{formField.displayName}</label><f:if condition="{formField.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{formField.uid}">*</span></f:if>
 <f:switch expression="{formField.inputField}">
-  <f:case value="0"><f:form.textfield property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldIndex}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/></f:case>                     
-  <f:case value="1"><f:form.textarea  property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldIndex}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/></f:case>                               
-  <f:case value="2"><f:form.select    property="metadata.p.{formPageUid}.g.{formGroupUid}.{groupIndex}.f.{formField.uid}.{fieldIndex}" options="{countries}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/>
+  <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{formField.uid}-{fieldIndex}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/></f:case>                     
+  <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{formField.uid}-{fieldIndex}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/></f:case>                               
+  <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{formField.uid}-{fieldIndex}" options="{countries}" value="{fieldItem}" class="input-field" additionalAttributes="{data-field:formField.uid,data-index:fieldIndex}"/>
   </f:case>                       
 </f:switch>
  <f:if condition="{fieldIndex}">

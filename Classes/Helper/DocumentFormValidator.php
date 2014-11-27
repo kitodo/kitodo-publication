@@ -2,54 +2,78 @@
 namespace EWW\Dpf\Helper;
 
 class DocumentFormValidator {
+  
+  
+  /**
+   * documentTypeRepository
+   * 
+   * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+   * @inject
+   */
+  protected $documentTypeRepository = NULL;     
+        
+  
+  /**
+   * MetadataObjectRepository
+   * 
+   * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+   * @inject
+   */
+  protected $metadataObjectRepository = NULL;     
+  
+  
+  /**
+   * MetadataGroupRepository
+   * 
+   * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+   * @inject
+   */
+  protected $metadataGroupRepository = NULL;     
+  
     
   protected $documentType;    
+  
   protected $error;
   
-  public function __constructor($documentType) {    
-    $this->documentType = $documentType;    
+  protected $formData;
+  
+  
+  
+  public function setDocumentType($documentType) {    
+    $this->documentType = $documentType;          
   }
   
-
-  public function validate($formData) {        
+  public function setFormData($formData) {        
+    $this->formData = $formData;             
+  }
+  
+  
+  public function validate() {        
     
-    if ($this->preValidate($formData)) {
-      
-      
-      
-      foreach ($formData['metadata']['p'] as $pageUid => $page) {
-        
-        
-        
-        
-        
-        
-      }
-      
-      
-      
-      
-      return TRUE;
+    $result = TRUE;
+    
+    if ($this->preValidate()) {            
+                                     
     }
           
-    return FALSE;    
+    return $result;    
   }
   
   
-  public function preValidate($formData) {        
-    if (!key_exists('metadata', $formData)) {        
+  public function preValidate() {        
+    if (!key_exists('metadata', $this->formData)) {        
       return FALSE;      
     }        
       
-    if (!key_exists('p', $formData['metadata'])) {                                        
+    if (!key_exists('p', $this->formData['metadata'])) {                                        
       return FALSE;      
     }    
     
-    if (sizeof($formData['metadata']['p']) < 1) {
+    if (sizeof($this->formData['metadata']['p']) < 1) {
       return FALSE;      
     }
      
-    foreach ($pages as $pageUid => $page) {
+    foreach ($this->formData['metadata']['p'] as $pageUid => $page) {
                 
       if (!key_exists('g',$page)) {
         return FALSE;      
@@ -65,6 +89,97 @@ class DocumentFormValidator {
   }
 
   
+  
+  protected function validateMandatoryFields() {
+    
+    $result = TRUE;
+    
+    
+     
+    
+     
+     
+     
+     return $result;
+  }
+  
+  
+  
+  protected function validateAttributes() {
+    
+    $result = TRUE;
+    
+    $groups = $this->getGroups();    
+    foreach ($groups as $groupUid => $group) {
+                       
+      $attributeFieldUids = $this->getAttributeFieldUidsByGroup($groupUid);
+      
+      $check = array(); 
+      $dublicateAttributes = array();
+      
+      foreach ($group as $groupIndex => $fields) {      
+        
+        $attributeValues = array();
+        
+        foreach ($attributeFieldUids as $attributeFieldUid) {
+          $attributeValues[] = $fields['f'][$attributeFieldUid][0];                    
+        }
+                
+        $checkKey = implode('-',$attributeValues);              
+        if (key_exists($checkKey,$check)) { 
+          $result = $result && FALSE;
+          $dublicateAttributes[$groupIndex] = array(
+              'groupUid' => $groupUid,
+              'groupIndex' => $groupIndex,
+              'fieldUids' =>  $attributeFieldUids                                                           
+          );
+        } else {
+          $check[$checkKey] = $groupIndex;                              
+        }
+                                                   
+      }
+      
+      if ($dublicateAttributes) $this->error[] = $dublicateAttributes;
+            
+    }
+
+    return $result;
+  } 
+
+  
+  
+  protected function getAttributeFieldUidsByGroup($groupUid) {
+        
+    $group = $this->metadataGroupRepository->findByUid($groupUid);
+    
+    $fields = $group->getMetadataObject();
+        
+    foreach ($fields as $field) {            
+      $mapping = trim($field->getMapping()," /");                 
+      if (strpos($mapping, "@") === 0) {        
+        $attributeFields[] = $field->getUid();                
+      }                          
+    }
+    
+    return $attributeFields;        
+  }
+  
+  
+
+
+  protected function getGroups() {      
+    $groups = array();     
+    foreach ($this->formData['metadata']['p'] as $pageUid => $page) {
+      foreach ($page['g'] as $groupUid => $group) {
+        $groups[$groupUid] = $group;
+      }
+    }
+    return $groups;
+  } 
+
+
+
+
   private function debug($value,$die = FALSE) {
     
     echo "<pre>";

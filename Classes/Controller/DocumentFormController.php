@@ -161,22 +161,10 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $exporter->buildModsFromForm($newDocument);
                 
                 $xml = $exporter->getMetsData();
-                                                                
-                $metsDom = new \DOMDocument();
-                $metsDom->loadXML($xml);
-                $metsXpath = new \DOMXPath($metsDom);  
-                $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-                $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
                 
-                $modsDom = new \DOMDocument();
-                $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-                     
-                $modsXpath = new \DOMXPath($modsDom);     
-                $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
-	                                        
-                $title = $titleNode->item(0)->nodeValue;                
+                $title = $this->getTitleFromXmlData($xml);                                
+                $newDoc->setTitle($title);                
                 
-                $newDoc->setTitle($title);                                
                 $newDoc->setXmlData($xml);                
                 
                 $this->documentRepository->add($newDoc);
@@ -194,7 +182,11 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function editAction(\EWW\Dpf\Domain\Model\Document $document) {                               
                 $documentType = $document->getDocumentType();                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();               
-                $documentForm = $mapper->getDocumentForm($documentType,$document);                                                                
+                                
+                //$documentForm = $mapper->getDocumentForm($documentType,$document);   
+                
+                $documentForm = $mapper->getDocumentForm2($documentType,$document); 
+                
 		$this->view->assign('documentForm', $documentForm);                                                
 	}
 
@@ -205,10 +197,8 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function updateAction(array $documentData) {
-          
-                                  
-                                            
-                //$this->view->assign('documentForm',$documentData); 
+                    
+             // $this->view->assign('debugData',$documentData); 
                          
                 $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
                 $document = $this->documentRepository->findByUid($documentData['documentUid']);  
@@ -216,18 +206,39 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                
-                // $updateDocument = $mapper->getDocumentData($documentType,$documentData);
-
+                $updateDocument = $mapper->getDocumentData($documentType,$documentData);
+                                             
+                //$validator = $this->objectManager->create('\EWW\Dpf\Helper\DocumentFormValidator');                
+                //$validator->setDocumentType($documentType);
+                //$validator->setFormData($documentData);
+                //$docForm = $validator->validate();
                 
-                $validator = new \EWW\Dpf\Helper\DocumentFormValidator($documentType);
-                $docForm = $validator->validate($documentData);
+                echo "BEGIN<br />";
                 
+                $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+                $formDataReader->setFormData($documentData);
+                //$docForm = $formDataReader->getDocumentForm();
                 
+                $data = $formDataReader->getDocumentForm();
+                                                
+                echo "END";
                 
-                $this->view->assign('debugData', $documentData);
+                $this->view->assign('debugData', $data);
+      /*          
+                $this->controllerContext->getFlashMessageQueue()->enqueue(
+  $this->objectManager->get(
+    'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+    'Einige Felder sind nicht korrekt ausgefüllt.',
+    'Speichern nicht möglich.',
+    \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
+    $storeInSession
+  )
+);
+      */          
+/*               $this->view->assign('debugData', $documentData);
               
+               /* 
                 
-                /*
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -252,16 +263,14 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $xml = $exporter->getMetsData();
 	        
                 
-                
-                
-                
+              // $this->view->assign('debugData',$updateDocument);  
+                $title = $this->getTitleFromXmlData($xml);                                
+                $document->setTitle($title);                
+               
                 $document->setXmlData($xml);                
-                
-                
+                               
                 $this->documentRepository->update($document);
-                                
-          
-          
+                                                    
 		$this->redirect('list'); */
 	}
 
@@ -349,6 +358,28 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         public function ajaxFileGroupAction(integer $groupIndex) {            
            $this->view->assign('groupIndex',$groupIndex);
            $this->view->assign('displayName','Sekundärdatei');           
+        }
+        
+        
+        /**
+         * 
+         * @param string $xml
+         * @return void
+         */        
+        protected function getTitleFromXmlData($xml) {          
+            $metsDom = new \DOMDocument();
+            $metsDom->loadXML($xml);
+            $metsXpath = new \DOMXPath($metsDom);  
+            $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+            $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+
+            $modsDom = new \DOMDocument();
+            $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+
+            $modsXpath = new \DOMXPath($modsDom);     
+            $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
+
+            return $titleNode->item(0)->nodeValue;                              
         }
                         
 }

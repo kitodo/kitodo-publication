@@ -102,30 +102,7 @@ class DocumentFormMapper {
     return $form;              
   }                 
 
-
-  public function getDocumentFormByFormData($documentType,$formData) { 
-   
-    $data['documentUid'] = $formData['documentUid'];
-    
-    $form = $this->readDocumentFormByFormData($documentType, $formData['metadata']);
-
-    //$data['files'] = $formData['files'];
-
-    return $form;
-  }
-  
-  
-  public function readDocumentFormByFormData($documentType,$formData) { 
-    
-    $form = array();
-               
-    
-    
-    
-    return $formData;  
-  }
-  
-  
+ 
   public function getDocumentData($documentType, $formData) {
     
     $data['documentUid'] = $formData['documentUid'];
@@ -207,8 +184,131 @@ class DocumentFormMapper {
      return $form;        
   }
 
-
   
+  public function getDocumentForm2($documentType,$document) { 
+    
+    $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();      
+    $documentForm->setUid($documentType->getUid());    
+    $documentForm->setDisplayName($documentType->getDisplayName());
+    $documentForm->setName($documentType->getName());
+    $documentForm->setDocumentUid($document->getUid());
+   
+    // Get the mods data
+    $metsDom = new \DOMDocument();
+    $metsDom->loadXML($document->getXmlData());
+    $metsXpath = new \DOMXPath($metsDom);  
+    $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+    $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+                   
+    $dom = new \DOMDocument();
+            
+    if ($modsNodes->length == 1) {      
+      $dom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+    } else {
+     $dom->loadXML("");      
+    } 
+      
+    $this->domXpath = new \DOMXPath($dom);     
+    
+       
+    $documentData = array();    
+        
+    foreach ($documentType->getMetadataPage() as $metadataPage ) {                                    
+      $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
+      $documentFormPage->setUid($metadataPage->getUid());
+      $documentFormPage->setDisplayName($metadataPage->getDisplayName());
+      $documentFormPage->setName($metadataPage->getName());                               
+      
+      var_dump($metadataPage->getName());
+      
+      foreach ($metadataPage->getMetadataGroup() as $metadataGroup ) {                             
+          $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
+          $documentFormGroup->setUid($metadataGroup->getUid());
+          $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
+          $documentFormGroup->setName($metadataGroup->getName());
+          $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+          $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
+               
+          // Read the group data.                                     
+          $groupData = $this->domXpath->query($metadataGroup->getMapping());                                     
+                                              
+          if ($groupData->length > 0) {
+            foreach ($groupData as $key => $data) {              
+              
+              $documentFormGroupItem = clone($documentFormGroup);
+              
+              foreach ($metadataGroup->getMetadataObject() as $metadataObject ) {  
+                
+                $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                $documentFormField->setUid($metadataObject->getUid());
+                $documentFormField->setDisplayName($metadataObject->getDisplayName());
+                $documentFormField->setName($metadataObject->getName());               
+                $documentFormField->setMandatory($metadataObject->getMandatory());
+                $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
+                //$documentFormField->setValue($object);
+          
+                // $item['inputField'] = $child->getInputField();
+                                                         
+                $objectMapping = $metadataObject->getMapping();
+                $objectMapping = trim($objectMapping,'/');                                                     
+                $objectData = $this->domXpath->query($objectMapping,$data);              
+                                                 
+                if ($objectData->length > 0) { 
+                  foreach ($objectData as $key => $value) {                                               
+                    $documentFormField->setValue($value->nodeValue);
+                  }
+                }
+           
+                                              
+                $documentFormGroupItem->addItem($documentFormField);                
+              }
+                                                                   
+              $documentFormPage->addItem($documentFormGroupItem);                           
+            }
+          } else {            
+            foreach ($metadataGroup->getMetadataObject() as $metadataObject ) {                  
+              $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+              $documentFormField->setUid($metadataObject->getUid());
+              $documentFormField->setDisplayName($metadataObject->getDisplayName());
+              $documentFormField->setName($metadataObject->getName());               
+              $documentFormField->setMandatory($metadataObject->getMandatory());
+              $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
+              $documentFormField->setValue("");
+                               
+              $documentFormGroup->addItem($documentFormField);                
+            }
+                        
+            $documentFormPage->addItem($documentFormGroup);                       
+          }
+      }   
+      /*  
+        foreach ($groupItem as $group ) {   
+                
+            
+          
+        foreach ($group as $objectUid => $objectItem ) {     
+          foreach ($objectItem as $objectItem => $object ) {  
+            $metadataObject = $this->metadataObjectRepository->findByUid($objectUid);                               
+            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+            $documentFormField->setUid($metadataObject->getUid());
+            $documentFormField->setDisplayName($metadataObject->getDisplayName());
+            $documentFormField->setName($metadataObject->getName());
+            $documentFormField->setValue($object);
+            
+            $documentFormGroup->addItem($documentFormField);                                 
+          }
+        }
+       
+          $documentFormPage->addItem($documentFormGroup);                
+        }  
+      } */
+      
+      $documentForm->addItem($documentFormPage);            
+    }
+                           
+    return $documentForm;
+  }
+ 
 }
 
 ?>
