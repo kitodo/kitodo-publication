@@ -278,67 +278,67 @@ class MetsExporter {
 
 		$modsDataXPath = new \DOMXpath($this->modsData);
 
-		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
-			// first xpath path exist
+		// if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0 && false) {
+		// 	// first xpath path exist
 
-			// build xml from second xpath part
-			$xml = $this->parseXPath($newPath[1]);
+		// 	// build xml from second xpath part
+		// 	$xml = $this->parseXPath($newPath[1]);
 
-			$docXML = new \DOMDocument();
-			$docXML->loadXML($this->wrapMods($xml));
+		// 	$docXML = new \DOMDocument();
+		// 	$docXML->loadXML($this->wrapMods($xml));
 
-			$domXPath = new \DOMXpath($this->modsData);
-			$domNode = $domXPath->query('/mods:mods'.$path);
+		// 	$domXPath = new \DOMXpath($this->modsData);
+		// 	$domNode = $domXPath->query('/mods:mods'.$path);
 
-			$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
+		// 	$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
 
-			$nodeAppendModsData = $this->modsData->importNode($node, true);
-			$domNode->item(0)->appendChild($nodeAppendModsData);
-
-
-		} else {
-			// first xpath doesnt exist
-			// parse first xpath part
-			$xml1 = $this->parseXPath($newPath[0]);
+		// 	$nodeAppendModsData = $this->modsData->importNode($node, true);
+		// 	$domNode->item(0)->appendChild($nodeAppendModsData);
 
 
-			$doc1 = new \DOMDocument();
-			$doc1->loadXML($this->wrapMods($xml1));
-
-			$domXPath = new \DOMXpath($doc1);
-			$domNode = $domXPath->query('/mods:mods'.$path);
-
-
-			// parse second xpath part
-			$xml2 = $this->parseXPath($path.$newPath[1]);
-
-			$doc2 = new \DOMDocument();
-			$doc2->loadXML($this->wrapMods($xml2));
-
-			$domXPath2 = new \DOMXpath($doc2);
-			$domNode2 = $domXPath2->query('/mods:mods'.$path)->item(0)->childNodes->item(0);			
-
-			// $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
-
-			// merge xml nodes
-			$nodeToBeAppended = $doc1->importNode($domNode2, true);
-			// $doc1->documentElement->appendChild($nodeToBeAppended);
-			$domNode->item(0)->appendChild($nodeToBeAppended);
+		// } else {
+		// first xpath doesnt exist
+		// parse first xpath part
+		$xml1 = $this->parseXPath($newPath[0]);
 
 
-			// add to modsData (merge not required)
-			// get mods tag
-			$firstChild = $this->modsData->firstChild;
-			$firstItem = $doc1->getElementsByTagName('mods')->item(0)->firstChild;
+		$doc1 = new \DOMDocument();
+		$doc1->loadXML($this->wrapMods($xml1));
 
-			$nodeAppendModsData = $this->modsData->importNode($firstItem, true);
-			$firstChild->appendChild($nodeAppendModsData);
+		$domXPath = new \DOMXpath($doc1);
+		$domNode = $domXPath->query('/mods:mods'.$path);
 
 
+		// parse second xpath part
+		$xml2 = $this->parseXPath($path.$newPath[1]);
 
-			return $doc1->saveXML();
+		$doc2 = new \DOMDocument();
+		$doc2->loadXML($this->wrapMods($xml2));
 
-		}
+		$domXPath2 = new \DOMXpath($doc2);
+		$domNode2 = $domXPath2->query('/mods:mods'.$path)->item(0)->childNodes->item(0);			
+
+		// $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
+
+		// merge xml nodes
+		$nodeToBeAppended = $doc1->importNode($domNode2, true);
+		// $doc1->documentElement->appendChild($nodeToBeAppended);
+		$domNode->item(0)->appendChild($nodeToBeAppended);
+
+
+		// add to modsData (merge not required)
+		// get mods tag
+		$firstChild = $this->modsData->firstChild;
+		$firstItem = $doc1->getElementsByTagName('mods')->item(0)->firstChild;
+
+		$nodeAppendModsData = $this->modsData->importNode($firstItem, true);
+		$firstChild->appendChild($nodeAppendModsData);
+
+
+
+		return $doc1->saveXML();
+
+		// }
 		return $this->modsData->saveXML();
 	}
 
