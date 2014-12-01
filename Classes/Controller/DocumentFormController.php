@@ -185,7 +185,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                 
                 //$documentForm = $mapper->getDocumentForm($documentType,$document);   
                 
-                $documentForm = $mapper->getDocumentForm2($documentType,$document); 
+                $documentForm = $mapper->getDocumentForm($documentType,$document); 
                 
 		$this->view->assign('documentForm', $documentForm);                                                
 	}
@@ -212,20 +212,15 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 //$validator->setDocumentType($documentType);
                 //$validator->setFormData($documentData);
                 //$docForm = $validator->validate();
-                
-                echo "BEGIN<br />";
-                
+                                               
                 $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
                 $formDataReader->setFormData($documentData);
                 //$docForm = $formDataReader->getDocumentForm();
                 
-                $data = $formDataReader->getDocumentForm();
-                                                
-                echo "END";
-                
-                $this->view->assign('debugData', $data);
-      /*          
-                $this->controllerContext->getFlashMessageQueue()->enqueue(
+               // $data = $formDataReader->getDocumentForm();
+               // $this->view->assign('debugData', $data);
+               
+      /*          $this->controllerContext->getFlashMessageQueue()->enqueue(
   $this->objectManager->get(
     'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
     'Einige Felder sind nicht korrekt ausgefüllt.',
@@ -234,11 +229,11 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     $storeInSession
   )
 );
-      */          
-/*               $this->view->assign('debugData', $documentData);
+        */        
+             $this->view->assign('debugData', $updateDocument);
               
-               /* 
-                
+          /*     
+           
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -253,7 +248,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                   }
                                                                        
                 }
-                
+              
                 $updateDocument['files'] = $files;
                 
                 
@@ -261,8 +256,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $exporter->buildModsFromForm($updateDocument);
                 
                 $xml = $exporter->getMetsData();
-	        
-                
+	       // var_dump($xml); die();
+               //  $this->view->assign('debugData', $xml);
+            /*         
               // $this->view->assign('debugData',$updateDocument);  
                 $title = $this->getTitleFromXmlData($xml);                                
                 $document->setTitle($title);                
@@ -295,28 +291,29 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
          * @return void
          */
         public function ajaxGroupAction(integer $pageUid, integer $groupUid, integer $groupIndex) {
-
+                             
            $group = $this->metadataGroupRepository->findByUid($groupUid);
 
-           $groupItem = array();
+           //$groupItem = array();
 
+           $groupItem = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
+           
+           
            foreach ($group->getMetadataObject() as $object) {
+                    
+              $field = new \EWW\Dpf\Domain\Model\DocumentFormField();
 
-                $field = array(                    
-                    'uid' => $object->getUid(),
-                    'displayName' => $object->getDisplayName(),
-                    'mandatory' => $object->getMandatory(),
-                    'inputField' => $object->getInputField(),
-                    'maxIteration' => $object->getMaxIteration(),
-                    'items' => array(
-                        0 => ""
-                    )
-                );
+              $field->setUid($object->getUid());
+              $field->setDisplayName($object->getDisplayName());
+              $field->setMandatory($object->getMandatory());
+              $field->setInputField($object->getInputField());
+              $field->setMaxIteration($object->getMaxIteration());
+              $field->setValue("");
 
-                $groupItem['fields'][] = $field;
-
+              $groupItem->addItem($field);                       
            }
-                              
+           
+                                                    
            $this->view->assign('formPageUid',$pageUid);
            $this->view->assign('formGroupUid',$groupUid);
            $this->view->assign('formGroupDisplayName',$group->getDisplayName());
@@ -337,16 +334,22 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         public function ajaxFieldAction(integer $pageUid, integer $groupUid, integer $groupIndex, integer $fieldUid, integer $fieldIndex) {
 
            $field = $this->metadataObjectRepository->findByUid($fieldUid);         
-           $formField['inputField'] = $field->getInputField();
-           $formField['uid'] = $field->getUid();
-           $formField['displayName'] = $field->getDisplayName();
+                    
+           $fieldItem = new \EWW\Dpf\Domain\Model\DocumentFormField();
+
+           $fieldItem->setUid($field->getUid());
+           $fieldItem->setDisplayName($field->getDisplayName());
+           $fieldItem->setMandatory($field->getMandatory());
+           $fieldItem->setInputField($field->getInputField());
+           $fieldItem->setMaxIteration($field->getMaxIteration());
+           $fieldItem->setValue("");                      
            
            $this->view->assign('formPageUid',$pageUid);
            $this->view->assign('formGroupUid',$groupUid);           
            $this->view->assign('groupIndex',$groupIndex);                                           
-           $this->view->assign('formField',$formField);   
+        //   $this->view->assign('formField',$formField);   
            $this->view->assign('fieldIndex',$fieldIndex);   
-           $this->view->assign('fieldItem',NULL);        
+           $this->view->assign('fieldItem',$fieldItem);        
           // $this->view->assign('countries',);           
         }
 

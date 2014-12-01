@@ -1,9 +1,9 @@
 <fieldset class="fs_group" data-group="{formGroupUid}">
     <legend>{formGroupDisplayName}</legend>
 
-    <f:for each="{groupItem.fields}" as="formField" iteration="fieldIterator">
+    <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
 
-      <f:for each="{formField.items}" as="fieldItem" iteration="fieldItemIterator">
+      <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
                                   
         <f:alias map="{ 
                         countries: {
@@ -38,8 +38,9 @@
                           cze: 'Tschechisch',
                           hun: 'Ungarisch'
                         } 
-                       }">                                                 
-                                        
+                       }">            
+                                   
+                                                              
             <f:render partial="DocumentForm/Field" arguments="{
                         formPageUid: formPageUid,                       
                         formGroupUid: formGroupUid,                                     
@@ -48,12 +49,12 @@
                         fieldIndex: fieldItemIterator.index,
                         fieldItem: fieldItem,                                               
                         countries: countries}"/>
-           
-            <f:if condition="{formField.maxIteration} == 0">
+
+            <f:if condition="{fieldItem.maxIteration} == 0">
               <f:if condition="{fieldItemIterator.isLast}">
-              <input type="submit" value="{formField.displayName} hinzufügen"
+              <input type="submit" value="{fieldItem.displayName} hinzufügen"
                        name="add_field" class="add_field"
-                       data-field="{formField.uid}"
+                       data-field="{fieldItem.uid}"
                        data-ajax="{f:uri.action(
                             action:'ajaxField',
                             controller:'DocumentForm',
@@ -62,7 +63,7 @@
                                 pageUid: formPageUid,
                                 groupUid: formGroupUid,
                                 groupIndex: groupIndex,
-                                fieldUid: formField.uid
+                                fieldUid: fieldItem.uid
                        })}"
                        data-index="{fieldItemIterator.index}" />        
              
@@ -75,7 +76,7 @@
     </f:for>
 
     <f:if condition="{groupIndex}">
-        <p><input type="submit" value="{formGroupDisplayName} entfernen" name="rem_group" class="rem_group" data-group="{group.uid}"/></p>
+        <p><input type="submit" value="{formGroupDisplayName} entfernen" name="rem_group" class="rem_group" data-group="{formGroupUid}"/></p>
     </f:if> 
         
 </fieldset>

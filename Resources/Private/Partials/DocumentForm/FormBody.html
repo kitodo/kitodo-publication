@@ -1,40 +1,40 @@
 
     <ul class="tx-dpf-tabs">
-      <f:for each="{documentForm.pages}" as="formPage" iteration="pageIterator">
-        <li><a href="#tab-{pageIterator.cycle}">{formPage.displayName}</a></li>
+      <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
+        <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
       </f:for>
       <li><a href="#tab-file-upload">Dateien</a></li>
     </ul>
 
     <div class="css-panes">
 
-      <f:for each="{documentForm.pages}" as="formPage" iteration="pageIterator">
+      <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
 
-        <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.uid}">
+        <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.0.uid}">
 
-          <f:for each="{formPage.groups}" as="formGroup" iteration="groupIterator">
+          <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
 
-            <f:for each="{formGroup.items}" as="groupItem" iteration="groupItemIterator">
+            <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
                                             
               <f:render partial="DocumentForm/Group" arguments="{
-                        formPageUid:formPage.uid,                       
-                        formGroupUid:formGroup.uid,
-                        formGroupDisplayName:formGroup.displayName,
+                        formPageUid:formPage.0.uid,                       
+                        formGroupUid:groupItem.uid,
+                        formGroupDisplayName:groupItem.displayName,
                         groupItem:groupItem, 
                         groupIndex:groupItemIterator.index}"/>
 
-              <f:if condition="{formGroup.maxIteration} == 0">
+              <f:if condition="{groupItem.maxIteration} == 0">
                 <f:if condition="{groupItemIterator.isLast}">                               
-                  <input type="submit" value="{formGroup.displayName} hinzufügen"
+                  <input type="submit" value="{groupItem.displayName} hinzufügen"
                          name="add_group" class="add_group"
-                         data-group="{formGroup.uid}"
+                         data-group="{groupItem.uid}"
                          data-ajax="{f:uri.action(
                               action:'ajaxGroup',
                               controller:'DocumentForm',
                               pageType:110124,
                               arguments:{
-                                  pageUid:formPage.uid,
-                                  groupUid:formGroup.uid                               
+                                  pageUid:formPage.0.uid,
+                                  groupUid:groupItem.uid                               
                          })}"
                          data-index="{groupItemIterator.index}" />
                 </f:if>

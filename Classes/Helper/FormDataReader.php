@@ -122,6 +122,7 @@ class FormDataReader {
             $documentFormField->setUid($metadataObject->getUid());
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
+            $documentFormField->setInputField($metadataObject->getInputField());
             $documentFormField->setValue($object);
             
             $documentFormGroup->addItem($documentFormField);                                 

@@ -71,8 +71,8 @@ var addGroup = function() {
     
     var addField = function() {
 
-        var element = jQuery(this);
-
+        var addButton = jQuery(this);
+                       
         // Get the field uid
         var dataField = jQuery(this).attr('data-field');
 
@@ -87,16 +87,20 @@ var addGroup = function() {
                 fieldIndex : fieldIndex
             }
         };
+        
+        
+       
 
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (element) {
           
             var field = jQuery(element).find("#new-element").children();
 
-            jQuery(field).insertBefore(jQuery('.add_field[data-field="'+dataField+'"]').first());
+            jQuery(field).insertBefore(addButton);
           
         
           
+        
           //  var height =jQuery('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
 
            // jQuery('html, body').animate({

@@ -3,9 +3,17 @@ namespace EWW\Dpf\Helper;
 
 class DocumentFormMapper {
   
+  /**
+   * documentTypeRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+   * @inject
+   */
+  protected $documentTypeRepository = NULL;        
+
   
   protected $domXpath;
-    
+ /*   
   public function getDocumentForm($documentType,$document) {
 
     $form['uid'] = $documentType->getUid();
@@ -101,13 +109,33 @@ class DocumentFormMapper {
     
     return $form;              
   }                 
-
+*/
  
   public function getDocumentData($documentType, $formData) {
+               
+    foreach ($formData['metadata'] as $key => $value) {      
+      $formField = new \EWW\Dpf\Helper\FormField($key,$value);      
+      $fields[] = $formField;            
+    }
+    
+    $documentData = array();
+    
+    foreach ($fields as $field) {                    
+      $pageUid = $field->getPageUid();
+      $groupUid = $field->getGroupUid();
+      $groupIndex = $field->getGroupIndex();
+      $fieldUid = $field->getFieldUid();
+      $fieldIndex = $field->getFieldIndex();
+      $value = $field->getValue();
+      
+      $documentData[$pageUid][$groupUid][$groupIndex][$fieldUid][$fieldIndex] = $value;      
+    }    
+    
+    //return $documentData;
     
     $data['documentUid'] = $formData['documentUid'];
     
-    $data['metadata'] = $this->readFormData($documentType, $formData['metadata']);
+    $data['metadata'] = $this->readFormData($documentType, $documentData);
 
     $data['files'] = $formData['files'];
 
@@ -130,7 +158,7 @@ class DocumentFormMapper {
           
           $groupMapping =  "/" .  trim($child->getMapping()," /");          
           $uid = $child->getUid();        
-          $groupData = $nodeData['g'][$uid];
+          $groupData = $nodeData[$uid];
           
           foreach ($groupData as $index => $group) {
             $item = $this->readFormData($child, $group);            
@@ -146,7 +174,7 @@ class DocumentFormMapper {
           $fieldMapping = trim($child->getMapping()," /");                                                 
             
           $uid = $child->getUid();         
-          $fieldData = $nodeData['f'][$uid];
+          $fieldData = $nodeData[$uid];
                                                 
           foreach ($fieldData as $index => $value) {
            
@@ -169,7 +197,7 @@ class DocumentFormMapper {
           break;          
         
         default:
-          $data = $nodeData['p'][$child->getUid()];
+          $data = $nodeData[$child->getUid()];
           
           $items = $this->readFormData($child, $data);   
           
@@ -185,7 +213,7 @@ class DocumentFormMapper {
   }
 
   
-  public function getDocumentForm2($documentType,$document) { 
+  public function getDocumentForm($documentType,$document) { 
     
     $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();      
     $documentForm->setUid($documentType->getUid());    
@@ -244,7 +272,8 @@ class DocumentFormMapper {
                 $documentFormField->setDisplayName($metadataObject->getDisplayName());
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
-                $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
+                $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
+                $documentFormField->setInputField($metadataObject->getInputField());   
                 //$documentFormField->setValue($object);
           
                 // $item['inputField'] = $child->getInputField();
@@ -273,6 +302,7 @@ class DocumentFormMapper {
               $documentFormField->setName($metadataObject->getName());               
               $documentFormField->setMandatory($metadataObject->getMandatory());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
+              $documentFormField->setInputField($metadataObject->getInputField());   
               $documentFormField->setValue("");
                                
               $documentFormGroup->addItem($documentFormField);                
