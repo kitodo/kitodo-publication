@@ -177,9 +177,9 @@ class DocumentFormMapper {
           $fieldData = $nodeData[$uid];
                                        
           // please refactor me
-            $eww['mapping'] = "@eww";
-            $eww['value'] = $ewwAttr;            
-            $form['attributes'][0] = $eww; 
+            // $eww['mapping'] = "@eww";
+            // $eww['value'] = $ewwAttr;            
+            // $form['attributes'][0] = $eww; 
             // please refactor me 
           
           

@@ -217,16 +217,25 @@ class MetsExporter {
 			foreach($attributes as $attribute) {
 				$attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
 			}
+			$i = 0;
 
 			foreach($values as $value){
 				$path = $mapping.$attributeXPath.'#/'.$value['mapping'];
 				// print_r($path);print_r("\n");
-				$xml = $this->customXPath($path, $value['value']);
+				 
+				if($i == 0) {
+					$newGroupFlag = true;
+				} else {
+					$newGroupFlag = false;
+				}
+
+				$xml = $this->customXPath($path, $newGroupFlag, $value['value']);
+				$i++;
 			}
 
 		}
 		$this->files = $array['files'];
-		$this->buildMets();
+		$this->buildMets();#die();
 
 	}
 
@@ -250,11 +259,13 @@ class MetsExporter {
 	 * @param  string $value   form value
 	 * @return xml        created xml
 	 */
-	public function customXPath($xPath, $value = '')
+	public function customXPath($xPath, $newGroupFlag = false, $value = '')
 	{
 		// Explode xPath
 		$newPath = explode('#', $xPath);
-		
+	// print_r($newPath);
+	// print_r("test");	
+
 		$praedicateFlag = false;
 		$explodedXPath = explode('[', $newPath[0]);
 		if(count($explodedXPath) > 1) {
@@ -282,7 +293,7 @@ class MetsExporter {
 
 		$modsDataXPath = new \DOMXpath($this->modsData);
 
-		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
+		if(!$newGroupFlag && $modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
 			// first xpath path exist
 
 			// build xml from second xpath part
@@ -294,10 +305,12 @@ class MetsExporter {
 			$domXPath = new \DOMXpath($this->modsData);
 			$domNode = $domXPath->query('/mods:mods'.$path);
 
-			$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
+			$domNodeList = $docXML->getElementsByTagName("mods");
+
+			$node = $domNodeList->item(0)->firstChild;
 
 			$nodeAppendModsData = $this->modsData->importNode($node, true);
-			$domNode->item(0)->appendChild($nodeAppendModsData);
+			$domNode->item($domNode->length-1)->appendChild($nodeAppendModsData);
 
 
 		} else {
