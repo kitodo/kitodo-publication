@@ -143,7 +143,7 @@ class DocumentFormMapper {
   }
 
 
-  public function readFormData($node, $nodeData) {
+  public function readFormData($node, $nodeData, $ewwAttr="") {
     
     $form = array();
     
@@ -160,8 +160,8 @@ class DocumentFormMapper {
           $uid = $child->getUid();        
           $groupData = $nodeData[$uid];
           
-          foreach ($groupData as $index => $group) {
-            $item = $this->readFormData($child, $group);            
+          foreach ($groupData as $index => $group) {                                    
+            $item = $this->readFormData($child, $group, $ewwAttr."-".$uid."-".$index);            
             $item['mapping'] = $groupMapping;
             $item['groupUid'] = $uid;
             $form[] = $item; 
@@ -175,7 +175,14 @@ class DocumentFormMapper {
             
           $uid = $child->getUid();         
           $fieldData = $nodeData[$uid];
-                                                
+                                       
+          // please refactor me
+            $eww['mapping'] = "@eww";
+            $eww['value'] = $ewwAttr;            
+            $form['attributes'][0] = $eww; 
+            // please refactor me 
+          
+          
           foreach ($fieldData as $index => $value) {
            
             // Do not save empty fields 
@@ -189,17 +196,17 @@ class DocumentFormMapper {
                 $form['values'][] = $field;
               }
             }
-            
+                                      
             if (!key_exists('attributes', $form)) $form['attributes'] = array();
             if (!key_exists('values', $form)) $form['values'] = array();            
            
-          }                                    
+          }                                 
           break;          
         
         default:
           $data = $nodeData[$child->getUid()];
-          
-          $items = $this->readFormData($child, $data);   
+                   
+          $items = $this->readFormData($child, $data, "".$child->getUid());   
           
           foreach ($items as $item) {            
             $form[] = $item;            
