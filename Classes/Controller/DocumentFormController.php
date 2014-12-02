@@ -230,9 +230,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
   )
 );
         */        
-             $this->view->assign('debugData', $updateDocument);
+           //  $this->view->assign('debugData', $updateDocument);
               
-          /*     
+              
            
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
@@ -258,7 +258,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $xml = $exporter->getMetsData();
 	       // var_dump($xml); die();
                //  $this->view->assign('debugData', $xml);
-            /*         
+                     
               // $this->view->assign('debugData',$updateDocument);  
                 $title = $this->getTitleFromXmlData($xml);                                
                 $document->setTitle($title);                
@@ -267,7 +267,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                
                 $this->documentRepository->update($document);
                                                     
-		$this->redirect('list'); */
+		$this->redirect('list');
 	}
 
 	/**
