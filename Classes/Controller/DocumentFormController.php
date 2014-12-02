@@ -118,8 +118,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 //$mapper->setDocument($document);
-                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType,$document));
-            
+                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType,$document));            
 	}
 
       
@@ -138,7 +137,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
                 
                 $newDocument = $mapper->getDocumentData($documentType,$documentData);
-
+                                              
                 foreach ($newDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -230,9 +229,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
   )
 );
         */        
-           //  $this->view->assign('debugData', $updateDocument);
+          // $this->view->assign('debugData', $updateDocument);
               
-              
+            
            
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
@@ -267,7 +266,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                
                 $this->documentRepository->update($document);
                                                     
-		$this->redirect('list');
+		$this->redirect('list'); 
 	}
 
 	/**
@@ -384,5 +383,41 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
             return $titleNode->item(0)->nodeValue;                              
         }
-                        
+              
+        
+        
+        
+        
+
+    /**
+     * Initialize action method validators
+     *
+     * @return void
+     */
+    protected function initializeActionMethodValidators() {
+            parent::initializeActionMethodValidators();
+     
+            foreach ($this->arguments as $argument) {
+                    /* @var  Tx_Extbase_MVC_Controller_Argument $argument */
+                    if ($argument->getName() == 'documentData' && $this->actionMethodName == 'updateAction') {
+                            /* @var Tx_Extbase_Validation_Validator_ConjunctionValidator $validator */
+                            $validator = $argument->getValidator();
+                            $requestArguments = $this->request->getArguments();
+   // echo "<pre>"; var_dump($validator); echo "</pre>"; die();
+                            // Add the CAPTCHA validator
+                            /* @var Tx_MyExt_Validation_Validator_CaptchaValidator $captchaValidator */
+                           // $captchaValidator = t3lib_div::makeInstance('Tx_SazQuestions_Validation_Validator_CaptchaValidator');
+                           // 
+                           $ewwValidator = $this->objectManager->get('\EWW\Dpf\Validation\DocumentFormValidator');
+                            $ewwValidator->setOptions(
+                                    array(
+                                            'value' => 'test'
+                                    )
+                            );
+                            $validator->addValidator($ewwValidator);
+                    }
+            }
+    }
+
+
 }
