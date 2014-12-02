@@ -278,25 +278,25 @@ class MetsExporter {
 
 		$modsDataXPath = new \DOMXpath($this->modsData);
 
-		// if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0 && false) {
-		// 	// first xpath path exist
+		if($modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0 && false) {
+			// first xpath path exist
 
-		// 	// build xml from second xpath part
-		// 	$xml = $this->parseXPath($newPath[1]);
+			// build xml from second xpath part
+			$xml = $this->parseXPath($newPath[1]);
 
-		// 	$docXML = new \DOMDocument();
-		// 	$docXML->loadXML($this->wrapMods($xml));
+			$docXML = new \DOMDocument();
+			$docXML->loadXML($this->wrapMods($xml));
 
-		// 	$domXPath = new \DOMXpath($this->modsData);
-		// 	$domNode = $domXPath->query('/mods:mods'.$path);
+			$domXPath = new \DOMXpath($this->modsData);
+			$domNode = $domXPath->query('/mods:mods'.$path);
 
-		// 	$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
+			$node = $docXML->getElementsByTagName("mods")->item(0)->firstChild;
 
-		// 	$nodeAppendModsData = $this->modsData->importNode($node, true);
-		// 	$domNode->item(0)->appendChild($nodeAppendModsData);
+			$nodeAppendModsData = $this->modsData->importNode($node, true);
+			$domNode->item(0)->appendChild($nodeAppendModsData);
 
 
-		// } else {
+		} else {
 		// first xpath doesnt exist
 		// parse first xpath part
 		$xml1 = $this->parseXPath($newPath[0]);
@@ -338,7 +338,7 @@ class MetsExporter {
 
 		return $doc1->saveXML();
 
-		// }
+		}
 		return $this->modsData->saveXML();
 	}
 
