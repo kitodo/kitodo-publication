@@ -160,13 +160,18 @@ class MetsExporter {
 		$nodeAppendModsData = $modsWrap->importNode($this->modsData->firstChild, true);
 		$xmlData->appendChild($nodeAppendModsData);
 
-		// add filesection
-		$nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
-		$modsWrap->firstChild->appendChild($nodeAppendModsData);
-
-		// add structure map
-		$nodeAppendModsData = $modsWrap->importNode($structureMap->firstChild->firstChild, true);
-		$modsWrap->firstChild->appendChild($nodeAppendModsData);
+		if($fileSection) {
+			// add filesection
+			$nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
+			$modsWrap->firstChild->appendChild($nodeAppendModsData);
+		}
+		
+		if($structureMap) {
+			// add structure map
+			$nodeAppendModsData = $modsWrap->importNode($structureMap->firstChild->firstChild, true);
+			$modsWrap->firstChild->appendChild($nodeAppendModsData);
+		}
+		
 
 		$modsWrap->formatOutput = true;
 		$modsWrap->encoding = 'UTF-8';
