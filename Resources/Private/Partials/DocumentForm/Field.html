@@ -1,10 +1,31 @@
-<label data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>
+<label data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>  
 <f:switch expression="{fieldItem.inputField}">
-  <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                     
-  <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                               
-  <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" options="{countries}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/>
-  </f:case>                       
+   <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                         
+   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                                      
+   <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" options="{countries}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/> </f:case>     
 </f:switch>
+      
  <f:if condition="{fieldIndex}">
         <input type="submit" value="{fieldItem.displayName} entfernen" name="rem_field" class="rem_field" data-index="{fieldIndex}" data-field="{fieldItem.uid}"/>
  </f:if>
+    
+<f:form.validationResults>
+  <f:if condition="{validationResults.flattenedErrors}">
+    
+
+    <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
+    {propertyPath}
+        <f:for each="{errors}" as="error">
+        {error.code}: {error}
+        </f:for> 
+    </f:for> 
+
+
+  </f:if>
+</f:form.validationResults>
+
+<f:comment>
+   <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                         
+   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                                      
+   <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" options="{countries}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/> </f:case>     
+</f:comment>

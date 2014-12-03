@@ -179,13 +179,15 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function editAction(\EWW\Dpf\Domain\Model\Document $document) {                               
+                
+                                                  
                 $documentType = $document->getDocumentType();                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();               
                                 
                 //$documentForm = $mapper->getDocumentForm($documentType,$document);   
                 
                 $documentForm = $mapper->getDocumentForm($documentType,$document); 
-                
+                                       
 		$this->view->assign('documentForm', $documentForm);                                                
 	}
 
@@ -230,9 +232,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 );
         */        
           // $this->view->assign('debugData', $updateDocument);
-              
-            
-           
+                                                          
                 foreach ($updateDocument['files'] as $tmpFile ) {
                                                       
                   $path = "uploads/tx_dpf";
@@ -251,6 +251,8 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $updateDocument['files'] = $files;
                 
                 
+               // $this->view->assign('debugData', $updateDocument);
+                
                 $exporter = new \EWW\Dpf\Services\MetsExporter();                
                 $exporter->buildModsFromForm($updateDocument);
                 
@@ -266,7 +268,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                
                 $this->documentRepository->update($document);
                                                     
-		$this->redirect('list'); 
+		$this->redirect('list');
 	}
 
 	/**
@@ -289,7 +291,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
          * @param integer $groupIndex
          * @return void
          */
-        public function ajaxGroupAction(integer $pageUid, integer $groupUid, integer $groupIndex) {
+        public function ajaxGroupAction($pageUid, $groupUid, $groupIndex) {
                              
            $group = $this->metadataGroupRepository->findByUid($groupUid);
 
@@ -330,7 +332,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
          * @param integer $fieldIndex
          * @return void
          */
-        public function ajaxFieldAction(integer $pageUid, integer $groupUid, integer $groupIndex, integer $fieldUid, integer $fieldIndex) {
+        public function ajaxFieldAction($pageUid, $groupUid, $groupIndex, $fieldUid, $fieldIndex) {
 
            $field = $this->metadataObjectRepository->findByUid($fieldUid);         
                     
@@ -397,19 +399,22 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     protected function initializeActionMethodValidators() {
             parent::initializeActionMethodValidators();
      
+            
+           // var_dump($this->arguments); die();
+            
             foreach ($this->arguments as $argument) {
                     /* @var  Tx_Extbase_MVC_Controller_Argument $argument */
                     if ($argument->getName() == 'documentData' && $this->actionMethodName == 'updateAction') {
                             /* @var Tx_Extbase_Validation_Validator_ConjunctionValidator $validator */
                             $validator = $argument->getValidator();
                             $requestArguments = $this->request->getArguments();
-   // echo "<pre>"; var_dump($validator); echo "</pre>"; die();
+    //echo "<pre>"; var_dump($requestArguments); echo "</pre>";
                             // Add the CAPTCHA validator
                             /* @var Tx_MyExt_Validation_Validator_CaptchaValidator $captchaValidator */
                            // $captchaValidator = t3lib_div::makeInstance('Tx_SazQuestions_Validation_Validator_CaptchaValidator');
                            // 
                            $ewwValidator = $this->objectManager->get('\EWW\Dpf\Validation\DocumentFormValidator');
-                            $ewwValidator->setOptions(
+                           $ewwValidator->setOptions(
                                     array(
                                             'value' => 'test'
                                     )

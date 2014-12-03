@@ -6,20 +6,19 @@ namespace EWW\Dpf\Validation;
     /**
     * action isValid
     *   
-    * @param string $value
-    * @param string $errormessage
-    * @return void
+    * @param string $value    
+    * @return boolean
     */	
     public function isValid($value) {
       
       
-      var_dump($value); die();
+   //  var_dump("sdfsdf"); die();
       
       
       $this->errors = array();
       //if(empty(trim($value))) {
-       $this->addError("test");
-      //  return false;
+      $this->addError("Qucosa Fehler"); //,NULL,array(),"Test");
+      return false;
       //}
         //return true;
       }
