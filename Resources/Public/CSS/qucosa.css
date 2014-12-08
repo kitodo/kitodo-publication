@@ -269,3 +269,23 @@ fieldset p {
      
     padding: 3px 24px 3px 6px;
 }
+
+
+select.mandatory-error,
+textarea.mandatory-error,
+input.mandatory-error {
+  
+  border: 2px solid red !important;
+  
+}
+
+
+li a.mandatory-error {
+  color: red !important;
+}
+
+span.mandatory-error {  
+  display: block;  
+  margin: 0 0 10px 0;
+  color: red;
+}

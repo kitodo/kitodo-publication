@@ -25,8 +25,109 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".add_file_group", addGroup);
     jQuery(".tx-dpf").on("click",".add_field", addField);
     
+    
+    
+    jQuery(".form-submit").on("click","#save",function() {
+           
+        jQuery('span.mandatory-error').remove(); 
+        
+        // check mandatory groups
+        jQuery('fieldset[data-mandatory=1]').each(function(){
+                                              
+           var fieldset = jQuery(this);
+                                                                   
+           if (hasMandatoryInputs(fieldset)) {             
+              if (checkMandatoryInputs(fieldset)) {               
+                jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                                 
+              }                  
+           } else {                                                                 
+             if (checkFilledInputs(fieldset)) {                          
+              jQuery('<span class="mandatory-error">Bitte füllen Sie mindestens eines der Felder aus.</span>').insertAfter(fieldset.find('legend').last());              
+             } 
+           }                                                                              
+        });
+        
+        
+                
+        // check non mandatory groups
+        jQuery('fieldset[data-mandatory=""]').each(function() {                                   
+          
+            var fieldset = jQuery(this);
+          
+            var filledInputs = 0;
+            jQuery(this).find('.input-field').each(function() {              
+              if (jQuery(this).val()) {
+                filledInputs++;
+              }
+              jQuery(this).removeClass('mandatory-error');  
+            });
+             
+            // if there are fields with a value then mandatory fields
+            // are relevant.
+            if (filledInputs) {
+              if (checkMandatoryInputs(fieldset)) {               
+                jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                   
+              }
+            }                               
+        });
+        
+        return false;
+    });
+    
+    
+    
 });
 
+
+
+var hasMandatoryInputs = function (fieldset) {
+  var inputs = fieldset.find(".input-field[data-mandatory=1]");
+  return inputs.length > 0
+  
+}
+
+
+var markPage = function (fieldset,error) {  
+  var pageId = fieldset.parent().attr('id');  
+  var page = jQuery('.tx-dpf-tabs li a[href=#'+pageId+']');
+              
+  if (error) {
+    page.addClass('mandatory-error');                
+  } else {
+    page.removeClass('mandatory-error');  
+  }                           
+}
+
+
+var checkMandatoryInputs = function(fieldset) {          
+  var mandatoryError = false;
+  fieldset.find(".input-field[data-mandatory=1]").each(function(){                                    
+    if (!jQuery(this).val() || jQuery(this).val() == 'xyz') {                
+      mandatoryError = mandatoryError || true;                                                                   
+      jQuery(this).addClass('mandatory-error');                              
+    } else {                
+      jQuery(this).removeClass('mandatory-error');
+    }                                                                                                               
+  });     
+
+  markPage(fieldset,mandatoryError);
+  
+  return mandatoryError;
+}
+
+var checkFilledInputs = function(fieldset) {    
+  var filledInputs = 0;
+  fieldset.find('.input-field').each(function() {              
+   if (jQuery(this).val()) {
+     filledInputs++;
+   }
+   jQuery(this).removeClass('mandatory-error');  
+  });
+  
+  markPage(fieldset,filledInputs < 1);    
+ 
+  return filledInputs < 1; 
+}
 
 
 var addGroup = function() {
