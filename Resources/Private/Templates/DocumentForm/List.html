@@ -13,10 +13,10 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Dokumentenliste</h1>
+<h1>Dokument anlegen</h1>
 
 <f:flashMessages renderMode="div" />
-
+<f:comment>
 <table  class="tx_dpf" >
 	<tr>
 		<th>Titel</th>
@@ -33,10 +33,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		</tr>
 	</f:for>
 </table>
-
-<f:for each="{documentTypes}" as="documentType">
+</f:comment>
+<f:for each="{documentTypes}" as="documentType">  
+  <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}</f:link.action>
   <br />
-  <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName} anlegen</f:link.action>
 </f:for>
 
 </f:section>
