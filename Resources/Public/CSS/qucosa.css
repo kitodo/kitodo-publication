@@ -284,6 +284,7 @@ li a.mandatory-error {
   color: red !important;
 }
 
+span.form-error,
 span.mandatory-error {  
   display: block;  
   margin: 0 0 10px 0;

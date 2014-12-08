@@ -29,7 +29,7 @@ $(document).ready(function() {
     
     jQuery(".form-submit").on("click","#save",function() {
            
-        jQuery('span.mandatory-error').remove(); 
+        jQuery('span.mandatory-error').remove();        
         
         // check mandatory groups
         jQuery('fieldset[data-mandatory=1]').each(function(){
@@ -39,10 +39,12 @@ $(document).ready(function() {
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                                 
-              }                  
+                showFormError();                                               
+            }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
               jQuery('<span class="mandatory-error">Bitte füllen Sie mindestens eines der Felder aus.</span>').insertAfter(fieldset.find('legend').last());              
+              showFormError();                                                   
              } 
            }                                                                              
         });
@@ -67,6 +69,7 @@ $(document).ready(function() {
             if (filledInputs) {
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                   
+                showFormError();                                                            
               }
             }                               
         });
@@ -78,6 +81,13 @@ $(document).ready(function() {
     
 });
 
+
+
+var showFormError = function() {
+  jQuery('span.form-error').remove(); 
+  jQuery('<span class="form-error">Das Formular enthält Fehler.</span>').insertBefore(jQuery('form').first()); 
+  jQuery("html, body").animate({ scrollTop: 0 }, 200);
+}
 
 
 var hasMandatoryInputs = function (fieldset) {
