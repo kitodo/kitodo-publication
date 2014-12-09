@@ -16,7 +16,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <h1>Dokument anlegen</h1>
 
 <f:flashMessages renderMode="div" />
-<f:comment>
+
+<f:if condition="{listtype}">
+
 <table  class="tx_dpf" >
 	<tr>
 		<th>Titel</th>
@@ -33,7 +35,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		</tr>
 	</f:for>
 </table>
-</f:comment>
+  
+</f:if>  
+
 <f:for each="{documentTypes}" as="documentType">  
   <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}</f:link.action>
   <br />

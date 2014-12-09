@@ -10,21 +10,24 @@
         </TCEforms>
         <type>array</type>
         <el>
-          <settings.documenttype>
+          <settings.listtype>
             <TCEforms>
               <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype</label>                
               <config>
                 <type>select</type>
                 <items type="array">
                   <numIndex index="0" type="array">
-                    <numIndex index="0"></numIndex>
-                    <numIndex index="1"></numIndex>
+                    <numIndex index="0">keine Liste</numIndex>
+                    <numIndex index="1">no_list</numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">Liste</numIndex>
+                    <numIndex index="1">list</numIndex>
                   </numIndex>
                 </items>
-                <foreign_table>tx_dpf_domain_model_documenttype</foreign_table>                                   
               </config>
             </TCEforms>
-          </settings.documenttype>   
+          </settings.listtype>   
         </el>
       </ROOT>
     </sDEF>

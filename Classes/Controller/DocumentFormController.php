@@ -86,6 +86,9 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
                 $documentTypes = $this->documentTypeRepository->findAll();
                                 
+                
+                $this->view->assign('listtype', $this->settings['listtype']);
+                
                 $this->view->assign('documentTypes', $documentTypes);                                
 		$this->view->assign('documents', $documents);
 	}
