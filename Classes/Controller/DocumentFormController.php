@@ -132,7 +132,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function createAction(array $documentData) {
-
+                                      
                 $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
                 $newDoc = new \EWW\Dpf\Domain\Model\Document();
                 $newDoc->setDocumentType($documentType);
@@ -182,8 +182,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function editAction(\EWW\Dpf\Domain\Model\Document $document) {                               
-                
-                                                  
+                                      
                 $documentType = $document->getDocumentType();                
                 $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();               
                                 
@@ -203,7 +202,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	public function updateAction(array $documentData) {
                     
              // $this->view->assign('debugData',$documentData); 
-                         
+                                                                                      
                 $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
                 $document = $this->documentRepository->findByUid($documentData['documentUid']);  
                 $document->setDocumentType($documentType);
@@ -420,5 +419,15 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
     }
     */
+        
+    public function initializeAction() {
+      parent::initializeAction();
+      
+       $requestArguments = $this->request->getArguments();                
+       
+       if ($requestArguments['cancel']) {         
+         $this->redirect('list');         
+       }
+    }    
 
 }
