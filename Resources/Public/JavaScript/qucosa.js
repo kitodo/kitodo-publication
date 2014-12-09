@@ -28,7 +28,9 @@ $(document).ready(function() {
     
     
     jQuery(".form-submit").on("click","#save",function() {
-           
+        
+        var error = false;        
+        
         jQuery('span.mandatory-error').remove();        
         
         // check mandatory groups
@@ -39,12 +41,14 @@ $(document).ready(function() {
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                                 
-                showFormError();                                               
+                showFormError(); 
+                error = true;
             }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
               jQuery('<span class="mandatory-error">Bitte füllen Sie mindestens eines der Felder aus.</span>').insertAfter(fieldset.find('legend').last());              
-              showFormError();                                                   
+              showFormError();   
+              error = true;
              } 
            }                                                                              
         });
@@ -69,12 +73,13 @@ $(document).ready(function() {
             if (filledInputs) {
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                   
-                showFormError();                                                            
+                showFormError();    
+                error = true;
               }
             }                               
         });
         
-        return false;
+        return !error;
     });
     
     

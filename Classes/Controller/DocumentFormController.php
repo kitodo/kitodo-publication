@@ -396,24 +396,17 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      *
      * @return void
      */
-    protected function initializeActionMethodValidators() {
+  /*  protected function initializeActionMethodValidators() {
             parent::initializeActionMethodValidators();
-     
-            
-           // var_dump($this->arguments); die();
-            
+                                    
             foreach ($this->arguments as $argument) {
-                    /* @var  Tx_Extbase_MVC_Controller_Argument $argument */
+                    // @var  Tx_Extbase_MVC_Controller_Argument $argument
                     if ($argument->getName() == 'documentData' && $this->actionMethodName == 'updateAction') {
-                            /* @var Tx_Extbase_Validation_Validator_ConjunctionValidator $validator */
+                            // @var Tx_Extbase_Validation_Validator_ConjunctionValidator $validator
                             $validator = $argument->getValidator();
                             $requestArguments = $this->request->getArguments();
-    //echo "<pre>"; var_dump($requestArguments); echo "</pre>";
-                            // Add the CAPTCHA validator
-                            /* @var Tx_MyExt_Validation_Validator_CaptchaValidator $captchaValidator */
-                           // $captchaValidator = t3lib_div::makeInstance('Tx_SazQuestions_Validation_Validator_CaptchaValidator');
-                           // 
-                           $ewwValidator = $this->objectManager->get('\EWW\Dpf\Validation\DocumentFormValidator');
+
+                            $ewwValidator = $this->objectManager->get('\EWW\Dpf\Validation\DocumentFormValidator');
                            $ewwValidator->setOptions(
                                     array(
                                             'value' => 'test'
@@ -423,6 +416,6 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                     }
             }
     }
-
+    */
 
 }
