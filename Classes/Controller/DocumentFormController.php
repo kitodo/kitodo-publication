@@ -104,72 +104,182 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		$this->view->assign('document', $document);
 	}
 
+        
+        
+           //$this->forward('edit',NULL,NULL,array('document' => $document));
+        
+        /**
+         * initialize newAction
+         * 
+         * @return void
+         */
+        public function initializeNewAction() {
+          
+          $requestArguments = $this->request->getArguments();   
+                                                      
+          if (array_key_exists('documentData', $requestArguments)) {            
+            $documentData = $this->request->getArgument('documentData');  
+            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+            $formDataReader->setFormData($documentData);
+            $docForm = $formDataReader->getDocumentForm();
+          } else {
+            $docTypeUid = $this->request->getArgument('documentType');          
+            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);                
+            $document = $this->objectManager->create('\\EWW\\Dpf\\Domain\\Model\\Document');                                             
+            $mapper = new \EWW\Dpf\Helper\DocumentFormMapper(); 
+            $docForm = $mapper->getDocumentForm($documentType,$document);
+          }
+          
+          $requestArguments['newDocumentForm'] = $docForm;
+          $this->request->setArguments($requestArguments);                       
+        }
+        
+        
 	/**
 	 * action new
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Document $newDocument
-	 * @ignorevalidation $newDocument
+	 * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+	 * @ignorevalidation $newDocumentForm
 	 * @return void
 	 */
-	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
-        
-                $docTypeUid = $this->request->getArgument('documentType');
-          
-                $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-                
-                $document = $this->objectManager->create('\\EWW\\Dpf\\Domain\\Model\\Document');                              
-               
-                $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
-                //$mapper->setDocument($document);
-                $this->view->assign('documentForm', $mapper->getDocumentForm($documentType,$document));            
+	public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = NULL) {                      
+                $this->view->assign('documentForm', $newDocumentForm);            
 	}
 
+        
       
+        public function initializeCreateAction() {
+        
+            $requestArguments = $this->request->getArguments();                                                                 
+        
+            $documentData = $this->request->getArgument('documentData');
+            
+            //$documentType = $this->documentTypeRepository->findByUid($documentData['type']);
+            //$newDoc = new \EWW\Dpf\Domain\Model\Document();
+            //$newDoc->setDocumentType($documentType);
+            //
+            //$mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
+            //    
+            //$newDocument = $mapper->getDocumentData($documentType,$documentData);
+            
+            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+            $formDataReader->setFormData($documentData);
+            $docForm = $formDataReader->getDocumentForm();
+            
+            $requestArguments['newDocumentForm'] = $docForm;
+            $this->request->setArguments($requestArguments);                                                   
+        }
+        
+        
 	/**
 	 * action create
 	 *
-	 * @param array $documentData
+	 * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
 	 * @return void
 	 */
-	public function createAction(array $documentData) {
-                                      
-                $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
-                $newDoc = new \EWW\Dpf\Domain\Model\Document();
-                $newDoc->setDocumentType($documentType);
+	public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm) {
+                              
+          $documentForm = $newDocumentForm;
+                    
+          foreach ($documentForm->getItems() as $page) {                          
+              
+            foreach ($page[0]->getItems() as $group) {              
+             
+              foreach ($group as $groupItem) {    
                 
-                $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
+                $item = array();
                 
-                $newDocument = $mapper->getDocumentData($documentType,$documentData);
-                                              
-                foreach ($newDocument['files'] as $tmpFile ) {
-                                                      
-                  $path = "uploads/tx_dpf";
-                  $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
-                  
-                  if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
-                     $file['type'] = $mimeType = $tmpFile['type'];  
-                     $file['path'] = $fileName;
-                  
-                     $files[] = $file;
-                     
-                  }
-                                                                       
+                $uid = $groupItem->getUid();
+                $metadataGroup = $this->metadataGroupRepository->findByUid($uid);                
+                $groupMapping =  "/" .  trim($metadataGroup->getMapping()," /");          
+                 
+                              
+                //$item = $this->readFormData($child, $group);            
+                $item['mapping'] = $groupMapping;
+                $item['groupUid'] = $uid;
+                                
+                foreach ($groupItem->getItems() as $field) {                                                       
+                  foreach ($field as $fieldItem) {                      
+                    $fieldUid = $fieldItem->getUid();
+                    $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);                
+                    $fieldMapping = trim($metadataObject->getMapping()," /");     
+                   
+                    $formField = array();
+                    
+                    $value = $fieldItem->getValue();
+                    if ($value) {                      
+                      $formField['mapping'] = $fieldMapping;
+                      $formField['value'] = $value;
+                      
+                      if ( strpos($fieldMapping, "@") === 0) {
+                        $item['attributes'][] = $formField;                     
+                      } else {
+                        $item['values'][] = $formField;
+                      }
+                    }                                                                                                                                                     
+                  }                                                             
                 }
                 
-                $newDocument['files'] = $files;
+                if (!key_exists('attributes', $item)) $item['attributes'] = array();
+                if (!key_exists('values', $item)) $item['values'] = array();  
                 
+                $form[] = $item; 
+                                                  
+              }
                 
-                $exporter = new \EWW\Dpf\Services\MetsExporter();                
-                $exporter->buildModsFromForm($newDocument);
-                
-                $xml = $exporter->getMetsData();
-                
-                $title = $this->getTitleFromXmlData($xml);                                
-                $newDoc->setTitle($title);                
-                
-                $newDoc->setXmlData($xml);                
-                
-                $this->documentRepository->add($newDoc);
+            }
+              
+              
+              
+            
+            
+          }
+          
+          echo "<pre>";
+          var_dump($form);
+          echo "</pre>";
+          
+          die();
+          
+          //      $documentType = $this->documentTypeRepository->findByUid($documentData['type']);
+          
+
+          //      $newDoc = new \EWW\Dpf\Domain\Model\Document();
+          //      $newDoc->setDocumentType($documentType);
+          //      
+          //      $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
+          //      
+          //      $newDocument = $mapper->getDocumentData($documentType,$documentData);
+          //                                    
+          //      foreach ($newDocument['files'] as $tmpFile ) {
+          //                                            
+          //        $path = "uploads/tx_dpf";
+          //        $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
+          //        
+          //        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
+          //           $file['type'] = $mimeType = $tmpFile['type'];  
+          //           $file['path'] = $fileName;
+          //        
+          //           $files[] = $file;
+          //           
+          //        }
+          //                                                             
+          //      }
+          //      
+          //      $newDocument['files'] = $files;
+          //      
+          //      
+          //      $exporter = new \EWW\Dpf\Services\MetsExporter();                
+          //      $exporter->buildModsFromForm($newDocument);
+          //      
+          //      $xml = $exporter->getMetsData();
+          //      
+          //      $title = $this->getTitleFromXmlData($xml);                                
+          //      $newDoc->setTitle($title);                
+          //      
+          //      $newDoc->setXmlData($xml);                
+          //      
+          //      $this->documentRepository->add($newDoc);
                                 
                 $this->redirect('list');
 	}

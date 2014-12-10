@@ -3,16 +3,44 @@ namespace EWW\Dpf\Domain\Model;
 
 class AbstractFormElement {
   
+  /**
+   *
+   * @var integer
+   */
   protected $uid;
   
+  
+  /**
+   *
+   * @var string
+   */
   protected $displayName;
   
+  
+  /**
+   *
+   * @var string
+   */
   protected $name;
   
+  
+  /**
+   *
+   * @var array
+   */
   protected $items;
   
+  /**
+   *
+   * @var boolean
+   */
   protected $mandatory;
   
+  
+  /**
+   *
+   * @var integer
+   */
   protected $maxIteration;
   
   
