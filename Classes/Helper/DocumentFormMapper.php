@@ -220,12 +220,12 @@ class DocumentFormMapper {
   }
 
   
-  public function getDocumentForm($documentType,$document) { 
-    
+  public function getDocumentForm($document) { 
+               
     $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();      
-    $documentForm->setUid($documentType->getUid());    
-    $documentForm->setDisplayName($documentType->getDisplayName());
-    $documentForm->setName($documentType->getName());
+    $documentForm->setUid($document->getDocumentType()->getUid());    
+    $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
+    $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
    
     // Get the mods data
@@ -248,7 +248,7 @@ class DocumentFormMapper {
        
     $documentData = array();    
         
-    foreach ($documentType->getMetadataPage() as $metadataPage ) {                                    
+    foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
       $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());

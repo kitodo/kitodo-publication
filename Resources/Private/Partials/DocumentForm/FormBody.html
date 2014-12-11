@@ -64,6 +64,8 @@
 
   <div class="form-submit">
       <f:form.submit value="Speichern" name="save" id="save" />
-      <f:comment><f:form.submit value="Speichern und fortsezen" name="savecontinue" id="savecontinue" /></f:comment>
+      <f:if condition="{documentForm.documentUid} < 1">            
+        <f:form.submit value="Speichern und fortsezen" name="savecontinue" id="savecontinue" />
+      </f:if>
       <f:form.submit value="Abbrechen" name="cancel" id="cancel" />
   </div>
