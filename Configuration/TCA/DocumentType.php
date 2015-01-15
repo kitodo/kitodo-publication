@@ -20,6 +20,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 			'config' => array(
+                                'readOnly' => 1,
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -34,6 +35,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 			'config' => array(
+                                'readOnly' => 1,
 				'type' => 'select',
 				'items' => array(
 					array('', 0),
@@ -59,6 +61,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 	
 		'hidden' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
@@ -99,6 +102,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 
 		'name' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.name',
 			'config' => array(
 				'type' => 'input',
@@ -117,6 +121,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 		),
 		'metadata_page' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.metadata_page',
 			'config' => array(
 				'type' => 'inline',
