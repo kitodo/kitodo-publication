@@ -163,6 +163,8 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
+        sorting int(11) unsigned DEFAULT '0' NOT NULL,
+     
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
