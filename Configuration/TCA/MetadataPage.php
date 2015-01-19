@@ -20,7 +20,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 			'config' => array(
-                                'readOnly' => 1,
+                                //'readOnly' => 1,
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -35,7 +35,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 			'config' => array(
-                                'readOnly' => 1,
+                                //'readOnly' => 1,
 				'type' => 'select',
 				'items' => array(
 					array('', 0),
@@ -107,7 +107,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
+				'eval' => 'trim,unique'
 			),
 		),
 		'display_name' => array(
@@ -136,6 +136,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
+                                'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0)',                                
 				'MM' => 'tx_dpf_metadatapage_metadatagroup_mm',
 				'size' => 10,
 				'autoSizeMax' => 30,

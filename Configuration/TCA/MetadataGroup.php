@@ -20,7 +20,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 			'config' => array(
-                                'readOnly' => 1,
+                                //'readOnly' => 1,
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -35,7 +35,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 			'config' => array(
-                                'readOnly' => 1,
+                                //'readOnly' => 1,
 				'type' => 'select',
 				'items' => array(
 					array('', 0),
@@ -145,7 +145,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 4,
-				'eval' => 'int'
+				'eval' => 'int,unique'
 			)
 		),
 		'metadata_object' => array(
@@ -156,14 +156,19 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dpf_domain_model_metadataobject',
 				'foreign_field' => 'metadatagroup',
-				'maxitems'      => 9999,
+                                'foreign_label' => 'display_name', 
+                                'foreign_sortby' => 'sorting',
+                                'size' => 10,
+				'autoSizeMax' => 30,
+				'maxitems' => 9999,
+				'multiple' => 0,
 				'appearance' => array(
-					'collapseAll' => 0,
+					'collapseAll' => 1,
 					'levelLinksPosition' => 'top',
 					'showSynchronizationLink' => 1,
 					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
+					'showAllLocalizationLink' => 1                                        				 
+                                ),                                                              
 			),
 
 		),
