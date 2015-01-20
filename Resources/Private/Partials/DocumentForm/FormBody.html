@@ -25,7 +25,7 @@
 
               <f:if condition="{groupItem.maxIteration} == 0">
                 <f:if condition="{groupItemIterator.isLast}">                               
-                  <input type="submit" value="{groupItem.displayName} hinzufügen"
+                  <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: groupItem.displayName})}"
                          name="add_group" class="add_group"
                          data-group="{groupItem.uid}"
                          data-ajax="{f:uri.action(
@@ -63,9 +63,9 @@
     </div>
 
   <div class="form-submit">
-      <f:form.submit value="Speichern" name="save" id="save" />
+      <f:form.submit value="{f:translate(key: 'form_button.save')}" name="save" id="save" />
       <f:if condition="{documentForm.documentUid} < 1">            
-        <f:form.submit value="Speichern und fortsezen" name="savecontinue" id="savecontinue" />
+        <f:form.submit value="{f:translate(key: 'form_button.save_continue'}" name="savecontinue" id="savecontinue" />
       </f:if>
-      <f:form.submit value="Abbrechen" name="cancel" id="cancel" />
+      <f:form.submit value="{f:translate(key: 'form_button.cancel')}" name="cancel" id="cancel" />
   </div>

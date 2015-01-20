@@ -1,5 +1,6 @@
-$(document).ready(function() {
 
+$(document).ready(function() {
+         
     // Show the Form pages/steps in Tabs
     jQuery("ul.tx-dpf-tabs").tabs("div.css-panes > div");
 
@@ -29,8 +30,8 @@ $(document).ready(function() {
     
     jQuery(".form-submit").on("click","#save",function() {
         
-        var error = false;        
-        
+        var error = false; 
+                                                            
         jQuery('span.mandatory-error').remove();        
         
         // check mandatory groups
@@ -40,13 +41,13 @@ $(document).ready(function() {
                                                                    
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
-                jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                                 
+                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                                                                 
                 showFormError(); 
                 error = true;
             }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
-              jQuery('<span class="mandatory-error">Bitte füllen Sie mindestens eines der Felder aus.</span>').insertAfter(fieldset.find('legend').last());              
+              jQuery('<span class="mandatory-error">'+form_error_msg_group_one_required+'</span>').insertAfter(fieldset.find('legend').last());              
               showFormError();   
               error = true;
              } 
@@ -72,7 +73,7 @@ $(document).ready(function() {
             // are relevant.
             if (filledInputs) {
               if (checkMandatoryInputs(fieldset)) {               
-                jQuery('<span class="mandatory-error">Bitte füllen Sie die Pflichtfelder aus.</span>').insertAfter(fieldset.find('legend').last());                                                   
+                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                                                   
                 showFormError();    
                 error = true;
               }
@@ -88,9 +89,9 @@ $(document).ready(function() {
 
 
 
-var showFormError = function() {
+var showFormError = function() {          
   jQuery('span.form-error').remove(); 
-  jQuery('<span class="form-error">Das Formular enthält Fehler.</span>').insertBefore(jQuery('form').first()); 
+  jQuery('<span class="form-error">'+form_error_msg+'</span>').insertBefore(jQuery('form').first()); 
   jQuery("html, body").animate({ scrollTop: 0 }, 200);
 }
 

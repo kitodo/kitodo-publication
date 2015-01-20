@@ -122,7 +122,31 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
+			</trans-unit>   
+                        <trans-unit id="form_error_msg.group_mandatory">
+				<source>Please fill in the required fields.</source>
+			</trans-unit>   
+                        <trans-unit id="form_error_msg.group_one_required">
+				<source>Please fill out at least one of the fields.</source>
+			</trans-unit>   
+                        <trans-unit id="form_error_msg.all">
+				<source>The form contains errors.</source>
+			</trans-unit>    
+                        <trans-unit id="form_button.add_item">
+				<source>add %s</source>
 			</trans-unit>
+                        <trans-unit id="form_button.delete_item">
+				<source>delete %s</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.save">
+				<source>save</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.save_continue">
+				<source>save &amp; continue</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.cancel">
+				<source>cancel</source>
+			</trans-unit>                                                                                                                                                                                         
 		</body>
 	</file>
 </xliff>

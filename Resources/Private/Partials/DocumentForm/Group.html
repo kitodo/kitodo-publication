@@ -52,7 +52,7 @@
 
             <f:if condition="{fieldItem.maxIteration} == 0">
               <f:if condition="{fieldItemIterator.isLast}">
-              <input type="submit" value="{fieldItem.displayName} hinzufügen"
+              <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                        name="add_field" class="add_field"
                        data-field="{fieldItem.uid}"
                        data-ajax="{f:uri.action(
@@ -76,7 +76,7 @@
     </f:for>
 
     <f:if condition="{groupIndex}">
-        <p><input type="submit" value="{formGroupDisplayName} entfernen" name="rem_group" class="rem_group" data-group="{formGroupUid}"/></p>
+        <p><input type="submit" value="{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}" name="rem_group" class="rem_group" data-group="{formGroupUid}"/></p>                                       
     </f:if> 
         
 </fieldset>
