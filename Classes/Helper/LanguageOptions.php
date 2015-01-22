@@ -31,7 +31,7 @@ namespace EWW\Dpf\Helper;
  * Helper to get language information with ISO 639-2/B codes,
  * using the extension static_info_tables.
  */
-class LanguageInfo {     
+class LanguageOptions {     
 
   /**
    * languageRepository
@@ -229,23 +229,26 @@ class LanguageInfo {
     'zu'=>'zul',
   );
 
-  public function getLanguages() {
+  public function getOptions() {
      
     $languages = $this->languageRepository->findAll();
+       
+    $options = array();
+    
+    foreach ( $languages as $language ) {      
+    
      
-    foreach ( $languages as $language ) {
       
       $isoCodeA2 = strtolower($language->getIsoCodeA2());
       
-      if (key_exists($isoCodeA2, $this->isoCodeA2ToIsoCodeA3)) {       
-        $lang = new \EWW\Dpf\Domain\Model\Language;       
-        $lang->setNameLocalized($language->getNameLocalized());
-        $lang->setIsoCodeA3($this->isoCodeA2ToIsoCodeA3[$isoCodeA2]);
-        $langArray[] = $lang;       
-      }
+      if (key_exists($isoCodeA2, $this->isoCodeA2ToIsoCodeA3)) {                      
+        $options[$this->isoCodeA2ToIsoCodeA3[$isoCodeA2]] = $language->getNameLocalized();
+      }      
     }
-          
-    return $langArray;
+           
+    asort($options);
+    
+    return $options;
   }
   
   

@@ -1,11 +1,11 @@
-{namespace s=SJBR\StaticInfoTables\ViewHelpers}
+{namespace sx=EWW\Dpf\ViewHelpers}
 
 <label data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>  
 
 <f:switch expression="{fieldItem.inputField}">
    <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                         
    <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                                      
-   <f:case value="2"><s:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" staticInfoTable="language" optionLabelField="nameLocalized" options="{}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" /></f:case> 
+   <f:case value="2"><sx:form.select   property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" options="{}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" /></f:case> 
 </f:switch>
     
  <f:if condition="{fieldIndex}">

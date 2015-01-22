@@ -245,19 +245,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @ignorevalidation $documentForm
 	 * @return void
 	 */
-	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {
-          
-          $languageInfo = $this->objectManager->get('EWW\Dpf\Helper\LanguageInfo');
-          $languages = $languageInfo->getLanguages();
-          
-         // $languages = LocalizationUtility::getCurrentLanguage();
-          
-          $this->view->assign('languages', $languages);
-          
-          
-          
-          
-          
+	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                            
           $this->view->assign('documentForm', $documentForm);                                                
 	}
 
