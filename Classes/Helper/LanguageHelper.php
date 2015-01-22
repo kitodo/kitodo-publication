@@ -31,7 +31,7 @@ namespace EWW\Dpf\Helper;
  * Helper to get language information with ISO 639-2/B codes,
  * using the extension static_info_tables.
  */
-class LanguageOptions {     
+class LanguageHelper {     
 
   /**
    * languageRepository
@@ -229,6 +229,7 @@ class LanguageOptions {
     'zu'=>'zul',
   );
 
+  
   public function getOptions() {
      
     $languages = $this->languageRepository->findAll();
@@ -236,11 +237,9 @@ class LanguageOptions {
     $options = array();
     
     foreach ( $languages as $language ) {      
-    
-     
-      
+            
       $isoCodeA2 = strtolower($language->getIsoCodeA2());
-      
+               
       if (key_exists($isoCodeA2, $this->isoCodeA2ToIsoCodeA3)) {                      
         $options[$this->isoCodeA2ToIsoCodeA3[$isoCodeA2]] = $language->getNameLocalized();
       }      
@@ -249,6 +248,35 @@ class LanguageOptions {
     asort($options);
     
     return $options;
+  }
+  
+  
+  public function getIsoCodeA3ByID($id) {
+       
+    $language = $this->languageRepository->findByUid($id);
+         
+    $isoCodeA2 = strtolower($language->getIsoCodeA2());
+    
+    if (key_exists($isoCodeA2, $this->isoCodeA2ToIsoCodeA3)) {  
+      return $this->isoCodeA2ToIsoCodeA3[$isoCodeA2];
+    }
+        
+    return NULL;
+  }
+  
+  
+  public function getIdByIsoCodeA3($isoCodeA3) {
+    
+    $isoCodeA2 = array_search($isoCodeA3 , $this->isoCodeA2ToIsoCodeA3 );
+            
+    if ($isoCodeA2) {                 
+      $language = $this->languageRepository->findByIsoCodeA2(strtolower($isoCodeA2));            
+      if (sizeof($language) > 0) {       
+        return $language[0]->getUid();
+      }     
+    }
+    
+    return NULL;
   }
   
   

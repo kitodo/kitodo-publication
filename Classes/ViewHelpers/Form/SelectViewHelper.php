@@ -16,10 +16,10 @@ class SelectViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelpe
     
     $options = parent::getOptions();
              
-    $languageOptions = $this->objectManager->get('EWW\Dpf\Helper\LanguageOptions');
+    $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');
     
     if ( !$options ) {
-      return array("" => "") + $languageOptions->getOptions();
+      return array("" => "") + $languageHelper->getOptions();
     }
         
     return $options;

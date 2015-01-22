@@ -155,9 +155,9 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('textfield', 0),
-                                        array('textarea', 1),
-                                        array('select', 2),
+					array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.input', \EWW\Dpf\Domain\Model\MetadataObject::input),
+                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.textarea', \EWW\Dpf\Domain\Model\MetadataObject::textarea),
+                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.language', \EWW\Dpf\Domain\Model\MetadataObject::language),
 				),
 				'size' => 1,
 				'maxitems' => 1,

@@ -20,7 +20,7 @@
 			</trans-unit>
 			<trans-unit id="input_field.description">
 				<source>inputField</source>
-			</trans-unit>
+			</trans-unit>                        
 		</body>
 	</file>
 </xliff>

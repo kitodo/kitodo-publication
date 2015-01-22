@@ -69,6 +69,15 @@
 			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 				<source>Input Field</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input">
+				<source>input</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.textarea">
+				<source>textarea</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
+				<source>language</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttransfer">
 				<source>Document Transfer</source>
 			</trans-unit>

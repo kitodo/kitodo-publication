@@ -73,7 +73,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var integer
 	 */
 	protected $inputField = 0;
-
+        
+        const input = 0;
+        const textarea = 1;         
+        const language = 2;        
+        
 	/**
 	 * Returns the name
 	 *

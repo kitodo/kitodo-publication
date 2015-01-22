@@ -12,6 +12,15 @@ class DocumentFormMapper {
   protected $documentTypeRepository = NULL;        
 
   
+  /**
+   * objectManager
+   * 
+   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+   * @inject
+   */
+  protected $objectManager;
+  
+  
   protected $domXpath;
  /*   
   public function getDocumentForm($documentType,$document) {
@@ -127,7 +136,7 @@ class DocumentFormMapper {
       $fieldUid = $field->getFieldUid();
       $fieldIndex = $field->getFieldIndex();
       $value = $field->getValue();
-      
+                        
       $documentData[$pageUid][$groupUid][$groupIndex][$fieldUid][$fieldIndex] = $value;      
     }    
     
@@ -288,8 +297,17 @@ class DocumentFormMapper {
                 $objectData = $this->domXpath->query($objectMapping,$data);              
                                                  
                 if ($objectData->length > 0) { 
-                  foreach ($objectData as $key => $value) {                                               
-                    $documentFormField->setValue($value->nodeValue);
+                  foreach ($objectData as $key => $value) {          
+                    
+                    $objectValue = $value->nodeValue;
+                                                           
+                    if ($metadataObject->getInputField() == \EWW\Dpf\Domain\Model\MetadataObject::language) {
+                      // If field has type language: Map static_info_tables Database-ID to iso 639-2/B
+                      $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');                            
+                      $objectValue = $languageHelper->getIdByIsoCodeA3($objectValue);                                                                                                                                
+                    } 
+                                                         
+                    $documentFormField->setValue($objectValue);
                   }
                 }
            

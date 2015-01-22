@@ -8,12 +8,12 @@ class DocumentFormField extends AbstractFormElement {
   protected $inputField;
   
   
-  public function getValue() {    
+  public function getValue() {                   
     return $this->value;    
   }
   
   
-  public function setValue($value) {
+  public function setValue($value) {        
     $this->value = $value;    
   }
   
@@ -26,8 +26,7 @@ class DocumentFormField extends AbstractFormElement {
   public function setInputField($inputField) {
     $this->inputField = $inputField;    
   }
-  
-  
+      
 }
 
 ?>

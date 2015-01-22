@@ -40,7 +40,7 @@ class FormDataReader {
    */
   protected $metadataObjectRepository = NULL;
   
-  
+    
   /**
    * formData
    *     
@@ -118,13 +118,13 @@ class FormDataReader {
         foreach ($group as $objectUid => $objectItem ) {     
           foreach ($objectItem as $objectItem => $object ) {  
             $metadataObject = $this->metadataObjectRepository->findByUid($objectUid);                               
-            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();                        
             $documentFormField->setUid($metadataObject->getUid());
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
-            $documentFormField->setInputField($metadataObject->getInputField());
+            $documentFormField->setInputField($metadataObject->getInputField());                                               
             $documentFormField->setValue($object);
-            
+                       
             $documentFormGroup->addItem($documentFormField);                                 
           }
         }

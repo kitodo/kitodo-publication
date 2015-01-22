@@ -29,6 +29,15 @@ class DocumentFormReader {
   protected $documentForm;
   
   
+  /**
+   * objectManager
+   * 
+   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+   * @inject
+   */
+  protected $objectManager;
+  
+  
   public function setDocumentForm($documentForm) {
     $this->documentForm = $documentForm;  
   }
@@ -61,7 +70,14 @@ class DocumentFormReader {
               $formField = array();
 
               $value = $fieldItem->getValue();
-              if ($value) {                      
+              if ($value) { 
+                
+                if ($metadataObject->getInputField() == \EWW\Dpf\Domain\Model\MetadataObject::language) {
+                  // If field has type language: Map static_info_tables Database-ID to iso 639-2/B
+                  $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');                            
+                  $value = $languageHelper->getIsoCodeA3ById($value);                                                                                                     
+                } 
+                                
                 $formField['mapping'] = $fieldMapping;
                 $formField['value'] = $value;
 

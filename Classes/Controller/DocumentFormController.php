@@ -125,7 +125,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);                
             $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document'); 
             $document->setDocumentType($documentType);
-            $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();             
+            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormMapper');             
             $docForm = $mapper->getDocumentForm($document);
           } elseif (array_key_exists('newDocumentForm', $requestArguments)) {                                               
             $docForm = $this->request->getArgument('newDocumentForm');                              
@@ -227,7 +227,7 @@ class DocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
           if (array_key_exists('document', $requestArguments)) {                          
             $documentUid = $this->request->getArgument('document');            
             $document = $this->documentRepository->findByUid($documentUid);                                                           
-            $mapper = new \EWW\Dpf\Helper\DocumentFormMapper();                                               
+            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormMapper');                                               
             $documentForm = $mapper->getDocumentForm($document);                        
           } elseif (array_key_exists('documentForm', $requestArguments)) {                                               
             $documentForm = $this->request->getArgument('documentForm');                              
