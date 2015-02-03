@@ -3,6 +3,54 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
+
+if (TYPO3_MODE === 'BE') {
+  
+  $modulName = 'qucosaMain';
+  //Legt die Position des Moduls fest, hier nach Modul "web"
+  if (!isset($TBE_MODULES[$modulName])) {
+    $temp_TBE_MODULES = array();
+    foreach ($TBE_MODULES as $key => $val) {
+      if ($key == 'file') {
+        $temp_TBE_MODULES[$key] = $val;
+        $temp_TBE_MODULES[$modulName] = '';
+      } else {
+        $temp_TBE_MODULES[$key] = $val;
+      }
+    }
+    $TBE_MODULES = $temp_TBE_MODULES;
+  }
+  
+  
+  \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+        'Eww.' . $_EXTKEY,
+        'qucosaMain',
+        '',
+        '',
+        array(),       
+        array(
+          'access' => 'user,group',
+          'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_main.xlf',
+        )
+  );
+  
+  \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+          'Eww.' . $_EXTKEY,
+          'qucosaMain',   
+          'qucosamanager',
+          '',		
+          array(
+                  'Document' => 'list, show, new, create, edit, update, delete',
+          ),
+          array(
+                  'access' => 'user,group',
+                  'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_manager.xlf',
+          )
+  );
+}
+
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Qucosaform',

@@ -6,13 +6,14 @@ plugin.tx_dpf {
 		layoutRootPath = {$plugin.tx_dpf.view.layoutRootPath}
 	}
 	persistence {
-		storagePid = {$plugin.tx_dpf.persistence.storagePid}
+		storagePid = {$plugin.tx_dpf.persistence.storagePid}               
 	}
 	features {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
 }
+
 
 plugin.tx_dpf._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
@@ -67,4 +68,17 @@ ajax_page {
     debug = 0
   }
 
+}
+
+
+# Module configuration
+module.tx_dpf {
+	persistence {
+		storagePid = {$module.tx_dpf.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_dpf.view.templateRootPath}
+		partialRootPath = {$module.tx_dpf.view.partialRootPath}
+		layoutRootPath = {$module.tx_dpf.view.layoutRootPath}
+	}
 }

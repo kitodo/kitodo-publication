@@ -13,3 +13,18 @@ plugin.tx_dpf {
 		storagePid =
 	}
 }
+
+module.tx_dpf {
+	view {
+		# cat=module.tx_dpf/file; type=string; label=Path to template root (BE)
+		templateRootPath = EXT:dpf/Resources/Private/Templates/
+		# cat=module.tx_dpf/file; type=string; label=Path to template partials (BE)
+		partialRootPath = EXT:dpf/Resources/Private/Partials/
+		# cat=module.tx_dpf/file; type=string; label=Path to template layouts (BE)
+		layoutRootPath = EXT:dpf/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=module.tx_dpf//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
