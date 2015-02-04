@@ -160,11 +160,20 @@ var addGroup = function() {
 
         var ajaxURL = jQuery(this).attr('data-ajax');
 
-        var params = {
+        var params;
+        if (ajaxURL.indexOf("tx_dpf_qucosamain_dpfqucosamanager") > -1) {                
+          params = {           
+            tx_dpf_qucosamain_dpfqucosamanager: {
+                groupIndex : groupIndex
+            }
+          };
+        } else {          
+          params = {           
             tx_dpf_qucosaform: {
                 groupIndex : groupIndex
             }
-        };
+          };
+        }
 
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
@@ -199,16 +208,22 @@ var addGroup = function() {
 
         var ajaxURL = jQuery(this).attr('data-ajax');
 
-        var params = {
+        var params;
+        if (ajaxURL.indexOf("tx_dpf_qucosamain_dpfqucosamanager") > -1) {               
+          params = {           
+            tx_dpf_qucosamain_dpfqucosamanager: {
+                fieldIndex : fieldIndex
+            }
+          };
+        } else {          
+          params = {           
             tx_dpf_qucosaform: {
                 fieldIndex : fieldIndex
             }
-        };
-        
-        
-       
-
-        //do the ajax-call
+          };
+        }
+                                  
+        //do the ajax-call       
         jQuery.post(ajaxURL, params, function (element) {
           
             var field = jQuery(element).find("#new-element").children();

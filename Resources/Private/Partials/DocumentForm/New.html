@@ -1,0 +1,4 @@
+<f:form action="create" name="documentData" object="{documentData}" enctype="multipart/form-data">
+  <f:form.hidden property="type" value="{documentForm.uid}" />
+  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+</f:form>

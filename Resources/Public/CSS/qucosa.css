@@ -1,3 +1,8 @@
+.tx-dpf {
+  font-family: Verdana,Arial,Helvetica,sans-serif;  
+  margin: 0 0 0 0;
+}
+
 /* root element for tabs  */
 ul.tx-dpf-tabs {
     margin:0 !important;
@@ -23,16 +28,17 @@ ul.tx-dpf-tabs a {
     text-decoration:none;
     border:1px solid #d0d0d0;
     border-bottom:0px;
-    height:18px;
+    /* height:18px; */
     background-color:#efefef;
     /* color:#777; */
     color: #444;
     margin-right:2px;
     position:relative;
     top:1px;
+    font-size: 14px;
     outline:0;
     -moz-border-radius:4px 4px 0 0;        
-    line-height: 170%;
+    /* line-height: 170%; */
 }
 
 ul.tx-dpf-tabs a:hover {
@@ -137,6 +143,7 @@ ul.tx-dpf-tabs a.current {
 .tx-dpf input[type=submit] {
     float: none;
     width: auto;   
+    font-size: 12px;
 }
 
 .tx-dpf input[type=radio] {
@@ -259,7 +266,7 @@ fieldset p {
     padding: 3px 6px 3px 24px;
     /* position: relative; */
     z-index: 200;
-    font-size: smaller;
+    /* font-size: smaller; */
 }
 
 

@@ -25,10 +25,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <h2>{documentForm.displayName} bearbeiten</h2>
 
-<f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data">
-  <f:form.hidden property="type" value="{documentForm.uid}" />
-  <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
-  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
-</f:form>
+ <f:render partial="DocumentForm/Edit" arguments="{documentForm:documentForm}"/>
  
 </f:section>

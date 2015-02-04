@@ -1,0 +1,5 @@
+<f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data">
+  <f:form.hidden property="type" value="{documentForm.uid}" />
+  <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
+  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+</f:form>

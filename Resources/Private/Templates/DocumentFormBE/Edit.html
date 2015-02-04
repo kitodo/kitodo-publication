@@ -1,16 +1,17 @@
 
-<f:layout name="Default" />
+<f:layout name="DefaultBE" />
 
-This template displays a NEW form for the current domain object.
+This template displays a EDIT form for the current domain object.
 
 If you modify this template, do not forget to change the overwrite settings
 in /Configuration/ExtensionBuilder/settings.yaml:
   Resources:
     Private:
       Templates:
-        New.html: keep
+        Edit.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
 
 <f:section name="main">
 
@@ -20,8 +21,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 </f:comment>
 
-<h2>{documentForm.displayName} anlegen</h2>
+<f:debug title="Form" maxDepth="20">{languages}</f:debug>
 
-<f:render partial="DocumentForm/New" arguments="{documentForm:documentForm}"/>
+<h2>{documentForm.displayName} bearbeiten</h2>
 
+ <f:render partial="DocumentForm/Edit" arguments="{documentForm:documentForm}"/>
+ 
 </f:section>

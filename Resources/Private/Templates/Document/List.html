@@ -1,5 +1,4 @@
-
-<f:layout name="Default" />
+<f:layout name="Default{backendLayout}" />
 
 This Template is responsible for creating a table of domain objects.
 
@@ -12,8 +11,10 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
+
 <f:section name="main">
-<h1>Listing for Document</h1>
+   
+  <h1>Listing for Document</h1>
 
 <f:flashMessages renderMode="div" />
 
@@ -26,7 +27,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 	<f:for each="{documents}" as="document">
 		<tr>
-			<td><f:link.action action="show" arguments="{document : document}"> {document.xmlData}</f:link.action></td>
+			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}"> {document.xmlData}</f:link.action></td>
 			<td><f:link.action action="edit" arguments="{document : document}">Edit</f:link.action></td>
 			<td><f:link.action action="delete" arguments="{document : document}">Delete</f:link.action></td>
 		</tr>
@@ -34,4 +35,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 </table>
 
 <f:link.action action="new">New Document</f:link.action>
+
 </f:section>
+ 
+ 

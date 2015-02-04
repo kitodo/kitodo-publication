@@ -41,6 +41,8 @@ if (TYPO3_MODE === 'BE') {
           '',		
           array(
                   'Document' => 'list, show, new, create, edit, update, delete',
+                  'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
+                  'AjaxDocumentForm' => 'group,fileGroup,field',
           ),
           array(
                   'access' => 'user,group',

@@ -29,8 +29,8 @@
                          name="add_group" class="add_group"
                          data-group="{groupItem.uid}"
                          data-ajax="{f:uri.action(
-                              action:'ajaxGroup',
-                              controller:'DocumentForm',
+                              action:'group',
+                              controller:'AjaxDocumentForm',
                               pageType:110124,
                               arguments:{
                                   pageUid:formPage.0.uid,
@@ -53,8 +53,8 @@
                name="add_file_group" class="add_file_group"
                data-group="file-upload"
                data-ajax="{f:uri.action(
-                            action:'ajaxFileGroup',
-                            controller:'DocumentForm',
+                            action:'fileGroup',
+                            controller:'AjaxDocumentForm',
                             pageType:110124
                            )}"
               data-index="0" />
