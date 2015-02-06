@@ -159,21 +159,14 @@ var addGroup = function() {
         jQuery(this).attr('data-index', groupIndex);
 
         var ajaxURL = jQuery(this).attr('data-ajax');
-
-        var params;
-        if (ajaxURL.indexOf("tx_dpf_qucosamain_dpfqucosamanager") > -1) {                
-          params = {           
-            tx_dpf_qucosamain_dpfqucosamanager: {
-                groupIndex : groupIndex
-            }
-          };
-        } else {          
-          params = {           
-            tx_dpf_qucosaform: {
-                groupIndex : groupIndex
-            }
-          };
-        }
+                              
+        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+        var params = {};
+        if (res && res[1]) {          
+            params[res[1]] = {
+              groupIndex : groupIndex
+            };
+        }    
 
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
@@ -208,21 +201,14 @@ var addGroup = function() {
 
         var ajaxURL = jQuery(this).attr('data-ajax');
 
-        var params;
-        if (ajaxURL.indexOf("tx_dpf_qucosamain_dpfqucosamanager") > -1) {               
-          params = {           
-            tx_dpf_qucosamain_dpfqucosamanager: {
-                fieldIndex : fieldIndex
-            }
-          };
-        } else {          
-          params = {           
-            tx_dpf_qucosaform: {
-                fieldIndex : fieldIndex
-            }
-          };
-        }
-                                  
+        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+        var params = {};
+        if (res && res[1]) {          
+            params[res[1]] = {
+              fieldIndex : fieldIndex
+            };
+        }    
+                                                  
         //do the ajax-call       
         jQuery.post(ajaxURL, params, function (element) {
           
@@ -241,4 +227,4 @@ var addGroup = function() {
         });
 
       return false;
-    }
+    }               
