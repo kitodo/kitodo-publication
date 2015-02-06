@@ -159,14 +159,8 @@ var addGroup = function() {
         jQuery(this).attr('data-index', groupIndex);
 
         var ajaxURL = jQuery(this).attr('data-ajax');
-                              
-        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
-        var params = {};
-        if (res && res[1]) {          
-            params[res[1]] = {
-              groupIndex : groupIndex
-            };
-        }    
+                                             
+        var params = buildAjaxParams(ajaxURL,"groupIndex",groupIndex);
 
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
@@ -200,14 +194,8 @@ var addGroup = function() {
         jQuery(this).attr('data-index', fieldIndex );
 
         var ajaxURL = jQuery(this).attr('data-ajax');
-
-        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
-        var params = {};
-        if (res && res[1]) {          
-            params[res[1]] = {
-              fieldIndex : fieldIndex
-            };
-        }    
+              
+        var params = buildAjaxParams(ajaxURL,"fieldIndex",fieldIndex);
                                                   
         //do the ajax-call       
         jQuery.post(ajaxURL, params, function (element) {
@@ -227,4 +215,16 @@ var addGroup = function() {
         });
 
       return false;
-    }               
+    }   
+    
+    
+    function buildAjaxParams(ajaxURL,indexName,index) {      
+      var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+      var params = {};
+      var indexParam = {};
+      if (res && res[1]) {
+        indexParam[indexName] = index;
+        params[res[1]] = indexParam;
+      }
+      return params;
+    }
