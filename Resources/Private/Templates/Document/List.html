@@ -1,4 +1,4 @@
-<f:layout name="Default{backendLayout}" />
+<f:layout name="DefaultBE" />
 
 This Template is responsible for creating a table of domain objects.
 
@@ -14,28 +14,30 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
    
-  <h1>Listing for Document</h1>
+  <h1>Local Documents</h1>
 
 <f:flashMessages renderMode="div" />
 
-<table  class="tx_dpf" >
-	<tr>
-		<th><f:translate key="tx_dpf_domain_model_document.xml_data" /></th>
-		<th> </th>
-		<th> </th>
-	</tr>
-
+<table  class="tx_dpf table table-striped table-manager" >
+	<thead>
+          <tr>
+            <th class="col-sm-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
+            <th class="col-sm-1">Insert</th>
+            <th class="col-sm-1">Release</th>
+            <th class="col-sm-1">Function</th>            
+	  </tr>
+        </thead>
 	<f:for each="{documents}" as="document">
 		<tr>
-			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}"> {document.xmlData}</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{document : document}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{document : document}">Delete</f:link.action></td>
+			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}"> {document.title}</f:link.action></td>
+			<td></td>
+                        <td></td>
+                        <td>
+                          <f:link.action action="edit" arguments="{document : document}" class="btn btn-primary">Edit</f:link.action>
+                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">Delete</f:link.action>
+                        </td>
 		</tr>
 	</f:for>
 </table>
 
-<f:link.action action="new">New Document</f:link.action>
-
 </f:section>
- 
- 

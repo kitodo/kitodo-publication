@@ -11,6 +11,8 @@ class AddResourcesViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBac
 
         $pageRenderer->addCssFile($extRelPath . "Resources/Public/css/qucosa.css");
         $pageRenderer->addCssFile($extRelPath . "Resources/Public/css/qucosabe.css");
+        
+        //$pageRenderer->addCssFile($extRelPath . "Resources/Public/css/bootstrap.min.css");
 
         //$pageRenderer->loadJquery();
         $pageRenderer->addJsFile($extRelPath . "Resources/Public/JavaScript/jQuery.min.js");
