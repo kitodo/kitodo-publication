@@ -32,6 +32,14 @@ namespace EWW\Dpf\Domain\Model;
  */
 class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
+  
+        /**
+	 * crdate
+	 *
+	 * @var DateTime
+	 */
+	protected $crdate;        
+  
         /**
 	 * title
 	 *
@@ -110,5 +118,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setDocumentType(\EWW\Dpf\Domain\Model\DocumentType $documentType) {
 		$this->documentType = $documentType;
 	}
-
+        
+        /**
+         * 
+         * @return DateTime
+         */        
+        public function getCrdate() {
+          return $this->crdate;
+        }
+        
 }

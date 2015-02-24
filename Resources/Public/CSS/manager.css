@@ -1,4 +1,12 @@
 .table-manager {  
-  width: 80%; 
-  margin-left: 10%; 
+  /* width: auto; */
+}
+
+.tx-dpf {
+  width: 95%;
+  margin-left: 2%;
+}
+
+.table_col_function {
+  text-align: right;  
 }

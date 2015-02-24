@@ -18,23 +18,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
-<table  class="tx_dpf table table-striped table-manager" >
+<table  class="tx_dpf table table-striped table-manager table-condensed" >
 	<thead>
           <tr>
-            <th class="col-sm-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-            <th class="col-sm-1">Insert</th>
-            <th class="col-sm-1">Release</th>
-            <th class="col-sm-1">Function</th>            
+            <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
+            <th class="xcol-md-3">Insert</th>
+            <th class="xcol-md-3">Release</th>
+            <th class="xcol-md-2"></th>            
 	  </tr>
         </thead>
 	<f:for each="{documents}" as="document">
 		<tr>
-			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}"> {document.title}</f:link.action></td>
-			<td></td>
-                        <td></td>
-                        <td>
-                          <f:link.action action="edit" arguments="{document : document}" class="btn btn-primary">Edit</f:link.action>
-                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">Delete</f:link.action>
+			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
+			<td><f:format.date format="d-m-Y - H:i">{document.crdate}</f:format.date></td>
+                        <td>-</td>
+                        <td class="table_col_function">
+                          <f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}" class="btn btn-primary">Edit</f:link.action>
+                          <button class="btn btn-success">Release</button>  
+                          <button class="btn btn-warning">Doublet Check</button> 
+                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">Delete</f:link.action>                                                                  
                         </td>
 		</tr>
 	</f:for>

@@ -15,7 +15,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 		'1' => array('showitem' => ''),
 	),
 	'columns' => array(
-	
+                                                     	
 		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -127,6 +127,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 				'maxitems' => 1,
 			),
 		),
+            
+                'crdate' => Array (
+                        'exclude' => 0,
+                        'label' => 'Creation date',
+                        'config' => Array (
+                                'type' => 'none',
+                                'format' => 'datetime',
+                                'eval' => 'datetime',
+                        )
+                ),
 		
 	),
 );
