@@ -146,6 +146,18 @@
 			</trans-unit>     
                         <trans-unit id="form_button.cancel">
 				<source>cancel</source>
+			</trans-unit>    
+                        <trans-unit id="config.swordHost">
+				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.swordUser">
+				<source>Username</source>
+			</trans-unit>     
+                        <trans-unit id="config.swordPassword">
+				<source>Password</source>
+			</trans-unit>     
+                        <trans-unit id="config.fedoraHost">
+				<source>Host address</source>
 			</trans-unit>                                                                                                                                                                                         
 		</body>
 	</file>
