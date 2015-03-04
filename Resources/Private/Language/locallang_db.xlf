@@ -129,6 +129,21 @@
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog">
+				<source>Document Transfer Log</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.response">
+				<source>Response</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error">
+				<source>Curl Error</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document">
+				<source>Document</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

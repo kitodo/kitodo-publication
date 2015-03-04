@@ -60,8 +60,55 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \EWW\Dpf\Domain\Model\DocumentType
 	 */
 	protected $documentType = NULL;
-
         
+        /**
+         * repositoryId
+         * 
+         * @var integer         
+         */
+        protected $repositoryId;      
+                
+        /**
+         * transferStatus
+         * 
+         * @var string
+         */
+        protected $transferStatus;               
+                
+        /**
+         *  transferDate
+         * 
+         *  @var integer
+         */
+        protected $transferDate;    
+        
+        /**
+         * transferErrorCode
+         * 
+         * @var integer
+         */
+        protected $transferErrorCode;
+        
+        /**
+         * transferResponse
+         * 
+         * @var string
+         */
+	protected $transferResponse;
+                
+        /**
+         * transferHttpStatus
+         * 
+         * @var integer
+         */        
+	protected $transferHttpStatus;	
+                      
+        const TRANSFER_ERROR = "ERROR";
+        
+        const TRANSFER_QUEUED = "QUEUED";
+                     
+        const TRANSFER_SENT = "SENT";
+               
         /**
 	 * Returns the title
 	 *
@@ -120,6 +167,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
         
         /**
+         * Returns the crdate
          * 
          * @return DateTime
          */        
@@ -127,4 +175,117 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
           return $this->crdate;
         }
         
+        /**
+         * Returns the repositoryId
+         * 
+         * @return string
+         */
+        public function getRepositoryId() {
+          return $this->repositoryId;          
+        }
+        
+        /**
+         * Sets the repositoryId
+         * 
+         * @param string $repositoryId
+         * @return void
+         */
+        public function setRepositoryId($repositoryId) {
+          $this->repositoryId = $repositoryId;          
+        }
+                               
+        /**         
+         * Returns the transferStatus
+         * @var string
+         */
+        public function getTransferStatus() {
+          return $this->transferStatus; 
+        }               
+                
+        /**         
+         * Sets the transferStatus
+         * 
+         * @param string
+         * @return void
+         */
+        public function setTransferStatus($transferStatus) {
+          $this->transferStatus = $transferStatus; 
+        }               
+                
+        /**         
+         * Returns the transferDate
+         * 
+         * @var integer
+         */
+        public function getTransferDate() {
+          return $this->transferDate; 
+        }               
+                
+        /**         
+         * Sets the transferDate 
+         * 
+         * @param integer $transferDate
+         * @return void
+         */
+        public function setTransferDate($transferDate) {
+          $this->transferDate = $transferDate; 
+        }               
+                
+        /**         
+         * Returns the transferErrorCode
+         * 
+         * @var integer
+         */
+        public function getTransferErrorCode() {
+          return $this->transferErrorCode; 
+        }               
+                
+        /**         
+         * Sets the transferErrorCode
+         * 
+         * @param integer $transferErrorCode
+         * @return void
+         */
+        public function setTransferErrorCode($transferErrorCode) {
+          $this->transferErrorCode = $transferErrorCode; 
+        }               
+                                 
+        /**         
+         * Returns the transferResponse
+         * 
+         * @var string
+         */
+        public function getTransferResponse() {
+          return $this->transferResponse; 
+        }               
+                
+        /**         
+         * Sets the transferResponse
+         * 
+         * @param string $transferResponse
+         * @return void
+         */
+        public function setTransferResponse($transferResponse) {
+          $this->transferResponse = $transferResponse; 
+        }               
+        
+        /**         
+         * Returns the transferHttpStatus
+         * 
+         * @var integer
+         */
+        public function getTransferHttpStatus() {
+          return $this->transferHttpStatus; 
+        }               
+                
+        /**         
+         * Sets the transferHttpStatus
+         * 
+         * @param integer $transferHttpStatus
+         * @return void
+         */
+        public function setTransferHttpStatus($transferHttpStatus) {
+          $this->transferHttpStatus = $transferHttpStatus; 
+        }      
+                                                            
 }

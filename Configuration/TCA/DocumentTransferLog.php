@@ -3,19 +3,19 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
-	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_document']['ctrl'],
+$GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, xml_data, document_type',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, xml_data, document_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, date, response, curl_error, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
 	),
 	'columns' => array(
-                                                     	
+	
 		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -38,8 +38,8 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 				'items' => array(
 					array('', 0),
 				),
-				'foreign_table' => 'tx_dpf_domain_model_document',
-				'foreign_table_where' => 'AND tx_dpf_domain_model_document.pid=###CURRENT_PID### AND tx_dpf_domain_model_document.sys_language_uid IN (-1,0)',
+				'foreign_table' => 'tx_dpf_domain_model_documenttransferlog',
+				'foreign_table_where' => 'AND tx_dpf_domain_model_documenttransferlog.pid=###CURRENT_PID### AND tx_dpf_domain_model_documenttransferlog.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -96,66 +96,48 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 				),
 			),
 		),
-            
-                'title' => array(
+
+		'date' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.title',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.date',
 			'config' => array(
 				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
-			)
+				'size' => 10,
+				'eval' => 'datetime',
+				'checkbox' => 1,
+				'default' => time()
+			),
 		),
-
-		'xml_data' => array(
+		'response' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.xml_data',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.response',
 			'config' => array(
 				'type' => 'text',
 				'cols' => 40,
 				'rows' => 15,
 				'eval' => 'trim'
-			)
+			),
 		),
-		'document_type' => array(
+		'curl_error' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.document_type',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.curl_error',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			),
+		),
+		'document' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.document',
 			'config' => array(
 				'type' => 'select',
-				'foreign_table' => 'tx_dpf_domain_model_documenttype',
+				'foreign_table' => 'tx_dpf_domain_model_document',
 				'minitems' => 0,
 				'maxitems' => 1,
 			),
 		),
-            
-                'crdate' => Array (
-                        'exclude' => 0,
-                        'label' => 'Creation date',
-                        'config' => Array (
-                                'type' => 'none',
-                                'format' => 'datetime',
-                                'eval' => 'datetime',
-                        )
-                ),
-            
-                'transfer_status' => Array (
-                        'exclude' => 0,
-                        'label' => 'Transfer Status',
-                        'config' => Array (
-                                'type' => 'input',
-                                'size' => '30',
-                                'eval' => 'trim',
-                        )
-                ),
 		
-                'repository_id' => Array (
-                        'exclude' => 0,
-                        'label' => 'Repository ID',
-                        'config' => Array (
-                                'type' => 'input',
-                                'size' => '30',
-                                'eval' => 'trim',
-                        )
-                ),
 	),
 );

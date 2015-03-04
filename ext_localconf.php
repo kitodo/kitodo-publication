@@ -3,6 +3,22 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
+if (!defined ('TYPO3_MODE')) die ('Access denied.');
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\TransferTask'] = array(
+  'extension'        => $_EXTKEY,
+  'title'            => 'Qucosa-Dokumente ans Repository übertragen.',
+  'description'      => ''
+);
+
+
+if(isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers']) == false) {
+  $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'] = array();
+}
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'EWW\Dpf\Command\TransferCommandController';
+
+
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'EWW.' . $_EXTKEY,
 	'Qucosaform',

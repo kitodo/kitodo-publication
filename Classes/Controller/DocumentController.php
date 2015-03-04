@@ -120,5 +120,18 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 		$this->documentRepository->remove($document);
 		$this->redirect('list');
 	}
+        
+        
+        
+        public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
+                                      
+          //$repository = new \EWW\Dpf\Services\Transfer\FedoraRepository();          
+          $repository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
+                                       
+          $repository->ingest($document);
+        
+                             
+          $this->redirect('list');          
+        }
 
 }
