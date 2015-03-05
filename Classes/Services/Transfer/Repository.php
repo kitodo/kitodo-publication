@@ -3,9 +3,9 @@ namespace EWW\Dpf\Services\Transfer;
 
 interface Repository {
    
-  public function ingest($data);
+  public function ingest($document);
    
-  public function update($data);
+  public function update($document);
   
   public function retrieve($id);
    

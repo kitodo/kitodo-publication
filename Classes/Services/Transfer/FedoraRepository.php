@@ -3,12 +3,15 @@ namespace EWW\Dpf\Services\Transfer;
 
 $extpath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
 
-require($extpath . '/Lib/Vendor/Httpful/bootstrap.php');
+require_once($extpath . '/Lib/Vendor/Httpful/bootstrap.php');
 \Httpful\Bootstrap::init();
 
-//require($extpath . '/Lib/Vendor/Httpful/httpful.phar');
+//require_once($extpath . '/Lib/Vendor/Httpful/httpful.phar');
 
 use \Httpful\Request;
+
+use \EWW\Dpf\Services\Logger\TransferLogger;
+
 
 class FedoraRepository implements Repository {
  
@@ -20,16 +23,7 @@ class FedoraRepository implements Repository {
    */
   protected $documentTransferLogRepository;  
   
-  
-  /**
-   * documenRepository
-   *
-   * @var \EWW\Dpf\Domain\Repository\DocumentRepository                                     
-   * @inject
-   */
-  protected $documentRepository;  
-  
-  
+      
   /**
    * objectManager
    * 
@@ -47,6 +41,8 @@ class FedoraRepository implements Repository {
 
   protected $fedoraHost;
   
+  protected $response;
+  
   
   public function __construct() {
     $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
@@ -60,58 +56,31 @@ class FedoraRepository implements Repository {
    * Saves a new document into the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
-   * @return boolean
+   * @return string
    */   
   public function ingest($document) {
     
-    $sentSuccessfully = FALSE;
-        
     try {    
-     $response = Request::post($this->swordHost . "/sword/qucosa:all")      
+      $response = Request::post($this->swordHost . "/sword/qucosa:all")      
         ->sendsXml()
         ->body($document->getXmlData())
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType('application/vnd.qucosa.mets+xml')
         ->send();
-                                                                 
-      $sentSuccessfully = !$response->hasErrors() && $response->code == 201;            
+                                                                             
+      TransferLogger::Log($document, $response);
+      
+      // if transfer successful 
+      if ( !$response->hasErrors() && $response->code == 201 ) {
+        return $this->getRemoteDocumentId($response);        
+      }                             
     } catch(Exception $exception) {
       // curl error handling,
       // but extbase already catches all exceptions
+      return NULL;
     }
-          
-    
-    if ($sentSuccessfully) {
-      
-      // Get repository ID and write into document
-      $responseDom = new \DOMDocument();
-      $responseDom->loadXML($response->raw_body);
-      $responseXpath = new \DOMXPath($responseDom);  
-      $responseXpath->registerNamespace("atom", "http://www.w3.org/2005/Atom");        
-      $responseNodes = $responseXpath->query("/atom:entry/atom:id");
-                   
-      if ($responseNodes->length == 1) {                     
-        $repositoryId = $responseNodes->item(0)->nodeValue;
-        $document->setRepositoryId($repositoryId);                                    
-      } 
-              
-      $document->setTransferStatus(\EWW\Dpf\Domain\Model\Document::TRANSFER_SENT);             
-      
-    } else {            
-      $document->setTransferStatus(\EWW\Dpf\Domain\Model\Document::TRANSFER_ERROR);                                   
-    }
-    
-    $this->documentRepository->update($document);
-        
-    
-    // Log transfer response
-    $documentTransferLog = $this->objectManager->get('\EWW\Dpf\Domain\Model\DocumentTransferLog');            
-    $documentTransferLog->setResponse(print_r($response,TRUE));      
-    $documentTransferLog->setDocument($document);   
-    $documentTransferLog->setDate(new \DateTime());   
-    $this->documentTransferLogRepository->add($documentTransferLog);
-    
-    return $sentSuccessfully;        
+                          
+    return NULL;        
   }
          
   
@@ -145,6 +114,29 @@ class FedoraRepository implements Repository {
    */
   public function delete($id) {
     return NULL;
+  }
+  
+  /**
+   * Gets the remoteDocumentId from the repository XML response.
+   * 
+   * @param  \Httpful\Response $response
+   * @return string
+   */
+  protected function getRemoteDocumentId($response) {
+            
+    // Get repository ID and write into document
+    $responseDom = new \DOMDocument();
+    $responseDom->loadXML($response->raw_body);
+    $responseXpath = new \DOMXPath($responseDom);  
+    $responseXpath->registerNamespace("atom", "http://www.w3.org/2005/Atom");        
+    $responseNodes = $responseXpath->query("/atom:entry/atom:id");
+                   
+    if ($responseNodes->length > 0) {                     
+      $repositoryId = $responseNodes->item(0)->nodeValue;                 
+      return $repositoryId;
+    } 
+    
+    return NULL;      
   }
       
 }
