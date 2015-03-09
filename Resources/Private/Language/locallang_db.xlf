@@ -144,6 +144,27 @@
 			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document">
 				<source>Document</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file">
+				<source>File</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.content_type">
+				<source>Content Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.remote">
+				<source>Remote</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file.document">
+				<source>Document</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

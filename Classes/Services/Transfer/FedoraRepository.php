@@ -91,7 +91,28 @@ class FedoraRepository implements Repository {
    * @return boolean
    */
   public function update($document) {
-        
+    
+    $remoteId = $document->getRepositoryId();
+    
+    try {    
+      $response = Request::put($this->swordHost . "/sword/qucosa:all/" . $remoteId)      
+        ->sendsXml()
+        ->body($document->getXmlData())
+        ->authenticateWith($this->swordUser, $this->swordPassword)     
+        ->sendsType('application/vnd.qucosa.mets+xml')
+        ->send();
+                                                                             
+      TransferLogger::Log($document, $response);
+      
+      // if transfer successful 
+      if ( !$response->hasErrors() && $response->code == 201 ) {
+        return $this->getRemoteDocumentId($response);        
+      }                             
+    } catch(Exception $exception) {
+      // curl error handling,
+      // but extbase already catches all exceptions
+      return NULL;
+    }     
   }
   
   

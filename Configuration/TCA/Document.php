@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_document']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, xml_data, document_type',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, xml_data, document_type, file',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, xml_data, document_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, xml_data, document_type, file, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -157,5 +157,24 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                                 'eval' => 'trim',
                         )
                 ),
+            
+                'file' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.file',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dpf_domain_model_file',
+				'foreign_field' => 'document',
+				'maxitems'      => 9999,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+
+		),
 	),
 );
