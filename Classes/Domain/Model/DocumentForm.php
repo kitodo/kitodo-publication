@@ -9,6 +9,21 @@ class DocumentForm extends AbstractFormElement {
    */  
   protected $documentUid;
   
+   
+  /**
+   *
+   * @var \Eww\Dpf\Domain\Model\File
+   */
+  protected $primaryFile;
+  
+  
+  /**
+   *
+   * @var array
+   */
+  protected $secondaryFiles;
+  
+  
   /**
    * 
    * @return integer
@@ -24,6 +39,34 @@ class DocumentForm extends AbstractFormElement {
   public function setDocumentUid($documentUid) {
     $this->documentUid = $documentUid;    
   }
+  
+  /**
+   * 
+   * @param type \Eww\Dpf\Domain\Model\File $primaryFile
+   */
+  public function setPrimaryFile($primaryFile) {
+    $this->primaryFile = $primaryFile;
+  }
+  
+  
+  /**
+   * 
+   * @return \Eww\Dpf\Domain\Model\File
+   */
+  public function getPrimaryFile() {
+    return $this->primaryFile;    
+  }
+      
+  
+  public function setSecondaryFiles($secondaryFiles) {
+    $this->secondaryFiles = $secondaryFiles;    
+  } 
+  
+  
+  public function getSecondaryFiles() {
+    return $this->secondaryFiles;    
+  }
+  
   
 }
 

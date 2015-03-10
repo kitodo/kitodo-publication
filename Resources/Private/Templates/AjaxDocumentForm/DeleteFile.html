@@ -1,0 +1,8 @@
+<f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">   
+  <div id="new-element"> 
+    <f:form.hidden property="deleteFile.{fileUid}" value="{fileUid}" />      
+    <f:if condition="{isPrimary}">
+      <f:render partial="DocumentForm/PrimaryUpload" />
+    </f:if>    
+  </div>
+</f:form>

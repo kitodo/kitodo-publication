@@ -48,20 +48,27 @@
       </f:for>
 
       <div id="tab-file-upload" class="fs_page">
-        <f:render partial="DocumentForm/FileGroup" arguments="{groupIndex:0, displayName:'Volltextdokument (PDF-Datei)'}" />
-        <input type="submit" value="Weitere Datei hinzufügen"
-               name="add_file_group" class="add_file_group"
-               data-group="file-upload"
-               data-ajax="{f:uri.action(
-                            action:'fileGroup',
-                            controller:'AjaxDocumentForm',
-                            pageType:110124
-                           )}"
-              data-index="0" />
+        
+        <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile}" />                
+                          
+        <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}" />            
+          
+          <input type="submit" value="Weitere Datei hinzufügen"
+                 name="add_file_group" class="add_file_group"
+                 data-group="file-upload"
+                 data-ajax="{f:uri.action(
+                              action:'secondaryUpload',
+                              controller:'AjaxDocumentForm',
+                              pageType:110124
+                             )}"
+                data-index="0" />
+
+       
+        
       </div>
 
     </div>
-
+      
   <div class="form-submit">
       <f:form.submit value="{f:translate(key: 'form_button.save')}" name="save" id="save" />
       <f:if condition="{documentForm.documentUid} < 1">            

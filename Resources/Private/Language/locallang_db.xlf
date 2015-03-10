@@ -162,6 +162,9 @@
 			<trans-unit id="tx_dpf_domain_model_file.remote">
 				<source>Remote</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file.primary">
+				<source>Primary</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file.document">
 				<source>Document</source>
 			</trans-unit>

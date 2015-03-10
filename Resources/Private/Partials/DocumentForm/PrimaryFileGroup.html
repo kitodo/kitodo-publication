@@ -1,0 +1,27 @@
+
+  <f:if condition="{file}"> 
+    <f:then>      
+      <fieldset class="fs_file_group" data-group="file-upload">
+        {file.title}
+        
+         <input type="submit" value="{f:translate(key: 'form_button.delete_item', arguments: {0: fieldItem.displayName})}"
+                       name="rem_file_group" class="rem_file_group"                           
+                       data-ajax="{f:uri.action(
+                            action:'deleteFile',
+                            controller:'AjaxDocumentForm',
+                            pageType:110124,
+                            arguments:{
+                              fileUid: file.uid,
+                              isPrimary: 1
+                       })}"/>        
+        
+        
+      </fieldset>
+    </f:then>    
+    <f:else>        
+      <f:render partial="DocumentForm/PrimaryUpload" />           
+    </f:else>
+  </f:if>
+
+
+

@@ -10,6 +10,8 @@ $(document).ready(function() {
       return false;
     });
 
+    jQuery(".tx-dpf").on("click",".rem_file_group", deleteFile);
+
 
     jQuery(".tx-dpf").on("click",".rem_field", function() {      
       var dataIndex = jQuery(this).data("index"); 
@@ -212,6 +214,27 @@ var addGroup = function() {
            // jQuery('html, body').animate({
              //   scrollTop: element.offset().top - height
             //}, 400);
+        });
+
+      return false;
+    }   
+    
+    
+    var deleteFile = function() {
+            
+        var fileGroup = jQuery(this).parent();
+        
+        //jQuery(this).parent().remove();
+                
+        var ajaxURL = jQuery(this).attr('data-ajax');
+              
+        //var params = buildAjaxParams(ajaxURL,"fileUid",fieldIndex);
+        var params = {}
+          
+        //do the ajax-call       
+        jQuery.post(ajaxURL, params, function (element) {          
+            var field = jQuery(element).find("#new-element").children();
+            jQuery(fileGroup).replaceWith(field);                                    
         });
 
       return false;

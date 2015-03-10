@@ -42,6 +42,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         
         
         /**
+	 * fileRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\FileRepository
+	 * @inject
+	 */
+	protected $fileRepository = NULL;
+        
+        
+        /**
 	 * documentTypeRepository
 	 *
 	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
@@ -288,7 +297,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $title = $this->getTitleFromXmlData($xml);                                
           $updateDocument->setTitle($title);                                
           $updateDocument->setXmlData($xml);                
-                
+          
+          
+          
+          //$fileRepository->update();
+          
+          
           $this->documentRepository->update($updateDocument);                
                                                                                       
       /*          foreach ($updateDocument['files'] as $tmpFile ) {

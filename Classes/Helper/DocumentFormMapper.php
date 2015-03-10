@@ -358,7 +358,17 @@ class DocumentFormMapper {
       
       $documentForm->addItem($documentFormPage);            
     }
-                           
+    
+    
+    // Files
+    $files = $document->getFile()->toArray();  
+
+    $primaryFile = array_shift($files);      
+    $documentForm->setPrimaryFile($primaryFile);
+                      
+    $secondaryFiles = $files;    
+    $documentForm->setSecondaryFiles($secondaryFiles);
+                                       
     return $documentForm;
   }
  

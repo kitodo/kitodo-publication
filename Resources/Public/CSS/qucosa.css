@@ -191,6 +191,7 @@ ul.tx-dpf-tabs a.current {
 }
 
 .tx-dpf .rem_group,
+.tx-dpf .rem_file_group,
 .tx-dpf .rem_field {
     /* margin: 0 200px 10px 10px; */
 		background: url("../images/rembtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
@@ -202,6 +203,7 @@ ul.tx-dpf-tabs a.current {
 .tx-dpf .add_file_group,
 .tx-dpf .add_group,
 .tx-dpf .rem_group,
+.tx-dpf .rem_file_group,
 .tx-dpf .rem_field {
     border-color: #eee #999 #999 #eee;
     border-style: solid;

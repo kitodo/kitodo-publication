@@ -18,6 +18,9 @@
                         <trans-unit id="remote.description">
 				<source>remote</source>
 			</trans-unit>
+                        <trans-unit id="primary.description">
+				<source>primary</source>
+			</trans-unit>
 			<trans-unit id="document.description">
 				<source>document</source>
 			</trans-unit>
