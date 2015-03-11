@@ -1,4 +1,4 @@
 <fieldset class="fs_file_group" data-group="file-upload">
-  <label>Sekundärdatei</label>
-  <f:form.upload property="secondaryFiles" /> 
+  <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
+  <f:form.upload property="secondaryFiles.{groupIndex}" /> 
 </fieldset>

@@ -2,9 +2,12 @@
   <f:if condition="{file}"> 
     <f:then>      
       <fieldset class="fs_file_group" data-group="file-upload">
-        {file.title}
         
-         <input type="submit" value="{f:translate(key: 'form_button.delete_item', arguments: {0: fieldItem.displayName})}"
+        <legend>{f:translate(key: 'form_legend.primaryFile')}</legend>
+        
+        <f:link.external uri="{file.fileUrl}" target="_blank" class="file_link">{file.title}</f:link.external>
+               
+         <input type="submit" value="{f:translate(key: 'form_button.delete_item', arguments: {0: ''})}"
                        name="rem_file_group" class="rem_file_group"                           
                        data-ajax="{f:uri.action(
                             action:'deleteFile',

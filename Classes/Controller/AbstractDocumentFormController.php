@@ -85,7 +85,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
          */
         protected $persistenceManager;
 
-                        
+                                         
 	/**
 	 * action list
 	 *
@@ -297,14 +297,23 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $title = $this->getTitleFromXmlData($xml);                                
           $updateDocument->setTitle($title);                                
           $updateDocument->setXmlData($xml);                
+          $this->documentRepository->update($updateDocument);        
           
           
+          // Delete files 
+          foreach ( $documentForm->getDeletedFiles() as $deleteFile ) {          
+            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::FILE_DELETED);
+            $this->fileRepository->update($deleteFile);
+          }
+                    
+          // Add new files
+          foreach ( $documentForm->getNewFiles() as $newFile ) {     
+            $updateDocument->addFile($newFile);           
+          }
+                    
+                 
           
-          //$fileRepository->update();
           
-          
-          $this->documentRepository->update($updateDocument);                
-                                                                                      
       /*          foreach ($updateDocument['files'] as $tmpFile ) {
                                                      
                   $path = "uploads/tx_dpf";

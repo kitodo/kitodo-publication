@@ -32,5 +32,40 @@ namespace Eww\Dpf\Domain\Repository;
  */
 class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
-	
+  
+  
+  public function getSecondaryFilesByDocument(\EWW\Dpf\Domain\Model\document $document) {
+    
+    $query = $this->createQuery();
+    $query->matching(
+      $query->logicalAnd(
+        $query->equals("document", $document),
+        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::FILE_DELETED)),
+        $query->logicalNot($query->equals("primary_file", TRUE))
+      ));
+            
+    return $query->execute();    
+  }
+
+  
+  public function getPrimaryFileByDocument(\EWW\Dpf\Domain\Model\document $document) {
+    
+    $query = $this->createQuery();
+    $query->matching(
+      $query->logicalAnd(
+        $query->equals("document", $document),
+        $query->equals("primary_file", TRUE),
+        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::FILE_DELETED))
+      ));
+            
+    $file = $query->execute();    
+    
+    if ($file) {
+      return $file->current();
+    }
+    
+    return NULL;
+    
+  }
+  
 }

@@ -59,7 +59,24 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var string
 	 */
 	protected $status;
+        
+        
+        /**
+         * remote
+         * 
+         * @var boolean
+         */
+        protected $remote; 
 
+        
+        /**
+         * primaryFile
+         * 
+         * @var boolean
+         */
+        protected $primaryFile; 
+        
+        
 	/**
 	 * document
 	 *
@@ -194,5 +211,51 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setDocument(\Eww\Dpf\Domain\Model\Document $document) {
 		$this->document = $document;
 	}
+        
+        
+        /**
+	 * Returns the primaryFile
+	 *
+	 * @return boolean $primaryFile
+	 */
+	public function getPrimaryFile() {
+		return $this->primaryFile;
+	}
+        
+        /**
+	 * Sets the primaryFile
+	 *
+	 * @param boolean $primaryFile
+	 * @return void
+	 */
+	public function setPrimaryFile($primaryFile) {
+		$this->primaryFile = $primaryFile;
+	}
+        
+	/**
+	 * Returns the boolean state of primaryFile
+	 *
+	 * @return boolean
+	 */
+	public function isPrimaryFile() {
+		return $this->primaryFile;
+	}
+        
+        
+        /**
+         * Returns the download url for the file
+         * 
+         * @return string
+         */        
+        public function getFileUrl() {          
+          
+          if ($this->isRemote()) {            
+            return $this->getLink();            
+          } else {
+            $baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];            
+            return trim($baseUrl,"/")."/".$this->getLink();
+          }
+         
+        }
 
 }

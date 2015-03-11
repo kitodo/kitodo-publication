@@ -2,16 +2,21 @@
     <f:then>
       <f:for each="{files}" as="file" iteration="fileIterator">
         <fieldset class="fs_file_group" data-group="file-upload">
-          {file.title}           
+         
+         <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
         
-          <input type="submit" value="{f:translate(key: 'form_button.delete_item', arguments: {0: fieldItem.displayName})}"
-                       name="rem_file_group" class="rem_file_group"                     
+         <f:link.external uri="{file.fileUrl}" target="_blank" class="file_link">{file.title}</f:link.external>
+                  
+         <input type="submit"
+                 
+                 value="{f:translate(key: 'form_button.delete_item' arguments: {0: ''})}"
+                       name="rem_file_group" class="rem_file_group"                                           
                        data-ajax="{f:uri.action(
                             action:'deleteFile',
                             controller:'AjaxDocumentForm',
                             pageType:110124,
                             arguments:{
-                              fileUid: file.uid
+                              fileUid: file.uid                              
                        })}"/>        
                         
         </fieldset>            

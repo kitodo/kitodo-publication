@@ -162,8 +162,7 @@ ul.tx-dpf-tabs a.current {
 .tx-dpf #save {
 }
 
-.tx-dpf .fs_group,
-.tx-dpf .fs_file_group {
+.tx-dpf .fs_group {
     border: none;
     background-color: #efefef;
     padding: 20px;
@@ -176,7 +175,15 @@ ul.tx-dpf-tabs a.current {
 }
 
 .tx-dpf .fs_file_group {
-  margin: 0;
+    border: none;
+    background-color: #efefef;
+    padding: 20px 20px 20px 20px;
+    margin: 0 0 20px 0;
+    width: auto;
+}
+
+.tx-dpf .fs_file_group:first-of-type {
+  padding-top: 20px;
 }
 
 .tx-dpf .add_field,
@@ -215,6 +222,10 @@ ul.tx-dpf-tabs a.current {
     position: relative;
 }
 
+.tx-dpf .rem_file_group {
+  margin: 0 !important;  
+}
+
 
 .tx-dpf fieldset textarea {
     border: 1px solid #ccc;
@@ -237,6 +248,10 @@ ul.tx-dpf-tabs a.current {
     width: 200px;
 }
 
+.tx-dpf .file_link {
+  float: left; 
+  margin: 0 10px 0 0;
+}
 
 #default-templates {
   display: none; 

@@ -156,8 +156,8 @@
                         <trans-unit id="tx_dpf_domain_model_file.remote">
 				<source>Remote</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_file.primary">
-				<source>Primary</source>
+                        <trans-unit id="tx_dpf_domain_model_file.primary_file">
+				<source>Primary file</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.document">
 				<source>Document</source>
@@ -177,6 +177,9 @@
                         <trans-unit id="form_button.delete_item">
 				<source>delete %s</source>
 			</trans-unit>     
+                        <trans-unit id="form_button.addFile">
+				<source>add file</source>
+			</trans-unit>                                                                        
                         <trans-unit id="form_button.save">
 				<source>save</source>
 			</trans-unit>     
@@ -186,6 +189,12 @@
                         <trans-unit id="form_button.cancel">
 				<source>cancel</source>
 			</trans-unit>    
+                        <trans-unit id="form_legend.primaryFile">
+				<source>Primary File</source>
+			</trans-unit>       
+                        <trans-unit id="form_legend.secondaryFile">
+				<source>Secondary File</source>
+			</trans-unit>                                                  
                         <trans-unit id="config.swordHost">
 				<source>Host address</source>
 			</trans-unit>     

@@ -40,7 +40,25 @@ class FormDataReader {
    */
   protected $metadataObjectRepository = NULL;
   
-    
+  
+  /**
+   * fileRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\FileRepository
+   * @inject
+   */
+  protected $fileRepository = NULL;        
+  
+  
+  /**
+   * objectManager
+   * 
+   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+   * @inject
+   */
+  protected $objectManager;
+  
+  
   /**
    * formData
    *     
@@ -75,6 +93,75 @@ class FormDataReader {
     
     return $fields;    
   }
+  
+  
+  protected function getDeletedFiles() {     
+    foreach ($this->formData['deleteFile'] as $key => $value) {             
+      $deletedFiles[] = $this->fileRepository->findByUid($value);                                   
+    }
+    
+    return $deletedFiles;    
+  }
+  
+  
+  protected function getNewFiles() {
+     
+    $path = "uploads/tx_dpf";
+     
+    $newFiles = array();
+    
+    // Primary file
+                 
+    if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
+            
+      $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
+      
+      $tmpFile = $this->formData['primaryFile'];
+                  
+      $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
+      
+      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {            
+        $file->setContentType($tmpFile['type']);  
+        $file->setTitle($tmpFile['name']);
+        $file->setLink($fileName);
+        $file->setPrimaryFile(TRUE);
+        $file->setStatus( \Eww\Dpf\Domain\Model\File::FILE_NEW);
+      
+        $newFiles[] = $file;
+      } else {
+        die("File didn't upload: ".$tmpFile['name']);
+      } 
+            
+    }
+     
+           
+    // Secondary files
+    foreach ($this->formData['secondaryFiles'] as $tmpFile ) {
+      
+      if ($tmpFile['error'] != 4) {
+      
+        $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
+           
+        $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
+                                      
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
+           $file->setContentType($tmpFile['type']);  
+           $file->setTitle($tmpFile['name']);
+           $file->setLink($fileName);
+           $file->setPrimaryFile(FALSE);
+           $file->setStatus( \Eww\Dpf\Domain\Model\File::FILE_NEW);
+
+           $newFiles[] = $file;
+        } else {
+          die("File didn't upload: ".$tmpFile['name']);
+        }                                                                      
+      }
+    }
+    
+    return $newFiles;
+    
+  }
+  
   
   
   public function getDocumentForm() { 
@@ -135,7 +222,13 @@ class FormDataReader {
       
       $documentForm->addItem($documentFormPage);            
     }
-                           
+              
+    
+    $documentForm->setDeletedFiles($this->getDeletedFiles());
+    
+    $documentForm->setNewFiles($this->getNewFiles());
+    
+    
     return $documentForm;
   }
                                     

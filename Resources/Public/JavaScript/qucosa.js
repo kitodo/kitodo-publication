@@ -57,6 +57,19 @@ $(document).ready(function() {
         });
         
         
+         jQuery('fieldset[id=primary_file]').each(function(){
+           
+            var fieldset = jQuery(this);
+            
+            if (checkPrimaryFile(fieldset)) {
+              jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertBefore(fieldset.find('legend').last());
+              showFormError();   
+              error = true;
+            }
+            
+           
+         });
+        
                 
         // check non mandatory groups
         jQuery('fieldset[data-mandatory=""]').each(function() {                                   
@@ -119,7 +132,7 @@ var markPage = function (fieldset,error) {
 
 var checkMandatoryInputs = function(fieldset) {          
   var mandatoryError = false;
-  fieldset.find(".input-field[data-mandatory=1]").each(function(){                                    
+  fieldset.find(".input-field[data-mandatory=1]").each(function(){         
     if (!jQuery(this).val() || jQuery(this).val() == 'xyz') {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              
@@ -132,6 +145,25 @@ var checkMandatoryInputs = function(fieldset) {
   
   return mandatoryError;
 }
+
+
+var checkPrimaryFile = function(fieldset) {          
+  var mandatoryError = false;
+  fieldset.find("input").each(function(){     
+    console.log(jQuery(this).val());
+    if (!jQuery(this).val() ) {                
+      mandatoryError = mandatoryError || true;                                                                   
+      jQuery(this).addClass('mandatory-error');                              
+    } else {                
+      jQuery(this).removeClass('mandatory-error');
+    }                                                                                                               
+  });     
+
+//  markPage(fieldset,mandatoryError);
+  
+  return mandatoryError;
+}
+
 
 var checkFilledInputs = function(fieldset) {    
   var filledInputs = 0;
@@ -161,12 +193,12 @@ var addGroup = function() {
         jQuery(this).attr('data-index', groupIndex);
 
         var ajaxURL = jQuery(this).attr('data-ajax');
-                                             
+                                            
         var params = buildAjaxParams(ajaxURL,"groupIndex",groupIndex);
-
+     
         //do the ajax-call
         jQuery.post(ajaxURL, params, function (group) {
-
+          
             var group = jQuery(group).find("fieldset");
 
             // add the new group
@@ -176,7 +208,7 @@ var addGroup = function() {
 
             jQuery('html, body').animate({
                 scrollTop: element.offset().top - height
-            }, 400);
+            }, 400); 
         });
 
       return false;

@@ -10,7 +10,16 @@ class DocumentFormMapper {
    * @inject
    */
   protected $documentTypeRepository = NULL;        
-
+  
+  
+  /**
+   * fileRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\FileRepository
+   * @inject
+   */
+  protected $fileRepository = NULL;        
+  
   
   /**
    * objectManager
@@ -360,15 +369,13 @@ class DocumentFormMapper {
     }
     
     
-    // Files
-    $files = $document->getFile()->toArray();  
-
-    $primaryFile = array_shift($files);      
+    // Files      
+    $primaryFile = $this->fileRepository->getPrimaryFileByDocument($document);
     $documentForm->setPrimaryFile($primaryFile);
-                      
-    $secondaryFiles = $files;    
+              
+    $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();;   
     $documentForm->setSecondaryFiles($secondaryFiles);
-                                       
+            
     return $documentForm;
   }
  

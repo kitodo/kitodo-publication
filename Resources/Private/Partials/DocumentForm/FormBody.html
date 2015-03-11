@@ -53,18 +53,16 @@
                           
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}" />            
           
-          <input type="submit" value="Weitere Datei hinzufügen"
+          <input type="submit" value="{f:translate(key: 'form_button.addFile')}"
                  name="add_file_group" class="add_file_group"
                  data-group="file-upload"
                  data-ajax="{f:uri.action(
                               action:'secondaryUpload',
                               controller:'AjaxDocumentForm',
-                              pageType:110124
+                              pageType:110124                               
                              )}"
-                data-index="0" />
-
-       
-        
+                 data-index="0" />
+               
       </div>
 
     </div>

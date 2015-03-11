@@ -121,21 +121,20 @@ class AjaxDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
         }
 
         /**
-         *                 
+         *                         
          * @return void
          */
-        public function primaryUploadAction() {            
-          //$this->view->assign('groupIndex',$groupIndex);
-          //$this->view->assign('displayName','Sekundärdatei');           
+        public function primaryUploadAction($groupIndex) {            
         }
         
         
         /**
-         *                 
+         * 
+         * @param integer $groupIndex                         
          * @return void
          */
-        public function secondaryUploadAction() {            
-           //$this->view->assign('groupIndex',$groupIndex);
+        public function secondaryUploadAction($groupIndex) {           
+           $this->view->assign('groupIndex',$groupIndex);
            //$this->view->assign('displayName','Sekundärdatei');           
         }
         

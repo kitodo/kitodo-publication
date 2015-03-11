@@ -25,6 +25,20 @@ class DocumentForm extends AbstractFormElement {
   
   
   /**
+   *
+   * @var array
+   */
+  protected $deletedFiles;
+  
+  
+  /**
+   *
+   * @var array
+   */
+  protected $newFiles;
+  
+  
+  /**
    * 
    * @return integer
    */
@@ -68,6 +82,22 @@ class DocumentForm extends AbstractFormElement {
   }
   
   
+  public function getDeletedFiles() {
+    return $this->deletedFiles; 
+  }
+  
+  public function setDeletedFiles($deletedFiles) {
+    $this->deletedFiles = $deletedFiles;
+  }
+  
+  
+  public function getNewFiles() {
+    return $this->newFiles; 
+  }
+  
+  public function setNewFiles($newFiles) {
+    $this->newFiles = $newFiles;
+  }
 }
 
 ?>

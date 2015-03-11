@@ -232,7 +232,7 @@ CREATE TABLE tx_dpf_domain_model_file (
 	link varchar(255) DEFAULT '' NOT NULL,
 	status varchar(255) DEFAULT '' NOT NULL,
         remote tinyint(4) unsigned DEFAULT '0' NOT NULL,
-        primary tinyint(4) unsigned DEFAULT '0' NOT NULL,  
+        primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,  
 	document int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
