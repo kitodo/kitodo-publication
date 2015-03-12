@@ -305,7 +305,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \Eww\Dpf\Domain\Model\File $file
 	 * @return void
 	 */
-	public function addFile(\Eww\Dpf\Domain\Model\File $file) {
+	public function addFile(\Eww\Dpf\Domain\Model\File $file) {                              
 		$this->file->attach($file);
 	}
 

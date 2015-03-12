@@ -131,7 +131,9 @@ class FormDataReader {
       
       // Use the existing file entry
       $document = $this->documentRepository->findByUid($this->formData['documentUid']);
-      $file = $this->fileRepository->getPrimaryFileByDocument($document);
+      if ($document) {
+        $file = $this->fileRepository->getPrimaryFileByDocument($document);
+      }  
       if (empty($file)) {              
         $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');              
       }

@@ -1,8 +1,35 @@
 <?php
 namespace EWW\Dpf\Helper;
 
-class DocumentFormMapper {
+class DocumentMapper {
   
+  /**
+   * objectManager
+   * 
+   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+   * @inject
+   */
+  protected $objectManager;
+  
+  
+  /**
+   * metadataGroupRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+   * @inject
+   */
+  protected $metadataGroupRepository = NULL;        
+  
+    
+  /**
+   * metadataObjectRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+   * @inject
+   */
+  protected $metadataObjectRepository = NULL;
+
+            
   /**
    * documentTypeRepository
    *
@@ -13,6 +40,15 @@ class DocumentFormMapper {
   
   
   /**
+   * documentRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+   * @inject
+   */
+  protected $documentRepository = NULL;        
+  
+  
+  /**
    * fileRepository
    *
    * @var \EWW\Dpf\Domain\Repository\FileRepository
@@ -20,15 +56,7 @@ class DocumentFormMapper {
    */
   protected $fileRepository = NULL;        
   
-  
-  /**
-   * objectManager
-   * 
-   * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-   * @inject
-   */
-  protected $objectManager;
-    
+        
   protected $domXpath; 
   
   
@@ -173,6 +201,119 @@ class DocumentFormMapper {
     return $documentForm;
   }
  
+  
+  public function getDocument($documentForm) {
+                        
+    $xml = $this->getMetsXML($documentForm);          
+
+    if ($documentForm->getDocumentUid()) {
+      $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());  
+    } else {
+      $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');                  
+    }  
+        
+    $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());                   
+
+    $document->setDocumentType($documentType);          
+
+    $title = $this->getTitleFromXmlData($xml);                                
+
+    $document->setTitle($title);                                
+
+    $document->setXmlData($xml);                
+          
+    return $document;      
+  }
+  
+  
+  protected function getMetsXML($documentForm) {
+            
+    foreach ($documentForm->getItems() as $page) {                          
+              
+      foreach ($page[0]->getItems() as $group) {              
+
+        foreach ($group as $groupItem) {    
+
+          $item = array();
+
+          $uid = $groupItem->getUid();
+          $metadataGroup = $this->metadataGroupRepository->findByUid($uid);                
+          $groupMapping =  "/" .  trim($metadataGroup->getMapping()," /");          
+
+          $item['mapping'] = $groupMapping;
+          $item['groupUid'] = $uid;
+
+          foreach ($groupItem->getItems() as $field) {                                                       
+            foreach ($field as $fieldItem) {                      
+              $fieldUid = $fieldItem->getUid();
+              $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);                
+              $fieldMapping = trim($metadataObject->getMapping()," /");     
+
+              $formField = array();
+
+              $value = $fieldItem->getValue();
+              if ($value) { 
+                
+                if ($metadataObject->getInputField() == \EWW\Dpf\Domain\Model\MetadataObject::language) {
+                  // If field has type language: Map static_info_tables Database-ID to iso 639-2/B
+                  $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');                            
+                  $value = $languageHelper->getIsoCodeA3ById($value);                                                                                                     
+                } 
+                                
+                $formField['mapping'] = $fieldMapping;
+                $formField['value'] = $value;
+
+                if ( strpos($fieldMapping, "@") === 0) {
+                  $item['attributes'][] = $formField;                     
+                } else {
+                  $item['values'][] = $formField;
+                }
+              }                                                                                                                                                     
+            }                                                             
+          }
+
+          if (!key_exists('attributes', $item)) $item['attributes'] = array();
+          if (!key_exists('values', $item)) $item['values'] = array();  
+
+          $form[] = $item; 
+
+        }
+
+      }                                                                  
+    }
+    
+    $data['documentUid'] = $documentForm->getDocumentUid();
+    
+    $data['metadata'] = $form;
+
+    $data['files'] = array();
+       
+    $exporter = new \EWW\Dpf\Services\MetsExporter();                
+    $exporter->buildModsFromForm($data);
+    return $exporter->getMetsData();
+  }
+  
+  
+  /**
+   * 
+   * @param string $xml
+   * @return void
+   */        
+  protected function getTitleFromXmlData($xml) {          
+    $metsDom = new \DOMDocument();
+    $metsDom->loadXML($xml);
+    $metsXpath = new \DOMXPath($metsDom);  
+    $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+    $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
+
+    $modsDom = new \DOMDocument();
+    $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+
+    $modsXpath = new \DOMXPath($modsDom);     
+    $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
+
+    return $titleNode->item(0)->nodeValue;                              
+  }
 }
 
 ?>

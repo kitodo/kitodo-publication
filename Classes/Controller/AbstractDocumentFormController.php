@@ -134,7 +134,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);                
             $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document'); 
             $document->setDocumentType($documentType);
-            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormMapper');             
+            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');             
             $docForm = $mapper->getDocumentForm($document);
           } elseif (array_key_exists('newDocumentForm', $requestArguments)) {                                               
             $docForm = $this->request->getArgument('newDocumentForm');                              
@@ -179,20 +179,30 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm) {
-                                                      
-          $documentFormReader = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormReader');
-          $documentFormReader->setDocumentForm($newDocumentForm);                 
-          $xml = $documentFormReader->getMetsXML();          
-                          
-          $newDoc = new \EWW\Dpf\Domain\Model\Document();
-          $documentType = $this->documentTypeRepository->findByUid($newDocumentForm->getUid());          
-          $newDoc->setDocumentType($documentType);
+                           
+          $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+          $newDocument = $documentMapper->getDocument($newDocumentForm);          
+          $this->documentRepository->add($newDocument);
+          $this->persistenceManager->persistAll();
+
+          $newDocument = $this->documentRepository->findByUid( $newDocument->getUid());
+          $this->persistenceManager->persistAll();
+         
+ /*         
+          // Delete files 
+          foreach ( $newDocumentForm->getDeletedFiles() as $deleteFile ) {              
+            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_DELETED);
+            $this->fileRepository->update($deleteFile);
+          }
+  */
           
-          $title = $this->getTitleFromXmlData($xml);                                
-          $newDoc->setTitle($title);                                
-          $newDoc->setXmlData($xml);                
-                
-          $this->documentRepository->add($newDoc);
+          // Add new files
+          foreach ( $newDocumentForm->getNewFiles() as $newFile ) {                          
+            $newFile->setDocument($newDocument);
+            $this->fileRepository->add($newFile);                       
+            //$newDocument->addFile($newFile);           
+          }
+          
                                                     
           $requestArguments = $this->request->getArguments();                                                                         
 
@@ -211,7 +221,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           if (array_key_exists('document', $requestArguments)) {                          
             $documentUid = $this->request->getArgument('document');            
             $document = $this->documentRepository->findByUid($documentUid);                                                           
-            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormMapper');                                               
+            $mapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');                                               
             $documentForm = $mapper->getDocumentForm($document);                        
           } elseif (array_key_exists('documentForm', $requestArguments)) {                                               
             $documentForm = $this->request->getArgument('documentForm');                              
@@ -255,25 +265,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {
-                    
-          //$validator = $this->objectManager->create('\EWW\Dpf\Helper\DocumentFormValidator');                
-          //$validator->setDocumentType($documentType);
-          //$validator->setFormData($documentData);
-                                                                                                         
-          $documentFormReader = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormReader');
-          $documentFormReader->setDocumentForm($documentForm);                 
-          $xml = $documentFormReader->getMetsXML();          
-                              
-          $updateDocument = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-          
-          $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());          
-          $updateDocument->setDocumentType($documentType);
-          
-          $title = $this->getTitleFromXmlData($xml);                                
-          $updateDocument->setTitle($title);                                
-          $updateDocument->setXmlData($xml);                
+                   
+          $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+          $updateDocument = $documentMapper->getDocument($documentForm);          
           $this->documentRepository->update($updateDocument);        
-          
+                    
           
           // Delete files 
           foreach ( $documentForm->getDeletedFiles() as $deleteFile ) {          
@@ -312,9 +308,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                                 
         /**
          * 
-         * @param string $xml
-         * @return void
-         */        
+         
+        
         protected function getTitleFromXmlData($xml) {          
             $metsDom = new \DOMDocument();
             $metsDom->loadXML($xml);
@@ -330,7 +325,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
             return $titleNode->item(0)->nodeValue;                              
         }
-              
+              */
                                           
     public function initializeAction() {
       parent::initializeAction();
