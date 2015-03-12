@@ -46,7 +46,7 @@ class DocumentTransferManager {
     
                         
     if ($remoteDocumentId) {            
-        $document->setRepositoryId($remoteDocumentId);                                                        
+        $document->setObjectIdentifier($remoteDocumentId);                                                        
         $document->setTransferStatus(Document::TRANSFER_SENT);                   
         $this->documentRepository->update($document);
         return TRUE;

@@ -60,15 +60,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $status;
         
-        
-        /**
-         * remote
-         * 
-         * @var boolean
-         */
-        protected $remote; 
-
-        
+                        
         /**
          * primaryFile
          * 
@@ -77,6 +69,14 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $primaryFile; 
         
         
+        /**
+         * datastreamIdentifier
+         * 
+         * @var string
+         */
+        protected $datastreamIdentifier; 
+        
+                        
 	/**
 	 * document
 	 *
@@ -84,10 +84,13 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $document = NULL;
         
-        const FILE_DELETED = "deleted";
-        const FILE_UPDATED = "updated";
-        const FILE_NEW = "new";
-               
+        const STATUS_REMOTE = "remote";
+        const STATUS_DELETED = "deleted";
+        const STATUS_CHANGED = "changed";
+        const STATUS_ADDED = "added";
+        
+        const PRIMARY_DATASTREAM_IDENTIFIER = 'FILE_PRIMARY';
+        
 	/**
 	 * Returns the title
 	 *
@@ -164,35 +167,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->status = $status;
 	}
 
-        
-        /**
-	 * Returns the remote
-	 *
-	 * @return boolean $remote
-	 */
-	public function getRemote() {
-		return $this->remote;
-	}
-
-	/**
-	 * Sets the remote
-	 *
-	 * @param boolean $remote
-	 * @return void
-	 */
-	public function setRemote($remote) {
-		$this->remote = $remote;
-	}
-        
-	/**
-	 * Returns the boolean state of remote
-	 *
-	 * @return boolean
-	 */
-	public function isRemote() {
-		return $this->remote;
-	}
-
+                
 	/**
 	 * Returns the document
 	 *
@@ -249,7 +224,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */        
         public function getFileUrl() {          
           
-          if ($this->isRemote()) {            
+          if ($this->getStatus() == File::STATUS_REMOTE) {            
             return $this->getLink();            
           } else {
             $baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];            
@@ -257,5 +232,25 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
           }
          
         }
+        
+        
+        /**
+	 * Returns the datastreamIdentifier
+	 *
+	 * @return string $datastreamIdentifier
+	 */
+	public function getDatastreamIdentifier() {
+		return $this->datastreamIdentifier;
+	}
 
+	/**
+	 * Sets the datastreamIdentifier
+	 *
+	 * @param string $datastreamIdentifier
+	 * @return void
+	 */
+	public function setDatastreamIdentifier($datastreamIdentifier) {
+		$this->datastreamIdentifier = $datastreamIdentifier;
+	}
+              
 }

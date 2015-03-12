@@ -159,8 +159,8 @@
 			<trans-unit id="tx_dpf_domain_model_file.status">
 				<source>Status</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_file.remote">
-				<source>Remote</source>
+			<trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
+				<source>Datastream Identifier</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file.primary_file">
 				<source>Primary file</source>

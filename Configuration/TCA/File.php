@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_file']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, content_type, link, status, remote, primary_file, document',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, content_type, link, status, datastream_identifier, primary_file, document',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, content_type, link, status, remote, primar_file, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, content_type, link, status, datastream_identifier, primary_file, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -133,14 +133,15 @@ $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 				'eval' => 'trim'
 			)
 		),
-                'remote' => array(
+                'datastream_identifier' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.remote',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.datastream_identifier',
 			'config' => array(
-				'type' => 'check',
-				'default' => 0
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
 			)
-                ),     
+		), 
                 'primary_file' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.primary_file',

@@ -50,7 +50,7 @@ CREATE TABLE tx_dpf_domain_model_document (
         title varchar(255) DEFAULT '' NOT NULL,
 	xml_data text NOT NULL,
 	document_type int(11) unsigned DEFAULT '0',
-        repository_id varchar(255) DEFAULT '' NOT NULL,        
+        object_identifier varchar(255) DEFAULT '' NOT NULL,        
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
         transfer_date int(11) DEFAULT '0' NOT NULL,
 
@@ -231,7 +231,7 @@ CREATE TABLE tx_dpf_domain_model_file (
 	content_type varchar(255) DEFAULT '' NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	status varchar(255) DEFAULT '' NOT NULL,
-        remote tinyint(4) unsigned DEFAULT '0' NOT NULL,
+        datastream_identifier varchar(255),
         primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,  
 	document int(11) unsigned DEFAULT '0',
 

@@ -51,6 +51,15 @@ class FormDataReader {
   
   
   /**
+   * documentRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+   * @inject
+   */
+  protected $documentRepository = NULL;        
+  
+  
+  /**
    * objectManager
    * 
    * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
@@ -96,26 +105,37 @@ class FormDataReader {
   
   
   protected function getDeletedFiles() {     
-    foreach ($this->formData['deleteFile'] as $key => $value) {             
-      $deletedFiles[] = $this->fileRepository->findByUid($value);                                   
+    foreach ($this->formData['deleteFile'] as $key => $value) {        
+      
+      $file = $this->fileRepository->findByUid($value);
+      
+      // Deleting the primary file is not allowed. 
+      if (!$file->isPrimaryFile()) {
+        $deletedFiles[] = $file;                                   
+      }
+            
     }
     
     return $deletedFiles;    
   }
   
   
-  protected function getNewFiles() {
+  protected function getNewAndUpdatedFiles() {
      
     $path = "uploads/tx_dpf";
      
     $newFiles = array();
     
-    // Primary file
-                 
+    // Primary file                 
     if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
-            
-      $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
       
+      // Use the existing file entry
+      $document = $this->documentRepository->findByUid($this->formData['documentUid']);
+      $file = $this->fileRepository->getPrimaryFileByDocument($document);
+      if (empty($file)) {              
+        $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');              
+      }
+                  
       $tmpFile = $this->formData['primaryFile'];
                   
       $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
@@ -125,7 +145,12 @@ class FormDataReader {
         $file->setTitle($tmpFile['name']);
         $file->setLink($fileName);
         $file->setPrimaryFile(TRUE);
-        $file->setStatus( \Eww\Dpf\Domain\Model\File::FILE_NEW);
+                  
+        if ($file->getDatastreamIdentifier()) {
+          $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_CHANGED);
+        } else {
+          $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
+        }  
       
         $newFiles[] = $file;
       } else {
@@ -149,7 +174,7 @@ class FormDataReader {
            $file->setTitle($tmpFile['name']);
            $file->setLink($fileName);
            $file->setPrimaryFile(FALSE);
-           $file->setStatus( \Eww\Dpf\Domain\Model\File::FILE_NEW);
+           $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
 
            $newFiles[] = $file;
         } else {
@@ -226,7 +251,7 @@ class FormDataReader {
     
     $documentForm->setDeletedFiles($this->getDeletedFiles());
     
-    $documentForm->setNewFiles($this->getNewFiles());
+    $documentForm->setNewFiles($this->getNewAndUpdatedFiles());
     
     
     return $documentForm;

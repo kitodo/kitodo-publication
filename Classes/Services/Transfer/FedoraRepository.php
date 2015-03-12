@@ -92,7 +92,7 @@ class FedoraRepository implements Repository {
    */
   public function update($document) {
     
-    $remoteId = $document->getRepositoryId();
+    $remoteId = $document->getObjectIdentifier();
     
     try {    
       $response = Request::put($this->swordHost . "/sword/qucosa:all/" . $remoteId)      
@@ -153,8 +153,8 @@ class FedoraRepository implements Repository {
     $responseNodes = $responseXpath->query("/atom:entry/atom:id");
                    
     if ($responseNodes->length > 0) {                     
-      $repositoryId = $responseNodes->item(0)->nodeValue;                 
-      return $repositoryId;
+      $objectIdentifier = $responseNodes->item(0)->nodeValue;                 
+      return $objectIdentifier;
     } 
     
     return NULL;      

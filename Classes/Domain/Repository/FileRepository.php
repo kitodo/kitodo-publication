@@ -40,7 +40,7 @@ class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     $query->matching(
       $query->logicalAnd(
         $query->equals("document", $document),
-        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::FILE_DELETED)),
+        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::STATUS_DELETED)),
         $query->logicalNot($query->equals("primary_file", TRUE))
       ));
             
@@ -55,7 +55,7 @@ class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
       $query->logicalAnd(
         $query->equals("document", $document),
         $query->equals("primary_file", TRUE),
-        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::FILE_DELETED))
+        $query->logicalNot($query->equals("status", \Eww\Dpf\Domain\Model\File::STATUS_DELETED))
       ));
             
     $file = $query->execute();    

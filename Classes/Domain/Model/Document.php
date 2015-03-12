@@ -60,13 +60,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \EWW\Dpf\Domain\Model\DocumentType
 	 */
 	protected $documentType = NULL;
-        
+                
         /**
-         * repositoryId
+         * objectIdentifier
          * 
          * @var integer         
          */
-        protected $repositoryId;      
+        protected $objectIdentifier;      
                 
         /**
          * transferStatus
@@ -186,22 +186,22 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
         
         /**
-         * Returns the repositoryId
+         * Returns the objectIdentifier
          * 
          * @return string
          */
-        public function getRepositoryId() {
-          return $this->repositoryId;          
+        public function getObjectIdentifier() {
+          return $this->objectIdentifier;          
         }
         
         /**
-         * Sets the repositoryId
+         * Sets the objectIdentifier
          * 
-         * @param string $repositoryId
+         * @param string $objectIdentifier
          * @return void
          */
-        public function setRepositoryId($repositoryId) {
-          $this->repositoryId = $repositoryId;          
+        public function setObjectIdentifier($objectIdentifier) {
+          $this->objectIdentifier = $objectIdentifier;          
         }
                                
         /**         

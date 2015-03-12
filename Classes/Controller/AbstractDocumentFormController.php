@@ -162,15 +162,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $requestArguments = $this->request->getArguments();                                                                 
         
             $documentData = $this->request->getArgument('documentData');
-            
-            //$documentType = $this->documentTypeRepository->findByUid($documentData['type']);
-            //$newDoc = new \EWW\Dpf\Domain\Model\Document();
-            //$newDoc->setDocumentType($documentType);
-            //
-            //$mapper = new \EWW\Dpf\Helper\DocumentFormMapper();
-            //    
-            //$newDocument = $mapper->getDocumentData($documentType,$documentData);
-            
+                        
             $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
             $formDataReader->setFormData($documentData);
             $docForm = $formDataReader->getDocumentForm();
@@ -191,7 +183,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $documentFormReader = $this->objectManager->get('EWW\Dpf\Helper\DocumentFormReader');
           $documentFormReader->setDocumentForm($newDocumentForm);                 
           $xml = $documentFormReader->getMetsXML();          
-                    
+                          
           $newDoc = new \EWW\Dpf\Domain\Model\Document();
           $documentType = $this->documentTypeRepository->findByUid($newDocumentForm->getUid());          
           $newDoc->setDocumentType($documentType);
@@ -201,24 +193,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $newDoc->setXmlData($xml);                
                 
           $this->documentRepository->add($newDoc);
-          
-          //      foreach ($newDocument['files'] as $tmpFile ) {
-          //                                            
-          //        $path = "uploads/tx_dpf";
-          //        $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
-          //        
-          //        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
-          //           $file['type'] = $mimeType = $tmpFile['type'];  
-          //           $file['path'] = $fileName;
-          //        
-          //           $files[] = $file;
-          //           
-          //        }
-          //                                                             
-          //      }
-          //      
-          //      $newDocument['files'] = $files;
-                                
+                                                    
           $requestArguments = $this->request->getArguments();                                                                         
 
           if (array_key_exists('savecontinue', $requestArguments)) {            
@@ -302,7 +277,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           
           // Delete files 
           foreach ( $documentForm->getDeletedFiles() as $deleteFile ) {          
-            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::FILE_DELETED);
+            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_DELETED);
             $this->fileRepository->update($deleteFile);
           }
                     
@@ -311,28 +286,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $updateDocument->addFile($newFile);           
           }
                     
-                 
-          
-          
-      /*          foreach ($updateDocument['files'] as $tmpFile ) {
-                                                     
-                  $path = "uploads/tx_dpf";
-                  $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
-                  
-                  if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
-                     $file['type'] = $mimeType = $tmpFile['type'];  
-                     $file['path'] = $fileName;
-                  
-                     $files[] = $file;
-                     
-                  }
-                                                                       
-                }
-              
-                $updateDocument['files'] = $files;
-      */          
-          
-          
+                                                               
           $requestArguments = $this->request->getArguments();                                                                         
 
           if (array_key_exists('savecontinue', $requestArguments)) {            
@@ -377,38 +331,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             return $titleNode->item(0)->nodeValue;                              
         }
               
-        
-        
-        
-        
-
-    /**
-     * Initialize action method validators
-     *
-     * @return void
-     */
-  /*  protected function initializeActionMethodValidators() {
-            parent::initializeActionMethodValidators();
-                                    
-            foreach ($this->arguments as $argument) {
-                    // @var  Tx_Extbase_MVC_Controller_Argument $argument
-                    if ($argument->getName() == 'documentData' && $this->actionMethodName == 'updateAction') {
-                            // @var Tx_Extbase_Validation_Validator_ConjunctionValidator $validator
-                            $validator = $argument->getValidator();
-                            $requestArguments = $this->request->getArguments();
-
-                            $ewwValidator = $this->objectManager->get('\EWW\Dpf\Validation\DocumentFormValidator');
-                           $ewwValidator->setOptions(
-                                    array(
-                                            'value' => 'test'
-                                    )
-                            );
-                            $validator->addValidator($ewwValidator);
-                    }
-            }
-    }
-    */
-        
+                                          
     public function initializeAction() {
       parent::initializeAction();
       

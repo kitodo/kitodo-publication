@@ -148,9 +148,9 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                         )
                 ),
 		
-                'repository_id' => Array (
+                'object_identifier' => Array (
                         'exclude' => 0,
-                        'label' => 'Repository ID',
+                        'label' => 'Object Identifier',
                         'config' => Array (
                                 'type' => 'input',
                                 'size' => '30',

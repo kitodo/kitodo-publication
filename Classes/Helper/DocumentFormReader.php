@@ -38,6 +38,15 @@ class DocumentFormReader {
   protected $objectManager;
   
   
+  /**
+   * documentRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+   * @inject
+   */
+  protected $documentRepository = NULL;
+  
+  
   public function setDocumentForm($documentForm) {
     $this->documentForm = $documentForm;  
   }
@@ -56,8 +65,6 @@ class DocumentFormReader {
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);                
           $groupMapping =  "/" .  trim($metadataGroup->getMapping()," /");          
 
-
-          //$item = $this->readFormData($child, $group);            
           $item['mapping'] = $groupMapping;
           $item['groupUid'] = $uid;
 
@@ -110,6 +117,40 @@ class DocumentFormReader {
     $exporter->buildModsFromForm($data);
     return $exporter->getMetsData();
   }
+     
+  /*
+  protected function getFiles($documentUid) {
+    
+    $files = array();
+    
+    $deleteFiles = $this->documentForm->getDeletedFiles();
+            
+    $newAndUpdatedFiles = $this->documentForm->getNewFiles();
+    
+    foreach ($newAndUpdatedFiles as $file) {
+            
+      $id = $file->getDatastreamIdentifier();
+      if (empty($id)) {
+        if ($file->isPrimaryFile()) {
+          $file->setDatastreamIdentifier(\Eww\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER); 
+        } else {
+          $file->setDatastreamIdentifier("FILE_".);
+        }
+      }
+      
+      
+      
+      $files[] = array( 
+          'path' => $file->getFileUrl(),
+          'type' => $file->getContentType(),
+          'id' => 
+        ); 
+      
+      
+    }
         
+    return $files;    
+  }
+    */  
 }
 ?>

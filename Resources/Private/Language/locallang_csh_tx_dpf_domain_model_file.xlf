@@ -15,8 +15,8 @@
 			<trans-unit id="status.description">
 				<source>status</source>
 			</trans-unit>
-                        <trans-unit id="remote.description">
-				<source>remote</source>
+                        <trans-unit id="datastream_identifier.description">
+				<source>datastream identifier</source>
 			</trans-unit>
                         <trans-unit id="primary_file.description">
 				<source>primary file</source>
