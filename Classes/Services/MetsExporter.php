@@ -434,7 +434,7 @@ class MetsExporter
             // set xml for uploded files
             foreach ($this->files as $key => $value) {
                 $file = $domDocument->createElement('mets:file');
-                $file->setAttribute('ID', 'FILE_'.$value['id']);
+                $file->setAttribute('ID', $value['id']);
                 $file->setAttribute('MIMETYPE', $value['type']);
                 $domElement->appendChild($file);
 
