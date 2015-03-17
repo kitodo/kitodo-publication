@@ -489,17 +489,9 @@ class MetsExporter
             $i = 0;
             // set xml for uploded files
             foreach ($this->files as $key => $value) {
-                // convert counter to string (FILE_000)
-                $counter = (string) $i;
-
-                if (strlen($counter) == 1) {
-                    $fileId = '00'.$counter;
-                } elseif (strlen($counter) == 2) {
-                    $fileId = '0'.$counter;
-                }
 
                 $fptr = $domDocument->createElement('mets:fptr');
-                $fptr->setAttribute('FILEID', 'FILE_'.$fileId);
+                $fptr->setAttribute('FILEID', $value['id']);
                 $domElement->appendChild($fptr);
 
                 $i++;
