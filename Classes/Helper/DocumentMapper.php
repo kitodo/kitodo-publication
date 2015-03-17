@@ -68,6 +68,7 @@ class DocumentMapper {
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
    
+    /*
     // Get the mods data
     $metsDom = new \DOMDocument();
     $metsDom->loadXML($document->getXmlData());
@@ -84,8 +85,13 @@ class DocumentMapper {
     } 
       
     $this->domXpath = new \DOMXPath($dom);     
+    */
     
-       
+    $dom = new \DOMDocument();
+    $dom->loadXML($document->getXmlData());
+    $this->domXpath = new \DOMXPath($dom);             
+    
+    
     $documentData = array();    
         
     foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
@@ -204,7 +210,7 @@ class DocumentMapper {
   
   public function getDocument($documentForm) {
                         
-    $xml = $this->getMetsXML($documentForm);          
+    //$xml = $this->getMetadata($documentForm);          
 
     if ($documentForm->getDocumentUid()) {
       $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());  
@@ -215,18 +221,25 @@ class DocumentMapper {
     $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());                   
 
     $document->setDocumentType($documentType);          
+                            
+    $data['documentUid'] = $documentForm->getDocumentUid();
+    
+    $data['metadata'] = $this->getMetadata($documentForm);   
 
-    $title = $this->getTitleFromXmlData($xml);                                
-
-    $document->setTitle($title);                                
-
-    $document->setXmlData($xml);                
-          
+    $data['files'] = array();
+                      
+    $exporter = new \EWW\Dpf\Services\MetsExporter();                
+    $exporter->buildModsFromForm($data);       
+    $mods = $exporter->getModsData();    
+    $document->setXmlData($mods);                    
+    $title = $this->getTitleFromXmlData($mods);                                
+    $document->setTitle($title);           
+  
     return $document;      
   }
   
   
-  protected function getMetsXML($documentForm) {
+  protected function getMetadata($documentForm) {
             
     foreach ($documentForm->getItems() as $page) {                          
               
@@ -281,7 +294,10 @@ class DocumentMapper {
 
       }                                                                  
     }
+        
+    return $form;
     
+    /*
     $data['documentUid'] = $documentForm->getDocumentUid();
     
     $data['metadata'] = $form;
@@ -290,7 +306,8 @@ class DocumentMapper {
        
     $exporter = new \EWW\Dpf\Services\MetsExporter();                
     $exporter->buildModsFromForm($data);
-    return $exporter->getMetsData();
+    return $exporter->getMetsData();         
+    */
   }
   
   
@@ -300,15 +317,18 @@ class DocumentMapper {
    * @return void
    */        
   protected function getTitleFromXmlData($xml) {          
-    $metsDom = new \DOMDocument();
+  /*  $metsDom = new \DOMDocument();
     $metsDom->loadXML($xml);
     $metsXpath = new \DOMXPath($metsDom);  
     $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
     $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
-
+          
     $modsDom = new \DOMDocument();
     $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-
+*/
+    $modsDom = new \DOMDocument();
+    $modsDom->loadXML($xml);
+     
     $modsXpath = new \DOMXPath($modsDom);     
     $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
 

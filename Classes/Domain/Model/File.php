@@ -222,13 +222,13 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * 
          * @return string
          */        
-        public function getFileUrl() {          
-          
+        public function getFileUrl() {     
+                           
           if ($this->getStatus() == File::STATUS_REMOTE) {            
             return $this->getLink();            
           } else {
-            $baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];            
-            return trim($baseUrl,"/")."/".$this->getLink();
+            //$baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];                                               
+            return "http://" . trim($_SERVER['SERVER_NAME'],"/")."/".$this->getLink();
           }
          
         }

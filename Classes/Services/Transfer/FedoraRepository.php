@@ -58,12 +58,12 @@ class FedoraRepository implements Repository {
    * @param \EWW\Dpf\Domain\Model\Document $document
    * @return string
    */   
-  public function ingest($document) {
+  public function ingest($document, $metsXml) {
     
     try {    
       $response = Request::post($this->swordHost . "/sword/qucosa:all")      
         ->sendsXml()
-        ->body($document->getXmlData())
+        ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType('application/vnd.qucosa.mets+xml')
         ->send();
@@ -88,16 +88,17 @@ class FedoraRepository implements Repository {
    * Updates an existing document in the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
+   * @param string $metsXml
    * @return boolean
    */
-  public function update($document) {
+  public function update($document, $metsXml) {
     
     $remoteId = $document->getObjectIdentifier();
     
     try {    
       $response = Request::put($this->swordHost . "/sword/qucosa:all/" . $remoteId)      
         ->sendsXml()
-        ->body($document->getXmlData())
+        ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType('application/vnd.qucosa.mets+xml')
         ->send();
@@ -105,7 +106,7 @@ class FedoraRepository implements Repository {
       TransferLogger::Log($document, $response);
       
       // if transfer successful 
-      if ( !$response->hasErrors() && $response->code == 201 ) {
+      if ( !$response->hasErrors() && $response->code == 200 ) {
         return $this->getRemoteDocumentId($response);        
       }                             
     } catch(Exception $exception) {

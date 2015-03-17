@@ -124,13 +124,18 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         
         
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
-                                              
+                                                                     
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
-          
-          $documentTransferManager->ingest($document);
-                                     
+                                       
+          if (empty($document->getObjectIdentifier())) {         
+            $documentTransferManager->ingest($document);
+          } else {           
+            //$documentTransferManager->ingest($document);
+            $documentTransferManager->update($document);             
+          }
+            
           $this->redirect('list');          
         }
 

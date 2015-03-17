@@ -16,6 +16,14 @@ class DocumentTransferManager {
   
   
   /**
+   * fileRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\FileRepository                                     
+   * @inject
+   */
+  protected $fileRepository;  
+  
+  /**
    * remoteRepository
    *
    * @var \EWW\Dpf\Services\Transfer\Repository                                       
@@ -42,13 +50,35 @@ class DocumentTransferManager {
    */   
   public function ingest($document) {
     
-    $remoteDocumentId = $this->remoteRepository->ingest($document);
+    $document->setTransferStatus(Document::TRANSFER_QUEUED); 
+    $this->documentRepository->update($document);     
+        
+    $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
-                        
+    $fileData = $this->getFileData($document);
+    $exporter->setFileData($fileData);    
+    
+    $exporter->setMods($document->getXmlData());    
+        
+    $exporter->buildMets();  
+   
+// echo "<pre>"; print_r($fileData); echo "</pre>"; die();
+    
+    // $exporter->setSlubData($slubData);
+            
+    $metsXml = $exporter->getMetsData();
+    
+    //echo "<pre>"; print_r($metsXml); echo "</pre>"; 
+    //file_put_contents("qucosa-mets.xml", $metsXml);    
+    //die();
+    
+    $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
+                            
     if ($remoteDocumentId) {            
         $document->setObjectIdentifier($remoteDocumentId);                                                        
-        $document->setTransferStatus(Document::TRANSFER_SENT);                   
+        $document->setTransferStatus(Document::TRANSFER_SENT);                           
         $this->documentRepository->update($document);
+        $this->documentRepository->remove($document);
         return TRUE;
     } else {            
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
@@ -66,7 +96,53 @@ class DocumentTransferManager {
    * @return boolean
    */
   public function update($document) {
+    
+    $document->setTransferStatus(Document::TRANSFER_QUEUED); 
+    $this->documentRepository->update($document);  
         
+    $exporter = new \EWW\Dpf\Services\MetsExporter();  
+    
+    $fileData = $this->getFileData($document);
+    
+    /*
+    echo "<pre>";
+    print_r( $fileData); 
+    echo "<pre>";
+    die();
+    */
+    
+    $exporter->setFileData($fileData);    
+    
+    $exporter->setMods($document->getXmlData());    
+        
+    // $exporter->setSlubData($slubData);
+            
+    $exporter->buildMets();  
+     
+    $metsXml = $exporter->getMetsData();
+    
+    
+   /* 
+    echo "<pre>";
+    print_r( $metsXml); 
+    echo "<pre>";
+    die();
+    */
+   //file_put_contents("qucosa-xml.xml", $metsXml);
+    
+    
+    
+    if ($this->remoteRepository->update($document, $metsXml)) {                
+      $document->setTransferStatus(Document::TRANSFER_SENT); 
+      $this->documentRepository->update($document);          
+      $this->documentRepository->remove($document);
+      return TRUE;
+    } else {
+      $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
+      $this->documentRepository->update($document); 
+      return FALSE;
+    }  
+    
   }
   
     
@@ -89,6 +165,43 @@ class DocumentTransferManager {
    */
   public function delete($id) {
     return NULL;
+  }
+  
+  
+      
+  protected function getFileData($document) {
+        
+   $fileId = new \EWW\Dpf\Services\Transfer\FileId($document);
+          
+   $files = array();
+   
+   foreach ( $document->getFile() as $file ) {                  
+     
+     if (!empty($file->getStatus())) {
+       
+      if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {                                
+         $files[$file->getUid()] = array(
+           'path' => $file->getFileUrl(),
+           'type' => $file->getContentType(),
+           'id' => $fileId->getId($file),
+           'title' => $file->getTitle(),  
+           'use' => '' 
+         );                                
+       } elseif (!empty($file->getDatastreamIdentifier())) {        
+         $files[$file->getUid()] = array(
+           'path' => $file->getFileUrl(),
+           'type' => $file->getContentType(),
+           'id' => $file->getDatastreamIdentifier(),
+           'title' => $file->getTitle(),  
+           'use' => 'DELETE'         
+         );
+       }
+     }
+     
+    } 
+    
+    return $files;
+    
   }
   
 }

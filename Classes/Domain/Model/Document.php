@@ -64,7 +64,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         /**
          * objectIdentifier
          * 
-         * @var integer         
+         * @var string         
          */
         protected $objectIdentifier;      
                 
@@ -308,7 +308,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function addFile(\Eww\Dpf\Domain\Model\File $file) {                              
 		$this->file->attach($file);
 	}
-
+         
 	/**
 	 * Removes a File
 	 *
@@ -337,5 +337,5 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setFile(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $file) {
 		$this->file = $file;
 	}
-                                                            
+                                                                                           
 }

@@ -140,8 +140,8 @@ class FormDataReader {
                   
       $tmpFile = $this->formData['primaryFile'];
                   
-      $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
-      
+      $fileName = $path."/".uniqid(time(),true);    
+                
       if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {            
         $file->setContentType($tmpFile['type']);  
         $file->setTitle($tmpFile['name']);
@@ -155,7 +155,7 @@ class FormDataReader {
         }  
       
         $newFiles[] = $file;
-      } else {
+      } else {       
         die("File didn't upload: ".$tmpFile['name']);
       } 
             
@@ -169,7 +169,7 @@ class FormDataReader {
       
         $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
            
-        $fileName = $path."/".time()."_".rand()."_".$tmpFile['name']; 
+        $fileName = $path."/".uniqid(time(),true);
                                       
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
            $file->setContentType($tmpFile['type']);  
