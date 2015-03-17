@@ -51,8 +51,9 @@ CREATE TABLE tx_dpf_domain_model_document (
 	xml_data text NOT NULL,
 	document_type int(11) unsigned DEFAULT '0',
         object_identifier varchar(255) DEFAULT '' NOT NULL,        
+        remote_action varchar(255) DEFAULT '' NOT NULL, 
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
-        transfer_date int(11) DEFAULT '0' NOT NULL,
+        transfer_date int(11) DEFAULT '0' NOT NULL,        
 
         file int(11) unsigned DEFAULT '0' NOT NULL,	                
 

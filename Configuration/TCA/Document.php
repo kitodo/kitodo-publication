@@ -158,6 +158,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                         )
                 ),
             
+                'remote_action' => Array (
+                        'exclude' => 0,
+                        'label' => 'Remote Action',
+                        'config' => Array (
+                                'type' => 'input',
+                                'size' => '30',
+                                'eval' => 'trim',
+                        )
+                ),
+            
                 'file' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.file',

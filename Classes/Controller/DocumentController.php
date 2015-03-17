@@ -131,9 +131,12 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                                        
           if (empty($document->getObjectIdentifier())) {         
             $documentTransferManager->ingest($document);
-          } else {           
-            //$documentTransferManager->ingest($document);
-            $documentTransferManager->update($document);             
+          } else {                                  
+            if ($document->getRemoteAction() == \EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE) {
+              $documentTransferManager->delete($document);               
+            } else {                        
+              $documentTransferManager->update($document);             
+            }
           }
             
           $this->redirect('list');          

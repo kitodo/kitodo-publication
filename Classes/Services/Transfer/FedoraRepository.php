@@ -89,7 +89,7 @@ class FedoraRepository implements Repository {
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
    * @param string $metsXml
-   * @return boolean
+   * @return string
    */
   public function update($document, $metsXml) {
     
@@ -120,22 +120,42 @@ class FedoraRepository implements Repository {
   /**
    * Gets an existing document from the Fedora repository
    * 
-   * @param integer $id
-   * @return \EWW\Dpf\Domain\Model\Document
+   * @param \EWW\Dpf\Domain\Model\Document $id
+   * @return boolean
    */
-  public function retrieve($id) {
-    return NULL;
+  public function retrieve($document) {
+    return FALSE;
   }
    
   
   /**
    * Removes an existing document from the Fedora repository
    * 
-   * @param type $id
-   * @return \EWW\Dpf\Domain\Model\Document
+   * @param \EWW\Dpf\Domain\Model\Document $document
+   * @return boolean
    */
-  public function delete($id) {
-    return NULL;
+  public function delete($document) {
+    
+     $remoteId = $document->getObjectIdentifier();
+    
+    try {    
+      $response = Request::delete($this->swordHost . "/sword/qucosa:all/". $remoteId)               
+        ->authenticateWith($this->swordUser, $this->swordPassword)            
+        ->send();
+                                                                             
+      TransferLogger::Log($document, $response);
+      
+      // if transfer successful 
+      if ( !$response->hasErrors() && $response->code == 204 ) {
+        return TRUE;     
+      }                             
+    } catch(Exception $exception) {
+      // curl error handling,
+      // but extbase already catches all exceptions
+      return FALSE;
+    }
+                          
+    return FALSE;        
   }
   
   /**

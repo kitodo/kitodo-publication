@@ -7,9 +7,9 @@ interface Repository {
    
   public function update($document, $metsXml);
   
-  public function retrieve($id);
+  public function retrieve($document);
    
-  public function delete($id);
+  public function delete($document);
   
 }
 

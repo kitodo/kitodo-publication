@@ -66,8 +66,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * 
          * @var string         
          */
-        protected $objectIdentifier;      
-                
+        protected $objectIdentifier;     
+        
+        /**
+         * remoteAction
+         * 
+         * @var string         
+         */
+        protected $remoteAction;     
+                        
         /**
          * transferStatus
          * 
@@ -81,28 +88,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          *  @var integer
          */
         protected $transferDate;    
-        
-        /**
-         * transferErrorCode
-         * 
-         * @var integer
-         */
-        protected $transferErrorCode;
-        
-        /**
-         * transferResponse
-         * 
-         * @var string
-         */
-	protected $transferResponse;
-                
-        /**
-         * transferHttpStatus
-         * 
-         * @var integer
-         */        
-	protected $transferHttpStatus;	
-        
+                                     
         
         /**
 	 * file
@@ -118,7 +104,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const TRANSFER_QUEUED = "QUEUED";
                      
         const TRANSFER_SENT = "SENT";
-               
+                       
+        const REMOTE_ACTION_INGEST = "INGEST";
+        
+        const REMOTE_ACTION_UPDATE = "UPDATE";
+        
+        const REMOTE_ACTION_DELETE = "DELETE";
+        
+        
         /**
 	 * Returns the title
 	 *
@@ -202,6 +195,25 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         public function setObjectIdentifier($objectIdentifier) {
           $this->objectIdentifier = $objectIdentifier;          
+        }
+                
+        /**
+         * Returns the remoteAction
+         * 
+         * @return string
+         */
+        public function getRemoteAction() {
+          return $this->remoteAction;          
+        }
+        
+        /**
+         * Sets the remoteAction
+         * 
+         * @param string $remoteAction
+         * @return void
+         */
+        public function setRemoteAction($remoteAction) {
+          $this->remoteAction = $remoteAction;          
         }
                                
         /**         

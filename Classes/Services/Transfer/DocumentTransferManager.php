@@ -125,22 +125,35 @@ class DocumentTransferManager {
   /**
    * Gets an existing document from the Fedora repository
    * 
-   * @param integer $id
-   * @return \EWW\Dpf\Domain\Model\Document
+   * @param \EWW\Dpf\Domain\Model\Document $document
+   * @return boolean
    */
-  public function retrieve($id) {
-    return NULL;
+  public function retrieve($document) {
+    return FALSE;
   }
   
     
   /**
    * Removes an existing document from the Fedora repository
    * 
-   * @param type $id
-   * @return \EWW\Dpf\Domain\Model\Document
+   * @param \EWW\Dpf\Domain\Model\Document $document
+   * @return boolean
    */
-  public function delete($id) {
-    return NULL;
+  public function delete($document) {
+   
+    $document->setTransferStatus(Document::TRANSFER_QUEUED); 
+    $this->documentRepository->update($document);  
+    
+    if ($this->remoteRepository->delete($document)) {                
+      $document->setTransferStatus(Document::TRANSFER_SENT); 
+      $this->documentRepository->update($document);          
+      $this->documentRepository->remove($document);
+      return TRUE;
+    } else {
+      $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
+      $this->documentRepository->update($document); 
+      return FALSE;
+    }            
   }
   
   
