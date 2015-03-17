@@ -426,6 +426,7 @@ class MetsExporter
             $domElement = $domElement->firstChild;
 
             $fileGrp = $domDocument->createElement('mets:fileGrp');
+            $fileGrp->setAttribute('USE', 'ORIGINAL');
             $domElement->appendChild($fileGrp);
 
             $domElement = $domElement->firstChild;
@@ -489,7 +490,6 @@ class MetsExporter
             $i = 0;
             // set xml for uploded files
             foreach ($this->files as $key => $value) {
-
                 $fptr = $domDocument->createElement('mets:fptr');
                 $fptr->setAttribute('FILEID', $value['id']);
                 $domElement->appendChild($fptr);
