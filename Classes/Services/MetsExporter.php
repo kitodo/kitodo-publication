@@ -436,24 +436,26 @@ class MetsExporter
             foreach ($this->files as $key => $value) {
                 $file = $domDocument->createElement('mets:file');
                 $file->setAttribute('ID', $value['id']);
-                $file->setAttribute('MIMETYPE', $value['type']);
-                $domElement->appendChild($file);
-
-                $domElementFLocat = $domElement->childNodes->item($i);
-                // print_r($domElement->childNodes->item(0));
-
-                $fLocat = $domDocument->createElement('mets:FLocat');
-                $fLocat->setAttribute('LOCTYPE', 'URL');
-                $fLocat->setAttribute('xlink:href', $value['path']);
-                $fLocat->setAttribute('xmlns:xlin', "http://www.w3.org/1999/xlink");
-                if ($value['title']) {
-                    $fLocat->setAttribute('xlin:title', $value['title']);
-                }
                 if ($value['use']) {
-                    $fLocat->setAttribute('USE', $value['use']);
-                }
-                $domElementFLocat->appendChild($fLocat);
+                    $file->setAttribute('USE', $value['use']);
+                    $domElement->appendChild($file);
+                } else {
+                  $file->setAttribute('MIMETYPE', $value['type']);
+                  $domElement->appendChild($file);
+                  $domElementFLocat = $domElement->childNodes->item($i);
+                  // print_r($domElement->childNodes->item(0));
 
+                  $fLocat = $domDocument->createElement('mets:FLocat');
+                  $fLocat->setAttribute('LOCTYPE', 'URL');
+                  $fLocat->setAttribute('xlink:href', $value['path']);
+                  $fLocat->setAttribute('xmlns:xlin', "http://www.w3.org/1999/xlink");
+                  if ($value['title']) {
+                      $fLocat->setAttribute('xlin:title', $value['title']);
+                  }
+
+                  $domElementFLocat->appendChild($fLocat);
+                }
+                                             
                 $i++;
             }
 
