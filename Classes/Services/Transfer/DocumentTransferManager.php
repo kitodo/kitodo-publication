@@ -61,17 +61,11 @@ class DocumentTransferManager {
     $exporter->setMods($document->getXmlData());    
         
     $exporter->buildMets();  
-   
-// echo "<pre>"; print_r($fileData); echo "</pre>"; die();
-    
+       
     // $exporter->setSlubData($slubData);
             
     $metsXml = $exporter->getMetsData();
-    
-    //echo "<pre>"; print_r($metsXml); echo "</pre>"; 
-    //file_put_contents("qucosa-mets.xml", $metsXml);    
-    //die();
-    
+        
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
                             
     if ($remoteDocumentId) {            
@@ -103,14 +97,7 @@ class DocumentTransferManager {
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
     $fileData = $this->getFileData($document);
-    
-    /*
-    echo "<pre>";
-    print_r( $fileData); 
-    echo "<pre>";
-    die();
-    */
-    
+           
     $exporter->setFileData($fileData);    
     
     $exporter->setMods($document->getXmlData());    
@@ -120,18 +107,7 @@ class DocumentTransferManager {
     $exporter->buildMets();  
      
     $metsXml = $exporter->getMetsData();
-    
-    
-   /* 
-    echo "<pre>";
-    print_r( $metsXml); 
-    echo "<pre>";
-    die();
-    */
-   //file_put_contents("qucosa-xml.xml", $metsXml);
-    
-    
-    
+           
     if ($this->remoteRepository->update($document, $metsXml)) {                
       $document->setTransferStatus(Document::TRANSFER_SENT); 
       $this->documentRepository->update($document);          
