@@ -143,6 +143,23 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
           
           $this->redirect('list');          
         }
+        
+        /**
+	 * action retrieve
+	 *
+	 * @param string $remoteId
+	 * @return void
+	 */
+        public function retrieveAction($remoteId) {
+          
+          $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+          $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+          $documentTransferManager->setRemoteRepository($remoteRepository);
+          
+          $documentTransferManager->retrieve($remoteId);
+          
+          $this->redirect('list');           
+        }
 
         
 }

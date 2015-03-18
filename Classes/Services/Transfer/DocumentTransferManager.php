@@ -158,79 +158,82 @@ class DocumentTransferManager {
     
     $mets = $this->remoteRepository->retrieve($remoteId);
     
-    if ($mets) {      
-       
-      $metsDom = new \DOMDocument();
-      $metsDom->loadXML($mets);           
-      
-      $metsXpath = new \DOMXPath($metsDom);  
-      $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-      $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");                         
-                              
-      $metsXpath = new \DOMXPath($metsDom); 
-      $metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
-      $slubNodes = $metsXpath->query("/mets:mets/mets:amdSec/mets:rightsMD/mets:mdWrap/mets:xmlData/slub:info");   
-                  
-      $metsXpath = new \DOMXPath($metsDom);  
-      //$metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
-      $fileNodes = $metsXpath->query("/mets:mets/mets:fileSec/mets:fileGrp/mets:file");   
-                                    
-      
-      if ($modsNodes->length == 1) {      
-        $modsDom = new \DOMDocument();
-        $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-        $modsXpath = new \DOMXPath($modsDom);     
+    try {
+    
+      if ($mets) {      
 
-        $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
-        $title = $titleNode->item(0)->nodeValue;          
-                
-        $slubDom = new \DOMDocument();
-        $slubDom->loadXML($metsDom->saveXML($slubNodes->item(0)));    
-        $slubXpath = new \DOMXPath($slubDom);     
-        $documentTypeNode = $slubXpath->query("/slub:info/slub:documentType");
-        $documentTypeName = $documentTypeNode->item(0)->nodeValue;            
-        $documentType = $this->documentTypeRepository->findByName($documentTypeName);                                 
-                       
-        $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-        
-        $document->setObjectIdentifier($remoteId);                                         
-        $document->setTitle($title);
-        $document->setDocumentType($documentType->current());
-        $document->setXmlData($modsDom->saveXML());
-        
-        $this->documentRepository->add($document);  
-        $this->persistenceManager->persistAll();
-        
-        foreach ($fileNodes as $item) {        
-          $id = $item->getAttribute("ID");                
-          $mimetype = $item->getAttribute("MIMETYPE");
-          $url = $item->firstChild->getAttribute("xlin:href");               
-        
-          $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
-        
-          $file->setContentType($mimetype);
-          $file->setDatastreamIdentifier($id);
-          $file->setLink($url);
-          $file->setTitle($id);
-          
-          if ($id == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
-            $file->setPrimaryFile(TRUE);           
+        $metsDom = new \DOMDocument();
+        $metsDom->loadXML($mets);           
+
+        $metsXpath = new \DOMXPath($metsDom);  
+        $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
+        $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");                         
+
+        $metsXpath = new \DOMXPath($metsDom); 
+        $metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
+        $slubNodes = $metsXpath->query("/mets:mets/mets:amdSec/mets:rightsMD/mets:mdWrap/mets:xmlData/slub:info");   
+
+        $metsXpath = new \DOMXPath($metsDom);  
+        //$metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
+        $fileNodes = $metsXpath->query("/mets:mets/mets:fileSec/mets:fileGrp/mets:file");   
+
+
+        if ($modsNodes->length == 1 && $slubNodes->length == 1 ) {      
+          $modsDom = new \DOMDocument();
+          $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
+          $modsXpath = new \DOMXPath($modsDom);     
+
+          $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
+          $title = $titleNode->item(0)->nodeValue;          
+
+          $slubDom = new \DOMDocument();
+          $slubDom->loadXML($metsDom->saveXML($slubNodes->item(0)));    
+          $slubXpath = new \DOMXPath($slubDom);     
+          $documentTypeNode = $slubXpath->query("/slub:info/slub:documentType");
+          $documentTypeName = $documentTypeNode->item(0)->nodeValue;            
+          $documentType = $this->documentTypeRepository->findByName($documentTypeName);                                 
+
+          $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+
+          $document->setObjectIdentifier($remoteId);                                         
+          $document->setTitle($title);
+          $document->setDocumentType($documentType->current());
+          $document->setXmlData($modsDom->saveXML());
+
+          $this->documentRepository->add($document);  
+          $this->persistenceManager->persistAll();
+
+          foreach ($fileNodes as $item) {        
+            $id = $item->getAttribute("ID");                
+            $mimetype = $item->getAttribute("MIMETYPE");
+            $url = $item->firstChild->getAttribute("xlin:href");               
+
+            $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
+
+            $file->setContentType($mimetype);
+            $file->setDatastreamIdentifier($id);
+            $file->setLink($url);
+            $file->setTitle($id);
+
+            if ($id == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
+              $file->setPrimaryFile(TRUE);           
+            }
+
+            $file->setDocument($document);
+
+            $this->fileRepository->add($file);
           }
-          
-          $file->setDocument($document);
-                
-          $this->fileRepository->add($file);
-        }
         
-        return TRUE;
-      
-      } else {
+                        
+          return TRUE;
+        }  
+              
       } 
                             
+    } catch(Exception $exception) {          
+      return FALSE; 
     }
-    
-    
-    
+            
     return FALSE;
   }
   
