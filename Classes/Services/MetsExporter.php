@@ -56,7 +56,15 @@ class MetsExporter
      * @var DOMDocument
      */
     protected $modsData = '';
+           
+            
+    /**
+     * slub xml data
+     * @var DOMDocument
+     */
+    protected $slubData = '';
 
+    
     /**
      * metsHeader
      * @var string
@@ -153,7 +161,11 @@ class MetsExporter
         // import mods into mets
         $nodeAppendModsData = $modsWrap->importNode($this->modsData->firstChild, true);
         $xmlData->appendChild($nodeAppendModsData);
-
+                     
+        // add SLUB data
+        $nodeAppendModsData = $modsWrap->importNode($this->slubData->firstChild, true);
+        $modsWrap->firstChild->appendChild($nodeAppendModsData);
+       
         if ($fileSection) {
             // add filesection
             $nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
@@ -192,7 +204,7 @@ class MetsExporter
 
         return $newXML;
     }
-
+                                  
     /**
      * build mods from form array
      * @param array $array structured form data array
@@ -399,6 +411,35 @@ class MetsExporter
     public function slubInfo($value = '')
     {
         # NOT IMPLEMENTED YET
+        
+        $slub = '<mets:amdSec ID="AMD_000">
+        <mets:rightsMD ID="RIGHTS_000">
+        <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml">
+        <mets:xmlData>
+        <slub:info xmlns:slub="http://slub-dresden.de/">
+          <slub:documentType>'.$value['documentType'].'</slub:documentType>
+          <slub:submitter>
+            <slub:name>Frau Administrator</slub:name>
+            <slub:contact>mailto:qucosa.admin@slub-dresden.de</slub:contact>
+          </slub:submitter>
+
+          <slub:project>OpenAire Project Name</slub:project>
+          <slub:client>Mandant</slub:client>
+          <slub:rights>
+            <slub:license valueURI="URI der Lizenz">Lizenzangabe</slub:license>
+            <slub:embargo encoding="iso8601">2014-11-26</slub:embargo>
+            <slub:accessDNB>true</slub:accessDNB>
+            <slub:accessPOD>true</slub:accessPOD>
+          </slub:rights>
+        </slub:info>
+        </mets:xmlData>
+        </mets:mdWrap>
+        </mets:rightsMD>
+        </mets:amdSec>';
+                  
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($slub);
+        $this->slubData = $domDocument;
     }
 
     public function setFileData($value = '')
