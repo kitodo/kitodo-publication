@@ -8,7 +8,11 @@ class DocumentFormBEController extends AbstractDocumentFormController {
     parent::__construct();
            
   }
-        
+    
+  protected function redirectToList() {   
+    $this->forward('list','Document',NULL,array());    
+  }
+                              
 }
 
 ?>
