@@ -120,11 +120,31 @@ class FedoraRepository implements Repository {
   /**
    * Gets an existing document from the Fedora repository
    * 
-   * @param \EWW\Dpf\Domain\Model\Document $id
-   * @return boolean
+   * @param string $remoteId
+   * @return string
    */
-  public function retrieve($document) {
-    return FALSE;
+  public function retrieve($remoteId) {
+           
+//    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
+   
+   try {    
+      $response = Request::get($this->swordHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")             
+        ->authenticateWith($this->swordUser, $this->swordPassword)     
+        ->send();
+                                                                             
+      // TransferLogger::Log($document, $response);
+                                          
+      // if transfer successful 
+      if ( !$response->hasErrors() && $response->code == 200 ) {                                       
+        return $response->__toString();                               
+      }                             
+    } catch(Exception $exception) {
+      // curl error handling,
+      // but extbase already catches all exceptions
+      return NULL;
+    }     
+              
+    return NULL;
   }
    
   

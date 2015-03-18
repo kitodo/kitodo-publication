@@ -128,7 +128,9 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
-                                       
+                                  
+          //$documentTransferManager->retrieve("qucosa:143");
+          
           if (empty($document->getObjectIdentifier())) {         
             $documentTransferManager->ingest($document);
           } else {                                  
@@ -138,8 +140,9 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
               $documentTransferManager->update($document);             
             }
           }
-            
+          
           $this->redirect('list');          
         }
 
+        
 }
