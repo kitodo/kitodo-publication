@@ -12,7 +12,7 @@ class FileId {
     foreach ( $document->getFile() as $file ) {   
       $dsId = $file->getDatastreamIdentifier();                  
       if (!empty($dsId) && $dsId != \Eww\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
-        $id = split("_", $dsId);        
+        $id = split("-", $dsId);        
         $idList[] = $id[1];                      
       }                       
     }
@@ -29,7 +29,7 @@ class FileId {
           return \Eww\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER;  
         } else { 
           $this->id = $this->id + 1; 
-          return "FILE_" . $this->id;
+          return \Eww\Dpf\Domain\Model\File::DATASTREAM_IDENTIFIER_PREFIX. $this->id;
         }                        
       } else {
         return $fileId;

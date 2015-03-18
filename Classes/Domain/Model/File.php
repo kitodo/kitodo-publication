@@ -89,7 +89,8 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const STATUS_CHANGED = "changed";
         const STATUS_ADDED = "added";
         
-        const PRIMARY_DATASTREAM_IDENTIFIER = 'FILE_PRIMARY';
+        const PRIMARY_DATASTREAM_IDENTIFIER = 'ATT-0';
+        const DATASTREAM_IDENTIFIER_PREFIX = 'ATT-';
         
 	/**
 	 * Returns the title
