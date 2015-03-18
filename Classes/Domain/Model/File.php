@@ -217,24 +217,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->primaryFile;
 	}
         
-        
-        /**
-         * Returns the download url for the file
-         * 
-         * @return string
-         */        
-        public function getFileUrl() {     
-                           
-          if ($this->getStatus() == File::STATUS_REMOTE) {            
-            return $this->getLink();            
-          } else {
-            //$baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];                                               
-            return "http://" . trim($_SERVER['SERVER_NAME'],"/")."/".$this->getLink();
-          }
-         
-        }
-        
-        
+                        
         /**
 	 * Returns the datastreamIdentifier
 	 *

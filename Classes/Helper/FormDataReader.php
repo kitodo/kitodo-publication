@@ -121,9 +121,17 @@ class FormDataReader {
   
   
   protected function getNewAndUpdatedFiles() {
-     
-    $path = "uploads/tx_dpf";
-     
+    
+    $uploadPath = "uploads/tx_dpf/";
+    
+    $basePath = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+    $basePath .= trim($_SERVER['SERVER_NAME'],"/")."/".$uploadPath;
+    
+    if (TYPO3_MODE == 'BE') {
+      $uploadPath = "../".$uploadPath;
+    }
+    
+    
     $newFiles = array();
     
     // Primary file                 
@@ -140,12 +148,12 @@ class FormDataReader {
                   
       $tmpFile = $this->formData['primaryFile'];
                   
-      $fileName = $path."/".uniqid(time(),true);    
-                
-      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {            
+      $fileName = uniqid(time(),true);    
+                          
+      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$uploadPath.$fileName) ) {            
         $file->setContentType($tmpFile['type']);  
         $file->setTitle($tmpFile['name']);
-        $file->setLink($fileName);
+        $file->setLink($basePath.$fileName);
         $file->setPrimaryFile(TRUE);
                   
         if ($file->getDatastreamIdentifier()) {
@@ -169,12 +177,12 @@ class FormDataReader {
       
         $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
            
-        $fileName = $path."/".uniqid(time(),true);
-                                      
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fileName) ) {                    
+        $fileName = uniqid(time(),true);
+               //  die($fileName);                      
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$uploadPath.$fileName) ) {                    
            $file->setContentType($tmpFile['type']);  
            $file->setTitle($tmpFile['name']);
-           $file->setLink($fileName);
+           $file->setLink($basePath.$fileName);
            $file->setPrimaryFile(FALSE);
            $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
 
