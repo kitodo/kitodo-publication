@@ -91,7 +91,7 @@ class DocumentTransferManager {
     $exporter->buildMets();  
                    
     $metsXml = $exporter->getMetsData();
-    
+        
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
                             
     if ($remoteDocumentId) {            
@@ -208,12 +208,14 @@ class DocumentTransferManager {
             $mimetype = $item->getAttribute("MIMETYPE");
             $url = $item->firstChild->getAttribute("xlin:href");               
 
+            $fileTitle = $item->firstChild->getAttribute("xlin:title");               
+            
             $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
 
             $file->setContentType($mimetype);
             $file->setDatastreamIdentifier($id);
             $file->setLink($url);
-            $file->setTitle($id);
+            $file->setTitle($fileTitle);
 
             if ($id == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
               $file->setPrimaryFile(TRUE);           
@@ -272,14 +274,16 @@ class DocumentTransferManager {
    foreach ( $document->getFile() as $file ) {                  
      
      if (!empty($file->getStatus())) {
-       
+                            
       if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {                                
          $files[$file->getUid()] = array(
            'path' => $file->getLink(),
            'type' => $file->getContentType(),
            'id' => $fileId->getId($file),
            'title' => $file->getTitle(),  
-           'use' => '' 
+           'use' => '',
+           'checksum' => hash_file('sha256',$file->getLink()),
+           'checksumtype' => 'SHA-256'  
          );                                
        } elseif (!empty($file->getDatastreamIdentifier())) {        
          $files[$file->getUid()] = array(
@@ -287,7 +291,9 @@ class DocumentTransferManager {
            'type' => $file->getContentType(),
            'id' => $file->getDatastreamIdentifier(),
            'title' => $file->getTitle(),  
-           'use' => 'DELETE'         
+           'use' => 'DELETE',
+           'checksum' => hash_file('sha256',$file->getLink()),
+           'checksumtype' => 'SHA-256'   
          );
        }
      }
