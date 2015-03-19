@@ -408,39 +408,39 @@ class MetsExporter
         $this->modsData = $domDocument;
     }
 
-    public function slubInfo($value = '')
-    {
-        # NOT IMPLEMENTED YET
+    // public function slubInfo($value = '')
+    // {
+    //     # NOT IMPLEMENTED YET
         
-        $slub = '<mets:amdSec ID="AMD_000">
-        <mets:rightsMD ID="RIGHTS_000">
-        <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml">
-        <mets:xmlData>
-        <slub:info xmlns:slub="http://slub-dresden.de/">
-          <slub:documentType>'.$value['documentType'].'</slub:documentType>
-          <slub:submitter>
-            <slub:name>Frau Administrator</slub:name>
-            <slub:contact>mailto:qucosa.admin@slub-dresden.de</slub:contact>
-          </slub:submitter>
+    //     $slub = '<mets:amdSec ID="AMD_000">
+    //     <mets:rightsMD ID="RIGHTS_000">
+    //     <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml">
+    //     <mets:xmlData>
+    //     <slub:info xmlns:slub="http://slub-dresden.de/">
+    //       <slub:documentType>'.$value['documentType'].'</slub:documentType>
+    //       <slub:submitter>
+    //         <slub:name>Frau Administrator</slub:name>
+    //         <slub:contact>mailto:qucosa.admin@slub-dresden.de</slub:contact>
+    //       </slub:submitter>
 
-          <slub:project>OpenAire Project Name</slub:project>
-          <slub:client>Mandant</slub:client>
-          <slub:rights>
-            <slub:license valueURI="URI der Lizenz">Lizenzangabe</slub:license>
-            <slub:embargo encoding="iso8601">2014-11-26</slub:embargo>
-            <slub:accessDNB>true</slub:accessDNB>
-            <slub:accessPOD>true</slub:accessPOD>
-          </slub:rights>
-        </slub:info>
-        </mets:xmlData>
-        </mets:mdWrap>
-        </mets:rightsMD>
-        </mets:amdSec>';
+    //       <slub:project>OpenAire Project Name</slub:project>
+    //       <slub:client>Mandant</slub:client>
+    //       <slub:rights>
+    //         <slub:license valueURI="URI der Lizenz">Lizenzangabe</slub:license>
+    //         <slub:embargo encoding="iso8601">2014-11-26</slub:embargo>
+    //         <slub:accessDNB>true</slub:accessDNB>
+    //         <slub:accessPOD>true</slub:accessPOD>
+    //       </slub:rights>
+    //     </slub:info>
+    //     </mets:xmlData>
+    //     </mets:mdWrap>
+    //     </mets:rightsMD>
+    //     </mets:amdSec>';
                   
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML($slub);
-        $this->slubData = $domDocument;
-    }
+    //     $domDocument = new \DOMDocument();
+    //     $domDocument->loadXML($slub);
+    //     $this->slubData = $domDocument;
+    // }
 
     public function setFileData($value = '')
     {
@@ -546,5 +546,63 @@ class MetsExporter
 
             return $domDocument;
         }
+    }
+
+    /**
+     * Builds the xml slubInfo part
+     * @param  Array $array Array with slub information
+     * @return xml        xml slubInfo
+     */
+    public function buildSlubInfo($array)
+    {
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
+
+        $domElement = $domDocument->firstChild;
+
+        $submitter = $domDocument->createElement('slub:submitter');
+        $domElement->appendChild($submitter);
+
+        $project = $domDocument->createElement('slub:project', $array['project']);
+        $domElement->appendChild($project);
+
+        $client = $domDocument->createElement('slub:client', $array['client']);
+        $domElement->appendChild($client);
+
+        $rights = $domDocument->createElement('slub:rights');
+        $domElement->appenChild($rights);
+
+        $domElementRights = $domElement->lastChild;
+
+
+        // submitter second level
+        $domElement = $domElement->firstChild;
+
+        $name = $domDocument->createElement('slub:name', $array['name']);
+        $domElement->appendChild($name);
+
+        $contact = $domDocument->createElement('slub:contact', $array['contact']);
+        $domElement->appendChild($contact);
+
+
+        //rights second level
+        $domElement = $domElementRights;
+
+        $license = $domDocument->createElement('slub:license');
+        $license->setAttribute('valueURI', $array['']);
+        $domElement->appenChild($license);
+
+        $embargo = $domDocument->createElement('slub:embargo', $array['embargo']);
+        $embargo->setAttribute('encoding', 'iso8601');
+        $domElement->appenChild($embargo);
+
+        $accessDNB = $domDocument->createElement('slub:accessDNB', $array['accessDNB']);
+        $domElement->appendChild($accessDNB);
+
+        $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
+        $domElement->appendChild($accessPOD);
+
+        return $domDocument;
+
     }
 }
