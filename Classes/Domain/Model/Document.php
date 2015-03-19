@@ -372,4 +372,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function getTstamp() {
           return $this->tstamp;
         }
+        
+        
+        public function isDeleteRemote() {
+          return $this->remoteAction == $this::REMOTE_ACTION_DELETE;
+        }
 }

@@ -51,9 +51,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                                                               
                           <f:if condition="{document.objectIdentifier}">
                             <f:then>                              
-                              <f:link.action action="release" arguments="{document : document}" class="btn btn-info {f:if(condition: '{document.edited}', then: '', else: 'disabled')}">Update</f:link.action>                                 
-                              
-                 
+                              <f:link.action 
+                                action="release" 
+                                arguments="{document : document}" 
+                                class="btn {f:if(condition: '{document.deleteRemote}', then: 'btn-warning', else: 'btn-info')} {f:if(condition: '{document.edited}', then: '', else: 'disabled')}">
+                                Update
+                              </f:link.action>                                 
                               
                             </f:then>
                             <f:else>                             
