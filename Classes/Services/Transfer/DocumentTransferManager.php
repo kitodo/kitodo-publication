@@ -157,9 +157,12 @@ class DocumentTransferManager {
   public function retrieve($remoteId) {
     
     $mets = $this->remoteRepository->retrieve($remoteId);
-                        
-    try {
-    
+              
+    if ( $this->documentRepository->findOneByObjectIdentifier($remoteId) ) {
+      throw new \Exception("Document already exist: $remoteId");
+      return FALSE;
+    };
+       
       if ($mets) {      
 
         $metsDom = new \DOMDocument();
@@ -228,14 +231,14 @@ class DocumentTransferManager {
         
                         
           return TRUE;
+        } else {
+          throw new \Exception("Invalid Data. Document: $remoteId");
         }  
               
+      } else {
+        throw new \Exception("Invalid Data. Document: $remoteId");
       } 
-                            
-    } catch(Exception $exception) {          
-      return FALSE; 
-    }
-            
+                                           
     return FALSE;
   }
   
@@ -263,8 +266,7 @@ class DocumentTransferManager {
     }            
   }
   
-  
-      
+        
   protected function getFileData($document) {
         
    $fileId = new \EWW\Dpf\Services\Transfer\FileId($document);

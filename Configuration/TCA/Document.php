@@ -138,6 +138,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                         )
                 ),
             
+               'tstamp' => Array (
+                        'exclude' => 0,
+                        'label' => 'Timestamp',
+                        'config' => Array (
+                                'type' => 'none',
+                                'format' => 'datetime',
+                                'eval' => 'datetime',
+                        )
+                ),
+            
                 'transfer_status' => Array (
                         'exclude' => 0,
                         'label' => 'Transfer Status',

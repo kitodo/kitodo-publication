@@ -24,20 +24,45 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<thead>
           <tr>
             <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-            <th class="xcol-md-3">Insert</th>
-            <th class="xcol-md-3">Release</th>
+            <th class="xcol-md-3">Authors</th>
+            <th class="xcol-md-3">Dataset Identifier</th>    
+            <th class="xcol-md-3">Pulicationstate</th>            
             <th class="xcol-md-2"></th>            
 	  </tr>
         </thead>
 	<f:for each="{documents}" as="document">
-		<tr>
+         	<tr>                
 			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
-			<td><f:format.date format="d-m-Y - H:i">{document.crdate}</f:format.date></td>
-                        <td>{document.transferStatus}</td>
+			<td>{document.title}</td>
+                        <td>{document.objectIdentifier}</td>
+                        <td>                          
+                          <f:if condition="{document.objectIdentifier}">
+                            <f:then>
+                              published
+                            </f:then>
+                            <f:else>
+                              unpublished
+                            </f:else>
+                          </f:if>  
+                        </td>   
+                        <td>{document.state}                           
+                        </td>
                         <td class="table_col_function">
-                          <f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}" class="btn btn-primary">Edit</f:link.action>                         
-                          <f:link.action action="release" arguments="{document : document}" class="btn btn-success">Release</f:link.action>                         
-                          <button class="btn btn-warning">Doublet Check</button> 
+                                                                              
+                          <f:if condition="{document.objectIdentifier}">
+                            <f:then>                              
+                              <f:link.action action="release" arguments="{document : document}" class="btn btn-info {f:if(condition: '{document.edited}', then: '', else: 'disabled')}">Update</f:link.action>                                 
+                              
+                 
+                              
+                            </f:then>
+                            <f:else>                             
+                              <f:link.action action="release" arguments="{document : document}" class="btn btn-primary">Publish</f:link.action>                            
+                            </f:else>
+                          </f:if>
+                        
+                          <button class="btn btn-default">Doublet Check</button> 
+                        
                           <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">Delete</f:link.action>                                                                  
                         </td>
 		</tr>

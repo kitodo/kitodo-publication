@@ -54,7 +54,7 @@ CREATE TABLE tx_dpf_domain_model_document (
         remote_action varchar(255) DEFAULT '' NOT NULL, 
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
         transfer_date int(11) DEFAULT '0' NOT NULL,        
-
+       
         file int(11) unsigned DEFAULT '0' NOT NULL,	                
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

@@ -1,0 +1,21 @@
+<f:layout name="DefaultBE" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+
+<f:section name="main">
+  
+  <h1>Suche</h1>
+  
+  {document}
+
+</f:section>

@@ -38,8 +38,17 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @var DateTime
 	 */
-	protected $crdate;        
-  
+	protected $crdate;    
+                        
+        
+        /**
+	 * tstamp
+	 *
+	 * @var DateTime
+	 */
+	protected $tstamp;    
+        
+
         /**
 	 * title
 	 *
@@ -349,5 +358,18 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setFile(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $file) {
 		$this->file = $file;
 	}
-                                                                                           
+        
+        
+        public function isEdited() {                                       
+          return $this->crdate->getTimestamp() != $this->tstamp->getTimestamp();
+        }
+                            
+        /**
+         * Returns the tstamp
+         * 
+         * @return DateTime
+         */        
+        public function getTstamp() {
+          return $this->tstamp;
+        }
 }
