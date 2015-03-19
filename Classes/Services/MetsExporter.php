@@ -482,10 +482,7 @@ class MetsExporter
                     $domElement->appendChild($file);
                 } else {
                   $file->setAttribute('MIMETYPE', $value['type']);
-                  
-                  $file->setAttribute('CHECKSUM', $value['checksum']);
-                  $file->setAttribute('CHECKSUMTYPE', $value['checksumtype']);               
-                  
+                                                             
                   $domElement->appendChild($file);
                   $domElementFLocat = $domElement->childNodes->item($i);
                   // print_r($domElement->childNodes->item(0));

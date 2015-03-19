@@ -157,7 +157,7 @@ class DocumentTransferManager {
   public function retrieve($remoteId) {
     
     $mets = $this->remoteRepository->retrieve($remoteId);
-    
+                        
     try {
     
       if ($mets) {      
@@ -281,9 +281,7 @@ class DocumentTransferManager {
            'type' => $file->getContentType(),
            'id' => $fileId->getId($file),
            'title' => $file->getTitle(),  
-           'use' => '',
-           'checksum' => hash_file('sha256',$file->getLink()),
-           'checksumtype' => 'SHA-256'  
+           'use' => ''
          );                                
        } elseif (!empty($file->getDatastreamIdentifier())) {        
          $files[$file->getUid()] = array(
@@ -291,9 +289,7 @@ class DocumentTransferManager {
            'type' => $file->getContentType(),
            'id' => $file->getDatastreamIdentifier(),
            'title' => $file->getTitle(),  
-           'use' => 'DELETE',
-           'checksum' => hash_file('sha256',$file->getLink()),
-           'checksumtype' => 'SHA-256'   
+           'use' => 'DELETE'
          );
        }
      }
