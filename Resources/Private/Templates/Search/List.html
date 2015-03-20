@@ -13,9 +13,39 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:section name="main">
-  
-  <h1>Suche</h1>
-  
-  {document}
+
+	<h1>Suche</h1>
+
+    <f:form action="search" name="search">
+        <f:form.textfield property="query" />
+        <f:form.submit value="Suchen" />
+    </f:form>
+
+	<table class="tx_dpf table table-striped table-manager table-condensed">
+		<thead>
+			<tr>
+				<th class="xcol-md-5">ID</th>
+				<th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
+				<th class="xcol-md-3">Publisher</th>
+				<th class="xcol-md-3">Submitter</th>              
+				<th class="xcol-md-2">Identifier</th>   
+                <th class="xcol-md-1">Get</th>          
+			</tr>
+		</thead>
+		<f:for each="{searchList}" as="entry">
+			<tr>
+				<td>{entry._source.PID}</td>
+				<td>{entry._source._dissemination._content.title.0}</td>
+				<td>{entry._source._dissemination._content.publisher.0}</td>
+				<td>{entry._source._dissemination._content.submitter}</td>
+				<td>{entry._source._dissemination._content.identifier.0}</td>
+                <td>
+                    <f:link.action class="btn btn-info">
+                        Get
+                    </f:link.action> 
+                </td>
+			</tr>
+		</f:for>
+	</table>
 
 </f:section>

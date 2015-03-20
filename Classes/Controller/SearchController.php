@@ -31,14 +31,34 @@ namespace EWW\Dpf\Controller;
  * SearchController
  */
 class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
-  
+
   /**
 	 * action list
 	 *
 	 * @return void
 	 */
-	public function listAction() {		
-		$this->view->assign('document', "documents");
+	public function listAction() {
+		$args = $this->request->getArguments();
+		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+		// assign result list from elastic search
+		$this->view->assign('searchList', $args['results']);
+
+	}
+
+	/**
+	 * action search
+	 * @return void
+	 */
+	public function searchAction()
+	{
+		// perform search action
+		$args = $this->request->getArguments();
+
+		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+		$results = $elasticSearch->search($args['search']['query']);
+
+		// redirect to list view
+		$this->forward("list", NULL, NULL, array('results' => $results));
 	}
   
   
