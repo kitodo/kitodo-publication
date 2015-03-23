@@ -32,7 +32,7 @@ namespace EWW\Dpf\Controller;
  */
 class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
-  /**
+        /**
 	 * action list
 	 *
 	 * @return void
@@ -60,6 +60,25 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		// redirect to list view
 		$this->forward("list", NULL, NULL, array('results' => $results));
 	}
+        
+                
+        /**
+         * action import
+         * 
+         * @param string $documentObjectIdentifier
+         * @return void
+         */
+        public function importAction($documentObjectIdentifier) {
+                                      
+          $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+          $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+          $documentTransferManager->setRemoteRepository($remoteRepository);
+          
+          $documentTransferManager->retrieve($documentObjectIdentifier);
+                     
+          $this->redirect('list');    
+        } 
+                
   
   
 }

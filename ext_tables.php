@@ -40,10 +40,10 @@ if (TYPO3_MODE === 'BE') {
           'qucosamanager',
           '',		
           array(
-                  'Document' => 'list, show, new, create, edit, update, delete, release,retrieve',
+                  'Document' => 'list, show, new, create, edit, update, delete, release',
                   'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload',
-                  'Search' => 'list, search',
+                  'Search' => 'list, search, import',
           ),
           array(
                   'access' => 'user,group',

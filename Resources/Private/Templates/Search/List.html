@@ -40,7 +40,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<td>{entry._source._dissemination._content.submitter}</td>
 				<td>{entry._source._dissemination._content.identifier.0}</td>
                 <td>
-                    <f:link.action class="btn btn-info">
+                    <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID}" class="btn btn-info">
                         Get
                     </f:link.action> 
                 </td>
