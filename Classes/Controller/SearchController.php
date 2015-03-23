@@ -33,15 +33,28 @@ namespace EWW\Dpf\Controller;
 class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
         /**
+	 * documentRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+	 * @inject
+	 */
+	protected $documentRepository = NULL;
+        
+  
+        /**
 	 * action list
 	 *
 	 * @return void
 	 */
 	public function listAction() {
+          
+                $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+                         
 		$args = $this->request->getArguments();
 		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 		// assign result list from elastic search
 		$this->view->assign('searchList', $args['results']);
+                $this->view->assign('alreadyImported', $objectIdentifiers);
 
 	}
 
@@ -55,8 +68,20 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$args = $this->request->getArguments();
 
 		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-		$results = $elasticSearch->search($args['search']['query']);
-
+                
+                $query = $args['search']['query'];
+                                               
+                if ($query) {
+                  $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+                  $sessionVars['query'] = $query;
+                  $GLOBALS['BE_USER']->setAndSaveSessionData ('tx_dpf', $sessionVars);
+                } else {
+                   $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+                   $query = $sessionVars['query'];
+                }
+                
+		$results = $elasticSearch->search($query);
+                               
 		// redirect to list view
 		$this->forward("list", NULL, NULL, array('results' => $results));
 	}
@@ -76,7 +101,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
           
           $documentTransferManager->retrieve($documentObjectIdentifier);
                      
-          $this->redirect('list');    
+          $this->redirect('search');    
         } 
                 
   

@@ -31,6 +31,21 @@ namespace EWW\Dpf\Domain\Repository;
  * The repository for Documents
  */
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-
+  
+  public function getObjectIdentifiers() {
+    
+    $query = $this->createQuery();
+    $query->statement("SELECT * FROM tx_dpf_domain_model_document where object_identifier != '' and object_identifier IS NOT NULL and deleted = 0");
+    
+    $result = $query->execute();  
+    
+    $objectIdentifiers = array();
+    
+    foreach ($result as $document) {
+      $objectIdentifiers[$document->getObjectIdentifier()] = $document->getObjectIdentifier();          
+    }
+    
+    return $objectIdentifiers;          
+  }
 	
 }
