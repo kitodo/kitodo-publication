@@ -36,10 +36,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <td>                          
                           <f:if condition="{document.objectIdentifier}">
                             <f:then>
-                              published
+                              {f:translate(key: 'manager.published')}
                             </f:then>
                             <f:else>
-                              unpublished
+                              {f:translate(key: 'manager.unpublished')}
                             </f:else>
                           </f:if>  
                         </td>   
@@ -53,18 +53,18 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 action="release" 
                                 arguments="{document : document}" 
                                 class="btn {f:if(condition: '{document.deleteRemote}', then: 'btn-warning', else: 'btn-info')} {f:if(condition: '{document.edited}', then: '', else: 'disabled')}">
-                                Update
+                                {f:translate(key: 'manager.update')}
                               </f:link.action>                                 
                               
                             </f:then>
                             <f:else>                             
-                              <f:link.action action="release" arguments="{document : document}" class="btn btn-primary">Publish</f:link.action>                            
+                              <f:link.action action="release" arguments="{document : document}" class="btn btn-primary">{f:translate(key: 'manager.publish')}</f:link.action>                            
                             </f:else>
                           </f:if>
                         
                           <button class="btn btn-default">Doublet Check</button> 
                         
-                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">Delete</f:link.action>                                                                  
+                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-danger">{f:translate(key: 'manager.discard')}</f:link.action>                                                                  
                         </td>
 		</tr>
 	</f:for>

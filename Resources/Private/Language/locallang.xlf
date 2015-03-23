@@ -212,7 +212,22 @@
 			</trans-unit>     
                         <trans-unit id="config.elasticSearchPort">
 				<source>Port</source>
-			</trans-unit>                                                                                                                                                                                         
+			</trans-unit> 
+                        <trans-unit id="manager.discard">
+				<source>discard</source>
+			</trans-unit>  
+                         <trans-unit id="manager.update">
+				<source>update</source>
+			</trans-unit>
+                        <trans-unit id="manager.publish">
+				<source>publish</source>
+			</trans-unit>   
+                        <trans-unit id="manager.published">
+				<source>published</source>
+			</trans-unit>   
+                        <trans-unit id="manager.unpublished">
+				<source>unpublished</source>
+			</trans-unit>                                                                                                                                                                                                                
 		</body>
 	</file>
 </xliff>
