@@ -206,6 +206,12 @@
 			</trans-unit>     
                         <trans-unit id="config.fedoraHost">
 				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.elasticSearchHost">
+				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.elasticSearchPort">
+				<source>Port</source>
 			</trans-unit>                                                                                                                                                                                         
 		</body>
 	</file>

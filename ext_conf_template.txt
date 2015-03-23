@@ -9,3 +9,9 @@ swordPassword = password
 
 # cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraHost
 fedoraHost = localhost
+
+# cat=Elastic Search; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.elasticSearchHost
+elasticSearchHost = localhost
+
+# cat=Elastic Search; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.elasticSearchPort
+elasticSearchPort = 9200

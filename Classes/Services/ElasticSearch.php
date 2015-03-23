@@ -33,7 +33,7 @@ class ElasticSearch
 {
     protected $es;
 
-    protected $server = '192.168.178.50';
+    protected $server = ''; //127.0.0.1';
 
     protected $port = '9200';
 
@@ -50,6 +50,12 @@ class ElasticSearch
      * elasticsearch client constructor
      */
     public function __construct() {
+        
+        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+        $this->server = $confArr['elasticSearchHost'];
+        $this->port = $confArr['elasticSearchPort'];
+     
+
         // initialize elasticsearch lib
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
         require_once($extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php');
@@ -69,6 +75,7 @@ class ElasticSearch
         // $results = $this->es->search((string) $query);
 
         // print_r($results);
+                
     }
 
     /**
