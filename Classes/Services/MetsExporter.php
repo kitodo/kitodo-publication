@@ -557,6 +557,8 @@ class MetsExporter
 
         $domElement = $domDocument->firstChild;
 
+        $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
+
         $submitter = $domDocument->createElement('slub:submitter');
         $domElement->appendChild($submitter);
 

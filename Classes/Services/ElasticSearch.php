@@ -26,6 +26,7 @@ namespace EWW\Dpf\Services;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use \ElasticSearch\Client;
+
 /**
  * ElasticSearch
  */
@@ -49,7 +50,8 @@ class ElasticSearch
     /**
      * elasticsearch client constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
         $this->server = $confArr['elasticSearchHost'];
@@ -60,17 +62,17 @@ class ElasticSearch
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
         require_once($extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php');
         
-        // establish connection 
+        // establish connection
         $this->es = Client::connection(array(
             'servers' => $this->server.':'.$this->port,
             'protocol' => 'http',
             'index' => $this->index,
             'type' => $this->type
-        )); 
+        ));
 
-        $query = 'Qucosa';
+        // $query = 'Qucosa';
 
-        $this->search($query);
+        // $this->search($query);
 
         // $results = $this->es->search((string) $query);
 
@@ -79,7 +81,7 @@ class ElasticSearch
     }
 
     /**
-     * performs the 
+     * performs the
      * @param  string $query search query
      * @return array        result list
      */
@@ -107,7 +109,4 @@ class ElasticSearch
         // return results from the last search request
         return $this->resultList;
     }
-
-
-   
 }
