@@ -305,28 +305,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 		$this->redirectToList();
 	}
         
-                                
-        /**
-         * 
-         
-        
-        protected function getTitleFromXmlData($xml) {          
-            $metsDom = new \DOMDocument();
-            $metsDom->loadXML($xml);
-            $metsXpath = new \DOMXPath($metsDom);  
-            $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-            $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
-
-            $modsDom = new \DOMDocument();
-            $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-
-            $modsXpath = new \DOMXPath($modsDom);     
-            $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
-
-            return $titleNode->item(0)->nodeValue;                              
-        }
-              */
-                                          
+                                                                                  
     public function initializeAction() {
       parent::initializeAction();
       

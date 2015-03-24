@@ -230,11 +230,12 @@ class DocumentMapper {
                       
     $exporter = new \EWW\Dpf\Services\MetsExporter();                
     $exporter->buildModsFromForm($data);       
-    $mods = $exporter->getModsData();    
-    $document->setXmlData($mods);                    
-    $title = $this->getTitleFromXmlData($mods);                                
-    $document->setTitle($title);           
-    $document->setAuthors($this->getAuthorsFromXmlData($mods));
+    $modsXml = $exporter->getModsData();    
+    $document->setXmlData($modsXml);                  
+    
+    $mods = new \EWW\Dpf\Helper\Mods($modsXml);                                        
+    $document->setTitle($mods->getTitle());          
+    $document->setAuthors($mods->getAuthors());
     
     return $document;      
   }
@@ -310,58 +311,7 @@ class DocumentMapper {
     return $exporter->getMetsData();         
     */
   }
-  
-  
-  /**
-   * 
-   * @param string $xml
-   * @return void
-   */        
-  protected function getTitleFromXmlData($xml) {          
-  /*  $metsDom = new \DOMDocument();
-    $metsDom->loadXML($xml);
-    $metsXpath = new \DOMXPath($metsDom);  
-    $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-    $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
-          
-    $modsDom = new \DOMDocument();
-    $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-*/
-    $modsDom = new \DOMDocument();
-    $modsDom->loadXML($xml);
-     
-    $modsXpath = new \DOMXPath($modsDom);     
-    $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
-
-    return $titleNode->item(0)->nodeValue;                              
-  }
-  
-  /**
-   * 
-   * @param string $xml
-   * @return void
-   */        
-  protected function getAuthorsFromXmlData($xml) {          
- 
-    $modsDom = new \DOMDocument();
-    $modsDom->loadXML($xml);
-     
-    $modsXpath = new \DOMXPath($modsDom);     
-    $authorNode = $modsXpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="aut"]');
-
-    
-    $authors = array();
-              
-    foreach ($authorNode as $author) {   
-                             
-      $family = $modsXpath->query('mods:namePart[@type="family"]',$author);      
-      $given = $modsXpath->query('mods:namePart[@type="given"]',$author);
-           
-      $authors[] = $given->item(0)->nodeValue . " " . $family->item(0)->nodeValue;           
-    }      
-    
-    return implode(", ",$authors);                              
-  }
+       
 }
 
 ?>

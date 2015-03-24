@@ -156,85 +156,60 @@ class DocumentTransferManager {
    */
   public function retrieve($remoteId) {
     
-    $mets = $this->remoteRepository->retrieve($remoteId);
+    $metsXml = $this->remoteRepository->retrieve($remoteId);
               
     if ( $this->documentRepository->findOneByObjectIdentifier($remoteId) ) {
       throw new \Exception("Document already exist: $remoteId");
       return FALSE;
     };
        
-      if ($mets) {      
-
-        $metsDom = new \DOMDocument();
-        $metsDom->loadXML($mets);           
-
-        $metsXpath = new \DOMXPath($metsDom);  
-        $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-        $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");                         
-
-        $metsXpath = new \DOMXPath($metsDom); 
-        $metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
-        $slubNodes = $metsXpath->query("/mets:mets/mets:amdSec/mets:rightsMD/mets:mdWrap/mets:xmlData/slub:info");   
-
-        $metsXpath = new \DOMXPath($metsDom);  
-        //$metsXpath->registerNamespace("slub", "http://slub-dresden.de/");      
-        $fileNodes = $metsXpath->query("/mets:mets/mets:fileSec/mets:fileGrp/mets:file");   
-
-
-        if ($modsNodes->length == 1 && $slubNodes->length == 1 ) {      
-          $modsDom = new \DOMDocument();
-          $modsDom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-          $modsXpath = new \DOMXPath($modsDom);     
-
-          $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
-          $title = $titleNode->item(0)->nodeValue;          
-
-          $slubDom = new \DOMDocument();
-          $slubDom->loadXML($metsDom->saveXML($slubNodes->item(0)));    
-          $slubXpath = new \DOMXPath($slubDom);     
-          $documentTypeNode = $slubXpath->query("/slub:info/slub:documentType");
-          $documentTypeName = $documentTypeNode->item(0)->nodeValue;            
-          $documentType = $this->documentTypeRepository->findByName($documentTypeName);                                 
-
-          $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-
-          $document->setObjectIdentifier($remoteId);                                         
-          $document->setTitle($title);
-          $document->setDocumentType($documentType->current());
-          $document->setXmlData($modsDom->saveXML());
-
-          $this->documentRepository->add($document);  
-          $this->persistenceManager->persistAll();
-
-          foreach ($fileNodes as $item) {        
-            $id = $item->getAttribute("ID");                
-            $mimetype = $item->getAttribute("MIMETYPE");
-            $url = $item->firstChild->getAttribute("xlin:href");               
-
-            $fileTitle = $item->firstChild->getAttribute("xlin:title");               
-            
-            $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
-
-            $file->setContentType($mimetype);
-            $file->setDatastreamIdentifier($id);
-            $file->setLink($url);
-            $file->setTitle($fileTitle);
-
-            if ($id == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
-              $file->setPrimaryFile(TRUE);           
-            }
-
-            $file->setDocument($document);
-
-            $this->fileRepository->add($file);
-          }
+      if ($metsXml) {      
+                     
+        $mets = new \EWW\Dpf\Helper\Mets($metsXml);        
+        $mods = $mets->getMods();
+        $slub = $mets->getSlub();
+                
+        $title = $mods->getTitle();
+        $authors = $mods->getAuthors();
         
-                        
-          return TRUE;
-        } else {
+        $documentTypeName = $slub->getDocumentType();
+        
+        if (empty($title) && empty($documentTypeName)) {
           throw new \Exception("Invalid Data. Document: $remoteId");
-        }  
-              
+        }
+        
+        $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+        $document->setObjectIdentifier($remoteId);                                         
+        $document->setTitle($title);
+        $document->setAuthors($authors);
+        
+        $documentType = $this->documentTypeRepository->findByName($documentTypeName);              
+        $document->setDocumentType($documentType->current());
+          
+        $document->setXmlData($mods->getModsXml());
+
+        $this->documentRepository->add($document);  
+        $this->persistenceManager->persistAll();
+                    
+        foreach ($mets->getFiles() as $attachment) {       
+                            
+          $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
+          $file->setContentType($attachment['mimetype']);
+          $file->setDatastreamIdentifier($attachment['id']);
+          $file->setLink($attachment['href']);
+          $file->setTitle($attachment['title']);
+
+          if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
+            $file->setPrimaryFile(TRUE);           
+          }
+
+          $file->setDocument($document);
+
+          $this->fileRepository->add($file);                 
+        }
+          
+        return TRUE;                     
+        
       } else {
         throw new \Exception("Invalid Data. Document: $remoteId");
       } 
