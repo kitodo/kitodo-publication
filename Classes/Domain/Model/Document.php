@@ -55,6 +55,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var string
 	 */
 	protected $title = '';
+        
+        
+        /**
+	 * authors
+	 *
+	 * @var string
+	 */
+	protected $authors = '';
+        
   
 	/**
 	 * xmlData
@@ -138,6 +147,26 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+	}
+        
+        
+        /**
+	 * Returns the authors
+	 *
+	 * @return string $authors
+	 */
+	public function getAuthors() {
+		return $this->authors;
+	}
+                
+        /**
+	 * Sets the authors
+	 *
+	 * @param string $authors
+	 * @return void
+	 */
+	public function setAuthors($authors) {
+		$this->authors = $authors;
 	}
         
 	/**

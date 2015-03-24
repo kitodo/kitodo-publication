@@ -21,6 +21,9 @@
                         <trans-unit id="tx_dpf_domain_model_document.title">
 				<source>Title</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.authors">
+				<source>Authors</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>

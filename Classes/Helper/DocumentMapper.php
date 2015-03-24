@@ -234,7 +234,8 @@ class DocumentMapper {
     $document->setXmlData($mods);                    
     $title = $this->getTitleFromXmlData($mods);                                
     $document->setTitle($title);           
-  
+    $document->setAuthors($this->getAuthorsFromXmlData($mods));
+    
     return $document;      
   }
   
@@ -333,6 +334,33 @@ class DocumentMapper {
     $titleNode = $modsXpath->query("/mods:mods/mods:titleInfo/mods:title");
 
     return $titleNode->item(0)->nodeValue;                              
+  }
+  
+  /**
+   * 
+   * @param string $xml
+   * @return void
+   */        
+  protected function getAuthorsFromXmlData($xml) {          
+ 
+    $modsDom = new \DOMDocument();
+    $modsDom->loadXML($xml);
+     
+    $modsXpath = new \DOMXPath($modsDom);     
+    $authorNode = $modsXpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="aut"]');
+
+    
+    $authors = array();
+              
+    foreach ($authorNode as $author) {   
+                             
+      $family = $modsXpath->query('mods:namePart[@type="family"]',$author);      
+      $given = $modsXpath->query('mods:namePart[@type="given"]',$author);
+           
+      $authors[] = $given->item(0)->nodeValue . " " . $family->item(0)->nodeValue;           
+    }      
+    
+    return implode(", ",$authors);                              
   }
 }
 

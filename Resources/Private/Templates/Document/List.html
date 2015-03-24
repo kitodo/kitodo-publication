@@ -22,31 +22,24 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<thead>
           <tr>
             <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-            <th class="xcol-md-3">Authors</th>
-            <th class="xcol-md-3">Dataset Identifier</th>    
-            <th class="xcol-md-3">Pulicationstate</th>            
+            <th class="xcol-md-2">Authors</th>
+            <th class="xcol-md-2">Release date
+            <th class="xcol-md-2">Dataset Identifier</th>    
             <th class="xcol-md-2"></th>            
 	  </tr>
         </thead>
 	<f:for each="{documents}" as="document">
          	<tr>                
 			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
-			<td>{document.title}</td>
+			<td>{document.authors}</td>
+                        <td>10.1.2015</td>
                         <td>{document.objectIdentifier}</td>
-                        <td>                          
-                          <f:if condition="{document.objectIdentifier}">
-                            <f:then>
-                              {f:translate(key: 'manager.published')}
-                            </f:then>
-                            <f:else>
-                              {f:translate(key: 'manager.unpublished')}
-                            </f:else>
-                          </f:if>  
-                        </td>   
                         <td>{document.state}                           
                         </td>
                         <td class="table_col_function">
                                                                               
+                          <button class="btn btn-default">Preview</button> 
+                          
                           <f:if condition="{document.objectIdentifier}">
                             <f:then>                              
                               <f:link.action 

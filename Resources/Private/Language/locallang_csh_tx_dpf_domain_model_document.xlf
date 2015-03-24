@@ -6,6 +6,9 @@
                         <trans-unit id="title.description">
 				<source>title</source>
 			</trans-unit>
+                        <trans-unit id="authors.description">
+				<source>authors</source>
+			</trans-unit>
 			<trans-unit id="xml_data.description">
 				<source>xmlData</source>
 			</trans-unit>
