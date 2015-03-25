@@ -164,7 +164,16 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.document">
 				<source>Document</source>
-			</trans-unit>                                                
+			</trans-unit>          
+                        <trans-unit id="tx_dpf_domain_model_client">
+				<source>Client</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.project">
+				<source>Project</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.client">
+				<source>Client</source>
+			</trans-unit>                                      
                         <trans-unit id="form_error_msg.group_mandatory">
 				<source>Please fill in the required fields.</source>
 			</trans-unit>   
