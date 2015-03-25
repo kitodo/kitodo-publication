@@ -581,7 +581,7 @@ class MetsExporter
         $domSlub = $domDocument->createElement('slub:info');
         $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/></slub:info>');
 
-        $domElement = $domDocument->firstChild;
+        $domElement = $domWrapElement;
 
         $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
 
