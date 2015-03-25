@@ -550,8 +550,31 @@ class MetsExporter
      * @param  Array $array Array with slub information
      * @return xml        xml slubInfo
      */
-    public function buildSlubInfo($array)
+    public function setSlubInfo($array)
     {
+        // <mets:amdSec ID="AMD_000"><mets:rightsMD ID="RIGHTS_000"><mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml"><mets:xmlData>
+        $wrapDocument = new \DOMDocument();
+        $wrapDocument->loadXML('<mets:amdSec ID="AMD_000"></mets:amdSec>');
+
+        $domWrapElement = $wrapDocument->firstChild;
+
+        $wrapDocumentRights = $domWrapElement->createElement('mets:rightsMD');
+        $wrapDocumentRights->setAttribute('ID', 'RIGHTS_000');
+        $domWrapElement->appendChild($wrapDocumentRights);
+
+        $wrapDocumentMD = $wrapDocument->createElement('mets:mdWrap');
+        $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
+        $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBRIGHTS');
+        $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
+
+        $domWrapElement->appendChild($wrapDocumentMD);
+
+        $wrapDocumentData = $wrapDocument->createElement('mets:xmlData');
+        $domWrapElement->appendChild($wrapDocumentData);
+
+
+
+
         $domDocument = new \DOMDocument();
         $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
 
@@ -601,7 +624,23 @@ class MetsExporter
         $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
         $domElement->appendChild($accessPOD);
 
-        return $domDocument;
 
+        // append wrapped element
+        $domWrapElement->appendChild($domDocument);
+
+        $this->slubData = $wrapDocument;
+
+        // return $domDocument;
+
+    }
+
+
+    /**
+     * returns the mods xml string
+     * @return string mods xml
+     */
+    public function getSlubData()
+    {
+        return $this->slubData->saveXML();
     }
 }
