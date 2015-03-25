@@ -553,30 +553,33 @@ class MetsExporter
     public function setSlubInfo($array)
     {
         // <mets:amdSec ID="AMD_000"><mets:rightsMD ID="RIGHTS_000"><mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml"><mets:xmlData>
-        $wrapDocument = new \DOMDocument();
-        $wrapDocument->loadXML('<mets:amdSec ID="AMD_000"></mets:amdSec>');
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML('<mets:amdSec ID="AMD_000"></mets:amdSec>');
 
-        $domWrapElement = $wrapDocument->firstChild;
+        $domWrapElement = $domDocument->firstChild;
 
-        $wrapDocumentRights = $wrapDocument->createElement('mets:rightsMD');
+        $wrapDocumentRights = $domDocument->createElement('mets:rightsMD');
         $wrapDocumentRights->setAttribute('ID', 'RIGHTS_000');
         $domWrapElement->appendChild($wrapDocumentRights);
 
-        $wrapDocumentMD = $wrapDocument->createElement('mets:mdWrap');
+        $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
         $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
         $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBRIGHTS');
         $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
 
         $domWrapElement->appendChild($wrapDocumentMD);
 
-        $wrapDocumentData = $wrapDocument->createElement('mets:xmlData');
+        $wrapDocumentData = $domDocument->createElement('mets:xmlData');
         $domWrapElement->appendChild($wrapDocumentData);
 
 
 
 
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
+        // $domDocument = new \DOMDocument();
+        // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
+         
+        $domSlub = $domDocument->createElement('slub:info');
+        $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/></slub:info>');
 
         $domElement = $domDocument->firstChild;
 
