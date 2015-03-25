@@ -558,7 +558,7 @@ class MetsExporter
 
         $domWrapElement = $wrapDocument->firstChild;
 
-        $wrapDocumentRights = $domWrapElement->createElement('mets:rightsMD');
+        $wrapDocumentRights = $wrapDocument->createElement('mets:rightsMD');
         $wrapDocumentRights->setAttribute('ID', 'RIGHTS_000');
         $domWrapElement->appendChild($wrapDocumentRights);
 
