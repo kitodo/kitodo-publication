@@ -122,26 +122,79 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	}
         
         
-        
+        /**
+         * action release
+         * 
+         * @param \EWW\Dpf\Domain\Model\Document $document
+         * @return void
+         */
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
                                                                      
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
                                   
-          //$documentTransferManager->retrieve("qucosa:143");
           
           if (empty($document->getObjectIdentifier())) {         
-            $documentTransferManager->ingest($document);
-          } else {                                  
-            if ($document->getRemoteAction() == \EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE) {
-              $documentTransferManager->delete($document);               
-            } else {                        
-              $documentTransferManager->update($document);             
+          
+            // Document is not in the fedora repository.
+            
+            $args[] = $document->getTitle();     
+         
+            if ($documentTransferManager->ingest($document)) {
+              $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
+              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            } else {
+              $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
+              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             }
+                                                    
+          } else {                                  
+            
+            $args[] = $document->getTitle();
+            $args[] = $document->getObjectIdentifier(); 
+                     
+            if ($document->getRemoteAction() == \EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE) {
+              
+              // Document is marked for deletion.
+              
+              if ($documentTransferManager->delete($document))  {              
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+              } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';    
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+              }              
+                                      
+            } else {                        
+              
+              // Document needs to be updated.
+              
+              if ($documentTransferManager->update($document)) {               
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+              } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+              }                                                                           
+             
+            }
+                                               
           }
           
+         
+          // Show success or failure of the action in a flash message
+          
+          $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
+          $message = empty($message)? "" : $message;
+         
+          $this->addFlashMessage(
+            $message,
+            '',
+            $severity,
+            TRUE
+          );
+                              
           $this->redirect('list');          
-        }
-                        
+        }                                      
 }

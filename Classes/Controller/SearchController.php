@@ -30,7 +30,7 @@ namespace EWW\Dpf\Controller;
 /**
  * SearchController
  */
-class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class SearchController extends \EWW\Dpf\Controller\AbstractController {
 
         /**
 	 * documentRepository
@@ -99,8 +99,29 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
           
-          $documentTransferManager->retrieve($documentObjectIdentifier);
-                     
+          $args[] = $documentObjectIdentifier;
+                                           
+          if ( $documentTransferManager->retrieve($documentObjectIdentifier) ) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                        
+          } else {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';    
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;           
+          }          
+        
+          // Show success or failure of the action in a flash message
+          
+          $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
+          $message = empty($message)? "" : $message;
+         
+          $this->addFlashMessage(
+            $message,
+            '',
+            $severity,
+            TRUE
+          );
+          
           $this->redirect('search');    
         } 
                 

@@ -230,7 +230,31 @@
 			</trans-unit>   
                         <trans-unit id="manager.unpublished">
 				<source>unpublished</source>
-			</trans-unit>                                                                                                                                                                                                                
+			</trans-unit>       
+                        <trans-unit id="document_ingest.success">
+				<source>%s successfully published.</source>
+			</trans-unit> 
+                        <trans-unit id="document_ingest.failure">
+				<source>Publishing %s failed.</source>
+			</trans-unit> 
+                        <trans-unit id="document_update.success">
+				<source>%s successfully updated.</source>
+			</trans-unit> 
+                        <trans-unit id="document_update.failure">
+				<source>Updating %s failed.</source>
+			</trans-unit>
+                        <trans-unit id="document_delete.success">
+				<source>%s successfully deleted.</source>
+			</trans-unit> 
+                        <trans-unit id="document_delete.failure">
+				<source>Deleting %s failed.</source>
+			</trans-unit>    
+                        <trans-unit id="document_retrieve.success">
+				<source>Dataset %s successfully imported.</source>
+			</trans-unit> 
+                        <trans-unit id="document_retrieve.failure">
+				<source>Importing dataset %s failed.</source>
+			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 		</body>
 	</file>
 </xliff>
