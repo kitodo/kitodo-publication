@@ -595,7 +595,7 @@ class MetsExporter
         $domElement->appendChild($client);
 
         $rights = $domDocument->createElement('slub:rights');
-        $domElement->appenChild($rights);
+        $domElement->appendChild($rights);
 
         $domElementRights = $domElement->lastChild;
 
@@ -615,11 +615,11 @@ class MetsExporter
 
         $license = $domDocument->createElement('slub:license');
         $license->setAttribute('valueURI', $array['']);
-        $domElement->appenChild($license);
+        $domElement->appendChild($license);
 
         $embargo = $domDocument->createElement('slub:embargo', $array['embargo']);
         $embargo->setAttribute('encoding', 'iso8601');
-        $domElement->appenChild($embargo);
+        $domElement->appendChild($embargo);
 
         $accessDNB = $domDocument->createElement('slub:accessDNB', $array['accessDNB']);
         $domElement->appendChild($accessDNB);
@@ -629,9 +629,9 @@ class MetsExporter
 
 
         // append wrapped element
-        $domWrapElement->appendChild($domDocument);
+        // $domWrapElement->appendChild($domDocument);
 
-        $this->slubData = $wrapDocument;
+        $this->slubData = $domDocument;
 
         // return $domDocument;
 
