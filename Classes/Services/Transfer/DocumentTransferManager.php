@@ -85,8 +85,8 @@ class DocumentTransferManager {
     $exporter->setFileData($fileData);    
     
     $exporter->setMods($document->getXmlData());    
-                
-    $exporter->slubInfo(array('documentType' => $document->getDocumentType()->getName()));
+                                  
+    $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
     
     $exporter->buildMets();  
                    
@@ -126,7 +126,7 @@ class DocumentTransferManager {
            
     $exporter->setFileData($fileData);    
     
-    $exporter->slubInfo(array('documentType' => $document->getDocumentType()->getName()));
+    $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
     
     $exporter->setMods($document->getXmlData());    
                     
@@ -174,17 +174,17 @@ class DocumentTransferManager {
         
         $documentTypeName = $slub->getDocumentType();
         
-        if (empty($title) && empty($documentTypeName)) {
-          throw new \Exception("Invalid Data. Document: $remoteId");
+        $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);                               
+                              
+        if (empty($title) || empty($documentType)) {
+          return FALSE;
         }
-        
+                     
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
         $document->setObjectIdentifier($remoteId);                                         
         $document->setTitle($title);
         $document->setAuthors($authors);
-        
-        $documentType = $this->documentTypeRepository->findByName($documentTypeName);              
-        $document->setDocumentType($documentType->current());
+        $document->setDocumentType($documentType);           
           
         $document->setXmlData($mods->getModsXml());
 
@@ -211,7 +211,7 @@ class DocumentTransferManager {
         return TRUE;                     
         
       } else {
-        throw new \Exception("Invalid Data. Document: $remoteId");
+        return FALSE;
       } 
                                            
     return FALSE;

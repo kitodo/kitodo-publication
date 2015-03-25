@@ -560,34 +560,44 @@ class MetsExporter
 
         $wrapDocumentRights = $domDocument->createElement('mets:rightsMD');
         $wrapDocumentRights->setAttribute('ID', 'RIGHTS_000');
+                       
         $domWrapElement->appendChild($wrapDocumentRights);
 
+        $domWrapElement = $domWrapElement->firstChild;
+        
         $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
         $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
         $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBRIGHTS');
         $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
 
         $domWrapElement->appendChild($wrapDocumentMD);
-
+        
+        $domWrapElement = $domWrapElement->firstChild;
+        
         $wrapDocumentData = $domDocument->createElement('mets:xmlData');
         $domWrapElement->appendChild($wrapDocumentData);
 
-
+        $domWrapElement = $domWrapElement->firstChild;
 
 
         // $domDocument = new \DOMDocument();
         // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
          
         $domSlub = $domDocument->createElement('slub:info');
-        $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/></slub:info>');
+        $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/');
 
+        $domWrapElement->appendChild($domSlub);
+        
+        $domWrapElement = $domWrapElement->firstChild;
+        
         $domElement = $domWrapElement;
-
-        $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
 
         $submitter = $domDocument->createElement('slub:submitter');
         $domElement->appendChild($submitter);
-
+        
+        $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
+        $domElement->appendChild($documentType);
+                
         $project = $domDocument->createElement('slub:project', $array['project']);
         $domElement->appendChild($project);
 
