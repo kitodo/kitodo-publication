@@ -30,7 +30,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentTypeController
  */
-class DocumentTypeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class DocumentTypeController extends \EWW\Dpf\Controller\AbstractController {
 
 	/**
 	 * documentTypeRepository

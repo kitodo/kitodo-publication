@@ -30,7 +30,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentFormController
  */
-class AjaxDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController {
 	
         /**
 	 * metadataGroupRepository

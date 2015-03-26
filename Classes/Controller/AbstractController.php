@@ -1,29 +1,45 @@
 <?php
 namespace EWW\Dpf\Controller;
 
+
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
- /*
-  protected Function callActionMethod() {
-    try {
-      parent::callActionMethod();
-    } Catch(\Exception $e) {
-     // $this->response->appendContent($e->getMessage());
+
     
-      if ($e->getMessage()) {
-      
+  /**
+    * clientRepository
+    *
+    * @var \EWW\Dpf\Domain\Repository\ClientRepository
+    * @inject
+    */
+  protected $clientRepository = NULL;
+        
+  
+  protected Function initializeView($view) {
+    parent::initializeView($view);
+    
+    $client = $this->clientRepository->findAll()->current();
+    
+    if (!$client) {
       $this->addFlashMessage(
-        $e->getMessage(),
+        "Es wurde kein gültiger Mandantenordner ausgewählt.",
         $messageTitle = '',
-        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
+        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
         $storeInSession = TRUE
-      );
-      }
-     
+      );    
+    } else {
+      /*
+      $this->addFlashMessage(
+        "Mandantenordner: ".$client->getClient(),
+        $messageTitle = '',
+        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK,
+        $storeInSession = TRUE
+      );       
+      */    
     }
-  
-     
+    
+    $view->assign('client',$client);  
+      
   }
-  */
-  
+             
 }
 ?>

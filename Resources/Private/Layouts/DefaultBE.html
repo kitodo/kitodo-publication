@@ -4,11 +4,14 @@
     
 <div class="tx-dpf">
        <f:comment> <f:debug title="Debug" maxDepth="20">{debugData}</f:debug> </f:comment>     
-              
-       <f:link.action action="list" controller="Search" class="btn btn-default">Mandantenliste</f:link.action>                                 
-       <f:link.action action="list" controller="Document" class="btn btn-default">Dokumente</f:link.action>      
-       <f:link.action action="list" controller="Search" class="btn btn-default">Suche</f:link.action>      
+                   
+       <p class="bg-info client">{client.client} {client.project}</p>
        
+       <div class="manager-menu">
+         <f:link.action action="list" controller="Document" class="btn btn-default">Dokumente</f:link.action>      
+         <f:link.action action="list" controller="Search" class="btn btn-default">Suche</f:link.action>      
+       </div>
+                 
        <f:render section="main" />             
 </div>
 

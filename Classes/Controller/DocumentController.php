@@ -30,7 +30,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentController
  */
-class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 
 	/**
 	 * documentRepository
@@ -197,4 +197,5 @@ class DocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                               
           $this->redirect('list');          
         }                                      
+                                            
 }

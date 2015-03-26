@@ -40,7 +40,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController {
 	 */
 	protected $documentRepository = NULL;
         
-  
+                
         /**
 	 * action list
 	 *
@@ -55,7 +55,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController {
 		// assign result list from elastic search
 		$this->view->assign('searchList', $args['results']);
                 $this->view->assign('alreadyImported', $objectIdentifiers);
-
+                
 	}
 
 	/**
@@ -124,9 +124,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController {
           
           $this->redirect('search');    
         } 
-                
-  
-  
+                    
 }
 
 ?>
