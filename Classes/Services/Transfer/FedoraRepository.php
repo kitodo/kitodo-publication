@@ -25,6 +25,15 @@ class FedoraRepository implements Repository {
   
       
   /**
+   * clientRepository
+   *
+   * @var \EWW\Dpf\Domain\Repository\ClientRepository                                  
+   * @inject
+   */
+  protected $clientRepository;  
+  
+  
+  /**
    * objectManager
    * 
    * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
@@ -43,13 +52,18 @@ class FedoraRepository implements Repository {
   
   protected $response;
   
+  protected $ownerId;
+  
+  const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
+  const QUCOSA_TYPE = 'application/vnd.qucosa.mets+xml';
+  
   
   public function __construct() {
     $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
     $this->swordHost = $confArr['swordHost'];
     $this->swordUser = $confArr['swordUser'];
     $this->swordPassword = $confArr['swordPassword'];
-    $this->fedoraHost = $confArr['fedoraHost'];
+    $this->fedoraHost = $confArr['fedoraHost'];            
   }
   
   /**
@@ -65,7 +79,8 @@ class FedoraRepository implements Repository {
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
-        ->sendsType('application/vnd.qucosa.mets+xml')
+        ->sendsType(FedoraRepository::QUCOSA_TYPE)
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)      
         ->send();
                                                                              
       TransferLogger::Log($document, $response);
@@ -100,7 +115,8 @@ class FedoraRepository implements Repository {
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
-        ->sendsType('application/vnd.qucosa.mets+xml')
+        ->sendsType(FedoraRepository::QUCOSA_TYPE)
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
       TransferLogger::Log($document, $response);
@@ -124,12 +140,13 @@ class FedoraRepository implements Repository {
    * @return string
    */
   public function retrieve($remoteId) {
-           
+                     
 //    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
    
    try {    
       $response = Request::get($this->swordHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")             
         ->authenticateWith($this->swordUser, $this->swordPassword)     
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
       // TransferLogger::Log($document, $response);
@@ -160,7 +177,8 @@ class FedoraRepository implements Repository {
     
     try {    
       $response = Request::delete($this->swordHost . "/sword/qucosa:all/". $remoteId)               
-        ->authenticateWith($this->swordUser, $this->swordPassword)            
+        ->authenticateWith($this->swordUser, $this->swordPassword) 
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
       TransferLogger::Log($document, $response);
@@ -201,6 +219,16 @@ class FedoraRepository implements Repository {
     return NULL;      
   }
       
+  
+  protected function getOwnerId() {    
+    if (empty($this->ownerId)) {
+      $client = $this->clientRepository->findAll()->current();  
+      $this->ownerId = $client->getOwnerId();
+    }
+    
+    return $this->ownerId;
+  }
+  
 }
 
 

@@ -45,7 +45,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var string
 	 */
 	protected $client = '';
-
+        
+        /**
+	 * ownerId
+	 *
+	 * @var string
+	 */
+	protected $ownerId = '';
+        
+        
 	/**
 	 * Returns the project
 	 *
@@ -83,5 +91,25 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setClient($client) {
 		$this->client = $client;
 	}
+        
+        
+        /**
+	 * Gets the ownerId
+	 *	
+	 * @return string
+	 */
+        public function getOwnerId() {
+          return $this->ownerId;
+        }
 
+        
+        /**
+	 * Sets the ownerId
+	 *
+	 * @param string $ownerId
+	 * @return void
+	 */
+        public function setOwnerId($ownerId) {
+          $this->ownerId = $ownerId;
+        }
 }

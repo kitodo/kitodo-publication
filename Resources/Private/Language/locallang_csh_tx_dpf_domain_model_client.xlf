@@ -9,6 +9,9 @@
 			<trans-unit id="client.description">
 				<source>client</source>
 			</trans-unit>
+                        <trans-unit id="owner_id.description">
+				<source>OwnerID</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
