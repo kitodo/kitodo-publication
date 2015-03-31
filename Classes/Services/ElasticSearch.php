@@ -62,33 +62,38 @@ class ElasticSearch
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
         require_once($extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php');
         
+        $params['hosts'] = array (
+            $this->server.':'.$this->port,
+        );
+
         // establish connection
-        $this->es = Client::connection(array(
-            'servers' => $this->server.':'.$this->port,
-            'protocol' => 'http',
-            'index' => $this->index,
-            'type' => $this->type
-        ));
-
-        // $query = 'Qucosa';
-
-        // $this->search($query);
-
-        // $results = $this->es->search((string) $query);
-
-        // print_r($results);
+        $this->es = new \Elasticsearch\Client($params);
+        // ::connection(array(
+        //     'servers' => $this->server.':'.$this->port,
+        //     'protocol' => 'http',
+        //     'index' => $this->index,
+        //     'type' => $this->type
+        // ));
                 
     }
 
     /**
      * performs the
-     * @param  string $query search query
+     * @param  array $query search query
      * @return array        result list
      */
-    public function search($query = '')
+    public function search($query)
     {
+        // define type and index
+        if (empty($query['index'])) {
+            $query['index'] = $this->index;
+        }
+        if (empty($query['type'])) {
+            $query['type'] = $this->type;
+        }
+
         // Search request
-        $results = $this->es->search((string) $query);
+        $results = $this->es->search($query);
 
         $this->hits = $results['hits']['total'];
         // print_r($this->hits);
