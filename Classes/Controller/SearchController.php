@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Controller;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,101 +29,138 @@ namespace EWW\Dpf\Controller;
 /**
  * SearchController
  */
-class SearchController extends \EWW\Dpf\Controller\AbstractController {
+class SearchController extends \EWW\Dpf\Controller\AbstractController
+{
+    /**
+     * documentRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+     * @inject
+     */
+    protected $documentRepository = null;
 
         /**
-	 * documentRepository
-	 *
-	 * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-	 * @inject
-	 */
-	protected $documentRepository = NULL;
-        
-                
-        /**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-          
-                $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
-                         
-		$args = $this->request->getArguments();
-		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-		// assign result list from elastic search
-		$this->view->assign('searchList', $args['results']);
-                $this->view->assign('alreadyImported', $objectIdentifiers);
-                
-	}
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
-	/**
-	 * action search
-	 * @return void
-	 */
-	public function searchAction()
-	{
-		// perform search action
-		$args = $this->request->getArguments();
+        $args = $this->request->getArguments();
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        // assign result list from elastic search
+        $this->view->assign('searchList', $args['results']);
+        $this->view->assign('alreadyImported', $objectIdentifiers);
+    }
 
-		$elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-                
-                $query = $args['search']['query'];
-                                               
-                if ($query) {
-                  $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-                  $sessionVars['query'] = $query;
-                  $GLOBALS['BE_USER']->setAndSaveSessionData ('tx_dpf', $sessionVars);
-                } else {
-                   $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
-                   $query = $sessionVars['query'];
+    /**
+     * action search
+     * @return void
+     */
+    public function searchAction()
+    {
+        // perform search action
+        $args = $this->request->getArguments();
+
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        if ($args['extSearch']) {
+            // extended search
+            $countFields = 0;
+
+            if ($args['extSearch']['extId']) {
+                $id = $args['extSearch']['extId'];
+                $fieldQuery['_id'] = $id;
+                $countFields++;
+            }
+
+            if ($args['extSearch']['extTitle']) {
+                $title = $args['extSearch']['extTitle'];
+                $fieldQuery['title'] = $title;
+                $countFields++;
+            }
+
+            if ($args['extSearch']['extBla']) {
+                $bla = $title = $args['extSearch']['extTitle'];
+                $fieldQuery['testField'] = 'abc';
+                $countFields++;
+            }
+
+            if ($countFields > 1) {
+                // put query together for multi field search
+                $i = 0;
+                foreach ($fieldQuery as $key => $qry) {
+                    $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
+                    $i++;
                 }
-                
-		$results = $elasticSearch->search($query);
-                               
-		// redirect to list view
-		$this->forward("list", NULL, NULL, array('results' => $results));
-	}
-        
-                
-        /**
-         * action import
-         * 
-         * @param string $documentObjectIdentifier
-         * @return void
-         */
-        public function importAction($documentObjectIdentifier) {
-                                      
-          $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-          $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
-          $documentTransferManager->setRemoteRepository($remoteRepository);
-          
-          $args[] = $documentObjectIdentifier;
-                                           
-          if ( $documentTransferManager->retrieve($documentObjectIdentifier) ) {
+            } else {
+                // use single query
+                $query['body']['query']['match'] = $fieldQuery;
+            }
+            
+
+        } else {
+            if (empty($args['search']['query'])) {
+                // elasticsearch dsl requires an empty object to match all
+                $query['body']['query']['match_all'] = new \stdClass();
+            } else {
+                $query['body']['query']['match']['_all'] = $args['search']['query'];
+            }
+            
+        }
+
+        // save search query
+        if ($query) {
+            $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+            $sessionVars['query'] = $query;
+            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+        } else {
+            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+            $query = $sessionVars['query'];
+        }
+
+        $results = $elasticSearch->search($query);
+
+        // redirect to list view
+        $this->forward("list", null, null, array('results' => $results));
+    }
+
+    /**
+     * action import
+     *
+     * @param string $documentObjectIdentifier
+     * @return void
+     */
+    public function importAction($documentObjectIdentifier)
+    {
+        $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+        $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        $args[] = $documentObjectIdentifier;
+
+        if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                        
-          } else {
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';    
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;           
-          }          
-        
-          // Show success or failure of the action in a flash message
-          
-          $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
-          $message = empty($message)? "" : $message;
-         
-          $this->addFlashMessage(
+        } else {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+        }
+
+        // Show success or failure of the action in a flash message
+
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+        $message = empty($message) ? "" : $message;
+
+        $this->addFlashMessage(
             $message,
             '',
             $severity,
-            TRUE
-          );
-          
-          $this->redirect('search');    
-        } 
-                    
-}
+            true
+        );
 
-?>
+        $this->redirect('search');
+    }
+}
