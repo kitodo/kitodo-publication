@@ -527,6 +527,7 @@ class MetsExporter
 
             $div = $domDocument->createElement('mets:div');
             $div->setAttribute('DMDID', 'DMD_000');
+            $div->setAttribute('ID', 'DMD_000');
             $domElement->appendChild($div);
 
             $domElement = $domElement->firstChild;
