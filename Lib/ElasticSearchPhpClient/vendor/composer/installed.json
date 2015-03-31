@@ -6,12 +6,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/atoum/atoum.git",
-            "reference": "259202a7e917a201306d1029ccea6d24a6f1fb3a"
+            "reference": "77778c968871b605f73289c72adb907fa5e601f0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/atoum/atoum/zipball/259202a7e917a201306d1029ccea6d24a6f1fb3a",
-            "reference": "259202a7e917a201306d1029ccea6d24a6f1fb3a",
+            "url": "https://api.github.com/repos/atoum/atoum/zipball/77778c968871b605f73289c72adb907fa5e601f0",
+            "reference": "77778c968871b605f73289c72adb907fa5e601f0",
             "shasum": ""
         },
         "require": {
@@ -28,11 +28,16 @@
         "suggest": {
             "ext-mbstring": "Provides support for UTF-8 strings"
         },
-        "time": "2014-07-30 11:55:47",
+        "time": "2015-02-27 13:00:25",
         "bin": [
             "bin/atoum"
         ],
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.x-dev"
+            }
+        },
         "installation-source": "source",
         "autoload": {
             "classmap": [
