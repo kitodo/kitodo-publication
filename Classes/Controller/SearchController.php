@@ -82,9 +82,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $countFields++;
             }
 
-            if ($args['extSearch']['extBla']) {
-                $bla = $title = $args['extSearch']['extTitle'];
-                $fieldQuery['testField'] = 'abc';
+            if ($args['extSearch']['extAuthor']) {
+                $author = $title = $args['extSearch']['extAuthor'];
+                $fieldQuery['author'] = $author;
                 $countFields++;
             }
 
