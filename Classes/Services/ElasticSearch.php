@@ -57,7 +57,6 @@ class ElasticSearch
         $this->server = $confArr['elasticSearchHost'];
         $this->port = $confArr['elasticSearchPort'];
      
-
         // initialize elasticsearch lib
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
         require_once($extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php');
@@ -68,12 +67,6 @@ class ElasticSearch
 
         // establish connection
         $this->es = new \Elasticsearch\Client($params);
-        // ::connection(array(
-        //     'servers' => $this->server.':'.$this->port,
-        //     'protocol' => 'http',
-        //     'index' => $this->index,
-        //     'type' => $this->type
-        // ));
                 
     }
 
@@ -96,11 +89,8 @@ class ElasticSearch
         $results = $this->es->search($query);
 
         $this->hits = $results['hits']['total'];
-        // print_r($this->hits);
 
         $this->resultList = $results['hits']['hits'];
-        // print_r($results['hits']['hits'][0]);
-        // print_r($results['hits']['hits'][1]);
 
         return $this->resultList;
     }
