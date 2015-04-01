@@ -39,6 +39,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $documentRepository = null;
 
+    /**
+    * clientRepository
+    *
+    * @var \EWW\Dpf\Domain\Repository\ClientRepository
+    * @inject
+    */
+    protected $clientRepository = null;
+
         /**
      * action list
      *
@@ -63,6 +71,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     {
         // perform search action
         $args = $this->request->getArguments();
+
+        $client = $this->clientRepository->findAll()->current();
 
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
@@ -90,11 +100,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
             if ($countFields > 1) {
                 // put query together for multi field search
-                $i = 0;
+                $i = 1;
                 foreach ($fieldQuery as $key => $qry) {
                     $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
                     $i++;
                 }
+
+                // owner id
+                $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
+                
             } else {
                 // use single query
                 $query['body']['query']['match'] = $fieldQuery;
