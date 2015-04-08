@@ -87,6 +87,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $objectIdentifier;     
         
         /**
+         * objectState
+         * 
+         * @var string         
+         */
+        protected $objectState;  
+        
+        /**
          * remoteAction
          * 
          * @var string         
@@ -117,18 +124,17 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $file = NULL;
         
                       
-        const TRANSFER_ERROR = "ERROR";
-        
-        const TRANSFER_QUEUED = "QUEUED";
-                     
+        const TRANSFER_ERROR = "ERROR";        
+        const TRANSFER_QUEUED = "QUEUED";                     
         const TRANSFER_SENT = "SENT";
                        
-        const REMOTE_ACTION_INGEST = "INGEST";
-        
-        const REMOTE_ACTION_UPDATE = "UPDATE";
-        
+        const REMOTE_ACTION_INGEST = "INGEST";        
+        const REMOTE_ACTION_UPDATE = "UPDATE";        
         const REMOTE_ACTION_DELETE = "DELETE";
         
+        const OBJECT_STATE_ACTIVE = "ACTIVE";        
+        const OBJECT_STATE_INACTIVE = "INACTIVE";
+        const OBJECT_STATE_DELETED = "DELETED";
         
         /**
 	 * Returns the title
@@ -235,6 +241,25 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
           $this->objectIdentifier = $objectIdentifier;          
         }
                 
+        /**
+         * Returns the objectState
+         * 
+         * @return string
+         */
+        public function getObjectState() {
+          return $this->objectState;          
+        }
+        
+        /**
+         * Sets the objectState
+         * 
+         * @param string $objectState
+         * @return void
+         */
+        public function setObjectState($objectState) {
+          $this->objectState = $objectState;          
+        }
+                                
         /**
          * Returns the remoteAction
          * 

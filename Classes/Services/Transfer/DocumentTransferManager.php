@@ -181,7 +181,8 @@ class DocumentTransferManager {
         }
                      
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-        $document->setObjectIdentifier($remoteId);                                         
+        $document->setObjectIdentifier($remoteId);      
+        $document->setObjectState(Document::OBJECT_STATE_ACTIVE); 
         $document->setTitle($title);
         $document->setAuthors($authors);
         $document->setDocumentType($documentType);           
@@ -231,6 +232,7 @@ class DocumentTransferManager {
     
     if ($this->remoteRepository->delete($document)) {                
       $document->setTransferStatus(Document::TRANSFER_SENT); 
+      $document->setObjectState(Document::OBJECT_STATE_DELETED);      
       $this->documentRepository->update($document);          
       $this->documentRepository->remove($document);
       return TRUE;
