@@ -40,6 +40,13 @@ class DocumentForm extends AbstractFormElement {
   
   /**
    * 
+   * @var string
+   */
+  protected $objectState;
+  
+          
+  /**
+   * 
    * @return integer
    */
   public function getDocumentUid() {
@@ -98,6 +105,31 @@ class DocumentForm extends AbstractFormElement {
   public function setNewFiles($newFiles) {
     $this->newFiles = $newFiles;
   }
+  
+  public function getObjectState() {
+      return $this->objectState;
+  }
+  
+  public function setObjectState($objectState) {
+      $this->objectState = $objectState;
+  }
+  
+  public function isObjectActive() {
+      return $this->objectState == \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE;
+  }
+  
+  public function getRemoteAction() {
+      return $this->remoteAction;
+  }
+  
+  public function setRemoteAction($remoteAction) {
+      $this->remoteAction = $remoteAction;
+  }
+  
+  public function isRemoteDelete() {
+      return $this->remoteAction == \EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE;
+  }
+  
 }
 
 ?>

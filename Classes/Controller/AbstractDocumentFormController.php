@@ -181,7 +181,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm) {
                            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-          $newDocument = $documentMapper->getDocument($newDocumentForm);          
+          $newDocument = $documentMapper->getDocument($newDocumentForm);      
+          $newDocument->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
           $this->documentRepository->add($newDocument);
           $this->persistenceManager->persistAll();
 
@@ -265,15 +266,22 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {
-                   
+            
+          $requestArguments = $this->request->getArguments();                                                                         
+            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-          $updateDocument = $documentMapper->getDocument($documentForm);          
+          $updateDocument = $documentMapper->getDocument($documentForm);    
+                              
+          if (empty($updateDocument->getRemoteAction())) {
+            $updateDocument->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_UPDATE);
+          }
+          
           $this->documentRepository->update($updateDocument);        
                     
           
           // Delete files 
           foreach ( $documentForm->getDeletedFiles() as $deleteFile ) {          
-            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_DELETED);
+            $deleteFile->setStatus(\Eww\Dpf\Domain\Model\File::STATUS_DELETED);
             $this->fileRepository->update($deleteFile);
           }
                     
@@ -283,8 +291,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           }
                     
                                                                
-          $requestArguments = $this->request->getArguments();                                                                         
-
+          
           if (array_key_exists('savecontinue', $requestArguments)) {            
             $this->forward('edit',NULL,NULL,array('documentForm' => $documentForm));                        
           }      
@@ -296,13 +303,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	/**
 	 * action delete
 	 *
-	 * @param \EWW\Dpf\Domain\Model\Document $document
+	 * @param array $documentData
 	 * @return void
 	 */
-	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {
-		//$this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-		$this->documentRepository->remove($document);
-		$this->redirectToList();
+	public function deleteAction($documentData) {		
+            $document = $this->documentRepository->findByUid($documentData['documentUid']);
+            $document->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
+            $document = $this->documentRepository->update($document);
+            
+            $this->redirectToList();
 	}
         
                                                                                   

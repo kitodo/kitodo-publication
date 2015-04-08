@@ -204,6 +204,9 @@ class DocumentMapper {
     $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();;   
     $documentForm->setSecondaryFiles($secondaryFiles);
             
+    $documentForm->setObjectState($document->getObjectState());
+    $documentForm->setRemoteAction($document->getRemoteAction());
+    
     return $documentForm;
   }
  

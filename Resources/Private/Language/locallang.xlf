@@ -191,6 +191,12 @@
 			</trans-unit>     
                         <trans-unit id="form_button.cancel">
 				<source>cancel</source>
+			</trans-unit> 
+                        <trans-unit id="form_button.delete">
+				<source>delete</source>
+			</trans-unit>  
+                        <trans-unit id="form_button.not_delete">
+				<source>Do not delete</source>
 			</trans-unit>    
                         <trans-unit id="form_legend.primaryFile">
 				<source>Primary File</source>
@@ -219,8 +225,11 @@
                         <trans-unit id="manager.discard">
 				<source>discard</source>
 			</trans-unit>  
-                         <trans-unit id="manager.update">
+                        <trans-unit id="manager.update">
 				<source>update</source>
+			</trans-unit>
+                        <trans-unit id="manager.delete">
+				<source>delete</source>
 			</trans-unit>
                         <trans-unit id="manager.publish">
 				<source>publish</source>
