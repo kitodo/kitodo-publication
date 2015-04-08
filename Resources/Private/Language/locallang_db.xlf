@@ -87,30 +87,6 @@
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
 				<source>language</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer">
-				<source>Document Transfer</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.status">
-				<source>Status</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.start_date">
-				<source>Start Date</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.end_date">
-				<source>End Date</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.http_status">
-				<source>Http Status</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.response">
-				<source>Response</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.error">
-				<source>Error</source>
-			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransfer.parent_document">
-				<source>Parent Document</source>
-			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>
 			</trans-unit>
