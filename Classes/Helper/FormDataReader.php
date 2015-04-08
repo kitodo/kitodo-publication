@@ -125,7 +125,14 @@ class FormDataReader {
     $uploadPath = "uploads/tx_dpf/";
     
     $basePath = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-    $basePath .= trim($_SERVER['SERVER_NAME'],"/")."/".$uploadPath;
+    
+    $port = '';
+    
+    if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
+        $port = ':'.$_SERVER['SERVER_PORT'];
+    } 
+        
+    $basePath .= trim($_SERVER['SERVER_NAME'],"/").$port."/".$uploadPath;
     
     if (TYPO3_MODE == 'BE') {
       $uploadPath = "../".$uploadPath;
