@@ -12,8 +12,14 @@
 			<trans-unit id="curl_error.description">
 				<source>curlError</source>
 			</trans-unit>
-			<trans-unit id="document.description">
-				<source>document</source>
+			<trans-unit id="document_uid.description">
+				<source>document uid</source>
+			</trans-unit>
+                        <trans-unit id="object_identifier.description">
+				<source>object identifier</source>
+			</trans-unit>
+                        <trans-unit id="action.description">
+				<source>action</source>
 			</trans-unit>
 		</body>
 	</file>

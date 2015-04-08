@@ -83,7 +83,7 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)      
         ->send();
                                                                              
-      TransferLogger::Log($document, $response);
+      TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
       
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 201 ) {
@@ -119,7 +119,7 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
-      TransferLogger::Log($document, $response);
+      TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
       
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {
@@ -149,7 +149,7 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
-      // TransferLogger::Log($document, $response);
+      TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
                                           
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                       
@@ -181,7 +181,7 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              
-      TransferLogger::Log($document, $response);
+      TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
       
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 204 ) {

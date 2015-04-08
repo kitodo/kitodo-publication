@@ -9,14 +9,16 @@ class TransferLogger {
    * @param 
    * @return void
    */
-  static function log($document, $response) { 
+  static function log($action, $documentUid, $objectIdentifier, $response) { 
     
     $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
     $documentTransferLogRepository = $objectManager->get('\\EWW\\Dpf\\Domain\\Repository\\DocumentTransferLogRepository');
         
     $documentTransferLog = $objectManager->get('\\EWW\\Dpf\\Domain\\Model\\DocumentTransferLog');            
     $documentTransferLog->setResponse(print_r($response,TRUE));      
-    $documentTransferLog->setDocument($document);   
+    $documentTransferLog->setAction($action);
+    $documentTransferLog->setDocumentUid($documentUid);   
+    $documentTransferLog->setObjectIdentifier($objectIdentifier);                                
     $documentTransferLog->setDate(new \DateTime());   
     $documentTransferLogRepository->add($documentTransferLog);
   }

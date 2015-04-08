@@ -191,8 +191,10 @@ CREATE TABLE tx_dpf_domain_model_documenttransferlog (
 	date int(11) DEFAULT '0' NOT NULL,
 	response text NOT NULL,
 	curl_error text NOT NULL,
-	document int(11) unsigned DEFAULT '0',
-
+        action varchar(255) DEFAULT '' NOT NULL,
+	document_uid int(11) unsigned DEFAULT '0',
+        object_identifier varchar(255) DEFAULT '' NOT NULL,
+      
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,

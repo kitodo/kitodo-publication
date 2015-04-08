@@ -120,8 +120,14 @@
 			<trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error">
 				<source>Curl Error</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document">
-				<source>Document</source>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid">
+				<source>Document Uid</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier">
+				<source>Object Identifier</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.action">
+				<source>Action</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file">
 				<source>File</source>

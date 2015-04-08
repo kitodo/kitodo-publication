@@ -271,7 +271,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'date,response,curl_error,document,',
+		'searchFields' => 'date,response,curl_error,document_uid,object_identifier,action',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/DocumentTransferLog.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_documenttransferlog.gif'
 	),

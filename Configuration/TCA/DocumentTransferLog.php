@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document_uid, object_identifier, action',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, date, response, curl_error, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, date, response, curl_error, document_uid, object_identifier, action, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -128,16 +128,32 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttransferlog'] = array(
 				'eval' => 'trim'
 			),
 		),
-		'document' => array(
+		'document_uid' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.document',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.document_uid',
 			'config' => array(
-				'type' => 'select',
-				'foreign_table' => 'tx_dpf_domain_model_document',
-				'minitems' => 0,
-				'maxitems' => 1,
+				'type' => 'input',
+				'size' => 30,
+				'max' => 255,
+			),
+		),                 
+                'object_identifier' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.object_identifier',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'max' => 255,
 			),
 		),
-		
+		'action' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.action',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'max' => 255,
+			),
+		),
 	),
 );

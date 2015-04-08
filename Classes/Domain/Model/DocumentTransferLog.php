@@ -54,12 +54,26 @@ class DocumentTransferLog extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	protected $curlError = '';
 
 	/**
-	 * document
+	 * documentUid
 	 *
-	 * @var \Eww\Dpf\Domain\Model\Document
+	 * @var integer
 	 */
-	protected $document = NULL;
+	protected $documentUid;
 
+        /**
+	 * objectIdentifier
+	 *
+	 * @var string
+	 */
+	protected $objectIdentifier;
+                
+        /**
+	 * action
+	 *
+	 * @var string
+	 */
+	protected $action;
+        
 	/**
 	 * Returns the date
 	 *
@@ -118,22 +132,61 @@ class DocumentTransferLog extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	}
 
 	/**
-	 * Returns the document
+	 * Returns the documentUid
 	 *
-	 * @return \Eww\Dpf\Domain\Model\Document $document
+	 * @return integer $documentUid
 	 */
-	public function getDocument() {
-		return $this->document;
+	public function getDocumentUid() {
+		return $this->documentUid;
 	}
 
 	/**
-	 * Sets the document
+	 * Sets the documentUid
 	 *
-	 * @param \Eww\Dpf\Domain\Model\Document $document
+	 * @param integer $documentUid
 	 * @return void
 	 */
-	public function setDocument(\Eww\Dpf\Domain\Model\Document $document) {
-		$this->document = $document;
+	public function setDocumentUid($documentUid) {
+		$this->documentUid = $documentUid;
+	}
+        
+        /**
+	 * Returns the objectIdentifier
+	 *
+	 * @return string $objectIdentifier
+	 */
+	public function getObjectIdentifier() {
+		return $this->objectIdentifier;
+	}
+        
+        /**
+	 * Sets the objectIdentifier
+	 *
+	 * @param string $objectIdentifier
+	 * @return void
+	 */
+	public function setObjectIdentifier($objectIdentifier) {
+		$this->objectIdentifier = $objectIdentifier;
 	}
 
+        /**
+	 * Returns the action
+	 *
+	 * @return string $action
+	 */
+	public function getAction() {
+		return $this->action;
+	}
+        
+        /**
+	 * Sets the action
+	 *
+	 * @param string $action
+	 * @return void
+	 */
+	public function setAction($action) {
+		$this->action = $action;
+	}
+        
+        
 }
