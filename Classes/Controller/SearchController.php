@@ -145,10 +145,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * action import
      *
      * @param string $documentObjectIdentifier
+     * @param string $objectState
      * @return void
      */
-    public function importAction($documentObjectIdentifier)
-    {
+    public function importAction($documentObjectIdentifier, $objectState)
+    {                            
         $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
         $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
         $documentTransferManager->setRemoteRepository($remoteRepository);
@@ -172,9 +173,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $message,
             '',
             $severity,
-            true
+            true            
         );
-
+                            
         $this->redirect('search');
     }
+                                      
 }
