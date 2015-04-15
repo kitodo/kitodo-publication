@@ -1,0 +1,1463 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="de" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+		<header/>
+		<body>
+		        <trans-unit id="aar">				
+				<source>Danakil-Sprache</source>
+			</trans-unit>
+			<trans-unit id="abk">				
+				<source>Abchasisch</source>
+			</trans-unit>
+			<trans-unit id="ace">				
+				<source>Aceh-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ach">			
+				<source>Acholi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ada">
+				<source>Adangme-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ady">
+				<source>Adygisch</source>
+			</trans-unit>
+			<trans-unit id="afa">
+				<source>Hamitosemitische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="afh">
+				<source>Afrihili</source>
+			</trans-unit>
+			<trans-unit id="afr">
+				<source>Afrikaans</source>
+			</trans-unit>
+			<trans-unit id="ain">
+				<source>Ainu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="aka">
+				<source>Akan-Sprache</source>
+			</trans-unit>
+			<trans-unit id="akk">
+				<source>Akkadisch</source>
+			</trans-unit>
+			<trans-unit id="alb">
+				<source>Albanisch</source>
+			</trans-unit>
+			<trans-unit id="ale">
+				<source>Aleutisch</source>
+			</trans-unit>
+			<trans-unit id="alg">
+				<source>Algonkin-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="alt">
+				<source>Altaisch</source>
+			</trans-unit>
+			<trans-unit id="amh">
+				<source>Amharisch</source>
+			</trans-unit>
+			<trans-unit id="ang">
+				<source>Altenglisch (ca.450-1100)</source>
+			</trans-unit>
+			<trans-unit id="anp">
+				<source>Anga-Sprache</source>
+			</trans-unit>
+			<trans-unit id="apa">
+				<source>Apachen-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ara">
+				<source>Arabisch</source>
+			</trans-unit>
+			<trans-unit id="arc">
+				<source>Aramäisch (700-300 v.Chr.)</source>
+			</trans-unit>
+			<trans-unit id="arg">
+				<source>Aragonesisch</source>
+			</trans-unit>
+			<trans-unit id="arm">
+				<source>Armenisch</source>
+			</trans-unit>
+			<trans-unit id="arn">
+				<source>Arauka-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="arp">
+				<source>Arapaho-Sprache</source>
+			</trans-unit>
+			<trans-unit id="art">
+				<source>Kunstsprachen</source>
+			</trans-unit>
+			<trans-unit id="arw">
+				<source>Arawak-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="asm">
+				<source>Assamesisch</source>
+			</trans-unit>
+			<trans-unit id="ast">
+				<source>Asturisch</source>
+			</trans-unit>
+			<trans-unit id="ath">
+				<source>Athapaskische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="aus">
+				<source>Australische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ava">
+				<source>Awarisch</source>
+			</trans-unit>
+			<trans-unit id="ave">
+				<source>Avestisch</source>
+			</trans-unit>
+			<trans-unit id="awa">
+				<source>Awadhī</source>
+			</trans-unit>
+			<trans-unit id="aym">
+				<source>Aymará-Sprache</source>
+			</trans-unit>
+			<trans-unit id="aze">
+				<source>Aserbeidschanisch</source>
+			</trans-unit>
+			<trans-unit id="bad">
+				<source>Banda-Sprachen (Ubangi-Sprachen)</source>
+			</trans-unit>
+			<trans-unit id="bai">
+				<source>Bamileke-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="bak">
+				<source>Baschkirisch</source>
+			</trans-unit>
+			<trans-unit id="bal">
+				<source>Belutschisch</source>
+			</trans-unit>
+			<trans-unit id="bam">
+				<source>Bambara-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ban">
+				<source>Balinesisch</source>
+			</trans-unit>
+			<trans-unit id="baq">
+				<source>Baskisch</source>
+			</trans-unit>
+			<trans-unit id="bas">
+				<source>Basaa-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bat">
+				<source>Baltische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="bej">
+				<source>Bedauye</source>
+			</trans-unit>
+			<trans-unit id="bel">
+				<source>Weißrussisch</source>
+			</trans-unit>
+			<trans-unit id="bem">
+				<source>Bemba-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ben">
+				<source>Bengali</source>
+			</trans-unit>
+			<trans-unit id="ber">
+				<source>Berbersprachen</source>
+			</trans-unit>
+			<trans-unit id="bho">
+				<source>Bhojpurī</source>
+			</trans-unit>
+			<trans-unit id="bih">
+				<source>Bihari</source>
+			</trans-unit>
+			<trans-unit id="bik">
+				<source>Bikol-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bin">
+				<source>Edo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bis">
+				<source>Beach-la-mar</source>
+			</trans-unit>
+			<trans-unit id="bla">
+				<source>Blackfoot-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bnt">
+				<source>Bantusprachen</source>
+			</trans-unit>
+			<trans-unit id="bos">
+				<source>Bosnisch</source>
+			</trans-unit>
+			<trans-unit id="bra">
+				<source>Braj-Bhakha</source>
+			</trans-unit>
+			<trans-unit id="bre">
+				<source>Bretonisch</source>
+			</trans-unit>
+			<trans-unit id="btk">
+				<source>Batak-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bua">
+				<source>Burjatisch</source>
+			</trans-unit>
+			<trans-unit id="bug">
+				<source>Bugi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="bul">
+				<source>Bulgarisch</source>
+			</trans-unit>
+			<trans-unit id="bur">
+				<source>Birmanisch</source>
+			</trans-unit>
+			<trans-unit id="byn">
+				<source>Bilin-Sprache</source>
+			</trans-unit>
+			<trans-unit id="cad">
+				<source>Caddo-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="cai">
+				<source>Zentralamerikanische Indianersprachen</source>
+			</trans-unit>
+			<trans-unit id="car">
+				<source>Karibische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="cat">
+				<source>Katalanisch</source>
+			</trans-unit>
+			<trans-unit id="cau">
+				<source>Kaukasische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ceb">
+				<source>Cebuano</source>
+			</trans-unit>
+			<trans-unit id="cel">
+				<source>Keltische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="cha">
+				<source>Chamorro-Sprache</source>
+			</trans-unit>
+			<trans-unit id="chb">
+				<source>Chibcha-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="che">
+				<source>Tschetschenisch</source>
+			</trans-unit>
+			<trans-unit id="chg">
+				<source>Tschagataisch</source>
+			</trans-unit>
+			<trans-unit id="chi">
+				<source>Chinesisch</source>
+			</trans-unit>
+			<trans-unit id="chk">
+				<source>Trukesisch</source>
+			</trans-unit>
+			<trans-unit id="chm">
+				<source>Tscheremissisch</source>
+			</trans-unit>
+			<trans-unit id="chn">
+				<source>Chinook-Jargon</source>
+			</trans-unit>
+			<trans-unit id="cho">
+				<source>Choctaw-Sprache</source>
+			</trans-unit>
+			<trans-unit id="chp">
+				<source>Chipewyan-Sprache</source>
+			</trans-unit>
+			<trans-unit id="chr">
+				<source>Cherokee-Sprache</source>
+			</trans-unit>
+			<trans-unit id="chu">
+				<source>Kirchenslawisch</source>
+			</trans-unit>
+			<trans-unit id="chv">
+				<source>Tschuwaschisch</source>
+			</trans-unit>
+			<trans-unit id="chy">
+				<source>Cheyenne-Sprache</source>
+			</trans-unit>
+			<trans-unit id="cmc">
+				<source>Cham-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="cop">
+				<source>Koptisch</source>
+			</trans-unit>
+			<trans-unit id="cor">
+				<source>Kornisch</source>
+			</trans-unit>
+			<trans-unit id="cos">
+				<source>Korsisch</source>
+			</trans-unit>
+			<trans-unit id="cpe">
+				<source>Kreolisch-Englisch</source>
+			</trans-unit>
+			<trans-unit id="cpf">
+				<source>Kreolisch-Französisch</source>
+			</trans-unit>
+			<trans-unit id="cpp">
+				<source>Kreolisch-Portugiesisch</source>
+			</trans-unit>
+			<trans-unit id="cre">
+				<source>Cree-Sprache</source>
+			</trans-unit>
+			<trans-unit id="crh">
+				<source>Krimtatarisch</source>
+			</trans-unit>
+			<trans-unit id="crp">
+				<source>Kreolische Sprachen, Pidginsprachen</source>
+			</trans-unit>
+			<trans-unit id="csb">
+				<source>Kaschubisch</source>
+			</trans-unit>
+			<trans-unit id="cus">
+				<source>Kuschitische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="cze">
+				<source>Tschechisch</source>
+			</trans-unit>
+			<trans-unit id="dak">
+				<source>Dakota-Sprache</source>
+			</trans-unit>
+			<trans-unit id="dan">
+				<source>Dänisch</source>
+			</trans-unit>
+			<trans-unit id="dar">
+				<source>Darginisch</source>
+			</trans-unit>
+			<trans-unit id="day">
+				<source>Dajakisch</source>
+			</trans-unit>
+			<trans-unit id="del">
+				<source>Delaware-Sprache</source>
+			</trans-unit>
+			<trans-unit id="den">
+				<source>Slave-Sprache</source>
+			</trans-unit>
+			<trans-unit id="dgr">
+				<source>Dogrib-Sprache</source>
+			</trans-unit>
+			<trans-unit id="din">
+				<source>Dinka-Sprache</source>
+			</trans-unit>
+			<trans-unit id="div">
+				<source>Maledivisch</source>
+			</trans-unit>
+			<trans-unit id="doi">
+				<source>Dogrī</source>
+			</trans-unit>
+			<trans-unit id="dra">
+				<source>Drawidische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="dsb">
+				<source>Niedersorbisch</source>
+			</trans-unit>
+			<trans-unit id="dua">
+				<source>Duala-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="dum">
+				<source>Mittelniederländisch (ca.1050-1350)</source>
+			</trans-unit>
+			<trans-unit id="dut">
+				<source>Niederländisch</source>
+			</trans-unit>
+			<trans-unit id="dyu">
+				<source>Dyula-Sprache</source>
+			</trans-unit>
+			<trans-unit id="dzo">
+				<source>Dzongkha</source>
+			</trans-unit>
+			<trans-unit id="efi">
+				<source>Efik</source>
+			</trans-unit>
+			<trans-unit id="egy">
+				<source>Ägyptisch</source>
+			</trans-unit>
+			<trans-unit id="eka">
+				<source>Ekajuk</source>
+			</trans-unit>
+			<trans-unit id="elx">
+				<source>Elamisch</source>
+			</trans-unit>
+			<trans-unit id="eng">
+				<source>Englisch</source>
+			</trans-unit>
+			<trans-unit id="enm">
+				<source>Mittelenglisch (1100-1500)</source>
+			</trans-unit>
+			<trans-unit id="epo">
+				<source>Esperanto</source>
+			</trans-unit>
+			<trans-unit id="est">
+				<source>Estnisch</source>
+			</trans-unit>
+			<trans-unit id="ewe">
+				<source>Ewe-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ewo">
+				<source>Ewondo</source>
+			</trans-unit>
+			<trans-unit id="fan">
+				<source>Pangwe-Sprache</source>
+			</trans-unit>
+			<trans-unit id="fao">
+				<source>Färöisch</source>
+			</trans-unit>
+			<trans-unit id="fat">
+				<source>Fante-Sprache</source>
+			</trans-unit>
+			<trans-unit id="fij">
+				<source>Fidschi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="fil">
+				<source>Pilipino</source>
+			</trans-unit>
+			<trans-unit id="fin">
+				<source>Finnisch</source>
+			</trans-unit>
+			<trans-unit id="fiu">
+				<source>Finnougrische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="fon">
+				<source>Fon-Sprache</source>
+			</trans-unit>
+			<trans-unit id="fre">
+				<source>Französisch</source>
+			</trans-unit>
+			<trans-unit id="frm">
+				<source>Mittelfranzösisch (ca.1400-1600)</source>
+			</trans-unit>
+			<trans-unit id="fro">
+				<source>Altfranzösisch (842-ca.1400)</source>
+			</trans-unit>
+			<trans-unit id="frr">
+				<source>Nordfriesisch</source>
+			</trans-unit>
+			<trans-unit id="frs">
+				<source>Ostfriesisch</source>
+			</trans-unit>
+			<trans-unit id="fry">
+				<source>Friesisch</source>
+			</trans-unit>
+			<trans-unit id="ful">
+				<source>Ful</source>
+			</trans-unit>
+			<trans-unit id="fur">
+				<source>Friulisch</source>
+			</trans-unit>
+			<trans-unit id="gaa">
+				<source>Ga-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gay">
+				<source>Gayo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gba">
+				<source>Gbaya-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gem">
+				<source>Germanische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="geo">
+				<source>Georgisch</source>
+			</trans-unit>
+			<trans-unit id="ger">
+				<source>Deutsch</source>
+			</trans-unit>
+			<trans-unit id="gez">
+				<source>Altäthiopisch</source>
+			</trans-unit>
+			<trans-unit id="gil">
+				<source>Gilbertesisch</source>
+			</trans-unit>
+			<trans-unit id="gla">
+				<source>Gälisch-Schottisch</source>
+			</trans-unit>
+			<trans-unit id="gle">
+				<source>Irisch</source>
+			</trans-unit>
+			<trans-unit id="glg">
+				<source>Galicisch</source>
+			</trans-unit>
+			<trans-unit id="glv">
+				<source>Manx</source>
+			</trans-unit>
+			<trans-unit id="gmh">
+				<source>Mittelhochdeutsch (ca.1050-1500)</source>
+			</trans-unit>
+			<trans-unit id="goh">
+				<source>Althochdeutsch (ca.750-1050)</source>
+			</trans-unit>
+			<trans-unit id="gon">
+				<source>Gondi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gor">
+				<source>Gorontalesisch</source>
+			</trans-unit>
+			<trans-unit id="got">
+				<source>Gotisch</source>
+			</trans-unit>
+			<trans-unit id="grb">
+				<source>Grebo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="grc">
+				<source>Griechisch (bis 1453)</source>
+			</trans-unit>
+			<trans-unit id="gre">
+				<source>Neugriechisch (ab 1453)</source>
+			</trans-unit>
+			<trans-unit id="grn">
+				<source>Guaraní-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gsw">
+				<source>Schweizerdeutsch</source>
+			</trans-unit>
+			<trans-unit id="guj">
+				<source>Gujarātī-Sprache</source>
+			</trans-unit>
+			<trans-unit id="gwi">
+				<source>Kutchin-Sprache</source>
+			</trans-unit>
+			<trans-unit id="hai">
+				<source>Haida-Sprache</source>
+			</trans-unit>
+			<trans-unit id="hat">
+				<source>Haïtien (Haiti-Kreolisch)</source>
+			</trans-unit>
+			<trans-unit id="hau">
+				<source>Haussa-Sprache</source>
+			</trans-unit>
+			<trans-unit id="haw">
+				<source>Hawaiisch</source>
+			</trans-unit>
+			<trans-unit id="heb">
+				<source>Hebräisch</source>
+			</trans-unit>
+			<trans-unit id="her">
+				<source>Herero-Sprache</source>
+			</trans-unit>
+			<trans-unit id="hil">
+				<source>Hiligaynon-Sprache</source>
+			</trans-unit>
+			<trans-unit id="him">
+				<source>Himachali</source>
+			</trans-unit>
+			<trans-unit id="hin">
+				<source>Hindi</source>
+			</trans-unit>
+			<trans-unit id="hit">
+				<source>Hethitisch</source>
+			</trans-unit>
+			<trans-unit id="hmn">
+				<source>Miao-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="hmo">
+				<source>Hiri-Motu</source>
+			</trans-unit>
+			<trans-unit id="hrv">
+				<source>Kroatisch</source>
+			</trans-unit>
+			<trans-unit id="hsb">
+				<source>Obersorbisch</source>
+			</trans-unit>
+			<trans-unit id="hun">
+				<source>Ungarisch</source>
+			</trans-unit>
+			<trans-unit id="hup">
+				<source>Hupa-Sprache</source>
+			</trans-unit>
+			<trans-unit id="iba">
+				<source>Iban-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ibo">
+				<source>Ibo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ice">
+				<source>Isländisch</source>
+			</trans-unit>
+			<trans-unit id="ido">
+				<source>Ido</source>
+			</trans-unit>
+			<trans-unit id="iii">
+				<source>Lalo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ijo">
+				<source>Ijo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="iku">
+				<source>Inuktitut</source>
+			</trans-unit>
+			<trans-unit id="ile">
+				<source>Interlingue</source>
+			</trans-unit>
+			<trans-unit id="ilo">
+				<source>Ilokano-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ina">
+				<source>Interlingua</source>
+			</trans-unit>
+			<trans-unit id="inc">
+				<source>Indoarische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ind">
+				<source>Bahasa Indonesia</source>
+			</trans-unit>
+			<trans-unit id="ine">
+				<source>Indogermanische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="inh">
+				<source>Inguschisch</source>
+			</trans-unit>
+			<trans-unit id="ipk">
+				<source>Inupik</source>
+			</trans-unit>
+			<trans-unit id="ira">
+				<source>Iranische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="iro">
+				<source>Irokesische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ita">
+				<source>Italienisch</source>
+			</trans-unit>
+			<trans-unit id="jav">
+				<source>Javanisch</source>
+			</trans-unit>
+			<trans-unit id="jbo">
+				<source>Lojban</source>
+			</trans-unit>
+			<trans-unit id="jpn">
+				<source>Japanisch</source>
+			</trans-unit>
+			<trans-unit id="jpr">
+				<source>Jüdisch-Persisch</source>
+			</trans-unit>
+			<trans-unit id="jrb">
+				<source>Jüdisch-Arabisch</source>
+			</trans-unit>
+			<trans-unit id="kaa">
+				<source>Karakalpakisch</source>
+			</trans-unit>
+			<trans-unit id="kab">
+				<source>Kabylisch</source>
+			</trans-unit>
+			<trans-unit id="kac">
+				<source>Kachin-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kal">
+				<source>Grönländisch</source>
+			</trans-unit>
+			<trans-unit id="kam">
+				<source>Kamba-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kan">
+				<source>Kannada</source>
+			</trans-unit>
+			<trans-unit id="kar">
+				<source>Karenisch</source>
+			</trans-unit>
+			<trans-unit id="kas">
+				<source>Kaschmiri</source>
+			</trans-unit>
+			<trans-unit id="kau">
+				<source>Kanuri-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kaw">
+				<source>Kawi</source>
+			</trans-unit>
+			<trans-unit id="kaz">
+				<source>Kasachisch</source>
+			</trans-unit>
+			<trans-unit id="kbd">
+				<source>Kabardinisch</source>
+			</trans-unit>
+			<trans-unit id="kha">
+				<source>Khasi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="khi">
+				<source>Khoisan-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="khm">
+				<source>Kambodschanisch</source>
+			</trans-unit>
+			<trans-unit id="kho">
+				<source>Sakisch</source>
+			</trans-unit>
+			<trans-unit id="kik">
+				<source>Kikuyu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kin">
+				<source>Rwanda-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kir">
+				<source>Kirgisisch</source>
+			</trans-unit>
+			<trans-unit id="kmb">
+				<source>Kimbundu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kok">
+				<source>Konkani</source>
+			</trans-unit>
+			<trans-unit id="kom">
+				<source>Komi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kon">
+				<source>Kongo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kor">
+				<source>Koreanisch</source>
+			</trans-unit>
+			<trans-unit id="kos">
+				<source>Kosraeanisch</source>
+			</trans-unit>
+			<trans-unit id="kpe">
+				<source>Kpelle-Sprache</source>
+			</trans-unit>
+			<trans-unit id="krc">
+				<source>Karatschaiisch-Balkarisch</source>
+			</trans-unit>
+			<trans-unit id="krl">
+				<source>Karelisch</source>
+			</trans-unit>
+			<trans-unit id="kro">
+				<source>Kru-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="kru">
+				<source>Oraon-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kua">
+				<source>Kwanyama-Sprache</source>
+			</trans-unit>
+			<trans-unit id="kum">
+				<source>Kumükisch</source>
+			</trans-unit>
+			<trans-unit id="kur">
+				<source>Kurdisch</source>
+			</trans-unit>
+			<trans-unit id="kut">
+				<source>Kutenai-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lad">
+				<source>Judenspanisch</source>
+			</trans-unit>
+			<trans-unit id="lah">
+				<source>Lahndā</source>
+			</trans-unit>
+			<trans-unit id="lam">
+				<source>Lamba-Sprache (Bantusprache)</source>
+			</trans-unit>
+			<trans-unit id="lao">
+				<source>Laotisch</source>
+			</trans-unit>
+			<trans-unit id="lat">
+				<source>Latein</source>
+			</trans-unit>
+			<trans-unit id="lav">
+				<source>Lettisch</source>
+			</trans-unit>
+			<trans-unit id="lez">
+				<source>Lesgisch</source>
+			</trans-unit>
+			<trans-unit id="lim">
+				<source>Limburgisch</source>
+			</trans-unit>
+			<trans-unit id="lin">
+				<source>Lingala</source>
+			</trans-unit>
+			<trans-unit id="lit">
+				<source>Litauisch</source>
+			</trans-unit>
+			<trans-unit id="lol">
+				<source>Mongo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="loz">
+				<source>Rotse-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ltz">
+				<source>Luxemburgisch</source>
+			</trans-unit>
+			<trans-unit id="lua">
+				<source>Lulua-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lub">
+				<source>Luba-Katanga-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lug">
+				<source>Ganda-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lui">
+				<source>Luiseño-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lun">
+				<source>Lunda-Sprache</source>
+			</trans-unit>
+			<trans-unit id="luo">
+				<source>Luo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="lus">
+				<source>Lushai-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mac">
+				<source>Makedonisch</source>
+			</trans-unit>
+			<trans-unit id="mad">
+				<source>Maduresisch</source>
+			</trans-unit>
+			<trans-unit id="mag">
+				<source>Khotta</source>
+			</trans-unit>
+			<trans-unit id="mah">
+				<source>Marschallesisch</source>
+			</trans-unit>
+			<trans-unit id="mai">
+				<source>Maithili</source>
+			</trans-unit>
+			<trans-unit id="mak">
+				<source>Makassarisch</source>
+			</trans-unit>
+			<trans-unit id="mal">
+				<source>Malayalam</source>
+			</trans-unit>
+			<trans-unit id="man">
+				<source>Malinke-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mao">
+				<source>Maori-Sprache</source>
+			</trans-unit>
+			<trans-unit id="map">
+				<source>Austronesische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="mar">
+				<source>Marathi</source>
+			</trans-unit>
+			<trans-unit id="mas">
+				<source>Massai-Sprache</source>
+			</trans-unit>
+			<trans-unit id="may">
+				<source>Malaiisch</source>
+			</trans-unit>
+			<trans-unit id="mdf">
+				<source>Mokscha-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mdr">
+				<source>Mandaresisch</source>
+			</trans-unit>
+			<trans-unit id="men">
+				<source>Mende-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mga">
+				<source>Mittelirisch (900-1200)</source>
+			</trans-unit>
+			<trans-unit id="mic">
+				<source>Micmac-Sprache</source>
+			</trans-unit>
+			<trans-unit id="min">
+				<source>Minangkabau-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mis">
+				<source>Einzelne andere Sprachen</source>
+			</trans-unit>
+			<trans-unit id="mkh">
+				<source>Mon-Khmer-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="mlg">
+				<source>Malagassi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mlt">
+				<source>Maltesisch</source>
+			</trans-unit>
+			<trans-unit id="mnc">
+				<source>Mandschurisch</source>
+			</trans-unit>
+			<trans-unit id="mni">
+				<source>Meithei-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mno">
+				<source>Manobo-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="moh">
+				<source>Mohawk-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mol">
+				<source>Moldavisch</source>
+			</trans-unit>
+			<trans-unit id="mon">
+				<source>Mongolisch</source>
+			</trans-unit>
+			<trans-unit id="mos">
+				<source>Mossi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="mul">
+				<source>Mehrere Sprachen</source>
+			</trans-unit>
+			<trans-unit id="mun">
+				<source>Mundasprachen</source>
+			</trans-unit>
+			<trans-unit id="mus">
+				<source>Muskogisch</source>
+			</trans-unit>
+			<trans-unit id="mwl">
+				<source>Mirandesisch</source>
+			</trans-unit>
+			<trans-unit id="mwr">
+				<source>Mārwārī</source>
+			</trans-unit>
+			<trans-unit id="myn">
+				<source>Maya-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="myv">
+				<source>Erza-Mordwinisch</source>
+			</trans-unit>
+			<trans-unit id="nah">
+				<source>Nahuatl</source>
+			</trans-unit>
+			<trans-unit id="nai">
+				<source>Nordamerikanische Indianersprachen</source>
+			</trans-unit>
+			<trans-unit id="nap">
+				<source>Neapel (Mundart)</source>
+			</trans-unit>
+			<trans-unit id="nau">
+				<source>Nauruanisch</source>
+			</trans-unit>
+			<trans-unit id="nav">
+				<source>Navajo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nbl">
+				<source>Ndebele-Sprache (Transvaal)</source>
+			</trans-unit>
+			<trans-unit id="nde">
+				<source>Ndebele-Sprache (Simbabwe)</source>
+			</trans-unit>
+			<trans-unit id="ndo">
+				<source>Ndonga</source>
+			</trans-unit>
+			<trans-unit id="nds">
+				<source>Niederdeutsch</source>
+			</trans-unit>
+			<trans-unit id="nep">
+				<source>Nepali</source>
+			</trans-unit>
+			<trans-unit id="new">
+				<source>Newārī</source>
+			</trans-unit>
+			<trans-unit id="nia">
+				<source>Nias-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nic">
+				<source>Nigerkordofanische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="niu">
+				<source>Niue-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nno">
+				<source>Nynorsk</source>
+			</trans-unit>
+			<trans-unit id="nob">
+				<source>Bokmål</source>
+			</trans-unit>
+			<trans-unit id="nog">
+				<source>Nogaisch</source>
+			</trans-unit>
+			<trans-unit id="non">
+				<source>Altnorwegisch</source>
+			</trans-unit>
+			<trans-unit id="nor">
+				<source>Norwegisch</source>
+			</trans-unit>
+			<trans-unit id="nqo">
+				<source>N'Ko</source>
+			</trans-unit>
+			<trans-unit id="nso">
+				<source>Pedi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nub">
+				<source>Nubische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="nwc">
+				<source>Alt-Newārī</source>
+			</trans-unit>
+			<trans-unit id="nya">
+				<source>Nyanja-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nym">
+				<source>Nyamwezi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nyn">
+				<source>Nkole-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nyo">
+				<source>Nyoro-Sprache</source>
+			</trans-unit>
+			<trans-unit id="nzi">
+				<source>Nzima-Sprache</source>
+			</trans-unit>
+			<trans-unit id="oci">
+				<source>Okzitanisch (ab 1500)</source>
+			</trans-unit>
+			<trans-unit id="oji">
+				<source>Ojibwa-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ori">
+				<source>Oriya-Sprache</source>
+			</trans-unit>
+			<trans-unit id="orm">
+				<source>Galla-Sprache</source>
+			</trans-unit>
+			<trans-unit id="osa">
+				<source>Osage-Sprache</source>
+			</trans-unit>
+			<trans-unit id="oss">
+				<source>Ossetisch</source>
+			</trans-unit>
+			<trans-unit id="ota">
+				<source>Osmanisch (1500-1928)</source>
+			</trans-unit>
+			<trans-unit id="oto">
+				<source>Otomangue-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="paa">
+				<source>Papuasprachen</source>
+			</trans-unit>
+			<trans-unit id="pag">
+				<source>Pangasinan-Sprache</source>
+			</trans-unit>
+			<trans-unit id="pal">
+				<source>Mittelpersisch</source>
+			</trans-unit>
+			<trans-unit id="pam">
+				<source>Pampanggan-Sprache</source>
+			</trans-unit>
+			<trans-unit id="pan">
+				<source>Pandschabi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="pap">
+				<source>Papiamento</source>
+			</trans-unit>
+			<trans-unit id="pau">
+				<source>Palau-Sprache</source>
+			</trans-unit>
+			<trans-unit id="peo">
+				<source>Altpersisch (ca.600-400 v.Chr.)</source>
+			</trans-unit>
+			<trans-unit id="per">
+				<source>Persisch</source>
+			</trans-unit>
+			<trans-unit id="phi">
+				<source>Philippinisch-Austronesisch</source>
+			</trans-unit>
+			<trans-unit id="phn">
+				<source>Phönikisch</source>
+			</trans-unit>
+			<trans-unit id="pli">
+				<source>Pāli</source>
+			</trans-unit>
+			<trans-unit id="pol">
+				<source>Polnisch</source>
+			</trans-unit>
+			<trans-unit id="pon">
+				<source>Ponapeanisch</source>
+			</trans-unit>
+			<trans-unit id="por">
+				<source>Portugiesisch</source>
+			</trans-unit>
+			<trans-unit id="pra">
+				<source>Prākrit</source>
+			</trans-unit>
+			<trans-unit id="pro">
+				<source>Altokzitanisch (bis 1500)</source>
+			</trans-unit>
+			<trans-unit id="pus">
+				<source>Paschtu</source>
+			</trans-unit>
+			<trans-unit id="que">
+				<source>Quechua-Sprache</source>
+			</trans-unit>
+			<trans-unit id="raj">
+				<source>Rājasthānī</source>
+			</trans-unit>
+			<trans-unit id="rap">
+				<source>Osterinsel-Sprache</source>
+			</trans-unit>
+			<trans-unit id="rar">
+				<source>Rarotonganisch</source>
+			</trans-unit>
+			<trans-unit id="roa">
+				<source>Romanische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="roh">
+				<source>Rätoromanisch</source>
+			</trans-unit>
+			<trans-unit id="rom">
+				<source>Romani (Sprache)</source>
+			</trans-unit>
+			<trans-unit id="rum">
+				<source>Rumänisch</source>
+			</trans-unit>
+			<trans-unit id="run">
+				<source>Rundi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="rup">
+				<source>Aromunisch</source>
+			</trans-unit>
+			<trans-unit id="rus">
+				<source>Russisch</source>
+			</trans-unit>
+			<trans-unit id="sad">
+				<source>Sandawe-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sag">
+				<source>Sango-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sah">
+				<source>Jakutisch</source>
+			</trans-unit>
+			<trans-unit id="sai">
+				<source>Südamerikanische Indianersprachen</source>
+			</trans-unit>
+			<trans-unit id="sal">
+				<source>Salish-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sam">
+				<source>Samaritanisch</source>
+			</trans-unit>
+			<trans-unit id="san">
+				<source>Sanskrit</source>
+			</trans-unit>
+			<trans-unit id="sas">
+				<source>Sasak</source>
+			</trans-unit>
+			<trans-unit id="sat">
+				<source>Santālī</source>
+			</trans-unit>
+			<trans-unit id="scn">
+				<source>Sizilianisch</source>
+			</trans-unit>
+			<trans-unit id="sco">
+				<source>Schottisch</source>
+			</trans-unit>
+			<trans-unit id="sel">
+				<source>Selkupisch</source>
+			</trans-unit>
+			<trans-unit id="sem">
+				<source>Semitische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="sga">
+				<source>Altirisch (bis 900)</source>
+			</trans-unit>
+			<trans-unit id="sgn">
+				<source>Zeichensprachen</source>
+			</trans-unit>
+			<trans-unit id="shn">
+				<source>Schan-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sid">
+				<source>Sidamo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sin">
+				<source>Singhalesisch</source>
+			</trans-unit>
+			<trans-unit id="sio">
+				<source>Sioux-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="sit">
+				<source>Sinotibetische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="sla">
+				<source>Slawische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="slo">
+				<source>Slowakisch</source>
+			</trans-unit>
+			<trans-unit id="slv">
+				<source>Slowenisch</source>
+			</trans-unit>
+			<trans-unit id="sma">
+				<source>Südsaamisch</source>
+			</trans-unit>
+			<trans-unit id="sme">
+				<source>Nordsaamisch</source>
+			</trans-unit>
+			<trans-unit id="smi">
+				<source>Saamisch</source>
+			</trans-unit>
+			<trans-unit id="smj">
+				<source>Lulesaamisch</source>
+			</trans-unit>
+			<trans-unit id="smn">
+				<source>Inarisaamisch</source>
+			</trans-unit>
+			<trans-unit id="smo">
+				<source>Samoanisch</source>
+			</trans-unit>
+			<trans-unit id="sms">
+				<source>Skoltsaamisch</source>
+			</trans-unit>
+			<trans-unit id="sna">
+				<source>Schona-Sprache</source>
+			</trans-unit>
+			<trans-unit id="snd">
+				<source>Sindhi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="snk">
+				<source>Soninke-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sog">
+				<source>Sogdisch</source>
+			</trans-unit>
+			<trans-unit id="som">
+				<source>Somali</source>
+			</trans-unit>
+			<trans-unit id="son">
+				<source>Songhai-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sot">
+				<source>Süd-Sotho-Sprache</source>
+			</trans-unit>
+			<trans-unit id="spa">
+				<source>Spanisch</source>
+			</trans-unit>
+			<trans-unit id="srd">
+				<source>Sardisch</source>
+			</trans-unit>
+			<trans-unit id="srn">
+				<source>Sranantongo</source>
+			</trans-unit>
+			<trans-unit id="srp">
+				<source>Serbisch</source>
+			</trans-unit>
+			<trans-unit id="srr">
+				<source>Serer-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ssa">
+				<source>Nilosaharanische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="ssw">
+				<source>Swasi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="suk">
+				<source>Sukuma-Sprache</source>
+			</trans-unit>
+			<trans-unit id="sun">
+				<source>Sundanesisch</source>
+			</trans-unit>
+			<trans-unit id="sus">
+				<source>Susu</source>
+			</trans-unit>
+			<trans-unit id="sux">
+				<source>Sumerisch</source>
+			</trans-unit>
+			<trans-unit id="swa">
+				<source>Swahili</source>
+			</trans-unit>
+			<trans-unit id="swe">
+				<source>Schwedisch</source>
+			</trans-unit>
+			<trans-unit id="syc">
+				<source>Syrisch</source>
+			</trans-unit>
+			<trans-unit id="syr">
+				<source>Neuostaramäisch</source>
+			</trans-unit>
+			<trans-unit id="tah">
+				<source>Tahitisch</source>
+			</trans-unit>
+			<trans-unit id="tai">
+				<source>Thaisprachen</source>
+			</trans-unit>
+			<trans-unit id="tam">
+				<source>Tamil</source>
+			</trans-unit>
+			<trans-unit id="tat">
+				<source>Tatarisch</source>
+			</trans-unit>
+			<trans-unit id="tel">
+				<source>Telugu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tem">
+				<source>Temne-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ter">
+				<source>Tereno-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tet">
+				<source>Tetum-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tgk">
+				<source>Tadschikisch</source>
+			</trans-unit>
+			<trans-unit id="tgl">
+				<source>Tagalog</source>
+			</trans-unit>
+			<trans-unit id="tha">
+				<source>Thailändisch</source>
+			</trans-unit>
+			<trans-unit id="tib">
+				<source>Tibetisch</source>
+			</trans-unit>
+			<trans-unit id="tig">
+				<source>Tigre-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tir">
+				<source>Tigrinja-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tiv">
+				<source>Tiv-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tkl">
+				<source>Tokelauanisch</source>
+			</trans-unit>
+			<trans-unit id="tlh">
+				<source>Klingonisch</source>
+			</trans-unit>
+			<trans-unit id="tli">
+				<source>Tlingit-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tmh">
+				<source>Tamašeq</source>
+			</trans-unit>
+			<trans-unit id="tog">
+				<source>Tonga (Bantusprache, Sambia)</source>
+			</trans-unit>
+			<trans-unit id="ton">
+				<source>Tongaisch</source>
+			</trans-unit>
+			<trans-unit id="tpi">
+				<source>Neumelanesisch</source>
+			</trans-unit>
+			<trans-unit id="tsi">
+				<source>Tsimshian-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tsn">
+				<source>Tswana-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tso">
+				<source>Tsonga-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tuk">
+				<source>Turkmenisch</source>
+			</trans-unit>
+			<trans-unit id="tum">
+				<source>Tumbuka-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tup">
+				<source>Tupi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tur">
+				<source>Türkisch</source>
+			</trans-unit>
+			<trans-unit id="tut">
+				<source>Altaische Sprachen</source>
+			</trans-unit>
+			<trans-unit id="tvl">
+				<source>Elliceanisch</source>
+			</trans-unit>
+			<trans-unit id="twi">
+				<source>Twi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="tyv">
+				<source>Tuwinisch</source>
+			</trans-unit>
+			<trans-unit id="udm">
+				<source>Udmurtisch</source>
+			</trans-unit>
+			<trans-unit id="uga">
+				<source>Ugaritisch</source>
+			</trans-unit>
+			<trans-unit id="uig">
+				<source>Uigurisch</source>
+			</trans-unit>
+			<trans-unit id="ukr">
+				<source>Ukrainisch</source>
+			</trans-unit>
+			<trans-unit id="umb">
+				<source>Mbundu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="und">
+				<source>Nicht zu entscheiden</source>
+			</trans-unit>
+			<trans-unit id="urd">
+				<source>Urdu</source>
+			</trans-unit>
+			<trans-unit id="uzb">
+				<source>Usbekisch</source>
+			</trans-unit>
+			<trans-unit id="vai">
+				<source>Vai-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ven">
+				<source>Venda-Sprache</source>
+			</trans-unit>
+			<trans-unit id="vie">
+				<source>Vietnamesisch</source>
+			</trans-unit>
+			<trans-unit id="vol">
+				<source>Volapük</source>
+			</trans-unit>
+			<trans-unit id="vot">
+				<source>Wotisch</source>
+			</trans-unit>
+			<trans-unit id="wak">
+				<source>Wakash-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="wal">
+				<source>Walamo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="war">
+				<source>Waray</source>
+			</trans-unit>
+			<trans-unit id="was">
+				<source>Washo-Sprache</source>
+			</trans-unit>
+			<trans-unit id="wel">
+				<source>Kymrisch</source>
+			</trans-unit>
+			<trans-unit id="wen">
+				<source>Sorbisch</source>
+			</trans-unit>
+			<trans-unit id="wln">
+				<source>Wallonisch</source>
+			</trans-unit>
+			<trans-unit id="wol">
+				<source>Wolof-Sprache</source>
+			</trans-unit>
+			<trans-unit id="xal">
+				<source>Kalmückisch</source>
+			</trans-unit>
+			<trans-unit id="xho">
+				<source>Xhosa-Sprache</source>
+			</trans-unit>
+			<trans-unit id="yao">
+				<source>Yao-Sprache (Bantusprache)</source>
+			</trans-unit>
+			<trans-unit id="yap">
+				<source>Yapesisch</source>
+			</trans-unit>
+			<trans-unit id="yid">
+				<source>Jiddisch</source>
+			</trans-unit>
+			<trans-unit id="yor">
+				<source>Yoruba-Sprache</source>
+			</trans-unit>
+			<trans-unit id="ypk">
+				<source>Ypik-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="zap">
+				<source>Zapotekisch</source>
+			</trans-unit>
+			<trans-unit id="zbl">
+				<source>Bliss-Symbol</source>
+			</trans-unit>
+			<trans-unit id="zen">
+				<source>Zenaga</source>
+			</trans-unit>
+			<trans-unit id="zha">
+				<source>Zhuang</source>
+			</trans-unit>
+			<trans-unit id="znd">
+				<source>Zande-Sprachen</source>
+			</trans-unit>
+			<trans-unit id="zul">
+				<source>Zulu-Sprache</source>
+			</trans-unit>
+			<trans-unit id="zun">
+				<source>Zuñi-Sprache</source>
+			</trans-unit>
+			<trans-unit id="zxx">
+				<source>Kein linguistischer Inhalt</source>
+			</trans-unit>
+			<trans-unit id="zza">
+				<source>Zazaki</source>
+			</trans-unit>		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+		</body>
+	</file>
+</xliff>

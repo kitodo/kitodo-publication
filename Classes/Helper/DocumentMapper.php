@@ -134,20 +134,11 @@ class DocumentMapper {
                 $objectData = $this->domXpath->query($objectMapping,$data);              
                                                  
                 if ($objectData->length > 0) { 
-                  foreach ($objectData as $key => $value) {          
-                    
-                    $objectValue = $value->nodeValue;
-                                                           
-                    if ($metadataObject->getInputField() == \EWW\Dpf\Domain\Model\MetadataObject::language) {
-                      // If field has type language: Map static_info_tables Database-ID to iso 639-2/B
-                      $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');                            
-                      $objectValue = $languageHelper->getIdByIsoCodeA3($objectValue);                                                                                                                                
-                    } 
-                                                         
+                  foreach ($objectData as $key => $value) {                              
+                    $objectValue = $value->nodeValue;                                                                                                                                        
                     $documentFormField->setValue($objectValue);
                   }
-                }
-           
+                }           
                                               
                 $documentFormGroupItem->addItem($documentFormField);                
               }
@@ -271,13 +262,7 @@ class DocumentMapper {
 
               $value = $fieldItem->getValue();
               if ($value) { 
-                
-                if ($metadataObject->getInputField() == \EWW\Dpf\Domain\Model\MetadataObject::language) {
-                  // If field has type language: Map static_info_tables Database-ID to iso 639-2/B
-                  $languageHelper = $this->objectManager->get('EWW\Dpf\Helper\LanguageHelper');                            
-                  $value = $languageHelper->getIsoCodeA3ById($value);                                                                                                     
-                } 
-                                
+                  
                 $formField['mapping'] = $fieldMapping;
                 $formField['value'] = $value;
 
