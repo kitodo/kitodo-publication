@@ -234,6 +234,9 @@
                         <trans-unit id="manager.duplicate">
 				<source>duplicate</source>
 			</trans-unit>
+                        <trans-unit id="manager.edit">
+				<source>edit</source>
+			</trans-unit>  
                         <trans-unit id="manager.publish">
 				<source>publish</source>
 			</trans-unit>   
