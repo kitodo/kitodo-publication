@@ -431,4 +431,5 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function isDeleteRemote() {
           return $this->remoteAction == self::REMOTE_ACTION_DELETE;
         }
+                        
 }

@@ -120,6 +120,26 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 		$this->documentRepository->remove($document);
 		$this->redirect('list');
 	}
+                
+        /**
+	 * action duplicate
+	 *
+	 * @param \EWW\Dpf\Domain\Model\Document $document
+	 * @return void
+	 */
+	public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document) {
+		$this->addFlashMessage('Das Dokument wurde dupliziert.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+                
+                $newDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+                
+                $newDocument->setTitle($document->getTitle()); 
+                $newDocument->setAuthors($document->getAuthors());
+                $newDocument->setxmlData($document->getXmlData());
+                $newDocument->setDocumentType($document->getDocumentType());
+                                                              
+                $this->documentRepository->add($newDocument);
+		$this->redirect('list');
+	}
         
         
         /**

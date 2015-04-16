@@ -231,6 +231,9 @@
                         <trans-unit id="manager.delete">
 				<source>delete</source>
 			</trans-unit>
+                        <trans-unit id="manager.duplicate">
+				<source>duplicate</source>
+			</trans-unit>
                         <trans-unit id="manager.publish">
 				<source>publish</source>
 			</trans-unit>   

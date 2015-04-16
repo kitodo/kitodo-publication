@@ -37,7 +37,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <td>{document.state}                           
                         </td>
                         <td class="table_col_function">
-                                                                              
+                            
+                          <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                                                                                  
+                            
                           <button class="btn btn-default">Preview</button> 
                           
                           <f:if condition="{document.objectIdentifier}">
@@ -55,19 +57,24 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                         <f:link.action 
                                             action="release" 
                                             arguments="{document : document}" 
-                                            class="btn btn-info {f:if(condition: '{document.edited}', then: '', else: 'disabled')}">
+                                            class="btn btn-info {f:if(condition: '{document.remoteAction}', then: '', else: 'disabled')}">
                                             {f:translate(key: 'manager.update')}
                                         </f:link.action>         
                                     </f:else>
                                 </f:if>        
                             </f:then>
                             <f:else>                             
-                              <f:link.action action="release" arguments="{document : document}" class="btn btn-primary">{f:translate(key: 'manager.publish')}</f:link.action>                            
+                              <f:link.action 
+                                  action="release" 
+                                  arguments="{document : document}" 
+                                  class="btn btn-primary {f:if(condition: '{document.remoteAction}', then: '', else: 'disabled')}">
+                                  {f:translate(key: 'manager.publish')}
+                              </f:link.action>                            
                             </f:else>
                           </f:if>
                         
                           <button class="btn btn-default">Doublet Check</button> 
-                        
+                       
                           <f:link.action action="delete" arguments="{document : document}" class="btn btn-warning">{f:translate(key: 'manager.discard')}</f:link.action>                                                                  
                         </td>
 		</tr>
