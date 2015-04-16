@@ -28,3 +28,7 @@
 .searchForm {
     padding-bottom: 10px;
 }
+
+.tx-dpf .table_col_function a {
+    text-decoration: none;
+}
