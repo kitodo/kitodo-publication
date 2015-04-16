@@ -45,7 +45,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<th class="xcol-md-3">Publisher</th>
 				<th class="xcol-md-3">Submitter</th>              
 				<th class="xcol-md-2">Identifier</th>   
-                <th class="xcol-md-1">Get</th>          
+                <th class="xcol-md-1"></th>          
 			</tr>
 		</thead>
 		<f:for each="{searchList}" as="entry">
@@ -60,15 +60,15 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<td>{entry._source._dissemination._content.publisher.0}</td>
 				<td>{entry._source._dissemination._content.submitter}</td>
 				<td>{entry._source._dissemination._content.identifier.0}</td>
-                <td>    
+                <td class="table_col_function">    
                   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
                     <f:then>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-info disabled">                                   
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
                         Get 
                       </f:link.action>
                     </f:then>
                     <f:else>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-info">                                   
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info">                                   
                         Get 
                       </f:link.action>
                     </f:else>                    
