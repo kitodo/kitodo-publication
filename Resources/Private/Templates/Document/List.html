@@ -37,11 +37,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <td>{document.state}                           
                         </td>
                         <td class="table_col_function">
-                            
-                          <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                                                                                  
-                            
-                          <button class="btn btn-default">Preview</button> 
-                          
+                                                                                                              
                           <f:if condition="{document.objectIdentifier}">
                             <f:then>                                                            
                                 <f:if condition="{document.deleteRemote}">
@@ -72,9 +68,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
                               </f:link.action>                            
                             </f:else>
                           </f:if>
+                          
+                          <button class="btn btn-default">Preview</button>  
                         
                           <button class="btn btn-default">Doublet Check</button> 
-                       
+                          
+                          <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                                                                                  
+                                                                             
                           <f:link.action action="delete" arguments="{document : document}" class="btn btn-warning">{f:translate(key: 'manager.discard')}</f:link.action>                                                                  
                         </td>
 		</tr>
