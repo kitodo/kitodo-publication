@@ -9,6 +9,9 @@
    <f:case value="2">
      <dpf:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{}" selectType="language"/>
    </f:case> 
+   <f:case value="3">
+     <dpf:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{}" selectType="license"/>
+   </f:case> 
 </f:switch>
     
  <f:if condition="{fieldIndex}">

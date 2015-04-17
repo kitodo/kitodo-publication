@@ -76,7 +76,8 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         const input = 0;
         const textarea = 1;         
-        const language = 2;        
+        const language = 2;   
+        const license = 3;   
         
 	/**
 	 * Returns the name

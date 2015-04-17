@@ -87,6 +87,9 @@
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
 				<source>language</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.license">
+				<source>license</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>
 			</trans-unit>
