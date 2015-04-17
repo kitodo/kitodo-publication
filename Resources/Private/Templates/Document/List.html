@@ -38,8 +38,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         </td>
                         <td class="table_col_function">
                          
-                          <f:if condition="{document.edited}">                                  
-                            <f:then>
+                         
                                 <f:if condition="{document.objectIdentifier}">
                                   <f:then>                                                            
                                       <f:if condition="{document.deleteRemote}">
@@ -55,7 +54,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                               <f:link.action 
                                                   action="release" 
                                                   arguments="{document : document}" 
-                                                  class="btn btn-sm btn-info {f:if(condition: '{document.remoteAction}', then: '', else: 'disabled')}">
+                                                  class="btn btn-sm {f:if(condition: '{document.edited}', then: 'btn-info', else: 'btn-info disabled')}">
                                                   {f:translate(key: 'manager.update')}
                                               </f:link.action>         
                                           </f:else>
@@ -65,23 +64,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                     <f:link.action 
                                         action="release" 
                                         arguments="{document : document}" 
-                                        class="btn btn-sm btn-primary {f:if(condition: '{document.remoteAction}', then: '', else: 'disabled')}">
+                                        class="btn btn-sm {f:if(condition: '{document.edited}', then: 'btn-primary', else: 'btn-primary disabled')}">
                                         {f:translate(key: 'manager.publish')}
                                     </f:link.action>                            
                                   </f:else>
                                 </f:if>
-                            </f:then>
-                            <f:else>
-                                <f:link.action 
-                                    action="edit"
-                                    controller="DocumentFormBE"
-                                    arguments="{document : document}" 
-                                    class="btn btn-sm btn-default">
-                                    {f:translate(key: 'manager.edit')}
-                                </f:link.action>     
-                            </f:else>
-                          </f:if>
-                          <button class="btn btn-sm btn-default">Preview</button>  
+                          
+                        
+                          <f:comment><button class="btn btn-sm btn-default">Preview</button></f:comment>  
                         
                           <button class="btn btn-sm btn-default">Doublet Check</button> 
                           
