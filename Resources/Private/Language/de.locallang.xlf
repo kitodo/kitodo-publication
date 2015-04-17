@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+		<header/>
+		<body>
+			<trans-unit id="tx_dpf_domain_model_documenttype">
+				<source>Document Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
+				<source>Metadata Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document">
+				<source>Document</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.title">
+				<source>Title</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.authors">
+				<source>Authors</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document.xml_data">
+				<source>Xml Data</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document.document_type">
+				<source>Document Type</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.object_identifier">
+				<source>Object Identifier</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.object_state">
+				<source>Object State</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup">
+				<source>Metadata Group</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
+				<source>Mapping</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.metadata_object">
+				<source>Metadata Object</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject">
+				<source>Metadata Object</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
+				<source>Mapping</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
+				<source>Input Field</source>
+			</trans-unit>			
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
+				<source>Fedora Connection</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.user">
+				<source>User</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.password">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_qucosaform.options">
+				<source>Options</source>
+                        </trans-unit>        
+			<trans-unit id="tx_dpf_domain_model_metadatapage">
+				<source>Metadata Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.page_number">
+				<source>Page Number</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
+				<source>Metadata Group</source>
+			</trans-unit>                           
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog">
+				<source>Document Transfer Log</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.response">
+				<source>Response</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error">
+				<source>Curl Error</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid">
+				<source>Document Uid</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier">
+				<source>Object Identifier</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.action">
+				<source>Action</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file">
+				<source>File</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.content_type">
+				<source>Content Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.status">
+				<source>Status</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
+				<source>Datastream Identifier</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_file.primary_file">
+				<source>Primary file</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.document">
+				<source>Document</source>
+			</trans-unit>          
+                        <trans-unit id="tx_dpf_domain_model_client">
+				<source>Client</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.project">
+				<source>Project</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.client">
+				<source>Client</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_client.owner_id">
+				<source>OwnerID</source>
+			</trans-unit>                                      
+                        <trans-unit id="form_error_msg.group_mandatory">
+				<source>Please fill in the required fields.</source>
+			</trans-unit>   
+                        <trans-unit id="form_error_msg.group_one_required">
+				<source>Please fill out at least one of the fields.</source>
+			</trans-unit>   
+                        <trans-unit id="form_error_msg.all">
+				<source>The form contains errors.</source>
+			</trans-unit>    
+                        <trans-unit id="form_button.add_item">
+				<source>add %s</source>
+			</trans-unit>
+                        <trans-unit id="form_button.delete_item">
+				<source>delete %s</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.addFile">
+				<source>add file</source>
+			</trans-unit>                                                                        
+                        <trans-unit id="form_button.save">
+				<source>save</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.save_continue">
+				<source>save &amp; continue</source>
+			</trans-unit>     
+                        <trans-unit id="form_button.cancel">
+				<source>cancel</source>
+			</trans-unit> 
+                        <trans-unit id="form_button.delete">
+				<source>delete</source>
+			</trans-unit>  
+                        <trans-unit id="form_button.not_delete">
+				<source>Do not delete</source>
+			</trans-unit>    
+                        <trans-unit id="form_legend.primaryFile">
+				<source>Primary File</source>
+			</trans-unit>       
+                        <trans-unit id="form_legend.secondaryFile">
+				<source>Secondary File</source>
+			</trans-unit>                                                  
+                        <trans-unit id="config.swordHost">
+				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.swordUser">
+				<source>Username</source>
+			</trans-unit>     
+                        <trans-unit id="config.swordPassword">
+				<source>Password</source>
+			</trans-unit>     
+                        <trans-unit id="config.fedoraHost">
+				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.elasticSearchHost">
+				<source>Host address</source>
+			</trans-unit>     
+                        <trans-unit id="config.elasticSearchPort">
+				<source>Port</source>
+			</trans-unit> 
+                        <trans-unit id="manager.discard">
+				<source>discard</source>
+			</trans-unit>  
+                        <trans-unit id="manager.update">
+				<source>update</source>
+                                <target>aktualisieren</target>
+			</trans-unit>
+                        <trans-unit id="manager.delete">
+				<source>delete</source>
+                                <target>löschen</target>
+			</trans-unit>
+                        <trans-unit id="manager.duplicate">
+                                <source>duplicate</source>
+				<target>duplizieren</target>
+			</trans-unit>
+                        <trans-unit id="manager.publish">
+                                <source>publish</source>
+				<target>veröffentlichen</target>
+			</trans-unit>   
+                        <trans-unit id="manager.published">
+				<source>published</source>
+			</trans-unit>   
+                        <trans-unit id="manager.unpublished">
+				<source>unpublished</source>
+			</trans-unit>       
+                        <trans-unit id="document_ingest.success">
+				<source>%s successfully published.</source>
+			</trans-unit> 
+                        <trans-unit id="document_ingest.failure">
+				<source>Publishing %s failed.</source>
+			</trans-unit> 
+                        <trans-unit id="document_update.success">
+				<source>%s successfully updated.</source>
+			</trans-unit> 
+                        <trans-unit id="document_update.failure">
+				<source>Updating %s failed.</source>
+			</trans-unit>
+                        <trans-unit id="document_delete.success">
+				<source>%s successfully deleted.</source>
+			</trans-unit> 
+                        <trans-unit id="document_delete.failure">
+				<source>Deleting %s failed.</source>
+			</trans-unit>    
+                        <trans-unit id="document_retrieve.success">
+				<source>Dataset %s successfully imported.</source>
+			</trans-unit> 
+                        <trans-unit id="document_retrieve.failure">
+				<source>Importing dataset %s failed.</source>
+			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+		</body>
+	</file>
+</xliff>
