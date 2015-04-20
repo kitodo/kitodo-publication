@@ -8,8 +8,7 @@ class DocumentFormController extends AbstractDocumentFormController {
     parent::__construct();
                    
   }
-  
-  
+     
 }
 
 ?>

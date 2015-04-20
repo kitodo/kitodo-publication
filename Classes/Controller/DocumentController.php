@@ -104,7 +104,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function updateAction(\EWW\Dpf\Domain\Model\Document $document) {
-		$this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+		
+                $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentRepository->update($document);
 		$this->redirect('list');
 	}
@@ -115,10 +116,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @param \EWW\Dpf\Domain\Model\Document $document
 	 * @return void
 	 */
-	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {
-		$this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-		$this->documentRepository->remove($document);
-		$this->redirect('list');
+	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {		     
+                $this->documentRepository->remove($document);
+		
+                $this->addFlashMessage('The object was deleted.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);		
+              
+                $this->redirect('list');
 	}
                 
         /**
@@ -216,6 +219,16 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
           );
                               
           $this->redirect('list');          
-        }                                      
+        }   
+        
+        
+        public function initializeAction() {
+            parent::initializeAction();
+                               
+            if ( !$GLOBALS['BE_USER'] ) {
+                 throw new \Exception('Access denied');
+            }      
+            
+        }    
                                             
 }

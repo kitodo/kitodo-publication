@@ -308,7 +308,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @param array $documentData
 	 * @return void
 	 */
-	public function deleteAction($documentData) {		
+	public function deleteAction($documentData) {
+            
+            if ( !$GLOBALS['BE_USER'] ) {
+                throw new \Exception('Access denied');
+            }      
+            
             $document = $this->documentRepository->findByUid($documentData['documentUid']);
             $document->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
             $document = $this->documentRepository->update($document);
@@ -319,12 +324,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                                                                                   
     public function initializeAction() {
       parent::initializeAction();
-      
-       $requestArguments = $this->request->getArguments();                              
+                                           
+      $requestArguments = $this->request->getArguments();                              
                      
-       if ($requestArguments['cancel']) {         
-         $this->redirectToList();         
-       }
+      if ($requestArguments['cancel']) {         
+        $this->redirectToList();         
+      }
     }    
     
     

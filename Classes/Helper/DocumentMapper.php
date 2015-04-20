@@ -90,8 +90,7 @@ class DocumentMapper {
     $dom = new \DOMDocument();
     $dom->loadXML($document->getXmlData());
     $this->domXpath = new \DOMXPath($dom);             
-    
-    
+           
     $documentData = array();    
         
     foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
@@ -110,14 +109,15 @@ class DocumentMapper {
                
           // Read the group data.                                     
           $groupData = $this->domXpath->query($metadataGroup->getMapping());                                     
-                                              
+          
+                             
           if ($groupData->length > 0) {
             foreach ($groupData as $key => $data) {              
               
               $documentFormGroupItem = clone($documentFormGroup);
               
               foreach ($metadataGroup->getMetadataObject() as $metadataObject ) {  
-                
+                                                   
                 $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
                 $documentFormField->setUid($metadataObject->getUid());
                 $documentFormField->setDisplayName($metadataObject->getDisplayName());
@@ -132,15 +132,27 @@ class DocumentMapper {
                 $objectMapping = $metadataObject->getMapping();
                 $objectMapping = trim($objectMapping,'/');                                                     
                 $objectData = $this->domXpath->query($objectMapping,$data);              
-                                                 
+                                                               
+                
                 if ($objectData->length > 0) { 
-                  foreach ($objectData as $key => $value) {                              
+                                                       
+                  foreach ($objectData as $key => $value) {   
+                                                              
+                    $documentFormFieldItem = clone($documentFormField);  
+                                                           
                     $objectValue = $value->nodeValue;                                                                                                                                        
+                    $documentFormFieldItem->setValue($objectValue);
+                    
                     $documentFormField->setValue($objectValue);
+                    
+                 //     var_dump($documentFormFieldItem); echo "<br>";
+                    
+                    $documentFormGroupItem->addItem($documentFormFieldItem);
                   }
+                } else {
+                  $documentFormGroupItem->addItem($documentFormField);  
                 }           
-                                              
-                $documentFormGroupItem->addItem($documentFormField);                
+                                
               }
                                                                    
               $documentFormPage->addItem($documentFormGroupItem);                           
