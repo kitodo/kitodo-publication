@@ -63,12 +63,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('alreadyImported', $objectIdentifiers);
     }
 
-    public function doubletAction()
-    {
-        // is doublet existing?
-        
-    }
-
     /**
      * build array for elasticsearch
      * @return array Elasticsearch query array
@@ -100,7 +94,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         }
 
         if ($countFields > 1) {
-            // put query together for multi field search
+            // multi field search
             $i = 1;
             foreach ($fieldQuery as $key => $qry) {
                 $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
@@ -113,6 +107,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         return $query;
     }
+
+    // public function nextAction($from)
+    // {
+    //     // set pagination
+    //     $query['body']['from'] = '0';
+    //     $query['body']['size'] = '50';
+    // }
 
     /**
      * action search
@@ -129,7 +130,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // set pagination
         $query['body']['from'] = '0';
-        $query['body']['size'] = '25';
+        $query['body']['size'] = '50';
 
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
@@ -207,8 +208,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @param  \EWW\Dpf\Domain\Model\Document $document   
      * @return void
      */
-    public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document) {
-        
+    public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        // is doublet existing?
+        $query['body']['query']['bool']['must'][0]['match']['title'] = $qry;
+        $query['body']['query']['bool']['must'][1]['match']['author'] = $qry;
+
+        $results = $elasticSearch->search($query);
         
     }
 }
