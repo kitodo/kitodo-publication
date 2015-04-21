@@ -29,7 +29,11 @@ class Mods {
   
   
   public function getTitle() {       
-    $titleNode = $this->getModsXpath()->query("/mods:mods/mods:titleInfo/mods:title");
+   $titleNode = $this->getModsXpath()->query('/mods:mods/mods:titleInfo[@usage="primary"]/mods:title');
+   
+   if ($titleNode->length == 0) {
+     $titleNode = $this->getModsXpath()->query("/mods:mods/mods:titleInfo/mods:title");    
+   }
     return $titleNode->item(0)->nodeValue;   
   }
   
