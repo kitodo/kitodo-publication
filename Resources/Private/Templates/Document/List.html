@@ -31,7 +31,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<f:for each="{documents}" as="document">
          	<tr>                
 			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
-			<td>{document.authors}</td>
+			<td>
+                            <f:for each="{document.authors}" as="author" iteration="itemIterator"> 
+                                {author}<f:if condition="{itemIterator.isLast}">
+                                    <f:then></f:then> 
+                                    <f:else>; </f:else>    
+                                </f:if>
+                            </f:for>    
+                        </td>
                         <td></td>
                         <td>{document.objectIdentifier}</td>
                         <td>{document.state}                           

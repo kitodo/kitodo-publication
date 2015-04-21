@@ -159,20 +159,20 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         /**
 	 * Returns the authors
 	 *
-	 * @return string $authors
+	 * @return array $authors
 	 */
 	public function getAuthors() {
-		return $this->authors;
+            return array_map('trim',explode(";",$this->authors));
 	}
                 
         /**
 	 * Sets the authors
 	 *
-	 * @param string $authors
+	 * @param array $authors
 	 * @return void
 	 */
 	public function setAuthors($authors) {
-		$this->authors = $authors;
+		$this->authors = implode("; ",$authors);
 	}
         
 	/**

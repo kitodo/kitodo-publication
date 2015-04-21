@@ -45,14 +45,14 @@ class Mods {
 
     $authors = array();
                          
-    foreach ($authorNode as $author) {                                
+    foreach ($authorNode as $key => $author) {                                
                   
       $familyNodes = $xpath->query('mods:namePart[@type="family"]',$author);            
         
       $givenNodes = $xpath->query('mods:namePart[@type="given"]',$author);                             
              
       $name = array();
-      
+                  
       if ($givenNodes->length > 0) {
         $name[] = $givenNodes->item(0)->nodeValue;
       }
@@ -61,10 +61,10 @@ class Mods {
         $name[] = $familyNodes->item(0)->nodeValue;
       }
                   
-      $authors[] = implode(", ",$name);           
+      $authors[$key] = implode(" ",$name);           
     }      
     
-    return implode(", ",$authors);                   
+    return $authors;                   
   }
   
 }
