@@ -246,7 +246,10 @@
 			</trans-unit>   
                         <trans-unit id="manager.unpublished">
 				<source>unpublished</source>
-			</trans-unit>       
+			</trans-unit>
+					<trans-unit id="manager.doublet">
+				<target>Dubletten Check</target>
+			</trans-unit>    
                         <trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit> 

@@ -73,7 +73,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         
                           <f:comment><button class="btn btn-sm btn-default">Preview</button></f:comment>  
                         
-                          <button class="btn btn-sm btn-default">Doublet Check</button> 
+                          <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-sm btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
                           
                           <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                                                                                  
                                                                              

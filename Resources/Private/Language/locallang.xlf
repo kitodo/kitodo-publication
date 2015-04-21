@@ -245,7 +245,10 @@
 			</trans-unit>   
                         <trans-unit id="manager.unpublished">
 				<source>unpublished</source>
-			</trans-unit>       
+			</trans-unit>    
+						<trans-unit id="manager.doublet">
+				<source>Doublet Check</source>
+			</trans-unit>    
                         <trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit> 

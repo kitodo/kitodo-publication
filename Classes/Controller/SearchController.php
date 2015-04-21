@@ -210,9 +210,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        
         // is doublet existing?
-        $query['body']['query']['bool']['must'][0]['match']['title'] = 'title';
-        $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
+        $query['body']['query']['bool']['must'][0]['match']['title'] = $document->getTitle();
+        // $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
 
         $results = $elasticSearch->search($query);
 
