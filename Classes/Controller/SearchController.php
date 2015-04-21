@@ -199,4 +199,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $this->redirect('search');
     }
+    
+    
+    /**
+     * action doubletCheck
+     *
+     * @param  \EWW\Dpf\Domain\Model\Document $document   
+     * @return void
+     */
+    public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document) {
+        
+        
+    }
 }
