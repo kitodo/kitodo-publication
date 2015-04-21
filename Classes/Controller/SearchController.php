@@ -63,6 +63,57 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('alreadyImported', $objectIdentifiers);
     }
 
+    public function doubletAction()
+    {
+        // is doublet existing?
+        
+    }
+
+    /**
+     * build array for elasticsearch
+     * @return array Elasticsearch query array
+     */
+    public function extendedSearch()
+    {
+        $args = $this->request->getArguments();
+        $client = $this->clientRepository->findAll()->current();
+
+        // extended search
+        $countFields = 0;
+
+        if ($args['extSearch']['extId']) {
+            $id = $args['extSearch']['extId'];
+            $fieldQuery['_id'] = $id;
+            $countFields++;
+        }
+
+        if ($args['extSearch']['extTitle']) {
+            $title = $args['extSearch']['extTitle'];
+            $fieldQuery['title'] = $title;
+            $countFields++;
+        }
+
+        if ($args['extSearch']['extAuthor']) {
+            $author = $title = $args['extSearch']['extAuthor'];
+            $fieldQuery['author'] = $author;
+            $countFields++;
+        }
+
+        if ($countFields > 1) {
+            // put query together for multi field search
+            $i = 1;
+            foreach ($fieldQuery as $key => $qry) {
+                $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
+                $i++;
+            }
+
+            // owner id
+            $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
+        }
+
+        return $query;
+    }
+
     /**
      * action search
      * @return void
@@ -76,45 +127,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
+        // set pagination
+        $query['body']['from'] = '0';
+        $query['body']['size'] = '25';
+
+        // set sorting
+        // $query['body']['sort']['PID']['order'] = 'asc';
+
         if ($args['extSearch']) {
             // extended search
-            $countFields = 0;
-
-            if ($args['extSearch']['extId']) {
-                $id = $args['extSearch']['extId'];
-                $fieldQuery['_id'] = $id;
-                $countFields++;
-            }
-
-            if ($args['extSearch']['extTitle']) {
-                $title = $args['extSearch']['extTitle'];
-                $fieldQuery['title'] = $title;
-                $countFields++;
-            }
-
-            if ($args['extSearch']['extAuthor']) {
-                $author = $title = $args['extSearch']['extAuthor'];
-                $fieldQuery['author'] = $author;
-                $countFields++;
-            }
-
-            if ($countFields > 1) {
-                // put query together for multi field search
-                $i = 1;
-                foreach ($fieldQuery as $key => $qry) {
-                    $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
-                    $i++;
-                }
-
-                // owner id
-                $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
-                
-            } else {
-                // use single query
-                $query['body']['query']['match'] = $fieldQuery;
-            }
-            
-
+            $query = $this->extendedSearch();
         } else {
             if (empty($args['search']['query'])) {
                 // elasticsearch dsl requires an empty object to match all
@@ -122,7 +144,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             } else {
                 $query['body']['query']['match']['_all'] = $args['search']['query'];
             }
-            
         }
 
         // save search query
@@ -144,12 +165,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     /**
      * action import
      *
-     * @param string $documentObjectIdentifier
-     * @param string $objectState
+     * @param  string $documentObjectIdentifier
+     * @param  string $objectState
      * @return void
      */
     public function importAction($documentObjectIdentifier, $objectState)
-    {                            
+    {
         $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
         $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
         $documentTransferManager->setRemoteRepository($remoteRepository);
@@ -173,10 +194,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $message,
             '',
             $severity,
-            true            
+            true
         );
-                            
+
         $this->redirect('search');
     }
-                                      
 }
