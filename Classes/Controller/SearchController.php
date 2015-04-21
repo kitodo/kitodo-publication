@@ -211,10 +211,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
         // is doublet existing?
-        $query['body']['query']['bool']['must'][0]['match']['title'] = $qry;
-        $query['body']['query']['bool']['must'][1]['match']['author'] = $qry;
+        $query['body']['query']['bool']['must'][0]['match']['title'] = 'title';
+        $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
 
         $results = $elasticSearch->search($query);
+
+        // redirect to list view
+        $this->forward("list", null, null, array('results' => $results));
         
     }
 }
