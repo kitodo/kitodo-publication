@@ -454,9 +454,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
         
                 
-        public function getDateIssued() {              
+        public function getDateIssued() {                                                      
              $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                                      
-             return $mods->getDateIssued();                             
+             $dateIssued = $mods->getDateIssued();  
+                                       
+             if (empty($dateIssued)) {
+                 return NULL;
+             }
+                        
+             return $dateIssued;                          
         }
                  
         
@@ -470,9 +476,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         } 
                 
         public function removeDateIssued() {
-             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);     
-             $mods->removeDateIssued();                          
-             $this->xmlData = $mods->getModsXml();                                                                         
+            $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                  
+            $mods->removeDateIssued();                          
+            $this->xmlData = $mods->getModsXml();                                                                         
         }
 
 }
