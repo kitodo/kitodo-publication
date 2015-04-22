@@ -72,6 +72,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $xmlData = '';
 
+               
 	/**
 	 * documentType
 	 *
@@ -180,7 +181,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $xmlData
 	 */
-	public function getXmlData() {
+	public function getXmlData() {                                  
 		return $this->xmlData;
 	}
 
@@ -190,8 +191,28 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param string $xmlData
 	 * @return void
 	 */
-	public function setXmlData($xmlData) {
-		$this->xmlData = $xmlData;
+	public function setXmlData($xmlData) {                            
+                $newMods = new \EWW\Dpf\Helper\Mods($xmlData);                
+                $newDateIssued = $newMods->getDateIssued();
+                                
+                $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                
+                $dateIssued = $mods->getDateIssued();
+                
+                if (empty($newDateIssued)) {                                                                            
+                    if (!empty($dateIssued)) {                                        
+                        $newMods->setDateIssued($dateIssued);                    
+                    }                    
+                } else {                   
+                    $date = \DateTime::createFromFormat(\DateTime::ISO8601, $newDateIssued);
+                   
+                    if (get_class($date) == 'DateTime' && $date->format(\DateTime::ISO8601) == $newDateIssued) {
+                        $newMods->setDateIssued($newDateIssued);
+                    } else {
+                       $newMods->setDateIssued($dateIssued); 
+                    }                                   
+                }
+           
+		$this->xmlData = $newMods->getModsXml();                                                              
 	}
 
 	/**
@@ -431,5 +452,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function isDeleteRemote() {
           return $this->remoteAction == self::REMOTE_ACTION_DELETE;
         }
-                        
+        
+                
+        public function getDateIssued() {              
+             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                                      
+             return $mods->getDateIssued();                             
+        }
+                 
+        
+        public function initDateIssued() {       
+             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);     
+             $dateIssued = $mods->getDateIssued();
+             if (empty($dateIssued)) {
+                $mods->setDateIssued((new \DateTime)->format(\DateTime::ISO8601));                   
+                $this->xmlData = $mods->getModsXml();                 
+             }                           
+        } 
+                
+        public function removeDateIssued() {
+             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);     
+             $mods->removeDateIssued();                          
+             $this->xmlData = $mods->getModsXml();                                                                         
+        }
+
 }

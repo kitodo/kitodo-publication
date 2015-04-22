@@ -84,6 +84,8 @@ class DocumentTransferManager {
     $fileData = $this->getFileData($document);
     $exporter->setFileData($fileData);    
     
+    $document->initDateIssued();
+                            
     $exporter->setMods($document->getXmlData());    
                                   
     $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));

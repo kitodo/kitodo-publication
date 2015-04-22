@@ -139,7 +139,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 $newDocument->setAuthors($document->getAuthors());
                 $newDocument->setxmlData($document->getXmlData());
                 $newDocument->setDocumentType($document->getDocumentType());
-                                                              
+                $newDocument->removeDateIssued();
+                
                 $this->documentRepository->add($newDocument);
 		$this->redirect('list');
 	}
