@@ -78,17 +78,5 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			</tr>
 		</f:for>
 	</table>
-  {f:uri.action(action:'nextResults', controller:'Search')}
-  <script>
-function getNextResults() {
-  $.ajax({
-    url: "{f:uri.action(action:'nextResults', controller:'Search')}"
-  }).done(function( html ) {
-    alert("abgeschickt");
-  });
-}
-</script>
-<button href="#" onClick="getNextResults();">Test</button>
-
 
 </f:section>
