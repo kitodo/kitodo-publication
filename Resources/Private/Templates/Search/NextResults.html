@@ -15,40 +15,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:section name="main">
-
-    <h3>Suche</h3>
-        
-    <f:flashMessages renderMode="div" />    
-
-    <div class="searchForm">
-        <f:form action="search" name="search">
-            <f:form.textfield property="query" />
-            <f:form.submit value="Suchen" />
-        </f:form>
-    </div>
-
-    <div class="searchForm">
-        <f:form action="search" name="extSearch">
-            ID: <f:form.textfield property="extId" />
-            Titel: <f:form.textfield property="extTitle" />
-            Autor: <f:form.textfield property="extAuthor" />
-            <f:form.hidden property="extSearch" value="true" />
-            <f:form.submit value="Suchen" />
-        </f:form>
-    </div>
-
 	<table class="tx_dpf table table-striped table-manager table-condensed">
-		<thead>
-			<tr>
-				<th class="xcol-md-5">ID</th>
-				<th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-				<th class="xcol-md-3">Publisher</th>
-				<th class="xcol-md-3">Submitter</th>              
-				<th class="xcol-md-2">Identifier</th>   
-                <th class="xcol-md-1"></th>          
-			</tr>
-		</thead>
-		<f:for each="{searchList}" as="entry">
+		<f:for each="{resultList}" as="entry">
 		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
                      <f:then><tr class="success"></f:then>	
                      <f:else><tr></f:else>
@@ -78,17 +46,5 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			</tr>
 		</f:for>
 	</table>
-  {f:uri.action(action:'nextResults', controller:'Search')}
-  <script>
-function getNextResults() {
-  $.ajax({
-    url: "{f:uri.action(action:'nextResults', controller:'Search')}"
-  }).done(function( html ) {
-    alert("abgeschickt");
-  });
-}
-</script>
-<button href="#" onClick="getNextResults();">Test</button>
-
 
 </f:section>
