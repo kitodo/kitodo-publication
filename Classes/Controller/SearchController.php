@@ -64,6 +64,33 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
+     * get next search results
+     * @return array ElasticSearch results
+     */
+    public function nextResultsAction()
+    {
+        // anzahl der ergebnis in die Session speichern
+        // bei jedem Aufruf um 50 Einträge erhöhen und in Session speichern
+        $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+        if (!$sessionVars['resultCount']) {
+            // set number of results in session
+            $sessionVars['resultCount'] = 100;
+        } else {
+            $resultCount = $sessionVars['resultCount'];
+            $sessionVars['resultCount'] = $resultCount + 50;
+        }
+        $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+
+        $query = $sessionVars['query'];
+        $query['from'] = $sessionVars['resultCount'];
+        $query['size'] = 50;
+
+        $results = $this->getResultList($query);
+
+        $this->view->assign('resultList', $results);
+    }
+
+    /**
      * build array for elasticsearch
      * @return array Elasticsearch query array
      */
@@ -108,12 +135,40 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         return $query;
     }
 
-    // public function nextAction($from)
-    // {
-    //     // set pagination
-    //     $query['body']['from'] = '0';
-    //     $query['body']['size'] = '50';
-    // }
+    /**
+     * search
+     * @return array elasticsearch query
+     */
+    public function search()
+    {
+        // perform search action
+        $args = $this->request->getArguments();
+
+        $client = $this->clientRepository->findAll()->current();
+
+        if (empty($args['search']['query'])) {
+            // elasticsearch dsl requires an empty object to match all
+            $query['body']['query']['match_all'] = new \stdClass();
+        } else {
+            $query['body']['query']['match']['_all'] = $args['search']['query'];
+        }
+        
+        return $query;
+    }
+
+    /**
+     * get results from elastic search
+     * @param  array $query elasticsearch search query
+     * @return array        results
+     */
+    public function getResultList($query)
+    {
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        $results = $elasticSearch->search($query);
+
+        return $results;
+    }
 
     /**
      * action search
@@ -124,9 +179,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // perform search action
         $args = $this->request->getArguments();
 
-        $client = $this->clientRepository->findAll()->current();
-
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        // reset session pagination
+        $sessionVars['resultCount'] = 50;
+        $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         // set pagination
         $query['body']['from'] = '0';
@@ -139,12 +196,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // extended search
             $query = $this->extendedSearch();
         } else {
-            if (empty($args['search']['query'])) {
-                // elasticsearch dsl requires an empty object to match all
-                $query['body']['query']['match_all'] = new \stdClass();
-            } else {
-                $query['body']['query']['match']['_all'] = $args['search']['query'];
-            }
+            $query = $this->search();
         }
 
         // save search query
@@ -157,7 +209,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $sessionVars['query'];
         }
 
-        $results = $elasticSearch->search($query);
+        $results = $this->getResultList($query);
 
         // redirect to list view
         $this->forward("list", null, null, array('results' => $results));
@@ -205,7 +257,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     /**
      * action doubletCheck
      *
-     * @param  \EWW\Dpf\Domain\Model\Document $document   
+     * @param  \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
@@ -213,8 +265,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         
         // is doublet existing?
-        $query['body']['query']['bool']['must'][0]['match']['title'] = $document->getTitle();
+        // $query['body']['query']['bool']['must'][0]['match']['title'] = $document->getTitle();
         // $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
+        $query['body']['query']['term']['title'] = $document->getTitle();
 
         $results = $elasticSearch->search($query);
         
