@@ -1,0 +1,93 @@
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="DefaultBE" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+
+<f:section name="main">
+
+    <h3>Doublet Check</h3>
+        
+    <f:flashMessages renderMode="div" />    
+            
+	<table class="tx_dpf table table-striped table-manager table-condensed tx-dpf-table-doublet">
+            <thead>
+		<tr>				
+                    <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
+                    <th class="xcol-md-2">Authors</th>
+                    <th class="xcol-md-2">Submitter/Published date</th>              
+                    <th class="xcol-md-2">Dataset Identifier</th>
+                    <th class="xcol-md-2">URN</th>   
+                    <th class="xcol-md-1"></th>          
+		</tr>
+            </thead>                           
+            
+            <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
+                <td>{document.title}</td>
+                <td>
+                    <f:for each="{document.authors}" as="author" iteration="itemIterator"> 
+                        {author}<f:if condition="{itemIterator.isLast}">
+                            <f:then></f:then> 
+                            <f:else>; </f:else>    
+                        </f:if>
+                    </f:for>                        
+                </td>
+                <td><f:format.date date="{document.dateIssued}" format="d.m.Y" /></td>
+                <td>{document.objectIdentifier}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            <tr class="doublet-message">
+                <td>
+                    <f:if condition="{searchList}">
+                        <f:then>
+                           Folgende mögliche doubletten wurden gefunden:
+                        </f:then>    
+                        <f:else>    
+                           Es konnten keine möglichen Doubletten gefunden werden. 
+                        </f:else>
+                    </f:if>    
+                </td>
+                <td></td><td></td><td></td><td></td><td></td></tr>    
+                
+		<f:for each="{searchList}" as="entry">
+		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                     <f:then><tr class="success"></f:then>	
+                     <f:else><tr></f:else>
+                   </f:if>                                         				
+				<td>{entry._source._dissemination._content.title.0}</td>
+				<td>{entry._source._dissemination._content.author.0}</td>
+				<td>{entry._source._dissemination._content.submitter}</td>
+                                <td>{entry._source.PID}</td>
+				<td>{entry._source._dissemination._content.identifier.0}</td>
+                <td class="table_col_function">    
+                  <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                    <f:then>
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
+                        Get 
+                      </f:link.action>
+                    </f:then>
+                    <f:else>
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info">                                   
+                        Get 
+                      </f:link.action>
+                    </f:else>                    
+                  </f:if>                                  
+                </td>      
+                                                               
+			</tr>
+		</f:for>
+	</table>
+
+</f:section>

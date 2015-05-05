@@ -209,7 +209,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return void
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
+    { 
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         
         // is doublet existing?
@@ -217,9 +217,18 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
 
         $results = $elasticSearch->search($query);
-
+        
         // redirect to list view
-        $this->forward("list", null, null, array('results' => $results));
+        //$this->forward("list", null, null, array('results' => $results));
+        
+        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+
+        $args = $this->request->getArguments();
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+      
+        $this->view->assign('document', $document);
+        $this->view->assign('searchList', $results);
+        $this->view->assign('alreadyImported', $objectIdentifiers);
         
     }
 }

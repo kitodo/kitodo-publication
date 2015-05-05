@@ -32,3 +32,13 @@
 .tx-dpf .table_col_function a {
     text-decoration: none;
 }
+
+
+.tx-dpf .tx-dpf-table-doublet {
+    margin-top: 30px;    
+}
+
+.tx-dpf .doublet-message td{
+    padding: 20px 5px 20px 5px;
+    font-weight: bold;
+}
