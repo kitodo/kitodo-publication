@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\Transfer;
 
 $extpath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
 
-require_once($extpath . '/Lib/Vendor/Httpful/bootstrap.php');
+require_once($extpath . '/Lib/Vendor/Httpful/Bootstrap.php');
 \Httpful\Bootstrap::init();
 
 //require_once($extpath . '/Lib/Vendor/Httpful/httpful.phar');
