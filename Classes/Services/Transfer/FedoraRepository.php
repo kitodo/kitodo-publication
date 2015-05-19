@@ -63,7 +63,9 @@ class FedoraRepository implements Repository {
     $this->swordHost = $confArr['swordHost'];
     $this->swordUser = $confArr['swordUser'];
     $this->swordPassword = $confArr['swordPassword'];
-    $this->fedoraHost = $confArr['fedoraHost'];            
+    $this->fedoraHost = $confArr['fedoraHost'];      
+    $this->fedoraUser = $confArr['fedoraUser'];
+    $this->fedoraPassword = $confArr['fedoraPassword'];
   }
   
   /**
@@ -144,8 +146,8 @@ class FedoraRepository implements Repository {
 //    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
    
    try {    
-      $response = Request::get($this->swordHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")             
-        ->authenticateWith($this->swordUser, $this->swordPassword)     
+      $response = Request::get($this->fedoraHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")             
+        ->authenticateWith($this->fedoraUser, $this->fedoraPassword)     
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
         ->send();
                                                                              

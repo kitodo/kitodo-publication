@@ -216,6 +216,12 @@
                         <trans-unit id="config.fedoraHost">
 				<source>Host address</source>
 			</trans-unit>     
+                        <trans-unit id="config.fedoraUser">
+				<source>Username</source>
+			</trans-unit>     
+                        <trans-unit id="config.fedoraPassword">
+				<source>Password</source>
+			</trans-unit>     
                         <trans-unit id="config.elasticSearchHost">
 				<source>Host address</source>
 			</trans-unit>     
