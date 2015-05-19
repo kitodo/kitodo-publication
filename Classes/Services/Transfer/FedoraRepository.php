@@ -221,6 +221,7 @@ class FedoraRepository implements Repository {
       
   
   protected function getOwnerId() {    
+    
     if (empty($this->ownerId)) {
       $client = $this->clientRepository->findAll()->current();  
       $this->ownerId = $client->getOwnerId();

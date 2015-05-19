@@ -153,13 +153,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
          * @return void
          */
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
-                                                                     
+                                
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
-                                  
+                              
+          $objectIdentifier = $document->getObjectIdentifier();
           
-          if (empty($document->getObjectIdentifier())) {         
+          if (empty($objectIdentifier)) {         
           
             // Document is not in the fedora repository.
             

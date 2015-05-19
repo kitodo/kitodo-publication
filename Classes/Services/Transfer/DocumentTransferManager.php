@@ -254,8 +254,12 @@ class DocumentTransferManager {
    
    foreach ( $document->getFile() as $file ) {                  
      
-     if (!empty($file->getStatus())) {
-                            
+     $fileStatus = $file->getStatus();  
+       
+     if (!empty($fileStatus)) {
+      
+      $dataStreamIdentifier = $file->getDatastreamIdentifier();
+         
       if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {                                
          $files[$file->getUid()] = array(
            'path' => $file->getLink(),
@@ -264,7 +268,7 @@ class DocumentTransferManager {
            'title' => $file->getTitle(),  
            'use' => ''
          );                                
-       } elseif (!empty($file->getDatastreamIdentifier())) {        
+       } elseif (!empty($dataStreamIdentifier)) {        
          $files[$file->getUid()] = array(
            'path' => $file->getLink(),
            'type' => $file->getContentType(),
