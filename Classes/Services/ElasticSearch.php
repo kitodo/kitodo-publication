@@ -25,7 +25,7 @@ namespace EWW\Dpf\Services;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use \ElasticSearch\Client;
+use \Elasticsearch\Client as Client;
 
 /**
  * ElasticSearch
@@ -66,7 +66,7 @@ class ElasticSearch
         );
 
         // establish connection
-        $this->es = new \Elasticsearch\Client($params);
+        $this->es = new Client($params);
                 
     }
 
