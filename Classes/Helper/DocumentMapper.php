@@ -261,19 +261,26 @@ class DocumentMapper {
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);                
           $groupMapping =  "/" .  trim($metadataGroup->getMapping()," /");          
 
+          $modsExtensionMapping =  "/" .  trim($metadataGroup->getModsExtensionMapping()," /"); 
+          $modsExtensionReference =  "/" .  trim($metadataGroup->getModsExtensionReference()," /"); 
+          
           $item['mapping'] = $groupMapping;
+          $item['modsExtensionMapping'] = $modsExtensionMapping;
+          $item['modsExtensionReference'] = $modsExtensionReference;
           $item['groupUid'] = $uid;
 
           foreach ($groupItem->getItems() as $field) {                                                       
             foreach ($field as $fieldItem) {                      
               $fieldUid = $fieldItem->getUid();
               $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);                
-              $fieldMapping = trim($metadataObject->getMapping()," /");     
-
+              $fieldMapping = trim($metadataObject->getMapping()," /");
+              $fieldModsExtension = trim($metadataObject->getModsExtension()," /");     
+              
               $formField = array();
 
               $value = $fieldItem->getValue();
-              if ($value) { 
+              if ($value) {                 
+                $formField['modsExtension'] = $fieldModsExtension;
                   
                 $formField['mapping'] = $fieldMapping;
                 $formField['value'] = $value;
