@@ -184,7 +184,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,display_name,max_iteration,mandatory,mapping,input_field,',
+		'searchFields' => 'name,display_name,max_iteration,mandatory,mapping,mods_extension,input_field,',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/MetadataObject.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif'
 	),

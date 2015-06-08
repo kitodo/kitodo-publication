@@ -18,6 +18,9 @@
 			<trans-unit id="mapping.description">
 				<source>mapping</source>
 			</trans-unit>
+                        <trans-unit id="mods_extension.description">
+				<source>modsExtension</source>
+			</trans-unit>
 			<trans-unit id="input_field.description">
 				<source>inputField</source>
 			</trans-unit>                        

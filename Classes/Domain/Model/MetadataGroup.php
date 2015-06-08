@@ -60,6 +60,13 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $mapping = '';
         
+        /**
+	 * modsExtensionMapping
+	 *
+	 * @var string
+	 */
+	protected $modsExtensionMapping = '';
+        
 	/**
 	 * maxIteration
 	 *
@@ -178,6 +185,44 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setMapping($mapping) {
 		$this->mapping = $mapping;
+	}
+        
+        /**
+	 * Returns the modsExtensionMapping
+	 *
+	 * @return string $modsExtensionMapping
+	 */
+	public function getModsExtensionMapping() {
+		return $this->modsExtensionMapping;
+	}
+
+	/**
+	 * Sets the modsExtensionMapping
+	 *
+	 * @param string $modsExtensionMapping
+	 * @return void
+	 */
+	public function setModsExtensionMapping($modsExtensionMapping) {
+		$this->modsExtensionMapping = $modsExtensionMapping;
+	} 
+               
+        /**
+	 * Sets the modsExtensionReference
+	 *
+	 * @param string $modsExtensionReference
+	 * @return void
+	 */
+	public function setModsExtensionReference($modsExtensionReference) {
+		$this->modsExtensionReference = $modsExtensionReference;
+	}
+        
+        /**
+	 * Returns the modsExtensionReference
+	 *
+	 * @return string $modsExtensionReference
+	 */
+	public function getModsExtensionReference() {
+		return $this->modsExtensionReference;
 	}
         
 	/**

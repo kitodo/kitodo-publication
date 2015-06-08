@@ -15,6 +15,12 @@
                         <trans-unit id="mapping.description">
 				<source>mapping</source>
 			</trans-unit>
+                        <trans-unit id="mods_extension_mapping.description">
+				<source>mods extension mapping</source>
+			</trans-unit>
+                        <trans-unit id="mods_extension_reference.description">
+				<source>mods extension reference attribute</source>
+			</trans-unit>
 			<trans-unit id="max_iteration.description">
 				<source>maxIteration</source>
 			</trans-unit>

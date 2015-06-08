@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping, max_iteration, metadata_object',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, mandatory, mapping, max_iteration, metadata_object, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, mandatory, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -132,6 +132,26 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mapping',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+                'mods_extension_mapping' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mods_extension_mapping',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+                'mods_extension_reference' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mods_extension_reference',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,

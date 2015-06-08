@@ -101,6 +101,8 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
         mapping varchar(1024) DEFAULT '' NOT NULL,
+        mods_extension_mapping varchar(1024) DEFAULT '' NOT NULL,
+        mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
         metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -147,6 +149,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	max_iteration int(11) DEFAULT '0' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	mapping varchar(255) DEFAULT '' NOT NULL,
+        mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	input_field int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

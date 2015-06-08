@@ -51,6 +51,12 @@
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 				<source>Mapping</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
+				<source>Mods Extension Mapping</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference">
+				<source>Mods Extension Reference Attribute</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
 				<source>Max Iteration</source>
 			</trans-unit>
@@ -74,6 +80,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension">
+				<source>Mods Extension Field</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 				<source>Input Field</source>

@@ -79,6 +79,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const language = 2;   
         const license = 3;   
         
+        
+        /**
+	 * modsExtension
+	 *
+	 * @var boolean
+	 */
+	protected $modsExtension = FALSE;
+        
+        
 	/**
 	 * Returns the name
 	 *
@@ -163,6 +172,35 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function isMandatory() {
 		return $this->mandatory;
 	}
+        
+        /**
+	 * Returns the modsExtension
+	 *
+	 * @return boolean $modsExtension
+	 */
+	public function getModsExtension() {
+		return $this->modsExtension;
+	}
+
+	/**
+	 * Sets the modsExtension
+	 *
+	 * @param boolean $modsExtension
+	 * @return void
+	 */
+	public function setModsExtension($modsExtension) {
+		$this->modsExtension = $modsExtension;
+	}
+
+	/**
+	 * Returns the boolean state of modsExtension
+	 *
+	 * @return boolean
+	 */
+	public function isModsExtension() {
+		return $this->modsExtension;
+	}
+                                                                                                
 
 	/**
 	 * Returns the mapping
