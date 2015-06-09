@@ -258,23 +258,29 @@ class DocumentMapper {
           $item = array();
 
           $uid = $groupItem->getUid();
-          $metadataGroup = $this->metadataGroupRepository->findByUid($uid);                
-          $groupMapping =  "/" .  trim($metadataGroup->getMapping()," /");          
+          $metadataGroup = $this->metadataGroupRepository->findByUid($uid);
+          $groupMapping =  "/" .  trim($metadataGroup->getMapping(), " /");
 
-          $modsExtensionMapping =  "/" .  trim($metadataGroup->getModsExtensionMapping()," /"); 
-          $modsExtensionReference =  "/" .  trim($metadataGroup->getModsExtensionReference()," /"); 
+          if ($metadataGroup->getModsExtensionMapping()) {
+            $modsExtensionMapping =  "/" .  trim($metadataGroup->getModsExtensionMapping(), " /");
+            $item['modsExtensionMapping'] = $modsExtensionMapping;
+          }
+          
+
+          if ($metadataGroup->getModsExtensionReference()) {
+            $modsExtensionReference =  "/" .  trim($metadataGroup->getModsExtensionReference(), " /");
+            $item['modsExtensionReference'] = $modsExtensionReference;
+          }
           
           $item['mapping'] = $groupMapping;
-          $item['modsExtensionMapping'] = $modsExtensionMapping;
-          $item['modsExtensionReference'] = $modsExtensionReference;
           $item['groupUid'] = $uid;
 
-          foreach ($groupItem->getItems() as $field) {                                                       
-            foreach ($field as $fieldItem) {                      
+          foreach ($groupItem->getItems() as $field) {
+            foreach ($field as $fieldItem) {
               $fieldUid = $fieldItem->getUid();
-              $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);                
-              $fieldMapping = trim($metadataObject->getMapping()," /");
-              $fieldModsExtension = trim($metadataObject->getModsExtension()," /");     
+              $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
+              $fieldMapping = trim($metadataObject->getMapping(), " /");
+              $fieldModsExtension = trim($metadataObject->getModsExtension(), " /");
               
               $formField = array();
 
