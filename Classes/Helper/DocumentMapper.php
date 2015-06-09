@@ -281,7 +281,7 @@ class DocumentMapper {
           
 
           if ($metadataGroup->getModsExtensionReference()) {
-            $modsExtensionReference =  "/" .  trim($metadataGroup->getModsExtensionReference(), " /");
+            $modsExtensionReference =  trim($metadataGroup->getModsExtensionReference(), " /");
             $item['modsExtensionReference'] = $modsExtensionReference;
           }
           
