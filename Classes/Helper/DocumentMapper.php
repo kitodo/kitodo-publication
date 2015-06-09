@@ -141,9 +141,7 @@ class DocumentMapper {
                     }                                                            
                 }
                 
-                $objectMapping = implode("/", $objectMappingPath);                
-                 
-                echo $objectMapping."<br>";
+                $objectMapping = implode("/", $objectMappingPath);                                                 
                 
                 if ($metadataObject->isModsExtension()) {
                     
