@@ -136,14 +136,13 @@ class DocumentMapper {
                 $objectMappingPath = explode("/",trim($metadataObject->getMapping()," /"));
                 
                 foreach ($objectMappingPath as $key => $value) {                    
-                    if (!strpos($value,"@")) {                       
+                    if (strpos($value,"@" === FALSE)) {                       
                         $objectMappingPath[$key] .= "[not(@*)]";                        
                     }                                                            
                 }
                 
                 $objectMapping = implode("/", $objectMappingPath);                
-                
-                
+                                                                
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
