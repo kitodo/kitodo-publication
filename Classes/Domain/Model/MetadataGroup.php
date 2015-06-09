@@ -66,6 +66,13 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var string
 	 */
 	protected $modsExtensionMapping = '';
+                
+        /**
+	 * modsExtensionReference
+	 *
+	 * @var string
+	 */
+	protected $modsExtensionReference = '';
         
 	/**
 	 * maxIteration
