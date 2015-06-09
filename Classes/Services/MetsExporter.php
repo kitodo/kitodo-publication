@@ -89,6 +89,11 @@ class MetsExporter
     protected $parser = null;
 
     /**
+     * ref id counter
+     */
+    protected $counter = 0;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -212,6 +217,7 @@ class MetsExporter
     public function buildModsFromForm($array)
     {
         // Build xml mods from form fields
+        // loop each group
         foreach ($array['metadata'] as $key => $group) {
             //groups
             $mapping = $group['mapping'];
@@ -224,20 +230,43 @@ class MetsExporter
             foreach ($attributes as $attribute) {
                 $attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
             }
+
+            // mods extension
+            if ($group['modsExtensionMapping']) { // modsExtensionReference // field 
+                $counter = sprintf("%'03d", $this->counter);
+                $attributeXPath .= '[@ID="QUCOSA_'.$counter.'"]';
+            }
+            
             $i = 0;
-
+            // loop each object
             foreach ($values as $value) {
-                $path = $mapping.$attributeXPath.'#/'.$value['mapping'];
-                // print_r($path);print_r("\n");
 
-                if ($i == 0) {
-                    $newGroupFlag = true;
+                if ($value['modsExtension']) {
+                    // mods extension
+                    $counter = sprintf("%'03d", $this->counter);
+                    $attributeXPath = '[@'.$group['modsExtensionReference'].'="QUCOSA_'.$counter.'"]';
+
+                    $path = $group['modsExtensionMapping'].$attributeXPath.'#/'.$value['mapping'];
+
+                    $xml = $this->customXPath($path, true, $value['value']);
                 } else {
-                    $newGroupFlag = false;
-                }
+                    $path = $mapping.$attributeXPath.'#/'.$value['mapping'];
+                    // print_r($path);print_r("\n");
 
-                $xml = $this->customXPath($path, $newGroupFlag, $value['value']);
-                $i++;
+                    if ($i == 0) {
+                        $newGroupFlag = true;
+                    } else {
+                        $newGroupFlag = false;
+                    }
+
+                    $xml = $this->customXPath($path, $newGroupFlag, $value['value']);
+                    $i++;
+
+                }
+                
+            }
+            if ($group['modsExtensionMapping']) {
+                $this->counter++;
             }
         }
         $this->files = $array['files'];
@@ -264,10 +293,9 @@ class MetsExporter
      */
     public function customXPath($xPath, $newGroupFlag = false, $value = '')
     {
+
         // Explode xPath
         $newPath = explode('#', $xPath);
-    // print_r($newPath);
-    // print_r("test");
 
         $praedicateFlag = false;
         $explodedXPath = explode('[', $newPath[0]);
