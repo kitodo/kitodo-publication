@@ -130,20 +130,31 @@ class DocumentMapper {
                 //$documentFormField->setValue($object);
           
                 // $item['inputField'] = $child->getInputField();
-                              
+                                
+                $objectMapping = "";
                 
+                $objectMappingPath = explode("/",trim($metadataObject->getMapping()," /"));
+                
+                foreach ($objectMappingPath as $key => $value) {                    
+                    if (strpos($value,"@" === FALSE)) {                       
+                        $objectMappingPath[$key] .= "[not(@*)]";                        
+                    }                                                            
+                }
+                
+                $objectMapping = implode("/", $objectMappingPath);                
+                                                                
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
                   $modsExtensionGroupMapping = trim($metadataGroup->getModsExtensionMapping()," ");
-                  $objectMapping = trim($metadataObject->getMapping()," ");
+                  //$objectMapping = trim($metadataObject->getMapping()," ");
                   
                   $refID = $data->getAttribute("ID");                                     
                   $objectData = $this->domXpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
                 } else {                                
-                  $objectMapping = $metadataObject->getMapping();
-                  $objectMapping = trim($objectMapping,'/');                                                     
+                  //$objectMapping = $metadataObject->getMapping();
+                  //$objectMapping = trim($objectMapping,'/');                                                     
                   $objectData = $this->domXpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
