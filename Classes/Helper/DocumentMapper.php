@@ -61,7 +61,7 @@ class DocumentMapper {
   
   
   public function getDocumentForm($document) { 
-               
+           
     $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();      
     $documentForm->setUid($document->getDocumentType()->getUid());    
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
@@ -86,11 +86,14 @@ class DocumentMapper {
       
     $this->domXpath = new \DOMXPath($dom);     
     */
+     $dom = new \DOMDocument();
+    $dom->loadXML($document->getXmlData());           
+    $this->domXpath = new \DOMXPath($dom);
     
-    $dom = new \DOMDocument();
-    $dom->loadXML($document->getXmlData());
-    $this->domXpath = new \DOMXPath($dom);             
-           
+    $this->domXpath->registerNamespace("foaf", "http://xmlns.com/foaf/0.1/");
+    $this->domXpath->registerNamespace("slub", "http://slub-dresden.de");
+                       
+   
     $documentData = array();    
         
     foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
@@ -98,7 +101,7 @@ class DocumentMapper {
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());
       $documentFormPage->setName($metadataPage->getName());                               
-                
+               
       foreach ($metadataPage->getMetadataGroup() as $metadataGroup ) {                             
           $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
           $documentFormGroup->setUid($metadataGroup->getUid());
@@ -109,8 +112,7 @@ class DocumentMapper {
                
           // Read the group data.                                     
           $groupData = $this->domXpath->query($metadataGroup->getMapping());                                     
-          
-                             
+                                        
           if ($groupData->length > 0) {
             foreach ($groupData as $key => $data) {              
               
@@ -128,11 +130,22 @@ class DocumentMapper {
                 //$documentFormField->setValue($object);
           
                 // $item['inputField'] = $child->getInputField();
-                                                         
-                $objectMapping = $metadataObject->getMapping();
-                $objectMapping = trim($objectMapping,'/');                                                     
-                $objectData = $this->domXpath->query($objectMapping,$data);              
-                                                               
+                              
+                
+                if ($metadataObject->isModsExtension()) {
+                    
+                  $referenceAttribute = $metadataGroup->getModsExtensionReference();  
+                  $modsExtensionGroupMapping = trim($metadataGroup->getModsExtensionMapping()," ");
+                  $objectMapping = trim($metadataObject->getMapping()," ");
+                  
+                  $refID = $data->getAttribute("ID");                                     
+                  $objectData = $this->domXpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
+                                                                                                                      
+                } else {                                
+                  $objectMapping = $metadataObject->getMapping();
+                  $objectMapping = trim($objectMapping,'/');                                                     
+                  $objectData = $this->domXpath->query($objectMapping,$data);              
+                }                                                                                                                                          
                 
                 if ($objectData->length > 0) { 
                                                        
