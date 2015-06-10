@@ -322,7 +322,7 @@ class MetsExporter
 
         $modsDataXPath = new \DOMXpath($this->modsData);
 
-        if (!$newGroupFlag && $modsDataXPath->query('/mods:mods'.$newPath[0])->length > 0) {
+        if (!$newGroupFlag && $modsDataXPath->query('/mods:mods/'.$newPath[0])->length > 0) {
             // first xpath path exist
 
             // build xml from second xpath part
@@ -332,7 +332,7 @@ class MetsExporter
             $docXML->loadXML($this->wrapMods($xml));
 
             $domXPath = new \DOMXpath($this->modsData);
-            $domNode = $domXPath->query('/mods:mods'.$path);
+            $domNode = $domXPath->query('/mods:mods/'.$path);
 
             $domNodeList = $docXML->getElementsByTagName("mods");
 
@@ -349,7 +349,7 @@ class MetsExporter
             $doc1->loadXML($this->wrapMods($xml1));
 
             $domXPath = new \DOMXpath($doc1);
-            $domNode = $domXPath->query('/mods:mods'.$path);
+            $domNode = $domXPath->query('/mods:mods/'.$path);
 
             // parse second xpath part
             $xml2 = $this->parseXPath($path.$newPath[1]);
@@ -358,7 +358,7 @@ class MetsExporter
             $doc2->loadXML($this->wrapMods($xml2));
 
             $domXPath2 = new \DOMXpath($doc2);
-            $domNode2 = $domXPath2->query('/mods:mods'.$path)->item(0)->childNodes->item(0);
+            $domNode2 = $domXPath2->query('/mods:mods/'.$path)->item(0)->childNodes->item(0);
 
             // $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
 

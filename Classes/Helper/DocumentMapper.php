@@ -130,7 +130,7 @@ class DocumentMapper {
                                                               
                 $objectMapping = "";                
                 
-                $objectMappingPath = explode("/", $metadataObject->getAbsoluteMapping());                               
+                $objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
                 
                 foreach ($objectMappingPath as $key => $value) {                                        
                     // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
