@@ -194,6 +194,29 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->mapping = $mapping;
 	}
         
+        
+        /**
+	 * Returns the relative mapping
+	 *
+	 * @return string $relativeMapping
+	 */
+        public function getRelativeMapping() {
+            $modsRegExp = "/^.*?mods:mods/i";        
+            $mapping =  preg_replace($modsRegExp,"",$this->mapping);
+            return trim($mapping," /");          
+        }
+        
+        
+        /**
+	 * Returns the absolute mapping
+	 *
+	 * @return string $absoluteMapping
+	 */
+        public function getAbsoluteMapping() {            
+            return "/mods:mods/".$this->getRelativeMapping();      
+        }
+        
+        
         /**
 	 * Returns the modsExtensionMapping
 	 *
@@ -211,7 +234,30 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setModsExtensionMapping($modsExtensionMapping) {
 		$this->modsExtensionMapping = $modsExtensionMapping;
-	} 
+	}
+        
+        
+        /**
+	 * Returns the relative mods extension mapping
+	 *
+	 * @return string $relativeModsExtensionMapping
+	 */
+        public function getRelativeModsExtensionMapping() {
+            $modsRegExp = "/^.*?mods:mods/i";        
+            $mapping =  preg_replace($modsRegExp,"",$this->modsExtensionMapping);
+            return trim($mapping," /");          
+        }
+        
+        
+        /**
+	 * Returns the absolute mods extension mapping
+	 *
+	 * @return string $absoluteModsExtensionMapping
+	 */
+        public function getAbsoluteModsExtensionMapping() {            
+            return "/mods:mods/".$this->getRelativeModsExtensionMapping();      
+        }
+        
                
         /**
 	 * Sets the modsExtensionReference

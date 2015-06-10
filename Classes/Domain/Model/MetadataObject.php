@@ -207,8 +207,8 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $mapping
 	 */
-	public function getMapping() {
-		return $this->mapping;
+	public function getMapping() {                                                
+               return $this->mapping;
 	}
 
 	/**
@@ -220,7 +220,19 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setMapping($mapping) {
 		$this->mapping = $mapping;
 	}
+        
+        /**
+	 * Returns the relative mapping
+	 *
+	 * @return string $relativeMapping
+	 */
+        public function getRelativeMapping() {
+            $modsRegExp = "/^.*?mods:mods/i";        
+            $mapping =  preg_replace($modsRegExp,"",$this->mapping);
+            return trim($mapping," /");          
+        }
 
+                        
 	/**
 	 * Returns the inputField
 	 *

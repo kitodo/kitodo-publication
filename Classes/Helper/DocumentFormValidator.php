@@ -155,7 +155,7 @@ class DocumentFormValidator {
     $fields = $group->getMetadataObject();
         
     foreach ($fields as $field) {            
-      $mapping = trim($field->getMapping()," /");                 
+      $mapping = $field->getRelativeMapping();                 
       if (strpos($mapping, "@") === 0) {        
         $attributeFields[] = $field->getUid();                
       }                          

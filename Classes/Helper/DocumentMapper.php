@@ -111,7 +111,7 @@ class DocumentMapper {
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
                
           // Read the group data.                                     
-          $groupData = $this->domXpath->query($metadataGroup->getMapping());                                     
+          $groupData = $this->domXpath->query($metadataGroup->getAbsoluteMapping());                                     
                                         
           if ($groupData->length > 0) {
             foreach ($groupData as $key => $data) {              
@@ -126,14 +126,11 @@ class DocumentMapper {
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
-                $documentFormField->setInputField($metadataObject->getInputField());   
-                //$documentFormField->setValue($object);
-          
-                // $item['inputField'] = $child->getInputField();
+                $documentFormField->setInputField($metadataObject->getInputField());               
                                                               
                 $objectMapping = "";                
                 
-                $objectMappingPath = explode("/",trim($metadataObject->getMapping()," /"));                               
+                $objectMappingPath = explode("/", $metadataObject->getAbsoluteMapping());                               
                 
                 foreach ($objectMappingPath as $key => $value) {                                        
                     // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
@@ -149,15 +146,12 @@ class DocumentMapper {
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
-                  $modsExtensionGroupMapping = trim($metadataGroup->getModsExtensionMapping()," ");
-                  //$objectMapping = trim($metadataObject->getMapping()," ");
+                  $modsExtensionGroupMapping = $metadataGroup->getAbsoluteModsExtensionMapping();                  
                   
                   $refID = $data->getAttribute("ID");                                     
                   $objectData = $this->domXpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
                 } else {                                
-                  //$objectMapping = $metadataObject->getMapping();
-                  //$objectMapping = trim($objectMapping,'/');                                                     
                   $objectData = $this->domXpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
@@ -171,9 +165,7 @@ class DocumentMapper {
                     $documentFormFieldItem->setValue($objectValue);
                     
                     $documentFormField->setValue($objectValue);
-                    
-                 //     var_dump($documentFormFieldItem); echo "<br>";
-                    
+                                    
                     $documentFormGroupItem->addItem($documentFormFieldItem);
                   }
                 } else {
@@ -201,28 +193,7 @@ class DocumentMapper {
             $documentFormPage->addItem($documentFormGroup);                       
           }
       }   
-      /*  
-        foreach ($groupItem as $group ) {   
-                
-            
-          
-        foreach ($group as $objectUid => $objectItem ) {     
-          foreach ($objectItem as $objectItem => $object ) {  
-            $metadataObject = $this->metadataObjectRepository->findByUid($objectUid);                               
-            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
-            $documentFormField->setUid($metadataObject->getUid());
-            $documentFormField->setDisplayName($metadataObject->getDisplayName());
-            $documentFormField->setName($metadataObject->getName());
-            $documentFormField->setValue($object);
-            
-            $documentFormGroup->addItem($documentFormField);                                 
-          }
-        }
-       
-          $documentFormPage->addItem($documentFormGroup);                
-        }  
-      } */
-      
+           
       $documentForm->addItem($documentFormPage);            
     }
     
@@ -242,9 +213,7 @@ class DocumentMapper {
  
   
   public function getDocument($documentForm) {
-                        
-    //$xml = $this->getMetadata($documentForm);          
-
+                               
     if ($documentForm->getDocumentUid()) {
       $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());  
     } else {
@@ -286,34 +255,26 @@ class DocumentMapper {
 
           $uid = $groupItem->getUid();
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);
-          $groupMapping =  "/" .  trim($metadataGroup->getMapping(), " /");
-
-          if ($metadataGroup->getModsExtensionMapping()) {
-            $modsExtensionMapping =  "/" .  trim($metadataGroup->getModsExtensionMapping(), " /");
-            $item['modsExtensionMapping'] = $modsExtensionMapping;
-          }
-          
-
-          if ($metadataGroup->getModsExtensionReference()) {
-            $modsExtensionReference =  trim($metadataGroup->getModsExtensionReference(), " /");
-            $item['modsExtensionReference'] = $modsExtensionReference;
-          }
-          
-          $item['mapping'] = $groupMapping;
+                                       
+          $item['mapping'] = $metadataGroup->getRelativeMapping();        
+                       
+          $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();                                                           
+       
+          $item['modsExtensionReference'] = trim($metadataGroup->getModsExtensionReference()," /");                    
+         
           $item['groupUid'] = $uid;
 
           foreach ($groupItem->getItems() as $field) {
             foreach ($field as $fieldItem) {
               $fieldUid = $fieldItem->getUid();
               $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
-              $fieldMapping = trim($metadataObject->getMapping(), " /");
-              $fieldModsExtension = trim($metadataObject->getModsExtension(), " /");
+              $fieldMapping = $metadataObject->getRelativeMapping();              
               
               $formField = array();
 
               $value = $fieldItem->getValue();
               if ($value) {                 
-                $formField['modsExtension'] = $fieldModsExtension;
+                $formField['modsExtension'] = $metadataObject->getModsExtension();
                   
                 $formField['mapping'] = $fieldMapping;
                 $formField['value'] = $value;
@@ -338,18 +299,7 @@ class DocumentMapper {
     }
         
     return $form;
-    
-    /*
-    $data['documentUid'] = $documentForm->getDocumentUid();
-    
-    $data['metadata'] = $form;
-
-    $data['files'] = array();
-       
-    $exporter = new \EWW\Dpf\Services\MetsExporter();                
-    $exporter->buildModsFromForm($data);
-    return $exporter->getMetsData();         
-    */
+        
   }
        
 }
