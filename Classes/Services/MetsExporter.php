@@ -223,7 +223,7 @@ class MetsExporter
         foreach ($array['metadata'] as $key => $group) {
             //groups
             $mapping = $group['mapping'];
-            $mapping = substr($mapping, 10);
+            // $mapping = substr($mapping, 10);
 
             $values = $group['values'];
             $attributes = $group['attributes'];
