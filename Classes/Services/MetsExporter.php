@@ -250,7 +250,7 @@ class MetsExporter
 
                     $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
 
-                    $xml = $this->customXPath($path, true, $value['value']);
+                    $xml = $this->customXPath($path, false, $value['value']);
                 } else {
                     $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
                     // print_r($path);print_r("\n");
