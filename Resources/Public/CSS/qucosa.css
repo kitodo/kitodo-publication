@@ -121,6 +121,11 @@ ul.tx-dpf-tabs a.current {
     line-height: 20px;
 }
 
+.tx-dpf fieldset .label-checkbox {
+    float: left;
+    margin-right: 10px;
+}
+
 .tx-dpf input {
     float: none;
     display: block;
@@ -150,6 +155,13 @@ ul.tx-dpf-tabs a.current {
     float: left;
     width: auto;
     margin: 2px 4px 0 0;
+    padding: 2px;
+}
+
+.tx-dpf input[type=checkbox] {
+    float: left;
+    width: auto;
+    margin: 16px 4px 0 0;
     padding: 2px;
 }
 
