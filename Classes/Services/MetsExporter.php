@@ -200,9 +200,11 @@ class MetsExporter
     public function wrapMods($xml)
     {
         $newXML = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
-    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
-    version="3.5">';
+            xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/" 
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" 
+            xmlns:foaf="http://xmlns.com/foaf/0.1/"
+            xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
+            version="3.5">';
 
         $newXML .= $xml;
         $newXML .= '</mods:mods>';
@@ -232,7 +234,7 @@ class MetsExporter
             }
 
             // mods extension
-            if ($group['modsExtensionMapping']) { // modsExtensionReference // field 
+            if ($group['modsExtensionMapping']) {
                 $counter = sprintf("%'03d", $this->counter);
                 $attributeXPath .= '[@ID="QUCOSA_'.$counter.'"]';
             }
@@ -244,13 +246,13 @@ class MetsExporter
                 if ($value['modsExtension']) {
                     // mods extension
                     $counter = sprintf("%'03d", $this->counter);
-                    $attributeXPath = '[@'.$group['modsExtensionReference'].'="QUCOSA_'.$counter.'"]';
+                    $attributeXPath = '[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
 
-                    $path = $group['modsExtensionMapping'].$attributeXPath.'#/'.$value['mapping'];
+                    $path = $group['modsExtensionMapping'].$attributeXPath.'%/'.$value['mapping'];
 
                     $xml = $this->customXPath($path, true, $value['value']);
                 } else {
-                    $path = $mapping.$attributeXPath.'#/'.$value['mapping'];
+                    $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
                     // print_r($path);print_r("\n");
 
                     if ($i == 0) {
@@ -295,7 +297,7 @@ class MetsExporter
     {
 
         // Explode xPath
-        $newPath = explode('#', $xPath);
+        $newPath = explode('%', $xPath);
 
         $praedicateFlag = false;
         $explodedXPath = explode('[', $newPath[0]);
