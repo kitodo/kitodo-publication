@@ -130,18 +130,21 @@ class DocumentMapper {
                 //$documentFormField->setValue($object);
           
                 // $item['inputField'] = $child->getInputField();
-                                
-                $objectMapping = "";
+                                                              
+                $objectMapping = "";                
                 
-                $objectMappingPath = explode("/",trim($metadataObject->getMapping()," /"));
+                $objectMappingPath = explode("/",trim($metadataObject->getMapping()," /"));                               
                 
                 foreach ($objectMappingPath as $key => $value) {                                        
+                    // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
+                    // are not recognized as the same node                 
                     if ((strpos($value,"@") === FALSE) && ($value != '.')) {                                                 
                         $objectMappingPath[$key] .= "[not(@*)]";                        
                     }                                                            
-                }
+                }      
                 
                 $objectMapping = implode("/", $objectMappingPath);                                                 
+                
                 
                 if ($metadataObject->isModsExtension()) {
                     
