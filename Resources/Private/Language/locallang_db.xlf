@@ -92,12 +92,21 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.textarea">
 				<source>textarea</source>
-			</trans-unit>
+			</trans-unit>                        
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
 				<source>language</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.license">
 				<source>license</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.checkbox">
+				<source>checkbox</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
+				<source>select</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.select_options">
+				<source>Select options</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>

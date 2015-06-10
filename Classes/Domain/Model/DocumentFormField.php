@@ -7,6 +7,7 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $inputField;
   
+  protected $selectOptions;
   
   public function getValue() {                   
     return $this->value;    
@@ -25,6 +26,14 @@ class DocumentFormField extends AbstractFormElement {
   
   public function setInputField($inputField) {
     $this->inputField = $inputField;    
+  }
+  
+  public function getSelectOptions() {
+      return $this->selectOptions;     
+  }
+  
+  public function setSelectOptions($selectOptions) {
+     $this->selectOptions = $selectOptions;     
   }
       
 }

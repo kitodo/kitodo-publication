@@ -23,6 +23,9 @@
 			</trans-unit>
 			<trans-unit id="input_field.description">
 				<source>inputField</source>
+			</trans-unit>  
+                        <trans-unit id="select_options.description">
+				<source>selectOptions</source>
 			</trans-unit>                        
 		</body>
 	</file>

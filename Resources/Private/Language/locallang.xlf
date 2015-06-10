@@ -86,6 +86,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 				<source>Input Field</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.select_options">
+				<source>Select Options</source>
 			</trans-unit>			
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>

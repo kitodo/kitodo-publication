@@ -151,6 +151,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	mapping varchar(255) DEFAULT '' NOT NULL,
         mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	input_field int(11) DEFAULT '0' NOT NULL,
+        select_options varchar(1024) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
