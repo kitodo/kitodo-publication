@@ -1,3 +1,8 @@
+.clear {
+    clear:both;
+    display: inline;
+}
+
 .tx-dpf {
   font-family: Verdana,Arial,Helvetica,sans-serif;  
   margin: 0 0 0 0;
@@ -104,8 +109,7 @@ ul.tx-dpf-tabs a.current {
 }
 
 .tx-dpf fieldset label {
-    display: inline-block;
-    float: none;
+    display: inline-block;   
     width: auto;
     margin: 10px 0 0 0;
 }
@@ -125,7 +129,7 @@ ul.tx-dpf-tabs a.current {
     float: left;
     margin-right: 10px;
 }
-
+ 
 .tx-dpf input {
     float: none;
     display: block;
@@ -159,7 +163,6 @@ ul.tx-dpf-tabs a.current {
 }
 
 .tx-dpf input[type=checkbox] {
-    float: left;
     width: auto;
     margin: 16px 4px 0 0;
     padding: 2px;
