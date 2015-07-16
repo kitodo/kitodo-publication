@@ -120,19 +120,45 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $countFields++;
         }
 
-        if ($countFields > 1) {
+        if ($countFields >= 1) {
             // multi field search
             $i = 1;
             foreach ($fieldQuery as $key => $qry) {
-                $query['body']['query']['bool']['must'][$i]['match'][$key] = $qry;
+                $query['body']['query']['bool']['must'] = array('match' => array($key => $qry));
                 $i++;
             }
-
+            
             // owner id
-            $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
+            // $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
         }
 
         return $query;
+    }
+
+    public function searchFulltext()
+    {
+        // perform fulltext search
+        $args = $this->request->getArguments();
+
+        $client = $this->clientRepository->findAll()->current();
+
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = 'sword'; // qucosa
+
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query']; // Bla
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query']; // Bla
+
+        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
+
+        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        // $query['body']['query']['fields'][0] = "PID";
+        // $query['body']['query']['fields'][1] = "_dissemination._content.PUB_TITLE";
+        // $query['body']['query']['fields'][2] = "_dissemination._content.PUB_AUTHOR";
+        // $query['body']['query']['fields'][3] = "_dissemination._content.PUB_DATE";
+        // $query['body']['query']['fields'][4] = "_dissemination._content.PUB_TYPE";
+
+        return $query;
+
     }
 
     /**
@@ -196,8 +222,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // extended search
             $query = $this->extendedSearch();
         } else {
+            // $query = $this->searchFulltext();
             $query = $this->search();
         }
+
+        // $query = $this->searchFulltext();
 
         // save search query
         if ($query) {
