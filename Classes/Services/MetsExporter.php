@@ -109,7 +109,7 @@ class MetsExporter
         $this->modsHeader = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     						xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
     						xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
-    						version="3.5">';
+    						version="3.6">';
 
         $this->modsHeader .= '</mods:mods>';
 
@@ -204,7 +204,7 @@ class MetsExporter
             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" 
             xmlns:foaf="http://xmlns.com/foaf/0.1/"
             xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
-            version="3.5">';
+            version="3.6">';
 
         $newXML .= $xml;
         $newXML .= '</mods:mods>';
