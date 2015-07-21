@@ -133,10 +133,8 @@ class FormDataReader {
     } 
         
     $basePath .= trim($_SERVER['SERVER_NAME'],"/").$port."/".$uploadPath;
-    
-    if (TYPO3_MODE == 'BE') {
-      $uploadPath = "../".$uploadPath;
-    }
+        
+    $fullUploadPath = PATH_site . $uploadPath;
     
     
     $newFiles = array();
@@ -157,7 +155,7 @@ class FormDataReader {
                   
       $fileName = uniqid(time(),true);    
                           
-      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$uploadPath.$fileName) ) {            
+      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fullUploadPath.$fileName) ) {            
         $file->setContentType($tmpFile['type']);  
         $file->setTitle($tmpFile['name']);
         $file->setLink($basePath.$fileName);
@@ -186,7 +184,7 @@ class FormDataReader {
            
         $fileName = uniqid(time(),true);
                //  die($fileName);                      
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$uploadPath.$fileName) ) {                    
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fullUploadPath.$fileName) ) {                    
            $file->setContentType($tmpFile['type']);  
            $file->setTitle($tmpFile['name']);
            $file->setLink($basePath.$fileName);
