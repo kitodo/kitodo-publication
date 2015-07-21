@@ -84,6 +84,43 @@ class FormDataReader {
   protected $documentType;
   
   
+  
+  
+  /**
+   * uploadPath
+   * 
+   * @var
+   */
+  protected $uploadPath; 
+  
+  
+  /**
+   * basePath
+   * 
+   * @var
+   */
+  protected $basePath;
+          
+  
+  public function __construct() {
+
+    $uploadDir = "uploads/tx_dpf/";
+    
+    $this->basePath = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+    
+    $port = '';
+    
+    if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
+        $port = ':'.$_SERVER['SERVER_PORT'];
+    } 
+        
+    $this->basePath .= trim($_SERVER['SERVER_NAME'],"/").$port."/".$uploadDir;
+        
+    $this->uploadPath = PATH_site . $uploadDir;
+        
+  }
+   
+  
   /**
    * 
    * @param array $formData
@@ -121,80 +158,27 @@ class FormDataReader {
   
   
   protected function getNewAndUpdatedFiles() {
-    
-    $uploadPath = "uploads/tx_dpf/";
-    
-    $basePath = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-    
-    $port = '';
-    
-    if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
-        $port = ':'.$_SERVER['SERVER_PORT'];
-    } 
-        
-    $basePath .= trim($_SERVER['SERVER_NAME'],"/").$port."/".$uploadPath;
-        
-    $fullUploadPath = PATH_site . $uploadPath;
-    
-    
+                            
     $newFiles = array();
     
     // Primary file                 
     if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
-      
+                 
       // Use the existing file entry
-      $document = $this->documentRepository->findByUid($this->formData['documentUid']);
+      $file = NULL;
+      $document = $this->documentRepository->findByUid($this->formData['documentUid']);            
       if ($document) {
         $file = $this->fileRepository->getPrimaryFileByDocument($document);
       }  
-      if (empty($file)) {              
-        $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');              
-      }
-                  
-      $tmpFile = $this->formData['primaryFile'];
-                  
-      $fileName = uniqid(time(),true);    
-                          
-      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fullUploadPath.$fileName) ) {            
-        $file->setContentType($tmpFile['type']);  
-        $file->setTitle($tmpFile['name']);
-        $file->setLink($basePath.$fileName);
-        $file->setPrimaryFile(TRUE);
-                  
-        if ($file->getDatastreamIdentifier()) {
-          $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_CHANGED);
-        } else {
-          $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
-        }  
-      
-        $newFiles[] = $file;
-      } else {       
-        die("File didn't upload: ".$tmpFile['name']);
-      } 
-            
+                         
+      $newFiles[] = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file);                             
     }
      
            
     // Secondary files
-    foreach ($this->formData['secondaryFiles'] as $tmpFile ) {
-      
-      if ($tmpFile['error'] != 4) {
-      
-        $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
-           
-        $fileName = uniqid(time(),true);
-               //  die($fileName);                      
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$fullUploadPath.$fileName) ) {                    
-           $file->setContentType($tmpFile['type']);  
-           $file->setTitle($tmpFile['name']);
-           $file->setLink($basePath.$fileName);
-           $file->setPrimaryFile(FALSE);
-           $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
-
-           $newFiles[] = $file;
-        } else {
-          die("File didn't upload: ".$tmpFile['name']);
-        }                                                                      
+    foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
+      if ($tmpFile['error'] != 4) {          
+        $newFiles[] = $this->getUploadedFile($tmpFile);                                                                                 
       }
     }
     
@@ -202,6 +186,36 @@ class FormDataReader {
     
   }
   
+  
+  protected function getUploadedFile($tmpFile , $primary = FALSE, \EWW\Dpf\Domain\Model\File $file = NULL) {
+    
+      if (empty($file)) {              
+        $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');              
+      }
+                  
+      $fileName = uniqid(time(),true);
+                  
+      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName) ) {                    
+        $file->setContentType($tmpFile['type']);  
+        $file->setTitle($tmpFile['name']);
+        $file->setLink($this->basePath.$fileName);
+        $file->setPrimaryFile($primary);
+                    
+        if ($rimary) {                          
+            if ($file->getDatastreamIdentifier()) {
+                $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_CHANGED);
+            } else {
+                $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
+            }  
+        } else {
+            $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);           
+        }
+
+        return $file;
+    } else {
+        die("File didn't upload: ".$tmpFile['name']);
+    }                   
+}        
   
   
   public function getDocumentForm() { 
