@@ -202,10 +202,9 @@ class MetsExporter
     public function wrapMods($xml)
     {
         $newXML = $this->modsHeader;
-
-        $newXML .= $xml;
-        $newXML .= '</mods:mods>';
-
+        
+        $newXML = str_replace("</mods:mods>",$xml."</mods:mods>",$newXML);
+        
         return $newXML;
     }
                                   
