@@ -23,7 +23,7 @@ if (TYPO3_MODE === 'BE') {
   
   
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'Eww.' . $_EXTKEY,
+        'EWW.' . $_EXTKEY,
         'qucosaMain',
         '',
         '',
@@ -35,7 +35,7 @@ if (TYPO3_MODE === 'BE') {
   );
   
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-          'Eww.' . $_EXTKEY,
+          'EWW.' . $_EXTKEY,
           'qucosaMain',   
           'qucosamanager',
           '',		

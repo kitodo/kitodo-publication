@@ -12,7 +12,7 @@ class DocumentForm extends AbstractFormElement {
    
   /**
    *
-   * @var \Eww\Dpf\Domain\Model\File
+   * @var \EWW\Dpf\Domain\Model\File
    */
   protected $primaryFile;
   
@@ -63,7 +63,7 @@ class DocumentForm extends AbstractFormElement {
   
   /**
    * 
-   * @param type \Eww\Dpf\Domain\Model\File $primaryFile
+   * @param type \EWW\Dpf\Domain\Model\File $primaryFile
    */
   public function setPrimaryFile($primaryFile) {
     $this->primaryFile = $primaryFile;
@@ -72,7 +72,7 @@ class DocumentForm extends AbstractFormElement {
   
   /**
    * 
-   * @return \Eww\Dpf\Domain\Model\File
+   * @return \EWW\Dpf\Domain\Model\File
    */
   public function getPrimaryFile() {
     return $this->primaryFile;    

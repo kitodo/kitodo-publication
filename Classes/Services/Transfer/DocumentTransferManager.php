@@ -260,7 +260,7 @@ class DocumentTransferManager {
       
       $dataStreamIdentifier = $file->getDatastreamIdentifier();
          
-      if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {                                
+      if ($file->getStatus() != \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {                                
          $files[$file->getUid()] = array(
            'path' => $file->getLink(),
            'type' => $file->getContentType(),

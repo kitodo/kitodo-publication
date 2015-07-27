@@ -26,7 +26,7 @@ class DocumentFormBEController extends AbstractDocumentFormController {
        }      
 
        $document = $this->documentRepository->findByUid($documentData['documentUid']);
-       $document->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
+       $document->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
        $document = $this->documentRepository->update($document);
 
        $this->redirectToList();

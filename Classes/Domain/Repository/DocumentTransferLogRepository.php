@@ -1,5 +1,5 @@
 <?php
-namespace Eww\Dpf\Domain\Repository;
+namespace EWW\Dpf\Domain\Repository;
 
 
 /***************************************************************

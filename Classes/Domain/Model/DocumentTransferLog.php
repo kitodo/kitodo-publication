@@ -1,5 +1,5 @@
 <?php
-namespace Eww\Dpf\Domain\Model;
+namespace EWW\Dpf\Domain\Model;
 
 
 /***************************************************************

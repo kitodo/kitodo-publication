@@ -1,5 +1,5 @@
 <?php
-namespace Eww\Dpf\Domain\Model;
+namespace EWW\Dpf\Domain\Model;
 
 
 /***************************************************************
@@ -80,7 +80,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * document
 	 *
-	 * @var \Eww\Dpf\Domain\Model\Document
+	 * @var \EWW\Dpf\Domain\Model\Document
 	 */
 	protected $document = NULL;
         
@@ -172,7 +172,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the document
 	 *
-	 * @return \Eww\Dpf\Domain\Model\Document $document
+	 * @return \EWW\Dpf\Domain\Model\Document $document
 	 */
 	public function getDocument() {
 		return $this->document;
@@ -181,10 +181,10 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the document
 	 *
-	 * @param \Eww\Dpf\Domain\Model\Document $document
+	 * @param \EWW\Dpf\Domain\Model\Document $document
 	 * @return void
 	 */
-	public function setDocument(\Eww\Dpf\Domain\Model\Document $document) {
+	public function setDocument(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->document = $document;
 	}
         

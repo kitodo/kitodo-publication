@@ -11,7 +11,7 @@ class FileId {
     $idList = array();
     foreach ( $document->getFile() as $file ) {   
       $dsId = $file->getDatastreamIdentifier();                  
-      if (!empty($dsId) && $dsId != \Eww\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
+      if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
         $id = split("-", $dsId);        
         $idList[] = $id[1];                      
       }                       
@@ -26,10 +26,10 @@ class FileId {
       $fileId = $file->getDatastreamIdentifier();
       if (empty($fileId)) {
         if ($file->isPrimaryFile()) {
-          return \Eww\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER;  
+          return \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER;  
         } else { 
           $this->id = $this->id + 1; 
-          return \Eww\Dpf\Domain\Model\File::DATASTREAM_IDENTIFIER_PREFIX. $this->id;
+          return \EWW\Dpf\Domain\Model\File::DATASTREAM_IDENTIFIER_PREFIX. $this->id;
         }                        
       } else {
         return $fileId;

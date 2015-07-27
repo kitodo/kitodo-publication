@@ -10,7 +10,14 @@ plugin.tx_dpf {
 	}
 	persistence {
 		# cat=plugin.tx_dpf//a; type=string; label=Default storage PID
+                recursive = 0
 		storagePid =
+                documentStoragePid = 
+                fileStoragePid =
+                documentTypeStoragePid =
+                metadataObjectStoragePid =
+                metadataGroupStoragePid =
+                metadataPageStoragePid =
 	}
 }
 
@@ -26,5 +33,13 @@ module.tx_dpf {
 	persistence {
 		# cat=module.tx_dpf//a; type=string; label=Default storage PID
 		storagePid =
+                recursive = 0
+		storagePid =
+                documentStoragePid = 
+                fileStoragePid =
+                documentTypeStoragePid =
+                metadataObjectStoragePid =
+                metadataGroupStoragePid =
+                metadataPageStoragePid =
 	}
 }

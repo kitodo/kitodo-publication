@@ -182,7 +182,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
           $newDocument = $documentMapper->getDocument($newDocumentForm);      
-          //$newDocument->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
+          //$newDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
           $this->documentRepository->add($newDocument);
           $this->persistenceManager->persistAll();
 
@@ -192,7 +192,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
  /*         
           // Delete files 
           foreach ( $newDocumentForm->getDeletedFiles() as $deleteFile ) {              
-            $deleteFile->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_DELETED);
+            $deleteFile->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_DELETED);
             $this->fileRepository->update($deleteFile);
           }
   */
@@ -275,9 +275,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $objectIdentifier = $updateDocument->getObjectIdentifier();
           
           if (empty($objectIdentifier)) {
-            $updateDocument->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);    
+            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);    
           } else { 
-            $updateDocument->setRemoteAction(\Eww\Dpf\Domain\Model\Document::REMOTE_ACTION_UPDATE);             
+            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_UPDATE);             
           }
           
           $this->documentRepository->update($updateDocument);        
@@ -285,7 +285,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           
           // Delete files 
           foreach ( $documentForm->getDeletedFiles() as $deleteFile ) {          
-            $deleteFile->setStatus(\Eww\Dpf\Domain\Model\File::STATUS_DELETED);
+            $deleteFile->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_DELETED);
             $this->fileRepository->update($deleteFile);
           }
                     

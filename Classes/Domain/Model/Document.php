@@ -119,7 +119,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         /**
 	 * file
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\File>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
 	 * @cascade remove
 	 */
 	protected $file = NULL;
@@ -398,27 +398,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         /**
 	 * Adds a File
 	 *
-	 * @param \Eww\Dpf\Domain\Model\File $file
+	 * @param \EWW\Dpf\Domain\Model\File $file
 	 * @return void
 	 */
-	public function addFile(\Eww\Dpf\Domain\Model\File $file) {                              
+	public function addFile(\EWW\Dpf\Domain\Model\File $file) {                              
 		$this->file->attach($file);
 	}
          
 	/**
 	 * Removes a File
 	 *
-	 * @param \Eww\Dpf\Domain\Model\File $fileToRemove The File to be removed
+	 * @param \EWW\Dpf\Domain\Model\File $fileToRemove The File to be removed
 	 * @return void
 	 */
-	public function removeFile(\Eww\Dpf\Domain\Model\File $fileToRemove) {
+	public function removeFile(\EWW\Dpf\Domain\Model\File $fileToRemove) {
 		$this->file->detach($fileToRemove);
 	}
 
 	/**
 	 * Returns the file
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\File> $file
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File> $file
 	 */
 	public function getFile() {
 		return $this->file;
@@ -427,7 +427,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the file
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\File> $file
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File> $file
 	 * @return void
 	 */
 	public function setFile(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $file) {

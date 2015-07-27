@@ -203,12 +203,12 @@ class FormDataReader {
                     
         if ($rimary) {                          
             if ($file->getDatastreamIdentifier()) {
-                $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_CHANGED);
+                $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
             } else {
-                $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);
+                $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);
             }  
         } else {
-            $file->setStatus( \Eww\Dpf\Domain\Model\File::STATUS_ADDED);           
+            $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);           
         }
 
         return $file;
