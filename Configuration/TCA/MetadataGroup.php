@@ -178,6 +178,10 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 				'foreign_field' => 'metadatagroup',
                                 'foreign_label' => 'display_name', 
                                 'foreign_sortby' => 'sorting',
+                                'behaviour' => array(
+                                    'disableMovingChildrenWithParent' => 1,
+                                    //'disableCopyingChildrenWithParent' => 1
+                                ),
                                 'size' => 10,
 				'autoSizeMax' => 30,
 				'maxitems' => 9999,

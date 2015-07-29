@@ -136,7 +136,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
-                                'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0)',                                
+                                'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.pid=###PAGE_TSCONFIG_ID###) AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0)',                                
 				'MM' => 'tx_dpf_metadatapage_metadatagroup_mm',
 				'size' => 10,
 				'autoSizeMax' => 30,
@@ -159,7 +159,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 						'icon' => 'add.gif',
 						'params' => array(
 							'table' => 'tx_dpf_domain_model_metadatagroup',
-							'pid' => '###CURRENT_PID###',
+							'pid' => '###PAGE_TSCONFIG_ID###',
 							'setValue' => 'prepend'
 							),
 						'script' => 'wizard_add.php',

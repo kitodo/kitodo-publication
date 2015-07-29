@@ -133,6 +133,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_dpf_domain_model_documenttype',
+                                'foreign_table_where' => '  AND tx_dpf_domain_model_documenttype.pid=###PAGE_TSCONFIG_ID### AND tx_dpf_domain_model_documenttype.sys_language_uid = 0',                                			
 				'minitems' => 0,
 				'maxitems' => 1,
 			),
@@ -205,6 +206,10 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dpf_domain_model_file',
 				'foreign_field' => 'document',
+                                'behaviour' => array(
+                                    'disableMovingChildrenWithParent' => 1,
+                                    //'disableCopyingChildrenWithParent' => 1
+                                ),
 				'maxitems'      => 9999,
 				'appearance' => array(
 					'collapseAll' => 0,
