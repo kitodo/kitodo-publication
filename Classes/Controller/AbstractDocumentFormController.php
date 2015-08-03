@@ -123,12 +123,13 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         public function initializeNewAction() {
            
           $requestArguments = $this->request->getArguments();   
-          
+                              
           if (array_key_exists('documentData', $requestArguments)) {            
-            $documentData = $this->request->getArgument('documentData');  
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            $formDataReader->setFormData($documentData);
-            $docForm = $formDataReader->getDocumentForm();
+            //$documentData = $this->request->getArgument('documentData');  
+            //$formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+            //$formDataReader->setFormData($documentData);
+            //$docForm = $formDataReader->getDocumentForm(); 
+            die('Error: initializeNewAction');
           } elseif (array_key_exists('documentType', $requestArguments)) {                    
             $docTypeUid = $this->request->getArgument('documentType');          
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);                
@@ -207,8 +208,18 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                                                     
           $requestArguments = $this->request->getArguments();                                                                         
                     
-          if (array_key_exists('savecontinue', $requestArguments)) {            
-            $this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));                        
+          if (array_key_exists('savecontinue', $requestArguments)) {
+            
+            $tmpDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+                
+            $tmpDocument->setTitle($newDocument->getTitle()); 
+            $tmpDocument->setAuthors($newDocument->getAuthors());
+            $tmpDocument->setxmlData($newDocument->getXmlData());
+            $tmpDocument->setDocumentType($newDocument->getDocumentType());
+            $tmpDocument->removeDateIssued();  
+                                      
+            $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
+            //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
           }                             
           
           $this->redirectToList();

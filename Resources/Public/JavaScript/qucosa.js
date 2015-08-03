@@ -30,7 +30,19 @@ $(document).ready(function() {
     
     
     
-    jQuery(".form-submit").on("click","#save",function() {
+    // jQuery(".form-submit").on("click","#save",
+    
+    
+    jQuery(".form-submit").on("click","#save", validateForm);
+    jQuery(".form-submit").on("click","#savecontinue", validateForm);
+                    
+});
+
+
+
+
+
+var validateForm = function() {
         
         var error = false; 
                                                             
@@ -40,20 +52,25 @@ $(document).ready(function() {
         jQuery('fieldset[data-mandatory=1]').each(function(){
                                               
            var fieldset = jQuery(this);
-                                                                   
+                                               
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
-                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                                                                 
+                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                  
                 showFormError(); 
                 error = true;
             }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
               jQuery('<span class="mandatory-error">'+form_error_msg_group_one_required+'</span>').insertAfter(fieldset.find('legend').last());              
-              showFormError();   
+              showFormError();                  
               error = true;
              } 
-           }                                                                              
+           }  
+           
+           if (error) {
+               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
+           }
+           
         });
         
         
@@ -67,6 +84,9 @@ $(document).ready(function() {
               error = true;
             }
             
+            if (error) {
+               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
+            }
            
          });
         
@@ -92,16 +112,16 @@ $(document).ready(function() {
                 showFormError();    
                 error = true;
               }
-            }                               
+            }
+            
+            if (error) {
+               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
+            }
+           
         });
         
         return !error;
-    });
-    
-    
-    
-});
-
+    }
 
 
 var showFormError = function() {          
@@ -150,7 +170,7 @@ var checkMandatoryInputs = function(fieldset) {
 var checkPrimaryFile = function(fieldset) {          
   var mandatoryError = false;
   fieldset.find("input").each(function(){     
-    console.log(jQuery(this).val());
+  //  console.log(jQuery(this).val());
     if (!jQuery(this).val() ) {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              

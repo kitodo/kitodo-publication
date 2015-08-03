@@ -254,7 +254,10 @@ class FormDataReader {
           $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
           $documentFormGroup->setUid($metadataGroup->getUid());
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
-          $documentFormGroup->setName($metadataGroup->getName());
+          $documentFormGroup->setName($metadataGroup->getName());                    
+          $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+          $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
+          
                  
         foreach ($group as $objectUid => $objectItem ) {     
           foreach ($objectItem as $objectItem => $object ) {  
@@ -263,9 +266,12 @@ class FormDataReader {
             $documentFormField->setUid($metadataObject->getUid());
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
+            $documentFormField->setMandatory($metadataObject->getMandatory());
+            $documentFormField->setMaxIteration($metadataObject->getMaxIteration());     
+            $documentFormField->setSelectOptions($metadataObject->getSelectOptions());             
             $documentFormField->setInputField($metadataObject->getInputField());                                               
             $documentFormField->setValue($object);
-                       
+                                                                       
             $documentFormGroup->addItem($documentFormField);                                 
           }
         }
