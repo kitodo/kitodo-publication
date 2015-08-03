@@ -163,6 +163,7 @@ class DocumentMapper {
                     $documentFormFieldItem = clone($documentFormField);  
                                                            
                     $objectValue = $value->nodeValue;                                                                                                                                        
+                    $objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);    
                     $documentFormFieldItem->setValue($objectValue);
                     
                     $documentFormField->setValue($objectValue);
@@ -275,6 +276,7 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
+              $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');
               if ($value) {                 
                 $formField['modsExtension'] = $metadataObject->getModsExtension();
                   
