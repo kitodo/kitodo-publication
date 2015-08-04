@@ -191,6 +191,27 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>OwnerID</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist">
+				<source>Input Option List</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.input_options">
+				<source>Input Options</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption">
+				<source>Input Option</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.value">
+				<source>Value</source>
 			</trans-unit>			
 		</body>
 	</file>

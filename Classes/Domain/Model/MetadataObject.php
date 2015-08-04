@@ -96,6 +96,14 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $modsExtension = FALSE;
         
         
+        /**
+	 * inputOptionList
+	 *
+	 * @var \Eww\Dpf\Domain\Model\InputOptionList
+	 */
+	protected $inputOptionList = NULL;
+        
+        
 	/**
 	 * Returns the name
 	 *
@@ -296,5 +304,26 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function getChildren() {
            return NULL;
         }
+        
+        
+        /**
+	 * Returns the inputOptionList
+	 *
+	 * @return \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+	 */
+	public function getInputOptionList() {
+		return $this->inputOptionList;
+	}
+
+	/**
+	 * Sets the inputOptionList
+	 *
+	 * @param \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+	 * @return void
+	 */
+	public function setInputOptionList(\Eww\Dpf2\Domain\Model\InputOptionList $inputOptionList) {
+		$this->inputOptionList = $inputOptionList;
+	}
+
 
 }

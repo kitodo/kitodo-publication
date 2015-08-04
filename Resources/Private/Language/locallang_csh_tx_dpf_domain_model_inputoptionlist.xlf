@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-08-04T10:49:00Z" product-name="dpf2">
+		<header/>
+		<body>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="display_name.description">
+				<source>displayName</source>
+			</trans-unit>
+			<trans-unit id="input_options.description">
+				<source>inputOptions</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

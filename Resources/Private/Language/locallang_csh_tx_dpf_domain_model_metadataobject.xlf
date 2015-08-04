@@ -26,7 +26,10 @@
 			</trans-unit>  
                         <trans-unit id="select_options.description">
 				<source>selectOptions</source>
-			</trans-unit>                        
+			</trans-unit> 
+                        <trans-unit id="input_option_list.description">
+				<source>inputOptionList</source>
+			</trans-unit>                       
 		</body>
 	</file>
 </xliff>

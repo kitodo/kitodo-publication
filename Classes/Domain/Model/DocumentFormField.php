@@ -9,6 +9,9 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $selectOptions;
   
+  protected $inputOptions;
+  
+  
   public function getValue() {                   
     return $this->value;    
   }
@@ -35,7 +38,32 @@ class DocumentFormField extends AbstractFormElement {
   public function setSelectOptions($selectOptions) {
      $this->selectOptions = $selectOptions;     
   }
-      
+  
+  /**
+   * 
+   * @return array
+   */
+  public function getInputOptions() {    
+    return $this->inputOptions;    
+  }
+
+  /**
+   * 
+   * @param \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+   */   
+  public function setInputOptions(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList = NULL) {         
+    
+    $this->inputOptions = array();
+    
+    if ($inputOptionList) {    
+        $this->inputOptions[''] = '';
+        foreach ($inputOptionList->getInputOptions() as $option) {
+            $this->inputOptions[$option->getValue()] = $option->getTitle();    
+        }
+    }
+         
+  }
+        
 }
 
 ?>

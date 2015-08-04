@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options, input_option_list',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options, input_option_list, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -176,6 +176,39 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 				'eval' => ''
 			),
 		),
+            /*	'input_option_list' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_formfield.input_option_list',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dpf_domain_model_inputoptionlist',
+				'minitems' => 0,
+				'maxitems' => 1,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+		),
+            */
+                'input_option_list' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_formfield.input_option_list',
+			'config' => array(
+				'type' => 'select',
+                                'items' => array(
+                                    array('',0),
+                                ),
+				'foreign_table' => 'tx_dpf_domain_model_inputoptionlist',
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+            
+            
                 'select_options' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
