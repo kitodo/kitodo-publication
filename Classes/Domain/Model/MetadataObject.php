@@ -321,7 +321,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
 	 * @return void
 	 */
-	public function setInputOptionList(\Eww\Dpf2\Domain\Model\InputOptionList $inputOptionList) {
+	public function setInputOptionList(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList) {
 		$this->inputOptionList = $inputOptionList;
 	}
 

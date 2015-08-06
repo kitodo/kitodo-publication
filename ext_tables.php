@@ -52,6 +52,24 @@ if (TYPO3_MODE === 'BE') {
                   'navigationComponentId' => 'typo3-pagetree'                  
           )
   );
+  
+  
+  \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+          'EWW.' . $_EXTKEY,
+          'qucosaMain',   
+          'initclient',
+          '',		
+          array(
+                  'InitClient' => 'start,createConfig',
+          ),
+          array(
+                  'access' => 'user,group',
+                  'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_initclient.xlf', 
+                  'navigationComponentId' => 'typo3-pagetree'                  
+          )
+  );
+  
 }
 
 
@@ -392,4 +410,3 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_inputoption.gif'
 	),
 );
-

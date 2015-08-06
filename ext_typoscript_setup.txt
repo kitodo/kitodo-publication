@@ -1,13 +1,29 @@
 
 config.tx_extbase{
     persistence{
+        enableAutomaticCacheClearing = 1
+        updateReferenceIndex = 0
         classes{
 
             EWW\Dpf\Domain\Model\MetadataObject {
                 mapping {
                     
                 }
-            }
+            }     
+            
+             EWW\Dpf\Domain\Model\SysLanguage {
+                mapping {
+                    tableName = sys_language   
+                    columns {
+                        uid.mapOnProperty = uid
+                        pid.mapOnProperty = pid                        
+                        title.mapOnProperty = title
+                        flag.mapOnProperty = flag
+                        static_lang_isocode.mapOnProperty = staticLangIsocode
+                    }
+                }
+             }
+       
             
     	}
     }

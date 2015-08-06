@@ -1,0 +1,29 @@
+<f:layout name="AdminBE" />
+
+<f:section name="main">
+   
+  <h3>Init client</h3>
+
+<f:flashMessages renderMode="div" />
+
+
+<f:if condition="{initAllowed} > 0">
+    
+    <div class="typo3-message message-warning">
+        <div class="message-header">
+            Keine Konfiguration vorhanden!
+        </div>
+        <div class="message-body">        
+            <f:form action="createConfig" name="qucosaclient" object="{qucosaclient}" >                        
+                <f:form.submit class="btn btn-default btn-xs" value="Anlegen" />
+            </f:form>        
+        </div>
+    </div>        
+    
+</f:if>
+        
+    
+
+
+
+</f:section>

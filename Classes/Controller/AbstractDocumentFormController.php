@@ -92,6 +92,35 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function listAction() {
+            
+                // +1
+                
+            /*    $inputOptionRepository = $this->objectManager->get('EWW\Dpf\Domain\Repository\InputOptionRepository');                            
+                $inputOption = $this->objectManager->get('EWW\Dpf\Domain\Model\InputOption');
+                $inputOption->setTitle('Test100');
+                $inputOption->setPid('10');
+                $inputOption->setL10nParent(3);
+                $inputOption->setSysLanguageUid(2);
+                
+                $inputOptionRepository->add($inputOption);
+                $this->persistenceManager->persistAll();
+                
+           */    
+ 
+ 	$lr = $this->objectManager->get('EWW\Dpf\Domain\Repository\SysLanguageRepository');
+        
+        $languages = $lr->findInstalledLanguages();
+                
+                foreach ($languages as $lang) {
+                    echo "<pre>";
+                    
+                    print_r($lang);
+                
+                    echo "</pre>";
+                }
+                die;
+                // -1
+            
 		$documents = $this->documentRepository->findAll();
                 
                 $documentTypes = $this->documentTypeRepository->findAll();

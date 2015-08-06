@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Domain\Repository;
+namespace Eww\Dpf\Domain\Repository;
 
 
 /***************************************************************
@@ -28,20 +28,9 @@ namespace EWW\Dpf\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Clients
+ * The repository for InputOption
  */
-class ClientRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class InputOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
-	/**         
-         * findAllByPid
-         * 
-         * @return
-         */        
-    	public function findAllByPid($pid) {
-            $query = $this->createQuery();        
-            $query->getQuerySettings()->setRespectStoragePage(FALSE);  
-            $query->matching($query->equals('pid', $pid));            
-            return  $query->execute();                            
-	}
-	                
+	
 }

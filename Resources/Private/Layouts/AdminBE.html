@@ -1,0 +1,13 @@
+<f:be.container
+ includeCssFiles="{0: '{f:uri.resource(path:\'CSS/bootstrap.min.css\')}',
+ 1: '{f:uri.resource(path:\'CSS/manager.css\')}'}"> 
+    
+<div class="tx-dpf">
+       <f:comment> <f:debug title="Debug" maxDepth="20">{debugData}</f:debug> </f:comment>     
+                   
+       <p class="bg-info client">{client.client}</p>
+                              
+       <f:render section="main" />             
+</div>
+
+</f:be.container> 

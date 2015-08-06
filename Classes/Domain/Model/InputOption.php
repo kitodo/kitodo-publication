@@ -30,7 +30,7 @@ namespace Eww\Dpf\Domain\Model;
 /**
  * InputOption
  */
-class InputOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject {
+class InputOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * title
@@ -83,5 +83,19 @@ class InputOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject {
 	public function setValue($value) {
 		$this->value = $value;
 	}
+        
+        
+       
+     
+    public function setL10nParent($l10nParent) {
+    	$this->l10nParent = $l10nParent;   
+    }
+    
+    
+       
+    public function setSysLanguageUid($sysLanguageUid) {
+    	$this->_languageUid = $sysLanguageUid;   
+    }
+                
 
 }
