@@ -1,0 +1,36 @@
+<f:layout name="AdminBE" />
+
+<f:section name="main">
+   
+  <h3>Init client</h3>
+
+<f:flashMessages renderMode="div" />
+
+
+<f:if condition="{isValidClientFolder} > 0">
+               
+   <f:form id="new-client" action="create" name="newClient" object="{newClient}" >                        
+                
+                <label>Client</label>
+                <f:form.textfield property="client" />
+                
+                <label>Project</label>
+                <f:form.textfield property="project" />
+                
+                <label>Owner-ID</label>
+                <f:form.textfield property="ownerId" />
+                
+                <br />
+                <br />
+                
+                <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen" />
+   </f:form>        
+        
+    
+</f:if>
+        
+    
+
+
+
+</f:section>

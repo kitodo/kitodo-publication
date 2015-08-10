@@ -42,3 +42,22 @@
     padding: 20px 5px 20px 5px;
     font-weight: bold;
 }
+
+
+/* Initialize Client Module */
+
+.tx-dpf form#new-client label {
+    width: 100px;
+}
+
+tx-dpf form#new-client input {
+    float: none;
+    display: block;
+}    
+
+.tx-dpf form#new-client label { 
+    float: none;
+    display: block;   
+    width: auto;
+    margin: 10px 0 0 0;
+}    

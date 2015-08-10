@@ -60,7 +60,7 @@ if (TYPO3_MODE === 'BE') {
           'initclient',
           '',		
           array(
-                  'InitClient' => 'start,createConfig',
+                  'Client' => 'new,create,default',
           ),
           array(
                   'access' => 'user,group',

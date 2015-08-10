@@ -28,9 +28,9 @@ namespace EWW\Dpf\Controller;
  ***************************************************************/
 
 /**
- * InitClientController
+ * ClientController
  */
-class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * sysLanguageRepository
@@ -58,17 +58,7 @@ class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         
         // Page information of selected page 
         protected $pageInfo;
-        
-        
-        /*
-         * initAllowed
-         * 
-         * TRUE if a valid client folder is selected.         
-         * 
-         * @var bool
-         */
-        protected $initAllowed = FALSE;
-        
+                                
  
         protected function initializeAction() {
             
@@ -102,9 +92,65 @@ class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         /**
          * start action
          * 
+         * @param \EWW\Dpf\Domain\Model\Client $newClient         
          */
-        public function startAction() {
-            $error = FALSE; 
+        public function newAction(\EWW\Dpf\Domain\Model\Client $newClient=NULL) {    
+            if ($this->isValidClientFolder()) { 
+                
+                $this->addFlashMessage(
+                        "",
+                        $messageTitle = 'Der ausgewählte Ordner enthält noch keine Mandanten-Konfiguration!',
+                        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
+                        $storeInSession = TRUE
+                    );  
+                
+                $this->view->assign('isValidClientFolder',$this->isValidClientFolder());            
+                $this->view->assign('newClient',$newClient);
+            }    
+           
+        }
+        
+                               
+        /**
+         * initializeClient action
+         * 
+         * @param \EWW\Dpf\Domain\Model\Client $newClient
+         */
+        public function createAction(\EWW\Dpf\Domain\Model\Client $newClient) {
+                                             
+            if ($this->isValidClientFolder()) {
+               // $newClient = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\Client');
+                                            
+                //$newClient->setClient("Ein neuer Mandant");
+                //$newClient->setPid($this->selectedPageUid);                                              
+                $newClient->setPid($this->selectedPageUid);
+                $this->clientRepository->add($newClient);      
+                
+                $this->addFlashMessage(
+                        "Mittels des Listen-Moduls können Sie nun die weitere Konfiguration durchführen.",
+                        $messageTitle = 'Der QUCOSA-Client wurde erfolgreich angelegt!',
+                        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK,
+                        $storeInSession = TRUE
+                    );                                   
+                $this->redirect('default');
+            }
+                          
+            $this->redirect('new');                       
+        }
+             
+        
+        /**
+         * default action
+         * 
+         */
+        public function defaultAction() {
+            
+        }
+        
+        
+        
+        protected function isValidClientFolder() {
+            
             
             if (!$this->selectedPageUid) {
                $this->addFlashMessage(
@@ -113,7 +159,7 @@ class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
                     $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO,
                     $storeInSession = TRUE
                 );
-                $error = TRUE; 
+                return FALSE; 
             } else {   
                 
                 // check if the selected page already contains a QUCOSA-Client or if it is a subpage of a Client.
@@ -133,7 +179,7 @@ class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
                         $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
                         $storeInSession = TRUE
                     );
-                    $error = TRUE; 
+                    return FALSE; 
                 }
 
                 if ($this->pageInfo['doktype'] != 254) {               
@@ -143,54 +189,12 @@ class InitClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
                         $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
                         $storeInSession = TRUE
                     );    
-                    $error = TRUE;    
-                }
-            
-            }
-            
-                                  
-            $this->initAllowed = !$error;
-                
-            
-            $this->view->assign('initAllowed',$this->initAllowed);
-            
+                    return FALSE;    
+                }            
+            }            
+           
+            return TRUE;
         }
-        
-                               
-        /**
-         * createConfig action
-         * 
-         */
-        public function createConfigAction() {
-            
-            
-            echo $this->initAllowed;
-            
-            if ($this->initAllowed) {
-                $newClient = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\Client');
-            
-                $newClient->setClient("Ein neuer Mandant");
-                $newClient->setPid($this->selectedPageUid);
-            
-                $this->clientRepository->add($newClient);      
-                
-                $this->addFlashMessage(
-                        "Mittel des Listen-Moduls können Sie nun die weitere Konfiguration durchführen.",
-                        $messageTitle = 'Der QUCOSA-Client wurde erfolgreich angelegt!',
-                        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
-                        $storeInSession = TRUE
-                    );                    
-                $this->redirect('start');
-            } else {
-                $this->addFlashMessage(
-                        "Eine Initialisierung ist leider nicht erlaubt.",
-                        $messageTitle = 'Fehler!',
-                        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
-                        $storeInSession = TRUE
-                    );    
-            }      
-        }
-                
 }
 
 ?>
