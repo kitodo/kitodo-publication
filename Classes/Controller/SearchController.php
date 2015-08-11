@@ -129,7 +129,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             }
             
             // owner id
-            // $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
+            $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
         }
 
         return $query;
@@ -141,8 +141,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $args = $this->request->getArguments();
 
         $client = $this->clientRepository->findAll()->current();
+        
 
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = 'sword'; // qucosa
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
         $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query']; // Bla
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query']; // Bla
@@ -222,8 +223,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // extended search
             $query = $this->extendedSearch();
         } else {
-            // $query = $this->searchFulltext();
-            $query = $this->search();
+            $query = $this->searchFulltext();
+            // $query = $this->search();
         }
 
         // $query = $this->searchFulltext();
