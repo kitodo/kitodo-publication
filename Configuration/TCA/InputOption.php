@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_inputoption']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, value',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, value',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, value, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, value, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -59,6 +59,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 	
 		'hidden' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
@@ -97,9 +98,19 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 			),
 		),
 
-		'title' => array(
+		'name' => array(
+                        'l10n_mode' => 'exclude',
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoption.title',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoption.name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+                'display_name' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoption.display_name',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,

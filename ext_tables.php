@@ -387,7 +387,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoption',
-		'label' => 'value',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -405,7 +405,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoption'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'value,title,',
+		'searchFields' => 'value,name,display_name',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/InputOption.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_inputoption.gif'
 	),

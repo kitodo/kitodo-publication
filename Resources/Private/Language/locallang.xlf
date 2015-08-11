@@ -192,8 +192,11 @@
 			<trans-unit id="tx_dpf_domain_model_inputoption">
 				<source>Input Option</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_domain_model_inputoption.title">
-				<source>Title</source>
+			<trans-unit id="tx_dpf_domain_model_inputoption.name">
+				<source>Name</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoption.display_name">
+				<source>Display name</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_inputoption.value">
 				<source>Value</source>

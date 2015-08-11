@@ -2,27 +2,24 @@
 
 <f:section name="main">
    
-  <h3>Init client</h3>
+  <h3>Mandant initialisieren</h3>
 
 <f:flashMessages renderMode="div" />
 
 
-<f:form.validationResults for="{newClient}">    
-    <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">        
-        <div class="alert alert-danger">
-        {propertyPath}
-        <ul>
-            <f:for each="{errors}" as="error">                
-                <li>                    
-                    {error} |
-                    Argumente: <f:for each="{error.arguments}" as="argument">,</f:for>                    
-                </li>                                    
+<f:form.validationResults for="{newClient}">
+    <f:if condition="{validationResults.flattenedErrors}">
+        <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">            
+            <f:for each="{errors}" as="error"> 
+                <div class="typo3-messages">
+                    <div class="typo3-message message-error">
+                        <div class="message-body">{propertyPath}: {error}</div>
+                    </div>
+                </div>
             </f:for>
-        </ul>                        
-        </div>
-    </f:for>        
+        </f:for>
+    </f:if>
 </f:form.validationResults>
-
 
 <f:if condition="{isValidClientFolder} > 0">
                

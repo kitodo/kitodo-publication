@@ -50,6 +50,33 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         protected $clientRepository = NULL;
         
         
+        /**
+         * InputOptionRepository
+         *
+         * @var \EWW\Dpf\Domain\Repository\InputOptionRepository
+         * @inject
+         */
+        protected $inputOptionRepository = NULL;
+        
+        
+        /**
+         * InputOptionListRepository
+         *
+         * @var \EWW\Dpf\Domain\Repository\InputOptionListRepository
+         * @inject
+         */
+        protected $inputOptionListRepository = NULL;
+
+        
+        /**
+         * persistence manager
+         *
+         * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+         * @inject
+         */
+        protected $persistenceManager;
+        
+        
         // TypoScript settings 
         protected $settings = array();
         
@@ -117,7 +144,8 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
          * @param \EWW\Dpf\Domain\Model\Client $newClient
          */
         public function createAction(\EWW\Dpf\Domain\Model\Client $newClient) {
-                                             
+           
+            
             if ($this->isValidClientFolder()) {
                // $newClient = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\Client');
                                             
@@ -125,6 +153,9 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 //$newClient->setPid($this->selectedPageUid);                                              
                 $newClient->setPid($this->selectedPageUid);
                 $this->clientRepository->add($newClient);      
+                
+                $this->addBaseInputOptionLists($this->selectedPageUid);
+                                
                 
                 $this->addFlashMessage(
                         "Mittels des Listen-Moduls können Sie nun die weitere Konfiguration durchführen.",
@@ -194,6 +225,102 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }            
            
             return TRUE;
+        }
+        
+        
+        
+        
+        protected function addBaseInputOptionLists($storagePid) {
+            
+          
+    
+              //  $configurationManager = $this->objectManager->get(ConfigurationManagerInterface::class);
+		
+     
+      
+            
+     //       $t = file_get_contents("../../Resources/Private/Language/locallang_iso-639-2b.xlf");
+            print_r("test");
+            //var_dump();
+                
+            die();
+            
+         
+            
+            // EWW\Dpf\Configuration\InputOptions;
+           
+            $sysLanguageRepository = $this->objectManager->get('EWW\Dpf\Domain\Repository\SysLanguageRepository');
+            
+            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');
+            
+            foreach ($iso6392b->getOptions() as $option) {
+                
+                // Create InputOption (default language)                                                 
+                $dom = new \DomDocument();
+                $dom->load("../../Resources/Private/Language/locallang_iso-639-2b.xlf");                    
+               
+                
+                
+                $xpath = new \DOMXpath($dom);
+                $elements = $xpath->query("//trans-unit[@id='ger']");
+                if (!is_null($elements) &&  $elements->length > 0 ) {    
+                    $displayName = $elements->item(0)->nodeValue; 
+                    $defaultLangInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');                
+                    $defaultLangInputOption->setName($option);                       
+                    $defaultLangInputOption->setDisplayName($displayName);                                    
+                    $defaultLangInputOption->setValue($option);                
+                    $defaultLangInputOption->setPid($storagePid);                
+                    $defaultLangInputOption->setSysLanguageUid(0);                
+                    $this->inputOptionRepository->add($defaultLangInputOption);                
+                    $this->persistenceManager->persistAll();
+                }
+                 
+                // Create InputOption (all other languages)
+                $installedlanguages = $sysLanguageRepository->findInstalledLanguages();                
+                foreach ($installedlanguages as $installedLanguage) {
+                    
+                    $dom = new \DomDocument();
+                    $dom->load("../../Resources/Private/Language/".$installedLanguage->getFlag().".locallang_iso-639-2b.xlf");                    
+                    $xpath = new \DOMXpath($dom);
+                    $elements = $xpath->query("//trans-unit[@id='ger']");
+                    if (!is_null($elements) &&  $elements->length > 0 ) {        
+                        $displayName = $elements->item(0)->nodeValue; 
+                        $languageInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');   
+                        $languageInputOption->setDisplayName($displayName);
+                        $languageInputOption->setPid($storagePid);
+                        $languageInputOption->setSysLanguageUid($installedLanguage->getUid());                   
+                        $languageInputOption->setL10nParent($defaultLangInputOption->getUid());                    
+                        $this->inputOptionRepository->add($languageInputOption);   
+                    }     
+                    
+                }
+                                               
+                //$languageInputOption->setL10nParent(3);
+                
+                
+            }
+            
+            $this->persistenceManager->persistAll();
+            
+           
+                  
+            /*                            
+                $inputOption = $this->objectManager->get('EWW\Dpf\Domain\Model\InputOption');
+                $inputOption->setTitle('Test100');
+                $inputOption->setPid('10');
+                $inputOption->setL10nParent(3);
+                $inputOption->setSysLanguageUid(2);
+                
+                $inputOptionRepository->add($inputOption);
+                $this->persistenceManager->persistAll();
+                
+           */    
+ 
+            
+        
+            
+           // $this->inputOptionListRepository->add($languageInputOptionList);
+            
         }
 }
 
