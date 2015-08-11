@@ -7,6 +7,23 @@
 <f:flashMessages renderMode="div" />
 
 
+<f:form.validationResults for="{newClient}">    
+    <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">        
+        <div class="alert alert-danger">
+        {propertyPath}
+        <ul>
+            <f:for each="{errors}" as="error">                
+                <li>                    
+                    {error} |
+                    Argumente: <f:for each="{error.arguments}" as="argument">,</f:for>                    
+                </li>                                    
+            </f:for>
+        </ul>                        
+        </div>
+    </f:for>        
+</f:form.validationResults>
+
+
 <f:if condition="{isValidClientFolder} > 0">
                
    <f:form id="new-client" action="create" name="newClient" object="{newClient}" >                        
