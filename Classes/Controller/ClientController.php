@@ -228,100 +228,47 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
         
         
-        
-        
+        /**
+         * adds all default input options
+         * 
+         * @param integer $storagePid
+         */        
         protected function addBaseInputOptionLists($storagePid) {
+                       
             
-          
-    
-              //  $configurationManager = $this->objectManager->get(ConfigurationManagerInterface::class);
-		
-     
-      
-            
-     //       $t = file_get_contents("../../Resources/Private/Language/locallang_iso-639-2b.xlf");
-            print_r("test");
-            //var_dump();
-                
-            die();
-            
-         
-            
-            // EWW\Dpf\Configuration\InputOptions;
-           
-            $sysLanguageRepository = $this->objectManager->get('EWW\Dpf\Domain\Repository\SysLanguageRepository');
-            
-            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');
+            $inputOptionTranslator = $this->objectManager->get('EWW\\Dpf\\Helper\\InputOptionTranslator');
+            $inputOptionTranslator->init('iso-639-2b');
+                                    
+            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');            
             
             foreach ($iso6392b->getOptions() as $option) {
-                
-                // Create InputOption (default language)                                                 
-                $dom = new \DomDocument();
-                $dom->load("../../Resources/Private/Language/locallang_iso-639-2b.xlf");                    
-               
-                
-                
-                $xpath = new \DOMXpath($dom);
-                $elements = $xpath->query("//trans-unit[@id='ger']");
-                if (!is_null($elements) &&  $elements->length > 0 ) {    
-                    $displayName = $elements->item(0)->nodeValue; 
-                    $defaultLangInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');                
-                    $defaultLangInputOption->setName($option);                       
-                    $defaultLangInputOption->setDisplayName($displayName);                                    
-                    $defaultLangInputOption->setValue($option);                
-                    $defaultLangInputOption->setPid($storagePid);                
-                    $defaultLangInputOption->setSysLanguageUid(0);                
-                    $this->inputOptionRepository->add($defaultLangInputOption);                
-                    $this->persistenceManager->persistAll();
-                }
-                 
-                // Create InputOption (all other languages)
-                $installedlanguages = $sysLanguageRepository->findInstalledLanguages();                
-                foreach ($installedlanguages as $installedLanguage) {
-                    
-                    $dom = new \DomDocument();
-                    $dom->load("../../Resources/Private/Language/".$installedLanguage->getFlag().".locallang_iso-639-2b.xlf");                    
-                    $xpath = new \DOMXpath($dom);
-                    $elements = $xpath->query("//trans-unit[@id='ger']");
-                    if (!is_null($elements) &&  $elements->length > 0 ) {        
-                        $displayName = $elements->item(0)->nodeValue; 
-                        $languageInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');   
-                        $languageInputOption->setDisplayName($displayName);
-                        $languageInputOption->setPid($storagePid);
-                        $languageInputOption->setSysLanguageUid($installedLanguage->getUid());                   
-                        $languageInputOption->setL10nParent($defaultLangInputOption->getUid());                    
-                        $this->inputOptionRepository->add($languageInputOption);   
-                    }     
-                    
-                }
-                                               
-                //$languageInputOption->setL10nParent(3);
-                
-                
-            }
-            
-            $this->persistenceManager->persistAll();
-            
-           
-                  
-            /*                            
-                $inputOption = $this->objectManager->get('EWW\Dpf\Domain\Model\InputOption');
-                $inputOption->setTitle('Test100');
-                $inputOption->setPid('10');
-                $inputOption->setL10nParent(3);
-                $inputOption->setSysLanguageUid(2);
-                
-                $inputOptionRepository->add($inputOption);
+
+                // create input option for the default language                                                           
+                $defaultLangInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');                                
+                $defaultLangInputOption->setName($option);                       
+                $defaultLangInputOption->setDisplayName($inputOptionTranslator->translate($option));                                    
+                $defaultLangInputOption->setValue($option);                
+                $defaultLangInputOption->setPid($storagePid);                
+                $defaultLangInputOption->setSysLanguageUid(0);                
+                $this->inputOptionRepository->add($defaultLangInputOption);                
                 $this->persistenceManager->persistAll();
-                
-           */    
- 
-            
-        
-            
-           // $this->inputOptionListRepository->add($languageInputOptionList);
-            
+                                                 
+                // create input option for all other languages                
+                $installedlanguages = $this->sysLanguageRepository->findInstalledLanguages();                                
+                foreach ($installedlanguages as $installedLanguage) {                                        
+                    $languageInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');   
+                    $languageInputOption->setDisplayName($inputOptionTranslator->translate($option,$installedLanguage->getFlag()));
+                    $languageInputOption->setPid($storagePid);
+                    $languageInputOption->setSysLanguageUid($installedLanguage->getUid());                   
+                    $languageInputOption->setL10nParent($defaultLangInputOption->getUid());                    
+                    $this->inputOptionRepository->add($languageInputOption);   
+                }     
+                    
+            }
+                                                                                                                     
+            $this->persistenceManager->persistAll();                                               
         }
+        
 }
 
 ?>
