@@ -46,6 +46,23 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $displayName = '';
 
+        
+        /**
+         * valueList
+         * 
+         * @var string
+         */
+        protected $valueList = '';
+        
+        
+        /**
+         * valueLabelList
+         * 
+         * @var string
+         */
+        protected $valueLabelList = '';
+        
+        
 	/**
 	 * inputOptions
 	 *
@@ -101,6 +118,47 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->displayName;
 	}
 
+        
+        /**
+	 * Returns the valueList
+	 *
+	 * @return string $valueList
+	 */
+	public function getValueList() {
+		return $this->valueList;
+	}
+
+	/**
+	 * Sets the valueList
+	 *
+	 * @param string $valueList
+	 * @return void
+	 */
+	public function setValueList($valueList) {
+		$this->valueList = $valueList;
+	}
+        
+        
+        /**
+	 * Returns the valueLabelList
+	 *
+	 * @return string $valueLabelList
+	 */
+	public function getValueLabelList() {
+		return $this->valueLabelList;
+	}
+
+	/**
+	 * Sets the valueLabelList
+	 *
+	 * @param string $valueLabelList
+	 * @return void
+	 */
+	public function setValueLabelList($valueLabelList) {
+		$this->valueLabelList = $valueLabelList;
+	}
+        
+        
 	/**
 	 * Sets the displayName
 	 *
@@ -149,5 +207,15 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setInputOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputOptions) {
 		$this->inputOptions = $inputOptions;
 	}
+        
+        
+        public function setL10nParent($l10nParent) {
+            $this->l10nParent = $l10nParent;   
+        }
+    
+           
+        public function setSysLanguageUid($sysLanguageUid) {
+            $this->_languageUid = $sysLanguageUid;   
+        }
 
 }

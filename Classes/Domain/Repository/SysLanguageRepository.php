@@ -60,7 +60,7 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
             $result = $this->createQuery();
             $result->getQuerySettings()->setRespectStoragePage(FALSE);
             $result->getQuerySettings()->setReturnRawQueryResult(TRUE);          
-            $result->statement('SELECT * FROM sys_language');
+            $result->statement('SELECT l.uid,l.pid,l.title,l.flag,i.lg_iso_2 FROM sys_language as l LEFT JOIN static_languages as i ON i.uid = l.static_lang_isocode');
             
             if ($result->execute()) {
                 foreach ($result->execute() as $language) { 
@@ -69,7 +69,7 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
                     $sysLanguage->setPid($language['pid']);
                     $sysLanguage->setTitle($language['title']);
                     $sysLanguage->setFlag($language['flag']);
-                    $sysLanguage->setStaticLangIsocode($language['static_lang_isocode']);
+                    $sysLanguage->setLangIsocode(strtolower($language['lg_iso_2']));
                     
                     $sysLanguages[] = $sysLanguage;
                 }               

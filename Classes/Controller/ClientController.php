@@ -227,46 +227,64 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             return TRUE;
         }
         
-        
+         
         /**
          * adds all default input options
          * 
          * @param integer $storagePid
          */        
         protected function addBaseInputOptionLists($storagePid) {
-                       
+                        
+            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');                                                          
             
-            $inputOptionTranslator = $this->objectManager->get('EWW\\Dpf\\Helper\\InputOptionTranslator');
-            $inputOptionTranslator->init('iso-639-2b');
-                                    
-            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');            
-            
-            foreach ($iso6392b->getOptions() as $option) {
+            $inputOptionTranslator = $this->objectManager->get('EWW\\Dpf\\Helper\\InputOption\\Translator');
+            $inputOptionTranslator->init(get_class($iso6392b));
+                                              
+            // create input option list for the default language  
+            $languageOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList'); 
+            $languageOptionList->setName('languageList');            
+            $languageOptionList->setPid($storagePid);
+            $languageOptionList->setSysLanguageUid(0);  
+            $this->inputOptionListRepository->add($languageOptionList);
 
-                // create input option for the default language                                                           
-                $defaultLangInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');                                
-                $defaultLangInputOption->setName($option);                       
-                $defaultLangInputOption->setDisplayName($inputOptionTranslator->translate($option));                                    
-                $defaultLangInputOption->setValue($option);                
-                $defaultLangInputOption->setPid($storagePid);                
-                $defaultLangInputOption->setSysLanguageUid(0);                
-                $this->inputOptionRepository->add($defaultLangInputOption);                
-                $this->persistenceManager->persistAll();
-                                                 
+            $languageOptionList->setValueList($iso6392b->getValuesString());
+            
+            if ($inputOptionTranslator->hasTranslation($inputOptionTranslator->getDefaultLanguage())) {
+                $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues());  
+                $displayName = $inputOptionTranslator->translate(array('languageList'));  
+            } else {
+                $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(),'en');   
+                $displayName = $inputOptionTranslator->translate(array('languageList'),'en');  
+            }  
+            $languageOptionList->setDisplayName(implode('',$displayName));  
+            $languageOptionList->setValueLabelList(implode('|',$valueLabelList));       
+                                                              
+            $this->persistenceManager->persistAll();
+            
                 // create input option for all other languages                
                 $installedlanguages = $this->sysLanguageRepository->findInstalledLanguages();                                
                 foreach ($installedlanguages as $installedLanguage) {                                        
-                    $languageInputOption = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOption');   
-                    $languageInputOption->setDisplayName($inputOptionTranslator->translate($option,$installedLanguage->getFlag()));
-                    $languageInputOption->setPid($storagePid);
-                    $languageInputOption->setSysLanguageUid($installedLanguage->getUid());                   
-                    $languageInputOption->setL10nParent($defaultLangInputOption->getUid());                    
-                    $this->inputOptionRepository->add($languageInputOption);   
-                }     
-                    
-            }
-                                                                                                                     
-            $this->persistenceManager->persistAll();                                               
+                    $langIsoCode = $installedLanguage->getLangIsocode();
+                    if (!empty($langIsoCode)) {
+                        // only when an iso code has been configured, a translation dataset is created                                                                       
+                        if ($inputOptionTranslator->hasTranslation($langIsoCode)) {
+                            // only when a translation exists, a translation dataset is created
+                            $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(),$langIsoCode);  
+                            $displayName = $inputOptionTranslator->translate(array('languageList'),$langIsoCode);  
+                            
+                            $translatedOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');                            
+                            $translatedOptionList->setDisplayName(implode('',$displayName));  
+                            $translatedOptionList->setPid($storagePid);
+                            $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());
+                            $translatedOptionList->setL10nParent($languageOptionList->getUid());  
+                            $translatedOptionList->setValueLabelList(implode('|',$valueLabelList));  
+                            $this->inputOptionListRepository->add($translatedOptionList);
+            
+                        }    
+                                                                                                     
+                    }    
+                }                         
+                                                                                                                                                                                                          
         }
         
 }

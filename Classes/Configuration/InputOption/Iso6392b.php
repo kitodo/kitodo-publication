@@ -1,9 +1,9 @@
 <?php
 namespace EWW\Dpf\Configuration\InputOption;
 
-class Iso6392b {
+class Iso6392b extends \EWW\Dpf\Configuration\InputOption\AbstractInputOption {
     
-    protected $options = array(
+    protected $values = array(
         "aar","abk","ace","ach","ada","ady","afa","afh","afr","ain",
         "aka","akk","alb","ale","alg","alt","amh","ang","anp","apa",
         "ara","arc","arg","arm","arn","arp","art","arw","asm","ast",
@@ -56,8 +56,8 @@ class Iso6392b {
   );  
     
     
-  public function getOptions() {
-      return $this->options;
+  public function getValuesString() {
+      return implode('|',$this->values);
   }  
           
 }

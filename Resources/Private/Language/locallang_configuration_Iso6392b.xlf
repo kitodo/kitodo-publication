@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
 		<header/>
 		<body>
+                        <trans-unit id="languageList">
+				<source>Language list</source>
+			</trans-unit>
 			<trans-unit id="aar">
 				<source>Afar</source>
 			</trans-unit>
