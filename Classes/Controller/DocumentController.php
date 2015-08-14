@@ -40,6 +40,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 */
 	protected $documentRepository = NULL;
 
+    /**
+     * persistence manager
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+     * @inject
+     */
+    protected $persistenceManager;
+
                         
 	/**
 	 * action list
@@ -116,7 +124,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @param \EWW\Dpf\Domain\Model\Document $document
 	 * @return void
 	 */
-	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {		     
+	public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {
+                // remove document from local index
+                $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+                // send document to index
+                $elasticsearchRepository->delete($document);
+
                 $this->documentRepository->remove($document);
 		
                 $this->addFlashMessage('The object was deleted.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);		
@@ -132,7 +145,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 */
 	public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document) {
 		$this->addFlashMessage('Das Dokument wurde dupliziert.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
-                
+
                 $newDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
                 
                 $newDocument->setTitle($document->getTitle()); 
@@ -142,6 +155,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 $newDocument->removeDateIssued();
                 
                 $this->documentRepository->add($newDocument);
+
+                $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+                
+                $this->persistenceManager->persistAll();
+                // send document to index
+                $elasticsearchRepository->add($newDocument, $newDocument->getXsltJson());
+                // $elasticsearchRepository->delete($updateDocument);
+
 		$this->redirect('list');
 	}
         

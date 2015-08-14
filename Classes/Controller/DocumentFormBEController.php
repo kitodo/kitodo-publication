@@ -23,9 +23,14 @@ class DocumentFormBEController extends AbstractDocumentFormController {
 
        if ( !$GLOBALS['BE_USER'] ) {
            throw new \Exception('Access denied');
-       }      
+       }
 
        $document = $this->documentRepository->findByUid($documentData['documentUid']);
+
+       $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+       // send document to index
+       $elasticsearchRepository->delete($document);
+
        $document->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
        $document = $this->documentRepository->update($document);
 

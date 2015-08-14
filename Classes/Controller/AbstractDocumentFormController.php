@@ -56,7 +56,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
 	 * @inject
 	 */
-	protected $documentTypeRepository = NULL;        
+	protected $documentTypeRepository = NULL;
 
 
         /**
@@ -75,7 +75,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @inject
 	 */
 	protected $metadataObjectRepository = NULL;
-        
         
         /**
          * persistence manager
@@ -333,12 +332,19 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           foreach ( $documentForm->getNewFiles() as $newFile ) {     
             $updateDocument->addFile($newFile);           
           }
-                    
-                                                               
           
+          // add document to local es index
+          $json = $updateDocument->getXsltJson();
+          
+          $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+          // send document to index
+          $elasticsearchRepository->add($updateDocument, $json);
+          // $elasticsearchRepository->delete($updateDocument);
+
+                    
           if (array_key_exists('savecontinue', $requestArguments)) {            
             $this->forward('edit',NULL,NULL,array('documentForm' => $documentForm));                        
-          }      
+          }
                                                                     
           $this->redirectToList();
 	}
