@@ -3,8 +3,11 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-08-04T10:49:00Z" product-name="dpf2">
 		<header/>
 		<body>
-			<trans-unit id="title.description">
-				<source>title</source>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+                        <trans-unit id="display_name.description">
+				<source>displayName</source>
 			</trans-unit>
 			<trans-unit id="value.description">
 				<source>value</source>

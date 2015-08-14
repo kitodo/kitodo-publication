@@ -445,6 +445,8 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	input_options int(11) unsigned DEFAULT '0' NOT NULL,
+        value_list text   DEFAULT '' NOT NULL,
+        value_label_list text   DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -484,7 +486,8 @@ CREATE TABLE tx_dpf_domain_model_inputoption (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
 	value varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

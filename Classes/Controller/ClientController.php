@@ -50,6 +50,33 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         protected $clientRepository = NULL;
         
         
+        /**
+         * InputOptionRepository
+         *
+         * @var \EWW\Dpf\Domain\Repository\InputOptionRepository
+         * @inject
+         */
+        protected $inputOptionRepository = NULL;
+        
+        
+        /**
+         * InputOptionListRepository
+         *
+         * @var \EWW\Dpf\Domain\Repository\InputOptionListRepository
+         * @inject
+         */
+        protected $inputOptionListRepository = NULL;
+
+        
+        /**
+         * persistence manager
+         *
+         * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+         * @inject
+         */
+        protected $persistenceManager;
+        
+        
         // TypoScript settings 
         protected $settings = array();
         
@@ -117,7 +144,8 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
          * @param \EWW\Dpf\Domain\Model\Client $newClient
          */
         public function createAction(\EWW\Dpf\Domain\Model\Client $newClient) {
-                                             
+           
+            
             if ($this->isValidClientFolder()) {
                // $newClient = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\Client');
                                             
@@ -125,6 +153,9 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 //$newClient->setPid($this->selectedPageUid);                                              
                 $newClient->setPid($this->selectedPageUid);
                 $this->clientRepository->add($newClient);      
+                
+                $this->addBaseInputOptionLists($this->selectedPageUid);
+                                
                 
                 $this->addFlashMessage(
                         "Mittels des Listen-Moduls können Sie nun die weitere Konfiguration durchführen.",
@@ -195,6 +226,67 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
            
             return TRUE;
         }
+        
+         
+        /**
+         * adds all default input options
+         * 
+         * @param integer $storagePid
+         */        
+        protected function addBaseInputOptionLists($storagePid) {
+                        
+            $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');                                                          
+            
+            $inputOptionTranslator = $this->objectManager->get('EWW\\Dpf\\Helper\\InputOption\\Translator');
+            $inputOptionTranslator->init(get_class($iso6392b));
+                                              
+            // create input option list for the default language  
+            $languageOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList'); 
+            $languageOptionList->setName('languageList');            
+            $languageOptionList->setPid($storagePid);
+            $languageOptionList->setSysLanguageUid(0);  
+            $this->inputOptionListRepository->add($languageOptionList);
+
+            $languageOptionList->setValueList($iso6392b->getValuesString());
+            
+            if ($inputOptionTranslator->hasTranslation($inputOptionTranslator->getDefaultLanguage())) {
+                $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues());  
+                $displayName = $inputOptionTranslator->translate(array('languageList'));  
+            } else {
+                $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(),'en');   
+                $displayName = $inputOptionTranslator->translate(array('languageList'),'en');  
+            }  
+            $languageOptionList->setDisplayName(implode('',$displayName));  
+            $languageOptionList->setValueLabelList(implode('|',$valueLabelList));       
+                                                              
+            $this->persistenceManager->persistAll();
+            
+                // create input option for all other languages                
+                $installedlanguages = $this->sysLanguageRepository->findInstalledLanguages();                                
+                foreach ($installedlanguages as $installedLanguage) {                                        
+                    $langIsoCode = $installedLanguage->getLangIsocode();
+                    if (!empty($langIsoCode)) {
+                        // only when an iso code has been configured, a translation dataset is created                                                                       
+                        if ($inputOptionTranslator->hasTranslation($langIsoCode)) {
+                            // only when a translation exists, a translation dataset is created
+                            $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(),$langIsoCode);  
+                            $displayName = $inputOptionTranslator->translate(array('languageList'),$langIsoCode);  
+                            
+                            $translatedOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');                            
+                            $translatedOptionList->setDisplayName(implode('',$displayName));  
+                            $translatedOptionList->setPid($storagePid);
+                            $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());
+                            $translatedOptionList->setL10nParent($languageOptionList->getUid());  
+                            $translatedOptionList->setValueLabelList(implode('|',$valueLabelList));  
+                            $this->inputOptionListRepository->add($translatedOptionList);
+            
+                        }    
+                                                                                                     
+                    }    
+                }                         
+                                                                                                                                                                                                          
+        }
+        
 }
 
 ?>

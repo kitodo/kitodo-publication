@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, input_options',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, value_list, value_label_list, input_options',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, input_options, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, value_list, value_label_list, input_options, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -59,6 +59,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 	
 		'hidden' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
@@ -100,6 +101,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 		'name' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoptionlist.name',
 			'config' => array(
 				'type' => 'input',
@@ -116,6 +118,27 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 				'eval' => 'trim'
 			),
 		),
+                'value_list' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoptionlist.value_list',
+			'config' => array(
+                                'type' => 'text',
+                                'cols' => 20,
+                                'rows' => 3,
+                                'eval' => 'trim'
+			),
+		),      
+                'value_label_list' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoptionlist.value_label_list',
+			'config' => array(
+				'type' => 'text',
+                                'cols' => 20,
+                                'rows' => 3,
+                                'eval' => 'trim'
+			),
+		),            
 		'input_options' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_inputoptionlist.input_options',

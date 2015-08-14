@@ -36,11 +36,11 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
         
         /**
-	 * staticLangIsocode
+	 * langIsocode
 	 *
 	 * @var string
 	 */
-	protected $staticLangIsocode = '';
+	protected $langIsocode = '';
 
         
         /**
@@ -116,21 +116,21 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
         
         /**
-	 * Returns the staticLangIsocode
+	 * Returns the langIsocode
 	 *
-	 * @return string $staticLangIsocode
+	 * @return string $langIsocode
 	 */
-	public function getStaticLangIsocode() {
-		return $this->staticLangIsocode;
+	public function getLangIsocode() {
+		return $this->langIsocode;
 	}
         
         /**
-	 * Sets the staticLangIsocode
+	 * Sets the langIsocode
 	 *
-	 * @param string $staticLangIsocode
+	 * @param string $langIsocode
 	 */
-	public function setStaticLangIsocode($staticLangIsocode) {
-		$this->staticLangIsocode = $staticLangIsocode;
+	public function setLangIsocode($langIsocode) {
+		$this->langIsocode = $langIsocode;
 	}
 }
 
