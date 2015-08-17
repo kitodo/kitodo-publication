@@ -17,7 +17,8 @@ plugin.tx_dpf {
                     EWW\Dpf\Domain\Model\DocumentType.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTypeStoragePid}
                     EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataObjectStoragePid}                      
                     EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataGroupStoragePid}                      
-                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataPageStoragePid}                                                                
+                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataPageStoragePid}  
+                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$plugin.tx_dpf.persistence.storagePid}                                                              
                 }         
 	}
 	features {
@@ -98,6 +99,7 @@ module.tx_dpf {
                     EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$module.tx_dpf.persistence.metadataObjectStoragePid}                      
                     EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$module.tx_dpf.persistence.metadataGroupStoragePid}                      
                     EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$module.tx_dpf.persistence.metadataPageStoragePid}                                                                
+                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$module.tx_dpf.persistence.storagePid}
                 }       
 
 	}

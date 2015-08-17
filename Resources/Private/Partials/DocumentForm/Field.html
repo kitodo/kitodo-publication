@@ -1,22 +1,15 @@
 {namespace s=SJBR\StaticInfoTables\ViewHelpers}
-{namespace dpf= EWW\Dpf\ViewHelpers}
              
 
 <label class="{f:if(condition:'{fieldItem.inputField}==5',then:'label-checkbox',else:'label')}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>  
 
 <f:switch expression="{fieldItem.inputField}">
    <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                         
-   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                                      
+   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                                         
    <f:case value="2">
-     <dpf:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field input-field-select" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{}" selectType="language"/>
-   </f:case> 
-   <f:case value="3">
-     <dpf:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field input-field-select" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{}" selectType="license"/>
-   </f:case> 
-   <f:case value="4">
      <f:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field input-field-select" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{fieldItem.inputOptions}" />
    </f:case> 
-   <f:case value="5">
+   <f:case value="3">
      <f:form.checkbox property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"  checked="{fieldItem.value}" />     
    </f:case> 
 </f:switch>
@@ -39,19 +32,5 @@
 
   </f:if>
 </f:form.validationResults>
-
-
- 
-
-<f:comment>
-  
-    <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" options="{countries}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/> </f:case>     
- 
-  
-   <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                         
-   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/></f:case>                                      
-   <f:case value="2"><f:form.select    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" options="{countries}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}"/> </f:case>     
-   <f:case value="2"><s:form.select name="staticInfoTablesTestLanguage" staticInfoTable="language" options="{}" value="{fieldItem.value}" class="input-field" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex}" /></f:case> 
-</f:comment>
 
  

@@ -86,9 +86,12 @@ class DocumentMapper {
       
     $this->domXpath = new \DOMXPath($dom);     
     */
-     $dom = new \DOMDocument();
+    
+    $dom = new \DOMDocument();
     $dom->loadXML($document->getXmlData());           
-    $this->domXpath = new \DOMXPath($dom);
+    
+    // $this->domXpath = new \DOMXPath($dom);
+    $this->domXpath = \EWW\Dpf\Helper\XPath::create($dom);  
     
     $this->domXpath->registerNamespace("foaf", "http://xmlns.com/foaf/0.1/");
     $this->domXpath->registerNamespace("slub", "http://slub-dresden.de");
