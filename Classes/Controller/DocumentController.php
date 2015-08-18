@@ -161,7 +161,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 $this->persistenceManager->persistAll();
                 // send document to index
                 $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
-                $json = $elastcisearchMapper->getElasticsearchJson($newDocument);
+                $json = $elasticsearchMapper->getElasticsearchJson($newDocument);
                 
                 $elasticsearchRepository->add($newDocument, $json);
                 // $elasticsearchRepository->delete($updateDocument);
