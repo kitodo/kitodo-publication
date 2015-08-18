@@ -209,7 +209,7 @@
 			// Input left on stack:
 			$token = $in->after();
 			$in->move($token);
-			$out->writeRaw(htmlentities($token));
+			$out->writeRaw(htmlentities($token, 'ENT_QUOTES'));
 		}
 
 		/**
