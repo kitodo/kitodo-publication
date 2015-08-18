@@ -475,35 +475,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         return $files;
 
     }
-
-    public function getXsltJson()
-    {
-        $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf');
-
-        // xslt
-        $xsl = new \DOMDocument;
-        $xsl->load($extPath.'/'.'Resources/Private/XSLT/METS-MODS-XML2JSON.xml');
-
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
-        $fileData = $this->getFileData();
-        $exporter->setFileData($fileData);
-        $exporter->setSlubInfo(array('documentType' => $this->getDocumentType()->getName()));
-        $exporter->setMods($this->getXmlData());
-        $exporter->buildMets();
-        $metsXml = $exporter->getMetsData();
-
-        $xml = new \DOMDocument;
-        $xml->loadXML($metsXml);
-
-        // xslt processing
-        $proc = new \XSLTProcessor;
-        $proc->importStyleSheet($xsl); // XSL Document importieren          
-
-        $json = $proc->transformToXML($xml);
-
-        return $json;
-    }
-        
         
         public function isEdited() {                                       
           return $this->crdate->getTimestamp() != $this->tstamp->getTimestamp();

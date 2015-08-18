@@ -306,7 +306,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           }
           
           // add document to local es index
-          $json = $updateDocument->getXsltJson();
+          $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+          $json = $elasticsearchMapper->getElasticsearchJson($updateDocument);
           
           $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
           // send document to index

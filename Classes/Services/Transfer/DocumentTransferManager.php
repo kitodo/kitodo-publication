@@ -192,7 +192,15 @@ class DocumentTransferManager {
         $document->setXmlData($mods->getModsXml());
 
         $this->documentRepository->add($document);  
+
+        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
         $this->persistenceManager->persistAll();
+
+        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+        $json = $elastcisearchMapper->getElasticsearchJson($newDocument);
+
+        // send document to index
+        $elasticsearchRepository->add($newDocument, $json);
                     
         foreach ($mets->getFiles() as $attachment) {       
                             
