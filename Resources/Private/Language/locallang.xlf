@@ -177,6 +177,12 @@
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist">
 				<source>Input Option List</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list">
+				<source>Value list</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
+				<source>Value label list</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_inputoptionlist.name">
 				<source>Name</source>
 			</trans-unit>

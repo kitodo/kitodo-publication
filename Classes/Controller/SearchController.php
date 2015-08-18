@@ -53,7 +53,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return void
      */
     public function listAction()
-    {
+    { 
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args = $this->request->getArguments();
@@ -139,11 +139,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     {
         // perform fulltext search
         $args = $this->request->getArguments();
-
+                                        
         $client = $this->clientRepository->findAll()->current();
         
-
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+        
+        if ( !key_exists('search', $args) || !key_exists('query',$args['search'])) {            
+            return NULL;
+        }
+        
+        //$query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
         $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query'];
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query'];
@@ -167,12 +171,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return array elasticsearch query
      */
     public function search()
-    {
+    {         
         // perform search action
         $args = $this->request->getArguments();
 
         $client = $this->clientRepository->findAll()->current();
-
         if (empty($args['search']['query'])) {
             // elasticsearch dsl requires an empty object to match all
             $query['body']['query']['match_all'] = new \stdClass();
@@ -192,6 +195,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
+     //   die();
         $results = $elasticSearch->search($query);
 
         return $results;
@@ -218,7 +222,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
-
         if ($args['extSearch']) {
             // extended search
             $query = $this->extendedSearch();
@@ -228,7 +231,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         }
 
         // $query = $this->searchFulltext();
-
         // save search query
         if ($query) {
             $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
