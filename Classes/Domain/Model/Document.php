@@ -152,8 +152,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param string $title
 	 * @return void
 	 */
-	public function setTitle($title) {		
-                $this->title = htmlspecialchars_decode($title,ENT_QUOTES);
+	public function setTitle($title) {          
+                $this->title = $title; 
+                //htmlspecialchars_decode($title,ENT_QUOTES);
 	}
         
         
@@ -174,7 +175,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthors($authors) {
                 $authors = implode("; ",$authors);		                
-                $this->authors = htmlspecialchars_decode($authors,ENT_QUOTES);
+                $this->authors = $autors;
+                //htmlspecialchars_decode($authors,ENT_QUOTES);
 	}
         
 	/**

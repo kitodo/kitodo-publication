@@ -166,7 +166,7 @@ class DocumentMapper {
                     $documentFormFieldItem = clone($documentFormField);  
                                                            
                     $objectValue = $value->nodeValue;                                                                                                                                        
-                    $objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);    
+                    //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);    
                     $documentFormFieldItem->setValue($objectValue);
                     
                     $documentFormField->setValue($objectValue);
@@ -241,10 +241,11 @@ class DocumentMapper {
     $modsXml = $exporter->getModsData();    
     $document->setXmlData($modsXml);                  
     
-    $mods = new \EWW\Dpf\Helper\Mods($modsXml);                                        
+    $mods = new \EWW\Dpf\Helper\Mods($modsXml); 
+    
     $document->setTitle($mods->getTitle());          
     $document->setAuthors($mods->getAuthors());
-    
+    die();
     return $document;      
   }
   
@@ -279,7 +280,7 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
-              $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');
+              // $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');           
               if ($value) {                 
                 $formField['modsExtension'] = $metadataObject->getModsExtension();
                   
