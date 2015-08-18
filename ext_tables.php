@@ -57,7 +57,7 @@ if (TYPO3_MODE === 'BE') {
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
           'EWW.' . $_EXTKEY,
           'qucosaMain',   
-          'initclient',
+          'admin',
           '',		
           array(
                   'Client' => 'new,create,default',
@@ -65,7 +65,7 @@ if (TYPO3_MODE === 'BE') {
           array(
                   'access' => 'user,group',
                   'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_initclient.xlf', 
+                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_admin.xlf', 
                   'navigationComponentId' => 'typo3-pagetree'                  
           )
   );
