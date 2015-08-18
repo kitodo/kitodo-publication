@@ -145,8 +145,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
-        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query']; // Bla
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query']; // Bla
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query'];
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query'];
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
