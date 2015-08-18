@@ -22,8 +22,8 @@ class Slub {
   }
   
   
-  public function getSlubXpath() {              
-    return new \DOMXPath($this->slubDom);             
+  public function getSlubXpath() {                   
+    return \EWW\Dpf\Helper\XPath::create($this->slubDom);  
   }
   
   

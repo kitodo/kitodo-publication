@@ -23,8 +23,8 @@ class Mods {
   }
   
     
-  public function getModsXpath() {               
-    return new \DOMXPath($this->modsDom);             
+  public function getModsXpath() {            
+    return \EWW\Dpf\Helper\XPath::create($this->modsDom);  
   }
   
   

@@ -30,14 +30,7 @@ class DocumentFormField extends AbstractFormElement {
   public function setInputField($inputField) {
     $this->inputField = $inputField;    
   }
-  
-  public function getSelectOptions() {
-      return $this->selectOptions;     
-  }
-  
-  public function setSelectOptions($selectOptions) {
-     $this->selectOptions = $selectOptions;     
-  }
+    
   
   /**
    * 
@@ -57,8 +50,8 @@ class DocumentFormField extends AbstractFormElement {
     
     if ($inputOptionList) {    
         $this->inputOptions[''] = '';
-        foreach ($inputOptionList->getInputOptions() as $option) {
-            $this->inputOptions[$option->getValue()] = $option->getTitle();    
+        foreach ($inputOptionList->getInputOptions() as $option => $label) {
+            $this->inputOptions[$option] = $label;    
         }
     }
          

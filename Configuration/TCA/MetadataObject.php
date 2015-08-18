@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options, input_option_list',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, input_option_list',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, select_options, input_option_list, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, input_option_list, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -107,7 +107,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,unique'
+				'eval' => 'trim,uniqueInPid'
 			),
 		),
 		'display_name' => array(
@@ -167,33 +167,13 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 					array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.input', \EWW\Dpf\Domain\Model\MetadataObject::input),
                                         array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.textarea', \EWW\Dpf\Domain\Model\MetadataObject::textarea),
                                         array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.select',\EWW\Dpf\Domain\Model\MetadataObject::select),
-                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.checkbox',\EWW\Dpf\Domain\Model\MetadataObject::checkbox),    
-                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.language', \EWW\Dpf\Domain\Model\MetadataObject::language),
-                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.license', \EWW\Dpf\Domain\Model\MetadataObject::license),                                       
+                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.checkbox',\EWW\Dpf\Domain\Model\MetadataObject::checkbox),                                                         
                                 ),
 				'size' => 1,
 				'maxitems' => 1,
 				'eval' => ''
 			),
-		),
-            /*	'input_option_list' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_formfield.input_option_list',
-			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_dpf_domain_model_inputoptionlist',
-				'minitems' => 0,
-				'maxitems' => 1,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
-			),
-		),
-            */
+		),            
                 'input_option_list' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_formfield.input_option_list',
@@ -202,24 +182,12 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
                                 'items' => array(
                                     array('',0),
                                 ),
-				'foreign_table' => 'tx_dpf_domain_model_inputoptionlist',
+				'foreign_table' => 'tx_dpf_domain_model_inputoptionlist',              
+                                'foreign_table_where' => ' AND (tx_dpf_domain_model_inputoptionlist.pid=###PAGE_TSCONFIG_ID###) AND (tx_dpf_domain_model_inputoptionlist.sys_language_uid = 0)',                                
 				'minitems' => 0,
 				'maxitems' => 1,
 			),
-		),
-            
-            
-                'select_options' => array(
-			'exclude' => 1,
-                        'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.select_options',
-			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
-			),
-		),
-		
+		),            
 		'metadatagroup' => array(
 			'config' => array(
 				'type' => 'passthrough',

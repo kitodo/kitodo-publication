@@ -49,16 +49,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
          */
         protected $clientRepository = NULL;
         
-        
-        /**
-         * InputOptionRepository
-         *
-         * @var \EWW\Dpf\Domain\Repository\InputOptionRepository
-         * @inject
-         */
-        protected $inputOptionRepository = NULL;
-        
-        
+                        
         /**
          * InputOptionListRepository
          *
