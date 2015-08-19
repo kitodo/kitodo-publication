@@ -152,8 +152,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param string $title
 	 * @return void
 	 */
-	public function setTitle($title) {		
-                $this->title = htmlspecialchars_decode($title,ENT_QUOTES);
+	public function setTitle($title) {          
+                $this->title = $title; 
+                //htmlspecialchars_decode($title,ENT_QUOTES);
 	}
         
         
@@ -174,7 +175,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthors($authors) {
                 $authors = implode("; ",$authors);		                
-                $this->authors = htmlspecialchars_decode($authors,ENT_QUOTES);
+                $this->authors = $autors;
+                //htmlspecialchars_decode($authors,ENT_QUOTES);
 	}
         
 	/**
@@ -434,7 +436,47 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setFile(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $file) {
 		$this->file = $file;
 	}
+
+
+    public function getFileData()
+    {
         
+        $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
+
+        $files = array();
+
+        foreach ($this->getFile() as $file) {
+
+            $fileStatus = $file->getStatus();
+
+            if (!empty($fileStatus)) {
+
+                $dataStreamIdentifier = $file->getDatastreamIdentifier();
+
+                if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
+                    $files[$file->getUid()] = array(
+                    'path' => $file->getLink(),
+                    'type' => $file->getContentType(),
+                    'id' => $fileId->getId($file),
+                    'title' => $file->getTitle(),
+                    'use' => ''
+                    );
+                } elseif (!empty($dataStreamIdentifier)) {
+                    $files[$file->getUid()] = array(
+                    'path' => $file->getLink(),
+                    'type' => $file->getContentType(),
+                    'id' => $file->getDatastreamIdentifier(),
+                    'title' => $file->getTitle(),
+                    'use' => 'DELETE'
+                    );
+                }
+            }
+
+        }
+
+        return $files;
+
+    }
         
         public function isEdited() {                                       
           return $this->crdate->getTimestamp() != $this->tstamp->getTimestamp();

@@ -46,6 +46,23 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $displayName = '';
 
+        
+        /**
+         * valueList
+         * 
+         * @var string
+         */
+        protected $valueList = '';
+        
+        
+        /**
+         * valueLabelList
+         * 
+         * @var string
+         */
+        protected $valueLabelList = '';
+        
+        
 	/**
 	 * inputOptions
 	 *
@@ -57,22 +74,9 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * __construct
 	 */
 	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
+		
 	}
-
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->inputOptions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
-
+	
 	/**
 	 * Returns the name
 	 *
@@ -101,6 +105,47 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->displayName;
 	}
 
+        
+        /**
+	 * Returns the valueList
+	 *
+	 * @return string $valueList
+	 */
+	public function getValueList() {
+		return $this->valueList;
+	}
+
+	/**
+	 * Sets the valueList
+	 *
+	 * @param string $valueList
+	 * @return void
+	 */
+	public function setValueList($valueList) {
+		$this->valueList = $valueList;
+	}
+        
+        
+        /**
+	 * Returns the valueLabelList
+	 *
+	 * @return string $valueLabelList
+	 */
+	public function getValueLabelList() {
+		return $this->valueLabelList;
+	}
+
+	/**
+	 * Sets the valueLabelList
+	 *
+	 * @param string $valueLabelList
+	 * @return void
+	 */
+	public function setValueLabelList($valueLabelList) {
+		$this->valueLabelList = $valueLabelList;
+	}
+        
+        
 	/**
 	 * Sets the displayName
 	 *
@@ -110,34 +155,22 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setDisplayName($displayName) {
 		$this->displayName = $displayName;
 	}
-
-	/**
-	 * Adds a InputOption
-	 *
-	 * @param \Eww\Dpf\Domain\Model\InputOption $inputOption
-	 * @return void
-	 */
-	public function addInputOption(\Eww\Dpf\Domain\Model\InputOption $inputOption) {
-		$this->inputOptions->attach($inputOption);
-	}
-
-	/**
-	 * Removes a InputOption
-	 *
-	 * @param \Eww\Dpf\Domain\Model\InputOption $inputOptionToRemove The InputOption to be removed
-	 * @return void
-	 */
-	public function removeInputOption(\Eww\Dpf\Domain\Model\InputOption $inputOptionToRemove) {
-		$this->inputOptions->detach($inputOptionToRemove);
-	}
-
+	
 	/**
 	 * Returns the inputOptions
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOption> $inputOptions
+	 * @return array $inputOptions
 	 */
 	public function getInputOptions() {
-		return $this->inputOptions;
+            
+                $values = explode("|",$this->getValueList());
+                $labels = explode("|",$this->getValueLabelList());
+            
+                if (sizeof($values) !=  sizeof($labels)) {
+                    throw \Exception('Invalid input option list configuration.');
+                }
+                
+		return array_combine($values, $labels);
 	}
 
 	/**
@@ -149,5 +182,15 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setInputOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputOptions) {
 		$this->inputOptions = $inputOptions;
 	}
+        
+        
+        public function setL10nParent($l10nParent) {
+            $this->l10nParent = $l10nParent;   
+        }
+    
+           
+        public function setSysLanguageUid($sysLanguageUid) {
+            $this->_languageUid = $sysLanguageUid;   
+        }
 
 }

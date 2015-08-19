@@ -50,31 +50,45 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		</thead>
 		<f:for each="{searchList}" as="entry">
 		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                     <f:then><tr class="success"></f:then>	
-                     <f:else><tr></f:else>
-                   </f:if>  
+         <f:then><tr class="success"></f:then>	
+         <f:else><tr></f:else>
+       </f:if>  
                      
-                  
-				<td>{entry._source.PID}</td>
-				<td>{entry._source._dissemination._content.title.0}</td>
-				<td>{entry._source._dissemination._content.publisher.0}</td>
-				<td>{entry._source._dissemination._content.submitter}</td>
-				<td>{entry._source._dissemination._content.identifier.0}</td>
-                <td class="table_col_function">    
-                  <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                    <f:then>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                        Get 
-                      </f:link.action>
-                    </f:then>
-                    <f:else>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info">                                   
-                        Get 
-                      </f:link.action>
-                    </f:else>                    
-                  </f:if>                                  
-                </td>      
-                                                               
+        <f:if condition="{entry._source._dissemination}">
+          <f:then>          
+    				<td>{entry._id}</td>
+    				<td>{entry._source._dissemination._content.title.0}</td>
+    				<td>{entry._source._dissemination._content.publisher.0}</td>
+    				<td>{entry._source._dissemination._content.submitter}</td>
+    				<td>{entry._source._dissemination._content.identifier.0}</td>
+            <td class="table_col_function">    
+            <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
+              <f:then>
+                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
+                  Get 
+                </f:link.action>
+              </f:then>
+              <f:else>
+                <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info">                                   
+                  Get 
+                </f:link.action>
+              </f:else>                    
+            </f:if>                                  
+          </td> 
+          </f:then>
+          <f:else>
+            <td>{entry._id}</td>
+            <td>{entry._source.title.0}</td>
+            <td>{entry._source.publisher.0}</td>
+            <td>{entry._source.submitter}</td>
+            <td>{entry._source.identifier.0}</td>
+            <td class="table_col_function">
+              <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
+                Get 
+              </f:link.action>
+            </td>
+          </f:else>                    
+        </f:if>                                                    
 			</tr>
 		</f:for>
 	</table>

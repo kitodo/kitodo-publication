@@ -83,9 +83,7 @@ class DocumentTransferManager {
     
     $fileData = $this->getFileData($document);
     $exporter->setFileData($fileData);    
-    
-    $document->initDateIssued();
-                            
+                                   
     $exporter->setMods($document->getXmlData());    
                                   
     $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
@@ -95,10 +93,11 @@ class DocumentTransferManager {
     $metsXml = $exporter->getMetsData();
         
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
-                            
+            
     if ($remoteDocumentId) {            
         $document->setObjectIdentifier($remoteDocumentId);                                                        
         $document->setTransferStatus(Document::TRANSFER_SENT);                           
+        $document->initDateIssued();
         $this->documentRepository->update($document);
         $this->documentRepository->remove($document);
         return TRUE;
@@ -192,7 +191,15 @@ class DocumentTransferManager {
         $document->setXmlData($mods->getModsXml());
 
         $this->documentRepository->add($document);  
+
+        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
         $this->persistenceManager->persistAll();
+
+        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+        $json = $elasticsearchMapper->getElasticsearchJson($document);
+
+        // send document to index
+        $elasticsearchRepository->add($document, $json);
                     
         foreach ($mets->getFiles() as $attachment) {       
                             

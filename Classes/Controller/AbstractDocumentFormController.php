@@ -56,7 +56,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
 	 * @inject
 	 */
-	protected $documentTypeRepository = NULL;        
+	protected $documentTypeRepository = NULL;
 
 
         /**
@@ -76,7 +76,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 */
 	protected $metadataObjectRepository = NULL;
         
-        
         /**
          * persistence manager
          *
@@ -92,35 +91,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function listAction() {
-            
-                // +1
-                
-            /*    $inputOptionRepository = $this->objectManager->get('EWW\Dpf\Domain\Repository\InputOptionRepository');                            
-                $inputOption = $this->objectManager->get('EWW\Dpf\Domain\Model\InputOption');
-                $inputOption->setTitle('Test100');
-                $inputOption->setPid('10');
-                $inputOption->setL10nParent(3);
-                $inputOption->setSysLanguageUid(2);
-                
-                $inputOptionRepository->add($inputOption);
-                $this->persistenceManager->persistAll();
-                
-           */    
- 
- 	$lr = $this->objectManager->get('EWW\Dpf\Domain\Repository\SysLanguageRepository');
-        
-        $languages = $lr->findInstalledLanguages();
-                
-                foreach ($languages as $lang) {
-                    echo "<pre>";
-                    
-                    print_r($lang);
-                
-                    echo "</pre>";
-                }
-                die;
-                // -1
-            
+                                        
 		$documents = $this->documentRepository->findAll();
                 
                 $documentTypes = $this->documentTypeRepository->findAll();
@@ -333,12 +304,20 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           foreach ( $documentForm->getNewFiles() as $newFile ) {     
             $updateDocument->addFile($newFile);           
           }
-                    
-                                                               
           
+          // add document to local es index
+          $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+          $json = $elasticsearchMapper->getElasticsearchJson($updateDocument);
+          
+          $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+          // send document to index
+          $elasticsearchRepository->add($updateDocument, $json);
+          // $elasticsearchRepository->delete($updateDocument);
+
+                    
           if (array_key_exists('savecontinue', $requestArguments)) {            
             $this->forward('edit',NULL,NULL,array('documentForm' => $documentForm));                        
-          }      
+          }
                                                                     
           $this->redirectToList();
 	}

@@ -86,9 +86,12 @@ class DocumentMapper {
       
     $this->domXpath = new \DOMXPath($dom);     
     */
-     $dom = new \DOMDocument();
+    
+    $dom = new \DOMDocument();
     $dom->loadXML($document->getXmlData());           
-    $this->domXpath = new \DOMXPath($dom);
+    
+    // $this->domXpath = new \DOMXPath($dom);
+    $this->domXpath = \EWW\Dpf\Helper\XPath::create($dom);  
     
     $this->domXpath->registerNamespace("foaf", "http://xmlns.com/foaf/0.1/");
     $this->domXpath->registerNamespace("slub", "http://slub-dresden.de");
@@ -163,7 +166,9 @@ class DocumentMapper {
                     $documentFormFieldItem = clone($documentFormField);  
                                                            
                     $objectValue = $value->nodeValue;                                                                                                                                        
-                    $objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);    
+                    //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
+                    $value = str_replace('"',"'",$value);
+                    
                     $documentFormFieldItem->setValue($objectValue);
                     
                     $documentFormField->setValue($objectValue);
@@ -238,10 +243,11 @@ class DocumentMapper {
     $modsXml = $exporter->getModsData();    
     $document->setXmlData($modsXml);                  
     
-    $mods = new \EWW\Dpf\Helper\Mods($modsXml);                                        
+    $mods = new \EWW\Dpf\Helper\Mods($modsXml); 
+    
     $document->setTitle($mods->getTitle());          
     $document->setAuthors($mods->getAuthors());
-    
+  
     return $document;      
   }
   
@@ -276,7 +282,8 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
-              $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');
+              // $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');    
+              $value = str_replace('"',"'",$value);
               if ($value) {                 
                 $formField['modsExtension'] = $metadataObject->getModsExtension();
                   

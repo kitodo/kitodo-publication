@@ -86,10 +86,7 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 				<source>Input Field</source>
-			</trans-unit>	
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.select_options">
-				<source>Select Options</source>
-			</trans-unit>		
+			</trans-unit>                       
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>
 			</trans-unit>
@@ -104,7 +101,16 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_qucosaform.options">
 				<source>Options</source>
-                        </trans-unit>        
+                        </trans-unit> 
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist">
+				<source>Input Option List</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list">
+				<source>Value list</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
+				<source>Value label list</source>
+			</trans-unit>       
 			<trans-unit id="tx_dpf_domain_model_metadatapage">
 				<source>Metadata Page</source>
 			</trans-unit>

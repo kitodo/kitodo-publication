@@ -82,11 +82,9 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $selectOptions = '';
         
         const input = 0;
-        const textarea = 1;         
-        const language = 2;   
-        const license = 3;   
-        const select = 4;   
-        const checkbox = 5;
+        const textarea = 1;                
+        const select = 2;   
+        const checkbox = 3;
         
         /**
 	 * modsExtension
@@ -188,35 +186,8 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function isMandatory() {
 		return $this->mandatory;
 	}
+                                
         
-        /**
-	 * Returns the selectOptions
-	 *
-	 * @return array $selectOptions
-	 */
-	public function getSelectOptions() {    
-                $options = explode("|",trim($this->selectOptions," "));                        
-                
-                $selectOptions = array();
-                
-                foreach ($options as $value) {                    
-                    $selectOptions[$value] = $value;
-                }                
-                
-                return $selectOptions;
-	}
-        
-        /**
-	 * Sets the selectOptions
-	 *
-	 * @param array $selectOptions
-	 * @return void
-	 */
-	public function setSelectOptions($selectOptions) {                
-		$this->selectOptions = implode("|",$selectOptions);
-	}
-
-                        
         /**
 	 * Returns the modsExtension
 	 *

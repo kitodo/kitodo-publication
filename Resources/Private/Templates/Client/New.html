@@ -1,0 +1,50 @@
+<f:layout name="AdminBE" />
+
+<f:section name="main">
+   
+  <h3>Mandant initialisieren</h3>
+
+<f:flashMessages renderMode="div" />
+
+
+<f:form.validationResults for="{newClient}">
+    <f:if condition="{validationResults.flattenedErrors}">
+        <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">            
+            <f:for each="{errors}" as="error"> 
+                <div class="typo3-messages">
+                    <div class="typo3-message message-error">
+                        <div class="message-body">{propertyPath}: {error}</div>
+                    </div>
+                </div>
+            </f:for>
+        </f:for>
+    </f:if>
+</f:form.validationResults>
+
+<f:if condition="{isValidClientFolder} > 0">
+               
+   <f:form id="new-client" action="create" name="newClient" object="{newClient}" >                        
+                
+                <label>Client</label>
+                <f:form.textfield property="client" />
+                
+                <label>Project</label>
+                <f:form.textfield property="project" />
+                
+                <label>Owner-ID</label>
+                <f:form.textfield property="ownerId" />
+                
+                <br />
+                <br />
+                
+                <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen" />
+   </f:form>        
+        
+    
+</f:if>
+        
+    
+
+
+
+</f:section>

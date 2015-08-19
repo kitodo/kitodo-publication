@@ -75,14 +75,14 @@ class FedoraRepository implements Repository {
    * @return string
    */   
   public function ingest($document, $metsXml) {
-    
+              
     try {    
       $response = Request::post($this->swordHost . "/sword/qucosa:all")      
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType(FedoraRepository::QUCOSA_TYPE)
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)      
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())      
         ->send();
                                                                              
       TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
@@ -118,7 +118,7 @@ class FedoraRepository implements Repository {
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType(FedoraRepository::QUCOSA_TYPE)
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
                                                                              
       TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
@@ -148,7 +148,7 @@ class FedoraRepository implements Repository {
    try {    
       $response = Request::get($this->fedoraHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")             
         ->authenticateWith($this->fedoraUser, $this->fedoraPassword)     
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
                                                                              
       TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
@@ -180,7 +180,7 @@ class FedoraRepository implements Repository {
     try {    
       $response = Request::delete($this->swordHost . "/sword/qucosa:all/". $remoteId)               
         ->authenticateWith($this->swordUser, $this->swordPassword) 
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->ownerId)   
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
                                                                              
       TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
@@ -227,6 +227,10 @@ class FedoraRepository implements Repository {
     if (empty($this->ownerId)) {
       $client = $this->clientRepository->findAll()->current();  
       $this->ownerId = $client->getOwnerId();
+    }
+    
+    if (empty($this->ownerId)) {
+        throw new \Exception('Owner id can not be empty or null!');
     }
     
     return $this->ownerId;

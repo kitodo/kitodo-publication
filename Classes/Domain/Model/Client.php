@@ -36,6 +36,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * project
 	 *
 	 * @var string
+         * @validate NotEmpty
 	 */
 	protected $project = '';
 
@@ -43,6 +44,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * client
 	 *
 	 * @var string
+         * @validate NotEmpty
 	 */
 	protected $client = '';
         
@@ -50,6 +52,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * ownerId
 	 *
 	 * @var string
+         * @validate NotEmpty
 	 */
 	protected $ownerId = '';
         
@@ -76,7 +79,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the client
 	 *
-	 * @return string $client
+	 * @return string $client         
 	 */
 	public function getClient() {
 		return $this->client;

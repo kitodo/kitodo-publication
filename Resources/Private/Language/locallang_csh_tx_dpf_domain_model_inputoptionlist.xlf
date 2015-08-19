@@ -8,9 +8,12 @@
 			</trans-unit>
 			<trans-unit id="display_name.description">
 				<source>displayName</source>
+			</trans-unit>			                
+                        <trans-unit id="value_list.description">
+				<source>valueList</source>
 			</trans-unit>
-			<trans-unit id="input_options.description">
-				<source>inputOptions</source>
+                        <trans-unit id="value_label_list.description">
+				<source>valueLabelList</source>
 			</trans-unit>
 		</body>
 	</file>

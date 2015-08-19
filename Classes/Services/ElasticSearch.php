@@ -82,7 +82,7 @@ class ElasticSearch
             $query['index'] = $this->index;
         }
         if (empty($query['type'])) {
-            $query['type'] = $this->type;
+            // $query['type'] = $this->type;
         }
 
         // Search request
