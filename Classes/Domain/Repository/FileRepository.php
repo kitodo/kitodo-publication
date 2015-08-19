@@ -59,8 +59,8 @@ class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
       ));
             
     $file = $query->execute();    
-    
-    if ($file) {
+            
+    if ($file->count() > 0) {
       return $file->current();
     }
     

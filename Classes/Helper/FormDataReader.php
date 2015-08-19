@@ -170,7 +170,7 @@ class FormDataReader {
       if ($document) {
         $file = $this->fileRepository->getPrimaryFileByDocument($document);
       }  
-                         
+                           
       $newFiles[] = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file);                             
     }
      

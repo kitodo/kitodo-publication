@@ -167,7 +167,7 @@ class DocumentMapper {
                                                            
                     $objectValue = $value->nodeValue;                                                                                                                                        
                     //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
-                    $value = str_replace('"',"'",$value);
+                    $objectValue = str_replace('"',"'",$objectValue);
                     
                     $documentFormFieldItem->setValue($objectValue);
                     
