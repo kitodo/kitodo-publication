@@ -306,31 +306,31 @@ var addGroup = function() {
     
     
     var fillOutServiceUrn = function() {
-
-      //  if (fillOutUrn) return false;
-
+        
         // Get the field uid
         var fieldUid = jQuery(this).attr('data-field');
         
         var fieldIndex = jQuery(this).attr('data-index');
       
         var ajaxURL = jQuery(this).attr('data-ajax');
-              
+        
         var params = [];                                   
+        if (qucosaId) {
+            params['qucosaId'] = qucosaId;
+        }        
                                    
         //do the ajax-call       
         jQuery.getJSON(ajaxURL, params, function (element) {                      
             var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
+
+            jQuery('#qucosaId').val(element.qucosaId);           
+            qucosaId = element.qucosaId;                       
+            inputField.val(element.value);         
             
-            if(element.value) {
-                fillOutUrn = 1;
-            }
-            
-            inputField.val(element.value);                                
         });
 
       return false;
     }
     
     
-    var fillOutUrn = 0;
+    var qucosaId = "";

@@ -151,31 +151,13 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
         
         /**
          * 
-         * @param integer $documentId
+         * @param string $qucosaId
          * @return string
          */                  
-        public function fillOutAction() { 
-            
-            /*
-            $GLOBALS['TSFE']->fe_user->setKey("ses","qucosa_id","");
-            
-            $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-            $sessionVars['qucosa_id'] = "";
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);   
-            */
-            
-         
-            
-            if (TYPO3_MODE == 'BE') {
-                $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-                $urn = $sessionVars['urn'];
-            } else {    
-                $urn = $GLOBALS["TSFE"]->fe_user->getKey("ses","urn");
-            }
-            
-            
-            if ($qucosaId) {                                                                                
-                
+        public function fillOutAction($qucosaId) { 
+                                                        
+            if (!empty($qucosaId)) {                                                                                
+              $urn = $identifierUrn->getUrn($qucosaId);
             } else {  
                 $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
                 $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
@@ -184,21 +166,13 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
                 $qucosaId = $documentTransferManager->getNextDocumentId();
                                     
                 $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c");
-                $urn = $identifierUrn->getUrn($qucosaId);
-                
-                if (TYPO3_MODE == 'BE') {
-                    $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-                    $sessionVars['urn'] = $urn;
-                    $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);   
-                } else {
-                    $GLOBALS['TSFE']->fe_user->setKey("ses","urn",$qucosaId);
-                }
+                $urn = $identifierUrn->getUrn($qucosaId);                                
                                                
             }    
                                        
             return json_encode(
                     array(
-                        'id' => $fieldUid,
+                        'qucosaId' => $qucosaId,
                         'value' => $urn,
                     )
             );

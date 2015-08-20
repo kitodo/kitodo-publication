@@ -67,7 +67,8 @@ class DocumentMapper {
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
-   
+    $documentForm->setQucosaId($document->getObjectIdentifier());
+    
     /*
     // Get the mods data
     $metsDom = new \DOMDocument();

@@ -239,6 +239,8 @@ class FormDataReader {
     $documentForm->setDisplayName($this->documentType->getDisplayName());
     $documentForm->setName($this->documentType->getName());
     $documentForm->setDocumentUid($this->formData['documentUid']);
+    $documentForm->setQucosaId($this->formData['qucosaId']);
+   
     
     $documentData = array();
     
