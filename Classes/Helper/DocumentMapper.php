@@ -88,8 +88,9 @@ class DocumentMapper {
     */
     
     $dom = new \DOMDocument();
-    if (!empty($document->getXmlData())) {
-        $dom->loadXML($document->getXmlData());           
+    $xmlData = $document->getXmlData();
+    if (!empty($xmlData)) {
+        $dom->loadXML($xmlData);           
     }    
     
     // $this->domXpath = new \DOMXPath($dom);
