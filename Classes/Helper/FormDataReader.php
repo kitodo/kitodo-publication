@@ -125,33 +125,43 @@ class FormDataReader {
    * 
    * @param array $formData
    */
-  public function setFormData($formData) {
+  public function setFormData($formData) {                
     $this->formData = $formData;             
     $this->documentType = $this->documentTypeRepository->findByUid($formData['type']);
   }
   
   
-  protected function getFields() {     
-    foreach ($this->formData['metadata'] as $key => $value) {      
-      $formField = new \EWW\Dpf\Helper\FormField($key,$value);      
-      $fields[] = $formField;            
-    }
+  protected function getFields() {
+      
+    $fields = array();
+    
+    if (is_array($this->formData['metadata'])) {
+        foreach ($this->formData['metadata'] as $key => $value) {      
+            $formField = new \EWW\Dpf\Helper\FormField($key,$value);      
+            $fields[] = $formField;            
+        }
+    }    
     
     return $fields;    
   }
   
   
-  protected function getDeletedFiles() {     
-    foreach ($this->formData['deleteFile'] as $key => $value) {        
+  protected function getDeletedFiles() {  
       
-      $file = $this->fileRepository->findByUid($value);
+    $deletedFiles = array(); 
       
-      // Deleting the primary file is not allowed. 
-      if (!$file->isPrimaryFile()) {
-        $deletedFiles[] = $file;                                   
-      }
+    if (is_array($this->formData['deleteFile'])) {
+        foreach ($this->formData['deleteFile'] as $key => $value) {     
+                                 
+            $file = $this->fileRepository->findByUid($value);
+      
+            // Deleting the primary file is not allowed. 
+            if (!$file->isPrimaryFile()) {
+                $deletedFiles[] = $file;                                   
+            }
             
-    }
+        }
+    }    
     
     return $deletedFiles;    
   }
@@ -176,11 +186,13 @@ class FormDataReader {
      
            
     // Secondary files
-    foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
-      if ($tmpFile['error'] != 4) {          
-        $newFiles[] = $this->getUploadedFile($tmpFile);                                                                                 
-      }
-    }
+    if (is_array($this->formData['secondaryFiles'])) {
+        foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
+            if ($tmpFile['error'] != 4) {          
+                $newFiles[] = $this->getUploadedFile($tmpFile);                                                                                 
+            }
+        }
+    }    
     
     return $newFiles;
     

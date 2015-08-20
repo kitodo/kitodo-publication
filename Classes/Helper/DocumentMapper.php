@@ -61,7 +61,7 @@ class DocumentMapper {
   
   
   public function getDocumentForm($document) { 
-           
+        
     $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();      
     $documentForm->setUid($document->getDocumentType()->getUid());    
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
@@ -88,7 +88,9 @@ class DocumentMapper {
     */
     
     $dom = new \DOMDocument();
-    $dom->loadXML($document->getXmlData());           
+    if (!empty($document->getXmlData())) {
+        $dom->loadXML($document->getXmlData());           
+    }    
     
     // $this->domXpath = new \DOMXPath($dom);
     $this->domXpath = \EWW\Dpf\Helper\XPath::create($dom);  
