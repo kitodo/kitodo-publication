@@ -91,7 +91,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @return void
 	 */
 	public function listAction() {
-                                        
+                                                                         
 		$documents = $this->documentRepository->findAll();
                 
                 $documentTypes = $this->documentTypeRepository->findAll();

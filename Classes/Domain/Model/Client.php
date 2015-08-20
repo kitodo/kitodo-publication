@@ -57,6 +57,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $ownerId = '';
         
         
+        /**
+         * urnNamespace
+         * 
+         * @var string
+         * @validate NotEmpty
+         */
+        protected $urnNamespace = '';
+        
+        
 	/**
 	 * Returns the project
 	 *
@@ -93,6 +102,26 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setClient($client) {
 		$this->client = $client;
+	}
+                
+        /**
+	 * Returns the urnNamespace
+	 *
+	 * @return string $urnNamespace         
+	 */
+	public function getUrnNamespace() {
+		return $this->urnNamespace;
+	}
+        
+        
+        /**
+	 * Sets the urnNamespace
+	 *
+	 * @param string $urnNamespace
+         * @return void                 
+	 */
+	public function setUrnNamespace($urnNamespace) {
+		$this->urnNamespace = $urnNamespace;
 	}
         
         

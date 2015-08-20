@@ -168,6 +168,38 @@ class FedoraRepository implements Repository {
    
   
   /**
+   * Reserves a new DocumentId (qucosa id) 
+   * 
+   * @param string $remoteId
+   * @return string
+   */
+  public function getNextDocumentId() {
+                     
+//    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
+   
+   try {    
+      $response = Request::get($this->fedoraHost . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")             
+        ->authenticateWith($this->fedoraUser, $this->fedoraPassword)     
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())
+        //->addHeader()      
+        ->send();
+                                                                                           
+      TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
+                 
+      // if transfer successful 
+      if ( !$response->hasErrors() && $response->code == 200 ) {                                    
+        return $response->__toString();                               
+      }                            
+    } catch(Exception $exception) {
+      // curl error handling,
+      // but extbase already catches all exceptions       
+      return NULL;
+    }     
+              
+    return NULL;
+  }
+  
+  /**
    * Removes an existing document from the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document

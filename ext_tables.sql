@@ -152,6 +152,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
         mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	input_field int(11) DEFAULT '0' NOT NULL,      
         input_option_list int(11) unsigned DEFAULT '0',
+        fill_out_service varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -399,6 +400,7 @@ CREATE TABLE tx_dpf_domain_model_client (
 
 	project varchar(255) DEFAULT '' NOT NULL,
 	client varchar(255) DEFAULT '' NOT NULL,
+        urn_namespace varchar(255) DEFAULT '' NOT NULL,
         owner_id varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

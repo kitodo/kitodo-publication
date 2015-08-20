@@ -131,6 +131,7 @@ class DocumentMapper {
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
+                $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
                                                               
                 $objectMapping = "";                
                 
@@ -193,6 +194,7 @@ class DocumentMapper {
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
+              $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
               $documentFormField->setValue("");
                                
               $documentFormGroup->addItem($documentFormField);                

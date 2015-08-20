@@ -4,13 +4,16 @@
 		<header/>
 		<body>
 			<trans-unit id="project.description">
-				<source>project</source>
+				<source>Project name</source>
 			</trans-unit>
 			<trans-unit id="client.description">
-				<source>client</source>
+				<source>Client name</source>
 			</trans-unit>
                         <trans-unit id="owner_id.description">
-				<source>OwnerID</source>
+				<source>Owner ID</source>
+			</trans-unit>
+                        <trans-unit id="urn_namespace.description">
+				<source>Urn namespace</source>
 			</trans-unit>
 		</body>
 	</file>

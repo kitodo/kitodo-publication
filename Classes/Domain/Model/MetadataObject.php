@@ -102,6 +102,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $inputOptionList = NULL;
         
         
+        /**
+         * fillOutService
+         * 
+         * @var string
+         */
+        protected $fillOutService = '';
+                        
+        const FILL_OUT_SERVICE_URN = 'urn';
+        
 	/**
 	 * Returns the name
 	 *
@@ -295,6 +304,26 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setInputOptionList(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList) {
 		$this->inputOptionList = $inputOptionList;
 	}
+        
+        
+        /**
+	 * Returns the fillOutService
+	 *
+	 * @return string $fillOutService
+	 */
+	public function getFillOutService() {
+		return $this->fillOutService;
+	}
 
+        
+        /**
+	 * Sets the fillOutService
+	 *
+         * @param string $fillOutService
+	 * @return void
+	 */
+	public function setFillOutService($fillOutService) {
+		$this->fillOutService = $fillOutService;
+	}
 
 }

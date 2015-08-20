@@ -11,6 +11,8 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $inputOptions;
   
+  protected $fillOutService;
+  
   
   public function getValue() {                   
     return $this->value;    
@@ -56,7 +58,28 @@ class DocumentFormField extends AbstractFormElement {
     }
          
   }
+  
+  
+        /**
+	 * Returns the fillOutService
+	 *
+	 * @return string $fillOutService
+	 */
+	public function getFillOutService() {
+		return $this->fillOutService;
+	}
+
         
+        /**
+	 * Sets the fillOutService
+	 *
+         * @param string $fillOutService
+	 * @return void
+	 */
+	public function setFillOutService($fillOutService) {
+		$this->fillOutService = $fillOutService;
+	}
+             
 }
 
 ?>

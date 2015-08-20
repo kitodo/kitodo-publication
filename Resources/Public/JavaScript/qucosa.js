@@ -28,7 +28,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".add_file_group", addGroup);
     jQuery(".tx-dpf").on("click",".add_field", addField);
     
-    
+    jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);
     
     // jQuery(".form-submit").on("click","#save",
     
@@ -303,3 +303,34 @@ var addGroup = function() {
       }
       return params;
     }
+    
+    
+    var fillOutServiceUrn = function() {
+
+      //  if (fillOutUrn) return false;
+
+        // Get the field uid
+        var fieldUid = jQuery(this).attr('data-field');
+        
+        var fieldIndex = jQuery(this).attr('data-index');
+      
+        var ajaxURL = jQuery(this).attr('data-ajax');
+              
+        var params = [];                                   
+                                   
+        //do the ajax-call       
+        jQuery.getJSON(ajaxURL, params, function (element) {                      
+            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
+            
+            if(element.value) {
+                fillOutUrn = 1;
+            }
+            
+            inputField.val(element.value);                                
+        });
+
+      return false;
+    }
+    
+    
+    var fillOutUrn = 0;

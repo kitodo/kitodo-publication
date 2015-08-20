@@ -11,6 +11,8 @@ interface Repository {
    
   public function delete($document);
   
+  public function getNextDocumentId();
+  
 }
 
 ?>

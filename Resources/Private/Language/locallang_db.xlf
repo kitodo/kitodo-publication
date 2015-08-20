@@ -104,7 +104,13 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
 				<source>select</source>
-			</trans-unit>                        
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service">
+				<source>Fill out service</source>
+			</trans-unit>     
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.urn">
+				<source>URN</source>
+			</trans-unit>                         
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>
 			</trans-unit>
@@ -181,13 +187,16 @@
 				<source>Client</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_client.project">
-				<source>Project</source>
+				<source>Project name</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.client">
-				<source>Client</source>
+				<source>Client name</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_client.urn_namespace">
+				<source>Urn namespace</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
-				<source>OwnerID</source>
+				<source>Owner ID</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist">
 				<source>Input Option List</source>

@@ -86,6 +86,10 @@ class ElasticsearchRepository implements Repository {
         # not implemented yet
     }
 
+    public function getNextDocumentId()
+    {
+        # not implemented yet 
+    }
 
 
 

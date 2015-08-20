@@ -269,7 +269,8 @@ class FormDataReader {
             $documentFormField->setMandatory($metadataObject->getMandatory());
             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());     
             $documentFormField->setInputOptions($metadataObject->getInputOptionList());             
-            $documentFormField->setInputField($metadataObject->getInputField());                                               
+            $documentFormField->setInputField($metadataObject->getInputField());   
+            $documentFormField->setFillOutService($metadataObject->getFillOutService());   
             $documentFormField->setValue($object);
                                                                        
             $documentFormGroup->addItem($documentFormField);                                 
