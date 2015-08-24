@@ -11,6 +11,14 @@ use \Httpful\Request;
 
 class ElasticsearchRepository implements Repository {
 
+    /**
+    * clientRepository
+    *
+    * @var \EWW\Dpf\Domain\Repository\ClientRepository
+    * @inject
+    */
+    protected $clientRepository = null;
+
     protected $host;
 
     protected $index;
@@ -40,12 +48,22 @@ class ElasticsearchRepository implements Repository {
      */
     public function add($document, $json) {
 
+        $client = $this->clientRepository->findAll()->current();
+
+        // build es json
+        $esJson = array();
+        $esJson['OWNER_ID'] = $client->getOwnerId();
+        $esJson['_dissemination'] = array();
+        $esJson['_dissemination']['_content'] = json_decode($json);
+
+        $esJson = json_encode($esJson);
+
         try {
             // send json
             // updates if document id already exists
             $response = Request::put($this->url . $document->getUid())
                 ->sendsJson()
-                ->body($json)
+                ->body($esJson)
                 ->send();
 
         } catch(Exception $exception) {
