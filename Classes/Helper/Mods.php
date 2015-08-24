@@ -124,8 +124,37 @@ class Mods {
           $dateIssued->item(0)->parentNode->removeChild($dateIssued->item(0));
       } 
            
-  }     
+  }  
   
+  
+  public function hasUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+    
+    $hasUrn = false;
+    
+    foreach ($urnNodeList as $urnNode) {
+        echo $value;
+        $value = $urnNode->nodeValue;
+        $hasUrn = $hasUrn || !empty($value);     
+    }
+       
+    return $hasUrn;   
+  }
+   
+  
+  public function addUrn($urn) {
+    $rootNode = $this->getModsXpath()->query('/mods:mods');
+    
+      if ($rootNode->length == 1) {        
+            $newUrn = $this->modsDom->createElement('mods:identifier');            
+            $newUrn->setAttribute('type','urn');
+            $newUrn->nodeValue = $urn;
+            $rootNode->item(0)->appendChild($newUrn);                  
+        } else {
+            throw \Exception('Invalid xml data.');
+        }   
+    
+  }
 }
 
 ?>

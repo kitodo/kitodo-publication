@@ -177,6 +177,32 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
          * @return void
          */
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
+          
+          // generate URN if needed  
+          $qucosaId = $document->getObjectIdentifier();
+          if (empty($qucosaId)) {
+            $qucosaId = $document->getReservedObjectIdentifier();
+          }          
+          if (empty($qucosaId)) {                                         
+            $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $documentTransferManager->setRemoteRepository($remoteRepository);          
+            $qucosaId = $documentTransferManager->getNextDocumentId();
+            $document->setReservedObjectIdentifier($qucosaId);
+          }
+                    
+          $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());               
+          if (!$mods->hasUrn() ) {        
+               $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c");  
+               $urn = $identifierUrn->getUrn($qucosaId);
+               $mods->addUrn($urn);
+               $document->setXmlData($mods->getModsXml());
+          }                                
+            
+          
+          var_dump($document);
+          
+          die("test");
                                 
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
