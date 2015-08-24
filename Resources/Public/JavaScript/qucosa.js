@@ -1,5 +1,7 @@
 
 $(document).ready(function() {
+    
+    buttonFillOutServiceUrn();
          
     // Show the Form pages/steps in Tabs
     jQuery("ul.tx-dpf-tabs").tabs("div.css-panes > div");
@@ -18,6 +20,7 @@ $(document).ready(function() {
       var dataField = jQuery(this).data("field"); 
       jQuery('label[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
       jQuery('.input-field[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
+      jQuery('.fill_out_service_urn[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
       jQuery('span[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
       jQuery('.rem_field[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();                 
       return false;
@@ -29,13 +32,14 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".add_field", addField);
     
     jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);
+    jQuery(".tx-dpf").on("keyup","input.urn", buttonFillOutServiceUrn);
+    
     
     // jQuery(".form-submit").on("click","#save",
-    
-    
+            
     jQuery(".form-submit").on("click","#save", validateForm);
     jQuery(".form-submit").on("click","#savecontinue", validateForm);
-                    
+                                
 });
 
 
@@ -250,7 +254,7 @@ var addGroup = function() {
         var ajaxURL = jQuery(this).attr('data-ajax');
               
         var params = buildAjaxParams(ajaxURL,"fieldIndex",fieldIndex);
-                                                  
+                                                                 
         //do the ajax-call       
         jQuery.post(ajaxURL, params, function (element) {
           
@@ -259,7 +263,7 @@ var addGroup = function() {
             jQuery(field).insertBefore(addButton);
           
         
-          
+            buttonFillOutServiceUrn();
         
           //  var height =jQuery('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
 
@@ -267,7 +271,7 @@ var addGroup = function() {
              //   scrollTop: element.offset().top - height
             //}, 400);
         });
-
+                
       return false;
     }   
     
@@ -314,23 +318,73 @@ var addGroup = function() {
       
         var ajaxURL = jQuery(this).attr('data-ajax');
         
-        var params = [];                                   
+        var qucosaId = jQuery('#qucosaid').val();       
+        
+        var params = {};
+        
         if (qucosaId) {
-            params['qucosaId'] = qucosaId;
-        }        
-                                   
+            params = buildAjaxParams(ajaxURL,"qucosaId",qucosaId);
+        } else {
+            params = buildAjaxParams(ajaxURL,"qucosaId","");
+        }
+                      
         //do the ajax-call       
         jQuery.getJSON(ajaxURL, params, function (element) {                      
-            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
 
-            jQuery('#qucosaId').val(element.qucosaId);           
-            qucosaId = element.qucosaId;                       
+            jQuery('#qucosaid').val(element.qucosaId);     
+            jQuery('#qucosaUrn').val(element.value);           
+           
+            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');                           
             inputField.val(element.value);         
-            
+
+            //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
+            //fillOutButton.hide();           
+            buttonFillOutServiceUrn();                        
+                        
         });
 
       return false;
+    }         
+    
+           
+    var buttonFillOutServiceUrn = function() {
+        
+        jQuery('input.urn').each(function() { 
+           
+            var fieldUid = jQuery(this).attr('data-field');        
+            var fieldIndex = jQuery(this).attr('data-index');
+            var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');              
+                                    
+            if ( (jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn() ) {
+                fillOutButton.hide();
+            } else {                
+                fillOutButton.show();                        
+            }                         
+        });
+                               
+        return false;
+    }        
+    
+    
+    
+    var hasQucosaUrn = function() {
+        
+        var result = false;
+        
+        var qucosaUrn = jQuery('#qucosaUrn').val();
+        
+        jQuery('input.urn').each(function() {
+            
+            var currentUrn = jQuery(this).val();
+                    
+            if (currentUrn == qucosaUrn) {   
+                
+                result = result || true;
+                                
+            }                                    
+        });
+        
+        return result;
     }
     
-    
-    var qucosaId = "";
+      

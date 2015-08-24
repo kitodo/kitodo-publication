@@ -67,7 +67,21 @@ class DocumentMapper {
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
-    $documentForm->setQucosaId($document->getObjectIdentifier());
+    
+    $qucosaId = $document->getObjectIdentifier();
+    
+    if (empty($qucosaId)) {         
+        $qucosaId = $document->getReservedObjectIdentifier();        
+    }
+    
+    if (!empty($qucosaId)) {
+        $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c"); 
+        $qucosaUrn = $identifierUrn->getUrn($qucosaId);
+        $documentForm->setQucosaUrn($qucosaUrn); 
+    }
+    
+    $documentForm->setQucosaId($qucosaId);
+    
     
     /*
     // Get the mods data
@@ -236,7 +250,9 @@ class DocumentMapper {
         
     $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());                   
 
-    $document->setDocumentType($documentType);          
+    $document->setDocumentType($documentType);         
+    
+    $document->setReservedObjectIdentifier($documentForm->getQucosaId());
                             
     $data['documentUid'] = $documentForm->getDocumentUid();
     

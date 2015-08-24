@@ -179,6 +179,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                         )
                 ),
             
+                'reserved_object_identifier' => Array (
+                        'exclude' => 0,
+                        'label' => 'Reserved Object Identifier',
+                        'config' => Array (
+                                'type' => 'input',
+                                'size' => '30',
+                                'eval' => 'trim',
+                        )
+                ),
+            
                 'object_state' => Array (
                         'exclude' => 0,
                         'label' => 'Object State',

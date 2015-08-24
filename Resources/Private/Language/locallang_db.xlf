@@ -33,6 +33,9 @@
                         <trans-unit id="tx_dpf_domain_model_document.object_identifier">
 				<source>Object Identifier</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
+				<source>Reserved Object Identifier</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
 			</trans-unit>

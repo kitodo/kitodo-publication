@@ -109,6 +109,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
            $fieldItem->setMandatory($field->getMandatory());
            $fieldItem->setInputField($field->getInputField());
            $fieldItem->setMaxIteration($field->getMaxIteration());
+           $fieldItem->setFillOutService($field->getFillOutService()); 
            $fieldItem->setValue("");                      
            
            $this->view->assign('formPageUid',$pageUid);
@@ -155,7 +156,9 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
          * @return string
          */                  
         public function fillOutAction($qucosaId) { 
-                                                        
+                                    
+            $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c"); 
+            
             if (!empty($qucosaId)) {                                                                                
               $urn = $identifierUrn->getUrn($qucosaId);
             } else {  
@@ -164,8 +167,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
                 $documentTransferManager->setRemoteRepository($remoteRepository);
                 
                 $qucosaId = $documentTransferManager->getNextDocumentId();
-                                    
-                $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c");
+                                                   
                 $urn = $identifierUrn->getUrn($qucosaId);                                
                                                
             }    

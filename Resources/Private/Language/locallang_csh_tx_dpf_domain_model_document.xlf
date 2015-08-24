@@ -18,6 +18,9 @@
                         <trans-unit id="object_identifier.description">
 				<source>objectIdentifier</source>
 			</trans-unit>
+                        <trans-unit id="reserved_object_identifier.description">
+				<source>reservedObjectIdentifier</source>
+			</trans-unit>
                         <trans-unit id="object_state.description">
 				<source>objectState</source>
 			</trans-unit>

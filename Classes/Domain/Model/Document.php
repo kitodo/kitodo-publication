@@ -87,6 +87,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         protected $objectIdentifier;     
         
+        
+        /**
+         * reseredObjectIdentifier
+         * 
+         * @var string         
+         */
+        protected $reservedObjectIdentifier;     
+        
+        
         /**
          * objectState
          * 
@@ -263,6 +272,25 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         public function setObjectIdentifier($objectIdentifier) {
           $this->objectIdentifier = $objectIdentifier;          
+        }
+        
+        /**
+         * Returns the reservedObjectIdentifier
+         * 
+         * @return string
+         */
+        public function getReservedObjectIdentifier() {
+          return $this->reservedObjectIdentifier;          
+        }
+        
+        /**
+         * Sets the reservedObjectIdentifier
+         * 
+         * @param string $reservedObjectIdentifier
+         * @return void
+         */
+        public function setReservedObjectIdentifier($reservedObjectIdentifier) {
+          $this->reservedObjectIdentifier = $reservedObjectIdentifier;          
         }
                 
         /**

@@ -16,6 +16,13 @@ class DocumentForm extends AbstractFormElement {
    */  
   protected $qucosaId;
   
+    
+  /**
+   *
+   * @var string
+   */  
+  protected $qucosaUrn;
+  
    
   /**
    *
@@ -85,6 +92,22 @@ class DocumentForm extends AbstractFormElement {
     $this->qucosaId = $qucosaId;    
   }
   
+  
+  /**
+   * 
+   * @return string
+   */
+  public function getQucosaUrn() {
+    return $this->qucosaUrn;    
+  }
+
+  /**
+   * 
+   * @param string $qucosaUrn
+   */
+  public function setQucosaUrn($qucosaUrn) {
+    $this->qucosaUrn = $qucosaUrn;    
+  }
   
   /**
    * 
