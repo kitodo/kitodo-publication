@@ -165,9 +165,12 @@ class DocumentMapper {
                     }                                                            
                 }      
                 
-                $objectMapping = implode("/", $objectMappingPath);                                                 
+                $objectMapping = implode("/", $objectMappingPath); 
                 
-                
+                if ($objectMapping == '[not(@*)]') {
+                    $objectMapping = '.';
+                }
+               
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
@@ -176,7 +179,7 @@ class DocumentMapper {
                   $refID = $data->getAttribute("ID");                                     
                   $objectData = $this->domXpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
-                } else {                                
+                } else {                                                                                  
                   $objectData = $this->domXpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
