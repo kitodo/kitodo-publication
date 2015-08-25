@@ -111,6 +111,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                         
         const FILL_OUT_SERVICE_URN = 'urn';
         
+        
+        /**
+         * backendOnly
+         * 
+         * @var boolean
+         */
+        protected $backendOnly = FALSE;
+                
+        
 	/**
 	 * Returns the name
 	 *
@@ -179,7 +188,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * Sets the mandatory
-	 *
+	 *    
 	 * @param boolean $mandatory
 	 * @return void
 	 */
@@ -326,4 +335,23 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->fillOutService = $fillOutService;
 	}
 
+        
+        /**
+	 * Returns the backendOnly
+	 *
+	 * @return boolean $backendOnly
+	 */
+	public function getBackendOnly() {
+		return $this->backendOnly;
+	}
+
+	/**
+	 * Sets the backendOnly
+	 *
+	 * @param boolean $backendOnly
+	 * @return void
+	 */
+	public function setBackendOnly($backendOnly) {
+		$this->backendOnly = $backendOnly;
+	}
 }

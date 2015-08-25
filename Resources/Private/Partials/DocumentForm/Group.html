@@ -1,3 +1,4 @@
+{namespace eww=EWW\Dpf\ViewHelpers}
 
 <fieldset class="fs_group" data-group="{formGroupUid}" data-mandatory="{groupItem.mandatory}">
     <legend>{formGroupDisplayName}</legend>
@@ -5,73 +6,41 @@
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
 
       <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
-                                  
-        <f:alias map="{ 
-                        countries: {
-                          xyz: '',
-                          bul: 'Bulgarisch',
-                          chi: 'Chinesisch',
-                          dan: 'Dänisch',
-                          ger: 'Deutsch',
-                          eng: 'Englisch',
-                          est: 'Estnisch',
-                          fin: 'Finnisch',
-                          fre: 'Französisch',
-                          grc: 'Griechisch',
-                          gle: 'Irisch',
-                          ita: 'Italienisch',
-                          jpn: 'Japanisch',
-                          lat: 'Latein',
-                          lav: 'Lettisch',
-                          lit: 'Litauisch',
-                          mlt: 'Maltesisch',
-                          dut: 'Niederländisch',
-                          dsb: 'Niedersorbisch',
-                          hsb: 'Obersorbisch',
-                          pol: 'Polnisch',
-                          por: 'Portugiesisch',
-                          rum: 'Rumänisch',
-                          rus: 'Russisch',
-                          swe: 'Schwedisch',
-                          slo: 'Slowakisch',
-                          slv: 'Slowenisch',
-                          spa: 'Spanisch',
-                          cze: 'Tschechisch',
-                          hun: 'Ungarisch'
-                        } 
-                       }">            
-                                   
-                                                              
-            <f:render partial="DocumentForm/Field" arguments="{
-                        formPageUid: formPageUid,                       
-                        formGroupUid: formGroupUid,                                     
-                        groupIndex: groupIndex,                        
-                        formField: formField,
-                        fieldIndex: fieldItemIterator.index,
-                        fieldItem: fieldItem,                                               
-                        countries: countries}"/>
-
-            <f:if condition="{fieldItem.maxIteration} == 0">
-              <f:if condition="{fieldItemIterator.isLast}">
-              <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
-                       name="add_field" class="add_field"
-                       data-field="{fieldItem.uid}"
-                       data-ajax="{f:uri.action(
-                            action:'field',
-                            controller:'AjaxDocumentForm',
-                            pageType:110124,
-                            arguments:{
-                                pageUid: formPageUid,
-                                groupUid: formGroupUid,
-                                groupIndex: groupIndex,
-                                fieldUid: fieldItem.uid
-                       })}"
-                       data-index="{fieldItemIterator.index}" />        
-             
-              </f:if>
-            </f:if>
             
-        </f:alias>
+       
+                <eww:isElementAllowed condition="{fieldItem.backendOnly}">
+                    <f:then>             
+                        <f:render partial="DocumentForm/Field" arguments="{
+                            formPageUid: formPageUid,                       
+                            formGroupUid: formGroupUid,                                     
+                            groupIndex: groupIndex,                        
+                            formField: formField,
+                            fieldIndex: fieldItemIterator.index,
+                            fieldItem: fieldItem,                                               
+                            countries: countries}"/>                                       
+            
+                        <f:if condition="{fieldItem.maxIteration} == 0">
+                          <f:if condition="{fieldItemIterator.isLast}">
+                          <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
+                                   name="add_field" class="add_field"
+                                   data-field="{fieldItem.uid}"
+                                   data-ajax="{f:uri.action(
+                                        action:'field',
+                                        controller:'AjaxDocumentForm',
+                                        pageType:110124,
+                                        arguments:{
+                                            pageUid: formPageUid,
+                                            groupUid: formGroupUid,
+                                            groupIndex: groupIndex,
+                                            fieldUid: fieldItem.uid
+                                   })}"
+                                   data-index="{fieldItemIterator.index}" />        
+
+                          </f:if>
+                        </f:if>
+                    </f:then>
+                </eww:isElementAllowed>
+            
       </f:for>
 
     </f:for>

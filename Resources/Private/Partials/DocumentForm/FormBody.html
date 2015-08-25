@@ -1,3 +1,4 @@
+{namespace eww=EWW\Dpf\ViewHelpers}
 
     <ul class="tx-dpf-tabs">
       <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
@@ -17,29 +18,33 @@
 
             <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
                                             
-              <f:render partial="DocumentForm/Group" arguments="{
-                        formPageUid:formPage.0.uid,                       
-                        formGroupUid:groupItem.uid,
-                        formGroupDisplayName:groupItem.displayName,
-                        groupItem:groupItem, 
-                        groupIndex:groupItemIterator.index}"/>
-
-              <f:if condition="{groupItem.maxIteration} == 0">
-                <f:if condition="{groupItemIterator.isLast}">                               
-                  <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: groupItem.displayName})}"
-                         name="add_group" class="add_group"
-                         data-group="{groupItem.uid}"
-                         data-ajax="{f:uri.action(
-                              action:'group',
-                              controller:'AjaxDocumentForm',
-                              pageType:110124,
-                              arguments:{
-                                  pageUid:formPage.0.uid,
-                                  groupUid:groupItem.uid                               
-                         })}"
-                         data-index="{groupItemIterator.index}" />
-                </f:if>
-              </f:if>
+                <eww:isElementAllowed condition="{groupItem.backendOnly}">
+                    <f:then>  
+                        <f:render partial="DocumentForm/Group" arguments="{
+                            formPageUid:formPage.0.uid,                       
+                            formGroupUid:groupItem.uid,
+                            formGroupDisplayName:groupItem.displayName,
+                            groupItem:groupItem, 
+                            groupIndex:groupItemIterator.index}"/>
+                                     
+                        <f:if condition="{groupItem.maxIteration} == 0">
+                          <f:if condition="{groupItemIterator.isLast}">                               
+                            <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: groupItem.displayName})}"
+                                   name="add_group" class="add_group"
+                                   data-group="{groupItem.uid}"
+                                   data-ajax="{f:uri.action(
+                                        action:'group',
+                                        controller:'AjaxDocumentForm',
+                                        pageType:110124,
+                                        arguments:{
+                                            pageUid:formPage.0.uid,
+                                            groupUid:groupItem.uid                               
+                                   })}"
+                                   data-index="{groupItemIterator.index}" />
+                          </f:if>
+                        </f:if>                        
+                    </f:then>  
+                </eww:isElementAllowed>
              
             </f:for>
 

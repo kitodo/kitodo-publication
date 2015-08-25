@@ -129,6 +129,7 @@ class DocumentMapper {
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
           $documentFormGroup->setName($metadataGroup->getName());
           $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());         
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
                
           // Read the group data.                                     
@@ -146,6 +147,7 @@ class DocumentMapper {
                 $documentFormField->setDisplayName($metadataObject->getDisplayName());
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
+                $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
@@ -209,6 +211,7 @@ class DocumentMapper {
               $documentFormField->setDisplayName($metadataObject->getDisplayName());
               $documentFormField->setName($metadataObject->getName());               
               $documentFormField->setMandatory($metadataObject->getMandatory());
+              $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 

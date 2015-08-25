@@ -270,6 +270,7 @@ class FormDataReader {
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
           $documentFormGroup->setName($metadataGroup->getName());                    
           $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
           
                  
@@ -281,6 +282,7 @@ class FormDataReader {
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
             $documentFormField->setMandatory($metadataObject->getMandatory());
+            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());            
             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());     
             $documentFormField->setInputOptions($metadataObject->getInputOptionList());             
             $documentFormField->setInputField($metadataObject->getInputField());   
