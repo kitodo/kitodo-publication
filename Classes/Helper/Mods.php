@@ -13,7 +13,9 @@ class Mods {
   
   public function setModsXml($modsXml) {
     $modsDom = new \DOMDocument();
-    $modsDom->loadXML($modsXml);     
+    if (!empty($modsXml)) {
+        $modsDom->loadXML($modsXml);     
+    }    
     $this->modsDom = $modsDom;
   }
   
@@ -23,8 +25,9 @@ class Mods {
   }
   
     
-  public function getModsXpath() {            
-    return \EWW\Dpf\Helper\XPath::create($this->modsDom);  
+  public function getModsXpath() {        
+    $xpath = \EWW\Dpf\Helper\XPath::create($this->modsDom);    
+    return $xpath;
   }
   
   

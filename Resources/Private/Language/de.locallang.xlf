@@ -27,6 +27,9 @@
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
+				<source>Slub Info Data</source>
+			</trans-unit>                        
 			<trans-unit id="tx_dpf_domain_model_document.document_type">
 				<source>Document Type</source>
 			</trans-unit>

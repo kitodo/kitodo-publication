@@ -12,7 +12,9 @@ class Slub {
   
   public function setSlubXml($slubXml) {
     $slubDom = new \DOMDocument();
-    $slubDom->loadXML($slubXml);    
+    if (!empty($slubXml)) {
+        $slubDom->loadXML($slubXml);    
+    }    
     $this->slubDom = $slubDom;
   }
   
@@ -23,7 +25,8 @@ class Slub {
   
   
   public function getSlubXpath() {                   
-    return \EWW\Dpf\Helper\XPath::create($this->slubDom);  
+    $xpath = \EWW\Dpf\Helper\XPath::create($this->slubDom);       
+    return $xpath;
   }
   
   
@@ -31,7 +34,7 @@ class Slub {
     $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
     return $documentTypeNode->item(0)->nodeValue;                       
   }
-  
+        
 }
 
 ?>

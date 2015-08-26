@@ -210,9 +210,10 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $relativeMapping
 	 */
-        public function getRelativeMapping() {
-            $modsRegExp = "/^.*?mods:mods/i";        
-            $mapping =  preg_replace($modsRegExp,"",$this->mapping);
+        public function getRelativeMapping() {                                  
+            $modsRegExp = "/^.*?(mods:mods|slub:info)/i";        
+            $mapping =  preg_replace($modsRegExp,"",$this->mapping);                                   
+            //if (empty($mapping)) throw new \Exception("Invalid Mapping!");
             return trim($mapping," /");          
         }
         
@@ -222,10 +223,25 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $absoluteMapping
 	 */
-        public function getAbsoluteMapping() {            
-            return "/mods:mods/".$this->getRelativeMapping();      
+        public function getAbsoluteMapping() {           
+                                  
+            if ($this->isSlubInfo()) {
+                return "/slub:info/".$this->getRelativeMapping();   
+            } else {                   
+                return "/mods:mods/".$this->getRelativeMapping();      
+            }    
         }
         
+        
+        public function isSlubInfo() {            
+            $modsRegExp = "/^.*?slub:info/i";
+            $match = $this->mapping;
+            if (preg_match($modsRegExp,$match)) {               
+                return TRUE;                 
+            }                        
+            return FALSE;                        
+        }
+
         
         /**
 	 * Returns the modsExtensionMapping

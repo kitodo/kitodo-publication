@@ -264,7 +264,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             $mapping =  preg_replace($modsRegExp,"",$this->mapping);
             return trim($mapping," /");          
         }
-
+                              
                         
 	/**
 	 * Returns the inputField

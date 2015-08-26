@@ -12,6 +12,9 @@
 			<trans-unit id="xml_data.description">
 				<source>xmlData</source>
 			</trans-unit>
+                        <trans-unit id="slub_info_data.description">
+				<source>slubInfoData</source>
+			</trans-unit>
 			<trans-unit id="document_type.description">
 				<source>documentType</source>
 			</trans-unit>

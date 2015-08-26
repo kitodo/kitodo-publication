@@ -683,4 +683,22 @@ class MetsExporter
     {
         return $this->slubData->saveXML();
     }
+    
+    
+    /**
+     * 
+     * @param string $slubInfoData
+     */
+    public function buildSlubInfoFromForm($slubInfoData, $documentType) {
+        
+    }   
+    
+    /**
+     * 
+     * @return string slub info xml
+     */
+    public function getSlubInfoData() {
+        return "<slub:info></slub:info>";
+    } 
+    
 }

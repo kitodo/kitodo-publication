@@ -72,6 +72,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $xmlData = '';
 
+        
+        /**
+	 * slubInfoData
+	 *
+	 * @var string
+	 */
+	protected $slubInfoData = '';
+        
                
 	/**
 	 * documentType
@@ -226,6 +234,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
            
 		$this->xmlData = $newMods->getModsXml();                                                              
 	}
+        
+        
+        /**
+	 * Returns the slubInfoData
+	 *
+	 * @return string $slubInfoData
+	 */
+	public function getSlubInfoData() {                                  
+		return $this->slubInfoData;
+	}
+        
+        
+        /**
+	 * Sets the slubInfoData
+	 *
+	 * @return string $slubInfoData
+	 */
+	public function setSlubInfoData($slubInfoData) {                                  
+		$this->slubInfoData = $slubInfoData;
+	}
+        
 
 	/**
 	 * Returns the documentType

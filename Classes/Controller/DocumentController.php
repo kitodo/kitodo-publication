@@ -198,12 +198,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                $mods->addUrn($urn);
                $document->setXmlData($mods->getModsXml());
           }                                
-            
-          
-          var_dump($document);
-          
-          die("test");
-                                
+                                                      
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);
