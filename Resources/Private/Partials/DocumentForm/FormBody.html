@@ -1,5 +1,5 @@
 
-    <ul class="tx-dpf-tabs">
+    <ul class="tx-dpf-tabs nav nav-tabs">
       <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
         <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
       </f:for>
@@ -26,8 +26,8 @@
 
               <f:if condition="{groupItem.maxIteration} == 0">
                 <f:if condition="{groupItemIterator.isLast}">                               
-                  <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: groupItem.displayName})}"
-                         name="add_group" class="add_group"
+                  <button type="submit"
+                         name="add_group" class="btn btn-xs btn-default add_group"
                          data-group="{groupItem.uid}"
                          data-ajax="{f:uri.action(
                               action:'group',
@@ -37,7 +37,10 @@
                                   pageUid:formPage.0.uid,
                                   groupUid:groupItem.uid                               
                          })}"
-                         data-index="{groupItemIterator.index}" />
+                         data-index="{groupItemIterator.index}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {f:translate(key: 'form_button.add_item', arguments: {0: groupItem.displayName})}
+                  </button>
                 </f:if>
               </f:if>
              
@@ -54,15 +57,18 @@
                           
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}" />            
           
-          <input type="submit" value="{f:translate(key: 'form_button.addFile')}"
-                 name="add_file_group" class="add_file_group"
+          <button type="submit"
+                 name="add_file_group" class="btn btn-xs btn-default add_file_group"
                  data-group="file-upload"
                  data-ajax="{f:uri.action(
                               action:'secondaryUpload',
                               controller:'AjaxDocumentForm',
                               pageType:110124                               
                              )}"
-                 data-index="0" />
+                 data-index="0">
+            <span class="glyphicon glyphicon-plus"></span>
+            {f:translate(key: 'form_button.addFile')}
+          </button>
                
       </div>
               
@@ -75,15 +81,27 @@
   <div class="form-submit">
       <f:if condition="{documentForm.remoteDelete}">
         <f:then>
-            <f:form.submit value="{f:translate(key: 'form_button.save')}" name="save" id="save" disabled="disabled" />
+            <f:form.button name="save" id="save" disabled="disabled" class="btn btn-lg btn-success">
+              <span class="glyphicon glyphicon-ok"></span>
+              {f:translate(key: 'form_button.save')}
+            </f:form.button>
         </f:then>  
         <f:else>
-            <f:form.submit value="{f:translate(key: 'form_button.save')}" name="save" id="save" />
+            <f:form.button name="save" id="save" class="btn btn-lg btn-success">
+              <span class="glyphicon glyphicon-ok"></span>
+              {f:translate(key: 'form_button.save')}
+            </f:form.button>
         </f:else>  
       </f:if>
       
       <f:if condition="{documentForm.documentUid} < 1">            
-        <f:form.submit value="{f:translate(key: 'form_button.save_continue')}" name="savecontinue" id="savecontinue" />
+        <f:form.button name="savecontinue" id="savecontinue" class="btn btn-lg btn-success">
+          <span class="glyphicon glyphicon-ok"></span>
+          {f:translate(key: 'form_button.save_continue')}
+        </f:form.button>
       </f:if>
-      <f:form.submit value="{f:translate(key: 'form_button.cancel')}" name="cancel" id="cancel" />                            
+      <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
+        <span class="glyphicon glyphicon-remove"></span>
+        {f:translate(key: 'form_button.cancel')}
+      </f:form.button>
   </div>

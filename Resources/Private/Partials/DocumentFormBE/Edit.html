@@ -9,15 +9,24 @@
         <f:then>
             <f:if condition="{documentForm.remoteDelete} < 1">
                 <f:then>
-                    <f:form.submit value="{f:translate(key: 'form_button.delete')}" name="delete" id="save" />       
+                    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      {f:translate(key: 'form_button.delete')}
+                    </f:form.button>
                 </f:then>                                               
                 <f:else>
-                    <f:form.submit value="{f:translate(key: 'form_button.delete')}" name="delete" id="save" disabled="disabled" />      
+                    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger" disabled="disabled">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      {f:translate(key: 'form_button.delete')}
+                    </f:form.button>
                 </f:else>                                                               
             </f:if>    
         </f:then>
         <f:else>
-            <f:form.submit value="{f:translate(key: 'form_button.delete')}" name="delete" id="save" disabled="disabled" />      
+            <f:form.button name="delete" id="save" disabled="disabled" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+              {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
+            </f:form.button>
         </f:else>    
     </f:if>    
 </f:form>  
