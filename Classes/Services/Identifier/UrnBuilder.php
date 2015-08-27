@@ -2,7 +2,7 @@
 namespace EWW\Dpf\Services\Identifier;
 
 
-class IdentifierUrn {
+class UrnBuilder {
  
     /**
      * Standard prefix of the URN for DNB (Deutsche Nationalbibliothek).
@@ -61,12 +61,12 @@ class IdentifierUrn {
     public function getUrn($document_id) {
  
         // regexp pattern for valid document id
-      //  $id_pattern = '/^[1-9][0-9]*$/';
+        $id_pattern = '/^[1-9][0-9]*$/';
  
         // Check if document identifier is valid.
-      //  if (0 === preg_match($id_pattern, $document_id)) {
-      //      throw new \InvalidArgumentException('Used invalid arguments for document id.');
-      //  }
+        if (0 === preg_match($id_pattern, $document_id)) {
+            throw new \InvalidArgumentException('Used invalid arguments for URN document id.');
+        }
  
         // calculate matching check digit
         $check_digit = self::getCheckDigit($document_id);
@@ -85,12 +85,12 @@ class IdentifierUrn {
     public function getCheckDigit($document_id) {
  
         // regexp pattern for valid document id
-      //  $id_pattern = '/^[1-9][0-9]*$/';
+        $id_pattern = '/^[1-9][0-9]*$/';
  
         // Check if document identifier is valid.
-      //  if (0 === preg_match($id_pattern, $document_id)) {
-      //      throw new \InvalidArgumentException('Used invalid arguments for document id.');
-      //  }
+        if (0 === preg_match($id_pattern, $document_id)) {
+            throw new \InvalidArgumentException('Used invalid arguments for URN document id.');
+        }
  
         // compose urn with document id
         $nbn = $this->nbnUrnString . $document_id;

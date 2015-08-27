@@ -158,11 +158,11 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
          * @return string
          */                  
         public function fillOutAction($qucosaId) { 
-                                    
-            $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c"); 
+            
+            $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
             
             if (!empty($qucosaId)) {                                                                                
-              $urn = $identifierUrn->getUrn($qucosaId);
+              $urn = $urnService->getUrn($qucosaId);
             } else {  
                 $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
                 $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
@@ -170,7 +170,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
                 
                 $qucosaId = $documentTransferManager->getNextDocumentId();
                                                    
-                $urn = $identifierUrn->getUrn($qucosaId);                                
+                $urn = $urnService->getUrn($qucosaId);                                
                                                
             }    
                                        

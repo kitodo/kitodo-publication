@@ -349,14 +349,13 @@ var addGroup = function() {
            
     var buttonFillOutServiceUrn = function() {
         
-        jQuery('input.urn').each(function() { 
-           
+        jQuery('input.urn').each(function() {          
             var fieldUid = jQuery(this).attr('data-field');        
             var fieldIndex = jQuery(this).attr('data-index');
             var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');              
-                                    
+                                                                             
             if ( (jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn() ) {
-                fillOutButton.hide();
+                fillOutButton.hide();                 
             } else {                
                 fillOutButton.show();                        
             }                         
@@ -372,12 +371,12 @@ var addGroup = function() {
         var result = false;
         
         var qucosaUrn = jQuery('#qucosaUrn').val();
-        
+                       
         jQuery('input.urn').each(function() {
             
-            var currentUrn = jQuery(this).val();
+            var currentUrn = jQuery(this).val();                                        
                     
-            if (currentUrn == qucosaUrn) {   
+            if (currentUrn && qucosaUrn && (currentUrn == qucosaUrn)) {   
                 
                 result = result || true;
                                 

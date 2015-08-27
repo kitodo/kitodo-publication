@@ -58,13 +58,22 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         
         /**
-         * urnNamespace
+         * networkInitial         
          * 
          * @var string
          * @validate NotEmpty
          */
-        protected $urnNamespace = '';
+        protected $networkInitial = '';
         
+        
+        /**
+         * libraryIdentifier         
+         * 
+         * @var string
+         * @validate NotEmpty
+         */
+        protected $libraryIdentifier = '';
+                   
         
 	/**
 	 * Returns the project
@@ -105,25 +114,46 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
                 
         /**
-	 * Returns the urnNamespace
+	 * Returns the networkInitial
 	 *
-	 * @return string $urnNamespace         
+	 * @return string $networkInitial      
 	 */
-	public function getUrnNamespace() {
-		return $this->urnNamespace;
+	public function getNetworkInitial() {
+		return $this->networkInitial;
 	}
         
         
         /**
-	 * Sets the urnNamespace
+	 * Sets the networkInitial
 	 *
-	 * @param string $urnNamespace
+	 * @param string $networkInitial
          * @return void                 
 	 */
-	public function setUrnNamespace($urnNamespace) {
-		$this->urnNamespace = $urnNamespace;
+	public function setNetworkInitial($networkInitial) {
+		$this->networkInitial = $networkInitial;
 	}
         
+        
+        /**
+	 * Returns the libraryIdentifier
+	 *
+	 * @return string $libraryIdentifier     
+	 */
+	public function getLibraryIdentifier() {
+		return $this->libraryIdentifier;
+	}
+        
+        
+        /**
+	 * Sets the libraryIdentifier
+	 *
+	 * @param string $libraryIdentifier
+         * @return void                 
+	 */
+	public function setLibraryIdentifier($libraryIdentifier) {
+		$this->libraryIdentifier = $libraryIdentifier;
+	}
+                                            
         
         /**
 	 * Gets the ownerId

@@ -195,9 +195,12 @@
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>OwnerID</source>
 			</trans-unit>  
-                        <trans-unit id="tx_dpf_domain_model_client.urn_namespace">
-				<source>Urn namespace</source>
-			</trans-unit>                                      
+                        <trans-unit id="tx_dpf_domain_model_client.network_initial">
+				<source>Network initial</source>
+			</trans-unit>                           
+                        <trans-unit id="tx_dpf_domain_model_client.library_identifier">
+				<source>Library identifier</source>
+			</trans-unit>                                                                                                                                                       
                         <trans-unit id="form_error_msg.group_mandatory">
 				<source>Please fill in the required fields.</source>
 			</trans-unit>   
@@ -215,7 +218,10 @@
 			</trans-unit>     
                         <trans-unit id="form_button.addFile">
 				<source>add file</source>
-			</trans-unit>                                                                        
+			</trans-unit>              
+                        <trans-unit id="form_button.create_value">
+				<source>create</source>
+			</trans-unit>                                                          
                         <trans-unit id="form_button.save">
 				<source>save</source>
 			</trans-unit>     

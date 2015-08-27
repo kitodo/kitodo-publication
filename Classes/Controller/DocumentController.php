@@ -192,9 +192,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
           }
                     
           $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());               
-          if (!$mods->hasUrn() ) {        
-               $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c");  
-               $urn = $identifierUrn->getUrn($qucosaId);
+          if (!$mods->hasUrn() ) { 
+               $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+               $urn = $urnService->getUrn($qucosaId);
                $mods->addUrn($urn);
                $document->setXmlData($mods->getModsXml());
           }                                

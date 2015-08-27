@@ -12,9 +12,13 @@
                         <trans-unit id="owner_id.description">
 				<source>Owner ID</source>
 			</trans-unit>
-                        <trans-unit id="urn_namespace.description">
-				<source>Urn namespace</source>
-			</trans-unit>
+                        <trans-unit id="network_initial.description">
+				<source>Network initial</source>
+			</trans-unit>                        
+                        <trans-unit id="library_identifier.description">
+				<source>Library identifier</source>
+			</trans-unit>                                                                                                                                                       
+
 		</body>
 	</file>
 </xliff>

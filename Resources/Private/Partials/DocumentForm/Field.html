@@ -2,9 +2,10 @@
              
 <label class="{f:if(condition:'{fieldItem.inputField}==5',then:'label-checkbox',else:'label')}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>  
 
+
 <f:if condition="{fieldItem.fillOutService} == 'urn'"> 
     <f:then>   
-                <input type="submit" value="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
+                <input type="submit" value="{f:translate(key: 'form_button.create_value')}"
                        name="fill_out_service_urn" class="fill_out_service_urn"
                        data-field="{fieldItem.uid}"
                        data-ajax="{f:uri.action(

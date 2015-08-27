@@ -72,8 +72,8 @@ class DocumentMapper {
     }
     
     if (!empty($qucosaId)) {
-        $identifierUrn = new \EWW\Dpf\Services\Identifier\IdentifierUrn("a","b","c"); 
-        $qucosaUrn = $identifierUrn->getUrn($qucosaId);
+        $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');       
+        $qucosaUrn = $urnService->getUrn($qucosaId);
         $documentForm->setQucosaUrn($qucosaUrn); 
     }
     
