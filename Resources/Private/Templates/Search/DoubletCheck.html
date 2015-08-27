@@ -16,7 +16,19 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 
-    <h3>Doublet Check</h3>
+    <div class="be-page-header">
+      <h3>Doublet Check</h3>  
+      <div class="btn-group controller-switch" role="group">
+        <f:link.action action="list" controller="Document" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+          Dokumente
+        </f:link.action>      
+        <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          Suche
+        </f:link.action>
+      </div>
+    </div>
         
     <f:flashMessages renderMode="div" />    
             

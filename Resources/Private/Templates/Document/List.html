@@ -5,89 +5,105 @@ This Template is responsible for creating a table of domain objects.
 If you modify this template, do not forget to change the overwrite settings
 in /Configuration/ExtensionBuilder/settings.yaml:
   Resources:
-    Private:
-      Templates:
-        List.html: keep
+  Private:
+  Templates:
+  List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 
 <f:section name="main">
-   
-  <h3>Local Documents</h3>
 
-<f:flashMessages renderMode="div" />
-                                              
-<table  class="tx_dpf table table-striped table-manager table-condensed" >
-	<thead>
-          <tr>
-            <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-            <th class="xcol-md-2">Authors</th>
-            <th class="xcol-md-2">Published date</th>
-            <th class="xcol-md-2">Dataset Identifier</th>    
-            <th class="xcol-md-2"></th>            
-	  </tr>
-        </thead>
-	<f:for each="{documents}" as="document">
-         	<tr>                
-			<td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
-			<td>
-                            <f:for each="{document.authors}" as="author" iteration="itemIterator"> 
-                                {author}<f:if condition="{itemIterator.isLast}">
-                                    <f:then></f:then> 
-                                    <f:else>; </f:else>    
-                                </f:if>
-                            </f:for>    
-                        </td>
-                        <td><f:format.date date="{document.dateIssued}" format="d.m.Y" /></td>
-                        <td>{document.objectIdentifier}</td>
-                        <td>{document.state}                           
-                        </td>
-                        <td class="table_col_function">
-                         
-                         
-                                <f:if condition="{document.objectIdentifier}">
-                                  <f:then>                                                            
-                                      <f:if condition="{document.deleteRemote}">
-                                          <f:then>
-                                              <f:link.action 
-                                                  action="release" 
-                                                  arguments="{document : document}" 
-                                                  class="btn btn-sm btn-danger">
-                                                  {f:translate(key: 'manager.delete')}
-                                              </f:link.action>                                                                                                               
-                                          </f:then>    
-                                          <f:else>
-                                              <f:link.action 
-                                                  action="release" 
-                                                  arguments="{document : document}" 
-                                                  class="btn btn-sm {f:if(condition: '{document.remoteAction}', then: 'btn-info', else: 'btn-info disabled')}">
-                                                  {f:translate(key: 'manager.update')}
-                                              </f:link.action>         
-                                          </f:else>
-                                      </f:if>        
-                                  </f:then>
-                                  <f:else>                             
-                                    <f:link.action 
-                                        action="release" 
-                                        arguments="{document : document}" 
-                                        class="btn btn-sm {f:if(condition: '{document.remoteAction}', then: 'btn-primary', else: 'btn-primary disabled')}">
-                                        {f:translate(key: 'manager.publish')}
-                                    </f:link.action>                            
-                                  </f:else>
-                                </f:if>
-                          
-                        
-                          <f:comment><button class="btn btn-sm btn-default">Preview</button></f:comment>  
-                        
-                          <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-sm btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
-                          
-                          <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                                                                                  
-                                                                             
-                          <f:link.action action="delete" arguments="{document : document}" class="btn btn-sm btn-warning">{f:translate(key: 'manager.discard')}</f:link.action>                                                                  
-                        </td>
-		</tr>
-	</f:for>
+  <div class="be-page-header">
+    <h3>Local Documents</h3>
+    <div class="btn-group controller-switch" role="group">
+      <f:link.action action="list" controller="Document" class="btn btn-default btn-sm active">
+        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+        Dokumente
+      </f:link.action>  
+      <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        Suche
+      </f:link.action>
+    </div>
+  </div>
+
+  <f:flashMessages renderMode="div" />
+            
+<table class="tx_dpf table table-striped table-manager table-condensed" >
+  <thead>
+    <tr>
+    <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
+    <th class="xcol-md-2">Authors</th>
+    <th class="xcol-md-2">Published date</th>
+    <th class="xcol-md-2">Dataset Identifier</th>  
+    <th class="xcol-md-2"></th>
+    <th class="xcol-md-2"><!-- ACTIONS --></th>
+    </tr>
+  </thead>
+  <f:for each="{documents}" as="document">
+     <tr>    
+      <td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
+      <td>
+        <f:for each="{document.authors}" as="author" iteration="itemIterator"> 
+        {author}<f:if condition="{itemIterator.isLast}">
+          <f:then></f:then> 
+          <f:else>; </f:else>  
+        </f:if>
+        </f:for>  
+      </td>
+      <td><f:format.date date="{document.dateIssued}" format="d.m.Y" /></td>
+      <td>{document.objectIdentifier}</td>
+      <td>{document.state}         
+      </td>
+      <td class="table_col_function">
+        
+        <f:comment><button class="btn btn-xs btn-default">Preview</button></f:comment>  
+      
+        <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
+        
+        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                      
+                     
+        <f:link.action action="delete" arguments="{document : document}" class="btn btn-xs btn-warning">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        {f:translate(key: 'manager.discard')}
+        </f:link.action>
+        
+        <f:if condition="{document.objectIdentifier}">
+          <f:then>                
+          <f:if condition="{document.deleteRemote}">
+            <f:then>
+            <f:link.action 
+              action="release" 
+              arguments="{document : document}" 
+              class="btn btn-xs btn-danger">
+              {f:translate(key: 'manager.delete')}
+            </f:link.action>                             
+            </f:then>  
+            <f:else>
+            <f:link.action 
+              action="release" 
+              arguments="{document : document}" 
+              class="btn btn-xs {f:if(condition: '{document.remoteAction}', then: 'btn-info', else: 'btn-info disabled')}">
+              {f:translate(key: 'manager.update')}
+            </f:link.action>   
+            </f:else>
+          </f:if>  
+          </f:then>
+          <f:else>         
+          <f:link.action 
+          action="release" 
+          arguments="{document : document}" 
+          class="btn btn-default {f:if(condition: '{document.remoteAction}', then: 'btn-success', else: 'btn-success disabled')}">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          {f:translate(key: 'manager.publish')}
+          </f:link.action>        
+          </f:else>
+        </f:if>
+        
+      </td>
+    </tr>
+  </f:for>
 </table>
 
 </f:section>
