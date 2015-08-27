@@ -135,8 +135,7 @@ class Mods {
     
     $hasUrn = false;
     
-    foreach ($urnNodeList as $urnNode) {
-        echo $value;
+    foreach ($urnNodeList as $urnNode) {        
         $value = $urnNode->nodeValue;
         $hasUrn = $hasUrn || !empty($value);     
     }
@@ -158,6 +157,17 @@ class Mods {
         }   
     
   }
+  
+  
+  public function clearAllUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+            
+    foreach ($urnNodeList as $urnNode) {
+        $urnNode->parentNode->removeChild($urnNode);
+    }   
+    
+  }
+  
 }
 
 ?>

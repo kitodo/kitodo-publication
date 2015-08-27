@@ -2,7 +2,6 @@
              
 <label class="{f:if(condition:'{fieldItem.inputField}==5',then:'label-checkbox',else:'label')}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}</label><f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if>  
 
-
 <f:if condition="{fieldItem.fillOutService} == 'urn'"> 
     <f:then>   
                 <input type="submit" value="{f:translate(key: 'form_button.create_value')}"
@@ -14,18 +13,20 @@
                             pageType:110124                            
                           )}"
                        data-index="{fieldIndex}"
+                       data-group="{formGroupUid}"
+                       data-groupindex ="{groupIndex}"
                        style="display: none;"/>
    </f:then>     
  </f:if>
 
 <f:switch expression="{fieldItem.inputField}">
-   <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                         
-   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"/></f:case>                                         
+   <f:case value="0"><f:form.textfield property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"/></f:case>                         
+   <f:case value="1"><f:form.textarea  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"/></f:case>                                         
    <f:case value="2">
-     <f:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field input-field-select {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}" options="{fieldItem.inputOptions}" />
+     <f:form.select property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field input-field-select {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" options="{fieldItem.inputOptions}" />
    </f:case> 
    <f:case value="3">
-     <f:form.checkbox property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory}"  checked="{fieldItem.value}" />     
+     <f:form.checkbox property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" />     
    </f:case> 
 </f:switch>
     

@@ -233,6 +233,8 @@ var addGroup = function() {
             jQuery('html, body').animate({
                 scrollTop: element.offset().top - height
             }, 400); 
+            
+            buttonFillOutServiceUrn();
         });
 
       return false;
@@ -315,6 +317,10 @@ var addGroup = function() {
         var fieldUid = jQuery(this).attr('data-field');
         
         var fieldIndex = jQuery(this).attr('data-index');
+        
+        var groupUid = jQuery(this).attr('data-group');        
+        
+        var groupIndex = jQuery(this).attr('data-groupindex');
       
         var ajaxURL = jQuery(this).attr('data-ajax');
         
@@ -334,7 +340,9 @@ var addGroup = function() {
             jQuery('#qucosaid').val(element.qucosaId);     
             jQuery('#qucosaUrn').val(element.value);           
            
-            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');                           
+            //var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');                  
+            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"][data-group="'+ groupUid +'"][data-groupindex="'+ groupIndex +'"]');                        
+            
             inputField.val(element.value);         
 
             //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
@@ -352,6 +360,9 @@ var addGroup = function() {
         jQuery('input.urn').each(function() {          
             var fieldUid = jQuery(this).attr('data-field');        
             var fieldIndex = jQuery(this).attr('data-index');
+            var groupUid = jQuery(this).attr('data-group');        
+            var groupIndex = jQuery(this).attr('data-groupindex');
+                      
             var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');              
                                                                              
             if ( (jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn() ) {

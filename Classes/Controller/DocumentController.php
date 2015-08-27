@@ -150,9 +150,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 
                 $newDocument->setTitle($document->getTitle()); 
                 $newDocument->setAuthors($document->getAuthors());
-                $newDocument->setxmlData($document->getXmlData());
+               
+                $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());  
+                $mods->clearAllUrn();
+                $newDocument->setxmlData($mods->getModsXml());                
+                
                 $newDocument->setDocumentType($document->getDocumentType());
                 $newDocument->removeDateIssued();
+               
                 
                 $this->documentRepository->add($newDocument);
 

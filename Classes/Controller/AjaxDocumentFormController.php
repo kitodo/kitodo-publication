@@ -76,6 +76,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
               $field->setBackendOnly($object->getBackendOnly());
               $field->setInputField($object->getInputField());
               $field->setMaxIteration($object->getMaxIteration());
+              $field->setFillOutService($object->getFillOutService());  
               $field->setValue("");
 
               $groupItem->addItem($field);                       
@@ -111,7 +112,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
            $fieldItem->setBackendOnly($field->getBackendOnly());
            $fieldItem->setInputField($field->getInputField());
            $fieldItem->setMaxIteration($field->getMaxIteration());
-           $fieldItem->setFillOutService($field->getFillOutService()); 
+           $fieldItem->setFillOutService($field->getFillOutService());                                                                       
            $fieldItem->setValue("");                      
            
            $this->view->assign('formPageUid',$pageUid);

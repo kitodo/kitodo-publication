@@ -82,7 +82,8 @@ class FedoraRepository implements Repository {
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType(FedoraRepository::QUCOSA_TYPE)
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())      
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())  
+        ->addHeader('Slug',$document->getReservedObjectIdentifier())  
         ->send();
                                                                              
       TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
