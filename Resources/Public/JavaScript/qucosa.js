@@ -302,3 +302,13 @@ var addGroup = function() {
       }
       return params;
     }
+    
+    
+    
+$(window).scroll(function() {
+  if( $(this).scrollTop() > 330 ) {
+    $(".tx-dpf-tab-container").addClass("sticky");
+  } else {
+    $(".tx-dpf-tab-container").removeClass("sticky");
+  }
+});
