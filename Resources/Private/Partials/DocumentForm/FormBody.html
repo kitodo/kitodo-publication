@@ -1,11 +1,13 @@
 
-    <ul class="tx-dpf-tabs nav nav-tabs">
-      <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-        <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
-      </f:for>
-      <li><a href="#tab-file-upload">Dateien</a></li>
-      <li><a href="#tab-publication-info">Publikationsinformationen</a></li>
-    </ul>
+    <div class="tx-dpf-tab-container">
+      <ul class="tx-dpf-tabs nav nav-tabs">
+        <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
+          <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
+        </f:for>
+        <li><a href="#tab-file-upload">Dateien</a></li>
+        <li><a href="#tab-publication-info">Publikationsinformationen</a></li>
+      </ul>
+    </div>
 
     <div class="css-panes">
 
