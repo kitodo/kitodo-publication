@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
     
+                         
     buttonFillOutServiceUrn();
          
     // Show the Form pages/steps in Tabs
@@ -34,6 +35,12 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup","input.urn", buttonFillOutServiceUrn);
     
+    
+    //jQuery(window).on("scroll", "", continuousScroll);
+    jQuery(".tx-dpf").on("click", "#next", continuousScroll);
+    
+    
+   
     
     // jQuery(".form-submit").on("click","#save",
             
@@ -397,4 +404,25 @@ var addGroup = function() {
         return result;
     }
     
-      
+                 
+    var continuousScroll = function() { 
+                                                                   
+                var ajaxURL = jQuery("#next").attr('href');
+               
+                jQuery.ajax({
+                    url: ajaxURL,
+                    success: function(html) {                       
+                        if(html) {                                                                    
+                           jQuery(html).find("table tbody tr").each(function() {                                                                
+                                jQuery("#search-results tbody tr").last().parent().append(this);                               
+                           });
+                           if (jQuery(html).find("table tbody tr").length <= 0) {
+                              jQuery("#next").hide();  
+                           }
+                        } else {
+                            jQuery("#next").hide();
+                        }
+                    }
+                });            
+            return false;
+    } 

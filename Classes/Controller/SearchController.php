@@ -72,7 +72,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
         if (!$sessionVars['resultCount']) {
             // set number of results in session
-            $sessionVars['resultCount'] = 100;
+            $sessionVars['resultCount'] = 50;
         } else {
             $resultCount = $sessionVars['resultCount'];
             $sessionVars['resultCount'] = $resultCount + 50;
@@ -80,11 +80,17 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
+             
         $query['from'] = $sessionVars['resultCount'];
-        $query['size'] = 50;
-
+        $query['size'] = 5;
+        
+       
         $results = $this->getResultList($query);
 
+       //  echo "<pre>";
+       // var_dump($results);
+       // echo "</pre>";
+        
         $this->view->assign('resultList', $results);
     }
 
@@ -214,11 +220,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // reset session pagination
         $sessionVars['resultCount'] = 50;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-
-        // set pagination
-        $query['body']['from'] = '0';
-        $query['body']['size'] = '50';
-
+               
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
         if ($args['extSearch']) {
@@ -229,6 +231,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // $query = $this->search();
         }
 
+        // set pagination
+        $query['body']['from'] = '0';
+        $query['body']['size'] = '50';
+        
         // $query = $this->searchFulltext();
         // save search query
         if ($query) {
