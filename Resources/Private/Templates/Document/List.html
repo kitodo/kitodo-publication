@@ -85,6 +85,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
               action="release" 
               arguments="{document : document}" 
               class="btn btn-xs {f:if(condition: '{document.remoteAction}', then: 'btn-info', else: 'btn-info disabled')}">
+              <span class="glyphicon glyphicon-refresh"></span>
               {f:translate(key: 'manager.update')}
             </f:link.action>   
             </f:else>
