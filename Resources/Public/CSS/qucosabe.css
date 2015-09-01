@@ -1,25 +1,85 @@
+/*
+ *
+ * Special rewrites for backend display of input forms
+ *
+ */
+ 
+ 
+ 
+/* -- basic setup ------------------------------------------------------------------------ */
+body {
+	background:#fff;
+	padding-top:49px;
+	margin-bottom:100px;
+}
+
 .tx-dpf {
-  font-family: Verdana,Arial,Helvetica,sans-serif;  
-  margin: 0 20px 0 20px;
+	padding:24px;
 }
 
-.tx-dpf .form-submit {   
-   border-right: none;
-   float: left;
+.tx-dpf:before {
+	position:fixed;
+	top:0;
+	right:0;
+	left:0;
+	height:49px;
+	background:#585858;
+	border-bottom:22px solid #dadada;
+	content:"";
+	z-index:100;
+}
+
+.tx-dpf h2 {
+	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
+	font-size:2em;
+	color:#555;
+	margin-top:0;
+	margin-bottom:30px;
+	font-weight:400;
 }
 
 
-.tx-dpf #form_delete {
-   background-color:#fafafa;
-   border:1px solid #d0d0d0;
-   border-width: 1px;
-   padding:15px 20px;
-   border-top: none;
-   border-left: none;
-   display: block;
-   height: 25px;   
+
+/* -- form setup ------------------------------------------------------------------------- */
+.tx-dpf .css-panes {
+	margin-bottom:20px;
 }
 
-.tx-dpf #form_delete input {
-    float: right;
+.tx-dpf fieldset {
+	margin:40px 0;
 }
+
+.tx-dpf fieldset legend {
+	font-size:21px;
+	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
+	font-weight:400;
+	color:#666;
+	margin-bottom:20px;
+}
+
+.tx-dpf button.add_group,.tx-dpf button.add_file_group {
+	margin-top:-50px;
+	right:auto;
+}
+
+.form-submit {
+	padding-top:0;
+}
+
+.form-submit .btn-lg {
+	margin:-9px 0 0 10px;
+	padding:10px 16px;
+	font-size:18px;
+}
+
+.form-submit,.form-submit button {
+	float:right;
+}
+
+.tx-dpf button .glyphicon {
+	top:1px;
+}
+
+
+
+/* EOF */

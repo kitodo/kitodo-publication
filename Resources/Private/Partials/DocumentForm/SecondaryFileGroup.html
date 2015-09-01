@@ -4,20 +4,24 @@
         <fieldset class="fs_file_group" data-group="file-upload">
          
          <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
-        
-         <f:link.external uri="{file.link}" target="_blank" class="file_link">{file.title}</f:link.external>
+         
+         <div class="form-control-static">
+            <f:link.external uri="{file.link}" target="_blank" class="file_link">{file.title}</f:link.external>
                   
-         <input type="submit"
-                 
-                 value="{f:translate(key: 'form_button.delete_item' arguments: {0: ''})}"
-                       name="rem_file_group" class="rem_file_group"                                           
+            <button type="submit"
+                       name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
                        data-ajax="{f:uri.action(
                             action:'deleteFile',
                             controller:'AjaxDocumentForm',
                             pageType:110124,
                             arguments:{
                               fileUid: file.uid                              
-                       })}"/>        
+                       })}">
+              <span class="glyphicon glyphicon-trash"></span>
+              {f:translate(key: 'form_button.delete_item' arguments: {0: ''})}
+            </button>
+            
+          </div>
                         
         </fieldset>            
       </f:for>            

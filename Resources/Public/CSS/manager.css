@@ -1,63 +1,108 @@
-.table-manager {  
-  /* width: auto; */
+/*
+ *
+ * Backend stylesheet for document manager
+ *
+ */
+  
+ 
+ 
+ /* -- basic setup ----------------------------------------------------------------------- */
+ body {
+	background:#fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
+	padding-top:49px;
 }
 
 .tx-dpf {
-  width: 95%;
-  margin-left: 2%;
+	padding:24px;
 }
 
-.table_col_function {
-  text-align: right;  
+.tx-dpf:before {
+	position:fixed;
+	top:0;
+	right:0;
+	left:0;
+	height:49px;
+	background:#585858;
+	border-bottom:22px solid #dadada;
+	content:"";
+	z-index:500;
 }
-
-.tx-dpf .typo3-messages {
-  margin: 20px 0 20px 0;
-}
-
-
-.tx-dpf .manager-menu {
-  margin: 20px 0 20px 0;  
-}
-
 
 .tx-dpf .client {
-  padding: 10px 10px 10px 10px;
+	position:fixed;
+	top:17px;
+	right:25px;
+	height:34px;
+	padding:5px 15px;
+	line-height:30px;
+	color:#666;
+	text-align:right;
+	background:#fff;
+	border:1px solid #d7d7d7;
+	border-bottom-width:0;
+	z-index:501;
+}
+
+.be-page-header {
+	margin-bottom:30px;
+}
+
+.be-page-header h3 {
+	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
+	font-size:2em;
+	color:#555;
+	margin:0;
+	float:left;
+}
+
+.docheader-funcmenu {
+	position:fixed;
+	top:3px;
+	left:24px;
+	z-index:502;
+}
+
+.controller-switch {
+	float:right;
+	margin-right:17px;
+}
+
+.be-page-header:after {
+	position:relative;
+	display:table;
+	content:"";
+	clear:both;
+}
+
+
+
+/* -- table setup ------------------------------------------------------------------------ */
+table.tx_dpf {
+	border-bottom:2px solid #ddd;
+}
+
+table.tx_dpf .table_col_function {
+	text-align:right;
+	padding:8px 15px 8px 0;
+}
+
+table.tx_dpf .table_col_function a {
+	text-decoration:none;
+}
+
+table.tx_dpf > tbody > tr > td {
+	vertical-align:middle;
 }
 
 .searchForm {
-    padding-bottom: 10px;
+	margin:0 20px 20px 0;
+	float:left;
 }
 
-.tx-dpf .table_col_function a {
-    text-decoration: none;
-}
-
-
-.tx-dpf .tx-dpf-table-doublet {
-    margin-top: 30px;    
-}
-
-.tx-dpf .doublet-message td{
-    padding: 20px 5px 20px 5px;
-    font-weight: bold;
+.searchForm label {
+	display:none;
 }
 
 
-/* Initialize Client Module */
 
-.tx-dpf form#new-client label {
-    width: 100px;
-}
-
-tx-dpf form#new-client input {
-    float: none;
-    display: block;
-}    
-
-.tx-dpf form#new-client label { 
-    float: none;
-    display: block;   
-    width: auto;
-    margin: 10px 0 0 0;
-}    
+/* EOF */
