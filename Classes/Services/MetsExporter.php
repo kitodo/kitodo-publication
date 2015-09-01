@@ -866,7 +866,7 @@ class MetsExporter
      * @return string slub info xml
      */
     public function getSlubInfoData() {
-        return "<slub:info></slub:info>";
+        return $this->slubData->saveXML();
     } 
     
 }
