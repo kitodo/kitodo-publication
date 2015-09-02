@@ -85,9 +85,9 @@ class DocumentTransferManager {
     $exporter->setFileData($fileData);    
                                    
     $exporter->setMods($document->getXmlData());    
-                                  
-    $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
-    
+
+    $exporter->setSlubInfo($document->getSlubInfoData());
+        
     $exporter->buildMets();  
                    
     $metsXml = $exporter->getMetsData();
@@ -126,10 +126,10 @@ class DocumentTransferManager {
     $fileData = $this->getFileData($document);
            
     $exporter->setFileData($fileData);    
+        
+    $exporter->setMods($document->getXmlData()); 
     
-    $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
-    
-    $exporter->setMods($document->getXmlData());    
+    $exporter->setSlubInfo($document->getSlubInfoData());
                     
     $exporter->buildMets();  
      
@@ -251,6 +251,20 @@ class DocumentTransferManager {
       return FALSE;
     }            
   }
+  
+  
+  public function getNextDocumentId() {      
+      $nextDocumentIdXML = $this->remoteRepository->getNextDocumentId(); 
+                                
+      $dom = new \DOMDocument();
+      $dom->loadXML($nextDocumentIdXML);
+      $xpath = new \DOMXpath($dom);
+                  
+      $xpath->registerNamespace("management","http://www.fedora.info/definitions/1/0/management/"); 
+      $nextDocumentId = $xpath->query("/management:pidList/management:pid");     
+                   
+      return $nextDocumentId->item(0)->nodeValue;                    
+  }    
   
         
   protected function getFileData($document) {

@@ -150,9 +150,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 
                 $newDocument->setTitle($document->getTitle()); 
                 $newDocument->setAuthors($document->getAuthors());
-                $newDocument->setxmlData($document->getXmlData());
+               
+                $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());  
+                $mods->clearAllUrn();
+                $newDocument->setxmlData($mods->getModsXml());                
+                
                 $newDocument->setDocumentType($document->getDocumentType());
                 $newDocument->removeDateIssued();
+               
                 
                 $this->documentRepository->add($newDocument);
 
@@ -177,7 +182,28 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
          * @return void
          */
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
-                                
+          
+          // generate URN if needed  
+          $qucosaId = $document->getObjectIdentifier();
+          if (empty($qucosaId)) {
+            $qucosaId = $document->getReservedObjectIdentifier();
+          }          
+          if (empty($qucosaId)) {                                         
+            $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $documentTransferManager->setRemoteRepository($remoteRepository);          
+            $qucosaId = $documentTransferManager->getNextDocumentId();
+            $document->setReservedObjectIdentifier($qucosaId);
+          }
+                    
+          $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());               
+          if (!$mods->hasUrn() ) { 
+               $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+               $urn = $urnService->getUrn($qucosaId);
+               $mods->addUrn($urn);
+               $document->setXmlData($mods->getModsXml());
+          }                                
+                                                      
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
           $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
           $documentTransferManager->setRemoteRepository($remoteRepository);

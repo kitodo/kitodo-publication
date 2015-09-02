@@ -57,6 +57,24 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $ownerId = '';
         
         
+        /**
+         * networkInitial         
+         * 
+         * @var string
+         * @validate NotEmpty
+         */
+        protected $networkInitial = '';
+        
+        
+        /**
+         * libraryIdentifier         
+         * 
+         * @var string
+         * @validate NotEmpty
+         */
+        protected $libraryIdentifier = '';
+                   
+        
 	/**
 	 * Returns the project
 	 *
@@ -94,7 +112,48 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setClient($client) {
 		$this->client = $client;
 	}
+                
+        /**
+	 * Returns the networkInitial
+	 *
+	 * @return string $networkInitial      
+	 */
+	public function getNetworkInitial() {
+		return $this->networkInitial;
+	}
         
+        
+        /**
+	 * Sets the networkInitial
+	 *
+	 * @param string $networkInitial
+         * @return void                 
+	 */
+	public function setNetworkInitial($networkInitial) {
+		$this->networkInitial = $networkInitial;
+	}
+        
+        
+        /**
+	 * Returns the libraryIdentifier
+	 *
+	 * @return string $libraryIdentifier     
+	 */
+	public function getLibraryIdentifier() {
+		return $this->libraryIdentifier;
+	}
+        
+        
+        /**
+	 * Sets the libraryIdentifier
+	 *
+	 * @param string $libraryIdentifier
+         * @return void                 
+	 */
+	public function setLibraryIdentifier($libraryIdentifier) {
+		$this->libraryIdentifier = $libraryIdentifier;
+	}
+                                            
         
         /**
 	 * Gets the ownerId

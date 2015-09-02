@@ -55,10 +55,7 @@ class DocumentMapper {
    * @inject
    */
   protected $fileRepository = NULL;        
-  
-        
-  protected $domXpath; 
-  
+    
   
   public function getDocumentForm($document) { 
         
@@ -67,41 +64,27 @@ class DocumentMapper {
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
-   
-    /*
-    // Get the mods data
-    $metsDom = new \DOMDocument();
-    $metsDom->loadXML($document->getXmlData());
-    $metsXpath = new \DOMXPath($metsDom);  
-    $metsXpath->registerNamespace("mods", "http://www.loc.gov/mods/v3");        
-    $modsNodes = $metsXpath->query("/mets:mets/mets:dmdSec/mets:mdWrap/mets:xmlData/mods:mods");
-                   
-    $dom = new \DOMDocument();
-            
-    if ($modsNodes->length == 1) {      
-      $dom->loadXML($metsDom->saveXML($modsNodes->item(0)));    
-    } else {
-     $dom->loadXML("");      
-    } 
-      
-    $this->domXpath = new \DOMXPath($dom);     
-    */
     
-    $dom = new \DOMDocument();
-    $xmlData = $document->getXmlData();
-    if (!empty($xmlData)) {
-        $dom->loadXML($xmlData);           
-    }    
+    $qucosaId = $document->getObjectIdentifier();
     
-    // $this->domXpath = new \DOMXPath($dom);
-    $this->domXpath = \EWW\Dpf\Helper\XPath::create($dom);  
+    if (empty($qucosaId)) {         
+        $qucosaId = $document->getReservedObjectIdentifier();        
+    }
     
-    $this->domXpath->registerNamespace("foaf", "http://xmlns.com/foaf/0.1/");
-    $this->domXpath->registerNamespace("slub", "http://slub-dresden.de");
-                       
-   
+    if (!empty($qucosaId)) {
+        $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');       
+        $qucosaUrn = $urnService->getUrn($qucosaId);
+        $documentForm->setQucosaUrn($qucosaUrn); 
+    }
+    
+    $documentForm->setQucosaId($qucosaId);
+                         
+    $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());  
+    $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
+    
+    
     $documentData = array();    
-        
+           
     foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
       $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
       $documentFormPage->setUid($metadataPage->getUid());
@@ -109,19 +92,30 @@ class DocumentMapper {
       $documentFormPage->setName($metadataPage->getName());                               
                
       foreach ($metadataPage->getMetadataGroup() as $metadataGroup ) {                             
+          
           $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
           $documentFormGroup->setUid($metadataGroup->getUid());
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
           $documentFormGroup->setName($metadataGroup->getName());
           $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());         
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
-               
-          // Read the group data.                                     
-          $groupData = $this->domXpath->query($metadataGroup->getAbsoluteMapping());                                     
-                                        
+                          
+                   
+          if ($metadataGroup->isSlubInfo()) {
+              $xpath = $slub->getSlubXpath();                            
+          } else {
+              $xpath = $mods->getModsXpath();                 
+          }
+                     
+        
+          // Read the group data.                        
+          $groupData = $xpath->query($metadataGroup->getAbsoluteMapping());      
+
+          
           if ($groupData->length > 0) {
             foreach ($groupData as $key => $data) {              
-              
+                                         
               $documentFormGroupItem = clone($documentFormGroup);
               
               foreach ($metadataGroup->getMetadataObject() as $metadataObject ) {  
@@ -131,15 +125,18 @@ class DocumentMapper {
                 $documentFormField->setDisplayName($metadataObject->getDisplayName());
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
+                $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
+                $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
                                                               
                 $objectMapping = "";                
-                
+
                 $objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
                 
-                foreach ($objectMappingPath as $key => $value) {                                        
+                foreach ($objectMappingPath as $key => $value) {                                          
+                    
                     // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
                     // are not recognized as the same node                 
                     if ((strpos($value,"@") === FALSE) && ($value != '.')) {                                                 
@@ -147,19 +144,22 @@ class DocumentMapper {
                     }                                                            
                 }      
                 
-                $objectMapping = implode("/", $objectMappingPath);                                                 
+                $objectMapping = implode("/", $objectMappingPath); 
                 
-                
+                if ($objectMapping == '[not(@*)]') {
+                    $objectMapping = '.';
+                }
+               
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
                   $modsExtensionGroupMapping = $metadataGroup->getAbsoluteModsExtensionMapping();                  
                   
                   $refID = $data->getAttribute("ID");                                     
-                  $objectData = $this->domXpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
+                  $objectData = $xpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
-                } else {                                
-                  $objectData = $this->domXpath->query($objectMapping,$data);              
+                } else {                                                                                  
+                  $objectData = $xpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
                 if ($objectData->length > 0) { 
@@ -193,9 +193,11 @@ class DocumentMapper {
               $documentFormField->setDisplayName($metadataObject->getDisplayName());
               $documentFormField->setName($metadataObject->getName());               
               $documentFormField->setMandatory($metadataObject->getMandatory());
+              $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
+              $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
               $documentFormField->setValue("");
                                
               $documentFormGroup->addItem($documentFormField);                
@@ -233,30 +235,43 @@ class DocumentMapper {
         
     $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());                   
 
-    $document->setDocumentType($documentType);          
-                            
-    $data['documentUid'] = $documentForm->getDocumentUid();
+    $document->setDocumentType($documentType);         
     
-    $data['metadata'] = $this->getMetadata($documentForm);   
+    $document->setReservedObjectIdentifier($documentForm->getQucosaId());
+                        
+    
+    $formMetaData = $this->getMetadata($documentForm); 
 
-    $data['files'] = array();
-                      
     $exporter = new \EWW\Dpf\Services\MetsExporter();                
-    $exporter->buildModsFromForm($data);       
+
+    // mods:mods
+    $modsData['documentUid'] = $documentForm->getDocumentUid();        
+    $modsData['metadata'] = $formMetaData['mods'];        
+    $modsData['files'] = array();
+                      
+    $exporter->buildModsFromForm($modsData);       
     $modsXml = $exporter->getModsData();    
     $document->setXmlData($modsXml);                  
-    
+
     $mods = new \EWW\Dpf\Helper\Mods($modsXml); 
     
     $document->setTitle($mods->getTitle());          
     $document->setAuthors($mods->getAuthors());
-  
+    
+    // slub:info
+    $slubInfoData['documentUid'] = $documentForm->getDocumentUid();        
+    $slubInfoData['metadata'] = $formMetaData['slubInfo'];        
+    $slubInfoData['files'] = array();                      
+    $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);       
+    $slubInfoXml = $exporter->getSlubInfoData();    
+    $document->setSlubInfoData($slubInfoXml);         
+     
     return $document;      
   }
   
   
   protected function getMetadata($documentForm) {
-            
+           
     foreach ($documentForm->getItems() as $page) {                          
               
       foreach ($page[0]->getItems() as $group) {              
@@ -267,7 +282,7 @@ class DocumentMapper {
 
           $uid = $groupItem->getUid();
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);
-                                       
+
           $item['mapping'] = $metadataGroup->getRelativeMapping();        
                        
           $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();                                                           
@@ -280,6 +295,7 @@ class DocumentMapper {
             foreach ($field as $fieldItem) {
               $fieldUid = $fieldItem->getUid();
               $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
+              
               $fieldMapping = $metadataObject->getRelativeMapping();              
               
               $formField = array();
@@ -305,7 +321,11 @@ class DocumentMapper {
           if (!key_exists('attributes', $item)) $item['attributes'] = array();
           if (!key_exists('values', $item)) $item['values'] = array();  
 
-          $form[] = $item; 
+          if ($metadataGroup->isSlubInfo()) {                       
+            $form['slubInfo'][] = $item; 
+          } else {
+            $form['mods'][] = $item;    
+          } 
 
         }
 

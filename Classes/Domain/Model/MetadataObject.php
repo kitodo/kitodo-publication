@@ -102,6 +102,24 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $inputOptionList = NULL;
         
         
+        /**
+         * fillOutService
+         * 
+         * @var string
+         */
+        protected $fillOutService = '';
+                        
+        const FILL_OUT_SERVICE_URN = 'urn';
+        
+        
+        /**
+         * backendOnly
+         * 
+         * @var boolean
+         */
+        protected $backendOnly = FALSE;
+                
+        
 	/**
 	 * Returns the name
 	 *
@@ -170,7 +188,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * Sets the mandatory
-	 *
+	 *    
 	 * @param boolean $mandatory
 	 * @return void
 	 */
@@ -246,7 +264,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             $mapping =  preg_replace($modsRegExp,"",$this->mapping);
             return trim($mapping," /");          
         }
-
+                              
                         
 	/**
 	 * Returns the inputField
@@ -295,6 +313,45 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setInputOptionList(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList) {
 		$this->inputOptionList = $inputOptionList;
 	}
+        
+        
+        /**
+	 * Returns the fillOutService
+	 *
+	 * @return string $fillOutService
+	 */
+	public function getFillOutService() {
+		return $this->fillOutService;
+	}
 
+        
+        /**
+	 * Sets the fillOutService
+	 *
+         * @param string $fillOutService
+	 * @return void
+	 */
+	public function setFillOutService($fillOutService) {
+		$this->fillOutService = $fillOutService;
+	}
 
+        
+        /**
+	 * Returns the backendOnly
+	 *
+	 * @return boolean $backendOnly
+	 */
+	public function getBackendOnly() {
+		return $this->backendOnly;
+	}
+
+	/**
+	 * Sets the backendOnly
+	 *
+	 * @param boolean $backendOnly
+	 * @return void
+	 */
+	public function setBackendOnly($backendOnly) {
+		$this->backendOnly = $backendOnly;
+	}
 }

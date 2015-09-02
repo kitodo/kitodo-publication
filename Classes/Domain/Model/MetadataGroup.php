@@ -89,6 +89,16 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $metadataObject = NULL;
 
+        
+        /**
+         * backendOnly
+         * 
+         * @var boolean
+         */
+        protected $backendOnly = FALSE;
+        
+        
+        
 	/**
 	 * __construct
 	 */
@@ -200,9 +210,10 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $relativeMapping
 	 */
-        public function getRelativeMapping() {
-            $modsRegExp = "/^.*?mods:mods/i";        
-            $mapping =  preg_replace($modsRegExp,"",$this->mapping);
+        public function getRelativeMapping() {                                  
+            $modsRegExp = "/^.*?(mods:mods|slub:info)/i";        
+            $mapping =  preg_replace($modsRegExp,"",$this->mapping);                                   
+            //if (empty($mapping)) throw new \Exception("Invalid Mapping!");
             return trim($mapping," /");          
         }
         
@@ -212,10 +223,25 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string $absoluteMapping
 	 */
-        public function getAbsoluteMapping() {            
-            return "/mods:mods/".$this->getRelativeMapping();      
+        public function getAbsoluteMapping() {           
+                                  
+            if ($this->isSlubInfo()) {
+                return "/slub:info/".$this->getRelativeMapping();   
+            } else {                   
+                return "/mods:mods/".$this->getRelativeMapping();      
+            }    
         }
         
+        
+        public function isSlubInfo() {            
+            $modsRegExp = "/^.*?slub:info/i";
+            $match = $this->mapping;
+            if (preg_match($modsRegExp,$match)) {               
+                return TRUE;                 
+            }                        
+            return FALSE;                        
+        }
+
         
         /**
 	 * Returns the modsExtensionMapping
@@ -344,5 +370,24 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function getChildren() {
            return $this->getMetadataObject();
         }
+        
+        /**
+	 * Returns the backendOnly
+	 *
+	 * @return boolean $backendOnly
+	 */
+	public function getBackendOnly() {
+		return $this->backendOnly;
+	}
+
+	/**
+	 * Sets the backendOnly
+	 *
+	 * @param boolean $backendOnly
+	 * @return void
+	 */
+	public function setBackendOnly($backendOnly) {
+		$this->backendOnly = $backendOnly;
+	}
                    
 }

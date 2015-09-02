@@ -27,11 +27,17 @@
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
+				<source>Slub Info Data</source>
+			</trans-unit>                        
 			<trans-unit id="tx_dpf_domain_model_document.document_type">
 				<source>Document Type</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.object_identifier">
 				<source>Object Identifier</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
+				<source>Reserved Object Identifier</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
@@ -47,6 +53,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
 				<source>Mandatory</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only">
+				<source>Backend only</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 				<source>Mapping</source>
@@ -77,6 +86,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 				<source>Mandatory</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
+				<source>Backend only</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
@@ -182,7 +194,13 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>OwnerID</source>
-			</trans-unit>                                      
+			</trans-unit>  
+                        <trans-unit id="tx_dpf_domain_model_client.network_initial">
+				<source>Network initial</source>
+			</trans-unit>                           
+                        <trans-unit id="tx_dpf_domain_model_client.library_identifier">
+				<source>Library identifier</source>
+			</trans-unit>                                                                                                                                                       
                         <trans-unit id="form_error_msg.group_mandatory">
 				<source>Please fill in the required fields.</source>
 			</trans-unit>   
@@ -200,7 +218,10 @@
 			</trans-unit>     
                         <trans-unit id="form_button.addFile">
 				<source>add file</source>
-			</trans-unit>                                                                        
+			</trans-unit>              
+                        <trans-unit id="form_button.create_value">
+				<source>create</source>
+			</trans-unit>                                                          
                         <trans-unit id="form_button.save">
 				<source>save</source>
 			</trans-unit>     

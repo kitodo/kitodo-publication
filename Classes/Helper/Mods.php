@@ -13,7 +13,9 @@ class Mods {
   
   public function setModsXml($modsXml) {
     $modsDom = new \DOMDocument();
-    $modsDom->loadXML($modsXml);     
+    if (!empty($modsXml)) {
+        $modsDom->loadXML($modsXml);     
+    }    
     $this->modsDom = $modsDom;
   }
   
@@ -23,8 +25,9 @@ class Mods {
   }
   
     
-  public function getModsXpath() {            
-    return \EWW\Dpf\Helper\XPath::create($this->modsDom);  
+  public function getModsXpath() {        
+    $xpath = \EWW\Dpf\Helper\XPath::create($this->modsDom);    
+    return $xpath;
   }
   
   
@@ -124,7 +127,46 @@ class Mods {
           $dateIssued->item(0)->parentNode->removeChild($dateIssued->item(0));
       } 
            
-  }     
+  }  
+  
+  
+  public function hasUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+    
+    $hasUrn = false;
+    
+    foreach ($urnNodeList as $urnNode) {        
+        $value = $urnNode->nodeValue;
+        $hasUrn = $hasUrn || !empty($value);     
+    }
+       
+    return $hasUrn;   
+  }
+   
+  
+  public function addUrn($urn) {
+    $rootNode = $this->getModsXpath()->query('/mods:mods');
+    
+      if ($rootNode->length == 1) {        
+            $newUrn = $this->modsDom->createElement('mods:identifier');            
+            $newUrn->setAttribute('type','urn');
+            $newUrn->nodeValue = $urn;
+            $rootNode->item(0)->appendChild($newUrn);                  
+        } else {
+            throw \Exception('Invalid xml data.');
+        }   
+    
+  }
+  
+  
+  public function clearAllUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+            
+    foreach ($urnNodeList as $urnNode) {
+        $urnNode->parentNode->removeChild($urnNode);
+    }   
+    
+  }
   
 }
 

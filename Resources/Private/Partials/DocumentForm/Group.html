@@ -1,3 +1,4 @@
+{namespace eww=EWW\Dpf\ViewHelpers}
 
 <fieldset class="fs_group" data-group="{formGroupUid}" data-mandatory="{groupItem.mandatory}">
     <legend>
@@ -10,43 +11,9 @@
 
       <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
         <div class="form-container">
-          <f:alias map="{ 
-                          countries: {
-                            xyz: '',
-                            bul: 'Bulgarisch',
-                            chi: 'Chinesisch',
-                            dan: 'Dänisch',
-                            ger: 'Deutsch',
-                            eng: 'Englisch',
-                            est: 'Estnisch',
-                            fin: 'Finnisch',
-                            fre: 'Französisch',
-                            grc: 'Griechisch',
-                            gle: 'Irisch',
-                            ita: 'Italienisch',
-                            jpn: 'Japanisch',
-                            lat: 'Latein',
-                            lav: 'Lettisch',
-                            lit: 'Litauisch',
-                            mlt: 'Maltesisch',
-                            dut: 'Niederländisch',
-                            dsb: 'Niedersorbisch',
-                            hsb: 'Obersorbisch',
-                            pol: 'Polnisch',
-                            por: 'Portugiesisch',
-                            rum: 'Rumänisch',
-                            rus: 'Russisch',
-                            swe: 'Schwedisch',
-                            slo: 'Slowakisch',
-                            slv: 'Slowenisch',
-                            spa: 'Spanisch',
-                            cze: 'Tschechisch',
-                            hun: 'Ungarisch'
-                          } 
-                         }">            
-                                     
-                                                                
-              <f:render partial="DocumentForm/Field" arguments="{
+
+                <eww:isElementAllowed condition="{fieldItem.backendOnly}">
+                    <f:then>                           <f:render partial="DocumentForm/Field" arguments="{
                           formPageUid: formPageUid,                       
                           formGroupUid: formGroupUid,                                     
                           groupIndex: groupIndex,                        
@@ -78,8 +45,9 @@
                
                 </f:if>
               </f:if>
-              
-          </f:alias>
+</f:then>
+                </eww:isElementAllowed>              
+
         </div>        
       </f:for>
 

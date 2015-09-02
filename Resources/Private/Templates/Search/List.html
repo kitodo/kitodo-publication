@@ -70,7 +70,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </f:form>
     </div>
 
-	<table class="tx_dpf table table-striped table-manager table-condensed">
+	<table id="search-results" class="tx_dpf table table-striped table-manager table-condensed">
 		<thead>
 			<tr>
 				<th class="xcol-md-5">ID</th>
@@ -81,6 +81,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <th class="xcol-md-1"></th>          
 			</tr>
 		</thead>
+                <tbody>
 		<f:for each="{searchList}" as="entry">
 		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
          <f:then><tr class="success"></f:then>	
@@ -121,9 +122,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
               </f:link.action>
             </td>
           </f:else>                    
-        </f:if>                                                    
+        </f:if>                                               
 			</tr>
 		</f:for>
-	</table>
-
+                </tbody>
+        </table>
+        <center>
+            <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
+        </center>                           
 </f:section>

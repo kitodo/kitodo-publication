@@ -69,12 +69,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     public function nextResultsAction()
     {
-        // anzahl der ergebnis in die Session speichern
-        // bei jedem Aufruf um 50 Einträge erhöhen und in Session speichern
         $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
         if (!$sessionVars['resultCount']) {
             // set number of results in session
-            $sessionVars['resultCount'] = 100;
+            $sessionVars['resultCount'] = 50;
         } else {
             $resultCount = $sessionVars['resultCount'];
             $sessionVars['resultCount'] = $resultCount + 50;
@@ -82,11 +80,17 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
+             
         $query['from'] = $sessionVars['resultCount'];
-        $query['size'] = 50;
-
+        $query['size'] = 5;
+        
+       
         $results = $this->getResultList($query);
 
+       //  echo "<pre>";
+       // var_dump($results);
+       // echo "</pre>";
+        
         $this->view->assign('resultList', $results);
     }
 
@@ -124,12 +128,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // multi field search
             $i = 1;
             foreach ($fieldQuery as $key => $qry) {
-                $query['body']['query']['bool']['must'] = array('match' => array($key => $qry));
+                $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
                 $i++;
             }
             
             // owner id
-            $query['body']['query']['bool']['must'][0]['match']['OWNER_ID'] = $client->getOwnerId();
+            $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
         }
 
         return $query;
@@ -142,12 +146,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                                         
         $client = $this->clientRepository->findAll()->current();
         
-        
+        // dont return query if keys not existing
         if ( !key_exists('search', $args) || !key_exists('query',$args['search'])) {            
             return NULL;
         }
         
-        //$query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+        // add owner id
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
         $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query'];
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query'];
@@ -171,7 +176,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return array elasticsearch query
      */
     public function search()
-    {         
+    {
         // perform search action
         $args = $this->request->getArguments();
 
@@ -215,11 +220,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // reset session pagination
         $sessionVars['resultCount'] = 50;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-
-        // set pagination
-        $query['body']['from'] = '0';
-        $query['body']['size'] = '50';
-
+               
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
         if ($args['extSearch']) {
@@ -230,6 +231,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // $query = $this->search();
         }
 
+        // set pagination
+        $query['body']['from'] = '0';
+        $query['body']['size'] = '50';
+        
         // $query = $this->searchFulltext();
         // save search query
         if ($query) {
@@ -293,16 +298,36 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return void
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
-    { 
+    {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        $client = $this->clientRepository->findAll()->current();
+
+        // es source fields
+        // title
+        // abstract
+        // author
+        // language
+        // publisher
+        // publisher_place
+        // distributor
+        // distributor_place
+        // distributor_date
+        // classification
+        // tag
+        // identifier
+        // submitter
+        // project
         
         // is doublet existing?
-        // $query['body']['query']['bool']['must'][0]['match']['title'] = $document->getTitle();
-        // $query['body']['query']['bool']['must'][1]['match']['author'] = 'author';
-        $query['body']['query']['term']['title'] = $document->getTitle();
+        $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
+        // $query['body']['query']['bool']['must'][]['match']['author'] = $document->getAuthors()[0];
+
+        // set owner id
+        $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
 
         $results = $elasticSearch->search($query);
-        
+
         // redirect to list view
         //$this->forward("list", null, null, array('results' => $results));
         

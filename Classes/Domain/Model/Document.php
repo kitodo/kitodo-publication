@@ -72,6 +72,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $xmlData = '';
 
+        
+        /**
+	 * slubInfoData
+	 *
+	 * @var string
+	 */
+	protected $slubInfoData = '';
+        
                
 	/**
 	 * documentType
@@ -86,6 +94,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * @var string         
          */
         protected $objectIdentifier;     
+        
+        
+        /**
+         * reseredObjectIdentifier
+         * 
+         * @var string         
+         */
+        protected $reservedObjectIdentifier;     
+        
         
         /**
          * objectState
@@ -217,6 +234,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
            
 		$this->xmlData = $newMods->getModsXml();                                                              
 	}
+        
+        
+        /**
+	 * Returns the slubInfoData
+	 *
+	 * @return string $slubInfoData
+	 */
+	public function getSlubInfoData() {                                  
+		return $this->slubInfoData;
+	}
+        
+        
+        /**
+	 * Sets the slubInfoData
+	 *
+	 * @return string $slubInfoData
+	 */
+	public function setSlubInfoData($slubInfoData) {                                  
+		$this->slubInfoData = $slubInfoData;
+	}
+        
 
 	/**
 	 * Returns the documentType
@@ -263,6 +301,25 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         public function setObjectIdentifier($objectIdentifier) {
           $this->objectIdentifier = $objectIdentifier;          
+        }
+        
+        /**
+         * Returns the reservedObjectIdentifier
+         * 
+         * @return string
+         */
+        public function getReservedObjectIdentifier() {
+          return $this->reservedObjectIdentifier;          
+        }
+        
+        /**
+         * Sets the reservedObjectIdentifier
+         * 
+         * @param string $reservedObjectIdentifier
+         * @return void
+         */
+        public function setReservedObjectIdentifier($reservedObjectIdentifier) {
+          $this->reservedObjectIdentifier = $reservedObjectIdentifier;          
         }
                 
         /**

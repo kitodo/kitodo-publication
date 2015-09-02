@@ -24,12 +24,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
 	'Qucosaform',
 	array(                
 		'DocumentForm' => 'list,show,new,create,edit,update,delete',
-                'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload',
+                'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
 	),
 	// non-cacheable actions
 	array(
 		'DocumentForm' => 'list,show,new,create,edit,update,delete,ajaxGroup,ajaxFileGroup,ajaxField',
-                'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload',
+                'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
 	)
 );
 

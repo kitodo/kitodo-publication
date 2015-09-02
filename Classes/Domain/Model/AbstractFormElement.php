@@ -39,6 +39,13 @@ class AbstractFormElement {
   
   /**
    *
+   * @var boolean
+   */
+  protected $backendOnly;
+  
+  
+  /**
+   *
    * @var integer
    */
   protected $maxIteration;
@@ -94,6 +101,14 @@ class AbstractFormElement {
     $this->mandatory = $mandatory;     
   }
 
+  public function getBackendOnly() {
+    return $this->backendOnly;    
+  }
+  
+  
+  public function setBackendOnly($backendOnly) {
+    $this->backendOnly = $backendOnly;     
+  }
   
   public function getMaxIteration() {
     return $this->maxIteration;    

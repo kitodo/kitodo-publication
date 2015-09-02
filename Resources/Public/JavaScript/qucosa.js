@@ -1,6 +1,9 @@
 
 $(document).ready(function() {
-       
+    
+                         
+    buttonFillOutServiceUrn();
+         
     // Show the Form pages/steps in Tabs
     jQuery("ul.tx-dpf-tabs").tabs("div.css-panes > div");
 
@@ -21,18 +24,24 @@ $(document).ready(function() {
     });
 
     // Add metadata group
-    jQuery(".tx-dpf").on("click",".add_group", addGroup);
+    jQuery(".tx-dpf").on("click",".add_group", addGroup);            
     jQuery(".tx-dpf").on("click",".add_file_group", addGroup);
-    jQuery(".tx-dpf").on("click",".add_field", addField);
+    jQuery(".tx-dpf").on("click",".add_field", addField);   
     
     
+    jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);    
+    jQuery(".tx-dpf").on("keyup","input.urn", buttonFillOutServiceUrn);
+   
+           
+    //jQuery(window).on("scroll", "", continuousScroll);
+    jQuery(".tx-dpf").on("click", "#next", continuousScroll);
     
+           
     // jQuery(".form-submit").on("click","#save",
-    
-    
+            
     jQuery(".form-submit").on("click","#save", validateForm);
     jQuery(".form-submit").on("click","#savecontinue", validateForm);
-                    
+                                
 });
 
 
@@ -198,7 +207,7 @@ var checkFilledInputs = function(fieldset) {
 
 
 var addGroup = function() {
-
+    
         var element = jQuery(this);
 
         // Get the group uid
@@ -228,6 +237,7 @@ var addGroup = function() {
             }, 400, function() {
               jQuery(group).fadeIn();
             }); 
+	buttonFillOutServiceUrn();
         });
 
       return false;
@@ -249,7 +259,7 @@ var addGroup = function() {
         var ajaxURL = jQuery(this).attr('data-ajax');
               
         var params = buildAjaxParams(ajaxURL,"fieldIndex",fieldIndex);
-                                                  
+                                                                 
         //do the ajax-call       
         jQuery.post(ajaxURL, params, function (element) {
           
@@ -258,7 +268,7 @@ var addGroup = function() {
             jQuery(field).css({'display':'none'}).insertBefore(addButton).fadeIn();
           
         
-          
+            buttonFillOutServiceUrn();
         
           //  var height =jQuery('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
 
@@ -266,7 +276,7 @@ var addGroup = function() {
              //   scrollTop: element.offset().top - height
             //}, 400);
         });
-
+                
       return false;
     }   
     
@@ -304,11 +314,119 @@ var addGroup = function() {
     }
     
     
+    var fillOutServiceUrn = function() {
+        
+        // Get the field uid
+        var fieldUid = jQuery(this).attr('data-field');
+        
+        var fieldIndex = jQuery(this).attr('data-index');
+        
+        var groupUid = jQuery(this).attr('data-group');        
+        
+        var groupIndex = jQuery(this).attr('data-groupindex');
+      
+        var ajaxURL = jQuery(this).attr('data-ajax');
+        
+        var qucosaId = jQuery('#qucosaid').val();       
+        
+        var params = {};
+        
+        if (qucosaId) {
+            params = buildAjaxParams(ajaxURL,"qucosaId",qucosaId);
+        } else {
+            params = buildAjaxParams(ajaxURL,"qucosaId","");
+        }
+                      
+        //do the ajax-call       
+        jQuery.getJSON(ajaxURL, params, function (element) {                      
+
+            jQuery('#qucosaid').val(element.qucosaId);     
+            jQuery('#qucosaUrn').val(element.value);           
+           
+            //var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');                  
+            var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"][data-group="'+ groupUid +'"][data-groupindex="'+ groupIndex +'"]');                        
+            
+            inputField.val(element.value);         
+
+            //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
+            //fillOutButton.hide();           
+            buttonFillOutServiceUrn();                        
+                        
+        });
+
+      return false;
+    }         
     
+           
+    var buttonFillOutServiceUrn = function() {
+                               
+        jQuery('input.urn').each(function() {          
+            var fieldUid = jQuery(this).attr('data-field');        
+            var fieldIndex = jQuery(this).attr('data-index');
+            var groupUid = jQuery(this).attr('data-group');        
+            var groupIndex = jQuery(this).attr('data-groupindex');
+                      
+            var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');              
+                                                                             
+            if ( (jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn() ) {
+                fillOutButton.hide();                 
+            } else {                
+                fillOutButton.show();                        
+            }                         
+        });
+                               
+        return false;
+    }        
+    
+    
+    
+    var hasQucosaUrn = function() {
+        
+        var result = false;
+        
+        var qucosaUrn = jQuery('#qucosaUrn').val();
+                       
+        jQuery('input.urn').each(function() {
+            
+            var currentUrn = jQuery(this).val();                                        
+                    
+            if (currentUrn && qucosaUrn && (currentUrn == qucosaUrn)) {   
+                
+                result = result || true;
+                                
+            }                                    
+        });
+        
+        return result;
+    }
+    
+                 
+    var continuousScroll = function() { 
+                                                                   
+                var ajaxURL = jQuery("#next").attr('href');
+               
+                jQuery.ajax({
+                    url: ajaxURL,
+                    success: function(html) {                       
+                        if(html) {                                                                    
+                           jQuery(html).find("table tbody tr").each(function() {                                                                
+                                jQuery("#search-results tbody tr").last().parent().append(this);                               
+                           });
+                           if (jQuery(html).find("table tbody tr").length <= 0) {
+                              jQuery("#next").hide();  
+                           }
+                        } else {
+                            jQuery("#next").hide();
+                        }
+                    }
+                });            
+            return false;
+    }
+
 $(window).scroll(function() {
   if( $(this).scrollTop() > 330 ) {
     $(".tx-dpf-tab-container").addClass("sticky");
   } else {
     $(".tx-dpf-tab-container").removeClass("sticky");
   }
-});
+}); 

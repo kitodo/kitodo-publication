@@ -1,4 +1,6 @@
 <f:form action="create" name="documentData" object="{documentData}" enctype="multipart/form-data">
   <f:form.hidden property="type" value="{documentForm.uid}" />
+  <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}" />
+  <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}" />
   <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>

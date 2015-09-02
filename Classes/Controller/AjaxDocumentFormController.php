@@ -73,8 +73,10 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
               $field->setUid($object->getUid());
               $field->setDisplayName($object->getDisplayName());
               $field->setMandatory($object->getMandatory());
+              $field->setBackendOnly($object->getBackendOnly());
               $field->setInputField($object->getInputField());
               $field->setMaxIteration($object->getMaxIteration());
+              $field->setFillOutService($object->getFillOutService());  
               $field->setValue("");
 
               $groupItem->addItem($field);                       
@@ -107,8 +109,10 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
            $fieldItem->setUid($field->getUid());
            $fieldItem->setDisplayName($field->getDisplayName());
            $fieldItem->setMandatory($field->getMandatory());
+           $fieldItem->setBackendOnly($field->getBackendOnly());
            $fieldItem->setInputField($field->getInputField());
            $fieldItem->setMaxIteration($field->getMaxIteration());
+           $fieldItem->setFillOutService($field->getFillOutService());                                                                       
            $fieldItem->setValue("");                      
            
            $this->view->assign('formPageUid',$pageUid);
@@ -147,6 +151,36 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
         public function deleteFileAction($fileUid,$isPrimary=0) {            
            $this->view->assign('fileUid',$fileUid);  
            $this->view->assign('isPrimary',$isPrimary);  
+        }
+        
+        /**
+         * 
+         * @param string $qucosaId
+         * @return string
+         */                  
+        public function fillOutAction($qucosaId) { 
+            
+            $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+            
+            if (!empty($qucosaId)) {                                                                                
+              $urn = $urnService->getUrn($qucosaId);
+            } else {  
+                $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
+                $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+                $documentTransferManager->setRemoteRepository($remoteRepository);
+                
+                $qucosaId = $documentTransferManager->getNextDocumentId();
+                                                   
+                $urn = $urnService->getUrn($qucosaId);                                
+                                               
+            }    
+                                       
+            return json_encode(
+                    array(
+                        'qucosaId' => $qucosaId,
+                        'value' => $urn,
+                    )
+            );
         }
                                                                         
 }

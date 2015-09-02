@@ -4,14 +4,21 @@
 		<header/>
 		<body>
 			<trans-unit id="project.description">
-				<source>project</source>
+				<source>Project name</source>
 			</trans-unit>
 			<trans-unit id="client.description">
-				<source>client</source>
+				<source>Client name</source>
 			</trans-unit>
                         <trans-unit id="owner_id.description">
-				<source>OwnerID</source>
+				<source>Owner ID</source>
 			</trans-unit>
+                        <trans-unit id="network_initial.description">
+				<source>Network initial</source>
+			</trans-unit>                        
+                        <trans-unit id="library_identifier.description">
+				<source>Library identifier</source>
+			</trans-unit>                                                                                                                                                       
+
 		</body>
 	</file>
 </xliff>
