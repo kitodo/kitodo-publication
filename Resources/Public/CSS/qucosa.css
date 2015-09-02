@@ -1,331 +1,238 @@
-.clear {
-    clear:both;
-    display: inline;
+/*
+ *
+ * Global CSS styles for frontend and backend view
+ *
+ */
+
+
+
+/* -- import boostrap basics also to frontend -------------------------------------------- */
+@import "bootstrap.min.css";
+
+
+
+/* -- redesigning tabs to sticky nav ----------------------------------------------------- */
+#content .tx-dpf-tab-container {
+	position:absolute;
+	top:15px;
+	right:-90px;
 }
 
+#content .tx-dpf-tab-container.sticky {
+	position:fixed;
+	right:0;
+	left:0;
+	z-index:3000;
+}
+
+#content .tx-dpf-tabs {
+	position:relative;
+	background:#eee;
+	background:rgba(255,255,255,0.9);
+	width:600px;
+	border-radius:0 15px;
+	box-shadow:2px 2px 12px rgba(0,0,0,0.25);
+	padding:12px;
+}
+
+#content .tx-dpf-tab-container.sticky .tx-dpf-tabs {
+	left:125px;
+	margin:0 auto;
+}
+
+#content .tx-dpf-tabs li {
+	border:0 none;
+	padding:0;
+}
+
+#content .tx-dpf-tabs li a {
+	padding:5px 10px;
+	border:0 none;
+	border-radius:4px;
+}
+
+#content .tx-dpf-tabs li a.current {
+	background:#eee;
+	border:0 none;
+}
+
+
+
+/* -- basic setup ------------------------------------------------------------------------ */
 .tx-dpf {
-  font-family: Verdana,Arial,Helvetica,sans-serif;  
-  margin: 0 0 0 0;
+	position:relative;
+	padding-top:60px;
 }
 
-/* root element for tabs  */
-ul.tx-dpf-tabs {
-    margin:0 !important;
-    padding:0;
-    height:30px;
-    border-bottom:1px solid #d0d0d0;
+.tx-dpf h2 {
+	font-size:14px;
+	border-bottom:1px solid #e5e5e5;
 }
 
-/* single tab */
-ul.tx-dpf-tabs li {
-    float:left;
-    padding:0;
-    margin:0;
-    list-style-type:none;
-    font-size: 16px;
+.tx-dpf .css-panes {
+	border-bottom:1px solid #e5e5e5;
+	min-height:200px;
 }
 
-/* link inside the tab. uses a background image */
-ul.tx-dpf-tabs a {
-    float:left;   
-    display:block;
-    padding:5px 30px;
-    text-decoration:none;
-    border:1px solid #d0d0d0;
-    border-bottom:0px;
-    /* height:18px; */
-    background-color:#efefef;
-    /* color:#777; */
-    color: #444;
-    margin-right:2px;
-    position:relative;
-    top:1px;
-    font-size: 14px;
-    outline:0;
-    -moz-border-radius:4px 4px 0 0;        
-    /* line-height: 170%; */
-}
-
-ul.tx-dpf-tabs a:hover {
-    background-color:#F7F7F7;
-    color:#333;
-}
-
-/* selected tab */
-ul.tx-dpf-tabs a.current {
-    background-color: #fafafa;
-    border-bottom:1px solid #fafafa;
-    color:#000;
-    font-weight: bold;
-    cursor:default;
+.tx-dpf-tabs a.current,.tx-dpf-tabs a.current:focus {
+	color:#555;
+	cursor:default;
+	background-color:#fff;
+	border:1px solid #ddd;
+	border-bottom-color:transparent;
+	font-weight:700;
 }
 
 
-/* tab pane */
-.css-panes div {
-    display:none;
-    border:1px solid #d0d0d0;
-    border-width:0 1px 1px 1px;
-    min-height:50px;
-    padding:20px 20px;
-    background-color: #fafafa;
-    border-bottom: none;
+
+/* -- form setup ------------------------------------------------------------------------- */
+.tx-dpf .form-container {
+	position:relative;
 }
 
-.tx-dpf-panes {
-   background-color:#ddd;
-}
-
-
-.tx-dpf .form-submit {
-   background-color:#fafafa;
-   border:1px solid #d0d0d0;
-   border-width:0 1px 1px 1px;
-   padding:15px 20px;
-   border-top: none;
-   display: block;
-   height: 25px;
-}
-
-
-.tx-dpf fieldset legend {
-    float: none;
-    width: auto;
-    margin: 0;
-    padding: 0;
-    display:inline;
+.tx-dpf fieldset {
+	margin:50px 0;
+	border-bottom:1px solid #e5e5e5;
+	padding-bottom:5px;
 }
 
 .tx-dpf fieldset legend {
-		background: none repeat scroll 0 0 #efefef;
-    color: #999;
-    font-weight: bold;
-    padding: 2px 12px;
+	font-size:14px;
+	font-weight:700;
+	color:#666;
+	margin-bottom:20px;
 }
 
-
-.tx-dpf label:first-of-type {
-    margin: 0;
+.tx-dpf .form-group {
+	position:relative;
+	display:table;
 }
 
-.tx-dpf fieldset label {
-    display: inline-block;   
-    width: auto;
-    margin: 10px 0 0 0;
+.tx-dpf .form-group label,.tx-dpf .form-group .form-control {
+	display:table-cell;
 }
 
-.tx-dpf fieldset label {
-    color: #666;
-    margin: 10px 0px 0 0;
-    padding: 1px 2px 0 0;
-    position: relative;
-    text-align: left;
-    widt: auto;
-    font-size: 16px;
-    line-height: 20px;
+.tx-dpf .form-group label {
+	width:1%;
+	background:#eee;
+	border:1px solid #ccc;
+	border-right-width:0;
+	border-radius:4px 0 0 4px;
+	padding:0 10px;
+	color:#666;
+	white-space:nowrap;
+	vertical-align:middle;
+	line-height:1;
 }
 
-.tx-dpf fieldset .label-checkbox {
-    float: left;
-    margin-right: 10px;
-}
- 
-.tx-dpf input {
-    float: none;
-    display: block;
-    /* width: 50%; */
-    width: 475px;
-    color: #666;
+.tx-dpf .form-group .form-control.has-select {
+	border-color:#eee #eee #eee #ccc;
+	box-shadow:none;
 }
 
-.tx-dpf textarea {
-    float: none;
-    width: 50%;
-    display: block;
-}
-
-.tx-dpf select {
-  float: none;
-  display: block;
-}  
-
-.tx-dpf input[type=submit] {
-    float: none;
-    width: auto;   
-    font-size: 12px;
-}
-
-.tx-dpf input[type=radio] {
-    float: left;
-    width: auto;
-    margin: 2px 4px 0 0;
-    padding: 2px;
-}
-
-.tx-dpf input[type=checkbox] {
-    width: auto;
-    margin: 16px 4px 0 0;
-    padding: 2px;
-}
-
-.tx-dpf #save {
-}
-
-.tx-dpf #save {
-}
-
-.tx-dpf #save {
-}
-
-.tx-dpf .fs_group {
-    border: none;
-    background-color: #efefef;
-    padding: 20px;
-    margin: 40px 0 0 0;
-    width: auto;
-}
-
-.tx-dpf .fs_group:first-child {
-  margin: 0;
-}
-
-.tx-dpf .fs_file_group {
-    border: none;
-    background-color: #efefef;
-    padding: 20px 20px 20px 20px;
-    margin: 0 0 20px 0;
-    width: auto;
-}
-
-.tx-dpf .fs_file_group:first-of-type {
-  padding-top: 20px;
-}
-
-.tx-dpf .add_field,
-.tx-dpf .add_file_group,
-.tx-dpf .add_group {
-
-    /* margin: 0 200px 10px 10px; */
-    background: url("../images/addbtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
-    padding: 3px 6px 3px 24px;
-    margin: 10px 0 0 0;
-   
-}
-
-.tx-dpf .rem_group,
-.tx-dpf .rem_file_group,
-.tx-dpf .rem_field {
-    /* margin: 0 200px 10px 10px; */
-		background: url("../images/rembtnbg.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
-    padding: 3px 6px 3px 24px;
-    margin: 10px 0 0 0;  
-}
-
-.tx-dpf .add_field,
-.tx-dpf .add_file_group,
-.tx-dpf .add_group,
-.tx-dpf .rem_group,
-.tx-dpf .rem_file_group,
-.tx-dpf .rem_field {
-    border-color: #eee #999 #999 #eee;
-    border-style: solid;
-    border-width: 1px;
-    color: #666;
-    cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
-    position: relative;
-}
-
-.tx-dpf .rem_file_group {
-  margin: 0 !important;  
-}
-
-
-.tx-dpf fieldset textarea {
-    border: 1px solid #ccc;
-    color: #666;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
-    font-size: 12px;
-    height: 60px;
-    line-height: 160%;
-    padding: 5px;
-    width: 475px;
-}    
-
-
-.tx-dpf fieldset select {
-    border: 1px solid #999;
-    color: #666;
-    /* margin: 10px 0; */
-    padding: 1px;
-    position: relative;
-    width: 200px;
-}
-
-.tx-dpf .file_link {
-  float: left; 
-  margin: 0 10px 0 0;
-}
-
-#default-templates {
-  display: none; 
-}
-
-.button-wrap {
-	display: block;
-}
-
-fieldset p {
-	margin: 0;
+.tx-dpf .form-group .form-control select {
+	width:30%;
+	height:20px;
+	font-size:.9em;
 	padding: 0;
 }
 
-#save,
-#savecontinue,
-#cancel {
-    background: url("../images/clearbtn.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
-    border-color: #eee #999 #999 #eee;
-    border-style: solid;
-    border-width: 1px;
-    color: #666;
-    cursor: pointer;
-    float: left;
-    /* font-size: 10px; */
-    font-weight: normal;
-    /* margin: 43px 5px 0 0; */
-    margin: 0 10px 0 0;
-    padding: 3px 6px 3px 24px;
-    /* position: relative; */
-    z-index: 200;
-    /* font-size: smaller; */
+.tx-dpf .form-group .form-control {
+	position:relative;
+	z-index:2;
+	float:left;
+	width:100%;
+	margin-bottom:0;
+	border-radius:0 4px 4px 0;
+}
+
+.tx-dpf .form-group button.rem_field,.tx-dpf .form-container button.add_field {
+	position:absolute;
+	bottom:4px;
+	right:33px;
+	width:26px;
+	height:26px;
+	padding:0;
+	z-index:10;
+	color:#666;
+}
+
+.tx-dpf .form-container button.add_field {
+	right:4px;
+}
+
+.tx-dpf .form-container button:active {
+	bottom:3px;
+	top:auto;
+}
+
+.tx-dpf button.add_group,.tx-dpf button.add_file_group {
+	position:absolute;
+	margin:-60px 0 0 15px;
+	right:15px;
+}
+
+.tx-dpf button.rem_group {
+	color:#c00;
+	line-height:1;
+	width:24px;
+	height:24px;
+	padding:3px 4px;
+	margin-bottom:6px;
+}
+
+.tx-dpf input[type="file"] {
+	border:0 none;
+	margin-bottom:15px;
+	height:36px;
+}
+
+.tx-dpf .fs_file_group .form-control-static {
+	margin-bottom:15px;
+}
+
+.tx-dpf .fs_file_group .form-control-static .file_link {
+	margin-right:10px;
+}
+
+.form-submit {
+	padding-top:20px;
+}
+
+.form-submit .btn-lg {
+	margin:-9px 0 0 5px;
+	padding:8px 12px;
+	font-size:12px;
+	float:right;
+}
+
+#form_delete {
+	float:left;
+}
+
+.tx-dpf button .glyphicon {
+	top:0;
+	left:1px;
 }
 
 
-#save,
-#savecontinue {
-    background: url("../images/gobtns.gif") no-repeat scroll right top rgba(0, 0, 0, 0);
-     
-    padding: 3px 24px 3px 6px;
+
+/* -- error handling -------------------------------------------------------------------- */
+select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
+	border:1px solid #c00!important;
 }
-
-
-select.mandatory-error,
-textarea.mandatory-error,
-input.mandatory-error {
-  
-  border: 2px solid red !important;
-  
-}
-
 
 li a.mandatory-error {
-  color: red !important;
+	color:#c00!important;
 }
 
-span.form-error,
-span.mandatory-error {  
-  display: block;  
-  margin: 0 0 10px 0;
-  color: red;
+li a.mandatory-error:after {
+	content:"\e104";
+	font-family:'Glyphicons Halflings';
+	margin-left:3px;
+	line-height:1;
 }
+
+
+
+/* EOF */

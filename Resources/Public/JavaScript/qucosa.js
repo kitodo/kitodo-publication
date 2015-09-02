@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 
     jQuery(".tx-dpf").on("click",".rem_group", function() {
-      jQuery(this).parent().parent().remove();
+      jQuery(this).parents('fieldset').fadeOut(300, function() { jQuery(this).parents('fieldset').remove(); });
       return false;
     });
 
@@ -19,11 +19,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".rem_field", function() {      
       var dataIndex = jQuery(this).data("index"); 
       var dataField = jQuery(this).data("field"); 
-      jQuery('label[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
-      jQuery('.input-field[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
-      jQuery('.fill_out_service_urn[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
-      jQuery('span[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();
-      jQuery('.rem_field[data-field="'+ dataField +'"][data-index="'+ dataIndex +'"]').remove();                 
+      jQuery(this).parents('.form-group').fadeOut(300, function() { jQuery(this).parents('.form-group').remove(); });
       return false;
     });
 
@@ -66,13 +62,13 @@ var validateForm = function() {
                                                
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
-                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                  
+                jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertAfter(fieldset.find('legend').last());                  
                 showFormError(); 
                 error = true;
             }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
-              jQuery('<span class="mandatory-error">'+form_error_msg_group_one_required+'</span>').insertAfter(fieldset.find('legend').last());              
+              jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_one_required+'</div>').insertAfter(fieldset.find('legend').last());              
               showFormError();                  
               error = true;
              } 
@@ -90,7 +86,7 @@ var validateForm = function() {
             var fieldset = jQuery(this);
             
             if (checkPrimaryFile(fieldset)) {
-              jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertBefore(fieldset.find('legend').last());
+              jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
               showFormError();   
               error = true;
             }
@@ -119,7 +115,7 @@ var validateForm = function() {
             // are relevant.
             if (filledInputs) {
               if (checkMandatoryInputs(fieldset)) {               
-                jQuery('<span class="mandatory-error">'+form_error_msg_group_mandatory+'</span>').insertAfter(fieldset.find('legend').last());                                                   
+                jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertAfter(fieldset.find('legend').last());                                                   
                 showFormError();    
                 error = true;
               }
@@ -137,7 +133,7 @@ var validateForm = function() {
 
 var showFormError = function() {          
   jQuery('span.form-error').remove(); 
-  jQuery('<span class="form-error">'+form_error_msg+'</span>').insertBefore(jQuery('form').first()); 
+  jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>'+form_error_msg+'</div>').insertBefore(jQuery('form').first()); 
   jQuery("html, body").animate({ scrollTop: 0 }, 200);
 }
 
@@ -233,15 +229,16 @@ var addGroup = function() {
             var group = jQuery(group).find("fieldset");
 
             // add the new group
-            jQuery(group).insertAfter(jQuery('fieldset[data-group="'+dataGroup+'"]').last());
+            jQuery(group).css({'display':'none'}).insertAfter(jQuery('fieldset[data-group="'+dataGroup+'"]').last());
 
             var height =jQuery('fieldset[data-group="'+dataGroup+'"]').last().outerHeight(true)
 
             jQuery('html, body').animate({
                 scrollTop: element.offset().top - height
-            }, 400); 
-            
-            buttonFillOutServiceUrn();
+            }, 400, function() {
+              jQuery(group).fadeIn();
+            }); 
+	buttonFillOutServiceUrn();
         });
 
       return false;
@@ -269,7 +266,7 @@ var addGroup = function() {
           
             var field = jQuery(element).find("#new-element").children();
 
-            jQuery(field).insertBefore(addButton);
+            jQuery(field).css({'display':'none'}).insertBefore(addButton).fadeIn();
           
         
             buttonFillOutServiceUrn();
@@ -425,4 +422,12 @@ var addGroup = function() {
                     }
                 });            
             return false;
-    } 
+    }
+
+$(window).scroll(function() {
+  if( $(this).scrollTop() > 330 ) {
+    $(".tx-dpf-tab-container").addClass("sticky");
+  } else {
+    $(".tx-dpf-tab-container").removeClass("sticky");
+  }
+}); 
