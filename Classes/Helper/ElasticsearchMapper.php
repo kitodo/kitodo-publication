@@ -33,7 +33,11 @@ class ElasticsearchMapper {
         $exporter = new \EWW\Dpf\Services\MetsExporter();
         $fileData = $document->getFileData();
         $exporter->setFileData($fileData);
-        $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
+
+        // slub:info
+        $exporter->setSlubInfo($document->getSlubInfoData());
+
+        // $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
         $exporter->setMods($document->getXmlData());
         $exporter->buildMets();
         $metsXml = $exporter->getMetsData();

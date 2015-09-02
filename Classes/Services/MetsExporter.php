@@ -67,6 +67,8 @@ class MetsExporter
      */
     protected $slubData = '';
 
+    protected $slubMetsData = '';
+
     
     /**
      * metsHeader
@@ -123,7 +125,8 @@ class MetsExporter
         $this->modsData = new \DOMDocument();
         $this->modsData->loadXML($this->modsHeader);
 
-        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/"></slub:info>';
+        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/">';
+        $this->slubHeader .= '</slub:info>';
 
         $this->slubData = new \DOMDocument();
         $this->slubData->loadXML($this->slubHeader);
@@ -180,7 +183,7 @@ class MetsExporter
         $xmlData->appendChild($nodeAppendModsData);
                      
         // add SLUB data
-        $nodeAppendModsData = $modsWrap->importNode($this->slubData->firstChild, true);
+        $nodeAppendModsData = $modsWrap->importNode($this->buildMetsSlub()->firstChild, true);
         $modsWrap->firstChild->appendChild($nodeAppendModsData);
        
         if ($fileSection) {
@@ -484,7 +487,7 @@ class MetsExporter
             $firstItem = $doc1->getElementsByTagName('info')->item(0)->firstChild;
 
             $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
-            $this->xmlData->appendChild($nodeAppendModsData);
+            $firstChild->appendChild($nodeAppendModsData);
 
             return $doc1->saveXML();
         }
@@ -688,12 +691,61 @@ class MetsExporter
         }
     }
 
+    public function setSlubInfo($value='')
+    {
+        // build DOMDocument with slub xml
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($value);
+        $this->slubData = $domDocument;
+    }
+
+    // public function buildSlubWrap()
+    // {
+    //     $domDocument = new \DOMDocument();
+    //     $domDocument->loadXML('<mets:amdSec ID="AMD_000"></mets:amdSec>');
+
+    //     $domWrapElement = $domDocument->firstChild;
+
+    //     $wrapDocumentRights = $domDocument->createElement('mets:techMD');
+    //     $wrapDocumentRights->setAttribute('ID', 'TECH_000');
+                       
+    //     $domWrapElement->appendChild($wrapDocumentRights);
+
+    //     $domWrapElement = $domWrapElement->firstChild;
+        
+    //     $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
+    //     $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
+    //     $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBINFO');
+    //     $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
+
+    //     $domWrapElement->appendChild($wrapDocumentMD);
+        
+    //     $domWrapElement = $domWrapElement->firstChild;
+        
+    //     $wrapDocumentData = $domDocument->createElement('mets:xmlData');
+    //     $domWrapElement->appendChild($wrapDocumentData);
+
+    //     $domWrapElement = $domWrapElement->firstChild;
+
+    //     $second = $this->slubData;
+    //     // $second = $second->documentElement;
+
+    //     foreach($second->childNodes as $node) {
+    //         $importNode = $domDocument->importNode($node, true);
+    //         $domWrapElement->appendChild($importNode);
+    //     }
+
+    //     $this->slubMetsData = $domDocument;        
+
+        
+    // }
+
     /**
      * Builds the xml slubInfo part
      * @param  Array $array Array with slub information
      * @return xml        xml slubInfo
      */
-    public function setSlubInfo($array)
+    public function buildMetsSlub()
     {
         // <mets:amdSec ID="AMD_000"><mets:rightsMD ID="RIGHTS_000"><mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml"><mets:xmlData>
         $domDocument = new \DOMDocument();
@@ -701,8 +753,8 @@ class MetsExporter
 
         $domWrapElement = $domDocument->firstChild;
 
-        $wrapDocumentRights = $domDocument->createElement('mets:rightsMD');
-        $wrapDocumentRights->setAttribute('ID', 'RIGHTS_000');
+        $wrapDocumentRights = $domDocument->createElement('mets:techMD');
+        $wrapDocumentRights->setAttribute('ID', 'TECH_000');
                        
         $domWrapElement->appendChild($wrapDocumentRights);
 
@@ -710,7 +762,7 @@ class MetsExporter
         
         $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
         $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
-        $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBRIGHTS');
+        $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBINFO');
         $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
 
         $domWrapElement->appendChild($wrapDocumentMD);
@@ -723,70 +775,82 @@ class MetsExporter
         $domWrapElement = $domWrapElement->firstChild;
 
 
-        // $domDocument = new \DOMDocument();
-        // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
+        $second = $this->slubData;
+        // $second = $second->documentElement;
+
+        foreach($second->childNodes as $node) {
+            $importNode = $domDocument->importNode($node, true);
+            $domWrapElement->appendChild($importNode);
+        }
+
+        // $this->slubMetsData = $domDocument;
+
+        return $domDocument;
+
+        // // $domDocument = new \DOMDocument();
+        // // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
          
-        $domSlub = $domDocument->createElement('slub:info');
-        $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/');
+        // $domSlub = $domDocument->createElement('slub:info');
+        // $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/');
 
-        $domWrapElement->appendChild($domSlub);
+        // $domWrapElement->appendChild($domSlub);
         
-        $domWrapElement = $domWrapElement->firstChild;
+        // $domWrapElement = $domWrapElement->firstChild;
         
-        $domElement = $domWrapElement;
+        // $domElement = $domWrapElement;
 
-        $submitter = $domDocument->createElement('slub:submitter');
-        $domElement->appendChild($submitter);
+        // $submitter = $domDocument->createElement('slub:submitter');
+        // $domElement->appendChild($submitter);
         
-        $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
-        $domElement->appendChild($documentType);
+        // $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
+        // $domElement->appendChild($documentType);
                 
-        $project = $domDocument->createElement('slub:project', $array['project']);
-        $domElement->appendChild($project);
+        // $project = $domDocument->createElement('slub:project', $array['project']);
+        // $domElement->appendChild($project);
 
-        $client = $domDocument->createElement('slub:client', $array['client']);
-        $domElement->appendChild($client);
+        // $client = $domDocument->createElement('slub:client', $array['client']);
+        // $domElement->appendChild($client);
 
-        $rights = $domDocument->createElement('slub:rights');
-        $domElement->appendChild($rights);
+        // $rights = $domDocument->createElement('slub:rights');
+        // $domElement->appendChild($rights);
 
-        $domElementRights = $domElement->lastChild;
-
-
-        // submitter second level
-        $domElement = $domElement->firstChild;
-
-        $name = $domDocument->createElement('slub:name', $array['name']);
-        $domElement->appendChild($name);
-
-        $contact = $domDocument->createElement('slub:contact', $array['contact']);
-        $domElement->appendChild($contact);
+        // $domElementRights = $domElement->lastChild;
 
 
-        //rights second level
-        $domElement = $domElementRights;
+        // // submitter second level
+        // $domElement = $domElement->firstChild;
 
-        $license = $domDocument->createElement('slub:license');
-        $license->setAttribute('valueURI', $array['']);
-        $domElement->appendChild($license);
+        // $name = $domDocument->createElement('slub:name', $array['name']);
+        // $domElement->appendChild($name);
 
-        $embargo = $domDocument->createElement('slub:embargo', $array['embargo']);
-        $embargo->setAttribute('encoding', 'iso8601');
-        $domElement->appendChild($embargo);
-
-        $accessDNB = $domDocument->createElement('slub:accessDNB', $array['accessDNB']);
-        $domElement->appendChild($accessDNB);
-
-        $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
-        $domElement->appendChild($accessPOD);
+        // $contact = $domDocument->createElement('slub:contact', $array['contact']);
+        // $domElement->appendChild($contact);
 
 
-        // append wrapped element
-        // $domWrapElement->appendChild($domDocument);
+        // //rights second level
+        // $domElement = $domElementRights;
 
-        $this->slubData = $domDocument;
+        // $license = $domDocument->createElement('slub:license');
+        // $license->setAttribute('valueURI', $array['']);
+        // $domElement->appendChild($license);
 
-        // return $domDocument;
+        // $embargo = $domDocument->createElement('slub:embargo', $array['embargo']);
+        // $embargo->setAttribute('encoding', 'iso8601');
+        // $domElement->appendChild($embargo);
+
+        // $accessDNB = $domDocument->createElement('slub:accessDNB', $array['accessDNB']);
+        // $domElement->appendChild($accessDNB);
+
+        // $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
+        // $domElement->appendChild($accessPOD);
+
+
+        // // append wrapped element
+        // // $domWrapElement->appendChild($domDocument);
+
+        // $this->slubData = $domDocument;
+
+        // // return $domDocument;
 
     }
 
@@ -859,6 +923,7 @@ class MetsExporter
             }
         }
         $this->slubData = $this->xmlData;
+        $this->buildMetsSlub();
     }   
     
     /**
