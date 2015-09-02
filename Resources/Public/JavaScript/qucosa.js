@@ -24,20 +24,19 @@ $(document).ready(function() {
     });
 
     // Add metadata group
-    jQuery(".tx-dpf").on("click",".add_group", addGroup);
+    jQuery(".tx-dpf").on("click",".add_group", addGroup);            
     jQuery(".tx-dpf").on("click",".add_file_group", addGroup);
-    jQuery(".tx-dpf").on("click",".add_field", addField);
+    jQuery(".tx-dpf").on("click",".add_field", addField);   
     
-    jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);
+    
+    jQuery(".tx-dpf").on("click",".fill_out_service_urn", fillOutServiceUrn);    
     jQuery(".tx-dpf").on("keyup","input.urn", buttonFillOutServiceUrn);
-    
-    
+   
+           
     //jQuery(window).on("scroll", "", continuousScroll);
     jQuery(".tx-dpf").on("click", "#next", continuousScroll);
     
-    
-   
-    
+           
     // jQuery(".form-submit").on("click","#save",
             
     jQuery(".form-submit").on("click","#save", validateForm);
@@ -208,7 +207,7 @@ var checkFilledInputs = function(fieldset) {
 
 
 var addGroup = function() {
-
+    
         var element = jQuery(this);
 
         // Get the group uid
@@ -360,7 +359,7 @@ var addGroup = function() {
     
            
     var buttonFillOutServiceUrn = function() {
-        
+                               
         jQuery('input.urn').each(function() {          
             var fieldUid = jQuery(this).attr('data-field');        
             var fieldIndex = jQuery(this).attr('data-index');

@@ -57,8 +57,9 @@ body {
 	margin-bottom:20px;
 }
 
-.tx-dpf button.add_group,.tx-dpf button.add_file_group {
-	margin-top:-50px;
+.tx-dpf button.add_group,.tx-dpf button.add_file_group {     
+        position:relative;
+	margin-top:-104px;        
 	right:auto;
 }
 
@@ -79,7 +80,6 @@ body {
 .tx-dpf button .glyphicon {
 	top:1px;
 }
-
 
 
 /* EOF */

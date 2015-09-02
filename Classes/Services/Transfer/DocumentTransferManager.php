@@ -85,9 +85,9 @@ class DocumentTransferManager {
     $exporter->setFileData($fileData);    
                                    
     $exporter->setMods($document->getXmlData());    
-                                  
-    // $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
-    
+
+    $exporter->setSlubInfo($document->getSlubInfoData());
+        
     $exporter->buildMets();  
                    
     $metsXml = $exporter->getMetsData();
@@ -126,10 +126,10 @@ class DocumentTransferManager {
     $fileData = $this->getFileData($document);
            
     $exporter->setFileData($fileData);    
+        
+    $exporter->setMods($document->getXmlData()); 
     
-    // $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
-    
-    $exporter->setMods($document->getXmlData());    
+    $exporter->setSlubInfo($document->getSlubInfoData());
                     
     $exporter->buildMets();  
      
