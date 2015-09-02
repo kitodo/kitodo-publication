@@ -922,9 +922,20 @@ class MetsExporter
                 $this->counter++;
             }
         }
+
+
         $this->slubData = $this->xmlData;
-        $this->buildMetsSlub();
-    }   
+
+        // set document type name in slub metadata
+        $domElement = $this->slubData->firstChild;
+        $type = $this->slubData->createElement('slub:documentType', $documentType->getName());
+        $domElement->appendChild($type);
+
+    }
+
+
+
+
     
     /**
      * 
