@@ -83,6 +83,8 @@ class DocumentMapper {
     $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
     
     
+    $excludeGroupAttributes = array();
+    
     $documentData = array();    
            
     foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage ) {                                    
@@ -107,10 +109,34 @@ class DocumentMapper {
           } else {
               $xpath = $mods->getModsXpath();                 
           }
-                     
-        
+
+          
+          // get fixed attributes from xpath configuration
+          $fixedGroupAttributes = array();
+          $groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping());  	
+  	  $groupMappingPath = end($groupMappingPathParts);  	                    
+          $groupMappingName = preg_replace('/\[@.+?\]/','',$groupMappingPath);          
+                    
+          if (preg_match_all('/\[@.+?\]/',$groupMappingPath,$matches)) {                              
+                 $fixedGroupAttributes = $matches[0];                           
+          }         
+                         
+          // build mapping path, previous fixed attributes which are differ from 
+          // the own fixed attributes are excluded 
+          $queryGroupMapping = $metadataGroup->getAbsoluteMapping();          
+          foreach ($excludeGroupAttributes[$groupMappingName] as $excludeAttr => $excludeAttrValue) {              
+              if (!in_array($excludeAttr, $fixedGroupAttributes)) {
+                $queryGroupMapping .=  $excludeAttrValue;  
+              }              
+          }       
+                           
           // Read the group data.                        
-          $groupData = $xpath->query($metadataGroup->getAbsoluteMapping());      
+          $groupData = $xpath->query($queryGroupMapping);  
+         
+          // Fixed attributes from groups must be excluded in following xpath queries  	                              
+          foreach($fixedGroupAttributes as $excludeGroupAttribute) {                 
+            $excludeGroupAttributes[$groupMappingName][$excludeGroupAttribute] = "[not(".trim($excludeGroupAttribute,"[] ").")]";
+          }                                              
 
           
           if ($groupData->length > 0) {
@@ -265,7 +291,7 @@ class DocumentMapper {
     $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);       
     $slubInfoXml = $exporter->getSlubInfoData();    
     $document->setSlubInfoData($slubInfoXml);         
-     
+          
     return $document;      
   }
   
