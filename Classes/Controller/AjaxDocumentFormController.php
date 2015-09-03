@@ -75,6 +75,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
               $field->setMandatory($object->getMandatory());
               $field->setBackendOnly($object->getBackendOnly());
               $field->setInputField($object->getInputField());
+              $field->setInputOptions($object->getInputOptionList());     
               $field->setMaxIteration($object->getMaxIteration());
               $field->setFillOutService($object->getFillOutService());  
               $field->setValue("");
@@ -103,7 +104,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
         public function fieldAction($pageUid, $groupUid, $groupIndex, $fieldUid, $fieldIndex) {
 
            $field = $this->metadataObjectRepository->findByUid($fieldUid);         
-                    
+                                                     
            $fieldItem = new \EWW\Dpf\Domain\Model\DocumentFormField();
 
            $fieldItem->setUid($field->getUid());
@@ -111,7 +112,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController 
            $fieldItem->setMandatory($field->getMandatory());
            $fieldItem->setBackendOnly($field->getBackendOnly());
            $fieldItem->setInputField($field->getInputField());
-           $fieldItem->setMaxIteration($field->getMaxIteration());
+           $fieldItem->setInputOptions($field->getInputOptionList());   
+           $fieldItem->setMaxIteration($field->getMaxIteration());                              
            $fieldItem->setFillOutService($field->getFillOutService());                                                                       
            $fieldItem->setValue("");                      
            

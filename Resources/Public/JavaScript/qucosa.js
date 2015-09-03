@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 
     jQuery(".tx-dpf").on("click",".rem_group", function() {
-      jQuery(this).parents('fieldset').fadeOut(300, function() { jQuery(this).parents('fieldset').remove(); });
+      jQuery(this).parents('fieldset').fadeOut(300, function() { jQuery(this).remove(); });
       return false;
     });
 
@@ -19,7 +19,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click",".rem_field", function() {      
       var dataIndex = jQuery(this).data("index"); 
       var dataField = jQuery(this).data("field"); 
-      jQuery(this).parents('.form-group').fadeOut(300, function() { jQuery(this).parents('.form-group').remove(); });
+      jQuery(this).parents('.form-group').fadeOut(300, function() { jQuery(this).remove(); });
       return false;
     });
 
