@@ -10,13 +10,17 @@ class FileId {
     
     $idList = array();
     $this->id = 0;
-    foreach ( $document->getFile() as $file ) {   
-      $dsId = $file->getDatastreamIdentifier();                  
-      if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
-        $id = split("-", $dsId);        
-        $idList[] = $id[1];      echo "test";                
-      }                       
-    }   
+         
+    if (is_a($document->getFile(),'\EWW\Dpf\Domain\Model\File')) {
+        foreach ( $document->getFile() as $file ) {   
+          $dsId = $file->getDatastreamIdentifier();                  
+          if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
+            $id = split("-", $dsId);        
+            $idList[] = $id[1];      echo "test";                
+          }                       
+        }        
+    }
+    
     if (!empty($idList)) $this->id = max($idList);
   }  
   
