@@ -123,13 +123,15 @@ class DocumentMapper {
                          
           // build mapping path, previous fixed attributes which are differ from 
           // the own fixed attributes are excluded 
-          $queryGroupMapping = $metadataGroup->getAbsoluteMapping();          
-          foreach ($excludeGroupAttributes[$groupMappingName] as $excludeAttr => $excludeAttrValue) {              
+          $queryGroupMapping = $metadataGroup->getAbsoluteMapping();
+          if (is_array($excludeGroupAttributes[$groupMappingName])) {
+            foreach ($excludeGroupAttributes[$groupMappingName] as $excludeAttr => $excludeAttrValue) {              
               if (!in_array($excludeAttr, $fixedGroupAttributes)) {
                 $queryGroupMapping .=  $excludeAttrValue;  
               }              
+            }       
           }       
-                           
+          
           // Read the group data.                        
           $groupData = $xpath->query($queryGroupMapping);  
          
@@ -287,7 +289,7 @@ class DocumentMapper {
     // slub:info
     $slubInfoData['documentUid'] = $documentForm->getDocumentUid();        
     $slubInfoData['metadata'] = $formMetaData['slubInfo'];        
-    $slubInfoData['files'] = array();                      
+    $slubInfoData['files'] = array();                          
     $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);       
     $slubInfoXml = $exporter->getSlubInfoData();    
     $document->setSlubInfoData($slubInfoXml);         

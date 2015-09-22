@@ -3,21 +3,21 @@ namespace EWW\Dpf\Services\Transfer;
 
 class FileId {
   
-  protected $id;
+  protected $id = 0;
   
   
   public function __construct($document) {
     
     $idList = array();
+    $this->id = 0;
     foreach ( $document->getFile() as $file ) {   
       $dsId = $file->getDatastreamIdentifier();                  
       if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
         $id = split("-", $dsId);        
-        $idList[] = $id[1];                      
+        $idList[] = $id[1];      echo "test";                
       }                       
-    }
-         
-    $this->id = max($idList);
+    }   
+    if (!empty($idList)) $this->id = max($idList);
   }  
   
   
@@ -27,7 +27,7 @@ class FileId {
       if (empty($fileId)) {
         if ($file->isPrimaryFile()) {
           return \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER;  
-        } else { 
+        } else {
           $this->id = $this->id + 1; 
           return \EWW\Dpf\Domain\Model\File::DATASTREAM_IDENTIFIER_PREFIX. $this->id;
         }                        
