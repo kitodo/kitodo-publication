@@ -407,6 +407,7 @@ CREATE TABLE tx_dpf_domain_model_client (
         network_initial varchar(255) DEFAULT '' NOT NULL,
         library_identifier varchar(255) DEFAULT '' NOT NULL,
         owner_id varchar(255) DEFAULT '' NOT NULL,
+        admin_email varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

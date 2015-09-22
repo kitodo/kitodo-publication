@@ -84,6 +84,14 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
          */
         protected $persistenceManager;
 
+        /**
+         * clientRepository
+         *
+         * @var \EWW\Dpf\Domain\Repository\ClientRepository
+         * @inject
+         */
+        protected $clientRepository = NULL;
+        
                                          
 	/**
 	 * action list
@@ -182,7 +190,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm) {
                            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-          $newDocument = $documentMapper->getDocument($newDocumentForm);      
+          $newDocument = $documentMapper->getDocument($newDocumentForm);    
+                             
           //$newDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
           $this->documentRepository->add($newDocument);
           $this->persistenceManager->persistAll();
@@ -214,14 +223,44 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 
             $tmpDocument->setTitle($newDocument->getTitle()); 
             $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setxmlData($newDocument->getXmlData());
+            $tmpDocument->setxmlData($newDocument->getXmlData());                                                      
+            $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
             $tmpDocument->setDocumentType($newDocument->getDocumentType());
             $tmpDocument->removeDateIssued();  
                                       
             $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
-          }                             
+          }
           
+          
+          $emailReceiver = array();
+          
+          $client = $this->clientRepository->findAll()->current();          
+          if ($client) {              
+              $clientAdminEmail = $client->getAdminEmail();
+            if ($clientAdminEmail) {
+              $emailReceiver[$clientAdminEmail] = $clientAdminEmail;
+            }  
+          }
+                    
+          $slub = new \EWW\Dpf\Helper\Slub($newDocument->getSlubInfoData()); 
+          $submitterEmail = $slub->getSubmitterEmail();
+          if ($submitterEmail) {              
+              $emailReceiver[$submitterEmail] = $submitterEmail;
+          }
+                                        
+          if ($emailReceiver) {                                                                        
+                $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
+                ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
+                ->setTo($emailReceiver)
+                ->setSubject('Neues Dokument')        
+                ->setBody('Ein neues Dokument wurde eingestellt.');
+                $message->send();           
+                /*if($message->isSent()) {                    
+                } else {                    
+                }*/
+          }  
+                            
           $this->redirectToList();
 	}
 

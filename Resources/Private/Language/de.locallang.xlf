@@ -200,6 +200,9 @@
 			</trans-unit>                           
                         <trans-unit id="tx_dpf_domain_model_client.library_identifier">
 				<source>Library identifier</source>
+			</trans-unit>     
+                        <trans-unit id="tx_dpf_domain_model_client.admin_email">
+				<source>Admin email</source>
 			</trans-unit>                                                                                                                                                       
                         <trans-unit id="form_error_msg.group_mandatory">
 				<source>Please fill in the required fields.</source>

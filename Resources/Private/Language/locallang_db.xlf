@@ -210,7 +210,9 @@
                         <trans-unit id="tx_dpf_domain_model_client.library_identifier">
 				<source>Library identifier</source>
 			</trans-unit>                                                                                                                                                       
-
+                        <trans-unit id="tx_dpf_domain_model_client.admin_email">
+				<source>Admin email</source>
+			</trans-unit>  
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>Owner ID</source>
 			</trans-unit>

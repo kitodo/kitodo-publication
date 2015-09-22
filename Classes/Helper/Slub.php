@@ -34,7 +34,13 @@ class Slub {
     $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
     return $documentTypeNode->item(0)->nodeValue;                       
   }
-        
+   
+  
+  public function getSubmitterEmail() {                  
+    $emailNode = $this->getSlubXpath()->query("/slub:info/slub:submitter");                                                                  
+    return $emailNode->item(0)->nodeValue;                       
+  }
+  
 }
 
 ?>
