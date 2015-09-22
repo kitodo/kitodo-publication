@@ -51,7 +51,7 @@ class Mets {
     $xpath = $this->getMetsXpath();
     
     $xpath->registerNamespace("slub", "http://slub-dresden.de/");      
-    $slubNodes = $xpath->query("/mets:mets/mets:amdSec/mets:rightsMD/mets:mdWrap/mets:xmlData/slub:info");  
+    $slubNodes = $xpath->query("/mets:mets/mets:amdSec/mets:techMD/mets:mdWrap/mets:xmlData/slub:info");  
        
     $slubXml = $this->metsDom->saveXML($slubNodes->item(0)); 
     
