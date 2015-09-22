@@ -341,7 +341,20 @@
 			</trans-unit> 
                         <trans-unit id="document_retrieve.failure">
 				<source>Importing dataset %s failed.</source>
-			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+			</trans-unit>    
+                        <trans-unit id="newDocument_notification.subject">
+				<source>New document</source>
+			</trans-unit>                          
+                        <trans-unit id="newDocument_notification.body">
+				<source>
+A new document has been registered.
+-----------------------------------                                    
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+                                </source>
+			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 		</body>
 	</file>
 </xliff>

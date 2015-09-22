@@ -219,7 +219,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
          
             if ($documentTransferManager->ingest($document)) {
               $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
-              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;               
+              $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
+              $notifier->sendIngestNotification($document);
             } else {
               $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
               $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;

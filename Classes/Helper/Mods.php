@@ -134,7 +134,7 @@ class Mods {
     $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
     
     $hasUrn = false;
-    
+       
     foreach ($urnNodeList as $urnNode) {        
         $value = $urnNode->nodeValue;
         $hasUrn = $hasUrn || !empty($value);     
@@ -143,6 +143,19 @@ class Mods {
     return $hasUrn;   
   }
    
+  
+  public function getUrnList() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+    $urnList = array();
+    
+    if ($urnNodeList != NULL) {
+      foreach ($urnNodeList as $urnNode) {               
+        $urnList[] = $urnNode->nodeValue;
+      }
+    }   
+    return $urnList;   
+  }
+  
   
   public function addUrn($urn) {
     $rootNode = $this->getModsXpath()->query('/mods:mods');

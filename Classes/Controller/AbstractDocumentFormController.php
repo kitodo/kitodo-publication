@@ -83,15 +83,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
          * @inject
          */
         protected $persistenceManager;
-
-        /**
-         * clientRepository
-         *
-         * @var \EWW\Dpf\Domain\Repository\ClientRepository
-         * @inject
-         */
-        protected $clientRepository = NULL;
-        
+                
                                          
 	/**
 	 * action list
@@ -214,7 +206,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             //$newDocument->addFile($newFile);           
           }
           
-                                                    
+          $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
+          $notifier->sendNewDocumentNotification($newDocument);
+                                                              
           $requestArguments = $this->request->getArguments();                                                                         
                     
           if (array_key_exists('savecontinue', $requestArguments)) {
@@ -227,40 +221,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
             $tmpDocument->setDocumentType($newDocument->getDocumentType());
             $tmpDocument->removeDateIssued();  
-                                      
+                                                
             $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
-          }
-          
-          
-          $emailReceiver = array();
-          
-          $client = $this->clientRepository->findAll()->current();          
-          if ($client) {              
-              $clientAdminEmail = $client->getAdminEmail();
-            if ($clientAdminEmail) {
-              $emailReceiver[$clientAdminEmail] = $clientAdminEmail;
-            }  
-          }
-                    
-          $slub = new \EWW\Dpf\Helper\Slub($newDocument->getSlubInfoData()); 
-          $submitterEmail = $slub->getSubmitterEmail();
-          if ($submitterEmail) {              
-              $emailReceiver[$submitterEmail] = $submitterEmail;
-          }
-                                        
-          if ($emailReceiver) {                                                                        
-                $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
-                ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
-                ->setTo($emailReceiver)
-                ->setSubject('Neues Dokument')        
-                ->setBody('Ein neues Dokument wurde eingestellt.');
-                $message->send();           
-                /*if($message->isSent()) {                    
-                } else {                    
-                }*/
-          }  
-                            
+          }                              
+                        
           $this->redirectToList();
 	}
 
