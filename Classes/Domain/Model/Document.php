@@ -502,33 +502,35 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
         $files = array();
 
-        foreach ($this->getFile() as $file) {
+        if (is_a($this->getFile(),'\EWW\Dpf\Domain\Model\File')) {
+            foreach ($this->getFile() as $file) {
 
-            $fileStatus = $file->getStatus();
+                $fileStatus = $file->getStatus();
 
-            if (!empty($fileStatus)) {
+                if (!empty($fileStatus)) {
 
-                $dataStreamIdentifier = $file->getDatastreamIdentifier();
+                    $dataStreamIdentifier = $file->getDatastreamIdentifier();
 
-                if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
-                    $files[$file->getUid()] = array(
-                    'path' => $file->getLink(),
-                    'type' => $file->getContentType(),
-                    'id' => $fileId->getId($file),
-                    'title' => $file->getTitle(),
-                    'use' => ''
-                    );
-                } elseif (!empty($dataStreamIdentifier)) {
-                    $files[$file->getUid()] = array(
-                    'path' => $file->getLink(),
-                    'type' => $file->getContentType(),
-                    'id' => $file->getDatastreamIdentifier(),
-                    'title' => $file->getTitle(),
-                    'use' => 'DELETE'
-                    );
+                    if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
+                        $files[$file->getUid()] = array(
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'id' => $fileId->getId($file),
+                        'title' => $file->getTitle(),
+                        'use' => ''
+                        );
+                    } elseif (!empty($dataStreamIdentifier)) {
+                        $files[$file->getUid()] = array(
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'id' => $file->getDatastreamIdentifier(),
+                        'title' => $file->getTitle(),
+                        'use' => 'DELETE'
+                        );
+                    }
                 }
-            }
 
+            }
         }
 
         return $files;

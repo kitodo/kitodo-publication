@@ -153,7 +153,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                
                 $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());  
                 $mods->clearAllUrn();
-                $newDocument->setxmlData($mods->getModsXml());                
+                $newDocument->setxmlData($mods->getModsXml());  
+                $newDocument->setSlubInfoData($document->getSlubInfoData());  
                 
                 $newDocument->setDocumentType($document->getDocumentType());
                 $newDocument->removeDateIssued();
