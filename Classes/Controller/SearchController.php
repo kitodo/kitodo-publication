@@ -131,10 +131,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
                 $i++;
             }
-            
-            // owner id
-            $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
         }
+
+        // owner id
+        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
 
         return $query;
     }
