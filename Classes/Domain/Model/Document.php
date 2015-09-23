@@ -192,7 +192,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthors($authors) {
                 $authors = implode("; ",$authors);		                
-                $this->authors = $autors;
+                $this->authors = $authors;
                 //htmlspecialchars_decode($authors,ENT_QUOTES);
 	}
         
