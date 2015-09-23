@@ -218,6 +218,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // reset session pagination
+        $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
         $sessionVars['resultCount'] = 50;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
                
@@ -230,22 +231,24 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $this->searchFulltext();
             // $query = $this->search();
         }
-
-        // set pagination
-        $query['body']['from'] = '0';
-        $query['body']['size'] = '50';
         
+      
         // $query = $this->searchFulltext();
         // save search query
-        if ($query) {
+        if ($query) {                                   
+            $query['body']['from'] = '0';
+            $query['body']['size'] = '50';           
             $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
             $sessionVars['query'] = $query;
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);                       
         } else {
-            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
-            $query = $sessionVars['query'];
+            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');                                 
+            $query = $sessionVars['query'];             
         }
 
+        // set pagination
+        
+        
         $results = $this->getResultList($query);
 
         // redirect to list view

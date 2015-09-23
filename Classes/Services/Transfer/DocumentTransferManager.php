@@ -186,6 +186,7 @@ class DocumentTransferManager {
         $document->setDocumentType($documentType);           
           
         $document->setXmlData($mods->getModsXml());
+        $document->setSlubInfoData($slub->getSlubXml());
 
         $this->documentRepository->add($document);  
 

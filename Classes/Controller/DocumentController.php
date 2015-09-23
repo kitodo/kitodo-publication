@@ -54,7 +54,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 *
 	 * @return void
 	 */
-	public function listAction() {
+	public function listAction() {                            
 		$documents = $this->documentRepository->findAll();
 		$this->view->assign('documents', $documents);
 	}

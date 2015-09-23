@@ -549,7 +549,9 @@ class MetsExporter
     public function setMods($value = '')
     {
         $domDocument = new \DOMDocument();
-        $domDocument->loadXML($value);
+        if (is_null(@$domDocument->loadXML($value))) {
+            throw \Exception("Couldn't load MODS data"); 
+        }
         $this->modsData = $domDocument;
     }
 
