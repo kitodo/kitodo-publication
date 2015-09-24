@@ -77,6 +77,7 @@ class DocumentTransferManager {
   public function ingest($document) {
     
     $document->setTransferStatus(Document::TRANSFER_QUEUED); 
+    $document->initDateIssued();
     $this->documentRepository->update($document);     
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
@@ -89,15 +90,14 @@ class DocumentTransferManager {
     $exporter->setSlubInfo($document->getSlubInfoData());
         
     $exporter->buildMets();  
-                   
+                            
     $metsXml = $exporter->getMetsData();
-        
+                       
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
             
     if ($remoteDocumentId) {            
         $document->setObjectIdentifier($remoteDocumentId);                                                        
-        $document->setTransferStatus(Document::TRANSFER_SENT);                           
-        $document->initDateIssued();
+        $document->setTransferStatus(Document::TRANSFER_SENT);                                  
         $this->documentRepository->update($document);
         $this->documentRepository->remove($document);
         return TRUE;
@@ -158,7 +158,7 @@ class DocumentTransferManager {
   public function retrieve($remoteId) {
     
     $metsXml = $this->remoteRepository->retrieve($remoteId);
-
+            
     if ( $this->documentRepository->findOneByObjectIdentifier($remoteId) ) {
       throw new \Exception("Document already exist: $remoteId");
     };
