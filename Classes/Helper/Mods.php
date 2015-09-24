@@ -104,7 +104,7 @@ class Mods {
             $newDateIssued->nodeValue = $date;
             $newOriginInfo->appendChild($newDateIssued);
         } else {
-            throw \Exception('Invalid xml data.');
+            throw new \Exception('Invalid xml data.');
         }   
         
     }
@@ -168,7 +168,7 @@ class Mods {
             $newUrn->nodeValue = $urn;
             $rootNode->item(0)->appendChild($newUrn);                  
         } else {
-            throw \Exception('Invalid xml data.');
+            throw new \Exception('Invalid xml data.');
         }   
     
   }

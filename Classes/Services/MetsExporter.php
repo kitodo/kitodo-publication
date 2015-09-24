@@ -469,7 +469,7 @@ class MetsExporter
 
             $doc1 = new \DOMDocument();
             if(is_null(@$doc1->loadXML($this->wrapSlub($xml1)))) {
-                throw \Exception("Couldn't load xml in function customXPathSlub!");
+                throw new \Exception("Couldn't load xml in function customXPathSlub!");
             }
 
             //$domXPath = new \DOMXpath($doc1);
@@ -481,7 +481,7 @@ class MetsExporter
 
             $doc2 = new \DOMDocument();
             if (is_null(@$doc2->loadXML($this->wrapSlub($xml2)))) {
-                throw \Exception("Couldn't load xml in customXPathSlub!");
+                throw new \Exception("Couldn't load xml in customXPathSlub!");
             }
 
             //$domXPath2 = new \DOMXpath($doc2);
@@ -566,7 +566,7 @@ class MetsExporter
     {
         $domDocument = new \DOMDocument();
         if (is_null(@$domDocument->loadXML($value))) {
-            throw \Exception("Couldn't load MODS data"); 
+            throw new \Exception("Couldn't load MODS data"); 
         }
         $this->modsData = $domDocument;
     }

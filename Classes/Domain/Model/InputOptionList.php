@@ -167,7 +167,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                 $labels = explode("|",$this->getValueLabelList());
             
                 if (sizeof($values) !=  sizeof($labels)) {
-                    throw \Exception('Invalid input option list configuration.');
+                    throw new \Exception('Invalid input option list configuration.');
                 }
                 
 		return array_combine($values, $labels);
