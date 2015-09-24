@@ -53,7 +53,7 @@ class FedoraRepository implements Repository {
   protected $response;
   
   protected $ownerId;
-  
+      
   const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
   const QUCOSA_TYPE = 'application/vnd.qucosa.mets+xml';
   
@@ -62,7 +62,7 @@ class FedoraRepository implements Repository {
     $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
     $this->swordHost = $confArr['swordHost'];
     $this->swordUser = $confArr['swordUser'];
-    $this->swordPassword = $confArr['swordPassword'];
+    $this->swordPassword = $confArr['swordPassword'];   
     $this->fedoraHost = $confArr['fedoraHost'];      
     $this->fedoraUser = $confArr['fedoraUser'];
     $this->fedoraPassword = $confArr['fedoraPassword'];
@@ -75,9 +75,9 @@ class FedoraRepository implements Repository {
    * @return string
    */   
   public function ingest($document, $metsXml) {
-              
+  
     try {    
-      $response = Request::post($this->swordHost . "/sword/qucosa:all")      
+      $response = Request::post($this->swordHost . "/sword/".$this->getSWORDCollection())      
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
@@ -114,7 +114,7 @@ class FedoraRepository implements Repository {
     $remoteId = $document->getObjectIdentifier();
     
     try {    
-      $response = Request::put($this->swordHost . "/sword/qucosa:all/" . $remoteId)      
+      $response = Request::put($this->swordHost . "/sword/".$this->getSWORDCollection()."/" . $remoteId)      
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
@@ -211,7 +211,7 @@ class FedoraRepository implements Repository {
      $remoteId = $document->getObjectIdentifier();
     
     try {    
-      $response = Request::delete($this->swordHost . "/sword/qucosa:all/". $remoteId)               
+      $response = Request::delete($this->swordHost . "/sword/".$this->getSWORDCollection()."/". $remoteId)               
         ->authenticateWith($this->swordUser, $this->swordPassword) 
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
@@ -268,6 +268,12 @@ class FedoraRepository implements Repository {
     
     return $this->ownerId;
   }
+ 
+  protected function getSWORDCollection() {
+    $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+    return trim($confArr['swordCollectionNamespace']).":".trim($this->getOwnerId());
+  }
+  
   
 }
 

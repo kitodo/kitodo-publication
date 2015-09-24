@@ -275,7 +275,10 @@
 			</trans-unit>     
                         <trans-unit id="config.swordPassword">
 				<source>Password</source>
-			</trans-unit>     
+			</trans-unit>  
+                        <trans-unit id="config.swordCollectionNamespace">
+				<source>Collection namespace</source>
+			</trans-unit>                                                            
                         <trans-unit id="config.fedoraHost">
 				<source>Host address</source>
 			</trans-unit>     
