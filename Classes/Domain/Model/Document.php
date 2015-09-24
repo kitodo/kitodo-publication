@@ -192,7 +192,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthors($authors) {
                 $authors = implode("; ",$authors);		                
-                $this->authors = $autors;
+                $this->authors = $authors;
                 //htmlspecialchars_decode($authors,ENT_QUOTES);
 	}
         
@@ -225,7 +225,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                 } else {                   
                     $date = \DateTime::createFromFormat(\DateTime::ISO8601, $newDateIssued);
                    
-                    if (get_class($date) == 'DateTime' && $date->format(\DateTime::ISO8601) == $newDateIssued) {
+                    if (is_object($date) && get_class($date) == 'DateTime' && $date->format(\DateTime::ISO8601) == $newDateIssued) {
                         $newMods->setDateIssued($newDateIssued);
                     } else {
                        $newMods->setDateIssued($dateIssued); 

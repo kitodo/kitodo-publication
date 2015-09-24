@@ -11,10 +11,12 @@ class Mods {
   }
  
   
-  public function setModsXml($modsXml) {
+  public function setModsXml($modsXml) {                      
     $modsDom = new \DOMDocument();
     if (!empty($modsXml)) {
-        $modsDom->loadXML($modsXml);     
+       if (is_null(@$modsDom->loadXML($modsXml))) {
+           throw new \Exception("Couldn't load MODS data!");
+       }     
     }    
     $this->modsDom = $modsDom;
   }

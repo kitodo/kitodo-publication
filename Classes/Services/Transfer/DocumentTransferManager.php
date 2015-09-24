@@ -158,14 +158,12 @@ class DocumentTransferManager {
   public function retrieve($remoteId) {
     
     $metsXml = $this->remoteRepository->retrieve($remoteId);
-              
+
     if ( $this->documentRepository->findOneByObjectIdentifier($remoteId) ) {
       throw new \Exception("Document already exist: $remoteId");
-      return FALSE;
     };
        
       if ($metsXml) {      
-                     
         $mets = new \EWW\Dpf\Helper\Mets($metsXml);        
         $mods = $mets->getMods();
         $slub = $mets->getSlub();
@@ -174,11 +172,10 @@ class DocumentTransferManager {
         $authors = $mods->getAuthors();
         
         $documentTypeName = $slub->getDocumentType();
-        
         $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);                               
                               
         if (empty($title) || empty($documentType)) {
-          return FALSE;
+	  return FALSE;        
         }
                      
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
@@ -189,6 +186,7 @@ class DocumentTransferManager {
         $document->setDocumentType($documentType);           
           
         $document->setXmlData($mods->getModsXml());
+        $document->setSlubInfoData($slub->getSlubXml());
 
         $this->documentRepository->add($document);  
 

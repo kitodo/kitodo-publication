@@ -125,7 +125,7 @@ class MetsExporter
         $this->modsData = new \DOMDocument();
         $this->modsData->loadXML($this->modsHeader);
 
-        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/">';
+        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/" >';
         $this->slubHeader .= '</slub:info>';
 
         $this->slubData = new \DOMDocument();
@@ -341,7 +341,9 @@ class MetsExporter
             $newPath[1] = $newPath[1].'="'.$value.'"';
         }
 
-        $modsDataXPath = new \DOMXpath($this->xmlData);
+        //$modsDataXPath = new \DOMXpath($this->xmlData);
+        $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
+
 
         if (!$newGroupFlag && $modsDataXPath->query('/mods:mods/'.$newPath[0])->length > 0) {
             // first xpath path exist
@@ -352,7 +354,9 @@ class MetsExporter
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapMods($xml));
 
-            $domXPath = new \DOMXpath($this->xmlData);
+            //$domXPath = new \DOMXpath($this->xmlData);
+            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
+
             $domNode = $domXPath->query('/mods:mods/'.$path);
 
             $domNodeList = $docXML->getElementsByTagName("mods");
@@ -369,7 +373,9 @@ class MetsExporter
             $doc1 = new \DOMDocument();
             $doc1->loadXML($this->wrapMods($xml1));
 
-            $domXPath = new \DOMXpath($doc1);
+            //$domXPath = new \DOMXpath($doc1);
+            $domXPath = \EWW\Dpf\Helper\XPath::create($doc1); 
+
             $domNode = $domXPath->query('/mods:mods/'.$path);
 
             // parse second xpath part
@@ -378,7 +384,9 @@ class MetsExporter
             $doc2 = new \DOMDocument();
             $doc2->loadXML($this->wrapMods($xml2));
 
-            $domXPath2 = new \DOMXpath($doc2);
+            //$domXPath2 = new \DOMXpath($doc2);
+            $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
+            
             $domNode2 = $domXPath2->query('/mods:mods/'.$path)->item(0)->childNodes->item(0);
 
             // $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
@@ -432,7 +440,8 @@ class MetsExporter
             $newPath[1] = $newPath[1].'="'.$value.'"';
         }
 
-        $modsDataXPath = new \DOMXpath($this->xmlData);
+        //$modsDataXPath = new \DOMXpath($this->xmlData);
+        $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
 
         if (!$newGroupFlag && $modsDataXPath->query('/slub:info/'.$newPath[0])->length > 0) {
             // first xpath path exist
@@ -443,7 +452,8 @@ class MetsExporter
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapSlub($xml));
 
-            $domXPath = new \DOMXpath($this->xmlData);
+            //$domXPath = new \DOMXpath($this->xmlData);
+            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
             $domNode = $domXPath->query('/slub:info/'.$path);
 
             $domNodeList = $docXML->getElementsByTagName("mods");
@@ -458,19 +468,25 @@ class MetsExporter
             $xml1 = $this->parseXPath($newPath[0]);
 
             $doc1 = new \DOMDocument();
-            $doc1->loadXML($this->wrapSlub($xml1));
+            if(is_null(@$doc1->loadXML($this->wrapSlub($xml1)))) {
+                throw \Exception("Couldn't load xml in function customXPathSlub!");
+            }
 
-            $domXPath = new \DOMXpath($doc1);
+            //$domXPath = new \DOMXpath($doc1);
+            $domXPath = \EWW\Dpf\Helper\XPath::create($doc1); 
             $domNode = $domXPath->query('/slub:info/'.$path);
 
             // parse second xpath part
             $xml2 = $this->parseXPath($path.$newPath[1]);
 
             $doc2 = new \DOMDocument();
-            $doc2->loadXML($this->wrapSlub($xml2));
+            if (is_null(@$doc2->loadXML($this->wrapSlub($xml2)))) {
+                throw \Exception("Couldn't load xml in customXPathSlub!");
+            }
 
-            $domXPath2 = new \DOMXpath($doc2);
-
+            //$domXPath2 = new \DOMXpath($doc2);
+            $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2); 
+                        
             // node that should be appended
             $domNode2 = $domXPath2->query('/slub:info/'.$path)->item(0)->childNodes->item(0);
 
@@ -549,7 +565,9 @@ class MetsExporter
     public function setMods($value = '')
     {
         $domDocument = new \DOMDocument();
-        $domDocument->loadXML($value);
+        if (is_null(@$domDocument->loadXML($value))) {
+            throw \Exception("Couldn't load MODS data"); 
+        }
         $this->modsData = $domDocument;
     }
 
