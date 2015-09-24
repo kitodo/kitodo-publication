@@ -37,7 +37,7 @@ class Slub {
    
   
   public function getSubmitterEmail() {                  
-    $emailNode = $this->getSlubXpath()->query("/slub:info/slub:submitter");                                                                  
+    $emailNode = $this->getSlubXpath()->query("/slub:info/slub:submitter/slub:Person/slub:mbox");                                                                  
     return $emailNode->item(0)->nodeValue;                       
   }
   

@@ -22,6 +22,7 @@ class Notifier {
           $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");             
          
           
+          // Notify client admin
           $client = $this->clientRepository->findAll()->current();          
           if ($client) {              
             $clientAdminEmail = $client->getAdminEmail();
@@ -31,8 +32,8 @@ class Notifier {
                 $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
                 ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
                 ->setTo($adminReceiver)
-                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.subject','dpf'))                                                 
-                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.body','dpf',$args));
+                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject','dpf'))                                                 
+                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body','dpf',$args));
                 $message->send();           
                 /*if($message->isSent()) {                    
                 } else {                    
@@ -40,7 +41,7 @@ class Notifier {
             }  
           }
           
-         
+          // Notify submitter
           $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
           $submitterEmail = $slub->getSubmitterEmail();
           if ($submitterEmail) {              
@@ -50,8 +51,8 @@ class Notifier {
                 $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
                 ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
                 ->setTo($emailReceiver)
-                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.subject','dpf'))                                                 
-                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.body','dpf',$args));
+                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.subject','dpf'))                                                 
+                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.body','dpf',$args));
                 $message->send();           
                 /*if($message->isSent()) {                    
                 } else {                    
@@ -72,6 +73,7 @@ class Notifier {
         
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
        
+        // Notify submitter
         $submitterEmail = $slub->getSubmitterEmail();
         if ($submitterEmail) {              
             $emailReceiver = array();
@@ -80,8 +82,8 @@ class Notifier {
                 $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
                 ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
                 ->setTo($emailReceiver)
-                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.subject','dpf'))                                                 
-                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:newDocument_notification.body','dpf',$args));
+                ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.subject','dpf'))                                                 
+                ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.body','dpf',$args));
                 $message->send();           
                 /*if($message->isSent()) {                    
                 } else {                    

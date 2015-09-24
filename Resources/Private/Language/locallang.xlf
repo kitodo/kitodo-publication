@@ -342,19 +342,45 @@
                         <trans-unit id="document_retrieve.failure">
 				<source>Importing dataset %s failed.</source>
 			</trans-unit>    
-                        <trans-unit id="newDocument_notification.subject">
-				<source>New document</source>
+                        <trans-unit id="notification.newDocument.admin.subject">
+				<source>New document registered</source>
 			</trans-unit>                          
-                        <trans-unit id="newDocument_notification.body">
+                        <trans-unit id="notification.newDocument.admin.body">
 				<source>
-A new document has been registered.
------------------------------------                                    
+A new document has been registered:
+                                
 Title: %s
 Author: %s
 URN: %s
 Date: %s
                                 </source>
-			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+			</trans-unit>               
+                        <trans-unit id="notification.newDocument.submitter.subject">
+				<source>You have registered a document</source>
+			</trans-unit>                          
+                        <trans-unit id="notification.newDocument.submitter.body">
+				<source>
+You have registered the following document:
+                                    
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+                                </source>
+			</trans-unit>      
+                        <trans-unit id="notification.ingestDocument.submitter.subject">
+				<source>Document published</source>
+			</trans-unit>                          
+                        <trans-unit id="notification.ingestDocument.submitter.body">
+				<source>
+Your document has been published:
+                                    
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+                                </source>
+			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		</body>
 	</file>
 </xliff>
