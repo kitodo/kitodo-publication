@@ -102,7 +102,8 @@ class DocumentTransferManager {
         $this->documentRepository->remove($document);
         return TRUE;
     } else {            
-      $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
+      $document->setTransferStatus(Document::TRANSFER_ERROR);  
+      $document->removeDateIssued();
       $this->documentRepository->update($document);
       return FALSE;
     }
