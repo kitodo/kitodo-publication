@@ -125,7 +125,7 @@ class MetsExporter
         $this->modsData = new \DOMDocument();
         $this->modsData->loadXML($this->modsHeader);
 
-        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/" >';
+        $this->slubHeader = '<slub:info xmlns:slub="http://slub-dresden.de/" xmlns:foaf="http://xmlns.com/foaf/0.1/">';
         $this->slubHeader .= '</slub:info>';
 
         $this->slubData = new \DOMDocument();
