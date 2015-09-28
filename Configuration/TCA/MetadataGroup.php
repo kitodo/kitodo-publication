@@ -165,7 +165,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 4,
-				'eval' => 'int,uniqueInPid'
+				'eval' => 'int'
 			)
 		),
                 'backend_only' => array(
