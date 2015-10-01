@@ -43,4 +43,8 @@ module.tx_dpf {
                 metadataGroupStoragePid =
                 metadataPageStoragePid =
 	}
+
+        settings {
+            previewPage = 
+        }
 }

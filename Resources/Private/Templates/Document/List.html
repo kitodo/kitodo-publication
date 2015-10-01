@@ -60,10 +60,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
         
         <f:comment><button class="btn btn-xs btn-default">Preview</button></f:comment>  
       
+        <f:link.action action="showPreview" arguments="{document : document}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action>                      
+ 
         <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
         
         <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                      
-                     
+        
         <f:link.action action="delete" arguments="{document : document}" class="btn btn-xs btn-warning">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         {f:translate(key: 'manager.discard')}

@@ -39,6 +39,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @inject
 	 */
 	protected $documentRepository = NULL;
+           
 
     /**
      * persistence manager
@@ -48,6 +49,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
      */
     protected $persistenceManager;
 
+    
+    // TypoScript settings 
+    protected $settings = array();
                         
 	/**
 	 * action list
@@ -277,10 +281,72 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
         }   
         
         
+        /**
+         * action show preview
+         * 
+         * @param  \EWW\Dpf\Domain\Model\Document $document
+         * @return void
+         */
+        public function showPreviewAction(\EWW\Dpf\Domain\Model\Document $document) {                      
+                                                                   
+            $baseURL = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';    
+            $port = '';    
+            if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
+                $port = ':'.$_SERVER['SERVER_PORT'];
+            }         
+            $baseURL .= trim($_SERVER['SERVER_NAME'],"/").$port."/";
+              
+            // realurl inactive
+            //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
+            
+            // realurl active
+            $metsURL = $baseURL . "api/action/previewData/id/".$document->getUid();                        
+           
+            $previewPage = $this->settings['settings']['previewPage'];  
+                                  
+            $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);                                                                     
+                                                                                                                                                                                  
+            $this->redirectToUri($previewUri);   
+        }
+        
+        
+        /**
+         * action previewData
+         * 
+         * @param integer $docId
+         */
+        public function previewDataAction($docId) {
+                                                  
+            $document = $this->documentRepository->findByUid($docId);
+            
+            // Build METS-Data
+            $exporter = new \EWW\Dpf\Services\MetsExporter();      
+            $fileData = $document->getFileData();
+            $exporter->setFileData($fileData);                                       
+            $exporter->setMods($document->getXmlData());    
+            $exporter->setSlubInfo($document->getSlubInfoData());        
+            $exporter->buildMets();                              
+            $metsXml = $exporter->getMetsData();
+                                                                       
+            return $metsXml;                        
+        }
+        
+        
         public function initializeAction() {
             parent::initializeAction();
-                               
-            if ( !$GLOBALS['BE_USER'] ) {
+            
+            
+            if(TYPO3_MODE === 'BE') { 
+                $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+ 
+                $this->settings = $configManager->getConfiguration(
+                    $this->request->getControllerExtensionName(),
+                    $this->request->getPluginName()
+                );                                               
+           }
+                             
+           
+            if ( !$GLOBALS['BE_USER'] && $this->actionMethodName != 'previewDataAction') {
                  throw new \Exception('Access denied');
             }      
             

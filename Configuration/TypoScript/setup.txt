@@ -73,6 +73,7 @@ ajax_page {
     10 < tt_content.list.20.dpf_qucosaform
     config{
     disableAllHeaderCode = 1
+    admPanel = 0
     #Choose your header type (json or text/plain)
     #additionalHeaders = Content-type:application/json
     #additionalHeaders = Content-type: text/plain
@@ -81,6 +82,22 @@ ajax_page {
     debug = 0
   }
 
+}
+
+
+xml_page = PAGE
+xml_page {
+  typeNum = 110125
+  10 < tt_content.list.20.dpf_qucosaxml
+  config {
+    disableAllHeaderCode = 1
+    admPanel = 0
+    xhtml_cleaning = 0
+    no_cache = 1
+    debug = 0
+    additionalHeaders = Content-Type:text/xml
+    metaCharset = utf-8
+  }
 }
 
 
@@ -108,4 +125,9 @@ module.tx_dpf {
 		partialRootPath = {$module.tx_dpf.view.partialRootPath}
 		layoutRootPath = {$module.tx_dpf.view.layoutRootPath}
 	}
+
+        
+        settings {
+            previewPage = {$module.tx_dpf.settings.previewPage}
+        }
 }

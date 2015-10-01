@@ -40,7 +40,7 @@ if (TYPO3_MODE === 'BE') {
           'qucosamanager',
           '',		
           array(
-                  'Document' => 'list, show, new, create, edit, update, delete, release,duplicate',
+                  'Document' => 'list, show, new, create, edit, update, delete, release,duplicate,showPreview',
                   'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
                   'Search' => 'list, search, import, doubletCheck, nextResults',
@@ -80,6 +80,13 @@ if (TYPO3_MODE === 'BE') {
 );
 
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Qucosaxml',
+	'QucosaXml'
+);
+
+
 // qucosaform plugin configuration: additional fields
 $extensionName = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
 $pluginName = strtolower('Qucosaform');
@@ -89,6 +96,7 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY . '/Configuration/FlexForms/qucosaform_plugin.xml');
 // end of qucosaform plugin configuration
+
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Qucosa Publication');
 

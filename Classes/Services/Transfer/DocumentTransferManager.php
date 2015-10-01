@@ -82,7 +82,7 @@ class DocumentTransferManager {
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
-    $fileData = $this->getFileData($document);
+    $fileData = $document->getFileData();
     $exporter->setFileData($fileData);    
                                    
     $exporter->setMods($document->getXmlData());    
@@ -124,7 +124,7 @@ class DocumentTransferManager {
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
-    $fileData = $this->getFileData($document);
+    $fileData = $document->getFileData();
            
     $exporter->setFileData($fileData);    
         
@@ -264,47 +264,7 @@ class DocumentTransferManager {
                    
       return $nextDocumentId->item(0)->nodeValue;                    
   }    
-  
-        
-  protected function getFileData($document) {
-        
-   $fileId = new \EWW\Dpf\Services\Transfer\FileId($document);
-          
-   $files = array();
-   
-   foreach ( $document->getFile() as $file ) {                  
-     
-     $fileStatus = $file->getStatus();  
-       
-     if (!empty($fileStatus)) {
-      
-      $dataStreamIdentifier = $file->getDatastreamIdentifier();
-         
-      if ($file->getStatus() != \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {                                
-         $files[$file->getUid()] = array(
-           'path' => $file->getLink(),
-           'type' => $file->getContentType(),
-           'id' => $fileId->getId($file),
-           'title' => $file->getTitle(),  
-           'use' => ''
-         );                                
-       } elseif (!empty($dataStreamIdentifier)) {        
-         $files[$file->getUid()] = array(
-           'path' => $file->getLink(),
-           'type' => $file->getContentType(),
-           'id' => $file->getDatastreamIdentifier(),
-           'title' => $file->getTitle(),  
-           'use' => 'DELETE'
-         );
-       }
-     }
-     
-    } 
-    
-    return $files;
-    
-  }
-  
+              
 }
 
 
