@@ -58,7 +58,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-        // assign result list from elastic search
+        // assign result list from elastic search        
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
     }
@@ -344,4 +344,5 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('alreadyImported', $objectIdentifiers);
         
     }
+           
 }
