@@ -186,10 +186,20 @@
 	margin-bottom:6px;
 }
 
+.tx-dpf .rem_secondary_upload {
+        color:#c00;
+	line-height:1;
+	width:24px;
+	height:24px;
+	padding:3px 4px;
+	margin-bottom:10px;
+}
+
 .tx-dpf input[type="file"] {
 	border:0 none;
 	margin-bottom:15px;
 	height:36px;
+        display: inline-block;
 }
 
 .tx-dpf .fs_file_group .form-control-static {

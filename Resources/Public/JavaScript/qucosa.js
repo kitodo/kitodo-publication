@@ -14,7 +14,12 @@ $(document).ready(function() {
     });
 
     jQuery(".tx-dpf").on("click",".rem_file_group", deleteFile);
-
+    
+    jQuery(".tx-dpf").on("click",".rem_secondary_upload", function() {
+      var dataIndex = jQuery(this).data("index"); 
+      jQuery(this).parents('.fs_file_group').fadeOut(300, function() { jQuery(this).remove(); });
+      return false;
+    });    
 
     jQuery(".tx-dpf").on("click",".rem_field", function() {      
       var dataIndex = jQuery(this).data("index"); 
@@ -283,7 +288,7 @@ var addGroup = function() {
     
     var deleteFile = function() {
             
-        var fileGroup = jQuery(this).parent();
+        var fileGroup = jQuery(this).parent().parent();
         
         //jQuery(this).parent().remove();
                 

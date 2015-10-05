@@ -1,4 +1,10 @@
 <fieldset class="fs_file_group" data-group="file-upload">
   <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
-  <f:form.upload property="secondaryFiles.{groupIndex}" /> 
+  <f:form.upload property="secondaryFiles.{groupIndex}" />
+  <f:if condition="{groupIndex}">
+    <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload" data-index="{groupIndex}">         
+        <span class="glyphicon glyphicon-remove"></span>
+        <span class="sr-only">delete secondary file upload</span>
+    </button>     
+  </f:if>      
 </fieldset>
