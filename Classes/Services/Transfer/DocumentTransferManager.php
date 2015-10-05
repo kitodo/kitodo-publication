@@ -100,6 +100,11 @@ class DocumentTransferManager {
         $document->setTransferStatus(Document::TRANSFER_SENT);                                  
         $this->documentRepository->update($document);
         $this->documentRepository->remove($document);
+
+        // remove document from local index
+        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $elasticsearchRepository->delete($document);
+
         return TRUE;
     } else {            
       $document->setTransferStatus(Document::TRANSFER_ERROR);  
@@ -140,6 +145,11 @@ class DocumentTransferManager {
       $document->setTransferStatus(Document::TRANSFER_SENT); 
       $this->documentRepository->update($document);          
       $this->documentRepository->remove($document);
+      
+      // remove document from local index
+      $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+      $elasticsearchRepository->delete($document);
+
       return TRUE;
     } else {
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
@@ -243,6 +253,11 @@ class DocumentTransferManager {
       $document->setObjectState(Document::OBJECT_STATE_DELETED);      
       $this->documentRepository->update($document);          
       $this->documentRepository->remove($document);
+
+      // remove document from local index
+      $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+      $elasticsearchRepository->delete($document);
+
       return TRUE;
     } else {
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
