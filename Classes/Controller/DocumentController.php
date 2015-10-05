@@ -303,9 +303,17 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
             $metsURL = $baseURL . "api/action/previewData/id/".$document->getUid();                        
            
             $previewPage = $this->settings['settings']['previewPage'];  
-                                  
-            $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);                                                                     
-                                                                                                                                                                                  
+            
+            if (is_numeric($previewPage)) {
+                $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);                                                                     
+            } else {
+                $previewPage = trim($previewPage,"/?&# ");
+                
+                $url = parse_url($previewPage);
+                        
+                $previewUri = $previewPage.(empty($url['query'])?"?":"&")."tx_dlf_document_url=".urlencode($metsURL);       
+            }
+            
             $this->redirectToUri($previewUri);   
         }
         
@@ -327,7 +335,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
             $exporter->setSlubInfo($document->getSlubInfoData());        
             $exporter->buildMets();                              
             $metsXml = $exporter->getMetsData();
-                                                                       
+                                    
             return $metsXml;                        
         }
         
