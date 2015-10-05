@@ -354,6 +354,9 @@
                         <trans-unit id="manager.releaseConfirmYes">
 				<source>continue</source>
 			</trans-unit>
+                        <trans-unit id="document_duplicate.success">
+				<source>The document has been duplicated.</source>
+			</trans-unit>                                                                        
                         <trans-unit id="manager.releaseConfirmNo">
 				<source>cancel</source>
 			</trans-unit>                                                                        

@@ -284,7 +284,11 @@
                         <trans-unit id="manager.duplicate">
                                 <source>duplicate</source>
 				<target>duplizieren</target>
-			</trans-unit>
+			</trans-unit>                                                
+                        <trans-unit id="document_duplicate.success">
+                                <source>The document has been duplicated.</source>
+				<target>Das Dokument wurde dupliziert.</target>
+			</trans-unit>                          
                         <trans-unit id="manager.publish">
                                 <source>publish</source>
 				<target>veröffentlichen</target>

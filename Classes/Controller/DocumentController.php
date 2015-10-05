@@ -168,7 +168,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document) {
-		$this->addFlashMessage('Das Dokument wurde dupliziert.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+            
+                $args = array();
+                
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
+                $message = empty($message)? "" : $message;
+            
+		$this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
 
                 $newDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
                 
