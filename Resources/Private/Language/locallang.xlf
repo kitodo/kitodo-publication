@@ -318,9 +318,45 @@
                         <trans-unit id="manager.unpublished">
 				<source>unpublished</source>
 			</trans-unit>    
-						<trans-unit id="manager.doublet">
+                        <trans-unit id="manager.doublet">
 				<source>Doublet Check</source>
-			</trans-unit>    
+			</trans-unit>  
+                        <trans-unit id="manager.discardConfirmMessageHeader">
+				<source>Do you really want to discard the document?</source>
+			</trans-unit>  
+                        <trans-unit id="manager.discardConfirmMessage">
+				<source>The document "%s" will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
+			</trans-unit> 
+                        <trans-unit id="manager.discardConfirmYes">
+				<source>continue</source>
+			</trans-unit>
+                        <trans-unit id="manager.discardConfirmNo">
+				<source>cancel</source>
+			</trans-unit>                         
+                        <trans-unit id="manager.releaseConfirmMessageHeader.update">
+				<source>Do you really want to update the document?</source>
+			</trans-unit>  
+                         <trans-unit id="manager.releaseConfirmMessage.update">
+				<source>All document changes of "%s" will be sent to the repository and the local document will be discarded.</source>
+			</trans-unit> 
+                        <trans-unit id="manager.releaseConfirmMessageHeader.publish">
+				<source>Do you really want to publish the document?</source>
+			</trans-unit>  
+                         <trans-unit id="manager.releaseConfirmMessage.publish">
+				<source>The document "%s" will be sent to the repository and the local document will be discarded.</source>
+			</trans-unit>                         
+                        <trans-unit id="manager.releaseConfirmMessageHeader.delete">
+				<source>Do you really want to delete the document?</source>
+			</trans-unit>  
+                         <trans-unit id="manager.releaseConfirmMessage.delete">
+				<source>The document "%s" will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
+			</trans-unit>      
+                        <trans-unit id="manager.releaseConfirmYes">
+				<source>continue</source>
+			</trans-unit>
+                        <trans-unit id="manager.releaseConfirmNo">
+				<source>cancel</source>
+			</trans-unit>                                                                        
                         <trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit> 
@@ -335,6 +371,9 @@
 			</trans-unit>
                         <trans-unit id="document_delete.success">
 				<source>%s successfully deleted.</source>
+			</trans-unit> 
+                        <trans-unit id="document_discard.success">
+				<source>Document successfully discarded.</source>
 			</trans-unit> 
                         <trans-unit id="document_delete.failure">
 				<source>Deleting %s failed.</source>

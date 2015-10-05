@@ -40,7 +40,7 @@ if (TYPO3_MODE === 'BE') {
           'qucosamanager',
           '',		
           array(
-                  'Document' => 'list, show, new, create, edit, update, delete, release,duplicate,showPreview',
+                  'Document' => 'list, show, new, create, edit, update, delete, release,duplicate,showPreview,deleteConfirm,releaseConfirm',
                   'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
                   'Search' => 'list, search, import, doubletCheck, nextResults',

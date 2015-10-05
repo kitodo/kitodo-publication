@@ -1,17 +1,5 @@
 <f:layout name="DefaultBE" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-  Private:
-  Templates:
-  List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
-
 <f:section name="main">
               
 <table class="tx_dpf table table-striped table-manager table-condensed" >
@@ -50,7 +38,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         
         <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                      
         
-        <f:link.action action="delete" arguments="{document : document}" class="btn btn-xs btn-warning">
+        <f:link.action action="deleteConfirm" arguments="{document : document}" class="btn btn-xs btn-warning">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         {f:translate(key: 'manager.discard')}
         </f:link.action>
@@ -60,16 +48,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <f:if condition="{document.deleteRemote}">
             <f:then>
             <f:link.action 
-              action="release" 
-              arguments="{document : document}" 
+              action="releaseConfirm" 
+              arguments="{document : document, , releaseType : 'delete'}" 
               class="btn btn-xs btn-danger">
               {f:translate(key: 'manager.delete')}
             </f:link.action>                             
             </f:then>  
             <f:else>
             <f:link.action 
-              action="release" 
-              arguments="{document : document}" 
+              action="releaseConfirm" 
+              arguments="{document : document, releaseType : 'update'}" 
               class="btn btn-xs {f:if(condition: '{document.remoteAction}', then: 'btn-info', else: 'btn-info disabled')}">
               <span class="glyphicon glyphicon-refresh"></span>
               {f:translate(key: 'manager.update')}
@@ -79,8 +67,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:then>
           <f:else>         
           <f:link.action 
-          action="release" 
-          arguments="{document : document}" 
+          action="releaseConfirm" 
+          arguments="{document : document, releaseType : 'publish'}" 
           class="btn btn-default {f:if(condition: '{document.remoteAction}', then: 'btn-success', else: 'btn-success disabled')}">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
           {f:translate(key: 'manager.publish')}

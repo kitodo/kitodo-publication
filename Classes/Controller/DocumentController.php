@@ -93,6 +93,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument) {
+                        
 		$this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentRepository->add($newDocument);
 		$this->redirect('list');
@@ -123,6 +124,17 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	}
 
 	/**
+	 * action deleteConfirm
+	 *
+	 * @param \EWW\Dpf\Domain\Model\Document $document
+	 * @return void
+	 */
+	public function deleteConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {                                                    
+            $this->view->assign('document',$document);
+	}
+         
+        
+        /**
 	 * action delete
 	 *
 	 * @param \EWW\Dpf\Domain\Model\Document $document
@@ -135,12 +147,20 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 $elasticsearchRepository->delete($document);
 
                 $this->documentRepository->remove($document);
-		
-                $this->addFlashMessage('The object was deleted.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);		
+                                
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
+                
+                $args = array();
+                
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
+                $message = empty($message)? "" : $message;
+		                
+                $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);		
               
                 $this->redirect('list');
 	}
-                
+        
+        
         /**
 	 * action duplicate
 	 *
@@ -178,6 +198,20 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 
 		$this->redirect('list');
 	}
+                       
+        
+       /**
+         * action releaseConfirm
+         * 
+         * @param \EWW\Dpf\Domain\Model\Document $document
+         * @param string $releaseType
+         * @return void
+         */
+        public function releaseConfirmAction(\EWW\Dpf\Domain\Model\Document $document, $releaseType) {            
+            $this->view->assign('releaseType',$releaseType);
+            $this->view->assign('document',$document);
+        }
+            
         
         
         /**

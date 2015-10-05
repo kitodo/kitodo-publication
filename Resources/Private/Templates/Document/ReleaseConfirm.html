@@ -1,0 +1,31 @@
+<f:layout name="DefaultBE" />
+
+
+<f:section name="main">
+     
+    <f:if condition="{releaseType} == 'delete'">    
+        <h4>{f:translate(key: 'manager.releaseConfirmMessageHeader.delete')}</h4>
+    
+        {f:translate(key: 'manager.releaseConfirmMessage.delete', arguments: {0: document.title})}
+   
+        <br /><br />
+    </f:if> 
+    <f:if condition="{releaseType} == 'update'">    
+        <h4>{f:translate(key: 'manager.releaseConfirmMessageHeader.update')}</h4>
+    
+        {f:translate(key: 'manager.releaseConfirmMessage.update', arguments: {0: document.title})}
+   
+        <br /><br />
+    </f:if> 
+    <f:if condition="{releaseType} == 'publish'">    
+        <h4>{f:translate(key: 'manager.releaseConfirmMessageHeader.publish')}</h4>
+    
+        {f:translate(key: 'manager.releaseConfirmMessage.publish', arguments: {0: document.title})}
+   
+        <br /><br />
+    </f:if> 
+                
+    <f:link.action action="release" controller="Document" arguments="{document : document}" class="btn btn-danger">{f:translate(key: 'manager.releaseConfirmYes')}</f:link.action>                      
+    <f:link.action action="list" controller="Document" class="btn btn-primary" >{f:translate(key: 'manager.releaseConfirmNo')}</f:link.action>                                   
+   
+</f:section>
