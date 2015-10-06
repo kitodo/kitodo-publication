@@ -13,6 +13,13 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $fillOutService;
   
+  /**
+   * consent
+   * 
+   * @var boolean
+   */
+  protected $consent;
+  
   
   public function getValue() {                   
     return $this->value;    
@@ -79,6 +86,26 @@ class DocumentFormField extends AbstractFormElement {
 	public function setFillOutService($fillOutService) {
 		$this->fillOutService = $fillOutService;
 	}
+        
+        
+        /**
+	 * Returns the consent
+	 *
+	 * @return boolean $consent
+	 */
+	public function getConsent() {
+		return $this->consent;
+	}
+
+	/**
+	 * Sets the consent
+	 *
+	 * @param boolean $consent
+	 * @return void
+	 */
+	public function setConsent($consent) {
+		$this->consent = $consent;
+	}        
              
 }
 

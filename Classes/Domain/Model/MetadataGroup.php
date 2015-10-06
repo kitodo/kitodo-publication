@@ -98,7 +98,14 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $backendOnly = FALSE;
         
         
+        /**
+         * infoText
+         * 
+         * @var string
+         */
+        protected $infoText;
         
+                        
 	/**
 	 * __construct
 	 */
@@ -389,5 +396,24 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setBackendOnly($backendOnly) {
 		$this->backendOnly = $backendOnly;
 	}
-                   
+                           
+        /**
+	 * Returns the infoText
+	 *
+	 * @return string $infoText
+	 */
+	public function getInfoText() {
+		return $this->infoText;
+	}
+
+	/**
+	 * Sets the infoText
+	 *
+	 * @param string $infoText
+	 * @return void
+	 */
+	public function setInfoText($infoText) {
+		$this->infoText = $infoText;
+	}                
+        
 }

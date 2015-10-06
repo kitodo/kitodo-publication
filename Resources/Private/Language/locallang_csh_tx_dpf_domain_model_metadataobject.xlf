@@ -24,6 +24,9 @@
                         <trans-unit id="backend_only.description">
 				<source>backendOnly</source>
 			</trans-unit>
+                        <trans-unit id="consent.description">
+				<source>consent</source>
+			</trans-unit>
 			<trans-unit id="input_field.description">
 				<source>inputField</source>
 			</trans-unit>                        

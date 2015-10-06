@@ -118,7 +118,14 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * @var boolean
          */
         protected $backendOnly = FALSE;
-                
+
+        
+        /**
+         * consent
+         * 
+         * @var boolean
+         */
+        protected $consent;
         
 	/**
 	 * Returns the name
@@ -353,5 +360,24 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setBackendOnly($backendOnly) {
 		$this->backendOnly = $backendOnly;
+	}
+        
+        /**
+	 * Returns the consent
+	 *
+	 * @return boolean $consent
+	 */
+	public function getConsent() {
+		return $this->consent;
+	}
+
+	/**
+	 * Sets the consent
+	 *
+	 * @param boolean $consent
+	 * @return void
+	 */
+	public function setConsent($consent) {
+		$this->consent = $consent;
 	}
 }

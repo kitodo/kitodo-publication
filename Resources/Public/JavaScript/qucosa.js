@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
-    
-                         
+           
     buttonFillOutServiceUrn();
          
     // Show the Form pages/steps in Tabs
@@ -58,6 +57,7 @@ var validateForm = function() {
         var error = false; 
                                                             
         jQuery('span.mandatory-error').remove();        
+        jQuery('div.alert').remove();     
         
         // check mandatory groups
         jQuery('fieldset[data-mandatory=1]').each(function(){
@@ -163,8 +163,9 @@ var markPage = function (fieldset,error) {
 
 var checkMandatoryInputs = function(fieldset) {          
   var mandatoryError = false;
-  fieldset.find(".input-field[data-mandatory=1]").each(function(){         
-    if (!jQuery(this).val() || jQuery(this).val() == 'xyz') {                
+  fieldset.find(".input-field[data-mandatory=1]").each(function(){  
+
+    if (!jQuery(this).val() || (jQuery(this).attr('type') == 'checkbox' && !jQuery(this).attr('checked'))) {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              
     } else {                

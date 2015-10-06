@@ -282,7 +282,8 @@ class FormDataReader {
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
             $documentFormField->setMandatory($metadataObject->getMandatory());
-            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());            
+            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());  
+            $documentFormField->setConsent($metadataObject->getConsent());
             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());     
             $documentFormField->setInputOptions($metadataObject->getInputOptionList());             
             $documentFormField->setInputField($metadataObject->getInputField());   

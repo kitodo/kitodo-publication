@@ -100,7 +100,8 @@ class DocumentMapper {
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
           $documentFormGroup->setName($metadataGroup->getName());
           $documentFormGroup->setMandatory($metadataGroup->getMandatory());
-          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());         
+          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());     
+          $documentFormGroup->setInfoText($metadataGroup->getInfoText());     
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
                           
                    
@@ -154,6 +155,7 @@ class DocumentMapper {
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
                 $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+                $documentFormField->setConsent($metadataObject->getConsent());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
@@ -222,6 +224,7 @@ class DocumentMapper {
               $documentFormField->setName($metadataObject->getName());               
               $documentFormField->setMandatory($metadataObject->getMandatory());
               $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+              $documentFormField->setConsent($metadataObject->getConsent());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 

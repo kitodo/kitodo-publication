@@ -103,6 +103,10 @@
 	margin-bottom:20px;
 }
 
+.tx-dpf fieldset .group-info-text {
+    margin: 0 0 10px 0;
+}
+
 .tx-dpf .form-group {
 	position:relative;
 	display:table;

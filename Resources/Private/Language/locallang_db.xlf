@@ -60,6 +60,9 @@
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 				<source>Mapping</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.info_text">
+				<source>Info text</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
 				<source>Mods Extension Mapping</source>
 			</trans-unit>
@@ -89,6 +92,9 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
 				<source>Backend only</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
+				<source>Consent</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
