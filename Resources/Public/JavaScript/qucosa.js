@@ -45,6 +45,15 @@ $(document).ready(function() {
             
     jQuery(".form-submit").on("click","#save", validateForm);
     jQuery(".form-submit").on("click","#savecontinue", validateForm);
+    
+    
+    jQuery(".input-field[type=checkbox]").on("click",function(){
+        if (jQuery(this).attr('checked')) {
+            jQuery(this).removeAttr('checked');    
+        } else {
+            jQuery(this).attr('checked','checked');
+        }         
+    });
                                 
 });
 
@@ -57,55 +66,55 @@ var validateForm = function() {
         var error = false; 
                                                             
         jQuery('span.mandatory-error').remove();        
-        jQuery('div.alert').remove();     
+        jQuery('div.alert').remove();   
+        
+        jQuery('.tx-dpf-tabs li a').each(function(){                                   
+            jQuery(this).removeClass('mandatory-error');      
+        });
         
         // check mandatory groups
         jQuery('fieldset[data-mandatory=1]').each(function(){
-                                              
-           var fieldset = jQuery(this);
-                                               
+                      
+           var fieldset = jQuery(this);          
+           
            if (hasMandatoryInputs(fieldset)) {             
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertAfter(fieldset.find('legend').last());                  
                 showFormError(); 
                 error = true;
+                markPage(fieldset,true);                   
             }                  
            } else {                                                                 
              if (checkFilledInputs(fieldset)) {                          
               jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_one_required+'</div>').insertAfter(fieldset.find('legend').last());              
-              showFormError();                  
+              showFormError();     
+              error = true;
+              markPage(fieldset,true);     
               error = true;
              } 
            }  
-           
-           if (error) {
-               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
-           }
            
         });
         
         
          jQuery('fieldset[id=primary_file]').each(function(){
-           
+                     
             var fieldset = jQuery(this);
             
             if (checkPrimaryFile(fieldset)) {
               jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
               showFormError();   
               error = true;
+              markPage(fieldset,true);        
             }
             
-            if (error) {
-               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
-            }
-           
          });
         
                 
         // check non mandatory groups
         jQuery('fieldset[data-mandatory=""]').each(function() {                                   
-          
-            var fieldset = jQuery(this);
+                     
+            var fieldset = jQuery(this);            
           
             var filledInputs = 0;
             jQuery(this).find('.input-field').each(function() {              
@@ -121,14 +130,10 @@ var validateForm = function() {
               if (checkMandatoryInputs(fieldset)) {               
                 jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertAfter(fieldset.find('legend').last());                                                   
                 showFormError();    
+                markPage(fieldset,true);        
                 error = true;
               }
-            }
-            
-            if (error) {
-               jQuery("a[href=#"+fieldset.parent().attr('id')+"]").attr('class','mandatory-error');
-            }
-           
+            }                                                           
         });
         
         return !error;
@@ -136,14 +141,14 @@ var validateForm = function() {
 
 
 var showFormError = function() {          
-  jQuery('span.form-error').remove(); 
+  jQuery('.tx-dpf div.alert-danger').remove(); 
   jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>'+form_error_msg+'</div>').insertBefore(jQuery('form').first()); 
   jQuery("html, body").animate({ scrollTop: 0 }, 200);
 }
 
 
 var hasMandatoryInputs = function (fieldset) {
-  var inputs = fieldset.find(".input-field[data-mandatory=1]");
+  var inputs = fieldset.find(".input-field[data-mandatory=1]");          
   return inputs.length > 0
   
 }
@@ -151,6 +156,11 @@ var hasMandatoryInputs = function (fieldset) {
 
 var markPage = function (fieldset,error) {  
   var pageId = fieldset.parent().attr('id');  
+  
+  if (error) {
+      console.log(fieldset.find('legend').html());
+  }  
+  
   var page = jQuery('.tx-dpf-tabs li a[href=#'+pageId+']');
               
   if (error) {
@@ -164,8 +174,8 @@ var markPage = function (fieldset,error) {
 var checkMandatoryInputs = function(fieldset) {          
   var mandatoryError = false;
   fieldset.find(".input-field[data-mandatory=1]").each(function(){  
-
-    if (!jQuery(this).val() || (jQuery(this).attr('type') == 'checkbox' && !jQuery(this).attr('checked'))) {                
+   
+    if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && !jQuery(this).attr('checked'))) {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              
     } else {                
@@ -173,7 +183,7 @@ var checkMandatoryInputs = function(fieldset) {
     }                                                                                                               
   });     
 
-  markPage(fieldset,mandatoryError);
+  //markPage(fieldset,mandatoryError);
   
   return mandatoryError;
 }
@@ -182,7 +192,6 @@ var checkMandatoryInputs = function(fieldset) {
 var checkPrimaryFile = function(fieldset) {          
   var mandatoryError = false;
   fieldset.find("input").each(function(){     
-  //  console.log(jQuery(this).val());
     if (!jQuery(this).val() ) {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              
@@ -206,7 +215,7 @@ var checkFilledInputs = function(fieldset) {
    jQuery(this).removeClass('mandatory-error');  
   });
   
-  markPage(fieldset,filledInputs < 1);    
+  //markPage(fieldset,filledInputs < 1);    
  
   return filledInputs < 1; 
 }

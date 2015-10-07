@@ -1,4 +1,5 @@
 {namespace s=SJBR\StaticInfoTables\ViewHelpers}
+{namespace eww=EWW\Dpf\ViewHelpers}
              
 <div class="form-group">
 
@@ -30,8 +31,19 @@
 <f:switch expression="{fieldItem.inputField}">
    <f:case value="0"><f:form.textfield id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" placeholder="{fieldItem.displayName}" /></f:case>
    <f:case value="1"><f:form.textarea id="inp_{fieldItem.uid}"  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" placeholder="{fieldItem.displayName}" /></f:case>                                         
-   <f:case value="2"><div class="form-control has-select"><f:form.select id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="form-control input-field-select {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" options="{fieldItem.inputOptions}" /></div></f:case> 
-   <f:case value="3"><f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" /></f:case> 
+   <f:case value="2"><div class="form-control has-select"><f:form.select id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" options="{fieldItem.inputOptions}" /></div></f:case> 
+
+   <f:case value="3">
+   <eww:isElementAllowed condition="{fieldItem.consent}">
+     <f:then>
+       <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" />
+     </f:then>
+     <f:else>
+       <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" disabled="true"/> 
+     </f:else> 
+   </eww:isElementAllowed>   
+   </f:case>
+     
 </f:switch>
     
  <f:if condition="{fieldIndex}">
