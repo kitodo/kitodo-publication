@@ -94,7 +94,7 @@
 				<source>Backend only</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
-				<source>Consent</source>
+				<source>Consent field</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
