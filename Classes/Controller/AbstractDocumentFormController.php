@@ -330,9 +330,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
     public function initializeAction() {
       parent::initializeAction();
                                            
-      $requestArguments = $this->request->getArguments();                              
-                     
-      if ($requestArguments['cancel']) {         
+      $requestArguments = $this->request->getArguments();    
+                           
+      if (key_exists('cancel', $requestArguments)) {         
         $this->redirectToList();         
       }
     }    

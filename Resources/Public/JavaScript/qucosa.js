@@ -45,16 +45,7 @@ $(document).ready(function() {
             
     jQuery(".form-submit").on("click","#save", validateForm);
     jQuery(".form-submit").on("click","#savecontinue", validateForm);
-    
-    
-    jQuery(".input-field[type=checkbox]").on("click",function(){
-        if (jQuery(this).attr('checked')) {
-            jQuery(this).removeAttr('checked');    
-        } else {
-            jQuery(this).attr('checked','checked');
-        }         
-    });
-                                
+                                           
 });
 
 
@@ -156,11 +147,7 @@ var hasMandatoryInputs = function (fieldset) {
 
 var markPage = function (fieldset,error) {  
   var pageId = fieldset.parent().attr('id');  
-  
-  if (error) {
-      console.log(fieldset.find('legend').html());
-  }  
-  
+    
   var page = jQuery('.tx-dpf-tabs li a[href=#'+pageId+']');
               
   if (error) {
@@ -174,12 +161,15 @@ var markPage = function (fieldset,error) {
 var checkMandatoryInputs = function(fieldset) {          
   var mandatoryError = false;
   fieldset.find(".input-field[data-mandatory=1]").each(function(){  
-   
-    if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && !jQuery(this).attr('checked'))) {                
+         
+    var id = jQuery(this).attr('id');     
+         
+    if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) ||         
+        (jQuery(this).attr('type') == 'checkbox' && (jQuery("#"+id+":checked").length != 1 || !jQuery("#"+id+":checked")))) {                                       
       mandatoryError = mandatoryError || true;                                                                   
-      jQuery(this).addClass('mandatory-error');                              
-    } else {                
-      jQuery(this).removeClass('mandatory-error');
+      jQuery(this).addClass('mandatory-error');                                    
+    } else {                      
+      jQuery(this).removeClass('mandatory-error');      
     }                                                                                                               
   });     
 

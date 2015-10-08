@@ -36,11 +36,11 @@
    <f:case value="3">
    <eww:isConsentField condition="{fieldItem.consent}">
      <f:then> 
-         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" disabled="true"/> 
+         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}" checked="{fieldItem.value}" disabled="true"/> 
          <f:form.hidden property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" /> 
      </f:then>
      <f:else>        
-         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" />
+         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" />
      </f:else> 
    </eww:isConsentField>   
    </f:case>
