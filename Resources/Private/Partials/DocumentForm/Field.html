@@ -36,7 +36,7 @@
    <f:case value="3">
    <eww:isConsentField condition="{fieldItem.consent}">
      <f:then> 
-         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  onclick="return false" checked="{fieldItem.value}" disabled="true"/> 
+         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex}"  checked="{fieldItem.value}" disabled="true"/> 
          <f:form.hidden property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" /> 
      </f:then>
      <f:else>        
