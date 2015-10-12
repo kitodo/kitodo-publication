@@ -501,10 +501,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
 
         $files = array();
-
-        if (is_a($this->getFile(),'\EWW\Dpf\Domain\Model\File')) {
-            foreach ($this->getFile() as $file) {
-
+              
+        if (is_a($this->getFile(),'\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+          foreach ($this->getFile() as $file) {
+ 
                 $fileStatus = $file->getStatus();
 
                 if (!empty($fileStatus)) {
