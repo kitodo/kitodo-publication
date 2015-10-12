@@ -456,7 +456,7 @@ class MetsExporter
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
             $domNode = $domXPath->query('/slub:info/'.$path);
 
-            $domNodeList = $docXML->getElementsByTagName("mods");
+            $domNodeList = $docXML->getElementsByTagName("info");
 
             $node = $domNodeList->item(0)->firstChild;
 
