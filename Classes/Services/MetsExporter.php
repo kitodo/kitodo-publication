@@ -653,9 +653,9 @@ class MetsExporter
                     $fLocat = $domDocument->createElement('mets:FLocat');
                     $fLocat->setAttribute('LOCTYPE', 'URL');
                     $fLocat->setAttribute('xlink:href', $value['path']);
-                    $fLocat->setAttribute('xmlns:xlin', "http://www.w3.org/1999/xlink");
+                    $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
                     if ($value['title']) {
-                        $fLocat->setAttribute('xlin:title', $value['title']);
+                        $fLocat->setAttribute('xlink:title', $value['title']);
                     }
 
                     $domElementFLocat->appendChild($fLocat);
