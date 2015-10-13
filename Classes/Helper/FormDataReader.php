@@ -260,7 +260,8 @@ class FormDataReader {
       $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());
-      $documentFormPage->setName($metadataPage->getName());                               
+      $documentFormPage->setName($metadataPage->getName());                    
+      $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
       
       foreach ($page as $groupUid => $groupItem ) {           
         foreach ($groupItem as $group ) {   

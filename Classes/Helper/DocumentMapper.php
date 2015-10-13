@@ -92,7 +92,8 @@ class DocumentMapper {
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());
       $documentFormPage->setName($metadataPage->getName());                               
-               
+      $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());          
+                 
       foreach ($metadataPage->getMetadataGroup() as $metadataGroup ) {                             
           
           $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();

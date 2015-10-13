@@ -3,7 +3,11 @@
     <div class="tx-dpf-tab-container">
       <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-          <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
+            <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
+            <f:then> 
+                <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
+            </f:then>   
+            </eww:isElementAllowed>
         </f:for>
         <li><a href="#tab-file-upload">Dateien</a></li>        
       </ul>
@@ -12,13 +16,16 @@
     <div class="css-panes">
 
       <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-
+ 
+        <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
+        <f:then> 
         <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.0.uid}">
-
+          
           <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
 
             <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                                            
+              <eww:isElementAllowed condition="{groupItem.backendOnly}"> 
+              <f:then> 
               <f:render partial="DocumentForm/Group" arguments="{
                         formPageUid:formPage.0.uid,                       
                         formGroupUid:groupItem.uid,
@@ -45,12 +52,14 @@
                   </button>
                 </f:if>
               </f:if>
-             
-            </f:for>
-
-          </f:for>
-
+              </f:then> 
+              </eww:isElementAllowed>
+            </f:for>            
+          </f:for>                       
         </div>
+        </f:then> 
+        </eww:isElementAllowed>    
+          
       </f:for>
 
       <div id="tab-file-upload" class="fs_page">

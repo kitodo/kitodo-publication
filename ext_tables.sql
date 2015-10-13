@@ -334,6 +334,7 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	page_number int(11) DEFAULT '0' NOT NULL,
+        backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

@@ -134,7 +134,10 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
-			</trans-unit>                           
+			</trans-unit>              
+                        <trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
+				<source>Backend only</source>
+			</trans-unit>                                          
                         <trans-unit id="tx_dpf_domain_model_documenttransferlog">
 				<source>Document Transfer Log</source>
 			</trans-unit>

@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, metadata_group',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, backend_only, metadata_group',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, page_number, metadata_group, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, page_number, backend_only, metadata_group, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -129,6 +129,15 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatapage'] = array(
 				'eval' => 'int'
 			)
 		),
+                'backend_only' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.backend_only',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),            
 		'metadata_group' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
