@@ -96,6 +96,12 @@
                         <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
 				<source>Consent field</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
+				<source>Default value</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
+				<source>Input option list</source>
+			</trans-unit>                        
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
 			</trans-unit>
@@ -128,6 +134,9 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
 				<source>Value label list</source>
+			</trans-unit>    
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value">
+				<source>Default value</source>
 			</trans-unit>       
 			<trans-unit id="tx_dpf_domain_model_metadatapage">
 				<source>Metadata Page</source>

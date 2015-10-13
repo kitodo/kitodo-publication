@@ -13,6 +13,9 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $fillOutService;
   
+  protected $defaultInputOption;
+    
+  
   /**
    * consent
    * 
@@ -26,8 +29,33 @@ class DocumentFormField extends AbstractFormElement {
   }
   
   
-  public function setValue($value) {        
-    $this->value = $value;    
+  public function setValue($value,$defaultValue='') {
+                
+    if(empty($value)) {
+        switch($this->inputField) {        
+            case \EWW\Dpf\Domain\Model\MetadataObject::select:
+                if (!empty($defaultValue)) {
+                  $this->value = $this->defaultInputOption;
+                } else {
+                  $this->value = '';  
+                }  
+                break;
+            
+            case \EWW\Dpf\Domain\Model\MetadataObject::checkbox:
+                if (!empty($defaultValue)) {
+                  $this->value = 'yes';
+                } else {
+                  $this->value = '';  
+                }  
+                break;
+            
+            default:
+                $this->value = $defaultValue; 
+                break;            
+        }
+    } else {
+        $this->value = $value;    
+    }    
   }
   
   
@@ -62,8 +90,10 @@ class DocumentFormField extends AbstractFormElement {
         foreach ($inputOptionList->getInputOptions() as $option => $label) {
             $this->inputOptions[$option] = $label;    
         }
+        
+        $this->defaultInputOption = trim($inputOptionList->getDefaultValue());
     }
-         
+                
   }
   
   

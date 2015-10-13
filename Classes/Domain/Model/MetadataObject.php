@@ -127,6 +127,16 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         protected $consent;
         
+        
+        
+        /**
+         * defaultValue
+         * 
+         * @var string
+         */
+        protected $defaultValue;
+        
+        
 	/**
 	 * Returns the name
 	 *
@@ -380,4 +390,25 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setConsent($consent) {
 		$this->consent = $consent;
 	}
+        
+        
+        /**
+	 * Returns the defaultValue
+	 *
+	 * @return string $defaultValue
+	 */
+	public function getDefaultValue() {
+		return $this->defaultValue;
+	}
+
+	/**
+	 * Sets the defaultValue
+	 *
+	 * @param string $defaultValue
+	 * @return void
+	 */
+	public function setDefaultValue($defaultValue) {
+		$this->defaultValue = $defaultValue;
+	}
+
 }

@@ -161,7 +161,7 @@ class DocumentMapper {
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
                 $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
-                                                              
+                                                                                            
                 $objectMapping = "";                
 
                 $objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
@@ -193,8 +193,10 @@ class DocumentMapper {
                   $objectData = $xpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
+                $documentFormField->setValue("",$metadataObject->getDefaultValue());
+                
                 if ($objectData->length > 0) { 
-                                                       
+                                                     
                   foreach ($objectData as $key => $value) {   
                                                               
                     $documentFormFieldItem = clone($documentFormField);  
@@ -202,10 +204,8 @@ class DocumentMapper {
                     $objectValue = $value->nodeValue;                                                                                                                                        
                     //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
                     $objectValue = str_replace('"',"'",$objectValue);
-                    
-                    $documentFormFieldItem->setValue($objectValue);
-                    
-                    $documentFormField->setValue($objectValue);
+                                                         
+                    $documentFormFieldItem->setValue($objectValue,$defaultValue);                                                                               
                                     
                     $documentFormGroupItem->addItem($documentFormFieldItem);
                   }
@@ -230,7 +230,7 @@ class DocumentMapper {
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
               $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
-              $documentFormField->setValue("");
+              $documentFormField->setValue("",$metadataObject->getDefaultValue());
                                
               $documentFormGroup->addItem($documentFormField);                
             }

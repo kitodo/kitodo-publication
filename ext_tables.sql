@@ -156,6 +156,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
         mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,        
 	input_field int(11) DEFAULT '0' NOT NULL,      
         input_option_list int(11) unsigned DEFAULT '0',
+        default_value text DEFAULT '' NOT NULL,
         fill_out_service varchar(255) DEFAULT '' NOT NULL,
         backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
         consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
@@ -456,6 +457,7 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 	display_name varchar(255) DEFAULT '' NOT NULL,	
         value_list text   DEFAULT '' NOT NULL,
         value_label_list text   DEFAULT '' NOT NULL,
+        default_value text DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
