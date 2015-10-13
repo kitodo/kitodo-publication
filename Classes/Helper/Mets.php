@@ -72,8 +72,8 @@ class Mets {
       $files[] = array(
           'id' => $item->getAttribute("ID"),
           'mimetype' => $item->getAttribute("MIMETYPE"),
-          'href' => $item->firstChild->getAttribute("xlin:href"), 
-          'title' => $item->firstChild->getAttribute("xlin:title")          
+          'href' => $item->firstChild->getAttribute("xlink:href"), 
+          'title' => $item->firstChild->getAttribute("xlink:title")          
       );      
     }        
              
