@@ -1,3 +1,4 @@
+{namespace eww=EWW\Dpf\ViewHelpers} 
   <f:if condition="{files}"> 
     <f:then>
       <f:for each="{files}" as="file" iteration="fileIterator">
@@ -6,7 +7,7 @@
          <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
          
          <div class="form-control-static">
-            <f:link.external uri="{file.link}" target="_blank" class="file_link">{file.title}</f:link.external>
+            <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">{file.title}</f:link.external>
                   
             <button type="submit"
                        name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
