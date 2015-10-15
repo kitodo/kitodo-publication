@@ -583,4 +583,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             $this->xmlData = $mods->getModsXml();                                                                         
         }
 
+        
+        public function getIsNew() {        
+            return empty($this->objectIdentifier) && empty($this->remoteAction);                
+        }
 }

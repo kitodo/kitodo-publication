@@ -47,5 +47,23 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
     
     return $objectIdentifiers;          
   }
-	
+
+  
+  public function getNewDocuments($storagePID) {      
+          
+    $query = $this->createQuery();   
+    $query->statement("SELECT * FROM tx_dpf_domain_model_document where length(trim(object_identifier))=0 and length(trim(remote_action))=0 AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
+    
+    
+    
+    return $query->execute();                           
+  }
+  
+  public function getInProgressDocuments($storagePID) {      
+    $query = $this->createQuery();
+    $query->statement("SELECT * FROM tx_dpf_domain_model_document where (length(trim(object_identifier))>0 OR length(trim(remote_action))>0) AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
+    
+    return $query->execute();                           
+  }
+  
 }

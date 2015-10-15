@@ -63,6 +63,18 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 		$this->view->assign('documents', $documents);
 	}
 
+        
+        public function listNewAction() {                                                                     
+		$documents = $this->documentRepository->getNewDocuments($this->getStoragePID());             
+		$this->view->assign('documents', $documents);
+	}
+        
+        
+        public function listEditAction() {                            
+		$documents = $this->documentRepository->getInProgressDocuments($this->getStoragePID());              
+		$this->view->assign('documents', $documents);
+	}
+        
 	/**
 	 * action show
 	 *
@@ -86,6 +98,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 		$this->view->assign('newDocument', $newDocument);
 	}
 
+        
 	/**
 	 * action create
 	 *
@@ -400,5 +413,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
             }      
             
         }    
+        
+        
+        protected function getStoragePID() {                                               
+            return $this->settings['persistence']['classes']['EWW\Dpf\Domain\Model\Document']['newRecordStoragePid'];            
+        }
                                             
 }
