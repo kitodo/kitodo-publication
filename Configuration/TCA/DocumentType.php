@@ -128,6 +128,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
 				'foreign_table' => 'tx_dpf_domain_model_metadatapage',
 				'foreign_field' => 'documenttype',
                                 'foreign_label' => 'display_name',
+                                'foreign_sortby' => 'page_number',
                                 'behaviour' => array(
                                     'disableMovingChildrenWithParent' => 1,
                                     //'disableCopyingChildrenWithParent' => 1
