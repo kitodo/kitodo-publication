@@ -536,7 +536,40 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         return $files;
 
     }
+    
         
+    public function getCurrentFileData()
+    {
+        
+        $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
+
+        $files = array();
+              
+        if (is_a($this->getFile(),'\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+          foreach ($this->getFile() as $file) {
+ 
+                $fileStatus = $file->getStatus();
+
+                    $dataStreamIdentifier = $file->getDatastreamIdentifier();
+
+                    if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
+                        $files[$file->getUid()] = array(
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'id' => $fileId->getId($file),
+                        'title' => $file->getTitle(),
+                        'use' => ''
+                        );
+                    } 
+
+            }
+        }
+
+        return $files;
+
+    }
+    
+    
         public function isEdited() {                                       
           return $this->crdate->getTimestamp() != $this->tstamp->getTimestamp();
         }

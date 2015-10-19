@@ -383,7 +383,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
             
             // Build METS-Data
             $exporter = new \EWW\Dpf\Services\MetsExporter();      
-            $fileData = $document->getFileData();
+            $fileData = $document->getCurrentFileData();                                   
             $exporter->setFileData($fileData);                                       
             $exporter->setMods($document->getXmlData());    
             $exporter->setSlubInfo($document->getSlubInfoData());        

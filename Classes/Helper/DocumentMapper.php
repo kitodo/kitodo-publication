@@ -247,7 +247,7 @@ class DocumentMapper {
     $primaryFile = $this->fileRepository->getPrimaryFileByDocument($document);
     $documentForm->setPrimaryFile($primaryFile);
               
-    $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();;   
+    $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();   
     $documentForm->setSecondaryFiles($secondaryFiles);
             
     $documentForm->setObjectState($document->getObjectState());
