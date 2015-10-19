@@ -43,19 +43,31 @@ $(document).ready(function() {
            
     // jQuery(".form-submit").on("click","#save",
             
-    jQuery(".form-submit").on("click","#save", validateForm);
-    jQuery(".form-submit").on("click","#savecontinue", validateForm);
+    jQuery(".form-submit").on("click","#save", validateFormAndSave);
+    jQuery(".form-submit").on("click","#validate", validateFormOnly);
                                            
 });
 
 
+
+var validateFormAndSave = function() {
+  return validateForm();
+}
+
+
+var validateFormOnly = function() {
+  if (validateForm()) {    
+    showFormSuccess();
+  }
+  return false;
+}
 
 
 
 var validateForm = function() {
         
         var error = false; 
-                                                            
+                                 
         jQuery('span.mandatory-error').remove();        
         jQuery('div.alert').remove();   
         
@@ -134,6 +146,12 @@ var validateForm = function() {
 var showFormError = function() {          
   jQuery('.tx-dpf div.alert-danger').remove(); 
   jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>'+form_error_msg+'</div>').insertBefore(jQuery('form').first()); 
+  jQuery("html, body").animate({ scrollTop: 0 }, 200);
+}
+
+var showFormSuccess = function() {          
+  jQuery('.tx-dpf div.alert-danger').remove(); 
+  jQuery('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>'+form_success_msg+'</div>').insertBefore(jQuery('form').first()); 
   jQuery("html, body").animate({ scrollTop: 0 }, 200);
 }
 

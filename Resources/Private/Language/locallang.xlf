@@ -251,7 +251,10 @@
 			</trans-unit>   
                         <trans-unit id="form_error_msg.all">
 				<source>The form contains errors.</source>
-			</trans-unit>    
+			</trans-unit>  
+                        <trans-unit id="form_success_msg.all">
+				<source>Form successfully validated.</source>
+			</trans-unit>                            
                         <trans-unit id="form_button.add_item">
 				<source>add %s</source>
 			</trans-unit>

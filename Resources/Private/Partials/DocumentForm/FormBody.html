@@ -101,12 +101,11 @@
         </f:else>  
       </f:if>
       
-      <f:if condition="{documentForm.documentUid} < 1">            
-        <f:form.button name="savecontinue" id="savecontinue" class="btn btn-lg btn-info">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-          {f:translate(key: 'form_button.save_continue')}
-        </f:form.button>
-      </f:if>
+      <f:form.button name="validate" id="validate" class="btn btn-lg btn-info">
+         <span class="glyphicon glyphicon-chevron-right"></span>   
+         Validate
+      </f:form.button>
+
       <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
         <span class="glyphicon glyphicon-remove"></span>
         {f:translate(key: 'form_button.cancel')}
