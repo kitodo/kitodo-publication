@@ -115,7 +115,11 @@ class DocumentMapper {
           
           // get fixed attributes from xpath configuration
           $fixedGroupAttributes = array();
-          $groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping());  	
+          
+          //$groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping()); 
+          preg_match_all( '/[A-Za-z0-9:@\.]+(\[@.*?\])*/' , $metadataGroup->getAbsoluteMapping(), $groupMappingPathParts );
+          $groupMappingPathParts = $groupMappingPathParts[0];
+                           
   	  $groupMappingPath = end($groupMappingPathParts);  	                    
           $groupMappingName = preg_replace('/\[@.+?\]/','',$groupMappingPath);          
                     
@@ -164,23 +168,25 @@ class DocumentMapper {
                                                                                             
                 $objectMapping = "";                
 
-                $objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
-                
+                //$objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
+                preg_match_all( '/[A-Za-z0-9:@\.]+(\[@.*?\])*/' , $metadataObject->getRelativeMapping(), $objectMappingPath );
+                $objectMappingPath = $objectMappingPath[0];
+                                                                 
                 foreach ($objectMappingPath as $key => $value) {                                          
                     
                     // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
                     // are not recognized as the same node                 
                     if ((strpos($value,"@") === FALSE) && ($value != '.')) {                                                 
-                        $objectMappingPath[$key] .= "[not(@*)]";                        
+                        $objectMappingPath[$key] .= "[not(@*)]";                                                
                     }                                                            
                 }      
                 
                 $objectMapping = implode("/", $objectMappingPath); 
-                
-                if ($objectMapping == '[not(@*)]') {
+                                                                                
+                if ($objectMapping == '[not(@*)]' || empty($objectMappingPath)) {
                     $objectMapping = '.';
                 }
-               
+                
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
@@ -189,8 +195,8 @@ class DocumentMapper {
                   $refID = $data->getAttribute("ID");                                     
                   $objectData = $xpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
-                } else {                                                                                  
-                  $objectData = $xpath->query($objectMapping,$data);              
+                } else {                        
+                    $objectData = $xpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
                 $documentFormField->setValue("",$metadataObject->getDefaultValue());
