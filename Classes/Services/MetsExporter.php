@@ -248,8 +248,14 @@ class MetsExporter
             $attributes = $group['attributes'];
 
             $attributeXPath = '';
+            $extensionAttribute = '';
             foreach ($attributes as $attribute) {
-                $attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                if(!$attribute["modsExtension"]) {
+                    $attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                } else {
+                    $extensionAttribute .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                }
+                
             }
 
             // mods extension
@@ -265,7 +271,7 @@ class MetsExporter
                 if ($value['modsExtension']) {
                     // mods extension
                     $counter = sprintf("%'03d", $this->counter);
-                    $referenceAttribute = '[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
+                    $referenceAttribute = $extensionAttribute.'[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
 
                     $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
 
