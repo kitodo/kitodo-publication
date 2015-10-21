@@ -916,32 +916,43 @@ class MetsExporter
 
                 $i = 0;
                 // loop each object
-                foreach ($values as $value) {
+                if (!empty($values)) {
+                    
+                    foreach ($values as $value) {
 
-                    if ($value['modsExtension']) {
-                        // mods extension
-                        $counter = sprintf("%'03d", $this->counter);
-                        $referenceAttribute = '[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
+                        if ($value['modsExtension']) {
+                            // mods extension
+                            $counter = sprintf("%'03d", $this->counter);
+                            $referenceAttribute = '[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
 
-                        $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
+                            $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
 
-                        $xml = $this->customXPathSlub($path, false, $value['value']);
-                    } else {
-                        $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
-                        // print_r($path);print_r("\n");
-
-                        if ($i == 0) {
-                            $newGroupFlag = true;
+                            $xml = $this->customXPathSlub($path, false, $value['value']);
                         } else {
-                            $newGroupFlag = false;
+                            $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
+                            // print_r($path);print_r("\n");
+
+
+                            if ($i == 0) {
+                                $newGroupFlag = true;
+                            } else {
+                                $newGroupFlag = false;
+                            }
+
+                            $xml = $this->customXPathSlub($path, $newGroupFlag, $value['value']);
+                            $i++;
+
                         }
 
-                        $xml = $this->customXPathSlub($path, $newGroupFlag, $value['value']);
-                        $i++;
-
                     }
-
+                
+                } else {
+                    if (!empty($attributeXPath)) {
+                      $path = $mapping.$attributeXPath;
+                      $xml = $this->customXPathSlub($path, true, ".");
+                    }
                 }
+                
                 if ($group['modsExtensionMapping']) {
                     $this->counter++;
                 }
