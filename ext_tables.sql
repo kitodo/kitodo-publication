@@ -245,6 +245,9 @@ CREATE TABLE tx_dpf_domain_model_file (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
+        label varchar(255) DEFAULT '' NOT NULL,
+        download tinyint(4) unsigned DEFAULT '0' NOT NULL,
+        archive  tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	content_type varchar(255) DEFAULT '' NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	status varchar(255) DEFAULT '' NOT NULL,

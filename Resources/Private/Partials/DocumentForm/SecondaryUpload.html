@@ -6,5 +6,9 @@
         <span class="glyphicon glyphicon-remove"></span>
         <span class="sr-only">delete secondary file upload</span>
     </button>     
-  </f:if>      
+  </f:if> 
+  <div class="form-group">
+    <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Display name</label>
+    <f:form.textfield id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.label" value="" class="input-field form-control" additionalAttributes="{}" /> 
+  </div>  
 </fieldset>

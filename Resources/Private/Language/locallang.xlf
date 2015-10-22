@@ -171,6 +171,15 @@
 			<trans-unit id="tx_dpf_domain_model_file.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.label">
+				<source>Label</source>
+			</trans-unit>                        
+                        <trans-unit id="tx_dpf_domain_model_file.download">
+				<source>Download</source>                                
+			</trans-unit>                    
+                        <trans-unit id="tx_dpf_domain_model_file.archive">
+				<source>Archive</source>
+			</trans-unit>                                    
 			<trans-unit id="tx_dpf_domain_model_file.content_type">
 				<source>Content Type</source>
 			</trans-unit>

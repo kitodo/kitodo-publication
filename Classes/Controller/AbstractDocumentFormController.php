@@ -199,11 +199,16 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           }
   */
           
-          // Add new files
+          // Add or update files
           foreach ( $newDocumentForm->getNewFiles() as $newFile ) {                          
-            $newFile->setDocument($newDocument);
-            $this->fileRepository->add($newFile);                       
-            //$newDocument->addFile($newFile);           
+            
+            if ($newFile->getUID()) {
+                $this->fileRepository->update($newFile);       
+            } else {               
+                $newFile->setDocument($newDocument);
+                $this->fileRepository->add($newFile);                       
+                //$newDocument->addFile($newFile);           
+            }    
           }
           
           $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
@@ -304,9 +309,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $this->fileRepository->update($deleteFile);
           }
                     
-          // Add new files
-          foreach ( $documentForm->getNewFiles() as $newFile ) {     
-            $updateDocument->addFile($newFile);           
+          // Add or update files
+          foreach ( $documentForm->getNewFiles() as $newFile ) {  
+            
+            if ($newFile->getUID()) {
+                $this->fileRepository->update($newFile);       
+            } else {               
+                $updateDocument->addFile($newFile);                
+            }      
+                                                   
           }
           
           // add document to local es index
