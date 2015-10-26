@@ -77,7 +77,7 @@
           <f:link.action 
           action="releaseConfirm" 
           arguments="{document : document, releaseType : 'publish'}" 
-          class="btn btn-default {f:if(condition: '{document.remoteAction}', then: 'btn-success', else: 'btn-success disabled')}">
+          class="btn btn-xs {f:if(condition: '{document.remoteAction}', then: 'btn-success', else: 'btn-success disabled')}">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
           {f:translate(key: 'manager.publish')}
           </f:link.action>        
