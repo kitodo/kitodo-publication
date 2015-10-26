@@ -66,11 +66,12 @@ class Mets {
     
     $xpath->registerNamespace("xlink", "http://www.w3.org/1999/xlink");   
                                    
-    $fileNodes = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp/mets:file');
-          
+    $fileNodesOriginal = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp[@USE="ORIGINAL"]/mets:file');          
+    $fileNodesDownload = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp[@USE="DOWNLOAD"]/mets:file');
+    
     $files = array();
     
-    foreach ($fileNodes as $item) {     
+    foreach ($fileNodesOriginal as $item) {     
         
       $xlinkNS = "http://www.w3.org/1999/xlink";
                      
@@ -78,10 +79,27 @@ class Mets {
           'id' => $item->getAttribute("ID"),
           'mimetype' => $item->getAttribute("MIMETYPE"),          
           'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
-          'title' => $item->firstChild->getAttributeNS($xlinkNS,"title")      
+          'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),    
+          'archive' => ($item->firstChild->getAttributeNS($xlinkNS,"USE") == 'ARCHIVE'), 
+          'download' => false
       );      
     }        
-             
+            
+    
+    foreach ($fileNodesDownload as $item) {     
+        
+      $xlinkNS = "http://www.w3.org/1999/xlink";
+                     
+      $files[] = array(
+          'id' => $item->getAttribute("ID"),
+          'mimetype' => $item->getAttribute("MIMETYPE"),          
+          'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
+          'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),
+          'archive' => ($item->firstChild->getAttributeNS($xlinkNS,"USE") == 'ARCHIVE'), 
+          'download' => true
+      );      
+    }       
+    
     return $files;
     
   }

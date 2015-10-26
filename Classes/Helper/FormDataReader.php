@@ -125,7 +125,7 @@ class FormDataReader {
    * 
    * @param array $formData
    */
-  public function setFormData($formData) {                
+  public function setFormData($formData) {                                    
     $this->formData = $formData;             
     $this->documentType = $this->documentTypeRepository->findByUid($formData['type']);
   }
@@ -184,20 +184,10 @@ class FormDataReader {
       $newFiles[] = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file);                             
     }
     
-        
-    
-    // Secondary files
-    if (is_array($this->formData['secondaryFiles'])) {
-        foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
-            if ($tmpFile['error'] != 4) {                                          
-                $newFiles[] = $this->getUploadedFile($tmpFile);                                                                                 
-            }
-        }
-    }    
-           
-    if (is_array($this->formData['secFiles'])) {
+       
+    if (is_array($this->formData['primFile'])) {
                           
-          foreach ($this->formData['secFiles'] as $fileId => $fileData) {
+          foreach ($this->formData['primFile'] as $fileId => $fileData) {
        
               $file = $this->fileRepository->findByUID($fileId);                                           
               $fileStatus = $file->getStatus();
@@ -219,7 +209,43 @@ class FormDataReader {
           }
              
       }
+   
+    
+    // Secondary files
+    if (is_array($this->formData['secondaryFiles'])) {
+        foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
+            if ($tmpFile['error'] != 4) {                                          
+                $f = $this->getUploadedFile($tmpFile);               
+                $newFiles[] = $f;                                      
+            }
+        }
+    }    
           
+    if (is_array($this->formData['secFiles'])) {
+                          
+          foreach ($this->formData['secFiles'] as $fileId => $fileData) {
+     
+              $file = $this->fileRepository->findByUID($fileId);                                           
+              $fileStatus = $file->getStatus();
+                                                    
+              if ($file->getLabel() != $fileData['label'] || 
+                  $file->getDownload() != !empty($fileData['download']) ||
+                  $file->getArchive() != !empty($fileData['archive']) ) {              
+                                                                                                 
+                $file->setLabel($fileData['label']);
+                $file->setDownload(!empty($fileData['download']));  
+                $file->setArchive(!empty($fileData['archive']));
+                
+                if (empty($fileStatus)) {
+                    $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);  
+                }
+                               
+                $newFiles[] = $file;
+              }  
+          }
+             
+      }
+                 
     return $newFiles;
     
   }
@@ -234,9 +260,11 @@ class FormDataReader {
       $fileName = uniqid(time(),true);
                   
       if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName) ) {                    
-        $file->setContentType($tmpFile['type']);  
-        $file->setTitle($tmpFile['name']);
-        $file->setLabel($tmpFile['label']);
+        $file->setContentType($tmpFile['type']);          
+        $file->setTitle($tmpFile['name']);        
+        $file->setLabel($tmpFile['label']);        
+        $file->setDownload(!empty($tmpFile['download']));  
+        $file->setArchive(!empty($tmpFile['archive']));
         $file->setLink($this->basePath.$fileName);
         $file->setPrimaryFile($primary);
                     

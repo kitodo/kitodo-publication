@@ -83,6 +83,7 @@ class DocumentTransferManager {
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
     $fileData = $document->getFileData();
+        
     $exporter->setFileData($fileData);    
                                    
     $exporter->setMods($document->getXmlData());    
@@ -92,7 +93,7 @@ class DocumentTransferManager {
     $exporter->buildMets();  
                             
     $metsXml = $exporter->getMetsData();
-                       
+                        
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
             
     if ($remoteDocumentId) {            
@@ -217,7 +218,10 @@ class DocumentTransferManager {
           $file->setDatastreamIdentifier($attachment['id']);
           $file->setLink($attachment['href']);
           $file->setTitle($attachment['title']);
-
+          $file->setLabel($attachment['title']);          
+          $file->setDownload($attachment['download']);
+          $file->setArchive($attachment['archive']);
+                   
           if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
             $file->setPrimaryFile(TRUE);           
           }

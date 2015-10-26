@@ -670,12 +670,16 @@ class MetsExporter
         foreach ($array as $key => $value) {
             $file = $domDocument->createElement('mets:file');
             $file->setAttribute('ID', $value['id']);
-            if ($value['use']) {
+            if ($value['use'] == 'DELETE') {
                 $file->setAttribute('USE', $value['use']);
                 $domElement->appendChild($file);
             } else {
                 $file->setAttribute('MIMETYPE', $value['type']);
-                                                         
+                
+                if ($value['use']) {
+                    $file->setAttribute('USE', $value['use']);                            
+                }    
+                
                 $domElement->appendChild($file);
                 $domElementFLocat = $domElement->childNodes->item($i);
                 // print_r($domElement->childNodes->item(0));
@@ -719,24 +723,30 @@ class MetsExporter
 
             $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
             $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
-            $domElement->appendChild($fileGrpOriginal);
+            //$domElement->appendChild($fileGrpOriginal);
 
-            $domElement = $domElement->firstChild;
-
+            //$domElement = $domElement->firstChild;
+                      
             // loop xml file entries
-            $this->loopFiles($this->files['original'], $domElement, $domDocument);
-
+            if (!empty($this->files['original'])) {
+                $this->loopFiles($this->files['original'], $fileGrpOriginal, $domDocument);
+                $domElement->appendChild($fileGrpOriginal);
+            }    
+                    
             // switch back to filesec element
             $domElement = $fileSecElement;
 
             $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
             $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
-            $domElement->appendChild($fileGrpDownload);
+//            $domElement->appendChild($fileGrpDownload);
 
-            $domElement = $domElement->firstChild;
-
-            // loop xml 
-            $this->loopFiles($this->files['download'], $domElement, $domDocument);
+//            $domElement = $domElement->firstChild;          
+            
+            // loop xml
+            if (!empty($this->files['download'])) {
+                $this->loopFiles($this->files['download'], $fileGrpDownload, $domDocument);
+                $domElement->appendChild($fileGrpDownload);
+            }    
 
             return $domDocument;
         }
