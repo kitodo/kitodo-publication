@@ -14,6 +14,8 @@ class DocumentFormField extends AbstractFormElement {
   protected $fillOutService;
   
   protected $defaultInputOption;
+  
+  protected $hasDefaultValue = false;
     
   
   /**
@@ -30,7 +32,9 @@ class DocumentFormField extends AbstractFormElement {
   
   
   public function setValue($value,$defaultValue='') {
-                
+    
+    $this->hasDefaultValue = !empty($defaultValue); 
+      
     if(empty($value)) {
         switch($this->inputField) {        
             case \EWW\Dpf\Domain\Model\MetadataObject::select:
@@ -136,7 +140,12 @@ class DocumentFormField extends AbstractFormElement {
 	public function setConsent($consent) {
 		$this->consent = $consent;
 	}        
-             
+          
+        
+        public function getHasDefaultValue() {
+            return $this->hasDefaultValue;
+        }
+        
 }
 
 ?>

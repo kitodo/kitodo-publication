@@ -121,7 +121,7 @@ var validateForm = function() {
           
             var filledInputs = 0;
             jQuery(this).find('.input-field').each(function() {              
-              if (jQuery(this).val()) {
+              if (jQuery(this).val() && jQuery(this).attr('data-default') != '1') {
                 filledInputs++;
               }
               jQuery(this).removeClass('mandatory-error');  
