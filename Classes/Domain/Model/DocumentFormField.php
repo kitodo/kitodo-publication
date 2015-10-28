@@ -35,6 +35,7 @@ class DocumentFormField extends AbstractFormElement {
     
     $this->hasDefaultValue = !empty($defaultValue); 
       
+ 
     if(empty($value)) {
         switch($this->inputField) {        
             case \EWW\Dpf\Domain\Model\MetadataObject::select:

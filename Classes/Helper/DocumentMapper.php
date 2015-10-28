@@ -211,7 +211,7 @@ class DocumentMapper {
                     //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
                     $objectValue = str_replace('"',"'",$objectValue);
                                                          
-                    $documentFormFieldItem->setValue($objectValue,$defaultValue);                                                                               
+                    $documentFormFieldItem->setValue($objectValue,$metadataObject->getDefaultValue());                                                                               
                                     
                     $documentFormGroupItem->addItem($documentFormFieldItem);
                   }
@@ -320,7 +320,7 @@ class DocumentMapper {
 
           $uid = $groupItem->getUid();
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);
-
+                            
           $item['mapping'] = $metadataGroup->getRelativeMapping();        
                        
           $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();                                                           
@@ -329,7 +329,10 @@ class DocumentMapper {
          
           $item['groupUid'] = $uid;
 
-          foreach ($groupItem->getItems() as $field) {
+          $fieldValueCount = 0;
+          $defaultValueCount = 0;
+          $fieldCount = 0;
+          foreach ($groupItem->getItems() as $field) {            
             foreach ($field as $fieldItem) {
               $fieldUid = $fieldItem->getUid();
               $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
@@ -339,6 +342,16 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
+              
+              $fieldCount++;
+              if (!empty($value)) {                                                   
+                  $fieldValueCount++;                                                     
+                  $defaultValue = $fieldItem->getHasDefaultValue();                  
+                  if ($fieldItem->getHasDefaultValue()) {
+                    $defaultValueCount++;
+                  }
+              }
+                                                         
               // $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');    
               $value = str_replace('"',"'",$value);
               if ($value) {                 
@@ -358,12 +371,14 @@ class DocumentMapper {
 
           if (!key_exists('attributes', $item)) $item['attributes'] = array();
           if (!key_exists('values', $item)) $item['values'] = array();  
-
-          if ($metadataGroup->isSlubInfo()) {                       
-            $form['slubInfo'][] = $item; 
-          } else {
-            $form['mods'][] = $item;    
-          } 
+                   
+          if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount ) {
+            if ($metadataGroup->isSlubInfo()) {                       
+                $form['slubInfo'][] = $item; 
+            } else {
+                $form['mods'][] = $item;    
+            }
+          }  
 
         }
 

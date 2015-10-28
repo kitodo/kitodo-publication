@@ -23,6 +23,7 @@ class FormDataReader {
   protected $metadataPageRepository = NULL;        
 
   
+  
   /**
    * metadataGroupRepository
    *
@@ -344,7 +345,7 @@ class FormDataReader {
             $documentFormField->setInputOptions($metadataObject->getInputOptionList());             
             $documentFormField->setInputField($metadataObject->getInputField());   
             $documentFormField->setFillOutService($metadataObject->getFillOutService());   
-            $documentFormField->setValue($object);
+            $documentFormField->setValue($object,$metadataObject->getDefaultValue());
                                                                        
             $documentFormGroup->addItem($documentFormField);                                 
           }
