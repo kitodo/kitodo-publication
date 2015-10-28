@@ -152,6 +152,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
+        validation varchar(255) DEFAULT '' NOT NULL,
 	mapping varchar(255) DEFAULT '' NOT NULL,
         mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,        
 	input_field int(11) DEFAULT '0' NOT NULL,      

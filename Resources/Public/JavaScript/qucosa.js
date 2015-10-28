@@ -77,7 +77,7 @@ var validateForm = function() {
         
         // check mandatory groups
         jQuery('fieldset[data-mandatory=1]').each(function(){
-                      
+                    
            var fieldset = jQuery(this);          
            
            if (hasMandatoryInputs(fieldset)) {             
@@ -138,6 +138,41 @@ var validateForm = function() {
               }
             }                                                           
         });
+        
+        jQuery('fieldset').each(function(){
+                    
+            var fieldset = jQuery(this);
+            
+            fieldset.find('.input-field').each(function(){    
+               
+               jQuery(this).removeClass('invalid-error');
+                
+               var validation = jQuery(this).attr('data-validation');
+               
+               if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {                   
+                    var regexp = new RegExp(validation);
+                    var res = jQuery(this).val().match(regexp);  
+                    console.log(res);
+                    if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
+                        jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_field_invalid+': '+jQuery(this).attr('data-label')+'</div>').insertAfter(fieldset.find('legend').last());                                                           
+                        jQuery(this).addClass('invalid-error');
+                        showFormError();    
+                        markPage(fieldset,true); 
+                        error = true;
+                    } 
+                }
+                 
+            });     
+            
+            
+    /*        if (checkPrimaryFile(fieldset)) {
+              jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
+              showFormError();   
+              error = true;
+              markPage(fieldset,true);        
+            }
+      */      
+         });
         
         return !error;
     }

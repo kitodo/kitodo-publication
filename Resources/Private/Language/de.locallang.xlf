@@ -90,6 +90,9 @@
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 				<source>Mandatory</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.validation">
+				<source>Validation</source>
+			</trans-unit>                                                
                         <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
 				<source>Backend only</source>
 			</trans-unit>
@@ -240,6 +243,9 @@
                         <trans-unit id="form_error_msg.all">
 				<source>The form contains errors.</source>
 			</trans-unit>    
+                        <trans-unit id="form_error_msg.field_invalid">
+				<source>Invalid input</source>
+			</trans-unit>                           
                         <trans-unit id="form_success_msg.all">
 				<source>Form successfully validated.</source>
 			</trans-unit>    

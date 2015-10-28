@@ -212,6 +212,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           }
           
           $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
+          
           $notifier->sendNewDocumentNotification($newDocument);
                                                               
           $requestArguments = $this->request->getArguments();                                                                         

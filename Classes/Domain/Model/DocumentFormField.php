@@ -17,6 +17,7 @@ class DocumentFormField extends AbstractFormElement {
   
   protected $hasDefaultValue = false;
     
+  protected $validation;
   
   /**
    * consent
@@ -146,7 +147,14 @@ class DocumentFormField extends AbstractFormElement {
         public function getHasDefaultValue() {
             return $this->hasDefaultValue;
         }
+                       
+        public function getValidation() {
+            return $this->validation;
+        }
         
+        public function setValidation($validation) {
+            $this->validation = $validation;
+        }
 }
 
 ?>

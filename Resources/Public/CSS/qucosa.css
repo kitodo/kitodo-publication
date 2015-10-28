@@ -241,14 +241,17 @@
 
 
 /* -- error handling -------------------------------------------------------------------- */
+select.invalid-error,textarea.invalid-error,input.invalid-error, 
 select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
 	border:1px solid #c00!important;
 }
 
+li.a.invalid-error,
 li a.mandatory-error {
 	color:#c00!important;
 }
 
+li.a.invalid-error:afer,
 li a.mandatory-error:after {
 	content:"\e104";
 	font-family:'Glyphicons Halflings';

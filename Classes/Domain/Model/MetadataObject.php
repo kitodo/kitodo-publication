@@ -137,6 +137,14 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $defaultValue;
         
         
+        /**
+	 * validation
+	 *
+	 * @var string
+	 */
+	protected $validation = '';
+        
+        
 	/**
 	 * Returns the name
 	 *
@@ -409,6 +417,26 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setDefaultValue($defaultValue) {
 		$this->defaultValue = $defaultValue;
+	}
+        
+        
+        /**
+	 * Returns the validation
+	 *
+	 * @return string $validation
+	 */
+	public function getValidation() {
+		return $this->validation;
+	}
+
+	/**
+	 * Sets the validation
+	 *
+	 * @param string $validation
+	 * @return void
+	 */
+	public function setValidation($validation) {
+		$this->validation = $validation;
 	}
 
 }

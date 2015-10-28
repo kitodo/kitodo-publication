@@ -13,7 +13,8 @@ class Notifier {
     
     
    public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document) {
-                      
+          
+       try {
           $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
               
           $args['title'] = $document->getTitle();
@@ -59,11 +60,15 @@ class Notifier {
                 }*/
             }  
           }
+
+        } catch(\Exception $e) {}  
+          
    }
    
    
     public function sendIngestNotification(\EWW\Dpf\Domain\Model\Document $document) {
-       
+    
+      try {
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
               
         $args['title'] = $document->getTitle();
@@ -89,7 +94,9 @@ class Notifier {
                 } else {                    
                 }*/
             }  
-        }                
+        }
+      } catch(\Exception $e) {}  
+  
     }    
 }
 
