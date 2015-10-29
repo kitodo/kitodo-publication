@@ -150,7 +150,9 @@ var validateForm = function() {
                var validation = jQuery(this).attr('data-validation');
                
                if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {                   
-                    var regexp = new RegExp(validation);
+                    try {
+                        var regexp = new RegExp(validation);
+                   
                     var res = jQuery(this).val().match(regexp);  
                     console.log(res);
                     if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
@@ -159,7 +161,14 @@ var validateForm = function() {
                         showFormError();    
                         markPage(fieldset,true); 
                         error = true;
-                    } 
+                    }
+                    } catch(err) {
+                       jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_field_invalid+': '+jQuery(this).attr('data-label')+'</div>').insertAfter(fieldset.find('legend').last());                                                           
+                       jQuery(this).addClass('invalid-error');
+                       showFormError();    
+                       markPage(fieldset,true); 
+                       error = true;
+                    }
                 }
                  
             });     
