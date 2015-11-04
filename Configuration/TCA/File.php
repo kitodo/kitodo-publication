@@ -177,12 +177,26 @@ $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 				'type' => 'check',
 				'default' => 0
 			)
-                ),     
+                ),  
+            
+                'document' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf2/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_dpf_domain_model_document',
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+            
+                /*
                 'document' => array(
 			'config' => array(
 				'type' => 'passthrough',
 			),
-		),
+		),                  
+                */
 		
 	),
 );

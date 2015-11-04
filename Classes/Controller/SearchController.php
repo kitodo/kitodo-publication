@@ -290,7 +290,30 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             true
         );
 
-        $this->redirect('search');
+                
+        $this->forward('updateIndex',NULL,NULL,array('documentObjectIdentifier' => $documentObjectIdentifier));   
+        
+        //$this->redirect('search');
+    }
+    
+    /**
+     * 
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function updateIndexAction($documentObjectIdentifier)
+    {
+        $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
+        
+        if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
+            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+            $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+            $json = $elasticsearchMapper->getElasticsearchJson($document);
+            // send document to index
+            $elasticsearchRepository->add($document, $json);
+        }
+        
+        $this->redirect('search');        
     }
     
     

@@ -200,17 +200,9 @@ class DocumentTransferManager {
         $document->setXmlData($mods->getModsXml());
         $document->setSlubInfoData($slub->getSlubXml());
 
-        $this->documentRepository->add($document);  
-
-        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $this->documentRepository->add($document);          
         $this->persistenceManager->persistAll();
-
-        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
-        $json = $elasticsearchMapper->getElasticsearchJson($document);
-
-        // send document to index
-        $elasticsearchRepository->add($document, $json);
-                    
+                                           
         foreach ($mets->getFiles() as $attachment) {       
                             
           $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
@@ -230,7 +222,15 @@ class DocumentTransferManager {
 
           $this->fileRepository->add($file);                 
         }
-          
+        
+//        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+//        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+//        $doc = $this->documentRepository->findByUID($document->getUID());
+//        $json = $elasticsearchMapper->getElasticsearchJson($doc);
+//        // send document to index
+//        $elasticsearchRepository->add($doc, $json);
+
+        
         return TRUE;                     
         
       } else {
