@@ -80,7 +80,7 @@ class Mets {
           'mimetype' => $item->getAttribute("MIMETYPE"),          
           'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
           'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),    
-          'archive' => ($item->firstChild->getAttributeNS($xlinkNS,"USE") == 'ARCHIVE'), 
+          'archive' => ($item->getAttribute("USE") == 'ARCHIVE'), 
           'download' => false
       );      
     }        
@@ -95,7 +95,7 @@ class Mets {
           'mimetype' => $item->getAttribute("MIMETYPE"),          
           'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
           'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),
-          'archive' => ($item->firstChild->getAttributeNS($xlinkNS,"USE") == 'ARCHIVE'), 
+          'archive' => ($item->getAttribute("USE") == 'ARCHIVE'), 
           'download' => true
       );      
     }       
