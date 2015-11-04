@@ -20,7 +20,7 @@ class FileId {
           }                       
         }        
     } else {
-        throw new \Exception('Unexpected type!');
+        //throw new \Exception('Unexpected type!');
     }
     
     if (!empty($idList)) $this->id = max($idList);
