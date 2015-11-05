@@ -186,12 +186,12 @@ class FedoraRepository implements Repository {
         ->send();
                                                                                            
       TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
-                 
+                    
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                    
         return $response->__toString();                               
       }                            
-    } catch(Exception $exception) {
+    } catch(\Exception $exception) {
       // curl error handling,
       // but extbase already catches all exceptions       
       return NULL;

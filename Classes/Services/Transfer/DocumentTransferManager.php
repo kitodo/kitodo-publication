@@ -271,17 +271,21 @@ class DocumentTransferManager {
   }
   
   
-  public function getNextDocumentId() {      
-      $nextDocumentIdXML = $this->remoteRepository->getNextDocumentId(); 
+  public function getNextDocumentId() {            
+        $nextDocumentIdXML = $this->remoteRepository->getNextDocumentId(); 
                                 
-      $dom = new \DOMDocument();
-      $dom->loadXML($nextDocumentIdXML);
-      $xpath = new \DOMXpath($dom);
+        if (empty($nextDocumentIdXML)) {
+            throw new \Exception("Couldn't get a valid document id from repository.");            
+        }
+        
+        $dom = new \DOMDocument();
+        $dom->loadXML($nextDocumentIdXML);
+        $xpath = new \DOMXpath($dom);
                   
-      $xpath->registerNamespace("management","http://www.fedora.info/definitions/1/0/management/"); 
-      $nextDocumentId = $xpath->query("/management:pidList/management:pid");     
+        $xpath->registerNamespace("management","http://www.fedora.info/definitions/1/0/management/"); 
+        $nextDocumentId = $xpath->query("/management:pidList/management:pid");     
                    
-      return $nextDocumentId->item(0)->nodeValue;                    
+        return $nextDocumentId->item(0)->nodeValue;                            
   }    
               
 }
