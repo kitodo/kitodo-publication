@@ -675,24 +675,31 @@ class MetsExporter
                 $domElement->appendChild($file);
             } else {
                 $file->setAttribute('MIMETYPE', $value['type']);
-                
+                                                
                 if ($value['use']) {
                     $file->setAttribute('USE', $value['use']);                            
                 }    
+                
+                if ($value['title']) {
+                    $file->setAttribute('LABEL', $value['title']);   
+                }
                 
                 $domElement->appendChild($file);
                 $domElementFLocat = $domElement->childNodes->item($i);
                 // print_r($domElement->childNodes->item(0));
 
-                $fLocat = $domDocument->createElement('mets:FLocat');
-                $fLocat->setAttribute('LOCTYPE', 'URL');
-                $fLocat->setAttribute('xlink:href', $value['path']);
-                $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
-                if ($value['title']) {
-                    $fLocat->setAttribute('xlink:title', $value['title']);
-                }
+                if ($value['hasFLocat']) {
+                    $fLocat = $domDocument->createElement('mets:FLocat');
+                    $fLocat->setAttribute('LOCTYPE', 'URL');
+                    $fLocat->setAttribute('xlink:href', $value['path']);
+                    $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
+                    //if ($value['title']) {
+                    //    $fLocat->setAttribute('xlink:title', $value['title']);
+                    //}
+                    $domElementFLocat->appendChild($fLocat);
+                }    
 
-                $domElementFLocat->appendChild($fLocat);
+                
             }
                                          
             $i++;

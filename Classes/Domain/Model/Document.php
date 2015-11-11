@@ -507,8 +507,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
  
                 $fileStatus = $file->getStatus();
 
-                if (!empty($fileStatus)) {
-                    
+                //if (!empty($fileStatus)) {
+                                
                     $tmpFile = array(
                         'path' => $file->getLink(),
                         'type' => $file->getContentType(),
@@ -516,7 +516,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                         'download' => $file->getDownload(),
                         'archive' => $file->getArchive(),                              
                         'use' => '',                            
-                        'id' => NULL                                                    
+                        'id' => NULL,
+                        'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED)
                      );
                     
                     $grpUSE = ($file->getDownload())? 'download' : 'original';
@@ -534,8 +535,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                       $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
                     
-                }
-
+                //}
+                
             }
         }
 
@@ -564,7 +565,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                         'download' => $file->getDownload(),
                         'archive' => $file->getArchive(),                              
                         'use' => '',                            
-                        'id' => NULL                                                    
+                        'id' => NULL,
+                        'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED)
                      );
                                
                     $grpUSE = ($file->getDownload())? 'download' : 'original';
