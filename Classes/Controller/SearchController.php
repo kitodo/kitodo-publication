@@ -150,12 +150,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         if ( !key_exists('search', $args) || !key_exists('query',$args['search'])) {            
             return NULL;
         }
-        
+
+        $searchText = $this->escapeQuery($args['search']['query']);
+
         // add owner id
         $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
-        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query'];
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query'];
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $searchText;
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchText;
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
@@ -169,6 +171,20 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         return $query;
 
+    }
+
+    public function escapeQuery($string)
+    {
+        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~*?:\\');
+        $string = preg_replace_callback(
+            '/([' . $luceneReservedCharacters . '])/',
+            function($matches) {
+                return '\\' . $matches[0];
+            },
+            $string
+        );
+
+        return $string;
     }
 
     /**
