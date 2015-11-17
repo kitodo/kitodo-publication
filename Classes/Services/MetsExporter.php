@@ -681,7 +681,7 @@ class MetsExporter
                 }    
                 
                 if ($value['title']) {
-                    $file->setAttribute('LABEL', $value['title']);   
+                    $file->setAttribute('mext:LABEL', $value['title']);   
                 }
                 
                 $domElement->appendChild($file);
@@ -728,7 +728,8 @@ class MetsExporter
 
             $fileSecElement = $domElement;
 
-            $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
+            $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');           
+            $fileGrpOriginal->setAttribute('xmlns:mext',"http://slub-dresden.de/mets");
             $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
             //$domElement->appendChild($fileGrpOriginal);
 
@@ -744,6 +745,7 @@ class MetsExporter
             $domElement = $fileSecElement;
 
             $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
+            $fileGrpDownload->setAttribute('xmlns:mext',"http://slub-dresden.de/mets");
             $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
 //            $domElement->appendChild($fileGrpDownload);
 
