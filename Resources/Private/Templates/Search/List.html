@@ -91,12 +91,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 </f:link.action>
               </f:then>
               <f:else>                                                                
-                  <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info  {f:if(condition: '{entry._type} == \'local\'', then: 'disabled')}">                                   
-                    Get 
+                  <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info  {f:if(condition: '{entry._type} == \'local\'', then: 'disabled')}">
+                    Get
                 </f:link.action>                   
               </f:else>                    
             </f:if>                                  
           </td> 
+          <td><f:link.action action="showPreview" arguments="{documentObjectIdentifier : entry._source._id}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action></td>
           </f:then>
           <f:else>
             <td>{entry._id}</td>

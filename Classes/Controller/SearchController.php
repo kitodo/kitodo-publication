@@ -398,5 +398,41 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('alreadyImported', $objectIdentifiers);
         
     }
+
+    /**
+     * action show preview
+     * 
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function showPreviewAction($documentObjectIdentifier) {
+                                                               
+        $baseURL = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+        $port = '';
+        if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
+            $port = ':'.$_SERVER['SERVER_PORT'];
+        }
+        $baseURL .= trim($_SERVER['SERVER_NAME'], "/").$port."/";
+          
+        // realurl inactive
+        //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
+
+        // realurl active
+        $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
+       
+        $previewPage = $this->settings['settings']['previewPage'];
+        
+        if (is_numeric($previewPage)) {
+            $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);
+        } else {
+            $previewPage = trim($previewPage, "/?&# ");
+            
+            $url = parse_url($previewPage);
+                    
+            $previewUri = $previewPage.(empty($url['query'])?"?":"&")."tx_dlf_document_url=".urlencode($metsURL);
+        }
+        
+        $this->redirectToUri($previewUri);
+    }
            
 }

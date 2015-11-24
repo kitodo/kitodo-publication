@@ -43,7 +43,7 @@ if (TYPO3_MODE === 'BE') {
                   'Document' => 'list, show, new, create, edit, update, delete, release,duplicate,showPreview,deleteConfirm,releaseConfirm, listNew, listEdit',
                   'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-                  'Search' => 'list, search, import, doubletCheck, nextResults',
+                  'Search' => 'list, search, import, doubletCheck, nextResults, showPreview',
           ),
           array(
                   'access' => 'user,group',
