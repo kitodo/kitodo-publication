@@ -45,6 +45,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <label for="extAuthor">Autor</label>
           <f:form.textfield property="extAuthor" class="form-control" placeholder="Autor" id="extAuthor" />
         </div>
+        <div class="form-group">
+          <label for="extDeleted">Gelöscht</label>
+          <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true"/>
+        </div>
         <f:form.hidden property="extSearch" value="true" />        
         <f:form.button class="btn btn-default" type="submit">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

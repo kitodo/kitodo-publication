@@ -124,6 +124,24 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $countFields++;
         }
 
+        if ($args['extSearch']['extDeleted']) {
+            // STATE deleted
+            $delete['bool']['must'][] = array('match' => array('STATE' => 'D'));
+            // STATE inactive
+            $inactive['bool']['must'][] = array('match' => array('STATE' => 'I'));
+
+            $query['body']['query']['bool']['should'][] = $delete;
+            $query['body']['query']['bool']['should'][] = $inactive;
+
+            $query['body']['query']['bool']['minimum_should_match'] = 1;
+
+        } else {
+            // STATE active
+            $deleted = true;
+            $fieldQuery['STATE'] = 'A';
+            $countFields++;
+        }
+
         if ($countFields >= 1) {
             // multi field search
             $i = 1;
@@ -212,12 +230,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @param  array $query elasticsearch search query
      * @return array        results
      */
-    public function getResultList($query)
+    public function getResultList($query, $type)
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
      //   die();
-        $results = $elasticSearch->search($query);
+        $results = $elasticSearch->search($query, $type);
 
         return $results;
     }
@@ -245,11 +263,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $this->extendedSearch();
         } else {
             $query = $this->searchFulltext();
-            // $query = $this->search();
         }
         
-      
-        // $query = $this->searchFulltext();
         // save search query
         if ($query) {                                   
             $query['body']['from'] = '0';
@@ -262,10 +277,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $sessionVars['query'];             
         }
 
-        // set pagination
+        // set type local vs object
+        $type = 'object';
         
-        
-        $results = $this->getResultList($query);
+        $results = $this->getResultList($query, $type);
 
         // redirect to list view
         $this->forward("list", null, null, array('results' => $results));

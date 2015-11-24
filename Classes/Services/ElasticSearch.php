@@ -64,9 +64,12 @@ class ElasticSearch
         $params['hosts'] = array (
             $this->server.':'.$this->port,
         );
+        
+        // $client = ClientBuilder::create()->build();
+        $this->es = new Client($params);
 
         // establish connection
-        $this->es = new Client($params);
+        // $this->es = new Client($params);
                 
     }
 
@@ -75,13 +78,14 @@ class ElasticSearch
      * @param  array $query search query
      * @return array        result list
      */
-    public function search($query)
+    public function search($query, $type)
     {
         // define type and index
         if (empty($query['index'])) {
             $query['index'] = $this->index;
         }
         if (empty($query['type'])) {
+            $query['type'] = $type;
             // $query['type'] = $this->type;
         }
 
