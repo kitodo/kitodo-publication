@@ -97,7 +97,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
               </f:else>                    
             </f:if>                                  
           </td> 
-          <td><f:link.action action="showPreview" arguments="{documentObjectIdentifier : entry._source._id}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action></td>
+          <td><f:link.action action="showPreview" arguments="{documentObjectIdentifier : entry._source.PID}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action></td>
           </f:then>
           <f:else>
             <td>{entry._id}</td>

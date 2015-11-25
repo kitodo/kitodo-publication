@@ -406,7 +406,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return void
      */
     public function showPreviewAction($documentObjectIdentifier) {
-                                                               
+                                                                                      
         $baseURL = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
         $port = '';
         if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
@@ -420,10 +420,18 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // realurl active
         // $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $metsURL = $confArr['fedoraHost'].'fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
+        $metsURL = $confArr['fedoraHost'].'/fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
        
-        $previewPage = $this->settings['settings']['previewPage'];
         
+        $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+ 
+                $settings = $configManager->getConfiguration(
+                  $this->request->getControllerExtensionName(),
+                  $this->request->getPluginName()
+                );               
+        
+        $previewPage = $settings['settings']['previewPage'];
+                      
         if (is_numeric($previewPage)) {
             $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);
         } else {
@@ -436,5 +444,5 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         
         $this->redirectToUri($previewUri);
     }
-           
+                      
 }
