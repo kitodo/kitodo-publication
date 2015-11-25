@@ -418,7 +418,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
 
         // realurl active
-        $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
+        // $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
+        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+        $metsURL = $confArr['fedoraHost'].'fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
        
         $previewPage = $this->settings['settings']['previewPage'];
         
