@@ -55,10 +55,10 @@ CREATE TABLE tx_dpf_domain_model_document (
 	document_type int(11) unsigned DEFAULT '0',
         object_identifier varchar(255) DEFAULT '' NOT NULL,  
         reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,  
-        object_state varchar(255) DEFAULT '' NOT NULL,        
-        remote_action varchar(255) DEFAULT '' NOT NULL, 
+        state varchar(255) DEFAULT '' NOT NULL,              
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
-        transfer_date int(11) DEFAULT '0' NOT NULL,        
+        transfer_date int(11) DEFAULT '0' NOT NULL,       
+        changed tinyint(1) unsigned DEFAULT '0' NOT NULL, 
        
         file int(11) unsigned DEFAULT '0' NOT NULL,	                
 

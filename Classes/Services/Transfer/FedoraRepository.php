@@ -204,16 +204,19 @@ class FedoraRepository implements Repository {
    * Removes an existing document from the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
+   * @param $state
    * @return boolean
    */
-  public function delete($document) {
+  public function delete($document, $state) {
     
      $remoteId = $document->getObjectIdentifier();
     
+     $state = ($state)? "?".$state : "";
+     
     try {    
-      $response = Request::delete($this->swordHost . "/sword/".$this->getSWORDCollection()."/". $remoteId)               
+      $response = Request::delete($this->swordHost . "/sword/".$this->getSWORDCollection()."/". $remoteId.$state)               
         ->authenticateWith($this->swordUser, $this->swordPassword) 
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())       
         ->send();
                                                                              
       TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);

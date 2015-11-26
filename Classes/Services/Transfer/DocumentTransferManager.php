@@ -143,13 +143,13 @@ class DocumentTransferManager {
     $metsXml = $exporter->getMetsData();
            
     if ($this->remoteRepository->update($document, $metsXml)) {                
-      $document->setTransferStatus(Document::TRANSFER_SENT); 
+      $document->setTransferStatus(Document::TRANSFER_SENT);
       $this->documentRepository->update($document);          
       $this->documentRepository->remove($document);
       
       // remove document from local index
       $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-      $elasticsearchRepository->delete($document);
+      $elasticsearchRepository->delete($document, "");
 
       return TRUE;
     } else {
@@ -192,11 +192,12 @@ class DocumentTransferManager {
                      
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
         $document->setObjectIdentifier($remoteId);      
-        $document->setObjectState(Document::OBJECT_STATE_ACTIVE); 
+        $document->setState(Document::OBJECT_STATE_ACTIVE); 
         $document->setTitle($title);
         $document->setAuthors($authors);
         $document->setDocumentType($documentType);           
-          
+       
+        
         $document->setXmlData($mods->getModsXml());
         $document->setSlubInfoData($slub->getSlubXml());
 
@@ -245,23 +246,36 @@ class DocumentTransferManager {
    * Removes an existing document from the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
+   * @param string $state
    * @return boolean
    */
-  public function delete($document) {
+  public function delete($document, $state) {
    
     $document->setTransferStatus(Document::TRANSFER_QUEUED); 
     $this->documentRepository->update($document);  
     
-    if ($this->remoteRepository->delete($document)) {                
+    if ($this->remoteRepository->delete($document,$state)) {                
       $document->setTransferStatus(Document::TRANSFER_SENT); 
-      $document->setObjectState(Document::OBJECT_STATE_DELETED);      
-      $this->documentRepository->update($document);          
-      $this->documentRepository->remove($document);
-
-      // remove document from local index
-      $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-      $elasticsearchRepository->delete($document);
-
+      
+      switch ($state) {          
+          case "revert":
+              $document->setState(Document::OBJECT_STATE_ACTIVE);  
+              $this->documentRepository->update($document);                        
+              break;
+          case "inactivate": 
+              $document->setState(Document::OBJECT_STATE_INACTIVE);  
+              $this->documentRepository->update($document);
+              break;          
+          default:
+              $document->setState(Document::OBJECT_STATE_DELETED);  
+              $this->documentRepository->update($document);
+              $this->documentRepository->remove($document);
+              // remove document from local index
+              $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+              $elasticsearchRepository->delete($document,$state);
+              break;          
+      }
+                                 
       return TRUE;
     } else {
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   

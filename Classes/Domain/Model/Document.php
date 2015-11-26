@@ -105,19 +105,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         
         /**
-         * objectState
+         * state
          * 
          * @var string         
          */
-        protected $objectState;  
+        protected $state = self::OBJECT_STATE_NEW;  
         
-        /**
-         * remoteAction
-         * 
-         * @var string         
-         */
-        protected $remoteAction;     
-                        
+        
         /**
          * transferStatus
          * 
@@ -132,6 +126,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         protected $transferDate;    
                                      
+        /**
+         * changed
+         * 
+         * @var boolean
+         */
+        protected $changed = FALSE;
         
         /**
 	 * file
@@ -145,14 +145,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const TRANSFER_ERROR = "ERROR";        
         const TRANSFER_QUEUED = "QUEUED";                     
         const TRANSFER_SENT = "SENT";
-                       
-        const REMOTE_ACTION_INGEST = "INGEST";        
-        const REMOTE_ACTION_UPDATE = "UPDATE";        
-        const REMOTE_ACTION_DELETE = "DELETE";
-        
+                                       
+        const OBJECT_STATE_NEW = "NEW";                
         const OBJECT_STATE_ACTIVE = "ACTIVE";        
         const OBJECT_STATE_INACTIVE = "INACTIVE";
         const OBJECT_STATE_DELETED = "DELETED";
+        const OBJECT_STATE_LOCALLY_DELETED = "LOCALLY_DELETED";
         
         /**
 	 * Returns the title
@@ -323,43 +321,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
                 
         /**
-         * Returns the objectState
+         * Returns the state
          * 
          * @return string
          */
-        public function getObjectState() {
-          return $this->objectState;          
+        public function getState() {
+          return $this->state;          
         }
         
         /**
-         * Sets the objectState
+         * Sets the state
          * 
-         * @param string $objectState
+         * @param string $state
          * @return void
          */
-        public function setObjectState($objectState) {
-          $this->objectState = $objectState;          
+        public function setState($state) {
+          $this->state = $state;          
         }
-                                
-        /**
-         * Returns the remoteAction
-         * 
-         * @return string
-         */
-        public function getRemoteAction() {
-          return $this->remoteAction;          
-        }
-        
-        /**
-         * Sets the remoteAction
-         * 
-         * @param string $remoteAction
-         * @return void
-         */
-        public function setRemoteAction($remoteAction) {
-          $this->remoteAction = $remoteAction;          
-        }
-                               
+                                                                       
         /**         
          * Returns the transferStatus
          * @var string
@@ -605,11 +584,64 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
         
         
-        public function isDeleteRemote() {
-          return $this->remoteAction == self::REMOTE_ACTION_DELETE;
+        /**
+	 * Returns the changed
+	 *
+	 * @return string $changed
+	 */
+	public function getChanged() {
+		return $this->changed;
+	}
+                
+        /**
+	 * Sets the changed
+	 *
+	 * @param string $changed
+	 * @return void
+	 */
+	public function setChanged($changed) {          
+                $this->changed = $changed; 
+	}
+        
+        
+        public function isDeleteAllowed() {
+          return $this->state == self::OBJECT_STATE_INACTIVE ||
+                 $this->state == self::OBJECT_STATE_ACTIVE;                  
         }
         
-                
+        public function isActivationChangeAllowed() {
+          return $this->state == self::OBJECT_STATE_INACTIVE ||
+                 $this->state == self::OBJECT_STATE_ACTIVE;                  
+        }
+        
+        public function isDeleteRemote() {
+          return $this->state == self::OBJECT_STATE_LOCALLY_DELETED;                  
+        }
+        
+        public function isRestoreRemote() {
+          return $this->state == self::OBJECT_STATE_DELETED;
+        }
+        
+        public function isActivateRemote() {
+          return $this->state == self::OBJECT_STATE_INACTIVE;
+        }
+
+        public function isInactivateRemote() {
+            return $this->state == self::OBJECT_STATE_ACTIVE;
+        }
+
+        public function isIngestRemote() {
+            return $this->state == self::OBJECT_STATE_NEW &&
+                   empty($this->objectIdentifier);
+        }
+        
+        public function isUpdateRemote() {
+            return ($this->state == self::OBJECT_STATE_ACTIVE ||
+                   $this->state == self::OBJECT_STATE_INACTIVE) &&                              
+                   !empty($this->objectIdentifier);
+        }
+
+        
         public function getDateIssued() {                                                      
              $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                                      
              $dateIssued = $mods->getDateIssued();  

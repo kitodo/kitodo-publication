@@ -259,8 +259,8 @@ class DocumentMapper {
     $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();   
     $documentForm->setSecondaryFiles($secondaryFiles);
             
-    $documentForm->setObjectState($document->getObjectState());
-    $documentForm->setRemoteAction($document->getRemoteAction());
+    $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
+    $documentForm->setSaveDisabled($document->getState() == \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
     
     return $documentForm;
   }

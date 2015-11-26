@@ -29,9 +29,9 @@ class DocumentFormBEController extends AbstractDocumentFormController {
 
        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
        // send document to index
-       $elasticsearchRepository->delete($document);
+       $elasticsearchRepository->delete($document, "");
 
-       $document->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE);
+       $document->setState(\EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
        $document = $this->documentRepository->update($document);
 
        $this->redirectToList();

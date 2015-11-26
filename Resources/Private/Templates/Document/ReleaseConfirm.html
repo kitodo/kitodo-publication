@@ -2,14 +2,7 @@
 
 
 <f:section name="main">
-     
-    <f:if condition="{releaseType} == 'delete'">    
-        <h4>{f:translate(key: 'manager.releaseConfirmMessageHeader.delete')}</h4>
-    
-        {f:translate(key: 'manager.releaseConfirmMessage.delete', arguments: {0: document.title})}
-   
-        <br /><br />
-    </f:if> 
+        
     <f:if condition="{releaseType} == 'update'">    
         <h4>{f:translate(key: 'manager.releaseConfirmMessageHeader.update')}</h4>
     

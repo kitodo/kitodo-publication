@@ -1,6 +1,7 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
+use \EWW\Dpf\Domain\Model\Document;
 
 /***************************************************************
  *
@@ -52,7 +53,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   public function getNewDocuments($storagePID) {      
           
     $query = $this->createQuery();   
-    $query->statement("SELECT * FROM tx_dpf_domain_model_document where length(trim(object_identifier))=0 and length(trim(remote_action))=0 AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
+    $query->statement("SELECT * FROM tx_dpf_domain_model_document where length(trim(object_identifier))=0 and state = '".Document::OBJECT_STATE_NEW."' AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
     
     
     
@@ -61,7 +62,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   
   public function getInProgressDocuments($storagePID) {      
     $query = $this->createQuery();
-    $query->statement("SELECT * FROM tx_dpf_domain_model_document where (length(trim(object_identifier))>0 OR length(trim(remote_action))>0) AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
+    $query->statement("SELECT * FROM tx_dpf_domain_model_document where (length(trim(object_identifier))>0 OR state <> '".Document::OBJECT_STATE_NEW."') AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
     
     return $query->execute();                           
   }

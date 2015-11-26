@@ -7,28 +7,9 @@
 </f:form>
 <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
     <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
-    <f:if condition="{documentForm.objectActive}">  
-        <f:then>
-            <f:if condition="{documentForm.remoteDelete} < 1">
-                <f:then>
-                    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger">
-                      <span class="glyphicon glyphicon-trash"></span>
-                      {f:translate(key: 'form_button.delete')}
-                    </f:form.button>
-                </f:then>                                               
-                <f:else>
-                    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger" disabled="disabled">
-                      <span class="glyphicon glyphicon-trash"></span>
-                      {f:translate(key: 'form_button.delete')}
-                    </f:form.button>
-                </f:else>                                                               
-            </f:if>    
-        </f:then>
-        <f:else>
-            <f:form.button name="delete" id="save" disabled="disabled" class="btn btn-sm btn-danger">
-              <span class="glyphicon glyphicon-trash"></span>
-              {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
-            </f:form.button>
-        </f:else>    
-    </f:if>    
+                                                 
+    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger" disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
+      <span class="glyphicon glyphicon-trash"></span>
+      {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
+    </f:form.button>       
 </f:form>  

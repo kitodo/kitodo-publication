@@ -9,7 +9,7 @@ interface Repository {
   
   public function retrieve($document);
    
-  public function delete($document);
+  public function delete($document, $state);
   
   public function getNextDocumentId();
   

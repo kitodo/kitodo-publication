@@ -183,8 +183,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
           $newDocument = $documentMapper->getDocument($newDocumentForm);    
-                             
-          //$newDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
+                                       
           $this->documentRepository->add($newDocument);
           $this->persistenceManager->persistAll();
 
@@ -294,12 +293,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $updateDocument = $documentMapper->getDocument($documentForm);    
                                                   
           $objectIdentifier = $updateDocument->getObjectIdentifier();
-          
-          if (empty($objectIdentifier)) {
-            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);    
-          } else { 
-            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_UPDATE);             
-          }
+                              
+          $updateDocument->setChanged(TRUE);
           
           $this->documentRepository->update($updateDocument);        
                     

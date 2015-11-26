@@ -199,24 +199,24 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
                         )
                 ),
             
-                'object_state' => Array (
+                'state' => Array (
                         'exclude' => 0,
-                        'label' => 'Object State',
+                        'label' => 'Local State',
                         'config' => Array (
                                 'type' => 'input',
                                 'size' => '30',
                                 'eval' => 'trim',
                         )
                 ),
-            
-                'remote_action' => Array (
-                        'exclude' => 0,
-                        'label' => 'Remote Action',
-                        'config' => Array (
-                                'type' => 'input',
-                                'size' => '30',
-                                'eval' => 'trim',
-                        )
+                                      
+                'changed' => Array (
+                       'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.changed',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
                 ),
             
                 'file' => array(
