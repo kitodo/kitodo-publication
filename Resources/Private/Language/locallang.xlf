@@ -12,6 +12,9 @@
 			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
 				<source>Display Name</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttype.virtual">
+				<source>Virtual</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
 				<source>Metadata Page</source>
 			</trans-unit>

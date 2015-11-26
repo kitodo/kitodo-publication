@@ -64,6 +64,7 @@ class DocumentMapper {
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
+    $documentForm->setVirtual($document->getDocumentType()->getVirtual());
     
     $qucosaId = $document->getObjectIdentifier();
     

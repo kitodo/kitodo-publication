@@ -1,8 +1,8 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<fieldset class="fs_file_group" data-group="file-upload" id="primary_file">
-  <legend>{f:translate(key: 'form_legend.primaryFile')} *</legend> 
-  <f:form.upload id="inp_primaryFile" property="primaryFile" />  
+<fieldset class="fs_file_group" data-group="file-upload" id="primary_file" data-virtual="{virtual}">
+  <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend> 
+  <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}" />  
     <eww:isElementAllowed condition="backendOnly">   
         <f:then> 
             <div class="form-group">

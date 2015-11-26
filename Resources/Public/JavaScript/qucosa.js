@@ -243,7 +243,7 @@ var checkMandatoryInputs = function(fieldset) {
 
 var checkPrimaryFile = function(fieldset) {
   var mandatoryError = false;
-  fieldset.find("input#inp_primaryFile").each(function(){     
+  fieldset.find("input#inp_primaryFile[data-virtual!=1]").each(function(){     
     if (!jQuery(this).val() ) {                
       mandatoryError = mandatoryError || true;                                                                   
       jQuery(this).addClass('mandatory-error');                              

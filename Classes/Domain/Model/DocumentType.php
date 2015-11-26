@@ -46,14 +46,23 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $displayName = '';
 
-	/**
+	
+        /**
+	 * virtual
+         * 
+         * @var boolean
+	 */
+	protected $virtual = FALSE;
+        
+        
+        /**
 	 * metadataPage
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage>
 	 * @cascade remove
 	 */
 	protected $metadataPage = NULL;
-
+                
 	/**
 	 * __construct
 	 */
@@ -160,4 +169,24 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
            return $this->getMetadataPage();
         }
 
+        /**
+         * Returns the virtual
+         * 
+         * @return boolen
+         */
+        public function getVirtual() {
+            return $this->virtual;
+        }
+        
+        /**
+         * Sets the virtual
+         * 
+         * @param boolean $virtual
+         * @return void
+         */
+        public function setVirtual($virtual) {
+            $this->virtual = $virtual;
+        }
+        
+        
 }

@@ -64,7 +64,7 @@
 
       <div id="tab-file-upload" class="fs_page">
         
-        <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile}" />                
+        <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}" />                
                           
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}" />            
           

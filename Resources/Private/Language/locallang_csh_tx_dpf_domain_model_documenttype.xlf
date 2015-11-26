@@ -9,6 +9,9 @@
 			<trans-unit id="display_name.description">
 				<source>displayName</source>
 			</trans-unit>
+                        <trans-unit id="display_name.virtual">
+				<source>virtual</source>
+			</trans-unit>
 			<trans-unit id="metadata_page.description">
 				<source>metadataPage</source>
 			</trans-unit>

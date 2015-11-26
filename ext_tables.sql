@@ -8,6 +8,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
+        virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

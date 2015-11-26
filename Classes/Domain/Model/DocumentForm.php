@@ -12,6 +12,13 @@ class DocumentForm extends AbstractFormElement {
   
   /**
    *
+   * @var boolean
+   */  
+  protected $virtual;
+  
+  
+  /**
+   *
    * @var string
    */  
   protected $qucosaId;
@@ -73,6 +80,22 @@ class DocumentForm extends AbstractFormElement {
    */
   public function setDocumentUid($documentUid) {
     $this->documentUid = $documentUid;    
+  }
+  
+  /**
+   * 
+   * @return boolean
+   */
+  public function getVirtual() {
+    return $this->virtual;    
+  }
+
+  /**
+   * 
+   * @param boolean $virtual
+   */
+  public function setVirtual($virtual) {
+    $this->virtual = $virtual;    
   }
   
   
