@@ -132,8 +132,17 @@
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.checkbox">
 				<source>checkbox</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
+				<source>Data type</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
 				<source>select</source>
+			</trans-unit>
+                         <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.regexp">
+				<source>regexp</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date">
+				<source>date</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service">
 				<source>Fill out service</source>

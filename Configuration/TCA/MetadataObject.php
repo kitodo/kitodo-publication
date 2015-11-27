@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -148,6 +148,22 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 				'eval' => 'trim'
 			),
 		),
+                'data_type' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+                                        array('',''),
+					array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type.regexp', \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_REGEXP),
+                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type.date', \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE),
+                                ),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
+		),            
                 'validation' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',

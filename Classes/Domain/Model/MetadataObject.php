@@ -85,6 +85,17 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const textarea = 1;                
         const select = 2;   
         const checkbox = 3;
+                        
+        const INPUT_DATA_TYPE_REGEXP = "REGEXP";        
+        const INPUT_DATA_TYPE_DATE = "DATE";
+        
+        /**
+         * dataType
+         * 
+         * @var string
+         */
+        protected $dataType;
+                
         
         /**
 	 * modsExtension
@@ -439,4 +450,23 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->validation = $validation;
 	}
 
+        
+        /**
+	 * Returns the dataType
+	 *
+	 * @return string $dataType
+	 */
+	public function getDataType() {
+		return $this->dataType;
+	}
+
+	/**
+	 * Sets the dataType
+	 *
+	 * @param string $dataType
+	 * @return void
+	 */
+	public function setDataType($dataType) {
+		$this->dataType = $dataType;
+	}
 }
