@@ -193,7 +193,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
     public function escapeQuery($string)
     {
-        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~*?:\\');
+        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
         $string = preg_replace_callback(
             '/([' . $luceneReservedCharacters . '])/',
             function($matches) {
