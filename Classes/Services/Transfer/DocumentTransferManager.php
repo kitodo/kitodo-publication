@@ -104,7 +104,7 @@ class DocumentTransferManager {
 
         // remove document from local index
         $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-        $elasticsearchRepository->delete($document);
+        $elasticsearchRepository->delete($document, "");
 
         return TRUE;
     } else {            

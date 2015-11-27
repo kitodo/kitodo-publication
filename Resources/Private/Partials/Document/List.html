@@ -37,20 +37,47 @@
       <td>{f:if(condition: '{document.isNew}', then: 'neu', else: 'in Bearbeitung')}                    
       </td>
       <td class="table_col_function">
-        
-        <f:comment><button class="btn btn-xs btn-default">Preview</button></f:comment>  
-      
-        <f:link.action action="showPreview" arguments="{document : document}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action>                      
- 
+                     
         <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
+          
+        <f:link.action action="showPreview" arguments="{document : document}" class="btn btn-xs btn-default" target="_blank" title="{f:translate(key: 'manager.tooltip.preview')}">
+            <span class="glyphicon glyphicon-eye-open"></span>            
+        </f:link.action>                       
+                        
+        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}">        
+            <span class="glyphicon glyphicon-duplicate"></span>             
+        </f:link.action>                      
+                    
         
-        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.duplicate')}</f:link.action>                      
-        
+        <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}', inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}'}">
+        <f:link.action 
+            action="{f:if(condition: '{document.activateRemote}', then: 'activateConfirm')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivateConfirm')}" 
+            arguments="{document : document}" 
+            title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}')}{f:if(condition: '{document.inactivateRemote}', then: '{inactivateTooltip}')}"
+            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}">             
+            <f:if condition="{document.activateRemote}">
+                <span class="glyphicon glyphicon-ban-circle"></span>                 
+            </f:if>
+            <f:if condition="{document.ingestRemote}">
+                <span class="glyphicon glyphicon-ok-circle"></span>                  
+            </f:if>   
+            <f:if condition="{document.inactivateRemote}">
+                <span class="glyphicon glyphicon-ok-circle"></span>                  
+            </f:if>    
+            <f:if condition="{document.restoreRemote}">
+                <span class="glyphicon glyphicon-ban-circle"></span>                  
+            </f:if>   
+            <f:if condition="{document.deleteRemote}">
+                <span class="glyphicon glyphicon-ban-circle"></span>                  
+            </f:if>   
+        </f:link.action> 
+        </f:alias>    
+         
         <f:link.action action="discardConfirm" arguments="{document : document}" class="btn btn-xs btn-warning">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             {f:translate(key: 'manager.discard')}
         </f:link.action>
-                
+        
         <f:if condition="{document.ingestRemote}">
             <f:link.action 
                 action="releaseConfirm" 
@@ -89,25 +116,7 @@
               {f:translate(key: 'manager.restore')}restore
             </f:link.action>   
         </f:if>
-               
-        
-            <f:link.action 
-              action="{f:if(condition: '{document.activateRemote}', then: 'activateConfirm')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivateConfirm')}" 
-              arguments="{document : document}" 
-              class="btn btn-xs btn-warning {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}">
-              <span class="glyphicon glyphicon-refresh"></span>
-              <f:if condition="{document.activateRemote}">
-                  {f:translate(key: 'manager.restore')}A
-              </f:if>
-              <f:if condition="{document.ingestRemote}">
-                  {f:translate(key: 'manager.restore')}A
-              </f:if>   
-              <f:if condition="{document.inactivateRemote}">
-                  {f:translate(key: 'manager.restore')}I
-              </f:if>                        
-            </f:link.action>   
-        
-        
+                                                   
       </td>
     </tr>
   </f:for>

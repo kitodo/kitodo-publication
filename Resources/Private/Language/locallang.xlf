@@ -359,6 +359,36 @@
 			</trans-unit>    
                         <trans-unit id="manager.doublet">
 				<source>Doublet Check</source>
+			</trans-unit> 
+                         <trans-unit id="manager.preview">
+				<source>preview</source>
+			</trans-unit> 
+                        <trans-unit id="manager.duplicate">
+				<source>duplicate</source>
+			</trans-unit> 
+                        <trans-unit id="manager.activate">
+				<source>activate</source>
+			</trans-unit> 
+                        <trans-unit id="manager.inactivate">
+				<source>inactivate</source>
+			</trans-unit> 
+                        <trans-unit id="manager.duplicate">
+				<source>duplicate</source>
+			</trans-unit> 
+                        <trans-unit id="manager.get">
+				<source>Get</source>
+			</trans-unit> 
+                        <trans-unit id="manager.tooltip.activate">
+				<source>Activate document</source>
+			</trans-unit>  
+                        <trans-unit id="manager.tooltip.inactivate">
+				<source>Inactivate document</source>
+			</trans-unit>
+                        <trans-unit id="manager.tooltip.preview">
+				<source>Show document preview</source>
+			</trans-unit>
+                        <trans-unit id="manager.tooltip.duplicate">
+				<source>Duplicate document</source>
 			</trans-unit>  
                         <trans-unit id="manager.discardConfirmMessageHeader">
 				<source>Do you really want to discard the document?</source>
