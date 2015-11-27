@@ -60,6 +60,16 @@ class Mets {
     return $slub;
   }
   
+  
+  public function getState() {
+    
+    $xpath = $this->getMetsXpath();    
+    $xpath->registerNamespace("mets", "http://www.loc.gov/METS/");      
+    
+    $dmdSec = $xpath->query("/mets:mets/mets:dmdSec");                
+    return $dmdSec->item(0)->getAttribute("STATUS");    
+  }
+  
     
   public function getFiles() {  
     $xpath = $this->getMetsXpath(); 

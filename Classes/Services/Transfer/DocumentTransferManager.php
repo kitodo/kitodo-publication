@@ -189,10 +189,28 @@ class DocumentTransferManager {
         if (empty($title) || empty($documentType)) {
 	  return FALSE;        
         }
-                     
+                
+        $state = $mets->getState();
+        
+        switch ($state) {            
+            case "ACTIVE":
+                $objectState = Document::OBJECT_STATE_ACTIVE;
+                break;
+            case "INACTIVE":
+                $objectState = Document::OBJECT_STATE_INACTIVE;
+                break;
+            case "DELETED":
+                $objectState = Document::OBJECT_STATE_DELETED;
+                break;
+            default:
+                $objectState = "ERROR";
+                throw new \Exception("Unknown object state: ".$state);
+                break;           
+        }
+                
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
         $document->setObjectIdentifier($remoteId);      
-        $document->setState(Document::OBJECT_STATE_ACTIVE); 
+        $document->setState($objectState); 
         $document->setTitle($title);
         $document->setAuthors($authors);
         $document->setDocumentType($documentType);           
