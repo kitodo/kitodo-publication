@@ -73,28 +73,43 @@ class Mets {
     
     foreach ($fileNodesOriginal as $item) {     
         
-      $xlinkNS = "http://www.w3.org/1999/xlink";
+      $xlinkNS = "http://www.w3.org/1999/xlink";      
+      $mextNS = "http://slub-dresden.de/mets";
                      
+      $flocat = $xpath->query('mets:FLocat',$item);
+      if ($flocat->length > 0) {
+          $href = $flocat->item(0)->getAttributeNS($xlinkNS,"href");
+      }  
+      
       $files[] = array(
           'id' => $item->getAttribute("ID"),
           'mimetype' => $item->getAttribute("MIMETYPE"),          
-          'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
-          'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),    
+          //'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
+          //'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),    
+          'href' => $href,
+          'title' => $item->getAttributeNS($mextNS,"LABEL"),           
           'archive' => ($item->getAttribute("USE") == 'ARCHIVE'), 
           'download' => false
       );      
     }        
-            
-    
+                        
     foreach ($fileNodesDownload as $item) {     
-        
-      $xlinkNS = "http://www.w3.org/1999/xlink";
+                   
+      $xlinkNS = "http://www.w3.org/1999/xlink";                  
+      $mextNS = "http://slub-dresden.de/mets";
+      
+      $flocat = $xpath->query('mets:FLocat',$item);
+      if ($flocat->length > 0) {
+          $href = $flocat->item(0)->getAttributeNS($xlinkNS,"href");
+      }      
                      
       $files[] = array(
           'id' => $item->getAttribute("ID"),
           'mimetype' => $item->getAttribute("MIMETYPE"),          
-          'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
-          'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),
+          //'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"), 
+          //'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),    
+          'href' => $href,
+          'title' => $item->getAttributeNS($mextNS,"LABEL"),          
           'archive' => ($item->getAttribute("USE") == 'ARCHIVE'), 
           'download' => true
       );      
