@@ -1,5 +1,47 @@
 
 $(document).ready(function() {
+       
+    $disableForm = jQuery('form[data-disabled]').attr('data-disabled');                                
+    if ($disableForm) {
+        jQuery('.input-field').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.rem_file_group').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.add_file_group').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.input_file_upload').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.add_field').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.add_group').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.rem_field').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.rem_group').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+        
+        jQuery('.fill_out_service_urn').each(function(){      
+           jQuery(this).attr('disabled','disabled');                     
+        });
+      
+    }
+    
+           
            
     buttonFillOutServiceUrn();
          

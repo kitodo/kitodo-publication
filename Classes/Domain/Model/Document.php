@@ -605,8 +605,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         
         public function isDeleteAllowed() {
-          return $this->state == self::OBJECT_STATE_INACTIVE ||
-                 $this->state == self::OBJECT_STATE_ACTIVE;                  
+          return ($this->state == self::OBJECT_STATE_INACTIVE ||
+                 $this->state == self::OBJECT_STATE_ACTIVE) &&
+                 !empty($this->objectIdentifier);                  
         }
         
         public function isActivationChangeAllowed() {

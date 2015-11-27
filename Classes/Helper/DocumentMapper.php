@@ -260,7 +260,11 @@ class DocumentMapper {
     $documentForm->setSecondaryFiles($secondaryFiles);
             
     $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
-    $documentForm->setSaveDisabled($document->getState() == \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
+        
+    $documentForm->setSaveDisabled(
+            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
+            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW
+           );
     
     return $documentForm;
   }
