@@ -117,7 +117,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <td>{entry._source.identifier.0}</td>
             <td class="table_col_function">
               <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                Get 
+                <span class="glyphicon glyphicon-download-alt"></span>
+                {f:translate(key: 'manager.get')}
               </f:link.action>
             </td>
           </f:else>                    
