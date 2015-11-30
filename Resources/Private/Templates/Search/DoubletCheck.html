@@ -67,17 +67,28 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<td>{entry._source._dissemination._content.submitter}</td>
                                 <td>{entry._source.PID}</td>
 				<td>{entry._source._dissemination._content.identifier.0}</td>
-        <td><f:link.action action="showPreview" arguments="{documentObjectIdentifier : entry._source._id}" class="btn btn-xs btn-default" target="_blank">{f:translate(key: 'manager.preview')}preview</f:link.action></td>
+                    <td>
+                        <f:link.action action="showPreview"
+                                       arguments="{documentObjectIdentifier : entry._source.PID}" 
+                                       class="btn btn-xs btn-default" 
+                                       target="_blank"
+                                       title="{f:translate(key: 'manager.tooltip.preview')}">
+                            <span class="glyphicon glyphicon-eye-open"></span>          
+                        </f:link.action>
+                    </td>
+                                        
                 <td class="table_col_function">    
                   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
                     <f:then>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                        Get 
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">                                   
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                        {f:translate(key: 'manager.get')}
                       </f:link.action>
                     </f:then>
                     <f:else>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info">                                   
-                        Get 
+                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info">                                   
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                        {f:translate(key: 'manager.get')}
                       </f:link.action>
                     </f:else>                    
                   </f:if>                                  
