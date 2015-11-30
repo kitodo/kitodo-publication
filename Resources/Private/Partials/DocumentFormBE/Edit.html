@@ -6,7 +6,7 @@
   <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
 <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
-    <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
+    <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
                                                  
     <f:form.button name="delete" id="save" class="btn btn-sm btn-danger" disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
       <span class="glyphicon glyphicon-trash"></span>

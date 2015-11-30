@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-     
+           
      datepicker();
        
      jQuery('[data-toggle="tooltip"]').tooltip(); 
@@ -189,14 +189,14 @@ var validateForm = function() {
                
                jQuery(this).removeClass('invalid-error');
                 
-               var validation = jQuery(this).attr('data-validation');
-               
+               var validation = jQuery(this).attr('data-regexp');
+                             
                if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {                   
                     try {
                         var regexp = new RegExp(validation);
                    
                     var res = jQuery(this).val().match(regexp);  
-                    console.log(res);
+                    
                     if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
                         jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_field_invalid+': '+jQuery(this).attr('data-label')+'</div>').insertAfter(fieldset.find('legend').last());                                                           
                         jQuery(this).addClass('invalid-error');
@@ -211,9 +211,23 @@ var validateForm = function() {
                        markPage(fieldset,true); 
                        error = true;
                     }
+                } else {
+              
+                     var validateDate = jQuery(this).attr('data-datatype') == 'DATE';     
+                     
+                     if (jQuery(this).val() && jQuery(this).val().length > 0 && validateDate && !isDate(jQuery(this).val())) {                         
+                       jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_field_invalid+': '+jQuery(this).attr('data-label')+'</div>').insertAfter(fieldset.find('legend').last());                                                           
+                       jQuery(this).addClass('invalid-error');
+                       showFormError();    
+                       markPage(fieldset,true); 
+                       error = true;                                                                                                  
+                     }       
+                    
+                    
                 }
                  
             });     
+                                   
             
             
     /*        if (checkPrimaryFile(fieldset)) {
@@ -550,7 +564,38 @@ var datepicker = function() {
      jQuery('.datetimepicker').datetimepicker({
          useCurrent: false,
          format: 'DD.MM.YYYY',
-         locale: language
+         locale: language,
+         keepInvalid: true
      });
 }
 
+
+var isDate = function(value) {
+       
+    if(value == '')
+        return false;
+
+    var rxDatePattern = /^(\d{1,2})(\.)(\d{1,2})(\.)(\d{4})$/; //Declare Regex
+    var dtArray = value.match(rxDatePattern); // is format OK?
+
+    if (dtArray == null) 
+        return false;
+
+    //Checks for mm/dd/yyyy format.
+    dtMonth = dtArray[3];
+    dtDay= dtArray[1];
+    dtYear = dtArray[5];        
+
+    if (dtMonth < 1 || dtMonth > 12) {        
+        return false;
+    } else if (dtDay < 1 || dtDay> 31) {        
+        return false;
+    } else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) {        
+        return false;
+    } else if (dtMonth == 2) {
+        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+        if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+                return false;
+    }
+    return true;    
+}
