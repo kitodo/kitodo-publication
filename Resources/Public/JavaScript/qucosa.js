@@ -1,15 +1,8 @@
 
 $(document).ready(function() {
-    
-     var language = jQuery('div.tx-dpf[data-language]').first().attr('data-language');   
-     if (!language) language = "en";
-
-     jQuery('.datetimepicker').datetimepicker({
-         useCurrent: false,
-         format: 'DD.MM.YYYY',
-         locale: language
-     });
-    
+     
+     datepicker();
+       
      jQuery('[data-toggle="tooltip"]').tooltip(); 
        
     $disableForm = jQuery('form[data-disabled]').attr('data-disabled');                                
@@ -354,6 +347,7 @@ var addGroup = function() {
               jQuery(group).fadeIn();
             }); 
 	buttonFillOutServiceUrn();
+        datepicker();
         });
 
       return false;
@@ -385,6 +379,7 @@ var addGroup = function() {
           
         
             buttonFillOutServiceUrn();
+            datepicker();
         
           //  var height =jQuery('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
 
@@ -546,4 +541,16 @@ $(window).scroll(function() {
     $(".tx-dpf-tab-container").removeClass("sticky");
   }
 }); 
+
+
+var datepicker = function() {    
+    var language = jQuery('div.tx-dpf[data-language]').first().attr('data-language');   
+     if (!language) language = "en";
+
+     jQuery('.datetimepicker').datetimepicker({
+         useCurrent: false,
+         format: 'DD.MM.YYYY',
+         locale: language
+     });
+}
 
