@@ -44,7 +44,7 @@
             <span class="glyphicon glyphicon-eye-open"></span>            
         </f:link.action>                     
                         
-        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}">        
+        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}" additionalAttributes="{data-toggle: 'tooltip' }">        
             <span class="glyphicon glyphicon-duplicate"></span>             
         </f:link.action>                      
                     
@@ -54,7 +54,8 @@
             action="{f:if(condition: '{document.activateRemote}', then: 'activateConfirm')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivateConfirm')}" 
             arguments="{document : document}" 
             title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}')}{f:if(condition: '{document.inactivateRemote}', then: '{inactivateTooltip}')}"
-            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}">             
+            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}"
+            additionalAttributes="{data-toggle: 'tooltip' }">             
             <f:if condition="{document.activateRemote}">
                 <span class="glyphicon glyphicon-ban-circle"></span>                 
             </f:if>
