@@ -1,9 +1,13 @@
 
 $(document).ready(function() {
     
+     var language = jQuery('div.tx-dpf[data-language]').first().attr('data-language');   
+     if (!language) language = "en";
+
      jQuery('.datetimepicker').datetimepicker({
          useCurrent: false,
-         format: 'DD.MM.YYYY'         
+         format: 'DD.MM.YYYY',
+         locale: language
      });
     
      jQuery('[data-toggle="tooltip"]').tooltip(); 
