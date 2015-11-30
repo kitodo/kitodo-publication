@@ -61,6 +61,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // assign result list from elastic search        
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
+
+        // search hold information
+        $this->view->assign('id', $args['extra']['id']);
+        $this->view->assign('title', $args['extra']['title']);
+        $this->view->assign('author', $args['extra']['author']);
+        $this->view->assign('search', $args['extra']['search']);
     }
 
     /**
@@ -110,18 +116,21 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $id = $args['extSearch']['extId'];
             $fieldQuery['_id'] = $id;
             $countFields++;
+            $query['extra']['id'] = $id; 
         }
 
         if ($args['extSearch']['extTitle']) {
             $title = $args['extSearch']['extTitle'];
             $fieldQuery['title'] = $title;
             $countFields++;
+            $query['extra']['title'] = $title;
         }
 
         if ($args['extSearch']['extAuthor']) {
             $author = $title = $args['extSearch']['extAuthor'];
             $fieldQuery['author'] = $author;
             $countFields++;
+            $query['extra']['author'] = $author;
         }
 
         if ($args['extSearch']['extDeleted']) {
@@ -134,6 +143,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query['body']['query']['bool']['should'][] = $inactive;
 
             $query['body']['query']['bool']['minimum_should_match'] = 1;
+
+            $this->view->assign('showDeleted', true);
 
         } else {
             // STATE active
@@ -186,6 +197,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // $query['body']['query']['fields'][2] = "_dissemination._content.PUB_AUTHOR";
         // $query['body']['query']['fields'][3] = "_dissemination._content.PUB_DATE";
         // $query['body']['query']['fields'][4] = "_dissemination._content.PUB_TYPE";
+
+        // extra information
+        // dont use it for elastic query
+        $query['extra']['search'] = $searchText;
 
         return $query;
 
@@ -279,11 +294,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // set type local vs object
         $type = 'object';
+
+        // unset extra information
+        $extra = $query['extra'];
+        unset($query['extra']);
         
         $results = $this->getResultList($query, $type);
 
         // redirect to list view
-        $this->forward("list", null, null, array('results' => $results));
+        $this->forward("list", null, null, array('results' => $results, 'extra' => $extra));
     }
 
     /**
