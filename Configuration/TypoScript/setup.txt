@@ -63,7 +63,10 @@ plugin.tx_dpf._CSS_DEFAULT_STYLE (
 )
 
 page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
-page.includeJSFooter.tx_dpf = EXT:dpf/Resources/Public/JavaScript/qucosa.js
+page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment.js
+page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
+page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
+page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 
 
 #Define ajax page type

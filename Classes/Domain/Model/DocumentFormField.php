@@ -19,6 +19,8 @@ class DocumentFormField extends AbstractFormElement {
     
   protected $validation;
   
+  protected $dataType;
+  
   /**
    * consent
    * 
@@ -154,6 +156,14 @@ class DocumentFormField extends AbstractFormElement {
         
         public function setValidation($validation) {
             $this->validation = $validation;
+        }
+        
+        public function getDataType() {
+            return $this->dataType;
+        }
+        
+        public function setDataType($dataType) {
+            $this->dataType = $dataType;
         }
 }
 

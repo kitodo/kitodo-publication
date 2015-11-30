@@ -12,7 +12,7 @@
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
 
       <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
-        <div class="form-container">
+        <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
 
                 <eww:isElementAllowed condition="{fieldItem.backendOnly}">
                     <f:then>                           <f:render partial="DocumentForm/Field" arguments="{

@@ -1,5 +1,12 @@
 
 $(document).ready(function() {
+    
+     jQuery('.datetimepicker').datetimepicker({
+         useCurrent: false,
+         format: 'DD.MM.YYYY'         
+     });
+    
+     jQuery('[data-toggle="tooltip"]').tooltip(); 
        
     $disableForm = jQuery('form[data-disabled]').attr('data-disabled');                                
     if ($disableForm) {
@@ -44,11 +51,7 @@ $(document).ready(function() {
            
            
     buttonFillOutServiceUrn();
-         
-    // Show the Form pages/steps in Tabs
-    jQuery("ul.tx-dpf-tabs").tabs("div.css-panes > div");
-
-
+          
     jQuery(".tx-dpf").on("click",".rem_group", function() {
       jQuery(this).parents('fieldset').fadeOut(300, function() { jQuery(this).remove(); });
       return false;
@@ -539,3 +542,4 @@ $(window).scroll(function() {
     $(".tx-dpf-tab-container").removeClass("sticky");
   }
 }); 
+

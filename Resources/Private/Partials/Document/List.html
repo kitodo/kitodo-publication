@@ -40,9 +40,9 @@
                      
         <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
           
-        <f:link.action action="showPreview" arguments="{document : document}" class="btn btn-xs btn-default" target="_blank" title="{f:translate(key: 'manager.tooltip.preview')}">
+        <f:link.action action="showPreview" arguments="{document : document}" class="btn btn-xs btn-default" target="_blank" title="{f:translate(key: 'manager.tooltip.preview')}" additionalAttributes="{data-toggle: 'tooltip' }">
             <span class="glyphicon glyphicon-eye-open"></span>            
-        </f:link.action>                       
+        </f:link.action>                     
                         
         <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}">        
             <span class="glyphicon glyphicon-duplicate"></span>             
@@ -122,3 +122,4 @@
     </tr>
   </f:for>
 </table>
+

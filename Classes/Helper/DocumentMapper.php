@@ -163,6 +163,7 @@ class DocumentMapper {
                 $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
                 $documentFormField->setConsent($metadataObject->getConsent());
                 $documentFormField->setValidation($metadataObject->getValidation());
+                $documentFormField->setDataType($metadataObject->getDataType());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
@@ -235,6 +236,7 @@ class DocumentMapper {
               $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
               $documentFormField->setConsent($metadataObject->getConsent());
               $documentFormField->setValidation($metadataObject->getValidation());
+              $documentFormField->setDataType($metadataObject->getDataType());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 

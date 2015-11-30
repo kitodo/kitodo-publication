@@ -1,10 +1,16 @@
 {namespace s=SJBR\StaticInfoTables\ViewHelpers}
 {namespace eww=EWW\Dpf\ViewHelpers}
-             
-<div class="form-group">
 
+<div class="form-group">
+    
 <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}<f:if condition="{fieldItem.mandatory}"><span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span></f:if></label>
 
+
+<f:if condition="{fieldItem.dataType}=='DATE'">   
+  <div class="datetimepicker input-group date">
+</f:if>        
+    
+    
 <f:if condition="{fieldItem.fillOutService} == 'urn'"> 
     <f:then>   
                 <button type="submit"
@@ -29,24 +35,24 @@
  </f:if>
 
 <f:switch expression="{fieldItem.inputField}">
-   <f:case value="0"><f:form.textfield id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-label:fieldItem.displayName}" /></f:case>
-   <f:case value="1"><f:form.textarea id="inp_{fieldItem.uid}"  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-label:fieldItem.displayName}" /></f:case>                                         
-   <f:case value="2"><div class="form-control has-select"><f:form.select id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-label:fieldItem.displayName}" options="{fieldItem.inputOptions}" /></div></f:case> 
+   <f:case value="0"><f:form.textfield id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}" /></f:case>
+   <f:case value="1"><f:form.textarea id="inp_{fieldItem.uid}"  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}" /></f:case>                                         
+   <f:case value="2"><div class="form-control has-select"><f:form.select id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}" options="{fieldItem.inputOptions}" /></div></f:case> 
 
    <f:case value="3">
    <eww:isConsentField condition="{fieldItem.consent}">
      <f:then> 
-         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-label:fieldItem.displayName}" checked="{fieldItem.value}" disabled="true"/> 
+         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field form-control input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}" checked="{fieldItem.value}" disabled="true"/> 
          <f:form.hidden property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="{fieldItem.value}" /> 
      </f:then>
      <f:else>        
-         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-label:fieldItem.displayName}"  checked="{fieldItem.value}" />
+         <f:form.checkbox id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}" value="yes" class="input-field form-control input-field-checkbox" additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validation:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"  checked="{fieldItem.value}" />
      </f:else> 
    </eww:isConsentField>   
    </f:case>
      
 </f:switch>
-    
+ 
  <f:if condition="{fieldIndex}">
         <button type="submit" name="rem_field" class="btn btn-default rem_field" data-index="{fieldIndex}" data-field="{fieldItem.uid}">
           <span class="glyphicon glyphicon-remove"></span>
@@ -54,6 +60,15 @@
         </button>
  </f:if>
 
+ <f:if condition="{fieldItem.dataType}=='DATE'">   
+    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+     </div>
+</f:if>     
+
+
+        
 </div> 
 
 <f:form.validationResults>

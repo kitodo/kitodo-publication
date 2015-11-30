@@ -5,21 +5,21 @@
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
             <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
             <f:then> 
-                <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
+                <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"><a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
             </f:then>   
             </eww:isElementAllowed>
         </f:for>
-        <li><a href="#tab-file-upload">Dateien</a></li>        
+        <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>        
       </ul>
     </div>
 
-    <div class="css-panes">
+    <div class="tab-content">
 
       <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
  
         <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
         <f:then> 
-        <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.0.uid}">
+        <div id="tab-{pageIterator.cycle}" class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" data-page="{formPage.0.uid}">
           
           <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
 
@@ -62,7 +62,7 @@
           
       </f:for>
 
-      <div id="tab-file-upload" class="fs_page">
+      <div id="tab-file-upload" class="fs_page tab-pane">
         
         <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}" />                
                           
