@@ -66,6 +66,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('id', $args['extra']['id']);
         $this->view->assign('title', $args['extra']['title']);
         $this->view->assign('author', $args['extra']['author']);
+        $this->view->assign('showDeleted', $args['extra']['showDeleted']);
         $this->view->assign('search', $args['extra']['search']);
     }
 
@@ -116,7 +117,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $id = $args['extSearch']['extId'];
             $fieldQuery['_id'] = $id;
             $countFields++;
-            $query['extra']['id'] = $id; 
+            $query['extra']['id'] = $id;
         }
 
         if ($args['extSearch']['extTitle']) {
@@ -144,7 +145,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
             $query['body']['query']['bool']['minimum_should_match'] = 1;
 
-            $this->view->assign('showDeleted', true);
+            $query['extra']['showDeleted'] = true;
 
         } else {
             // STATE active
