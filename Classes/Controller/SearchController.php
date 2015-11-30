@@ -383,7 +383,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // set owner id
         $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
 
-        $results = $elasticSearch->search($query);
+        $results = $elasticSearch->search($query, '');
 
         // redirect to list view
         //$this->forward("list", null, null, array('results' => $results));
@@ -407,12 +407,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     public function showPreviewAction($documentObjectIdentifier) {
                                                                                       
-        $baseURL = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
         $port = '';
         if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
             $port = ':'.$_SERVER['SERVER_PORT'];
         }
-        $baseURL .= trim($_SERVER['SERVER_NAME'], "/").$port."/";
+        $baseURL .= $protocol.trim($_SERVER['SERVER_NAME'], "/").$port."/";
           
         // realurl inactive
         //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
@@ -420,7 +420,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // realurl active
         // $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $metsURL = $confArr['fedoraHost'].'/fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
+        $metsURL = $protocol.$confArr['fedoraHost'].'/fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
        
         
         $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');

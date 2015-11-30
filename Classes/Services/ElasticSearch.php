@@ -84,7 +84,7 @@ class ElasticSearch
         if (empty($query['index'])) {
             $query['index'] = $this->index;
         }
-        if (empty($query['type'])) {
+        if (!empty($type)) {
             $query['type'] = $type;
             // $query['type'] = $this->type;
         }
