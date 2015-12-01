@@ -1,6 +1,15 @@
 
 $(document).ready(function() {
            
+      
+     documentListConfirmDialog('#confirmDiscard');
+     documentListConfirmDialog('#confirmPublish');
+     documentListConfirmDialog('#confirmUpdate');
+     documentListConfirmDialog('#confirmActivate');
+     documentListConfirmDialog('#confirmInactivate');
+     documentListConfirmDialog('#confirmRestore');
+     documentListConfirmDialog('#confirmDelete');
+    
      datepicker();
        
      jQuery('[data-toggle="tooltip"]').tooltip(); 
@@ -598,4 +607,24 @@ var isDate = function(value) {
                 return false;
     }
     return true;    
+}
+
+
+var documentListConfirmDialog = function(dialogId) {
+    jQuery(dialogId).modal({
+        show: false,
+        backdrop: 'static'
+    });        
+          
+    jQuery(dialogId).on('show.bs.modal', function(e) {     
+        jQuery(this).find('#discardDocument').attr('href', jQuery(e.relatedTarget).attr('href'));         
+        var bodyText = jQuery(this).find('.modal-body p').html();       
+        var title = jQuery(e.relatedTarget).attr('data-documenttitle');        
+        jQuery(this).find('.modal-body p').html(bodyText.replace('%s',title));  
+        jQuery(e.relatedTarget).parent().parent().addClass('danger marked-for-removal');        
+    });
+    
+    jQuery(dialogId).on('hidden.bs.modal', function(e) {          
+        jQuery('.marked-for-removal').removeClass('danger marked-for-removal');        
+    });                
 }

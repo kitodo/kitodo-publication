@@ -74,17 +74,18 @@
                                                
         </f:link.action> 
         </f:alias>    
-         
-        <f:link.action action="discardConfirm" arguments="{document : document}" class="btn btn-xs btn-warning">
+        
+        <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning" additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             {f:translate(key: 'manager.discard')}
         </f:link.action>
-        
+                 
         <f:if condition="{document.ingestRemote}">
             <f:link.action 
-                action="releaseConfirm" 
+                action="release" 
                 arguments="{document : document, releaseType : 'publish'}" 
-                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-success', else: 'btn-success disabled')}">
+                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-success', else: 'btn-success disabled')}"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPublish'}">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 {f:translate(key: 'manager.publish')}
             </f:link.action>        
@@ -92,9 +93,10 @@
         
         <f:if condition="{document.updateRemote}">
             <f:link.action 
-                action="releaseConfirm" 
+                action="release" 
                 arguments="{document : document, releaseType : 'update'}" 
-                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-info', else: 'btn-info disabled')}">
+                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-info', else: 'btn-info disabled')}"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmUpdate'}">
                 <span class="glyphicon glyphicon-refresh"></span>
                 {f:translate(key: 'manager.update')}
             </f:link.action>   
@@ -102,18 +104,20 @@
                                 
         <f:if condition="{document.deleteRemote}">
             <f:link.action 
-                action="deleteConfirm" 
+                action="delete" 
                 arguments="{document : document}" 
-                class="btn btn-xs btn-danger">
+                class="btn btn-xs btn-danger"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDelete'}">
                 {f:translate(key: 'manager.delete')}
             </f:link.action>                             
         </f:if>              
         
         <f:if condition="{document.restoreRemote}">
             <f:link.action 
-              action="restoreConfirm" 
+              action="restore" 
               arguments="{document : document, releaseType : 'restore'}" 
-              class="btn btn-xs btn-warning">
+              class="btn btn-xs btn-warning"
+              additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
               <span class="glyphicon glyphicon-refresh"></span>
               {f:translate(key: 'manager.restore')}restore
             </f:link.action>   
