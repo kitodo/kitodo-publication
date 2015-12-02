@@ -256,6 +256,33 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         return $results;
     }
 
+    public function extendedSearchAction()
+    {
+        // show extended search template
+        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+
+        $args = $this->request->getArguments();
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        // assign result list from elastic search        
+        $this->view->assign('searchList', $args['results']);
+        $this->view->assign('alreadyImported', $objectIdentifiers);
+
+        // // search hold information
+        // $this->view->assign('id', $args['extra']['id']);
+        // $this->view->assign('title', $args['extra']['title']);
+        // $this->view->assign('author', $args['extra']['author']);
+        // $this->view->assign('showDeleted', $args['extra']['showDeleted']);
+        // $this->view->assign('search', $args['extra']['search']);
+        // 
+        
+        
+    }
+
+    public function latestAction()
+    {
+        // get the latest documents /CREATED_DATE
+    }
+
     /**
      * action search
      * @return void
@@ -302,9 +329,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         
         $results = $this->getResultList($query, $type);
 
-        // redirect to list view
-        $this->forward("list", null, null, array('results' => $results, 'extra' => $extra));
+        if ($args['extSearch']) {
+            // redirect to list view
+            $this->forward("extendedSearch", null, null, array('results' => $results, 'extra' => $extra));
+        } else {
+            // redirect to list view
+            $this->forward("list", null, null, array('results' => $results, 'extra' => $extra));
+        }
     }
+
+
 
     /**
      * action import

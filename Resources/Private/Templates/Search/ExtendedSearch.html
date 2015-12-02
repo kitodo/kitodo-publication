@@ -1,0 +1,52 @@
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="DefaultBE" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+
+<f:section name="main">
+
+    <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
+
+    <div class="searchForm">
+      <f:form action="search" name="extSearch" class="form-inline">
+        <h5>Erweiterte Suche</h5>
+        <div class="form-group">
+          <label for="extId">ID</label>
+          <f:form.textfield property="extId" class="form-control" placeholder="ID" id="extId" value="{id}"/>
+        </div>
+        <div class="form-group">
+          <label for="extTitle">Titel</label>
+          <f:form.textfield property="extTitle" class="form-control" placeholder="Titel" id="extTitle" value="{title}"/>
+        </div>
+        <div class="form-group">
+          <label for="extAuthor">Autor</label>
+          <f:form.textfield property="extAuthor" class="form-control" placeholder="Autor" id="extAuthor" value="{author}"/>
+        </div>
+        <div class="form-group">
+          <label for="extDeleted" class="show-label">Inaktiv/Gelöscht</label>
+          <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true" checked="{showDeleted}"/>
+        </div>
+        <f:form.hidden property="extSearch" value="true" />        
+        <f:form.button class="btn btn-default" type="submit">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          Suchen
+        </f:form.button>
+      </f:form>
+    </div>
+
+    <f:render partial="Search/ResultList" arguments="{searchList: searchList}"/>
+        <center>
+            <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
+        </center>                           
+</f:section>

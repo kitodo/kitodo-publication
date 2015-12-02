@@ -15,6 +15,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:section name="main">
+    
+    <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
                                
     <div class="searchForm">
       <f:form action="search" name="search" class="form-inline">
@@ -30,104 +32,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </f:form>
     </div>
 
-    <div class="searchForm">
-      <f:form action="search" name="extSearch" class="form-inline">
-        <h5>Erweiterte Suche</h5>
-        <div class="form-group">
-          <label for="extId">ID</label>
-          <f:form.textfield property="extId" class="form-control" placeholder="ID" id="extId" value="{id}"/>
-        </div>
-        <div class="form-group">
-          <label for="extTitle">Titel</label>
-          <f:form.textfield property="extTitle" class="form-control" placeholder="Titel" id="extTitle" value="{title}"/>
-        </div>
-        <div class="form-group">
-          <label for="extAuthor">Autor</label>
-          <f:form.textfield property="extAuthor" class="form-control" placeholder="Autor" id="extAuthor" value="{author}"/>
-        </div>
-        <div class="form-group">
-          <label for="extDeleted" class="show-label">Inaktiv/Gelöscht</label>
-          <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true" checked="{showDeleted}"/>
-        </div>
-        <f:form.hidden property="extSearch" value="true" />        
-        <f:form.button class="btn btn-default" type="submit">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suchen
-        </f:form.button>
-      </f:form>
-    </div>
-
-	<table id="search-results" class="tx_dpf table table-striped table-manager table-condensed">
-		<thead>
-			<tr>
-				<th class="xcol-md-5">ID</th>
-				<th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-				<th class="xcol-md-3">Publisher</th>
-				<th class="xcol-md-3">Submitter</th>              
-				<th class="xcol-md-2">Identifier</th>   
-                <th class="xcol-md-1"></th>          
-			</tr>
-		</thead>
-                <tbody>
-		<f:for each="{searchList}" as="entry">
-		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-         <f:then><tr class="success"></f:then>	
-         <f:else><tr></f:else>
-       </f:if>  
-                                                       
-        <f:if condition="{entry._source._dissemination}">
-          <f:then>          
-    				<td>{entry._id}</td>
-    				<td>{entry._source._dissemination._content.title.0}</td>
-    				<td>{entry._source._dissemination._content.publisher.0}</td>
-    				<td>{entry._source._dissemination._content.submitter}</td>
-    				<td>{entry._source._dissemination._content.identifier.0}</td>
-            <td class="table_col_function">
-           
-                <f:link.action action="showPreview" 
-                           arguments="{documentObjectIdentifier : entry._source.PID}" 
-                           class="btn btn-xs btn-default" 
-                           target="_blank"
-                           title="{f:translate(key: 'manager.tooltip.preview')}"
-                           additionalAttributes="{data-toggle: 'tooltip' }">
-                    <span class="glyphicon glyphicon-eye-open"></span>                
-                </f:link.action>
-          
-                
-            <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
-              <f:then>
-                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">                                   
-                  <span class="glyphicon glyphicon-download-alt"></span>
-                  {f:translate(key: 'manager.get')}
-                </f:link.action>
-              </f:then>
-              <f:else>                                                                
-                  <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._type} == \'local\'', then: 'disabled')}">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                    {f:translate(key: 'manager.get')}
-                </f:link.action>                   
-              </f:else>                    
-            </f:if>                                  
-          </td>           
-          </f:then>
-          <f:else>
-            <td>{entry._id}</td>
-            <td>{entry._source.title.0}</td>
-            <td>{entry._source.publisher.0}</td>
-            <td>{entry._source.submitter}</td>
-            <td>{entry._source.identifier.0}</td>
-            <td class="table_col_function">
-              <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                <span class="glyphicon glyphicon-download-alt"></span>
-                {f:translate(key: 'manager.get')}
-              </f:link.action>
-            </td>
-          </f:else>                    
-        </f:if>                                               
-			</tr>
-		</f:for>
-                </tbody>
-        </table>
+	<f:render partial="Search/ResultList" arguments="{searchList: searchList}"/>
         <center>
             <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
         </center>                           
