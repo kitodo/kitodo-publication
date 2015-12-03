@@ -256,12 +256,12 @@ select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
 	border:1px solid #c00!important;
 }
 
-li.a.invalid-error,
+li a.invalid-error,
 li a.mandatory-error {
 	color:#c00!important;
 }
 
-li.a.invalid-error:afer,
+li a.invalid-error:after,
 li a.mandatory-error:after {
 	content:"\e104";
 	font-family:'Glyphicons Halflings';
