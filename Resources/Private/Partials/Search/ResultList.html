@@ -42,7 +42,7 @@
                                 </f:link.action>
                             </f:then>
                             <f:else>                                                                
-                                <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._type} == \'local\'', then: 'disabled')}">
+                                <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                                 {f:translate(key: 'manager.get')}
                             </f:link.action>                   
