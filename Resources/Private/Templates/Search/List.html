@@ -32,7 +32,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </f:form>
     </div>
 
-	<f:render partial="Search/ResultList" arguments="{searchList: searchList}"/>
+	<f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
         <center>
             <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
         </center>                           
