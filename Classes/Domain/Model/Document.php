@@ -609,6 +609,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                  $this->state == self::OBJECT_STATE_ACTIVE) &&
                  !empty($this->objectIdentifier);                  
         }
+                
+        public function isActive() {
+            return $this->state == self::OBJECT_STATE_ACTIVE ||
+                   $this->state == self::OBJECT_STATE_NEW ||
+                   ($this->state != self::OBJECT_STATE_INACTIVE &&
+                    $this->state != self::OBJECT_STATE_DELETED &&
+                    $this->state != self::OBJECT_STATE_LOCALLY_DELETED);        
+        }       
         
         public function isActivationChangeAllowed() {
           return $this->state == self::OBJECT_STATE_INACTIVE ||

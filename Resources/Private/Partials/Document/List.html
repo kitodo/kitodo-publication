@@ -47,31 +47,19 @@
         <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}" additionalAttributes="{data-toggle: 'tooltip' }">        
             <span class="glyphicon glyphicon-duplicate"></span>             
         </f:link.action>                      
-                    
-        
-        <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}', inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}'}">
+                            
+        <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}', 
+                       inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}', 
+                       confirm: '{f:if(condition: \'{document.activateRemote}\', then: \'#confirmActivate\', else: \'#confirmInactivate\')}'}">
         <f:link.action 
-            action="{f:if(condition: '{document.activateRemote}', then: 'activateConfirm')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivateConfirm')}" 
-            arguments="{document : document}" 
-            title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}')}{f:if(condition: '{document.inactivateRemote}', then: '{inactivateTooltip}')}"
+            action="{f:if(condition: '{document.activateRemote}', then: 'activate')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivate')}" 
+            arguments="{document : document}"
             class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}"
-            additionalAttributes="{data-toggle: 'tooltip' }">             
-            <f:if condition="{document.activateRemote}">
-                <span class="glyphicon glyphicon-ban-circle"></span>                 
-            </f:if>
-            <f:if condition="{document.ingestRemote}">
-                <span class="glyphicon glyphicon-ok-circle"></span>                  
-            </f:if>   
-            <f:if condition="{document.inactivateRemote}">
-                <span class="glyphicon glyphicon-ok-circle"></span>                  
-            </f:if>    
-            <f:if condition="{document.restoreRemote}">
-                <span class="glyphicon glyphicon-ban-circle"></span>                  
-            </f:if>   
-            <f:if condition="{document.deleteRemote}">
-                <span class="glyphicon glyphicon-ban-circle"></span>                  
-            </f:if>   
-                                               
+            additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: confirm}">             
+            <span class="glyphicon {f:if(condition: '{document.active}', then: 'glyphicon-ok-circle', else: 'glyphicon-ban-circle')}"
+                data-toggle="tooltip" 
+                title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}', else: '{inactivateTooltip}')}">
+            </span>                            
         </f:link.action> 
         </f:alias>    
         
