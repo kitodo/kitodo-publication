@@ -107,7 +107,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,uniqueInPid'
+				'eval' => 'trim'
 			),
 		),
 		'display_name' => array(
