@@ -62,12 +62,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
-        // search hold information
-        $this->view->assign('id', $args['extra']['id']);
-        $this->view->assign('title', $args['extra']['title']);
-        $this->view->assign('author', $args['extra']['author']);
-        $this->view->assign('showDeleted', $args['extra']['showDeleted']);
-        $this->view->assign('search', $args['extra']['search']);
+        // assign form values
+        $this->assignExtraFields($args['extra']);
+    }
+
+    public function assignExtraFields($array)
+    {
+        // assign all form(extra) field values
+        foreach ($array as $key => $value) {
+            $this->view->assign($key, $value);
+        }
     }
 
     /**
@@ -91,12 +95,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $query['from'] = $sessionVars['resultCount'];
         $query['size'] = 5;
         
-       
         $results = $this->getResultList($query);
-
-       //  echo "<pre>";
-       // var_dump($results);
-       // echo "</pre>";
         
         $this->view->assign('resultList', $results);
     }
@@ -117,6 +116,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $id = $args['extSearch']['extId'];
             $fieldQuery['_id'] = $id;
             $countFields++;
+            // will be removed from query later
             $query['extra']['id'] = $id;
         }
 
@@ -124,13 +124,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $title = $args['extSearch']['extTitle'];
             $fieldQuery['title'] = $title;
             $countFields++;
+            // will be removed from query later
             $query['extra']['title'] = $title;
         }
 
         if ($args['extSearch']['extAuthor']) {
-            $author = $title = $args['extSearch']['extAuthor'];
+            $author = $args['extSearch']['extAuthor'];
             $fieldQuery['author'] = $author;
             $countFields++;
+            // will be removed from query later
             $query['extra']['author'] = $author;
         }
 
@@ -161,6 +163,28 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
                 $i++;
             }
+        }
+
+        // filter
+        $filter = array();
+        if ($args['extSearch']['extFrom']) {
+            $from = $args['extSearch']['extFrom'];
+            $filter['gte'] = $from;
+            // will be removed from query later
+            $query['extra']['from'] = $from;
+        }
+
+        if ($args['extSearch']['extTill']) {
+            $till = $args['extSearch']['extTill'];
+            $filter['lte'] = $till;
+            // will be removed from query later
+            $query['extra']['till'] = $till;
+        }
+
+        if (isset($filter['gte']) || isset($filter['lte'])) {
+            // "format": "dd/MM/yyyy
+            // $filter['format'] = 'dd.MM.yyyy';
+            $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
         }
 
         // owner id
@@ -201,6 +225,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // extra information
         // dont use it for elastic query
+        // will be removed later
         $query['extra']['search'] = $searchText;
 
         return $query;
@@ -267,14 +292,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
-        // // search hold information
-        // $this->view->assign('id', $args['extra']['id']);
-        // $this->view->assign('title', $args['extra']['title']);
-        // $this->view->assign('author', $args['extra']['author']);
-        // $this->view->assign('showDeleted', $args['extra']['showDeleted']);
-        // $this->view->assign('search', $args['extra']['search']);
-        // 
-        
+        // assign form values
+        $this->assignExtraFields($args['extra']);
         
     }
 
@@ -326,11 +345,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // unset extra information
         $extra = $query['extra'];
         unset($query['extra']);
-        
+        var_dump(json_encode($query));
         $results = $this->getResultList($query, $type);
 
         if ($args['extSearch']) {
-            // redirect to list view
+            // redirect to extended search view
             $this->forward("extendedSearch", null, null, array('results' => $results, 'extra' => $extra));
         } else {
             // redirect to list view

@@ -37,6 +37,19 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <label for="extDeleted" class="show-label">Inaktiv/Gelöscht</label>
           <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true" checked="{showDeleted}"/>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="extAuthor">Datum</label>
+                        <f:form.textfield property="extFrom" class="form-control datetimepicker" placeholder="Von" id="extFrom" value="{from}"/>
+                        <label for="extAuthor">bis</label>
+                        <f:form.textfield property="extTill" class="form-control datetimepicker" placeholder="Bis" id="extTill" value="{till}"/>
+                    </div>
+                </div>
+            </div>
+       </div>
+        
         <f:form.hidden property="extSearch" value="true" />        
         <f:form.button class="btn btn-default" type="submit">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
