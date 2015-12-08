@@ -12,7 +12,7 @@
 			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
 				<source>Display Name</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_documenttype.virtual">
+			<trans-unit id="tx_dpf_domain_model_documenttype.virtual">
 				<source>Virtual</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
@@ -21,28 +21,28 @@
 			<trans-unit id="tx_dpf_domain_model_document">
 				<source>Document</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.title">
+			<trans-unit id="tx_dpf_domain_model_document.title">
 				<source>Title</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.authors">
+			<trans-unit id="tx_dpf_domain_model_document.authors">
 				<source>Authors</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
+			<trans-unit id="tx_dpf_domain_model_document.slub_info_data">
 				<source>Slub Info Data</source>
-			</trans-unit>                        
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.document_type">
 				<source>Document Type</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.object_identifier">
+			<trans-unit id="tx_dpf_domain_model_document.object_identifier">
 				<source>Object Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
+			<trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
 				<source>Reserved Object Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.object_state">
+			<trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
@@ -57,19 +57,19 @@
 			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
 				<source>Mandatory</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only">
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only">
 				<source>Backend only</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 				<source>Mapping</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatagroup.info_text">
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.info_text">
 				<source>Info text</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
 				<source>Mods Extension Mapping</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference">
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference">
 				<source>Mods Extension Reference Attribute</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
@@ -93,33 +93,33 @@
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 				<source>Mandatory</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.validation">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.validation">
 				<source>Validation</source>
-			</trans-unit>                                                
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
 				<source>Backend only</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.consent">
 				<source>Consent field</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
 				<source>Default value</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
 				<source>Input option list</source>
-			</trans-unit>                        
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension">
 				<source>Mods Extension Field</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 				<source>Input Field</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
+			<trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
 				<source>Data Type</source>
-			</trans-unit>                       
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
 				<source>Fedora Connection</source>
 			</trans-unit>
@@ -134,19 +134,7 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_qucosaform.options">
 				<source>Options</source>
-                        </trans-unit> 
-                        <trans-unit id="tx_dpf_domain_model_inputoptionlist">
-				<source>Input Option List</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list">
-				<source>Value list</source>
-			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
-				<source>Value label list</source>
-			</trans-unit>    
-                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value">
-				<source>Default value</source>
-			</trans-unit>       
 			<trans-unit id="tx_dpf_domain_model_metadatapage">
 				<source>Metadata Page</source>
 			</trans-unit>
@@ -162,10 +150,10 @@
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
+			<trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
 				<source>Backend only</source>
-			</trans-unit>                           
-                        <trans-unit id="tx_dpf_domain_model_documenttransferlog">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog">
 				<source>Document Transfer Log</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttransferlog.date">
@@ -180,13 +168,13 @@
 			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid">
 				<source>Document Uid</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier">
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier">
 				<source>Object Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_documenttransferlog.action">
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.action">
 				<source>Action</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_file">
+			<trans-unit id="tx_dpf_domain_model_file">
 				<source>File</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.title">
@@ -194,14 +182,14 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.label">
 				<source>Label</source>
-			</trans-unit>                        
-                        <trans-unit id="tx_dpf_domain_model_file.download">
-				<source>Download</source>                                
-			</trans-unit>                    
-                        <trans-unit id="tx_dpf_domain_model_file.archive">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.download">
+				<source>Download</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.archive">
 				<source>Archive</source>
-			</trans-unit>            
-                        <trans-unit id="tx_dpf_domain_model_file.content_type">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.content_type">
 				<source>Content Type</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.link">
@@ -210,16 +198,16 @@
 			<trans-unit id="tx_dpf_domain_model_file.status">
 				<source>Status</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
+			<trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
 				<source>Datastream Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_file.primary_file">
+			<trans-unit id="tx_dpf_domain_model_file.primary_file">
 				<source>Primary file</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_file.document">
 				<source>Document</source>
-			</trans-unit>          
-                        <trans-unit id="tx_dpf_domain_model_client">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client">
 				<source>Client</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_client.project">
@@ -228,149 +216,358 @@
 			<trans-unit id="tx_dpf_domain_model_client.client">
 				<source>Client</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_client.owner_id">
+			<trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>OwnerID</source>
-			</trans-unit>  
-                        <trans-unit id="tx_dpf_domain_model_client.network_initial">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.network_initial">
 				<source>Network initial</source>
-			</trans-unit>                           
-                        <trans-unit id="tx_dpf_domain_model_client.library_identifier">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.library_identifier">
 				<source>Library identifier</source>
-			</trans-unit>     
-                        <trans-unit id="tx_dpf_domain_model_client.admin_email">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.admin_email">
 				<source>Admin email</source>
-			</trans-unit>                                                                                                                                                       
-                        <trans-unit id="form_error_msg.group_mandatory">
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist">
+				<source>Input Option List</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list">
+				<source>Value list</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
+				<source>Value label list</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value">
+				<source>Default value</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.input_options">
+				<source>Input Options</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption">
+				<source>Input Option</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.display_name">
+				<source>Display name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.group_mandatory">
 				<source>Please fill in the required fields.</source>
-			</trans-unit>   
-                        <trans-unit id="form_error_msg.group_one_required">
+			</trans-unit>
+			<trans-unit id="form_error_msg.group_one_required">
 				<source>Please fill out at least one of the fields.</source>
-			</trans-unit>   
-                        <trans-unit id="form_error_msg.all">
+			</trans-unit>
+			<trans-unit id="form_error_msg.all">
 				<source>The form contains errors.</source>
-			</trans-unit>    
-                        <trans-unit id="form_error_msg.field_invalid">
+			</trans-unit>
+			<trans-unit id="form_error_msg.field_invalid">
 				<source>Invalid input</source>
-			</trans-unit>                           
-                        <trans-unit id="form_success_msg.all">
+			</trans-unit>
+			<trans-unit id="form_success_msg.all">
 				<source>Form successfully validated.</source>
-			</trans-unit>    
-                        <trans-unit id="form_button.add_item">
+			</trans-unit>
+			<trans-unit id="form_button.add_item">
 				<source>add %s</source>
 			</trans-unit>
-                        <trans-unit id="form_button.delete_item">
+			<trans-unit id="form_button.delete_item">
 				<source>delete %s</source>
-			</trans-unit>     
-                        <trans-unit id="form_button.addFile">
+			</trans-unit>
+			<trans-unit id="form_button.addFile">
 				<source>add file</source>
-			</trans-unit>              
-                        <trans-unit id="form_button.create_value">
+			</trans-unit>
+			<trans-unit id="form_button.create_value">
 				<source>create</source>
-			</trans-unit>                                                          
-                        <trans-unit id="form_button.save">
+			</trans-unit>
+			<trans-unit id="form_button.save">
 				<source>save</source>
-			</trans-unit>     
-                        <trans-unit id="form_button.save_continue">
+			</trans-unit>
+			<trans-unit id="form_button.save_continue">
 				<source>save &amp; continue</source>
-			</trans-unit>     
-                        <trans-unit id="form_button.cancel">
+			</trans-unit>
+			<trans-unit id="form_button.cancel">
 				<source>cancel</source>
-			</trans-unit> 
-                        <trans-unit id="form_button.delete">
+			</trans-unit>
+			<trans-unit id="form_button.delete">
 				<source>delete</source>
-			</trans-unit>  
-                        <trans-unit id="form_button.not_delete">
+			</trans-unit>
+			<trans-unit id="form_button.not_delete">
 				<source>Do not delete</source>
-			</trans-unit>    
-                        <trans-unit id="form_legend.primaryFile">
+			</trans-unit>
+			<trans-unit id="form_legend.primaryFile">
 				<source>Primary File</source>
-			</trans-unit>       
-                        <trans-unit id="form_legend.secondaryFile">
+			</trans-unit>
+			<trans-unit id="form_legend.secondaryFile">
 				<source>Secondary File</source>
-			</trans-unit>                                                  
-                        <trans-unit id="config.swordHost">
+			</trans-unit>
+			<trans-unit id="config.swordHost">
 				<source>Host address</source>
-			</trans-unit>     
-                        <trans-unit id="config.swordUser">
+			</trans-unit>
+			<trans-unit id="config.swordUser">
 				<source>Username</source>
-			</trans-unit>     
-                        <trans-unit id="config.swordPassword">
+			</trans-unit>
+			<trans-unit id="config.swordPassword">
 				<source>Password</source>
-			</trans-unit>     
-                        <trans-unit id="config.fedoraHost">
+			</trans-unit>
+			<trans-unit id="config.swordCollectionNamespace">
+				<source>Collection namespace</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraHost">
 				<source>Host address</source>
-			</trans-unit>     
-                        <trans-unit id="config.fedoraUser">
+			</trans-unit>
+			<trans-unit id="config.fedoraUser">
 				<source>Username</source>
-			</trans-unit>     
-                        <trans-unit id="config.fedoraPassword">
+			</trans-unit>
+			<trans-unit id="config.fedoraPassword">
 				<source>Password</source>
-			</trans-unit>     
-                        <trans-unit id="config.elasticSearchHost">
+			</trans-unit>
+			<trans-unit id="config.elasticSearchHost">
 				<source>Host address</source>
-			</trans-unit>     
-                        <trans-unit id="config.elasticSearchPort">
+			</trans-unit>
+			<trans-unit id="config.elasticSearchPort">
 				<source>Port</source>
-			</trans-unit> 
-                        <trans-unit id="manager.discard">
+			</trans-unit>
+			<trans-unit id="manager.discard">
 				<source>discard</source>
-			</trans-unit>  
-                        <trans-unit id="manager.update">
+				<target>verwerfen</target>
+			</trans-unit>
+			<trans-unit id="manager.update">
 				<source>update</source>
-                                <target>aktualisieren</target>
+				<target>aktualisieren</target>
 			</trans-unit>
-                        <trans-unit id="manager.delete">
+			<trans-unit id="manager.delete">
 				<source>delete</source>
-                                <target>löschen</target>
+				<target>löschen</target>
 			</trans-unit>
-                        <trans-unit id="manager.duplicate">
-                                <source>duplicate</source>
+			<trans-unit id="manager.duplicate">
+				<source>duplicate</source>
 				<target>duplizieren</target>
-			</trans-unit>                                                
-                        <trans-unit id="document_duplicate.success">
-                                <source>The document has been duplicated.</source>
-				<target>Das Dokument wurde dupliziert.</target>
-			</trans-unit>                          
-                        <trans-unit id="manager.publish">
-                                <source>publish</source>
+			</trans-unit>
+			<trans-unit id="manager.edit">
+				<source>edit</source>
+			</trans-unit>
+			<trans-unit id="manager.publish">
+				<source>publish</source>
 				<target>veröffentlichen</target>
-			</trans-unit>   
-                        <trans-unit id="manager.published">
+			</trans-unit>
+			<trans-unit id="manager.published">
 				<source>published</source>
-			</trans-unit>   
-                        <trans-unit id="manager.unpublished">
+			</trans-unit>
+			<trans-unit id="manager.unpublished">
 				<source>unpublished</source>
 			</trans-unit>
-					<trans-unit id="manager.doublet">
-				<target>Dubletten Check</target>
-			</trans-unit>    
-                        <trans-unit id="document_ingest.success">
+			<trans-unit id="manager.doublet">
+				<source>Doublet Check</source>
+				<target>Doubletten-Check</target>
+			</trans-unit>
+			<trans-unit id="manager.preview">
+				<source>preview</source>
+			</trans-unit>
+			<trans-unit id="manager.duplicate">
+				<source>duplicate</source>
+			</trans-unit>
+			<trans-unit id="manager.activate">
+				<source>activate</source>
+			</trans-unit>
+			<trans-unit id="manager.inactivate">
+				<source>inactivate</source>
+			</trans-unit>
+			<trans-unit id="manager.duplicate">
+				<source>duplicate</source>
+			</trans-unit>
+			<trans-unit id="manager.get">
+				<source>Get</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.activate">
+				<source>Activate document</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.inactivate">
+				<source>Inactivate document</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.preview">
+				<source>Show document preview</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.duplicate">
+				<source>Duplicate document</source>
+			</trans-unit>
+			<trans-unit id="manager.discardConfirmMessageHeader">
+				<source>Do you really want to discard the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.discardConfirmMessage">
+				<source>The document "%s" will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
+			</trans-unit>
+			<trans-unit id="manager.discardConfirmYes">
+				<source>continue</source>
+			</trans-unit>
+			<trans-unit id="manager.discardConfirmNo">
+				<source>cancel</source>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmMessageHeader.update">
+				<source>Do you really want to update the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmMessage.update">
+				<source>All document changes of "%s" will be sent to the repository and the local document will be discarded.</source>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmMessageHeader.publish">
+				<source>Do you really want to publish the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmMessage.publish">
+				<source>The document "%s" will be sent to the repository and the local document will be discarded.</source>
+			</trans-unit>
+			<trans-unit id="manager.deleteConfirmMessageHeader">
+				<source>Do you really want to delete the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.deleteConfirmMessage">
+				<source>The document "%s" will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
+			</trans-unit>
+			<trans-unit id="manager.restoreConfirmMessageHeader">
+				<source>Do you really want to restore the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.restoreConfirmMessage">
+				<source>The document "%s" will be marked as inactive in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.activateConfirmMessageHeader">
+				<source>Do you really want to activate the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.activateConfirmMessage">
+				<source>The document "%s" will be marked as active in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.inactivateConfirmMessageHeader">
+				<source>Do you really want to inactivate the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.inactivateConfirmMessage">
+				<source>The document "%s" will be marked as inactive in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmYes">
+				<source>continue</source>
+			</trans-unit>
+			<trans-unit id="document_duplicate.success">
+				<source>The document has been duplicated.</source>
+				<target>Das Dokument wurde dupliziert.</target>
+			</trans-unit>
+			<trans-unit id="manager.releaseConfirmNo">
+				<source>cancel</source>
+			</trans-unit>
+			<trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
-			</trans-unit> 
-                        <trans-unit id="document_ingest.failure">
+			</trans-unit>
+			<trans-unit id="document_ingest.failure">
 				<source>Publishing %s failed.</source>
-			</trans-unit> 
-                        <trans-unit id="document_update.success">
+			</trans-unit>
+			<trans-unit id="document_update.success">
 				<source>%s successfully updated.</source>
-			</trans-unit> 
-                        <trans-unit id="document_update.failure">
+			</trans-unit>
+			<trans-unit id="document_update.failure">
 				<source>Updating %s failed.</source>
 			</trans-unit>
-                        <trans-unit id="document_delete.success">
+			<trans-unit id="document_restore.success">
+				<source>%s successfully restored.</source>
+			</trans-unit>
+			<trans-unit id="document_restore.failure">
+				<source>Restoring %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_activate.success">
+				<source>%s successfully activated.</source>
+			</trans-unit>
+			<trans-unit id="document_activate.failure">
+				<source>Activating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.success">
+				<source>%s successfully inactivated.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.failure">
+				<source>Inactivating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_delete.success">
 				<source>%s successfully deleted.</source>
-			</trans-unit> 
-                        <trans-unit id="document_delete.failure">
+			</trans-unit>
+			<trans-unit id="document_discard.success">
+				<source>Document successfully discarded.</source>
+			</trans-unit>
+			<trans-unit id="document_delete.failure">
 				<source>Deleting %s failed.</source>
-			</trans-unit>    
-                        <trans-unit id="document_retrieve.success">
+			</trans-unit>
+			<trans-unit id="document_retrieve.success">
 				<source>Dataset %s successfully imported.</source>
-			</trans-unit> 
-                        <trans-unit id="document_retrieve.failure">
+			</trans-unit>
+			<trans-unit id="document_retrieve.failure">
 				<source>Importing dataset %s failed.</source>
-			</trans-unit> 
-                        <trans-unit id="email_notification.newDocument">
-				<source>A new document has been registered.</source>                                
-			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.subject">
+				<source>New document registered</source>
+				<target>Ein neues Dokument wurde angemeldet</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.body">
+				<source>
+Ein neues Dokument wurde angemeldet:
+
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+				</source>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.subject">
+				<source>You have registered a document</source>
+				<target>Ihre Veröffentlichung auf Qucosa – Anmeldebestätigung</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.body">
+				<source>
+You have registered the following document:
+
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+				</source>
+				<target>
+Sehr geehrte/r [Personenangaben - Übermittler – Name],
+
+wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
+
+Titel: %s
+Erste/r AutorIn: %s
+Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - falls noch nicht geschehen - die unterschriebene Einverständniserklärung. Sobald Ihr Dokument online verfügbar ist, benachrichtigen wir Sie per E-Mail.
+
+Mit freundlichen Grüßen
+Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.subject">
+				<source>Document published</source>
+				<target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.body">
+				<source>
+Your document has been published:
+
+Title: %s
+Author: %s
+URN: %s
+Date: %s
+				</source>
+				<target>
+Sehr geehrte/r [Personenangaben - Übermittler – Name],
+
+die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
+
+Titel: %s
+Erste/r AutorIn: %s
+Das Dokument ist unter der URL %s online verfügbar und zitierfähig. Die Funktion des Links wird in Kürze bereitgestellt.
+
+Mit freundlichen Grüßen
+Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+				</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
