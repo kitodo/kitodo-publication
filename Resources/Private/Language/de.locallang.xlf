@@ -502,6 +502,10 @@
 			<trans-unit id="document_retrieve.failure">
 				<source>Importing dataset %s failed.</source>
 			</trans-unit>
+                        <trans-unit id="documentForm.create.ok">
+				<source>Document successfully created.</source>
+                                <target>Das Dokument wurde erfolgreich angelegt.</target>
+			</trans-unit>
 			<trans-unit id="notification.newDocument.admin.subject">
 				<source>New document registered</source>
 				<target>Ein neues Dokument wurde angemeldet</target>

@@ -17,6 +17,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
+<f:if condition="{success}">    
+   <div class="alert alert-success" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.create.ok" />
+   </div>        
+</f:if>
+
+
 <f:if condition="{listtype}=='list'">
 
 <table  class="tx_dpf" >

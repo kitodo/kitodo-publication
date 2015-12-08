@@ -88,15 +88,16 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	/**
 	 * action list
 	 *
+         * @param boolean $success 
 	 * @return void
 	 */
-	public function listAction() {
-                                                                         
+	public function listAction($success = FALSE) {
+            
 		$documents = $this->documentRepository->findAll();
                 
                 $documentTypes = $this->documentTypeRepository->findAll();
                                 
-                
+                $this->view->assign('success', $success);
                 $this->view->assign('listtype', $this->settings['listtype']);
                 
                 $this->view->assign('documentTypes', $documentTypes);                                
@@ -230,8 +231,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
           }                              
-                        
-          $this->redirectToList();
+                                                            
+          $this->redirectToList(TRUE);
 	}
 
                 
@@ -345,7 +346,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
     }    
     
     
-    protected function redirectToList() {
+    protected function redirectToList($success=FALSE) {
       $this->redirect('list');  
     }
 

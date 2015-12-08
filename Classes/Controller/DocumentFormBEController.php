@@ -9,7 +9,7 @@ class DocumentFormBEController extends AbstractDocumentFormController {
            
   }
     
-  protected function redirectToList() {   
+  protected function redirectToList($success=FALSE) {   
     $this->redirect('list','Document',NULL,array());    
   }
   
