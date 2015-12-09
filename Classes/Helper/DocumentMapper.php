@@ -210,7 +210,16 @@ class DocumentMapper {
                                                               
                     $documentFormFieldItem = clone($documentFormField);  
                                                            
-                    $objectValue = $value->nodeValue;                                                                                                                                        
+                    $objectValue = $value->nodeValue;                
+                    
+                    if($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {   
+                        $dateStr = explode('T',$objectValue);                                              
+                        $date = date_create_from_format('Y-m-d',trim($dateStr[0]));
+                        if ($date) {
+                            $objectValue = date_format($date,'d.m.Y');
+                        }                                                                                                     
+                    }                         
+                    
                     //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
                     $objectValue = str_replace('"',"'",$objectValue);
                                                          
@@ -351,6 +360,11 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
+              
+              if($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {                 
+                 $date = date_create_from_format('d.m.Y',trim($value));                 
+                 $value = date_format($date,'Y-m-d');                    
+              }             
               
               $fieldCount++;
               if (!empty($value)) {                                                   
