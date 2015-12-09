@@ -39,7 +39,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @inject
 	 */
 	protected $documentRepository = NULL;
-           
+
 
     /**
      * persistence manager
@@ -49,32 +49,32 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
      */
     protected $persistenceManager;
 
-    
-    // TypoScript settings 
+
+    // TypoScript settings
     protected $settings = array();
-                        
+
 	/**
 	 * action list
 	 *
 	 * @return void
 	 */
-	public function listAction() {                                                                                              
+	public function listAction() {
 		$documents = $this->documentRepository->findAll();
 		$this->view->assign('documents', $documents);
 	}
 
-        
-        public function listNewAction() {                                                                     
-		$documents = $this->documentRepository->getNewDocuments($this->getStoragePID());             
+
+        public function listNewAction() {
+		$documents = $this->documentRepository->getNewDocuments($this->getStoragePID());
 		$this->view->assign('documents', $documents);
 	}
-        
-        
-        public function listEditAction() {                            
-		$documents = $this->documentRepository->getInProgressDocuments($this->getStoragePID());              
+
+
+        public function listEditAction() {
+		$documents = $this->documentRepository->getInProgressDocuments($this->getStoragePID());
 		$this->view->assign('documents', $documents);
 	}
-        
+
 	/**
 	 * action show
 	 *
@@ -82,7 +82,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function showAction(\EWW\Dpf\Domain\Model\Document $document) {
-                                                          
+
             $this->view->assign('document', $document);
 	}
 
@@ -94,11 +94,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = NULL) {
-          
+
 		$this->view->assign('newDocument', $newDocument);
 	}
 
-        
+
 	/**
 	 * action create
 	 *
@@ -106,7 +106,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument) {
-                        
+
 		$this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		$this->documentRepository->add($newDocument);
 		$this->redirect('list');
@@ -130,7 +130,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function updateAction(\EWW\Dpf\Domain\Model\Document $document) {
-                $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);		
+                $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
                 $this->documentRepository->update($document);
 		$this->redirect('list');
 	}
@@ -141,11 +141,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @param \EWW\Dpf\Domain\Model\Document $document
 	 * @return void
 	 */
-	public function discardConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {                                                    
+	public function discardConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {
             $this->view->assign('document',$document);
 	}
-         
-        
+
+
         /**
 	 * action discard
 	 *
@@ -159,20 +159,20 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
                 $elasticsearchRepository->delete($document,"");
 
                 $this->documentRepository->remove($document);
-                                
+
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
-                
+
                 $args = array();
-                
+
                 $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
                 $message = empty($message)? "" : $message;
-		                
-                $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);		
-              
+
+                $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+
                 $this->redirect('list');
 	}
-        
-        
+
+
         /**
 	 * action duplicate
 	 *
@@ -180,385 +180,321 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 	 * @return void
 	 */
 	public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document) {
-            
+
                 $args = array();
-                
+
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
                 $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
                 $message = empty($message)? "" : $message;
-            
+
 		$this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
 
                 $newDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-                                                              
-                $newDocument->setTitle($document->getTitle()); 
+
+                $newDocument->setTitle($document->getTitle());
                 $newDocument->setAuthors($document->getAuthors());
-               
-                $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());  
+
+                $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
                 $mods->clearAllUrn();
-                $newDocument->setxmlData($mods->getModsXml());  
-                $newDocument->setSlubInfoData($document->getSlubInfoData());  
-                
+                $newDocument->setxmlData($mods->getModsXml());
+                $newDocument->setSlubInfoData($document->getSlubInfoData());
+
                 $newDocument->setDocumentType($document->getDocumentType());
                 $newDocument->removeDateIssued();
-               
-                
+
+
                 $this->documentRepository->add($newDocument);
 
                 $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-                
+
                 $this->persistenceManager->persistAll();
                 // send document to index
                 $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
                 $json = $elasticsearchMapper->getElasticsearchJson($newDocument);
-                
+
                 $elasticsearchRepository->add($newDocument, $json);
                 // $elasticsearchRepository->delete($updateDocument);
 
 		$this->redirect('list');
 	}
-                       
-        
+
+
        /**
          * action releaseConfirm
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @param string $releaseType
          * @return void
          */
-        public function releaseConfirmAction(\EWW\Dpf\Domain\Model\Document $document, $releaseType) {            
+        public function releaseConfirmAction(\EWW\Dpf\Domain\Model\Document $document, $releaseType) {
             $this->view->assign('releaseType',$releaseType);
             $this->view->assign('document',$document);
         }
-            
-        
-        
+
+
+
         /**
          * action release
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
         public function releaseAction(\EWW\Dpf\Domain\Model\Document $document) {
-          
-          // generate URN if needed  
+
+          // generate URN if needed
           $qucosaId = $document->getObjectIdentifier();
           if (empty($qucosaId)) {
             $qucosaId = $document->getReservedObjectIdentifier();
-          }          
-          if (empty($qucosaId)) {                                         
+          }
+          if (empty($qucosaId)) {
             $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
-            $documentTransferManager->setRemoteRepository($remoteRepository);          
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
+            $documentTransferManager->setRemoteRepository($remoteRepository);
             $qucosaId = $documentTransferManager->getNextDocumentId();
             $document->setReservedObjectIdentifier($qucosaId);
           }
-                    
-          $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());               
-          if (!$mods->hasUrn() ) { 
+
+          $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+          if (!$mods->hasUrn() ) {
                $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
                $urn = $urnService->getUrn($qucosaId);
                $mods->addUrn($urn);
                $document->setXmlData($mods->getModsXml());
-          }                                
-                                                      
+          }
+
           $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-          $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+          $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
           $documentTransferManager->setRemoteRepository($remoteRepository);
-                              
+
           $objectIdentifier = $document->getObjectIdentifier();
-          
-          if (empty($objectIdentifier)) {         
-          
+
+          if (empty($objectIdentifier)) {
+
             // Document is not in the fedora repository.
-                                
+
             if ($documentTransferManager->ingest($document)) {
               $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
-              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;               
-              $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
+              $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+              $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
               $notifier->sendIngestNotification($document);
             } else {
               $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
               $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             }
-                                                    
-          } else {                                  
-                                             
+
+          } else {
+
             // Document needs to be updated.
 
-            if ($documentTransferManager->update($document)) {               
+            if ($documentTransferManager->update($document)) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-            }      
-                                                                                  
+            }
+
           }
-          
+
           $this->flashMessage($document, $key, $severity);
-                                        
-          $this->redirect('list');          
-        }   
-        
-        
+
+          $this->redirect('list');
+        }
+
+
         /**
          * action restoreConfirm
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
-        public function restoreConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {            
+        public function restoreConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {
             $this->view->assign('document',$document);
         }
-        
-        
+
+
         /**
          * action restore
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
         public function restoreAction(\EWW\Dpf\Domain\Model\Document $document) {
-            
+
             $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
             $documentTransferManager->setRemoteRepository($remoteRepository);
-            
-            
-            if ($documentTransferManager->delete($document,"inactivate"))  {              
+
+
+            if ($documentTransferManager->delete($document,"inactivate"))  {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';    
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-            }    
-            
+            }
+
             $this->flashMessage($document, $key, $severity);
-                              
-            $this->redirect('list');      
+
+            $this->redirect('list');
         }
-        
-        
+
+
         /**
          * action deleteConfirm
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
-        public function deleteConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {            
+        public function deleteConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {
             $this->view->assign('document',$document);
         }
-        
-        
+
+
         /**
          * action delete
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
         public function deleteAction(\EWW\Dpf\Domain\Model\Document $document) {
-            
+
             $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
             $documentTransferManager->setRemoteRepository($remoteRepository);
-            
-            
-            if ($documentTransferManager->delete($document,""))  {              
+
+
+            if ($documentTransferManager->delete($document,""))  {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';    
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-            }    
-            
+            }
+
             $this->flashMessage($document, $key, $severity);
-                              
-            $this->redirect('list');      
+
+            $this->redirect('list');
         }
-        
-        
+
+
         /**
          * action activateConfirm
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
-        public function activateConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {            
+        public function activateConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {
             $this->view->assign('document',$document);
         }
-            
-        
+
+
         /**
          * action activate
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
         public function activateAction(\EWW\Dpf\Domain\Model\Document $document) {
-            
+
             $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
             $documentTransferManager->setRemoteRepository($remoteRepository);
-            
-            
-            if ($documentTransferManager->delete($document,"revert"))  {              
+
+
+            if ($documentTransferManager->delete($document,"revert"))  {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.failure';    
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.failure';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-            }    
-            
+            }
+
             $this->flashMessage($document, $key, $severity);
-                              
-            $this->redirect('list');      
+
+            $this->redirect('list');
         }
-        
+
         /**
          * action inactivateConfirm
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
-        public function inactivateConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {            
+        public function inactivateConfirmAction(\EWW\Dpf\Domain\Model\Document $document) {
             $this->view->assign('document',$document);
         }
-        
-        
+
+
         /**
          * action inactivate
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @return void
          */
         public function inactivateAction(\EWW\Dpf\Domain\Model\Document $document) {
-            
+
             $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');                             
+            $remoteRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
             $documentTransferManager->setRemoteRepository($remoteRepository);
-            
-            
-            if ($documentTransferManager->delete($document,"inactivate"))  {              
+
+
+            if ($documentTransferManager->delete($document,"inactivate"))  {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';    
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-            }    
-            
-            $this->flashMessage($document, $key, $severity);
-                              
-            $this->redirect('list');      
-        }
-        
-        
-        /**
-         * action show preview
-         * 
-         * @param  \EWW\Dpf\Domain\Model\Document $document
-         * @return void
-         */
-        public function showPreviewAction(\EWW\Dpf\Domain\Model\Document $document) {                      
-                                                                   
-            $baseURL = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';    
-            $port = '';    
-            if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
-                $port = ':'.$_SERVER['SERVER_PORT'];
-            }         
-            $baseURL .= trim($_SERVER['SERVER_NAME'],"/").$port."/";
-              
-            // realurl inactive
-            //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
-            
-            // realurl active
-            $metsURL = $baseURL . "api/action/previewData/id/".$document->getUid();                        
-           
-            $previewPage = $this->settings['settings']['previewPage'];  
-            
-            if (is_numeric($previewPage)) {
-                $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);                                                                     
-            } else {
-                $previewPage = trim($previewPage,"/?&# ");
-                
-                $url = parse_url($previewPage);
-                        
-                $previewUri = $previewPage.(empty($url['query'])?"?":"&")."tx_dlf_document_url=".urlencode($metsURL);       
             }
-            
-            $this->redirectToUri($previewUri);   
+
+            $this->flashMessage($document, $key, $severity);
+
+            $this->redirect('list');
         }
-        
-        
-        /**
-         * action previewData
-         * 
-         * @param integer $docId
-         */
-        public function previewDataAction($docId) {
-                                                  
-            $document = $this->documentRepository->findByUid($docId);
-            
-            // Build METS-Data
-            $exporter = new \EWW\Dpf\Services\MetsExporter();      
-            $fileData = $document->getCurrentFileData();                                   
-            $exporter->setFileData($fileData);                                       
-            $exporter->setMods($document->getXmlData());    
-            $exporter->setSlubInfo($document->getSlubInfoData());        
-            $exporter->buildMets();                              
-            $metsXml = $exporter->getMetsData();
-                                    
-            return $metsXml;                        
-        }
-        
-        
+
+
         public function initializeAction() {
             parent::initializeAction();
-            
-            
-            if(TYPO3_MODE === 'BE') { 
+
+
+            if(TYPO3_MODE === 'BE') {
                 $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
- 
+
                 $this->settings = $configManager->getConfiguration(
                     $this->request->getControllerExtensionName(),
                     $this->request->getPluginName()
-                );                                               
+                );
            }
-                             
-           
-            if ( !$GLOBALS['BE_USER'] && $this->actionMethodName != 'previewDataAction') {
-                 throw new \Exception('Access denied');
-            }      
-            
-        }    
-        
-        
-        protected function getStoragePID() {                                               
-            return $this->settings['persistence']['classes']['EWW\Dpf\Domain\Model\Document']['newRecordStoragePid'];            
+
+		}
+
+
+        protected function getStoragePID() {
+            return $this->settings['persistence']['classes']['EWW\Dpf\Domain\Model\Document']['newRecordStoragePid'];
         }
-                                  
-        
+
+
         /**
-         * 
+         *
          * @param \EWW\Dpf\Domain\Model\Document $document
          * @param string $key
-         * @param string $severity 
+         * @param string $severity
          */
         protected function flashMessage(\EWW\Dpf\Domain\Model\Document $document, $key, $severity) {
-            
+
              // Show success or failure of the action in a flash message
             $args[] = $document->getTitle();
-            $args[] = $document->getObjectIdentifier(); 
-            
+            $args[] = $document->getObjectIdentifier();
+
             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key,'dpf',$args);
             $message = empty($message)? "" : $message;
-         
+
             $this->addFlashMessage(
                 $message,
                 '',
                 $severity,
                 TRUE
             );
-                                                     
+
         }
 }
