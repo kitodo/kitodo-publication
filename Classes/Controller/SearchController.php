@@ -171,14 +171,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $filter = array();
         if ($args['extSearch']['extFrom']) {
             $from = $args['extSearch']['extFrom'];
-            $filter['gte'] = $from;
+            $filter['gte'] = $this->formatDate($from);
             // will be removed from query later
             $query['extra']['from'] = $from;
         }
 
         if ($args['extSearch']['extTill']) {
             $till = $args['extSearch']['extTill'];
-            $filter['lte'] = $till;
+            $filter['lte'] = $this->formatDate($till);
             // will be removed from query later
             $query['extra']['till'] = $till;
         }
@@ -193,6 +193,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
 
         return $query;
+    }
+
+    public function formatDate($date)
+    {
+        // convert date from dd.mm.yyy to yyyy-dd-mm
+        $date = explode(".", $date);
+        return $date[2].'-'.$date[1].'-'.$date[0];
     }
 
     public function searchFulltext()
@@ -347,7 +354,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // unset extra information
         $extra = $query['extra'];
         unset($query['extra']);
-        var_dump(json_encode($query));
         $results = $this->getResultList($query, $type);
 
         if ($args['extSearch']) {
