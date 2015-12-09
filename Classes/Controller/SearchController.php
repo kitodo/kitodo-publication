@@ -69,8 +69,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     public function assignExtraFields($array)
     {
         // assign all form(extra) field values
-        foreach ($array as $key => $value) {
-            $this->view->assign($key, $value);
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $this->view->assign($key, $value);
+            }
         }
     }
 
