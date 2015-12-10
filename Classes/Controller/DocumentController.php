@@ -50,9 +50,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
     protected $persistenceManager;
 
 
-    // TypoScript settings
-    protected $settings = array();
-
 	/**
 	 * action list
 	 *
@@ -65,13 +62,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
 
 
         public function listNewAction() {
-		$documents = $this->documentRepository->getNewDocuments($this->getStoragePID());
+		$documents = $this->documentRepository->getNewDocuments();
 		$this->view->assign('documents', $documents);
 	}
 
 
         public function listEditAction() {
-		$documents = $this->documentRepository->getInProgressDocuments($this->getStoragePID());
+		$documents = $this->documentRepository->getInProgressDocuments();
 		$this->view->assign('documents', $documents);
 	}
 
@@ -453,20 +450,22 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController {
         }
 
 
-        public function initializeAction() {
-            parent::initializeAction();
-
-
-            if(TYPO3_MODE === 'BE') {
-                $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
-
-                $this->settings = $configManager->getConfiguration(
-                    $this->request->getControllerExtensionName(),
-                    $this->request->getPluginName()
-                );
-           }
-
-		}
+	// this destroys settings from typoscript inside backend module
+	// --> not necessary?
+//        public function initializeAction() {
+//            parent::initializeAction();
+//
+//
+//            if(TYPO3_MODE === 'BE') {
+//                $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+//
+//                $this->settings = $configManager->getConfiguration(
+//                    $this->request->getControllerExtensionName(),
+//                    $this->request->getPluginName()
+//                );
+//           }
+//
+//		}
 
 
         protected function getStoragePID() {
