@@ -252,7 +252,9 @@
     list-style: none; 
 }    
 
-
+.btn-edit-discard {
+    margin-left: 10px;
+}
 
 /* -- error handling -------------------------------------------------------------------- */
 select.invalid-error,textarea.invalid-error,input.invalid-error, 
