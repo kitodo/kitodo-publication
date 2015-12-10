@@ -47,10 +47,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     */
     protected $clientRepository = null;
 
-    
+
     const RESULT_COUNT = 50;
     const NEXT_RESULT_COUNT = 50;
-    
+
         /**
      * action list
      *
@@ -97,15 +97,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
+
         unset($query['extra']);
-        
+
         $type = 'object';
 
         $query['body']['from'] = $sessionVars['resultCount'];
         $query['body']['size'] = self::NEXT_RESULT_COUNT;
-        
+
         $results = $this->getResultList($query, $type);
-        
+
         $this->view->assign('resultList', $results);
         $this->view->assign('alreadyImported', array());
     }
@@ -214,9 +215,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     {
         // perform fulltext search
         $args = $this->request->getArguments();
-                                        
+
         $client = $this->clientRepository->findAll()->current();
-        
+
         // dont return query if keys not existing
         if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
             return NULL;
@@ -299,7 +300,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         } else {
             $query['body']['query']['match']['_all'] = $args['search']['query'];
         }
-        
+
         return $query;
     }
 
@@ -331,7 +332,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // assign form values
         $this->assignExtraFields($args['extra']);
-        
+
     }
 
     public function latestAction()
@@ -349,7 +350,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $results = $this->getResultList($query, $type);
 
         $this->forward("list", null, null, array('results' => $results));
-        
+
     }
 
     /**
@@ -367,7 +368,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
         $sessionVars['resultCount'] = self::RESULT_COUNT;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-               
+
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
         if ($args['extSearch']) {
@@ -376,7 +377,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         } else {
             $query = $this->searchFulltext();
         }
-        
+
         // save search query
         if ($query) {
             $query['body']['from'] = '0';
@@ -444,32 +445,31 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             true
         );
 
-                
         $this->forward('updateIndex', NULL, NULL, array('documentObjectIdentifier' => $documentObjectIdentifier));
-        
         //$this->redirect('search');
     }
-    
+
     /**
+     *
      * @param  string $documentObjectIdentifier
      * @return void
      */
     public function updateIndexAction($documentObjectIdentifier)
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
-        
-        if (is_a($document, '\EWW\Dpf\Domain\Model\Document')) {
+
+        if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
             $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
             $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
             $json = $elasticsearchMapper->getElasticsearchJson($document);
             // send document to index
             $elasticsearchRepository->add($document, $json);
         }
-        
+
         $this->redirect('search');
     }
-    
-    
+
+
     /**
      * action doubletCheck
      *
@@ -497,7 +497,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // identifier
         // submitter
         // project
-        
+
         // is doublet existing?
         $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
         // $query['body']['query']['bool']['must'][]['match']['author'] = $document->getAuthors()[0];
@@ -509,62 +509,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // redirect to list view
         //$this->forward("list", null, null, array('results' => $results));
-        
+
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-      
+
         $this->view->assign('document', $document);
         $this->view->assign('searchList', $results);
         $this->view->assign('alreadyImported', $objectIdentifiers);
-        
+
     }
 
-    /**
-     * action show preview
-     * @param  string $documentObjectIdentifier
-     * @return void
-     */
-    public function showPreviewAction($documentObjectIdentifier)
-    {
-
-        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
-        $port = '';
-        if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
-            $port = ':'.$_SERVER['SERVER_PORT'];
-        }
-        $baseURL .= $protocol.trim($_SERVER['SERVER_NAME'], "/").$port."/";
-          
-        // realurl inactive
-        //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();
-
-        // realurl active
-        // $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $metsURL = $protocol.$confArr['fedoraHost'].'/fedora/objects/'.$documentObjectIdentifier.'/methods/qucosa:SDef/getMETSDissemination';
-       
-        
-        $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
- 
-        $settings = $configManager->getConfiguration(
-            $this->request->getControllerExtensionName(),
-            $this->request->getPluginName()
-        );
-        
-        $previewPage = $settings['settings']['previewPage'];
-                      
-        if (is_numeric($previewPage)) {
-            $previewUri = $baseURL."index.php?id=".$previewPage."&tx_dlf_document_url=".urlencode($metsURL);
-        } else {
-            $previewPage = trim($previewPage, "/?&# ");
-            
-            $url = parse_url($previewPage);
-                    
-            $previewUri = $previewPage.(empty($url['query'])?"?":"&")."tx_dlf_document_url=".urlencode($metsURL);
-        }
-        
-        $this->redirectToUri($previewUri);
-    }
-                      
 }
