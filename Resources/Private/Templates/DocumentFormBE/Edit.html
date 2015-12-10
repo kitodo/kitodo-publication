@@ -21,7 +21,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 </f:comment>
 
-<h2>{documentForm.displayName} bearbeiten</h2>
+<h2><f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}" /></h2>
 
  <f:render partial="DocumentFormBE/Edit" arguments="{documentForm:documentForm}"/>
  

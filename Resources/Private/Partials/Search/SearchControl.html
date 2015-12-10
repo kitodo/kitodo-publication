@@ -1,22 +1,24 @@
+    <f:comment>
     <f:be.menus.actionMenu>
-      <f:be.menus.actionMenuItem label="Einfache Suche" controller="Search" action="list" />
-      <f:be.menus.actionMenuItem label="Erweiterte Suche" controller="Search" action="extendedSearch" />
-      <f:be.menus.actionMenuItem label="Neu" controller="Search" action="list" /> 
+      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.simpleSearch')}" controller="Search" action="list" />
+      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.extendedSearch')}" controller="Search" action="extendedSearch" />
+      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.new')}" controller="Search" action="list" /> 
     </f:be.menus.actionMenu>
-
+    </f:comment>
+        
 <div class="be-page-header">       
         <div class="btn-group controller-switch" role="group">
           <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            Einfache Suche
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>            
+            <f:translate key="search.control.simpleSearch" />          
           </f:link.action>  
           <f:link.action action="extendedSearch" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            Erweiterte Suche
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>            
+            <f:translate key="search.control.extendedSearch" />
           </f:link.action>
           <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            Neu
+            <f:translate key="search.control.new" />           
           </f:link.action>
         </div>
     </div>

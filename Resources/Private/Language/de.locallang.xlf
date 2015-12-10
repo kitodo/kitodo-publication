@@ -457,6 +457,41 @@
 			<trans-unit id="manager.releaseConfirmNo">
 				<source>cancel</source>
 			</trans-unit>
+                        <trans-unit id="manager.client">
+				<source>Client</source>
+                                <target>Mandant</target>
+			</trans-unit>  
+                        <trans-unit id="manager.control.documents">
+				<source>Documents</source>
+                                <target>Dokumente</target>
+			</trans-unit>
+                        <trans-unit id="manager.control.search">
+				<source>Search</source>
+                                <targetr>Suche</targetr>
+			</trans-unit>
+                        <trans-unit id="manager.document.title">
+				<source>Title</source>
+			</trans-unit>                                 
+                        <trans-unit id="manager.document.authors">
+				<source>Authors</source>
+			</trans-unit>                                 
+                        <trans-unit id="manager.document.publishedDate">
+				<source>Published Date</source>
+			</trans-unit>                                 
+                        <trans-unit id="manager.document.datasetIdentifier">
+				<source>Dateset Identifier</source>
+			</trans-unit>                                 
+                        <trans-unit id="manager.document.state">
+				<source>State</source>
+			</trans-unit>                          
+                        <trans-unit id="manager.document.state.new">
+				<source>New</source>
+                                <target>Neu</target>
+			</trans-unit>  
+                        <trans-unit id="manager.document.state.inProgress">
+				<source>In progress</source>
+                                <target>In Bearbeitung</target>
+			</trans-unit>    
 			<trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit>
@@ -506,6 +541,18 @@
 				<source>Document successfully created.</source>
                                 <target>Das Dokument wurde erfolgreich angelegt.</target>
 			</trans-unit>
+                        <trans-unit id="documentForm.create.header">
+				<source>Create document</source>
+                                <target>Dokument anlegen</target>
+			</trans-unit>
+                        <trans-unit id="documentForm.new.header">
+				<source>New %s</source>
+                                <target>% anlegen</target>
+			</trans-unit> 
+                        <trans-unit id="documentForm.edit.header">
+				<source>Edit %s</source>
+                                <target>% bearbeiten</target>
+			</trans-unit>     
 			<trans-unit id="notification.newDocument.admin.subject">
 				<source>New document registered</source>
 				<target>Ein neues Dokument wurde angemeldet</target>
@@ -572,6 +619,111 @@ Mit freundlichen Grüßen
 Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 				</target>
 			</trans-unit>
+                        <trans-unit id="search.resultList.datasetIdentifier">
+				<source>ID</source>
+			</trans-unit> 
+                        <trans-unit id="search.resultList.title">
+				<source>Title</source>
+			</trans-unit>                       
+                        <trans-unit id="search.resultList.publisher">
+				<source>Publisher</source>
+			</trans-unit>
+                        <trans-unit id="search.resultList.author">
+				<source>Author</source>
+			</trans-unit>
+                        <trans-unit id="search.resultList.submitter">
+				<source>Submitter</source>
+			</trans-unit>
+                        <trans-unit id="search.resultList.identifier">
+				<source>Identifier</source>
+			</trans-unit>                                   
+                        <trans-unit id="search.resultList.more">
+				<source>More results</source>
+                                <target>Mehr Ergebnisse</target>
+			</trans-unit>                                                                                                                                                                                                                                                                
+                        <trans-unit id="search.doubletCheck.title">
+				<source>Title</source>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.authors">
+				<source>Title</source>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.submitterOrPublishedDate">
+				<source>Submitter/Published date</source>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.datasetIdentifier">
+				<source>Dataset Identifier</source>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.identifier">
+				<source>URN</source>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.foundMessage">
+				<source>The following possible duplicates were found:</source>
+                                <target>Folgende mögliche doubletten wurden gefunden:</target>
+			</trans-unit>
+                        <trans-unit id="search.doubletCheck.nothingFoundMessage">
+				<source>There were no potential duplicates found.</source>
+                                <target>Es wurden keine möglichen Doubletten gefunden.</target>
+			</trans-unit>                                          
+                        <trans-unit id="search.control.simpleSearch">
+				<source>Simple search</source>
+                                <target>Einfache Suche</target>
+			</trans-unit>  
+                          <trans-unit id="search.control.extendedSearch">
+				<source>Extended search</source>
+                                <target>Erweiterte Suche</target>
+			</trans-unit>  
+                        <trans-unit id="search.control.new">
+				<source>New</source>
+                                <target>Neu</target>
+			</trans-unit>                        
+                         <trans-unit id="search.control.search">
+				<source>Search</source>
+                                <target>Suchen</target>
+			</trans-unit>
+                        <trans-unit id="search.form.header.extendedSearch">
+				<source>Extended search</source>
+                                <target>Erweiterte Suche</target>
+			</trans-unit>   
+                        <trans-unit id="search.form.header.simpleSearch">
+				<source>Simple search</source>
+                                <target>Einfache Suche</target>
+			</trans-unit>                                                
+                        <trans-unit id="search.form.button.search">
+				<source>Search</source>
+                                <target>Suchen</target>
+			</trans-unit>                        
+                        <trans-unit id="search.form.label.query">
+				<source>Query</source>
+                                <target>Abfrage</target>
+			</trans-unit>                               
+                        <trans-unit id="search.form.label.datasetIdentifier">
+				<source>ID</source>
+                                <target>ID</target>
+			</trans-unit>
+                        <trans-unit id="search.form.label.title">
+				<source>Title</source>
+                                <target>Titel</target>
+			</trans-unit>
+                        <trans-unit id="search.form.label.author">
+				<source>Author</source>
+                                <target>Autor</target>
+			</trans-unit>
+                        <trans-unit id="search.form.label.inactiveDeleted">
+				<source>Inactive/Deleted</source>
+                                <target>Inaktive/Gelöscht</target>
+			</trans-unit>
+                        <trans-unit id="search.form.label.date">
+				<source>Date</source>
+                                <target>Datum</target>
+			</trans-unit>
+                        <trans-unit id="search.form.label.from">
+				<source>From</source>
+                                <target>Von</target>
+			</trans-unit>    
+                        <trans-unit id="search.form.label.to">
+				<source>To</source>
+                                <target>Bis</target>
+			</trans-unit>                   
 		</body>
 	</file>
 </xliff>

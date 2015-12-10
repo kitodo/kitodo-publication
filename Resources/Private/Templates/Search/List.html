@@ -20,20 +20,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                
     <div class="searchForm">
       <f:form action="search" name="search" class="form-inline">
-        <h5>Einfache Suche</h5>
+        <h5>{f:translate(key: 'search.form.header.simpleSearch')}</h5>
         <div class="form-group">
-          <label for="query">Query</label>
-          <f:form.textfield property="query" class="form-control" placeholder="Query" id="query" value="{search}"/>
+          <label for="query">{f:translate(key: 'search.form.label.query')}</label>
+          <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
         </div>
         <f:form.button class="btn btn-default" type="submit">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suchen
+          {f:translate(key: 'search.form.button.search')}
         </f:form.button>
       </f:form>
     </div>
 
 	<f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
         <center>
-            <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
+            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
         </center>                           
 </f:section>

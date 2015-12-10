@@ -19,11 +19,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<table class="tx_dpf table table-striped table-manager table-condensed tx-dpf-table-doublet">
             <thead>
 		<tr>				
-                    <th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-                    <th class="xcol-md-2">Authors</th>
-                    <th class="xcol-md-2">Submitter/Published date</th>              
-                    <th class="xcol-md-2">Dataset Identifier</th>
-                    <th class="xcol-md-2">URN</th>   
+                    <th class="xcol-md-4"><f:translate key="search.doubletCheck.title" /></th>
+                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.authors" /></th>
+                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.submitterOrPublishedDate" /></th>              
+                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.datasetIdentifier" /></th>
+                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.identifier" /></th>   
                     <th class="xcol-md-1"></th>          
 		</tr>
             </thead>                           
@@ -48,10 +48,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
                 <td>
                     <f:if condition="{searchList}">
                         <f:then>
-                           Folgende mögliche doubletten wurden gefunden:
+                           <f:translate key="search.doubletCheck.foundMessage" />                          
                         </f:then>    
                         <f:else>    
-                           Es konnten keine möglichen Doubletten gefunden werden. 
+                           <f:translate key="search.doubletCheck.nothingFoundMessage" />
                         </f:else>
                     </f:if>    
                 </td>
@@ -61,13 +61,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
                      <f:then><tr class="success"></f:then>	
                      <f:else><tr></f:else>
-                   </f:if>                                         				
+                   </f:if>                                                                             
 				<td>{entry._source._dissemination._content.title.0}</td>
 				<td>{entry._source._dissemination._content.author.0}</td>
 				<td>{entry._source._dissemination._content.submitter}</td>
                                 <td>{entry._source.PID}</td>
 				<td>{entry._source._dissemination._content.identifier.0}</td>
-                    <td>
+                  
+                    <td class="table_col_function"> 
                         <f:link.action action="showPreview"
                                        arguments="{documentObjectIdentifier : entry._source.PID}" 
                                        class="btn btn-xs btn-default" 
@@ -76,27 +77,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                        additionalAttributes="{data-toggle: 'tooltip' }">
                             <span class="glyphicon glyphicon-eye-open"></span>          
                         </f:link.action>
-                    </td>
                                         
-                <td class="table_col_function">    
-                  <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                    <f:then>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">                                   
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                        {f:translate(key: 'manager.get')}
-                      </f:link.action>
-                    </f:then>
-                    <f:else>
-                      <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info">                                   
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                        {f:translate(key: 'manager.get')}
-                      </f:link.action>
-                    </f:else>                    
-                  </f:if>                                  
-                </td>      
-                                                               
-			</tr>
-		</f:for>
+                  
+                        <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                          <f:then>
+                            <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">                                   
+                              <span class="glyphicon glyphicon-download-alt"></span>
+                              {f:translate(key: 'manager.get')}
+                            </f:link.action>
+                          </f:then>
+                          <f:else>
+                            <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">                                   
+                              <span class="glyphicon glyphicon-download-alt"></span>
+                              {f:translate(key: 'manager.get')}
+                            </f:link.action>
+                          </f:else>                    
+                        </f:if>                                  
+                    </td>                                                                     
+		</tr>
+            </f:for>
 	</table>
 
 </f:section>

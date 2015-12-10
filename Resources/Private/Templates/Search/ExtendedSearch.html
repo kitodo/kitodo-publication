@@ -20,31 +20,31 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <div class="searchForm">
       <f:form action="search" name="extSearch" class="form-inline">
-        <h5>Erweiterte Suche</h5>
+        <h5>{f:translate(key: 'search.form.header.extendedSearch')}</h5>
         <div class="form-group">
-          <label for="extId">ID</label>
-          <f:form.textfield property="extId" class="form-control" placeholder="ID" id="extId" value="{id}"/>
+          <label for="extId">{f:translate(key: 'search.form.label.datasetIdentifier')}</label>
+          <f:form.textfield property="extId" class="form-control" placeholder="{f:translate(key: 'search.form.label.datasetIdentifier')}" id="extId" value="{id}"/>
         </div>
         <div class="form-group">
-          <label for="extTitle">Titel</label>
-          <f:form.textfield property="extTitle" class="form-control" placeholder="Titel" id="extTitle" value="{title}"/>
+          <label for="extTitle">{f:translate(key: 'search.form.label.title')}</label>
+          <f:form.textfield property="extTitle" class="form-control" placeholder="{f:translate(key: 'search.form.label.title')}" id="extTitle" value="{title}"/>
         </div>
         <div class="form-group">
-          <label for="extAuthor">Autor</label>
-          <f:form.textfield property="extAuthor" class="form-control" placeholder="Autor" id="extAuthor" value="{author}"/>
+          <label for="extAuthor">{f:translate(key: 'search.form.label.author')}</label>
+          <f:form.textfield property="extAuthor" class="form-control" placeholder="{f:translate(key: 'search.form.label.author')}" id="extAuthor" value="{author}"/>
         </div>
         <div class="form-group">
-          <label for="extDeleted" class="show-label">Inaktiv/Gelöscht</label>
+          <label for="extDeleted" class="show-label">{f:translate(key: 'search.form.label.inactiveDeleted')}</label>
           <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true" checked="{showDeleted}"/>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="extAuthor">Datum</label>
-                        <f:form.textfield property="extFrom" class="form-control datetimepicker" placeholder="Von" id="extFrom" value="{from}"/>
-                        <label for="extAuthor">bis</label>
-                        <f:form.textfield property="extTill" class="form-control datetimepicker" placeholder="Bis" id="extTill" value="{till}"/>
+                        <label for="extAuthor">{f:translate(key: 'search.form.label.date')}</label>
+                        <f:form.textfield property="extFrom" class="form-control datetimepicker" placeholder="{f:translate(key: 'search.form.label.from')}" id="extFrom" value="{from}"/>
+                        <label for="extAuthor">{f:translate(key: 'search.form.label.to')}</label>
+                        <f:form.textfield property="extTill" class="form-control datetimepicker" placeholder="{f:translate(key: 'search.form.label.to')}" id="extTill" value="{till}"/>
                     </div>
                 </div>
             </div>
@@ -53,13 +53,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <f:form.hidden property="extSearch" value="true" />        
         <f:form.button class="btn btn-default" type="submit">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suchen
+          {f:translate(key: 'search.form.button.search')}
         </f:form.button>
       </f:form>
     </div>
 
     <f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
         <center>
-            <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
+            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
         </center>                           
 </f:section>
