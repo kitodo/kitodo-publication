@@ -64,9 +64,7 @@ class GetFile {
 				$path = rtrim($extConf['repositoryServerAddress'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
 				break;
 			case 'preview':
-				if (! $GLOBALS["TSFE"]->beUserLogin) {
-					return NULL;
-				}
+
 				$objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 
 				$this->documentRepository = $objectManager->get('\EWW\Dpf\Domain\Repository\DocumentRepository');
@@ -74,6 +72,7 @@ class GetFile {
 				$document = $this->documentRepository->findByUid($piVars['qid']);
 
 				if ($document) {
+
 					// Build METS-Data
 					$exporter = new \EWW\Dpf\Services\MetsExporter();
 
@@ -90,6 +89,7 @@ class GetFile {
 					$metsXml = $exporter->getMetsData();
 
 					header('Content-Type: text/xml; charset=UTF-8');
+
 				}
 
 				return $metsXml;
