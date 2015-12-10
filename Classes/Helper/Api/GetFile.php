@@ -58,10 +58,10 @@ class GetFile {
 		$piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
 
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-debug($extConf);
+
 		switch ($piVars['action']) {
 			case 'mets':
-				$path = rtrim($extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
+				$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
 				break;
 			case 'preview':
 
@@ -95,7 +95,7 @@ debug($extConf);
 				return $metsXml;
 
 			case 'attachment':
-				$path = rtrim($extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/datastreams/'.$piVars['attachment'].'/content';
+				$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/datastreams/'.$piVars['attachment'].'/content';
 				break;
 			default:
 				break;
