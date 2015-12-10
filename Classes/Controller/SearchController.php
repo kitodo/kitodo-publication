@@ -53,12 +53,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @return void
      */
     public function listAction()
-    { 
+    {
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-        // assign result list from elastic search        
+        // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
@@ -210,7 +210,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $client = $this->clientRepository->findAll()->current();
         
         // dont return query if keys not existing
-        if ( !key_exists('search', $args) || !key_exists('query',$args['search'])) {            
+        if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
             return NULL;
         }
 
@@ -239,6 +239,26 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         return $query;
 
+    }
+
+    public function searchLatest()
+    {
+        $client = $this->clientRepository->findAll()->current();
+
+        // get the latest documents /CREATED_DATE
+        $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
+
+        // add owner id
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = '*';
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';
+
+        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
+
+        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        return $query;
     }
 
     public function escapeQuery($string)
@@ -297,7 +317,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-        // assign result list from elastic search        
+        // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
@@ -308,7 +328,20 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
     public function latestAction()
     {
-        // get the latest documents /CREATED_DATE
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        $query = $this->searchLatest();
+
+        // set type local vs object
+        $type = 'object';
+
+        // unset extra information
+        unset($query['extra']);
+        // var_dump(json_encode($query));
+        $results = $this->getResultList($query, $type);
+
+        $this->forward("list", null, null, array('results' => $results));
+        
     }
 
     /**
@@ -337,15 +370,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         }
         
         // save search query
-        if ($query) {                                   
+        if ($query) {
             $query['body']['from'] = '0';
-            $query['body']['size'] = '50';           
+            $query['body']['size'] = '50';
             $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
             $sessionVars['query'] = $query;
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);                       
+            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
         } else {
-            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');                                 
-            $query = $sessionVars['query'];             
+            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+            $query = $sessionVars['query'];
         }
 
         // set type local vs object
@@ -354,6 +387,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // unset extra information
         $extra = $query['extra'];
         unset($query['extra']);
+
         $results = $this->getResultList($query, $type);
 
         if ($args['extSearch']) {
@@ -403,13 +437,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         );
 
                 
-        $this->forward('updateIndex',NULL,NULL,array('documentObjectIdentifier' => $documentObjectIdentifier));   
+        $this->forward('updateIndex', NULL, NULL, array('documentObjectIdentifier' => $documentObjectIdentifier));
         
         //$this->redirect('search');
     }
     
     /**
-     * 
      * @param  string $documentObjectIdentifier
      * @return void
      */
@@ -417,7 +450,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
         
-        if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
+        if (is_a($document, '\EWW\Dpf\Domain\Model\Document')) {
             $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
             $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
             $json = $elasticsearchMapper->getElasticsearchJson($document);
@@ -425,7 +458,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $elasticsearchRepository->add($document, $json);
         }
         
-        $this->redirect('search');        
+        $this->redirect('search');
     }
     
     
@@ -482,12 +515,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      * action show preview
-     * 
      * @param  string $documentObjectIdentifier
      * @return void
      */
-    public function showPreviewAction($documentObjectIdentifier) {
-                                                                                      
+    public function showPreviewAction($documentObjectIdentifier)
+    {
+
         $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
         $port = '';
         if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
@@ -496,7 +529,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $baseURL .= $protocol.trim($_SERVER['SERVER_NAME'], "/").$port."/";
           
         // realurl inactive
-        //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();  
+        //$metsURL = $baseURL . "index.php?type=110125&tx_dpf_qucosaxml[action]=previewData&tx_dpf_qucosaxml[docId]=".$document->getUid();
 
         // realurl active
         // $metsURL = $baseURL . "api/action/previewData/id/".$documentObjectIdentifier;
@@ -506,10 +539,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         
         $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
  
-                $settings = $configManager->getConfiguration(
-                  $this->request->getControllerExtensionName(),
-                  $this->request->getPluginName()
-                );               
+        $settings = $configManager->getConfiguration(
+            $this->request->getControllerExtensionName(),
+            $this->request->getPluginName()
+        );
         
         $previewPage = $settings['settings']['previewPage'];
                       
