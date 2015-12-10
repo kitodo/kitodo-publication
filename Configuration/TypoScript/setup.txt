@@ -88,55 +88,6 @@ ajax_page {
 }
 
 
-#xml_page = PAGE
-#xml_page {
-#  typeNum = 110125
-#  10 < tt_content.list.20.dpf_qucosaxml
-#  config {
-#    disableAllHeaderCode = 1
-#    admPanel = 0
-#    xhtml_cleaning = 0
-#    no_cache = 1
-#    debug = 0
-#    additionalHeaders = Content-Type:text/xml
-#    metaCharset = utf-8
-#  }
-#}
-
-api = PAGE
-api {
-	typeNum = 110125
-	10 = USER_INT
-	10 {
-		userFunc = EWW\Dpf\Helper\Api\GetFile->attachement
-	}
-
-	config {
-		disableAllHeaderCode = 1
-		xhtml_cleaning = 0
-		admPanel = 0
-		debug = 0
-		no_cache = 1
-	}
-}
-
-api_call = PAGE
-api_call {
-	typeNum = 110126
-	10 = USER_INT
-	10 {
-		userFunc = EWW\Dpf\Helper\Api\GetFile->attachement
-	}
-
-	config {
-		disableAllHeaderCode = 1
-		xhtml_cleaning = 0
-		admPanel = 0
-		debug = 0
-		no_cache = 1
-	}
-}
-
 # Module configuration
 module.tx_dpf {
 	persistence {
