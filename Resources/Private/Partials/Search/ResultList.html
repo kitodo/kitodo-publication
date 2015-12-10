@@ -5,50 +5,49 @@
             <th class="xcol-md-5"><f:translate key="search.resultList.datasetIdentifier" /></th>
             <th class="xcol-md-4"><f:translate key="search.resultList.title" /></th>
             <th class="xcol-md-3"><f:translate key="search.resultList.publisher" /></th>
-            <th class="xcol-md-3"><f:translate key="search.resultList.submitter" /></th>              
-            <th class="xcol-md-2"><f:translate key="search.resultList.identifier" /></th>   
-            <th class="xcol-md-1"></th>          
+            <th class="xcol-md-3"><f:translate key="search.resultList.submitter" /></th>
+            <th class="xcol-md-2"><f:translate key="search.resultList.identifier" /></th>
+            <th class="xcol-md-1"></th>
         </tr>
     </thead>
     <tbody>
         <f:for each="{searchList}" as="entry">
             <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                <f:then><tr class="success"></f:then>  
+                <f:then><tr class="success"></f:then>
                 <f:else><tr></f:else>
-            </f:if>                                                 
+            </f:if>
             <f:if condition="{entry._source._dissemination}">
-                <f:then>          
+                <f:then>
                     <td>{entry._id}</td>
                     <td>{entry._source._dissemination._content.title.0}</td>
                     <td>{entry._source._dissemination._content.publisher.0}</td>
                     <td>{entry._source._dissemination._content.submitter}</td>
                     <td>{entry._source._dissemination._content.identifier.0}</td>
                     <td class="table_col_function">
-           
-                        <f:link.action action="showPreview" 
-                                   arguments="{documentObjectIdentifier : entry._source.PID}" 
-                                   class="btn btn-xs btn-default" 
-                                   target="_blank"
-                                   title="{f:translate(key: 'manager.tooltip.preview')}">
-                            <span class="glyphicon glyphicon-eye-open"></span>                
-                        </f:link.action>
-              
-                    
+
+						<dpf:link.preview
+								arguments="{documentObjectIdentifier : entry._source.PID}"
+								pageUid="{settings.previewPage}"
+								apiPid="{settings.apiPid}"
+								class="btn btn-xs btn-default">
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</dpf:link.preview>
+
                         <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
                             <f:then>
-                                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">                                   
+                                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                                 {f:translate(key: 'manager.get')}
                                 </f:link.action>
                             </f:then>
-                            <f:else>                                                                
+                            <f:else>
                                 <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
                                 <span class="glyphicon glyphicon-download-alt"></span>
                                 {f:translate(key: 'manager.get')}
-                            </f:link.action>                   
-                            </f:else>                    
-                        </f:if>                                  
-                    </td>           
+                            </f:link.action>
+                            </f:else>
+                        </f:if>
+                    </td>
                 </f:then>
                 <f:else>
                     <td>{entry._id}</td>
@@ -57,13 +56,13 @@
                     <td>{entry._source.submitter}</td>
                     <td>{entry._source.identifier.0}</td>
                     <td class="table_col_function">
-                        <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
+                        <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">
                             <span class="glyphicon glyphicon-download-alt"></span>
                             {f:translate(key: 'manager.get')}
                         </f:link.action>
                     </td>
-                  </f:else>                    
-                </f:if>                                               
+                  </f:else>
+                </f:if>
             </tr>
         </f:for>
     </tbody>
