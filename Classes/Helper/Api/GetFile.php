@@ -64,6 +64,9 @@ class GetFile {
 				$path = rtrim($extConf['repositoryServerAddress'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
 				break;
 			case 'preview':
+				if (! $GLOBALS["TSFE"]->beUserLogin) {
+					return NULL;
+				}
 				$objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 
 				$this->documentRepository= $objectManager->get('\EWW\Dpf\Domain\Repository\DocumentRepository');
