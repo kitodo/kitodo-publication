@@ -93,7 +93,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
-             
+        unset($query['extra']);
         $query['from'] = $sessionVars['resultCount'];
         $query['size'] = 5;
         
