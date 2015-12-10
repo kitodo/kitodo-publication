@@ -457,6 +457,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     public function updateIndexAction($documentObjectIdentifier)
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
+
         if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
             $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
             $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
@@ -464,6 +465,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // send document to index
             $elasticsearchRepository->add($document, $json);
         }
+
         $this->redirect('search');
     }
 
