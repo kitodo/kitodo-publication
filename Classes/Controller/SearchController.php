@@ -98,11 +98,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $type = 'object';
 
         $query['body']['from'] = $sessionVars['resultCount'];
-        $query['body']['size'] = 5;
+        $query['body']['size'] = 50;
         
         $results = $this->getResultList($query, $type);
         
         $this->view->assign('resultList', $results);
+        $this->view->assign('alreadyImported', array());
     }
 
     /**
