@@ -134,6 +134,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $changed = FALSE;
         
         /**
+         * valid
+         * 
+         * @var boolean
+         */
+        protected $valid = FALSE;
+
+        
+        /**
 	 * file
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -603,6 +611,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                 $this->changed = $changed; 
 	}
         
+        /**
+	 * Returns the valid
+	 *
+	 * @return string $valid
+	 */
+	public function getValid() {
+		return $this->valid;
+	}
+                
+        /**
+	 * Sets the valid
+	 *
+	 * @param string $valid
+	 * @return void
+	 */
+	public function setValid($valid) {          
+                $this->valid = $valid; 
+	}
         
         public function isDeleteAllowed() {
           return ($this->state == self::OBJECT_STATE_INACTIVE ||

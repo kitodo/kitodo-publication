@@ -219,6 +219,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
 			)
                 ),
             
+                'valid' => Array (
+                       'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.valid',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+                ),
+            
                 'file' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.file',

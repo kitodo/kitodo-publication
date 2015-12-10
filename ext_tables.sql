@@ -59,6 +59,7 @@ CREATE TABLE tx_dpf_domain_model_document (
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
         transfer_date int(11) DEFAULT '0' NOT NULL,       
         changed tinyint(1) unsigned DEFAULT '0' NOT NULL, 
+        valid tinyint(1) unsigned DEFAULT '0' NOT NULL, 
        
         file int(11) unsigned DEFAULT '0' NOT NULL,	                
 

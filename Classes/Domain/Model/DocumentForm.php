@@ -77,6 +77,12 @@ class DocumentForm extends AbstractFormElement {
    * @var boolean
    */
   protected $saveDisabled;
+  
+  /**
+   *
+   * @var boolean
+   */
+  protected $valid = FALSE;
     
   /**
    * 
@@ -203,6 +209,14 @@ class DocumentForm extends AbstractFormElement {
   
   public function setSaveDisabled($saveDisabled) {
       $this->saveDisabled = $saveDisabled;
+  }
+  
+  public function getValid() {
+      return $this->valid;
+  }
+  
+  public function setValid($valid) {
+      $this->valid = $valid;
   }
   
 }

@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
-           
-      
+                 
      documentListConfirmDialog('#confirmDiscard');
      documentListConfirmDialog('#confirmPublish');
      documentListConfirmDialog('#confirmUpdate');
@@ -102,12 +101,17 @@ $(document).ready(function() {
 
 
 var validateFormAndSave = function() {
-  return validateForm();
+    jQuery("#validDocument").val("0");  
+    if (validateForm()) {
+      jQuery("#validDocument").val("1");    
+      return true;
+    }  
+    return false; 
 }
 
 
 var validateFormOnly = function() {
-  if (validateForm()) {    
+  if (validateForm()) {         
     showFormSuccess();
   }
   return false;

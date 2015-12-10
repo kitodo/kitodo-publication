@@ -80,7 +80,7 @@
             <f:link.action 
                 action="release" 
                 arguments="{document : document, releaseType : 'publish'}" 
-                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-success', else: 'btn-success disabled')}"
+                class="btn btn-xs {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success disabled')}"
                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPublish'}">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 {f:translate(key: 'manager.publish')}
@@ -91,7 +91,7 @@
             <f:link.action 
                 action="release" 
                 arguments="{document : document, releaseType : 'update'}" 
-                class="btn btn-xs {f:if(condition: '{document.changed}', then: 'btn-info', else: 'btn-info disabled')}"
+                class="btn btn-xs {f:if(condition: '{document.valid}', then: 'btn-info', else: 'btn-info disabled')}"
                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmUpdate'}">
                 <span class="glyphicon glyphicon-refresh"></span>
                 {f:translate(key: 'manager.update')}

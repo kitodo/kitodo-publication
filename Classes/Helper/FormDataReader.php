@@ -303,7 +303,8 @@ class FormDataReader {
     $documentForm->setName($this->documentType->getName());
     $documentForm->setDocumentUid($this->formData['documentUid']);
     $documentForm->setQucosaId($this->formData['qucosaId']);    
-       
+    $documentForm->setValid(!empty($this->formData['validDocument']));    
+     
     $documentData = array();
     
     foreach ($fields as $field) {                    

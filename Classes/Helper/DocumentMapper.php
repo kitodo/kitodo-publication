@@ -294,7 +294,8 @@ class DocumentMapper {
     $document->setDocumentType($documentType);         
     
     $document->setReservedObjectIdentifier($documentForm->getQucosaId());
-                        
+    
+    $document->setValid($documentForm->getValid());
     
     $formMetaData = $this->getMetadata($documentForm); 
 
@@ -321,7 +322,7 @@ class DocumentMapper {
     $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);       
     $slubInfoXml = $exporter->getSlubInfoData();    
     $document->setSlubInfoData($slubInfoXml);         
-          
+               
     return $document;      
   }
   
