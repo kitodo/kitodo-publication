@@ -61,7 +61,7 @@ class GetFile {
 
 		switch ($piVars['action']) {
 			case 'mets':
-				$path = rtrim($extConf['repositoryServerAddress'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
+				$path = rtrim($extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
 				break;
 			case 'preview':
 
@@ -95,7 +95,7 @@ class GetFile {
 				return $metsXml;
 
 			case 'attachment':
-				$path = rtrim($extConf['repositoryServerAddress'],"/").'/fedora/objects/'.$piVars['qid'].'/datastreams/'.$piVars['attachment'].'/content';
+				$path = rtrim($extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/datastreams/'.$piVars['attachment'].'/content';
 				break;
 			default:
 				break;
