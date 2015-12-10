@@ -46,9 +46,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
   
 </f:if>  
 
-<f:for each="{documentTypes}" as="documentType">  
-  <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}</f:link.action>
-  <br />
-</f:for>
+<ol>    
+    <f:for each="{documentTypes}" as="documentType">  
+        <li>
+            <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}</f:link.action>    
+        </li>
+    </f:for>    
+</ol>    
 
 </f:section>

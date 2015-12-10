@@ -248,6 +248,10 @@
 	left:1px;
 }
 
+.tx-dpf ol li {
+    list-style: none; 
+}    
+
 
 
 /* -- error handling -------------------------------------------------------------------- */
@@ -268,7 +272,6 @@ li a.mandatory-error:after {
 	margin-left:3px;
 	line-height:1;
 }
-
 
 
 /* EOF */
