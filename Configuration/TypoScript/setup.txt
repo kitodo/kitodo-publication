@@ -116,5 +116,6 @@ module.tx_dpf {
 
         settings {
             previewPage = {$module.tx_dpf.settings.previewPage}
+			apiPid = {$module.tx_dpf.settings.apiPid}
         }
 }
