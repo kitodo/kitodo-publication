@@ -560,7 +560,7 @@
 			<trans-unit id="notification.newDocument.admin.body">
 				<source>
 Ein neues Dokument wurde angemeldet:
-
+Submitter: %s
 Title: %s
 Author: %s
 URN: %s
@@ -574,14 +574,14 @@ Date: %s
 			<trans-unit id="notification.newDocument.submitter.body">
 				<source>
 You have registered the following document:
-
+Submitter: %s
 Title: %s
 Author: %s
 URN: %s
 Date: %s
 				</source>
 				<target>
-Sehr geehrte/r [Personenangaben - Übermittler – Name],
+Sehr geehrte/r %s,
 
 wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
 
@@ -600,14 +600,15 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<trans-unit id="notification.ingestDocument.submitter.body">
 				<source>
 Your document has been published:
-
+Submitter: %s
 Title: %s
 Author: %s
-URN: %s
+URL: %s
 Date: %s
-				</source>
+                                    
+                                </source>
 				<target>
-Sehr geehrte/r [Personenangaben - Übermittler – Name],
+Sehr geehrte/r %s,
 
 die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
 

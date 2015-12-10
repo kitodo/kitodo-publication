@@ -41,6 +41,11 @@ class Slub {
     return $emailNode->item(0)->nodeValue;                       
   }
   
+  public function getSubmitterName() {                  
+    $nameNode = $this->getSlubXpath()->query("/slub:info/slub:submitter/foaf:Person/foaf:name");                                                                     
+    return $nameNode->item(0)->nodeValue;                       
+  }
+  
 }
 
 ?>

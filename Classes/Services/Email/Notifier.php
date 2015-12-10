@@ -16,16 +16,18 @@ class Notifier {
           
        try {
           $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
-              
-          $args['title'] = $document->getTitle();
-          $args['author'] = implode("; ", $document->getAuthors());
-          $args['urn'] =  implode("; ", $mods->getUrnList());
-          $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");             
-         
-          
+   
+          $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
+          $submitterName = $slub->getSubmitterName();
+                                                
           // Notify client admin
           $client = $this->clientRepository->findAll()->current();          
-          if ($client) {              
+          if ($client) {     
+            $args['submitterName'] = $submitterName;
+            $args['title'] = $document->getTitle();
+            $args['author'] = implode("; ", $document->getAuthors());
+            $args['urn'] =  implode("; ", $mods->getUrnList());
+            $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");     
             $clientAdminEmail = $client->getAdminEmail();
             if ($clientAdminEmail) {
                 $adminReceiver = array();
@@ -46,6 +48,13 @@ class Notifier {
           $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
           $submitterEmail = $slub->getSubmitterEmail();
           if ($submitterEmail) {              
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
+            $submitterName = $slub->getSubmitterName();
+            $args['submitterName'] = $submitterName; 
+            $args['title'] = $document->getTitle();
+            $args['author'] = implode("; ", $document->getAuthors());
+            $args['urn'] =  implode("; ", $mods->getUrnList());
+            $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");   
             $emailReceiver = array();
             $emailReceiver[$submitterEmail] = $submitterEmail;                                                 
             if ($emailReceiver) {                                                                                             
@@ -70,12 +79,11 @@ class Notifier {
     
       try {
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
-              
+        $args['submitterName'] = $submitterName;       
         $args['title'] = $document->getTitle();
         $args['author'] = implode("; ", $document->getAuthors());
         $args['urn'] =  implode("; ", $mods->getUrnList());
-        $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");   
-        
+        $args['date'] = (new \DateTime)->format("d-m-Y H:i:s"); 
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
        
         // Notify submitter

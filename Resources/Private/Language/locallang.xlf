@@ -543,7 +543,7 @@
 			<trans-unit id="notification.newDocument.admin.body">
 				<source>
 A new document has been registered:
-
+Submitter: %s
 Title: %s
 Author: %s
 URN: %s
@@ -556,7 +556,7 @@ Date: %s
 			<trans-unit id="notification.newDocument.submitter.body">
 				<source>
 You have registered the following document:
-
+Submitter: %s
 Title: %s
 Author: %s
 URN: %s
@@ -569,10 +569,10 @@ Date: %s
 			<trans-unit id="notification.ingestDocument.submitter.body">
 				<source>
 Your document has been published:
-
+Submitter: %s
 Title: %s
 Author: %s
-URN: %s
+URL: %s
 Date: %s
 				</source>
 			</trans-unit>
