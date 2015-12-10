@@ -69,26 +69,28 @@ class GetFile {
 				}
 				$objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 
-				$this->documentRepository= $objectManager->get('\EWW\Dpf\Domain\Repository\DocumentRepository');
+				$this->documentRepository = $objectManager->get('\EWW\Dpf\Domain\Repository\DocumentRepository');
 
 				$document = $this->documentRepository->findByUid($piVars['qid']);
 
-				// Build METS-Data
-				$exporter = new \EWW\Dpf\Services\MetsExporter();
+				if ($document) {
+					// Build METS-Data
+					$exporter = new \EWW\Dpf\Services\MetsExporter();
 
-				$fileData = $document->getCurrentFileData();
+					$fileData = $document->getCurrentFileData();
 
-				$exporter->setFileData($fileData);
+					$exporter->setFileData($fileData);
 
-				$exporter->setMods($document->getXmlData());
+					$exporter->setMods($document->getXmlData());
 
-				$exporter->setSlubInfo($document->getSlubInfoData());
+					$exporter->setSlubInfo($document->getSlubInfoData());
 
-				$exporter->buildMets();
+					$exporter->buildMets();
 
-				$metsXml = $exporter->getMetsData();
+					$metsXml = $exporter->getMetsData();
 
-				header('Content-Type: text/xml; charset=UTF-8');
+					header('Content-Type: text/xml; charset=UTF-8');
+				}
 
 				return $metsXml;
 
