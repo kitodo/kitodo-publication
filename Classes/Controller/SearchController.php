@@ -47,6 +47,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     */
     protected $clientRepository = null;
 
+    
+    const RESULT_COUNT = 50;
+    const NEXT_RESULT_COUNT = 50;
+    
         /**
      * action list
      *
@@ -85,10 +89,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
         if (!$sessionVars['resultCount']) {
             // set number of results in session
-            $sessionVars['resultCount'] = 50;
+            $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
         } else {
             $resultCount = $sessionVars['resultCount'];
-            $sessionVars['resultCount'] = $resultCount + 50;
+            $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
         }
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
@@ -98,7 +102,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $type = 'object';
 
         $query['body']['from'] = $sessionVars['resultCount'];
-        $query['body']['size'] = 50;
+        $query['body']['size'] = self::NEXT_RESULT_COUNT;
         
         $results = $this->getResultList($query, $type);
         
@@ -361,7 +365,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // reset session pagination
         $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
-        $sessionVars['resultCount'] = 50;
+        $sessionVars['resultCount'] = self::RESULT_COUNT;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
                
         // set sorting
@@ -376,7 +380,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // save search query
         if ($query) {
             $query['body']['from'] = '0';
-            $query['body']['size'] = '50';
+            $query['body']['size'] = ''.self::RESULT_COUNT.'';
             $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
             $sessionVars['query'] = $query;
             $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
