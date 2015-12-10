@@ -94,10 +94,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $query = $sessionVars['query'];
         unset($query['extra']);
-        $query['from'] = $sessionVars['resultCount'];
-        $query['size'] = 5;
         
-        $results = $this->getResultList($query);
+        $type = 'object';
+
+        $query['body']['from'] = $sessionVars['resultCount'];
+        $query['body']['size'] = 5;
+        
+        $results = $this->getResultList($query, $type);
         
         $this->view->assign('resultList', $results);
     }
