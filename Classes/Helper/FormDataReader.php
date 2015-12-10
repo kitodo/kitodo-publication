@@ -261,7 +261,14 @@ class FormDataReader {
       $fileName = uniqid(time(),true);
                   
       if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName) ) {                    
-        $file->setContentType($tmpFile['type']);          
+                  
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+        $contentType = finfo_file($finfo, $this->uploadPath.$fileName);
+        finfo_close($finfo);                   
+          
+        //$file->setContentType($tmpFile['type']);          
+        $file->setContentType($contentType);          
+                                                          
         $file->setTitle($tmpFile['name']);        
         $file->setLabel($tmpFile['label']);        
         $file->setDownload(!empty($tmpFile['download']));  
