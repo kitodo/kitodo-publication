@@ -86,11 +86,13 @@ class FedoraRepository implements Repository {
         ->addHeader('Slug',$document->getReservedObjectIdentifier())  
         ->send();
                                                                              
-      TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
+     
       
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 201 ) {
         return $this->getRemoteDocumentId($response);        
+      } else {
+    	TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -121,12 +123,12 @@ class FedoraRepository implements Repository {
         ->sendsType(FedoraRepository::QUCOSA_TYPE)
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
-                                                                             
-      TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
-      
+                                                                                         
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {
         return $this->getRemoteDocumentId($response);        
+      } else {
+	    TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -151,12 +153,12 @@ class FedoraRepository implements Repository {
         ->authenticateWith($this->fedoraUser, $this->fedoraPassword)     
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
-                                                                             
-      TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
-                                          
+                                                                                                                             
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                       
         return $response->__toString();                               
+      } else {
+      	TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -184,12 +186,12 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())
         //->addHeader()      
         ->send();
-                                                                                           
-      TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
-                    
+                                                                                                                     
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                    
         return $response->__toString();                               
+      } else {
+      	TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
       }                            
     } catch(\Exception $exception) {
       // curl error handling,
@@ -218,12 +220,12 @@ class FedoraRepository implements Repository {
         ->authenticateWith($this->swordUser, $this->swordPassword) 
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())       
         ->send();
-                                                                             
-      TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
-      
+                                                                                         
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 204 ) {
         return TRUE;     
+      } else {
+      	TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
