@@ -70,6 +70,14 @@ class FormDataReader {
   
   
   /**
+   * 
+   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+   * @inject
+   */
+  protected $configurationManager;
+
+  
+  /**
    * formData
    *     
    * @var array
@@ -169,7 +177,10 @@ class FormDataReader {
   
    
   protected function getNewAndUpdatedFiles() {
-                            
+                        
+    $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+    $fullTextLabel = $frameworkConfiguration['settings']['defaultValue']['fullTextLabel'];  
+      
     $newFiles = array();
     
     // Primary file                 
@@ -181,18 +192,24 @@ class FormDataReader {
       if ($document) {
         $file = $this->fileRepository->getPrimaryFileByDocument($document);
       }  
-                           
-      $newFiles[] = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file);                             
+      
+      $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file); 
+      $newPrimaryFile->setLabel($fullTextLabel);
+      
+      $newFiles[] = $newPrimaryFile;
     }
-    
-       
+          
     if (is_array($this->formData['primFile'])) {
-                          
+                       
           foreach ($this->formData['primFile'] as $fileId => $fileData) {
        
               $file = $this->fileRepository->findByUID($fileId);                                           
               $fileStatus = $file->getStatus();
                                                     
+              if(empty($fileData['label'])) {               
+                  $fileData['label'] = $fullTextLabel;
+              }
+              
               if ($file->getLabel() != $fileData['label'] || 
                   $file->getDownload() != !empty($fileData['download']) ||
                   $file->getArchive() != !empty($fileData['archive']) ) {              
