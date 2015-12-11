@@ -132,8 +132,8 @@ class Mods {
   }  
   
   
-  public function hasUrn() {
-    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+  public function hasQucosaUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]'); 
     
     $hasUrn = false;
        
