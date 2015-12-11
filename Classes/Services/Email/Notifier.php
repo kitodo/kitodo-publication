@@ -16,7 +16,7 @@ class Notifier {
           
        try {
           $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
-          $urnList = $mods->getUrnList();
+          $urn = $mods->getQucosaUrn();
           
           $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
           $submitterName = $slub->getSubmitterName();
@@ -27,7 +27,7 @@ class Notifier {
             $args['submitterName'] = $submitterName;
             $args['title'] = $document->getTitle();
             $args['author'] = implode("; ", $document->getAuthors());
-            $args['urn'] =  $urnList[0];
+            $args['urn'] =  $urn;
             $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");     
             $clientAdminEmail = $client->getAdminEmail();
             if ($clientAdminEmail) {
@@ -54,7 +54,7 @@ class Notifier {
             $args['submitterName'] = $submitterName; 
             $args['title'] = $document->getTitle();
             $args['author'] = implode("; ", $document->getAuthors());
-            $args['urn'] =  $urnList[0];
+            $args['urn'] =  $urn;
             $args['date'] = (new \DateTime)->format("d-m-Y H:i:s");   
             $emailReceiver = array();
             $emailReceiver[$submitterEmail] = $submitterEmail;                                                 
@@ -80,12 +80,12 @@ class Notifier {
     
       try {
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
-        $urnList = $mods->getUrnList();
+        $urn = $mods->getQucosaUrn();
                 
         $args['submitterName'] = $submitterName;       
         $args['title'] = $document->getTitle();
         $args['author'] = implode("; ", $document->getAuthors());
-        $args['urn'] =  'http://nbn-resolving.de/'.$urnList[0];
+        $args['urn'] =  'http://nbn-resolving.de/'.$urn;
         $args['date'] = (new \DateTime)->format("d-m-Y H:i:s"); 
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData()); 
        

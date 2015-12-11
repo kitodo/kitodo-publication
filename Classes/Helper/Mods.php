@@ -146,8 +146,8 @@ class Mods {
   }
    
   
-  public function getUrnList() {
-    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+  public function getQucosaUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]'); 
     $urnList = array();
     
     if ($urnNodeList != NULL) {
@@ -159,12 +159,12 @@ class Mods {
   }
   
   
-  public function addUrn($urn) {
+  public function addQucosaUrn($urn) {
     $rootNode = $this->getModsXpath()->query('/mods:mods');
     
       if ($rootNode->length == 1) {        
             $newUrn = $this->modsDom->createElement('mods:identifier');            
-            $newUrn->setAttribute('type','urn');
+            $newUrn->setAttribute('type','qucosa:urn');
             $newUrn->nodeValue = $urn;
             $rootNode->item(0)->appendChild($newUrn);                  
         } else {
