@@ -618,7 +618,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
         
         
-        public function getDateIssued() {                                                      
+        public function getDateIssued() {
+            if (empty($this->dateIssued)) {
+                return NULL;
+            } 
             return $this->dateIssued;                          
         }
                  
