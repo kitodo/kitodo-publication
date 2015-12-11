@@ -20,6 +20,12 @@ plugin.tx_dpf {
                 metadataGroupStoragePid =
                 metadataPageStoragePid =
 	}
+
+        settings {
+            defaultValue {
+                fullTextLabel = Volltext (PDF)
+            }    
+        }
 }
 
 module.tx_dpf {
@@ -46,6 +52,10 @@ module.tx_dpf {
 
         settings {
             previewPage =
-			apiPid =
-		}
+            apiPid =
+
+            defaultValue {
+                fullTextLabel = Volltext (PDF)
+            } 
+	}
 }

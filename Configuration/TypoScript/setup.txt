@@ -25,6 +25,12 @@ plugin.tx_dpf {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
+
+        settings {
+            defaultValue {
+                fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
+            } 
+        }
 }
 
 
@@ -116,6 +122,10 @@ module.tx_dpf {
 
         settings {
             previewPage = {$module.tx_dpf.settings.previewPage}
-			apiPid = {$module.tx_dpf.settings.apiPid}
+            apiPid = {$module.tx_dpf.settings.apiPid}
+            defaultValue {
+                fullTextLabel = {$module.tx_dpf.settings.defaultValue.fullTextLabel}   
+            }    
         }
 }
+

@@ -220,6 +220,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           // Add or update files
           foreach ( $newDocumentForm->getNewFiles() as $newFile ) {                          
             
+            $label = $newFile->getLabel();    
+              
+            if (empty($label)) {
+                $newFile->setLabel($this->settings['defaultValue']['fullTextLabel']);
+            }
+              
             if ($newFile->getUID()) {
                 $this->fileRepository->update($newFile);       
             } else {               
@@ -279,8 +285,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @ignorevalidation $documentForm
 	 * @return void
 	 */
-	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                            
-          $this->view->assign('documentForm', $documentForm);                                                                    
+	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                                       
+            $this->view->assign('documentForm', $documentForm);                                                                    
 	}
 
         
@@ -327,6 +333,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           // Add or update files
           foreach ( $documentForm->getNewFiles() as $newFile ) {  
             
+            $label = $newFile->getLabel();    
+              
+            if (empty($label)) {
+                $newFile->setLabel($this->settings['defaultValue']['fullTextLabel']);
+            }  
+              
             if ($newFile->getUID()) {
                 $this->fileRepository->update($newFile);       
             } else {               
