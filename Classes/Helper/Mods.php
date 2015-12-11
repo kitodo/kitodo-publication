@@ -148,11 +148,11 @@ class Mods {
   
   public function getQucosaUrn() {
     $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]'); 
-    $urnList = array();
+    $urnList = '';
     
     if ($urnNodeList != NULL) {
       foreach ($urnNodeList as $urnNode) {               
-        $urnList[] = $urnNode->nodeValue;
+        $urnList = $urnNode->nodeValue;
       }
     }   
     return $urnList;   

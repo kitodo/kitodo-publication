@@ -81,7 +81,7 @@ class Notifier {
       try {
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData()); 
         $urn = $mods->getQucosaUrn();
-                
+        $submitterName = $slub->getSubmitterName();        
         $args['submitterName'] = $submitterName;       
         $args['title'] = $document->getTitle();
         $args['author'] = implode("; ", $document->getAuthors());
