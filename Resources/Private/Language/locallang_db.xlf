@@ -45,6 +45,9 @@
                         <trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.date_issued">
+				<source>Date Issued</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
 				<source>Metadata Group</source>
 			</trans-unit>

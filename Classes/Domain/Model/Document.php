@@ -142,6 +142,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
         
         /**
+         *
+         * @var string $dateIssued
+         */
+        protected $dateIssued;
+        
+        
+        /**
 	 * file
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -210,35 +217,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getXmlData() {                                  
 		return $this->xmlData;
 	}
-
+                
 	/**
 	 * Sets the xmlData
 	 *
 	 * @param string $xmlData
 	 * @return void
 	 */
-	public function setXmlData($xmlData) {                            
-                $newMods = new \EWW\Dpf\Helper\Mods($xmlData);                
-                $newDateIssued = $newMods->getDateIssued();
-                                
-                $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                
-                $dateIssued = $mods->getDateIssued();
-                
-                if (empty($newDateIssued)) {                                                                            
-                    if (!empty($dateIssued)) {                                        
-                        $newMods->setDateIssued($dateIssued);                    
-                    }                    
-                } else {                   
-                    $date = \DateTime::createFromFormat(\DateTime::ISO8601, $newDateIssued);
-                   
-                    if (is_object($date) && get_class($date) == 'DateTime' && $date->format(\DateTime::ISO8601) == $newDateIssued) {
-                        $newMods->setDateIssued($newDateIssued);
-                    } else {
-                       $newMods->setDateIssued($dateIssued); 
-                    }                                   
-                }
-           
-		$this->xmlData = $newMods->getModsXml();                                                              
+	public function setXmlData($xmlData) {
+            $this->xmlData = $xmlData;
 	}
         
         
@@ -630,6 +617,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                 $this->valid = $valid; 
 	}
         
+        
+        public function getDateIssued() {                                                      
+            return $this->dateIssued;                          
+        }
+                 
+        public function setDateIssued($dateIssued) {                                                      
+            $this->dateIssued = $dateIssued;                        
+        }
+                       
         public function isDeleteAllowed() {
           return ($this->state == self::OBJECT_STATE_INACTIVE ||
                  $this->state == self::OBJECT_STATE_ACTIVE) &&
@@ -675,36 +671,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                    $this->state == self::OBJECT_STATE_INACTIVE) &&                              
                    !empty($this->objectIdentifier);
         }
-
-        
-        public function getDateIssued() {                                                      
-             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                                      
-             $dateIssued = $mods->getDateIssued();  
-                                       
-             if (empty($dateIssued)) {
-                 return NULL;
-             }
-                        
-             return $dateIssued;                          
-        }
-                 
-        
-        public function initDateIssued() {       
-             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);     
-             $dateIssued = $mods->getDateIssued();
-             if (empty($dateIssued)) {
-                $mods->setDateIssued((new \DateTime)->format(\DateTime::ISO8601));                   
-                $this->xmlData = $mods->getModsXml();                 
-             }                           
-        } 
-                
-        public function removeDateIssued() {
-            $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                  
-            $mods->removeDateIssued();                          
-            $this->xmlData = $mods->getModsXml();                                                                         
-        }
-
-        
+                                                      
         public function getIsNew() {        
             return empty($this->objectIdentifier);                
         }

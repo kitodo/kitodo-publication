@@ -76,8 +76,7 @@ class DocumentTransferManager {
    */   
   public function ingest($document) {
     
-    $document->setTransferStatus(Document::TRANSFER_QUEUED); 
-    $document->initDateIssued();
+    $document->setTransferStatus(Document::TRANSFER_QUEUED);   
     $this->documentRepository->update($document);     
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
@@ -85,8 +84,15 @@ class DocumentTransferManager {
     $fileData = $document->getFileData();
         
     $exporter->setFileData($fileData);    
-                                   
-    $exporter->setMods($document->getXmlData());    
+                                 
+    $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());     
+    //$dateIssued = $mods->getDateIssued();
+    //if (empty($dateIssued)) {        
+        $dateIssued = (new \DateTime)->format(\DateTime::ISO8601); 
+        $mods->setDateIssued($dateIssued);        
+    //}
+                        
+    $exporter->setMods($mods->getModsXml());    
 
     $exporter->setSlubInfo($document->getSlubInfoData());
         
@@ -96,7 +102,8 @@ class DocumentTransferManager {
                         
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
             
-    if ($remoteDocumentId) {            
+    if ($remoteDocumentId) {  
+        $document->setDateIssued($dateIssued);
         $document->setObjectIdentifier($remoteDocumentId);                                                        
         $document->setTransferStatus(Document::TRANSFER_SENT);                                  
         $this->documentRepository->update($document);
@@ -108,8 +115,7 @@ class DocumentTransferManager {
 
         return TRUE;
     } else {            
-      $document->setTransferStatus(Document::TRANSFER_ERROR);  
-      $document->removeDateIssued();
+      $document->setTransferStatus(Document::TRANSFER_ERROR);     
       $this->documentRepository->update($document);
       return FALSE;
     }
@@ -134,7 +140,14 @@ class DocumentTransferManager {
            
     $exporter->setFileData($fileData);    
         
-    $exporter->setMods($document->getXmlData()); 
+    $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());     
+    //$dateIssued = $mods->getDateIssued();
+    //if (empty($dateIssued)) {        
+        $dateIssued = $document->getDateIssued();
+        $mods->setDateIssued($dateIssued);        
+    //}
+    
+    $exporter->setMods($mods->getModsXml()); 
     
     $exporter->setSlubInfo($document->getSlubInfoData());
                     
@@ -218,7 +231,9 @@ class DocumentTransferManager {
         
         $document->setXmlData($mods->getModsXml());
         $document->setSlubInfoData($slub->getSlubXml());
-
+ 
+        $document->setDateIssued($mods->getDateIssued());                
+        
         $this->documentRepository->add($document);          
         $this->persistenceManager->persistAll();
                                            

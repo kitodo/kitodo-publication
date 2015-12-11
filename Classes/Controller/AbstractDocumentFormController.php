@@ -247,10 +247,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 
             $tmpDocument->setTitle($newDocument->getTitle()); 
             $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setxmlData($newDocument->getXmlData());                                                      
+            $tmpDocument->setXmlData($newDocument->getXmlData());                                                      
             $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
-            $tmpDocument->setDocumentType($newDocument->getDocumentType());
-            $tmpDocument->removeDateIssued();  
+            $tmpDocument->setDocumentType($newDocument->getDocumentType());             
                                                 
             $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   

@@ -57,7 +57,8 @@ CREATE TABLE tx_dpf_domain_model_document (
         reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,  
         state varchar(255) DEFAULT '' NOT NULL,              
         transfer_status varchar(255) DEFAULT '' NOT NULL,               
-        transfer_date int(11) DEFAULT '0' NOT NULL,       
+        transfer_date int(11) DEFAULT '0' NOT NULL,
+        date_issued varchar(255) DEFAULT '' NOT NULL,
         changed tinyint(1) unsigned DEFAULT '0' NOT NULL, 
         valid tinyint(1) unsigned DEFAULT '0' NOT NULL, 
        
