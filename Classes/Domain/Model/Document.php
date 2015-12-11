@@ -706,6 +706,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
         
         public function getIsNew() {        
-            return empty($this->objectIdentifier) && empty($this->remoteAction);                
+            return empty($this->objectIdentifier);                
         }
 }

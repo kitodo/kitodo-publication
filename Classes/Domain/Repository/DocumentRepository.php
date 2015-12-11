@@ -60,7 +60,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query = $this->createQuery();
 
 		$constraints = array();
-		$constraints[] = $query->equals('state', Document::OBJECT_STATE_NEW);
+		//$constraints[] = $query->equals('state', Document::OBJECT_STATE_NEW);
 		$constraints[] = $query->equals('object_identifier', '');
 
 		if (count($constraints)) {
@@ -86,14 +86,12 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query = $this->createQuery();
 
 		$constraints = array();
-		$constraints[] = $query->in('state', array(Document::OBJECT_STATE_ACTIVE,  ''));
+		//$constraints[] = $query->logicalNot($query->equals('state', Document::OBJECT_STATE_NEW));
 		$constraints[] = $query->like('object_identifier', 'qucosa%');
 
 		if (count($constraints)) {
 			$query->matching($query->logicalOr($constraints));
 		}
-
-//		$query->statement("SELECT * FROM tx_dpf_domain_model_document where (length(trim(object_identifier))>0 OR state <> '".Document::OBJECT_STATE_NEW."') AND deleted = 0 AND hidden = 0 AND pid =".$storagePID );
 
 		return $query->execute();
 	}
