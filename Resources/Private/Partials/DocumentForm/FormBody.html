@@ -3,22 +3,29 @@
     <div class="tx-dpf-tab-container">
       <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-          <li><a href="#tab-{pageIterator.cycle}">{formPage.0.displayName}</a></li>
+            <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
+            <f:then> 
+                <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"><a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+            </f:then>   
+            </eww:isElementAllowed>
         </f:for>
-        <li><a href="#tab-file-upload">Dateien</a></li>        
+        <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>        
       </ul>
     </div>
 
-    <div class="css-panes">
+    <div class="tab-content">
 
       <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-
-        <div id="tab-{pageIterator.cycle}" class="fs_page" data-page="{formPage.0.uid}">
-
+ 
+        <eww:isElementAllowed condition="{formPage.0.backendOnly}">   
+        <f:then> 
+        <div id="tab-{pageIterator.cycle}" class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" data-page="{formPage.0.uid}">
+          
           <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
 
             <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                                            
+              <eww:isElementAllowed condition="{groupItem.backendOnly}"> 
+              <f:then> 
               <f:render partial="DocumentForm/Group" arguments="{
                         formPageUid:formPage.0.uid,                       
                         formGroupUid:groupItem.uid,
@@ -45,17 +52,19 @@
                   </button>
                 </f:if>
               </f:if>
-             
-            </f:for>
-
-          </f:for>
-
+              </f:then> 
+              </eww:isElementAllowed>
+            </f:for>            
+          </f:for>                       
         </div>
+        </f:then> 
+        </eww:isElementAllowed>    
+          
       </f:for>
 
-      <div id="tab-file-upload" class="fs_page">
+      <div id="tab-file-upload" class="fs_page tab-pane">
         
-        <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile}" />                
+        <f:render partial="DocumentForm/PrimaryFileGroup" arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}" />                
                           
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}" />            
           
@@ -77,29 +86,18 @@
     </div>
       
   <div class="form-submit">
-      <f:if condition="{documentForm.remoteDelete}">
-        <f:then>
-            <f:form.button name="save" id="save" disabled="disabled" class="btn btn-lg btn-success">
-              <span class="glyphicon glyphicon-ok"></span>
-              {f:translate(key: 'form_button.save')}
-            </f:form.button>
-        </f:then>  
-        <f:else>
-            <f:form.button name="save" id="save" class="btn btn-lg btn-success">
-              <span class="glyphicon glyphicon-ok"></span>
-              {f:translate(key: 'form_button.save')}
-            </f:form.button>
-        </f:else>  
-      </f:if>
+    <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}" class="btn btn-lg btn-success">
+      <span class="glyphicon glyphicon-ok"></span>
+      {f:translate(key: 'form_button.save')}
+    </f:form.button>
       
-      <f:if condition="{documentForm.documentUid} < 1">            
-        <f:form.button name="savecontinue" id="savecontinue" class="btn btn-lg btn-info">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-          {f:translate(key: 'form_button.save_continue')}
-        </f:form.button>
-      </f:if>
-      <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
-        <span class="glyphicon glyphicon-remove"></span>
-        {f:translate(key: 'form_button.cancel')}
-      </f:form.button>
+    <f:form.button name="validate" id="validate" class="btn btn-lg btn-info">
+       <span class="glyphicon glyphicon-chevron-right"></span>   
+       Validate
+    </f:form.button>
+
+    <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
+      <span class="glyphicon glyphicon-remove"></span>
+      {f:translate(key: 'form_button.cancel')}
+    </f:form.button>
   </div>

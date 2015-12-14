@@ -27,6 +27,9 @@
                         <trans-unit id="object_state.description">
 				<source>objectState</source>
 			</trans-unit>
+                        <trans-unit id="date_issued.description">
+				<source>date issued</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

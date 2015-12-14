@@ -83,23 +83,42 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
          * @inject
          */
         protected $persistenceManager;
-
+                
                                          
 	/**
 	 * action list
 	 *
+         * @param boolean $success 
 	 * @return void
 	 */
-	public function listAction() {
-                                                                         
+	public function listAction($success = FALSE) {
+            
 		$documents = $this->documentRepository->findAll();
                 
                 $documentTypes = $this->documentTypeRepository->findAll();
-                                
                 
+                foreach ($documentTypes as $docType) {
+                    $data[] = array( 
+                        "name" => $docType->getDisplayName(),
+                        "type" => $docType
+                    );        
+                }
+                
+                foreach ($data as $key => $row) {
+                    $name[$key]    = $row['name'];
+                    $type[$key] = $row['type'];
+                }    
+
+                array_multisort($name, SORT_ASC, SORT_LOCALE_STRING, $type, SORT_ASC, $data);
+               
+                foreach ($data as $item) {
+                    $docTypes[] = $item['type']; 
+                }        
+                
+                $this->view->assign('success', $success);
                 $this->view->assign('listtype', $this->settings['listtype']);
                 
-                $this->view->assign('documentTypes', $documentTypes);                                
+                $this->view->assign('documentTypes', $docTypes);                                
 		$this->view->assign('documents', $documents);
 	}
 
@@ -182,8 +201,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm) {
                            
           $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-          $newDocument = $documentMapper->getDocument($newDocumentForm);      
-          //$newDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);
+          $newDocument = $documentMapper->getDocument($newDocumentForm);    
+                                       
           $this->documentRepository->add($newDocument);
           $this->persistenceManager->persistAll();
 
@@ -198,14 +217,22 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           }
   */
           
-          // Add new files
+          // Add or update files
           foreach ( $newDocumentForm->getNewFiles() as $newFile ) {                          
-            $newFile->setDocument($newDocument);
-            $this->fileRepository->add($newFile);                       
-            //$newDocument->addFile($newFile);           
+                               
+            if ($newFile->getUID()) {
+                $this->fileRepository->update($newFile);       
+            } else {               
+                $newFile->setDocument($newDocument);
+                $this->fileRepository->add($newFile);                       
+                //$newDocument->addFile($newFile);           
+            }    
           }
           
-                                                    
+          $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              
+          
+          $notifier->sendNewDocumentNotification($newDocument);
+                                                              
           $requestArguments = $this->request->getArguments();                                                                         
                     
           if (array_key_exists('savecontinue', $requestArguments)) {
@@ -214,15 +241,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 
             $tmpDocument->setTitle($newDocument->getTitle()); 
             $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setxmlData($newDocument->getXmlData());
-            $tmpDocument->setDocumentType($newDocument->getDocumentType());
-            $tmpDocument->removeDateIssued();  
-                                      
+            $tmpDocument->setXmlData($newDocument->getXmlData());                                                      
+            $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
+            $tmpDocument->setDocumentType($newDocument->getDocumentType());             
+                                                
             $this->forward('new',NULL,NULL,array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));   
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
-          }                             
-          
-          $this->redirectToList();
+          }                              
+                                                            
+          $this->redirectToList(TRUE);
 	}
 
                 
@@ -251,8 +278,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	 * @ignorevalidation $documentForm
 	 * @return void
 	 */
-	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                            
-          $this->view->assign('documentForm', $documentForm);                                                                    
+	public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                                       
+            $this->view->assign('documentForm', $documentForm);                                                                    
 	}
 
         
@@ -284,12 +311,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $updateDocument = $documentMapper->getDocument($documentForm);    
                                                   
           $objectIdentifier = $updateDocument->getObjectIdentifier();
-          
-          if (empty($objectIdentifier)) {
-            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_INGEST);    
-          } else { 
-            $updateDocument->setRemoteAction(\EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_UPDATE);             
-          }
+                              
+          $updateDocument->setChanged(TRUE);
           
           $this->documentRepository->update($updateDocument);        
                     
@@ -300,9 +323,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $this->fileRepository->update($deleteFile);
           }
                     
-          // Add new files
-          foreach ( $documentForm->getNewFiles() as $newFile ) {     
-            $updateDocument->addFile($newFile);           
+          // Add or update files
+          foreach ( $documentForm->getNewFiles() as $newFile ) {  
+                                   
+            if ($newFile->getUID()) {
+                $this->fileRepository->update($newFile);       
+            } else {               
+                $updateDocument->addFile($newFile);                
+            }      
+                                                   
           }
           
           // add document to local es index
@@ -326,15 +355,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
     public function initializeAction() {
       parent::initializeAction();
                                            
-      $requestArguments = $this->request->getArguments();                              
-                     
-      if ($requestArguments['cancel']) {         
+      $requestArguments = $this->request->getArguments();    
+                           
+      if (key_exists('cancel', $requestArguments)) {         
         $this->redirectToList();         
       }
     }    
     
     
-    protected function redirectToList() {
+    protected function redirectToList($success=FALSE) {
       $this->redirect('list');  
     }
 

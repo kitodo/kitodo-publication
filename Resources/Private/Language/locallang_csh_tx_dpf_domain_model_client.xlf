@@ -17,6 +17,9 @@
 			</trans-unit>                        
                         <trans-unit id="library_identifier.description">
 				<source>Library identifier</source>
+			</trans-unit> 
+                         <trans-unit id="admin_email.description">
+				<source>Admin email</source>
 			</trans-unit>                                                                                                                                                       
 
 		</body>

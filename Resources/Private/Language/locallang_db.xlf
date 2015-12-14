@@ -12,6 +12,9 @@
 			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
 				<source>Display Name</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_documenttype.virtual">
+				<source>Virtual</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
 				<source>Metadata Page</source>
 			</trans-unit>
@@ -42,6 +45,9 @@
                         <trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_document.date_issued">
+				<source>Date Issued</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
 				<source>Metadata Group</source>
 			</trans-unit>
@@ -59,6 +65,9 @@
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 				<source>Mapping</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatagroup.info_text">
+				<source>Info text</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
 				<source>Mods Extension Mapping</source>
@@ -87,9 +96,21 @@
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 				<source>Mandatory</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.validation">
+				<source>Validation</source>
+			</trans-unit>                        
                         <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
 				<source>Backend only</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
+				<source>Consent field</source>
+			</trans-unit>                        
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
+				<source>Default value</source>
+			</trans-unit>  
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
+				<source>Input option list</source>
+			</trans-unit>                        
 			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 				<source>Mapping</source>
 			</trans-unit>
@@ -114,8 +135,17 @@
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.checkbox">
 				<source>checkbox</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
+				<source>Data type</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
 				<source>select</source>
+			</trans-unit>
+                         <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.regexp">
+				<source>regexp</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date">
+				<source>date</source>
 			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service">
 				<source>Fill out service</source>
@@ -150,6 +180,9 @@
 			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
 				<source>Metadata Group</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
+				<source>Backend only</source>
+			</trans-unit>     
                         <trans-unit id="tx_dpf_domain_model_documenttransferlog">
 				<source>Document Transfer Log</source>
 			</trans-unit>
@@ -177,6 +210,15 @@
 			<trans-unit id="tx_dpf_domain_model_file.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.label">
+				<source>Label</source>
+			</trans-unit>     
+                        <trans-unit id="tx_dpf_domain_model_file.download">
+				<source>Download</source>                                
+			</trans-unit>                    
+                        <trans-unit id="tx_dpf_domain_model_file.archive">
+				<source>Archive</source>
+			</trans-unit>                                                       
 			<trans-unit id="tx_dpf_domain_model_file.content_type">
 				<source>Content Type</source>
 			</trans-unit>
@@ -210,7 +252,9 @@
                         <trans-unit id="tx_dpf_domain_model_client.library_identifier">
 				<source>Library identifier</source>
 			</trans-unit>                                                                                                                                                       
-
+                        <trans-unit id="tx_dpf_domain_model_client.admin_email">
+				<source>Admin email</source>
+			</trans-unit>  
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>Owner ID</source>
 			</trans-unit>
@@ -229,6 +273,9 @@
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
 				<source>Value label list</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value">
+    				<source>Default value</source>
+			</trans-unit>                           
 			<trans-unit id="tx_dpf_domain_model_inputoption">
 				<source>Input Option</source>
 			</trans-unit>

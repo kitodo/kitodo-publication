@@ -1,0 +1,256 @@
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<div class="btn-group" role="group">
+          <f:link.action action="listNew" controller="Document" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listNew')}">
+            {f:translate(key: 'manager.document.state.new')}
+          </f:link.action>
+          <f:link.action action="listEdit" controller="Document" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
+            {f:translate(key: 'manager.document.state.inProgress')}
+          </f:link.action>
+        </div>
+
+
+<table class="tx_dpf table table-striped table-manager table-condensed" >
+  <thead>
+    <tr>
+    <th class="xcol-md-4">{f:translate(key: 'manager.document.title')}</th>
+    <th class="xcol-md-2">{f:translate(key: 'manager.document.authors')}</th>
+    <th class="xcol-md-2">{f:translate(key: 'manager.document.publishedDate')}</th>
+    <th class="xcol-md-2">{f:translate(key: 'manager.document.datasetIdentifier')}</th>
+    <th class="xcol-md-2">{f:translate(key: 'manager.document.state')}</th>
+    <th class="xcol-md-2"><!-- ACTIONS --></th>
+    </tr>
+  </thead>
+  <f:for each="{documents}" as="document">
+     <tr>
+      <td><f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">{document.title}</f:link.action></td>
+      <td>
+        <f:for each="{document.authors}" as="author" iteration="itemIterator">
+        {author}<f:if condition="{itemIterator.isLast}">
+          <f:then></f:then>
+          <f:else>; </f:else>
+        </f:if>
+        </f:for>
+      </td>
+      <td><f:format.date date="{document.dateIssued}" format="d.m.Y" /></td>
+      <td>{document.objectIdentifier}</td>
+      <td>
+          <f:if condition="{document.isNew}">
+              <f:then>
+                {f:translate(key: 'manager.document.state.new')}
+              </f:then>
+              <f:else>
+                {f:translate(key: 'manager.document.state.inProgress')}
+              </f:else>
+          </f:if>
+      </td>
+      <td class="table_col_function">
+
+        <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}" class="btn btn-xs btn-default">{f:translate(key: 'manager.doublet')}</f:link.action>
+
+		  <dpf:link.preview
+				  arguments="{document : document}"
+				  pageUid="{settings.previewPage}"
+				  apiPid="{settings.apiPid}"
+				  class="btn btn-xs btn-default">
+			  <span class="glyphicon glyphicon-eye-open"></span>
+		  </dpf:link.preview>
+
+        <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default" title="{f:translate(key: 'manager.tooltip.duplicate')}" additionalAttributes="{data-toggle: 'tooltip' }">
+            <span class="glyphicon glyphicon-duplicate"></span>
+        </f:link.action>
+
+        <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}',
+                       inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}',
+                       confirm: '{f:if(condition: \'{document.activateRemote}\', then: \'#confirmActivate\', else: \'#confirmInactivate\')}'}">
+        <f:link.action
+            action="{f:if(condition: '{document.activateRemote}', then: 'activate')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivate')}"
+            arguments="{document : document}"
+            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}"
+            additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: confirm}">
+            <span class="glyphicon {f:if(condition: '{document.active}', then: 'glyphicon-ok-circle', else: 'glyphicon-ban-circle')}"
+                data-toggle="tooltip"
+                title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}', else: '{inactivateTooltip}')}">
+            </span>
+        </f:link.action>
+        </f:alias>
+
+        <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning" additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            {f:translate(key: 'manager.discard')}
+        </f:link.action>
+
+        <f:if condition="{document.ingestRemote}">
+            <f:link.action
+                action="release"
+                arguments="{document : document, releaseType : 'publish'}"
+                class="btn btn-xs {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success disabled')}"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPublish'}">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                {f:translate(key: 'manager.publish')}
+            </f:link.action>
+        </f:if>
+
+        <f:if condition="{document.updateRemote}">
+            <f:link.action
+                action="release"
+                arguments="{document : document, releaseType : 'update'}"
+                class="btn btn-xs {f:if(condition: '{document.valid}', then: 'btn-info', else: 'btn-info disabled')}"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmUpdate'}">
+                <span class="glyphicon glyphicon-refresh"></span>
+                {f:translate(key: 'manager.update')}
+            </f:link.action>
+        </f:if>
+
+        <f:if condition="{document.deleteRemote}">
+            <f:link.action
+                action="delete"
+                arguments="{document : document}"
+                class="btn btn-xs btn-danger"
+                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDelete'}">
+                {f:translate(key: 'manager.delete')}
+            </f:link.action>
+        </f:if>
+
+        <f:if condition="{document.restoreRemote}">
+            <f:link.action
+              action="restore"
+              arguments="{document : document, releaseType : 'restore'}"
+              class="btn btn-xs btn-warning"
+              additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
+              <span class="glyphicon glyphicon-refresh"></span>
+              {f:translate(key: 'manager.restore')}restore
+            </f:link.action>
+        </f:if>
+
+      </td>
+    </tr>
+  </f:for>
+</table>
+
+<div class="modal fade" id="confirmDiscard" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.discardConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.discardConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.discardConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+  <div class="modal fade" id="confirmUpdate" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.releaseConfirmMessageHeader.update')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.releaseConfirmMessage.update', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+  <div class="modal fade" id="confirmPublish" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.releaseConfirmMessageHeader.publish')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.releaseConfirmMessage.publish', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+  <div class="modal fade" id="confirmActivate" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.activateConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.activateConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+  <div class="modal fade" id="confirmInactivate" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.inactivateConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.inactivateConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+        
+  <div class="modal fade" id="confirmRestore" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.restoreConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.restoreConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  
+  <div class="modal fade" id="confirmDelete" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.deleteConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.deleteConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.releaseConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.releaseConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
+  

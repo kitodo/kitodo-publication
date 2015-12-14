@@ -105,19 +105,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         
         /**
-         * objectState
+         * state
          * 
          * @var string         
          */
-        protected $objectState;  
+        protected $state = self::OBJECT_STATE_NEW;  
         
-        /**
-         * remoteAction
-         * 
-         * @var string         
-         */
-        protected $remoteAction;     
-                        
+        
         /**
          * transferStatus
          * 
@@ -132,6 +126,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         protected $transferDate;    
                                      
+        /**
+         * changed
+         * 
+         * @var boolean
+         */
+        protected $changed = FALSE;
+        
+        /**
+         * valid
+         * 
+         * @var boolean
+         */
+        protected $valid = FALSE;
+
+        
+        /**
+         *
+         * @var string $dateIssued
+         */
+        protected $dateIssued;
+        
         
         /**
 	 * file
@@ -145,14 +160,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const TRANSFER_ERROR = "ERROR";        
         const TRANSFER_QUEUED = "QUEUED";                     
         const TRANSFER_SENT = "SENT";
-                       
-        const REMOTE_ACTION_INGEST = "INGEST";        
-        const REMOTE_ACTION_UPDATE = "UPDATE";        
-        const REMOTE_ACTION_DELETE = "DELETE";
-        
+                                       
+        const OBJECT_STATE_NEW = "NEW";                
         const OBJECT_STATE_ACTIVE = "ACTIVE";        
         const OBJECT_STATE_INACTIVE = "INACTIVE";
         const OBJECT_STATE_DELETED = "DELETED";
+        const OBJECT_STATE_LOCALLY_DELETED = "LOCALLY_DELETED";
         
         /**
 	 * Returns the title
@@ -192,7 +205,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthors($authors) {
                 $authors = implode("; ",$authors);		                
-                $this->authors = $autors;
+                $this->authors = $authors;
                 //htmlspecialchars_decode($authors,ENT_QUOTES);
 	}
         
@@ -204,35 +217,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getXmlData() {                                  
 		return $this->xmlData;
 	}
-
+                
 	/**
 	 * Sets the xmlData
 	 *
 	 * @param string $xmlData
 	 * @return void
 	 */
-	public function setXmlData($xmlData) {                            
-                $newMods = new \EWW\Dpf\Helper\Mods($xmlData);                
-                $newDateIssued = $newMods->getDateIssued();
-                                
-                $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                
-                $dateIssued = $mods->getDateIssued();
-                
-                if (empty($newDateIssued)) {                                                                            
-                    if (!empty($dateIssued)) {                                        
-                        $newMods->setDateIssued($dateIssued);                    
-                    }                    
-                } else {                   
-                    $date = \DateTime::createFromFormat(\DateTime::ISO8601, $newDateIssued);
-                   
-                    if (get_class($date) == 'DateTime' && $date->format(\DateTime::ISO8601) == $newDateIssued) {
-                        $newMods->setDateIssued($newDateIssued);
-                    } else {
-                       $newMods->setDateIssued($dateIssued); 
-                    }                                   
-                }
-           
-		$this->xmlData = $newMods->getModsXml();                                                              
+	public function setXmlData($xmlData) {
+            $this->xmlData = $xmlData;
 	}
         
         
@@ -323,43 +316,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
                 
         /**
-         * Returns the objectState
+         * Returns the state
          * 
          * @return string
          */
-        public function getObjectState() {
-          return $this->objectState;          
+        public function getState() {
+          return $this->state;          
         }
         
         /**
-         * Sets the objectState
+         * Sets the state
          * 
-         * @param string $objectState
+         * @param string $state
          * @return void
          */
-        public function setObjectState($objectState) {
-          $this->objectState = $objectState;          
+        public function setState($state) {
+          $this->state = $state;          
         }
-                                
-        /**
-         * Returns the remoteAction
-         * 
-         * @return string
-         */
-        public function getRemoteAction() {
-          return $this->remoteAction;          
-        }
-        
-        /**
-         * Sets the remoteAction
-         * 
-         * @param string $remoteAction
-         * @return void
-         */
-        public function setRemoteAction($remoteAction) {
-          $this->remoteAction = $remoteAction;          
-        }
-                               
+                                                                       
         /**         
          * Returns the transferStatus
          * @var string
@@ -501,34 +475,90 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
 
         $files = array();
+              
+        if (is_a($this->getFile(),'\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+          foreach ($this->getFile() as $file) {
+ 
+                $fileStatus = $file->getStatus();
 
-        foreach ($this->getFile() as $file) {
-
-            $fileStatus = $file->getStatus();
-
-            if (!empty($fileStatus)) {
-
-                $dataStreamIdentifier = $file->getDatastreamIdentifier();
-
-                if ($file->getStatus() != \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
-                    $files[$file->getUid()] = array(
-                    'path' => $file->getLink(),
-                    'type' => $file->getContentType(),
-                    'id' => $fileId->getId($file),
-                    'title' => $file->getTitle(),
-                    'use' => ''
-                    );
-                } elseif (!empty($dataStreamIdentifier)) {
-                    $files[$file->getUid()] = array(
-                    'path' => $file->getLink(),
-                    'type' => $file->getContentType(),
-                    'id' => $file->getDatastreamIdentifier(),
-                    'title' => $file->getTitle(),
-                    'use' => 'DELETE'
-                    );
-                }
+                //if (!empty($fileStatus)) {
+                                
+                    $tmpFile = array(
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'title' => (($file->getLabel())? $file->getLabel() : $file->getTitle()),                        
+                        'download' => $file->getDownload(),
+                        'archive' => $file->getArchive(),                              
+                        'use' => '',                            
+                        'id' => NULL,
+                        'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED)
+                     );
+                    
+                    $grpUSE = ($file->getDownload())? 'download' : 'original';
+                    
+                    if ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {              
+                      $dataStreamIdentifier = $file->getDatastreamIdentifier();                           
+                      if (!empty($dataStreamIdentifier)) {
+                        $tmpFile['id'] = $file->getDatastreamIdentifier();                           
+                        $tmpFile['use'] = 'DELETE';
+                        $files[$grpUSE][$file->getUid()] = $tmpFile;
+                      }                       
+                    } else {
+                      $tmpFile['id'] = $fileId->getId($file);  
+                      $tmpFile['use'] = ($file->getArchive())? 'ARCHIVE' : '';
+                      $files[$grpUSE][$file->getUid()] = $tmpFile;
+                    }
+                    
+                //}
+                
             }
+        }
 
+        return $files;
+
+    }
+    
+    
+    
+    public function getCurrentFileData()
+    {
+        
+        $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
+
+        $files = array();
+              
+        if (is_a($this->getFile(),'\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+          foreach ($this->getFile() as $file) {
+ 
+                $fileStatus = $file->getStatus();
+                                    
+                    $tmpFile = array(
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'title' => (($file->getLabel())? $file->getLabel() : $file->getTitle()),                        
+                        'download' => $file->getDownload(),
+                        'archive' => $file->getArchive(),                              
+                        'use' => '',                            
+                        'id' => NULL,
+                        'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED)
+                     );
+                               
+                    $grpUSE = ($file->getDownload())? 'download' : 'original';
+                    
+                    if ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {                       
+                      $dataStreamIdentifier = $file->getDatastreamIdentifier();                           
+                      if (!empty($dataStreamIdentifier)) {
+                        $tmpFile['id'] = $file->getDatastreamIdentifier();                           
+                        $tmpFile['use'] = 'DELETE';
+                        $files[$grpUSE][$file->getUid()] = $tmpFile;
+                      }                       
+                    } else {
+                      $tmpFile['id'] = $fileId->getId($file);                        
+                      $tmpFile['use'] = ($file->getArchive())? 'ARCHIVE' : '';
+                      $files[$grpUSE][$file->getUid()] = $tmpFile;
+                    }
+                                             
+            }
         }
 
         return $files;
@@ -549,36 +579,103 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
         
         
-        public function isDeleteRemote() {
-          return $this->remoteAction == self::REMOTE_ACTION_DELETE;
-        }
-        
+        /**
+	 * Returns the changed
+	 *
+	 * @return string $changed
+	 */
+	public function getChanged() {
+		return $this->changed;
+	}
                 
-        public function getDateIssued() {                                                      
-             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                                                      
-             $dateIssued = $mods->getDateIssued();  
-                                       
-             if (empty($dateIssued)) {
-                 return NULL;
-             }
-                        
-             return $dateIssued;                          
+        /**
+	 * Sets the changed
+	 *
+	 * @param string $changed
+	 * @return void
+	 */
+	public function setChanged($changed) {          
+                $this->changed = $changed; 
+	}
+        
+        /**
+	 * Returns the valid
+	 *
+	 * @return string $valid
+	 */
+	public function getValid() {
+		return $this->valid;
+	}
+                
+        /**
+	 * Sets the valid
+	 *
+	 * @param string $valid
+	 * @return void
+	 */
+	public function setValid($valid) {          
+                $this->valid = $valid; 
+	}
+        
+        
+        public function getDateIssued() {
+            if (empty($this->dateIssued)) {
+                return NULL;
+            } 
+            return $this->dateIssued;                          
         }
                  
-        
-        public function initDateIssued() {       
-             $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);     
-             $dateIssued = $mods->getDateIssued();
-             if (empty($dateIssued)) {
-                $mods->setDateIssued((new \DateTime)->format(\DateTime::ISO8601));                   
-                $this->xmlData = $mods->getModsXml();                 
-             }                           
-        } 
+        public function setDateIssued($dateIssued) {                                                      
+            $this->dateIssued = $dateIssued;                        
+        }
+                       
+        public function isDeleteAllowed() {
+          return ($this->state == self::OBJECT_STATE_INACTIVE ||
+                 $this->state == self::OBJECT_STATE_ACTIVE) &&
+                 !empty($this->objectIdentifier);                  
+        }
                 
-        public function removeDateIssued() {
-            $mods = new \EWW\Dpf\Helper\Mods($this->xmlData);                  
-            $mods->removeDateIssued();                          
-            $this->xmlData = $mods->getModsXml();                                                                         
+        public function isActive() {
+            return $this->state == self::OBJECT_STATE_ACTIVE ||
+                   $this->state == self::OBJECT_STATE_NEW ||
+                   ($this->state != self::OBJECT_STATE_INACTIVE &&
+                    $this->state != self::OBJECT_STATE_DELETED &&
+                    $this->state != self::OBJECT_STATE_LOCALLY_DELETED);        
+        }       
+        
+        public function isActivationChangeAllowed() {
+          return $this->state == self::OBJECT_STATE_INACTIVE ||
+                 $this->state == self::OBJECT_STATE_ACTIVE;                  
+        }
+        
+        public function isDeleteRemote() {
+          return $this->state == self::OBJECT_STATE_LOCALLY_DELETED;                  
+        }
+        
+        public function isRestoreRemote() {
+          return $this->state == self::OBJECT_STATE_DELETED;
+        }
+        
+        public function isActivateRemote() {
+          return $this->state == self::OBJECT_STATE_INACTIVE;
         }
 
+        public function isInactivateRemote() {
+            return $this->state == self::OBJECT_STATE_ACTIVE;
+        }
+
+        public function isIngestRemote() {
+            return $this->state == self::OBJECT_STATE_NEW &&
+                   empty($this->objectIdentifier);
+        }
+        
+        public function isUpdateRemote() {
+            return ($this->state == self::OBJECT_STATE_ACTIVE ||
+                   $this->state == self::OBJECT_STATE_INACTIVE) &&                              
+                   !empty($this->objectIdentifier);
+        }
+                                                      
+        public function getIsNew() {        
+            return empty($this->objectIdentifier);                
+        }
 }

@@ -39,6 +39,30 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $title = '';
 
+        
+        /**
+	 * label
+	 *
+	 * @var string
+	 */
+	protected $label = '';
+        
+        
+        /**
+         * download
+         * 
+         * @var boolean
+         */
+        protected $download;
+        
+        
+        /**
+         * archive
+         * 
+         * @var boolean
+         */
+        protected $archive;
+        
 	/**
 	 * contentType
 	 *
@@ -112,6 +136,66 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the label
+	 *
+	 * @return string $label
+	 */
+	public function getLabel() {
+		return $this->label;
+	}
+
+	/**
+	 * Sets the label
+	 *
+	 * @param string $label
+	 * @return void
+	 */
+	public function setLabel($label) {
+		$this->label = $label;
+	}
+        
+        
+        /**
+	 * Returns the download
+	 *
+	 * @return boolean $download
+	 */
+	public function getDownload() {
+		return $this->download;
+	}
+
+	/**
+	 * Sets the download
+	 *
+	 * @param string $download
+	 * @return void
+	 */
+	public function setDownload($download) {
+		$this->download = $download;
+	}
+        
+        
+        /**
+	 * Returns the arcive
+	 *
+	 * @return string $archive
+	 */
+	public function getArchive() {
+		return $this->archive;
+	}
+
+	/**
+	 * Sets the archive
+	 *
+	 * @param string $archive
+	 * @return void
+	 */
+	public function setArchive($archive) {
+		$this->archive = $archive;
+	}
+        
+        
+        /**
 	 * Returns the contentType
 	 *
 	 * @return string $contentType

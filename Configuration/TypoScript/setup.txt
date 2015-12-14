@@ -6,25 +6,31 @@ plugin.tx_dpf {
 		layoutRootPath = {$plugin.tx_dpf.view.layoutRootPath}
 	}
 	persistence {
-		storagePid = {$plugin.tx_dpf.persistence.storagePid}      
+		storagePid = {$plugin.tx_dpf.persistence.storagePid}
 
-		recursive = {$plugin.tx_dpf.persistence.recursive}      
+		recursive = {$plugin.tx_dpf.persistence.recursive}
 
                 classes {
-                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentStoragePid}     
-                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$plugin.tx_dpf.persistence.fileStoragePid}  
-                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}                    
+                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentStoragePid}
+                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$plugin.tx_dpf.persistence.fileStoragePid}
+                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}
                     EWW\Dpf\Domain\Model\DocumentType.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTypeStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataObjectStoragePid}                      
-                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataGroupStoragePid}                      
-                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataPageStoragePid}  
-                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$plugin.tx_dpf.persistence.storagePid}                                                              
-                }         
+                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataObjectStoragePid}
+                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataGroupStoragePid}
+                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataPageStoragePid}
+                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$plugin.tx_dpf.persistence.storagePid}
+                }
 	}
 	features {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
+
+        settings {
+            defaultValue {
+                fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
+            } 
+        }
 }
 
 
@@ -63,7 +69,10 @@ plugin.tx_dpf._CSS_DEFAULT_STYLE (
 )
 
 page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
-page.includeJSFooter.tx_dpf = EXT:dpf/Resources/Public/JavaScript/qucosa.js
+page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
+page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
+page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
+page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 
 
 #Define ajax page type
@@ -73,6 +82,7 @@ ajax_page {
     10 < tt_content.list.20.dpf_qucosaform
     config{
     disableAllHeaderCode = 1
+    admPanel = 0
     #Choose your header type (json or text/plain)
     #additionalHeaders = Content-type:application/json
     #additionalHeaders = Content-type: text/plain
@@ -89,18 +99,18 @@ module.tx_dpf {
 	persistence {
 		storagePid = {$module.tx_dpf.persistence.storagePid}
 
-                recursive = {$module.tx_dpf.persistence.recursive}      
+                recursive = {$module.tx_dpf.persistence.recursive}
 
                 classes {
-                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$module.tx_dpf.persistence.documentStoragePid}     
-                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$module.tx_dpf.persistence.fileStoragePid}   
-                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}                                       
+                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$module.tx_dpf.persistence.documentStoragePid}
+                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$module.tx_dpf.persistence.fileStoragePid}
+                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}
                     EWW\Dpf\Domain\Model\DocumentType.newRecordStoragePid = {$module.tx_dpf.persistence.documentTypeStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$module.tx_dpf.persistence.metadataObjectStoragePid}                      
-                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$module.tx_dpf.persistence.metadataGroupStoragePid}                      
-                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$module.tx_dpf.persistence.metadataPageStoragePid}                                                                
+                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$module.tx_dpf.persistence.metadataObjectStoragePid}
+                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$module.tx_dpf.persistence.metadataGroupStoragePid}
+                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$module.tx_dpf.persistence.metadataPageStoragePid}
                     #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$module.tx_dpf.persistence.storagePid}
-                }       
+                }
 
 	}
 	view {
@@ -108,4 +118,14 @@ module.tx_dpf {
 		partialRootPath = {$module.tx_dpf.view.partialRootPath}
 		layoutRootPath = {$module.tx_dpf.view.layoutRootPath}
 	}
+
+
+        settings {
+            previewPage = {$module.tx_dpf.settings.previewPage}
+            apiPid = {$module.tx_dpf.settings.apiPid}
+            defaultValue {
+                fullTextLabel = {$module.tx_dpf.settings.defaultValue.fullTextLabel}   
+            }    
+        }
 }
+

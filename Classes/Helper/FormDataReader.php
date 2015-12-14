@@ -23,6 +23,7 @@ class FormDataReader {
   protected $metadataPageRepository = NULL;        
 
   
+  
   /**
    * metadataGroupRepository
    *
@@ -67,6 +68,14 @@ class FormDataReader {
    */
   protected $objectManager;
   
+  
+  /**
+   * 
+   * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+   * @inject
+   */
+  protected $configurationManager;
+
   
   /**
    * formData
@@ -125,7 +134,7 @@ class FormDataReader {
    * 
    * @param array $formData
    */
-  public function setFormData($formData) {                
+  public function setFormData($formData) {                                    
     $this->formData = $formData;             
     $this->documentType = $this->documentTypeRepository->findByUid($formData['type']);
   }
@@ -166,9 +175,12 @@ class FormDataReader {
     return $deletedFiles;    
   }
   
-  
+   
   protected function getNewAndUpdatedFiles() {
-                            
+                        
+    $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+    $fullTextLabel = $frameworkConfiguration['settings']['defaultValue']['fullTextLabel'];  
+      
     $newFiles = array();
     
     // Primary file                 
@@ -180,20 +192,78 @@ class FormDataReader {
       if ($document) {
         $file = $this->fileRepository->getPrimaryFileByDocument($document);
       }  
-                           
-      $newFiles[] = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file);                             
+      
+      $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], TRUE, $file); 
+      $newPrimaryFile->setLabel($fullTextLabel);
+      
+      $newFiles[] = $newPrimaryFile;
     }
-     
-           
+          
+    if (is_array($this->formData['primFile'])) {
+                       
+          foreach ($this->formData['primFile'] as $fileId => $fileData) {
+       
+              $file = $this->fileRepository->findByUID($fileId);                                           
+              $fileStatus = $file->getStatus();
+                                                    
+              if(empty($fileData['label'])) {               
+                  $fileData['label'] = $fullTextLabel;
+              }
+              
+              if ($file->getLabel() != $fileData['label'] || 
+                  $file->getDownload() != !empty($fileData['download']) ||
+                  $file->getArchive() != !empty($fileData['archive']) ) {              
+                                                                                                 
+                $file->setLabel($fileData['label']);
+                $file->setDownload(!empty($fileData['download']));  
+                $file->setArchive(!empty($fileData['archive']));
+                
+                if (empty($fileStatus)) {
+                    $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);  
+                }
+                                     
+                $newFiles[] = $file;
+              }  
+          }
+             
+      }
+   
+    
     // Secondary files
     if (is_array($this->formData['secondaryFiles'])) {
         foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
-            if ($tmpFile['error'] != 4) {          
-                $newFiles[] = $this->getUploadedFile($tmpFile);                                                                                 
+            if ($tmpFile['error'] != 4) {                                          
+                $f = $this->getUploadedFile($tmpFile);               
+                $newFiles[] = $f;                                      
             }
         }
     }    
-    
+          
+    if (is_array($this->formData['secFiles'])) {
+                          
+          foreach ($this->formData['secFiles'] as $fileId => $fileData) {
+     
+              $file = $this->fileRepository->findByUID($fileId);                                           
+              $fileStatus = $file->getStatus();
+                                                    
+              if ($file->getLabel() != $fileData['label'] || 
+                  $file->getDownload() != !empty($fileData['download']) ||
+                  $file->getArchive() != !empty($fileData['archive']) ) {              
+                                                                                                 
+                $file->setLabel($fileData['label']);
+                $file->setDownload(!empty($fileData['download']));  
+                $file->setArchive(!empty($fileData['archive']));
+                
+                if (empty($fileStatus)) {
+                    $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);  
+                }
+                               
+                $newFiles[] = $file;
+              }  
+          }
+             
+      }
+                 
     return $newFiles;
     
   }
@@ -208,8 +278,18 @@ class FormDataReader {
       $fileName = uniqid(time(),true);
                   
       if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName) ) {                    
-        $file->setContentType($tmpFile['type']);  
-        $file->setTitle($tmpFile['name']);
+                  
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+        $contentType = finfo_file($finfo, $this->uploadPath.$fileName);
+        finfo_close($finfo);                   
+          
+        //$file->setContentType($tmpFile['type']);          
+        $file->setContentType($contentType);          
+                                                          
+        $file->setTitle($tmpFile['name']);        
+        $file->setLabel($tmpFile['label']);        
+        $file->setDownload(!empty($tmpFile['download']));  
+        $file->setArchive(!empty($tmpFile['archive']));
         $file->setLink($this->basePath.$fileName);
         $file->setPrimaryFile($primary);
                     
@@ -219,8 +299,8 @@ class FormDataReader {
             } else {
                 $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);
             }  
-        } else {
-            $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);           
+        } else {           
+            $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);                  
         }
 
         return $file;
@@ -239,9 +319,9 @@ class FormDataReader {
     $documentForm->setDisplayName($this->documentType->getDisplayName());
     $documentForm->setName($this->documentType->getName());
     $documentForm->setDocumentUid($this->formData['documentUid']);
-    $documentForm->setQucosaId($this->formData['qucosaId']);
-   
-    
+    $documentForm->setQucosaId($this->formData['qucosaId']);    
+    $documentForm->setValid(!empty($this->formData['validDocument']));    
+     
     $documentData = array();
     
     foreach ($fields as $field) {                    
@@ -260,7 +340,8 @@ class FormDataReader {
       $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());
-      $documentFormPage->setName($metadataPage->getName());                               
+      $documentFormPage->setName($metadataPage->getName());                    
+      $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
       
       foreach ($page as $groupUid => $groupItem ) {           
         foreach ($groupItem as $group ) {   
@@ -282,12 +363,15 @@ class FormDataReader {
             $documentFormField->setDisplayName($metadataObject->getDisplayName());
             $documentFormField->setName($metadataObject->getName());
             $documentFormField->setMandatory($metadataObject->getMandatory());
-            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());            
+            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());  
+            $documentFormField->setConsent($metadataObject->getConsent());
+            $documentFormField->setValidation($metadataObject->getValidation());
+            $documentFormField->setDataType($metadataObject->getDataType());
             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());     
             $documentFormField->setInputOptions($metadataObject->getInputOptionList());             
             $documentFormField->setInputField($metadataObject->getInputField());   
             $documentFormField->setFillOutService($metadataObject->getFillOutService());   
-            $documentFormField->setValue($object);
+            $documentFormField->setValue($object,$metadataObject->getDefaultValue());
                                                                        
             $documentFormGroup->addItem($documentFormField);                                 
           }

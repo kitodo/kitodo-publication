@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_file']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, content_type, link, status, datastream_identifier, primary_file, document',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, label, download, archive, content_type, link, status, datastream_identifier, primary_file, document',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, content_type, link, status, datastream_identifier, primary_file, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, label, download, archive, content_type, link, status, datastream_identifier, primary_file, document, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -106,6 +106,34 @@ $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 				'eval' => 'trim'
 			),
 		),
+                
+                'label' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.label',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+                'download' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.download',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			),
+                ),    
+                'archive' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.archive',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			),   
+                ),    
 		'content_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.content_type',
@@ -149,12 +177,26 @@ $GLOBALS['TCA']['tx_dpf_domain_model_file'] = array(
 				'type' => 'check',
 				'default' => 0
 			)
-                ),     
+                ),  
+            
+                'document' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf2/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_dpf_domain_model_document',
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+            
+                /*
                 'document' => array(
 			'config' => array(
 				'type' => 'passthrough',
 			),
-		),
+		),                  
+                */
 		
 	),
 );

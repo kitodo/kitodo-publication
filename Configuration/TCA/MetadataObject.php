@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, input_option_list, fill_out_service, backend_only',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, mapping, mods_extension, input_field, input_option_list, fill_out_service, backend_only, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -107,7 +107,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,uniqueInPid'
+				'eval' => 'trim'
 			),
 		),
 		'display_name' => array(
@@ -148,6 +148,32 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 				'eval' => 'trim'
 			),
 		),
+                'data_type' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+                                        array('',''),
+					array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type.regexp', \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_REGEXP),
+                                        array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.data_type.date', \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE),
+                                ),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
+		),            
+                'validation' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.validation',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
                 'mods_extension' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
@@ -166,7 +192,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 				'default' => 0
 			)
 		),
-		'input_field' => array(
+                'consent' => array(
+			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.consent',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+                'input_field' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_field',
@@ -185,7 +220,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 		),            
                 'input_option_list' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_formfield.input_option_list',
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_option_list',
 			'config' => array(
 				'type' => 'select',
                                 'items' => array(
@@ -197,6 +232,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
 				'maxitems' => 1,
 			),
 		),
+                'default_value' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.default_value',
+                        'config' => array(
+				'type' => 'text',
+                                'cols' => 20,
+                                'rows' => 3,
+                                'eval' => 'trim'				
+			),                                        
+                ),
                 'fill_out_service' => array(
 			'exclude' => 1,
                         'l10n_mode' => 'exclude',

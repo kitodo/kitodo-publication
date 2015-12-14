@@ -10,13 +10,19 @@ class FileId {
     
     $idList = array();
     $this->id = 0;
-    foreach ( $document->getFile() as $file ) {   
-      $dsId = $file->getDatastreamIdentifier();                  
-      if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
-        $id = split("-", $dsId);        
-        $idList[] = $id[1];      echo "test";                
-      }                       
-    }   
+         
+    if (is_a($document->getFile(),'\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {                               
+        foreach ( $document->getFile() as $file ) {   
+          $dsId = $file->getDatastreamIdentifier();                  
+          if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {                        
+            $id = explode("-", $dsId);        
+            $idList[] = $id[1];          
+          }                       
+        }        
+    } else {
+        //throw new \Exception('Unexpected type!');
+    }
+    
     if (!empty($idList)) $this->id = max($idList);
   }  
   

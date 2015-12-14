@@ -75,6 +75,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $libraryIdentifier = '';
                    
         
+        /**
+         * adminEmail         
+         * 
+         * @var string
+         * @validate NotEmpty
+         */
+        protected $adminEmail = '';
+        
+                
 	/**
 	 * Returns the project
 	 *
@@ -174,4 +183,26 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function setOwnerId($ownerId) {
           $this->ownerId = $ownerId;
         }
+        
+        
+        /**
+	 * Gets the adminEmail
+	 *	
+	 * @return string
+	 */
+        public function getAdminEmail() {
+          return $this->adminEmail;
+        }
+        
+        
+        /**
+	 * Sets the adminEmail
+	 *	
+	 * @return string
+	 */
+        public function setAdminEmail($adminEmail) {
+          $this->adminEmail = $adminEmail;
+        }
+        
+        
 }

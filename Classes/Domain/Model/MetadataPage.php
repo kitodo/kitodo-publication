@@ -60,6 +60,15 @@ class MetadataPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $metadataGroup = NULL;
 
+        
+        /**
+         * backendOnly
+         * 
+         * @var boolean
+         */
+        protected $backendOnly = FALSE;
+        
+        
 	/**
 	 * __construct
 	 */
@@ -186,4 +195,25 @@ class MetadataPage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
            return $this->getMetadataGroup();
         }
 
+        
+        /**
+	 * Returns the backendOnly
+	 *
+	 * @return boolean $backendOnly
+	 */
+	public function getBackendOnly() {
+		return $this->backendOnly;
+	}
+
+	/**
+	 * Sets the backendOnly
+	 *
+	 * @param boolean $backendOnly
+	 * @return void
+	 */
+	public function setBackendOnly($backendOnly) {
+		$this->backendOnly = $backendOnly;
+	}
+
+        
 }

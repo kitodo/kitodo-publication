@@ -21,8 +21,46 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
 </f:comment>
 
-<h2>{documentForm.displayName} bearbeiten</h2>
+<h2><f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}" /></h2>
 
- <f:render partial="DocumentFormBE/Edit" arguments="{documentForm:documentForm}"/>
+ <f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data" additionalAttributes="{data-disabled: '{documentForm.saveDisabled}'}">
+  <f:form.hidden property="type" value="{documentForm.uid}" />
+  <f:form.hidden property="documentUid" value="{documentForm.documentUid}" />
+  <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}" />
+  <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}" />
+  <f:form.hidden id="validDocument" property="validDocument" value="0" />
+  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+</f:form>
+<f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
+    <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
+                                                 
+    <f:form.button name="delete" id="save" class="btn btn-sm btn-danger" disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
+      <span class="glyphicon glyphicon-trash"></span>
+      {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
+    </f:form.button>       
+</f:form>
+
+<f:link.action action="discard" controller="Document" arguments="{document : document}" class="btn btn-sm btn-warning btn-edit-discard" additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    {f:translate(key: 'manager.discard')}
+</f:link.action>
+ 
+ <div class="modal fade" id="confirmDiscard" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{f:translate(key: 'manager.discardConfirmMessage', arguments: {0: '%s'})}</p>
+      </div>
+      <div class="modal-footer">                                    
+        <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key: 'manager.discardConfirmNo')}</button>                                                          
+        <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key: 'manager.discardConfirmYes')}</a>
+      </div>
+    </div>
+  </div>
+ </div>
  
 </f:section>

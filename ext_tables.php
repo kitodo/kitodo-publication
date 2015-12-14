@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 
 if (TYPO3_MODE === 'BE') {
-  
+
   $modulName = 'qucosaMain';
   //Legt die Position des Moduls fest, hier nach Modul "web"
   if (!isset($TBE_MODULES[$modulName])) {
@@ -20,56 +20,59 @@ if (TYPO3_MODE === 'BE') {
     }
     $TBE_MODULES = $temp_TBE_MODULES;
   }
-  
-  
+
+
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'EWW.' . $_EXTKEY,
         'qucosaMain',
         '',
         '',
-        array(),       
+        array(),
         array(
           'access' => 'user,group',
-          'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_main.xlf',        
+          'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_main.xlf',
         )
   );
-  
+
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
           'EWW.' . $_EXTKEY,
-          'qucosaMain',   
+          'qucosaMain',
           'qucosamanager',
-          '',		
+          '',
           array(
-                  'Document' => 'list, show, new, create, edit, update, delete, release,duplicate',
+                  'Document' => 'list, show, new, create, edit, update, delete, discard, release, duplicate, '
+                                . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
+                                . 'listNew, listEdit, activate, inactivate, restore',
+
                   'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-                  'Search' => 'list, search, import, doubletCheck, nextResults',
+                  'Search' => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
           ),
           array(
                   'access' => 'user,group',
                   'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_manager.xlf', 
-                  'navigationComponentId' => 'typo3-pagetree'                  
+                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_manager.xlf',
+                  'navigationComponentId' => 'typo3-pagetree'
           )
   );
-  
-  
+
+
   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
           'EWW.' . $_EXTKEY,
-          'qucosaMain',   
+          'qucosaMain',
           'admin',
-          '',		
+          '',
           array(
                   'Client' => 'new,create,default',
           ),
           array(
                   'access' => 'user,group',
                   'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_admin.xlf', 
-                  'navigationComponentId' => 'typo3-pagetree'                  
+                  'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_admin.xlf',
+                  'navigationComponentId' => 'typo3-pagetree'
           )
   );
-  
+
 }
 
 
@@ -80,6 +83,12 @@ if (TYPO3_MODE === 'BE') {
 );
 
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Qucosaxml',
+	'QucosaXml'
+);
+
 // qucosaform plugin configuration: additional fields
 $extensionName = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
 $pluginName = strtolower('Qucosaform');
@@ -89,6 +98,7 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY . '/Configuration/FlexForms/qucosaform_plugin.xml');
 // end of qucosaform plugin configuration
+
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Qucosa Publication');
 

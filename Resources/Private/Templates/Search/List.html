@@ -15,121 +15,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:section name="main">
-              
     
-    <div class="be-page-header">
-      <h3>Suche</h3>    
-      <div class="btn-group controller-switch" role="group">
-        <f:link.action action="list" controller="Document" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-          Dokumente
-        </f:link.action>      
-        <f:link.action action="list" controller="Search" class="btn btn-default btn-sm active">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suche
-        </f:link.action>
-      </div>
-    </div>
-        
-    <f:flashMessages renderMode="div" />    
-         
-
+    <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
+                               
     <div class="searchForm">
       <f:form action="search" name="search" class="form-inline">
-        <h5>Einfache Suche</h5>
+        <h5>{f:translate(key: 'search.form.header.simpleSearch')}</h5>
         <div class="form-group">
-          <label for="query">Query</label>
-          <f:form.textfield property="query" class="form-control" placeholder="Query" id="query" />
+          <label for="query">{f:translate(key: 'search.form.label.query')}</label>
+          <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
         </div>
         <f:form.button class="btn btn-default" type="submit">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suchen
+          {f:translate(key: 'search.form.button.search')}
         </f:form.button>
       </f:form>
     </div>
 
-    <div class="searchForm">
-      <f:form action="search" name="extSearch" class="form-inline">
-        <h5>Erweiterte Suche</h5>
-        <div class="form-group">
-          <label for="extId">ID</label>
-          <f:form.textfield property="extId" class="form-control" placeholder="ID" id="extId" />
-        </div>
-        <div class="form-group">
-          <label for="extTitle">Titel</label>
-          <f:form.textfield property="extTitle" class="form-control" placeholder="Titel" id="extTitle" />
-        </div>
-        <div class="form-group">
-          <label for="extAuthor">Autor</label>
-          <f:form.textfield property="extAuthor" class="form-control" placeholder="Autor" id="extAuthor" />
-        </div>
-        <f:form.hidden property="extSearch" value="true" />        
-        <f:form.button class="btn btn-default" type="submit">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          Suchen
-        </f:form.button>
-      </f:form>
-    </div>
-
-	<table id="search-results" class="tx_dpf table table-striped table-manager table-condensed">
-		<thead>
-			<tr>
-				<th class="xcol-md-5">ID</th>
-				<th class="xcol-md-4"><f:translate key="tx_dpf_domain_model_document.title" /></th>
-				<th class="xcol-md-3">Publisher</th>
-				<th class="xcol-md-3">Submitter</th>              
-				<th class="xcol-md-2">Identifier</th>   
-                <th class="xcol-md-1"></th>          
-			</tr>
-		</thead>
-                <tbody>
-		<f:for each="{searchList}" as="entry">
-		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-         <f:then><tr class="success"></f:then>	
-         <f:else><tr></f:else>
-       </f:if>  
-                                                       
-        <f:if condition="{entry._source._dissemination}">
-          <f:then>          
-    				<td>{entry._id}</td>
-    				<td>{entry._source._dissemination._content.title.0}</td>
-    				<td>{entry._source._dissemination._content.publisher.0}</td>
-    				<td>{entry._source._dissemination._content.submitter}</td>
-    				<td>{entry._source._dissemination._content.identifier.0}</td>
-            <td class="table_col_function">
-                    
-            <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
-              <f:then>
-                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                  Get 
-                </f:link.action>
-              </f:then>
-              <f:else>                                                                
-                  <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-sm btn-info  {f:if(condition: '{entry._type} == \'local\'', then: 'disabled')}">                                   
-                    Get 
-                </f:link.action>                   
-              </f:else>                    
-            </f:if>                                  
-          </td> 
-          </f:then>
-          <f:else>
-            <td>{entry._id}</td>
-            <td>{entry._source.title.0}</td>
-            <td>{entry._source.publisher.0}</td>
-            <td>{entry._source.submitter}</td>
-            <td>{entry._source.identifier.0}</td>
-            <td class="table_col_function">
-              <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">                                   
-                Get 
-              </f:link.action>
-            </td>
-          </f:else>                    
-        </f:if>                                               
-			</tr>
-		</f:for>
-                </tbody>
-        </table>
+	<f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
         <center>
-            <f:link.action id="next" controller="Search" action="nextResults">Mehr Ergebnisse</f:link.action> 
+            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
         </center>                           
 </f:section>

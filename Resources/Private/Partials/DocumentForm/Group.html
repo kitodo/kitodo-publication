@@ -6,11 +6,13 @@
       {formGroupDisplayName}
       <f:if condition="{groupIndex}"><button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{formGroupUid}"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span></button></f:if>
     </legend>
-    
+    <div class="group-info-text">
+        {groupItem.infoText} 
+    </div>
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
 
       <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
-        <div class="form-container">
+        <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
 
                 <eww:isElementAllowed condition="{fieldItem.backendOnly}">
                     <f:then>                           <f:render partial="DocumentForm/Field" arguments="{

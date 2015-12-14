@@ -53,7 +53,7 @@ class FedoraRepository implements Repository {
   protected $response;
   
   protected $ownerId;
-  
+      
   const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
   const QUCOSA_TYPE = 'application/vnd.qucosa.mets+xml';
   
@@ -62,7 +62,7 @@ class FedoraRepository implements Repository {
     $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
     $this->swordHost = $confArr['swordHost'];
     $this->swordUser = $confArr['swordUser'];
-    $this->swordPassword = $confArr['swordPassword'];
+    $this->swordPassword = $confArr['swordPassword'];   
     $this->fedoraHost = $confArr['fedoraHost'];      
     $this->fedoraUser = $confArr['fedoraUser'];
     $this->fedoraPassword = $confArr['fedoraPassword'];
@@ -75,9 +75,9 @@ class FedoraRepository implements Repository {
    * @return string
    */   
   public function ingest($document, $metsXml) {
-              
+  
     try {    
-      $response = Request::post($this->swordHost . "/sword/qucosa:all")      
+      $response = Request::post($this->swordHost . "/sword/".$this->getSWORDCollection())      
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
@@ -86,11 +86,13 @@ class FedoraRepository implements Repository {
         ->addHeader('Slug',$document->getReservedObjectIdentifier())  
         ->send();
                                                                              
-      TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
+     
       
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 201 ) {
         return $this->getRemoteDocumentId($response);        
+      } else {
+    	TransferLogger::Log('INGEST',$document->getUid(), NULL, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -114,19 +116,19 @@ class FedoraRepository implements Repository {
     $remoteId = $document->getObjectIdentifier();
     
     try {    
-      $response = Request::put($this->swordHost . "/sword/qucosa:all/" . $remoteId)      
+      $response = Request::put($this->swordHost . "/sword/".$this->getSWORDCollection()."/" . $remoteId)      
         ->sendsXml()
         ->body($metsXml)
         ->authenticateWith($this->swordUser, $this->swordPassword)     
         ->sendsType(FedoraRepository::QUCOSA_TYPE)
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
-                                                                             
-      TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
-      
+                                                                                         
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {
         return $this->getRemoteDocumentId($response);        
+      } else {
+	    TransferLogger::Log('UPDATE',$document->getUid(), $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -151,12 +153,12 @@ class FedoraRepository implements Repository {
         ->authenticateWith($this->fedoraUser, $this->fedoraPassword)     
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
         ->send();
-                                                                             
-      TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
-                                          
+                                                                                                                             
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                       
         return $response->__toString();                               
+      } else {
+      	TransferLogger::Log('RETRIEVE',NULL, $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -184,14 +186,14 @@ class FedoraRepository implements Repository {
         ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())
         //->addHeader()      
         ->send();
-                                                                                           
-      TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
-                 
+                                                                                                                     
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 200 ) {                                    
         return $response->__toString();                               
+      } else {
+      	TransferLogger::Log('GET_NEXT_DOCUMENT_ID',NULL, $remoteId, $response);
       }                            
-    } catch(Exception $exception) {
+    } catch(\Exception $exception) {
       // curl error handling,
       // but extbase already catches all exceptions       
       return NULL;
@@ -204,23 +206,26 @@ class FedoraRepository implements Repository {
    * Removes an existing document from the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
+   * @param $state
    * @return boolean
    */
-  public function delete($document) {
+  public function delete($document, $state) {
     
      $remoteId = $document->getObjectIdentifier();
     
+     $state = ($state)? "?".$state : "";
+     
     try {    
-      $response = Request::delete($this->swordHost . "/sword/qucosa:all/". $remoteId)               
+      $response = Request::delete($this->swordHost . "/sword/".$this->getSWORDCollection()."/". $remoteId.$state)               
         ->authenticateWith($this->swordUser, $this->swordPassword) 
-        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())   
+        ->addHeader(FedoraRepository::X_ON_BEHALF_OF,$this->getOwnerId())       
         ->send();
-                                                                             
-      TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
-      
+                                                                                         
       // if transfer successful 
       if ( !$response->hasErrors() && $response->code == 204 ) {
         return TRUE;     
+      } else {
+      	TransferLogger::Log('DELETE',$document->getUid(), $remoteId, $response);
       }                             
     } catch(Exception $exception) {
       // curl error handling,
@@ -268,6 +273,12 @@ class FedoraRepository implements Repository {
     
     return $this->ownerId;
   }
+ 
+  protected function getSWORDCollection() {
+    $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+    return trim($confArr['swordCollectionNamespace']).":".trim($this->getOwnerId());
+  }
+  
   
 }
 

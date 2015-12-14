@@ -6,6 +6,15 @@
 			<trans-unit id="title.description">
 				<source>title</source>
 			</trans-unit>
+                        <trans-unit id="label.description">
+				<source>label</source>
+			</trans-unit>
+                        <trans-unit id="download.description">
+				<source>download</source>
+			</trans-unit>
+                        <trans-unit id="archive.description">
+				<source>archive</source>
+			</trans-unit>
 			<trans-unit id="content_type.description">
 				<source>contentType</source>
 			</trans-unit>

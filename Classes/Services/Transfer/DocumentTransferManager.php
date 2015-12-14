@@ -76,33 +76,46 @@ class DocumentTransferManager {
    */   
   public function ingest($document) {
     
-    $document->setTransferStatus(Document::TRANSFER_QUEUED); 
+    $document->setTransferStatus(Document::TRANSFER_QUEUED);   
     $this->documentRepository->update($document);     
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
-    $fileData = $this->getFileData($document);
+    $fileData = $document->getFileData();
+        
     $exporter->setFileData($fileData);    
-                                   
-    $exporter->setMods($document->getXmlData());    
+                                 
+    $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());     
+    //$dateIssued = $mods->getDateIssued();
+    //if (empty($dateIssued)) {        
+        $dateIssued = (new \DateTime)->format(\DateTime::ISO8601); 
+        $mods->setDateIssued($dateIssued);        
+    //}
+                        
+    $exporter->setMods($mods->getModsXml());    
 
     $exporter->setSlubInfo($document->getSlubInfoData());
         
     $exporter->buildMets();  
-                   
+                            
     $metsXml = $exporter->getMetsData();
-        
+                        
     $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
             
-    if ($remoteDocumentId) {            
+    if ($remoteDocumentId) {  
+        $document->setDateIssued($dateIssued);
         $document->setObjectIdentifier($remoteDocumentId);                                                        
-        $document->setTransferStatus(Document::TRANSFER_SENT);                           
-        $document->initDateIssued();
+        $document->setTransferStatus(Document::TRANSFER_SENT);                                  
         $this->documentRepository->update($document);
         $this->documentRepository->remove($document);
+
+        // remove document from local index
+        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $elasticsearchRepository->delete($document, "");
+
         return TRUE;
     } else {            
-      $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
+      $document->setTransferStatus(Document::TRANSFER_ERROR);     
       $this->documentRepository->update($document);
       return FALSE;
     }
@@ -123,11 +136,18 @@ class DocumentTransferManager {
         
     $exporter = new \EWW\Dpf\Services\MetsExporter();  
     
-    $fileData = $this->getFileData($document);
+    $fileData = $document->getFileData();
            
     $exporter->setFileData($fileData);    
         
-    $exporter->setMods($document->getXmlData()); 
+    $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());     
+    //$dateIssued = $mods->getDateIssued();
+    //if (empty($dateIssued)) {        
+        $dateIssued = $document->getDateIssued();
+        $mods->setDateIssued($dateIssued);        
+    //}
+    
+    $exporter->setMods($mods->getModsXml()); 
     
     $exporter->setSlubInfo($document->getSlubInfoData());
                     
@@ -136,9 +156,14 @@ class DocumentTransferManager {
     $metsXml = $exporter->getMetsData();
            
     if ($this->remoteRepository->update($document, $metsXml)) {                
-      $document->setTransferStatus(Document::TRANSFER_SENT); 
+      $document->setTransferStatus(Document::TRANSFER_SENT);
       $this->documentRepository->update($document);          
       $this->documentRepository->remove($document);
+      
+      // remove document from local index
+      $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+      $elasticsearchRepository->delete($document, "");
+
       return TRUE;
     } else {
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
@@ -158,14 +183,12 @@ class DocumentTransferManager {
   public function retrieve($remoteId) {
     
     $metsXml = $this->remoteRepository->retrieve($remoteId);
-              
+            
     if ( $this->documentRepository->findOneByObjectIdentifier($remoteId) ) {
       throw new \Exception("Document already exist: $remoteId");
-      return FALSE;
     };
        
       if ($metsXml) {      
-                     
         $mets = new \EWW\Dpf\Helper\Mets($metsXml);        
         $mods = $mets->getMods();
         $slub = $mets->getSlub();
@@ -174,33 +197,46 @@ class DocumentTransferManager {
         $authors = $mods->getAuthors();
         
         $documentTypeName = $slub->getDocumentType();
-        
         $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);                               
                               
         if (empty($title) || empty($documentType)) {
-          return FALSE;
+	  return FALSE;        
         }
-                     
+                
+        $state = $mets->getState();
+        
+        switch ($state) {            
+            case "ACTIVE":
+                $objectState = Document::OBJECT_STATE_ACTIVE;
+                break;
+            case "INACTIVE":
+                $objectState = Document::OBJECT_STATE_INACTIVE;
+                break;
+            case "DELETED":
+                $objectState = Document::OBJECT_STATE_DELETED;
+                break;
+            default:
+                $objectState = "ERROR";
+                throw new \Exception("Unknown object state: ".$state);
+                break;           
+        }
+                
         $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
         $document->setObjectIdentifier($remoteId);      
-        $document->setObjectState(Document::OBJECT_STATE_ACTIVE); 
+        $document->setState($objectState); 
         $document->setTitle($title);
         $document->setAuthors($authors);
         $document->setDocumentType($documentType);           
-          
+       
+        
         $document->setXmlData($mods->getModsXml());
-
-        $this->documentRepository->add($document);  
-
-        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $document->setSlubInfoData($slub->getSlubXml());
+ 
+        $document->setDateIssued($mods->getDateIssued());                
+        
+        $this->documentRepository->add($document);          
         $this->persistenceManager->persistAll();
-
-        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
-        $json = $elasticsearchMapper->getElasticsearchJson($document);
-
-        // send document to index
-        $elasticsearchRepository->add($document, $json);
-                    
+                                           
         foreach ($mets->getFiles() as $attachment) {       
                             
           $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
@@ -208,7 +244,10 @@ class DocumentTransferManager {
           $file->setDatastreamIdentifier($attachment['id']);
           $file->setLink($attachment['href']);
           $file->setTitle($attachment['title']);
-
+          $file->setLabel($attachment['title']);          
+          $file->setDownload($attachment['download']);
+          $file->setArchive($attachment['archive']);
+                   
           if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
             $file->setPrimaryFile(TRUE);           
           }
@@ -217,7 +256,15 @@ class DocumentTransferManager {
 
           $this->fileRepository->add($file);                 
         }
-          
+        
+//        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+//        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+//        $doc = $this->documentRepository->findByUID($document->getUID());
+//        $json = $elasticsearchMapper->getElasticsearchJson($doc);
+//        // send document to index
+//        $elasticsearchRepository->add($doc, $json);
+
+        
         return TRUE;                     
         
       } else {
@@ -232,18 +279,36 @@ class DocumentTransferManager {
    * Removes an existing document from the Fedora repository
    * 
    * @param \EWW\Dpf\Domain\Model\Document $document
+   * @param string $state
    * @return boolean
    */
-  public function delete($document) {
+  public function delete($document, $state) {
    
     $document->setTransferStatus(Document::TRANSFER_QUEUED); 
     $this->documentRepository->update($document);  
     
-    if ($this->remoteRepository->delete($document)) {                
+    if ($this->remoteRepository->delete($document,$state)) {                
       $document->setTransferStatus(Document::TRANSFER_SENT); 
-      $document->setObjectState(Document::OBJECT_STATE_DELETED);      
-      $this->documentRepository->update($document);          
-      $this->documentRepository->remove($document);
+      
+      switch ($state) {          
+          case "revert":
+              $document->setState(Document::OBJECT_STATE_ACTIVE);  
+              $this->documentRepository->update($document);                        
+              break;
+          case "inactivate": 
+              $document->setState(Document::OBJECT_STATE_INACTIVE);  
+              $this->documentRepository->update($document);
+              break;          
+          default:
+              $document->setState(Document::OBJECT_STATE_DELETED);  
+              $this->documentRepository->update($document);
+              $this->documentRepository->remove($document);
+              // remove document from local index
+              $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+              $elasticsearchRepository->delete($document,$state);
+              break;          
+      }
+                                 
       return TRUE;
     } else {
       $document->setTransferStatus(Document::TRANSFER_ERROR);                                   
@@ -253,59 +318,23 @@ class DocumentTransferManager {
   }
   
   
-  public function getNextDocumentId() {      
-      $nextDocumentIdXML = $this->remoteRepository->getNextDocumentId(); 
+  public function getNextDocumentId() {            
+        $nextDocumentIdXML = $this->remoteRepository->getNextDocumentId(); 
                                 
-      $dom = new \DOMDocument();
-      $dom->loadXML($nextDocumentIdXML);
-      $xpath = new \DOMXpath($dom);
+        if (empty($nextDocumentIdXML)) {
+            throw new \Exception("Couldn't get a valid document id from repository.");            
+        }
+        
+        $dom = new \DOMDocument();
+        $dom->loadXML($nextDocumentIdXML);
+        $xpath = new \DOMXpath($dom);
                   
-      $xpath->registerNamespace("management","http://www.fedora.info/definitions/1/0/management/"); 
-      $nextDocumentId = $xpath->query("/management:pidList/management:pid");     
+        $xpath->registerNamespace("management","http://www.fedora.info/definitions/1/0/management/"); 
+        $nextDocumentId = $xpath->query("/management:pidList/management:pid");     
                    
-      return $nextDocumentId->item(0)->nodeValue;                    
+        return $nextDocumentId->item(0)->nodeValue;                            
   }    
-  
-        
-  protected function getFileData($document) {
-        
-   $fileId = new \EWW\Dpf\Services\Transfer\FileId($document);
-          
-   $files = array();
-   
-   foreach ( $document->getFile() as $file ) {                  
-     
-     $fileStatus = $file->getStatus();  
-       
-     if (!empty($fileStatus)) {
-      
-      $dataStreamIdentifier = $file->getDatastreamIdentifier();
-         
-      if ($file->getStatus() != \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {                                
-         $files[$file->getUid()] = array(
-           'path' => $file->getLink(),
-           'type' => $file->getContentType(),
-           'id' => $fileId->getId($file),
-           'title' => $file->getTitle(),  
-           'use' => ''
-         );                                
-       } elseif (!empty($dataStreamIdentifier)) {        
-         $files[$file->getUid()] = array(
-           'path' => $file->getLink(),
-           'type' => $file->getContentType(),
-           'id' => $file->getDatastreamIdentifier(),
-           'title' => $file->getTitle(),  
-           'use' => 'DELETE'
-         );
-       }
-     }
-     
-    } 
-    
-    return $files;
-    
-  }
-  
+              
 }
 
 

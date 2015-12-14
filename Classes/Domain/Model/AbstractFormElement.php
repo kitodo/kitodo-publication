@@ -50,6 +50,7 @@ class AbstractFormElement {
    */
   protected $maxIteration;
   
+            
   
   public function getUid() {
     return $this->uid;    
@@ -118,7 +119,7 @@ class AbstractFormElement {
   public function setMaxIteration($maxIteration) {
     $this->maxIteration = $maxIteration;     
   }
-  
+      
 }
 
 ?>

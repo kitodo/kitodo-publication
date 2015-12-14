@@ -11,10 +11,12 @@ class Mods {
   }
  
   
-  public function setModsXml($modsXml) {
+  public function setModsXml($modsXml) {                      
     $modsDom = new \DOMDocument();
     if (!empty($modsXml)) {
-        $modsDom->loadXML($modsXml);     
+       if (is_null(@$modsDom->loadXML($modsXml))) {
+           throw new \Exception("Couldn't load MODS data!");
+       }     
     }    
     $this->modsDom = $modsDom;
   }
@@ -102,7 +104,7 @@ class Mods {
             $newDateIssued->nodeValue = $date;
             $newOriginInfo->appendChild($newDateIssued);
         } else {
-            throw \Exception('Invalid xml data.');
+            throw new \Exception('Invalid xml data.');
         }   
         
     }
@@ -130,11 +132,11 @@ class Mods {
   }  
   
   
-  public function hasUrn() {
-    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="urn"]'); 
+  public function hasQucosaUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]'); 
     
     $hasUrn = false;
-    
+       
     foreach ($urnNodeList as $urnNode) {        
         $value = $urnNode->nodeValue;
         $hasUrn = $hasUrn || !empty($value);     
@@ -144,16 +146,29 @@ class Mods {
   }
    
   
-  public function addUrn($urn) {
+  public function getQucosaUrn() {
+    $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]'); 
+    $urnList = '';
+    
+    if ($urnNodeList != NULL) {
+      foreach ($urnNodeList as $urnNode) {               
+        $urnList = $urnNode->nodeValue;
+      }
+    }   
+    return $urnList;   
+  }
+  
+  
+  public function addQucosaUrn($urn) {
     $rootNode = $this->getModsXpath()->query('/mods:mods');
     
       if ($rootNode->length == 1) {        
             $newUrn = $this->modsDom->createElement('mods:identifier');            
-            $newUrn->setAttribute('type','urn');
+            $newUrn->setAttribute('type','qucosa:urn');
             $newUrn->nodeValue = $urn;
             $rootNode->item(0)->appendChild($newUrn);                  
         } else {
-            throw \Exception('Invalid xml data.');
+            throw new \Exception('Invalid xml data.');
         }   
     
   }

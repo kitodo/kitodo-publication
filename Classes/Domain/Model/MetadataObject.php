@@ -85,6 +85,17 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         const textarea = 1;                
         const select = 2;   
         const checkbox = 3;
+                        
+        const INPUT_DATA_TYPE_REGEXP = "REGEXP";        
+        const INPUT_DATA_TYPE_DATE = "DATE";
+        
+        /**
+         * dataType
+         * 
+         * @var string
+         */
+        protected $dataType;
+                
         
         /**
 	 * modsExtension
@@ -118,7 +129,32 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * @var boolean
          */
         protected $backendOnly = FALSE;
-                
+
+        
+        /**
+         * consent
+         * 
+         * @var boolean
+         */
+        protected $consent;
+        
+        
+        
+        /**
+         * defaultValue
+         * 
+         * @var string
+         */
+        protected $defaultValue;
+        
+        
+        /**
+	 * validation
+	 *
+	 * @var string
+	 */
+	protected $validation = '';
+        
         
 	/**
 	 * Returns the name
@@ -353,5 +389,84 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setBackendOnly($backendOnly) {
 		$this->backendOnly = $backendOnly;
+	}
+        
+        /**
+	 * Returns the consent
+	 *
+	 * @return boolean $consent
+	 */
+	public function getConsent() {
+		return $this->consent;
+	}
+
+	/**
+	 * Sets the consent
+	 *
+	 * @param boolean $consent
+	 * @return void
+	 */
+	public function setConsent($consent) {
+		$this->consent = $consent;
+	}
+        
+        
+        /**
+	 * Returns the defaultValue
+	 *
+	 * @return string $defaultValue
+	 */
+	public function getDefaultValue() {
+		return $this->defaultValue;
+	}
+
+	/**
+	 * Sets the defaultValue
+	 *
+	 * @param string $defaultValue
+	 * @return void
+	 */
+	public function setDefaultValue($defaultValue) {
+		$this->defaultValue = $defaultValue;
+	}
+        
+        
+        /**
+	 * Returns the validation
+	 *
+	 * @return string $validation
+	 */
+	public function getValidation() {
+		return $this->validation;
+	}
+
+	/**
+	 * Sets the validation
+	 *
+	 * @param string $validation
+	 * @return void
+	 */
+	public function setValidation($validation) {
+		$this->validation = $validation;
+	}
+
+        
+        /**
+	 * Returns the dataType
+	 *
+	 * @return string $dataType
+	 */
+	public function getDataType() {
+		return $this->dataType;
+	}
+
+	/**
+	 * Sets the dataType
+	 *
+	 * @param string $dataType
+	 * @return void
+	 */
+	public function setDataType($dataType) {
+		$this->dataType = $dataType;
 	}
 }

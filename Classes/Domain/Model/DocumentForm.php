@@ -12,6 +12,13 @@ class DocumentForm extends AbstractFormElement {
   
   /**
    *
+   * @var boolean
+   */  
+  protected $virtual;
+  
+  
+  /**
+   *
    * @var string
    */  
   protected $qucosaId;
@@ -58,7 +65,25 @@ class DocumentForm extends AbstractFormElement {
    */
   protected $objectState;
   
+  
+  /**
+   * 
+   * @var boolean
+   */
+  protected $deleteDisabled;
           
+  /**
+   * 
+   * @var boolean
+   */
+  protected $saveDisabled;
+  
+  /**
+   *
+   * @var boolean
+   */
+  protected $valid = FALSE;
+    
   /**
    * 
    * @return integer
@@ -73,6 +98,22 @@ class DocumentForm extends AbstractFormElement {
    */
   public function setDocumentUid($documentUid) {
     $this->documentUid = $documentUid;    
+  }
+  
+  /**
+   * 
+   * @return boolean
+   */
+  public function getVirtual() {
+    return $this->virtual;    
+  }
+
+  /**
+   * 
+   * @param boolean $virtual
+   */
+  public function setVirtual($virtual) {
+    $this->virtual = $virtual;    
   }
   
   
@@ -153,31 +194,32 @@ class DocumentForm extends AbstractFormElement {
   public function setNewFiles($newFiles) {
     $this->newFiles = $newFiles;
   }
-  
-  public function getObjectState() {
-      return $this->objectState;
+   
+  public function getDeleteDisabled() {
+      return $this->deleteDisabled;
   }
   
-  public function setObjectState($objectState) {
-      $this->objectState = $objectState;
+  public function setDeleteDisabled($deleteDisabled) {
+      $this->deleteDisabled = $deleteDisabled;
+  }
+
+  public function getSaveDisabled() {
+      return $this->saveDisabled;
   }
   
-  public function isObjectActive() {
-      return $this->objectState == \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE;
+  public function setSaveDisabled($saveDisabled) {
+      $this->saveDisabled = $saveDisabled;
   }
   
-  public function getRemoteAction() {
-      return $this->remoteAction;
+  public function getValid() {
+      return $this->valid;
   }
   
-  public function setRemoteAction($remoteAction) {
-      $this->remoteAction = $remoteAction;
-  }
-  
-  public function isRemoteDelete() {
-      return $this->remoteAction == \EWW\Dpf\Domain\Model\Document::REMOTE_ACTION_DELETE;
+  public function setValid($valid) {
+      $this->valid = $valid;
   }
   
 }
+
 
 ?>

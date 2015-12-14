@@ -47,13 +47,17 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     */
     protected $clientRepository = null;
 
+
+    const RESULT_COUNT = 50;
+    const NEXT_RESULT_COUNT = 50;
+
         /**
      * action list
      *
      * @return void
      */
     public function listAction()
-    { 
+    {
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args = $this->request->getArguments();
@@ -61,6 +65,19 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
+
+        // assign form values
+        $this->assignExtraFields($args['extra']);
+    }
+
+    public function assignExtraFields($array)
+    {
+        // assign all form(extra) field values
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                $this->view->assign($key, $value);
+            }
+        }
     }
 
     /**
@@ -72,26 +89,26 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
         if (!$sessionVars['resultCount']) {
             // set number of results in session
-            $sessionVars['resultCount'] = 50;
+            $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
         } else {
             $resultCount = $sessionVars['resultCount'];
-            $sessionVars['resultCount'] = $resultCount + 50;
+            $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
         }
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
-             
-        $query['from'] = $sessionVars['resultCount'];
-        $query['size'] = 5;
-        
-       
-        $results = $this->getResultList($query);
 
-       //  echo "<pre>";
-       // var_dump($results);
-       // echo "</pre>";
-        
+        unset($query['extra']);
+
+        $type = 'object';
+
+        $query['body']['from'] = $sessionVars['resultCount'];
+        $query['body']['size'] = self::NEXT_RESULT_COUNT;
+
+        $results = $this->getResultList($query, $type);
+
         $this->view->assign('resultList', $results);
+        $this->view->assign('alreadyImported', array());
     }
 
     /**
@@ -110,17 +127,43 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $id = $args['extSearch']['extId'];
             $fieldQuery['_id'] = $id;
             $countFields++;
+            // will be removed from query later
+            $query['extra']['id'] = $id;
         }
 
         if ($args['extSearch']['extTitle']) {
             $title = $args['extSearch']['extTitle'];
             $fieldQuery['title'] = $title;
             $countFields++;
+            // will be removed from query later
+            $query['extra']['title'] = $title;
         }
 
         if ($args['extSearch']['extAuthor']) {
-            $author = $title = $args['extSearch']['extAuthor'];
+            $author = $args['extSearch']['extAuthor'];
             $fieldQuery['author'] = $author;
+            $countFields++;
+            // will be removed from query later
+            $query['extra']['author'] = $author;
+        }
+
+        if ($args['extSearch']['extDeleted']) {
+            // STATE deleted
+            $delete['bool']['must'][] = array('match' => array('STATE' => 'D'));
+            // STATE inactive
+            $inactive['bool']['must'][] = array('match' => array('STATE' => 'I'));
+
+            $query['body']['query']['bool']['should'][] = $delete;
+            $query['body']['query']['bool']['should'][] = $inactive;
+
+            $query['body']['query']['bool']['minimum_should_match'] = 1;
+
+            $query['extra']['showDeleted'] = true;
+
+        } else {
+            // STATE active
+            $deleted = true;
+            $fieldQuery['STATE'] = 'A';
             $countFields++;
         }
 
@@ -131,31 +174,62 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
                 $i++;
             }
-            
-            // owner id
-            $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
         }
 
+        // filter
+        $filter = array();
+        if ($args['extSearch']['extFrom']) {
+            $from = $args['extSearch']['extFrom'];
+            $filter['gte'] = $this->formatDate($from);
+            // will be removed from query later
+            $query['extra']['from'] = $from;
+        }
+
+        if ($args['extSearch']['extTill']) {
+            $till = $args['extSearch']['extTill'];
+            $filter['lte'] = $this->formatDate($till);
+            // will be removed from query later
+            $query['extra']['till'] = $till;
+        }
+
+        if (isset($filter['gte']) || isset($filter['lte'])) {
+            // "format": "dd/MM/yyyy
+            // $filter['format'] = 'dd.MM.yyyy';
+            $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
+        }
+
+        // owner id
+        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
+
         return $query;
+    }
+
+    public function formatDate($date)
+    {
+        // convert date from dd.mm.yyy to yyyy-dd-mm
+        $date = explode(".", $date);
+        return $date[2].'-'.$date[1].'-'.$date[0];
     }
 
     public function searchFulltext()
     {
         // perform fulltext search
         $args = $this->request->getArguments();
-                                        
+
         $client = $this->clientRepository->findAll()->current();
-        
+
         // dont return query if keys not existing
-        if ( !key_exists('search', $args) || !key_exists('query',$args['search'])) {            
+        if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
             return NULL;
         }
-        
+
+        $searchText = $this->escapeQuery($args['search']['query']);
+
         // add owner id
         $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
-        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $args['search']['query'];
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $args['search']['query'];
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $searchText;
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchText;
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
@@ -167,8 +241,47 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // $query['body']['query']['fields'][3] = "_dissemination._content.PUB_DATE";
         // $query['body']['query']['fields'][4] = "_dissemination._content.PUB_TYPE";
 
+        // extra information
+        // dont use it for elastic query
+        // will be removed later
+        $query['extra']['search'] = $searchText;
+
         return $query;
 
+    }
+
+    public function searchLatest()
+    {
+        $client = $this->clientRepository->findAll()->current();
+
+        // get the latest documents /CREATED_DATE
+        $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
+
+        // add owner id
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+
+        $query['body']['query']['bool']['should'][0]['query_string']['query'] = '*';
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';
+
+        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
+
+        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        return $query;
+    }
+
+    public function escapeQuery($string)
+    {
+        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
+        $string = preg_replace_callback(
+            '/([' . $luceneReservedCharacters . '])/',
+            function($matches) {
+                return '\\' . $matches[0];
+            },
+            $string
+        );
+
+        return $string;
     }
 
     /**
@@ -187,7 +300,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         } else {
             $query['body']['query']['match']['_all'] = $args['search']['query'];
         }
-        
+
         return $query;
     }
 
@@ -196,14 +309,48 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * @param  array $query elasticsearch search query
      * @return array        results
      */
-    public function getResultList($query)
+    public function getResultList($query, $type)
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
      //   die();
-        $results = $elasticSearch->search($query);
+        $results = $elasticSearch->search($query, $type);
 
         return $results;
+    }
+
+    public function extendedSearchAction()
+    {
+        // show extended search template
+        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+
+        $args = $this->request->getArguments();
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        // assign result list from elastic search
+        $this->view->assign('searchList', $args['results']);
+        $this->view->assign('alreadyImported', $objectIdentifiers);
+
+        // assign form values
+        $this->assignExtraFields($args['extra']);
+
+    }
+
+    public function latestAction()
+    {
+        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
+        $query = $this->searchLatest();
+
+        // set type local vs object
+        $type = 'object';
+
+        // unset extra information
+        unset($query['extra']);
+        // var_dump(json_encode($query));
+        $results = $this->getResultList($query, $type);
+
+        $this->forward("list", null, null, array('results' => $results));
+
     }
 
     /**
@@ -218,9 +365,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // reset session pagination
-        $sessionVars['resultCount'] = 50;
+        $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+        $sessionVars['resultCount'] = self::RESULT_COUNT;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-               
+
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
         if ($args['extSearch']) {
@@ -228,16 +376,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $this->extendedSearch();
         } else {
             $query = $this->searchFulltext();
-            // $query = $this->search();
         }
 
-        // set pagination
-        $query['body']['from'] = '0';
-        $query['body']['size'] = '50';
-        
-        // $query = $this->searchFulltext();
         // save search query
         if ($query) {
+            $query['body']['from'] = '0';
+            $query['body']['size'] = ''.self::RESULT_COUNT.'';
             $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
             $sessionVars['query'] = $query;
             $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
@@ -246,11 +390,25 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $query = $sessionVars['query'];
         }
 
-        $results = $this->getResultList($query);
+        // set type local vs object
+        $type = 'object';
 
-        // redirect to list view
-        $this->forward("list", null, null, array('results' => $results));
+        // unset extra information
+        $extra = $query['extra'];
+        unset($query['extra']);
+
+        $results = $this->getResultList($query, $type);
+
+        if ($args['extSearch']) {
+            // redirect to extended search view
+            $this->forward("extendedSearch", null, null, array('results' => $results, 'extra' => $extra));
+        } else {
+            // redirect to list view
+            $this->forward("list", null, null, array('results' => $results, 'extra' => $extra));
+        }
     }
+
+
 
     /**
      * action import
@@ -287,10 +445,31 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             true
         );
 
+        $this->forward('updateIndex', NULL, NULL, array('documentObjectIdentifier' => $documentObjectIdentifier));
+        //$this->redirect('search');
+    }
+
+    /**
+     *
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function updateIndexAction($documentObjectIdentifier)
+    {
+        $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
+
+        if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
+            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+            $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+            $json = $elasticsearchMapper->getElasticsearchJson($document);
+            // send document to index
+            $elasticsearchRepository->add($document, $json);
+        }
+
         $this->redirect('search');
     }
-    
-    
+
+
     /**
      * action doubletCheck
      *
@@ -318,7 +497,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // identifier
         // submitter
         // project
-        
+
         // is doublet existing?
         $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
         // $query['body']['query']['bool']['must'][]['match']['author'] = $document->getAuthors()[0];
@@ -326,19 +505,20 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // set owner id
         $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
 
-        $results = $elasticSearch->search($query);
+        $results = $elasticSearch->search($query, '');
 
         // redirect to list view
         //$this->forward("list", null, null, array('results' => $results));
-        
+
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-      
+
         $this->view->assign('document', $document);
         $this->view->assign('searchList', $results);
         $this->view->assign('alreadyImported', $objectIdentifiers);
-        
+
     }
+
 }

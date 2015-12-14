@@ -22,7 +22,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'EWW.' . $_EXTKEY,
 	'Qucosaform',
-	array(                
+	array(
 		'DocumentForm' => 'list,show,new,create,edit,update,delete',
                 'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
 	),
@@ -32,6 +32,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
                 'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
 	)
 );
+
 
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';

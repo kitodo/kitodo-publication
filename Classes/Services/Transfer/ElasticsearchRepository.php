@@ -76,8 +76,9 @@ class ElasticsearchRepository implements Repository {
     /**
      * removes document from elasticsearch local
      * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param string $state
      */
-    public function delete($document) {
+    public function delete($document, $state) {
 
         try {
             $response = Request::delete($this->url . $document->getUid())

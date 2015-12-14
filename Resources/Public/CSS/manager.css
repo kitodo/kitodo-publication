@@ -99,6 +99,10 @@ table.tx_dpf > tbody > tr > td {
 	float:left;
 }
 
+.searchForm label.show-label {
+	display:initial !important;
+}
+
 .searchForm label {
 	display:none;
 }

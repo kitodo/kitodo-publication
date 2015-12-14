@@ -63,6 +63,14 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         protected $valueLabelList = '';
         
         
+        /**
+         * defaultValue
+         * 
+         * @var string
+         */
+        protected $defaultValue = '';
+        
+        
 	/**
 	 * inputOptions
 	 *
@@ -167,7 +175,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
                 $labels = explode("|",$this->getValueLabelList());
             
                 if (sizeof($values) !=  sizeof($labels)) {
-                    throw \Exception('Invalid input option list configuration.');
+                    throw new \Exception('Invalid input option list configuration.');
                 }
                 
 		return array_combine($values, $labels);
@@ -192,5 +200,24 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         public function setSysLanguageUid($sysLanguageUid) {
             $this->_languageUid = $sysLanguageUid;   
         }
+        
+        /**
+	 * Returns the defaultValue
+	 *
+	 * @return string $defaultValue
+	 */
+	public function getDefaultValue() {
+		return $this->defaultValue;
+	}
+
+	/**
+	 * Sets the defaultValue
+	 *
+	 * @param string $defaultValue
+	 * @return void
+	 */
+	public function setDefaultValue($defaultValue) {
+		$this->defaultValue = $defaultValue;
+	}
 
 }

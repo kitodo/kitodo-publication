@@ -64,6 +64,7 @@ class DocumentMapper {
     $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
     $documentForm->setName($document->getDocumentType()->getName());
     $documentForm->setDocumentUid($document->getUid());
+    $documentForm->setVirtual($document->getDocumentType()->getVirtual());
     
     $qucosaId = $document->getObjectIdentifier();
     
@@ -92,7 +93,8 @@ class DocumentMapper {
       $documentFormPage->setUid($metadataPage->getUid());
       $documentFormPage->setDisplayName($metadataPage->getDisplayName());
       $documentFormPage->setName($metadataPage->getName());                               
-               
+      $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());          
+                 
       foreach ($metadataPage->getMetadataGroup() as $metadataGroup ) {                             
           
           $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
@@ -100,7 +102,8 @@ class DocumentMapper {
           $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
           $documentFormGroup->setName($metadataGroup->getName());
           $documentFormGroup->setMandatory($metadataGroup->getMandatory());
-          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());         
+          $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());     
+          $documentFormGroup->setInfoText($metadataGroup->getInfoText());     
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
                           
                    
@@ -113,7 +116,11 @@ class DocumentMapper {
           
           // get fixed attributes from xpath configuration
           $fixedGroupAttributes = array();
-          $groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping());  	
+          
+          //$groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping()); 
+          preg_match_all( '/[A-Za-z0-9:@\.]+(\[@.*?\])*/' , $metadataGroup->getAbsoluteMapping(), $groupMappingPathParts );
+          $groupMappingPathParts = $groupMappingPathParts[0];
+                           
   	  $groupMappingPath = end($groupMappingPathParts);  	                    
           $groupMappingName = preg_replace('/\[@.+?\]/','',$groupMappingPath);          
                     
@@ -154,30 +161,35 @@ class DocumentMapper {
                 $documentFormField->setName($metadataObject->getName());               
                 $documentFormField->setMandatory($metadataObject->getMandatory());
                 $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+                $documentFormField->setConsent($metadataObject->getConsent());
+                $documentFormField->setValidation($metadataObject->getValidation());
+                $documentFormField->setDataType($metadataObject->getDataType());
                 $documentFormField->setMaxIteration($metadataObject->getMaxIteration());  
                 $documentFormField->setInputField($metadataObject->getInputField()); 
                 $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
                 $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
-                                                              
+                                                                                            
                 $objectMapping = "";                
 
-                $objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
-                
+                //$objectMappingPath = explode("/", $metadataObject->getRelativeMapping());                               
+                preg_match_all( '/[A-Za-z0-9:@\.]+(\[@.*?\])*/' , $metadataObject->getRelativeMapping(), $objectMappingPath );
+                $objectMappingPath = $objectMappingPath[0];
+                                                                 
                 foreach ($objectMappingPath as $key => $value) {                                          
                     
                     // ensure that e.g. <mods:detail> and <mods:detail type="volume"> 
                     // are not recognized as the same node                 
                     if ((strpos($value,"@") === FALSE) && ($value != '.')) {                                                 
-                        $objectMappingPath[$key] .= "[not(@*)]";                        
+                        $objectMappingPath[$key] .= "[not(@*)]";                                                
                     }                                                            
                 }      
                 
                 $objectMapping = implode("/", $objectMappingPath); 
-                
-                if ($objectMapping == '[not(@*)]') {
+                                                                                
+                if ($objectMapping == '[not(@*)]' || empty($objectMappingPath)) {
                     $objectMapping = '.';
                 }
-               
+                
                 if ($metadataObject->isModsExtension()) {
                     
                   $referenceAttribute = $metadataGroup->getModsExtensionReference();  
@@ -186,23 +198,32 @@ class DocumentMapper {
                   $refID = $data->getAttribute("ID");                                     
                   $objectData = $xpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
                                                                                                                       
-                } else {                                                                                  
-                  $objectData = $xpath->query($objectMapping,$data);              
+                } else {                        
+                    $objectData = $xpath->query($objectMapping,$data);              
                 }                                                                                                                                          
                 
+                $documentFormField->setValue("",$metadataObject->getDefaultValue());
+                
                 if ($objectData->length > 0) { 
-                                                       
+                                                     
                   foreach ($objectData as $key => $value) {   
                                                               
                     $documentFormFieldItem = clone($documentFormField);  
                                                            
-                    $objectValue = $value->nodeValue;                                                                                                                                        
+                    $objectValue = $value->nodeValue;                
+                    
+                    if($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {   
+                        $dateStr = explode('T',$objectValue);                                              
+                        $date = date_create_from_format('Y-m-d',trim($dateStr[0]));
+                        if ($date) {
+                            $objectValue = date_format($date,'d.m.Y');
+                        }                                                                                                     
+                    }                         
+                    
                     //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
                     $objectValue = str_replace('"',"'",$objectValue);
-                    
-                    $documentFormFieldItem->setValue($objectValue);
-                    
-                    $documentFormField->setValue($objectValue);
+                                                         
+                    $documentFormFieldItem->setValue($objectValue,$metadataObject->getDefaultValue());                                                                               
                                     
                     $documentFormGroupItem->addItem($documentFormFieldItem);
                   }
@@ -222,11 +243,14 @@ class DocumentMapper {
               $documentFormField->setName($metadataObject->getName());               
               $documentFormField->setMandatory($metadataObject->getMandatory());
               $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+              $documentFormField->setConsent($metadataObject->getConsent());
+              $documentFormField->setValidation($metadataObject->getValidation());
+              $documentFormField->setDataType($metadataObject->getDataType());
               $documentFormField->setMaxIteration($metadataObject->getMaxIteration());   
               $documentFormField->setInputField($metadataObject->getInputField()); 
               $documentFormField->setInputOptions($metadataObject->getInputOptionList()); 
               $documentFormField->setFillOutService($metadataObject->getFillOutService()); 
-              $documentFormField->setValue("");
+              $documentFormField->setValue("",$metadataObject->getDefaultValue());
                                
               $documentFormGroup->addItem($documentFormField);                
             }
@@ -243,11 +267,15 @@ class DocumentMapper {
     $primaryFile = $this->fileRepository->getPrimaryFileByDocument($document);
     $documentForm->setPrimaryFile($primaryFile);
               
-    $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();;   
+    $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();   
     $documentForm->setSecondaryFiles($secondaryFiles);
             
-    $documentForm->setObjectState($document->getObjectState());
-    $documentForm->setRemoteAction($document->getRemoteAction());
+    $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
+        
+    $documentForm->setSaveDisabled(
+            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
+            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW
+           );
     
     return $documentForm;
   }
@@ -266,7 +294,8 @@ class DocumentMapper {
     $document->setDocumentType($documentType);         
     
     $document->setReservedObjectIdentifier($documentForm->getQucosaId());
-                        
+    
+    $document->setValid($documentForm->getValid());
     
     $formMetaData = $this->getMetadata($documentForm); 
 
@@ -293,7 +322,7 @@ class DocumentMapper {
     $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);       
     $slubInfoXml = $exporter->getSlubInfoData();    
     $document->setSlubInfoData($slubInfoXml);         
-          
+               
     return $document;      
   }
   
@@ -310,7 +339,7 @@ class DocumentMapper {
 
           $uid = $groupItem->getUid();
           $metadataGroup = $this->metadataGroupRepository->findByUid($uid);
-
+                            
           $item['mapping'] = $metadataGroup->getRelativeMapping();        
                        
           $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();                                                           
@@ -319,7 +348,10 @@ class DocumentMapper {
          
           $item['groupUid'] = $uid;
 
-          foreach ($groupItem->getItems() as $field) {
+          $fieldValueCount = 0;
+          $defaultValueCount = 0;
+          $fieldCount = 0;
+          foreach ($groupItem->getItems() as $field) {            
             foreach ($field as $fieldItem) {
               $fieldUid = $fieldItem->getUid();
               $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
@@ -329,6 +361,21 @@ class DocumentMapper {
               $formField = array();
 
               $value = $fieldItem->getValue();
+              
+              if($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {                 
+                 $date = date_create_from_format('d.m.Y',trim($value));                 
+                 $value = date_format($date,'Y-m-d');                    
+              }             
+              
+              $fieldCount++;
+              if (!empty($value)) {                                                   
+                  $fieldValueCount++;                                                     
+                  $defaultValue = $fieldItem->getHasDefaultValue();                  
+                  if ($fieldItem->getHasDefaultValue()) {
+                    $defaultValueCount++;
+                  }
+              }
+                                                         
               // $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');    
               $value = str_replace('"',"'",$value);
               if ($value) {                 
@@ -348,12 +395,14 @@ class DocumentMapper {
 
           if (!key_exists('attributes', $item)) $item['attributes'] = array();
           if (!key_exists('values', $item)) $item['values'] = array();  
-
-          if ($metadataGroup->isSlubInfo()) {                       
-            $form['slubInfo'][] = $item; 
-          } else {
-            $form['mods'][] = $item;    
-          } 
+                   
+          if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount ) {
+            if ($metadataGroup->isSlubInfo()) {                       
+                $form['slubInfo'][] = $item; 
+            } else {
+                $form['mods'][] = $item;    
+            }
+          }  
 
         }
 

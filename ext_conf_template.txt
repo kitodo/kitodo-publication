@@ -7,6 +7,9 @@ swordUser = user
 # cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordPassword
 swordPassword = password
 
+# cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordCollectionNamespace
+swordCollectionNamespace = qucosa
+
 # cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraHost
 fedoraHost = localhost
 

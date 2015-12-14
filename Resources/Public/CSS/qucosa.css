@@ -8,6 +8,7 @@
 
 /* -- import boostrap basics also to frontend -------------------------------------------- */
 @import "bootstrap.min.css";
+@import "bootstrap-datetimepicker.min.css";
 
 
 
@@ -65,8 +66,7 @@
 }
 
 .tx-dpf h2 {
-	font-size:14px;
-	border-bottom:1px solid #e5e5e5;
+  display: none;
 }
 
 .tx-dpf .css-panes {
@@ -101,6 +101,10 @@
 	font-weight:700;
 	color:#666;
 	margin-bottom:20px;
+}
+
+.tx-dpf fieldset .group-info-text {
+    margin: 0 0 10px 0;
 }
 
 .tx-dpf .form-group {
@@ -166,6 +170,15 @@
 	right:4px;
 }
 
+.hasDatepicker button.add_field {
+    right: 44px !important; 
+}
+
+.hasDatepicker button.rem_field {
+    right: 73px !important; 
+}
+
+
 .tx-dpf .form-container button:active {
 	bottom:3px;
 	top:auto;        
@@ -186,10 +199,25 @@
 	margin-bottom:6px;
 }
 
+.tx-dpf .rem_secondary_upload {
+        color:#c00;
+	line-height:1;
+	width:24px;
+	height:24px;
+	padding:3px 4px;
+	margin-bottom:10px;
+}
+
 .tx-dpf input[type="file"] {
 	border:0 none;
 	margin-bottom:15px;
 	height:36px;
+        display: inline-block;
+}
+
+.tx-dpf textarea {
+    resize: vertical;
+    min-height: 220px;
 }
 
 .tx-dpf .fs_file_group .form-control-static {
@@ -220,24 +248,32 @@
 	left:1px;
 }
 
+.tx-dpf ol li {
+    list-style: none; 
+}    
 
+.btn-edit-discard {
+    margin-left: 10px;
+}
 
 /* -- error handling -------------------------------------------------------------------- */
+select.invalid-error,textarea.invalid-error,input.invalid-error, 
 select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
 	border:1px solid #c00!important;
 }
 
+li a.invalid-error,
 li a.mandatory-error {
 	color:#c00!important;
 }
 
+li a.invalid-error:after,
 li a.mandatory-error:after {
 	content:"\e104";
 	font-family:'Glyphicons Halflings';
 	margin-left:3px;
 	line-height:1;
 }
-
 
 
 /* EOF */
