@@ -336,6 +336,12 @@
 			<trans-unit id="config.elasticSearchPort">
 				<source>Port</source>
 			</trans-unit>
+                        <trans-unit id="config.uploadDomain">
+				<source>Domain</source>
+			</trans-unit>
+                        <trans-unit id="config.uploadDirectory">
+				<source>Directory path</source>
+			</trans-unit>
 			<trans-unit id="manager.discard">
 				<source>discard</source>
 			</trans-unit>

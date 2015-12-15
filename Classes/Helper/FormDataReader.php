@@ -108,20 +108,18 @@ class FormDataReader {
    * 
    * @var
    */
-  protected $basePath;
+  protected $uploadBaseUrl;
           
   
   public function __construct() {
 
-    $uploadDir = "uploads/tx_dpf/";
+    
+    $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;                           
+    
+    $this->uploadBaseUrl = $uploadFileUrl->getUploadUrl()."/";
         
-    $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === FALSE ? 'http://' : 'https://';
-    $baseURL = $protocol.$_SERVER['HTTP_HOST'];    
+    $this->uploadPath = PATH_site . $uploadFileUrl->getDirectory()."/";
             
-    $this->basePath = $baseURL."/".$uploadDir;
-        
-    $this->uploadPath = PATH_site . $uploadDir;
-        
   }
    
   
@@ -285,7 +283,7 @@ class FormDataReader {
         $file->setLabel($tmpFile['label']);        
         $file->setDownload(!empty($tmpFile['download']));  
         $file->setArchive(!empty($tmpFile['archive']));
-        $file->setLink($this->basePath.$fileName);
+        $file->setLink($this->uploadBaseUrl.$fileName);
         $file->setPrimaryFile($primary);
                     
         if ($rimary) {                          
