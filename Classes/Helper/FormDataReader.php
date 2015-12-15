@@ -114,16 +114,11 @@ class FormDataReader {
   public function __construct() {
 
     $uploadDir = "uploads/tx_dpf/";
-    
-    $this->basePath = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-    
-    $port = '';
-    
-    if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
-        $port = ':'.$_SERVER['SERVER_PORT'];
-    } 
         
-    $this->basePath .= trim($_SERVER['SERVER_NAME'],"/").$port."/".$uploadDir;
+    $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === FALSE ? 'http://' : 'https://';
+    $baseURL = $protocol.$_SERVER['HTTP_HOST'];    
+            
+    $this->basePath = $baseURL."/".$uploadDir;
         
     $this->uploadPath = PATH_site . $uploadDir;
         

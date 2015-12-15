@@ -14,14 +14,9 @@ class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
         }
            
         protected function buildFileUri($uri) {
-            
-            $baseURL = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';    
-            $port = '';    
-            if ($_SERVER['SERVER_PORT'] && intval($_SERVER['SERVER_PORT']) != 80) {
-                $port = ':'.$_SERVER['SERVER_PORT'];
-            }         
-            $baseURL .= trim($_SERVER['SERVER_NAME'],"/").$port;
-            
+                                                        
+            $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === FALSE ? 'http://' : 'https://';
+            $baseURL = $protocol.$_SERVER['HTTP_HOST'];    
             
             $regex = '/\/(\w*:\d*)\/datastreams\/(\w*-\d*)/';
             preg_match($regex, $uri, $treffer);
