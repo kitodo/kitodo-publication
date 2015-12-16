@@ -16,7 +16,7 @@ class XPath {
         $xpath->registerNamespace('slub', "http://slub-dresden.de/");
         $xpath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
         $xpath->registerNamespace('person', "http://www.w3.org/ns/person#");
-        $xpath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns");      
+        $xpath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");      
         return $xpath;
     }    
     
