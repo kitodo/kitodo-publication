@@ -4,7 +4,7 @@
         <tr>
             <th class="xcol-md-5"><f:translate key="search.resultList.datasetIdentifier" /></th>
             <th class="xcol-md-4"><f:translate key="search.resultList.title" /></th>
-            <th class="xcol-md-3"><f:translate key="search.resultList.publisher" /></th>
+            <th class="xcol-md-3"><f:translate key="search.resultList.state" /></th>
             <th class="xcol-md-3"><f:translate key="search.resultList.submitter" /></th>
             <th class="xcol-md-2"><f:translate key="search.resultList.identifier" /></th>
             <th class="xcol-md-1"></th>
@@ -20,7 +20,7 @@
                 <f:then>
                     <td>{entry._id}</td>
                     <td>{entry._source._dissemination._content.title.0}</td>
-                    <td>{entry._source._dissemination._content.publisher.0}</td>
+                    <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
                     <td>{entry._source._dissemination._content.submitter}</td>
                     <td>{entry._source._dissemination._content.identifier.0}</td>
                     <td class="table_col_function">
@@ -52,7 +52,7 @@
                 <f:else>
                     <td>{entry._id}</td>
                     <td>{entry._source.title.0}</td>
-                    <td>{entry._source.publisher.0}</td>
+                    <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
                     <td>{entry._source.submitter}</td>
                     <td>{entry._source.identifier.0}</td>
                     <td class="table_col_function">

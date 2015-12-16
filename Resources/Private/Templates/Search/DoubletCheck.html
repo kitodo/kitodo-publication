@@ -20,7 +20,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <thead>
 		<tr>				
                     <th class="xcol-md-4"><f:translate key="search.doubletCheck.title" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.authors" /></th>
+                    <th class="xcol-md-2"><f:translate key="search.resultList.state" /></th>
+                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.authors" /></th>                    
                     <th class="xcol-md-2"><f:translate key="search.doubletCheck.submitterOrPublishedDate" /></th>              
                     <th class="xcol-md-2"><f:translate key="search.doubletCheck.datasetIdentifier" /></th>
                     <th class="xcol-md-2"><f:translate key="search.doubletCheck.identifier" /></th>   
@@ -30,6 +31,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
             
             <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
                 <td>{document.title}</td>
+                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
                 <td>
                     <f:for each="{document.authors}" as="author" iteration="itemIterator"> 
                         {author}<f:if condition="{itemIterator.isLast}">
@@ -55,7 +57,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         </f:else>
                     </f:if>    
                 </td>
-                <td></td><td></td><td></td><td></td><td></td></tr>    
+                <td></td><td></td><td></td><td></td><td></td><td></td></tr>    
                 
 		<f:for each="{searchList}" as="entry">
 		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
@@ -63,6 +65,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                      <f:else><tr></f:else>
                    </f:if>                                                                             
 				<td>{entry._source._dissemination._content.title.0}</td>
+                                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
 				<td>{entry._source._dissemination._content.author.0}</td>
 				<td>{entry._source._dissemination._content.submitter}</td>
                                 <td>{entry._source.PID}</td>

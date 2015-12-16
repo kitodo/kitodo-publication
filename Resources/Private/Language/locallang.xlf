@@ -582,6 +582,18 @@ URL: %s
 Date: %s
 				</source>
 			</trans-unit>
+                        <trans-unit id="search.resultList.state">
+				<source>State</source>
+			</trans-unit> 
+                        <trans-unit id="search.resultList.state.active">
+				<source>ACTIVE</source>
+			</trans-unit> 
+                        <trans-unit id="search.resultList.state.inactive">
+				<source>INACTIVE</source>
+			</trans-unit> 
+                        <trans-unit id="search.resultList.state.deleted">
+				<source>DELETED</source>
+			</trans-unit> 
                         <trans-unit id="search.resultList.datasetIdentifier">
 				<source>ID</source>
 			</trans-unit> 
