@@ -24,9 +24,9 @@ class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
             if (!empty($treffer)) {
                 $qid = $treffer[1];
                 $fid = $treffer[2];                                              
-                return $uploadFileUrl->getBaseUrl().'/api/'.$qid.'/attachment/'.$fid;
+                return $uploadFileUrl->getBaseUrl().'/api/'.urlencode($qid).'/attachment/'.$fid;
             }
-            
+           
             return $uri;
         }
     
