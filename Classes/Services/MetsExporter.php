@@ -265,12 +265,14 @@ class MetsExporter
                 $attributeXPath .= '[@ID="QUCOSA_'.$counter.'"]';
             }
             
+            $existsExtensionFlag = false;
             $i = 0;
             // loop each object
             if (!empty($values)) {
                 foreach ($values as $value) {
 
                     if ($value['modsExtension']) {
+                        $existsExtensionFlag = true;
                         // mods extension
                         $counter = sprintf("%'03d", $this->counter);
                         $referenceAttribute = $extensionAttribute.'[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
@@ -299,6 +301,10 @@ class MetsExporter
                     $path = $mapping.$attributeXPath;
                     $xml = $this->customXPath($path, true, '', true);
                 }
+            }
+            if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
+                $xPath = $group['modsExtensionMapping'].$extensionAttribute.'[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
+                $xml = $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {
                 $this->counter++;
