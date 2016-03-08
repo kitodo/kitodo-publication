@@ -10,7 +10,7 @@
             <th class="xcol-md-1"></th>
         </tr>
     </thead>
-    <tbody>                          
+    <tbody>                   
         <f:for each="{searchList}" as="entry">
             <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
                 <f:then><tr class="success"></f:then>
@@ -19,7 +19,7 @@
             <f:if condition="{entry._source._dissemination}">
                 <f:then>
                     <td>{entry._id}</td>
-                    <td>{entry._source._dissemination._content.title.0}</td>
+                    <td>{entry._source._dissemination._content.title.0}<f:if condition="{entry._source._dissemination._content.issue}">, {entry._source._dissemination._content.issue}</f:if></td>
                     <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
                     <td>{entry._source._dissemination._content.author.0}</td>                    
                     <td>
@@ -60,7 +60,7 @@
                 </f:then>
                 <f:else>
                     <td>{entry._id}</td>
-                    <td>{entry._source.title.0}</td>
+                    <td>{entry._source.title.0}<f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if></td>
                     <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
                     <td>{entry._source.author}</td>
                     <td>

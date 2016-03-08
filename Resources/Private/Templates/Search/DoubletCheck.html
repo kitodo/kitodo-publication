@@ -64,7 +64,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                      <f:then><tr class="success"></f:then>	
                      <f:else><tr></f:else>
                    </f:if>                                                                             
-				<td>{entry._source._dissemination._content.title.0}</td>
+				<td>{entry._source._dissemination._content.title.0}<f:if condition="{entry._source._dissemination._content.issue}">, {entry._source._dissemination._content.issue}</f:if></td>
                                 <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
 				<td>{entry._source._dissemination._content.author.0}</td>
 				<td>{entry._source._dissemination._content.submitter}</td>
