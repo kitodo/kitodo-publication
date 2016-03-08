@@ -83,7 +83,26 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          */
         protected $adminEmail = '';
         
+        
+        /**
+         * Workaround to ensure unique URNs until URNs will be genarated by fedora.
+         * @var string
+         */
+        protected $nissPartSearch = '';
                 
+        /**
+         * Workaround to ensure unique URNs until URNs will be genarated by fedora.
+         * @var string
+         */
+        protected $nissPartReplace = '';
+                
+        /**
+         * Workaround to ensure unique URNs until URNs will be genarated by fedora.
+         * @var boolean
+         */
+        protected $replaceNissPart = FALSE;
+        
+        
 	/**
 	 * Returns the project
 	 *
@@ -204,5 +223,63 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
           $this->adminEmail = $adminEmail;
         }
         
+        
+        /**
+	 * Returns the nissPartSearch
+	 *
+	 * @return string $nissPartSearch
+	 */
+	public function getNissPartSearch() {
+		return $this->nissPartSearch;
+	}
+
+	/**
+	 * Sets the nissPartSearch
+	 *
+	 * @param string $nissPartSearch
+	 * @return void
+	 */
+	public function setNissPartSearch($nissPartSearch) {
+		$this->nissPartSearch = $nissPartSearch;
+	}
+
+        
+        /**
+	 * Returns the nissPartReplace
+	 *
+	 * @return string $nissPartReplace
+	 */
+	public function getNissPartReplace() {
+		return $this->nissPartReplace;
+	}
+
+	/**
+	 * Sets the nissPartReplace
+	 *
+	 * @param string $nissPartReplace
+	 * @return void
+	 */
+	public function setNissPartReplace($nissPartReplace) {
+		$this->nissPartReplace = $nissPartReplace;
+	}   
+                        
+        /**
+	 * Returns the replaceNissPart
+	 *
+	 * @return boolean $replaceNissPart
+	 */
+	public function getReplaceNissPart() {
+		return $this->replaceNissPart;
+	}
+                
+        /**
+	 * Sets the replaceNissPart
+	 *
+	 * @param boolean $replaceNissPart
+	 * @return void
+	 */
+	public function setReplaceNissPart($replaceNissPart) {          
+                $this->replaceNissPart = $replaceNissPart; 
+	}
         
 }

@@ -24,17 +24,16 @@ class UrnBuilder {
      *
      * $snid1    = bsz
      * $snid2    = 14
-     * $niss     = qucosa
+     * $niss     = qucosa-8765
      *
      * The last part of the URN above "87650" consists of a document identifier "8765" and a check digit "0".
      *
      * @param string $snid1 First subnamespace identifier part of the URN.
-     * @param string $snid2 Second subnamespace identifier part of the URN.
-     * @param string $niss  (Optional) Namespace specific string part of the URN.
+     * @param string $snid2 Second subnamespace identifier part of the URN.     
      * @throws InvalidArgumentException Thrown if at least one of the subnamespace parts contain other
      *                                  characters than characters.
      */
-    public function __construct($snid1, $snid2, $niss = 'qucosa') {
+    public function __construct($snid1, $snid2) {
  
         if (0 === preg_match('/^[a-zA-Z]+$/', $snid1)) {
             throw new \InvalidArgumentException('Used invalid first subnamespace identifier.');
@@ -43,57 +42,47 @@ class UrnBuilder {
         if (0 === preg_match('/^[a-zA-Z0-9]+$/', $snid2)) {
             throw new \InvalidArgumentException('Used invalid second subnamespace identifier.');
         }
+          
+        $this->nbnUrnString = self::NBN_URN_PREFIX . ':' . $snid1 . ':' . $snid2 . '-';
+    }
  
+    /**
+     * Generates complete URNs given a Namespace specific string + Identifier of the Document.
+     *
+     * @param string $niss Namespace specific string + Identifier of the Document
+     * @throws InvalidArgumentException Thrown if the niss contains invalid characters.
+     * @return string The URN.
+     */
+    public function getUrn($niss) {
+ 
+        // regexp pattern for valid niss        
+        if (0 === preg_match('/^[a-zA-Z0-9\-]+$/', $niss)) {
+            throw new \InvalidArgumentException('Used invalid namespace specific string.');
+        }
+        
+        // calculate matching check digit
+        $check_digit = self::getCheckDigit($niss);
+ 
+        // compose and return standard, snid1, snid2, niss and check digit
+        return $this->nbnUrnString . $niss . $check_digit;
+    }
+ 
+    /**
+     * Generates check digit for a given niss.
+     *
+     * @param string $niss of the Document
+     * @throws InvalidArgumentException Thrown if the niss contains invalid characters.
+     * @return integer Check digit.
+     */
+    public function getCheckDigit($niss) {
+ 
+         // regexp pattern for valid niss        
         if (0 === preg_match('/^[a-zA-Z0-9\-]+$/', $niss)) {
             throw new \InvalidArgumentException('Used invalid namespace specific string.');
         }
  
-        $this->nbnUrnString = self::NBN_URN_PREFIX . ':' . $snid1 . ':' . $snid2 . '-' . $niss . '-';
-    }
- 
-    /**
-     * Generates complete URNs given a document identifier.
-     *
-     * @param integer $document_id Identifier of the Document
-     * @throws InvalidArgumentException Thrown if the document identifier is not a number.
-     * @return string The URN.
-     */
-    public function getUrn($document_id) {
- 
-        // regexp pattern for valid document id
-        $id_pattern = '/^[1-9][0-9]*$/';
- 
-        // Check if document identifier is valid.
-        if (0 === preg_match($id_pattern, $document_id)) {
-            throw new \InvalidArgumentException('Used invalid arguments for URN document id.');
-        }
- 
-        // calculate matching check digit
-        $check_digit = self::getCheckDigit($document_id);
- 
-        // compose and return standard, snid1, snid2, niss, document id and check digit
-        return $this->nbnUrnString . $document_id . $check_digit;
-    }
- 
-    /**
-     * Generates check digit for a given document identifer.
-     *
-     * @param integer $document_id ID of the Document
-     * @throws InvalidArgumentException Thrown if the document identifier is not a number.
-     * @return integer Check digit.
-     */
-    public function getCheckDigit($document_id) {
- 
-        // regexp pattern for valid document id
-        $id_pattern = '/^[1-9][0-9]*$/';
- 
-        // Check if document identifier is valid.
-        if (0 === preg_match($id_pattern, $document_id)) {
-            throw new \InvalidArgumentException('Used invalid arguments for URN document id.');
-        }
- 
-        // compose urn with document id
-        $nbn = $this->nbnUrnString . $document_id;
+        // compose urn with niss
+        $nbn = $this->nbnUrnString . $niss;
  
         // Replace characters by numbers.
         $nbn_numbers = $this->replaceUrnChars($nbn);

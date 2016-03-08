@@ -258,6 +258,15 @@
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
 				<source>Owner ID</source>
 			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_client.niss_part_search">
+				<source>NISS part search: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_client.niss_part_replace">
+				<source>NISS part replace: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
+                        <trans-unit id="tx_dpf_domain_model_client.replace_niss_part">
+				<source>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist">
 				<source>Input Option List</source>
 			</trans-unit>

@@ -420,6 +420,9 @@ CREATE TABLE tx_dpf_domain_model_client (
         library_identifier varchar(255) DEFAULT '' NOT NULL,
         owner_id varchar(255) DEFAULT '' NOT NULL,
         admin_email varchar(255) DEFAULT '' NOT NULL,
+        replace_niss_part tinyint(1) unsigned DEFAULT '0' NOT NULL,
+        niss_part_search varchar(255) DEFAULT '' NOT NULL,
+        niss_part_replace varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

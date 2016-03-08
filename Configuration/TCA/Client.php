@@ -2,14 +2,14 @@
 if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
-
+$GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl']['requestUpdate'] = 'replace_niss_part';
 $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
-	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl'],
+	'ctrl' => $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl'],        
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, network_initial, library_identifier, admin_email, project',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, client, owner_id, network_initial, library_identifier, admin_email, project, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -99,6 +99,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
 
 		'project' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',                        
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.project',
 			'config' => array(
 				'type' => 'input',
@@ -108,6 +109,8 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
 		),
 		'client' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
+                        'l10n_display' => 'defaultAsReadonly',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.client',
 			'config' => array(
 				'type' => 'input',
@@ -117,6 +120,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
 		),
                 'network_initial' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.network_initial',
 			'config' => array(
 				'type' => 'input',
@@ -126,6 +130,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
 		),
                 'library_identifier' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.library_identifier',
 			'config' => array(
 				'type' => 'input',
@@ -136,6 +141,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
             
                 'owner_id' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.owner_id',
 			'config' => array(
 				'type' => 'input',
@@ -145,11 +151,41 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client'] = array(
 		),
                 'admin_email' => array(
 			'exclude' => 1,
+                        'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_email',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+                'replace_niss_part' => Array (
+                        'exclude' => 1,
+                        'l10n_mode' => 'exclude',                        
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.replace_niss_part',
+			'config' => array(
+				'type' => 'check',                                
+				'default' => 0
+			)
+                ),
+                'niss_part_search' => array(
+			'exclude' => 1,                        
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.niss_part_search',
+                        'displayCond' => 'FIELD:replace_niss_part:=:1',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'                                
+			),
+		),
+                'niss_part_replace' => array(
+			'exclude' => 1,                                                
+			'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.niss_part_replace',
+                        'displayCond' => 'FIELD:replace_niss_part:=:1',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'                               
 			),
 		),
 		
