@@ -653,23 +653,25 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			</trans-unit>
                         <trans-unit id="search.resultList.author">
 				<source>Author</source>
+                                <source>Autor</source>
 			</trans-unit>
                         <trans-unit id="search.resultList.submitter">
 				<source>Submitter</source>
 			</trans-unit>
                         <trans-unit id="search.resultList.identifier">
 				<source>Identifier</source>
-			</trans-unit>                                   
+			</trans-unit>                        
+                        <trans-unit id="search.resultList.publicationDate">
+				<source>Publication date</source>
+                                <target>Veröffentlichungsdatum</target>
+			</trans-unit>   
                         <trans-unit id="search.resultList.more">
 				<source>More results</source>
                                 <target>Mehr Ergebnisse</target>
 			</trans-unit>                                                                                                                                                                                                                                                                
                         <trans-unit id="search.doubletCheck.title">
 				<source>Title</source>
-			</trans-unit>
-                        <trans-unit id="search.doubletCheck.authors">
-				<source>Title</source>
-			</trans-unit>
+			</trans-unit>                        
                         <trans-unit id="search.doubletCheck.submitterOrPublishedDate">
 				<source>Submitter/Published date</source>
 			</trans-unit>
@@ -679,6 +681,14 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.doubletCheck.identifier">
 				<source>URN</source>
 			</trans-unit>
+                        <trans-unit id="search.doubletCheck.author">
+				<source>Author</source>
+                                <source>Autor</source>
+			</trans-unit> 
+                        <trans-unit id="search.doubletCheck.publicationDate">
+				<source>Publication date</source>
+                                <target>Veröffentlichungsdatum</target>
+			</trans-unit>   
                         <trans-unit id="search.doubletCheck.foundMessage">
 				<source>The following possible duplicates were found:</source>
                                 <target>Folgende mögliche doubletten wurden gefunden:</target>
