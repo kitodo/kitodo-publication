@@ -274,6 +274,7 @@ class DocumentMapper {
         
     $documentForm->setSaveDisabled(
             $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
+            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE &&
             $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW
            );
     
