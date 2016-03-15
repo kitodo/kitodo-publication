@@ -31,6 +31,10 @@
  * 1. METS from Fedora
  *   http://localhost/api/qucosa:1234/mets
  *
+ *   This always returns METS which is supplemented with additional information.
+ *   The embedded MODS record is not the original MODS as it is stored in the
+ *   repository datastream.
+ *
  * 2. Attachment from Fedora
  *   http://localhost/api/qucosa:1234/attachment/ATT-0
  *
@@ -61,7 +65,11 @@ class GetFile {
 
 		switch ($piVars['action']) {
 			case 'mets':
-				$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
+				// FIXME Using the service URL explicitly is a workaround for a Fedora Bug which
+				// prevents passing of the supplement-parameter. The proper way would be using the
+				// defined dissemination methods.
+				$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/mets?pid='.$piVars['qid'].'&supplement';
+				//$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
 				break;
 			case 'preview':
 
