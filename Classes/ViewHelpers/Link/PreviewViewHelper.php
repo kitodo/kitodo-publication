@@ -26,6 +26,7 @@
 
 	use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
 	use TYPO3\CMS\Core\Utility\GeneralUtility;
+	use TYPO3\CMS\Core\Utility\MathUtility;
 
 class PreviewViewHelper extends AbstractBackendViewHelper {
 
@@ -41,6 +42,14 @@ class PreviewViewHelper extends AbstractBackendViewHelper {
 	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 	}
+
+	/**
+	 * documentRepository
+	 *
+	 * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+	 * @inject
+	 */
+	protected $documentRepository;
 
 
 	protected function initTSFE($id = 1, $typeNum = 0) {
@@ -112,12 +121,40 @@ class PreviewViewHelper extends AbstractBackendViewHelper {
 	public function render(array $arguments, $pageUid, $apiPid, $class) {
 
 		if ($arguments['document']) {
-			$row['uid'] = $arguments['document']->getUid();
-			$row['title'] = $arguments['document']->getTitle();
-			$row['action'] = 'preview';
+
+			// it's already a document object?
+			if ($arguments['document'] instanceof \EWW\Dpf\Domain\Model\Document) {
+
+				$document = $arguments['document'];
+
+			} else if (MathUtility::canBeInterpretedAsInteger($arguments['document'])) {
+
+				$document = $this->documentRepository->findByUid($arguments['document']);
+
+			}
+
+			// we found a valid document
+			if ($document) {
+
+				$row['uid'] = $document->getUid();
+
+				$row['title'] = $document->getTitle();
+
+				$row['action'] = 'preview';
+
+			} else {
+
+				// ok, nothing to render. So return empty content.
+				return '';
+
+			}
+
 		} else if ($arguments['documentObjectIdentifier']) {
+
 			$row['action'] = 'mets';
+
 			$row['uid'] = $arguments['documentObjectIdentifier'];
+
 		}
 
 		$frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);

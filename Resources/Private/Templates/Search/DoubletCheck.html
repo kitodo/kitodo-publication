@@ -68,7 +68,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                                 <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
 				<td>{entry._source._dissemination._content.author.0}</td>
 				<td>{entry._source._dissemination._content.submitter}</td>
-                                <td>{entry._source.PID}</td>
+				<td>{entry._source.PID}</td>
 				<td>{entry._source._dissemination._content.identifier.0}</td>
 
                     <td class="table_col_function">
@@ -84,10 +84,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 							</f:then>
 							<f:else>
 								<dpf:link.preview
-										arguments="{documentObjectIdentifier: entry._source.PID}"
+										arguments="{document: entry._id}"
 										pageUid="{settings.previewPage}"
 										apiPid="{settings.apiPid}"
-										class="btn btn-xs btn-default disabled">
+										class="btn btn-xs btn-default">
 									<span class="glyphicon glyphicon-eye-open"></span>
 								</dpf:link.preview>
 							</f:else>
