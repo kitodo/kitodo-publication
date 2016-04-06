@@ -218,7 +218,10 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
   */
           
           // Add or update files
-          foreach ( $newDocumentForm->getNewFiles() as $newFile ) {                          
+          $newFiles = $newDocumentForm->getNewFiles();
+          
+          if (is_array($newFiles)) {        
+          foreach ( $newFiles as $newFile ) {                          
                                
             if ($newFile->getUID()) {
                 $this->fileRepository->update($newFile);       
@@ -227,6 +230,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 $this->fileRepository->add($newFile);                       
                 //$newDocument->addFile($newFile);           
             }    
+          }
           }
           
           $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');              

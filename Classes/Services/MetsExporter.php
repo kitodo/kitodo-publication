@@ -773,8 +773,7 @@ class MetsExporter
      * @return xml
      */
     public function buildStructureMap()
-    {
-        if (count($this->files) > 0) {
+    {        
             // Build xml Mets:structMap
 
             $domDocument = new \DOMDocument();
@@ -794,19 +793,23 @@ class MetsExporter
             $domElement->appendChild($div);
 
             $domElement = $domElement->firstChild;
+            
+            if (count($this->files) > 0) {
+                $i = 0;                
+                                               
+                // set xml for uploded files
+                foreach ($this->files as $filesGroup) {                    
+                    foreach ($filesGroup as $key => $value) {                                        
+                        $fptr = $domDocument->createElement('mets:fptr');
+                        $fptr->setAttribute('FILEID', $value['id']);
+                        $domElement->appendChild($fptr);
 
-            $i = 0;
-            // set xml for uploded files
-            foreach ($this->files as $key => $value) {
-                $fptr = $domDocument->createElement('mets:fptr');
-                $fptr->setAttribute('FILEID', $value['id']);
-                $domElement->appendChild($fptr);
-
-                $i++;
+                        $i++;
+                    }
+                }               
             }
-
-            return $domDocument;
-        }
+            
+            return $domDocument;        
     }
 
     public function setSlubInfo($value='')
