@@ -3,6 +3,9 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
 		<header/>
 		<body>
+			<trans-unit id="tt_content.dpf_metatags">
+				<source>DPF: Metatags</source>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_documenttype">
 				<source>Document Type</source>
 			</trans-unit>
@@ -449,7 +452,7 @@
 			</trans-unit>
 			<trans-unit id="manager.releaseConfirmYes">
 				<source>continue</source>
-			</trans-unit>			                      
+			</trans-unit>
 			<trans-unit id="document_duplicate.success">
 				<source>The document has been duplicated.</source>
 			</trans-unit>
@@ -458,34 +461,34 @@
 			</trans-unit>
                         <trans-unit id="manager.client">
 				<source>Client</source>
-			</trans-unit>  
+			</trans-unit>
 			<trans-unit id="manager.control.documents">
 				<source>Documents</source>
 			</trans-unit>
                         <trans-unit id="manager.control.search">
 				<source>Search</source>
-			</trans-unit>                                                         
+			</trans-unit>
                         <trans-unit id="manager.document.title">
 				<source>Title</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.authors">
 				<source>Authors</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.publishedDate">
 				<source>Published Date</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.datasetIdentifier">
 				<source>Dateset Identifier</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.state">
 				<source>State</source>
-			</trans-unit>                            
+			</trans-unit>
                         <trans-unit id="manager.document.state.new">
 				<source>New</source>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="manager.document.state.inProgress">
 				<source>In progress</source>
-			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+			</trans-unit>
 			<trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit>
@@ -539,10 +542,10 @@
 			</trans-unit>
                         <trans-unit id="documentForm.new.header">
 				<source>New %s</source>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="documentForm.edit.header">
 				<source>Edit %s</source>
-			</trans-unit>                      
+			</trans-unit>
 			<trans-unit id="notification.newDocument.admin.subject">
 				<source>New document registered</source>
 			</trans-unit>
@@ -584,22 +587,22 @@ Date: %s
 			</trans-unit>
                         <trans-unit id="search.resultList.state">
 				<source>State</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.active">
 				<source>ACTIVE</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.inactive">
 				<source>INACTIVE</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.deleted">
 				<source>DELETED</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.datasetIdentifier">
 				<source>ID</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.title">
 				<source>Title</source>
-			</trans-unit>                       
+			</trans-unit>
                         <trans-unit id="search.resultList.publisher">
 				<source>Publisher</source>
 			</trans-unit>
@@ -611,16 +614,16 @@ Date: %s
 			</trans-unit>
                         <trans-unit id="search.resultList.identifier">
 				<source>Identifier</source>
-			</trans-unit>                     
+			</trans-unit>
                         <trans-unit id="search.resultList.publicationDate">
 				<source>Publication date</source>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.resultList.more">
-				<source>More results</source>                               
-			</trans-unit>                                               
+				<source>More results</source>
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.title">
 				<source>Title</source>
-			</trans-unit>                        
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.submitterOrPublishedDate">
 				<source>Submitter/Published date</source>
 			</trans-unit>
@@ -631,39 +634,39 @@ Date: %s
 				<source>URN</source>
 			</trans-unit>
                         <trans-unit id="search.doubletCheck.author">
-				<source>Author</source>                                
-			</trans-unit> 
+				<source>Author</source>
+			</trans-unit>
                         <trans-unit id="search.doubletCheckt.publicationDate">
 				<source>Publication date</source>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.foundMessage">
-				<source>The following possible duplicates were found:</source>                               
+				<source>The following possible duplicates were found:</source>
 			</trans-unit>
                         <trans-unit id="search.doubletCheck.nothingFoundMessage">
 				<source>There were no potential duplicates found.</source>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="search.control.simpleSearch">
 				<source>Simple search</source>
-			</trans-unit>  
+			</trans-unit>
                           <trans-unit id="search.control.extendedSearch">
 				<source>Extended search</source>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="search.control.new">
 				<source>New</source>
-			</trans-unit>                                                                                                                 
+			</trans-unit>
                         <trans-unit id="search.form.header.extendedSearch">
 				<source>Extended search</source>
                                 <target>Erweiterte Suche</target>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.form.header.simpleSearch">
-				<source>Simple search</source>                                
-			</trans-unit>  
+				<source>Simple search</source>
+			</trans-unit>
                          <trans-unit id="search.form.button.search">
 				<source>Search</source>
-			</trans-unit>                                                 
+			</trans-unit>
                         <trans-unit id="search.form.label.query">
 				<source>Query</source>
-			</trans-unit>                                                     
+			</trans-unit>
                         <trans-unit id="search.form.label.datasetIdentifier">
 				<source>ID</source>
 			</trans-unit>
@@ -681,10 +684,10 @@ Date: %s
 			</trans-unit>
                         <trans-unit id="search.form.label.from">
 				<source>From</source>
-			</trans-unit>    
+			</trans-unit>
                         <trans-unit id="search.form.label.to">
 				<source>To</source>
-			</trans-unit>                                                                                                                                                                                                                                                                                                                                                                   
+			</trans-unit>
 		</body>
 	</file>
-</xliff>                                                
+</xliff>
