@@ -24,6 +24,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+	use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Plugin 'DPF: MetaTags' for the 'dlf / dpf' extension.
  *
@@ -54,6 +56,17 @@ class MetaTags extends \tx_dlf_plugin {
 
 		$this->init($conf);
 
+		// get the tx_dpf.settings too
+		// Flexform wins over TS
+		$dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
+
+		if (is_array($dpfTSconfig['settings.'])) {
+
+			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, TRUE, FALSE);
+			$this->conf = $dpfTSconfig['settings.'];
+
+		}
+
 		// Turn cache on.
 		$this->setCache(TRUE);
 
@@ -78,90 +91,15 @@ class MetaTags extends \tx_dlf_plugin {
 
 		$metadata = array ();
 
-		if ($this->conf['rootline'] < 2) {
+		$metadata = $this->doc->getTitleData($this->conf['pages']);
 
-			// Get current structure's @ID.
-			$ids = array ();
-
-			if (!empty($this->doc->physicalPages[$this->piVars['page']]) && !empty($this->doc->smLinks['p2l'][$this->doc->physicalPages[$this->piVars['page']]])) {
-
-				foreach ($this->doc->smLinks['p2l'][$this->doc->physicalPages[$this->piVars['page']]] as $logId) {
-
-					$count = count($this->doc->mets->xpath('./mets:structMap[@TYPE="LOGICAL"]//mets:div[@ID="'.$logId.'"]/ancestor::*'));
-
-					$ids[$count][] = $logId;
-
-				}
-
-			}
-
-			ksort($ids);
-
-			reset($ids);
-
-			// Check if we should display all metadata up to the root.
-			if ($this->conf['rootline'] == 1) {
-
-				foreach ($ids as $id) {
-
-					foreach ($id as $sid) {
-
-						$data = $this->doc->getMetadata($sid, $this->conf['pages']);
-
-						if (!empty($data)) {
-
-							$data['_id'] = $sid;
-
-							$metadata[] = $data;
-
-						}
-
-					}
-
-				}
-
-			} else {
-
-				$id = array_pop($ids);
-
-				if (is_array($id)) {
-
-					foreach ($id as $sid) {
-
-						$data = $this->doc->getMetadata($sid, $this->conf['pages']);
-
-						if (!empty($data)) {
-
-							$data['_id'] = $sid;
-
-							$metadata[] = $data;
-
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-		// Get titledata?
-		if (empty($metadata) || ($this->conf['rootline'] == 1 && $metadata[0]['_id'] != $this->doc->toplevelId)) {
-
-			$data = $this->doc->getTitleData($this->conf['pages']);
-
-			$data['_id'] = $this->doc->toplevelId;
-
-			array_unshift($metadata, $data);
-
-		}
+		$metadata['_id'] = $this->doc->toplevelId;
 
 		if (empty($metadata)) {
 
 			if (TYPO3_DLOG) {
 
-				t3lib_div::devLog('[tx_dlf_metadata->main('.$content.', [data])] No metadata found for document with UID "'.$this->doc->uid.'"', $this->extKey, SYSLOG_SEVERITY_WARNING, $conf);
+				GeneralUtility::devLog('[tx_dpf_metatags->main('.$content.', [data])] No metadata found for document with UID "'.$this->doc->uid.'"', 'tx_dpf', SYSLOG_SEVERITY_WARNING, $conf);
 
 			}
 
@@ -170,7 +108,6 @@ class MetaTags extends \tx_dlf_plugin {
 		}
 
 		ksort($metadata);
-
 
 		$this->printMetaTags($metadata);
 
@@ -183,41 +120,76 @@ class MetaTags extends \tx_dlf_plugin {
 	 *
 	 * @access	protected
 	 *
-	 * @param	array		$metadataArray: The metadata array
+	 * @param	array		$metadata: The metadata array
 	 *
 	 * @return	string		The metadata array ready for output
 	 */
-	protected function printMetaTags(array $metadataArray) {
+	protected function printMetaTags(array $metadata) {
 
 		$output = '';
 
-		// Parse the metadata arrays.
-		foreach ($metadataArray as $metadata) {
+		// Load all the metadata values into the content object's data array.
+		foreach ($metadata as $index_name => $values) {
 
-			// Load all the metadata values into the content object's data array.
-			foreach ($metadata as $index_name => $value) {
+			switch ($index_name) {
 
-				switch ($index_name) {
+				case 'author':
 
-					case 'author':
+					if (is_array($values)) {
 
-						if (is_array($value)) {
+						foreach ($values as $id => $value) {
 
-							foreach ($value as $id => $author) {
-
-								$outArray['citation_author'][] = $author;
-
-							}
+							$outArray['citation_author'][] = $value;
 
 						}
 
-						break;
+					}
 
-					default:
+					break;
 
-						break;
+				case 'title':
 
-				}
+					if (is_array($values)) {
+
+							$outArray['citation_title'][] = $values[0];
+
+					}
+
+					break;
+
+				case 'dateissued':
+
+					if (is_array($values)) {
+
+						// Provide full dates in the "2010/5/12" format if available; or a year alone otherwise.
+						$outArray['citation_publication_date'][] = date('Y/m/d', strtotime($values[0]));
+
+					}
+
+					break;
+
+				case 'record_id':
+
+					// Build typolink configuration array.
+					$conf = array (
+						'useCacheHash' => 0,
+						'parameter' => $this->conf['apiPid'],
+						'additionalParams' => '&tx_dpf[qid]=' . $values[0] . '&tx_dpf[action]=attachment&tx_dpf[attachment]=ATT-0',
+						'forceAbsoluteUrl' => TRUE
+					);
+
+					// we need to make instance of cObj here because its not available in this context
+					/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
+					$cObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+
+					// replace uid with URI to dpf API
+					$outArray['citation_pdf_url'][] = $cObj->typoLink_URL($conf);
+
+					break;
+
+				default:
+
+					break;
 
 			}
 
