@@ -101,7 +101,7 @@ class DownloadTool extends \tx_dlf_plugin {
 					'forceAbsoluteUrl' => TRUE
 				);
 
-				$title = $file['TITLE'] ? $file['TITLE'] : $file['ID'];
+				$title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
 
 				// replace uid with URI to dpf API
 				$markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
@@ -127,11 +127,19 @@ class DownloadTool extends \tx_dlf_plugin {
 
 		$xPath = 'mets:fileSec/mets:fileGrp[@USE="'.$this->conf['fileGrpDownload'].'"]/mets:file';
 
+		$this->doc->mets->registerXPathNamespace('mext', 'http://slub-dresden.de/mets');
+
 		$files = $this->doc->mets->xpath($xPath);
 
 		foreach ($files as $key => $file) {
 
 			$singleFile = array();
+
+			foreach ($file->attributes('mext', 1) as $attribute => $value) {
+
+				$singleFile[$attribute] = $value;
+
+			}
 
 			foreach ($file->attributes() as $attribute => $value) {
 
