@@ -3,6 +3,12 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
 		<header/>
 		<body>
+			<trans-unit id="tt_content.pi_flexform.apiPid">
+				<source>API Pid</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_general">
+				<source>Options</source>
+			</trans-unit>
 			<trans-unit id="tt_content.dpf_metatags">
 				<source>DPF: Metatags</source>
 			</trans-unit>
