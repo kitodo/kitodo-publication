@@ -9,22 +9,24 @@ plugin.tx_dpf {
 		layoutRootPath = EXT:dpf/Resources/Private/Layouts/
 	}
 	persistence {
-		# cat=plugin.tx_dpf//a; type=string; label=Default storage PID
-                recursive = 1
+		recursive = 1
+		# cat=module.tx_dpf/link; type=int+; label=Default storage PID
 		storagePid =
-                documentStoragePid =
-                fileStoragePid =
-                documentTransferLogStoragePid =
-                documentTypeStoragePid =
-                metadataObjectStoragePid =
-                metadataGroupStoragePid =
-                metadataPageStoragePid =
+		documentStoragePid =
+		fileStoragePid =
+		documentTransferLogStoragePid =
+		documentTypeStoragePid =
+		metadataObjectStoragePid =
+		metadataGroupStoragePid =
+		metadataPageStoragePid =
 	}
 
         settings {
             defaultValue {
                 fullTextLabel = Volltext (PDF)
-            }    
+            }
+			# cat=plugin.tx_dpf/link; type=int+; label=Default Api PID
+			apiPid =
         }
 }
 
@@ -38,16 +40,16 @@ module.tx_dpf {
 		layoutRootPath = EXT:dpf/Resources/Private/Layouts/
 	}
 	persistence {
-		# cat=module.tx_dpf//a; type=string; label=Default storage PID
-                recursive = 1
+		recursive = 1
+		# cat=module.tx_dpf/link; type=int+; label=Default storage PID
 		storagePid =
-                documentStoragePid =
-                fileStoragePid =
-                documentTransferLogStoragePid =
-                documentTypeStoragePid =
-                metadataObjectStoragePid =
-                metadataGroupStoragePid =
-                metadataPageStoragePid =
+		documentStoragePid =
+		fileStoragePid =
+		documentTransferLogStoragePid =
+		documentTypeStoragePid =
+		metadataObjectStoragePid =
+		metadataGroupStoragePid =
+		metadataPageStoragePid =
 	}
 
         settings {
@@ -56,6 +58,8 @@ module.tx_dpf {
 
             defaultValue {
                 fullTextLabel = Volltext (PDF)
-            } 
+            }
+			# cat=plugin.tx_dpf/link; type=int+; label=Default Api PID
+			apiPid =
 	}
 }

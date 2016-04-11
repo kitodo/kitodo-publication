@@ -391,3 +391,30 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_inputoptionlist.gif'
 	),
 );
+
+
+// Plugin "NetaTags".
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_metatags'] = 'layout,select_key,pages,recursive';
+
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_metatags'] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+ array('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.dpf_metatags',
+ $_EXTKEY.'_metatags'),
+ 	'list_type',
+	$_EXTKEY
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY.'_metatags', 'FILE:EXT:'.$_EXTKEY.'/Classes/Plugins/MetaTags/flexform.xml');
+
+// Plugin "DownloadTool".
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_downloadtool'] = 'layout,select_key,pages,recursive';
+
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_downloadtool'] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+	array('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.dpf_downloadtool',
+		$_EXTKEY.'_downloadtool'),
+	'list_type',
+	$_EXTKEY
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY.'_downloadtool', 'FILE:EXT:'.$_EXTKEY.'/Classes/Plugins/DownloadTool/flexform.xml');
