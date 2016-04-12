@@ -125,9 +125,10 @@ class DownloadTool extends \tx_dlf_plugin {
 	 */
 	protected function getDownloadableIds() {
 
-		// Get pdf documents
-
+		// Get attachment ids
 		$xPath = 'mets:amdSec/mets:techMD/mets:mdWrap/mets:xmlData/slub:info/slub:rights/slub:attachment';
+
+		$this->doc->mets->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
 		$attachments = $this->doc->mets->xpath($xPath);
 
