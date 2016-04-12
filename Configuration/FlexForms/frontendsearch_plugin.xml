@@ -1,0 +1,25 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.targetUrl>
+                        <TCEforms>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:frontendsearch.target</label>                
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.targetUrl>   
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>
