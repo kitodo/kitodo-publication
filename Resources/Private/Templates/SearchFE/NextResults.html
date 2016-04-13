@@ -16,9 +16,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:section name="main">
-        <f:render partial="Search/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
+        <f:render partial="SearchFE/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
         <center>
-            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
+            <f:link.action id="next" controller="SearchFE" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
         </center>               
    
 </f:section>

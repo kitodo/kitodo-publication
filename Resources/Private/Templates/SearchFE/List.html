@@ -13,15 +13,13 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
-
 <f:section name="main">
     <!--<f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>-->
                                
     <div class="searchForm">
-      <f:form action="search" name="search" class="form-inline">
-        <h5>{f:translate(key: 'search.form.header.simpleSearch')}</h5>
-        <div class="form-group">
-          <label for="query">{f:translate(key: 'search.form.label.query')}</label>
+      <f:form action="search" name="search" class="form-inline qucosa-search-form">
+        <div class="form-group fe-form-group">
+          <!-- <label for="query">{f:translate(key: 'search.form.label.query')}</label> -->
           <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
         </div>
         <f:form.button class="btn btn-default" type="submit">

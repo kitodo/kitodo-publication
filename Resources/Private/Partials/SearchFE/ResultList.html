@@ -1,58 +1,43 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
-<table id="search-results" class="tx_dpf table table-striped table-manager table-condensed">
-    <thead>
-        <tr>
-            <th class="xcol-md-4"><f:translate key="search.resultList.title" /></th>
-            <th class="xcol-md-2"><f:translate key="search.resultList.publicationDate" /></th>
-            <th class="xcol-md-1"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <f:for each="{searchList}" as="entry">
-            <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                <f:then><tr class="success"></f:then>
-                <f:else><tr></f:else>
-            </f:if>
-            <f:if condition="{entry._source._dissemination}">
-                <f:then>
-                    <td>
+
+<ol class="tx-dlf-listview-list">
+    <f:for each="{searchList}" as="entry">
+        <f:if condition="{entry._source._dissemination}">
+            <f:then>
+                <li>
+                    <dd>
                         <a href="{dpf:stringReplace(string:'{itemLinkMarker}' searchFor:'###qid###' replaceWith:'{entry._source.PID}')}">
                             {entry._source._dissemination._content.title.0}
-                            <f:if condition="{entry._source._dissemination._content.issue}">, {entry._source._dissemination._content.issue}</f:if>
+                            <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
                         </a>
-                    </td>                   
-                    <td>
-                        <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
-                            <f:then>
-                                <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
-                            </f:then>    
-                            <f:else>
-                                - 
-                            </f:else>    
-                        </f:if>    
-                    </td>
-                </f:then>
-                <f:else>
-                    <td>{entry._source.title.0}<f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if></td>
-                    <td>
-                        <f:if condition="{entry._source.CREATED_DATE}">
-                            <f:then>
-                                <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y" />
-                            </f:then>    
-                            <f:else>
-                                - 
-                            </f:else>    
-                        </f:if>                                           
-                    </td>
-                    <td class="table_col_function">
-                        <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">
-                            <span class="glyphicon glyphicon-download-alt"></span>
-                            {f:translate(key: 'manager.get')}
-                        </f:link.action>
-                    </td>
-                  </f:else>
-                </f:if>
-            </tr>
-        </f:for>
-    </tbody>
-</table>
+                    </dd>
+                    <!-- <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                        <f:then>
+                            <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
+                        </f:then>    
+                        <f:else>
+                            - 
+                        </f:else>    
+                    </f:if>   -->  
+                </li>
+            </f:then>
+            <f:else>
+                <li>{entry._source.title.0}<f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if>
+                    <f:if condition="{entry._source.CREATED_DATE}">
+                        <f:then>
+                            <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y" />
+                        </f:then>    
+                        <f:else>
+                            - 
+                        </f:else>    
+                    </f:if>                                           
+                    <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                        {f:translate(key: 'manager.get')}
+                    </f:link.action>
+                </li>
+            </f:else>
+        </f:if>
+    </f:for>
+</ol>
+

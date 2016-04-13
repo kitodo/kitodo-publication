@@ -112,6 +112,11 @@
 	display:table;
 }
 
+.tx-dpf .fe-form-group {
+	position:relative;
+	display:inline-block;
+}
+
 .tx-dpf .form-group label,.tx-dpf .form-group .form-control {
 	display:table-cell;
 }
@@ -273,6 +278,10 @@ li a.mandatory-error:after {
 	font-family:'Glyphicons Halflings';
 	margin-left:3px;
 	line-height:1;
+}
+
+.qucosa-search-form input[type="text"] {
+    width: 450px !important;
 }
 
 
