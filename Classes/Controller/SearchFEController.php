@@ -221,7 +221,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         }
 
         // owner id
-        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => 'all'));
+        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
 
         return $query;
     }
@@ -248,7 +248,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         $searchText = $this->escapeQuery($args['search']['query']);
 
         // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = 'all'; // qucosa
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
         $query['body']['query']['bool']['should'][0]['query_string']['query'] = $searchText;
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchText;
@@ -280,7 +280,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
 
         // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = 'all'; // qucosa
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
         $query['body']['query']['bool']['should'][0]['query_string']['query'] = '*';
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';
