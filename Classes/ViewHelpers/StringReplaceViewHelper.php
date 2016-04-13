@@ -11,6 +11,7 @@ class StringReplaceViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
      * @return string
      */
     public function render($string, $searchFor, $replaceWith) {
+        $replaceWith = urlencode(urlencode($replaceWith));
         return str_replace($searchFor, $replaceWith, $string);
     }
 }
