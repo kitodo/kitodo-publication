@@ -284,5 +284,13 @@ li a.mandatory-error:after {
     width: 450px !important;
 }
 
+dd.author {
+	float:left;
+}
+
+dd.date {
+	float:right;
+}
+
 
 /* EOF */

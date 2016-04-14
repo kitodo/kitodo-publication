@@ -5,38 +5,33 @@
         <f:if condition="{entry._source._dissemination}">
             <f:then>
                 <li>
-                    <dd>
-                        <a href="{dpf:stringReplace(string:'{itemLinkMarker}' searchFor:'###qid###' replaceWith:'{entry._source.PID}')}">
-                            {entry._source._dissemination._content.title.0}
-                            <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
-                        </a>
-                    </dd>
-                    <!-- <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
-                        <f:then>
-                            <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
-                        </f:then>    
-                        <f:else>
-                            - 
-                        </f:else>    
-                    </f:if>   -->  
+                    <dl>
+                        <dd>
+                            <a href="{dpf:stringReplace(string:'{itemLinkMarker}' searchFor:'###qid###' replaceWith:'{entry._source.PID}')}">
+                                {entry._source._dissemination._content.title.0}
+                                <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
+                            </a>
+                        </dd>
+                        <dd class="author">
+                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                                <f:then>
+                                    {entry._source._dissemination._content.author.0}
+                                </f:then>
+                            </f:if>
+                        </dd>
+                        <dd class="date">
+                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                                <f:then>
+                                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
+                                </f:then>
+                                <f:else>
+                                    - 
+                                </f:else>    
+                            </f:if>
+                        </dd>
+                    </dl>
                 </li>
             </f:then>
-            <f:else>
-                <li>{entry._source.title.0}<f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if>
-                    <f:if condition="{entry._source.CREATED_DATE}">
-                        <f:then>
-                            <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y" />
-                        </f:then>    
-                        <f:else>
-                            - 
-                        </f:else>    
-                    </f:if>                                           
-                    <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                        {f:translate(key: 'manager.get')}
-                    </f:link.action>
-                </li>
-            </f:else>
         </f:if>
     </f:for>
 </ol>
