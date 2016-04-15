@@ -85,7 +85,7 @@ class DownloadTool extends \tx_dlf_plugin {
 
 		$subpartArray['downloads'] = $this->cObj->getSubpart($this->template, '###DOWNLOADS###');
 
-		// Show all PDF Documents
+		// Show all PDF documents in download filegroup
 		$attachments = $this->getAttachments();
 
 		$content = '';
@@ -106,7 +106,6 @@ class DownloadTool extends \tx_dlf_plugin {
 				// replace uid with URI to dpf API
 				$markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
 
-
 				$content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
 
 			}
@@ -119,17 +118,21 @@ class DownloadTool extends \tx_dlf_plugin {
 
 	/**
 	 * Get PDF document list
-	 * @return html List of attachments
+
+	 * @return array of attachments
 	 */
 	protected function getAttachments() {
 
 		// Get pdf documents
-
-		$xPath = 'mets:fileSec/mets:fileGrp[@USE="'.$this->conf['fileGrpDownload'].'"]/mets:file';
-
-		$this->doc->mets->registerXPathNamespace('mext', 'http://slub-dresden.de/mets');
+		$xPath = 'mets:fileSec/mets:fileGrp[@USE="'.$this->conf['fileGrpDownload'].'"]/mets:file[@MIMETYPE="application/pdf"]';
 
 		$files = $this->doc->mets->xpath($xPath);
+
+		if (!is_array($files)) {
+
+			return array();
+
+		}
 
 		foreach ($files as $key => $file) {
 
@@ -147,7 +150,14 @@ class DownloadTool extends \tx_dlf_plugin {
 
 			}
 
-			$attachments[] = $singleFile;
+			$attachments[(string)$singleFile['ID']] = $singleFile;
+
+		}
+
+		if (is_array($attachments) && count($attachments) > 1) {
+
+			ksort($attachments);
+
 		}
 
 		return $attachments;
