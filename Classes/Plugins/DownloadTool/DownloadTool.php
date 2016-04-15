@@ -85,10 +85,8 @@ class DownloadTool extends \tx_dlf_plugin {
 
 		$subpartArray['downloads'] = $this->cObj->getSubpart($this->template, '###DOWNLOADS###');
 
-		// Show all PDF Documents
-		$downloadableIds = $this->getDownloadableIds();
-
-		$attachments = $this->getAttachments($downloadableIds);
+		// Show all PDF documents in download filegroup
+		$attachments = $this->getAttachments();
 
 		$content = '';
 
@@ -119,46 +117,22 @@ class DownloadTool extends \tx_dlf_plugin {
 	}
 
 	/**
-	 * Get Ids of downloadable attachments
-	 *
-	 * @return array of Ids
-	 */
-	protected function getDownloadableIds() {
-
-		// Get attachment ids
-		$xPath = 'mets:amdSec/mets:techMD/mets:mdWrap/mets:xmlData/slub:info/slub:rights/slub:attachment';
-
-		$this->doc->mets->registerXPathNamespace('slub', 'http://slub-dresden.de/');
-
-		$attachments = $this->doc->mets->xpath($xPath);
-
-		$downloadableIds = array();
-
-		foreach ($attachments as $key => $attachment) {
-
-			if ($attachment->attributes()->isDownloadable == 'yes') {
-
-				$downloadableIds[] = (string) $attachment->attributes()->ref;
-
-			}
-
-		}
-
-		return $downloadableIds;
-	}
-
-	/**
 	 * Get PDF document list
-	 * @params integer $downloadableIds: Ids of attachments allowed for download
-	 *
+
 	 * @return array of attachments
 	 */
-	protected function getAttachments($downloadableIds) {
+	protected function getAttachments() {
 
 		// Get pdf documents
 		$xPath = 'mets:fileSec/mets:fileGrp[@USE="'.$this->conf['fileGrpDownload'].'"]/mets:file[@MIMETYPE="application/pdf"]';
 
 		$files = $this->doc->mets->xpath($xPath);
+
+		if (!is_array($files)) {
+
+			return array();
+
+		}
 
 		foreach ($files as $key => $file) {
 
@@ -176,11 +150,7 @@ class DownloadTool extends \tx_dlf_plugin {
 
 			}
 
-			if (in_array((string)$singleFile['ID'], $downloadableIds)) {
-
-				$attachments[(string)$singleFile['ID']] = $singleFile;
-
-			}
+			$attachments[(string)$singleFile['ID']] = $singleFile;
 
 		}
 
