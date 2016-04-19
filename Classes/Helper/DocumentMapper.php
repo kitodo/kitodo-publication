@@ -131,14 +131,14 @@ class DocumentMapper {
           // build mapping path, previous fixed attributes which are differ from 
           // the own fixed attributes are excluded 
           $queryGroupMapping = $metadataGroup->getAbsoluteMapping();
-          if (is_array($excludeGroupAttributes[$groupMappingName])) {
+          if (strpos($queryGroupMapping, "@displayLabel") === false && is_array($excludeGroupAttributes[$groupMappingName])) {                                      
             foreach ($excludeGroupAttributes[$groupMappingName] as $excludeAttr => $excludeAttrValue) {              
               if (!in_array($excludeAttr, $fixedGroupAttributes)) {
                 $queryGroupMapping .=  $excludeAttrValue;  
               }              
             }       
-          }       
-          
+          }  
+                                                         
           // Read the group data.                        
           $groupData = $xpath->query($queryGroupMapping);  
          
