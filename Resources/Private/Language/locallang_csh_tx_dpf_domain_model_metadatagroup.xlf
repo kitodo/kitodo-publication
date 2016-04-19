@@ -15,6 +15,9 @@
                         <trans-unit id="backend_only.description">
 				<source>backendOnly</source>
 			</trans-unit>
+                        <trans-unit id="mapping_for_reading.description">
+				<source>mapping for reading</source>
+			</trans-unit>
                         <trans-unit id="mapping.description">
 				<source>mapping</source>
 			</trans-unit>

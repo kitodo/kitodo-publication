@@ -61,6 +61,13 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $mapping = '';
         
         /**
+	 * mappingForReading
+	 *
+	 * @var string
+	 */
+	protected $mappingForReading = '';
+        
+        /**
 	 * modsExtensionMapping
 	 *
 	 * @var string
@@ -213,43 +220,121 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         
         
         /**
+	 * Returns the mappingForReading
+	 *
+	 * @return string $mappingForReading
+	 */
+	public function getMappingForReading() {
+		return $this->mappingForReading;
+	}
+
+	/**
+	 * Sets the mappingForReading
+	 *
+	 * @param string $mappingForReading
+	 * @return void
+	 */
+	public function setMappingForReading($mappingForReading) {
+		$this->mappingForReading = $mappingForReading;
+	}
+        
+        
+        /**
+	 * Checks if a mapping for reading is defined
+	 *	 
+	 * @return bool
+	 */
+	public function hasMappingForReading() {
+            $mapping = trim($this->mappingForReading);
+            return !empty($mapping);
+	}
+        
+        
+        /**
 	 * Returns the relative mapping
 	 *
+         * @string $mapping 
 	 * @return string $relativeMapping
 	 */
-        public function getRelativeMapping() {                                  
+        protected function relativeMapping($mapping) {                                  
             $modsRegExp = "/^.*?(mods:mods|slub:info)/i";        
-            $mapping =  preg_replace($modsRegExp,"",$this->mapping);                                   
+            $mapping =  preg_replace($modsRegExp,"",$mapping);                                   
             //if (empty($mapping)) throw new \Exception("Invalid Mapping!");
             return trim($mapping," /");          
         }
         
         
         /**
+	 * Returns the relative mapping for writing
+	 *         
+	 * @return string $relativeMappingForWriting
+	 */
+        public function getRelativeMapping() {                                  
+            return $this->relativeMapping($this->mapping);                                         
+        }
+        
+
+        /**
+	 * Returns the relative mapping for reading
+	 *       
+	 * @return string $relativeMappingForReading
+	 */
+        public function getRelativeMappingForReading() {                                  
+            return $this->relativeMapping($this->mappingForReading);                                         
+        }
+
+        
+        
+        /**
 	 * Returns the absolute mapping
 	 *
+         * @param string $relativeMapping
 	 * @return string $absoluteMapping
 	 */
-        public function getAbsoluteMapping() {           
+        protected function absoluteMapping($relativeMapping) {           
                                   
-            if ($this->isSlubInfo()) {
-                return "/slub:info/".$this->getRelativeMapping();   
+            if ($this->isSlubInfo($relativeMapping)) {
+                return "/slub:info/".$relativeMapping;   
             } else {                   
-                return "/mods:mods/".$this->getRelativeMapping();      
+                return "/mods:mods/".$relativeMapping;      
             }    
         }
         
+        /**
+         * Returns the absolute mapping for writing
+         * 
+         * @return string $absoluteMappingForWriting
+         */
+        public function getAbsoluteMapping() {
+            return $this->absoluteMapping($this->getRelativeMapping());
+        }
         
-        public function isSlubInfo() {            
+        
+        /**
+         * Returns the absolute mapping for reading
+         * 
+         * @return string $absoluteMappingForReading
+         */
+        public function getAbsoluteMappingForReading() {
+            return $this->absoluteMapping($this->getRelativeMappingForReading());
+        }
+        
+        
+        /**
+         * Checks if a mapping defines a slub:info node
+         * 
+         * @param string $mapping
+         * @return bool
+         */
+        public function isSlubInfo($mapping) {            
             $modsRegExp = "/^.*?slub:info/i";
-            $match = $this->mapping;
+            $match = $mapping;
             if (preg_match($modsRegExp,$match)) {               
                 return TRUE;                 
             }                        
             return FALSE;                        
         }
-
-        
+                
         /**
 	 * Returns the modsExtensionMapping
 	 *
