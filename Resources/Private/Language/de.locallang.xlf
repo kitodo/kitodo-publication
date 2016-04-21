@@ -756,11 +756,11 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.form.label.to">
 				<source>To</source>
                                 <target>Bis</target>
-			</trans-unit>     
-			<trans-unit id="frontendsearch.target">
-				<source>Target url (Marker ###url###)</source>
-                <target>Ziel Url (Marker ###url###)</target>
-			</trans-unit>                
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.targetPid">
+				<source>Target page</source>
+				<target>Zielseite</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -7,10 +7,10 @@
                 <li>
                     <dl>
                         <dd>
-                            <a href="{dpf:stringReplace(string:'{itemLinkMarker}' searchFor:'###qid###' replaceWith:'{entry._source.PID}')}">
-                                {entry._source._dissemination._content.title.0}
+                            <f:link.page pageUid="{settings.targetPid}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
+                            {entry._source._dissemination._content.title.0}
                                 <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
-                            </a>
+                            </f:link.page>
                         </dd>
                         <dd class="author">
                             <f:if condition="{entry._source._dissemination._content.distribution_date.0}">

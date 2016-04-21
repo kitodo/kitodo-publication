@@ -65,19 +65,9 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
-        $this->view->assign('alreadyImported', $objectIdentifiers);
-
-        $targetUrl = $this->settings['targetUrl'];
-
-        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === FALSE ? 'http://' : 'https://';
-
-        // set link marker configured in search plugin
-        $apiUrl = $protocol.$uploadFileUrl->getBaseUrl().'/api/###qid###/mets/';
-
-        $url = str_replace("###url###", str_replace("%23%23%23qid%23%23%23", "###qid###", urlencode($apiUrl)), $targetUrl);
-        $this->view->assign('itemLinkMarker', $url);
 
         // assign form values
         $this->assignExtraFields($args['extra']);

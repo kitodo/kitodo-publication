@@ -697,8 +697,8 @@ Date: %s
                         <trans-unit id="search.form.label.to">
 				<source>To</source>
 			</trans-unit>
-			<trans-unit id="frontendsearch.target">
-				<source>Target url (Marker ###url###)</source>
+			<trans-unit id="tt_content.pi_flexform.targetPid">
+				<source>Target page</source>
 			</trans-unit>
 		</body>
 	</file>
