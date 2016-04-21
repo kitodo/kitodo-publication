@@ -79,20 +79,20 @@ if (TYPO3_MODE === 'BE') {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Qucosaform',
-	'QucosaForm'
+	'DPF: QucosaForm'
 );
 
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Qucosaxml',
-	'QucosaXml'
+	'DPF: QucosaXml'
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $_EXTKEY,
     'Frontendsearch',
-    'FrontendSearch'
+    'DPF: FrontendSearch'
 );
 
 // frontendsearch plugin configuration: additional fields

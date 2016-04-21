@@ -31,6 +31,7 @@ plugin.tx_dpf {
                 fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
             }
 			apiPid = {$plugin.tx_dpf.settings.apiPid}
+			targetPid = {$plugin.tx_dpf.settings.targetPid}
         }
 }
 
@@ -124,7 +125,7 @@ module.tx_dpf {
 
         settings {
             previewPage = {$module.tx_dpf.settings.previewPage}
-            apiPid = {$module.tx_dpf.settings.apiPid}
+            apiPid = {$plugin.tx_dpf.settings.apiPid}
             defaultValue {
                 fullTextLabel = {$module.tx_dpf.settings.defaultValue.fullTextLabel}
             }

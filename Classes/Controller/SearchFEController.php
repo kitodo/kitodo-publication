@@ -39,39 +39,24 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $documentRepository = null;
 
-    /**
-    * clientRepository
-    *
-    * @var \EWW\Dpf\Domain\Repository\ClientRepository
-    * @inject
-    */
-    protected $clientRepository = null;
-
-
     const RESULT_COUNT = 50;
+
     const NEXT_RESULT_COUNT = 50;
 
-        /**
+    /**
      * action list
      *
      * @return void
      */
     public function listAction()
     {
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;         
-
-        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
-
         $args = $this->request->getArguments();
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
 
         // assign form values
         $this->assignExtraFields($args['extra']);
-
 
     }
 
@@ -325,7 +310,6 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
-     //   die();
         $results = $elasticSearch->search($query, $type);
 
         return $results;
@@ -349,14 +333,14 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      * action search
+     *
      * @return void
      */
     public function searchAction()
     {
+
         // perform search action
         $args = $this->request->getArguments();
-
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // reset session pagination
         if (!empty($GLOBALS['BE_USER'])) {
@@ -370,7 +354,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
             $sessionVars['resultCount'] = self::RESULT_COUNT;
             $userGlobals->setAndSaveSessionData('tx_dpf', $sessionVars);
         }
-        
+
 
         // set sorting
         // $query['body']['sort']['PID']['order'] = 'asc';
@@ -400,7 +384,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
             unset($query['extra']);
 
             $results = $this->getResultList($query, $type);
-            
+
         } else {
             if ($userGlobals) {
                 $sessionVars = $userGlobals->getSessionData('tx_dpf');
