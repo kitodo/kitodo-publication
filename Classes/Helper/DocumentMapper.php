@@ -107,7 +107,7 @@ class DocumentMapper {
           $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());   
                           
                    
-          if ($metadataGroup->isSlubInfo()) {
+          if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
               $xpath = $slub->getSlubXpath();                            
           } else {
               $xpath = $mods->getModsXpath();                 
@@ -131,16 +131,21 @@ class DocumentMapper {
           // build mapping path, previous fixed attributes which are differ from 
           // the own fixed attributes are excluded 
           $queryGroupMapping = $metadataGroup->getAbsoluteMapping();
-          if (is_array($excludeGroupAttributes[$groupMappingName])) {
+          if (strpos($queryGroupMapping, "@displayLabel") === false && is_array($excludeGroupAttributes[$groupMappingName])) {                                      
             foreach ($excludeGroupAttributes[$groupMappingName] as $excludeAttr => $excludeAttrValue) {              
               if (!in_array($excludeAttr, $fixedGroupAttributes)) {
                 $queryGroupMapping .=  $excludeAttrValue;  
               }              
             }       
-          }       
+          }  
           
-          // Read the group data.                        
-          $groupData = $xpath->query($queryGroupMapping);  
+          
+          // Read the group data.          
+          if ($metadataGroup->hasMappingForReading()) {
+            $groupData = $xpath->query($metadataGroup->getAbsoluteMappingForReading());  
+          } else {                                                                             
+            $groupData = $xpath->query($queryGroupMapping);  
+          }  
          
           // Fixed attributes from groups must be excluded in following xpath queries  	                              
           foreach($fixedGroupAttributes as $excludeGroupAttribute) {                 
@@ -196,8 +201,7 @@ class DocumentMapper {
                   $modsExtensionGroupMapping = $metadataGroup->getAbsoluteModsExtensionMapping();                  
                   
                   $refID = $data->getAttribute("ID");                                     
-                  $objectData = $xpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);     
-                                                                                                                      
+                  $objectData = $xpath->query($modsExtensionGroupMapping.'[@'.$referenceAttribute.'='.'"#'.$refID.'"]/'.$objectMapping);                                                         
                 } else {                        
                     $objectData = $xpath->query($objectMapping,$data);              
                 }                                                                                                                                          
@@ -400,7 +404,7 @@ class DocumentMapper {
           if (!key_exists('values', $item)) $item['values'] = array();  
                    
           if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount ) {
-            if ($metadataGroup->isSlubInfo()) {                       
+            if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {                       
                 $form['slubInfo'][] = $item; 
             } else {
                 $form['mods'][] = $item;    

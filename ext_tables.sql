@@ -105,6 +105,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
+        mapping_for_reading varchar(1024) DEFAULT '' NOT NULL,
         mapping varchar(1024) DEFAULT '' NOT NULL,
         mods_extension_mapping varchar(1024) DEFAULT '' NOT NULL,
         mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
