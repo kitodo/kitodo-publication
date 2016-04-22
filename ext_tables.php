@@ -79,15 +79,31 @@ if (TYPO3_MODE === 'BE') {
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Qucosaform',
-	'QucosaForm'
+	'DPF: QucosaForm'
 );
 
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Qucosaxml',
-	'QucosaXml'
+	'DPF: QucosaXml'
 );
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    $_EXTKEY,
+    'Frontendsearch',
+    'DPF: FrontendSearch'
+);
+
+// frontendsearch plugin configuration: additional fields
+$extensionName = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
+$pluginName = strtolower('frontendsearch');
+$pluginSignature = $extensionName.'_'.$pluginName;
+
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY . '/Configuration/FlexForms/frontendsearch_plugin.xml');
+// end of frontendsearch plugin configuration
 
 // qucosaform plugin configuration: additional fields
 $extensionName = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));

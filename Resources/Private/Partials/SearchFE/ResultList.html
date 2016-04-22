@@ -1,0 +1,38 @@
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<ol class="tx-dlf-listview-list">
+    <f:for each="{searchList}" as="entry">
+        <f:if condition="{entry._source._dissemination}">
+            <f:then>
+                <li>
+                    <dl>
+                        <dd>
+                            <f:link.page pageUid="{settings.targetPid}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
+                            {entry._source._dissemination._content.title.0}
+                                <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
+                            </f:link.page>
+                        </dd>
+                        <dd class="author">
+                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                                <f:then>
+                                    {entry._source._dissemination._content.author.0}
+                                </f:then>
+                            </f:if>
+                        </dd>
+                        <dd class="date">
+                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                                <f:then>
+                                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
+                                </f:then>
+                                <f:else>
+                                    - 
+                                </f:else>    
+                            </f:if>
+                        </dd>
+                    </dl>
+                </li>
+            </f:then>
+        </f:if>
+    </f:for>
+</ol>
+
