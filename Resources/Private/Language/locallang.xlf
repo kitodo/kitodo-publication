@@ -15,6 +15,10 @@
 			<trans-unit id="tt_content.dpf_downloadtool">
 				<source>DPF: DownloadTool</source>
 			</trans-unit>
+                        <trans-unit id="tt_content.dpf_relatedlisttool">
+				<source>DPF: RelatedListTool</source>
+			</trans-unit>
+
 			<trans-unit id="tx_dpf_domain_model_documenttype">
 				<source>Document Type</source>
 			</trans-unit>
