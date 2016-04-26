@@ -469,7 +469,7 @@
                         <trans-unit id="manager.client">
 				<source>Client</source>
                                 <target>Mandant</target>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="manager.control.documents">
 				<source>Documents</source>
                                 <target>Dokumente</target>
@@ -480,27 +480,27 @@
 			</trans-unit>
                         <trans-unit id="manager.document.title">
 				<source>Title</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.authors">
 				<source>Authors</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.publishedDate">
 				<source>Published Date</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.datasetIdentifier">
 				<source>Dateset Identifier</source>
-			</trans-unit>                                 
+			</trans-unit>
                         <trans-unit id="manager.document.state">
 				<source>State</source>
-			</trans-unit>                          
+			</trans-unit>
                         <trans-unit id="manager.document.state.new">
 				<source>New</source>
                                 <target>Neu</target>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="manager.document.state.inProgress">
 				<source>In progress</source>
                                 <target>In Bearbeitung</target>
-			</trans-unit>    
+			</trans-unit>
 			<trans-unit id="document_ingest.success">
 				<source>%s successfully published.</source>
 			</trans-unit>
@@ -557,11 +557,11 @@
                         <trans-unit id="documentForm.new.header">
 				<source>New %s</source>
                                 <target>% anlegen</target>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="documentForm.edit.header">
 				<source>Edit %s</source>
                                 <target>% bearbeiten</target>
-			</trans-unit>     
+			</trans-unit>
 			<trans-unit id="notification.newDocument.admin.subject">
 				<source>New document registered</source>
 				<target>Ein neues Dokument wurde angemeldet</target>
@@ -614,7 +614,7 @@ Title: %s
 Author: %s
 URL: %s
 Date: %s
-                                    
+
                                 </source>
 				<target>
 Sehr geehrte/r %s,
@@ -632,49 +632,49 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.resultList.state">
 				<source>State</source>
                                 <target>Status</target>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.active">
 				<source>ACTIVE</source>
                                 <target>AKTIV</target>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.inactive">
 				<source>INACTIVE</source>
                                 <target>INAKTIV</target>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.state.deleted">
 				<source>DELETED</source>
                                 <target>GELÖSCHT</target>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.datasetIdentifier">
 				<source>ID</source>
-			</trans-unit> 
+			</trans-unit>
                         <trans-unit id="search.resultList.title">
 				<source>Title</source>
-			</trans-unit>                       
+			</trans-unit>
                         <trans-unit id="search.resultList.publisher">
 				<source>Publisher</source>
 			</trans-unit>
                         <trans-unit id="search.resultList.author">
 				<source>Author</source>
-                                <source>Autor</source>
+                                <target>Autor</target>
 			</trans-unit>
                         <trans-unit id="search.resultList.submitter">
 				<source>Submitter</source>
 			</trans-unit>
                         <trans-unit id="search.resultList.identifier">
 				<source>Identifier</source>
-			</trans-unit>                        
+			</trans-unit>
                         <trans-unit id="search.resultList.publicationDate">
 				<source>Publication date</source>
                                 <target>Veröffentlichungsdatum</target>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.resultList.more">
 				<source>More results</source>
                                 <target>Mehr Ergebnisse</target>
-			</trans-unit>                                                                                                                                                                                                                                                                
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.title">
 				<source>Title</source>
-			</trans-unit>                        
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.submitterOrPublishedDate">
 				<source>Submitter/Published date</source>
 			</trans-unit>
@@ -686,12 +686,12 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			</trans-unit>
                         <trans-unit id="search.doubletCheck.author">
 				<source>Author</source>
-                                <source>Autor</source>
-			</trans-unit> 
+                                <target>Autor</target>
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.publicationDate">
 				<source>Publication date</source>
                                 <target>Veröffentlichungsdatum</target>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.doubletCheck.foundMessage">
 				<source>The following possible duplicates were found:</source>
                                 <target>Folgende mögliche doubletten wurden gefunden:</target>
@@ -699,19 +699,19 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.doubletCheck.nothingFoundMessage">
 				<source>There were no potential duplicates found.</source>
                                 <target>Es wurden keine möglichen Doubletten gefunden.</target>
-			</trans-unit>                                          
+			</trans-unit>
                         <trans-unit id="search.control.simpleSearch">
 				<source>Simple search</source>
                                 <target>Einfache Suche</target>
-			</trans-unit>  
+			</trans-unit>
                           <trans-unit id="search.control.extendedSearch">
 				<source>Extended search</source>
                                 <target>Erweiterte Suche</target>
-			</trans-unit>  
+			</trans-unit>
                         <trans-unit id="search.control.new">
 				<source>New</source>
                                 <target>Neu</target>
-			</trans-unit>                        
+			</trans-unit>
                          <trans-unit id="search.control.search">
 				<source>Search</source>
                                 <target>Suchen</target>
@@ -719,19 +719,19 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.form.header.extendedSearch">
 				<source>Extended search</source>
                                 <target>Erweiterte Suche</target>
-			</trans-unit>   
+			</trans-unit>
                         <trans-unit id="search.form.header.simpleSearch">
 				<source>Simple search</source>
                                 <target>Einfache Suche</target>
-			</trans-unit>                                                
+			</trans-unit>
                         <trans-unit id="search.form.button.search">
 				<source>Search</source>
                                 <target>Suchen</target>
-			</trans-unit>                        
+			</trans-unit>
                         <trans-unit id="search.form.label.query">
 				<source>Query</source>
                                 <target>Abfrage</target>
-			</trans-unit>                               
+			</trans-unit>
                         <trans-unit id="search.form.label.datasetIdentifier">
 				<source>ID</source>
                                 <target>ID</target>
@@ -755,7 +755,7 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
                         <trans-unit id="search.form.label.from">
 				<source>From</source>
                                 <target>Von</target>
-			</trans-unit>    
+			</trans-unit>
                         <trans-unit id="search.form.label.to">
 				<source>To</source>
                                 <target>Bis</target>
