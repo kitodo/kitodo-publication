@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-04-26T16:01:38Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-04-26T16:04:20Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -456,7 +456,7 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<target>Neu</target>
 		</trans-unit>
 		<trans-unit id="search.control.search" approved="yes">
-			<source></source>
+			<source>Search</source>
 			<target>Suchen</target>
 		</trans-unit>
 		<trans-unit id="search.control.simpleSearch" approved="yes">
@@ -484,7 +484,7 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<target>Es wurden keine möglichen Doubletten gefunden.</target>
 		</trans-unit>
 		<trans-unit id="search.doubletCheck.publicationDate" approved="yes">
-			<source></source>
+			<source>Publication Date</source>
 			<target>Veröffentlichungsdatum</target>
 		</trans-unit>
 		<trans-unit id="search.doubletCheck.submitterOrPublishedDate" approved="yes">
@@ -494,10 +494,6 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="search.doubletCheck.title" approved="yes">
 			<source>Title</source>
 			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheckt.publicationDate" approved="yes">
-			<source>Publication date</source>
-			<target>Veröffentlichungsdatum</target>
 		</trans-unit>
 		<trans-unit id="search.form.button.search" approved="yes">
 			<source>Search</source>
