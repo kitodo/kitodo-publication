@@ -409,7 +409,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 );
 
 
-// Plugin "NetaTags".
+// Plugin "MetaTags".
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_metatags'] = 'layout,select_key,pages,recursive';
 
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_metatags'] = 'pi_flexform';
@@ -434,7 +434,6 @@ $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_downloadtool'
 	$_EXTKEY
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY.'_downloadtool', 'FILE:EXT:'.$_EXTKEY.'/Classes/Plugins/DownloadTool/flexform.xml');
-
 
 
 // Plugin "RelatedListTool".

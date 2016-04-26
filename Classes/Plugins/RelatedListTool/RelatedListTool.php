@@ -1,7 +1,7 @@
 <?php
 
 namespace EWW\Dpf\Plugins\RelatedListTool;
-    
+
 /***************************************************************
 *  Copyright notice
 *
@@ -28,7 +28,7 @@ namespace EWW\Dpf\Plugins\RelatedListTool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'DPF: RElatedListTool' for the 'dlf / dpf' extension. 
+ * Plugin 'DPF: RElatedListTool' for the 'dlf / dpf' extension.
  *
  * @author	Sebastian Meyer <sebastian.meyer@slub-dresden.de>
  * @author	Alexander Bigga <alexander.bigga@slub-dresden.de>
@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @access	public
  */
 class RelatedListTool extends \tx_dlf_plugin {
-	
+
 
 	/**
 	 * The main method of the PlugIn
@@ -68,8 +68,8 @@ class RelatedListTool extends \tx_dlf_plugin {
 		$this->loadDocument();
 
 		if ($this->doc === NULL) {
-			
-                        // Quit without doing anything if required variables are not set.                                                        
+
+			// Quit without doing anything if required variables are not set.
 			return $content;
 
 		}
@@ -101,40 +101,38 @@ class RelatedListTool extends \tx_dlf_plugin {
 						'additionalParams' => '&tx_dpf[qid]=' . $value['docId']. '&tx_dpf[action]=mets',
 						'forceAbsoluteUrl' => TRUE
 					);
-                                                                              
-                                        
-                                        $metsApiUrl = urlencode($this->cObj->typoLink_URL($confApi));
-                                                                               
-                                        $conf = array(
+
+					$metsApiUrl = urlencode($this->cObj->typoLink_URL($confApi));
+
+					$conf = array(
 						'useCacheHash' => 1,
 						'parameter' => $GLOBALS['TSFE']->page['uid'],
 						'additionalParams' => '&tx_dlf[id]=' . $metsApiUrl,
 						'forceAbsoluteUrl' => TRUE
 					);
-                                                                                                                       
+
 				} elseif($value['type'] == 'urn') {
 					// use urn link
-                                        $conf = array(
+					$conf = array(
 						'useCacheHash' => 0,
-						'parameter' => 'http://nbn-resolving.de/'.$value['docId'],						
+						'parameter' => 'http://nbn-resolving.de/'.$value['docId'],
 						'forceAbsoluteUrl' => TRUE
 					);
-                                        
+
 				} else {
-                                    
-                                        $conf = array(
-						'useCacheHash' => 0,											
+
+					$conf = array(
+						'useCacheHash' => 0,
 						'forceAbsoluteUrl' => TRUE
 					);
-                                    
-                                }
-				
+
+				}
+
 				$title = $value['title'] ? $value['title'] : $value['docId'];
 
-				// replace uid with URI to dpf API				                                                                                                                                                                                                                                         
+				// replace uid with URI to dpf API
+				$markerArray['###ITEM###'] = $this->cObj->typoLink($title, $conf);
 
-                                $markerArray['###ITEM###'] = $this->cObj->typoLink($title, $conf);
-                                
 				$content .= $this->cObj->substituteMarkerArray($subpartArray['items'], $markerArray);
 			}
 		}
@@ -144,24 +142,24 @@ class RelatedListTool extends \tx_dlf_plugin {
 	}
 
 	public function getRelatedItems()
-	{                                                  
-		$xPath = '//mods:relatedItem[@type="constituent"]';     
-                                               
-		$items = $this->doc->mets->xpath($xPath);                               
+	{
+		$xPath = '//mods:relatedItem[@type="constituent"]';
+
+		$items = $this->doc->mets->xpath($xPath);
 
 		foreach ($items as $key => $value) {
-                                                                                                   
-                        $title = (string)$value->xpath('mods:titleInfo/mods:title')[0];                                                                                                                                                                                         
 
-		        $type = (string)$value->xpath('mods:identifier/@type')[0];
-                                              
+			$title = (string)$value->xpath('mods:titleInfo/mods:title')[0];
+
+			$type = (string)$value->xpath('mods:identifier/@type')[0];
+
 			$docId = (string)$value->xpath('mods:identifier[@type="'.$type.'"]')[0];
 
 			$tempArray = array();
 			$tempArray['type'] = $type;
 			$tempArray['docId'] = $docId;
 			$tempArray['title'] = $title;
-                                                                                                              
+
 			$relatedItems[] = $tempArray;
 
 		}
