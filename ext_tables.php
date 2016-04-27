@@ -409,7 +409,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
 );
 
 
-// Plugin "NetaTags".
+// Plugin "MetaTags".
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_metatags'] = 'layout,select_key,pages,recursive';
 
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_metatags'] = 'pi_flexform';
@@ -434,3 +434,17 @@ $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_downloadtool'
 	$_EXTKEY
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY.'_downloadtool', 'FILE:EXT:'.$_EXTKEY.'/Classes/Plugins/DownloadTool/flexform.xml');
+
+
+// Plugin "RelatedListTool".
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_relatedlisttool'] = 'layout,select_key,pages,recursive';
+
+$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_relatedlisttool'] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+	array('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.dpf_relatedlisttool',
+		$_EXTKEY.'_relatedlisttool'),
+	'list_type',
+	$_EXTKEY
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($_EXTKEY.'_relatedlisttool', 'FILE:EXT:'.$_EXTKEY.'/Classes/Plugins/RelatedListTool/flexform.xml');
