@@ -8,7 +8,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
-        virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -48,21 +48,21 @@ CREATE TABLE tx_dpf_domain_model_document (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-        title varchar(1024) DEFAULT '' NOT NULL,
-        authors varchar(1024) DEFAULT '' NOT NULL,
+	title varchar(1024) DEFAULT '' NOT NULL,
+	authors varchar(1024) DEFAULT '' NOT NULL,
 	xml_data text NOT NULL,
-        slub_info_data text NOT NULL,
+	slub_info_data text NOT NULL,
 	document_type int(11) unsigned DEFAULT '0',
-        object_identifier varchar(255) DEFAULT '' NOT NULL,
-        reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
-        state varchar(255) DEFAULT '' NOT NULL,
-        transfer_status varchar(255) DEFAULT '' NOT NULL,
-        transfer_date int(11) DEFAULT '0' NOT NULL,
-        date_issued varchar(255) DEFAULT '' NOT NULL,
-        changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
-        valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	object_identifier varchar(255) DEFAULT '' NOT NULL,
+	reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
+	state varchar(255) DEFAULT '' NOT NULL,
+	transfer_status varchar(255) DEFAULT '' NOT NULL,
+	transfer_date int(11) DEFAULT '0' NOT NULL,
+	date_issued varchar(255) DEFAULT '' NOT NULL,
+	changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
-        file int(11) unsigned DEFAULT '0' NOT NULL,
+	file int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE tx_dpf_domain_model_document (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -138,7 +138,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -156,16 +156,16 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	display_name varchar(255) DEFAULT '' NOT NULL,
 	max_iteration int(11) DEFAULT '0' NOT NULL,
 	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
-        data_type varchar(255) DEFAULT '' NOT NULL,
-        validation varchar(255) DEFAULT '' NOT NULL,
+	data_type varchar(255) DEFAULT '' NOT NULL,
+	validation varchar(255) DEFAULT '' NOT NULL,
 	mapping varchar(255) DEFAULT '' NOT NULL,
-        mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	input_field int(11) DEFAULT '0' NOT NULL,
-        input_option_list int(11) unsigned DEFAULT '0',
-        default_value text NOT NULL,
-        fill_out_service varchar(255) DEFAULT '' NOT NULL,
-        backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
-        consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	input_option_list int(11) unsigned DEFAULT '0',
+	default_value text NOT NULL,
+	fill_out_service varchar(255) DEFAULT '' NOT NULL,
+	backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -189,12 +189,12 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
-        sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -209,9 +209,9 @@ CREATE TABLE tx_dpf_domain_model_documenttransferlog (
 	date int(11) DEFAULT '0' NOT NULL,
 	response text NOT NULL,
 	curl_error text NOT NULL,
-        action varchar(255) DEFAULT '' NOT NULL,
+	action varchar(255) DEFAULT '' NOT NULL,
 	document_uid int(11) unsigned DEFAULT '0',
-        object_identifier varchar(255) DEFAULT '' NOT NULL,
+	object_identifier varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -238,7 +238,7 @@ CREATE TABLE tx_dpf_domain_model_documenttransferlog (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -251,14 +251,14 @@ CREATE TABLE tx_dpf_domain_model_file (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
-        label varchar(255) DEFAULT '' NOT NULL,
-        download tinyint(4) unsigned DEFAULT '0' NOT NULL,
-        archive  tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	label varchar(255) DEFAULT '' NOT NULL,
+	download tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	archive  tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	content_type varchar(255) DEFAULT '' NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	status varchar(255) DEFAULT '' NOT NULL,
-        datastream_identifier varchar(255) DEFAULT '' NOT NULL,
-        primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	datastream_identifier varchar(255) DEFAULT '' NOT NULL,
+	primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	document int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -286,7 +286,7 @@ CREATE TABLE tx_dpf_domain_model_file (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -327,7 +327,7 @@ CREATE TABLE tx_dpf_domain_model_fedoraconnection (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -372,7 +372,7 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -417,13 +417,13 @@ CREATE TABLE tx_dpf_domain_model_client (
 
 	project varchar(255) DEFAULT '' NOT NULL,
 	client varchar(255) DEFAULT '' NOT NULL,
-        network_initial varchar(255) DEFAULT '' NOT NULL,
-        library_identifier varchar(255) DEFAULT '' NOT NULL,
-        owner_id varchar(255) DEFAULT '' NOT NULL,
-        admin_email varchar(255) DEFAULT '' NOT NULL,
-        replace_niss_part tinyint(1) unsigned DEFAULT '0' NOT NULL,
-        niss_part_search varchar(255) DEFAULT '' NOT NULL,
-        niss_part_replace varchar(255) DEFAULT '' NOT NULL,
+	network_initial varchar(255) DEFAULT '' NOT NULL,
+	library_identifier varchar(255) DEFAULT '' NOT NULL,
+	owner_id varchar(255) DEFAULT '' NOT NULL,
+	admin_email varchar(255) DEFAULT '' NOT NULL,
+	replace_niss_part tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	niss_part_search varchar(255) DEFAULT '' NOT NULL,
+	niss_part_replace varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -450,7 +450,7 @@ CREATE TABLE tx_dpf_domain_model_client (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
 
@@ -463,13 +463,13 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-        metadataObject int(11) unsigned DEFAULT '0' NOT NULL,
+	metadataObject int(11) unsigned DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	display_name varchar(255) DEFAULT '' NOT NULL,
-        value_list text NOT NULL,
-        value_label_list text NOT NULL,
-        default_value text NOT NULL,
+	value_list text NOT NULL,
+	value_label_list text NOT NULL,
+	default_value text NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -497,6 +497,6 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 
 );
