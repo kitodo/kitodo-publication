@@ -124,7 +124,7 @@ module.tx_dpf {
 
 
         settings {
-            previewPage = {$module.tx_dpf.settings.previewPage}
+            previewPage = {$module.tx_dpf.settings.previewPid}
             apiPid = {$plugin.tx_dpf.settings.apiPid}
             defaultValue {
                 fullTextLabel = {$module.tx_dpf.settings.defaultValue.fullTextLabel}
