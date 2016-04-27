@@ -53,16 +53,16 @@ CREATE TABLE tx_dpf_domain_model_document (
 	xml_data text NOT NULL,
         slub_info_data text NOT NULL,
 	document_type int(11) unsigned DEFAULT '0',
-        object_identifier varchar(255) DEFAULT '' NOT NULL,  
-        reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,  
-        state varchar(255) DEFAULT '' NOT NULL,              
-        transfer_status varchar(255) DEFAULT '' NOT NULL,               
+        object_identifier varchar(255) DEFAULT '' NOT NULL,
+        reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
+        state varchar(255) DEFAULT '' NOT NULL,
+        transfer_status varchar(255) DEFAULT '' NOT NULL,
         transfer_date int(11) DEFAULT '0' NOT NULL,
         date_issued varchar(255) DEFAULT '' NOT NULL,
-        changed tinyint(1) unsigned DEFAULT '0' NOT NULL, 
-        valid tinyint(1) unsigned DEFAULT '0' NOT NULL, 
-       
-        file int(11) unsigned DEFAULT '0' NOT NULL,	                
+        changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
+        valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
+
+        file int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -159,10 +159,10 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
         data_type varchar(255) DEFAULT '' NOT NULL,
         validation varchar(255) DEFAULT '' NOT NULL,
 	mapping varchar(255) DEFAULT '' NOT NULL,
-        mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,        
-	input_field int(11) DEFAULT '0' NOT NULL,      
+        mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	input_field int(11) DEFAULT '0' NOT NULL,
         input_option_list int(11) unsigned DEFAULT '0',
-        default_value text DEFAULT '' NOT NULL,
+        default_value text NOT NULL,
         fill_out_service varchar(255) DEFAULT '' NOT NULL,
         backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
         consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 	l10n_diffsource mediumblob,
 
         sorting int(11) unsigned DEFAULT '0' NOT NULL,
-     
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
@@ -212,7 +212,7 @@ CREATE TABLE tx_dpf_domain_model_documenttransferlog (
         action varchar(255) DEFAULT '' NOT NULL,
 	document_uid int(11) unsigned DEFAULT '0',
         object_identifier varchar(255) DEFAULT '' NOT NULL,
-      
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
@@ -257,8 +257,8 @@ CREATE TABLE tx_dpf_domain_model_file (
 	content_type varchar(255) DEFAULT '' NOT NULL,
 	link varchar(255) DEFAULT '' NOT NULL,
 	status varchar(255) DEFAULT '' NOT NULL,
-        datastream_identifier varchar(255),
-        primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,  
+        datastream_identifier varchar(255) DEFAULT '' NOT NULL,
+        primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	document int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -463,13 +463,13 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-        metadataObject int(11) unsigned DEFAULT '0' NOT NULL,        
+        metadataObject int(11) unsigned DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,	
-        value_list text   DEFAULT '' NOT NULL,
-        value_label_list text   DEFAULT '' NOT NULL,
-        default_value text DEFAULT '' NOT NULL,
+	display_name varchar(255) DEFAULT '' NOT NULL,
+        value_list text NOT NULL,
+        value_label_list text NOT NULL,
+        default_value text NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
