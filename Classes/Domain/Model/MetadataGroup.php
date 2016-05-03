@@ -283,30 +283,18 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             return $this->relativeMapping($this->mappingForReading);                                         
         }
 
-        
-        
-        /**
-	 * Returns the absolute mapping
-	 *
-         * @param string $relativeMapping
-	 * @return string $absoluteMapping
-	 */
-        protected function absoluteMapping($relativeMapping) {           
-                                  
-            if ($this->isSlubInfo($relativeMapping)) {
-                return "/slub:info/".$relativeMapping;   
-            } else {                   
-                return "/mods:mods/".$relativeMapping;      
-            }    
-        }
-        
+
         /**
          * Returns the absolute mapping for writing
          * 
          * @return string $absoluteMappingForWriting
          */
         public function getAbsoluteMapping() {
-            return $this->absoluteMapping($this->getRelativeMapping());
+			if ($this->isSlubInfo($this->getMapping())) {
+                return "/slub:info/".$this->getRelativeMapping();   
+            } else {                   
+                return "/mods:mods/".$this->getRelativeMapping();      
+            }
         }
         
         
@@ -316,7 +304,11 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
          * @return string $absoluteMappingForReading
          */
         public function getAbsoluteMappingForReading() {
-            return $this->absoluteMapping($this->getRelativeMappingForReading());
+            if ($this->isSlubInfo($this->getMappingForReading())) {
+                return "/slub:info/".$this->getRelativeMappingForReading();   
+            } else {                   
+                return "/mods:mods/".$this->getRelativeMappingForReading();      
+            } 
         }
         
         
