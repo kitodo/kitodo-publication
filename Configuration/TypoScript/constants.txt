@@ -28,7 +28,9 @@ plugin.tx_dpf {
 			# cat=plugin.tx_dpf/link; type=int+; label=Default Api PID
 			apiPid =
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
-			targetPid =
+			landingPage =
+			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
+			searchResultsPid =
         }
 }
 

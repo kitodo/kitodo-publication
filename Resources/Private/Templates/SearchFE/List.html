@@ -16,15 +16,17 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:section name="main">
 
     <div class="searchForm">
-      <f:form action="search" name="search" class="form-inline qucosa-search-form">
-        <div class="form-group fe-form-group">
-          <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
-        </div>
-        <f:form.button class="btn btn-default" type="submit">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          {f:translate(key: 'search.form.button.search')}
-        </f:form.button>
-      </f:form>
+
+        <f:form action="search" name="search" pageUid="{settings.searchResultsPid}" class="form-inline qucosa-search-form" noCache="1" noCacheHash="1">
+            <div class="form-group fe-form-group">
+                <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
+            </div>
+            <f:form.button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                {f:translate(key: 'search.form.button.search')}
+            </f:form.button>
+        </f:form>
+
     </div>
 
 	<f:render partial="SearchFE/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported, itemLinkMarker: itemLinkMarker}"/>
@@ -32,5 +34,5 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<div class="text-center">
 		<f:link.action id="next-results" controller="SearchFE" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action>
 	</div>
-	
+
 </f:section>

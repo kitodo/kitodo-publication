@@ -1,5 +1,8 @@
 
 plugin.tx_dpf {
+	mvc {
+		callDefaultActionIfActionCantBeResolved = 1
+	}
 	view {
 		templateRootPath = {$plugin.tx_dpf.view.templateRootPath}
 		partialRootPath = {$plugin.tx_dpf.view.partialRootPath}
@@ -31,7 +34,8 @@ plugin.tx_dpf {
                 fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
             }
 			apiPid = {$plugin.tx_dpf.settings.apiPid}
-			targetPid = {$plugin.tx_dpf.settings.targetPid}
+			landingPage = {$plugin.tx_dpf.settings.landingPage}
+			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
         }
 }
 

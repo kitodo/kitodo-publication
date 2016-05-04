@@ -7,7 +7,7 @@
                 <li>
                     <dl>
                         <dd>
-                            <f:link.page pageUid="{settings.targetPid}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
+                            <f:link.page pageUid="{settings.landingPage}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
                             {entry._source._dissemination._content.title.0}
                                 <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
                             </f:link.page>
@@ -25,8 +25,8 @@
                                     <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
                                 </f:then>
                                 <f:else>
-                                    - 
-                                </f:else>    
+                                    -
+                                </f:else>
                             </f:if>
                         </dd>
                     </dl>

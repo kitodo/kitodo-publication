@@ -205,7 +205,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
     {
         // convert date from dd.mm.yyy to yyyy-dd-mm
         $date = explode(".", $date);
-        return $date[2].'-'.$date[1].'-'.$date[0];
+        return $date[2] . '-' . $date[1] . '-' . $date[0];
     }
 
     public function searchFulltext()
@@ -217,7 +217,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
 
         // dont return query if keys not existing
         if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
-            return NULL;
+            return null;
         }
 
         $searchText = $this->escapeQuery($args['search']['query']);
@@ -267,12 +267,12 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         return $query;
     }
 
-    public function escapeQuery($string)
+    private function escapeQuery($string)
     {
         $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
         $string = preg_replace_callback(
             '/([' . $luceneReservedCharacters . '])/',
-            function($matches) {
+            function ($matches) {
                 return '\\' . $matches[0];
             },
             $string
@@ -368,7 +368,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         // save search query
         if ($query) {
             $query['body']['from'] = '0';
-            $query['body']['size'] = ''.self::RESULT_COUNT.'';
+            $query['body']['size'] = '' . self::RESULT_COUNT . '';
 
             if ($userGlobals) {
                 $sessionVars = $userGlobals->getSessionData("tx_dpf");
@@ -410,7 +410,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
 
-        if (is_a($document,'\EWW\Dpf\Domain\Model\Document')) {
+        if (is_a($document, '\EWW\Dpf\Domain\Model\Document')) {
             $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
             $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
             $json = $elasticsearchMapper->getElasticsearchJson($document);
@@ -421,4 +421,13 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         $this->redirect('search');
     }
 
+    /**
+     * action showSearchForm
+     *
+     * @return void
+     */
+    public function showSearchFormAction()
+    {
+
+    }
 }

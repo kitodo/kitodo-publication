@@ -434,6 +434,15 @@ Date: %s
 		<trans-unit id="tt_content.dpf_relatedlisttool">
 			<source>DPF: RelatedListTool</source>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.select_function">
+			<source>Select Function of Plugin</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchAndResults">
+			<source>Show Search and Result List</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.showSearchForm">
+			<source>Show Search Form only</source>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.apiPid">
 			<source>API Pid</source>
 		</trans-unit>
@@ -442,6 +451,12 @@ Date: %s
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.targetPid">
 			<source>Target page</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.landingPage">
+			<source>Landing Page</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsPid">
+			<source>Search Results on Page</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client">
 			<source>Client</source>

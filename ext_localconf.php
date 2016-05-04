@@ -36,8 +36,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
     'Frontendsearch',
-    array(                
-        'SearchFE' => 'search,list,nextResults',                
+    array(
+        'SearchFE' => 'search,list,nextResults,showSearchForm',
     ),
     // non-cacheable actions
     array(

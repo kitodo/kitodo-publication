@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-04-26T16:04:20Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-04T13:32:18Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -603,9 +603,29 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>API Pid</source>
 			<target>API Pid</target>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.landingPage" approved="yes">
+			<source>Landing Page</source>
+			<target>Landing Page</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchAndResults" approved="yes">
+			<source>Show Search and Result List</source>
+			<target>Suche und Ergebnisse</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsPid" approved="yes">
+			<source>Search Results on Page</source>
+			<target>Seite der Suchergebnisse</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.select_function" approved="yes">
+			<source>Select Function of Plugin</source>
+			<target>Funktion des Plugins</target>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.sheet_general" approved="yes">
 			<source>Options</source>
 			<target>Optionen</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.showSearchForm" approved="yes">
+			<source>Show Search Form only</source>
+			<target>Suchformular</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.targetPid" approved="yes">
 			<source>Target page</source>
