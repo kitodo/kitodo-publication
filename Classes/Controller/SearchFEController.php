@@ -368,7 +368,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         // save search query
         if ($query) {
             $query['body']['from'] = '0';
-            $query['body']['size'] = '' . self::RESULT_COUNT . '';
+            $query['body']['size'] = self::RESULT_COUNT;
 
             if ($userGlobals) {
                 $sessionVars = $userGlobals->getSessionData("tx_dpf");
