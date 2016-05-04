@@ -77,20 +77,20 @@ if (TYPO3_MODE === 'BE') {
 
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	$_EXTKEY,
+	'EWW.' . $_EXTKEY,
 	'Qucosaform',
 	'DPF: QucosaForm'
 );
 
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	$_EXTKEY,
+	'EWW.' . $_EXTKEY,
 	'Qucosaxml',
 	'DPF: QucosaXml'
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $_EXTKEY,
+	'EWW.' . $_EXTKEY,
     'Frontendsearch',
     'DPF: FrontendSearch'
 );
