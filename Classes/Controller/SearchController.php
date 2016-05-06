@@ -316,7 +316,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      //   die();
         $results = $elasticSearch->search($query, $type);
 
-        return $results;
+        return $results['hits'];
     }
 
     public function extendedSearchAction()
@@ -516,7 +516,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         $this->view->assign('document', $document);
-        $this->view->assign('searchList', $results);
+        $this->view->assign('searchList', $results['hits']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
     }

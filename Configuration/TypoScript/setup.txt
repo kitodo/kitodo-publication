@@ -30,7 +30,23 @@ plugin.tx_dpf {
 	}
 
         settings {
-            defaultValue {
+			# --------------
+			#  List
+			# --------------
+			list {
+				# Paginate configuration.
+				paginate {
+					itemsPerPage = 20
+					insertAbove = TRUE
+					insertBelow = TRUE
+					lessPages = TRUE
+					forcedNumberOfLinks = 5
+					pagesBefore = 3
+					pagesAfter = 3
+				}
+			}
+
+			defaultValue {
                 fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
             }
 			apiPid = {$plugin.tx_dpf.settings.apiPid}

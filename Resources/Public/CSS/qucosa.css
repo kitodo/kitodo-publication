@@ -62,7 +62,6 @@
 /* -- basic setup ------------------------------------------------------------------------ */
 .tx-dpf {
 	position:relative;
-	padding-top:60px;
 }
 
 .tx-dpf h2 {
@@ -176,17 +175,17 @@
 }
 
 .hasDatepicker button.add_field {
-    right: 44px !important; 
+    right: 44px !important;
 }
 
 .hasDatepicker button.rem_field {
-    right: 73px !important; 
+    right: 73px !important;
 }
 
 
 .tx-dpf .form-container button:active {
 	bottom:3px;
-	top:auto;        
+	top:auto;
 }
 
 .tx-dpf button.add_group,.tx-dpf button.add_file_group {
@@ -254,15 +253,15 @@
 }
 
 .tx-dpf ol li {
-    list-style: none; 
-}    
+    list-style: none;
+}
 
 .btn-edit-discard {
     margin-left: 10px;
 }
 
 /* -- error handling -------------------------------------------------------------------- */
-select.invalid-error,textarea.invalid-error,input.invalid-error, 
+select.invalid-error,textarea.invalid-error,input.invalid-error,
 select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
 	border:1px solid #c00!important;
 }
@@ -292,5 +291,18 @@ dd.date {
 	float:right;
 }
 
+.f3-widget-paginator {
+	display: inline-block;
+	width: 100%;
+}
 
+.f3-widget-paginator li {
+	float: left;
+}
+.f3-widget-paginator li.next {
+	float: right;
+}
+.f3-widget-paginator li.previous {
+	padding-right: 10px;
+}
 /* EOF */

@@ -381,7 +381,7 @@ Date: %s
 			<source>Inactive/Deleted</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.query">
-			<source>Query</source>
+			<source>Search String</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.title">
 			<source>Title</source>
@@ -424,6 +424,15 @@ Date: %s
 		</trans-unit>
 		<trans-unit id="search.resultList.title">
 			<source>Title</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.documentsFound">
+			<source>documents found.</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.documentFound">
+			<source>document found.</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.nothingFound">
+			<source>No results for your search.</source>
 		</trans-unit>
 		<trans-unit id="tt_content.dpf_downloadtool">
 			<source>DPF: DownloadTool</source>
@@ -718,6 +727,12 @@ Date: %s
 		</trans-unit>
 		<trans-unit id="tx_dpf_qucosaform.options">
 			<source>Options</source>
+		</trans-unit>
+		<trans-unit id="widget.pagination.next">
+			<source>next</source>
+		</trans-unit>
+		<trans-unit id="widget.pagination.previous">
+			<source>previous</source>
 		</trans-unit>
 		</body>
 	</file>

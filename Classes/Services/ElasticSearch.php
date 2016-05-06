@@ -46,31 +46,31 @@ class ElasticSearch
 
     protected $resultList;
 
-    
+
     /**
      * elasticsearch client constructor
      */
     public function __construct()
     {
-        
+
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
         $this->server = $confArr['elasticSearchHost'];
         $this->port = $confArr['elasticSearchPort'];
-     
+
         // initialize elasticsearch lib
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
         require_once($extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php');
-        
+
         $params['hosts'] = array (
             $this->server.':'.$this->port,
         );
-        
+
         // $client = ClientBuilder::create()->build();
         $this->es = new Client($params);
 
         // establish connection
         // $this->es = new Client($params);
-                
+
     }
 
     /**
@@ -94,7 +94,7 @@ class ElasticSearch
 
         $this->hits = $results['hits']['total'];
 
-        $this->resultList = $results['hits']['hits'];
+        $this->resultList = $results['hits'];
 
         return $this->resultList;
     }

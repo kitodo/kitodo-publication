@@ -37,11 +37,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Frontendsearch',
     array(
-        'SearchFE' => 'search,list,nextResults,showSearchForm',
+        'SearchFE' => 'search,showSearchForm',
     ),
     // non-cacheable actions
     array(
-        'SearchFE' => 'search,list,nextResults',
+        'SearchFE' => 'search',
     )
 );
 

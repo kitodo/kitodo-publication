@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-04T13:32:18Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-06T13:13:49Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -382,8 +382,7 @@ Author: %s
 URL: %s
 Date: %s
 				</source>
-			<target>
-Sehr geehrte/r %s,
+			<target>Sehr geehrte/r %s,
 
 die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
 
@@ -408,8 +407,7 @@ Author: %s
 URN: %s
 Date: %s
 				</source>
-			<target>
-Ein neues Dokument wurde angemeldet:
+			<target>Ein neues Dokument wurde angemeldet:
 Submitter: %s
 Title: %s
 Author: %s
@@ -430,8 +428,7 @@ Author: %s
 URN: %s
 Date: %s
 				</source>
-			<target>
-Sehr geehrte/r %s,
+			<target>Sehr geehrte/r %s,
 
 wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
 
@@ -528,8 +525,8 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<target>Inaktive/Gelöscht</target>
 		</trans-unit>
 		<trans-unit id="search.form.label.query" approved="yes">
-			<source>Query</source>
-			<target>Abfrage</target>
+			<source>Search String</source>
+			<target>Suchbegriff</target>
 		</trans-unit>
 		<trans-unit id="search.form.label.title" approved="yes">
 			<source>Title</source>
@@ -547,6 +544,14 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>ID</source>
 			<target>ID</target>
 		</trans-unit>
+		<trans-unit id="search.resultList.documentFound" approved="yes">
+			<source>document found.</source>
+			<target>Dokument gefunden.</target>
+		</trans-unit>
+		<trans-unit id="search.resultList.documentsFound" approved="yes">
+			<source>documents found.</source>
+			<target>Dokumente gefunden.</target>
+		</trans-unit>
 		<trans-unit id="search.resultList.identifier" approved="yes">
 			<source>Identifier</source>
 			<target>Identifier</target>
@@ -554,6 +559,10 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="search.resultList.more" approved="yes">
 			<source>More results</source>
 			<target>Mehr Ergebnisse</target>
+		</trans-unit>
+		<trans-unit id="search.resultList.nothingFound" approved="yes">
+			<source>No results for your search.</source>
+			<target>Keine Ergebnisse für Ihre Suche.</target>
 		</trans-unit>
 		<trans-unit id="search.resultList.publicationDate" approved="yes">
 			<source>Publication date</source>
@@ -978,6 +987,14 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="tx_dpf_qucosaform.options" approved="yes">
 			<source>Options</source>
 			<target>Options</target>
+		</trans-unit>
+		<trans-unit id="widget.pagination.next" approved="yes">
+			<source>next</source>
+			<target>nächste</target>
+		</trans-unit>
+		<trans-unit id="widget.pagination.previous" approved="yes">
+			<source>previous</source>
+			<target>vorherige</target>
 		</trans-unit>
 		</body>
 	</file>
