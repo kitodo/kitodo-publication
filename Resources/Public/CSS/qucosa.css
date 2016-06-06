@@ -14,7 +14,7 @@
 
 /* -- redesigning tabs to sticky nav ----------------------------------------------------- */
 #content .tx-dpf-tab-container {
-	position:absolute;
+	/* position:absolute; */
 	top:15px;
 	right:-90px;
 }
@@ -30,7 +30,7 @@
 	position:relative;
 	background:#eee;
 	background:rgba(255,255,255,0.9);
-	width:600px;
+	/* width:600px; */
 	border-radius:0 15px;
 	box-shadow:2px 2px 12px rgba(0,0,0,0.25);
 	padding:12px;
@@ -47,7 +47,7 @@
 }
 
 #content .tx-dpf-tabs li a {
-	padding:5px 10px;
+	padding:5px 8px;
 	border:0 none;
 	border-radius:4px;
 }
