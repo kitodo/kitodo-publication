@@ -31,6 +31,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
   <f:form.hidden id="validDocument" property="validDocument" value="0" />
   <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
+<f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
+  <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
+      <span class="glyphicon glyphicon-remove"></span>
+      {f:translate(key: 'form_button.cancel')}
+    </f:form.button>
+</f:form>
+
 <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
     <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
                                                  

@@ -355,15 +355,19 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
           $this->redirectToList();
 	}
         
-	                                                                                          
+	               
+  /**
+   * action cancel
+   *
+   * @return void
+   */
+    public function cancelAction() {
+        $this->redirectToList();  
+    }
+
+
     public function initializeAction() {
-      parent::initializeAction();
-                                           
-      $requestArguments = $this->request->getArguments();    
-                           
-      if (key_exists('cancel', $requestArguments)) {         
-        $this->redirectToList();         
-      }
+      parent::initializeAction();                                                 
     }    
     
     

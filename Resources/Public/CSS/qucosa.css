@@ -249,6 +249,10 @@
 	float:left;
 }
 
+#form_cancel {
+	float:right;
+}
+
 .tx-dpf button .glyphicon {
 	top:0;
 	left:1px;
