@@ -29,7 +29,7 @@ namespace EWW\Dpf\Controller;
 
 /**
  * DocumentFormController
- */
+ */                                                   
 abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
@@ -87,11 +87,10 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                                          
 	/**
 	 * action list
-	 *
-         * @param boolean $success 
+	 *     
 	 * @return void
 	 */
-	public function listAction($success = FALSE) {
+	public function listAction() {
             
 		$documents = $this->documentRepository->findAll();
                 
@@ -114,8 +113,15 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 foreach ($data as $item) {
                     $docTypes[] = $item['type']; 
                 }        
-                
-                $this->view->assign('success', $success);
+
+                if ($this->request->hasArgument('message') ) {
+                  $this->view->assign('message', $this->request->getArgument('message'));    
+                }
+
+                if ($this->request->hasArgument('errorFiles') ) {
+                  $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));    
+                }
+              
                 $this->view->assign('listtype', $this->settings['listtype']);
                 
                 $this->view->assign('documentTypes', $docTypes);                                
@@ -177,19 +183,29 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	}
 
               
-        public function initializeCreateAction() {
-        
-            $requestArguments = $this->request->getArguments();                                                                 
-        
-            $documentData = $this->request->getArgument('documentData');
-                        
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            $formDataReader->setFormData($documentData);
-            $docForm = $formDataReader->getDocumentForm();
-            
-            $requestArguments['newDocumentForm'] = $docForm;
-            $this->request->setArguments($requestArguments);                                                   
-        }
+  public function initializeCreateAction() {
+
+      $requestArguments = $this->request->getArguments();                                                                 
+                      
+      if ( $this->request->hasArgument('documentData') ) {
+        $documentData = $this->request->getArgument('documentData');            
+                  
+        $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+        $formDataReader->setFormData($documentData);
+                      
+        $docForm = $formDataReader->getDocumentForm();             
+        $requestArguments['newDocumentForm'] = $docForm;                
+               
+        if (!$formDataReader->uploadError()) {                                                                                        
+            $this->request->setArguments($requestArguments);    
+        } else {          
+          $t = $docForm->getNewFileNames();
+          $this->redirect('list','DocumentForm',NULL,array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));                
+        }   
+      } else {                       
+        $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+      } 
+  }
         
         
 	/**
@@ -253,7 +269,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));   
           }                              
                                                             
-          $this->redirectToList(TRUE);
+          $this->redirectToList('CREATE_OK');
 	}
 
                 
@@ -287,18 +303,28 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 	}
 
         
-        public function initializeUpdateAction() {          
-            $requestArguments = $this->request->getArguments();                                                                 
-        
-            $documentData = $this->request->getArgument('documentData');
-                                   
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            $formDataReader->setFormData($documentData);
-            $docForm = $formDataReader->getDocumentForm();
-            
-            $requestArguments['documentForm'] = $docForm;
-            $this->request->setArguments($requestArguments);                                                    
-        }
+  public function initializeUpdateAction() {          
+      $requestArguments = $this->request->getArguments();                                                                 
+  
+    if ( $this->request->hasArgument('documentData') ) {
+      $documentData = $this->request->getArgument('documentData');
+                             
+      $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+      $formDataReader->setFormData($documentData);
+      $docForm = $formDataReader->getDocumentForm();
+      
+      $requestArguments['documentForm'] = $docForm;                                                    
+
+      if (!$formDataReader->uploadError()) {                                                                                        
+        $this->request->setArguments($requestArguments);    
+      } else {          
+        $t = $docForm->getNewFileNames();       
+        $this->redirect('list','Document',NULL,array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));                
+      }   
+    } else {
+      $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+    } 
+  }
         
         
 	/**
@@ -369,9 +395,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
     public function initializeAction() {
       parent::initializeAction();                                                 
     }    
-    
-    
-    protected function redirectToList($success=FALSE) {
+      
+    protected function redirectToList($message=NULL) {
       $this->redirect('list');  
     }
 

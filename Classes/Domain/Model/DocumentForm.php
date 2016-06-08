@@ -218,6 +218,14 @@ class DocumentForm extends AbstractFormElement {
   public function setValid($valid) {
       $this->valid = $valid;
   }
+
+  public function getNewFileNames() {
+    $fileNames = array();    
+    foreach ($this->getNewFiles() as $file) {
+      $fileNames[] = $file->getTitle();     
+    }
+    return $fileNames;
+  }
   
 }
 

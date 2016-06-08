@@ -311,4 +311,14 @@ dd.date {
 .f3-widget-paginator li.previous {
 	padding-right: 10px;
 }
+
+ul.error-files-backbutton {
+	margin: 10px 0 10px 0 !important;	
+}
+
+ul.error-files-backbutton li {
+	list-style: disc;
+	margin-left: 13px;
+}
+
 /* EOF */

@@ -57,6 +57,18 @@
 			<source>Document successfully created.</source>
 			<target>Das Dokument wurde erfolgreich angelegt.</target>
 		</trans-unit>
+		<trans-unit id="documentForm.uploadPostError">
+			<source>Document couldn't be saved. Error while uploading files.</source>
+			<target>Das Dokument konnte nicht gespeichert werden. Fehler beim Dateiupload.</target>
+		</trans-unit>		
+		<trans-unit id="documentForm.uploadError">
+			<source>Document couldn't be saved. File size limit exceeded:</source>
+			<target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>
+		</trans-unit>
+		<trans-unit id="documentForm.goBack">
+			<source>go back</source>
+			<target>zurück</target>
+		</trans-unit>
 		<trans-unit id="documentForm.edit.header" approved="yes">
 			<source>Edit %s</source>
 			<target>% bearbeiten</target>
