@@ -254,13 +254,6 @@ class DocumentTransferManager
                 $this->fileRepository->add($file);
             }
 
-//        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-            //        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
-            //        $doc = $this->documentRepository->findByUID($document->getUID());
-            //        $json = $elasticsearchMapper->getElasticsearchJson($doc);
-            //        // send document to index
-            //        $elasticsearchRepository->add($doc, $json);
-
             return true;
 
         } else {

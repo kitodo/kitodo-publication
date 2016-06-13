@@ -72,7 +72,6 @@ class GetFile
                 // prevents passing of the supplement-parameter. The proper way would be using the
                 // defined dissemination methods.
                 $path = rtrim('http://' . $extConf['fedoraHost'], "/") . '/mets/?pid=' . $piVars['qid'] . '&supplement';
-                //$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
                 break;
             case 'preview':
 

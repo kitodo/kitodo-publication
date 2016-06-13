@@ -130,10 +130,6 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
 
         if ($this->isValidClientFolder()) {
-            // $newClient = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\Client');
-
-            //$newClient->setClient("Ein neuer Mandant");
-            //$newClient->setPid($this->selectedPageUid);
             $newClient->setPid($this->selectedPageUid);
             $this->clientRepository->add($newClient);
 

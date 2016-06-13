@@ -12,8 +12,6 @@ class ActiveManagerMenuViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
     public function render($controllerName, $actionName = '')
     {
 
-        //$this->controllerContext->getRequest()->getControllerActionName()
-
         if ($this->controllerContext->getRequest()->getControllerName() == $controllerName) {
 
             if (empty($actionName)) {

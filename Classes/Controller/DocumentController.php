@@ -221,7 +221,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $json                = $elasticsearchMapper->getElasticsearchJson($newDocument);
 
         $elasticsearchRepository->add($newDocument, $json);
-        // $elasticsearchRepository->delete($updateDocument);
 
         $this->redirect('list');
     }
@@ -455,23 +454,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $this->redirect('list');
     }
-
-    // this destroys settings from typoscript inside backend module
-    // --> not necessary?
-    //        public function initializeAction() {
-    //            parent::initializeAction();
-    //
-    //
-    //            if(TYPO3_MODE === 'BE') {
-    //                $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
-    //
-    //                $this->settings = $configManager->getConfiguration(
-    //                    $this->request->getControllerExtensionName(),
-    //                    $this->request->getPluginName()
-    //                );
-    //           }
-    //
-    //        }
 
     protected function getStoragePID()
     {

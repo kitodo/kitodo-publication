@@ -110,7 +110,6 @@ class DocumentMapper
                 // get fixed attributes from xpath configuration
                 $fixedGroupAttributes = array();
 
-                //$groupMappingPathParts = explode('/',$metadataGroup->getAbsoluteMapping());
                 preg_match_all('/[A-Za-z0-9:@\.]+(\[@.*?\])*/', $metadataGroup->getAbsoluteMapping(), $groupMappingPathParts);
                 $groupMappingPathParts = $groupMappingPathParts[0];
 
@@ -167,7 +166,6 @@ class DocumentMapper
 
                             $objectMapping = "";
 
-                            //$objectMappingPath = explode("/", $metadataObject->getRelativeMapping());
                             preg_match_all('/[A-Za-z0-9:@\.]+(\[@.*?\])*/', $metadataObject->getRelativeMapping(), $objectMappingPath);
                             $objectMappingPath = $objectMappingPath[0];
 
@@ -215,7 +213,6 @@ class DocumentMapper
                                         }
                                     }
 
-                                    //$objectValue = htmlspecialchars_decode($objectValue,ENT_QUOTES);
                                     $objectValue = str_replace('"', "'", $objectValue);
 
                                     $documentFormFieldItem->setValue($objectValue, $metadataObject->getDefaultValue());
@@ -373,7 +370,6 @@ class DocumentMapper
                                 }
                             }
 
-                            // $value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');
                             $value = str_replace('"', "'", $value);
                             if ($value) {
                                 $formField['modsExtension'] = $metadataObject->getModsExtension();

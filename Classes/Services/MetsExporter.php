@@ -200,9 +200,6 @@ class MetsExporter
         $modsWrap->encoding     = 'UTF-8';
 
         $this->metsData = $modsWrap;
-
-        // print_r($modsWrap->saveXML());
-        // return $modsWrap->saveXML();
     }
 
     /**
@@ -240,7 +237,6 @@ class MetsExporter
         foreach ($array['metadata'] as $key => $group) {
             //groups
             $mapping = $group['mapping'];
-            // $mapping = substr($mapping, 10);
 
             $values     = $group['values'];
             $attributes = $group['attributes'];
@@ -279,7 +275,6 @@ class MetsExporter
                         $xml = $this->customXPath($path, false, $value['value']);
                     } else {
                         $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
-                        // print_r($path);print_r("\n");
 
                         if ($i == 0) {
                             $newGroupFlag = true;
@@ -308,7 +303,6 @@ class MetsExporter
             }
         }
 
-        // var_dump($this->xmlData->saveXML());
         $this->modsData = $this->xmlData;
         $this->files    = $array['files'];
     }
@@ -359,7 +353,6 @@ class MetsExporter
                 $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
-            //$modsDataXPath = new \DOMXpath($this->xmlData);
             $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
             if (!$newGroupFlag && $modsDataXPath->query('/mods:mods/' . $newPath[0])->length > 0) {
@@ -371,7 +364,6 @@ class MetsExporter
                 $docXML = new \DOMDocument();
                 $docXML->loadXML($this->wrapMods($xml));
 
-                //$domXPath = new \DOMXpath($this->xmlData);
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
                 $domNode = $domXPath->query('/mods:mods/' . $path);
@@ -390,7 +382,6 @@ class MetsExporter
                 $doc1 = new \DOMDocument();
                 $doc1->loadXML($this->wrapMods($xml1));
 
-                //$domXPath = new \DOMXpath($doc1);
                 $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
 
                 $domNode = $domXPath->query('/mods:mods/' . $path);
@@ -401,16 +392,13 @@ class MetsExporter
                 $doc2 = new \DOMDocument();
                 $doc2->loadXML($this->wrapMods($xml2));
 
-                //$domXPath2 = new \DOMXpath($doc2);
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
 
                 $domNode2 = $domXPath2->query('/mods:mods/' . $path)->item(0)->childNodes->item(0);
 
-                // $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
-
                 // merge xml nodes
                 $nodeToBeAppended = $doc1->importNode($domNode2, true);
-                // $doc1->documentElement->appendChild($nodeToBeAppended);
+
                 $domNode->item(0)->appendChild($nodeToBeAppended);
 
                 // add to modsData (merge not required)
@@ -430,7 +418,6 @@ class MetsExporter
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapMods($xml));
 
-            //$domXPath = new \DOMXpath($this->xmlData);
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/mods:mods');
 
@@ -474,7 +461,6 @@ class MetsExporter
                 $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
-            //$modsDataXPath = new \DOMXpath($this->xmlData);
             $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
             if (!$newGroupFlag && $modsDataXPath->query('/slub:info/' . $newPath[0])->length > 0) {
@@ -486,7 +472,6 @@ class MetsExporter
                 $docXML = new \DOMDocument();
                 $docXML->loadXML($this->wrapSlub($xml));
 
-                //$domXPath = new \DOMXpath($this->xmlData);
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
                 $domNode  = $domXPath->query('/slub:info/' . $path);
 
@@ -506,7 +491,6 @@ class MetsExporter
                     throw new \Exception("Couldn't load xml in function customXPathSlub!");
                 }
 
-                //$domXPath = new \DOMXpath($doc1);
                 $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
                 $domNode  = $domXPath->query('/slub:info/' . $path);
 
@@ -518,7 +502,6 @@ class MetsExporter
                     throw new \Exception("Couldn't load xml in customXPathSlub!");
                 }
 
-                //$domXPath2 = new \DOMXpath($doc2);
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
 
                 // node that should be appended
@@ -527,7 +510,6 @@ class MetsExporter
                 // merge xml nodes
                 $nodeToBeAppended = $doc1->importNode($domNode2, true);
 
-                // $doc1->documentElement->appendChild($nodeToBeAppended);
                 $domNode->item(0)->appendChild($nodeToBeAppended);
 
                 // add to modsData (merge not required)
@@ -548,7 +530,6 @@ class MetsExporter
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapSlub($xml));
 
-            //$domXPath = new \DOMXpath($this->xmlData);
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/slub:info');
 
@@ -623,40 +604,6 @@ class MetsExporter
         $this->modsData = $domDocument;
     }
 
-    // public function slubInfo($value = '')
-    // {
-    //     # NOT IMPLEMENTED YET
-
-    //     $slub = '<mets:amdSec ID="AMD_000">
-    //     <mets:rightsMD ID="RIGHTS_000">
-    //     <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml">
-    //     <mets:xmlData>
-    //     <slub:info xmlns:slub="http://slub-dresden.de/">
-    //       <slub:documentType>'.$value['documentType'].'</slub:documentType>
-    //       <slub:submitter>
-    //         <slub:name>Frau Administrator</slub:name>
-    //         <slub:contact>mailto:qucosa.admin@slub-dresden.de</slub:contact>
-    //       </slub:submitter>
-
-    //       <slub:project>OpenAire Project Name</slub:project>
-    //       <slub:client>Mandant</slub:client>
-    //       <slub:rights>
-    //         <slub:license valueURI="URI der Lizenz">Lizenzangabe</slub:license>
-    //         <slub:embargo encoding="iso8601">2014-11-26</slub:embargo>
-    //         <slub:accessDNB>true</slub:accessDNB>
-    //         <slub:accessPOD>true</slub:accessPOD>
-    //       </slub:rights>
-    //     </slub:info>
-    //     </mets:xmlData>
-    //     </mets:mdWrap>
-    //     </mets:rightsMD>
-    //     </mets:amdSec>';
-
-    //     $domDocument = new \DOMDocument();
-    //     $domDocument->loadXML($slub);
-    //     $this->slubData = $domDocument;
-    // }
-
     public function setFileData($value = '')
     {
         $this->files = $value;
@@ -729,9 +676,6 @@ class MetsExporter
             $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
             $fileGrpOriginal->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
             $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
-            //$domElement->appendChild($fileGrpOriginal);
-
-            //$domElement = $domElement->firstChild;
 
             // loop xml file entries
             if (!empty($this->files['original'])) {
@@ -745,9 +689,6 @@ class MetsExporter
             $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
             $fileGrpDownload->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
             $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
-//            $domElement->appendChild($fileGrpDownload);
-
-//            $domElement = $domElement->firstChild;
 
             // loop xml
             if (!empty($this->files['download'])) {
@@ -811,46 +752,6 @@ class MetsExporter
         $this->slubData = $domDocument;
     }
 
-    // public function buildSlubWrap()
-    // {
-    //     $domDocument = new \DOMDocument();
-    //     $domDocument->loadXML('<mets:amdSec ID="AMD_000"></mets:amdSec>');
-
-    //     $domWrapElement = $domDocument->firstChild;
-
-    //     $wrapDocumentRights = $domDocument->createElement('mets:techMD');
-    //     $wrapDocumentRights->setAttribute('ID', 'TECH_000');
-
-    //     $domWrapElement->appendChild($wrapDocumentRights);
-
-    //     $domWrapElement = $domWrapElement->firstChild;
-
-    //     $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
-    //     $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
-    //     $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBINFO');
-    //     $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
-
-    //     $domWrapElement->appendChild($wrapDocumentMD);
-
-    //     $domWrapElement = $domWrapElement->firstChild;
-
-    //     $wrapDocumentData = $domDocument->createElement('mets:xmlData');
-    //     $domWrapElement->appendChild($wrapDocumentData);
-
-    //     $domWrapElement = $domWrapElement->firstChild;
-
-    //     $second = $this->slubData;
-    //     // $second = $second->documentElement;
-
-    //     foreach($second->childNodes as $node) {
-    //         $importNode = $domDocument->importNode($node, true);
-    //         $domWrapElement->appendChild($importNode);
-    //     }
-
-    //     $this->slubMetsData = $domDocument;
-
-    // }
-
     /**
      * Builds the xml slubInfo part
      * @param  Array $array Array with slub information
@@ -858,7 +759,6 @@ class MetsExporter
      */
     public function buildMetsSlub()
     {
-        // <mets:amdSec ID="AMD_000"><mets:rightsMD ID="RIGHTS_000"><mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml"><mets:xmlData>
         $domDocument = new \DOMDocument();
         $domDocument->loadXML('<mets:amdSec ID="AMD_000" xmlns:mets="http://www.loc.gov/METS/"></mets:amdSec>');
         $domWrapElement = $domDocument->firstChild;
@@ -885,78 +785,13 @@ class MetsExporter
         $domWrapElement = $domWrapElement->firstChild;
 
         $second = $this->slubData;
-        // $second = $second->documentElement;
 
         foreach ($second->childNodes as $node) {
             $importNode = $domDocument->importNode($node, true);
             $domWrapElement->appendChild($importNode);
         }
 
-        // $this->slubMetsData = $domDocument;
-
         return $domDocument;
-
-        // // $domDocument = new \DOMDocument();
-        // // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
-
-        // $domSlub = $domDocument->createElement('slub:info');
-        // $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/');
-
-        // $domWrapElement->appendChild($domSlub);
-
-        // $domWrapElement = $domWrapElement->firstChild;
-
-        // $domElement = $domWrapElement;
-
-        // $submitter = $domDocument->createElement('slub:submitter');
-        // $domElement->appendChild($submitter);
-
-        // $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
-        // $domElement->appendChild($documentType);
-
-        // $project = $domDocument->createElement('slub:project', $array['project']);
-        // $domElement->appendChild($project);
-
-        // $client = $domDocument->createElement('slub:client', $array['client']);
-        // $domElement->appendChild($client);
-
-        // $rights = $domDocument->createElement('slub:rights');
-        // $domElement->appendChild($rights);
-
-        // $domElementRights = $domElement->lastChild;
-
-        // // submitter second level
-        // $domElement = $domElement->firstChild;
-
-        // $name = $domDocument->createElement('slub:name', $array['name']);
-        // $domElement->appendChild($name);
-
-        // $contact = $domDocument->createElement('slub:contact', $array['contact']);
-        // $domElement->appendChild($contact);
-
-        // //rights second level
-        // $domElement = $domElementRights;
-
-        // $license = $domDocument->createElement('slub:license');
-        // $license->setAttribute('valueURI', $array['']);
-        // $domElement->appendChild($license);
-
-        // $embargo = $domDocument->createElement('slub:embargo', $array['embargo']);
-        // $embargo->setAttribute('encoding', 'iso8601');
-        // $domElement->appendChild($embargo);
-
-        // $accessDNB = $domDocument->createElement('slub:accessDNB', $array['accessDNB']);
-        // $domElement->appendChild($accessDNB);
-
-        // $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
-        // $domElement->appendChild($accessPOD);
-
-        // // append wrapped element
-        // // $domWrapElement->appendChild($domDocument);
-
-        // $this->slubData = $domDocument;
-
-        // // return $domDocument;
 
     }
 

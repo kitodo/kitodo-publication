@@ -27,7 +27,6 @@ class ElasticsearchMapper
         // xslt
         $xsl = new \DOMDocument;
 
-        // $xsl->load($extPath.'/'.'Resources/Private/XSLT/METS-MODS-XML2JSON.xml');
         $xsl->load($xsltDoc);
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
@@ -37,7 +36,6 @@ class ElasticsearchMapper
         // slub:info
         $exporter->setSlubInfo($document->getSlubInfoData());
 
-        // $exporter->setSlubInfo(array('documentType' => $document->getDocumentType()->getName()));
         $exporter->setMods($document->getXmlData());
         $exporter->buildMets();
         $metsXml = $exporter->getMetsData();

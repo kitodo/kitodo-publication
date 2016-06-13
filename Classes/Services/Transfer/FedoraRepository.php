@@ -141,8 +141,6 @@ class FedoraRepository implements Repository
     public function retrieve($remoteId)
     {
 
-//    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
-
         try {
             $response = Request::get($this->fedoraHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")
                 ->authenticateWith($this->fedoraUser, $this->fedoraPassword)
@@ -172,8 +170,6 @@ class FedoraRepository implements Repository
      */
     public function getNextDocumentId()
     {
-
-//    fedora/objects/qucosa:136/methods/qucosa:SDef/getMETSDissemination
 
         try {
             $response = Request::get($this->fedoraHost . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")

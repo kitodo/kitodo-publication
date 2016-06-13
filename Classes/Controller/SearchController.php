@@ -192,8 +192,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         }
 
         if (isset($filter['gte']) || isset($filter['lte'])) {
-            // "format": "dd/MM/yyyy
-            // $filter['format'] = 'dd.MM.yyyy';
             $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
         }
 
@@ -233,12 +231,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
         $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
-
-        // $query['body']['query']['fields'][0] = "PID";
-        // $query['body']['query']['fields'][1] = "_dissemination._content.PUB_TITLE";
-        // $query['body']['query']['fields'][2] = "_dissemination._content.PUB_AUTHOR";
-        // $query['body']['query']['fields'][3] = "_dissemination._content.PUB_DATE";
-        // $query['body']['query']['fields'][4] = "_dissemination._content.PUB_TYPE";
 
         // extra information
         // dont use it for elastic query
@@ -369,7 +361,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         // set sorting
-        // $query['body']['sort']['PID']['order'] = 'asc';
         if ($args['extSearch']) {
             // extended search
             $query = $this->extendedSearch();
@@ -443,7 +434,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         );
 
         $this->forward('updateIndex', null, null, array('documentObjectIdentifier' => $documentObjectIdentifier));
-        //$this->redirect('search');
     }
 
     /**
@@ -496,15 +486,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // is doublet existing?
         $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
-        // $query['body']['query']['bool']['must'][]['match']['author'] = $document->getAuthors()[0];
 
         // set owner id
         $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
 
         $results = $elasticSearch->search($query, '');
-
-        // redirect to list view
-        //$this->forward("list", null, null, array('results' => $results));
 
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 

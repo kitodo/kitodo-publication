@@ -21,7 +21,6 @@ class FileId
                 }
             }
         } else {
-            //throw new \Exception('Unexpected type!');
         }
 
         if (!empty($idList)) {

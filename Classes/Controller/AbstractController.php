@@ -28,14 +28,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
                 $storeInSession = true
             );
         } else {
-            /*
-        $this->addFlashMessage(
-        "Mandantenordner: ".$client->getClient(),
-        $messageTitle = '',
-        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK,
-        $storeInSession = TRUE
-        );
-         */
+
         }
 
         $view->assign('client', $client);

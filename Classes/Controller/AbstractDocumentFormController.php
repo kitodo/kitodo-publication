@@ -147,10 +147,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('documentData', $requestArguments)) {
-            //$documentData = $this->request->getArgument('documentData');
-            //$formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            //$formDataReader->setFormData($documentData);
-            //$docForm = $formDataReader->getDocumentForm();
             die('Error: initializeNewAction');
         } elseif (array_key_exists('documentType', $requestArguments)) {
             $docTypeUid   = $this->request->getArgument('documentType');
@@ -222,14 +218,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $newDocument = $this->documentRepository->findByUid($newDocument->getUid());
         $this->persistenceManager->persistAll();
 
-        /*
-        // Delete files
-        foreach ( $newDocumentForm->getDeletedFiles() as $deleteFile ) {
-        $deleteFile->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_DELETED);
-        $this->fileRepository->update($deleteFile);
-        }
-         */
-
         // Add or update files
         $newFiles = $newDocumentForm->getNewFiles();
 
@@ -241,7 +229,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 } else {
                     $newFile->setDocument($newDocument);
                     $this->fileRepository->add($newFile);
-                    //$newDocument->addFile($newFile);
                 }
             }
         }
@@ -263,7 +250,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $tmpDocument->setDocumentType($newDocument->getDocumentType());
 
             $this->forward('new', null, null, array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));
-            //$this->forward('new',NULL,NULL,array('newDocumentForm' => $newDocumentForm));
         }
 
         $this->redirectToList('CREATE_OK');
@@ -367,7 +353,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
         // send document to index
         $elasticsearchRepository->add($updateDocument, $json);
-        // $elasticsearchRepository->delete($updateDocument);
 
         if (array_key_exists('savecontinue', $requestArguments)) {
             $this->forward('edit', null, null, array('documentForm' => $documentForm));

@@ -32,25 +32,6 @@ namespace Eww\Dpf\Domain\Repository;
 class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-    /*
-     */
-
-    /*
-     * Better but didn't work
-     *
-    public function initializeObject() {
-    $this->defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-    $this->defaultQuerySettings->setRespectStoragePage(FALSE);
-    }
-
-    public function findInstalledLanguages() {
-    $result = $this->createQuery();
-    $result->getQuerySettings()->setRespectStoragePage(FALSE);
-    $result->statement('SELECT * FROM sys_language');
-    return $result->execute();
-    }
-     */
-
     /**
      * Finds all installed languages of the TYPO3 system (usually on pid 0).
      *

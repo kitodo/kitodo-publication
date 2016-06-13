@@ -67,11 +67,6 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
 
         $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
 
-        // $query['body']['query']['fields'][0] = "PID";
-        // $query['body']['query']['fields'][1] = "_dissemination._content.PUB_TITLE";
-        // $query['body']['query']['fields'][2] = "_dissemination._content.PUB_AUTHOR";
-        // $query['body']['query']['fields'][3] = "_dissemination._content.PUB_DATE";
-        // $query['body']['query']['fields'][4] = "_dissemination._content.PUB_TYPE";
 
         return $query;
 

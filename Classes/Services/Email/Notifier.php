@@ -40,9 +40,6 @@ class Notifier
                         ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf'))
                         ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf', $args));
                     $message->send();
-                    /*if($message->isSent()) {
-                } else {
-                }*/
                 }
             }
 
@@ -66,9 +63,6 @@ class Notifier
                         ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.subject', 'dpf'))
                         ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.body', 'dpf', $args));
                     $message->send();
-                    /*if($message->isSent()) {
-                } else {
-                }*/
                 }
             }
 
@@ -103,9 +97,6 @@ class Notifier
                         ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.subject', 'dpf'))
                         ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.body', 'dpf', $args));
                     $message->send();
-                    /*if($message->isSent()) {
-                } else {
-                }*/
                 }
             }
         } catch (\Exception $e) {}

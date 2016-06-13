@@ -12,13 +12,9 @@ class DocumentFormValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Abst
     public function isValid($value)
     {
 
-        //  var_dump("sdfsdf"); die();
-
         $this->errors = array();
-        //if(empty(trim($value))) {
-        $this->addError("Qucosa Fehler"); //,NULL,array(),"Test");
+
+        $this->addError("Qucosa Fehler");
         return false;
-        //}
-        //return true;
     }
 }

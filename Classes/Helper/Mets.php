@@ -95,8 +95,6 @@ class Mets
             $files[] = array(
                 'id'       => $item->getAttribute("ID"),
                 'mimetype' => $item->getAttribute("MIMETYPE"),
-                //'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"),
-                //'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),
                 'href'     => $href,
                 'title'    => $item->getAttributeNS($mextNS, "LABEL"),
                 'archive'  => ($item->getAttribute("USE") == 'ARCHIVE'),
@@ -117,8 +115,6 @@ class Mets
             $files[] = array(
                 'id'       => $item->getAttribute("ID"),
                 'mimetype' => $item->getAttribute("MIMETYPE"),
-                //'href' => $item->firstChild->getAttributeNS($xlinkNS,"href"),
-                //'title' => $item->firstChild->getAttributeNS($xlinkNS,"title"),
                 'href'     => $href,
                 'title'    => $item->getAttributeNS($mextNS, "LABEL"),
                 'archive'  => ($item->getAttribute("USE") == 'ARCHIVE'),

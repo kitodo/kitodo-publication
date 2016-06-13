@@ -77,9 +77,6 @@ class Translator
 
         $defaultLanguage = $extbaseConfiguration['config.']['language'];
 
-        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($extbaseConfiguration);
-        // die();
-
         if (empty($defaultLanguage)) {
             return 'en';
         }
