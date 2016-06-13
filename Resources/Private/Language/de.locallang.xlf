@@ -1,400 +1,400 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-06T13:13:49Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
-		<body>
-		<trans-unit id="config.elasticSearchHost" approved="yes">
-			<source>Host address</source>
-			<target>Host address</target>
-		</trans-unit>
-		<trans-unit id="config.elasticSearchPort" approved="yes">
-			<source>Port</source>
-			<target>Port</target>
-		</trans-unit>
-		<trans-unit id="config.fedoraHost" approved="yes">
-			<source>Host address</source>
-			<target>Host address</target>
-		</trans-unit>
-		<trans-unit id="config.fedoraPassword" approved="yes">
-			<source>Password</source>
-			<target>Password</target>
-		</trans-unit>
-		<trans-unit id="config.fedoraUser" approved="yes">
-			<source>Username</source>
-			<target>Username</target>
-		</trans-unit>
-		<trans-unit id="config.swordCollectionNamespace" approved="yes">
-			<source>Collection namespace</source>
-			<target>Collection namespace</target>
-		</trans-unit>
-		<trans-unit id="config.swordHost" approved="yes">
-			<source>Host address</source>
-			<target>Host address</target>
-		</trans-unit>
-		<trans-unit id="config.swordPassword" approved="yes">
-			<source>Password</source>
-			<target>Password</target>
-		</trans-unit>
-		<trans-unit id="config.swordUser" approved="yes">
-			<source>Username</source>
-			<target>Username</target>
-		</trans-unit>
-		<trans-unit id="config.uploadDirectory" approved="yes">
-			<source>Directory path</source>
-			<target>Directory path</target>
-		</trans-unit>
-		<trans-unit id="config.uploadDomain" approved="yes">
-			<source>Domain</source>
-			<target>Domain</target>
-		</trans-unit>
-		<trans-unit id="documentForm.create.header" approved="yes">
-			<source>Create document</source>
-			<target>Dokument anlegen</target>
-		</trans-unit>
-		<trans-unit id="documentForm.create.ok" approved="yes">
-			<source>Document successfully created.</source>
-			<target>Das Dokument wurde erfolgreich angelegt.</target>
-		</trans-unit>
-		<trans-unit id="documentForm.uploadPostError">
-			<source>Document couldn't be saved. Error while uploading files.</source>
-			<target>Das Dokument konnte nicht gespeichert werden. Fehler beim Dateiupload.</target>
-		</trans-unit>		
-		<trans-unit id="documentForm.uploadError">
-			<source>Document couldn't be saved. File size limit exceeded:</source>
-			<target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>
-		</trans-unit>
-		<trans-unit id="documentForm.goBack">
-			<source>go back</source>
-			<target>zurück</target>
-		</trans-unit>
-		<trans-unit id="documentForm.edit.header" approved="yes">
-			<source>Edit %s</source>
-			<target>% bearbeiten</target>
-		</trans-unit>
-		<trans-unit id="documentForm.new.header" approved="yes">
-			<source>New %s</source>
-			<target>% anlegen</target>
-		</trans-unit>
-		<trans-unit id="document_activate.failure" approved="yes">
-			<source>Activating %s failed.</source>
-			<target>Activating %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_activate.success" approved="yes">
-			<source>%s successfully activated.</source>
-			<target>%s successfully activated.</target>
-		</trans-unit>
-		<trans-unit id="document_delete.failure" approved="yes">
-			<source>Deleting %s failed.</source>
-			<target>Deleting %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_delete.success" approved="yes">
-			<source>%s successfully deleted.</source>
-			<target>%s successfully deleted.</target>
-		</trans-unit>
-		<trans-unit id="document_discard.success" approved="yes">
-			<source>Document successfully discarded.</source>
-			<target>Document successfully discarded.</target>
-		</trans-unit>
-		<trans-unit id="document_duplicate.success" approved="yes">
-			<source>The document has been duplicated.</source>
-			<target>Das Dokument wurde dupliziert.</target>
-		</trans-unit>
-		<trans-unit id="document_inactivate.failure" approved="yes">
-			<source>Inactivating %s failed.</source>
-			<target>Inactivating %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_inactivate.success" approved="yes">
-			<source>%s successfully inactivated.</source>
-			<target>%s successfully inactivated.</target>
-		</trans-unit>
-		<trans-unit id="document_ingest.failure" approved="yes">
-			<source>Publishing %s failed.</source>
-			<target>Publishing %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_ingest.success" approved="yes">
-			<source>%s successfully published.</source>
-			<target>%s successfully published.</target>
-		</trans-unit>
-		<trans-unit id="document_restore.failure" approved="yes">
-			<source>Restoring %s failed.</source>
-			<target>Restoring %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_restore.success" approved="yes">
-			<source>%s successfully restored.</source>
-			<target>%s successfully restored.</target>
-		</trans-unit>
-		<trans-unit id="document_retrieve.failure" approved="yes">
-			<source>Importing dataset %s failed.</source>
-			<target>Importing dataset %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_retrieve.success" approved="yes">
-			<source>Dataset %s successfully imported.</source>
-			<target>Dataset %s successfully imported.</target>
-		</trans-unit>
-		<trans-unit id="document_update.failure" approved="yes">
-			<source>Updating %s failed.</source>
-			<target>Updating %s failed.</target>
-		</trans-unit>
-		<trans-unit id="document_update.success" approved="yes">
-			<source>%s successfully updated.</source>
-			<target>%s successfully updated.</target>
-		</trans-unit>
-		<trans-unit id="form_button.addFile" approved="yes">
-			<source>add file</source>
-			<target>add file</target>
-		</trans-unit>
-		<trans-unit id="form_button.add_item" approved="yes">
-			<source>add %s</source>
-			<target>add %s</target>
-		</trans-unit>
-		<trans-unit id="form_button.cancel" approved="yes">
-			<source>cancel</source>
-			<target>cancel</target>
-		</trans-unit>
-		<trans-unit id="form_button.create_value" approved="yes">
-			<source>create</source>
-			<target>create</target>
-		</trans-unit>
-		<trans-unit id="form_button.delete" approved="yes">
-			<source>delete</source>
-			<target>delete</target>
-		</trans-unit>
-		<trans-unit id="form_button.delete_item" approved="yes">
-			<source>delete %s</source>
-			<target>delete %s</target>
-		</trans-unit>
-		<trans-unit id="form_button.not_delete" approved="yes">
-			<source>Do not delete</source>
-			<target>Do not delete</target>
-		</trans-unit>
-		<trans-unit id="form_button.save" approved="yes">
-			<source>save</source>
-			<target>save</target>
-		</trans-unit>
-		<trans-unit id="form_button.save_continue" approved="yes">
-			<source>save &amp; continue</source>
-			<target>save &amp; continue</target>
-		</trans-unit>
-		<trans-unit id="form_error_msg.all" approved="yes">
-			<source>The form contains errors.</source>
-			<target>The form contains errors.</target>
-		</trans-unit>
-		<trans-unit id="form_error_msg.field_invalid" approved="yes">
-			<source>Invalid input</source>
-			<target>Invalid input</target>
-		</trans-unit>
-		<trans-unit id="form_error_msg.group_mandatory" approved="yes">
-			<source>Please fill in the required fields.</source>
-			<target>Please fill in the required fields.</target>
-		</trans-unit>
-		<trans-unit id="form_error_msg.group_one_required" approved="yes">
-			<source>Please fill out at least one of the fields.</source>
-			<target>Please fill out at least one of the fields.</target>
-		</trans-unit>
-		<trans-unit id="form_legend.primaryFile" approved="yes">
-			<source>Primary File</source>
-			<target>Primary File</target>
-		</trans-unit>
-		<trans-unit id="form_legend.secondaryFile" approved="yes">
-			<source>Secondary File</source>
-			<target>Secondary File</target>
-		</trans-unit>
-		<trans-unit id="form_success_msg.all" approved="yes">
-			<source>Form successfully validated.</source>
-			<target>Form successfully validated.</target>
-		</trans-unit>
-		<trans-unit id="manager.activate" approved="yes">
-			<source>activate</source>
-			<target>activate</target>
-		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessage" approved="yes">
-			<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
-			<target>The document &quot;%s&quot; will be marked as active in the repository.</target>
-		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessageHeader" approved="yes">
-			<source>Do you really want to activate the document?</source>
-			<target>Do you really want to activate the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.client" approved="yes">
-			<source>Client</source>
-			<target>Mandant</target>
-		</trans-unit>
-		<trans-unit id="manager.control.documents" approved="yes">
-			<source>Documents</source>
-			<target>Dokumente</target>
-		</trans-unit>
-		<trans-unit id="manager.control.search" approved="yes">
-			<source>Search</source>
-			<target>Search</target>
-		</trans-unit>
-		<trans-unit id="manager.delete" approved="yes">
-			<source>delete</source>
-			<target>löschen</target>
-		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessage" approved="yes">
-			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
-			<target>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</target>
-		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessageHeader" approved="yes">
-			<source>Do you really want to delete the document?</source>
-			<target>Do you really want to delete the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.discard" approved="yes">
-			<source>discard</source>
-			<target>verwerfen</target>
-		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessage" approved="yes">
-			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
-			<target>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</target>
-		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessageHeader" approved="yes">
-			<source>Do you really want to discard the document?</source>
-			<target>Do you really want to discard the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.discardConfirmNo" approved="yes">
-			<source>cancel</source>
-			<target>cancel</target>
-		</trans-unit>
-		<trans-unit id="manager.discardConfirmYes" approved="yes">
-			<source>continue</source>
-			<target>continue</target>
-		</trans-unit>
-		<trans-unit id="manager.document.authors" approved="yes">
-			<source>Authors</source>
-			<target>Authors</target>
-		</trans-unit>
-		<trans-unit id="manager.document.datasetIdentifier" approved="yes">
-			<source>Dateset Identifier</source>
-			<target>Dateset Identifier</target>
-		</trans-unit>
-		<trans-unit id="manager.document.publishedDate" approved="yes">
-			<source>Published Date</source>
-			<target>Published Date</target>
-		</trans-unit>
-		<trans-unit id="manager.document.state" approved="yes">
-			<source>State</source>
-			<target>State</target>
-		</trans-unit>
-		<trans-unit id="manager.document.state.inProgress" approved="yes">
-			<source>In progress</source>
-			<target>In Bearbeitung</target>
-		</trans-unit>
-		<trans-unit id="manager.document.state.new" approved="yes">
-			<source>New</source>
-			<target>Neu</target>
-		</trans-unit>
-		<trans-unit id="manager.document.title" approved="yes">
-			<source>Title</source>
-			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="manager.doublet" approved="yes">
-			<source>Doublet Check</source>
-			<target>Doubletten-Check</target>
-		</trans-unit>
-		<trans-unit id="manager.duplicate" approved="yes">
-			<source>duplicate</source>
-			<target>duplicate</target>
-		</trans-unit>
-		<trans-unit id="manager.edit" approved="yes">
-			<source>edit</source>
-			<target>edit</target>
-		</trans-unit>
-		<trans-unit id="manager.get" approved="yes">
-			<source>Get</source>
-			<target>Get</target>
-		</trans-unit>
-		<trans-unit id="manager.inactivate" approved="yes">
-			<source>inactivate</source>
-			<target>inactivate</target>
-		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessage" approved="yes">
-			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
-			<target>The document &quot;%s&quot; will be marked as inactive in the repository.</target>
-		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessageHeader" approved="yes">
-			<source>Do you really want to inactivate the document?</source>
-			<target>Do you really want to inactivate the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.preview" approved="yes">
-			<source>preview</source>
-			<target>preview</target>
-		</trans-unit>
-		<trans-unit id="manager.publish" approved="yes">
-			<source>publish</source>
-			<target>veröffentlichen</target>
-		</trans-unit>
-		<trans-unit id="manager.published" approved="yes">
-			<source>published</source>
-			<target>published</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.publish" approved="yes">
-			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
-			<target>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.update" approved="yes">
-			<source>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
-			<target>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.publish" approved="yes">
-			<source>Do you really want to publish the document?</source>
-			<target>Do you really want to publish the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.update" approved="yes">
-			<source>Do you really want to update the document?</source>
-			<target>Do you really want to update the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmNo" approved="yes">
-			<source>cancel</source>
-			<target>cancel</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmYes" approved="yes">
-			<source>continue</source>
-			<target>continue</target>
-		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessage" approved="yes">
-			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
-			<target>The document &quot;%s&quot; will be marked as inactive in the repository.</target>
-		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessageHeader" approved="yes">
-			<source>Do you really want to restore the document?</source>
-			<target>Do you really want to restore the document?</target>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.activate" approved="yes">
-			<source>Activate document</source>
-			<target>Activate document</target>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.duplicate" approved="yes">
-			<source>Duplicate document</source>
-			<target>Duplicate document</target>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.inactivate" approved="yes">
-			<source>Inactivate document</source>
-			<target>Inactivate document</target>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.preview" approved="yes">
-			<source>Show document preview</source>
-			<target>Show document preview</target>
-		</trans-unit>
-		<trans-unit id="manager.unpublished" approved="yes">
-			<source>unpublished</source>
-			<target>unpublished</target>
-		</trans-unit>
-		<trans-unit id="manager.update" approved="yes">
-			<source>update</source>
-			<target>aktualisieren</target>
-		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
-			<source>
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-06T13:13:49Z">
+        <header>
+            <generator>LFEditor</generator>
+        </header>
+        <body>
+        <trans-unit id="config.elasticSearchHost" approved="yes">
+            <source>Host address</source>
+            <target>Host address</target>
+        </trans-unit>
+        <trans-unit id="config.elasticSearchPort" approved="yes">
+            <source>Port</source>
+            <target>Port</target>
+        </trans-unit>
+        <trans-unit id="config.fedoraHost" approved="yes">
+            <source>Host address</source>
+            <target>Host address</target>
+        </trans-unit>
+        <trans-unit id="config.fedoraPassword" approved="yes">
+            <source>Password</source>
+            <target>Password</target>
+        </trans-unit>
+        <trans-unit id="config.fedoraUser" approved="yes">
+            <source>Username</source>
+            <target>Username</target>
+        </trans-unit>
+        <trans-unit id="config.swordCollectionNamespace" approved="yes">
+            <source>Collection namespace</source>
+            <target>Collection namespace</target>
+        </trans-unit>
+        <trans-unit id="config.swordHost" approved="yes">
+            <source>Host address</source>
+            <target>Host address</target>
+        </trans-unit>
+        <trans-unit id="config.swordPassword" approved="yes">
+            <source>Password</source>
+            <target>Password</target>
+        </trans-unit>
+        <trans-unit id="config.swordUser" approved="yes">
+            <source>Username</source>
+            <target>Username</target>
+        </trans-unit>
+        <trans-unit id="config.uploadDirectory" approved="yes">
+            <source>Directory path</source>
+            <target>Directory path</target>
+        </trans-unit>
+        <trans-unit id="config.uploadDomain" approved="yes">
+            <source>Domain</source>
+            <target>Domain</target>
+        </trans-unit>
+        <trans-unit id="documentForm.create.header" approved="yes">
+            <source>Create document</source>
+            <target>Dokument anlegen</target>
+        </trans-unit>
+        <trans-unit id="documentForm.create.ok" approved="yes">
+            <source>Document successfully created.</source>
+            <target>Das Dokument wurde erfolgreich angelegt.</target>
+        </trans-unit>
+        <trans-unit id="documentForm.uploadPostError">
+            <source>Document couldn't be saved. Error while uploading files.</source>
+            <target>Das Dokument konnte nicht gespeichert werden. Fehler beim Dateiupload.</target>
+        </trans-unit>       
+        <trans-unit id="documentForm.uploadError">
+            <source>Document couldn't be saved. File size limit exceeded:</source>
+            <target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>
+        </trans-unit>
+        <trans-unit id="documentForm.goBack">
+            <source>go back</source>
+            <target>zurück</target>
+        </trans-unit>
+        <trans-unit id="documentForm.edit.header" approved="yes">
+            <source>Edit %s</source>
+            <target>% bearbeiten</target>
+        </trans-unit>
+        <trans-unit id="documentForm.new.header" approved="yes">
+            <source>New %s</source>
+            <target>% anlegen</target>
+        </trans-unit>
+        <trans-unit id="document_activate.failure" approved="yes">
+            <source>Activating %s failed.</source>
+            <target>Activating %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_activate.success" approved="yes">
+            <source>%s successfully activated.</source>
+            <target>%s successfully activated.</target>
+        </trans-unit>
+        <trans-unit id="document_delete.failure" approved="yes">
+            <source>Deleting %s failed.</source>
+            <target>Deleting %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_delete.success" approved="yes">
+            <source>%s successfully deleted.</source>
+            <target>%s successfully deleted.</target>
+        </trans-unit>
+        <trans-unit id="document_discard.success" approved="yes">
+            <source>Document successfully discarded.</source>
+            <target>Document successfully discarded.</target>
+        </trans-unit>
+        <trans-unit id="document_duplicate.success" approved="yes">
+            <source>The document has been duplicated.</source>
+            <target>Das Dokument wurde dupliziert.</target>
+        </trans-unit>
+        <trans-unit id="document_inactivate.failure" approved="yes">
+            <source>Inactivating %s failed.</source>
+            <target>Inactivating %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_inactivate.success" approved="yes">
+            <source>%s successfully inactivated.</source>
+            <target>%s successfully inactivated.</target>
+        </trans-unit>
+        <trans-unit id="document_ingest.failure" approved="yes">
+            <source>Publishing %s failed.</source>
+            <target>Publishing %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_ingest.success" approved="yes">
+            <source>%s successfully published.</source>
+            <target>%s successfully published.</target>
+        </trans-unit>
+        <trans-unit id="document_restore.failure" approved="yes">
+            <source>Restoring %s failed.</source>
+            <target>Restoring %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_restore.success" approved="yes">
+            <source>%s successfully restored.</source>
+            <target>%s successfully restored.</target>
+        </trans-unit>
+        <trans-unit id="document_retrieve.failure" approved="yes">
+            <source>Importing dataset %s failed.</source>
+            <target>Importing dataset %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_retrieve.success" approved="yes">
+            <source>Dataset %s successfully imported.</source>
+            <target>Dataset %s successfully imported.</target>
+        </trans-unit>
+        <trans-unit id="document_update.failure" approved="yes">
+            <source>Updating %s failed.</source>
+            <target>Updating %s failed.</target>
+        </trans-unit>
+        <trans-unit id="document_update.success" approved="yes">
+            <source>%s successfully updated.</source>
+            <target>%s successfully updated.</target>
+        </trans-unit>
+        <trans-unit id="form_button.addFile" approved="yes">
+            <source>add file</source>
+            <target>add file</target>
+        </trans-unit>
+        <trans-unit id="form_button.add_item" approved="yes">
+            <source>add %s</source>
+            <target>add %s</target>
+        </trans-unit>
+        <trans-unit id="form_button.cancel" approved="yes">
+            <source>cancel</source>
+            <target>cancel</target>
+        </trans-unit>
+        <trans-unit id="form_button.create_value" approved="yes">
+            <source>create</source>
+            <target>create</target>
+        </trans-unit>
+        <trans-unit id="form_button.delete" approved="yes">
+            <source>delete</source>
+            <target>delete</target>
+        </trans-unit>
+        <trans-unit id="form_button.delete_item" approved="yes">
+            <source>delete %s</source>
+            <target>delete %s</target>
+        </trans-unit>
+        <trans-unit id="form_button.not_delete" approved="yes">
+            <source>Do not delete</source>
+            <target>Do not delete</target>
+        </trans-unit>
+        <trans-unit id="form_button.save" approved="yes">
+            <source>save</source>
+            <target>save</target>
+        </trans-unit>
+        <trans-unit id="form_button.save_continue" approved="yes">
+            <source>save &amp; continue</source>
+            <target>save &amp; continue</target>
+        </trans-unit>
+        <trans-unit id="form_error_msg.all" approved="yes">
+            <source>The form contains errors.</source>
+            <target>The form contains errors.</target>
+        </trans-unit>
+        <trans-unit id="form_error_msg.field_invalid" approved="yes">
+            <source>Invalid input</source>
+            <target>Invalid input</target>
+        </trans-unit>
+        <trans-unit id="form_error_msg.group_mandatory" approved="yes">
+            <source>Please fill in the required fields.</source>
+            <target>Please fill in the required fields.</target>
+        </trans-unit>
+        <trans-unit id="form_error_msg.group_one_required" approved="yes">
+            <source>Please fill out at least one of the fields.</source>
+            <target>Please fill out at least one of the fields.</target>
+        </trans-unit>
+        <trans-unit id="form_legend.primaryFile" approved="yes">
+            <source>Primary File</source>
+            <target>Primary File</target>
+        </trans-unit>
+        <trans-unit id="form_legend.secondaryFile" approved="yes">
+            <source>Secondary File</source>
+            <target>Secondary File</target>
+        </trans-unit>
+        <trans-unit id="form_success_msg.all" approved="yes">
+            <source>Form successfully validated.</source>
+            <target>Form successfully validated.</target>
+        </trans-unit>
+        <trans-unit id="manager.activate" approved="yes">
+            <source>activate</source>
+            <target>activate</target>
+        </trans-unit>
+        <trans-unit id="manager.activateConfirmMessage" approved="yes">
+            <source>The document &quot;%s&quot; will be marked as active in the repository.</source>
+            <target>The document &quot;%s&quot; will be marked as active in the repository.</target>
+        </trans-unit>
+        <trans-unit id="manager.activateConfirmMessageHeader" approved="yes">
+            <source>Do you really want to activate the document?</source>
+            <target>Do you really want to activate the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.client" approved="yes">
+            <source>Client</source>
+            <target>Mandant</target>
+        </trans-unit>
+        <trans-unit id="manager.control.documents" approved="yes">
+            <source>Documents</source>
+            <target>Dokumente</target>
+        </trans-unit>
+        <trans-unit id="manager.control.search" approved="yes">
+            <source>Search</source>
+            <target>Search</target>
+        </trans-unit>
+        <trans-unit id="manager.delete" approved="yes">
+            <source>delete</source>
+            <target>löschen</target>
+        </trans-unit>
+        <trans-unit id="manager.deleteConfirmMessage" approved="yes">
+            <source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
+            <target>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</target>
+        </trans-unit>
+        <trans-unit id="manager.deleteConfirmMessageHeader" approved="yes">
+            <source>Do you really want to delete the document?</source>
+            <target>Do you really want to delete the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.discard" approved="yes">
+            <source>discard</source>
+            <target>verwerfen</target>
+        </trans-unit>
+        <trans-unit id="manager.discardConfirmMessage" approved="yes">
+            <source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
+            <target>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</target>
+        </trans-unit>
+        <trans-unit id="manager.discardConfirmMessageHeader" approved="yes">
+            <source>Do you really want to discard the document?</source>
+            <target>Do you really want to discard the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.discardConfirmNo" approved="yes">
+            <source>cancel</source>
+            <target>cancel</target>
+        </trans-unit>
+        <trans-unit id="manager.discardConfirmYes" approved="yes">
+            <source>continue</source>
+            <target>continue</target>
+        </trans-unit>
+        <trans-unit id="manager.document.authors" approved="yes">
+            <source>Authors</source>
+            <target>Authors</target>
+        </trans-unit>
+        <trans-unit id="manager.document.datasetIdentifier" approved="yes">
+            <source>Dateset Identifier</source>
+            <target>Dateset Identifier</target>
+        </trans-unit>
+        <trans-unit id="manager.document.publishedDate" approved="yes">
+            <source>Published Date</source>
+            <target>Published Date</target>
+        </trans-unit>
+        <trans-unit id="manager.document.state" approved="yes">
+            <source>State</source>
+            <target>State</target>
+        </trans-unit>
+        <trans-unit id="manager.document.state.inProgress" approved="yes">
+            <source>In progress</source>
+            <target>In Bearbeitung</target>
+        </trans-unit>
+        <trans-unit id="manager.document.state.new" approved="yes">
+            <source>New</source>
+            <target>Neu</target>
+        </trans-unit>
+        <trans-unit id="manager.document.title" approved="yes">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="manager.doublet" approved="yes">
+            <source>Doublet Check</source>
+            <target>Doubletten-Check</target>
+        </trans-unit>
+        <trans-unit id="manager.duplicate" approved="yes">
+            <source>duplicate</source>
+            <target>duplicate</target>
+        </trans-unit>
+        <trans-unit id="manager.edit" approved="yes">
+            <source>edit</source>
+            <target>edit</target>
+        </trans-unit>
+        <trans-unit id="manager.get" approved="yes">
+            <source>Get</source>
+            <target>Get</target>
+        </trans-unit>
+        <trans-unit id="manager.inactivate" approved="yes">
+            <source>inactivate</source>
+            <target>inactivate</target>
+        </trans-unit>
+        <trans-unit id="manager.inactivateConfirmMessage" approved="yes">
+            <source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
+            <target>The document &quot;%s&quot; will be marked as inactive in the repository.</target>
+        </trans-unit>
+        <trans-unit id="manager.inactivateConfirmMessageHeader" approved="yes">
+            <source>Do you really want to inactivate the document?</source>
+            <target>Do you really want to inactivate the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.preview" approved="yes">
+            <source>preview</source>
+            <target>preview</target>
+        </trans-unit>
+        <trans-unit id="manager.publish" approved="yes">
+            <source>publish</source>
+            <target>veröffentlichen</target>
+        </trans-unit>
+        <trans-unit id="manager.published" approved="yes">
+            <source>published</source>
+            <target>published</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmMessage.publish" approved="yes">
+            <source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
+            <target>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmMessage.update" approved="yes">
+            <source>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
+            <target>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmMessageHeader.publish" approved="yes">
+            <source>Do you really want to publish the document?</source>
+            <target>Do you really want to publish the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmMessageHeader.update" approved="yes">
+            <source>Do you really want to update the document?</source>
+            <target>Do you really want to update the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmNo" approved="yes">
+            <source>cancel</source>
+            <target>cancel</target>
+        </trans-unit>
+        <trans-unit id="manager.releaseConfirmYes" approved="yes">
+            <source>continue</source>
+            <target>continue</target>
+        </trans-unit>
+        <trans-unit id="manager.restoreConfirmMessage" approved="yes">
+            <source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
+            <target>The document &quot;%s&quot; will be marked as inactive in the repository.</target>
+        </trans-unit>
+        <trans-unit id="manager.restoreConfirmMessageHeader" approved="yes">
+            <source>Do you really want to restore the document?</source>
+            <target>Do you really want to restore the document?</target>
+        </trans-unit>
+        <trans-unit id="manager.tooltip.activate" approved="yes">
+            <source>Activate document</source>
+            <target>Activate document</target>
+        </trans-unit>
+        <trans-unit id="manager.tooltip.duplicate" approved="yes">
+            <source>Duplicate document</source>
+            <target>Duplicate document</target>
+        </trans-unit>
+        <trans-unit id="manager.tooltip.inactivate" approved="yes">
+            <source>Inactivate document</source>
+            <target>Inactivate document</target>
+        </trans-unit>
+        <trans-unit id="manager.tooltip.preview" approved="yes">
+            <source>Show document preview</source>
+            <target>Show document preview</target>
+        </trans-unit>
+        <trans-unit id="manager.unpublished" approved="yes">
+            <source>unpublished</source>
+            <target>unpublished</target>
+        </trans-unit>
+        <trans-unit id="manager.update" approved="yes">
+            <source>update</source>
+            <target>aktualisieren</target>
+        </trans-unit>
+        <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
+            <source>
 Your document has been published:
 Submitter: %s
 Title: %s
 Author: %s
 URL: %s
 Date: %s
-				</source>
-			<target>Sehr geehrte/r %s,
+                </source>
+            <target>Sehr geehrte/r %s,
 
 die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
 
@@ -404,43 +404,43 @@ Das Dokument ist unter der URL %s online verfügbar und zitierfähig. Die Funkti
 
 Mit freundlichen Grüßen
 Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
-				</target>
-		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.subject" approved="yes">
-			<source>Document published</source>
-			<target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
-			<source>
+                </target>
+        </trans-unit>
+        <trans-unit id="notification.ingestDocument.submitter.subject" approved="yes">
+            <source>Document published</source>
+            <target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
+        </trans-unit>
+        <trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
+            <source>
 A new document has been registered:
 Submitter: %s
 Title: %s
 Author: %s
 URN: %s
 Date: %s
-				</source>
-			<target>Ein neues Dokument wurde angemeldet:
+                </source>
+            <target>Ein neues Dokument wurde angemeldet:
 Submitter: %s
 Title: %s
 Author: %s
 URN: %s
 Date: %s
-				</target>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.admin.subject" approved="yes">
-			<source>New document registered</source>
-			<target>Ein neues Dokument wurde angemeldet</target>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.submitter.body" approved="yes" xml:space="preserve">
-			<source>
+                </target>
+        </trans-unit>
+        <trans-unit id="notification.newDocument.admin.subject" approved="yes">
+            <source>New document registered</source>
+            <target>Ein neues Dokument wurde angemeldet</target>
+        </trans-unit>
+        <trans-unit id="notification.newDocument.submitter.body" approved="yes" xml:space="preserve">
+            <source>
 You have registered the following document:
 Submitter: %s
 Title: %s
 Author: %s
 URN: %s
 Date: %s
-				</source>
-			<target>Sehr geehrte/r %s,
+                </source>
+            <target>Sehr geehrte/r %s,
 
 wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
 
@@ -450,564 +450,564 @@ Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - f
 
 Mit freundlichen Grüßen
 Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
-				</target>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.submitter.subject" approved="yes">
-			<source>You have registered a document</source>
-			<target>Ihre Veröffentlichung auf Qucosa – Anmeldebestätigung</target>
-		</trans-unit>
-		<trans-unit id="search.control.extendedSearch" approved="yes">
-			<source>Extended search</source>
-			<target>Erweiterte Suche</target>
-		</trans-unit>
-		<trans-unit id="search.control.new" approved="yes">
-			<source>New</source>
-			<target>Neu</target>
-		</trans-unit>
-		<trans-unit id="search.control.search" approved="yes">
-			<source>Search</source>
-			<target>Suchen</target>
-		</trans-unit>
-		<trans-unit id="search.control.simpleSearch" approved="yes">
-			<source>Simple search</source>
-			<target>Einfache Suche</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.author" approved="yes">
-			<source>Author</source>
-			<target>Autor</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.datasetIdentifier" approved="yes">
-			<source>Dataset Identifier</source>
-			<target>Dataset Identifier</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.foundMessage" approved="yes">
-			<source>The following possible duplicates were found:</source>
-			<target>Folgende mögliche doubletten wurden gefunden:</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.identifier" approved="yes">
-			<source>URN</source>
-			<target>URN</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.nothingFoundMessage" approved="yes">
-			<source>There were no potential duplicates found.</source>
-			<target>Es wurden keine möglichen Doubletten gefunden.</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.publicationDate" approved="yes">
-			<source>Publication Date</source>
-			<target>Veröffentlichungsdatum</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.submitterOrPublishedDate" approved="yes">
-			<source>Submitter/Published date</source>
-			<target>Submitter/Published date</target>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.title" approved="yes">
-			<source>Title</source>
-			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="search.form.button.search" approved="yes">
-			<source>Search</source>
-			<target>Suchen</target>
-		</trans-unit>
-		<trans-unit id="search.form.header.extendedSearch" approved="yes">
-			<source>Erweiterte Suche</source>
-			<target>Erweiterte Suche</target>
-		</trans-unit>
-		<trans-unit id="search.form.header.simpleSearch" approved="yes">
-			<source>Simple search</source>
-			<target>Einfache Suche</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.author" approved="yes">
-			<source>Author</source>
-			<target>Autor</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.datasetIdentifier" approved="yes">
-			<source>ID</source>
-			<target>ID</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.date" approved="yes">
-			<source>Date</source>
-			<target>Datum</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.from" approved="yes">
-			<source>From</source>
-			<target>Von</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.inactiveDeleted" approved="yes">
-			<source>Inactive/Deleted</source>
-			<target>Inaktive/Gelöscht</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.query" approved="yes">
-			<source>Search String</source>
-			<target>Suchbegriff</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.title" approved="yes">
-			<source>Title</source>
-			<target>Titel</target>
-		</trans-unit>
-		<trans-unit id="search.form.label.to" approved="yes">
-			<source>To</source>
-			<target>Bis</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.author" approved="yes">
-			<source>Author</source>
-			<target>Autor</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.datasetIdentifier" approved="yes">
-			<source>ID</source>
-			<target>ID</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.documentFound" approved="yes">
-			<source>document found.</source>
-			<target>Dokument gefunden.</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.documentsFound" approved="yes">
-			<source>documents found.</source>
-			<target>Dokumente gefunden.</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.identifier" approved="yes">
-			<source>Identifier</source>
-			<target>Identifier</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.more" approved="yes">
-			<source>More results</source>
-			<target>Mehr Ergebnisse</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.nothingFound" approved="yes">
-			<source>No results for your search.</source>
-			<target>Keine Ergebnisse für Ihre Suche.</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.publicationDate" approved="yes">
-			<source>Publication date</source>
-			<target>Veröffentlichungsdatum</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.publisher" approved="yes">
-			<source>Publisher</source>
-			<target>Publisher</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.state" approved="yes">
-			<source>State</source>
-			<target>Status</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.active" approved="yes">
-			<source>ACTIVE</source>
-			<target>AKTIV</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.deleted" approved="yes">
-			<source>DELETED</source>
-			<target>GELÖSCHT</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.inactive" approved="yes">
-			<source>INACTIVE</source>
-			<target>INAKTIV</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.submitter" approved="yes">
-			<source>Submitter</source>
-			<target>Submitter</target>
-		</trans-unit>
-		<trans-unit id="search.resultList.title" approved="yes">
-			<source>Title</source>
-			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_downloadtool" approved="yes">
-			<source>DPF: DownloadTool</source>
-			<target>DPF: Download Tool</target>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_metatags" approved="yes">
-			<source>DPF: Metatags</source>
-			<target>DPF: Metatags</target>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_relatedlisttool" approved="yes">
-			<source>DPF: RelatedListTool</source>
-			<target>DPF: RelatedList Tool</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.apiPid" approved="yes">
-			<source>API Pid</source>
-			<target>API Pid</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.landingPage" approved="yes">
-			<source>Landing Page</source>
-			<target>Landing Page</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchAndResults" approved="yes">
-			<source>Show Search and Result List</source>
-			<target>Suche und Ergebnisse</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsPid" approved="yes">
-			<source>Search Results on Page</source>
-			<target>Seite der Suchergebnisse</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.select_function" approved="yes">
-			<source>Select Function of Plugin</source>
-			<target>Funktion des Plugins</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.sheet_general" approved="yes">
-			<source>Options</source>
-			<target>Optionen</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.showSearchForm" approved="yes">
-			<source>Show Search Form only</source>
-			<target>Suchformular</target>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.targetPid" approved="yes">
-			<source>Target page</source>
-			<target>Zielseite</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client" approved="yes">
-			<source>Client</source>
-			<target>Client</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_email" approved="yes">
-			<source>Admin email</source>
-			<target>Admin email</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.client" approved="yes">
-			<source>Client</source>
-			<target>Client</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.library_identifier" approved="yes">
-			<source>Library identifier</source>
-			<target>Library identifier</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.network_initial" approved="yes">
-			<source>Network initial</source>
-			<target>Network initial</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.owner_id" approved="yes">
-			<source>OwnerID</source>
-			<target>OwnerID</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.project" approved="yes">
-			<source>Project</source>
-			<target>Project</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
-			<source>Document</source>
-			<target>Document</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.authors" approved="yes">
-			<source>Authors</source>
-			<target>Authors</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.document_type" approved="yes">
-			<source>Document Type</source>
-			<target>Document Type</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.object_identifier" approved="yes">
-			<source>Object Identifier</source>
-			<target>Object Identifier</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.object_state" approved="yes">
-			<source>Object State</source>
-			<target>Object State</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier" approved="yes">
-			<source>Reserved Object Identifier</source>
-			<target>Reserved Object Identifier</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.slub_info_data" approved="yes">
-			<source>Slub Info Data</source>
-			<target>Slub Info Data</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.title" approved="yes">
-			<source>Title</source>
-			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
-			<source>Xml Data</source>
-			<target>Xml Data</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
-			<source>Document Transfer Log</source>
-			<target>Document Transfer Log</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.action" approved="yes">
-			<source>Action</source>
-			<target>Action</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error" approved="yes">
-			<source>Curl Error</source>
-			<target>Curl Error</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.date" approved="yes">
-			<source>Date</source>
-			<target>Date</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid" approved="yes">
-			<source>Document Uid</source>
-			<target>Document Uid</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier" approved="yes">
-			<source>Object Identifier</source>
-			<target>Object Identifier</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttransferlog.response" approved="yes">
-			<source>Response</source>
-			<target>Response</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype" approved="yes">
-			<source>Document Type</source>
-			<target>Document Type</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.display_name" approved="yes">
-			<source>Display Name</source>
-			<target>Display Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page" approved="yes">
-			<source>Metadata Page</source>
-			<target>Metadata Page</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.virtual" approved="yes">
-			<source>Virtual</source>
-			<target>Virtual</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection" approved="yes">
-			<source>Fedora Connection</source>
-			<target>Fedora Connection</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.password" approved="yes">
-			<source>Password</source>
-			<target>Password</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.url" approved="yes">
-			<source>Url</source>
-			<target>Url</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.user" approved="yes">
-			<source>User</source>
-			<target>User</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
-			<source>File</source>
-			<target>File</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.archive" approved="yes">
-			<source>Archive</source>
-			<target>Archive</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.content_type" approved="yes">
-			<source>Content Type</source>
-			<target>Content Type</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.datastream_identifier" approved="yes">
-			<source>Datastream Identifier</source>
-			<target>Datastream Identifier</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.document" approved="yes">
-			<source>Document</source>
-			<target>Document</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.download" approved="yes">
-			<source>Download</source>
-			<target>Download</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.label" approved="yes">
-			<source>Label</source>
-			<target>Label</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.link" approved="yes">
-			<source>Link</source>
-			<target>Link</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.primary_file" approved="yes">
-			<source>Primary file</source>
-			<target>Primary file</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.status" approved="yes">
-			<source>Status</source>
-			<target>Status</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file.title" approved="yes">
-			<source>Title</source>
-			<target>Title</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoption" approved="yes">
-			<source>Input Option</source>
-			<target>Input Option</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoption.display_name" approved="yes">
-			<source>Display name</source>
-			<target>Display name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoption.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoption.value" approved="yes">
-			<source>Value</source>
-			<target>Value</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist" approved="yes">
-			<source>Input Option List</source>
-			<target>Input Option List</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value" approved="yes">
-			<source>Default value</source>
-			<target>Default value</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name" approved="yes">
-			<source>Display Name</source>
-			<target>Display Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.input_options" approved="yes">
-			<source>Input Options</source>
-			<target>Input Options</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list" approved="yes">
-			<source>Value label list</source>
-			<target>Value label list</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list" approved="yes">
-			<source>Value list</source>
-			<target>Value list</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup" approved="yes">
-			<source>Metadata Group</source>
-			<target>Metadata Group</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Backend only</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name" approved="yes">
-			<source>Display Name</source>
-			<target>Display Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.info_text" approved="yes">
-			<source>Info text</source>
-			<target>Info text</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory" approved="yes">
-			<source>Mandatory</source>
-			<target>Mandatory</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping" approved="yes">
-			<source>Mapping</source>
-			<target>Mapping</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading" approved="yes">
-			<source>Mapping for reading</source>
-			<target>Mapping for reading</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration" approved="yes">
-			<source>Max Iteration</source>
-			<target>Max Iteration</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.metadata_object" approved="yes">
-			<source>Metadata Object</source>
-			<target>Metadata Object</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping" approved="yes">
-			<source>Mods Extension Mapping</source>
-			<target>Mods Extension Mapping</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference" approved="yes">
-			<source>Mods Extension Reference Attribute</source>
-			<target>Mods Extension Reference Attribute</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject" approved="yes">
-			<source>Metadata Object</source>
-			<target>Metadata Object</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Backend only</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.consent" approved="yes">
-			<source>Consent field</source>
-			<target>Consent field</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type" approved="yes">
-			<source>Data Type</source>
-			<target>Data Type</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.default_value" approved="yes">
-			<source>Default value</source>
-			<target>Default value</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.display_name" approved="yes">
-			<source>Display Name</source>
-			<target>Display Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field" approved="yes">
-			<source>Input Field</source>
-			<target>Input Field</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list" approved="yes">
-			<source>Input option list</source>
-			<target>Input option list</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory" approved="yes">
-			<source>Mandatory</source>
-			<target>Mandatory</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
-			<source>Mapping</source>
-			<target>Mapping</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration" approved="yes">
-			<source>Max Iteration</source>
-			<target>Max Iteration</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension" approved="yes">
-			<source>Mods Extension Field</source>
-			<target>Mods Extension Field</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.validation" approved="yes">
-			<source>Validation</source>
-			<target>Validation</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage" approved="yes">
-			<source>Metadata Page</source>
-			<target>Metadata Page</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Backend only</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.display_name" approved="yes">
-			<source>Display Name</source>
-			<target>Display Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group" approved="yes">
-			<source>Metadata Group</source>
-			<target>Metadata Group</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.name" approved="yes">
-			<source>Name</source>
-			<target>Name</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.page_number" approved="yes">
-			<source>Page Number</source>
-			<target>Page Number</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_qucosaform.options" approved="yes">
-			<source>Options</source>
-			<target>Options</target>
-		</trans-unit>
-		<trans-unit id="widget.pagination.next" approved="yes">
-			<source>next</source>
-			<target>nächste</target>
-		</trans-unit>
-		<trans-unit id="widget.pagination.previous" approved="yes">
-			<source>previous</source>
-			<target>vorherige</target>
-		</trans-unit>
-		</body>
-	</file>
+                </target>
+        </trans-unit>
+        <trans-unit id="notification.newDocument.submitter.subject" approved="yes">
+            <source>You have registered a document</source>
+            <target>Ihre Veröffentlichung auf Qucosa – Anmeldebestätigung</target>
+        </trans-unit>
+        <trans-unit id="search.control.extendedSearch" approved="yes">
+            <source>Extended search</source>
+            <target>Erweiterte Suche</target>
+        </trans-unit>
+        <trans-unit id="search.control.new" approved="yes">
+            <source>New</source>
+            <target>Neu</target>
+        </trans-unit>
+        <trans-unit id="search.control.search" approved="yes">
+            <source>Search</source>
+            <target>Suchen</target>
+        </trans-unit>
+        <trans-unit id="search.control.simpleSearch" approved="yes">
+            <source>Simple search</source>
+            <target>Einfache Suche</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.author" approved="yes">
+            <source>Author</source>
+            <target>Autor</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.datasetIdentifier" approved="yes">
+            <source>Dataset Identifier</source>
+            <target>Dataset Identifier</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.foundMessage" approved="yes">
+            <source>The following possible duplicates were found:</source>
+            <target>Folgende mögliche doubletten wurden gefunden:</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.identifier" approved="yes">
+            <source>URN</source>
+            <target>URN</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.nothingFoundMessage" approved="yes">
+            <source>There were no potential duplicates found.</source>
+            <target>Es wurden keine möglichen Doubletten gefunden.</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.publicationDate" approved="yes">
+            <source>Publication Date</source>
+            <target>Veröffentlichungsdatum</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.submitterOrPublishedDate" approved="yes">
+            <source>Submitter/Published date</source>
+            <target>Submitter/Published date</target>
+        </trans-unit>
+        <trans-unit id="search.doubletCheck.title" approved="yes">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="search.form.button.search" approved="yes">
+            <source>Search</source>
+            <target>Suchen</target>
+        </trans-unit>
+        <trans-unit id="search.form.header.extendedSearch" approved="yes">
+            <source>Erweiterte Suche</source>
+            <target>Erweiterte Suche</target>
+        </trans-unit>
+        <trans-unit id="search.form.header.simpleSearch" approved="yes">
+            <source>Simple search</source>
+            <target>Einfache Suche</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.author" approved="yes">
+            <source>Author</source>
+            <target>Autor</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.datasetIdentifier" approved="yes">
+            <source>ID</source>
+            <target>ID</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.date" approved="yes">
+            <source>Date</source>
+            <target>Datum</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.from" approved="yes">
+            <source>From</source>
+            <target>Von</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.inactiveDeleted" approved="yes">
+            <source>Inactive/Deleted</source>
+            <target>Inaktive/Gelöscht</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.query" approved="yes">
+            <source>Search String</source>
+            <target>Suchbegriff</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.to" approved="yes">
+            <source>To</source>
+            <target>Bis</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.author" approved="yes">
+            <source>Author</source>
+            <target>Autor</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.datasetIdentifier" approved="yes">
+            <source>ID</source>
+            <target>ID</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.documentFound" approved="yes">
+            <source>document found.</source>
+            <target>Dokument gefunden.</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.documentsFound" approved="yes">
+            <source>documents found.</source>
+            <target>Dokumente gefunden.</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.identifier" approved="yes">
+            <source>Identifier</source>
+            <target>Identifier</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.more" approved="yes">
+            <source>More results</source>
+            <target>Mehr Ergebnisse</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.nothingFound" approved="yes">
+            <source>No results for your search.</source>
+            <target>Keine Ergebnisse für Ihre Suche.</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.publicationDate" approved="yes">
+            <source>Publication date</source>
+            <target>Veröffentlichungsdatum</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.publisher" approved="yes">
+            <source>Publisher</source>
+            <target>Publisher</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.state" approved="yes">
+            <source>State</source>
+            <target>Status</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.state.active" approved="yes">
+            <source>ACTIVE</source>
+            <target>AKTIV</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.state.deleted" approved="yes">
+            <source>DELETED</source>
+            <target>GELÖSCHT</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.state.inactive" approved="yes">
+            <source>INACTIVE</source>
+            <target>INAKTIV</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.submitter" approved="yes">
+            <source>Submitter</source>
+            <target>Submitter</target>
+        </trans-unit>
+        <trans-unit id="search.resultList.title" approved="yes">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tt_content.dpf_downloadtool" approved="yes">
+            <source>DPF: DownloadTool</source>
+            <target>DPF: Download Tool</target>
+        </trans-unit>
+        <trans-unit id="tt_content.dpf_metatags" approved="yes">
+            <source>DPF: Metatags</source>
+            <target>DPF: Metatags</target>
+        </trans-unit>
+        <trans-unit id="tt_content.dpf_relatedlisttool" approved="yes">
+            <source>DPF: RelatedListTool</source>
+            <target>DPF: RelatedList Tool</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.apiPid" approved="yes">
+            <source>API Pid</source>
+            <target>API Pid</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.landingPage" approved="yes">
+            <source>Landing Page</source>
+            <target>Landing Page</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.searchAndResults" approved="yes">
+            <source>Show Search and Result List</source>
+            <target>Suche und Ergebnisse</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.searchResultsPid" approved="yes">
+            <source>Search Results on Page</source>
+            <target>Seite der Suchergebnisse</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.select_function" approved="yes">
+            <source>Select Function of Plugin</source>
+            <target>Funktion des Plugins</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.sheet_general" approved="yes">
+            <source>Options</source>
+            <target>Optionen</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.showSearchForm" approved="yes">
+            <source>Show Search Form only</source>
+            <target>Suchformular</target>
+        </trans-unit>
+        <trans-unit id="tt_content.pi_flexform.targetPid" approved="yes">
+            <source>Target page</source>
+            <target>Zielseite</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client" approved="yes">
+            <source>Client</source>
+            <target>Client</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.admin_email" approved="yes">
+            <source>Admin email</source>
+            <target>Admin email</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.client" approved="yes">
+            <source>Client</source>
+            <target>Client</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.library_identifier" approved="yes">
+            <source>Library identifier</source>
+            <target>Library identifier</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.network_initial" approved="yes">
+            <source>Network initial</source>
+            <target>Network initial</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.owner_id" approved="yes">
+            <source>OwnerID</source>
+            <target>OwnerID</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.project" approved="yes">
+            <source>Project</source>
+            <target>Project</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document" approved="yes">
+            <source>Document</source>
+            <target>Document</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.authors" approved="yes">
+            <source>Authors</source>
+            <target>Authors</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.document_type" approved="yes">
+            <source>Document Type</source>
+            <target>Document Type</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.object_identifier" approved="yes">
+            <source>Object Identifier</source>
+            <target>Object Identifier</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.object_state" approved="yes">
+            <source>Object State</source>
+            <target>Object State</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier" approved="yes">
+            <source>Reserved Object Identifier</source>
+            <target>Reserved Object Identifier</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.slub_info_data" approved="yes">
+            <source>Slub Info Data</source>
+            <target>Slub Info Data</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.title" approved="yes">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
+            <source>Xml Data</source>
+            <target>Xml Data</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
+            <source>Document Transfer Log</source>
+            <target>Document Transfer Log</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.action" approved="yes">
+            <source>Action</source>
+            <target>Action</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error" approved="yes">
+            <source>Curl Error</source>
+            <target>Curl Error</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.date" approved="yes">
+            <source>Date</source>
+            <target>Date</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid" approved="yes">
+            <source>Document Uid</source>
+            <target>Document Uid</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier" approved="yes">
+            <source>Object Identifier</source>
+            <target>Object Identifier</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttransferlog.response" approved="yes">
+            <source>Response</source>
+            <target>Response</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype" approved="yes">
+            <source>Document Type</source>
+            <target>Document Type</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.display_name" approved="yes">
+            <source>Display Name</source>
+            <target>Display Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.metadata_page" approved="yes">
+            <source>Metadata Page</source>
+            <target>Metadata Page</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.virtual" approved="yes">
+            <source>Virtual</source>
+            <target>Virtual</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_fedoraconnection" approved="yes">
+            <source>Fedora Connection</source>
+            <target>Fedora Connection</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_fedoraconnection.password" approved="yes">
+            <source>Password</source>
+            <target>Password</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_fedoraconnection.url" approved="yes">
+            <source>Url</source>
+            <target>Url</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_fedoraconnection.user" approved="yes">
+            <source>User</source>
+            <target>User</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file" approved="yes">
+            <source>File</source>
+            <target>File</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.archive" approved="yes">
+            <source>Archive</source>
+            <target>Archive</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.content_type" approved="yes">
+            <source>Content Type</source>
+            <target>Content Type</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.datastream_identifier" approved="yes">
+            <source>Datastream Identifier</source>
+            <target>Datastream Identifier</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.document" approved="yes">
+            <source>Document</source>
+            <target>Document</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.download" approved="yes">
+            <source>Download</source>
+            <target>Download</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.label" approved="yes">
+            <source>Label</source>
+            <target>Label</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.link" approved="yes">
+            <source>Link</source>
+            <target>Link</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.primary_file" approved="yes">
+            <source>Primary file</source>
+            <target>Primary file</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.status" approved="yes">
+            <source>Status</source>
+            <target>Status</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_file.title" approved="yes">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoption" approved="yes">
+            <source>Input Option</source>
+            <target>Input Option</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoption.display_name" approved="yes">
+            <source>Display name</source>
+            <target>Display name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoption.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoption.value" approved="yes">
+            <source>Value</source>
+            <target>Value</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist" approved="yes">
+            <source>Input Option List</source>
+            <target>Input Option List</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value" approved="yes">
+            <source>Default value</source>
+            <target>Default value</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name" approved="yes">
+            <source>Display Name</source>
+            <target>Display Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.input_options" approved="yes">
+            <source>Input Options</source>
+            <target>Input Options</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list" approved="yes">
+            <source>Value label list</source>
+            <target>Value label list</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list" approved="yes">
+            <source>Value list</source>
+            <target>Value list</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup" approved="yes">
+            <source>Metadata Group</source>
+            <target>Metadata Group</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only" approved="yes">
+            <source>Backend only</source>
+            <target>Backend only</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.display_name" approved="yes">
+            <source>Display Name</source>
+            <target>Display Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.info_text" approved="yes">
+            <source>Info text</source>
+            <target>Info text</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory" approved="yes">
+            <source>Mandatory</source>
+            <target>Mandatory</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping" approved="yes">
+            <source>Mapping</source>
+            <target>Mapping</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading" approved="yes">
+            <source>Mapping for reading</source>
+            <target>Mapping for reading</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration" approved="yes">
+            <source>Max Iteration</source>
+            <target>Max Iteration</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.metadata_object" approved="yes">
+            <source>Metadata Object</source>
+            <target>Metadata Object</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping" approved="yes">
+            <source>Mods Extension Mapping</source>
+            <target>Mods Extension Mapping</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference" approved="yes">
+            <source>Mods Extension Reference Attribute</source>
+            <target>Mods Extension Reference Attribute</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject" approved="yes">
+            <source>Metadata Object</source>
+            <target>Metadata Object</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only" approved="yes">
+            <source>Backend only</source>
+            <target>Backend only</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.consent" approved="yes">
+            <source>Consent field</source>
+            <target>Consent field</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.data_type" approved="yes">
+            <source>Data Type</source>
+            <target>Data Type</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.default_value" approved="yes">
+            <source>Default value</source>
+            <target>Default value</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.display_name" approved="yes">
+            <source>Display Name</source>
+            <target>Display Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.input_field" approved="yes">
+            <source>Input Field</source>
+            <target>Input Field</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list" approved="yes">
+            <source>Input option list</source>
+            <target>Input option list</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.mandatory" approved="yes">
+            <source>Mandatory</source>
+            <target>Mandatory</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
+            <source>Mapping</source>
+            <target>Mapping</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration" approved="yes">
+            <source>Max Iteration</source>
+            <target>Max Iteration</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension" approved="yes">
+            <source>Mods Extension Field</source>
+            <target>Mods Extension Field</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.validation" approved="yes">
+            <source>Validation</source>
+            <target>Validation</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage" approved="yes">
+            <source>Metadata Page</source>
+            <target>Metadata Page</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.backend_only" approved="yes">
+            <source>Backend only</source>
+            <target>Backend only</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.display_name" approved="yes">
+            <source>Display Name</source>
+            <target>Display Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group" approved="yes">
+            <source>Metadata Group</source>
+            <target>Metadata Group</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.page_number" approved="yes">
+            <source>Page Number</source>
+            <target>Page Number</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_qucosaform.options" approved="yes">
+            <source>Options</source>
+            <target>Options</target>
+        </trans-unit>
+        <trans-unit id="widget.pagination.next" approved="yes">
+            <source>next</source>
+            <target>nächste</target>
+        </trans-unit>
+        <trans-unit id="widget.pagination.previous" approved="yes">
+            <source>previous</source>
+            <target>vorherige</target>
+        </trans-unit>
+        </body>
+    </file>
 </xliff>

@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,7 +29,7 @@ namespace EWW\Dpf\Domain\Repository;
 /**
  * The repository for MetadataGroups
  */
-class MetadataGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class MetadataGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	
 }

@@ -1,19 +1,13 @@
-<f:layout name="Default" />
-
+<f:layout name="Default">
+</f:layout>
 <f:section name="main">
-
-        <div class="searchbox">
-
-            <f:form action="search" name="search" pageUid="{settings.searchResultsPid}" id="smallsearch" noCache="1" noCacheHash="1">
-
-                <f:form.textfield property="query" placeholder="{f:translate(key: 'search.form.label.query')}" id="tx-dlf-search-query" value="{search}"/>
-
-                <f:form.button id="submit" class="" type="submit">
-                    {f:translate(key: 'search.form.button.search')}
-                </f:form.button>
-
-            </f:form>
-
-        </div>
-
+    <div class="searchbox">
+        <f:form action="search" id="smallsearch" name="search" nocache="1" nocachehash="1" pageuid="{settings.searchResultsPid}">
+            <f:form.textfield id="tx-dlf-search-query" placeholder="{f:translate(key: 'search.form.label.query')}" property="query" value="{search}">
+            </f:form.textfield>
+            <f:form.button class="" id="submit" type="submit">
+                {f:translate(key: 'search.form.button.search')}
+            </f:form.button>
+        </f:form>
+    </div>
 </f:section>

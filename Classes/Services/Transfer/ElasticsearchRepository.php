@@ -3,20 +3,20 @@ namespace EWW\Dpf\Services\Transfer;
 
 $extpath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
 
-require_once($extpath . '/Lib/Vendor/Httpful/Bootstrap.php');
+require_once $extpath . '/Lib/Vendor/Httpful/Bootstrap.php';
 \Httpful\Bootstrap::init();
 
 use \Httpful\Request;
 
-
-class ElasticsearchRepository implements Repository {
+class ElasticsearchRepository implements Repository
+{
 
     /**
-    * clientRepository
-    *
-    * @var \EWW\Dpf\Domain\Repository\ClientRepository
-    * @inject
-    */
+     * clientRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\ClientRepository
+     * @inject
+     */
     protected $clientRepository = null;
 
     protected $host;
@@ -27,12 +27,11 @@ class ElasticsearchRepository implements Repository {
 
     protected $url;
 
-
-
-    public function __construct() {
+    public function __construct()
+    {
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
 
-        $this->host = $confArr['elasticSearchHost'].':'.$confArr['elasticSearchPort'];
+        $this->host = $confArr['elasticSearchHost'] . ':' . $confArr['elasticSearchPort'];
 
         $this->index = 'fedora';
 
@@ -46,14 +45,15 @@ class ElasticsearchRepository implements Repository {
      * saves new document into elasticsearch local
      * @param \EWW\Dpf\Domain\Model\Document $document
      */
-    public function add($document, $json) {
+    public function add($document, $json)
+    {
 
         $client = $this->clientRepository->findAll()->current();
 
         // build es json
-        $esJson = array();
-        $esJson['OWNER_ID'] = $client->getOwnerId();
-        $esJson['_dissemination'] = array();
+        $esJson                               = array();
+        $esJson['OWNER_ID']                   = $client->getOwnerId();
+        $esJson['_dissemination']             = array();
         $esJson['_dissemination']['_content'] = json_decode($json);
 
         $esJson = json_encode($esJson);
@@ -66,28 +66,28 @@ class ElasticsearchRepository implements Repository {
                 ->body($esJson)
                 ->send();
 
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             var_dump($exception);
         }
 
     }
-
 
     /**
      * removes document from elasticsearch local
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @param string $state
      */
-    public function delete($document, $state) {
+    public function delete($document, $state)
+    {
 
         try {
             $response = Request::delete($this->url . $document->getUid())
                 ->send();
 
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             var_dump($exception);
         }
- 
+
     }
 
     public function retrieve($id)
@@ -107,9 +107,7 @@ class ElasticsearchRepository implements Repository {
 
     public function getNextDocumentId()
     {
-        # not implemented yet 
+        # not implemented yet
     }
-
-
 
 }

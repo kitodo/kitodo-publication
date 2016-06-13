@@ -1,5 +1,5 @@
 <?php
-	namespace EWW\Dpf\Plugins\DownloadTool;
+namespace EWW\Dpf\Plugins\DownloadTool;
 
 /***************************************************************
  *  Copyright notice
@@ -24,143 +24,143 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-	use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * Plugin 'DPF: DownloadTool' for the 'dlf / dpf' extension.
  *
- * @author	Alexander Bigga <alexander.bigga@slub-dresden.de>
- * @package	TYPO3
- * @subpackage	tx_dpf
- * @access	public
+ * @author    Alexander Bigga <alexander.bigga@slub-dresden.de>
+ * @package    TYPO3
+ * @subpackage    tx_dpf
+ * @access    public
  */
-class DownloadTool extends \tx_dlf_plugin {
+class DownloadTool extends \tx_dlf_plugin
+{
 
+    /**
+     * The main method of the PlugIn
+     *
+     * @access    public
+     *
+     * @param    string        $content: The PlugIn content
+     * @param    array        $conf: The PlugIn configuration
+     *
+     * @return    string        The content that is displayed on the website
+     */
+    public function main($content, $conf)
+    {
 
-	/**
-	 * The main method of the PlugIn
-	 *
-	 * @access	public
-	 *
-	 * @param	string		$content: The PlugIn content
-	 * @param	array		$conf: The PlugIn configuration
-	 *
-	 * @return	string		The content that is displayed on the website
-	 */
-	public function main($content, $conf) {
+        $this->init($conf);
 
-		$this->init($conf);
+        // get the tx_dpf.settings too
+        // Flexform wins over TS
+        $dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
 
-		// get the tx_dpf.settings too
-		// Flexform wins over TS
-		$dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
+        if (is_array($dpfTSconfig['settings.'])) {
 
-		if (is_array($dpfTSconfig['settings.'])) {
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
+            $this->conf = $dpfTSconfig['settings.'];
 
-			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, TRUE, FALSE);
-			$this->conf = $dpfTSconfig['settings.'];
+        }
 
-		}
+        // Load current document.
+        $this->loadDocument();
 
-		// Load current document.
-		$this->loadDocument();
+        if ($this->doc === null || empty($this->conf['fileGrpDownload'])) {
 
-		if ($this->doc === NULL || empty($this->conf['fileGrpDownload'])) {
+            // Quit without doing anything if required variables are not set.
+            return $content;
 
-			// Quit without doing anything if required variables are not set.
-			return $content;
+        }
 
-		}
+        // Load template file.
+        if (!empty($this->conf['templateFile'])) {
 
-		// Load template file.
-		if (!empty($this->conf['templateFile'])) {
+            $this->template = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
 
-			$this->template = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
+        } else {
 
-		} else {
+            $this->template = $this->cObj->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl'), '###TEMPLATE###');
 
-			$this->template = $this->cObj->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl'), '###TEMPLATE###');
+        }
 
-		}
+        $subpartArray['downloads'] = $this->cObj->getSubpart($this->template, '###DOWNLOADS###');
 
-		$subpartArray['downloads'] = $this->cObj->getSubpart($this->template, '###DOWNLOADS###');
+        // Show all PDF documents in download filegroup
+        $attachments = $this->getAttachments();
 
-		// Show all PDF documents in download filegroup
-		$attachments = $this->getAttachments();
+        $content = '';
 
-		$content = '';
+        if (is_array($attachments)) {
 
-		if (is_array($attachments)) {
+            foreach ($attachments as $id => $file) {
 
-			foreach ($attachments as $id => $file) {
+                $conf = array(
+                    'useCacheHash'     => 0,
+                    'parameter'        => $this->conf['apiPid'],
+                    'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
+                    'forceAbsoluteUrl' => true,
+                );
 
-				$conf = array(
-					'useCacheHash' => 0,
-					'parameter' => $this->conf['apiPid'],
-					'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
-					'forceAbsoluteUrl' => TRUE
-				);
+                $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
 
-				$title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
+                // replace uid with URI to dpf API
+                $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
 
-				// replace uid with URI to dpf API
-				$markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+                $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
 
-				$content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
+            }
 
-			}
+        }
 
-		}
+        return $this->cObj->substituteSubpart($this->template, '###DOWNLOADS###', $content, true);
 
-		return $this->cObj->substituteSubpart($this->template, '###DOWNLOADS###', $content, TRUE);
+    }
 
-	}
+    /**
+     * Get PDF document list
 
-	/**
-	 * Get PDF document list
+     * @return array of attachments
+     */
+    protected function getAttachments()
+    {
 
-	 * @return array of attachments
-	 */
-	protected function getAttachments() {
+        // Get pdf documents
+        $xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file[@MIMETYPE="application/pdf"]';
 
-		// Get pdf documents
-		$xPath = 'mets:fileSec/mets:fileGrp[@USE="'.$this->conf['fileGrpDownload'].'"]/mets:file[@MIMETYPE="application/pdf"]';
+        $files = $this->doc->mets->xpath($xPath);
 
-		$files = $this->doc->mets->xpath($xPath);
+        if (!is_array($files)) {
 
-		if (!is_array($files)) {
+            return array();
 
-			return array();
+        }
 
-		}
+        foreach ($files as $key => $file) {
 
-		foreach ($files as $key => $file) {
+            $singleFile = array();
 
-			$singleFile = array();
+            foreach ($file->attributes('mext', 1) as $attribute => $value) {
 
-			foreach ($file->attributes('mext', 1) as $attribute => $value) {
+                $singleFile[$attribute] = $value;
 
-				$singleFile[$attribute] = $value;
+            }
 
-			}
+            foreach ($file->attributes() as $attribute => $value) {
 
-			foreach ($file->attributes() as $attribute => $value) {
+                $singleFile[$attribute] = $value;
 
-				$singleFile[$attribute] = $value;
+            }
 
-			}
+            $attachments[(string) $singleFile['ID']] = $singleFile;
 
-			$attachments[(string)$singleFile['ID']] = $singleFile;
+        }
 
-		}
+        if (is_array($attachments) && count($attachments) > 1) {
 
-		if (is_array($attachments) && count($attachments) > 1) {
+            ksort($attachments);
 
-			ksort($attachments);
+        }
 
-		}
-
-		return $attachments;
-	}
+        return $attachments;
+    }
 
 }

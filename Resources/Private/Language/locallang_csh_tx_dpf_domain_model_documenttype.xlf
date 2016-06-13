@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-		<header/>
-		<body>
-			<trans-unit id="name.description">
-				<source>name</source>
-			</trans-unit>
-			<trans-unit id="display_name.description">
-				<source>displayName</source>
-			</trans-unit>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+        <header/>
+        <body>
+            <trans-unit id="name.description">
+                <source>name</source>
+            </trans-unit>
+            <trans-unit id="display_name.description">
+                <source>displayName</source>
+            </trans-unit>
                         <trans-unit id="display_name.virtual">
-				<source>virtual</source>
-			</trans-unit>
-			<trans-unit id="metadata_page.description">
-				<source>metadataPage</source>
-			</trans-unit>
-		</body>
-	</file>
+                <source>virtual</source>
+            </trans-unit>
+            <trans-unit id="metadata_page.description">
+                <source>metadataPage</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

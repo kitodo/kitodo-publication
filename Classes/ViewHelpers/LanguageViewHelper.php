@@ -1,9 +1,11 @@
 <?php
 namespace EWW\Dpf\ViewHelpers;
 
-class LanguageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-          
-    protected function getLanguage() {
+class LanguageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+
+    protected function getLanguage()
+    {
         if (TYPO3_MODE === 'FE') {
             if (isset($GLOBALS['TSFE']->config['config']['language'])) {
                 return $GLOBALS['TSFE']->config['config']['language'];
@@ -14,10 +16,9 @@ class LanguageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         return 'en'; //default
     }
 
-    public function render() {
+    public function render()
+    {
         return $this->getLanguage();
     }
-    
-}
 
-?>
+}

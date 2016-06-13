@@ -11,24 +11,24 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Qucosa Publication',
-	'description' => '',
-	'category' => 'plugin',
-	'author' => 'effective WEBWORK GmbH',
-	'author_email' => 'info@effective-webwork.de',
-	'state' => 'stable',
-	'internal' => '',
-	'uploadfolder' => '1',
-	'createDirs' => 'uploads/tx_dpf',
-	'clearCacheOnLoad' => 0,
-	'version' => '1.1.0',
-	'constraints' => array(
-		'depends' => array(
-			'typo3' => '6.2',                                            
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
+    'title'            => 'Qucosa Publication',
+    'description'      => '',
+    'category'         => 'plugin',
+    'author'           => 'effective WEBWORK GmbH',
+    'author_email'     => 'info@effective-webwork.de',
+    'state'            => 'stable',
+    'internal'         => '',
+    'uploadfolder'     => '1',
+    'createDirs'       => 'uploads/tx_dpf',
+    'clearCacheOnLoad' => 0,
+    'version'          => '1.1.0',
+    'constraints'      => array(
+        'depends'   => array(
+            'typo3' => '6.2',
+        ),
+        'conflicts' => array(
+        ),
+        'suggests'  => array(
+        ),
+    ),
 );

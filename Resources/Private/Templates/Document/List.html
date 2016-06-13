@@ -1,41 +1,43 @@
-<f:layout name="DefaultBE" />
-
-  
+<f:layout name="DefaultBE">
+</f:layout>
 <f:section name="main">
- 
-<f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">    
-   <div class="alert alert-danger" role="alert">
-       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
-       <f:translate key="documentForm.uploadPostError" />			 
-       <br /><br />
-       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
-       	 <span class="glyphicon glyphicon-arrow-left"></span>
-       	 <f:translate key="documentForm.goBack" />
-       </a> 
-   </div>        
-</f:if>
-
-<f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">    
-   <div class="alert alert-danger" role="alert">
-       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
-       <f:translate key="documentForm.uploadError" />      
-       <ul class="error-files-backbutton">
-       <f:for each="{errorFiles}" as="file">
-         <li>{file}</li>
-       </f:for>       
-       </ul>       
-       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
-         <span class="glyphicon glyphicon-arrow-left"></span>
-         <f:translate key="documentForm.goBack" />
-       </a>
-   </div>
-</f:if>
-
-  <f:render partial="Document/List" arguments="{documents:documents}"/>
-  
+    <f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon glyphicon-fire pull-right">
+            </span>
+            <f:translate key="documentForm.uploadPostError">
+            </f:translate>
+            <br/>
+            <br/>
+            <a class="btn btn-xs btn-primary" href="javascript:history.back()">
+                <span class="glyphicon glyphicon-arrow-left">
+                </span>
+                <f:translate key="documentForm.goBack">
+                </f:translate>
+            </a>
+        </div>
+    </f:if>
+    <f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon glyphicon-fire pull-right">
+            </span>
+            <f:translate key="documentForm.uploadError">
+            </f:translate>
+            <ul class="error-files-backbutton">
+                <f:for as="file" each="{errorFiles}">
+                    <li>
+                        {file}
+                    </li>
+                </f:for>
+            </ul>
+            <a class="btn btn-xs btn-primary" href="javascript:history.back()">
+                <span class="glyphicon glyphicon-arrow-left">
+                </span>
+                <f:translate key="documentForm.goBack">
+                </f:translate>
+            </a>
+        </div>
+    </f:if>
+    <f:render arguments="{documents:documents}" partial="Document/List">
+    </f:render>
 </f:section>
- 
-            
-              
-                                    
-    

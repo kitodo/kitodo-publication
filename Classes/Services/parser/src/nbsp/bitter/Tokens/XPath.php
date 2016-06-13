@@ -1,185 +1,187 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/**
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Tokens;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Lexer;
+namespace nbsp\bitter\Tokens;
 
-	trait XPath {
-		use HTML {
-			HTML::entity as htmlEntity;
-			HTML::string as htmlString;
-		}
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
 
-		/**
-		 * XPath tokens.
-		 *
-		 * @return array
-		 */
-		public function tokens() {
-			return Lexer::extend($this->htmlEntity(), [
-				'axis' => [
-					Lexer::MATCH =>			[
-												'(ancestor|ancestor-or-self|attribute|child|descendant|descendant-or-self|following|following-sibling|namespace|parent|preceding|preceding-sibling|self)::',
-												'[\*]|//'
-											],
-					Lexer::WRAP =>			'keyword axis'
-				],
+trait XPath
+{
+    use HTML {
+        HTML::entity as htmlEntity;
+        HTML::string as htmlString;
+    }
 
-				'keyword' => [
-					Lexer::MATCH =>			'\b(and|or|&lt;|&gt;)\b|[<=>]',
-					Lexer::CALL =>			function($in, $out, $token) {
-												// print_r("keyword");print_r($token);
-												$out->tempStack['keyword'] = $token->value;
+    /**
+     * XPath tokens.
+     *
+     * @return array
+     */
+    function tokens()
+    {
+        return Lexer::extend($this->htmlEntity(), [
+            'axis'         => [
+                Lexer::MATCH => [
+                    '(ancestor|ancestor-or-self|attribute|child|descendant|descendant-or-self|following|following-sibling|namespace|parent|preceding|preceding-sibling|self)::',
+                    '[\*]|//',
+                ],
+                Lexer::WRAP  => 'keyword axis',
+            ],
 
+            'keyword'      => [
+                Lexer::MATCH => '\b(and|or|&lt;|&gt;)\b|[<=>]',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    // print_r("keyword");print_r($token);
+                    $out->tempStack['keyword'] = $token->value;
 
-												// $out->startToken('predicate');
+                    // $out->startToken('predicate');
 
-												// $begin = $token;
-												// $out->writeToken($begin, 'predicate begin');
+                    // $begin = $token;
+                    // $out->writeToken($begin, 'predicate begin');
 
-												// $end = Lexer::loop($in, $out, $this->predicate());
-												// $out->writeToken($end, 'predicate end');
+                    // $end = Lexer::loop($in, $out, $this->predicate());
+                    // $out->writeToken($end, 'predicate end');
 
-												// // Calculate final position:
-												// if ($end) $token->position = $end->position - (
-												// 	strlen($begin) - strlen($end)
-												// );
+                    // // Calculate final position:
+                    // if ($end) $token->position = $end->position - (
+                    //     strlen($begin) - strlen($end)
+                    // );
 
-												// $out->endToken();
-											}
-				],
+                    // $out->endToken();
+                },
+            ],
 
-				'attribute' => [
-					Lexer::MATCH =>			'[@][a-z][a-z0-9_\-\:\.]*',
-					Lexer::CALL =>			function($in, $out, $token) {
-												// print_r("attribute");print_r($token);
-												// Speicher den attributeType
-												$out->tempStack['type'] = trim($token->value, '@');
-												$out->writer->startAttribute(trim($token->value, '@'));
+            'attribute'    => [
+                Lexer::MATCH => '[@][a-z][a-z0-9_\-\:\.]*',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    // print_r("attribute");print_r($token);
+                    // Speicher den attributeType
+                    $out->tempStack['type'] = trim($token->value, '@');
+                    $out->writer->startAttribute(trim($token->value, '@'));
 
-												// $out->startToken('predicate');
+                    // $out->startToken('predicate');
 
-												// $begin = $token;
-												// $out->writeToken($begin, 'predicate begin');
+                    // $begin = $token;
+                    // $out->writeToken($begin, 'predicate begin');
 
-												// $end = Lexer::loop($in, $out, $this->predicate());
-												// $out->writeToken($end, 'predicate end');
+                    // $end = Lexer::loop($in, $out, $this->predicate());
+                    // $out->writeToken($end, 'predicate end');
 
-												// // Calculate final position:
-												// if ($end) $token->position = $end->position - (
-												// 	strlen($begin) - strlen($end)
-												// );
+                    // // Calculate final position:
+                    // if ($end) $token->position = $end->position - (
+                    //     strlen($begin) - strlen($end)
+                    // );
 
-												// $out->endToken();
-											}
-				],
+                    // $out->endToken();
+                },
+            ],
 
-				'variable' => [
-					Lexer::MATCH =>			'[$][a-z][a-z0-9_\-\:\.]*',
-					Lexer::WRAP =>			'variable'
-				],
+            'variable'     => [
+                Lexer::MATCH => '[$][a-z][a-z0-9_\-\:\.]*',
+                Lexer::WRAP  => 'variable',
+            ],
 
-				'method' => [
-					Lexer::MATCH =>			'\b[a-z][a-z0-9_\-\:\.]*(?=[(])',
-					Lexer::WRAP	=>			'method'
-				],
+            'method'       => [
+                Lexer::MATCH => '\b[a-z][a-z0-9_\-\:\.]*(?=[(])',
+                Lexer::WRAP  => 'method',
+            ],
 
-				'number' => [
-					Lexer::MATCH =>			[
-												'(?<![\w\.])([0-9]+[Ee][+-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)([Ee][+-]?[0-9]+)?)(?![\w\.])',
-												'(?<![\w\.])[+-]?([1-9][0-9]*|0)(?![\w\.])',
-												'(?<![\w\.])[+-]?0[0-7]+(?![\w\.])',
-												'(?<![\w\.])[+-]?0x[0-9a-fA-F]+(?![\w\.])'
-											],
-					Lexer::WRAP =>			'value number'
-				],
+            'number'       => [
+                Lexer::MATCH => [
+                    '(?<![\w\.])([0-9]+[Ee][+-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)([Ee][+-]?[0-9]+)?)(?![\w\.])',
+                    '(?<![\w\.])[+-]?([1-9][0-9]*|0)(?![\w\.])',
+                    '(?<![\w\.])[+-]?0[0-7]+(?![\w\.])',
+                    '(?<![\w\.])[+-]?0x[0-9a-fA-F]+(?![\w\.])',
+                ],
+                Lexer::WRAP  => 'value number',
+            ],
 
-				'predicate' => [
-					Lexer::MATCH =>			'\[',
-					Lexer::CALL =>			function($in, $out, $token) {
-												// $out->startToken('predicate');
-												// print_r("predicate");print_r($token);
-												$begin = $token;
-												// $out->writeToken($begin, 'predicate begin');
+            'predicate'    => [
+                Lexer::MATCH => '\[',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    // $out->startToken('predicate');
+                    // print_r("predicate");print_r($token);
+                    $begin = $token;
+                    // $out->writeToken($begin, 'predicate begin');
 
-												$end = Lexer::loop($in, $out, $this->predicate());
-												// $out->writeToken($end, 'predicate end');
+                    $end = Lexer::loop($in, $out, $this->predicate());
+                    // $out->writeToken($end, 'predicate end');
 
-												// Calculate final position:
-												if ($end) $token->position = $end->position - (
-													strlen($begin) - strlen($end)
-												);
+                    // Calculate final position:
+                    if ($end) {
+                        $token->position = $end->position - (
+                            strlen($begin) - strlen($end)
+                        );
+                    }
 
-												// $out->endToken();
-											}
-				],
+                    // $out->endToken();
+                },
+            ],
 
-				'stringSingle' => [
-					Lexer::MATCH =>			"'.*?'",
-					Lexer::CALL =>			function($in, $out, $token) {
-												// $out->startToken('value string single');
-												// print_r("value");print_r($token);
-												$out->tempStack['value'] = $token->value;
-												// $out->startToken('value string double');
-												$out->writer->text(trim($token->value, "'"));
-												$out->writer->endAttribute();
+            'stringSingle' => [
+                Lexer::MATCH => "'.*?'",
+                Lexer::CALL  => function ($in, $out, $token) {
+                    // $out->startToken('value string single');
+                    // print_r("value");print_r($token);
+                    $out->tempStack['value'] = $token->value;
+                    // $out->startToken('value string double');
+                    $out->writer->text(trim($token->value, "'"));
+                    $out->writer->endAttribute();
 
+                    $in = new Input();
+                    $in->openString($token);
 
+                    Lexer::loop($in, $out, $this->htmlString());
 
-												$in = new Input();
-												$in->openString($token);
+                    // $out->endToken();
+                },
+            ],
 
-												Lexer::loop($in, $out, $this->htmlString());
+            'stringDouble' => [
+                Lexer::MATCH => '".*?"',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    // print_r("value");print_r($token);
+                    $out->tempStack['value'] = $token->value;
 
-												// $out->endToken();
-											}
-				],
+                    if (count($out->tempStack) == 2) {
+                        // value
+                        $out->writer->text(trim($token->value, '"'));
+                        $out->writer->endElement();
+                    } else if (count($out->tempStack) == 3) {
+                        // Attribute text + end
+                        $out->writer->text(trim($token->value, '"'));
+                        $out->writer->endAttribute();
+                    }
 
-				'stringDouble' => [
-					Lexer::MATCH =>			'".*?"',
-					Lexer::CALL =>			function($in, $out, $token) {
-												// print_r("value");print_r($token);
-												$out->tempStack['value'] = $token->value;
-												
-												if(count($out->tempStack) == 2) {
-													// value
-													$out->writer->text(trim($token->value, '"'));
-													$out->writer->endElement();
-												} else if(count($out->tempStack) == 3) {
-													// Attribute text + end
-													$out->writer->text(trim($token->value, '"'));
-													$out->writer->endAttribute();
-												}
+                    // reset tempStack
+                    $out->tempStack = array();
+                    // $out->startToken('value string double');
 
-												// reset tempStack
-												$out->tempStack = array();
-												// $out->startToken('value string double');
-												
+                    $in = new Input();
+                    // $in->openString($token);
 
-												$in = new Input();
-												// $in->openString($token);
+                    Lexer::loop($in, $out, $this->htmlString());
 
-												Lexer::loop($in, $out, $this->htmlString());
+                    // $out->endToken();
+                },
+            ],
+        ]);
+    }
 
-												// $out->endToken();
-											}
-				]
-			]);
-		}
-
-		public function predicate() {
-			return Lexer::extend($this->tokens(), [
-				'end' => [
-					Lexer::MATCH =>			'\]',
-					Lexer::CALL =>			Lexer::STOP
-				]
-			]);
-		}
-	}
+    function predicate()
+    {
+        return Lexer::extend($this->tokens(), [
+            'end' => [
+                Lexer::MATCH => '\]',
+                Lexer::CALL  => Lexer::STOP,
+            ],
+        ]);
+    }
+}

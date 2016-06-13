@@ -1,14 +1,15 @@
 <?php
 namespace EWW\Dpf\Helper;
 
-class ElasticsearchMapper {
+class ElasticsearchMapper
+{
 
     /**
      * [$documentRepository description]
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
      * @inject
      */
-    protected $documentRepository = NULL;
+    protected $documentRepository = null;
 
     /**
      * document2json
@@ -19,9 +20,9 @@ class ElasticsearchMapper {
     {
         // document 2 json
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        
+
         // load xslt from fedora
-        $xsltDoc = 'http://'.$confArr['fedoraHost'].'/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
+        $xsltDoc = 'http://' . $confArr['fedoraHost'] . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
 
         // xslt
         $xsl = new \DOMDocument;
@@ -29,11 +30,10 @@ class ElasticsearchMapper {
         // $xsl->load($extPath.'/'.'Resources/Private/XSLT/METS-MODS-XML2JSON.xml');
         $xsl->load($xsltDoc);
 
-
         $exporter = new \EWW\Dpf\Services\MetsExporter();
         $fileData = $document->getFileData();
         $exporter->setFileData($fileData);
-               
+
         // slub:info
         $exporter->setSlubInfo($document->getSlubInfoData());
 
@@ -47,12 +47,11 @@ class ElasticsearchMapper {
 
         // xslt processing
         $proc = new \XSLTProcessor;
-        $proc->importStyleSheet($xsl); // XSL Document importieren          
+        $proc->importStyleSheet($xsl); // XSL Document importieren
 
         $json = $proc->transformToXML($xml);
 
         return $json;
     }
-
 
 }

@@ -3,119 +3,121 @@
  * Backend stylesheet for document manager
  *
  */
-  
- 
- 
- /* -- basic setup ----------------------------------------------------------------------- */
- body {
-	background:#fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
-	padding-top:49px;
+
+
+/* -- basic setup ----------------------------------------------------------------------- */
+
+body {
+    background: #fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
+    padding-top: 49px;
 }
 
 .tx-dpf {
-	padding:24px;
+    padding: 24px;
 }
 
 .tx-dpf:before {
-	position:fixed;
-	top:0;
-	right:0;
-	left:0;
-	height:49px;
-	background:#585858;
-	border-bottom:22px solid #dadada;
-	content:"";
-	z-index:500;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 49px;
+    background: #585858;
+    border-bottom: 22px solid #dadada;
+    content: "";
+    z-index: 500;
 }
 
 .tx-dpf .client {
-	position:fixed;
-	top:17px;
-	right:25px;
-	height:34px;
-	padding:5px 15px;
-	line-height:30px;
-	color:#666;
-	text-align:right;
-	background:#fff;
-	border:1px solid #d7d7d7;
-	border-bottom-width:0;
-	z-index:501;
+    position: fixed;
+    top: 17px;
+    right: 25px;
+    height: 34px;
+    padding: 5px 15px;
+    line-height: 30px;
+    color: #666;
+    text-align: right;
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-bottom-width: 0;
+    z-index: 501;
 }
 
 .be-page-header {
-	margin-bottom:30px;
+    margin-bottom: 30px;
 }
 
 .be-page-header h3 {
-	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
-	font-size:2em;
-	color:#555;
-	margin:0;
-	float:left;
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: #555;
+    margin: 0;
+    float: left;
 }
 
 .docheader-funcmenu {
-	position:fixed;
-	top:3px;
-	left:24px;
-	z-index:502;
+    position: fixed;
+    top: 3px;
+    left: 24px;
+    z-index: 502;
 }
 
 .controller-switch {
-	float:right;
-	margin-right:17px;
+    float: right;
+    margin-right: 17px;
 }
 
 .be-page-header:after {
-	position:relative;
-	display:table;
-	content:"";
-	clear:both;
+    position: relative;
+    display: table;
+    content: "";
+    clear: both;
 }
-
 
 
 /* -- table setup ------------------------------------------------------------------------ */
+
 table.tx_dpf {
-	border-bottom:2px solid #ddd;
+    border-bottom: 2px solid #ddd;
 }
 
 table.tx_dpf .table_col_function {
-	text-align:right;
-	padding:8px 15px 8px 0;
+    text-align: right;
+    padding: 8px 15px 8px 0;
 }
 
 table.tx_dpf .table_col_function a {
-	text-decoration:none;
+    text-decoration: none;
 }
 
 table.tx_dpf > tbody > tr > td {
-	vertical-align:middle;
+    vertical-align: middle;
 }
 
 .searchForm {
-	margin:0 20px 20px 0;
-	float:left;
+    margin: 0 20px 20px 0;
+    float: left;
 }
 
 .searchForm label.show-label {
-	display:initial !important;
+    display: initial !important;
 }
 
 .searchForm label {
-	display:none;
+    display: none;
 }
 
+
 /* -- upload error message --------------------------------------------------------------- */
+
 ul.error-files-backbutton {
-	margin: 10px 0 10px 0 !important;	
-	padding: 0 !important;
+    margin: 10px 0 10px 0 !important;
+    padding: 0 !important;
 }
 
 ul.error-files-backbutton li {
-	list-style: disc;
-	margin-left: 13px;
+    list-style: disc;
+    margin-left: 13px;
 }
 
 

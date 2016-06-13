@@ -1,6 +1,5 @@
-
-<f:layout name="Default" />
-
+<f:layout name="Default">
+</f:layout>
 This template displays a EDIT form for the current domain object.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -11,16 +10,18 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         Edit.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
-<h1>Edit DocumentType</h1>
-
-<f:flashMessages renderMode="div" />
-
-<f:render partial="FormErrors" arguments="{object:DocumentType}" />
-
-<f:form action="update" name="documentType" object="{documentType}" >
-<f:render partial="DocumentType/FormFields" arguments="{documentType:documentType}" />
-	<f:form.submit value="Save" />
-</f:form>
+    <h1>
+        Edit DocumentType
+    </h1>
+    <f:flashmessages rendermode="div">
+    </f:flashmessages>
+    <f:render arguments="{object:DocumentType}" partial="FormErrors">
+    </f:render>
+    <f:form action="update" name="documentType" object="{documentType}">
+        <f:render arguments="{documentType:documentType}" partial="DocumentType/FormFields">
+        </f:render>
+        <f:form.submit value="Save">
+        </f:form.submit>
+    </f:form>
 </f:section>

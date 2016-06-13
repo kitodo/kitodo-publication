@@ -1,23 +1,21 @@
 {
-	"name": "nbsp/bitter",
-	"type": "library",
-	"description": "A simple, fast yet effective syntax highlighter for PHP",
-	"homepage": "http://github.com/rowan-lewis/nbsp-bitter/",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Rowan Lewis",
-			"email": "rl@nbsp.io",
-			"homepage": "http://nbsp.io",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=5.4.0"
-	},
-	"autoload": {
-		"psr-0": {
-			"nbsp\\bitter": "src/"
-		}
-	}
+    "name": "nbsp/bitter",
+    "type": "library",
+    "description": "A simple, fast yet effective syntax highlighter for PHP",
+    "homepage": "http://github.com/rowan-lewis/nbsp-bitter/",
+    "license": "MIT",
+    "authors": [{
+        "name": "Rowan Lewis",
+        "email": "rl@nbsp.io",
+        "homepage": "http://nbsp.io",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "nbsp\\bitter": "src/"
+        }
+    }
 }

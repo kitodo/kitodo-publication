@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,84 +29,91 @@ namespace EWW\Dpf\Domain\Model;
 /**
  * FedoraConnection
  */
-class FedoraConnection extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class FedoraConnection extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * url
-	 *
-	 * @var string
-	 */
-	protected $url = '';
+    /**
+     * url
+     *
+     * @var string
+     */
+    protected $url = '';
 
-	/**
-	 * user
-	 *
-	 * @var string
-	 */
-	protected $user = '';
+    /**
+     * user
+     *
+     * @var string
+     */
+    protected $user = '';
 
-	/**
-	 * password
-	 *
-	 * @var string
-	 */
-	protected $password = '';
+    /**
+     * password
+     *
+     * @var string
+     */
+    protected $password = '';
 
-	/**
-	 * Returns the url
-	 *
-	 * @return string $url
-	 */
-	public function getUrl() {
-		return $this->url;
-	}
+    /**
+     * Returns the url
+     *
+     * @return string $url
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-	/**
-	 * Sets the url
-	 *
-	 * @param string $url
-	 * @return void
-	 */
-	public function setUrl($url) {
-		$this->url = $url;
-	}
+    /**
+     * Sets the url
+     *
+     * @param string $url
+     * @return void
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 
-	/**
-	 * Returns the user
-	 *
-	 * @return string $user
-	 */
-	public function getUser() {
-		return $this->user;
-	}
+    /**
+     * Returns the user
+     *
+     * @return string $user
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
-	/**
-	 * Sets the user
-	 *
-	 * @param string $user
-	 * @return void
-	 */
-	public function setUser($user) {
-		$this->user = $user;
-	}
+    /**
+     * Sets the user
+     *
+     * @param string $user
+     * @return void
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
 
-	/**
-	 * Returns the password
-	 *
-	 * @return string $password
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
+    /**
+     * Returns the password
+     *
+     * @return string $password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
 
-	/**
-	 * Sets the password
-	 *
-	 * @param string $password
-	 * @return void
-	 */
-	public function setPassword($password) {
-		$this->password = $password;
-	}
+    /**
+     * Sets the password
+     *
+     * @param string $password
+     * @return void
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
 
 }

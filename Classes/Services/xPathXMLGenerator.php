@@ -27,34 +27,32 @@ namespace EWW\Dpf\Services;
  ***************************************************************/
 
 use nbsp\bitter\Input;
-use nbsp\bitter\Output;
 use nbsp\bitter\Lexers\XPath;
+use nbsp\bitter\Output;
 
 require_once 'parser/vendor/autoload.php';
 
 /**
  * xPathXMLGenerator
  */
-class xPathXMLGenerator {
+class xPathXMLGenerator
+{
 
+    public function parse($xPath)
+    {
+        $xpath = new XPath();
+        $in    = new Input();
+        $out   = new Output();
 
-	public function parse($xPath)
-	{
-		$xpath = new XPath();
-		$in = new Input();
-		$out = new Output();
+        $out->openMemory();
 
-		$out->openMemory();
+        // Parsing xPath
+        $in->openString($xPath);
+        $xpath->parse($in, $out);
 
-		// Parsing xPath
-		$in->openString($xPath);
-		$xpath->parse($in, $out);
+        $output = $out->outputMemory();
 
-		$output = $out->outputMemory();
-
-		return $output;
-	}
-
-
+        return $output;
+    }
 
 }

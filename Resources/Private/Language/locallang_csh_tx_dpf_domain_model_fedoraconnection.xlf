@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-		<header/>
-		<body>
-			<trans-unit id="url.description">
-				<source>url</source>
-			</trans-unit>
-			<trans-unit id="user.description">
-				<source>user</source>
-			</trans-unit>
-			<trans-unit id="password.description">
-				<source>password</source>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+        <header/>
+        <body>
+            <trans-unit id="url.description">
+                <source>url</source>
+            </trans-unit>
+            <trans-unit id="user.description">
+                <source>user</source>
+            </trans-unit>
+            <trans-unit id="password.description">
+                <source>password</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

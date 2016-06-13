@@ -1,223 +1,229 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/**
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Tokens;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Output;
-	use nbsp\bitter\Lexer;
+namespace nbsp\bitter\Tokens;
 
-	trait JavaScript {
-		public function tokens() {
-			return [
-				'commentLine' => [
-					Lexer::MATCH =>		'(//|[#]).*?$',
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('comment line');
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
 
-											$in = new Input();
-											$in->openString($token);
+trait JavaScript
+{
+    public function tokens()
+    {
+        return [
+            'commentLine'  => [
+                Lexer::MATCH => '(//|[#]).*?$',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('comment line');
 
-											Lexer::loop($in, $out, $this->commentLine());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				],
+                    Lexer::loop($in, $out, $this->commentLine());
 
-				'commentBlock' => [
-					Lexer::MATCH =>		'/[*].*?[*]/',
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('comment block');
+                    $out->endToken();
+                },
+            ],
 
-											$in = new Input();
-											$in->openString($token);
+            'commentBlock' => [
+                Lexer::MATCH => '/[*].*?[*]/',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('comment block');
 
-											Lexer::loop($in, $out, $this->commentBlock());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				],
+                    Lexer::loop($in, $out, $this->commentBlock());
 
-				'keyword' => [
-					Lexer::MATCH =>		'\b(with|while|volatile|void|var|typeof|try|true|transient|throws|throw|this|synchronized|switch|super|static|short|return|public|protected|private|package|null|new|native|long|interface|int|instanceof|in|import|implements|if|goto|function|for|float|finally|final|false|extends|export|enum|else|double|do|delete|default|debugger|continue|const|class|char|catch|case|byte|break|boolean|abstract)\b',
-					Lexer::WRAP =>		'word predefined'
-				],
+                    $out->endToken();
+                },
+            ],
 
-				'variable' => [
-					Lexer::MATCH =>		'[$a-z_][$a-z0-0_]*',
-					Lexer::CALL =>		function($in, $out, $token) {
-											Lexer::choose($in, $out, $token, [
-												[
-													Lexer::AFTER =>		'%^\s*[(]%',
-													Lexer::WRAP =>		'word method'
-												],
-												[
-													Lexer::BEFORE =>	'%[\.]$%',
-													Lexer::WRAP =>		'word property'
-												],
-												[
-													Lexer::WRAP =>		'word variable'
-												]
-											]);
-										}
-				],
+            'keyword'      => [
+                Lexer::MATCH => '\b(with|while|volatile|void|var|typeof|try|true|transient|throws|throw|this|synchronized|switch|super|static|short|return|public|protected|private|package|null|new|native|long|interface|int|instanceof|in|import|implements|if|goto|function|for|float|finally|final|false|extends|export|enum|else|double|do|delete|default|debugger|continue|const|class|char|catch|case|byte|break|boolean|abstract)\b',
+                Lexer::WRAP  => 'word predefined',
+            ],
 
-				'stringDouble' => [
-					Lexer::MATCH =>		'"[^"\\\]*(?:\\\.[^"\\\]*)*"',
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('value string double');
+            'variable'     => [
+                Lexer::MATCH => '[$a-z_][$a-z0-0_]*',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    Lexer::choose($in, $out, $token, [
+                        [
+                            Lexer::AFTER => '%^\s*[(]%',
+                            Lexer::WRAP  => 'word method',
+                        ],
+                        [
+                            Lexer::BEFORE => '%[\.]$%',
+                            Lexer::WRAP   => 'word property',
+                        ],
+                        [
+                            Lexer::WRAP => 'word variable',
+                        ],
+                    ]);
+                },
+            ],
 
-											$in = new Input();
-											$in->openString($token);
+            'stringDouble' => [
+                Lexer::MATCH => '"[^"\\\]*(?:\\\.[^"\\\]*)*"',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('value string double');
 
-											Lexer::loop($in, $out, $this->stringDouble());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				],
+                    Lexer::loop($in, $out, $this->stringDouble());
 
-				'stringSingle' => [
-					Lexer::MATCH =>		'\'[^\'\\\]*(?:\\\.[^\'\\\]*)*\'',
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('value string single');
+                    $out->endToken();
+                },
+            ],
 
-											$in = new Input();
-											$in->openString($token);
+            'stringSingle' => [
+                Lexer::MATCH => '\'[^\'\\\]*(?:\\\.[^\'\\\]*)*\'',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('value string single');
 
-											Lexer::loop($in, $out, $this->stringSingle());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				],
+                    Lexer::loop($in, $out, $this->stringSingle());
 
-				'number' => [
-					Lexer::MATCH =>		[
-											'(?<![\w\.])([0-9]+[Ee][+-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)([Ee][+-]?[0-9]+)?)(?![\w\.])',
-											'(?<![\w\.])[+-]?([1-9][0-9]*|0)(?![\w\.])',
-											'(?<![\w\.])[+-]?0[0-7]+(?![\w\.])',
-											'(?<![\w\.])[+-]?0x[0-9a-fA-F]+(?![\w\.])'
-										],
-					Lexer::WRAP =>		'value number'
-				]
-			];
-		}
+                    $out->endToken();
+                },
+            ],
 
-		/**
-		 * Line comment tokens.
-		 *
-		 * @return array
-		 */
-		public function commentLine() {
-			return [
-				// Begin:
-				'begin' => [
-					Lexer::MATCH =>		"^(//|[#])",
-					Lexer::WRAP =>		'begin'
-				]
-			];
-		}
+            'number'       => [
+                Lexer::MATCH => [
+                    '(?<![\w\.])([0-9]+[Ee][+-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)([Ee][+-]?[0-9]+)?)(?![\w\.])',
+                    '(?<![\w\.])[+-]?([1-9][0-9]*|0)(?![\w\.])',
+                    '(?<![\w\.])[+-]?0[0-7]+(?![\w\.])',
+                    '(?<![\w\.])[+-]?0x[0-9a-fA-F]+(?![\w\.])',
+                ],
+                Lexer::WRAP  => 'value number',
+            ],
+        ];
+    }
 
-		/**
-		 * Block comment tokens.
-		 *
-		 * @return array
-		 */
-		public function commentBlock() {
-			return [
-				// Begin:
-				'begin' => [
-					Lexer::MATCH =>		"^/\*(\*)?",
-					Lexer::WRAP =>		'begin'
-				],
+    /**
+     * Line comment tokens.
+     *
+     * @return array
+     */
+    public function commentLine()
+    {
+        return [
+            // Begin:
+            'begin' => [
+                Lexer::MATCH => "^(//|[#])",
+                Lexer::WRAP  => 'begin',
+            ],
+        ];
+    }
 
-				// End:
-				'end' => [
-					Lexer::MATCH =>		"\*/$",
-					Lexer::WRAP =>		'end'
-				],
+    /**
+     * Block comment tokens.
+     *
+     * @return array
+     */
+    public function commentBlock()
+    {
+        return [
+            // Begin:
+            'begin'   => [
+                Lexer::MATCH => "^/\*(\*)?",
+                Lexer::WRAP  => 'begin',
+            ],
 
-				// Divider:
-				'divider' => [
-					Lexer::MATCH =>		'^\s*[*](?!/)',
-					Lexer::WRAP =>		'divider'
-				],
+            // End:
+            'end'     => [
+                Lexer::MATCH => "\*/$",
+                Lexer::WRAP  => 'end',
+            ],
 
-				// Keyword:
-				'keyword' => [
-					Lexer::MATCH =>		'@[a-z_][a-z0-9_]*',
-					Lexer::WRAP =>		'word predefined'
-				]
-			];
-		}
+            // Divider:
+            'divider' => [
+                Lexer::MATCH => '^\s*[*](?!/)',
+                Lexer::WRAP  => 'divider',
+            ],
 
-		/**
-		 * Double string tokens.
-		 *
-		 * @return array
-		 */
-		public function stringDouble() {
-			return [
-				// Empty:
-				'empty' => [
-					Lexer::MATCH =>		'^""$',
-					Lexer::WRAP =>		'empty'
-				],
+            // Keyword:
+            'keyword' => [
+                Lexer::MATCH => '@[a-z_][a-z0-9_]*',
+                Lexer::WRAP  => 'word predefined',
+            ],
+        ];
+    }
 
-				// Begin:
-				'begin' => [
-					Lexer::MATCH =>		'^"',
-					Lexer::WRAP =>		'begin'
-				],
+    /**
+     * Double string tokens.
+     *
+     * @return array
+     */
+    public function stringDouble()
+    {
+        return [
+            // Empty:
+            'empty'  => [
+                Lexer::MATCH => '^""$',
+                Lexer::WRAP  => 'empty',
+            ],
 
-				// End:
-				'end' => [
-					Lexer::MATCH =>		'"$',
-					Lexer::WRAP =>		'end'
-				],
+            // Begin:
+            'begin'  => [
+                Lexer::MATCH => '^"',
+                Lexer::WRAP  => 'begin',
+            ],
 
-				// Escape:
-				'escape' => [
-					Lexer::MATCH =>		'\\\.',
-					Lexer::WRAP =>		'escape'
-				]
-			];
-		}
+            // End:
+            'end'    => [
+                Lexer::MATCH => '"$',
+                Lexer::WRAP  => 'end',
+            ],
 
-		/**
-		 * Single string tokens.
-		 *
-		 * @return array
-		 */
-		public function stringSingle() {
-			return [
-				// Empty:
-				'empty' => [
-					Lexer::MATCH =>		"^''$",
-					Lexer::WRAP =>		'empty'
-				],
+            // Escape:
+            'escape' => [
+                Lexer::MATCH => '\\\.',
+                Lexer::WRAP  => 'escape',
+            ],
+        ];
+    }
 
-				// Begin:
-				'begin' => [
-					Lexer::MATCH =>		"^'",
-					Lexer::WRAP =>		'begin'
-				],
+    /**
+     * Single string tokens.
+     *
+     * @return array
+     */
+    public function stringSingle()
+    {
+        return [
+            // Empty:
+            'empty'  => [
+                Lexer::MATCH => "^''$",
+                Lexer::WRAP  => 'empty',
+            ],
 
-				// End:
-				'end' => [
-					Lexer::MATCH =>		"'$",
-					Lexer::WRAP =>		'end'
-				],
+            // Begin:
+            'begin'  => [
+                Lexer::MATCH => "^'",
+                Lexer::WRAP  => 'begin',
+            ],
 
-				// Escape:
-				'escape' => [
-					Lexer::MATCH =>		'\\\.',
-					Lexer::WRAP =>		'escape'
-				]
-			];
-		}
-	}
+            // End:
+            'end'    => [
+                Lexer::MATCH => "'$",
+                Lexer::WRAP  => 'end',
+            ],
+
+            // Escape:
+            'escape' => [
+                Lexer::MATCH => '\\\.',
+                Lexer::WRAP  => 'escape',
+            ],
+        ];
+    }
+}

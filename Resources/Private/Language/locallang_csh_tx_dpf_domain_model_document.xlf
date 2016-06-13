@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-		<header/>
-		<body>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+        <header/>
+        <body>
                         <trans-unit id="title.description">
-				<source>title</source>
-			</trans-unit>
+                <source>title</source>
+            </trans-unit>
                         <trans-unit id="authors.description">
-				<source>authors</source>
-			</trans-unit>
-			<trans-unit id="xml_data.description">
-				<source>xmlData</source>
-			</trans-unit>
+                <source>authors</source>
+            </trans-unit>
+            <trans-unit id="xml_data.description">
+                <source>xmlData</source>
+            </trans-unit>
                         <trans-unit id="slub_info_data.description">
-				<source>slubInfoData</source>
-			</trans-unit>
-			<trans-unit id="document_type.description">
-				<source>documentType</source>
-			</trans-unit>
+                <source>slubInfoData</source>
+            </trans-unit>
+            <trans-unit id="document_type.description">
+                <source>documentType</source>
+            </trans-unit>
                         <trans-unit id="object_identifier.description">
-				<source>objectIdentifier</source>
-			</trans-unit>
+                <source>objectIdentifier</source>
+            </trans-unit>
                         <trans-unit id="reserved_object_identifier.description">
-				<source>reservedObjectIdentifier</source>
-			</trans-unit>
+                <source>reservedObjectIdentifier</source>
+            </trans-unit>
                         <trans-unit id="object_state.description">
-				<source>objectState</source>
-			</trans-unit>
+                <source>objectState</source>
+            </trans-unit>
                         <trans-unit id="date_issued.description">
-				<source>date issued</source>
-			</trans-unit>
-		</body>
-	</file>
+                <source>date issued</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

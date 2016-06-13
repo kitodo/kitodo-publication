@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-		<header/>
-		<body>
-			<trans-unit id="name.description">
-				<source>name</source>
-			</trans-unit>
-			<trans-unit id="display_name.description">
-				<source>displayName</source>
-			</trans-unit>
-			<trans-unit id="page_number.description">
-				<source>pageNumber</source>
-			</trans-unit>
-			<trans-unit id="metadata_group.description">
-				<source>metadataGroup</source>
-			</trans-unit>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+        <header/>
+        <body>
+            <trans-unit id="name.description">
+                <source>name</source>
+            </trans-unit>
+            <trans-unit id="display_name.description">
+                <source>displayName</source>
+            </trans-unit>
+            <trans-unit id="page_number.description">
+                <source>pageNumber</source>
+            </trans-unit>
+            <trans-unit id="metadata_group.description">
+                <source>metadataGroup</source>
+            </trans-unit>
                         <trans-unit id="backend_only.description">
-				<source>backendOnly</source>
-			</trans-unit>
-		</body>
-	</file>
+                <source>backendOnly</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

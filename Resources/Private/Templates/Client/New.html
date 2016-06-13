@@ -1,59 +1,68 @@
-<f:layout name="AdminBE" />
-
+<f:layout name="AdminBE">
+</f:layout>
 <f:section name="main">
-   
-  <h3>Mandant initialisieren</h3>
-
-<f:flashMessages renderMode="div" />
-
-
-<f:form.validationResults for="{newClient}">
-    <f:if condition="{validationResults.flattenedErrors}">
-        <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">            
-            <f:for each="{errors}" as="error"> 
-                <div class="typo3-messages">
-                    <div class="typo3-message message-error">
-                        <div class="message-body">{propertyPath}: {error}</div>
+    <h3>
+        Mandant initialisieren
+    </h3>
+    <f:flashmessages rendermode="div">
+    </f:flashmessages>
+    <f:form.validationresults for="{newClient}">
+        <f:if condition="{validationResults.flattenedErrors}">
+            <f:for as="errors" each="{validationResults.flattenedErrors}" key="propertyPath">
+                <f:for as="error" each="{errors}">
+                    <div class="typo3-messages">
+                        <div class="typo3-message message-error">
+                            <div class="message-body">
+                                {propertyPath}: {error}
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </f:for>
             </f:for>
-        </f:for>
+        </f:if>
+    </f:form.validationresults>
+    <f:if condition="{isValidClientFolder} > 0">
+        <f:form action="create" id="new-client" name="newClient" object="{newClient}">
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.client">
+                </f:translate>
+            </label>
+            <f:form.textfield property="client">
+            </f:form.textfield>
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.project">
+                </f:translate>
+            </label>
+            <f:form.textfield property="project">
+            </f:form.textfield>
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.owner_id">
+                </f:translate>
+            </label>
+            <f:form.textfield property="ownerId">
+            </f:form.textfield>
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.network_initial">
+                </f:translate>
+            </label>
+            <f:form.textfield property="networkInitial">
+            </f:form.textfield>
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.library_identifier">
+                </f:translate>
+            </label>
+            <f:form.textfield property="libraryIdentifier">
+            </f:form.textfield>
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.admin_email">
+                </f:translate>
+            </label>
+            <f:form.textfield property="adminEmail">
+            </f:form.textfield>
+            <br/>
+            <br/>
+            <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen">
+            </f:form.submit>
+        </f:form>
     </f:if>
-</f:form.validationResults>
-
-<f:if condition="{isValidClientFolder} > 0">
-               
-   <f:form id="new-client" action="create" name="newClient" object="{newClient}" >                        
-                
-                <label><f:translate key="tx_dpf_domain_model_client.client" /></label>
-                <f:form.textfield property="client" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.project" /></label>
-                <f:form.textfield property="project" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.owner_id" /></label>
-                <f:form.textfield property="ownerId" />
-                                 
-                <label><f:translate key="tx_dpf_domain_model_client.network_initial" /></label>
-                <f:form.textfield property="networkInitial" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.library_identifier" /></label>
-                <f:form.textfield property="libraryIdentifier" />
-                                               
-                <label><f:translate key="tx_dpf_domain_model_client.admin_email" /></label>
-                <f:form.textfield property="adminEmail" />
-                
-                <br />
-                <br />
-                
-                <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen" />
-   </f:form>        
-        
-    
-</f:if>
-        
-    
-
-
-
 </f:section>

@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,163 +29,174 @@ namespace EWW\Dpf\Domain\Model;
 /**
  * DocumentType
  */
-class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * name
-	 *
-	 * @var string
-	 */
-	protected $name = '';
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected $name = '';
 
-	/**
-	 * displayName
-	 *
-	 * @var string
-	 */
-	protected $displayName = '';
+    /**
+     * displayName
+     *
+     * @var string
+     */
+    protected $displayName = '';
 
-	
-        /**
-	 * virtual
-         * 
-         * @var boolean
-	 */
-	protected $virtual = FALSE;
-        
-        
-        /**
-	 * metadataPage
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage>
-	 * @cascade remove
-	 */
-	protected $metadataPage = NULL;
-                
-	/**
-	 * __construct
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
+    /**
+     * virtual
+     *
+     * @var boolean
+     */
+    protected $virtual = false;
 
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->metadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
+    /**
+     * metadataPage
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage>
+     * @cascade remove
+     */
+    protected $metadataPage = null;
 
-	/**
-	 * Returns the name
-	 *
-	 * @return string $name
-	 */
-	public function getName() {
-		return $this->name;
-	}
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        //Do not remove the next line: It would break the functionality
+        $this->initStorageObjects();
+    }
 
-	/**
-	 * Sets the name
-	 *
-	 * @param string $name
-	 * @return void
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->metadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
 
-	/**
-	 * Returns the displayName
-	 *
-	 * @return string $displayName
-	 */
-	public function getDisplayName() {
-		return $this->displayName;
-	}
+    /**
+     * Returns the name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Sets the displayName
-	 *
-	 * @param string $displayName
-	 * @return void
-	 */
-	public function setDisplayName($displayName) {
-		$this->displayName = $displayName;
-	}
+    /**
+     * Sets the name
+     *
+     * @param string $name
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * Adds a MetadataPage
-	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPage
-	 * @return void
-	 */
-	public function addMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPage) {
-		$this->metadataPage->attach($metadataPage);
-	}
+    /**
+     * Returns the displayName
+     *
+     * @return string $displayName
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
 
-	/**
-	 * Removes a MetadataPage
-	 *
-	 * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove The MetadataPage to be removed
-	 * @return void
-	 */
-	public function removeMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove) {
-		$this->metadataPage->detach($metadataPageToRemove);
-	}
+    /**
+     * Sets the displayName
+     *
+     * @param string $displayName
+     * @return void
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+    }
 
-	/**
-	 * Returns the metadataPage
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
-	 */
-	public function getMetadataPage() {
-		return $this->metadataPage;
-	}
+    /**
+     * Adds a MetadataPage
+     *
+     * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPage
+     * @return void
+     */
+    public function addMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPage)
+    {
+        $this->metadataPage->attach($metadataPage);
+    }
 
-	/**
-	 * Sets the metadataPage
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
-	 * @return void
-	 */
-	public function setMetadataPage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataPage) {
-		$this->metadataPage = $metadataPage;
-	}
+    /**
+     * Removes a MetadataPage
+     *
+     * @param \EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove The MetadataPage to be removed
+     * @return void
+     */
+    public function removeMetadataPage(\EWW\Dpf\Domain\Model\MetadataPage $metadataPageToRemove)
+    {
+        $this->metadataPage->detach($metadataPageToRemove);
+    }
 
-        /**
-         * Alias for function getMetadataPage()
-         *
- 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
-         */
-        public function getChildren() {
-           return $this->getMetadataPage();
-        }
+    /**
+     * Returns the metadataPage
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
+     */
+    public function getMetadataPage()
+    {
+        return $this->metadataPage;
+    }
 
-        /**
-         * Returns the virtual
-         * 
-         * @return boolen
-         */
-        public function getVirtual() {
-            return $this->virtual;
-        }
-        
-        /**
-         * Sets the virtual
-         * 
-         * @param boolean $virtual
-         * @return void
-         */
-        public function setVirtual($virtual) {
-            $this->virtual = $virtual;
-        }
-        
-        
+    /**
+     * Sets the metadataPage
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
+     * @return void
+     */
+    public function setMetadataPage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $metadataPage)
+    {
+        $this->metadataPage = $metadataPage;
+    }
+
+    /**
+     * Alias for function getMetadataPage()
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage> $metadataPage
+     */
+    public function getChildren()
+    {
+        return $this->getMetadataPage();
+    }
+
+    /**
+     * Returns the virtual
+     *
+     * @return boolen
+     */
+    public function getVirtual()
+    {
+        return $this->virtual;
+    }
+
+    /**
+     * Sets the virtual
+     *
+     * @param boolean $virtual
+     * @return void
+     */
+    public function setVirtual($virtual)
+    {
+        $this->virtual = $virtual;
+    }
+
 }

@@ -50,7 +50,8 @@ namespace EWW\Dpf\ViewHelpers\Widget;
  * So, there is no negative performance overhead in using the Paginate Widget.
  *
  */
-class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper {
+class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper
+{
 
     /**
      * @var \EWW\Dpf\ViewHelpers\Widget\Controller\PaginateController
@@ -66,7 +67,8 @@ class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
      * @param array $configuration
      * @return string
      */
-    public function render($objects, $total, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => FALSE, 'insertBelow' => TRUE, 'maximumNumberOfLinks' => 99)) {
+    public function render($objects, $total, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99))
+    {
         return $this->initiateSubRequest();
     }
 }

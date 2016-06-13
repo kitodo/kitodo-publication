@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-		<header/>
-		<body>
-			<trans-unit id="name.description">
-				<source>Name</source>
-			</trans-unit>
-			<trans-unit id="display_name.description">
-				<source>Displayname</source>
-			</trans-unit>
-			<trans-unit id="max_iteration.description">
-				<source>Max iteration</source>
-			</trans-unit>
-			<trans-unit id="mandatory.description">
-				<source>Mandatory</source>
-			</trans-unit>
-			<trans-unit id="mapping.description">
-				<source>Mapping</source>
-			</trans-unit>
-			<trans-unit id="validation.description">
-				<source>Validation</source>
-			</trans-unit>                        
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+        <header/>
+        <body>
+            <trans-unit id="name.description">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="display_name.description">
+                <source>Displayname</source>
+            </trans-unit>
+            <trans-unit id="max_iteration.description">
+                <source>Max iteration</source>
+            </trans-unit>
+            <trans-unit id="mandatory.description">
+                <source>Mandatory</source>
+            </trans-unit>
+            <trans-unit id="mapping.description">
+                <source>Mapping</source>
+            </trans-unit>
+            <trans-unit id="validation.description">
+                <source>Validation</source>
+            </trans-unit>                        
                         <trans-unit id="mods_extension.description">
-				<source>Mods extension</source>
-			</trans-unit>
+                <source>Mods extension</source>
+            </trans-unit>
                         <trans-unit id="backend_only.description">
-				<source>backendOnly</source>
-			</trans-unit>
+                <source>backendOnly</source>
+            </trans-unit>
                         <trans-unit id="consent.description">
-				<source>Consent field</source>
-			</trans-unit>
+                <source>Consent field</source>
+            </trans-unit>
                         <trans-unit id="default_value.description">
-				<source>Default value</source>
-			</trans-unit>
-			<trans-unit id="input_field.description">
-				<source>Input field</source>
-			</trans-unit>     
+                <source>Default value</source>
+            </trans-unit>
+            <trans-unit id="input_field.description">
+                <source>Input field</source>
+            </trans-unit>     
                         <trans-unit id="data_type.description">
-				<source>Data type</source>
-			</trans-unit>                        
+                <source>Data type</source>
+            </trans-unit>                        
                         <trans-unit id="input_option_list.description">
-				<source>Input option list</source>
-			</trans-unit> 
+                <source>Input option list</source>
+            </trans-unit> 
                         <trans-unit id="fill_out_service.description">
-				<source>Fillout service</source>
-			</trans-unit>                       
-		</body>
-	</file>
+                <source>Fillout service</source>
+            </trans-unit>                       
+        </body>
+    </file>
 </xliff>

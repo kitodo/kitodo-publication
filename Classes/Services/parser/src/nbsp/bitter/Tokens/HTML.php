@@ -1,207 +1,219 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/**
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Tokens;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Lexer;
+namespace nbsp\bitter\Tokens;
 
-	trait HTML {
-		/**
-		 * HTML tokens.
-		 *
-		 * @return array
-		 */
-		public function tokens() {
-			return [
-				'entity' => [
-					Lexer::MATCH =>			'&([#][0-9]{1,4}|[#]x[a-f0-9]{1,4}|[a-z\-]+);',
-					Lexer::WRAP =>			'word entity'
-				],
-				'comment' => [
-					Lexer::MATCH =>			'<!--',
-					Lexer::CALL =>			function($in, $out, $token) {
-												$out->startToken('comment');
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
 
-												$begin = $token;
-												$out->writeToken($begin, 'comment begin');
+trait HTML
+{
+    /**
+     * HTML tokens.
+     *
+     * @return array
+     */
+    public function tokens()
+    {
+        return [
+            'entity'      => [
+                Lexer::MATCH => '&([#][0-9]{1,4}|[#]x[a-f0-9]{1,4}|[a-z\-]+);',
+                Lexer::WRAP  => 'word entity',
+            ],
+            'comment'     => [
+                Lexer::MATCH => '<!--',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('comment');
 
-												$end = Lexer::loop($in, $out, [
-													'end' => [
-														Lexer::MATCH =>		'-->?',
-														Lexer::CALL	=>		Lexer::STOP
-													]
-												]);
-												$out->writeToken($end, 'comment end');
+                    $begin = $token;
+                    $out->writeToken($begin, 'comment begin');
 
-												// Calculate final position:
-												if ($end) $token->position = $end->position - (
-													strlen($begin) - strlen($end)
-												);
+                    $end = Lexer::loop($in, $out, [
+                        'end' => [
+                            Lexer::MATCH => '-->?',
+                            Lexer::CALL  => Lexer::STOP,
+                        ],
+                    ]);
+                    $out->writeToken($end, 'comment end');
 
-												$out->endToken();
-											}
-				],
-				'doctype' => [
-					Lexer::MATCH =>			'<!(?!--)',
-					Lexer::CALL =>			function($in, $out, $token) {
-												$out->startToken('comment');
+                    // Calculate final position:
+                    if ($end) {
+                        $token->position = $end->position - (
+                            strlen($begin) - strlen($end)
+                        );
+                    }
 
-												$begin = $token;
-												$out->writeToken($begin, 'comment begin');
+                    $out->endToken();
+                },
+            ],
+            'doctype'     => [
+                Lexer::MATCH => '<!(?!--)',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('comment');
 
-												$end = Lexer::loop($in, $out, [
-													'end' => [
-														Lexer::MATCH =>		'>',
-														Lexer::CALL	=>		Lexer::STOP
-													]
-												]);
-												$out->writeToken($end, 'comment end');
+                    $begin = $token;
+                    $out->writeToken($begin, 'comment begin');
 
-												// Calculate final position:
-												if ($end) $token->position = $end->position - (
-													strlen($begin) - strlen($end)
-												);
+                    $end = Lexer::loop($in, $out, [
+                        'end' => [
+                            Lexer::MATCH => '>',
+                            Lexer::CALL  => Lexer::STOP,
+                        ],
+                    ]);
+                    $out->writeToken($end, 'comment end');
 
-												$out->endToken();
-											}
-				],
-				'instruction' => [
-					Lexer::MATCH =>			'<[?]xml.*?[?]>',
-					Lexer::CALL =>			function($in, $out, $token) {
-												$out->startToken('type instruction');
+                    // Calculate final position:
+                    if ($end) {
+                        $token->position = $end->position - (
+                            strlen($begin) - strlen($end)
+                        );
+                    }
 
-												$in = new Input();
-												$in->openString($token);
+                    $out->endToken();
+                },
+            ],
+            'instruction' => [
+                Lexer::MATCH => '<[?]xml.*?[?]>',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('type instruction');
 
-												Lexer::loop($in, $out, $this->instruction());
+                    $in = new Input();
+                    $in->openString($token);
 
-												$out->endToken();
-											}
-				],
-				'element' => [
-					Lexer::MATCH =>			'</?[a-z_\-][a-z0-9_\-\.:]*.*?/?>',
-					Lexer::CALL =>			function($in, $out, $token) {
-												$out->startToken('type element');
+                    Lexer::loop($in, $out, $this->instruction());
 
-												$in = new Input();
-												$in->openString($token);
+                    $out->endToken();
+                },
+            ],
+            'element'     => [
+                Lexer::MATCH => '</?[a-z_\-][a-z0-9_\-\.:]*.*?/?>',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('type element');
 
-												Lexer::loop($in, $out, $this->element());
+                    $in = new Input();
+                    $in->openString($token);
 
-												$out->endToken();
-											}
-				]
-			];
-		}
+                    Lexer::loop($in, $out, $this->element());
 
-		/**
-		 * HTML attributes.
-		 *
-		 * @return array
-		 */
-		public function attribute() {
-			return [
-				'attribute' => [
-					Lexer::MATCH =>			'[a-z_\-][a-z0-9_\-\.:]*\s*=?\s*',
-					Lexer::WRAP =>			'type attribute'
-				],
+                    $out->endToken();
+                },
+            ],
+        ];
+    }
 
-				'string' => [
-					Lexer::MATCH =>			[
-												"'.*?'",
-												'".*?"'
-											],
-					Lexer::CALL =>			function($in, $out, $token) {
-												$out->startToken('value string');
+    /**
+     * HTML attributes.
+     *
+     * @return array
+     */
+    public function attribute()
+    {
+        return [
+            'attribute' => [
+                Lexer::MATCH => '[a-z_\-][a-z0-9_\-\.:]*\s*=?\s*',
+                Lexer::WRAP  => 'type attribute',
+            ],
 
-												$in = new Input();
-												$in->openString($token);
+            'string'    => [
+                Lexer::MATCH => [
+                    "'.*?'",
+                    '".*?"',
+                ],
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('value string');
 
-												Lexer::loop($in, $out, $this->string());
+                    $in = new Input();
+                    $in->openString($token);
 
-												$out->endToken();
-											}
-				]
-			];
-		}
+                    Lexer::loop($in, $out, $this->string());
 
-		/**
-		 * HTML elements.
-		 *
-		 * @return array
-		 */
-		public function element() {
-			return Lexer::extend($this->attribute(), [
-				'begin' => [
-					Lexer::MATCH =>			'^</?',
-					Lexer::WRAP =>			'begin'
-				],
+                    $out->endToken();
+                },
+            ],
+        ];
+    }
 
-				'name' => [
-					Lexer::MATCH =>			'^[a-z_\-][a-z0-9_\-\.:]*',
-					Lexer::WRAP =>			'name'
-				],
+    /**
+     * HTML elements.
+     *
+     * @return array
+     */
+    public function element()
+    {
+        return Lexer::extend($this->attribute(), [
+            'begin' => [
+                Lexer::MATCH => '^</?',
+                Lexer::WRAP  => 'begin',
+            ],
 
-				'end' => [
-					Lexer::MATCH =>			'/?>$',
-					Lexer::WRAP =>			'end'
-				]
-			]);
-		}
+            'name'  => [
+                Lexer::MATCH => '^[a-z_\-][a-z0-9_\-\.:]*',
+                Lexer::WRAP  => 'name',
+            ],
 
-		public function entity() {
-			return [
-				'entity' => [
-					Lexer::MATCH =>			'&([#][0-9]{1,4}|[#]x[a-f0-9]{1,4}|[a-z\-]+);',
-					Lexer::WRAP =>			'word entity'
-				]
-			];
-		}
+            'end'   => [
+                Lexer::MATCH => '/?>$',
+                Lexer::WRAP  => 'end',
+            ],
+        ]);
+    }
 
-		/**
-		 * Tokens for parsing XML processing instructions.
-		 *
-		 * @return array
-		 */
-		public function instruction() {
-			return Lexer::extend($this->attribute(), [
-				'begin' => [
-					Lexer::MATCH =>			'^<[?]xml',
-					Lexer::WRAP =>			'begin'
-				],
+    public function entity()
+    {
+        return [
+            'entity' => [
+                Lexer::MATCH => '&([#][0-9]{1,4}|[#]x[a-f0-9]{1,4}|[a-z\-]+);',
+                Lexer::WRAP  => 'word entity',
+            ],
+        ];
+    }
 
-				'end' => [
-					Lexer::MATCH =>			'/?>$',
-					Lexer::WRAP =>			'end'
-				]
-			]);
-		}
+    /**
+     * Tokens for parsing XML processing instructions.
+     *
+     * @return array
+     */
+    public function instruction()
+    {
+        return Lexer::extend($this->attribute(), [
+            'begin' => [
+                Lexer::MATCH => '^<[?]xml',
+                Lexer::WRAP  => 'begin',
+            ],
 
-		public function string() {
-			return Lexer::extend($this->entity(), [
-				// Empty:
-				'empty' => [
-					Lexer::MATCH =>			'^["\']["\']$',
-					Lexer::WRAP =>			'empty'
-				],
+            'end'   => [
+                Lexer::MATCH => '/?>$',
+                Lexer::WRAP  => 'end',
+            ],
+        ]);
+    }
 
-				// Begin:
-				'begin' => [
-					Lexer::MATCH =>			'^["\']',
-					Lexer::WRAP =>			'begin'
-				],
+    public function string()
+    {
+        return Lexer::extend($this->entity(), [
+            // Empty:
+            'empty' => [
+                Lexer::MATCH => '^["\']["\']$',
+                Lexer::WRAP  => 'empty',
+            ],
 
-				// End:
-				'end' => [
-					Lexer::MATCH =>			'["\']$',
-					Lexer::WRAP =>			'end'
-				]
-			]);
-		}
-	}
+            // Begin:
+            'begin' => [
+                Lexer::MATCH => '^["\']',
+                Lexer::WRAP  => 'begin',
+            ],
+
+            // End:
+            'end'   => [
+                Lexer::MATCH => '["\']$',
+                Lexer::WRAP  => 'end',
+            ],
+        ]);
+    }
+}

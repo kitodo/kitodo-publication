@@ -1,6 +1,5 @@
-
-<f:layout name="DocumentBE" />
-
+<f:layout name="DocumentBE">
+</f:layout>
 This template displays a NEW form for the current domain object.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -11,17 +10,18 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         New.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="main">
-
-<f:flashMessages renderMode="div" />
-
-<f:comment>
-<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
-</f:comment>
-
-<h2><f:translate key="documentForm.new.header" arguments="{foo: '{documentForm.displayName}'}" /></h2>
-
-<f:render partial="DocumentForm/New" arguments="{documentForm:documentForm}"/>
-
+    <f:flashmessages rendermode="div">
+    </f:flashmessages>
+    <f:comment>
+        <f:debug maxdepth="20" title="Form">
+            {documentForm}
+        </f:debug>
+    </f:comment>
+    <h2>
+        <f:translate arguments="{foo: '{documentForm.displayName}'}" key="documentForm.new.header">
+        </f:translate>
+    </h2>
+    <f:render arguments="{documentForm:documentForm}" partial="DocumentForm/New">
+    </f:render>
 </f:section>

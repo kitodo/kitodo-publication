@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,7 +29,7 @@ namespace EWW\Dpf\Domain\Repository;
 /**
  * The repository for FedoraConnections
  */
-class FedoraConnectionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class FedoraConnectionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	
 }

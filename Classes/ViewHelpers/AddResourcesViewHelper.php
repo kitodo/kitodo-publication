@@ -1,17 +1,18 @@
 <?php
 namespace EWW\Dpf\ViewHelpers;
 
-class AddResourcesViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
-   
-    
-    public function render() {
-        $doc = $this->getDocInstance();
+class AddResourcesViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
+
+    public function render()
+    {
+        $doc          = $this->getDocInstance();
         $pageRenderer = $doc->getPageRenderer();
-        $extRelPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath("dpf");
+        $extRelPath   = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath("dpf");
 
         $pageRenderer->addCssFile($extRelPath . "Resources/Public/css/qucosa.css");
         $pageRenderer->addCssFile($extRelPath . "Resources/Public/css/qucosabe.css");
-        
+
         //$pageRenderer->addCssFile($extRelPath . "Resources/Public/css/bootstrap.min.css");
 
         //$pageRenderer->loadJquery();
@@ -24,9 +25,7 @@ class AddResourcesViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBac
         $output .= $doc->endPage();
 
         return $output;
-        
 
-    return "test";
+        return "test";
     }
 }
-?>

@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,7 +29,8 @@ namespace EWW\Dpf\Domain\Repository;
 /**
  * The repository for MetadataObjects
  */
-class MetadataObjectRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class MetadataObjectRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-    protected $defaultOrderings = array("sorting"=> \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);	
+    protected $defaultOrderings = array("sorting" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
 }

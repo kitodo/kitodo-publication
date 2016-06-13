@@ -26,7 +26,8 @@ namespace EWW\Dpf\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-    use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 /**
  * SearchFEController
  */
@@ -59,7 +60,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         // add owner id
         $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
 
-        $query['body']['query']['bool']['should'][0]['query_string']['query'] = $searchString;
+        $query['body']['query']['bool']['should'][0]['query_string']['query']                       = $searchString;
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchString;
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
@@ -79,7 +80,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
     private function escapeQuery($string)
     {
         $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
-        $string = preg_replace_callback(
+        $string                   = preg_replace_callback(
             '/([' . $luceneReservedCharacters . '])/',
             function ($matches) {
                 return '\\' . $matches[0];
@@ -192,7 +193,6 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('currentPage', $currentPage);
 
     }
-
 
     /**
      * action showSearchForm

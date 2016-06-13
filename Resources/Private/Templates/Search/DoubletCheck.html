@@ -1,7 +1,6 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
-
-<f:layout name="DefaultBE" />
-
+<f:layout name="DefaultBE">
+</f:layout>
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -12,104 +11,159 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
-
 <f:section name="main">
-
-	<table class="tx_dpf table table-striped table-manager table-condensed tx-dpf-table-doublet">
-            <thead>
-		<tr>
-                    <th class="xcol-md-4"><f:translate key="search.doubletCheck.title" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.resultList.state" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.authors" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.submitterOrPublishedDate" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.datasetIdentifier" /></th>
-                    <th class="xcol-md-2"><f:translate key="search.doubletCheck.identifier" /></th>
-                    <th class="xcol-md-1"></th>
-		</tr>
-            </thead>
-
-            <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
-                <td>{document.title}</td>
-                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
-                <td>
-                    <f:for each="{document.authors}" as="author" iteration="itemIterator">
-                        {author}<f:if condition="{itemIterator.isLast}">
-                            <f:then></f:then>
-                            <f:else>; </f:else>
-                        </f:if>
-                    </f:for>
-                </td>
-                <td><f:format.date date="{document.dateIssued}" format="d.m.Y" /></td>
-                <td>{document.objectIdentifier}</td>
-                <td></td>
-                <td></td>
+    <table class="tx_dpf table table-striped table-manager table-condensed tx-dpf-table-doublet">
+        <thead>
+            <tr>
+                <th class="xcol-md-4">
+                    <f:translate key="search.doubletCheck.title">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-2">
+                    <f:translate key="search.resultList.state">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-2">
+                    <f:translate key="search.doubletCheck.authors">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-2">
+                    <f:translate key="search.doubletCheck.submitterOrPublishedDate">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-2">
+                    <f:translate key="search.doubletCheck.datasetIdentifier">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-2">
+                    <f:translate key="search.doubletCheck.identifier">
+                    </f:translate>
+                </th>
+                <th class="xcol-md-1">
+                </th>
             </tr>
-
-            <tr class="doublet-message">
-                <td>
-                    <f:if condition="{searchList}">
+        </thead>
+        <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
+            <td>
+                {document.title}
+            </td>
+            <td>
+                {dpf:showState(state:'{entry._source.STATE}')}
+            </td>
+            <td>
+                <f:for as="author" each="{document.authors}" iteration="itemIterator">
+                    {author}
+                    <f:if condition="{itemIterator.isLast}">
                         <f:then>
-                           <f:translate key="search.doubletCheck.foundMessage" />
                         </f:then>
                         <f:else>
-                           <f:translate key="search.doubletCheck.nothingFoundMessage" />
+                            ;
                         </f:else>
                     </f:if>
-                </td>
-                <td></td><td></td><td></td><td></td><td></td><td></td></tr>
-
-		<f:for each="{searchList}" as="entry">
-		   <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                     <f:then><tr class="success"></f:then>
-                     <f:else><tr></f:else>
-                   </f:if>
-				<td>{entry._source._dissemination._content.title.0}<f:if condition="{entry._source._dissemination._content.issue}">, {entry._source._dissemination._content.issue}</f:if></td>
-                                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
-				<td>{entry._source._dissemination._content.author.0}</td>
-				<td>{entry._source._dissemination._content.submitter}</td>
-				<td>{entry._source.PID}</td>
-				<td>{entry._source._dissemination._content.identifier.0}</td>
-
-                    <td class="table_col_function">
-						<f:if condition="{entry._source.PID}">
-							<f:then>
-								<dpf:link.preview
-										arguments="{documentObjectIdentifier: entry._source.PID}"
-										pageUid="{settings.previewPage}"
-										apiPid="{settings.apiPid}"
-										class="btn btn-xs btn-default">
-									<span class="glyphicon glyphicon-eye-open"></span>
-								</dpf:link.preview>
-							</f:then>
-							<f:else>
-								<dpf:link.preview
-										arguments="{document: entry._id}"
-										pageUid="{settings.previewPage}"
-										apiPid="{settings.apiPid}"
-										class="btn btn-xs btn-default">
-									<span class="glyphicon glyphicon-eye-open"></span>
-								</dpf:link.preview>
-							</f:else>
-						</f:if>
-
-                        <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                          <f:then>
-                            <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">
-                              <span class="glyphicon glyphicon-download-alt"></span>
-                              {f:translate(key: 'manager.get')}
-                            </f:link.action>
-                          </f:then>
-                          <f:else>
-                            <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
-                              <span class="glyphicon glyphicon-download-alt"></span>
-                              {f:translate(key: 'manager.get')}
-                            </f:link.action>
-                          </f:else>
-                        </f:if>
-                    </td>
-		</tr>
-            </f:for>
-	</table>
-
+                </f:for>
+            </td>
+            <td>
+                <f:format.date date="{document.dateIssued}" format="d.m.Y">
+                </f:format.date>
+            </td>
+            <td>
+                {document.objectIdentifier}
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr class="doublet-message">
+            <td>
+                <f:if condition="{searchList}">
+                    <f:then>
+                        <f:translate key="search.doubletCheck.foundMessage">
+                        </f:translate>
+                    </f:then>
+                    <f:else>
+                        <f:translate key="search.doubletCheck.nothingFoundMessage">
+                        </f:translate>
+                    </f:else>
+                </f:if>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <f:for as="entry" each="{searchList}">
+            <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                <f:then>
+                    <tr class="success">
+                    </tr>
+                </f:then>
+                <f:else>
+                    <tr>
+                    </tr>
+                </f:else>
+            </f:if>
+            <td>
+                {entry._source._dissemination._content.title.0}
+                <f:if condition="{entry._source._dissemination._content.issue}">
+                    , {entry._source._dissemination._content.issue}
+                </f:if>
+            </td>
+            <td>
+                {dpf:showState(state:'{entry._source.STATE}')}
+            </td>
+            <td>
+                {entry._source._dissemination._content.author.0}
+            </td>
+            <td>
+                {entry._source._dissemination._content.submitter}
+            </td>
+            <td>
+                {entry._source.PID}
+            </td>
+            <td>
+                {entry._source._dissemination._content.identifier.0}
+            </td>
+            <td class="table_col_function">
+                <f:if condition="{entry._source.PID}">
+                    <f:then>
+                        <dpf:link.preview apipid="{settings.apiPid}" arguments="{documentObjectIdentifier: entry._source.PID}" class="btn btn-xs btn-default" pageuid="{settings.previewPage}">
+                            <span class="glyphicon glyphicon-eye-open">
+                            </span>
+                        </dpf:link.preview>
+                    </f:then>
+                    <f:else>
+                        <dpf:link.preview apipid="{settings.apiPid}" arguments="{document: entry._id}" class="btn btn-xs btn-default" pageuid="{settings.previewPage}">
+                            <span class="glyphicon glyphicon-eye-open">
+                            </span>
+                        </dpf:link.preview>
+                    </f:else>
+                </f:if>
+                <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                    <f:then>
+                        <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">
+                            <span class="glyphicon glyphicon-download-alt">
+                            </span>
+                            {f:translate(key: 'manager.get')}
+                        </f:link.action>
+                    </f:then>
+                    <f:else>
+                        <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
+                            <span class="glyphicon glyphicon-download-alt">
+                            </span>
+                            {f:translate(key: 'manager.get')}
+                        </f:link.action>
+                    </f:else>
+                </f:if>
+            </td>
+        </f:for>
+    </table>
 </f:section>

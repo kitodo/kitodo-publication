@@ -1,222 +1,237 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/**
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter;
-	use Closure;
+namespace nbsp\bitter;
 
-	abstract class Lexer {
-		/**
-		 * Match after a Token.
-		 */
-		const AFTER = 'after';
+use Closure;
 
-		/**
-		 * Match before a Token.
-		 */
-		const BEFORE = 'before';
+abstract class Lexer
+{
+    /**
+     * Match after a Token.
+     */
+    const AFTER = 'after';
 
-		/**
-		 * Call a Closure or listen for STOP.
-		 */
-		const CALL = 'call';
+    /**
+     * Match before a Token.
+     */
+    const BEFORE = 'before';
 
-		/**
-		 * Match a Token, or anywhere in Input.
-		 */
-		const MATCH = 'match';
+    /**
+     * Call a Closure or listen for STOP.
+     */
+    const CALL = 'call';
 
-		/**
-		 * Stop the current parser.
-		 */
-		const STOP = 'stop';
+    /**
+     * Match a Token, or anywhere in Input.
+     */
+    const MATCH = 'match';
 
-		/**
-		 * Wrap the Token in a span element.
-		 */
-		const WRAP = 'wrap';
+    /**
+     * Stop the current parser.
+     */
+    const STOP = 'stop';
 
-		/**
-		 * Choose between multiple matches.
-		 *
-		 * @param	Input	$in
-		 * @param	Output	$out
-		 * @param	Token	$token
-		 * @param	array	$choices
-		 */
-		protected static function choose(Input $in, Output $out, Token $token, array $choices) {
-			foreach ($choices as $option) {
-				$success = true;
+    /**
+     * Wrap the Token in a span element.
+     */
+    const WRAP = 'wrap';
 
-				// Condition:
-				if (isset($option[Lexer::MATCH])) {
-					$success = $token->test($option[Lexer::MATCH]);
-				}
+    /**
+     * Choose between multiple matches.
+     *
+     * @param    Input    $in
+     * @param    Output    $out
+     * @param    Token    $token
+     * @param    array    $choices
+     */
+    protected static function choose(Input $in, Output $out, Token $token, array $choices)
+    {
+        foreach ($choices as $option) {
+            $success = true;
 
-				// After condition:
-				if ($success && isset($option[Lexer::AFTER])) {
-					$success = $in->after($option[Lexer::AFTER], true);
-				}
+            // Condition:
+            if (isset($option[Lexer::MATCH])) {
+                $success = $token->test($option[Lexer::MATCH]);
+            }
 
-				// Before condition:
-				if ($success && isset($option[Lexer::BEFORE])) {
-					$success = $in->before($option[Lexer::BEFORE], true);
-				}
+            // After condition:
+            if ($success && isset($option[Lexer::AFTER])) {
+                $success = $in->after($option[Lexer::AFTER], true);
+            }
 
-				if ($success) {
-					if (isset($option[Lexer::CALL])) {
-						$callback = $option[Lexer::CALL];
-						$callback($in, $out, $token);
-					}
+            // Before condition:
+            if ($success && isset($option[Lexer::BEFORE])) {
+                $success = $in->before($option[Lexer::BEFORE], true);
+            }
 
-					// Wrap the match with a class:
-					else if (isset($option[Lexer::WRAP])) {
-						$out->writeToken($token, $option[Lexer::WRAP]);
-					}
+            if ($success) {
+                if (isset($option[Lexer::CALL])) {
+                    $callback = $option[Lexer::CALL];
+                    $callback($in, $out, $token);
+                }
 
-					break;
-				}
-			}
-		}
+                // Wrap the match with a class:
+                else if (isset($option[Lexer::WRAP])) {
+                    $out->writeToken($token, $option[Lexer::WRAP]);
+                }
 
-		/**
-		 * Combine multiple templates into one.
-		 *
-		 * @param	array	$a
-		 * @param	array	$b
-		 * @param	array	...
-		 *
-		 * @return	array
-		 */
-		protected static function extend(array $a, array $b) {
-			$arrays = func_get_args();
-			$merged = [];
+                break;
+            }
+        }
+    }
 
-			while ($arrays) {
-				$array = array_pop($arrays);
+    /**
+     * Combine multiple templates into one.
+     *
+     * @param    array    $a
+     * @param    array    $b
+     * @param    array    ...
+     *
+     * @return    array
+     */
+    protected static function extend(array $a, array $b)
+    {
+        $arrays = func_get_args();
+        $merged = [];
 
-				if (!$array) continue;
+        while ($arrays) {
+            $array = array_pop($arrays);
 
-				foreach ($array as $key => $value) {
-					if (is_string($key)) {
-						if (
-							is_array($value)
-							&& array_key_exists($key, $merged)
-							&& is_array($merged[$key])
-						) {
-							$merged[$key] = Lexer::extend($merged[$key], $value);
-						}
+            if (!$array) {
+                continue;
+            }
 
-						else {
-							$merged[$key] = $value;
-						}
-					}
+            foreach ($array as $key => $value) {
+                if (is_string($key)) {
+                    if (
+                        is_array($value)
+                        && array_key_exists($key, $merged)
+                        && is_array($merged[$key])
+                    ) {
+                        $merged[$key] = Lexer::extend($merged[$key], $value);
+                    } else {
+                        $merged[$key] = $value;
+                    }
+                } else {
+                    $merged[] = $value;
+                }
+            }
+        }
 
-					else {
-						$merged[] = $value;
-					}
-				}
-			}
+        return $merged;
+    }
 
-			return $merged;
-		}
+    /**
+     * Parse input with an array of tokens.
+     *
+     * @param    Input    $in
+     * @param    Output    $out
+     * @param    array    $templates
+     */
+    protected static function loop(Input $in, Output $out, array $templates)
+    {
+        $last       = $in->after('%^%');
+        $expression = '';
 
-		/**
-		 * Parse input with an array of tokens.
-		 *
-		 * @param	Input	$in
-		 * @param	Output	$out
-		 * @param	array	$templates
-		 */
-		protected static function loop(Input $in, Output $out, array $templates) {
-			$last = $in->after('%^%');
-			$expression = '';
+        // Prepare templates and build expression:
+        foreach ($templates as $name => $template) {
+            if (is_array($template[Lexer::MATCH])) {
+                $template[Lexer::MATCH] = implode('|', $template[Lexer::MATCH]);
+            }
 
-			// Prepare templates and build expression:
-			foreach ($templates as $name => $template) {
-				if (is_array($template[Lexer::MATCH])) {
-					$template[Lexer::MATCH] = implode('|', $template[Lexer::MATCH]);
-				}
+            $expression .= $expression
+            ? '|' : '%';
 
-				$expression .= $expression
-					? '|' : '%';
+            $expression .= sprintf(
+                '(?<%s>%s)',
+                $name, $template[Lexer::MATCH]
+            );
 
-				$expression .= sprintf(
-					'(?<%s>%s)',
-					$name, $template[Lexer::MATCH]
-				);
+            unset($template[Lexer::MATCH]);
 
-				unset($template[Lexer::MATCH]);
+            $templates[$name] = $template;
+        }
 
-				$templates[$name] = $template;
-			}
+        $expression .= '%imsx';
 
-			$expression .= '%imsx';
+        // Parse input using expression:
+        while ($in->valid()) {
+            // Find next token:
+            preg_match($expression, $in->after(), $match, PREG_OFFSET_CAPTURE);
 
-			// Parse input using expression:
-			while ($in->valid()) {
-				// Find next token:
-				preg_match($expression, $in->after(), $match, PREG_OFFSET_CAPTURE);
+            // Find the token and its template:
+            foreach ($match as $key => $value) {
+                if (is_integer($key)) {
+                    continue;
+                }
 
-				// Find the token and its template:
-				foreach ($match as $key => $value) {
-					if (is_integer($key)) continue;
-					if ($value[1] == -1) continue;
-					if (isset($templates[$key]) === false) continue;
+                if ($value[1] == -1) {
+                    continue;
+                }
 
-					$template = $templates[$key];
-					$token = new Token($value[0], $value[1] + $in->after);
+                if (isset($templates[$key]) === false) {
+                    continue;
+                }
 
-					break;
-				}
+                $template = $templates[$key];
+                $token    = new Token($value[0], $value[1] + $in->after);
 
-				if (isset($token) === false) break;
+                break;
+            }
 
-				$in->move($token);
+            if (isset($token) === false) {
+                break;
+            }
 
-				// Output skipped text:
-				$out->writeRaw(htmlentities($in->before(
-					null, false, $token->position
-						- ($last->position + strlen($last))
-				)));
+            $in->move($token);
 
-				// Callback:
-				if (isset($template[Lexer::CALL])) {
-					// Stop parsing:
-					if ($template[Lexer::CALL] === Lexer::STOP) return $token;
+            // Output skipped text:
+            $out->writeRaw(htmlentities($in->before(
+                null, false, $token->position
+                 - ($last->position + strlen($last))
+            )));
 
-					// Trigger a callback:
-					else if ($template[Lexer::CALL] instanceof Closure) {
-						$callback = $template[Lexer::CALL];
-						$callback($in, $out, $token);
-					}
-				}
+            // Callback:
+            if (isset($template[Lexer::CALL])) {
+                // Stop parsing:
+                if ($template[Lexer::CALL] === Lexer::STOP) {
+                    return $token;
+                }
 
-				// Wrap the token:
-				else if (isset($template[Lexer::WRAP])) {
-					$out->writeToken($token, $template[Lexer::WRAP]);
-				}
+                // Trigger a callback:
+                else if ($template[Lexer::CALL] instanceof Closure) {
+                    $callback = $template[Lexer::CALL];
+                    $callback($in, $out, $token);
+                }
+            }
 
-				$last = $token;
-				unset($token);
-			}
+            // Wrap the token:
+            else if (isset($template[Lexer::WRAP])) {
+                $out->writeToken($token, $template[Lexer::WRAP]);
+            }
 
-			// Input left on stack:
-			$token = $in->after();
-			$in->move($token);
-			$out->writeRaw(htmlentities($token, ENT_QUOTES));
-		}
+            $last = $token;
+            unset($token);
+        }
 
-		/**
-		 * Parse an XPath string.
-		 *
-		 * @param Output $out
-		 * @param string $in
-		 */
-		abstract public function parse(Input $in, Output $out);
-	}
+        // Input left on stack:
+        $token = $in->after();
+        $in->move($token);
+        $out->writeRaw(htmlentities($token, ENT_QUOTES));
+    }
+
+    /**
+     * Parse an XPath string.
+     *
+     * @param Output $out
+     * @param string $in
+     */
+    abstract public function parse(Input $in, Output $out);
+}

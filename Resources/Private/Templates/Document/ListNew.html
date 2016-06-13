@@ -1,8 +1,6 @@
-<f:layout name="DefaultBE" />
-
-  
+<f:layout name="DefaultBE">
+</f:layout>
 <f:section name="main">
-         
-  <f:render partial="Document/List" arguments="{documents:documents}"/>
-
+    <f:render arguments="{documents:documents}" partial="Document/List">
+    </f:render>
 </f:section>

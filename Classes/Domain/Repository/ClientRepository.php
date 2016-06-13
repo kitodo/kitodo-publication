@@ -1,7 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,18 +29,20 @@ namespace EWW\Dpf\Domain\Repository;
 /**
  * The repository for Clients
  */
-class ClientRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class ClientRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**         
-         * findAllByPid
-         * 
-         * @return
-         */        
-    	public function findAllByPid($pid) {
-            $query = $this->createQuery();        
-            $query->getQuerySettings()->setRespectStoragePage(FALSE);  
-            $query->matching($query->equals('pid', $pid));            
-            return  $query->execute();                            
-	}
-	                
+    /**
+     * findAllByPid
+     *
+     * @return
+     */
+    public function findAllByPid($pid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('pid', $pid));
+        return $query->execute();
+    }
+
 }

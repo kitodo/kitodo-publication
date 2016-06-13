@@ -1,53 +1,56 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
-
-  <f:if condition="{file}"> 
-    <f:then>      
-      <fieldset class="fs_file_group" data-group="file-upload">
-        
-        <legend>{f:translate(key: 'form_legend.primaryFile')}</legend>
-        
-        <div class="form-control-static">
-          <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">{file.title}</f:link.external>
-                   
-          <button type="submit"
-                       name="rem_file_group" class="rem_file_group btn btn-xs btn-default"                           
-                       data-ajax="{f:uri.action(
+<f:if condition="{file}">
+    <f:then>
+        <fieldset class="fs_file_group" data-group="file-upload">
+            <legend>
+                {f:translate(key: 'form_legend.primaryFile')}
+            </legend>
+            <div class="form-control-static">
+                <f:link.external class="file_link" target="_blank" uri="{eww:fileUrl(uri:'{file.link}')}">
+                    {file.title}
+                </f:link.external>
+                <button class="rem_file_group btn btn-xs btn-default" data-ajax="{f:uri.action(
                             action:'deleteFile',
                             controller:'AjaxDocumentForm',
                             pageType:110124,
                             arguments:{
                               fileUid: file.uid,
                               isPrimary: 1
-                       })}">
-            <span class="glyphicon glyphicon-trash"></span>
-            {f:translate(key: 'form_button.delete_item', arguments: {0: ''})}
-          </button>
-        </div>
-        
-       <eww:isElementAllowed condition="backendOnly">   
-            <f:then>
-                <div class="form-group">
-                    <label for="inp_primFile_label_{file.uid}" data-index="{groupIndex}">Display name</label>
-                    <f:form.textfield id="inp_primFile_label_{file.uid}" property="primFile.{file.uid}.label" value="{file.label}" class="input-field form-control" additionalAttributes="{}" /> 
-                  </div>  
-                 <div class="form-group">                    
-                     <label for="inp_primFile_download_{file.uid}" data-index="{groupIndex}">Download</label>
-                    <f:form.checkbox id="inp_primFile_download_{file.uid}" property="primFile.{file.uid}.download" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}"  checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}" />
-                 </div>   
-                 <div class="form-group">   
-                    <label for="inp_primFile_archive_{file.uid}" data-index="{groupIndex}">Archive</label> 
-                    <f:form.checkbox id="inp_primFile_archive_{file.uid}" property="primFile.{file.uid}.archive" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}"  checked="{file.archive}" />
-                 </div>       
-            </f:then>   
-        </eww:isElementAllowed>
-        
-      </fieldset>
-    </f:then>    
-    <f:else>        
-      <f:render partial="DocumentForm/PrimaryUpload" arguments="{virtual:virtual}" />           
+                       })}" name="rem_file_group" type="submit">
+                    <span class="glyphicon glyphicon-trash">
+                    </span>
+                    {f:translate(key: 'form_button.delete_item', arguments: {0: ''})}
+                </button>
+            </div>
+            <eww:iselementallowed condition="backendOnly">
+                <f:then>
+                    <div class="form-group">
+                        <label data-index="{groupIndex}" for="inp_primFile_label_{file.uid}">
+                            Display name
+                        </label>
+                        <f:form.textfield additionalattributes="{}" class="input-field form-control" id="inp_primFile_label_{file.uid}" property="primFile.{file.uid}.label" value="{file.label}">
+                        </f:form.textfield>
+                    </div>
+                    <div class="form-group">
+                        <label data-index="{groupIndex}" for="inp_primFile_download_{file.uid}">
+                            Download
+                        </label>
+                        <f:form.checkbox additionalattributes="{}" checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}" class="input-field input-field-checkbox" id="inp_primFile_download_{file.uid}" property="primFile.{file.uid}.download" value="yes">
+                        </f:form.checkbox>
+                    </div>
+                    <div class="form-group">
+                        <label data-index="{groupIndex}" for="inp_primFile_archive_{file.uid}">
+                            Archive
+                        </label>
+                        <f:form.checkbox additionalattributes="{}" checked="{file.archive}" class="input-field input-field-checkbox" id="inp_primFile_archive_{file.uid}" property="primFile.{file.uid}.archive" value="yes">
+                        </f:form.checkbox>
+                    </div>
+                </f:then>
+            </eww:iselementallowed>
+        </fieldset>
+    </f:then>
+    <f:else>
+        <f:render arguments="{virtual:virtual}" partial="DocumentForm/PrimaryUpload">
+        </f:render>
     </f:else>
-          
-  </f:if>
-
-
-
+</f:if>

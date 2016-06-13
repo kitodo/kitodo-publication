@@ -57,10 +57,8 @@ class MetsExporter
      */
     protected $modsData = '';
 
-
     protected $xmlData = '';
-           
-            
+
     /**
      * slub xml data
      * @var DOMDocument
@@ -69,7 +67,6 @@ class MetsExporter
 
     protected $slubMetsData = '';
 
-    
     /**
      * metsHeader
      * @var string
@@ -115,8 +112,8 @@ class MetsExporter
         $this->metsHeader .= '</mets:mets>';
 
         $this->modsHeader = '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/" 
-            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+            xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             xmlns:foaf="http://xmlns.com/foaf/0.1/"
             xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-6.xsd"
             version="3.6">';
@@ -182,11 +179,11 @@ class MetsExporter
         // import mods into mets
         $nodeAppendModsData = $modsWrap->importNode($this->modsData->firstChild, true);
         $xmlData->appendChild($nodeAppendModsData);
-                     
+
         // add SLUB data
         $nodeAppendModsData = $modsWrap->importNode($this->buildMetsSlub()->firstChild, true);
         $modsWrap->firstChild->appendChild($nodeAppendModsData);
-       
+
         if ($fileSection) {
             // add filesection
             $nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
@@ -200,7 +197,7 @@ class MetsExporter
         }
 
         $modsWrap->formatOutput = true;
-        $modsWrap->encoding = 'UTF-8';
+        $modsWrap->encoding     = 'UTF-8';
 
         $this->metsData = $modsWrap;
 
@@ -216,9 +213,9 @@ class MetsExporter
     public function wrapMods($xml)
     {
         $newXML = $this->modsHeader;
-        
-        $newXML = str_replace("</mods:mods>",$xml."</mods:mods>",$newXML);
-        
+
+        $newXML = str_replace("</mods:mods>", $xml . "</mods:mods>", $newXML);
+
         return $newXML;
     }
 
@@ -226,11 +223,11 @@ class MetsExporter
     {
         $newXML = $this->slubHeader;
 
-        $newXML = str_replace("</slub:info>", $xml."</slub:info>", $newXML);
+        $newXML = str_replace("</slub:info>", $xml . "</slub:info>", $newXML);
 
         return $newXML;
     }
-                                  
+
     /**
      * build mods from form array
      * @param array $array structured form data array
@@ -245,28 +242,28 @@ class MetsExporter
             $mapping = $group['mapping'];
             // $mapping = substr($mapping, 10);
 
-            $values = $group['values'];
+            $values     = $group['values'];
             $attributes = $group['attributes'];
 
-            $attributeXPath = '';
+            $attributeXPath     = '';
             $extensionAttribute = '';
             foreach ($attributes as $attribute) {
-                if(!$attribute["modsExtension"]) {
-                    $attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                if (!$attribute["modsExtension"]) {
+                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
                 } else {
-                    $extensionAttribute .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                    $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
                 }
-                
+
             }
 
             // mods extension
             if ($group['modsExtensionMapping']) {
                 $counter = sprintf("%'03d", $this->counter);
-                $attributeXPath .= '[@ID="QUCOSA_'.$counter.'"]';
+                $attributeXPath .= '[@ID="QUCOSA_' . $counter . '"]';
             }
-            
+
             $existsExtensionFlag = false;
-            $i = 0;
+            $i                   = 0;
             // loop each object
             if (!empty($values)) {
                 foreach ($values as $value) {
@@ -274,14 +271,14 @@ class MetsExporter
                     if ($value['modsExtension']) {
                         $existsExtensionFlag = true;
                         // mods extension
-                        $counter = sprintf("%'03d", $this->counter);
-                        $referenceAttribute = $extensionAttribute.'[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
+                        $counter            = sprintf("%'03d", $this->counter);
+                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
 
-                        $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
+                        $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
                         $xml = $this->customXPath($path, false, $value['value']);
                     } else {
-                        $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
+                        $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
                         // print_r($path);print_r("\n");
 
                         if ($i == 0) {
@@ -294,17 +291,17 @@ class MetsExporter
                         $i++;
 
                     }
-                    
+
                 }
             } else {
                 if (!empty($attributeXPath)) {
-                    $path = $mapping.$attributeXPath;
-                    $xml = $this->customXPath($path, true, '', true);
+                    $path = $mapping . $attributeXPath;
+                    $xml  = $this->customXPath($path, true, '', true);
                 }
             }
             if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
-                $xPath = $group['modsExtensionMapping'].$extensionAttribute.'[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
-                $xml = $this->customXPath($xPath, true, '', true);
+                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
+                $xml   = $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {
                 $this->counter++;
@@ -313,7 +310,7 @@ class MetsExporter
 
         // var_dump($this->xmlData->saveXML());
         $this->modsData = $this->xmlData;
-        $this->files = $array['files'];
+        $this->files    = $array['files'];
     }
 
     /**
@@ -337,12 +334,12 @@ class MetsExporter
      */
     public function customXPath($xPath, $newGroupFlag = false, $value = '', $attributeOnly = false)
     {
-        if(!$attributeOnly) {
+        if (!$attributeOnly) {
             // Explode xPath
             $newPath = explode('%', $xPath);
 
             $praedicateFlag = false;
-            $explodedXPath = explode('[', $newPath[0]);
+            $explodedXPath  = explode('[', $newPath[0]);
             if (count($explodedXPath) > 1) {
                 // praedicate is given
                 if (substr($explodedXPath[1], 0, 1) == "@") {
@@ -359,14 +356,13 @@ class MetsExporter
             }
 
             if (!empty($value)) {
-                $newPath[1] = $newPath[1].'="'.$value.'"';
+                $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
             //$modsDataXPath = new \DOMXpath($this->xmlData);
-            $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
+            $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
-
-            if (!$newGroupFlag && $modsDataXPath->query('/mods:mods/'.$newPath[0])->length > 0) {
+            if (!$newGroupFlag && $modsDataXPath->query('/mods:mods/' . $newPath[0])->length > 0) {
                 // first xpath path exist
 
                 // build xml from second xpath part
@@ -376,16 +372,16 @@ class MetsExporter
                 $docXML->loadXML($this->wrapMods($xml));
 
                 //$domXPath = new \DOMXpath($this->xmlData);
-                $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
+                $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
-                $domNode = $domXPath->query('/mods:mods/'.$path);
+                $domNode = $domXPath->query('/mods:mods/' . $path);
 
                 $domNodeList = $docXML->getElementsByTagName("mods");
 
                 $node = $domNodeList->item(0)->firstChild;
 
                 $nodeAppendModsData = $this->xmlData->importNode($node, true);
-                $domNode->item($domNode->length-1)->appendChild($nodeAppendModsData);
+                $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
             } else {
                 // first xpath doesnt exist
                 // parse first xpath part
@@ -395,20 +391,20 @@ class MetsExporter
                 $doc1->loadXML($this->wrapMods($xml1));
 
                 //$domXPath = new \DOMXpath($doc1);
-                $domXPath = \EWW\Dpf\Helper\XPath::create($doc1); 
+                $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
 
-                $domNode = $domXPath->query('/mods:mods/'.$path);
+                $domNode = $domXPath->query('/mods:mods/' . $path);
 
                 // parse second xpath part
-                $xml2 = $this->parseXPath($path.$newPath[1]);
+                $xml2 = $this->parseXPath($path . $newPath[1]);
 
                 $doc2 = new \DOMDocument();
                 $doc2->loadXML($this->wrapMods($xml2));
 
                 //$domXPath2 = new \DOMXpath($doc2);
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
-                
-                $domNode2 = $domXPath2->query('/mods:mods/'.$path)->item(0)->childNodes->item(0);
+
+                $domNode2 = $domXPath2->query('/mods:mods/' . $path)->item(0)->childNodes->item(0);
 
                 // $node = $doc2->getElementsByTagName("name")->item(0)->childNodes->item(0); //DOMNode
 
@@ -420,7 +416,7 @@ class MetsExporter
                 // add to modsData (merge not required)
                 // get mods tag
                 $firstChild = $this->xmlData->firstChild;
-                $firstItem = $doc1->getElementsByTagName('mods')->item(0)->firstChild;
+                $firstItem  = $doc1->getElementsByTagName('mods')->item(0)->firstChild;
 
                 $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
                 $firstChild->appendChild($nodeAppendModsData);
@@ -430,20 +426,20 @@ class MetsExporter
         } else {
             // attribute only
             $xml = $this->parseXPath($xPath);
-            
+
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapMods($xml));
 
             //$domXPath = new \DOMXpath($this->xmlData);
-            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
-            $domNode = $domXPath->query('/mods:mods');
+            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+            $domNode  = $domXPath->query('/mods:mods');
 
             $domNodeList = $docXML->getElementsByTagName("mods");
 
             $node = $domNodeList->item(0)->firstChild;
 
             $nodeAppendModsData = $this->xmlData->importNode($node, true);
-            $domNode->item($domNode->length-1)->appendChild($nodeAppendModsData);
+            $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
 
             return $docXML->saveXML();
         }
@@ -451,17 +447,14 @@ class MetsExporter
         return $this->xmlData->saveXML();
     }
 
-
-
-
     public function customXPathSlub($xPath, $newGroupFlag = false, $value = '', $attributeOnly = false)
     {
-        if(!$attributeOnly) {
+        if (!$attributeOnly) {
             // Explode xPath
             $newPath = explode('%', $xPath);
 
             $praedicateFlag = false;
-            $explodedXPath = explode('[', $newPath[0]);
+            $explodedXPath  = explode('[', $newPath[0]);
             if (count($explodedXPath) > 1) {
                 // praedicate is given
                 if (substr($explodedXPath[1], 0, 1) == "@") {
@@ -478,13 +471,13 @@ class MetsExporter
             }
 
             if (!empty($value)) {
-                $newPath[1] = $newPath[1].'="'.$value.'"';
+                $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
             //$modsDataXPath = new \DOMXpath($this->xmlData);
-            $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
+            $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
-            if (!$newGroupFlag && $modsDataXPath->query('/slub:info/'.$newPath[0])->length > 0) {
+            if (!$newGroupFlag && $modsDataXPath->query('/slub:info/' . $newPath[0])->length > 0) {
                 // first xpath path exist
 
                 // build xml from second xpath part
@@ -494,31 +487,31 @@ class MetsExporter
                 $docXML->loadXML($this->wrapSlub($xml));
 
                 //$domXPath = new \DOMXpath($this->xmlData);
-                $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
-                $domNode = $domXPath->query('/slub:info/'.$path);
+                $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+                $domNode  = $domXPath->query('/slub:info/' . $path);
 
                 $domNodeList = $docXML->getElementsByTagName("info");
 
                 $node = $domNodeList->item(0)->firstChild;
 
                 $nodeAppendModsData = $this->xmlData->importNode($node, true);
-                $domNode->item($domNode->length-1)->appendChild($nodeAppendModsData);
+                $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
             } else {
                 // first xpath doesnt exist
                 // parse first xpath part
                 $xml1 = $this->parseXPath($newPath[0]);
 
                 $doc1 = new \DOMDocument();
-                if(is_null(@$doc1->loadXML($this->wrapSlub($xml1)))) {
+                if (is_null(@$doc1->loadXML($this->wrapSlub($xml1)))) {
                     throw new \Exception("Couldn't load xml in function customXPathSlub!");
                 }
 
                 //$domXPath = new \DOMXpath($doc1);
-                $domXPath = \EWW\Dpf\Helper\XPath::create($doc1); 
-                $domNode = $domXPath->query('/slub:info/'.$path);
+                $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
+                $domNode  = $domXPath->query('/slub:info/' . $path);
 
                 // parse second xpath part
-                $xml2 = $this->parseXPath($path.$newPath[1]);
+                $xml2 = $this->parseXPath($path . $newPath[1]);
 
                 $doc2 = new \DOMDocument();
                 if (is_null(@$doc2->loadXML($this->wrapSlub($xml2)))) {
@@ -526,10 +519,10 @@ class MetsExporter
                 }
 
                 //$domXPath2 = new \DOMXpath($doc2);
-                $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2); 
-                            
+                $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
+
                 // node that should be appended
-                $domNode2 = $domXPath2->query('/slub:info/'.$path)->item(0)->childNodes->item(0);
+                $domNode2 = $domXPath2->query('/slub:info/' . $path)->item(0)->childNodes->item(0);
 
                 // merge xml nodes
                 $nodeToBeAppended = $doc1->importNode($domNode2, true);
@@ -541,7 +534,7 @@ class MetsExporter
                 // get mods tag
 
                 $firstChild = $this->xmlData->firstChild;
-                $firstItem = $doc1->getElementsByTagName('info')->item(0)->firstChild;
+                $firstItem  = $doc1->getElementsByTagName('info')->item(0)->firstChild;
 
                 $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
                 $firstChild->appendChild($nodeAppendModsData);
@@ -551,27 +544,25 @@ class MetsExporter
         } else {
             // attribute only
             $xml = $this->parseXPath($xPath);
-            
+
             $docXML = new \DOMDocument();
             $docXML->loadXML($this->wrapSlub($xml));
 
             //$domXPath = new \DOMXpath($this->xmlData);
-            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData); 
-            $domNode = $domXPath->query('/slub:info');
+            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+            $domNode  = $domXPath->query('/slub:info');
 
             $domNodeList = $docXML->getElementsByTagName("info");
 
             $node = $domNodeList->item(0)->firstChild;
 
             $nodeAppendModsData = $this->xmlData->importNode($node, true);
-            $domNode->item($domNode->length-1)->appendChild($nodeAppendModsData);
+            $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
 
             return $docXML->saveXML();
         }
         return $this->xmlData->saveXML();
     }
-
-
 
     /**
      * Builds the xml wrapping part for mods
@@ -627,7 +618,7 @@ class MetsExporter
     {
         $domDocument = new \DOMDocument();
         if (is_null(@$domDocument->loadXML($value))) {
-            throw new \Exception("Couldn't load MODS data"); 
+            throw new \Exception("Couldn't load MODS data");
         }
         $this->modsData = $domDocument;
     }
@@ -635,7 +626,7 @@ class MetsExporter
     // public function slubInfo($value = '')
     // {
     //     # NOT IMPLEMENTED YET
-        
+
     //     $slub = '<mets:amdSec ID="AMD_000">
     //     <mets:rightsMD ID="RIGHTS_000">
     //     <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml">
@@ -660,7 +651,7 @@ class MetsExporter
     //     </mets:mdWrap>
     //     </mets:rightsMD>
     //     </mets:amdSec>';
-                  
+
     //     $domDocument = new \DOMDocument();
     //     $domDocument->loadXML($slub);
     //     $this->slubData = $domDocument;
@@ -671,7 +662,8 @@ class MetsExporter
         $this->files = $value;
     }
 
-    public function loopFiles($array, $domElement, $domDocument) {
+    public function loopFiles($array, $domElement, $domDocument)
+    {
         $i = 0;
         // set xml for uploded files
         foreach ($array as $key => $value) {
@@ -682,15 +674,15 @@ class MetsExporter
                 $domElement->appendChild($file);
             } else {
                 $file->setAttribute('MIMETYPE', $value['type']);
-                                                
+
                 if ($value['use']) {
-                    $file->setAttribute('USE', $value['use']);                            
-                }    
-                
-                if ($value['title']) {
-                    $file->setAttribute('mext:LABEL', $value['title']);   
+                    $file->setAttribute('USE', $value['use']);
                 }
-                
+
+                if ($value['title']) {
+                    $file->setAttribute('mext:LABEL', $value['title']);
+                }
+
                 $domElement->appendChild($file);
                 $domElementFLocat = $domElement->childNodes->item($i);
                 // print_r($domElement->childNodes->item(0));
@@ -704,11 +696,10 @@ class MetsExporter
                     //    $fLocat->setAttribute('xlink:title', $value['title']);
                     //}
                     $domElementFLocat->appendChild($fLocat);
-                }    
+                }
 
-                
             }
-                                         
+
             $i++;
         }
     }
@@ -719,7 +710,7 @@ class MetsExporter
      */
     public function buildFileSection()
     {
-        
+
         // Build xml Mets:fileSec
 
         if (count($this->files['original']) > 0 || count($this->files['download']) > 0) {
@@ -735,34 +726,34 @@ class MetsExporter
 
             $fileSecElement = $domElement;
 
-            $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');           
-            $fileGrpOriginal->setAttribute('xmlns:mext',"http://slub-dresden.de/mets");
+            $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
+            $fileGrpOriginal->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
             $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
             //$domElement->appendChild($fileGrpOriginal);
 
             //$domElement = $domElement->firstChild;
-                      
+
             // loop xml file entries
             if (!empty($this->files['original'])) {
                 $this->loopFiles($this->files['original'], $fileGrpOriginal, $domDocument);
                 $domElement->appendChild($fileGrpOriginal);
-            }    
-                    
+            }
+
             // switch back to filesec element
             $domElement = $fileSecElement;
 
             $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
-            $fileGrpDownload->setAttribute('xmlns:mext',"http://slub-dresden.de/mets");
+            $fileGrpDownload->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
             $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
 //            $domElement->appendChild($fileGrpDownload);
 
-//            $domElement = $domElement->firstChild;          
-            
+//            $domElement = $domElement->firstChild;
+
             // loop xml
             if (!empty($this->files['download'])) {
                 $this->loopFiles($this->files['download'], $fileGrpDownload, $domDocument);
                 $domElement->appendChild($fileGrpDownload);
-            }    
+            }
 
             return $domDocument;
         }
@@ -773,46 +764,46 @@ class MetsExporter
      * @return xml
      */
     public function buildStructureMap()
-    {        
-            // Build xml Mets:structMap
+    {
+        // Build xml Mets:structMap
 
-            $domDocument = new \DOMDocument();
-            $domDocument->loadXML($this->metsHeader);
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($this->metsHeader);
 
-            $domElement = $domDocument->firstChild;
+        $domElement = $domDocument->firstChild;
 
-            $structMap = $domDocument->createElement('mets:structMap');
-            $structMap->setAttribute('TYPE', 'LOGICAL');
-            $domElement->appendChild($structMap);
+        $structMap = $domDocument->createElement('mets:structMap');
+        $structMap->setAttribute('TYPE', 'LOGICAL');
+        $domElement->appendChild($structMap);
 
-            $domElement = $domElement->firstChild;
+        $domElement = $domElement->firstChild;
 
-            $div = $domDocument->createElement('mets:div');
-            $div->setAttribute('DMDID', 'DMD_000');
-            $div->setAttribute('ID', 'DMD_000');
-            $domElement->appendChild($div);
+        $div = $domDocument->createElement('mets:div');
+        $div->setAttribute('DMDID', 'DMD_000');
+        $div->setAttribute('ID', 'DMD_000');
+        $domElement->appendChild($div);
 
-            $domElement = $domElement->firstChild;
-            
-            if (count($this->files) > 0) {
-                $i = 0;                
-                                               
-                // set xml for uploded files
-                foreach ($this->files as $filesGroup) {                    
-                    foreach ($filesGroup as $key => $value) {                                        
-                        $fptr = $domDocument->createElement('mets:fptr');
-                        $fptr->setAttribute('FILEID', $value['id']);
-                        $domElement->appendChild($fptr);
+        $domElement = $domElement->firstChild;
 
-                        $i++;
-                    }
-                }               
+        if (count($this->files) > 0) {
+            $i = 0;
+
+            // set xml for uploded files
+            foreach ($this->files as $filesGroup) {
+                foreach ($filesGroup as $key => $value) {
+                    $fptr = $domDocument->createElement('mets:fptr');
+                    $fptr->setAttribute('FILEID', $value['id']);
+                    $domElement->appendChild($fptr);
+
+                    $i++;
+                }
             }
-            
-            return $domDocument;        
+        }
+
+        return $domDocument;
     }
 
-    public function setSlubInfo($value='')
+    public function setSlubInfo($value = '')
     {
         // build DOMDocument with slub xml
         $domDocument = new \DOMDocument();
@@ -829,20 +820,20 @@ class MetsExporter
 
     //     $wrapDocumentRights = $domDocument->createElement('mets:techMD');
     //     $wrapDocumentRights->setAttribute('ID', 'TECH_000');
-                       
+
     //     $domWrapElement->appendChild($wrapDocumentRights);
 
     //     $domWrapElement = $domWrapElement->firstChild;
-        
+
     //     $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
     //     $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
     //     $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBINFO');
     //     $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
 
     //     $domWrapElement->appendChild($wrapDocumentMD);
-        
+
     //     $domWrapElement = $domWrapElement->firstChild;
-        
+
     //     $wrapDocumentData = $domDocument->createElement('mets:xmlData');
     //     $domWrapElement->appendChild($wrapDocumentData);
 
@@ -856,9 +847,8 @@ class MetsExporter
     //         $domWrapElement->appendChild($importNode);
     //     }
 
-    //     $this->slubMetsData = $domDocument;        
+    //     $this->slubMetsData = $domDocument;
 
-        
     // }
 
     /**
@@ -869,36 +859,35 @@ class MetsExporter
     public function buildMetsSlub()
     {
         // <mets:amdSec ID="AMD_000"><mets:rightsMD ID="RIGHTS_000"><mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBRIGHTS" MIMETYPE="application/vnd.slub-info+xml"><mets:xmlData>
-        $domDocument = new \DOMDocument();                   
+        $domDocument = new \DOMDocument();
         $domDocument->loadXML('<mets:amdSec ID="AMD_000" xmlns:mets="http://www.loc.gov/METS/"></mets:amdSec>');
         $domWrapElement = $domDocument->firstChild;
 
         $wrapDocumentRights = $domDocument->createElement('mets:techMD');
         $wrapDocumentRights->setAttribute('ID', 'TECH_000');
-                       
+
         $domWrapElement->appendChild($wrapDocumentRights);
 
         $domWrapElement = $domWrapElement->firstChild;
-        
+
         $wrapDocumentMD = $domDocument->createElement('mets:mdWrap');
         $wrapDocumentMD->setAttribute('MDTYPE', 'OTHER');
         $wrapDocumentMD->setAttribute('OTHERMDTYPE', 'SLUBINFO');
         $wrapDocumentMD->setAttribute('MIMETYPE', 'application/vnd.slub-info+xml');
 
         $domWrapElement->appendChild($wrapDocumentMD);
-        
+
         $domWrapElement = $domWrapElement->firstChild;
-        
+
         $wrapDocumentData = $domDocument->createElement('mets:xmlData');
         $domWrapElement->appendChild($wrapDocumentData);
 
         $domWrapElement = $domWrapElement->firstChild;
 
-
         $second = $this->slubData;
         // $second = $second->documentElement;
 
-        foreach($second->childNodes as $node) {
+        foreach ($second->childNodes as $node) {
             $importNode = $domDocument->importNode($node, true);
             $domWrapElement->appendChild($importNode);
         }
@@ -909,22 +898,22 @@ class MetsExporter
 
         // // $domDocument = new \DOMDocument();
         // // $domDocument->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/></slub:info>');
-         
+
         // $domSlub = $domDocument->createElement('slub:info');
         // $domSlub->setAttribute('xmlns:slub', 'http://slub-dresden.de/');
 
         // $domWrapElement->appendChild($domSlub);
-        
+
         // $domWrapElement = $domWrapElement->firstChild;
-        
+
         // $domElement = $domWrapElement;
 
         // $submitter = $domDocument->createElement('slub:submitter');
         // $domElement->appendChild($submitter);
-        
+
         // $documentType = $domDocument->createElement('slub:documentType', $array['documentType']);
         // $domElement->appendChild($documentType);
-                
+
         // $project = $domDocument->createElement('slub:project', $array['project']);
         // $domElement->appendChild($project);
 
@@ -936,7 +925,6 @@ class MetsExporter
 
         // $domElementRights = $domElement->lastChild;
 
-
         // // submitter second level
         // $domElement = $domElement->firstChild;
 
@@ -945,7 +933,6 @@ class MetsExporter
 
         // $contact = $domDocument->createElement('slub:contact', $array['contact']);
         // $domElement->appendChild($contact);
-
 
         // //rights second level
         // $domElement = $domElementRights;
@@ -964,7 +951,6 @@ class MetsExporter
         // $accessPOD = $domDocument->createElement('slub:accessPOD', $array['accessPOD']);
         // $domElement->appendChild($accessPOD);
 
-
         // // append wrapped element
         // // $domWrapElement->appendChild($domDocument);
 
@@ -974,7 +960,6 @@ class MetsExporter
 
     }
 
-
     /**
      * returns the mods xml string
      * @return string mods xml
@@ -983,52 +968,51 @@ class MetsExporter
     {
         return $this->slubData->saveXML();
     }
-    
-    
+
     /**
-     * 
+     *
      * @param string $slubInfoData
      */
-    public function buildSlubInfoFromForm($slubInfoData, $documentType) {
+    public function buildSlubInfoFromForm($slubInfoData, $documentType)
+    {
         $this->xmlData = $this->slubData;
-        if (is_array($slubInfoData['metadata'])) { 
+        if (is_array($slubInfoData['metadata'])) {
             foreach ($slubInfoData['metadata'] as $key => $group) {
                 //groups
                 $mapping = $group['mapping'];
                 // $mapping = substr($mapping, 10);
 
-                $values = $group['values'];
+                $values     = $group['values'];
                 $attributes = $group['attributes'];
 
                 $attributeXPath = '';
                 foreach ($attributes as $attribute) {
-                    $attributeXPath .= '['.$attribute['mapping'].'="'.$attribute['value'].'"]';
+                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
                 }
 
                 // mods extension
                 if ($group['modsExtensionMapping']) {
                     $counter = sprintf("%'03d", $this->counter);
-                    $attributeXPath .= '[@ID="QUCOSA_'.$counter.'"]';
+                    $attributeXPath .= '[@ID="QUCOSA_' . $counter . '"]';
                 }
 
                 $i = 0;
                 // loop each object
                 if (!empty($values)) {
-                    
+
                     foreach ($values as $value) {
 
                         if ($value['modsExtension']) {
                             // mods extension
-                            $counter = sprintf("%'03d", $this->counter);
-                            $referenceAttribute = '[@'.$group['modsExtensionReference'].'="#QUCOSA_'.$counter.'"]';
+                            $counter            = sprintf("%'03d", $this->counter);
+                            $referenceAttribute = '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
 
-                            $path = $group['modsExtensionMapping'].$referenceAttribute.'%/'.$value['mapping'];
+                            $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
                             $xml = $this->customXPathSlub($path, false, $value['value']);
                         } else {
-                            $path = $mapping.$attributeXPath.'%/'.$value['mapping'];
+                            $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
                             // print_r($path);print_r("\n");
-
 
                             if ($i == 0) {
                                 $newGroupFlag = true;
@@ -1042,14 +1026,14 @@ class MetsExporter
                         }
 
                     }
-                
+
                 } else {
                     if (!empty($attributeXPath)) {
-                      $path = $mapping.$attributeXPath;
-                      $xml = $this->customXPathSlub($path, true, '', true);
+                        $path = $mapping . $attributeXPath;
+                        $xml  = $this->customXPathSlub($path, true, '', true);
                     }
                 }
-                
+
                 if ($group['modsExtensionMapping']) {
                     $this->counter++;
                 }
@@ -1059,21 +1043,18 @@ class MetsExporter
 
         // set document type name in slub metadata
         $domElement = $this->slubData->firstChild;
-        $type = $this->slubData->createElement('slub:documentType', $documentType->getName());
+        $type       = $this->slubData->createElement('slub:documentType', $documentType->getName());
         $domElement->appendChild($type);
 
     }
 
-
-
-
-    
     /**
-     * 
+     *
      * @return string slub info xml
      */
-    public function getSlubInfoData() {
+    public function getSlubInfoData()
+    {
         return $this->slubData->saveXML();
-    } 
-    
+    }
+
 }

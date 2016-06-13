@@ -1,7 +1,6 @@
 <?php
 namespace Eww\Dpf\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,7 +29,7 @@ namespace Eww\Dpf\Domain\Repository;
 /**
  * The repository for InputOptionLists
  */
-class InputOptionListRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class InputOptionListRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	
 }

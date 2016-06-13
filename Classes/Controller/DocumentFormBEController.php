@@ -1,49 +1,50 @@
 <?php
 namespace EWW\Dpf\Controller;
 
-class DocumentFormBEController extends AbstractDocumentFormController {  
-  
-  
-  public function __construct() {
-    parent::__construct();
-           
-  }
-    
-  protected function redirectToList($message=NULL) {    
-    $this->redirect('list','Document',NULL,array('message' => $message));
-  }
-  
-  /**
-    * action delete
-    *
-    * @param array $documentData
-    * @return void
-    */
-    public function deleteAction($documentData) {
+class DocumentFormBEController extends AbstractDocumentFormController
+{
 
-       if ( !$GLOBALS['BE_USER'] ) {
-           throw new \Exception('Access denied');
-       }
+    public function __construct()
+    {
+        parent::__construct();
 
-       $document = $this->documentRepository->findByUid($documentData['documentUid']);
+    }
 
-       $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-       // send document to index
-       $elasticsearchRepository->delete($document, "");
+    protected function redirectToList($message = null)
+    {
+        $this->redirect('list', 'Document', null, array('message' => $message));
+    }
 
-       $document->setState(\EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
-       $document = $this->documentRepository->update($document);
+    /**
+     * action delete
+     *
+     * @param array $documentData
+     * @return void
+     */
+    public function deleteAction($documentData)
+    {
 
-       $this->redirectToList();
-    } 
-    
-    
-    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {                                                                      
-        
-        $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());                                
-        $this->view->assign('document', $document);                                                                              
+        if (!$GLOBALS['BE_USER']) {
+            throw new \Exception('Access denied');
+        }
+
+        $document = $this->documentRepository->findByUid($documentData['documentUid']);
+
+        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        // send document to index
+        $elasticsearchRepository->delete($document, "");
+
+        $document->setState(\EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
+        $document = $this->documentRepository->update($document);
+
+        $this->redirectToList();
+    }
+
+    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    {
+
+        $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+        $this->view->assign('document', $document);
         parent::editAction($documentForm);
     }
 }
-
-?>
