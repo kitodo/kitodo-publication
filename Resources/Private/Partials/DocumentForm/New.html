@@ -4,3 +4,9 @@
   <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}" />
   <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
+<f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
+	<f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
+      <span class="glyphicon glyphicon-remove"></span>
+      {f:translate(key: 'form_button.cancel')}
+    </f:form.button>
+</f:form>

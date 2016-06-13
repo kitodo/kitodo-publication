@@ -44,7 +44,7 @@ if (TYPO3_MODE === 'BE') {
                                 . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
                                 . 'listNew, listEdit, activate, inactivate, restore',
 
-                  'DocumentFormBE' => 'list, show, new, create, edit, update, delete',
+                  'DocumentFormBE' => 'list, show, new, create, edit, update, delete, cancel',
                   'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
                   'Search' => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
           ),

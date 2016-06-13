@@ -107,6 +107,16 @@ table.tx_dpf > tbody > tr > td {
 	display:none;
 }
 
+/* -- upload error message --------------------------------------------------------------- */
+ul.error-files-backbutton {
+	margin: 10px 0 10px 0 !important;	
+	padding: 0 !important;
+}
+
+ul.error-files-backbutton li {
+	list-style: disc;
+	margin-left: 13px;
+}
 
 
 /* EOF */

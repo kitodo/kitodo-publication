@@ -9,8 +9,8 @@ class DocumentFormBEController extends AbstractDocumentFormController {
            
   }
     
-  protected function redirectToList($success=FALSE) {   
-    $this->redirect('list','Document',NULL,array());    
+  protected function redirectToList($message=NULL) {    
+    $this->redirect('list','Document',NULL,array('message' => $message));
   }
   
   /**

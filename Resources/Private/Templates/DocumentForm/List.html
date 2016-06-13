@@ -17,11 +17,39 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages renderMode="div" />
 
-<f:if condition="{success}">    
+<f:if condition="{message}=='CREATE_OK'">    
    <div class="alert alert-success" role="alert">
        <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
        <f:translate key="documentForm.create.ok" />
    </div>        
+</f:if>
+
+<f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">    
+   <div class="alert alert-danger" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.uploadPostError" />     
+       <br /><br />  
+       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+         <span class="glyphicon glyphicon-arrow-left"></span>
+         <f:translate key="documentForm.goBack" />
+       </a> 
+   </div>        
+</f:if>
+
+<f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">    
+   <div class="alert alert-danger" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.uploadError" />      
+       <ul class="error-files-backbutton">
+       <f:for each="{errorFiles}" as="file">
+         <li>{file}</li>
+       </f:for>       
+       </ul>       
+       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+         <span class="glyphicon glyphicon-arrow-left"></span>
+         <f:translate key="documentForm.goBack" />
+       </a>   
+   </div>
 </f:if>
 
 

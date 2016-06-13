@@ -41,8 +41,17 @@
 		<trans-unit id="documentForm.create.header">
 			<source>Create document</source>
 		</trans-unit>
+		<trans-unit id="documentForm.goBack">
+			<source>go back</source>
+		</trans-unit>
 		<trans-unit id="documentForm.create.ok">
 			<source>Document successfully created.</source>
+		</trans-unit>
+		<trans-unit id="documentForm.uploadPostError">
+			<source>Document couldn't be saved. Error while uploading files.</source>
+		</trans-unit>
+		<trans-unit id="documentForm.uploadError">
+			<source>Document couldn't be saved. File size limit exceeded:</source>
 		</trans-unit>
 		<trans-unit id="documentForm.edit.header">
 			<source>Edit %s</source>

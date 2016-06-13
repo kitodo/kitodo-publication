@@ -261,6 +261,22 @@ class FormDataReader {
     
   }
   
+
+  public function uploadError() {
+    
+    if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 0) return TRUE;
+    
+    if (is_array($this->formData['secondaryFiles'])) {    
+        foreach ($this->formData['secondaryFiles'] as $tmpFile ) {      
+            if ($tmpFile['error'] != 0) {                                          
+              return TRUE;                                              
+            }    
+        }
+    }        
+
+    return FALSE;
+  }
+
   
   protected function getUploadedFile($tmpFile , $primary = FALSE, \EWW\Dpf\Domain\Model\File $file = NULL) {
     
@@ -269,14 +285,13 @@ class FormDataReader {
       }
                   
       $fileName = uniqid(time(),true);
-                  
-      if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName) ) {                    
+                                         
+        \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'],$this->uploadPath.$fileName);
                   
         $finfo = finfo_open(FILEINFO_MIME_TYPE); 
         $contentType = finfo_file($finfo, $this->uploadPath.$fileName);
         finfo_close($finfo);                   
-          
-        //$file->setContentType($tmpFile['type']);          
+                  
         $file->setContentType($contentType);          
                                                           
         $file->setTitle($tmpFile['name']);        
@@ -296,10 +311,9 @@ class FormDataReader {
             $file->setStatus( \EWW\Dpf\Domain\Model\File::STATUS_ADDED);                  
         }
 
-        return $file;
-    } else {
-        die("File didn't upload: ".$tmpFile['name']);
-    }                   
+        print_r($file);  
+
+        return $file;                 
 }        
   
   

@@ -249,6 +249,10 @@
 	float:left;
 }
 
+#form_cancel {
+	float:right;
+}
+
 .tx-dpf button .glyphicon {
 	top:0;
 	left:1px;
@@ -307,4 +311,14 @@ dd.date {
 .f3-widget-paginator li.previous {
 	padding-right: 10px;
 }
+
+ul.error-files-backbutton {
+	margin: 10px 0 10px 0 !important;	
+}
+
+ul.error-files-backbutton li {
+	list-style: disc;
+	margin-left: 13px;
+}
+
 /* EOF */
