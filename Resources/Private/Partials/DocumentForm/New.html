@@ -1,12 +1,26 @@
+<f:comment>
+    <!-- 
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+     
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share! 
+    -->
+</f:comment>
 <f:form action="create" name="documentData" object="{documentData}" enctype="multipart/form-data">
-  <f:form.hidden property="type" value="{documentForm.uid}" />
-  <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}" />
-  <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}" />
-  <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+	<f:form.hidden property="type" value="{documentForm.uid}" />
+  	<f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}" />
+  	<f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}" />
+  	<f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
 <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
 	<f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
-      <span class="glyphicon glyphicon-remove"></span>
-      {f:translate(key: 'form_button.cancel')}
+    	<span class="glyphicon glyphicon-remove"></span>
+      	{f:translate(key: 'form_button.cancel')}
     </f:form.button>
 </f:form>

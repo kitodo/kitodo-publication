@@ -1,41 +1,49 @@
-<f:layout name="DefaultBE" />
+<f:comment>
+    <!-- 
+    This file is part of the TYPO3 CMS project.
 
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+     
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share! 
+    -->
+</f:comment>
+<f:layout name="DefaultBE" />
   
 <f:section name="main">
- 
-<f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">    
-   <div class="alert alert-danger" role="alert">
-       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
-       <f:translate key="documentForm.uploadPostError" />			 
-       <br /><br />
-       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
-       	 <span class="glyphicon glyphicon-arrow-left"></span>
-       	 <f:translate key="documentForm.goBack" />
-       </a> 
-   </div>        
+
+<f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+        <f:translate key="documentForm.uploadPostError" />
+        <br /><br />
+        <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+       	    <span class="glyphicon glyphicon-arrow-left"></span>
+       	    <f:translate key="documentForm.goBack" />
+        </a>
+    </div>      
 </f:if>
 
-<f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">    
-   <div class="alert alert-danger" role="alert">
-       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
-       <f:translate key="documentForm.uploadError" />      
-       <ul class="error-files-backbutton">
-       <f:for each="{errorFiles}" as="file">
-         <li>{file}</li>
-       </f:for>       
-       </ul>       
-       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
-         <span class="glyphicon glyphicon-arrow-left"></span>
-         <f:translate key="documentForm.goBack" />
-       </a>
-   </div>
+<f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+        <f:translate key="documentForm.uploadError" />
+        <ul class="error-files-backbutton">
+            <f:for each="{errorFiles}" as="file">
+                <li>{file}</li>
+            </f:for>
+        </ul>
+        <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            <f:translate key="documentForm.goBack" />
+        </a>
+    </div>
 </f:if>
 
-  <f:render partial="Document/List" arguments="{documents:documents}"/>
+<f:render partial="Document/List" arguments="{documents:documents}"/>
   
 </f:section>
- 
-            
-              
-                                    
-    

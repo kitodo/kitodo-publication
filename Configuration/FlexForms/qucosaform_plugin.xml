@@ -1,35 +1,47 @@
+<!--
+  This file is part of the TYPO3 CMS project.
+ 
+  It is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License, either version 2
+  of the License, or any later version.
+ 
+  For the full copyright and license information, please read the
+  LICENSE.txt file that was distributed with this source code.
+ 
+  The TYPO3 project - inspiring people to share!
+-->
 <T3DataStructure>
-  <meta>
-    <langDisable>1</langDisable>
-  </meta>
-  <sheets>
-    <sDEF>
-      <ROOT>
-        <TCEforms>
-          <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
-        </TCEforms>
-        <type>array</type>
-        <el>
-          <settings.listtype>
-            <TCEforms>
-              <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype</label>                
-              <config>
-                <type>select</type>
-                <items type="array">
-                  <numIndex index="0" type="array">
-                    <numIndex index="0">keine Liste</numIndex>
-                    <numIndex index="1">no_list</numIndex>
-                  </numIndex>
-                  <numIndex index="1" type="array">
-                    <numIndex index="0">Liste</numIndex>
-                    <numIndex index="1">list</numIndex>
-                  </numIndex>
-                </items>
-              </config>
-            </TCEforms>
-          </settings.listtype>   
-        </el>
-      </ROOT>
-    </sDEF>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.listtype>
+                        <TCEforms>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype</label>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">keine Liste</numIndex>
+                                        <numIndex index="1">no_list</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">Liste</numIndex>
+                                        <numIndex index="1">list</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.listtype>
+                </el>
+            </ROOT> 
+        </sDEF>
   </sheets>
 </T3DataStructure>

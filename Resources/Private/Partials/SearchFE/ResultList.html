@@ -1,3 +1,17 @@
+<f:comment>
+    <!-- 
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+     
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share! 
+    -->
+</f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
 <ol class="tx-dlf-listview-list">
@@ -8,7 +22,7 @@
                     <dl>
                         <dd><dpf:calcIndex currentIndex="{eIterator.cycle}" currentPage="{currentPage}" itemsPerPage="{settings.list.paginate.itemsPerPage}" />.
                             <f:link.page pageUid="{settings.landingPage}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
-                            {entry._source._dissemination._content.title.0}
+                                {entry._source._dissemination._content.title.0}
                                 <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
                             </f:link.page>
                         </dd>
@@ -35,4 +49,3 @@
         </f:if>
     </f:for>
 </ol>
-

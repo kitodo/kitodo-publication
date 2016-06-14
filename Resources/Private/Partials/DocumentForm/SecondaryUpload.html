@@ -1,29 +1,42 @@
+<f:comment>
+    <!-- 
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+     
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share! 
+    -->
+</f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 <fieldset class="fs_file_group" data-group="file-upload">
-  <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
-  <f:form.upload property="secondaryFiles.{groupIndex}" class="input_file_upload" />
-  <f:if condition="{groupIndex}">
-    <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload" data-index="{groupIndex}">         
-        <span class="glyphicon glyphicon-remove"></span>
-        <span class="sr-only">delete secondary file upload</span>
-    </button>     
-  </f:if>   
+    <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
+    <f:form.upload property="secondaryFiles.{groupIndex}" class="input_file_upload" />
+    <f:if condition="{groupIndex}">
+        <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload" data-index="{groupIndex}">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span class="sr-only">delete secondary file upload</span>
+        </button>
+    </f:if>
  
-    <eww:isElementAllowed condition="backendOnly">   
+    <eww:isElementAllowed condition="backendOnly">
         <f:then>
             <div class="form-group">
-               <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Display name</label>
-               <f:form.textfield id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.label" value="" class="input-field form-control" additionalAttributes="{}" /> 
-            </div>  
+                <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Display name</label>
+                <f:form.textfield id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.label" value="" class="input-field form-control" additionalAttributes="{}" />
+            </div>
             <div class="form-group">
-               <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Download</label>
-               <f:form.checkbox id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.download" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}"  checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}" />
-            </div>   
-            <div class="form-group">   
-               <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Archive</label> 
-               <f:form.checkbox id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.archive" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}"  checked="{file.archive}" />
-            </div>  
-        </f:then>                        
-    </eww:isElementAllowed>           
-  
+                <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Download</label>
+                <f:form.checkbox id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.download" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}" checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}" />
+            </div>
+            <div class="form-group">
+                <label for="inp_secondaryFile_{groupIndex}" data-index="{groupIndex}">Archive</label>
+                <f:form.checkbox id="inp_secondaryFile_{groupIndex}" property="secondaryFiles.{groupIndex}.archive" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}" checked="{file.archive}" />
+            </div>
+        </f:then>
+    </eww:isElementAllowed>
 </fieldset>

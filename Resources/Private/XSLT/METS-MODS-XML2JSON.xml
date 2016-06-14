@@ -1,251 +1,263 @@
+<!--
+  This file is part of the TYPO3 CMS project.
+ 
+  It is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License, either version 2
+  of the License, or any later version.
+ 
+  For the full copyright and license information, please read the
+  LICENSE.txt file that was distributed with this source code.
+ 
+  The TYPO3 project - inspiring people to share!
+-->
 <stylesheet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/" xmlns:slub="http://slub-dresden.de/" xmlns="http://www.w3.org/1999/XSL/Transform" version="1.0" xsi:schemaLocation="             http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd             http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">
-                    <output method="text" encoding="UTF-8" indent="no" media-type="application/json"></output>
-                    <strip-space elements="*"></strip-space>
-                    
-                    <template match="/mets:mets">
-                        <text>{</text>
-                        
-                        <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE=&apos;MODS&apos;][1]/mets:xmlData/mods:mods"></apply-templates>
-                        <text>,</text>
-                        
-                        <apply-templates select="mets:amdSec/mets:rightsMD/mets:mdWrap[@MIMETYPE=&apos;application/vnd.slub-info+xml&apos;][1]/mets:xmlData/slub:info"></apply-templates>
-                        <text>}</text>
-                    </template>
-                    <template match="mods:mods">
-                        <call-template name="title">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="abstract">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="author">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="language">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="publisher">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="publisher_place">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="distributor">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="distributor_place">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="distribution_date">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="classification">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="tag">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="identifier">
-                            <with-param name="modsElement" select="."></with-param>
-                        </call-template>
-                    </template>
-                    <template match="slub:info">
-                        <call-template name="submitter">
-                            <with-param name="slubElement" select="."></with-param>
-                        </call-template>
-                        <text>,</text>
-                        <call-template name="project">
-                            <with-param name="slubElement" select="."></with-param>
-                        </call-template>
-                    </template>
-                    <template name="title">
-                        <param name="modsElement"></param>
-                        <text>&quot;title&quot;:[</text>
-                        <for-each select="$modsElement/mods:titleInfo/mods:title">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="abstract">
-                        <param name="modsElement"></param>
-                        <text>&quot;abstract&quot;:[</text>
-                        <for-each select="$modsElement/mods:abstract[@type=&apos;content&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="author">
-                        <param name="modsElement"></param>
-                        <text>&quot;author&quot;:[</text>
-                        <for-each select="$modsElement/mods:name[@type=&apos;personal&apos; and mods:role/mods:roleTerm=&apos;aut&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="concat(mods:namePart[@type=&apos;given&apos;], &apos; &apos;, mods:namePart[@type=&apos;family&apos;])"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="language">
-                        <param name="modsElement"></param>
-                        <text>&quot;language&quot;:[</text>
-                        <for-each select="$modsElement/mods:language/mods:languageTerm">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="publisher">
-                        <param name="modsElement"></param>
-                        <text>&quot;publisher&quot;:[</text>
-                        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="mods:publisher"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="publisher_place">
-                        <param name="modsElement"></param>            
-            <text>&quot;publisher_place&quot;:[</text>
-                        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="mods:place/mods:placeTerm[@type=&apos;text&apos;]"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="distributor">
-                        <param name="modsElement"></param>
-                        <text>&quot;distributor&quot;:[</text>
-                        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="mods:publisher"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="distributor_place">
-                        <param name="modsElement"></param>
-                        <text>&quot;distributor_place&quot;:[</text>
-                        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="mods:place/mods:placeTerm[@type=&apos;text&apos;]"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="distribution_date">
-                        <param name="modsElement"></param>
-                        <text>&quot;distribution_date&quot;:[</text>
-                        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="mods:dateIssued[@keyDate=&apos;yes&apos;]"></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="classification">
-                        <param name="modsElement"></param>
-                        <text>&quot;classification&quot;:[</text>
-                        <for-each select="$modsElement/mods:classification[@authority!=&apos;&apos;]">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="tag">
-                        <param name="modsElement"></param>
-                        <text>&quot;tag&quot;:[</text>
-                        <for-each select="$modsElement/mods:classification[not(@authority)]">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>                 
-           <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="identifier">
-                        <param name="modsElement"></param>
-                        <text>&quot;identifier&quot;:[</text>
-                        <for-each select="$modsElement/mods:identifier">
-                            <call-template name="quote">
-                                <with-param name="s" select="."></with-param>
-                            </call-template>
-                            <choose>
-                                <when test="position() != last()">,</when>
-                            </choose>
-                        </for-each>
-                        <text>]</text>
-                    </template>
-                    <template name="submitter">
-                        <param name="slubElement"></param>
-                        <text>&quot;submitter&quot;:</text>
-                        <call-template name="quote">
-                            <with-param name="s" select="$slubElement/slub:submitter/slub:name"></with-param>
-                        </call-template>
-                    </template>
-                    <template name="project">
-                        <param name="slubElement"></param>
-                        <text>&quot;project&quot;:</text>
-                        <call-template name="quote">
-                            <with-param name="s" select="$slubElement/slub:project"></with-param>
-                        </call-template>
-                    </template>
-                    
-                    <template match="text()"></template>
-                    
-                    <template name="quote">
-                        <param name="s"></param>
-                        <text>&quot;</text>
-                        <value-of select="translate(normalize-space($s), &apos;&quot;&apos;, &apos;\&quot;&apos;)"></value-of>
-                        <text>&quot;</text>
-                    </template>
-                </stylesheet>
+    <output method="text" encoding="UTF-8" indent="no" media-type="application/json"></output>
+    <strip-space elements="*"></strip-space>
+    
+    <template match="/mets:mets">
+        <text>{</text>
+        
+        <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE=&apos;MODS&apos;][1]/mets:xmlData/mods:mods"></apply-templates>
+        <text>,</text>
+        
+        <apply-templates select="mets:amdSec/mets:rightsMD/mets:mdWrap[@MIMETYPE=&apos;application/vnd.slub-info+xml&apos;][1]/mets:xmlData/slub:info"></apply-templates>
+        <text>}</text>
+    </template>
+    <template match="mods:mods">
+        <call-template name="title">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="abstract">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="author">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="language">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="publisher">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="publisher_place">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="distributor">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="distributor_place">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="distribution_date">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="classification">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="tag">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="identifier">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+    </template>
+    <template match="slub:info">
+        <call-template name="submitter">
+            <with-param name="slubElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
+        <call-template name="project">
+            <with-param name="slubElement" select="."></with-param>
+        </call-template>
+    </template>
+    <template name="title">
+        <param name="modsElement"></param>
+        <text>&quot;title&quot;:[</text>
+        <for-each select="$modsElement/mods:titleInfo/mods:title">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="abstract">
+        <param name="modsElement"></param>
+        <text>&quot;abstract&quot;:[</text>
+        <for-each select="$modsElement/mods:abstract[@type=&apos;content&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="author">
+        <param name="modsElement"></param>
+        <text>&quot;author&quot;:[</text>
+        <for-each select="$modsElement/mods:name[@type=&apos;personal&apos; and mods:role/mods:roleTerm=&apos;aut&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="concat(mods:namePart[@type=&apos;given&apos;], &apos; &apos;, mods:namePart[@type=&apos;family&apos;])"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="language">
+        <param name="modsElement"></param>
+        <text>&quot;language&quot;:[</text>
+        <for-each select="$modsElement/mods:language/mods:languageTerm">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="publisher">
+        <param name="modsElement"></param>
+        <text>&quot;publisher&quot;:[</text>
+        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="mods:publisher"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="publisher_place">
+        <param name="modsElement"></param>            
+<text>&quot;publisher_place&quot;:[</text>
+        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="mods:place/mods:placeTerm[@type=&apos;text&apos;]"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="distributor">
+        <param name="modsElement"></param>
+        <text>&quot;distributor&quot;:[</text>
+        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="mods:publisher"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="distributor_place">
+        <param name="modsElement"></param>
+        <text>&quot;distributor_place&quot;:[</text>
+        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="mods:place/mods:placeTerm[@type=&apos;text&apos;]"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="distribution_date">
+        <param name="modsElement"></param>
+        <text>&quot;distribution_date&quot;:[</text>
+        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;distribution&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="mods:dateIssued[@keyDate=&apos;yes&apos;]"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="classification">
+        <param name="modsElement"></param>
+        <text>&quot;classification&quot;:[</text>
+        <for-each select="$modsElement/mods:classification[@authority!=&apos;&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="tag">
+        <param name="modsElement"></param>
+        <text>&quot;tag&quot;:[</text>
+        <for-each select="$modsElement/mods:classification[not(@authority)]">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>                 
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="identifier">
+        <param name="modsElement"></param>
+        <text>&quot;identifier&quot;:[</text>
+        <for-each select="$modsElement/mods:identifier">
+            <call-template name="quote">
+                <with-param name="s" select="."></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
+    <template name="submitter">
+        <param name="slubElement"></param>
+        <text>&quot;submitter&quot;:</text>
+        <call-template name="quote">
+            <with-param name="s" select="$slubElement/slub:submitter/slub:name"></with-param>
+        </call-template>
+    </template>
+    <template name="project">
+        <param name="slubElement"></param>
+        <text>&quot;project&quot;:</text>
+        <call-template name="quote">
+            <with-param name="s" select="$slubElement/slub:project"></with-param>
+        </call-template>
+    </template>
+    
+    <template match="text()"></template>
+    
+    <template name="quote">
+        <param name="s"></param>
+        <text>&quot;</text>
+        <value-of select="translate(normalize-space($s), &apos;&quot;&apos;, &apos;\&quot;&apos;)"></value-of>
+        <text>&quot;</text>
+    </template>
+</stylesheet>

@@ -1,14 +1,19 @@
+<f:comment>
+	<!-- 
+	This file is part of the TYPO3 CMS project.
+
+	It is free software; you can redistribute it and/or modify it under
+	the terms of the GNU General Public License, either version 2
+	of the License, or any later version.
+	 
+	For the full copyright and license information, please read the
+	LICENSE.txt file that was distributed with this source code.
+
+	The TYPO3 project - inspiring people to share! 
+	-->
+</f:comment>
 <f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">
-  <div id="new-element">
-  <f:render partial="DocumentForm/Field" arguments="{
-                        formPageUid:formPageUid,                       
-                        formGroupUid:formGroupUid,
-                        formGroupDisplayName: formGroupDisplayName,
-                        groupItem:groupItem, 
-                        groupIndex:groupIndex,
-                        fieldItem: fieldItem,
-                        formField:formField,
-                        fieldIndex: fieldIndex
-                        countries:countries}"/>
-  </div>
+    <div id="new-element">
+        <f:render partial="DocumentForm/Field" arguments="{formPageUid:formPageUid,formGroupUid:formGroupUid,formGroupDisplayName: formGroupDisplayName,groupItem: groupItem,groupIndex: groupIndex,fieldItem: fieldItem,formField: formField,fieldIndex: fieldIndex,countries: countries}"/>
+    </div>
 </f:form>
