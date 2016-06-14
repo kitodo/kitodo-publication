@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2015-03-09T14:27:57Z" product-name="dpf2">
-        <header/>
-        <body>
-            <trans-unit id="title.description">
-                <source>title</source>
-            </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-03-09T14:27:57Z" product-name="dpf2">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>title</source>
+			</trans-unit>
                         <trans-unit id="label.description">
-                <source>label</source>
-            </trans-unit>
+				<source>label</source>
+			</trans-unit>
                         <trans-unit id="download.description">
-                <source>download</source>
-            </trans-unit>
+				<source>download</source>
+			</trans-unit>
                         <trans-unit id="archive.description">
-                <source>archive</source>
-            </trans-unit>
-            <trans-unit id="content_type.description">
-                <source>contentType</source>
-            </trans-unit>
-            <trans-unit id="link.description">
-                <source>link</source>
-            </trans-unit>
-            <trans-unit id="status.description">
-                <source>status</source>
-            </trans-unit>
+				<source>archive</source>
+			</trans-unit>
+			<trans-unit id="content_type.description">
+				<source>contentType</source>
+			</trans-unit>
+			<trans-unit id="link.description">
+				<source>link</source>
+			</trans-unit>
+			<trans-unit id="status.description">
+				<source>status</source>
+			</trans-unit>
                         <trans-unit id="datastream_identifier.description">
-                <source>datastream identifier</source>
-            </trans-unit>
+				<source>datastream identifier</source>
+			</trans-unit>
                         <trans-unit id="primary_file.description">
-                <source>primary file</source>
-            </trans-unit>
-            <trans-unit id="document.description">
-                <source>document</source>
-            </trans-unit>
-        </body>
-    </file>
+				<source>primary file</source>
+			</trans-unit>
+			<trans-unit id="document.description">
+				<source>document</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

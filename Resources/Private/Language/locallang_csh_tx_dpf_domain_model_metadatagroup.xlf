@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-        <header/>
-        <body>
-            <trans-unit id="name.description">
-                <source>name</source>
-            </trans-unit>
-            <trans-unit id="display_name.description">
-                <source>displayName</source>
-            </trans-unit>
-            <trans-unit id="mandatory.description">
-                <source>mandatory</source>
-            </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+		<header/>
+		<body>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="display_name.description">
+				<source>displayName</source>
+			</trans-unit>
+			<trans-unit id="mandatory.description">
+				<source>mandatory</source>
+			</trans-unit>
                         <trans-unit id="backend_only.description">
-                <source>backendOnly</source>
-            </trans-unit>
+				<source>backendOnly</source>
+			</trans-unit>
                         <trans-unit id="mapping_for_reading.description">
-                <source>mapping for reading</source>
-            </trans-unit>
+				<source>mapping for reading</source>
+			</trans-unit>
                         <trans-unit id="mapping.description">
-                <source>mapping</source>
-            </trans-unit>
+				<source>mapping</source>
+			</trans-unit>
                         <trans-unit id="info_text.description">
-                <source>info text</source>
-            </trans-unit>
+				<source>info text</source>
+			</trans-unit>
                         <trans-unit id="mods_extension_mapping.description">
-                <source>mods extension mapping</source>
-            </trans-unit>
+				<source>mods extension mapping</source>
+			</trans-unit>
                         <trans-unit id="mods_extension_reference.description">
-                <source>mods extension reference attribute</source>
-            </trans-unit>
-            <trans-unit id="max_iteration.description">
-                <source>maxIteration</source>
-            </trans-unit>
-            <trans-unit id="metadata_object.description">
-                <source>metadataObject</source>
-            </trans-unit>
-        </body>
-    </file>
+				<source>mods extension reference attribute</source>
+			</trans-unit>
+			<trans-unit id="max_iteration.description">
+				<source>maxIteration</source>
+			</trans-unit>
+			<trans-unit id="metadata_object.description">
+				<source>metadataObject</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

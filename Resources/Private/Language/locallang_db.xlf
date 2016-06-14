@@ -1,305 +1,305 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
-        <header/>
-        <body>
-            <trans-unit id="tx_dpf_domain_model_documenttype">
-                <source>Document Type</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttype.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttype.display_name">
-                <source>Display Name</source>
-            </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-28T09:42:21Z" product-name="dpf">
+		<header/>
+		<body>
+			<trans-unit id="tx_dpf_domain_model_documenttype">
+				<source>Document Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
+				<source>Display Name</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_documenttype.virtual">
-                <source>Virtual</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
-                <source>Metadata Page</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_document">
-                <source>Document</source>
-            </trans-unit>
+				<source>Virtual</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.metadata_page">
+				<source>Metadata Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document">
+				<source>Document</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.title">
-                <source>Title</source>
-            </trans-unit>
+				<source>Title</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.authors">
-                <source>Authors</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_document.xml_data">
-                <source>Xml Data</source>
-            </trans-unit>
+				<source>Authors</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document.xml_data">
+				<source>Xml Data</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
-                <source>Slub Info Data</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_document.document_type">
-                <source>Document Type</source>
-            </trans-unit>
+				<source>Slub Info Data</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document.document_type">
+				<source>Document Type</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.object_identifier">
-                <source>Object Identifier</source>
-            </trans-unit>
+				<source>Object Identifier</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
-                <source>Reserved Object Identifier</source>
-            </trans-unit>
+				<source>Reserved Object Identifier</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.object_state">
-                <source>Object State</source>
-            </trans-unit>
+				<source>Object State</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_document.date_issued">
-                <source>Date Issued</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup">
-                <source>Metadata Group</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup.display_name">
-                <source>Display Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
-                <source>Mandatory</source>
-            </trans-unit>
+				<source>Date Issued</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup">
+				<source>Metadata Group</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only">
-                <source>Backend only</source>
-            </trans-unit>
+				<source>Backend only</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading">
-                <source>Mapping for reading</source>
-            </trans-unit>
+				<source>Mapping for reading</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
-                <source>Mapping</source>
-            </trans-unit>
+				<source>Mapping</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.info_text">
-                <source>Info text</source>
-            </trans-unit>
+				<source>Info text</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_mapping">
-                <source>Mods Extension Mapping</source>
-            </trans-unit>
+				<source>Mods Extension Mapping</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatagroup.mods_extension_reference">
-                <source>Mods Extension Reference Attribute</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
-                <source>Max Iteration</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatagroup.metadata_object">
-                <source>Metadata Object</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject">
-                <source>Metadata Object</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject.display_name">
-                <source>Display Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
-                <source>Max Iteration</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
-                <source>Mandatory</source>
-            </trans-unit>
+				<source>Mods Extension Reference Attribute</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatagroup.metadata_object">
+				<source>Metadata Object</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject">
+				<source>Metadata Object</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
+				<source>Max Iteration</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
+				<source>Mandatory</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.validation">
-                <source>Validation</source>
-            </trans-unit>                        
+				<source>Validation</source>
+			</trans-unit>                        
                         <trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
-                <source>Backend only</source>
-            </trans-unit>
+				<source>Backend only</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.consent">
-                <source>Consent field</source>
-            </trans-unit>                        
+				<source>Consent field</source>
+			</trans-unit>                        
                         <trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
-                <source>Default value</source>
-            </trans-unit>  
+				<source>Default value</source>
+			</trans-unit>  
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
-                <source>Input option list</source>
-            </trans-unit>                        
-            <trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
-                <source>Mapping</source>
-            </trans-unit>
+				<source>Input option list</source>
+			</trans-unit>                        
+			<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
+				<source>Mapping</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.mods_extension">
-                <source>Mods Extension Field</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
-                <source>Input Field</source>
-            </trans-unit>
+				<source>Mods Extension Field</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
+				<source>Input Field</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input">
-                <source>input</source>
-            </trans-unit>
+				<source>input</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.textarea">
-                <source>textarea</source>
-            </trans-unit>                        
+				<source>textarea</source>
+			</trans-unit>                        
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
-                <source>language</source>
-            </trans-unit>
+				<source>language</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.license">
-                <source>license</source>
-            </trans-unit>
+				<source>license</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.checkbox">
-                <source>checkbox</source>
-            </trans-unit>
+				<source>checkbox</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
-                <source>Data type</source>
-            </trans-unit>
+				<source>Data type</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
-                <source>select</source>
-            </trans-unit>
+				<source>select</source>
+			</trans-unit>
                          <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.regexp">
-                <source>regexp</source>
-            </trans-unit>
+				<source>regexp</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date">
-                <source>date</source>
-            </trans-unit>
+				<source>date</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service">
-                <source>Fill out service</source>
-            </trans-unit>     
+				<source>Fill out service</source>
+			</trans-unit>     
                         <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.urn">
-                <source>URN</source>
-            </trans-unit>                         
-            <trans-unit id="tx_dpf_domain_model_fedoraconnection">
-                <source>Fedora Connection</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_fedoraconnection.url">
-                <source>Url</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_fedoraconnection.user">
-                <source>User</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_fedoraconnection.password">
-                <source>Password</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatapage">
-                <source>Metadata Page</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatapage.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatapage.display_name">
-                <source>Display Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatapage.page_number">
-                <source>Page Number</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
-                <source>Metadata Group</source>
-            </trans-unit>
+				<source>URN</source>
+			</trans-unit>                         
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection">
+				<source>Fedora Connection</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.user">
+				<source>User</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_fedoraconnection.password">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage">
+				<source>Metadata Page</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.page_number">
+				<source>Page Number</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_metadatapage.metadata_group">
+				<source>Metadata Group</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
-                <source>Backend only</source>
-            </trans-unit>     
+				<source>Backend only</source>
+			</trans-unit>     
                         <trans-unit id="tx_dpf_domain_model_documenttransferlog">
-                <source>Document Transfer Log</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttransferlog.date">
-                <source>Date</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttransferlog.response">
-                <source>Response</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error">
-                <source>Curl Error</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid">
-                <source>Document Uid</source>
-            </trans-unit>
+				<source>Document Transfer Log</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.response">
+				<source>Response</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.curl_error">
+				<source>Curl Error</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttransferlog.document_uid">
+				<source>Document Uid</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_documenttransferlog.object_identifier">
-                <source>Object Identifier</source>
-            </trans-unit>
+				<source>Object Identifier</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_documenttransferlog.action">
-                <source>Action</source>
-            </trans-unit>
+				<source>Action</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file">
-                <source>File</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_file.title">
-                <source>Title</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_file.label">
-                <source>Label</source>
-            </trans-unit>     
+				<source>File</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.label">
+				<source>Label</source>
+			</trans-unit>     
                         <trans-unit id="tx_dpf_domain_model_file.download">
-                <source>Download</source>                                
-            </trans-unit>                    
+				<source>Download</source>                                
+			</trans-unit>                    
                         <trans-unit id="tx_dpf_domain_model_file.archive">
-                <source>Archive</source>
-            </trans-unit>                                                       
-            <trans-unit id="tx_dpf_domain_model_file.content_type">
-                <source>Content Type</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_file.link">
-                <source>Link</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_file.status">
-                <source>Status</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
-                <source>Datastream Identifier</source>
-            </trans-unit>
+				<source>Archive</source>
+			</trans-unit>                                                       
+			<trans-unit id="tx_dpf_domain_model_file.content_type">
+				<source>Content Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_file.datastream_identifier">
+				<source>Datastream Identifier</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file.primary_file">
-                <source>Primary file</source>
-            </trans-unit>
+				<source>Primary file</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_file.document">
-                <source>Document</source>
-            </trans-unit>
+				<source>Document</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client">
-                <source>Client</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_client.project">
-                <source>Project name</source>
-            </trans-unit>
+				<source>Client</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.project">
+				<source>Project name</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.client">
-                <source>Client name</source>
-            </trans-unit>
+				<source>Client name</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.network_initial">
-                <source>Network initial</source>
-            </trans-unit>
+				<source>Network initial</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.library_identifier">
-                <source>Library identifier</source>
-            </trans-unit>                                                                                                                                                       
+				<source>Library identifier</source>
+			</trans-unit>                                                                                                                                                       
                         <trans-unit id="tx_dpf_domain_model_client.admin_email">
-                <source>Admin email</source>
-            </trans-unit>  
+				<source>Admin email</source>
+			</trans-unit>  
                         <trans-unit id="tx_dpf_domain_model_client.owner_id">
-                <source>Owner ID</source>
-            </trans-unit>
+				<source>Owner ID</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.niss_part_search">
-                <source>NISS part search: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
-            </trans-unit>
+				<source>NISS part search: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.niss_part_replace">
-                <source>NISS part replace: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
-            </trans-unit>
+				<source>NISS part replace: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_client.replace_niss_part">
-                <source>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
-            </trans-unit>
+				<source>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist">
-                <source>Input Option List</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_inputoptionlist.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name">
-                <source>Display Name</source>
-            </trans-unit>           
+				<source>Input Option List</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoptionlist.display_name">
+				<source>Display Name</source>
+			</trans-unit>			
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_list">
-                <source>Value list</source>
-            </trans-unit>
+				<source>Value list</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist.value_label_list">
-                <source>Value label list</source>
-            </trans-unit>
+				<source>Value label list</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoptionlist.default_value">
-                    <source>Default value</source>
-            </trans-unit>                           
-            <trans-unit id="tx_dpf_domain_model_inputoption">
-                <source>Input Option</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_inputoption.name">
-                <source>Name</source>
-            </trans-unit>
+    				<source>Default value</source>
+			</trans-unit>                           
+			<trans-unit id="tx_dpf_domain_model_inputoption">
+				<source>Input Option</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.name">
+				<source>Name</source>
+			</trans-unit>
                         <trans-unit id="tx_dpf_domain_model_inputoption.display_name">
-                <source>Display name</source>
-            </trans-unit>
-            <trans-unit id="tx_dpf_domain_model_inputoption.value">
-                <source>Value</source>
-            </trans-unit>           
-        </body>
-    </file>
+				<source>Display name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_inputoption.value">
+				<source>Value</source>
+			</trans-unit>			
+		</body>
+	</file>
 </xliff>

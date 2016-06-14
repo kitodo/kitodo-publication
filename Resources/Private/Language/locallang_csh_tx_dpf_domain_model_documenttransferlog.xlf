@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2015-03-04T10:29:39Z" product-name="dpf">
-        <header/>
-        <body>
-            <trans-unit id="date.description">
-                <source>date</source>
-            </trans-unit>
-            <trans-unit id="response.description">
-                <source>response</source>
-            </trans-unit>
-            <trans-unit id="curl_error.description">
-                <source>curlError</source>
-            </trans-unit>
-            <trans-unit id="document_uid.description">
-                <source>document uid</source>
-            </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-03-04T10:29:39Z" product-name="dpf">
+		<header/>
+		<body>
+			<trans-unit id="date.description">
+				<source>date</source>
+			</trans-unit>
+			<trans-unit id="response.description">
+				<source>response</source>
+			</trans-unit>
+			<trans-unit id="curl_error.description">
+				<source>curlError</source>
+			</trans-unit>
+			<trans-unit id="document_uid.description">
+				<source>document uid</source>
+			</trans-unit>
                         <trans-unit id="object_identifier.description">
-                <source>object identifier</source>
-            </trans-unit>
+				<source>object identifier</source>
+			</trans-unit>
                         <trans-unit id="reserved_object_identifier.description">
-                <source>reserved object identifier</source>
-            </trans-unit>
+				<source>reserved object identifier</source>
+			</trans-unit>
                         <trans-unit id="action.description">
-                <source>action</source>
-            </trans-unit>
-        </body>
-    </file>
+				<source>action</source>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

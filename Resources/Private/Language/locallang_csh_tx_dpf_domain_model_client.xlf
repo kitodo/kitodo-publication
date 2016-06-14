@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-    <file source-language="en" datatype="plaintext" original="messages" date="2015-03-25T17:14:23Z" product-name="dpf2">
-        <header/>
-        <body>
-            <trans-unit id="project.description">
-                <source>Project name</source>
-            </trans-unit>
-            <trans-unit id="client.description">
-                <source>Client name</source>
-            </trans-unit>
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-03-25T17:14:23Z" product-name="dpf2">
+		<header/>
+		<body>
+			<trans-unit id="project.description">
+				<source>Project name</source>
+			</trans-unit>
+			<trans-unit id="client.description">
+				<source>Client name</source>
+			</trans-unit>
                         <trans-unit id="owner_id.description">
-                <source>Owner ID</source>
-            </trans-unit>
+				<source>Owner ID</source>
+			</trans-unit>
                         <trans-unit id="network_initial.description">
-                <source>Network initial</source>
-            </trans-unit>                        
+				<source>Network initial</source>
+			</trans-unit>                        
                         <trans-unit id="library_identifier.description">
-                <source>Library identifier</source>
-            </trans-unit> 
+				<source>Library identifier</source>
+			</trans-unit> 
                          <trans-unit id="admin_email.description">
-                <source>Admin email</source>
-            </trans-unit>                                                                                                                                                       
+				<source>Admin email</source>
+			</trans-unit>                                                                                                                                                       
 
-        </body>
-    </file>
+		</body>
+	</file>
 </xliff>
