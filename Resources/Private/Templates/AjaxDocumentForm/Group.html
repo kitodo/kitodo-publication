@@ -1,9 +1,8 @@
-<f:form action="" enctype="multipart/form-data" name="documentData" object="{documentData}">
-    <f:render arguments="{
+<f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">  
+  <f:render partial="DocumentForm/Group" arguments="{
                         formPageUid:formPageUid,                       
                         formGroupUid:formGroupUid,
                         formGroupDisplayName:formGroupDisplayName,
                         groupItem:groupItem, 
-                        groupIndex:groupIndex}" partial="DocumentForm/Group">
-    </f:render>
+                        groupIndex:groupIndex}"/>
 </f:form>

@@ -1,6 +1,6 @@
-<f:form action="" enctype="multipart/form-data" name="documentData" object="{documentData}">
-    <div id="new-element">
-        <f:render arguments="{
+<f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">
+  <div id="new-element">
+  <f:render partial="DocumentForm/Field" arguments="{
                         formPageUid:formPageUid,                       
                         formGroupUid:formGroupUid,
                         formGroupDisplayName: formGroupDisplayName,
@@ -9,7 +9,6 @@
                         fieldItem: fieldItem,
                         formField:formField,
                         fieldIndex: fieldIndex
-                        countries:countries}" partial="DocumentForm/Field">
-        </f:render>
-    </div>
+                        countries:countries}"/>
+  </div>
 </f:form>

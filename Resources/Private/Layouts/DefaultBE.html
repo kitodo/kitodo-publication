@@ -1,45 +1,39 @@
 {namespace dpf=EWW\Dpf\ViewHelpers}
-<f:be.container enableclickmenu="false" includecssfiles="{0: '{f:uri.resource(path:\'CSS/bootstrap.min.css\')}',
- 1: '{f:uri.resource(path:\'CSS/manager.css\')}'}" includejsfiles="{0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',
+
+<f:be.container loadPrototype="false" loadScriptaculous="false" enableClickMenu="false"
+ includeCssFiles="{0: '{f:uri.resource(path:\'CSS/bootstrap.min.css\')}',
+ 1: '{f:uri.resource(path:\'CSS/manager.css\')}'}"
+includeJsFiles="{0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',
  1: '{f:uri.resource(path:\'JavaScript/moment-with-locales.min.js\')}',   
  2: '{f:uri.resource(path:\'JavaScript/bootstrap.min.js\')}', 
  3: '{f:uri.resource(path:\'JavaScript/bootstrap-datetimepicker.min.js\')}',
- 4: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}" loadprototype="false" loadscriptaculous="false">
-    <div class="tx-dpf" data-language="{dpf:language()}">
-        <f:comment>
-            <f:debug maxdepth="20" title="Debug">
-                {debugData}
-            </f:debug>
-        </f:comment>
-        <p class="bg-info client">
-            {f:translate(key: 'manager.client')}:
-            <strong>
-                {client.client}
-            </strong>
-        </p>
-        <f:be.menus.actionmenu>
-            <f:be.menus.actionmenuitem action="list" controller="Document" label="{f:translate(key: 'manager.control.documents')}">
-            </f:be.menus.actionmenuitem>
-            <f:be.menus.actionmenuitem action="list" controller="Search" label="{f:translate(key: 'manager.control.search')}">
-            </f:be.menus.actionmenuitem>
-        </f:be.menus.actionmenu>
-        <div class="be-page-header">
-            <div class="btn-group controller-switch" role="group">
-                <f:link.action action="list" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document')}" controller="Document">
-                    <span aria-hidden="true" class="glyphicon glyphicon-file">
-                    </span>
-                    {f:translate(key: 'manager.control.documents')}
-                </f:link.action>
-                <f:link.action action="list" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Search')}" controller="Search">
-                    <span aria-hidden="true" class="glyphicon glyphicon-search">
-                    </span>
-                    {f:translate(key: 'manager.control.search')}
-                </f:link.action>
-            </div>
+ 4: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}"> 
+           
+  <div class="tx-dpf" data-language="{dpf:language()}">
+    <f:comment> <f:debug title="Debug" maxDepth="20">{debugData}</f:debug> </f:comment>
+    <p class="bg-info client">{f:translate(key: 'manager.client')}: <strong>{client.client}</strong></p>
+
+    <f:be.menus.actionMenu>
+      <f:be.menus.actionMenuItem label="{f:translate(key: 'manager.control.documents')}" controller="Document" action="list" />
+      <f:be.menus.actionMenuItem label="{f:translate(key: 'manager.control.search')}" controller="Search" action="list" />      
+    </f:be.menus.actionMenu>
+    
+    <div class="be-page-header">       
+        <div class="btn-group controller-switch" role="group">
+          <f:link.action action="list" controller="Document" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document')}">
+            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+            {f:translate(key: 'manager.control.documents')}
+          </f:link.action>  
+          <f:link.action action="list" controller="Search" class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Search')}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            {f:translate(key: 'manager.control.search')}
+          </f:link.action>
         </div>
-        <f:flashmessages rendermode="div">
-        </f:flashmessages>
-        <f:render section="main">
-        </f:render>
     </div>
-</f:be.container>
+             
+    <f:flashMessages renderMode="div" />
+       
+    <f:render section="main" />
+  </div>
+
+</f:be.container> 

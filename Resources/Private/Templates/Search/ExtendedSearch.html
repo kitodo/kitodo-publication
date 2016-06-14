@@ -1,6 +1,7 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
-<f:layout name="DefaultBE">
-</f:layout>
+
+<f:layout name="DefaultBE" />
+
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -11,74 +12,54 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+
 <f:section name="main">
-    <f:render arguments="{searchList: searchList}" partial="Search/SearchControl">
-    </f:render>
+
+    <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
+
     <div class="searchForm">
-        <f:form action="search" class="form-inline" name="extSearch">
-            <h5>
-                {f:translate(key: 'search.form.header.extendedSearch')}
-            </h5>
-            <div class="form-group">
-                <label for="extId">
-                    {f:translate(key: 'search.form.label.datasetIdentifier')}
-                </label>
-                <f:form.textfield class="form-control" id="extId" placeholder="{f:translate(key: 'search.form.label.datasetIdentifier')}" property="extId" value="{id}">
-                </f:form.textfield>
-            </div>
-            <div class="form-group">
-                <label for="extTitle">
-                    {f:translate(key: 'search.form.label.title')}
-                </label>
-                <f:form.textfield class="form-control" id="extTitle" placeholder="{f:translate(key: 'search.form.label.title')}" property="extTitle" value="{title}">
-                </f:form.textfield>
-            </div>
-            <div class="form-group">
-                <label for="extAuthor">
-                    {f:translate(key: 'search.form.label.author')}
-                </label>
-                <f:form.textfield class="form-control" id="extAuthor" placeholder="{f:translate(key: 'search.form.label.author')}" property="extAuthor" value="{author}">
-                </f:form.textfield>
-            </div>
-            <div class="form-group">
-                <label class="show-label" for="extDeleted">
-                    {f:translate(key: 'search.form.label.inactiveDeleted')}
-                </label>
-                <f:form.checkbox checked="{showDeleted}" class="form-control" id="extDeleted" property="extDeleted" value="true">
-                </f:form.checkbox>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6" style="padding:0px;">
-                        <div class="form-group">
-                            <label for="extFrom">
-                                {f:translate(key: 'search.form.label.date')}
-                            </label>
-                            <f:form.textfield class="form-control datetimepicker" id="extFrom" placeholder="{f:translate(key: 'search.form.label.from')}" property="extFrom" value="{from}">
-                            </f:form.textfield>
-                            <label for="extTill">
-                                {f:translate(key: 'search.form.label.to')}
-                            </label>
-                            <f:form.textfield class="form-control datetimepicker" id="extTill" placeholder="{f:translate(key: 'search.form.label.to')}" property="extTill" value="{till}">
-                            </f:form.textfield>
-                        </div>
+      <f:form action="search" name="extSearch" class="form-inline">
+        <h5>{f:translate(key: 'search.form.header.extendedSearch')}</h5>
+        <div class="form-group">
+          <label for="extId">{f:translate(key: 'search.form.label.datasetIdentifier')}</label>
+          <f:form.textfield property="extId" class="form-control" placeholder="{f:translate(key: 'search.form.label.datasetIdentifier')}" id="extId" value="{id}"/>
+        </div>
+        <div class="form-group">
+          <label for="extTitle">{f:translate(key: 'search.form.label.title')}</label>
+          <f:form.textfield property="extTitle" class="form-control" placeholder="{f:translate(key: 'search.form.label.title')}" id="extTitle" value="{title}"/>
+        </div>
+        <div class="form-group">
+          <label for="extAuthor">{f:translate(key: 'search.form.label.author')}</label>
+          <f:form.textfield property="extAuthor" class="form-control" placeholder="{f:translate(key: 'search.form.label.author')}" id="extAuthor" value="{author}"/>
+        </div>
+        <div class="form-group">
+          <label for="extDeleted" class="show-label">{f:translate(key: 'search.form.label.inactiveDeleted')}</label>
+          <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true" checked="{showDeleted}"/>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6" style="padding:0px;">
+                    <div class="form-group">
+                        <label for="extFrom">{f:translate(key: 'search.form.label.date')}</label>
+                        <f:form.textfield property="extFrom" class="form-control datetimepicker" placeholder="{f:translate(key: 'search.form.label.from')}" id="extFrom" value="{from}"/>
+                        <label for="extTill">{f:translate(key: 'search.form.label.to')}</label>
+                        <f:form.textfield property="extTill" class="form-control datetimepicker" placeholder="{f:translate(key: 'search.form.label.to')}" id="extTill" value="{till}"/>
                     </div>
                 </div>
             </div>
-            <f:form.hidden property="extSearch" value="true">
-            </f:form.hidden>
-            <f:form.button class="btn btn-default" type="submit">
-                <span aria-hidden="true" class="glyphicon glyphicon-search">
-                </span>
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
-        </f:form>
+       </div>
+        
+        <f:form.hidden property="extSearch" value="true" />        
+        <f:form.button class="btn btn-default" type="submit">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          {f:translate(key: 'search.form.button.search')}
+        </f:form.button>
+      </f:form>
     </div>
-    <f:render arguments="{searchList: searchList, alreadyImported: alreadyImported}" partial="Search/ResultList">
-    </f:render>
-    <center>
-        <f:link.action action="nextResults" controller="Search" id="next">
-            {f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </center>
+
+    <f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
+        <center>
+            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action> 
+        </center>                           
 </f:section>

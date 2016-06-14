@@ -1,6 +1,7 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
-<f:layout name="Default">
-</f:layout>
+
+<f:layout name="Default" />
+
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -11,12 +12,13 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+
+
 <f:section name="main">
-    <f:render arguments="{searchList: resultList, alreadyImported: alreadyImported}" partial="SearchFE/ResultList">
-    </f:render>
-    <div class="text-center">
-        <f:link.action action="nextResults" controller="SearchFE" id="next-results">
-            {f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </div>
+        <f:render partial="SearchFE/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
+		<div class="text-center">
+			<f:link.action id="next-results" controller="SearchFE" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action>
+		</div>
+
 </f:section>

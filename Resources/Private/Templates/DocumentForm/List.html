@@ -1,5 +1,6 @@
-<f:layout name="Default">
-</f:layout>
+
+<f:layout name="Default" />
+
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -10,102 +11,75 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
 <f:section name="main">
-    <h1>
-        {f:translate(key: 'documentForm.header.create')}
-    </h1>
-    <f:flashmessages rendermode="div">
-    </f:flashmessages>
-    <f:if condition="{message}=='CREATE_OK'">
-        <div class="alert alert-success" role="alert">
-            <span class="glyphicon glyphicon glyphicon-fire pull-right">
-            </span>
-            <f:translate key="documentForm.create.ok">
-            </f:translate>
-        </div>
-    </f:if>
-    <f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">
-        <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon glyphicon-fire pull-right">
-            </span>
-            <f:translate key="documentForm.uploadPostError">
-            </f:translate>
-            <br/>
-            <br/>
-            <a class="btn btn-xs btn-primary" href="javascript:history.back()">
-                <span class="glyphicon glyphicon-arrow-left">
-                </span>
-                <f:translate key="documentForm.goBack">
-                </f:translate>
-            </a>
-        </div>
-    </f:if>
-    <f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">
-        <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon glyphicon-fire pull-right">
-            </span>
-            <f:translate key="documentForm.uploadError">
-            </f:translate>
-            <ul class="error-files-backbutton">
-                <f:for as="file" each="{errorFiles}">
-                    <li>
-                        {file}
-                    </li>
-                </f:for>
-            </ul>
-            <a class="btn btn-xs btn-primary" href="javascript:history.back()">
-                <span class="glyphicon glyphicon-arrow-left">
-                </span>
-                <f:translate key="documentForm.goBack">
-                </f:translate>
-            </a>
-        </div>
-    </f:if>
-    <f:if condition="{listtype}=='list'">
-        <table class="tx_dpf">
-            <tr>
-                <th>
-                    Titel
-                </th>
-                <th>
-                    Typ
-                </th>
-                <th>
-                </th>
-            </tr>
-            <f:for as="document" each="{documents}">
-                <tr>
-                    <td>
-                        <f:link.action action="show" arguments="{document : document}">
-                            {document.title}
-                        </f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="show" arguments="{document : document}">
-                            {document.documentType.displayName}
-                        </f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="edit" arguments="{document : document}">
-                            bearbeiten
-                        </f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="delete" arguments="{document : document}">
-                            löschen
-                        </f:link.action>
-                    </td>
-                </tr>
-            </f:for>
-        </table>
-    </f:if>
-    <ol>
-        <f:for as="documentType" each="{documentTypes}">
-            <li>
-                <f:link.action action="new" arguments="{documentType:documentType.uid}">
-                    {documentType.displayName}
-                </f:link.action>
-            </li>
-        </f:for>
-    </ol>
+<h1>{f:translate(key: 'documentForm.header.create')}</h1>
+
+<f:flashMessages renderMode="div" />
+
+<f:if condition="{message}=='CREATE_OK'">    
+   <div class="alert alert-success" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.create.ok" />
+   </div>        
+</f:if>
+
+<f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">    
+   <div class="alert alert-danger" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.uploadPostError" />     
+       <br /><br />  
+       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+         <span class="glyphicon glyphicon-arrow-left"></span>
+         <f:translate key="documentForm.goBack" />
+       </a> 
+   </div>        
+</f:if>
+
+<f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">    
+   <div class="alert alert-danger" role="alert">
+       <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+       <f:translate key="documentForm.uploadError" />      
+       <ul class="error-files-backbutton">
+       <f:for each="{errorFiles}" as="file">
+         <li>{file}</li>
+       </f:for>       
+       </ul>       
+       <a href="javascript:history.back()" class="btn btn-xs btn-primary">
+         <span class="glyphicon glyphicon-arrow-left"></span>
+         <f:translate key="documentForm.goBack" />
+       </a>   
+   </div>
+</f:if>
+
+
+<f:if condition="{listtype}=='list'">
+
+<table  class="tx_dpf" >
+	<tr>
+		<th>Titel</th>
+		<th>Typ</th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{documents}" as="document">
+		<tr>
+			<td><f:link.action action="show" arguments="{document : document}"> {document.title}</f:link.action></td>
+                        <td><f:link.action action="show" arguments="{document : document}"> {document.documentType.displayName}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{document : document}">bearbeiten</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{document : document}">löschen</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+  
+</f:if>  
+
+<ol>    
+    <f:for each="{documentTypes}" as="documentType">  
+        <li>
+            <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}</f:link.action>    
+        </li>
+    </f:for>    
+</ol>    
+
 </f:section>

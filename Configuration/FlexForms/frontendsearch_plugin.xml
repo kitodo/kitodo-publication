@@ -1,167 +1,93 @@
-<t3datastructure>
+<T3DataStructure>
     <meta>
-        <langdisable>
-            1
-        </langdisable>
+        <langDisable>1</langDisable>
     </meta>
     <sheets>
-        <sdef>
-            <root>
-                <tceforms>
-                    <sheettitle>
-                        LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options
-                    </sheettitle>
-                </tceforms>
-                <type>
-                    array
-                </type>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+                </TCEforms>
+                <type>array</type>
                 <el>
-                    <switchablecontrolleractions>
-                        <tceforms>
-                            <label>
-                                LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.select_function
-                            </label>
-                            <onchange>
-                                reload
-                            </onchange>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.select_function</label>
+                            <onChange>reload</onChange>
                             <config>
-                                <type>
-                                    select
-                                </type>
+                                <type>select</type>
                                 <items>
-                                    <numindex index="0">
-                                        <numindex index="0">
-                                            LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.searchAndResults
-                                        </numindex>
-                                        <numindex index="1">
-                                            SearchFE->search;SearchFE->list;SearchFE->nextResults
-                                        </numindex>
-                                    </numindex>
-                                    <numindex index="1">
-                                        <numindex index="0">
-                                            LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.showSearchForm
-                                        </numindex>
-                                        <numindex index="1">
-                                            SearchFE->showSearchForm
-                                        </numindex>
-                                    </numindex>
+                                    <numIndex index="0">
+                                        <numIndex index="0">LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.searchAndResults</numIndex>
+                                        <numIndex index="1">SearchFE->search;SearchFE->list;SearchFE->nextResults</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.showSearchForm</numIndex>
+                                        <numIndex index="1">SearchFE->showSearchForm</numIndex>
+                                    </numIndex>
                                 </items>
                             </config>
-                        </tceforms>
-                    </switchablecontrolleractions>
-                    <settings.landingpage>
-                        <tceforms>
-                            <exclude>
-                                1
-                            </exclude>
-                            <label>
-                                LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.landingPage
-                            </label>
+                        </TCEforms>
+                    </switchableControllerActions>
+                    <settings.landingPage>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.landingPage</label>
                             <config>
-                                <type>
-                                    group
-                                </type>
-                                <internal_type>
-                                    db
-                                </internal_type>
-                                <allowed>
-                                    pages
-                                </allowed>
-                                <size>
-                                    1
-                                </size>
-                                <maxitems>
-                                    1
-                                </maxitems>
-                                <minitems>
-                                    0
-                                </minitems>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
                                 <wizards>
                                     <suggest>
-                                        <type>
-                                            suggest
-                                        </type>
+                                        <type>suggest</type>
                                     </suggest>
                                 </wizards>
                             </config>
-                        </tceforms>
-                    </settings.landingpage>
-                    <settings.searchresultspid>
-                        <tceforms>
-                            <exclude>
-                                1
-                            </exclude>
-                            <label>
-                                LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.searchResultsPid
-                            </label>
+                        </TCEforms>
+                    </settings.landingPage>
+                    <settings.searchResultsPid>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.searchResultsPid</label>
                             <config>
-                                <type>
-                                    group
-                                </type>
-                                <internal_type>
-                                    db
-                                </internal_type>
-                                <allowed>
-                                    pages
-                                </allowed>
-                                <size>
-                                    1
-                                </size>
-                                <maxitems>
-                                    1
-                                </maxitems>
-                                <minitems>
-                                    0
-                                </minitems>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
                                 <wizards>
                                     <suggest>
-                                        <type>
-                                            suggest
-                                        </type>
+                                        <type>suggest</type>
                                     </suggest>
                                 </wizards>
                             </config>
-                        </tceforms>
-                    </settings.searchresultspid>
-                    <settings.apipid>
-                        <tceforms>
-                            <exclude>
-                                1
-                            </exclude>
-                            <label>
-                                LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.apiPid
-                            </label>
+                        </TCEforms>
+                    </settings.searchResultsPid>
+                    <settings.apiPid>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.apiPid</label>
                             <config>
-                                <type>
-                                    group
-                                </type>
-                                <internal_type>
-                                    db
-                                </internal_type>
-                                <allowed>
-                                    pages
-                                </allowed>
-                                <size>
-                                    1
-                                </size>
-                                <maxitems>
-                                    1
-                                </maxitems>
-                                <minitems>
-                                    0
-                                </minitems>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
                                 <wizards>
                                     <suggest>
-                                        <type>
-                                            suggest
-                                        </type>
+                                        <type>suggest</type>
                                     </suggest>
                                 </wizards>
                             </config>
-                        </tceforms>
-                    </settings.apipid>
+                        </TCEforms>
+                    </settings.apiPid>
                 </el>
-            </root>
-        </sdef>
+            </ROOT>
+        </sDEF>
     </sheets>
-</t3datastructure>
+</T3DataStructure>

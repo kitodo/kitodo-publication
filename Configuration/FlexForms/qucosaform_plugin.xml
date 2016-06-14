@@ -1,53 +1,35 @@
-<t3datastructure>
-    <meta>
-        <langdisable>
-            1
-        </langdisable>
-    </meta>
-    <sheets>
-        <sdef>
-            <root>
-                <tceforms>
-                    <sheettitle>
-                        LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options
-                    </sheettitle>
-                </tceforms>
-                <type>
-                    array
-                </type>
-                <el>
-                    <settings.listtype>
-                        <tceforms>
-                            <label>
-                                LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype
-                            </label>
-                            <config>
-                                <type>
-                                    select
-                                </type>
-                                <items type="array">
-                                    <numindex index="0" type="array">
-                                        <numindex index="0">
-                                            keine Liste
-                                        </numindex>
-                                        <numindex index="1">
-                                            no_list
-                                        </numindex>
-                                    </numindex>
-                                    <numindex index="1" type="array">
-                                        <numindex index="0">
-                                            Liste
-                                        </numindex>
-                                        <numindex index="1">
-                                            list
-                                        </numindex>
-                                    </numindex>
-                                </items>
-                            </config>
-                        </tceforms>
-                    </settings.listtype>
-                </el>
-            </root>
-        </sdef>
-    </sheets>
-</t3datastructure>
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.listtype>
+            <TCEforms>
+              <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_domain_model_documenttype</label>                
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0">keine Liste</numIndex>
+                    <numIndex index="1">no_list</numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">Liste</numIndex>
+                    <numIndex index="1">list</numIndex>
+                  </numIndex>
+                </items>
+              </config>
+            </TCEforms>
+          </settings.listtype>   
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

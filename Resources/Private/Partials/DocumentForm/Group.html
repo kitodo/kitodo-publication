@@ -1,40 +1,36 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
+
 <fieldset class="fs_group" data-group="{formGroupUid}" data-mandatory="{groupItem.mandatory}">
     <legend>
-        <f:if condition="{groupIndex}">
-            +{groupIndex}:
-        </f:if>
-        {formGroupDisplayName}
-        <f:if condition="{groupIndex}">
-            <button class="btn btn-default rem_group" data-group="{formGroupUid}" name="rem_group" type="submit">
-                <span class="glyphicon glyphicon-remove">
-                </span>
-                <span class="sr-only">
-                    {f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}
-                </span>
-            </button>
-        </f:if>
+      <f:if condition="{groupIndex}">+{groupIndex}: </f:if>
+      {formGroupDisplayName}
+      <f:if condition="{groupIndex}"><button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{formGroupUid}"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span></button></f:if>
     </legend>
     <div class="group-info-text">
-        {groupItem.infoText}
+        {groupItem.infoText} 
     </div>
-    <f:for as="formField" each="{groupItem.items}" iteration="fieldIterator">
-        <f:for as="fieldItem" each="{formField}" iteration="fieldItemIterator">
-            <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
-                <eww:iselementallowed condition="{fieldItem.backendOnly}">
-                    <f:then>
-                        <f:render arguments="{
+    <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+
+      <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+        <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
+
+                <eww:isElementAllowed condition="{fieldItem.backendOnly}">
+                    <f:then>                           <f:render partial="DocumentForm/Field" arguments="{
                           formPageUid: formPageUid,                       
                           formGroupUid: formGroupUid,                                     
                           groupIndex: groupIndex,                        
                           formField: formField,
                           fieldIndex: fieldItemIterator.index,
                           fieldItem: fieldItem,                                               
-                          countries: countries}" partial="DocumentForm/Field">
-                        </f:render>
-                        <f:if condition="{fieldItem.maxIteration} == 0">
-                            <f:if condition="{fieldItemIterator.isLast}">
-                                <button class="btn btn-default add_field" data-ajax="{f:uri.action(
+                          countries: countries}"/>
+          
+              <f:if condition="{fieldItem.maxIteration} == 0">
+                <f:if condition="{fieldItemIterator.isLast}">
+                <button type="submit"
+                         title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
+                         name="add_field" class="btn btn-default add_field"
+                         data-field="{fieldItem.uid}"
+                         data-ajax="{f:uri.action(
                               action:'field',
                               controller:'AjaxDocumentForm',
                               pageType:110124,
@@ -43,18 +39,20 @@
                                   groupUid: formGroupUid,
                                   groupIndex: groupIndex,
                                   fieldUid: fieldItem.uid
-                         })}" data-field="{fieldItem.uid}" data-index="{fieldItemIterator.index}" name="add_field" title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}" type="submit">
-                                    <span class="glyphicon glyphicon-plus">
-                                    </span>
-                                    <span class="sr-only">
-                                        {f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}
-                                    </span>
-                                </button>
-                            </f:if>
-                        </f:if>
-                    </f:then>
-                </eww:iselementallowed>
-            </div>
-        </f:for>
+                         })}"
+                         data-index="{fieldItemIterator.index}">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
+                </button>
+               
+                </f:if>
+              </f:if>
+</f:then>
+                </eww:isElementAllowed>              
+
+        </div>        
+      </f:for>
+
     </f:for>
+        
 </fieldset>

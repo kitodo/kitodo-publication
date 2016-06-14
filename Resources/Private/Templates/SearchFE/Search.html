@@ -1,50 +1,47 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
-<f:layout name="Default">
-</f:layout>
+
+<f:layout name="Default" />
+
 <f:section name="main">
+
     <div class="searchForm">
-        <f:form action="search" class="form-inline qucosa-search-form" name="search" nocache="1" nocachehash="1" pageuid="{settings.searchResultsPid}">
+
+        <f:form action="search" name="search" pageUid="{settings.searchResultsPid}" class="form-inline qucosa-search-form" noCache="1" noCacheHash="1">
             <div class="form-group fe-form-group">
-                <f:form.textfield class="form-control" id="query" placeholder="{f:translate(key: 'search.form.label.query')}" property="query" value="{searchString}">
-                </f:form.textfield>
+                <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{searchString}"/>
             </div>
             <f:form.button class="btn btn-default" type="submit">
-                <span aria-hidden="true" class="glyphicon glyphicon-search">
-                </span>
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 {f:translate(key: 'search.form.button.search')}
             </f:form.button>
         </f:form>
+
     </div>
+
     <div class="search-results">
+
         <f:if condition="{results.total} > 1">
             <f:then>
-                <span>
-                    {results.total}
-                    <f:translate key="search.resultList.documentsFound">
-                    </f:translate>
-                </span>
+                <span>{results.total} <f:translate key="search.resultList.documentsFound" /></span>
             </f:then>
             <f:else>
                 <f:if condition="{results.total} == 1">
                     <f:then>
-                        <span>
-                            {results.total}
-                            <f:translate key="search.resultList.documentsFound">
-                            </f:translate>
-                        </span>
+                        <span>{results.total} <f:translate key="search.resultList.documentsFound" /></span>
                     </f:then>
                     <f:else>
-                        <span>
-                            <f:translate key="search.resultList.nothingFound">
-                            </f:translate>
-                        </span>
+                        <span><f:translate key="search.resultList.nothingFound" /></span>
                     </f:else>
                 </f:if>
             </f:else>
         </f:if>
-        <dpf:widget.paginate as="paginatedResults" configuration="{settings.list.paginate}" objects="{results.hits}" total="{results.total}">
-            <f:render arguments="{results: paginatedResults, currentPage: currentPage}" partial="SearchFE/ResultList">
-            </f:render>
+
+        <dpf:widget.paginate objects="{results.hits}" total="{results.total}" as="paginatedResults" configuration="{settings.list.paginate}">
+
+            <f:render partial="SearchFE/ResultList" arguments="{results: paginatedResults, currentPage: currentPage}" />
+
         </dpf:widget.paginate>
+
     </div>
+
 </f:section>

@@ -1,5 +1,5 @@
-<f:layout name="Default">
-</f:layout>
+<f:layout name="Default" />
+
 This template displays a NEW form for the current domain object.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -10,13 +10,15 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         New.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
 <f:section name="main">
-    <h1>
-        Document Form
-    </h1>
-    <f:flashmessages rendermode="div">
-    </f:flashmessages>
-    <f:debug maxdepth="20" title="newDocument">
-        {newDocument}
-    </f:debug>
+<h1>Document Form</h1>
+
+<f:flashMessages renderMode="div" />
+
+<f:debug title="newDocument" maxDepth="20">{newDocument}</f:debug>
+
+
+
+
 </f:section>

@@ -1,5 +1,6 @@
-<f:layout name="Default">
-</f:layout>
+
+<f:layout name="Default" />
+
 This Template is responsible for displaying a single view for a domain object
 
 If you modify this template, do not forget to change the overwrite settings
@@ -10,10 +11,12 @@ in /Configuration/ExtensionBuilder/settings.yaml:
         Show.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
 <f:section name="main">
-    <h1>
-        DocumentForm
-    </h1>
-    <f:flashmessages rendermode="div">
-    </f:flashmessages>
+<h1>DocumentForm</h1>
+
+<f:flashMessages renderMode="div" />
+
+
+
 </f:section>
