@@ -21,7 +21,7 @@ namespace EWW\Dpf\ViewHelpers\Widget;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-/**
+/*
  * This ViewHelper renders a Pagination of objects.
  *
  * = Examples =

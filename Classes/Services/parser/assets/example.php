@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * A simple, fast yet effective syntax highlighter for PHP.
  *
  * @author  Rowan Lewis <rl@nbsp.io>
