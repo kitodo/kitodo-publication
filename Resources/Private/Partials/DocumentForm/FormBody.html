@@ -14,13 +14,15 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
+<f:render partial="DocumentForm/Validation.html" />
+
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
             <eww:isElementAllowed condition="{formPage.0.backendOnly}">
                 <f:then>
-                    <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"><a
-                            href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+                    <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}">
+                        <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
                 </f:then>
             </eww:isElementAllowed>
         </f:for>
@@ -86,6 +88,6 @@
 
     <f:form.button name="validate" id="validate" class="btn btn-lg btn-info">
         <span class="glyphicon glyphicon-chevron-right"></span>
-        Validate
+        {f:translate(key: 'form_button.validate')}
     </f:form.button>
 </div>

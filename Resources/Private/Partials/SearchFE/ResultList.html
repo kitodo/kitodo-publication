@@ -1,4 +1,4 @@
-s<f:comment>
+<f:comment>
     <!--
     This file is part of the TYPO3 CMS project.
 
@@ -25,9 +25,7 @@ s<f:comment>
                                            itemsPerPage="{settings.list.paginate.itemsPerPage}"/>
                             .
                             <f:link.page pageUid="{settings.landingPage}"
-                                         additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\" {settings.apiPid}\
-                            ", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}'
-                            } }">
+                                         additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\" {settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}'}}">
                             {entry._source._dissemination._content.title.0}
                             <f:if condition="{entry._source._dissemination._content.issue}">-
                                 {entry._source._dissemination._content.issue}
