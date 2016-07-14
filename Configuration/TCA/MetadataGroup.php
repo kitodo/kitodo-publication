@@ -11,7 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -33,7 +33,6 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config'  => array(
-                //'readOnly' => 1,
                 'type'                => 'select',
                 'foreign_table'       => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -48,7 +47,6 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
             'exclude'     => 1,
             'label'       => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config'      => array(
-                //'readOnly' => 1,
                 'type'                => 'select',
                 'items'               => array(
                     array('', 0),

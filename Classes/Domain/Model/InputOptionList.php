@@ -58,7 +58,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * inputOptions
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOption>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOptionList>
      */
     protected $inputOptions = null;
 
@@ -158,6 +158,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Returns the inputOptions
      *
      * @return array $inputOptions
+     * @throws \Exception
      */
     public function getInputOptions()
     {
@@ -175,7 +176,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the inputOptions
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOption> $inputOptions
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOptionList> $inputOptions
      * @return void
      */
     public function setInputOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputOptions)
