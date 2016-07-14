@@ -482,9 +482,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
-        $args          = $this->request->getArguments();
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
         $this->view->assign('document', $document);
         $this->view->assign('searchList', $results['hits']);
         $this->view->assign('alreadyImported', $objectIdentifiers);

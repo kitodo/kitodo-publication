@@ -324,7 +324,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Returns the transferStatus
-     * @var string
+     *
+     * @return string
      */
     public function getTransferStatus()
     {
@@ -345,7 +346,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the transferDate
      *
-     * @var integer
+     * @return integer
      */
     public function getTransferDate()
     {
