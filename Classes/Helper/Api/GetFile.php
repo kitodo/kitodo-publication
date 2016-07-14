@@ -61,6 +61,7 @@ class GetFile
                 // FIXME Using the service URL explicitly is a workaround for a Fedora Bug which
                 // prevents passing of the supplement-parameter. The proper way would be using the
                 // defined dissemination methods.
+                //$path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination';
                 $path = rtrim('http://' . $extConf['fedoraHost'], "/") . '/mets/?pid=' . $piVars['qid'] . '&supplement';
                 break;
             case 'preview':
