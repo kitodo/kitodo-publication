@@ -1,38 +1,43 @@
 <f:comment>
-    <!-- 
+    <!--
     This file is part of the TYPO3 CMS project.
 
     It is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License, either version 2
     of the License, or any later version.
-     
+
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
 
-    The TYPO3 project - inspiring people to share! 
+    The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <fieldset class="fs_file_group" data-group="file-upload" id="primary_file" data-virtual="{virtual}">
-    <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend> 
-    <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}" class="input_file_upload" />  
-        <eww:isElementAllowed condition="backendOnly">   
-            <f:then> 
-                <div class="form-group">
-                    <label for="inp_primaryFile" data-index="{}">Display name</label>
-                    <f:form.textfield id="inp_primaryFile_label" property="primaryFile.label" value="" class="input-field form-control" additionalAttributes="{}" /> 
-                </div>  
-                <div class="form-group">
-                    <label for="inp_primaryFile" data-index="{}">Download</label>
-                    <f:form.checkbox id="inp_primaryFile_download" property="primaryFile.download" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}" checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}" />
-                </div>   
-                <div class="form-group">   
-                    <label for="inp_primaryFile" data-index="{}">Archive</label> 
-                    <f:form.checkbox id="inp_primaryFile_archive" property="primaryFile.archive" value="yes" class="input-field input-field-checkbox" additionalAttributes="{}"  checked="{file.archive}" />
-                </div>        
-            </f:then>    
-        </eww:isElementAllowed>       
+    <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend>
+    <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}"
+                   class="input_file_upload"/>
+    <eww:isElementAllowed condition="backendOnly">
+        <f:then>
+            <div class="form-group">
+                <label for="inp_primaryFile" data-index="{}">Display name</label>
+                <f:form.textfield id="inp_primaryFile_label" property="primaryFile.label" value=""
+                                  class="input-field form-control" additionalAttributes="{}"/>
+            </div>
+            <div class="form-group">
+                <label for="inp_primaryFile" data-index="{}">Download</label>
+                <f:form.checkbox id="inp_primaryFile_download" property="primaryFile.download" value="yes"
+                                 class="input-field input-field-checkbox" additionalAttributes="{}"
+                                 checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}"/>
+            </div>
+            <div class="form-group">
+                <label for="inp_primaryFile" data-index="{}">Archive</label>
+                <f:form.checkbox id="inp_primaryFile_archive" property="primaryFile.archive" value="yes"
+                                 class="input-field input-field-checkbox" additionalAttributes="{}"
+                                 checked="{file.archive}"/>
+            </div>
+        </f:then>
+    </eww:isElementAllowed>
 </fieldset>
-    
-    
+

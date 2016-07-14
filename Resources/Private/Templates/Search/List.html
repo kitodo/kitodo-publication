@@ -1,20 +1,20 @@
 <f:comment>
-    <!-- 
+    <!--
     This file is part of the TYPO3 CMS project.
 
     It is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License, either version 2
     of the License, or any later version.
-     
+
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
 
-    The TYPO3 project - inspiring people to share! 
+    The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:layout name="DefaultBE" />
+<f:layout name="DefaultBE"/>
 
 <f:section name="main">
     <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
@@ -24,7 +24,9 @@
             <h5>{f:translate(key: 'search.form.header.simpleSearch')}</h5>
             <div class="form-group">
                 <label for="query">{f:translate(key: 'search.form.label.query')}</label>
-                <f:form.textfield property="query" class="form-control" placeholder="{f:translate(key: 'search.form.label.query')}" id="query" value="{search}"/>
+                <f:form.textfield property="query" class="form-control"
+                                  placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
+                                  value="{search}"/>
             </div>
             <f:form.button class="btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -34,7 +36,8 @@
     </div>
 
     <f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
-        <center>
-            <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action>
-        </center>
+    <center>
+        <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}
+        </f:link.action>
+    </center>
 </f:section>

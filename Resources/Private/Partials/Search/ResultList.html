@@ -1,96 +1,123 @@
 <f:comment>
-    <!-- 
+    <!--
     This file is part of the TYPO3 CMS project.
 
     It is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License, either version 2
     of the License, or any later version.
-     
+
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
 
-    The TYPO3 project - inspiring people to share! 
+    The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 <table id="search-results" class="tx_dpf table table-striped table-manager table-condensed">
     <thead>
-        <tr>
-            <th class="xcol-md-5"><f:translate key="search.resultList.datasetIdentifier" /></th>
-            <th class="xcol-md-4"><f:translate key="search.resultList.title" /></th>
-            <th class="xcol-md-3"><f:translate key="search.resultList.state" /></th>
-            <th class="xcol-md-3"><f:translate key="search.resultList.author" /></th>
-            <th class="xcol-md-2"><f:translate key="search.resultList.publicationDate" /></th>
-            <th class="xcol-md-1"></th>
-        </tr>
+    <tr>
+        <th class="xcol-md-5">
+            <f:translate key="search.resultList.datasetIdentifier"/>
+        </th>
+        <th class="xcol-md-4">
+            <f:translate key="search.resultList.title"/>
+        </th>
+        <th class="xcol-md-3">
+            <f:translate key="search.resultList.state"/>
+        </th>
+        <th class="xcol-md-3">
+            <f:translate key="search.resultList.author"/>
+        </th>
+        <th class="xcol-md-2">
+            <f:translate key="search.resultList.publicationDate"/>
+        </th>
+        <th class="xcol-md-1"></th>
+    </tr>
     </thead>
     <tbody>
-        <f:for each="{searchList}" as="entry">
-            <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
-                <f:then><tr class="success"></f:then>
-                <f:else><tr></f:else>
-            </f:if>
-            <f:if condition="{entry._source._dissemination}">
-                <f:then>
-                    <td>{entry._id}</td>
-                    <td>{entry._source._dissemination._content.title.0}<f:if condition="{entry._source._dissemination._content.issue}">, {entry._source._dissemination._content.issue}</f:if></td>
-                    <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
-                    <td>{entry._source._dissemination._content.author.0}</td>
-                    <td>
-                        <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
-                            <f:then>
-                                <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
-                            </f:then>
-                            <f:else>
-                                -
-                            </f:else>
-                        </f:if>
-                    </td>
-                    <td class="table_col_function">
-				        <dpf:link.preview arguments="{documentObjectIdentifier : entry._source.PID}" pageUid="{settings.previewPage}" apiPid="{settings.apiPid}" class="btn btn-xs btn-default">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-					    </dpf:link.preview>
+    <f:for each="{searchList}" as="entry">
+        <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+            <f:then>
+                <tr class="success">
+            </f:then>
+            <f:else>
+                <tr>
+            </f:else>
+        </f:if>
+        <f:if condition="{entry._source._dissemination}">
+            <f:then>
+                <td>{entry._id}</td>
+                <td>{entry._source._dissemination._content.title.0}
+                    <f:if condition="{entry._source._dissemination._content.issue}">,
+                        {entry._source._dissemination._content.issue}
+                    </f:if>
+                </td>
+                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
+                <td>{entry._source._dissemination._content.author.0}</td>
+                <td>
+                    <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                        <f:then>
+                            <f:format.date date="{entry._source._dissemination._content.distribution_date.0}"
+                                           format="d.m.Y"/>
+                        </f:then>
+                        <f:else>
+                            -
+                        </f:else>
+                    </f:if>
+                </td>
+                <td class="table_col_function">
+                    <dpf:link.preview arguments="{documentObjectIdentifier : entry._source.PID}"
+                                      pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
+                                      class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </dpf:link.preview>
 
-                        <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
-                            <f:then>
-                                <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-xs btn-info disabled">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                    {f:translate(key: 'manager.get')}
-                                </f:link.action>
-                            </f:then>
-                            <f:else>
-                                <f:link.action action="import" arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }" class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
-                                    {f:translate(key: 'manager.get')}
-                                </f:link.action>
-                            </f:else>
-                        </f:if>
-                    </td>
-                </f:then>
-                <f:else>
-                    <td>{entry._id}</td>
-                    <td>{entry._source.title.0}<f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if></td>
-                    <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
-                    <td>{entry._source.author}</td>
-                    <td>
-                        <f:if condition="{entry._source.CREATED_DATE}">
-                            <f:then>
-                                <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y" />
-                            </f:then>
-                            <f:else>
-                                -
-                            </f:else>
-                        </f:if>
-                    </td>
-                    <td class="table_col_function">
-                        <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}" class="btn btn-sm btn-info disabled">
-                            <span class="glyphicon glyphicon-download-alt"></span>
-                            {f:translate(key: 'manager.get')}
-                        </f:link.action>
-                    </td>
-                  </f:else>
-                </f:if>
-            </tr>
-        </f:for>
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
+                        <f:then>
+                            <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
+                                           class="btn btn-xs btn-info disabled">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                                {f:translate(key: 'manager.get')}
+                            </f:link.action>
+                        </f:then>
+                        <f:else>
+                            <f:link.action action="import"
+                                           arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }"
+                                           class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                                {f:translate(key: 'manager.get')}
+                            </f:link.action>
+                        </f:else>
+                    </f:if>
+                </td>
+            </f:then>
+            <f:else>
+                <td>{entry._id}</td>
+                <td>{entry._source.title.0}
+                    <f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if>
+                </td>
+                <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
+                <td>{entry._source.author}</td>
+                <td>
+                    <f:if condition="{entry._source.CREATED_DATE}">
+                        <f:then>
+                            <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y"/>
+                        </f:then>
+                        <f:else>
+                            -
+                        </f:else>
+                    </f:if>
+                </td>
+                <td class="table_col_function">
+                    <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
+                                   class="btn btn-sm btn-info disabled">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                        {f:translate(key: 'manager.get')}
+                    </f:link.action>
+                </td>
+            </f:else>
+        </f:if>
+        </tr>
+    </f:for>
     </tbody>
 </table>

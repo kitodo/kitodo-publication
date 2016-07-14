@@ -1,24 +1,26 @@
 <f:comment>
-	<!-- 
-	This file is part of the TYPO3 CMS project.
+    <!--
+    This file is part of the TYPO3 CMS project.
 
-	It is free software; you can redistribute it and/or modify it under
-	the terms of the GNU General Public License, either version 2
-	of the License, or any later version.
-	 
-	For the full copyright and license information, please read the
-	LICENSE.txt file that was distributed with this source code.
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
 
-	The TYPO3 project - inspiring people to share! 
-	-->
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
     <f:render partial="SearchFE/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
     <div class="text-center">
-        <f:link.action id="next-results" controller="SearchFE" action="nextResults">{f:translate(key: 'search.resultList.more')}</f:link.action>
+        <f:link.action id="next-results" controller="SearchFE" action="nextResults">{f:translate(key:
+            'search.resultList.more')}
+        </f:link.action>
     </div>
 </f:section>

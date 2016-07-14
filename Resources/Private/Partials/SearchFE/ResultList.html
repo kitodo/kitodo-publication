@@ -1,15 +1,15 @@
-<f:comment>
-    <!-- 
+s<f:comment>
+    <!--
     This file is part of the TYPO3 CMS project.
 
     It is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License, either version 2
     of the License, or any later version.
-     
+
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
 
-    The TYPO3 project - inspiring people to share! 
+    The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
@@ -20,10 +20,18 @@
             <f:then>
                 <li>
                     <dl>
-                        <dd><dpf:calcIndex currentIndex="{eIterator.cycle}" currentPage="{currentPage}" itemsPerPage="{settings.list.paginate.itemsPerPage}" />.
-                            <f:link.page pageUid="{settings.landingPage}" additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\"{settings.apiPid}\", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}' } }">
-                                {entry._source._dissemination._content.title.0}
-                                <f:if condition="{entry._source._dissemination._content.issue}">- {entry._source._dissemination._content.issue}</f:if>
+                        <dd>
+                            <dpf:calcIndex currentIndex="{eIterator.cycle}" currentPage="{currentPage}"
+                                           itemsPerPage="{settings.list.paginate.itemsPerPage}"/>
+                            .
+                            <f:link.page pageUid="{settings.landingPage}"
+                                         additionalParams="{tx_dlf: {id: '{f:uri.page(pageUid:\" {settings.apiPid}\
+                            ", absolute:1, additionalParams:{tx_dpf: {qid:\"{entry._source.PID}\", action:\"mets\"}})}'
+                            } }">
+                            {entry._source._dissemination._content.title.0}
+                            <f:if condition="{entry._source._dissemination._content.issue}">-
+                                {entry._source._dissemination._content.issue}
+                            </f:if>
                             </f:link.page>
                         </dd>
                         <dd class="author">
@@ -36,7 +44,8 @@
                         <dd class="date">
                             <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
                                 <f:then>
-                                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y" />
+                                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}"
+                                                   format="d.m.Y"/>
                                 </f:then>
                                 <f:else>
                                     -

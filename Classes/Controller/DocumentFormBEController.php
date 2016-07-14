@@ -32,7 +32,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
      * action delete
      *
      * @param array $documentData
-     * @return void
+     * @throws \Exception
      */
     public function deleteAction($documentData)
     {

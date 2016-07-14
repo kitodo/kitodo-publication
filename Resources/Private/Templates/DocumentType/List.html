@@ -1,37 +1,51 @@
 <f:comment>
-    <!-- 
+    <!--
     This file is part of the TYPO3 CMS project.
 
     It is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License, either version 2
     of the License, or any later version.
-     
+
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
 
-    The TYPO3 project - inspiring people to share! 
+    The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
     <h1>Listing for DocumentType</h1>
-    <f:flashMessages renderMode="div" />
+    <f:flashMessages renderMode="div"/>
 
-    <table  class="tx_dpf" >
+    <table class="tx_dpf">
         <tr>
-            <th><f:translate key="tx_dpf_domain_model_documenttype.name" /></th>
-            <th><f:translate key="tx_dpf_domain_model_documenttype.display_name" /></th>
-            <th> </th>
-            <th> </th>
+            <th>
+                <f:translate key="tx_dpf_domain_model_documenttype.name"/>
+            </th>
+            <th>
+                <f:translate key="tx_dpf_domain_model_documenttype.display_name"/>
+            </th>
+            <th></th>
+            <th></th>
         </tr>
 
         <f:for each="{documentTypes}" as="documentType">
             <tr>
-                <td><f:link.action action="show" arguments="{documentType : documentType}"> {documentType.name}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{documentType : documentType}"> {documentType.displayName}</f:link.action></td>
-                <td><f:link.action action="edit" arguments="{documentType : documentType}">Edit</f:link.action></td>
-                <td><f:link.action action="delete" arguments="{documentType : documentType}">Delete</f:link.action></td>
+                <td>
+                    <f:link.action action="show" arguments="{documentType : documentType}"> {documentType.name}
+                    </f:link.action>
+                </td>
+                <td>
+                    <f:link.action action="show" arguments="{documentType : documentType}"> {documentType.displayName}
+                    </f:link.action>
+                </td>
+                <td>
+                    <f:link.action action="edit" arguments="{documentType : documentType}">Edit</f:link.action>
+                </td>
+                <td>
+                    <f:link.action action="delete" arguments="{documentType : documentType}">Delete</f:link.action>
+                </td>
             </tr>
         </f:for>
     </table>

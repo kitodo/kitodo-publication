@@ -1,25 +1,25 @@
 <f:comment>
-	<!-- 
-	This file is part of the TYPO3 CMS project.
+    <!--
+    This file is part of the TYPO3 CMS project.
 
-	It is free software; you can redistribute it and/or modify it under
-	the terms of the GNU General Public License, either version 2
-	of the License, or any later version.
-	 
-	For the full copyright and license information, please read the
-	LICENSE.txt file that was distributed with this source code.
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
 
-	The TYPO3 project - inspiring people to share! 
-	-->
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
 </f:comment>
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
     <h1>New DocumentType</h1>
-    <f:flashMessages renderMode="div" />
-    <f:render partial="FormErrors" arguments="{object:DocumentType}" />
-    <f:form action="create"  name="newDocumentType" object="{newDocumentType}">
-    <f:render partial="DocumentType/FormFields" />
-        <f:form.submit value="Create new" />
+    <f:flashMessages renderMode="div"/>
+    <f:render partial="FormErrors" arguments="{object:DocumentType}"/>
+    <f:form action="create" name="newDocumentType" object="{newDocumentType}">
+        <f:render partial="DocumentType/FormFields"/>
+        <f:form.submit value="Create new"/>
     </f:form>
 </f:section>
