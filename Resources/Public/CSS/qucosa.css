@@ -1,3 +1,17 @@
+/**
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+ 
+
 /*
  *
  * Global CSS styles for frontend and backend view
@@ -5,103 +19,102 @@
  */
 
 
-
 /* -- import boostrap basics also to frontend -------------------------------------------- */
+
 @import "bootstrap.min.css";
 @import "bootstrap-datetimepicker.min.css";
 
-
-
 /* -- redesigning tabs to sticky nav ----------------------------------------------------- */
+
 #content .tx-dpf-tab-container {
-	position:absolute;
-	top:-53px;
-	/* right:-90px; */
-	z-index: 3000;
+    position: absolute;
+    top: -53px;
+    /* right:-90px; */
+    z-index: 3000;
 }
 
 #content .tx-dpf-tab-container.sticky {
-	position:fixed;
-	right:0;
-	left:0;
-	z-index:3000;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 3000;
 }
 
 #content .tx-dpf-tabs {
-	position:relative;
-	background:#eee;
-	background:rgba(255,255,255,0.9);
-	width:580px;
-	border-radius:0 15px;
-	box-shadow:2px 2px 12px rgba(0,0,0,0.25);
-	padding:12px;
+    position: relative;
+    background: #eee;
+    background: rgba(255, 255, 255, 0.9);
+    width: 580px;
+    border-radius: 0 15px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
+    padding: 12px;
 }
 
 #content .tx-dpf-tab-container.sticky .tx-dpf-tabs {
-	top:63px;
-	left:101px;
-	margin:0 auto;
+    top: 63px;
+    left: 101px;
+    margin: 0 auto;
 }
 
 #content .tx-dpf-tabs li {
-	border:0 none;
-	padding:0;
+    border: 0 none;
+    padding: 0;
 }
 
 #content .tx-dpf-tabs li a {
-	padding:5px 8px;
-	border:0 none;
-	border-radius:4px;
+    padding: 5px 8px;
+    border: 0 none;
+    border-radius: 4px;
 }
 
 #content .tx-dpf-tabs li a.current {
-	background:#eee;
-	border:0 none;
+    background: #eee;
+    border: 0 none;
 }
-
 
 
 /* -- basic setup ------------------------------------------------------------------------ */
+
 .tx-dpf {
-	position:relative;
+    position: relative;
 }
 
 .tx-dpf h2 {
-  display: none;
+    display: none;
 }
 
 .tx-dpf .css-panes {
-	border-bottom:1px solid #e5e5e5;
-	min-height:200px;
+    border-bottom: 1px solid #e5e5e5;
+    min-height: 200px;
 }
 
-.tx-dpf-tabs a.current,.tx-dpf-tabs a.current:focus {
-	color:#555;
-	cursor:default;
-	background-color:#fff;
-	border:1px solid #ddd;
-	border-bottom-color:transparent;
-	font-weight:700;
+.tx-dpf-tabs a.current, .tx-dpf-tabs a.current:focus {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    font-weight: 700;
 }
-
 
 
 /* -- form setup ------------------------------------------------------------------------- */
+
 .tx-dpf .form-container {
-	position:relative;
+    position: relative;
 }
 
 .tx-dpf fieldset {
-	margin:50px 0;
-	border-bottom:1px solid #e5e5e5;
-	padding-bottom:5px;
+    margin: 50px 0;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 5px;
 }
 
 .tx-dpf fieldset legend {
-	font-size:14px;
-	font-weight:700;
-	color:#666;
-	margin-bottom:20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: 20px;
 }
 
 .tx-dpf fieldset .group-info-text {
@@ -109,71 +122,70 @@
 }
 
 .tx-dpf .form-group {
-	position:relative;
-	display:table;
+    position: relative;
+    display: table;
 }
 
 .tx-dpf .fe-form-group {
-	position:relative;
-	display:inline-block;
+    position: relative;
+    display: inline-block;
 }
 
-.tx-dpf .form-group label,.tx-dpf .form-group .form-control {
-	display:table-cell;
+.tx-dpf .form-group label, .tx-dpf .form-group .form-control {
+    display: table-cell;
 }
 
 .tx-dpf .form-group label {
-	width:1%;
-	background:#eee;
-	border:1px solid #ccc;
-	border-right-width:0;
-	border-radius:4px 0 0 4px;
-	padding:0 10px;
-	color:#666;
-	white-space:nowrap;
-	vertical-align:middle;
-	line-height:1;
+    width: 1%;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-right-width: 0;
+    border-radius: 4px 0 0 4px;
+    padding: 0 10px;
+    color: #666;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 .tx-dpf .form-group .form-control.has-select {
-	border-color:#eee #eee #eee #ccc;
-	box-shadow:none;
+    border-color: #eee #eee #eee #ccc;
+    box-shadow: none;
 }
 
 .tx-dpf .form-group .form-control select {
-	width:30%;
-	height:20px;
-	font-size:.9em;
-	padding: 0;
+    width: 30%;
+    height: 20px;
+    font-size: .9em;
+    padding: 0;
 }
 
 .tx-dpf .form-group .form-control {
-	position:relative;
-	z-index:2;
-	float:left;
-	width:100%;
-	margin-bottom:0;
-	border-radius:0 4px 4px 0;
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 0 4px 4px 0;
 }
 
-
-.tx-dpf .form-group button.rem_field,.tx-dpf .form-container button.add_field,.tx-dpf .form-container button.fill_out_service_urn {
-	position:absolute;
-	bottom:4px;
-	right:33px;
-	width:26px;
-	height:26px;
-	padding:0;
-	z-index:10;
-	color:#666;
+.tx-dpf .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {
+    position: absolute;
+    bottom: 4px;
+    right: 33px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    z-index: 10;
+    color: #666;
 }
 
 .tx-dpf .form-container button.fill_out_service_urn {
-   right:66px;
+    right: 66px;
 }
 
 .tx-dpf .form-container button.add_field {
-	right:4px;
+    right: 4px;
 }
 
 .hasDatepicker button.add_field {
@@ -184,41 +196,40 @@
     right: 73px !important;
 }
 
-
 .tx-dpf .form-container button:active {
-	bottom:3px;
-	top:auto;
+    bottom: 3px;
+    top: auto;
 }
 
-.tx-dpf button.add_group,.tx-dpf button.add_file_group {
-	position:absolute;
-	margin:-60px 0 0 15px;
-	right:15px;
+.tx-dpf button.add_group, .tx-dpf button.add_file_group {
+    position: absolute;
+    margin: -60px 0 0 15px;
+    right: 15px;
 }
 
 .tx-dpf button.rem_group {
-	color:#c00;
-	line-height:1;
-	width:24px;
-	height:24px;
-	padding:3px 4px;
-	margin-bottom:6px;
+    color: #c00;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    padding: 3px 4px;
+    margin-bottom: 6px;
 }
 
 .tx-dpf .rem_secondary_upload {
-        color:#c00;
-	line-height:1;
-	width:24px;
-	height:24px;
-	padding:3px 4px;
-	margin-bottom:10px;
+    color: #c00;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    padding: 3px 4px;
+    margin-bottom: 10px;
 }
 
 .tx-dpf input[type="file"] {
-	border:0 none;
-	margin-bottom:15px;
-	height:36px;
-        display: inline-block;
+    border: 0 none;
+    margin-bottom: 15px;
+    height: 36px;
+    display: inline-block;
 }
 
 .tx-dpf textarea {
@@ -227,35 +238,35 @@
 }
 
 .tx-dpf .fs_file_group .form-control-static {
-	margin-bottom:15px;
+    margin-bottom: 15px;
 }
 
 .tx-dpf .fs_file_group .form-control-static .file_link {
-	margin-right:10px;
+    margin-right: 10px;
 }
 
 .form-submit {
-	padding-top:20px;
+    padding-top: 20px;
 }
 
 .form-submit .btn-lg {
-	margin:-9px 0 0 5px;
-	padding:8px 12px;
-	font-size:12px;
-	float:right;
+    margin: -9px 0 0 5px;
+    padding: 8px 12px;
+    font-size: 12px;
+    float: right;
 }
 
 #form_delete {
-	float:left;
+    float: left;
 }
 
 #form_cancel {
-	float:right;
+    float: right;
 }
 
 .tx-dpf button .glyphicon {
-	top:0;
-	left:1px;
+    top: 0;
+    left: 1px;
 }
 
 .tx-dpf ol li {
@@ -266,23 +277,22 @@
     margin-left: 10px;
 }
 
+
 /* -- error handling -------------------------------------------------------------------- */
-select.invalid-error,textarea.invalid-error,input.invalid-error,
-select.mandatory-error,textarea.mandatory-error,input.mandatory-error {
-	border:1px solid #c00!important;
+
+select.invalid-error, textarea.invalid-error, input.invalid-error, select.mandatory-error, textarea.mandatory-error, input.mandatory-error {
+    border: 1px solid #c00!important;
 }
 
-li a.invalid-error,
-li a.mandatory-error {
-	color:#c00!important;
+li a.invalid-error, li a.mandatory-error {
+    color: #c00!important;
 }
 
-li a.invalid-error:after,
-li a.mandatory-error:after {
-	content:"\e104";
-	font-family:'Glyphicons Halflings';
-	margin-left:3px;
-	line-height:1;
+li a.invalid-error:after, li a.mandatory-error:after {
+    content: "\e104";
+    font-family: 'Glyphicons Halflings';
+    margin-left: 3px;
+    line-height: 1;
 }
 
 .qucosa-search-form input[type="text"] {
@@ -290,35 +300,38 @@ li a.mandatory-error:after {
 }
 
 dd.author {
-	float:left;
+    float: left;
 }
 
 dd.date {
-	float:right;
+    float: right;
 }
 
 .f3-widget-paginator {
-	display: inline-block;
-	width: 100%;
+    display: inline-block;
+    width: 100%;
 }
 
 .f3-widget-paginator li {
-	float: left;
+    float: left;
 }
+
 .f3-widget-paginator li.next {
-	float: right;
+    float: right;
 }
+
 .f3-widget-paginator li.previous {
-	padding-right: 10px;
+    padding-right: 10px;
 }
 
 ul.error-files-backbutton {
-	margin: 10px 0 10px 0 !important;	
+    margin: 10px 0 10px 0 !important;
 }
 
 ul.error-files-backbutton li {
-	list-style: disc;
-	margin-left: 13px;
+    list-style: disc;
+    margin-left: 13px;
 }
+
 
 /* EOF */

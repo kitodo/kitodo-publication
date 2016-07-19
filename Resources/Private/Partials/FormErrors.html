@@ -1,13 +1,28 @@
+<f:comment>
+    <!-- 
+    This file is part of the TYPO3 CMS project.
 
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+     
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share! 
+    -->
+</f:comment>
 <f:form.validationResults for="{object}">
-	<f:if condition="{validationResults.flattenedErrors}">
-		<ul>
-		<f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
-			<li>
-			{propertyPath}: <ul>
-				<f:for each="{errors}" as="error"><li>{error}</li></f:for>
-				</ul>
-			</li>
-		</f:for></ul>
-</f:if>
+    <f:if condition="{validationResults.flattenedErrors}">
+        <ul>
+            <f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+                <li>
+                    {propertyPath}: 
+                    <ul>
+                        <f:for each="{errors}" as="error"><li>{error}</li></f:for>
+                    </ul>
+                </li>
+            </f:for>
+        </ul>
+    </f:if>
 </f:form.validationResults>

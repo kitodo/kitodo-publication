@@ -1,201 +1,207 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/*
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter;
-	use Exception;
+namespace nbsp\bitter;
 
-	/**
-	 * Default limit for how long `after()` is.
-	 */
-	const LIMIT_AFTER = 1024;
+use Exception;
 
-	/**
-	 * Default limit for how long `before()` is.
-	 */
-	const LIMIT_BEFORE = 256;
+/**
+ * Default limit for how long `after()` is.
+ */
+const LIMIT_AFTER = 1024;
 
-	/**
-	 * Represents a chunk of source code.
-	 */
-	class Input {
-		/**
-		 * The template data.
-		 */
-		protected $data;
+/**
+ * Default limit for how long `before()` is.
+ */
+const LIMIT_BEFORE = 256;
 
-		/**
-		 * The position of `after()`.
-		 */
-		public $after;
+/**
+ * Represents a chunk of source code.
+ */
+class Input
+{
+    /**
+     * The template data.
+     */
+    protected $data;
 
-		/**
-		 * Cached data after the current position.
-		 */
-		public $dataAfter;
+    /**
+     * The position of `after()`.
+     */
+    public $after;
 
-		/**
-		 * The position of `before()`.
-		 */
-		public $before;
+    /**
+     * Cached data after the current position.
+     */
+    public $dataAfter;
 
-		/**
-		 * Cached data before the current position.
-		 */
-		public $dataBefore;
+    /**
+     * The position of `before()`.
+     */
+    public $before;
 
-		/**
-		 * Total length of data.
-		 */
-		public $length;
+    /**
+     * Cached data before the current position.
+     */
+    public $dataBefore;
 
-		/**
-		 * Open a URI.
-		 *
-		 * @param	string	$uri
-		 */
-		public function openUri($uri) {
-			if (file_exists($uri) === false) {
-				throw new Exception(sprintf(
-					"File '%s' does not exist.", $uri
-				));
-			}
+    /**
+     * Total length of data.
+     */
+    public $length;
 
-			$this->openString(file_get_contents($uri));
-		}
+    /**
+     * Open a URI.
+     *
+     * @param    string    $uri
+     */
+    public function openUri($uri)
+    {
+        if (file_exists($uri) === false) {
+            throw new Exception(sprintf(
+                "File '%s' does not exist.", $uri
+            ));
+        }
 
-		/**
-		 * Open a string.
-		 *
-		 * @param	string	$input
-		 */
-		public function openString($data) {
-			$this->data = $data;
-			$this->length = strlen($data);
+        $this->openString(file_get_contents($uri));
+    }
 
-			$this->reset();
-		}
+    /**
+     * Open a string.
+     *
+     * @param    string    $input
+     */
+    public function openString($data)
+    {
+        $this->data   = $data;
+        $this->length = strlen($data);
 
-		/**
-		 * Return the data as a string.
-		 */
-		public function __toString() {
-			return (string)$this->data;
-		}
+        $this->reset();
+    }
 
-		/**
-		 * Perform a forwards search of the data and return an Token
-		 * representing the expression matched, and its position.
-		 *
-		 * @param	string	$expression	Return matches of regex
-		 * @param	boolean	$test		Perform simple test instead
-		 * @param	integer	$limit		Maximum number of characters
-		 *
-		 * @return	Token on success null on failure
-		 */
-		public function after($expression = null, $test = false, $limit = LIMIT_AFTER) {
-			if (isset($this->dataAfter) && $limit == LIMIT_AFTER) {
-				$after = $this->dataAfter;
-			}
+    /**
+     * Return the data as a string.
+     */
+    public function __toString()
+    {
+        return (string) $this->data;
+    }
 
-			else {
-				$after = substr($this->data, $this->after, $this->after + $limit);
-				$this->dataAfter = $after;
-			}
+    /**
+     * Perform a forwards search of the data and return an Token
+     * representing the expression matched, and its position.
+     *
+     * @param    string    $expression    Return matches of regex
+     * @param    boolean    $test        Perform simple test instead
+     * @param    integer    $limit        Maximum number of characters
+     *
+     * @return    Token on success null on failure
+     */
+    public function after($expression = null, $test = false, $limit = LIMIT_AFTER)
+    {
+        if (isset($this->dataAfter) && $limit == LIMIT_AFTER) {
+            $after = $this->dataAfter;
+        } else {
+            $after           = substr($this->data, $this->after, $this->after + $limit);
+            $this->dataAfter = $after;
+        }
 
-			if ($test === false) {
-				if ($expression === null) {
-					return new Token(substr($this->data, $this->after), $this->after);
-				}
+        if ($test === false) {
+            if ($expression === null) {
+                return new Token(substr($this->data, $this->after), $this->after);
+            }
 
-				preg_match($expression, $after, $match, PREG_OFFSET_CAPTURE);
+            preg_match($expression, $after, $match, PREG_OFFSET_CAPTURE);
 
-				if (!isset($match[0][0]) || !isset($match[0][1])) return null;
+            if (!isset($match[0][0]) || !isset($match[0][1])) {
+                return null;
+            }
 
-				return new Token($match[0][0], $match[0][1] + $this->after);
-			}
+            return new Token($match[0][0], $match[0][1] + $this->after);
+        } else {
+            if ($expression === null) {
+                return $this->after < $this->length;
+            }
 
-			else {
-				if ($expression === null) {
-					return $this->after < $this->length;
-				}
+            return (boolean) preg_match($expression, $after);
+        }
+    }
 
-				return (boolean)preg_match($expression, $after);
-			}
-		}
+    /**
+     * Perform a backwards search of the data and return an Token
+     * representing the expression matched, and its position.
+     *
+     * @param    string    $expression    Return matches of regex
+     * @param    boolean    $test        Perform simple test instead
+     * @param    integer    $limit        Maximum number of characters
+     *
+     * @return    Token on success null on failure
+     */
+    public function before($expression = null, $test = false, $limit = LIMIT_BEFORE)
+    {
+        if (
+            isset($this->dataBefore)
+            && $limit == strlen($this->dataBefore)
+        ) {
+            $before = $this->dataBefore;
+        } else {
+            $limit            = max(0, $this->before - $limit);
+            $before           = substr($this->data, $limit, $this->before - $limit);
+            $this->dataBefore = $before;
+        }
 
-		/**
-		 * Perform a backwards search of the data and return an Token
-		 * representing the expression matched, and its position.
-		 *
-		 * @param	string	$expression	Return matches of regex
-		 * @param	boolean	$test		Perform simple test instead
-		 * @param	integer	$limit		Maximum number of characters
-		 *
-		 * @return	Token on success null on failure
-		 */
-		public function before($expression = null, $test = false, $limit = LIMIT_BEFORE) {
-			if (
-				isset($this->dataBefore)
-				&& $limit == strlen($this->dataBefore)
-			) {
-				$before = $this->dataBefore;
-			}
+        if ($test === false) {
+            if ($expression === null) {
+                return new Token($before, $this->before);
+            }
 
-			else {
-				$limit = max(0, $this->before - $limit);
-				$before = substr($this->data, $limit, $this->before - $limit);
-				$this->dataBefore = $before;
-			}
+            preg_match($expression, $before, $match, PREG_OFFSET_CAPTURE);
 
-			if ($test === false) {
-				if ($expression === null) {
-					return new Token($before, $this->before);
-				}
+            if (!isset($match[0][0]) || !isset($match[0][1])) {
+                return null;
+            }
 
-				preg_match($expression, $before, $match, PREG_OFFSET_CAPTURE);
+            return new Token($match[0][0], $match[0][1] + $limit);
+        } else {
+            if ($expression === null) {
+                return $this->before > 0;
+            }
 
-				if (!isset($match[0][0]) || !isset($match[0][1])) return null;
+            return (boolean) preg_match($expression, $before);
+        }
+    }
 
-				return new Token($match[0][0], $match[0][1] + $limit);
-			}
+    /**
+     * Move the internal cursor to the position of a token.
+     *
+     * @param    Token    $token
+     *
+     * @return    array
+     */
+    public function move($token)
+    {
+        $this->before = $token->position;
+        $this->after  = $token->position + strlen($token->value);
 
-			else {
-				if ($expression === null) {
-					return $this->before > 0;
-				}
+        unset($this->dataAfter, $this->dataBefore);
+    }
 
-				return (boolean)preg_match($expression, $before);
-			}
-		}
+    public function reset()
+    {
+        $this->after  = 0;
+        $this->before = 0;
 
-		/**
-		 * Move the internal cursor to the position of a token.
-		 *
-		 * @param	Token	$token
-		 *
-		 * @return	array
-		 */
-		public function move($token) {
-			$this->before = $token->position;
-			$this->after = $token->position + strlen($token->value);
+        unset($this->dataAfter, $this->dataBefore);
+    }
 
-			unset($this->dataAfter, $this->dataBefore);
-		}
-
-		public function reset() {
-			$this->after = 0;
-			$this->before = 0;
-
-			unset($this->dataAfter, $this->dataBefore);
-		}
-
-		public function valid() {
-			return $this->after < $this->length;
-		}
-	}
+    public function valid()
+    {
+        return $this->after < $this->length;
+    }
+}

@@ -20,12 +20,13 @@ namespace EWW\Dpf\ViewHelpers\Widget\Controller;
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
+
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController;
 
-/**
+/*
  * Class PaginateController
  */
 class PaginateController extends AbstractWidgetController
@@ -34,12 +35,12 @@ class PaginateController extends AbstractWidgetController
      * @var array
      */
     protected $configuration = array(
-        'itemsPerPage' => 10,
-        'insertAbove' => false,
-        'insertBelow' => true,
+        'itemsPerPage'         => 10,
+        'insertAbove'          => false,
+        'insertBelow'          => true,
         'maximumNumberOfLinks' => 99,
         'addQueryStringMethod' => '',
-        'section' => ''
+        'section'              => '',
     );
 
     /**
@@ -79,9 +80,9 @@ class PaginateController extends AbstractWidgetController
     {
         $this->objects = $this->widgetConfiguration['objects'];
         ArrayUtility::mergeRecursiveWithOverrule($this->configuration, $this->widgetConfiguration['configuration'], false);
-        $itemsPerPage = (int)$this->configuration['itemsPerPage'];
-        $this->numberOfPages = $itemsPerPage > 0 ? ceil($this->widgetConfiguration['total'] / $itemsPerPage) : 0;
-        $this->maximumNumberOfLinks = (int)$this->configuration['maximumNumberOfLinks'];
+        $itemsPerPage               = (int) $this->configuration['itemsPerPage'];
+        $this->numberOfPages        = $itemsPerPage > 0 ? ceil($this->widgetConfiguration['total'] / $itemsPerPage) : 0;
+        $this->maximumNumberOfLinks = (int) $this->configuration['maximumNumberOfLinks'];
     }
 
     /**
@@ -91,7 +92,7 @@ class PaginateController extends AbstractWidgetController
     public function indexAction($currentPage = 1)
     {
         // set current page
-        $this->currentPage = (int)$currentPage;
+        $this->currentPage = (int) $currentPage;
         if ($this->currentPage < 1) {
             $this->currentPage = 1;
         }
@@ -100,14 +101,14 @@ class PaginateController extends AbstractWidgetController
             $modifiedObjects = null;
         } else {
             // modify query
-            $itemsPerPage = (int)$this->configuration['itemsPerPage'];
-            $offset = 0;
+            $itemsPerPage = (int) $this->configuration['itemsPerPage'];
+            $offset       = 0;
             if ($this->currentPage > 1) {
-                $offset = ((int)($itemsPerPage * ($this->currentPage - 1)));
+                $offset = ((int) ($itemsPerPage * ($this->currentPage - 1)));
             }
         }
         $this->view->assign('contentArguments', array(
-            $this->widgetConfiguration['as'] => $this->objects
+            $this->widgetConfiguration['as'] => $this->objects,
         ));
         $this->view->assign('configuration', $this->configuration);
         $this->view->assign('pagination', $this->buildPagination());
@@ -125,17 +126,17 @@ class PaginateController extends AbstractWidgetController
         if ($maximumNumberOfLinks > $this->numberOfPages) {
             $maximumNumberOfLinks = $this->numberOfPages;
         }
-        $delta = floor($maximumNumberOfLinks / 2);
+        $delta                   = floor($maximumNumberOfLinks / 2);
         $this->displayRangeStart = $this->currentPage - $delta;
-        $this->displayRangeEnd = $this->currentPage + $delta - ($maximumNumberOfLinks % 2 === 0 ? 1 : 0);
+        $this->displayRangeEnd   = $this->currentPage + $delta - ($maximumNumberOfLinks % 2 === 0 ? 1 : 0);
         if ($this->displayRangeStart < 1) {
             $this->displayRangeEnd -= $this->displayRangeStart - 1;
         }
         if ($this->displayRangeEnd > $this->numberOfPages) {
             $this->displayRangeStart -= $this->displayRangeEnd - $this->numberOfPages;
         }
-        $this->displayRangeStart = (int)max($this->displayRangeStart, 1);
-        $this->displayRangeEnd = (int)min($this->displayRangeEnd, $this->numberOfPages);
+        $this->displayRangeStart = (int) max($this->displayRangeStart, 1);
+        $this->displayRangeEnd   = (int) min($this->displayRangeEnd, $this->numberOfPages);
     }
 
     /**
@@ -152,13 +153,13 @@ class PaginateController extends AbstractWidgetController
             $pages[] = array('number' => $i, 'isCurrent' => $i === $this->currentPage);
         }
         $pagination = array(
-            'pages' => $pages,
-            'current' => $this->currentPage,
-            'numberOfPages' => $this->numberOfPages,
+            'pages'             => $pages,
+            'current'           => $this->currentPage,
+            'numberOfPages'     => $this->numberOfPages,
             'displayRangeStart' => $this->displayRangeStart,
-            'displayRangeEnd' => $this->displayRangeEnd,
-            'hasLessPages' => $this->displayRangeStart > 2,
-            'hasMorePages' => $this->displayRangeEnd + 1 < $this->numberOfPages
+            'displayRangeEnd'   => $this->displayRangeEnd,
+            'hasLessPages'      => $this->displayRangeStart > 2,
+            'hasMorePages'      => $this->displayRangeEnd + 1 < $this->numberOfPages,
         );
         if ($this->currentPage < $this->numberOfPages) {
             $pagination['nextPage'] = $this->currentPage + 1;

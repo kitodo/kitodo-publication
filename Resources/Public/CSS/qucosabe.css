@@ -1,84 +1,98 @@
+/**
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+ 
+
 /*
  *
  * Special rewrites for backend display of input forms
  *
  */
- 
- 
- 
+
+
 /* -- basic setup ------------------------------------------------------------------------ */
+
 body {
-	background:#fff;
-	padding-top:49px;
-	margin-bottom:100px;
+    background: #fff;
+    padding-top: 49px;
+    margin-bottom: 100px;
 }
 
 .tx-dpf {
-	padding:24px;
+    padding: 24px;
 }
 
 .tx-dpf:before {
-	position:fixed;
-	top:0;
-	right:0;
-	left:0;
-	height:49px;
-	background:#585858;
-	border-bottom:22px solid #dadada;
-	content:"";
-	z-index:100;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 49px;
+    background: #585858;
+    border-bottom: 22px solid #dadada;
+    content: "";
+    z-index: 100;
 }
 
 .tx-dpf h2 {
-	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
-	font-size:2em;
-	color:#555;
-	margin-top:0;
-	margin-bottom:30px;
-	font-weight:400;
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 400;
 }
-
 
 
 /* -- form setup ------------------------------------------------------------------------- */
+
 .tx-dpf .css-panes {
-	margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .tx-dpf fieldset {
-	margin:40px 0;
+    margin: 40px 0;
 }
 
 .tx-dpf fieldset legend {
-	font-size:21px;
-	font-family:Share,Verdana,Arial,Helvetica,sans-serif;
-	font-weight:400;
-	color:#666;
-	margin-bottom:20px;
+    font-size: 21px;
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 20px;
 }
 
-.tx-dpf button.add_group,.tx-dpf button.add_file_group {     
-        position:relative;
-	margin-top:-104px;        
-	right:auto;
+.tx-dpf button.add_group, .tx-dpf button.add_file_group {
+    position: relative;
+    margin-top: -104px;
+    right: auto;
 }
 
 .form-submit {
-	padding-top:0;
+    padding-top: 0;
 }
 
 .form-submit .btn-lg {
-	margin:-9px 0 0 10px;
-	padding:10px 16px;
-	font-size:18px;
+    margin: -9px 0 0 10px;
+    padding: 10px 16px;
+    font-size: 18px;
 }
 
-.form-submit,.form-submit button {
-	float:right;
+.form-submit, .form-submit button {
+    float: right;
 }
 
 .tx-dpf button .glyphicon {
-	top:1px;
+    top: 1px;
 }
 
 

@@ -1,58 +1,54 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <fieldset class="fs_group" data-group="{formGroupUid}" data-mandatory="{groupItem.mandatory}">
     <legend>
-      <f:if condition="{groupIndex}">+{groupIndex}: </f:if>
-      {formGroupDisplayName}
-      <f:if condition="{groupIndex}"><button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{formGroupUid}"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span></button></f:if>
+        <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
+        {formGroupDisplayName}
+        <f:if condition="{groupIndex}">
+            <button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{formGroupUid}"><span
+                    class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
+            </button>
+        </f:if>
     </legend>
     <div class="group-info-text">
-        {groupItem.infoText} 
+        {groupItem.infoText}
     </div>
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
-
-      <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
-        <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
-
+        <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+            <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
                 <eww:isElementAllowed condition="{fieldItem.backendOnly}">
-                    <f:then>                           <f:render partial="DocumentForm/Field" arguments="{
-                          formPageUid: formPageUid,                       
-                          formGroupUid: formGroupUid,                                     
-                          groupIndex: groupIndex,                        
-                          formField: formField,
-                          fieldIndex: fieldItemIterator.index,
-                          fieldItem: fieldItem,                                               
-                          countries: countries}"/>
-          
-              <f:if condition="{fieldItem.maxIteration} == 0">
-                <f:if condition="{fieldItemIterator.isLast}">
-                <button type="submit"
-                         title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
-                         name="add_field" class="btn btn-default add_field"
-                         data-field="{fieldItem.uid}"
-                         data-ajax="{f:uri.action(
-                              action:'field',
-                              controller:'AjaxDocumentForm',
-                              pageType:110124,
-                              arguments:{
-                                  pageUid: formPageUid,
-                                  groupUid: formGroupUid,
-                                  groupIndex: groupIndex,
-                                  fieldUid: fieldItem.uid
-                         })}"
-                         data-index="{fieldItemIterator.index}">
-                  <span class="glyphicon glyphicon-plus"></span>
-                  <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
-                </button>
-               
-                </f:if>
-              </f:if>
-</f:then>
-                </eww:isElementAllowed>              
-
-        </div>        
-      </f:for>
-
+                    <f:then>
+                        <f:render partial="DocumentForm/Field"
+                                  arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries}"/>
+                        <f:if condition="{fieldItem.maxIteration} == 0">
+                            <f:if condition="{fieldItemIterator.isLast}">
+                                <button type="submit"
+                                        title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
+                                        name="add_field" class="btn btn-default add_field" data-field="{fieldItem.uid}"
+                                        data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:110124,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
+                                        data-index="{fieldItemIterator.index}">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
+                                </button>
+                            </f:if>
+                        </f:if>
+                    </f:then>
+                </eww:isElementAllowed>
+            </div>
+        </f:for>
     </f:for>
-        
 </fieldset>

@@ -1,67 +1,30 @@
 <?php
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
-class xPathXMLGenerator {
+class xPathXMLGenerator
+{
 
-
-    protected $domDocument = NULL;
+    protected $domDocument = null;
 
     public function __construct()
     {
         $domDocument = new DOMDocument();
     }
 
-
     public function generateNodeFromXPath($xPath)
     {
-        
+
     }
 
-
-
-
-
-
-
-
-
-
 }
-
-// private XmlNode GenerateNodeFromXPath(string xpath)
-//         {
-//             XmlDocument doc = new XmlDocument();
-//             return GenerateNodeFromXPath(doc, doc as XmlNode, xpath);
-//         }
- 
-//         private XmlNode GenerateNodeFromXPath(XmlDocument doc, XmlNode parent, string xpath)
-//         {
-//             // grab the next node name in the xpath; or return parent if empty
-//             string[] partsOfXPath = xpath.Trim('/').Split('/');
- 
-//             if (partsOfXPath.Length == 0)
-//                 return parent;
- 
-//             string nextNodeInXPath = partsOfXPath[0];
-//             if (string.IsNullOrEmpty(nextNodeInXPath))
-//                 return parent;
- 
- 
-//             // get or create the node from the name
-//             XmlNode node = parent.SelectSingleNode(nextNodeInXPath);
-//             if (node == null)
-//             {
-//                 if (nextNodeInXPath.StartsWith("@"))
-//                 {
-//                     XmlAttribute anode = doc.CreateAttribute(nextNodeInXPath.Substring(1));
-//                     node = parent.Attributes.Append(anode);
-//                 }
-//                 else
-//                     node = parent.AppendChild(doc.CreateElement(nextNodeInXPath));
-//             }
- 
-//             // rejoin the remainder of the array as an xpath expression and recurse
-//             string rest = String.Join("/", partsOfXPath, 1, partsOfXPath.Length - 1);
-//             return GenerateNodeFromXPath(doc, node, rest);
-//         }
-
-// 	

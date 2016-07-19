@@ -1,81 +1,87 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/*
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Lexers;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Output;
-	use nbsp\bitter\Lexer;
-	use nbsp\bitter\Tokens;
+namespace nbsp\bitter\Lexers;
 
-	class PHP extends Lexer {
-		use Tokens\PHP;
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
+use nbsp\bitter\Output;
+use nbsp\bitter\Tokens;
 
-		/**
-		 * Parse a PHP file.
-		 *
-		 * @param Output $out
-		 * @param string $in
-		 */
-		public function parse(Input $in, Output $out) {
-			$out->startLine();
-			$out->startToken('source php');
+class PHP extends Lexer
+{
+    use Tokens\PHP;
 
-			// Begin parsing:
-			Lexer::loop($in, $out, $this->tokens());
+    /**
+     * Parse a PHP file.
+     *
+     * @param Output $out
+     * @param string $in
+     */
+    public function parse(Input $in, Output $out)
+    {
+        $out->startLine();
+        $out->startToken('source php');
 
-			$out->endToken();
-			$out->endLine();
-		}
+        // Begin parsing:
+        Lexer::loop($in, $out, $this->tokens());
 
-		/**
-		 * Parse PHP embedded in a HTML file.
-		 *
-		 * @param Output $out
-		 * @param string $in
-		 */
-		public function parseWithHTML(Input $in, Output $out) {
-			$out->startLine();
-			$out->startToken('markup html');
+        $out->endToken();
+        $out->endLine();
+    }
 
-			// Begin parsing:
-			Lexer::loop($in, $out, Lexer::extend($this->htmlTokens(), [
-				'beginPHP' => [
-					Lexer::MATCH =>		'<\?php',
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('script php');
+    /**
+     * Parse PHP embedded in a HTML file.
+     *
+     * @param Output $out
+     * @param string $in
+     */
+    public function parseWithHTML(Input $in, Output $out)
+    {
+        $out->startLine();
+        $out->startToken('markup html');
 
-											$begin = $token;
-											$out->writeToken($begin, 'keyword script begin');
+        // Begin parsing:
+        Lexer::loop($in, $out, Lexer::extend($this->htmlTokens(), [
+            'beginPHP' => [
+                Lexer::MATCH => '<\?php',
+                Lexer::CALL  => function ($in, $out, $token) {
+                    $out->startToken('script php');
 
-											$end = Lexer::loop($in, $out, Lexer::extend(
-												$this->tokens(),
-												[
-													'endPHP' => [
-														Lexer::MATCH =>		'\?>',
-														Lexer::WRAP =>		'keyword',
-														Lexer::CALL =>		Lexer::STOP
-													]
-												]
-											));
-											$out->writeToken($end, 'keyword script end');
+                    $begin = $token;
+                    $out->writeToken($begin, 'keyword script begin');
 
-											// Calculate final position:
-											if ($end) $token->position = $end->position - (
-												strlen($begin) - strlen($end)
-											);
+                    $end = Lexer::loop($in, $out, Lexer::extend(
+                        $this->tokens(),
+                        [
+                            'endPHP' => [
+                                Lexer::MATCH => '\?>',
+                                Lexer::WRAP  => 'keyword',
+                                Lexer::CALL  => Lexer::STOP,
+                            ],
+                        ]
+                    ));
+                    $out->writeToken($end, 'keyword script end');
 
-											$out->endToken();
-										}
-				]
-			]));
+                    // Calculate final position:
+                    if ($end) {
+                        $token->position = $end->position - (
+                            strlen($begin) - strlen($end)
+                        );
+                    }
 
-			$out->endToken();
-			$out->endLine();
-		}
-	}
+                    $out->endToken();
+                },
+            ],
+        ]));
+
+        $out->endToken();
+        $out->endLine();
+    }
+}

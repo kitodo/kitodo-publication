@@ -1,205 +1,239 @@
 /* @group Defaults */
 
-	* {
-		margin: 0;
-		padding: 0;
-	}
+* {
+    margin: 0;
+    padding: 0;
+}
 
-	a {
-		color: #aaff99;
-	}
-	a:hover {
-		color: #669955;
-	}
+a {
+    color: #aaff99;
+}
 
-	body#ok {
-		background: hsl(30, 15%, 97%);
-		background-image: url('this is a thing.png');
-		color: hsl(0, 0%, 60%);
-		font: 12px/16px monospace;
-	}
+a:hover {
+    color: #669955;
+}
 
-	p:before {
-		font-size: 1em;
-		font-weight: normal;
-		padding: 20px;
-	}
+body#ok {
+    background: hsl(30, 15%, 97%);
+    background-image: url('this is a thing.png');
+    color: hsl(0, 0%, 60%);
+    font: 12px/16px monospace;
+}
 
-	pre {
-		color: hsl(30, 15%, 37%);
-		overflow: hidden;
-		padding: 0 20px 20px 20px;
-		-moz-tab-size: 4;
-	}
+p:before {
+    font-size: 1em;
+    font-weight: normal;
+    padding: 20px;
+}
+
+pre {
+    color: hsl(30, 15%, 37%);
+    overflow: hidden;
+    padding: 0 20px 20px 20px;
+    -moz-tab-size: 4;
+}
+
 
 /* @end */
+
 
 /* @group Gray */
 
-	/* @group Dark */
 
-		pre .keyword {
-			color: hsl(30, 15%, 27%);
-		}
+/* @group Dark */
 
-	/* @end */
+pre .keyword {
+    color: hsl(30, 15%, 27%);
+}
 
-	/* @group Medium */
-
-		pre .comment .keyword {
-			color: hsl(30, 15%, 47%);
-		}
-
-	/* @end */
-
-	/* @group Light */
-
-		pre .comment {
-			color: hsl(30, 15%, 57%);
-		}
-
-	/* @end */
-
-	/* @group Bright */
-
-		pre .comment .comment.begin,
-		pre .comment .comment.end,
-		pre .comment .comment.divider {
-			color: hsl(30, 15%, 67%);
-		}
-
-	/* @end */
 
 /* @end */
+
+
+/* @group Medium */
+
+pre .comment .keyword {
+    color: hsl(30, 15%, 47%);
+}
+
+
+/* @end */
+
+
+/* @group Light */
+
+pre .comment {
+    color: hsl(30, 15%, 57%);
+}
+
+
+/* @end */
+
+
+/* @group Bright */
+
+pre .comment .comment.begin, pre .comment .comment.end, pre .comment .comment.divider {
+    color: hsl(30, 15%, 67%);
+}
+
+
+/* @end */
+
+
+/* @end */
+
 
 /* @group Red */
 
-	/* @group Medium */
 
-		pre .constant,
-		pre .entity,
-		pre .instruction,
-		pre .keyword.element,
-		pre .property {
-			color: hsl(10, 60%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .constant, pre .entity, pre .instruction, pre .keyword.element, pre .property {
+    color: hsl(10, 60%, 47%);
+}
 
-	/* @group Light */
-
-		pre .instruction .attribute,
-		pre .predicate .attribute {
-			color: hsl(10, 60%, 67%);
-		}
-
-	/* @end */
 
 /* @end */
+
+
+/* @group Light */
+
+pre .instruction .attribute, pre .predicate .attribute {
+    color: hsl(10, 60%, 67%);
+}
+
+
+/* @end */
+
+
+/* @end */
+
 
 /* @group Orange */
 
-	/* @group Medium */
 
-		pre .class {
-			color: hsl(30, 60%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .class {
+    color: hsl(30, 60%, 47%);
+}
+
 
 /* @end */
+
+
+/* @end */
+
 
 /* @group Yellow */
 
-	/* @group Medium */
 
-		pre .string.xpath,
-		pre .string .xpath,
-		pre .string.xpath .string {
-			color: hsl(70, 45%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .string.xpath, pre .string .xpath, pre .string.xpath .string {
+    color: hsl(70, 45%, 47%);
+}
+
 
 /* @end */
+
+
+/* @end */
+
 
 /* @group Green */
 
-	/* @group Medium */
 
-		pre .string {
-			background: hsl(120, 15%, 94%);
-			border-radius: 3px;
-			color: hsl(120, 45%, 47%);
-			margin: -2px -1px;
-			padding: 2px 1px;
-		}
+/* @group Medium */
 
-	/* @end */
+pre .string {
+    background: hsl(120, 15%, 94%);
+    border-radius: 3px;
+    color: hsl(120, 45%, 47%);
+    margin: -2px -1px;
+    padding: 2px 1px;
+}
+
 
 /* @end */
+
+
+/* @end */
+
 
 /* @group Cyan */
 
-	/* @group Medium */
 
-		pre .namespace {
-			color: hsl(170, 40%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .namespace {
+    color: hsl(170, 40%, 47%);
+}
+
 
 /* @end */
+
+
+/* @end */
+
 
 /* @group Blue */
 
-	/* @group Medium */
 
-		pre .number,
-		pre .string.xpath,
-		pre .string .xpath,
-		pre .string.xpath .string {
-			background: hsl(200, 15%, 94%);
-			border-radius: 3px;
-			color: hsl(200, 70%, 47%);
-			margin: -2px -1px;
-			padding: 2px 1px;
-		}
+/* @group Medium */
 
-	/* @end */
+pre .number, pre .string.xpath, pre .string .xpath, pre .string.xpath .string {
+    background: hsl(200, 15%, 94%);
+    border-radius: 3px;
+    color: hsl(200, 70%, 47%);
+    margin: -2px -1px;
+    padding: 2px 1px;
+}
+
 
 /* @end */
+
+
+/* @end */
+
 
 /* @group Violet */
 
-	/* @group Medium */
 
-		pre .tag,
-		pre .variable {
-			color: hsl(280, 60%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .tag, pre .variable {
+    color: hsl(280, 60%, 47%);
+}
 
-	/* @group Light */
-
-		pre .attribute,
-		pre .property {
-			color: hsl(280, 60%, 67%);
-		}
-
-	/* @end */
 
 /* @end */
 
+
+/* @group Light */
+
+pre .attribute, pre .property {
+    color: hsl(280, 60%, 67%);
+}
+
+
+/* @end */
+
+
+/* @end */
+
+
 /* @group Purple */
 
-	/* @group Medium */
 
-		pre .method {
-			color: hsl(330, 60%, 47%);
-		}
+/* @group Medium */
 
-	/* @end */
+pre .method {
+    color: hsl(330, 60%, 47%);
+}
+
+
+/* @end */
+
 
 /* @end */

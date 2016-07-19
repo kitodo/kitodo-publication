@@ -1,24 +1,40 @@
-    <f:comment>
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:comment>
     <f:be.menus.actionMenu>
-      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.simpleSearch')}" controller="Search" action="list" />
-      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.extendedSearch')}" controller="Search" action="extendedSearch" />
-      <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.new')}" controller="Search" action="list" /> 
+        <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.simpleSearch')}" controller="Search"
+                                   action="list"/>
+        <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.extendedSearch')}" controller="Search"
+                                   action="extendedSearch"/>
+        <f:be.menus.actionMenuItem label="{f:translate(key: 'search.control.new')}" controller="Search" action="list"/>
     </f:be.menus.actionMenu>
-    </f:comment>
-        
-<div class="be-page-header">       
-        <div class="btn-group controller-switch" role="group">
-          <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>            
-            <f:translate key="search.control.simpleSearch" />          
-          </f:link.action>  
-          <f:link.action action="extendedSearch" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>            
-            <f:translate key="search.control.extendedSearch" />
-          </f:link.action>
-          <f:link.action action="latest" controller="Search" class="btn btn-default btn-sm">
+</f:comment>
+
+<div class="be-page-header">
+    <div class="btn-group controller-switch" role="group">
+        <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <f:translate key="search.control.new" />           
-          </f:link.action>
-        </div>
+            <f:translate key="search.control.simpleSearch"/>
+        </f:link.action>
+        <f:link.action action="extendedSearch" controller="Search" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <f:translate key="search.control.extendedSearch"/>
+        </f:link.action>
+        <f:link.action action="latest" controller="Search" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <f:translate key="search.control.new"/>
+        </f:link.action>
     </div>
+</div>

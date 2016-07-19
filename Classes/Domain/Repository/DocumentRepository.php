@@ -1,99 +1,89 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-use \EWW\Dpf\Domain\Model\Document;
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2014
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+use \EWW\Dpf\Domain\Model\Document;
 
 /**
  * The repository for Documents
  */
-class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-  public function getObjectIdentifiers() {
+    public function getObjectIdentifiers()
+    {
 
-    $query = $this->createQuery();
-    $query->statement("SELECT * FROM tx_dpf_domain_model_document where object_identifier != '' and object_identifier IS NOT NULL and deleted = 0");
+        $query = $this->createQuery();
+        $query->statement("SELECT * FROM tx_dpf_domain_model_document where object_identifier != '' and object_identifier IS NOT NULL and deleted = 0");
 
-    $result = $query->execute();
+        $result = $query->execute();
 
-    $objectIdentifiers = array();
+        $objectIdentifiers = array();
 
-    foreach ($result as $document) {
-      $objectIdentifiers[$document->getObjectIdentifier()] = $document->getObjectIdentifier();
+        foreach ($result as $document) {
+            $objectIdentifiers[$document->getObjectIdentifier()] = $document->getObjectIdentifier();
+        }
+
+        return $objectIdentifiers;
     }
 
-    return $objectIdentifiers;
-  }
+    /**
+     * Finds all new documents
+     *
+     * @return array The found Document Objects
+     */
+    public function getNewDocuments()
+    {
 
+        $query = $this->createQuery();
 
-	/**
-	 * Finds all new documents
-	 *
-	 * @return array The found Document Objects
-	 */
-	public function getNewDocuments() {
+        $constraints = array();
+        //$constraints[] = $query->equals('state', Document::OBJECT_STATE_NEW);
+        $constraints[] = $query->equals('object_identifier', '');
 
-		$query = $this->createQuery();
+        if (count($constraints)) {
+            $query->matching($query->logicalAnd($constraints));
+        }
 
-		$constraints = array();
-		//$constraints[] = $query->equals('state', Document::OBJECT_STATE_NEW);
-		$constraints[] = $query->equals('object_identifier', '');
+        // order by start_date -> start_time...
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
 
-		if (count($constraints)) {
-		  $query->matching($query->logicalAnd($constraints));
-		}
+        return $query->execute();
+    }
 
-		// order by start_date -> start_time...
-		$query->setOrderings(
-		  array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-		);
+    /**
+     * Finds all documents in progress
+     *
+     * @return array The found Document Objects
+     */
+    public function getInProgressDocuments()
+    {
 
-		return $query->execute();
-	}
+        $query = $this->createQuery();
 
+        $constraints = array();
+        //$constraints[] = $query->logicalNot($query->equals('state', Document::OBJECT_STATE_NEW));
+        $constraints[] = $query->like('object_identifier', 'qucosa%');
 
-	/**
-	 * Finds all documents in progress
-	 *
-	 * @return array The found Document Objects
-	 */
-	public function getInProgressDocuments() {
+        if (count($constraints)) {
+            $query->matching($query->logicalOr($constraints));
+        }
 
-		$query = $this->createQuery();
-
-		$constraints = array();
-		//$constraints[] = $query->logicalNot($query->equals('state', Document::OBJECT_STATE_NEW));
-		$constraints[] = $query->like('object_identifier', 'qucosa%');
-
-		if (count($constraints)) {
-			$query->matching($query->logicalOr($constraints));
-		}
-
-		return $query->execute();
-	}
+        return $query->execute();
+    }
 
 }

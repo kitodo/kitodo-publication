@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-07-14T15:21:53Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="license.license-1" approved="yes">
+			<source>License 1</source>
+			<target>Lizenz 1</target>
+		</trans-unit>
+		<trans-unit id="license.license-2" approved="yes">
+			<source>License 2</source>
+			<target>Lizenz 2</target>
+		</trans-unit>
+		<trans-unit id="license.license-3" approved="yes">
+			<source>License 3</source>
+			<target>Lizenz 3</target>
+		</trans-unit>
+		<trans-unit id="license.license-4" approved="yes">
+			<source>License 4</source>
+			<target>Lizenz 4</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

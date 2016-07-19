@@ -1,30 +1,27 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
 
-<f:layout name="Default" />
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
 
-This template displays a EDIT form for the current domain object.
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
 
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Edit.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="Default"/>
 
 <f:section name="main">
-
-<f:flashMessages renderMode="div" />
-
-<f:comment>
-<f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
-</f:comment>
-
-<f:debug title="Form" maxDepth="20">{languages}</f:debug>
-
-<h2><f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}" /></h2>
-
- <f:render partial="DocumentForm/Edit" arguments="{documentForm:documentForm}"/>
- 
+    <f:flashMessages renderMode="div"/>
+    <f:comment>
+        <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
+    </f:comment>
+    <f:debug title="Form" maxDepth="20">{languages}</f:debug>
+    <h2>
+        <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
+    </h2>
+    <f:render partial="DocumentForm/Edit" arguments="{documentForm:documentForm}"/>
 </f:section>

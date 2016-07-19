@@ -1,59 +1,77 @@
-<f:layout name="AdminBE" />
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="AdminBE"/>
 
 <f:section name="main">
-   
-  <h3>Mandant initialisieren</h3>
 
-<f:flashMessages renderMode="div" />
+    <h3>Mandant initialisieren</h3>
 
+    <f:flashMessages renderMode="div"/>
 
-<f:form.validationResults for="{newClient}">
-    <f:if condition="{validationResults.flattenedErrors}">
-        <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">            
-            <f:for each="{errors}" as="error"> 
-                <div class="typo3-messages">
-                    <div class="typo3-message message-error">
-                        <div class="message-body">{propertyPath}: {error}</div>
+    <f:form.validationResults for="{newClient}">
+        <f:if condition="{validationResults.flattenedErrors}">
+            <f:for each="{validationResults.flattenedErrors}" as="errors" key="propertyPath">
+                <f:for each="{errors}" as="error">
+                    <div class="typo3-messages">
+                        <div class="typo3-message message-error">
+                            <div class="message-body">{propertyPath}: {error}</div>
+                        </div>
                     </div>
-                </div>
+                </f:for>
             </f:for>
-        </f:for>
+        </f:if>
+    </f:form.validationResults>
+
+    <f:if condition="{isValidClientFolder} > 0">
+        <f:form id="new-client" action="create" name="newClient" object="{newClient}">
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.client"/>
+            </label>
+            <f:form.textfield property="client"/>
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.project"/>
+            </label>
+            <f:form.textfield property="project"/>
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.owner_id"/>
+            </label>
+            <f:form.textfield property="ownerId"/>
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.network_initial"/>
+            </label>
+            <f:form.textfield property="networkInitial"/>
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.library_identifier"/>
+            </label>
+            <f:form.textfield property="libraryIdentifier"/>
+
+            <label>
+                <f:translate key="tx_dpf_domain_model_client.admin_email"/>
+            </label>
+            <f:form.textfield property="adminEmail"/>
+
+            <br/>
+            <br/>
+
+            <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen"/>
+        </f:form>
     </f:if>
-</f:form.validationResults>
-
-<f:if condition="{isValidClientFolder} > 0">
-               
-   <f:form id="new-client" action="create" name="newClient" object="{newClient}" >                        
-                
-                <label><f:translate key="tx_dpf_domain_model_client.client" /></label>
-                <f:form.textfield property="client" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.project" /></label>
-                <f:form.textfield property="project" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.owner_id" /></label>
-                <f:form.textfield property="ownerId" />
-                                 
-                <label><f:translate key="tx_dpf_domain_model_client.network_initial" /></label>
-                <f:form.textfield property="networkInitial" />
-                
-                <label><f:translate key="tx_dpf_domain_model_client.library_identifier" /></label>
-                <f:form.textfield property="libraryIdentifier" />
-                                               
-                <label><f:translate key="tx_dpf_domain_model_client.admin_email" /></label>
-                <f:form.textfield property="adminEmail" />
-                
-                <br />
-                <br />
-                
-                <f:form.submit class="btn btn-default btn-xs" value="Neuen Manddanten anlegen" />
-   </f:form>        
-        
-    
-</f:if>
-        
-    
-
-
 
 </f:section>

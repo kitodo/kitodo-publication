@@ -1,21 +1,23 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
 
-<f:layout name="Default" />
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
 
-This Template is responsible for displaying a single view for a domain object
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
 
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Show.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="Default"/>
 
 <f:section name="main">
-<h1></h1>
-
-<f:flashMessages renderMode="div" />
-<f:render partial="Document/Properties" arguments="{document:document}" />
-<f:link.action action="list">Zurück zur Liste</f:link.action><br />
+    <h1></h1>
+    <f:flashMessages renderMode="div"/>
+    <f:render partial="Document/Properties" arguments="{document:document}"/>
+    <f:link.action action="list">Zurück zur Liste</f:link.action>
+    <br/>
 </f:section>

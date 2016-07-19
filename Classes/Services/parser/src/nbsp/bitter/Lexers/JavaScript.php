@@ -1,35 +1,38 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/*
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Lexers;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Output;
-	use nbsp\bitter\Lexer;
-	use nbsp\bitter\Tokens;
+namespace nbsp\bitter\Lexers;
 
-	class JavaScript extends Lexer {
-		use Tokens\JavaScript;
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
+use nbsp\bitter\Output;
+use nbsp\bitter\Tokens;
 
-		/**
-		 * Parse a JavaScript file.
-		 *
-		 * @param Output $out
-		 * @param string $in
-		 */
-		public function parse(Input $in, Output $out) {
-			$out->startLine();
-			$out->startToken('source js javascript');
+class JavaScript extends Lexer
+{
+    use Tokens\JavaScript;
 
-			// Begin parsing:
-			Lexer::loop($in, $out, $this->tokens());
+    /**
+     * Parse a JavaScript file.
+     *
+     * @param Output $out
+     * @param string $in
+     */
+    public function parse(Input $in, Output $out)
+    {
+        $out->startLine();
+        $out->startToken('source js javascript');
 
-			$out->endToken();
-			$out->endLine();
-		}
-	}
+        // Begin parsing:
+        Lexer::loop($in, $out, $this->tokens());
+
+        $out->endToken();
+        $out->endLine();
+    }
+}

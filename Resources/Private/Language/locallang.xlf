@@ -131,6 +131,9 @@
 		<trans-unit id="form_button.save">
 			<source>save</source>
 		</trans-unit>
+		<trans-unit id="form_button.validate">
+			<source>validate</source>
+		</trans-unit>
 		<trans-unit id="form_button.save_continue">
 			<source>save &amp; continue</source>
 		</trans-unit>

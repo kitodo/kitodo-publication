@@ -1,38 +1,41 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/*
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Lexers;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Output;
-	use nbsp\bitter\Lexer;
-	use nbsp\bitter\Tokens;
+namespace nbsp\bitter\Lexers;
 
-	class XPath extends Lexer {
-		use Tokens\XPath;
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
+use nbsp\bitter\Output;
+use nbsp\bitter\Tokens;
 
-		/**
-		 * Parse an XPath string.
-		 *
-		 * @param Output $out
-		 * @param string $in
-		 */
-		public function parse(Input $in, Output $out) {
-			#$out->startLine();
-			#$out->startToken('mods:mods');
+class XPath extends Lexer
+{
+    use Tokens\XPath;
 
-			// Begin parsing:
-			Lexer::loop($in, $out, $this->tokens());
+    /**
+     * Parse an XPath string.
+     *
+     * @param Output $out
+     * @param string $in
+     */
+    public function parse(Input $in, Output $out)
+    {
+        #$out->startLine();
+        #$out->startToken('mods:mods');
 
-			$out->endToken();
-			while($out->writer->endElement()) {
+        // Begin parsing:
+        Lexer::loop($in, $out, $this->tokens());
 
-			}
-			#$out->endLine();
-		}
-	}
+        $out->endToken();
+        while ($out->writer->endElement()) {
+
+        }
+        #$out->endLine();
+    }
+}

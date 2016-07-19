@@ -1,20 +1,33 @@
 <?php
 namespace EWW\Dpf\ViewHelpers;
 
-class IsConsentFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
-    
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+class IsConsentFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+{
+
     /**
      *
      * @param boolean $condition
-     * @return string     
+     * @return string
      */
-    public function render($condition) {
-        if ((TYPO3_MODE === 'BE') && $condition ) {            
+    public function render($condition)
+    {
+        if ((TYPO3_MODE === 'BE') && $condition) {
             return $this->renderThenChild();
         }
         return $this->renderElseChild();
     }
-   
-}
 
-?>
+}

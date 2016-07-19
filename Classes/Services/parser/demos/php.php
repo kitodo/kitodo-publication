@@ -1,43 +1,54 @@
 <?php
 
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Output;
-	use nbsp\bitter\Lexers\PHP;
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexers\PHP;
+use nbsp\bitter\Output;
 
-	require_once '../vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
-	$limit = 5; $times = array(); $output = '';
+$limit  = 5;
+$times  = array();
+$output = '';
 
-	if (isset($_GET['limit'])) {
-		$limit = (integer)$_GET['limit'];
+if (isset($_GET['limit'])) {
+    $limit = (integer) $_GET['limit'];
 
-		if ($limit > 100) $limit = 100;
-		if ($limit < 1) $limit = 1;
-	}
+    if ($limit > 100) {
+        $limit = 100;
+    }
 
-	set_time_limit($limit * 2);
+    if ($limit < 1) {
+        $limit = 1;
+    }
 
-	while (true) {
-		$start = microtime(true);
+}
 
-		$php = new PHP();
-		$in = new Input();
-		$in->openUri('../assets/example.php');
-		$out = new Output();
-		$out->openMemory();
+set_time_limit($limit * 2);
 
-		$php->parse($in, $out);
+while (true) {
+    $start = microtime(true);
 
-		$output = $out->outputMemory();
+    $php = new PHP();
+    $in  = new Input();
+    $in->openUri('../assets/example.php');
+    $out = new Output();
+    $out->openMemory();
 
-		$times[] = microtime(true) - $start;
+    $php->parse($in, $out);
 
-		if (array_sum($times) >= $limit) {
-			array_shift($times); break;
-		}
-	}
+    $output = $out->outputMemory();
 
-	if (headers_sent()) exit;
+    $times[] = microtime(true) - $start;
+
+    if (array_sum($times) >= $limit) {
+        array_shift($times);
+        break;
+    }
+}
+
+if (headers_sent()) {
+    exit;
+}
 
 ?>
 <!DOCTYPE html>
@@ -46,22 +57,20 @@
 <link rel="stylesheet" type="text/css" href="../assets/theme.css" />
 <p><?php
 
-	if (empty($times)) {
-		echo 'Your server failed to process the sample within the set timelimit.';
-	}
-
-	else {
-		printf(
-			'Highlighted %d times in %d seconds with an average of %f seconds per execution using %fMB of memory at peak.',
-			count($times), $limit,
-			(array_sum($times) / count($times)),
-			((xdebug_peak_memory_usage() / 1024) / 1024)
-		);
-	}
+if (empty($times)) {
+    echo 'Your server failed to process the sample within the set timelimit.';
+} else {
+    printf(
+        'Highlighted %d times in %d seconds with an average of %f seconds per execution using %fMB of memory at peak.',
+        count($times), $limit,
+        (array_sum($times) / count($times)),
+        ((xdebug_peak_memory_usage() / 1024) / 1024)
+    );
+}
 
 ?></p>
 <pre><?php
 
-	echo $output;
+echo $output;
 
 ?></pre>

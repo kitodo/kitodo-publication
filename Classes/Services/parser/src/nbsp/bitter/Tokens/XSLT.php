@@ -1,85 +1,91 @@
 <?php
 
-	/**
-	 * A simple, fast yet effective syntax highlighter for PHP.
-	 *
-	 * @author	Rowan Lewis <rl@nbsp.io>
-	 * @package nbsp\bitter
-	 */
+/*
+ * A simple, fast yet effective syntax highlighter for PHP.
+ *
+ * @author    Rowan Lewis <rl@nbsp.io>
+ * @package nbsp\bitter
+ */
 
-	namespace nbsp\bitter\Tokens;
-	use nbsp\bitter\Input;
-	use nbsp\bitter\Lexer;
+namespace nbsp\bitter\Tokens;
 
-	trait XSLT {
-		use HTML {
-			HTML::attribute as htmlAttribute;
-			HTML::element as htmlElement;
-			HTML::string as htmlString;
-			HTML::tokens as htmlTokens;
-		}
+use nbsp\bitter\Input;
+use nbsp\bitter\Lexer;
 
-		/**
-		 * XSL tokens.
-		 *
-		 * @return array
-		 */
-		public function tokens() {
-			return Lexer::extend($this->htmlTokens(), [
-				'element' => [
-					Lexer::CALL =>		function($in, $out, $token) {
-											$out->startToken('type element');
+trait XSLT
+{
+    use HTML {
+        HTML::attribute as htmlAttribute;
+        HTML::element as htmlElement;
+        HTML::string as htmlString;
+        HTML::tokens as htmlTokens;
+    }
 
-											$in = new Input();
-											$in->openString($token);
+    /**
+     * XSL tokens.
+     *
+     * @return array
+     */
+    function tokens()
+    {
+        return Lexer::extend($this->htmlTokens(), [
+            'element' => [
+                Lexer::CALL => function ($in, $out, $token) {
+                    $out->startToken('type element');
 
-											Lexer::loop($in, $out, $this->element());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				]
-			]);
-		}
+                    Lexer::loop($in, $out, $this->element());
 
-		public function attribute() {
-			return Lexer::extend($this->htmlAttribute(), [
-				'string' => [
-					Lexer::CALL =>		function($in, $out, $token) {
-											Lexer::choose($in, $out, $token, [
-												[
-													Lexer::BEFORE =>	'%\b(match|select|test)=$%i',
-													Lexer::CALL =>		function($in, $out) {
-																			$out->startToken('value string xpath');
-																		}
-												],
-												[
-													Lexer::CALL =>		function($in, $out) {
-																			$out->startToken('value string');
-																		}
-												]
-											]);
+                    $out->endToken();
+                },
+            ],
+        ]);
+    }
 
-											$in = new Input();
-											$in->openString($token);
+    function attribute()
+    {
+        return Lexer::extend($this->htmlAttribute(), [
+            'string' => [
+                Lexer::CALL => function ($in, $out, $token) {
+                    Lexer::choose($in, $out, $token, [
+                        [
+                            Lexer::BEFORE => '%\b(match|select|test)=$%i',
+                            Lexer::CALL   => function ($in, $out) {
+                                $out->startToken('value string xpath');
+                            },
+                        ],
+                        [
+                            Lexer::CALL => function ($in, $out) {
+                                $out->startToken('value string');
+                            },
+                        ],
+                    ]);
 
-											Lexer::loop($in, $out, $this->string());
+                    $in = new Input();
+                    $in->openString($token);
 
-											$out->endToken();
-										}
-				]
-			]);
-		}
+                    Lexer::loop($in, $out, $this->string());
 
-		public function element() {
-			return Lexer::extend($this->attribute(), $this->htmlElement());
-		}
+                    $out->endToken();
+                },
+            ],
+        ]);
+    }
 
-		public function string() {
-			return Lexer::extend($this->htmlString(), [
-				'xpath' => [
-					Lexer::MATCH =>		'[{].*?[}]',
-					Lexer::WRAP =>		'value xpath'
-				]
-			]);
-		}
-	}
+    function element()
+    {
+        return Lexer::extend($this->attribute(), $this->htmlElement());
+    }
+
+    function string()
+    {
+        return Lexer::extend($this->htmlString(), [
+            'xpath' => [
+                Lexer::MATCH => '[{].*?[}]',
+                Lexer::WRAP  => 'value xpath',
+            ],
+        ]);
+    }
+}

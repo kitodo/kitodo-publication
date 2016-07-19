@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-07-14T15:20:26Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
+			<source>Document</source>
+			<target>Dokument</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.authors" approved="yes">
+			<source>Authors</source>
+			<target>Autoren</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.title" approved="yes">
+			<source>Title</source>
+			<target>Titel</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
+			<source>Xml Data</source>
+			<target>Xml Daten</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.name" approved="yes">
+			<source>Name</source>
+			<target>Name</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_fedoraconnection.password" approved="yes">
+			<source>Password</source>
+			<target>Paswort</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_inputoption.name" approved="yes">
+			<source>Name</source>
+			<target>Name</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_inputoption.value" approved="yes">
+			<source>Value</source>
+			<target>Wert</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date" approved="yes">
+			<source>date</source>
+			<target>Datum</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatapage.name" approved="yes">
+			<source>Name</source>
+			<target>Name</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>
