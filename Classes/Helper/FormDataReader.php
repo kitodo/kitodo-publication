@@ -266,7 +266,7 @@ class FormDataReader
 
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 0) {
+                if ($tmpFile['error'] != 0 && $tmpFile['error'] != 4) {
                     return true;
                 }
             }
