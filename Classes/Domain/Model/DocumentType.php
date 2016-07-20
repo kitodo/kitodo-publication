@@ -169,7 +169,7 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the virtual
      *
-     * @return boolen
+     * @return boolean
      */
     public function getVirtual()
     {

@@ -21,20 +21,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * crdate
-     *
-     * @var DateTime
-     */
-    protected $crdate;
-
-    /**
-     * tstamp
-     *
-     * @var DateTime
-     */
-    protected $tstamp;
-
-    /**
      * title
      *
      * @var string
@@ -77,7 +63,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $objectIdentifier;
 
     /**
-     * reseredObjectIdentifier
+     * reservedObjectIdentifier
      *
      * @var string
      */
@@ -141,6 +127,28 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const OBJECT_STATE_INACTIVE        = "INACTIVE";
     const OBJECT_STATE_DELETED         = "DELETED";
     const OBJECT_STATE_LOCALLY_DELETED = "LOCALLY_DELETED";
+
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        //Do not remove the next line: It would break the functionality
+        $this->initStorageObjects();
+    }
+
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->file = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
 
     /**
      * Returns the title
@@ -247,16 +255,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setDocumentType(\EWW\Dpf\Domain\Model\DocumentType $documentType)
     {
         $this->documentType = $documentType;
-    }
-
-    /**
-     * Returns the crdate
-     *
-     * @return DateTime
-     */
-    public function getCrdate()
-    {
-        return $this->crdate;
     }
 
     /**
@@ -470,6 +468,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->file = $file;
     }
 
+    /**
+     * Get File Data
+     *
+     * @return array
+     */
     public function getFileData()
     {
 
@@ -480,10 +483,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
 
-                $fileStatus = $file->getStatus();
-
-                //if (!empty($fileStatus)) {
-
                 $tmpFile = array(
                     'path'      => $file->getLink(),
                     'type'      => $file->getContentType(),
@@ -510,8 +509,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
 
-                //}
-
             }
         }
 
@@ -519,6 +516,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     }
 
+    /**
+     * Get Current File Data
+     *
+     * @return array
+     */
     public function getCurrentFileData()
     {
 
@@ -529,8 +531,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
 
-                $fileStatus = $file->getStatus();
-
                 $tmpFile = array(
                     'path'      => $file->getLink(),
                     'type'      => $file->getContentType(),
@@ -564,25 +564,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     }
 
-    public function isEdited()
-    {
-        return $this->crdate->getTimestamp() != $this->tstamp->getTimestamp();
-    }
-
-    /**
-     * Returns the tstamp
-     *
-     * @return DateTime
-     */
-    public function getTstamp()
-    {
-        return $this->tstamp;
-    }
-
     /**
      * Returns the changed
      *
-     * @return string $changed
+     * @return boolean $changed
      */
     public function getChanged()
     {
@@ -592,7 +577,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the changed
      *
-     * @param string $changed
+     * @param boolean $changed
      * @return void
      */
     public function setChanged($changed)
@@ -603,7 +588,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the valid
      *
-     * @return string $valid
+     * @return boolean $valid
      */
     public function getValid()
     {
@@ -613,7 +598,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the valid
      *
-     * @param string $valid
+     * @param boolean $valid
      * @return void
      */
     public function setValid($valid)
@@ -621,19 +606,35 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->valid = $valid;
     }
 
+    /**
+     * Gets the Issue Date
+     *
+     * @return string
+     */
     public function getDateIssued()
     {
         if (empty($this->dateIssued)) {
-            return null;
+            return '';
         }
         return $this->dateIssued;
     }
 
+    /**
+     * Sets the Issue Date
+     *
+     * @param string $dateIssued
+     * @return void
+     */
     public function setDateIssued($dateIssued)
     {
         $this->dateIssued = $dateIssued;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isDeleteAllowed()
     {
         return ($this->state == self::OBJECT_STATE_INACTIVE ||
@@ -641,6 +642,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         !empty($this->objectIdentifier);
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isActive()
     {
         return $this->state == self::OBJECT_STATE_ACTIVE ||
@@ -650,38 +656,73 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $this->state != self::OBJECT_STATE_LOCALLY_DELETED);
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isActivationChangeAllowed()
     {
         return $this->state == self::OBJECT_STATE_INACTIVE ||
         $this->state == self::OBJECT_STATE_ACTIVE;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isDeleteRemote()
     {
         return $this->state == self::OBJECT_STATE_LOCALLY_DELETED;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isRestoreRemote()
     {
         return $this->state == self::OBJECT_STATE_DELETED;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isActivateRemote()
     {
         return $this->state == self::OBJECT_STATE_INACTIVE;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isInactivateRemote()
     {
         return $this->state == self::OBJECT_STATE_ACTIVE;
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isIngestRemote()
     {
         return $this->state == self::OBJECT_STATE_NEW &&
         empty($this->objectIdentifier);
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function isUpdateRemote()
     {
         return ($this->state == self::OBJECT_STATE_ACTIVE ||
@@ -689,6 +730,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         !empty($this->objectIdentifier);
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function getIsNew()
     {
         return empty($this->objectIdentifier);

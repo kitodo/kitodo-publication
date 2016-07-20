@@ -56,13 +56,6 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $defaultValue = '';
 
     /**
-     * inputOptions
-     *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOptionList>
-     */
-    protected $inputOptions = null;
-
-    /**
      * __construct
      */
     public function __construct()
@@ -171,17 +164,6 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         }
 
         return array_combine($values, $labels);
-    }
-
-    /**
-     * Sets the inputOptions
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Eww\Dpf\Domain\Model\InputOptionList> $inputOptions
-     * @return void
-     */
-    public function setInputOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputOptions)
-    {
-        $this->inputOptions = $inputOptions;
     }
 
     public function setL10nParent($l10nParent)

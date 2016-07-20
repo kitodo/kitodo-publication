@@ -62,12 +62,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $inputField = 0;
 
-    /**
-     * selectOptions
-     *
-     * @var string
-     */
-    protected $selectOptions = '';
 
     const input    = 0;
     const textarea = 1;

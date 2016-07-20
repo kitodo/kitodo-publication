@@ -164,7 +164,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the arcive
      *
-     * @return string $archive
+     * @return boolean $archive
      */
     public function getArchive()
     {
@@ -174,7 +174,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the archive
      *
-     * @param string $archive
+     * @param boolean $archive
      * @return void
      */
     public function setArchive($archive)
@@ -227,7 +227,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the status
      *
-     * @return boolean $status
+     * @return string $status
      */
     public function getStatus()
     {
@@ -237,7 +237,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the status
      *
-     * @param boolean $status
+     * @param string $status
      * @return void
      */
     public function setStatus($status)
