@@ -9,47 +9,47 @@
 # LICENSE.txt file that was distributed with this source code.
 #
 # The TYPO3 project - inspiring people to share!
- 
+
 
 #
 # Table structure for table 'tx_dpf_domain_model_documenttype'
 #
 CREATE TABLE tx_dpf_domain_model_documenttype (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,
-	virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
+  name VARCHAR(255) DEFAULT '' NOT NULL,
+  display_name VARCHAR(255) DEFAULT '' NOT NULL,
+  virtual TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  metadata_page INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -58,51 +58,51 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
 #
 CREATE TABLE tx_dpf_domain_model_document (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	title varchar(1024) DEFAULT '' NOT NULL,
-	authors varchar(1024) DEFAULT '' NOT NULL,
-	xml_data text NOT NULL,
-	slub_info_data text NOT NULL,
-	document_type int(11) unsigned DEFAULT '0',
-	object_identifier varchar(255) DEFAULT '' NOT NULL,
-	reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
-	state varchar(255) DEFAULT '' NOT NULL,
-	transfer_status varchar(255) DEFAULT '' NOT NULL,
-	transfer_date int(11) DEFAULT '0' NOT NULL,
-	date_issued varchar(255) DEFAULT '' NOT NULL,
-	changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  title VARCHAR(1024) DEFAULT '' NOT NULL,
+  authors VARCHAR(1024) DEFAULT '' NOT NULL,
+  xml_data TEXT NOT NULL,
+  slub_info_data TEXT NOT NULL,
+  document_type INT(11) UNSIGNED DEFAULT '0',
+  object_identifier VARCHAR(255) DEFAULT '' NOT NULL,
+  reserved_object_identifier VARCHAR(255) DEFAULT '' NOT NULL,
+  state VARCHAR(255) DEFAULT '' NOT NULL,
+  transfer_status VARCHAR(255) DEFAULT '' NOT NULL,
+  transfer_date INT(11) DEFAULT '0' NOT NULL,
+  date_issued VARCHAR(255) DEFAULT '' NOT NULL,
+  changed TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  valid TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
 
-	file int(11) unsigned DEFAULT '0' NOT NULL,
+  file INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -111,47 +111,47 @@ CREATE TABLE tx_dpf_domain_model_document (
 #
 CREATE TABLE tx_dpf_domain_model_metadatagroup (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,
-	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	max_iteration int(11) DEFAULT '0' NOT NULL,
-        mapping_for_reading varchar(1024) DEFAULT '' NOT NULL,
-        mapping varchar(1024) DEFAULT '' NOT NULL,
-        mods_extension_mapping varchar(1024) DEFAULT '' NOT NULL,
-        mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
-        info_text text NOT NULL,
-        backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
-        metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
+  name VARCHAR(255) DEFAULT '' NOT NULL,
+  display_name VARCHAR(255) DEFAULT '' NOT NULL,
+  backend_only TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  mandatory TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  max_iteration INT(11) DEFAULT '0' NOT NULL,
+  mapping_for_reading VARCHAR(1024) DEFAULT '' NOT NULL,
+  mapping VARCHAR(1024) DEFAULT '' NOT NULL,
+  mods_extension_mapping VARCHAR(1024) DEFAULT '' NOT NULL,
+  mods_extension_reference VARCHAR(1024) DEFAULT '' NOT NULL,
+  info_text TEXT NOT NULL,
+  metadata_object INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -160,54 +160,54 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
 #
 CREATE TABLE tx_dpf_domain_model_metadataobject (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	metadatagroup int(11) unsigned DEFAULT '0' NOT NULL,
+  metadatagroup INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,
-	max_iteration int(11) DEFAULT '0' NOT NULL,
-	mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	data_type varchar(255) DEFAULT '' NOT NULL,
-	validation varchar(255) DEFAULT '' NOT NULL,
-	mapping varchar(255) DEFAULT '' NOT NULL,
-	mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	input_field int(11) DEFAULT '0' NOT NULL,
-	input_option_list int(11) unsigned DEFAULT '0',
-	default_value text NOT NULL,
-	fill_out_service varchar(255) DEFAULT '' NOT NULL,
-	backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  name VARCHAR(255) DEFAULT '' NOT NULL,
+  display_name VARCHAR(255) DEFAULT '' NOT NULL,
+  max_iteration INT(11) DEFAULT '0' NOT NULL,
+  mandatory TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  data_type VARCHAR(255) DEFAULT '' NOT NULL,
+  validation VARCHAR(255) DEFAULT '' NOT NULL,
+  mapping VARCHAR(255) DEFAULT '' NOT NULL,
+  mods_extension TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  input_field INT(11) DEFAULT '0' NOT NULL,
+  input_option_list INT(11) UNSIGNED DEFAULT '0',
+  default_value TEXT NOT NULL,
+  fill_out_service VARCHAR(255) DEFAULT '' NOT NULL,
+  backend_only TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  consent TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+  sorting INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -216,42 +216,42 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 #
 CREATE TABLE tx_dpf_domain_model_documenttransferlog (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	date int(11) DEFAULT '0' NOT NULL,
-	response text NOT NULL,
-	curl_error text NOT NULL,
-	action varchar(255) DEFAULT '' NOT NULL,
-	document_uid int(11) unsigned DEFAULT '0',
-	object_identifier varchar(255) DEFAULT '' NOT NULL,
+  date INT(11) DEFAULT '0' NOT NULL,
+  response TEXT NOT NULL,
+  curl_error TEXT NOT NULL,
+  action VARCHAR(255) DEFAULT '' NOT NULL,
+  document_uid INT(11) UNSIGNED DEFAULT '0',
+  object_identifier VARCHAR(255) DEFAULT '' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -260,46 +260,46 @@ CREATE TABLE tx_dpf_domain_model_documenttransferlog (
 #
 CREATE TABLE tx_dpf_domain_model_file (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	title varchar(255) DEFAULT '' NOT NULL,
-	label varchar(255) DEFAULT '' NOT NULL,
-	download tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	archive  tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	content_type varchar(255) DEFAULT '' NOT NULL,
-	link varchar(255) DEFAULT '' NOT NULL,
-	status varchar(255) DEFAULT '' NOT NULL,
-	datastream_identifier varchar(255) DEFAULT '' NOT NULL,
-	primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	document int(11) unsigned DEFAULT '0',
+  title VARCHAR(255) DEFAULT '' NOT NULL,
+  label VARCHAR(255) DEFAULT '' NOT NULL,
+  download TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  archive TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  content_type VARCHAR(255) DEFAULT '' NOT NULL,
+  link VARCHAR(255) DEFAULT '' NOT NULL,
+  status VARCHAR(255) DEFAULT '' NOT NULL,
+  datastream_identifier VARCHAR(255) DEFAULT '' NOT NULL,
+  primary_file TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  document INT(11) UNSIGNED DEFAULT '0',
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -308,84 +308,39 @@ CREATE TABLE tx_dpf_domain_model_file (
 #
 CREATE TABLE tx_dpf_domain_model_fedoraconnection (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	url varchar(255) DEFAULT '' NOT NULL,
-	user varchar(255) DEFAULT '' NOT NULL,
-	password varchar(255) DEFAULT '' NOT NULL,
+  url VARCHAR(255) DEFAULT '' NOT NULL,
+  user VARCHAR(255) DEFAULT '' NOT NULL,
+  password VARCHAR(255) DEFAULT '' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
-
-);
-
-#
-# Table structure for table 'tx_dpf_domain_model_metadatapage'
-#
-CREATE TABLE tx_dpf_domain_model_metadatapage (
-
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-
-	documenttype int(11) unsigned DEFAULT '0' NOT NULL,
-
-	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,
-	page_number int(11) DEFAULT '0' NOT NULL,
-        backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
-
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
-
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
 
@@ -394,7 +349,52 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 #
 CREATE TABLE tx_dpf_domain_model_metadatapage (
 
-	documenttype  int(11) unsigned DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
+
+  documenttype INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+
+  name VARCHAR(255) DEFAULT '' NOT NULL,
+  display_name VARCHAR(255) DEFAULT '' NOT NULL,
+  page_number INT(11) DEFAULT '0' NOT NULL,
+  metadata_group INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  backend_only TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
+
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_dpf_domain_model_metadatapage'
+#
+CREATE TABLE tx_dpf_domain_model_metadatapage (
+
+  documenttype INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
 );
 
@@ -403,7 +403,7 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 #
 CREATE TABLE tx_dpf_domain_model_metadataobject (
 
-	metadatagroup  int(11) unsigned DEFAULT '0' NOT NULL,
+  metadatagroup INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
 );
 
@@ -411,13 +411,13 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
 # Table structure for table 'tx_dpf_metadatapage_metadatagroup_mm'
 #
 CREATE TABLE tx_dpf_metadatapage_metadatagroup_mm (
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  uid_local INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  uid_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  sorting INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  sorting_foreign INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign)
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
 );
 
 #
@@ -425,91 +425,90 @@ CREATE TABLE tx_dpf_metadatapage_metadatagroup_mm (
 #
 CREATE TABLE tx_dpf_domain_model_client (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	project varchar(255) DEFAULT '' NOT NULL,
-	client varchar(255) DEFAULT '' NOT NULL,
-	network_initial varchar(255) DEFAULT '' NOT NULL,
-	library_identifier varchar(255) DEFAULT '' NOT NULL,
-	owner_id varchar(255) DEFAULT '' NOT NULL,
-	admin_email varchar(255) DEFAULT '' NOT NULL,
-	replace_niss_part tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	niss_part_search varchar(255) DEFAULT '' NOT NULL,
-	niss_part_replace varchar(255) DEFAULT '' NOT NULL,
+  project VARCHAR(255) DEFAULT '' NOT NULL,
+  client VARCHAR(255) DEFAULT '' NOT NULL,
+  network_initial VARCHAR(255) DEFAULT '' NOT NULL,
+  library_identifier VARCHAR(255) DEFAULT '' NOT NULL,
+  owner_id VARCHAR(255) DEFAULT '' NOT NULL,
+  admin_email VARCHAR(255) DEFAULT '' NOT NULL,
+  replace_niss_part TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+  niss_part_search VARCHAR(255) DEFAULT '' NOT NULL,
+  niss_part_replace VARCHAR(255) DEFAULT '' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
-
 
 #
 # Table structure for table 'tx_dpf_domain_model_inputoptionlist'
 #
 CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
+  uid INT(11) NOT NULL AUTO_INCREMENT,
+  pid INT(11) DEFAULT '0' NOT NULL,
 
-	metadataObject int(11) unsigned DEFAULT '0' NOT NULL,
+  metadataObject INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	name varchar(255) DEFAULT '' NOT NULL,
-	display_name varchar(255) DEFAULT '' NOT NULL,
-	value_list text NOT NULL,
-	value_label_list text NOT NULL,
-	default_value text NOT NULL,
+  name VARCHAR(255) DEFAULT '' NOT NULL,
+  display_name VARCHAR(255) DEFAULT '' NOT NULL,
+  value_list TEXT NOT NULL,
+  value_label_list TEXT NOT NULL,
+  default_value TEXT NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+  tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+  starttime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+  endtime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
+  t3ver_oid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_id INT(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+  t3ver_label VARCHAR(255) DEFAULT '' NOT NULL,
+  t3ver_state TINYINT(4) DEFAULT '0' NOT NULL,
+  t3ver_stage INT(11) DEFAULT '0' NOT NULL,
+  t3ver_count INT(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp INT(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id INT(11) DEFAULT '0' NOT NULL,
+  sorting INT(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
+  sys_language_uid INT(11) DEFAULT '0' NOT NULL,
+  l10n_parent INT(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource MEDIUMBLOB,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid, t3ver_wsid),
+  KEY language (l10n_parent, sys_language_uid)
 
 );
