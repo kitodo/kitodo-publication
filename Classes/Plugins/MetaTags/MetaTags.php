@@ -146,6 +146,8 @@ class MetaTags extends \tx_dlf_plugin
 
                         $outArray['citation_title'][] = $values[0];
 
+                        $GLOBALS['TSFE']->page['title'] =  $values[0];
+
                     }
 
                     break;
@@ -177,6 +179,28 @@ class MetaTags extends \tx_dlf_plugin
 
                     // replace uid with URI to dpf API
                     $outArray['citation_pdf_url'][] = $cObj->typoLink_URL($conf);
+
+                    break;
+
+                case 'abstract_ger':
+
+                    $lang = $GLOBALS['TSFE']->lang;
+
+                    if (is_array($values) && $GLOBALS['TSFE']->lang == 'de') {
+
+                        $outArray['description'][] = $values[0];
+
+                    }
+
+                    break;
+
+                case 'abstract_eng':
+
+                    if (is_array($values) && $GLOBALS['TSFE']->lang == 'en') {
+
+                        $outArray['description'][] = $values[0];
+
+                    }
 
                     break;
 
