@@ -138,6 +138,8 @@ class RelatedListTool extends \tx_dlf_plugin
 
         foreach ($items as $key => $value) {
 
+            $value->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+
             $title = (string) $value->xpath('mods:titleInfo/mods:title')[0];
 
             $type = (string) $value->xpath('mods:identifier/@type')[0];
