@@ -28,9 +28,10 @@
 
 #content .tx-dpf-tab-container {
     position: absolute;
-    top: -53px;
-    /* right:-90px; */
+    top: -80px;
+    right: -30px;
     z-index: 3000;
+    width: 613px;
 }
 
 #content .tx-dpf-tab-container.sticky {
