@@ -349,10 +349,43 @@ class MetsExporter
                 // build xml from second xpath part
                 $xml = $this->parseXPath($newPath[1]);
 
+                // check if xpath [] are nested
+                $search = '/(\/\w*:\w*)\[(.*)\]/';
+                preg_match($search, $newPath[1], $match);
+                preg_match($search, $match[2], $secondMatch);
+                // first part nested xpath
+                if ($match[2] && $secondMatch[2]) {
+                    $nested = $match[2]; //  $match[1].'/'
+
+                    $nestedXml = $this->parseXPath($nested);
+
+                    // object xpath without nested element []
+                    $newPath[1] = str_replace('['.$match[2].']', '', $newPath[1]);
+
+                    $xml = $this->parseXPath($newPath[1]);
+
+                }
+                
                 $docXML = new \DOMDocument();
                 $docXML->loadXML($this->wrapMods($xml));
 
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+
+                // second part nested xpath
+                if ($match[2] && $secondMatch[2]) {
+                    // import node from nested
+                    $docXMLNested = new \DOMDocument();
+                    $docXMLNested->loadXML($this->wrapMods($nestedXml));
+
+                    $xPath = \EWW\Dpf\Helper\XPath::create($docXML);
+
+                    $nodeList = $xPath->query('/mods:mods' . $match[1]);
+                    $node = $nodeList->item(0);
+
+                    $importNode = $docXML->importNode($docXMLNested->getElementsByTagName("mods")->item(0)->firstChild, true);
+
+                    $node->appendChild($importNode);
+                }
 
                 $domNode = $domXPath->query('/mods:mods/' . $path);
 
@@ -377,10 +410,41 @@ class MetsExporter
                 // parse second xpath part
                 $xml2 = $this->parseXPath($path . $newPath[1]);
 
+                // check if xpath [] are nested
+                $search = '/(\/\w*:\w*)\[(.*)\]/';
+                preg_match($search, $newPath[1], $match);
+                preg_match($search, $match[2], $secondMatch);
+                // first part nested xpath
+                if ($match[2] && $secondMatch[2]) {
+                    $nested = $match[2]; //  $match[1].'/'
+
+                    $nestedXml = $this->parseXPath($nested);
+
+                    // object xpath without nested element []
+                    $newPath[1] = str_replace('['.$match[2].']', '', $newPath[1]);
+
+                    $xml2 = $this->parseXPath($path . $newPath[1]);
+                }
+
                 $doc2 = new \DOMDocument();
                 $doc2->loadXML($this->wrapMods($xml2));
 
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
+
+                  // second part nested xpath
+                if ($match[2] && $secondMatch[2]) {
+                    // import node from nested
+                    $docXMLNested = new \DOMDocument();
+                    $docXMLNested->loadXML($this->wrapMods($nestedXml));
+
+                    $xPath = \EWW\Dpf\Helper\XPath::create($doc2);
+                    $nodeList = $xPath->query('/mods:mods/' . $path . $match[1]);
+                    $node = $nodeList->item(0);
+
+                    $importNode = $doc2->importNode($docXMLNested->getElementsByTagName("mods")->item(0)->firstChild, true);
+
+                    $node->appendChild($importNode);
+                }
 
                 $domNode2 = $domXPath2->query('/mods:mods/' . $path)->item(0)->childNodes->item(0);
 
