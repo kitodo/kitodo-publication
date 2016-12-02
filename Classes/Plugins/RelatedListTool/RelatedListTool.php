@@ -146,15 +146,18 @@ class RelatedListTool extends \tx_dlf_plugin
 
             $docId = (string) $value->xpath('mods:identifier[@type="' . $type . '"]')[0];
 
+            $order = (string) $value->xpath('mods:part/@order')[0];
+
             $tempArray          = array();
             $tempArray['type']  = $type;
             $tempArray['docId'] = $docId;
             $tempArray['title'] = $title;
 
-            $relatedItems[] = $tempArray;
+            $relatedItems[$order] = $tempArray;
 
         }
 
+        ksort($relatedItems);
         return $relatedItems;
     }
 
