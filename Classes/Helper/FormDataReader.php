@@ -111,7 +111,7 @@ class FormDataReader
     public function __construct()
     {
 
-        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
+        $uploadFileUrl = $this->objectManager->get('EWW\\Dpf\\Helper\\UploadFileUrl');
 
         $this->uploadBaseUrl = $uploadFileUrl->getUploadUrl() . "/";
 

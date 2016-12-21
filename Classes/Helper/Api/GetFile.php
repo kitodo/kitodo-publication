@@ -49,16 +49,26 @@ class GetFile
      */
     protected $documentRepository;
 
+    /**
+    * clientConfigurationManager
+    * 
+    * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+    * @inject
+    */
+    protected $clientConfigurationManager;
+
+
+
     public function attachement($content, $conf)
     {
 
         $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
-
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+        
+        $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
 
         switch ($piVars['action']) {
             case 'mets':
-                $path = rtrim('http://' . $extConf['fedoraHost'],"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
                 break;
             case 'preview':
 
@@ -92,7 +102,7 @@ class GetFile
                 return $metsXml;
 
             case 'attachment':
-                $path = rtrim('http://' . $extConf['fedoraHost'], "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
+                $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
                 break;
             default:
                 break;
