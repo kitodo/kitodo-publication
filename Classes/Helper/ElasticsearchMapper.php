@@ -25,17 +25,26 @@ class ElasticsearchMapper
     protected $documentRepository = null;
 
     /**
+     * clientConfigurationManager
+     * 
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+     * @inject
+     */
+    protected $clientConfigurationManager;
+
+
+    /**
      * document2json
      * @param  Document $document [description]
      * @return json           Elasticsearch json format
      */
     public function getElasticsearchJson($document)
     {
-        // document 2 json
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-
+        // document 2 json        
+        $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
+        
         // load xslt from fedora
-        $xsltDoc = 'http://' . $confArr['fedoraHost'] . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
+        $xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
 
         // xslt
         $xsl = new \DOMDocument;
