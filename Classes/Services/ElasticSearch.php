@@ -40,10 +40,11 @@ class ElasticSearch
      */
     public function __construct()
     {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+        $clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
 
-        $confArr      = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $this->server = $confArr['elasticSearchHost'];
-        $this->port   = $confArr['elasticSearchPort'];
+        $this->server = $clientConfigurationManager->getElasticSearchHost();
+        $this->port   = $clientConfigurationManager->getElasticSearchPort();
 
         // initialize elasticsearch lib
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');

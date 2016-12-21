@@ -35,12 +35,12 @@ class FedoraRepository implements Repository
     protected $documentTransferLogRepository;
 
     /**
-     * clientRepository
-     *
-     * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
-     */
-    protected $clientRepository;
+    * clientConfigurationManager
+    * 
+    * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+    * @inject
+    */
+    protected $clientConfigurationManager;
 
     /**
      * objectManager
@@ -49,32 +49,11 @@ class FedoraRepository implements Repository
      * @inject
      */
     protected $objectManager;
-
-    protected $swordHost;
-
-    protected $swordUser;
-
-    protected $swordPassword;
-
-    protected $fedoraHost;
-
+   
     protected $response;
-
-    protected $ownerId;
-
+    
     const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
     const QUCOSA_TYPE    = 'application/vnd.qucosa.mets+xml';
-
-    public function __construct()
-    {
-        $confArr              = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $this->swordHost      = $confArr['swordHost'];
-        $this->swordUser      = $confArr['swordUser'];
-        $this->swordPassword  = $confArr['swordPassword'];
-        $this->fedoraHost     = $confArr['fedoraHost'];
-        $this->fedoraUser     = $confArr['fedoraUser'];
-        $this->fedoraPassword = $confArr['fedoraPassword'];
-    }
 
     /**
      * Saves a new document into the Fedora repository
@@ -86,10 +65,10 @@ class FedoraRepository implements Repository
     {
 
         try {
-            $response = Request::post($this->swordHost . "/sword/" . $this->getSWORDCollection())
+            $response = Request::post($this->clientConfigurationManager->getSwordHost() . "/sword/" . $this->getSWORDCollection())
                 ->sendsXml()
                 ->body($metsXml)
-                ->authenticateWith($this->swordUser, $this->swordPassword)
+                ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
                 ->sendsType(FedoraRepository::QUCOSA_TYPE)
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->addHeader('Slug', $document->getReservedObjectIdentifier())
@@ -123,10 +102,10 @@ class FedoraRepository implements Repository
         $remoteId = $document->getObjectIdentifier();
 
         try {
-            $response = Request::put($this->swordHost . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId)
+            $response = Request::put($this->clientConfigurationManager->getSwordHost() . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId)
                 ->sendsXml()
                 ->body($metsXml)
-                ->authenticateWith($this->swordUser, $this->swordPassword)
+                ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
                 ->sendsType(FedoraRepository::QUCOSA_TYPE)
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->send();
@@ -154,8 +133,8 @@ class FedoraRepository implements Repository
     {
 
         try {
-            $response = Request::get($this->fedoraHost . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")
-                ->authenticateWith($this->fedoraUser, $this->fedoraPassword)
+            $response = Request::get($this->clientConfigurationManager->getFedoraHost() . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")
+                ->authenticateWith($this->clientConfigurationManager->getFedoraUser(), $this->clientConfigurationManager->getFedoraPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->send();
 
@@ -184,8 +163,8 @@ class FedoraRepository implements Repository
     {
 
         try {
-            $response = Request::get($this->fedoraHost . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")
-                ->authenticateWith($this->fedoraUser, $this->fedoraPassword)
+            $response = Request::get($this->clientConfigurationManager->getFedoraHost() . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")
+                ->authenticateWith($this->clientConfigurationManager->getFedoraUser(), $this->clientConfigurationManager->getFedoraPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
             //->addHeader()
                 ->send();
@@ -220,8 +199,8 @@ class FedoraRepository implements Repository
         $state = ($state) ? "?" . $state : "";
 
         try {
-            $response = Request::delete($this->swordHost . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId . $state)
-                ->authenticateWith($this->swordUser, $this->swordPassword)
+            $response = Request::delete($this->clientConfigurationManager->getSwordHost() . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId . $state)
+                ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->send();
 
@@ -266,23 +245,18 @@ class FedoraRepository implements Repository
 
     protected function getOwnerId()
     {
-
-        if (empty($this->ownerId)) {
-            $client        = $this->clientRepository->findAll()->current();
-            $this->ownerId = $client->getOwnerId();
-        }
-
-        if (empty($this->ownerId)) {
+        $ownerId = $this->clientConfigurationManager->getOwnerId();
+        if (empty($ownerId)) {
             throw new \Exception('Owner id can not be empty or null!');
         }
 
-        return $this->ownerId;
+        return $ownerId;
     }
 
     protected function getSWORDCollection()
     {
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        return trim($confArr['swordCollectionNamespace']) . ":" . trim($this->getOwnerId());
+        $swordCollectionNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();        
+        return $swordCollectionNamespace . ":" . trim($this->getOwnerId());
     }
 
 }

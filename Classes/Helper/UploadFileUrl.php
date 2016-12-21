@@ -14,14 +14,25 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+
+
 class UploadFileUrl
 {
 
-    public function getBaseUrl()
-    {
+    /**
+    * clientConfigurationManager
+    * 
+    * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+    * @inject
+    */
+    protected $clientConfigurationManager;
 
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-        $baseUrl = trim($confArr['uploadDomain'], "/ ");
+
+    public function getBaseUrl()
+    {        
+        $uploadDomain = $this->clientConfigurationManager->getUploadDomain();
+
+        $baseUrl = trim($uploadDomain, "/ ");
 
         if (empty($baseUrl)) {
             $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === false ? 'http://' : 'https://';
@@ -32,11 +43,10 @@ class UploadFileUrl
     }
 
     public function getDirectory()
-    {
+    {       
+        $uploadDirectory = $this->clientConfigurationManager->getUploadDirectory();
 
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-
-        $uploadDirectory = trim($confArr['uploadDirectory'], "/ ");
+        $uploadDirectory = trim($uploadDirectory, "/ ");
 
         $uploadDir = empty($uploadDirectory) ? "uploads/tx_dpf" : $uploadDirectory;
 

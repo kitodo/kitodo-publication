@@ -42,9 +42,11 @@ class ElasticsearchRepository implements Repository
 
     public function __construct()
     {
-        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-
-        $this->host = $confArr['elasticSearchHost'] . ':' . $confArr['elasticSearchPort'];
+        
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+        $clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
+    
+        $this->host = $clientConfigurationManager->getElasticSearchHost() . ':' . $clientConfigurationManager->getElasticSearchPort();
 
         $this->index = 'fedora';
 
