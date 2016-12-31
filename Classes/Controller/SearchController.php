@@ -203,7 +203,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $client = $this->clientRepository->findAll()->current();
 
-        // dont return query if keys not existing
+        // don't return query if keys not existing
         if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
             return null;
         }
@@ -221,7 +221,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
 
         // extra information
-        // dont use it for elastic query
+        // don't use it for elastic query
         // will be removed later
         $query['extra']['search'] = $searchText;
 

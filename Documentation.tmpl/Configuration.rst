@@ -10,7 +10,7 @@ Client storage folder
 =====================
 
 Add a new system folder inside the pagetree of the client.
-If you want the data to be stored in seperate folders, you 
+If you want the data to be stored in separate folders, you
 need to add some subfolders:
 
 - clientstoragefolder (pid=10)
