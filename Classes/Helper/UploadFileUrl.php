@@ -21,15 +21,19 @@ class UploadFileUrl
 
     /**
     * clientConfigurationManager
-    * 
-    * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
-    * @inject
+    *
+    * @var \EWW\Dpf\Configuration\ClientConfigurationManager
     */
     protected $clientConfigurationManager;
 
+    public function __construct() {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+        $this->clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
+    }
+
 
     public function getBaseUrl()
-    {        
+    {
         $uploadDomain = $this->clientConfigurationManager->getUploadDomain();
 
         $baseUrl = trim($uploadDomain, "/ ");
@@ -43,7 +47,7 @@ class UploadFileUrl
     }
 
     public function getDirectory()
-    {       
+    {
         $uploadDirectory = $this->clientConfigurationManager->getUploadDirectory();
 
         $uploadDirectory = trim($uploadDirectory, "/ ");
