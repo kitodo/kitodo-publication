@@ -240,7 +240,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
                     array('', 0),
                 ),
                 'foreign_table'       => 'tx_dpf_domain_model_inputoptionlist',
-                'foreign_table_where' => ' AND (tx_dpf_domain_model_inputoptionlist.pid=###PAGE_TSCONFIG_ID###) AND (tx_dpf_domain_model_inputoptionlist.sys_language_uid = 0)',
+                'foreign_table_where' => ' AND (tx_dpf_domain_model_inputoptionlist.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_inputoptionlist.sys_language_uid = 0)',
                 'minitems'            => 0,
                 'maxitems'            => 1,
             ),
