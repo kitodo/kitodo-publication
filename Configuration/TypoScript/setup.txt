@@ -24,17 +24,6 @@ plugin.tx_dpf {
 		storagePid = {$plugin.tx_dpf.persistence.storagePid}
 
 		recursive = {$plugin.tx_dpf.persistence.recursive}
-
-                classes {
-                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentStoragePid}
-                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$plugin.tx_dpf.persistence.fileStoragePid}
-                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}
-                    EWW\Dpf\Domain\Model\DocumentType.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTypeStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataObjectStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataGroupStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$plugin.tx_dpf.persistence.metadataPageStoragePid}
-                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$plugin.tx_dpf.persistence.storagePid}
-                }
 	}
 	features {
 		# uncomment the following line to enable the new Property Mapper.
@@ -135,18 +124,6 @@ module.tx_dpf {
 		storagePid = {$module.tx_dpf.persistence.storagePid}
 
                 recursive = {$module.tx_dpf.persistence.recursive}
-
-                classes {
-                    EWW\Dpf\Domain\Model\Document.newRecordStoragePid = {$module.tx_dpf.persistence.documentStoragePid}
-                    EWW\Dpf\Domain\Model\File.newRecordStoragePid = {$module.tx_dpf.persistence.fileStoragePid}
-                    EWW\Dpf\Domain\Model\DocumentTransferLog.newRecordStoragePid = {$plugin.tx_dpf.persistence.documentTransferLogStoragePid}
-                    EWW\Dpf\Domain\Model\DocumentType.newRecordStoragePid = {$module.tx_dpf.persistence.documentTypeStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataObject.newRecordStoragePid = {$module.tx_dpf.persistence.metadataObjectStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataGroup.newRecordStoragePid = {$module.tx_dpf.persistence.metadataGroupStoragePid}
-                    EWW\Dpf\Domain\Model\MetadataPage.newRecordStoragePid = {$module.tx_dpf.persistence.metadataPageStoragePid}
-                    #EWW\Dpf\Domain\Model\InputOptionList.newRecordStoragePid = {$module.tx_dpf.persistence.storagePid}
-                }
-
 	}
 	view {
 		templateRootPath = {$module.tx_dpf.view.templateRootPath}

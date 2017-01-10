@@ -156,7 +156,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
             'config'  => array(
                 'type'                => 'select',
                 'foreign_table'       => 'tx_dpf_domain_model_documenttype',
-                'foreign_table_where' => '  AND tx_dpf_domain_model_documenttype.pid=###PAGE_TSCONFIG_ID### AND tx_dpf_domain_model_documenttype.sys_language_uid = 0',
+                'foreign_table_where' => '  AND tx_dpf_domain_model_documenttype.pid=###CURRENT_PID### AND tx_dpf_domain_model_documenttype.sys_language_uid = 0',
                 'minitems'            => 0,
                 'maxitems'            => 1,
             ),

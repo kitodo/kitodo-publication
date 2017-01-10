@@ -24,13 +24,6 @@ plugin.tx_dpf {
 		recursive = 1
 		# cat=module.tx_dpf/link; type=int+; label=Default storage PID
 		storagePid =
-		documentStoragePid =
-		fileStoragePid =
-		documentTransferLogStoragePid =
-		documentTypeStoragePid =
-		metadataObjectStoragePid =
-		metadataGroupStoragePid =
-		metadataPageStoragePid =
 	}
 
         settings {
@@ -59,13 +52,6 @@ module.tx_dpf {
 		recursive = 1
 		# cat=module.tx_dpf/link; type=int+; label=Default storage PID
 		storagePid =
-		documentStoragePid =
-		fileStoragePid =
-		documentTransferLogStoragePid =
-		documentTypeStoragePid =
-		metadataObjectStoragePid =
-		metadataGroupStoragePid =
-		metadataPageStoragePid =
 	}
 
         settings {
