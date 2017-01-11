@@ -363,7 +363,7 @@ class MetsExporter
                 $nodeAppendModsData = $this->xmlData->importNode($node, true);
                 $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
             } else {
-                // first xpath doesnt exist
+                // first xpath doesn't exist
                 // parse first xpath part
                 $xml1 = $this->parseXPath($newPath[0]);
 
@@ -470,7 +470,7 @@ class MetsExporter
                 $nodeAppendModsData = $this->xmlData->importNode($node, true);
                 $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
             } else {
-                // first xpath doesnt exist
+                // first xpath doesn't exist
                 // parse first xpath part
                 $xml1 = $this->parseXPath($newPath[0]);
 
