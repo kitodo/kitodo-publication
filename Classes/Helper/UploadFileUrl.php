@@ -20,10 +20,10 @@ class UploadFileUrl
 {
 
     /**
-    * clientConfigurationManager
-    *
-    * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-    */
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     */
     protected $clientConfigurationManager;
 
     public function __construct() {
