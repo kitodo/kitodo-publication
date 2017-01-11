@@ -19,10 +19,10 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl']['requestUpdate'] = 'replac
 $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
     'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl'],
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password, elastic_search_host, elastic_search_port, upload_directory, upload_domain'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace, --div--;Fedora, fedora_host, fedora_user, fedora_password, --div--;Elastic search, elastic_search_host, elastic_search_port, --div--;Upload, upload_directory, upload_domain, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -199,6 +199,127 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
+            ),
+        ),        
+        'sword_host' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.sword_host',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'sword_user' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.sword_user',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'sword_password' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.sword_password',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'sword_collection_namespace' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.sword_collection_namespace',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'fedora_host' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.fedora_host',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'fedora_user' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.fedora_user',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'fedora_password' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.fedora_password',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'elastic_search_host' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.elastic_search_host',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'elastic_search_port' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.elastic_search_port',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'upload_directory' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.upload_directory',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'upload_domain' => array(
+            'exclude'      => 1,
+            'l10n_mode'    => 'exclude',
+            'l10n_display' => 'defaultAsReadonly',
+            'label'        => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.upload_domain',
+            'config'       => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
             ),
         ),
 

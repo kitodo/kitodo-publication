@@ -438,6 +438,18 @@ CREATE TABLE tx_dpf_domain_model_client (
   niss_part_search VARCHAR(255) DEFAULT '' NOT NULL,
   niss_part_replace VARCHAR(255) DEFAULT '' NOT NULL,
 
+  sword_host VARCHAR(255) DEFAULT '' NOT NULL,
+  sword_user VARCHAR(255) DEFAULT '' NOT NULL,
+  sword_password VARCHAR(255) DEFAULT '' NOT NULL,
+  sword_collection_namespace VARCHAR(255) DEFAULT '' NOT NULL,
+  fedora_host VARCHAR(255) DEFAULT '' NOT NULL,
+  fedora_user VARCHAR(255) DEFAULT '' NOT NULL,
+  fedora_password VARCHAR(255) DEFAULT '' NOT NULL,
+  elastic_search_host VARCHAR(255) DEFAULT '' NOT NULL,
+  elastic_search_port VARCHAR(255) DEFAULT '' NOT NULL,
+  upload_directory VARCHAR(255) DEFAULT '' NOT NULL,
+  upload_domain VARCHAR(255) DEFAULT '' NOT NULL,
+
   tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
   crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
   cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,

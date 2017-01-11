@@ -270,7 +270,40 @@
                         <trans-unit id="tx_dpf_domain_model_client.replace_niss_part">
 				<source>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_inputoptionlist">
+			<trans-unit id="tx_dpf_domain_model_client.sword_host">
+				<source>Host address</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.sword_user">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.sword_password">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.sword_collection_namespace">
+				<source>Collection namespace</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.fedora_host">
+				<source>Host address</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.fedora_user">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.fedora_password">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.elastic_search_host">
+				<source>Host address </source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.elastic_search_port">
+				<source>Port</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.upload_directory">
+				<source>Directory path</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.upload_domain">
+				<source>Domain</source>
+			</trans-unit>
+            <trans-unit id="tx_dpf_domain_model_inputoptionlist">
 				<source>Input Option List</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_inputoptionlist.name">

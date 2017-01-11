@@ -31,7 +31,9 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         parent::initializeView($view);
 
-        $client = $this->clientRepository->findAll()->current();
+        $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+
+        if ($selectedPageId) $client = $this->clientRepository->findAll()->current();
 
         if (!$client) {
             $this->addFlashMessage(

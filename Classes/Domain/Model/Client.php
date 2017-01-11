@@ -87,6 +87,84 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $replaceNissPart = false;
 
     /**
+     * swordHost
+     *
+     * @var string
+     */
+    protected $swordHost = '';
+
+    /**
+     * swordUser
+     *
+     * @var string
+     */
+    protected $swordUser = '';
+
+    /**
+     * swordPassword
+     *
+     * @var string
+     */
+    protected $swordPassword = '';
+
+    /**
+     * swordCollectionNamespace
+     *
+     * @var string
+     */
+    protected $swordCollectionNamespace = '';
+
+    /**
+     * fedoraHost
+     *
+     * @var string
+     */
+    protected $fedoraHost = '';
+
+    /**
+     * fedoraUser
+     *
+     * @var string
+     */
+    protected $fedoraUser = '';
+
+    /**
+     * fedoraPassword
+     *
+     * @var string
+     */
+    protected $fedoraPassword = '';
+
+    /**
+     * elasticSearchHost
+     *
+     * @var string
+     */
+    protected $elasticSearchHost = '';
+
+    /**
+     * elasticSearchPort
+     *
+     * @var string
+     */
+    protected $elasticSearchPort = '';
+
+    /**
+     * uploadDirectory
+     *
+     * @var string
+     */
+    protected $uploadDirectory = '';
+
+    /**
+     * uploadDomain
+     *
+     * @var string
+     */
+    protected $uploadDomain = '';
+
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -272,6 +350,237 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setReplaceNissPart($replaceNissPart)
     {
         $this->replaceNissPart = $replaceNissPart;
+    }
+
+    /**
+     * Returns the swordHost
+     *
+     * @return string $swordHost
+     */
+    public function getSwordHost()
+    {
+        return $this->swordHost;
+    }
+
+    /**
+     * Sets the swordHost
+     *
+     * @var string $swordHost
+     * @return void
+     */
+    public function setSwordHost($swordHost)
+    {
+        $this->swordHost = $swordHost;
+    }
+
+    /**
+     * Returns the swordUser
+     *
+     * @return string $swordUser
+     */
+    public function getSwordUser()
+    {
+        return $this->swordUser;
+    }
+
+    /**
+     * Sets the swordUser
+     *
+     * @var string $swordUser
+     * @return void
+     */
+    public function setSwordUser($swordUser)
+    {
+        $this->swordUser = $swordUser;
+    }
+
+    /**
+     * Returns the swordPassword
+     *
+     * @return string $swordPassword
+     */
+    public function getSwordPassword()
+    {
+        return $this->swordPassword;
+    }
+    
+    /**
+     * Sets the swordPassword
+     *
+     * @var string $swordPassword
+     * @return void
+     */
+    public function setSwordPassword($swordPassword)
+    {
+        $this->swordPassword = $swordPassword;
+    }
+
+    /**
+     * Returns the swordCollectionNamespace
+     *
+     * @return string $swordCollectionNamespace
+     */
+    public function getSwordCollectionNamespace()
+    {
+        return $this->swordCollectionNamespace;
+    }
+
+    /**
+     * Sets the swordCollectionNamespace
+     *
+     * @var string $swordCollectionNamespace
+     * @return void
+     */
+    public function setSwordCollectionNamespace($swordCollectionNamespace)
+    {
+        $this->swordCollectionNamespace = $swordCollectionNamespace;
+    }
+
+    /**
+     * Returns the fedoraHost
+     *
+     * @return string $fedoraHost
+     */
+    public function getFedoraHost()
+    {
+        return $this->fedoraHost;
+    }
+
+    /**
+     * Sets the fedoraHost
+     *
+     * @var string $fedoraHost
+     * @return void
+     */
+    public function setFedoraHost($fedoraHost)
+    {
+        $this->fedoraHost = $fedoraHost;
+    }
+
+    /**
+     * Returns the fedoraUser
+     *
+     * @return string $fedoraUser
+     */
+    public function getFedoraUser()
+    {
+        return $this->fedoraUser;
+    }
+
+    /**
+     * Sets the fedoraUser
+     *
+     * @var string $fedoraUser
+     * @return void
+     */
+    public function setFedoraUser($fedoraUser)
+    {
+        $this->fedoraUser = $fedoraUser;
+    }
+
+    /**
+     * Returns the fedoraPassword
+     *
+     * @return string $fedoraPassword
+     */
+    public function getFedoraPassword()
+    {
+        return $this->fedoraPassword;
+    }
+
+    /**
+     * Sets the fedoraPassword
+     *
+     * @var string $fedoraPassword
+     * @return void
+     */
+    public function setFedoraPassword($fedoraPassword)
+    {
+        $this->fedoraPassword = $fedoraPassword;
+    }
+
+    /**
+     * Returns the elasticSearchHost
+     *
+     * @return string $elasticSearchHost
+     */
+    public function getElasticSearchHost()
+    {
+        return $this->elasticSearchHost;
+    }
+
+    /**
+     * Sets the elasticSearchHost
+     *
+     * @var string $elasticSearchHost
+     * @return void
+     */
+    public function setElasticSearchHost($elasticSearchHost)
+    {
+        $this->elasticSearchHost = $elasticSearchHost;
+    }
+
+    /**
+     * Returns the elasticSearchPort
+     *
+     * @return string $elasticSearchPort
+     */
+    public function getElasticSearchPort()
+    {
+        return $this->elasticSearchPort;
+    }
+
+    /**
+     * Sets the elasticSearchPort
+     *
+     * @var string $elasticSearchPort
+     * @return void
+     */
+    public function setElasticSearchPort($elasticSearchPort)
+    {
+        $this->elasticSearchPort = $elasticSearchPort;
+    }
+
+    /**
+     * Returns the uploadDirectory
+     *
+     * @return string $uploadDirectory
+     */
+    public function getUploadDirectory()
+    {
+        return $this->uploadDirectory;
+    }
+
+    /**
+     * Sets the uploadDirectory
+     *
+     * @var string $uploadDirectory
+     * @return void
+     */
+    public function setUploadDirectory($uploadDirectory)
+    {
+        $this->uploadDirectory = $uploadDirectory;
+    }
+
+    /**
+     * Returns the uploadDomain
+     *
+     * @return string $uploadDomain
+     */
+    public function getUploadDomain()
+    {
+        return $this->uploadDomain;
+    }
+
+    /**
+     * Sets the uploadDomain
+     *
+     * @var string $uploadDomain
+     * @return void
+     */
+    public function setUploadDomain($uploadDomain)
+    {
+        $this->uploadDomain = $uploadDomain;
     }
 
 }
