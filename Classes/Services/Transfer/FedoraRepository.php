@@ -36,8 +36,8 @@ class FedoraRepository implements Repository
 
     /**
     * clientConfigurationManager
-    * 
-    * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+    *
+    * @var \EWW\Dpf\Configuration\ClientConfigurationManager
     * @inject
     */
     protected $clientConfigurationManager;
@@ -49,9 +49,9 @@ class FedoraRepository implements Repository
      * @inject
      */
     protected $objectManager;
-   
+
     protected $response;
-    
+
     const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
     const QUCOSA_TYPE    = 'application/vnd.qucosa.mets+xml';
 
@@ -255,8 +255,7 @@ class FedoraRepository implements Repository
 
     protected function getSWORDCollection()
     {
-        $swordCollectionNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();        
-        return $swordCollectionNamespace . ":" . trim($this->getOwnerId());
+        return $this->clientConfigurationManager->getSwordCollectionNamespace();
     }
 
 }
