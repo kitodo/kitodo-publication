@@ -299,7 +299,7 @@ class FormDataReader
         $file->setLink($this->uploadBaseUrl . $fileName);
         $file->setPrimaryFile($primary);
 
-        if ($rimary) {
+        if ($primary) {
             if ($file->getDatastreamIdentifier()) {
                 $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
             } else {
@@ -308,8 +308,6 @@ class FormDataReader
         } else {
             $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
         }
-
-        print_r($file);
 
         return $file;
     }
