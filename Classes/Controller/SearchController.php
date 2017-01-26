@@ -223,7 +223,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         // extra information
         // don't use it for elastic query
         // will be removed later
-        $query['extra']['search'] = $searchText;
+        $query['extra']['search'] = $args['search']['query'];
 
         return $query;
 
