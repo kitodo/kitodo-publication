@@ -63,7 +63,11 @@ class GetFile
     {
 
         $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
-        
+
+        $objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+
+        $this->clientConfigurationManager = $objectManager->get('\EWW\Dpf\Configuration\ClientConfigurationManager');
+
         $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
 
         switch ($piVars['action']) {
@@ -71,8 +75,6 @@ class GetFile
                 $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
                 break;
             case 'preview':
-
-                $objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 
                 $this->documentRepository = $objectManager->get('\EWW\Dpf\Domain\Repository\DocumentRepository');
 
