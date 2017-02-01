@@ -60,24 +60,28 @@ class ClientConfigurationManager
     	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
         $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
 
-        $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
-        if ($selectedPageId)
-        {
-            $this->client = $clientRepository->findAll()->current();
-        }
-
 		if (TYPO3_MODE === 'BE')
 		{
-  			$configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
-  			$settings = $configurationManager->getConfiguration(NULL,NULL);
-  			$this->settings = $settings['settings'];
+            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+            if ($selectedPageId)
+            {
+                $this->client = $clientRepository->findAll()->current();
+
+                $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+                $settings = $configurationManager->getConfiguration(NULL,NULL);
+                $this->settings = $settings; //['settings'];
+            }
+
 		}
 		else
 		{
+            $this->client = $clientRepository->findAll()->current();
+
     		$configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
     		$this->settings = $configurationManager->getConfiguration(
             	\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
         	);
+
         }
 
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
