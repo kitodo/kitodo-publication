@@ -128,7 +128,6 @@ trait XPath
             'stringSingle' => [
                 Lexer::MATCH => "'.*?'",
                 Lexer::CALL  => function ($in, $out, $token) {
-                    // print_r("value");print_r($token);
                     $out->tempStack['value'] = $token->value;
 
                     if (count($out->tempStack) == 2) {
@@ -143,14 +142,10 @@ trait XPath
 
                     // reset tempStack
                     $out->tempStack = array();
-                    // $out->startToken('value string double');
 
                     $in = new Input();
-                    // $in->openString($token);
 
                     Lexer::loop($in, $out, $this->htmlString());
-
-                    // $out->endToken();
                 },
             ],
 
