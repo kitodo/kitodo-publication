@@ -33,7 +33,13 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
 
         $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
 
-        if ($selectedPageId) $client = $this->clientRepository->findAll()->current();
+        if (TYPO3_MODE === 'BE') {
+            if ($selectedPageId) {
+                $client = $this->clientRepository->findAll()->current();
+            }
+        } else {
+            $client = $this->clientRepository->findAll()->current();
+        }
 
         if (!$client) {
             $this->addFlashMessage(
