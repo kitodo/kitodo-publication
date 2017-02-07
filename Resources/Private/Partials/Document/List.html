@@ -34,6 +34,7 @@
         <th class="xcol-md-2">{f:translate(key: 'manager.document.publishedDate')}</th>
         <th class="xcol-md-2">{f:translate(key: 'manager.document.datasetIdentifier')}</th>
         <th class="xcol-md-2">{f:translate(key: 'manager.document.state')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.type')}</th>
         <th class="xcol-md-2"><!-- ACTIONS --></th>
     </tr>
     </thead>
@@ -66,6 +67,9 @@
                         {f:translate(key: 'manager.document.state.inProgress')}
                     </f:else>
                 </f:if>
+            </td>
+            <td>
+                {document.documentType.displayName}
             </td>
             <td class="table_col_function">
 

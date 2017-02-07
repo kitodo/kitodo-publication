@@ -221,6 +221,9 @@
 		<trans-unit id="manager.document.title">
 			<source>Title</source>
 		</trans-unit>
+		<trans-unit id="manager.document.type">
+			<source>Type</source>
+		</trans-unit>
 		<trans-unit id="manager.doublet">
 			<source>Doublet Check</source>
 		</trans-unit>
