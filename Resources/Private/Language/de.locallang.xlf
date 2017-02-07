@@ -185,6 +185,10 @@
 			<source>Title</source>
 			<target>Title</target>
 		</trans-unit>
+		<trans-unit id="manager.document.type" approved="yes">
+			<source>Type</source>
+			<target>Typ</target>
+		</trans-unit>
 		<trans-unit id="manager.doublet" approved="yes">
 			<source>Doublet Check</source>
 			<target>Doubletten-Check</target>
