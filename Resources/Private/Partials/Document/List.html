@@ -54,7 +54,9 @@
                 </f:for>
             </td>
             <td>
-                <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                <f:if condition="{document.dateIssued}">
+                    <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                </f:if>
             </td>
             <td>{document.objectIdentifier}</td>
             <td>
