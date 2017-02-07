@@ -80,6 +80,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         $documentTypes = $this->documentTypeRepository->findAll();
 
+        $data = array();
+        $docTypes = array();
+        $name = array();
+        $type = array();
+
         foreach ($documentTypes as $docType) {
             $data[] = array(
                 "name" => $docType->getDisplayName(),
