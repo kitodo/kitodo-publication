@@ -25,7 +25,7 @@
         </f:if>
     </legend>
     <div class="group-info-text">
-        {groupItem.infoText}
+        <f:format.raw>{groupItem.infoText}</f:format.raw>
     </div>
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">

@@ -207,6 +207,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_metadatagroup'] = array(
                 'rows' => 15,
                 'eval' => 'trim',
             ),
+            'defaultExtras' => 'richtext[]'
         ),
         'metadata_object'          => array(
             'exclude'   => 1,
