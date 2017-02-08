@@ -179,7 +179,7 @@ class DocumentMapper
 
                             $objectMapping = "";
 
-                            preg_match_all('/[A-Za-z0-9:@\.]+(\[@.*?\])*/', $metadataObject->getRelativeMapping(), $objectMappingPath);
+                            preg_match_all('/([A-Za-z0-9]+:[A-Za-z0-9]+(\[.*\])*|[A-Za-z0-9:@\.]+)/', $metadataObject->getRelativeMapping(), $objectMappingPath);
                             $objectMappingPath = $objectMappingPath[0];
 
                             foreach ($objectMappingPath as $key => $value) {
