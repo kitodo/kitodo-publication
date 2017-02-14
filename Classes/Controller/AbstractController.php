@@ -31,29 +31,22 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         parent::initializeView($view);
 
-        $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
-
         if (TYPO3_MODE === 'BE') {
+            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
             if ($selectedPageId) {
                 $client = $this->clientRepository->findAll()->current();
             }
-        } else {
-            $client = $this->clientRepository->findAll()->current();
+            if (!$client) {
+                $this->addFlashMessage(
+                    "Es wurde kein gültiger Mandantenordner ausgewählt.",
+                    $messageTitle = '',
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
+                    $storeInSession = true
+                );
+            } else {
+                $view->assign('client', $client);
+            }
         }
-
-        if (!$client) {
-            $this->addFlashMessage(
-                "Es wurde kein gültiger Mandantenordner ausgewählt.",
-                $messageTitle = '',
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
-                $storeInSession = true
-            );
-        } else {
-
-        }
-
-        $view->assign('client', $client);
-
     }
 
     /**
