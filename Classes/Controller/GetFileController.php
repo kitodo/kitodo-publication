@@ -110,21 +110,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // get remote header and set it before passtrough
         $headers = get_headers($path);
 
-        foreach ($headers as $key => $value) {
-            // set remote header information
-            preg_match('/filename="(.*)"/', $value, $fileName);
+        foreach ($headers as $value) {
 
-            if ($fileName[1]) {
-                header('Content-Disposition: inline; filename="' . $fileName[1] . '";');
-                continue;
-            }
-
-            if (substr($value, 0, 13) == "Content-Type:") {
+            if (FALSE !== stripos($value, 'Content-Disposition')) {
                 header($value);
                 continue;
             }
 
-            if (substr($value, 0, 15) == "Content-Length:") {
+            if (FALSE !== stripos($value, 'Content-Type')) {
+                header($value);
+                continue;
+            }
+
+            if (FALSE !== stripos($value, 'Content-Length')) {
                 header($value);
                 continue;
             }
