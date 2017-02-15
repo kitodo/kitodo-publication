@@ -34,6 +34,7 @@ namespace EWW\Dpf\Controller;
  *
  *
  * @author    Alexander Bigga <alexander.bigga@slub-dresden.de>
+ * @author    Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -131,6 +132,12 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         if ($stream = fopen($path, 'r')) {
 
+            // close active session if any
+            session_write_close();
+
+            // stop output buffering
+            ob_end_clean();
+
             fpassthru($stream);
 
             fclose($stream);
@@ -140,3 +147,4 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     }
 
 }
+
