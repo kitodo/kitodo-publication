@@ -15,22 +15,24 @@ namespace EWW\Dpf\Controller;
  */
 
 /**
- * API to return METS or Attachement from Fedora
+ * API to return METS dissemination and Attachments from Fedora.
+ * Also renders METS XML for preview. Structure of the URIs totally
+ * depend on proper RealURL configuration.
  *
  * Example:
  *
  * 1. METS from Fedora
- *   http://localhost/api/qucosa:1234/mets
+ *   http://localhost/api/qucosa:1234/mets/
  *
  *   This always returns METS which is supplemented with additional information.
  *   The embedded MODS record is not the original MODS as it is stored in the
  *   repository datastream.
  *
  * 2. Attachment from Fedora
- *   http://localhost/api/qucosa:1234/attachment/ATT-0
+ *   http://localhost/api/qucosa:1234/attachment/ATT-0/
  *
- * 3. METS from Goobi.Publication (this extension)
- *   http://localhost/api/3/preview
+ * 3. METS from Kitodo.Publication (this extension)
+ *   http://localhost/api/3/preview/
  *
  *
  * @author    Alexander Bigga <alexander.bigga@slub-dresden.de>
@@ -40,7 +42,7 @@ namespace EWW\Dpf\Controller;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * DocumentFormController
+ * GetFileController
  */
 class GetFileController extends \EWW\Dpf\Controller\AbstractController
 {
@@ -73,6 +75,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             case 'mets':
                 $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
                 break;
+
             case 'preview':
 
                 $document = $this->documentRepository->findByUid($piVars['qid']);
@@ -103,6 +106,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             case 'attachment':
                 $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
                 break;
+
             default:
                 http_response_code(404);
                 print('No such action');
