@@ -124,7 +124,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 continue;
             }
 
-            if (substr($value, 0, 13) == "Content-Length:") {
+            if (substr($value, 0, 15) == "Content-Length:") {
                 header($value);
                 continue;
             }
