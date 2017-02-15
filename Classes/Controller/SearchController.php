@@ -17,7 +17,7 @@ namespace EWW\Dpf\Controller;
 /**
  * SearchController
  */
-class SearchController extends \EWW\Dpf\Controller\AbstractController
+class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 {
     /**
      * documentRepository
@@ -57,16 +57,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->assignExtraFields($args['extra']);
     }
 
-    public function assignExtraFields($array)
-    {
-        // assign all form(extra) field values
-        if (is_array($array)) {
-            foreach ($array as $key => $value) {
-                $this->view->assign($key, $value);
-            }
-        }
-    }
-
     /**
      * get next search results
      * @return array ElasticSearch results
@@ -99,205 +89,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * build array for elasticsearch
-     * @return array Elasticsearch query array
+     * extended search action
      */
-    public function extendedSearch()
-    {
-        $args   = $this->request->getArguments();
-        $client = $this->clientRepository->findAll()->current();
-
-        // extended search
-        $countFields = 0;
-
-        if ($args['extSearch']['extId']) {
-            $id                = $args['extSearch']['extId'];
-            $fieldQuery['_id'] = $id;
-            $countFields++;
-            // will be removed from query later
-            $query['extra']['id'] = $id;
-        }
-
-        if ($args['extSearch']['extTitle']) {
-            $title               = $args['extSearch']['extTitle'];
-            $fieldQuery['title'] = $title;
-            $countFields++;
-            // will be removed from query later
-            $query['extra']['title'] = $title;
-        }
-
-        if ($args['extSearch']['extAuthor']) {
-            $author               = $args['extSearch']['extAuthor'];
-            $fieldQuery['author'] = $author;
-            $countFields++;
-            // will be removed from query later
-            $query['extra']['author'] = $author;
-        }
-
-        if ($args['extSearch']['extDeleted']) {
-            // STATE deleted
-            $delete['bool']['must'][] = array('match' => array('STATE' => 'D'));
-            // STATE inactive
-            $inactive['bool']['must'][] = array('match' => array('STATE' => 'I'));
-
-            $query['body']['query']['bool']['should'][] = $delete;
-            $query['body']['query']['bool']['should'][] = $inactive;
-
-            $query['body']['query']['bool']['minimum_should_match'] = 1;
-
-            $query['extra']['showDeleted'] = true;
-
-        } else {
-            // STATE active
-            $deleted             = true;
-            $fieldQuery['STATE'] = 'A';
-            $countFields++;
-        }
-
-        if ($countFields >= 1) {
-            // multi field search
-            $i = 1;
-            foreach ($fieldQuery as $key => $qry) {
-                $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
-                $i++;
-            }
-        }
-
-        // filter
-        $filter = array();
-        if ($args['extSearch']['extFrom']) {
-            $from          = $args['extSearch']['extFrom'];
-            $filter['gte'] = $this->formatDate($from);
-            // will be removed from query later
-            $query['extra']['from'] = $from;
-        }
-
-        if ($args['extSearch']['extTill']) {
-            $till          = $args['extSearch']['extTill'];
-            $filter['lte'] = $this->formatDate($till);
-            // will be removed from query later
-            $query['extra']['till'] = $till;
-        }
-
-        if (isset($filter['gte']) || isset($filter['lte'])) {
-            $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
-        }
-
-        // owner id
-        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
-
-        return $query;
-    }
-
-    public function formatDate($date)
-    {
-        // convert date from dd.mm.yyy to yyyy-dd-mm
-        $date = explode(".", $date);
-        return $date[2] . '-' . $date[1] . '-' . $date[0];
-    }
-
-    public function searchFulltext()
-    {
-        // perform fulltext search
-        $args = $this->request->getArguments();
-
-        $client = $this->clientRepository->findAll()->current();
-
-        // don't return query if keys not existing
-        if (!key_exists('search', $args) || !key_exists('query', $args['search'])) {
-            return null;
-        }
-
-        $searchText = $this->escapeQuery($args['search']['query']);
-
-        // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
-
-        $query['body']['query']['bool']['should'][0]['query_string']['query']                       = $searchText;
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchText;
-
-        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
-
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
-
-        // extra information
-        // don't use it for elastic query
-        // will be removed later
-        $query['extra']['search'] = $args['search']['query'];
-
-        return $query;
-
-    }
-
-    public function searchLatest()
-    {
-        $client = $this->clientRepository->findAll()->current();
-
-        // get the latest documents /CREATED_DATE
-        $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
-
-        // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
-
-        $query['body']['query']['bool']['should'][0]['query_string']['query']                       = '*';
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';
-
-        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
-
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
-
-        return $query;
-    }
-
-    public function escapeQuery($string)
-    {
-        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
-        $string                   = preg_replace_callback(
-            '/([' . $luceneReservedCharacters . '])/',
-            function ($matches) {
-                return '\\' . $matches[0];
-            },
-            $string
-        );
-
-        return $string;
-    }
-
-    /**
-     * search
-     * @return array elasticsearch query
-     */
-    public function search()
-    {
-        // perform search action
-        $args = $this->request->getArguments();
-
-        $client = $this->clientRepository->findAll()->current();
-        if (empty($args['search']['query'])) {
-            // elasticsearch dsl requires an empty object to match all
-            $query['body']['query']['match_all'] = new \stdClass();
-        } else {
-            $query['body']['query']['match']['_all'] = $args['search']['query'];
-        }
-
-        return $query;
-    }
-
-    /**
-     * get results from elastic search
-     * @param  array $query elasticsearch search query
-     * @return array        results
-     */
-    public function getResultList($query, $type)
-    {
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
-        //   die();
-        $results = $elasticSearch->search($query, $type);
-
-        return $results['hits'];
-    }
-
     public function extendedSearchAction()
     {
         // show extended search template
@@ -314,6 +107,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
     }
 
+    /**
+     * gets a list of latest documents
+     */
     public function latestAction()
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
@@ -325,7 +121,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         // unset extra information
         unset($query['extra']);
-        // var_dump(json_encode($query));
+
         $results = $this->getResultList($query, $type);
 
         $this->forward("list", null, null, array('results' => $results));
@@ -353,7 +149,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             // extended search
             $query = $this->extendedSearch();
         } else {
-            $query = $this->searchFulltext();
+            $query = $this->searchFulltext($args['search']['query']);
         }
 
         // save search query
@@ -486,6 +282,30 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('searchList', $results['hits']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
 
+    }
+
+    /**
+     * returns the query to get latest documents
+     * @return mixed
+     */
+    public function searchLatest()
+    {
+        $client = $this->clientRepository->findAll()->current();
+
+        // get the latest documents /CREATED_DATE
+        $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
+
+        // add owner id
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+
+        $query['body']['query']['bool']['should'][0]['query_string']['query']                       = '*';
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';
+
+        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
+
+        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        return $query;
     }
 
 }
