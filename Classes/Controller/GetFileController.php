@@ -104,11 +104,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
                 break;
             default:
-                break;
+                http_response_code(404);
+                print('No such action');
+                exit;
         }
 
         // get remote header and set it before passtrough
         $headers = get_headers($path);
+
+        if (FALSE === $headers) {
+            http_response_code(500);
+            print('Error while fetching headers');
+            exit;
+        }
 
         foreach ($headers as $value) {
 
@@ -140,6 +148,10 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
             fclose($stream);
 
+        } else {
+            http_response_code(500);
+            print('Error while opening stream');
+            exit;
         }
 
     }
