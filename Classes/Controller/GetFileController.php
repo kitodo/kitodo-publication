@@ -99,9 +99,17 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     header('Content-Type: text/xml; charset=UTF-8');
 
-                }
+                    return $metsXml;
 
-                return $metsXml;
+                } else {
+
+                    http_response_code(404);
+
+                    print('No such document');
+
+                    exit;
+
+                }
 
             case 'attachment':
                 $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
