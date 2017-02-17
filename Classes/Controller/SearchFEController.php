@@ -98,6 +98,9 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 
         }
 
+        // get ext search values
+        $extSearch = $this->getParametersSafely('extSearch');
+
         // get document types
         $allTypes = $this->documentTypeRepository->findAll();
 
@@ -106,18 +109,30 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 
         foreach ($allTypes as $key => $value) {
 
-            $docTypeArray[$value->getName()] = $value->getName();
+            $docTypeArray[$value->getName()] = $value->getDisplayName();
 
         }
 
-        if ($this->getParametersSafely('action') != 'extendedSearch') {
+        if ($this->getParametersSafely('action') != 'extendedSearch' && empty($extSearch)) {
+
             $flag = true;
-        } else {
-            $flag = false;
-        }
-        $this->view->assign('extendedSearch', $flag);
 
-        $this->view->assign('docTypes', $docTypeArray);
+        } else {
+
+            $flag = false;
+
+        }
+
+        // add empty select value
+        $allTypes = $allTypes->toArray();
+        $tempArray[0] = ' ';
+
+        $allTypes = array_merge($tempArray, $allTypes);
+
+        $this->view->assign('extendedSearch', $flag);
+        $this->view->assign('extendedSearchValues', $extSearch);
+
+        $this->view->assign('docTypes', $allTypes);
         $this->view->assign('results', $results);
         $this->view->assign('searchString', $searchString);
         $this->view->assign('currentPage', $currentPage);
@@ -128,7 +143,7 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 
 //        $this->view->assign('extendedSearch', true);
 
-        $this->forward('search');
+        $this->forward('search', NULL, NULL, array('extendedSearch' => true));
     }
 
     /**
