@@ -92,6 +92,9 @@ $(document).ready(function() {
     if (countResults < resultCount) {
         jQuery("#next").hide();
     }
+
+    addRemoveFileButton();
+    
 });
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
@@ -474,4 +477,11 @@ var documentListConfirmDialog = function(dialogId) {
     jQuery(dialogId).on('hidden.bs.modal', function(e) {
         jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
     });
+}
+
+function addRemoveFileButton() {
+    $('.rem_file').on('click', function (evt) {
+        evt.preventDefault();
+        $(this).siblings('.input_file_upload').val('');
+    })
 }

@@ -18,6 +18,10 @@
     <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend>
     <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}"
                    class="input_file_upload"/>
+    <button type="submit" name="rem_file" class="rem_file btn btn-xs btn-default">
+        <span class="glyphicon glyphicon-trash"></span>
+        {f:translate(key: 'form_button.delete_item', arguments: {0: ''})}
+    </button>
     <eww:isElementAllowed condition="backendOnly">
         <f:then>
             <div class="form-group">
