@@ -28,6 +28,9 @@
         <th class="xcol-md-3">
             <f:translate key="search.resultList.author"/>
         </th>
+        <th class="xcol-md-3">
+            <f:translate key="search.resultList.corporation"/>
+        </th>
         <th class="xcol-md-2">
             <f:translate key="search.resultList.publicationDate"/>
         </th>
@@ -54,6 +57,11 @@
                 </td>
                 <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
                 <td>{entry._source._dissemination._content.author.0}</td>
+                <td>
+                    <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">
+                        {corporation} <br />
+                    </f:for>
+                </td>
                 <td>
                     <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
                         <f:then>
@@ -98,6 +106,11 @@
                 </td>
                 <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
                 <td>{entry._source.author}</td>
+                <td>
+                    <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">
+                        {corporation} <br />
+                    </f:for>
+                </td>
                 <td>
                     <f:if condition="{entry._source.CREATED_DATE}">
                         <f:then>
