@@ -383,6 +383,9 @@ Date: %s
 		<trans-unit id="search.form.label.author">
 			<source>Author</source>
 		</trans-unit>
+		<trans-unit id="search.form.label.corporation">
+            <source>Corporation</source>
+        </trans-unit>
         <trans-unit id="search.form.label.abstract">
             <source>Abstract</source>
         </trans-unit>
@@ -452,6 +455,9 @@ Date: %s
 		<trans-unit id="search.resultList.title">
 			<source>Title</source>
 		</trans-unit>
+        <trans-unit id="search.resultList.corporation">
+            <source>Corporation</source>
+        </trans-unit>
 		<trans-unit id="search.resultList.documentsFound">
 			<source>documents found.</source>
 		</trans-unit>
