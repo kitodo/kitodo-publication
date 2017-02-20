@@ -400,6 +400,10 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Author</source>
 			<target>Autor</target>
 		</trans-unit>
+        <trans-unit id="search.form.corporation" approved="yes">
+            <source>Corporation</source>
+            <target>Institution</target>
+        </trans-unit>
 		<trans-unit id="search.resultList.datasetIdentifier" approved="yes">
 			<source>ID</source>
 			<target>ID</target>
@@ -454,8 +458,12 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		</trans-unit>
 		<trans-unit id="search.resultList.title" approved="yes">
 			<source>Title</source>
-			<target>Title</target>
+			<target>Titel</target>
 		</trans-unit>
+        <trans-unit id="search.resultList.corporation" approved="yes">
+            <source>Corporation</source>
+            <target>Institution</target>
+        </trans-unit>
 		<trans-unit id="tt_content.dpf_downloadtool" approved="yes">
 			<source>DPF: DownloadTool</source>
 			<target>DPF: Download Tool</target>

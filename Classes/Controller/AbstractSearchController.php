@@ -119,6 +119,17 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         }
 
+
+        if ($args['extSearch']['extCorporation']) {
+
+            $corporation                = $args['extSearch']['extCorporation'];
+            $fieldQuery['corporation']  = $corporation;
+            $countFields++;
+            // will be removed from query later
+            $query['extra']['corporation']  = $corporation;
+
+        }
+
         if ($args['extSearch']['extDeleted']) {
 
             // STATE deleted
