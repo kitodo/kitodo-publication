@@ -352,6 +352,22 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Author</source>
 			<target>Autor</target>
 		</trans-unit>
+        <trans-unit id="search.form.label.abstract" approved="yes">
+            <source>Abstract</source>
+            <target>Zusammenfassung</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.tag" approved="yes">
+            <source>Tag</source>
+            <target>Schlagwörter</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.type" approved="yes">
+            <source>Type</source>
+            <target>Dokumenttyp</target>
+        </trans-unit>
+        <trans-unit id="search.form.label.institution" approved="yes">
+            <source>Institution</source>
+            <target>Institution</target>
+        </trans-unit>
 		<trans-unit id="search.form.label.datasetIdentifier" approved="yes">
 			<source>ID</source>
 			<target>ID</target>

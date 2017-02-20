@@ -35,7 +35,7 @@
     </tr>
     </thead>
     <tbody>
-    <f:for each="{searchList}" as="entry">
+    <f:for each="{searchList.hits}" as="entry">
         <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
             <f:then>
                 <tr class="success">

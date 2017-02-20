@@ -17,22 +17,97 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
+    <f:link.action action="search" controller="Search" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <f:translate key="search.control.simpleSearch"/>
+    </f:link.action>
 
-    <div class="searchForm">
+    <f:link.action action="extendedSearch" controller="Search" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <f:translate key="search.control.extendedSearch"/>
+    </f:link.action>
 
-        <f:form action="search" name="search" pageUid="{settings.searchResultsPid}"
-                class="form-inline qucosa-search-form" noCache="1" noCacheHash="1">
-            <div class="form-group fe-form-group">
-                <f:form.textfield property="query" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
-                                  value="{searchString}"/>
+    <f:if condition="{extendedSearch}">
+        <f:then>
+            <div class="searchForm">
+                <f:form action="search" name="search" pageUid="{settings.searchResultsPid}"
+                        class="form-inline qucosa-search-form" noCache="1" noCacheHash="1">
+                    <div class="form-group fe-form-group">
+                        <f:form.textfield property="query" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
+                                          value="{searchString}"/>
+                    </div>
+                    <f:form.button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        {f:translate(key: 'search.form.button.search')}
+                    </f:form.button>
+                </f:form>
             </div>
-            <f:form.button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
-        </f:form>
-    </div>
+        </f:then>
+        <f:else>
+            <div class="searchExtForm">
+                <f:form action="search" name="extSearch" class="form-inline">
+                    <h5>{f:translate(key: 'search.form.header.extendedSearch')}</h5>
+                    <div class="form-group">
+                        <label for="extTitle">{f:translate(key: 'search.form.label.title')}</label>
+                        <f:form.textfield property="extTitle" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.title')}" id="extTitle"
+                                          value="{extendedSearchValues.extTitle}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="extAuthor">{f:translate(key: 'search.form.label.author')}</label>
+                        <f:form.textfield property="extAuthor" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.author')}" id="extAuthor"
+                                          value="{extendedSearchValues.extAuthor}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="extAbstract">{f:translate(key: 'search.form.label.abstract')}</label>
+                        <f:form.textfield property="extAbstract" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.abstract')}" id="extAbstract"
+                                          value="{extendedSearchValues.extAbstract}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="extTag">{f:translate(key: 'search.form.label.tag')}</label>
+                        <f:form.textfield property="extTag" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.tag')}" id="extTag"
+                                          value="{extendedSearchValues.extTag}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="extType">{f:translate(key: 'search.form.label.type')}</label>
+                        <f:form.select property="extType" options="{docTypes}" id="extType" value="{extendedSearchValues.extType}" optionValueField="name"  optionLabelField="displayName"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="extInstitution">{f:translate(key: 'search.form.label.institution')}</label>
+                        <f:form.textfield property="extInstitution" class="form-control"
+                                          placeholder="{f:translate(key: 'search.form.label.institution')}" id="extInstitution"
+                                          value="{extendedSearchValues.extInstitution}"/>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6" style="padding:0px;">
+                                <div class="form-group">
+                                    <label for="extFrom">{f:translate(key: 'search.form.label.date')}</label>
+                                    <f:form.textfield property="extFrom" class="form-control datetimepicker"
+                                                      placeholder="{f:translate(key: 'search.form.label.from')}" id="extFrom"
+                                                      value="{extendedSearchValues.extFrom}"/>
+                                    <label for="extTill">{f:translate(key: 'search.form.label.to')}</label>
+                                    <f:form.textfield property="extTill" class="form-control datetimepicker"
+                                                      placeholder="{f:translate(key: 'search.form.label.to')}" id="extTill"
+                                                      value="{extendedSearchValues.extTill}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <f:form.hidden property="extSearch" value="true"/>
+                    <f:form.button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        {f:translate(key: 'search.form.button.search')}
+                    </f:form.button>
+                </f:form>
+            </div>
+        </f:else>
+    </f:if>
 
     <div class="search-results">
 
