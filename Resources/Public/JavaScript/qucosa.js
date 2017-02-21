@@ -301,6 +301,7 @@ var addGroup = function() {
         });
         buttonFillOutServiceUrn();
         datepicker();
+        addRemoveFileButton();
     });
     return false;
 }
@@ -480,7 +481,8 @@ var documentListConfirmDialog = function(dialogId) {
 }
 
 function addRemoveFileButton() {
-    $('.rem_file').on('click', function (evt) {
+    $('.rem_file').unbind('click');
+    $('.rem_file').bind('click', function (evt) {
         evt.preventDefault();
         $(this).siblings('.input_file_upload').val('');
     })
