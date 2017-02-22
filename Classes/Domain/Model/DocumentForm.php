@@ -91,6 +91,12 @@ class DocumentForm extends AbstractFormElement
 
     /**
      *
+     * @var string
+     */
+    protected $processNumber;
+
+    /**
+     *
      * @return integer
      */
     public function getDocumentUid()
@@ -246,6 +252,26 @@ class DocumentForm extends AbstractFormElement
             $fileNames[] = $file->getTitle();
         }
         return $fileNames;
+    }
+
+    /**
+     * Sets the process number
+     *
+     * @return string
+     */
+    public function getProcessNumber()
+    {
+        return $this->processNumber;
+    }
+
+    /**
+     * Gets the process number
+     *
+     * @param string $processNumber
+     */
+    public function setProcessNumber($processNumber)
+    {
+        $this->processNumber = $processNumber;
     }
 
 }

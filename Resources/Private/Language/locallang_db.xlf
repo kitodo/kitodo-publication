@@ -21,31 +21,34 @@
 			<trans-unit id="tx_dpf_domain_model_document">
 				<source>Document</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.title">
+            <trans-unit id="tx_dpf_domain_model_document.title">
 				<source>Title</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.authors">
+            <trans-unit id="tx_dpf_domain_model_document.authors">
 				<source>Authors</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.xml_data">
 				<source>Xml Data</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
+            <trans-unit id="tx_dpf_domain_model_document.slub_info_data">
 				<source>Slub Info Data</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.document_type">
 				<source>Document Type</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.object_identifier">
+            <trans-unit id="tx_dpf_domain_model_document.object_identifier">
 				<source>Object Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
+            <trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
 				<source>Reserved Object Identifier</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.object_state">
+			<trans-unit id="tx_dpf_domain_model_document.process_number">
+                <source>Process Number</source>
+             </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_document.object_state">
 				<source>Object State</source>
 			</trans-unit>
-                        <trans-unit id="tx_dpf_domain_model_document.date_issued">
+            <trans-unit id="tx_dpf_domain_model_document.date_issued">
 				<source>Date Issued</source>
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_metadatagroup">
@@ -332,7 +335,19 @@
 			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_inputoption.value">
 				<source>Value</source>
-			</trans-unit>			
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_processnumber">
+                <source>Process number</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_processnumber.owner_id" approved="yes">
+        	    <source>Owner ID</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_processnumber.year" approved="yes">
+                <source>Year</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_processnumber.counter" approved="yes">
+                <source>Counter</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

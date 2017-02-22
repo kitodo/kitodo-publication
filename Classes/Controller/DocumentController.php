@@ -195,9 +195,16 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
         $mods->clearAllUrn();
         $newDocument->setXmlData($mods->getModsXml());
-        $newDocument->setSlubInfoData($document->getSlubInfoData());
 
         $newDocument->setDocumentType($document->getDocumentType());
+
+        $processNumberGenerator = $this->objectManager->get("EWW\\Dpf\\Services\\ProcessNumber\\ProcessNumberGenerator");
+        $processNumber = $processNumberGenerator->getProcessNumber();
+        $newDocument->setProcessNumber($processNumber);
+
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setProcessNumber($processNumber);
+        $newDocument->setSlubInfoData($slub->getSlubXml());
 
         $this->documentRepository->add($newDocument);
 

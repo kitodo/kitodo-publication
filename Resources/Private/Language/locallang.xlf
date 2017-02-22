@@ -59,6 +59,9 @@
 		<trans-unit id="documentForm.new.header">
 			<source>New %s</source>
 		</trans-unit>
+		<trans-unit id="documentForm.processNumber">
+            <source>Process Number</source>
+        </trans-unit>
 		<trans-unit id="document_activate.failure">
 			<source>Activating %s failed.</source>
 		</trans-unit>
@@ -539,6 +542,9 @@ Date: %s
 		<trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
 			<source>Reserved Object Identifier</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.process_number">
+            <source>Process Number</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.slub_info_data">
 			<source>Slub Info Data</source>
 		</trans-unit>

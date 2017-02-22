@@ -212,6 +212,16 @@ $GLOBALS['TCA']['tx_dpf_domain_model_document'] = array(
             ),
         ),
 
+        'process_number' => array(
+            'exclude' => 0,
+            'label'   => 'Process Number',
+            'config'  => array(
+                'type' => 'input',
+                'size' => '30',
+                'eval' => 'trim',
+            ),
+        ),
+
         'state'                      => array(
             'exclude' => 0,
             'label'   => 'Local State',

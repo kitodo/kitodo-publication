@@ -50,6 +50,29 @@ class Slub
         return $documentTypeNode->item(0)->nodeValue;
     }
 
+    public function getProcessNumber()
+    {
+        $processNumberNode = $this->getSlubXpath()->query("/slub:info/slub:processNumber");
+        return $processNumberNode->item(0)->nodeValue;
+    }
+
+    public function setProcessNumber($processNumber)
+    {
+        $processNumberNode = $this->getSlubXpath()->query("/slub:info/slub:processNumber");
+        if ($processNumberNode->length == 1) {
+            $processNumberNode->item(0)->nodeValue = $processNumber;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $pNum = $this->slubDom->createElement('slub:processNumber');
+                $pNum->nodeValue = $processNumber;
+                $slubInfoNode->item(0)->appendChild($pNum);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
     public function getSubmitterEmail()
     {
         $emailNode = $this->getSlubXpath()->query("/slub:info/slub:submitter/foaf:Person/foaf:mbox");

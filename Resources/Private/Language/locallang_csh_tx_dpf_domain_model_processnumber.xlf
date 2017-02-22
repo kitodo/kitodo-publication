@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-03-25T17:14:23Z" product-name="dpf">
+		<header/>
+		<body>
+            <trans-unit id="owner_id.description">
+				<source>Owner ID</source>
+			</trans-unit>
+            <trans-unit id="year.description">
+				<source>Year</source>
+			</trans-unit>                        
+            <trans-unit id="counter.description">
+				<source>Counter</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

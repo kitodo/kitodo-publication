@@ -45,6 +45,10 @@
 			<source>New %s</source>
 			<target>%s anlegen</target>
 		</trans-unit>
+		<trans-unit id="documentForm.processNumber">
+            <source>Process Number</source>
+            <target>Vorgangsnummer</target>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError" approved="yes">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 			<target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>
