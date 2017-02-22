@@ -97,14 +97,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     $metsXml = $exporter->getMetsData();
 
-                    header('Content-Type: text/xml; charset=UTF-8');
+                    $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
 
                     return $metsXml;
 
                 } else {
-                    http_response_code(404);
-                    print('No such document');
-                    return;
+                    $this->response->setStatus(404);
+                    return 'No such document';
                 }
 
             case 'attachment':
@@ -112,18 +111,16 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 break;
 
             default:
-                http_response_code(404);
-                print('No such action');
-                return;
+                $this->response->setStatus(404);
+                return 'No such action';
         }
 
         // get remote header and set it before passtrough
         $headers = get_headers($path);
 
         if (FALSE === $headers) {
-            http_response_code(500);
-            print('Error while fetching headers');
-            return;
+            $this->response->setStatus(500);
+            return 'Error while fetching headers';
         }
 
         foreach ($headers as $value) {
@@ -160,9 +157,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             exit;
 
         } else {
-            http_response_code(500);
-            print('Error while opening stream');
-            return;
+            $this->response->setStatus(500);
+            return 'Error while opening stream';
         }
 
     }
