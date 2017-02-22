@@ -74,6 +74,7 @@ class DocumentMapper
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
         $documentForm->setVirtual($document->getDocumentType()->getVirtual());
+        $documentForm->setProcessNumber($document->getProcessNumber());
 
         $qucosaId = $document->getObjectIdentifier();
 
@@ -294,6 +295,13 @@ class DocumentMapper
             $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
         }
 
+        $processNumber = $document->getProcessNumber();
+        if (empty($processNumber)) {
+            $processNumberGenerator = $this->objectManager->get("EWW\\Dpf\\Services\\ProcessNumber\\ProcessNumberGenerator");
+            $processNumber = $processNumberGenerator->getProcessNumber();
+            $document->setProcessNumber($processNumber);
+        }
+
         $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());
 
         $document->setDocumentType($documentType);
@@ -324,8 +332,9 @@ class DocumentMapper
         $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
         $slubInfoData['metadata']    = $formMetaData['slubInfo'];
         $slubInfoData['files']       = array();
-        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType);
+        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
         $slubInfoXml = $exporter->getSlubInfoData();
+
         $document->setSlubInfoData($slubInfoXml);
 
         return $document;

@@ -95,5 +95,12 @@ body {
     top: 1px;
 }
 
+.tx-dpf h3.documentform {
+    color: #666666;
+    font-family: Share,Verdana,Arial,Helvetica,sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
 
 /* EOF */

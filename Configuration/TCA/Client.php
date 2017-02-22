@@ -158,8 +158,9 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.owner_id',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
+                'size' => 4,
+                'max'  => 4,
+                'eval' => 'trim,required',
             ),
         ),
         'admin_email'        => array(

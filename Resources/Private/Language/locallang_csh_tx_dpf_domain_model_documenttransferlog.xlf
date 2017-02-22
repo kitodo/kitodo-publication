@@ -15,13 +15,16 @@
 			<trans-unit id="document_uid.description">
 				<source>document uid</source>
 			</trans-unit>
-                        <trans-unit id="object_identifier.description">
+            <trans-unit id="object_identifier.description">
 				<source>object identifier</source>
 			</trans-unit>
-                        <trans-unit id="reserved_object_identifier.description">
+            <trans-unit id="reserved_object_identifier.description">
 				<source>reserved object identifier</source>
 			</trans-unit>
-                        <trans-unit id="action.description">
+			 <trans-unit id="process_number.description">
+                <source>process number</source>
+            </trans-unit>
+            <trans-unit id="action.description">
 				<source>action</source>
 			</trans-unit>
 		</body>

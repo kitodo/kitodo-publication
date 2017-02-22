@@ -244,6 +244,8 @@ class DocumentTransferManager
 
             $document->setDateIssued($mods->getDateIssued());
 
+            $document->setProcessNumber($slub->getProcessNumber());
+
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
 

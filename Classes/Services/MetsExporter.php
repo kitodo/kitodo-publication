@@ -860,7 +860,7 @@ class MetsExporter
      *
      * @param string $slubInfoData
      */
-    public function buildSlubInfoFromForm($slubInfoData, $documentType)
+    public function buildSlubInfoFromForm($slubInfoData, $documentType, $processNumber)
     {
         $this->xmlData = $this->slubData;
         if (is_array($slubInfoData['metadata'])) {
@@ -932,6 +932,11 @@ class MetsExporter
         $domElement = $this->slubData->firstChild;
         $type       = $this->slubData->createElement('slub:documentType', $documentType->getName());
         $domElement->appendChild($type);
+
+        // set process number in slub metadata
+        $domElement = $this->slubData->firstChild;
+        $pNum = $this->slubData->createElement('slub:processNumber', $processNumber);
+        $domElement->appendChild($pNum);
 
     }
 

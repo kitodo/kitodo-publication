@@ -111,6 +111,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $dateIssued;
 
     /**
+     *
+     * @var string $processNumber
+     */
+    protected $processNumber;
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -740,5 +746,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getIsNew()
     {
         return empty($this->objectIdentifier);
+    }
+
+
+    /**
+     * Returns the process number
+     *
+     * @return string
+     */
+    public function getProcessNumber()
+    {
+        return $this->processNumber;
+    }
+
+    /**
+     * Sets the process number
+     *
+     * @param string $processNumber
+     * @return void
+     */
+    public function setProcessNumber($processNumber)
+    {
+        $this->processNumber = trim($processNumber);
     }
 }

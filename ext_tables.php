@@ -415,6 +415,36 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
     ),
 );
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dpf_domain_model_processnumber', 'EXT:dpf/Resources/Private/Language/locallang_csh_tx_dpf_domain_model_processnumber.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_processnumber');
+$GLOBALS['TCA']['tx_dpf_domain_model_processnumber'] = array(
+    'ctrl' => array(
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber',
+        'label'                    => 'owner_id',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'ownerId,year,counter',
+        'dynamicConfigFile'        => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/ProcessNumber.php',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
+    ),
+);
+
+
 // Plugin "MetaTags".
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY . '_metatags'] = 'layout,select_key,pages,recursive';
 
