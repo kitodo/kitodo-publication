@@ -92,7 +92,33 @@ $(document).ready(function() {
     if (countResults < resultCount) {
         jQuery("#next").hide();
     }
+
+    uploadChoice();
+    disableUploadInput();
+    
 });
+function disableUploadInput() {
+    $('#inp_primaryFile').prop('disabled', true);
+    $('#inp_primaryFileUrl').prop('disabled', true);
+    $('[class^="secondaryFilesInput"]').prop('disabled', true);
+    $('[class^="secondaryFilesUrl"]').prop('disabled', true);
+}
+function uploadChoice() {
+    $('.uploadChoice').unbind('click');
+    $('.uploadChoice').bind('click', function (evt) {
+
+        $('.uploadChoice').each(function () {
+            var checked = $(this).prop("checked");
+            var sibling = $(this).siblings('input');
+
+            if (checked) {
+                sibling.prop('disabled', false);
+            } else {
+                sibling.prop('disabled', true);
+            }
+        });
+    })
+}
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
     if (validateForm()) {
@@ -251,12 +277,27 @@ var checkMandatoryInputs = function(fieldset) {
 }
 var checkPrimaryFile = function(fieldset) {
     var mandatoryError = false;
-    fieldset.find("input#inp_primaryFile[data-virtual!=1]").each(function() {
-        if (!jQuery(this).val()) {
+    fieldset.find('#primaryInputChoice:has(input#inp_primaryFile[data-virtual!=1])').each(function () {
+        var fileUpload = jQuery(this).find('input#inp_primaryFile[data-virtual!=1]');
+        var fileUrl = jQuery(this).find('input#inp_primaryFileUrl[data-virtual!=1]');
+
+        if (!fileUpload.val() && !fileUrl.val()) {
             mandatoryError = mandatoryError || true;
-            jQuery(this).addClass('mandatory-error');
+            fileUpload.addClass('mandatory-error');
+            fileUrl.addClass('mandatory-error');
         } else {
-            jQuery(this).removeClass('mandatory-error');
+            fileUpload.removeClass('mandatory-error');
+            fileUrl.removeClass('mandatory-error');
+        }
+        // check url
+        if (fileUrl.val()) {
+            // check value
+            var pattern = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+            if (!pattern.test(fileUrl.val())) {
+                mandatoryError = mandatoryError || true;
+                fileUpload.addClass('mandatory-error');
+                fileUrl.addClass('mandatory-error');
+            }
         }
     });
     //  markPage(fieldset,mandatoryError);
@@ -298,6 +339,11 @@ var addGroup = function() {
         });
         buttonFillOutServiceUrn();
         datepicker();
+
+        // initial disabled (uploadChoice())
+        $(group).find('[class^="secondaryFilesInput"]').prop('disabled', true);
+        $(group).find('[class^="secondaryFilesUrl"]').prop('disabled', true);
+        uploadChoice();
     });
     return false;
 }

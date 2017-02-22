@@ -117,6 +117,10 @@
 			<source>Secondary File</source>
 			<target>Secondary File</target>
 		</trans-unit>
+        <trans-unit id="form_legend.url" approved="yes">
+            <source>Enter URL</source>
+            <target>URL eingeben</target>
+        </trans-unit>
 		<trans-unit id="form_success_msg.all" approved="yes">
 			<source>Form successfully validated.</source>
 			<target>Formular erfolgreich überprüft.</target>

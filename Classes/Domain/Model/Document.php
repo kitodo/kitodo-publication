@@ -491,7 +491,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     'archive'   => $file->getArchive(),
                     'use'       => '',
                     'id'        => null,
-                    'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED),
+                    'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED || $file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_REMOTE),
                 );
 
                 $grpUSE = ($file->getDownload()) ? 'download' : 'original';

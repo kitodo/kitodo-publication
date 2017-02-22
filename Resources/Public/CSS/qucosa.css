@@ -227,9 +227,12 @@
 
 .tx-dpf input[type="file"] {
     border: 0 none;
-    margin-bottom: 15px;
     height: 36px;
     display: inline-block;
+}
+
+.secondaryInputChoice {
+    margin-bottom: 15px;
 }
 
 .tx-dpf textarea {

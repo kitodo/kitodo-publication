@@ -155,6 +155,9 @@
 		<trans-unit id="form_legend.secondaryFile">
 			<source>Secondary File</source>
 		</trans-unit>
+        <trans-unit id="form_legend.url">
+            <source>Enter URL</source>
+        </trans-unit>
 		<trans-unit id="form_success_msg.all">
 			<source>Form successfully validated.</source>
 		</trans-unit>
