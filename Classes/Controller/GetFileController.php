@@ -102,13 +102,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     return $metsXml;
 
                 } else {
-
                     http_response_code(404);
-
                     print('No such document');
-
-                    exit;
-
+                    return;
                 }
 
             case 'attachment':
@@ -118,7 +114,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             default:
                 http_response_code(404);
                 print('No such action');
-                exit;
+                return;
         }
 
         // get remote header and set it before passtrough
@@ -127,7 +123,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         if (FALSE === $headers) {
             http_response_code(500);
             print('Error while fetching headers');
-            exit;
+            return;
         }
 
         foreach ($headers as $value) {
@@ -160,10 +156,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
             fclose($stream);
 
+            // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
+            exit;
+
         } else {
             http_response_code(500);
             print('Error while opening stream');
-            exit;
+            return;
         }
 
     }
