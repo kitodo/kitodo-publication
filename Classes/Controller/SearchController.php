@@ -52,6 +52,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
+        $this->view->assign('resultCount', self::RESULT_COUNT);
 
         // assign form values
         $this->assignExtraFields($args['extra']);
@@ -101,6 +102,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
+        $this->view->assign('resultCount', self::RESULT_COUNT);
 
         // assign form values
         $this->assignExtraFields($args['extra']);
