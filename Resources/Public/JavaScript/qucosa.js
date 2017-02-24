@@ -84,6 +84,14 @@ $(document).ready(function() {
     // jQuery(".form-submit").on("click","#save",
     jQuery(".form-submit").on("click", "#save", validateFormAndSave);
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
+
+    // hide 'more results' link
+    var countResults = $('#search-results :not(thead) tr').length;
+    var resultCount = $('#next').data('resultCount');
+
+    if (countResults < resultCount) {
+        jQuery("#next").hide();
+    }
 });
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
