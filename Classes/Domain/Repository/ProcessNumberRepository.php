@@ -20,6 +20,12 @@ namespace EWW\Dpf\Domain\Repository;
 class ProcessNumberRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
+    public function initializeObject() {
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(FALSE);
+        $this->setDefaultQuerySettings($querySettings);
+    }
+
     /**
      * Finds the highest case number of an owner id
      * for the current year

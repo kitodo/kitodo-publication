@@ -16,20 +16,22 @@ namespace EWW\Dpf\Services\ProcessNumber;
 
 class ProcessNumberGenerator
 {
-    public function getProcessNumber() {
+    public function getProcessNumber($ownerId = NULL) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
         $processNumberRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository");
-
         $persistenceManager = $objectManager->get("TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManagerInterface");
 
         $processNumberRepository->startTransaction();
         try {
-            $ownerId = $clientRepository->findAll()->getFirst()->getOwnerId();
+            if (!$ownerId) {
+                $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
+                $ownerId = $clientRepository->findAll()->getFirst()->getOwnerId();
+            }
+
             $datetime = new \DateTime();
             $currentYear = $datetime->format('y');
 
-            $processNumber = $processNumberRepository->getHighestProcessNumberByOwnerIdAndYear($ownerId,$currentYear);
+            $processNumber = $processNumberRepository->getHighestProcessNumberByOwnerIdAndYear(strtolower($ownerId),$currentYear);
 
             if ($processNumber) {
                 $counter = $processNumber->getCounter() + 1;
@@ -37,9 +39,10 @@ class ProcessNumberGenerator
                 $processNumberRepository->update($processNumber);
             } else {
                 $processNumber = $objectManager->get("EWW\\Dpf\\Domain\\Model\\ProcessNumber");
-                $processNumber->setOwnerId($ownerId);
+                $processNumber->setOwnerId(strtolower($ownerId));
                 $processNumber->setYear($currentYear);
                 $processNumber->setCounter(1);
+                $processNumber->setPid(0);
                 $processNumberRepository->add($processNumber);
             }
 
