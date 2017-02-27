@@ -86,4 +86,27 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute();
     }
 
+
+    /**
+     * Finds all documents without a process number,
+     * storagePID will be ignored.
+     *
+     * @return array The found Document Objects
+     */
+    public function findDocumentsWithoutProcessNumber()
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(FALSE);
+
+        $constraints = array();
+        $constraints[] =  $query->equals('process_number', '');
+        $constraints[] =  $query->equals('process_number', NULL);
+
+        if (count($constraints)) {
+            $query->matching($query->logicalOr($constraints));
+        }
+
+        return $query->execute();
+    }
+
 }
