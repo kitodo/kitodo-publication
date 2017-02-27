@@ -415,10 +415,12 @@ $GLOBALS['TCA']['tx_dpf_domain_model_inputoptionlist'] = array(
     ),
 );
 
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dpf_domain_model_processnumber', 'EXT:dpf/Resources/Private/Language/locallang_csh_tx_dpf_domain_model_processnumber.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_processnumber');
 $GLOBALS['TCA']['tx_dpf_domain_model_processnumber'] = array(
     'ctrl' => array(
+        'hideTable'                => 1,
         'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber',
         'label'                    => 'owner_id',
         'tstamp'                   => 'tstamp',
@@ -443,7 +445,6 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber'] = array(
         'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
     ),
 );
-
 
 // Plugin "MetaTags".
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY . '_metatags'] = 'layout,select_key,pages,recursive';
