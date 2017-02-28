@@ -16,17 +16,11 @@
 <fieldset class="fs_file_group" data-group="file-upload">
     <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
     <f:form.upload property="secondaryFiles.{groupIndex}" class="input_file_upload"/>
-    <button type="submit" name="rem_file" class="rem_file btn btn-xs btn-default">
+    <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"
+            data-index="{groupIndex}">
         <span class="glyphicon glyphicon-trash"></span>
-        {f:translate(key: 'form_button.delete_item', arguments: {0: ''})}
+        {f:translate(key: 'form_button.delete_item' arguments: {0: ''})}
     </button>
-    <f:if condition="{groupIndex}">
-        <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"
-                data-index="{groupIndex}">
-            <span class="glyphicon glyphicon-remove"></span>
-            <span class="sr-only">delete secondary file upload</span>
-        </button>
-    </f:if>
 
     <eww:isElementAllowed condition="backendOnly">
         <f:then>
