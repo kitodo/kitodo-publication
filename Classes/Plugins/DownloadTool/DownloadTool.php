@@ -79,23 +79,44 @@ class DownloadTool extends \tx_dlf_plugin
 
         $content = '';
 
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dlf');
+        preg_match('/tx_dpf%5Bqid%5D=(\d*)/', $parameters['id'], $match);
+        $documentLocalId = \TYPO3\CMS\Core\Utility\GeneralUtility::removeXSS($match[1]);
+
         if (is_array($attachments)) {
 
             foreach ($attachments as $id => $file) {
 
-                $conf = array(
-                    'useCacheHash'     => 0,
-                    'parameter'        => $this->conf['apiPid'],
-                    'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
-                    'forceAbsoluteUrl' => true,
-                );
+                $use = (string) $file['USE'];
 
-                $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
+                if ($use != 'DELETE') {
 
-                // replace uid with URI to dpf API
-                $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+                    $href = (string) $file['href'];
 
-                $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
+                    $params = '';
+                    if ($file['href']) {
+                        preg_match('/(.*\/)(.*)/', $href, $fileName);
+                        $fileName = str_replace($fileName[1], '', $href);
+
+                        // add file parameter to locate local files
+                        $params = '&tx_dpf[file]=' . $fileName;
+                    }
+
+                    $conf = array(
+                        'useCacheHash' => 0,
+                        'parameter' => $this->conf['apiPid'],
+                        'additionalParams' => '&tx_dpf[qid]=' . $documentLocalId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'] . $params,
+                        'forceAbsoluteUrl' => true,
+                    );
+
+                    $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
+
+                    // replace uid with URI to dpf API
+                    $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+
+                    $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
+
+                }
 
             }
 
@@ -124,9 +145,19 @@ class DownloadTool extends \tx_dlf_plugin
 
         }
 
+        $fileLocation = $this->doc->mets->xpath($xPath.'/mets:FLocat');
+
         foreach ($files as $key => $file) {
 
             $singleFile = array();
+
+            if ($fileLocation[$key]) {
+                foreach ($fileLocation[$key]->attributes('xlink', 1) as $attribute => $value) {
+
+                    $singleFile[$attribute] = $value;
+
+                }
+            }
 
             foreach ($file->attributes('mext', 1) as $attribute => $value) {
 
