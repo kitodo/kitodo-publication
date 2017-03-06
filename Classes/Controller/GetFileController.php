@@ -70,6 +70,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
 
         $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
+        $uploadDir = $this->clientConfigurationManager->getUploadDirectory();
+
+        $document = $this->documentRepository->findByUid($piVars['qid']);
+
+        $qucosaId = $document->getObjectIdentifier();
+
+        $baseUrl = $GLOBALS['TSFE']->tmpl->setup['config.']['baseURL'];
 
         switch ($piVars['action']) {
             case 'mets':
@@ -107,7 +114,18 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
 
             case 'attachment':
-                $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
+                $file = $piVars['file'];
+
+                if ($file) {
+
+                    $path = $baseUrl . '/' . $uploadDir . '/' . $file;
+
+                } else {
+                    if ($qucosaId) {
+                        $piVars['qid'] = $qucosaId;
+                    }
+                    $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
+                }
                 break;
 
             default:
