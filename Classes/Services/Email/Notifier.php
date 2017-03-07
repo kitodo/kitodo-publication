@@ -47,11 +47,7 @@ class Notifier
             $authors = $document->getAuthors();
 
             $args['###CLIENT###'] = $client->getClient();
-
-            if (method_exists($document,'getProcessNumber')) {
-                $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            }
-
+            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
             $args['###TITLE###'] = $document->getTitle();
             $args['###AUTHOR###'] = array_shift($authors);
@@ -119,11 +115,7 @@ class Notifier
             $authors = $document->getAuthors();
 
             $args['###CLIENT###'] = $client->getClient();
-
-            if (method_exists($document,'getProcessNumber')) {
-                $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            }
-
+            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
             $args['###TITLE###'] = $document->getTitle();
             $args['###AUTHOR###'] = array_shift($authors);
