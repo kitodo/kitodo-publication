@@ -303,6 +303,24 @@
 			<trans-unit id="tx_dpf_domain_model_client.upload_domain">
 				<source>Domain</source>
 			</trans-unit>
+            <trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_subject">
+                <source>New document subject</source>
+            </trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_body">
+            	<source>New document body</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_subject">
+                <source>New document subject</source>
+            </trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_body">
+            	<source>New document body</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_subject">
+                <source>Ingest subject</source>
+            </trans-unit>
+			<trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_body">
+            	<source>Ingest body</source>
+            </trans-unit>
             <trans-unit id="tx_dpf_domain_model_inputoptionlist">
 				<source>Input Option List</source>
 			</trans-unit>

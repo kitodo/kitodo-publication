@@ -62,4 +62,10 @@ class Slub
         return $nameNode->item(0)->nodeValue;
     }
 
+    public function getSubmitterNotice()
+    {
+        $nameNode = $this->getSlubXpath()->query("/slub:info/slub:submitter/slub:notice");
+        return $nameNode->item(0)->nodeValue;
+    }
+
 }

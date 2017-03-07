@@ -228,19 +228,19 @@
 		<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>
 Your document has been published:
-Submitter: %s
-Title: %s
-Author: %s
-URL: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URL: ###URL###
+Date: ###DATE###
 				</source>
-			<target>Sehr geehrte/r %s,
+			<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
 die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
 
-Titel: %s
-Erste/r AutorIn: %s
-Das Dokument ist unter der URL %s online verfügbar und zitierfähig. Die Funktion des Links wird in Kürze bereitgestellt.
+Titel: ###TITLE###
+Erste/r AutorIn: ###AUTHOR###
+Das Dokument ist unter der URL ###URL### online verfügbar und zitierfähig. Die Funktion des Links wird in Kürze bereitgestellt.
 
 Mit freundlichen Grüßen
 Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
@@ -253,18 +253,18 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
 			<source>
 A new document has been registered:
-Submitter: %s
-Title: %s
-Author: %s
-URN: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
 			<target>Ein neues Dokument wurde angemeldet:
-Submitter: %s
-Title: %s
-Author: %s
-URN: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</target>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.admin.subject" approved="yes">
@@ -274,18 +274,18 @@ Date: %s
 		<trans-unit id="notification.newDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>
 You have registered the following document:
-Submitter: %s
-Title: %s
-Author: %s
-URN: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
-			<target>Sehr geehrte/r %s,
+			<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
 wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
 
-Titel: %s
-Erste/r AutorIn: %s
+Titel: ###TITLE###
+Erste/r AutorIn: ###AUTHOR###
 Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - falls noch nicht geschehen - die unterschriebene Einverständniserklärung. Sobald Ihr Dokument online verfügbar ist, benachrichtigen wir Sie per E-Mail.
 
 Mit freundlichen Grüßen

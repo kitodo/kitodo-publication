@@ -163,6 +163,48 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $uploadDomain = '';
 
+    /**
+     * adminNewDocumentNotificationSubject
+     *
+     * @var string
+     */
+    protected $adminNewDocumentNotificationSubject = '';
+
+    /**
+     * adminNewDocumentNotificationBody
+     *
+     * @var string
+     */
+    protected $adminNewDocumentNotificationBody = '';
+
+    /**
+     * submitterNewDocumentNotificationSubject
+     *
+     * @var string
+     */
+    protected $submitterNewDocumentNotificationSubject = '';
+
+    /**
+     * submitterNewDocumentNotificationBody
+     *
+     * @var string
+     */
+    protected $submitterNewDocumentNotificationBody = '';
+
+    /**
+     * submitterIngestNotificationSubject
+     *
+     * @var string
+     */
+    protected $submitterIngestNotificationSubject = '';
+
+    /**
+     * submitterIngestNotificationBody
+     *
+     * @var string
+     */
+    protected $submitterIngestNotificationBody = '';
+
 
     /**
      * Returns the project
@@ -581,6 +623,133 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setUploadDomain($uploadDomain)
     {
         $this->uploadDomain = $uploadDomain;
+    }
+
+
+    /**
+     * Gets the submitterIngestNotificationSubject
+     *
+     * @return string
+     */
+    public function getSubmitterIngestNotificationSubject()
+    {
+        return $this->submitterIngestNotificationSubject;
+    }
+
+    /**
+     * Sets the submitterIngestNotificationSubject
+     *
+     * @var string $submitterIngestNotificationSubject
+     * @return void
+     */
+    public function setSubmitterIngestNotificationSubject($submitterIngestNotificationSubject)
+    {
+        $this->submitterIngestNotificationSubject = $submitterIngestNotificationSubject;
+    }
+
+    /**
+     * Gets the submitterIngestNotificationBody
+     *
+     * @return string
+     */
+    public function getSubmitterIngestNotificationBody()
+    {
+        return $this->submitterIngestNotificationBody;
+    }
+
+    /**
+     * Sets the submitterIngestNotificationBody
+     *
+     * @var string $submitterIngestNotificationBody
+     * @return void
+     */
+    public function setSubmitterIngestNotificationBody($submitterIngestNotificationBody)
+    {
+        $this->submitterIngestNotificationBody = $submitterIngestNotificationBody;
+    }
+
+    /**
+     * Gets the submitterNewDocumentNotificationSubject
+     *
+     * @return string
+     */
+    public function getSubmitterNewDocumentNotificationSubject()
+    {
+        return $this->submitterNewDocumentNotificationSubject;
+    }
+
+    /**
+     * Sets the submitterNewDocumentNotificationSubject
+     *
+     * @var string $submitterNewDocumentNotificationSubject
+     * @return void
+     */
+    public function setSubmitterNewDocumentNotificationSubject($submitterNewDocumentNotificationSubject)
+    {
+        $this->submitterNewDocumentNotificationSubject = $submitterNewDocumentNotificationSubject;
+    }
+
+    /**
+     * Gets the submitterNewDocumentNotificationBody
+     *
+     * @return string
+     */
+    public function getSubmitterNewDocumentNotificationBody()
+    {
+        return $this->submitterNewDocumentNotificationBody;
+    }
+
+    /**
+     * Sets the submitterNewDocumentNotificationBody
+     *
+     * @var string $submitterNewDocumentNotificationBody
+     * @return void
+     */
+    public function setSubmitterNewDocumentNotificationBody($submitterNewDocumentNotificationBody)
+    {
+        $this->submitterNewDocumentNotificationBody = $submitterNewDocumentNotificationBody;
+    }
+
+    /**
+     * Gets the adminNewDocumentNotificationSubject
+     *
+     * @return string
+     */
+    public function getAdminNewDocumentNotificationSubject()
+    {
+        return $this->adminNewDocumentNotificationSubject;
+    }
+
+    /**
+     * Sets the adminNewDocumentNotificationSubject
+     *
+     * @var string $adminNewDocumentNotificationSubject
+     * @return void
+     */
+    public function setAdminNewDocumentNotificationSubject($adminNewDocumentNotificationSubject)
+    {
+        $this->adminNewDocumentNotificationSubject = $adminNewDocumentNotificationSubject;
+    }
+
+    /**
+     * Gets the adminNewDocumentNotificationBody
+     *
+     * @return string
+     */
+    public function getAdminNewDocumentNotificationBody()
+    {
+        return $this->adminNewDocumentNotificationBody;
+    }
+
+    /**
+     * Sets the adminNewDocumentNotificationBody
+     *
+     * @var string $adminNewDocumentNotificationBody
+     * @return void
+     */
+    public function setAdminNewDocumentNotificationBody($adminNewDocumentNotificationBody)
+    {
+        $this->adminNewDocumentNotificationBody = $adminNewDocumentNotificationBody;
     }
 
 }

@@ -25,58 +25,81 @@ class Notifier
      */
     protected $clientRepository = null;
 
+
+    /**
+     * documentTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @inject
+     */
+    protected $documentTypeRepository = null;
+
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         try {
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $urn  = $mods->getQucosaUrn();
-
-            $slub          = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterName = $slub->getSubmitterName();
-
-            // Notify client admin
             $client = $this->clientRepository->findAll()->current();
-            if ($client) {
-                $args['submitterName'] = $submitterName;
-                $args['title']         = $document->getTitle();
-                $args['author']        = implode("; ", $document->getAuthors());
-                $args['urn']           = $urn;
-                $args['date']          = (new \DateTime)->format("d-m-Y H:i:s");
-                $clientAdminEmail      = $client->getAdminEmail();
-                if ($clientAdminEmail) {
-                    $adminReceiver                    = array();
-                    $adminReceiver[$clientAdminEmail] = $clientAdminEmail;
-                    $message                          = (new \TYPO3\CMS\Core\Mail\MailMessage())
-                        ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
-                        ->setTo($adminReceiver)
-                        ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf'))
-                        ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf', $args));
-                    $message->send();
-                }
+            $clientAdminEmail = $client->getAdminEmail();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $submitterEmail = $slub->getSubmitterEmail();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $authors = $document->getAuthors();
+
+            $args['###CLIENT###'] = $client->getClient();
+
+            if (method_exists($document,'getProcessNumber')) {
+                $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
             }
 
-            // Notify submitter
-            $slub           = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
-            if ($submitterEmail) {
-                $slub                           = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-                $submitterName                  = $slub->getSubmitterName();
-                $args['submitterName']          = $submitterName;
-                $args['title']                  = $document->getTitle();
-                $args['author']                 = implode("; ", $document->getAuthors());
-                $args['urn']                    = $urn;
-                $args['date']                   = (new \DateTime)->format("d-m-Y H:i:s");
-                $emailReceiver                  = array();
-                $emailReceiver[$submitterEmail] = $submitterEmail;
-                if ($emailReceiver) {
-                    $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
-                        ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
-                        ->setTo($emailReceiver)
-                        ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.subject', 'dpf'))
-                        ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.body', 'dpf', $args));
-                    $message->send();
+            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+            $args['###TITLE###'] = $document->getTitle();
+            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
+            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
+            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+
+            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
+            $args['###URN###'] = $mods->getQucosaUrn();
+            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+
+            // Notify client admin
+            if ($clientAdminEmail) {
+                $subject = $client->getAdminNewDocumentNotificationSubject();
+                $body = $client->getAdminNewDocumentNotificationBody();
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
                 }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
+
+            }
+
+
+            // Notify submitter
+            if ($submitterEmail) {
+                $subject = $client->getSubmitterNewDocumentNotificationSubject();
+                $body = $client->getSubmitterNewDocumentNotificationBody();
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.subject', 'dpf');
+                }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.submitter.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
 
         } catch (\Exception $e) {}
@@ -87,32 +110,75 @@ class Notifier
     {
 
         try {
-            $mods                  = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $urn                   = $mods->getQucosaUrn();
-            $slub                  = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterName         = $slub->getSubmitterName();
-            $args['submitterName'] = $submitterName;
-            $args['title']         = $document->getTitle();
-            $args['author']        = implode("; ", $document->getAuthors());
-            $args['urn']           = 'http://nbn-resolving.de/' . $urn;
-            $args['date']          = (new \DateTime)->format("d-m-Y H:i:s");
-            $slub                  = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $client = $this->clientRepository->findAll()->current();
+            $clientAdminEmail = $client->getAdminEmail();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $submitterEmail = $slub->getSubmitterEmail();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $authors = $document->getAuthors();
+
+            $args['###CLIENT###'] = $client->getClient();
+
+            if (method_exists($document,'getProcessNumber')) {
+                $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
+            }
+
+            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+            $args['###TITLE###'] = $document->getTitle();
+            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
+            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
+            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+
+            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
+            $args['###URN###'] = $mods->getQucosaUrn();
+            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
 
             // Notify submitter
-            $submitterEmail = $slub->getSubmitterEmail();
             if ($submitterEmail) {
-                $emailReceiver                  = array();
-                $emailReceiver[$submitterEmail] = $submitterEmail;
-                if ($emailReceiver) {
-                    $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
-                        ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
-                        ->setTo($emailReceiver)
-                        ->setSubject(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.subject', 'dpf'))
-                        ->setBody(\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.body', 'dpf', $args));
-                    $message->send();
+                $subject = $client->getSubmitterIngestNotificationSubject();
+                $body = $client->getSubmitterIngestNotificationBody();
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.subject', 'dpf');
                 }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.ingestDocument.submitter.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
         } catch (\Exception $e) {}
 
     }
+
+
+    protected function replaceMarkers($message, $args)
+    {
+        if (is_array($args)) {
+            foreach ($args as $key => $value) {
+                $message = str_replace($key, $value, $message);
+            }
+        }
+        return $message;
+    }
+
+
+    protected function sendMail($reveiver, $subject, $body, $args, $mailType)
+    {
+        $emailReceiver = array();
+        $emailReceiver[$reveiver] = $reveiver;
+        $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
+            ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
+            ->setTo($emailReceiver)
+            ->setSubject($this->replaceMarkers($subject,$args))
+            ->setBody($this->replaceMarkers($body,$args),$mailType);
+        $message->send();
+    }
+
 }
