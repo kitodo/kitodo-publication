@@ -616,6 +616,11 @@ class MetsExporter
         $domDocument = new \DOMDocument();
         $domDocument->loadXML($this->metsHeader);
 
+        // add objid
+        if (!empty($this->objId)) {
+            $domDocument->documentElement->setAttribute("OBJID", $this->objId);
+        }
+
         $domElement = $domDocument->firstChild;
 
         $dmdSec = $domDocument->createElement('mets:dmdSec');
