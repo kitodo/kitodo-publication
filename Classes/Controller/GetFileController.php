@@ -93,6 +93,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     $exporter->setSlubInfo($document->getSlubInfoData());
 
+                    $exporter->setObjId($document->getObjectIdentifier());
+
                     $exporter->buildMets();
 
                     $metsXml = $exporter->getMetsData();

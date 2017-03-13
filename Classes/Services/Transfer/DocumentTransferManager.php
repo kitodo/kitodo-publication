@@ -107,6 +107,8 @@ class DocumentTransferManager
 
         $exporter->setSlubInfo($document->getSlubInfoData());
 
+        $exporter->setObjId($document->getObjectIdentifier());
+
         $exporter->buildMets();
 
         $metsXml = $exporter->getMetsData();
@@ -161,6 +163,8 @@ class DocumentTransferManager
         $exporter->setMods($mods->getModsXml());
 
         $exporter->setSlubInfo($document->getSlubInfoData());
+
+        $exporter->setObjId($document->getObjectIdentifier());
 
         $exporter->buildMets();
 
