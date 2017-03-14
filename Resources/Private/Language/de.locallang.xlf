@@ -59,7 +59,7 @@
 		</trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
-			<target>Datei hinzufügen</target>
+			<target>Weitere Datei hinzufügen</target>
 		</trans-unit>
 		<trans-unit id="form_button.add_item" approved="yes">
 			<source>add %s</source>
@@ -77,6 +77,10 @@
 			<source>delete</source>
 			<target>löschen</target>
 		</trans-unit>
+		<trans-unit id="form_button.remove_file" approved="yes">
+            <source>remove</source>
+            <target>entfernen</target>
+        </trans-unit>
 		<trans-unit id="form_button.delete_item" approved="yes">
 			<source>delete %s</source>
 			<target>lösche %s</target>
