@@ -122,6 +122,9 @@
 		<trans-unit id="form_button.delete">
 			<source>delete</source>
 		</trans-unit>
+        <trans-unit id="form_button.remove_file">
+            <source>remove</source>
+        </trans-unit>
 		<trans-unit id="form_button.delete_item">
 			<source>delete %s</source>
 		</trans-unit>

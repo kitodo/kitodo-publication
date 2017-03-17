@@ -92,6 +92,9 @@ $(document).ready(function() {
     if (countResults < resultCount) {
         jQuery("#next").hide();
     }
+
+    addRemoveFileButton();
+    
 });
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
@@ -298,6 +301,7 @@ var addGroup = function() {
         });
         buttonFillOutServiceUrn();
         datepicker();
+        addRemoveFileButton();
     });
     return false;
 }
@@ -474,4 +478,12 @@ var documentListConfirmDialog = function(dialogId) {
     jQuery(dialogId).on('hidden.bs.modal', function(e) {
         jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
     });
+}
+
+function addRemoveFileButton() {
+    $('.rem_file').unbind('click');
+    $('.rem_file').bind('click', function (evt) {
+        evt.preventDefault();
+        $(this).siblings('.input_file_upload').val('');
+    })
 }
