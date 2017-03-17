@@ -15,7 +15,16 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 <fieldset class="fs_file_group" data-group="file-upload">
     <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
-    <f:form.upload property="secondaryFiles.{groupIndex}" class="input_file_upload"/>
+    <div class="secondaryInputChoice">
+        <div>
+            <f:form.radio class="uploadChoice" name="uploadChoiceSecondary_{groupIndex}" value="upload"/>
+            <f:form.upload property="secondaryFiles.{groupIndex}" class="secondaryFilesInput.{groupIndex} input_file_upload"/>
+        </div>
+        <div>
+            <f:form.radio class="uploadChoice" name="uploadChoiceSecondary_{groupIndex}" value="url"/>
+            <f:form.textfield class="secondaryFilesUrl.{groupIndex}" property="secondaryFilesUrl.{groupIndex}" placeholder="{f:translate(key: 'form_legend.url')}"/>
+        </div>
+    </div>
     <f:if condition="{groupIndex}">
         <button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"
                 data-index="{groupIndex}">

@@ -16,8 +16,18 @@
 
 <fieldset class="fs_file_group" data-group="file-upload" id="primary_file" data-virtual="{virtual}">
     <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend>
-    <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}"
-                   class="input_file_upload"/>
+    <div id="primaryInputChoice">
+        <div>
+            <f:form.radio class="uploadChoice" name="uploadChoice" value="upload"/>
+            <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}"
+                           class="input_file_upload"/>
+        </div>
+        <div>
+            <f:form.radio class="uploadChoice" name="uploadChoice" value="url"/>
+            <f:form.textfield id="inp_primaryFileUrl" property="primaryFileUrl" placeholder="{f:translate(key: 'form_legend.url')}"/>
+        </div>
+    </div>
+
     <eww:isElementAllowed condition="backendOnly">
         <f:then>
             <div class="form-group">

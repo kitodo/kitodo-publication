@@ -174,7 +174,7 @@ class FormDataReader
         $newFiles = array();
 
         // Primary file
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
+        if ($this->formData['primaryFile'] || $this->formData['primaryFileUrl'] && $this->formData['primaryFile']['error'] != 4) {
 
             // Use the existing file entry
             $file     = null;
@@ -183,10 +183,36 @@ class FormDataReader
                 $file = $this->fileRepository->getPrimaryFileByDocument($document);
             }
 
-            $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], true, $file);
-            $newPrimaryFile->setLabel($fullTextLabel);
+            if (!$this->formData['primaryFileUrl']) {
 
-            $newFiles[] = $newPrimaryFile;
+                $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], true, $file);
+                $newPrimaryFile->setLabel($fullTextLabel);
+
+                $newFiles[] = $newPrimaryFile;
+
+            } else {
+                $url = $this->formData['primaryFileUrl'];
+
+                // check if file exists
+                $headers = get_headers($url, 1);
+                $exists = stripos($headers[0],"200 OK")?true:false;
+
+                if ($exists) {
+                    $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
+                    $file->setTitle($url);
+                    $file->setLabel($fullTextLabel);
+                    $file->setLink($url);
+                    $file->setPrimaryFile(true);
+                    $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_REMOTE);
+                    if ($headers['Content-Type']) {
+                        $file->setContentType($headers['Content-Type']);
+                    }
+
+                    $newFiles[] = $file;
+                }
+
+            }
+
         }
 
         if (is_array($this->formData['primFile'])) {
@@ -221,9 +247,32 @@ class FormDataReader
         // Secondary files
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 4) {
+                if (isset($tmpFile['error']) && $tmpFile['error'] != 4) {
                     $f          = $this->getUploadedFile($tmpFile);
                     $newFiles[] = $f;
+                }
+            }
+        }
+        if (is_array($this->formData['secondaryFilesUrl']) ) {
+            // check secondary file url
+            foreach ($this->formData['secondaryFilesUrl'] as $tmpUrl) {
+
+                $url = $tmpUrl;
+
+                // check if file exists
+                $headers = get_headers($url, 1);
+                $exists = stripos($headers[0],"200 OK")?true:false;
+
+                if ($exists) {
+                    $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
+                    $file->setTitle($url);
+                    $file->setLink($url);
+                    $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_REMOTE);
+                    if ($headers['Content-Type']) {
+                        $file->setContentType($headers['Content-Type']);
+                    }
+
+                    $newFiles[] = $file;
                 }
             }
         }
