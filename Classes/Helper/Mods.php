@@ -197,6 +197,10 @@ class Mods
             $urnNode->parentNode->removeChild($urnNode);
         }
 
+        $urnNodeList = $this->getModsXpath()->query('/mods:mods/mods:identifier[@type="qucosa:urn"]');
+        foreach ($urnNodeList as $urnNode) {
+            $urnNode->parentNode->removeChild($urnNode);
+        }
     }
 
 }
