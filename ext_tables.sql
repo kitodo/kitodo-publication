@@ -450,6 +450,12 @@ CREATE TABLE tx_dpf_domain_model_client (
   elastic_search_port VARCHAR(255) DEFAULT '' NOT NULL,
   upload_directory VARCHAR(255) DEFAULT '' NOT NULL,
   upload_domain VARCHAR(255) DEFAULT '' NOT NULL,
+  admin_new_document_notification_subject VARCHAR(1024) DEFAULT '' NOT NULL,
+  admin_new_document_notification_body TEXT NOT NULL,
+  submitter_new_document_notification_subject VARCHAR(1024) DEFAULT '' NOT NULL,
+  submitter_new_document_notification_body TEXT NOT NULL,
+  submitter_ingest_notification_subject VARCHAR(1024) DEFAULT '' NOT NULL,
+  submitter_ingest_notification_body TEXT NOT NULL,
 
   tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
   crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,

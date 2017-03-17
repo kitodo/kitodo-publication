@@ -19,10 +19,24 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl']['requestUpdate'] = 'replac
 $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
     'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl'],
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password, elastic_search_host, elastic_search_port, upload_directory, upload_domain'
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, 
+        network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, 
+        sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password, 
+        elastic_search_host, elastic_search_port, upload_directory, upload_domain, 
+        admin_new_document_notification_subject, admin_new_document_notification_body, 
+        submitter_new_document_notification_subject, submitter_new_document_notification_body, 
+        submitter_ingest_notification_subject, submitter_ingest_notification_body'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace, --div--;Fedora, fedora_host, fedora_user, fedora_password, --div--;Elastic search, elastic_search_host, elastic_search_port, --div--;Upload, upload_directory, upload_domain, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, 
+        client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, 
+        --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace, 
+        --div--;Fedora, fedora_host, fedora_user, fedora_password, 
+        --div--;Elastic search, elastic_search_host, elastic_search_port, 
+        --div--;Upload, upload_directory, upload_domain,
+        --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,
+        --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body, 
+        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -323,6 +337,65 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
                 'eval' => 'trim',
             ),
         ),
-
+        'admin_new_document_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_new_document_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_new_document_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_new_document_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+            'defaultExtras' => 'richtext[]'
+        ),
+        'submitter_new_document_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_new_document_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'submitter_new_document_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_new_document_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+            'defaultExtras' => 'richtext[]'
+        ),
+        'submitter_ingest_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_ingest_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'submitter_ingest_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_ingest_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+            'defaultExtras' => 'richtext[]'
+        ),
     ),
 );

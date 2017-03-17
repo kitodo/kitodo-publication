@@ -305,11 +305,11 @@
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>
 Your document has been published:
-Submitter: %s
-Title: %s
-Author: %s
-URL: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URL: ###URL###
+Date: ###DATE###
 				</source>
 		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.subject">
@@ -318,11 +318,11 @@ Date: %s
 		<trans-unit id="notification.newDocument.admin.body" xml:space="preserve">
 			<source>
 A new document has been registered:
-Submitter: %s
-Title: %s
-Author: %s
-URN: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.admin.subject">
@@ -331,11 +331,11 @@ Date: %s
 		<trans-unit id="notification.newDocument.submitter.body" xml:space="preserve">
 			<source>
 You have registered the following document:
-Submitter: %s
-Title: %s
-Author: %s
-URN: %s
-Date: %s
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.submitter.subject">
