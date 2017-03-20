@@ -156,10 +156,10 @@
 			<source>Please fill out at least one of the fields.</source>
 		</trans-unit>
 		<trans-unit id="form_legend.primaryFile">
-			<source>Primary File</source>
+			<source>Primary File* (Format: PDF / PDF/A)</source>
 		</trans-unit>
 		<trans-unit id="form_legend.secondaryFile">
-			<source>Secondary File</source>
+			<source>Secondary File (Format: PDF / PDF/A et al.)</source>
 		</trans-unit>
 		<trans-unit id="form_success_msg.all">
 			<source>Form successfully validated.</source>
