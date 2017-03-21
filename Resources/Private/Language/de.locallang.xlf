@@ -119,11 +119,11 @@
 		</trans-unit>
 		<trans-unit id="form_legend.primaryFile" approved="yes">
 			<source>Primary File</source>
-			<target>Primary File</target>
+			<target>Volltextdatei* (Format: PDF / PDF/A)</target>
 		</trans-unit>
 		<trans-unit id="form_legend.secondaryFile" approved="yes">
 			<source>Secondary File</source>
-			<target>Secondary File</target>
+			<target>Sekundärdatei (Format: PDF / PDF/A o.a.)</target>
 		</trans-unit>
 		<trans-unit id="form_success_msg.all" approved="yes">
 			<source>Form successfully validated.</source>
