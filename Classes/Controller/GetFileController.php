@@ -93,7 +93,15 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     $exporter->setSlubInfo($document->getSlubInfoData());
 
-                    $exporter->setObjId($document->getObjectIdentifier());
+                    if (empty($document->getObjectIdentifier())) {
+
+                        $exporter->setObjId($document->getUid());
+
+                    } else {
+
+                        $exporter->setObjId($document->getObjectIdentifier());
+
+                    }
 
                     $exporter->buildMets();
 
@@ -109,11 +117,38 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
 
             case 'attachment':
-                $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
+
+                $qid = $piVars['qid'];
+
+                $attachment = $piVars['attachment'];
+
+                if (is_numeric($piVars['qid'])) {
+
+                    // qid is local uid
+                    $document = $this->documentRepository->findByUid($piVars['qid']);
+
+                    $files = $document->getCurrentFileData();
+
+                    foreach ($files['download'] as $id => $file) {
+
+                        $fileIdArray[$file['id']] = $file['path'];
+
+                    }
+
+                    $path = $fileIdArray[$attachment];
+
+                } else {
+
+                    $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
+
+                }
+
                 break;
 
             default:
+
                 $this->response->setStatus(404);
+
                 return 'No such action';
         }
 
