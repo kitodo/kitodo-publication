@@ -131,11 +131,12 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     foreach ($files['download'] as $id => $file) {
 
-                        $fileIdArray[$file['id']] = $file['path'];
+                        if ($file['id'] == $attachment) {
 
+                            $path = $file['path'];
+                            
+                        }
                     }
-
-                    $path = $fileIdArray[$attachment];
 
                 } else {
 
