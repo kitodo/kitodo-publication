@@ -134,7 +134,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                         if ($file['id'] == $attachment) {
 
                             $path = $file['path'];
-                            
+
+                            $contentType = $file['type'];
+
+                            break;
+
                         }
                     }
 
@@ -142,6 +146,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
 
+                }
+
+                if (empty($path)) {
+                    $this->response->setStatus(404);
+                    return 'No file found';
                 }
 
                 break;
