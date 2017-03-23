@@ -194,7 +194,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         }
 
         if (!$contentDispFlag) {
-            header('Content-Disposition: attachement');
+            header('Content-Disposition: attachment');
         }
 
         if (!$contentTypeFlag) {
