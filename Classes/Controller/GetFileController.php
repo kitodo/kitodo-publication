@@ -170,15 +170,20 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             return 'Error while fetching headers';
         }
 
+        $contentDispFlag = false;
+        $contentTypeFlag = false;
+
         foreach ($headers as $value) {
 
             if (FALSE !== stripos($value, 'Content-Disposition')) {
                 header($value);
+                $contentDispFlag = true;
                 continue;
             }
 
             if (FALSE !== stripos($value, 'Content-Type')) {
                 header($value);
+                $contentTypeFlag = true;
                 continue;
             }
 
@@ -186,6 +191,14 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 header($value);
                 continue;
             }
+        }
+
+        if (!$contentDispFlag) {
+            header('Content-Disposition: attachement');
+        }
+
+        if (!$contentTypeFlag) {
+            header('Content-Type: ' . $contentType);
         }
 
         if ($stream = fopen($path, 'r')) {
