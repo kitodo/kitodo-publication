@@ -59,6 +59,9 @@ class ElasticsearchMapper
         $exporter->setSlubInfo($document->getSlubInfoData());
 
         $exporter->setMods($document->getXmlData());
+
+        $exporter->setObjId($document->getObjectIdentifier());
+
         $exporter->buildMets();
         $metsXml = $exporter->getMetsData();
 

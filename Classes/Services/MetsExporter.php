@@ -85,6 +85,14 @@ class MetsExporter
      */
     protected $counter = 0;
 
+
+    /**
+     * objId
+     * @var string
+     */
+    protected $objId = '';
+
+
     /**
      * Constructor
      */
@@ -608,6 +616,11 @@ class MetsExporter
         $domDocument = new \DOMDocument();
         $domDocument->loadXML($this->metsHeader);
 
+        // add objid
+        if (!empty($this->objId)) {
+            $domDocument->documentElement->setAttribute("OBJID", $this->objId);
+        }
+
         $domElement = $domDocument->firstChild;
 
         $dmdSec = $domDocument->createElement('mets:dmdSec');
@@ -949,4 +962,13 @@ class MetsExporter
         return $this->slubData->saveXML();
     }
 
+    /**
+     *
+     * @param string $objId
+     * @return void
+     */
+    public function setObjId($objId)
+    {
+        $this->objId = $objId;
+    }
 }

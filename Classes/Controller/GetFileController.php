@@ -93,6 +93,16 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                     $exporter->setSlubInfo($document->getSlubInfoData());
 
+                    if (empty($document->getObjectIdentifier())) {
+
+                        $exporter->setObjId($document->getUid());
+
+                    } else {
+
+                        $exporter->setObjId($document->getObjectIdentifier());
+
+                    }
+
                     $exporter->buildMets();
 
                     $metsXml = $exporter->getMetsData();
@@ -107,11 +117,48 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
 
             case 'attachment':
-                $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $piVars['qid'] . '/datastreams/' . $piVars['attachment'] . '/content';
+
+                $qid = $piVars['qid'];
+
+                $attachment = $piVars['attachment'];
+
+                if (is_numeric($piVars['qid'])) {
+
+                    // qid is local uid
+                    $document = $this->documentRepository->findByUid($piVars['qid']);
+
+                    $files = $document->getCurrentFileData();
+
+                    foreach ($files['download'] as $id => $file) {
+
+                        if ($file['id'] == $attachment) {
+
+                            $path = $file['path'];
+
+                            $contentType = $file['type'];
+
+                            break;
+
+                        }
+                    }
+
+                } else {
+
+                    $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
+
+                }
+
+                if (empty($path)) {
+                    $this->response->setStatus(404);
+                    return 'No file found';
+                }
+
                 break;
 
             default:
+
                 $this->response->setStatus(404);
+
                 return 'No such action';
         }
 
@@ -123,15 +170,20 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             return 'Error while fetching headers';
         }
 
+        $contentDispFlag = false;
+        $contentTypeFlag = false;
+
         foreach ($headers as $value) {
 
             if (FALSE !== stripos($value, 'Content-Disposition')) {
                 header($value);
+                $contentDispFlag = true;
                 continue;
             }
 
             if (FALSE !== stripos($value, 'Content-Type')) {
                 header($value);
+                $contentTypeFlag = true;
                 continue;
             }
 
@@ -139,6 +191,14 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 header($value);
                 continue;
             }
+        }
+
+        if (!$contentDispFlag) {
+            header('Content-Disposition: attachment');
+        }
+
+        if (!$contentTypeFlag) {
+            header('Content-Type: ' . $contentType);
         }
 
         if ($stream = fopen($path, 'r')) {
