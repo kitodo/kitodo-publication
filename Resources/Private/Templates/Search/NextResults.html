@@ -19,7 +19,7 @@
 <f:section name="main">
     <f:render partial="Search/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
     <center>
-        <f:link.action id="next" controller="Search" action="nextResults" data-result-count="{resultCount}">{f:translate(key: 'search.resultList.more')}
+        <f:link.action id="next" controller="Search" action="nextResults" additionalAttributes="{data-result-count: resultCount}">{f:translate(key: 'search.resultList.more')}
         </f:link.action>
     </center>
 </f:section>
