@@ -67,6 +67,17 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
     }
 
+    public function extractQuotedString($string) {
+        if (preg_match('/"([^"]+)"/', $string, $m)) {
+            $array['quoted'] = $m[1];
+            $array['nonQuoted'] = trim(str_replace($m[0], "", $string));
+
+            return $array;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * build array for elasticsearch
      * @return array Elasticsearch query array
@@ -82,40 +93,86 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         if ($args['extSearch']['extId']) {
 
             $id                = $args['extSearch']['extId'];
-            $fieldQuery['_id'] = $id;
+            $fieldQuery[]['_id'] = $id;
             $countFields++;
-            // will be removed from query later
+
+            // saves data for form (will be removed from query later)
             $query['extra']['id'] = $id;
 
         }
 
         if ($args['extSearch']['extTitle']) {
 
-            $title               = $args['extSearch']['extTitle'];
-            $fieldQuery['_dissemination._content.title'] = $title;
+            $title = $args['extSearch']['extTitle'];
+            $titleQuery = $title;
+
+            if ($extract = $this->extractQuotedString($title)) {
+
+                $title = $extract['nonQuoted'];
+                $fieldQuery['quoted']['_dissemination._content.title']['query'] = $extract['quoted'];
+                $fieldQuery['quoted']['_dissemination._content.title']['type'] = 'phrase';
+
+            }
+
+            if (!empty($title)) {
+                $fieldQuery['nonQuoted']['_dissemination._content.title'] = $title;
+            }
+
             $countFields++;
-            // will be removed from query later
-            $query['extra']['title'] = $title;
+
+            // saves data for form (will be removed from query later)
+            $query['extra']['title'] = $titleQuery;
+
 
         }
 
         if ($args['extSearch']['extAuthor']) {
 
             $author               = $args['extSearch']['extAuthor'];
-            $fieldQuery['author'] = $author;
+            //$fieldQuery['author'] = $author;
+
+            $authorQuery = $author;
+
+            if ($extract = $this->extractQuotedString($author)) {
+
+                $author = $extract['nonQuoted'];
+                $fieldQuery['quoted']['_dissemination._content.author']['query'] = $extract['quoted'];
+                $fieldQuery['quoted']['_dissemination._content.author']['type'] = 'phrase';
+
+            }
+
+            if (!empty($author)) {
+                $fieldQuery['nonQuoted']['_dissemination._content.author'] = $author;
+            }
+
             $countFields++;
-            // will be removed from query later
-            $query['extra']['author'] = $author;
+            // saves data for form (will be removed from query later)
+            $query['extra']['author'] = $authorQuery;
 
         }
 
         if ($args['extSearch']['extType']) {
 
             $docType               = $args['extSearch']['extType'];
-            $fieldQuery['doctype'] = $docType;
+            // $fieldQuery['doctype'] = $docType;
+
+            $docTypeQuery = $docType;
+
+            if ($extract = $this->extractQuotedString($docType)) {
+
+                $docType = $extract['nonQuoted'];
+                $fieldQuery['quoted']['_dissemination._content.doctype']['query'] = $extract['quoted'];
+                $fieldQuery['quoted']['_dissemination._content.doctype']['type'] = 'phrase';
+
+            }
+
+            if (!empty($docType)) {
+                $fieldQuery['nonQuoted']['_dissemination._content.doctype'] = $docType;
+            }
+
             $countFields++;
-            // will be removed from query later
-            $query['extra']['doctype'] = $docType;
+            // saves data for form (will be removed from query later)
+            $query['extra']['doctype'] = $docTypeQuery;
 
         }
 
@@ -123,9 +180,22 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         if ($args['extSearch']['extCorporation']) {
 
             $corporation                = $args['extSearch']['extCorporation'];
-            $fieldQuery['corporation']  = $corporation;
+            // $fieldQuery['corporation']  = $corporation;
+
+            if ($extract = $this->extractQuotedString($corporation)) {
+
+                $corporation = $extract['nonQuoted'];
+                $fieldQuery['quoted']['_dissemination._content.corporation']['query'] = $extract['quoted'];
+                $fieldQuery['quoted']['_dissemination._content.corporation']['type'] = 'phrase';
+
+            }
+
+            if (!empty($corporation)) {
+                $fieldQuery['nonQuoted']['_dissemination._content.corporation'] = $corporation;
+            }
+
             $countFields++;
-            // will be removed from query later
+            // saves data for form (will be removed from query later)
             $query['extra']['corporation']  = $corporation;
 
         }
@@ -149,7 +219,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             // STATE active
             $deleted             = true;
-            $fieldQuery['STATE'] = 'A';
+            $fieldQuery[]['STATE'] = 'A';
             $countFields++;
 
         }
@@ -159,7 +229,19 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             // multi field search
             $i = 1;
             foreach ($fieldQuery as $key => $qry) {
-                $query['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
+                if (is_array($qry[key($qry)])) {
+
+                    $array['match'][key($qry)] = array(
+                        "query" => $qry[key($qry)]['query'],
+                        "type" => $qry[key($qry)]['type']
+                    );
+
+                    $query['body']['query']['bool']['must'][] = $array;
+                } else {
+
+                    $query['body']['query']['bool']['must'][] = array('match' => $qry);
+                }
+
                 $i++;
             }
 
@@ -171,7 +253,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             $from          = $args['extSearch']['extFrom'];
             $filter['gte'] = $this->formatDate($from);
-            // will be removed from query later
+            // saves data for form (will be removed from query later)
             $query['extra']['from'] = $from;
 
         }
@@ -180,7 +262,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             $till          = $args['extSearch']['extTill'];
             $filter['lte'] = $this->formatDate($till);
-            // will be removed from query later
+            // saves data for form (will be removed from query later)
             $query['extra']['till'] = $till;
 
         }
