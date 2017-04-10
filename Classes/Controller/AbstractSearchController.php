@@ -237,9 +237,12 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             }
         }
 
-        //TODO set day to latest day in month if maxfill == true
-
         $dateTime->setDate($year, $month, $day);
+
+        if ($fillMax) {
+            $maxDayFormMonth = $dateTime->format('t');
+            $dateTime->setDate($year, $month, $maxDayFormMonth);
+        }
 
         return $dateTime;
     }
