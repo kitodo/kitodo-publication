@@ -170,9 +170,14 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         if ($args['extSearch']['extFrom']) {
 
             $from          = $args['extSearch']['extFrom'];
-            $filter['gte'] = $this->formatDate($from);
-            // will be removed from query later
-            $query['extra']['from'] = $from;
+
+            $dateTime = $this->convertFormDate($from, false);
+
+            //$filter['gte'] = $this->formatDate($from);
+            $filter['gte'] = $dateTime->format('d-m-Y');
+
+            // saves data for form (will be removed from query later)
+            $query['extra']['from'] = $dateTime->format('d-m-Y');
 
         }
 
@@ -180,8 +185,13 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             $till          = $args['extSearch']['extTill'];
             $filter['lte'] = $this->formatDate($till);
-            // will be removed from query later
-            $query['extra']['till'] = $till;
+
+            $dateTime = $this->convertFormDate($till, true);
+
+            $filter['lte'] = $dateTime->format('d-m-Y');
+
+            // saves data for form (will be removed from query later)
+            $query['extra']['till'] = $dateTime->format('d-m-Y');;
 
         }
 
@@ -195,6 +205,43 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
 
         return $query;
+    }
+
+    /**
+     * @param $date
+     * @param bool $fillMax: fills missing values with the maximum possible date if true
+     */
+    public function convertFormDate($date, $fillMax = false) {
+
+        $dateTime = new \DateTime('01-01-2000');
+
+        $date = explode(".", $date);
+        $year = 1;
+        if ($fillMax) {
+            $month = 12;
+        } else {
+            $month = 1;
+        }
+        $day = 1;
+
+        // reverse array to get year first
+        foreach (array_reverse($date) as $key => $value) {
+            if (strlen($value) == 4) {
+                $year = $value;
+            } else {
+                if ($key == 1) {
+                    $month = $value;
+                } else if ($key == 2){
+                    $day = $value;
+                }
+            }
+        }
+
+        //TODO set day to latest day in month if maxfill == true
+
+        $dateTime->setDate($year, $month, $day);
+
+        return $dateTime;
     }
 
     /**
