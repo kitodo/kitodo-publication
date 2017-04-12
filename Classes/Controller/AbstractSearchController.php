@@ -174,10 +174,10 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             $dateTime = $this->convertFormDate($from, false);
 
             //$filter['gte'] = $this->formatDate($from);
-            $filter['gte'] = $dateTime->format('d-m-Y');
+            $filter['gte'] = $dateTime->format('Y-m-d');
 
             // saves data for form (will be removed from query later)
-            $query['extra']['from'] = $dateTime->format('d-m-Y');
+            $query['extra']['from'] = $dateTime->format('Y-m-d');
 
         }
 
@@ -188,10 +188,10 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             $dateTime = $this->convertFormDate($till, true);
 
-            $filter['lte'] = $dateTime->format('d-m-Y');
+            $filter['lte'] = $dateTime->format('Y-m-d');
 
             // saves data for form (will be removed from query later)
-            $query['extra']['till'] = $dateTime->format('d-m-Y');;
+            $query['extra']['till'] = $dateTime->format('Y-m-d');;
 
         }
 
