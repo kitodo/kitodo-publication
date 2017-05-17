@@ -264,7 +264,7 @@ class MetsExporter
                         $existsExtensionFlag = true;
                         // mods extension
                         $counter            = sprintf("%'03d", $this->counter);
-                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
+                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
 
                         $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
@@ -291,7 +291,7 @@ class MetsExporter
                 }
             }
             if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
-                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
+                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
                 $xml   = $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {
@@ -905,7 +905,7 @@ class MetsExporter
                         if ($value['modsExtension']) {
                             // mods extension
                             $counter            = sprintf("%'03d", $this->counter);
-                            $referenceAttribute = '[@' . $group['modsExtensionReference'] . '="#QUCOSA_' . $counter . '"]';
+                            $referenceAttribute = '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
 
                             $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 

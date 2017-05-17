@@ -204,7 +204,8 @@ class DocumentMapper
                                 $modsExtensionGroupMapping = $metadataGroup->getAbsoluteModsExtensionMapping();
 
                                 $refID      = $data->getAttribute("ID");
-                                $objectData = $xpath->query($modsExtensionGroupMapping . '[@' . $referenceAttribute . '=' . '"#' . $refID . '"]/' . $objectMapping);
+                                // filter hashes from referenceAttribute value for backwards compatibility reasons
+                                $objectData = $xpath->query($modsExtensionGroupMapping . "[translate(@" . $referenceAttribute . ",'#','')=" . '"' . $refID . '"]/' . $objectMapping);
                             } else {
                                 $objectData = $xpath->query($objectMapping, $data);
                             }
