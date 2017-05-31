@@ -309,8 +309,6 @@ class FormDataReader
             $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
         }
 
-        print_r($file);
-
         return $file;
     }
 
