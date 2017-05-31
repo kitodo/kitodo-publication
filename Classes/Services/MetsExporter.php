@@ -267,10 +267,12 @@ class MetsExporter
                         $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
 
                         $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
+                        $path = $this->replaceSingleQuote($path);
 
                         $xml = $this->customXPath($path, false, $value['value']);
                     } else {
                         $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
+                        $path = $this->replaceSingleQuote($path);
 
                         if ($i == 0) {
                             $newGroupFlag = true;
@@ -870,6 +872,16 @@ class MetsExporter
     }
 
     /**
+     * replaces single quote with double quote
+     * @param $string
+     * @return string
+     */
+    function replaceSingleQuote($string)
+    {
+        return str_replace("'",'"',$string);
+    }
+
+    /**
      *
      * @param string $slubInfoData
      */
@@ -908,11 +920,12 @@ class MetsExporter
                             $referenceAttribute = '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
 
                             $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
+                            $path = $this->replaceSingleQuote($path);
 
                             $xml = $this->customXPathSlub($path, false, $value['value']);
                         } else {
                             $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
-                            // print_r($path);print_r("\n");
+                            $path = $this->replaceSingleQuote($path);
 
                             if ($i == 0) {
                                 $newGroupFlag = true;
