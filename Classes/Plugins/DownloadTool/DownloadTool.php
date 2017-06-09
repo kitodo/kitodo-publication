@@ -114,7 +114,7 @@ class DownloadTool extends \tx_dlf_plugin
     {
 
         // Get pdf documents
-        $xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file[@MIMETYPE="application/pdf"]';
+        $xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file';
 
         $files = $this->doc->mets->xpath($xPath);
 
