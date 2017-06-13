@@ -136,6 +136,8 @@ class RelatedListTool extends \tx_dlf_plugin
 
         $items = $this->doc->mets->xpath($xPath);
 
+        $relatedItems = array();
+
         foreach ($items as $key => $value) {
 
             $value->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
@@ -157,7 +159,9 @@ class RelatedListTool extends \tx_dlf_plugin
 
         }
 
-        ksort($relatedItems);
+        if (count($relatedItems) > 1) {
+          ksort($relatedItems);
+        }
         return $relatedItems;
     }
 
