@@ -316,6 +316,28 @@ class MetsExporter
         return $xml;
     }
 
+    public function sortPredicates($xpath) {
+        $search = '/\[(.*)\]/U';
+
+        preg_match_all($search, $xpath, $matches);
+
+        $last = '';
+        $predicateString = '';
+
+        foreach ($matches[1] as $key => $value) {
+            if (substr($value, 0, 1) == '@') {
+                $predicateString .= '[' . $value . ']';
+            } else {
+                $last .= '[' . $value . ']';
+            }
+        }
+
+        $xpathExploded = explode("[", $xpath);
+        $newXpath = $xpathExploded[0] . $predicateString . $last;
+
+        return $newXpath;
+    }
+
     /**
      * Customized xPath parser
      * @param  xpath  $xPath xpath expression
@@ -406,7 +428,11 @@ class MetsExporter
             } else {
                 // first xpath doesn't exist
                 // parse first xpath part
-                $xml1 = $this->parseXPath($newPath[0]);
+
+                // sort predicate elements
+                $sortedNewPath = $this->sortPredicates($newPath[0]);
+
+                $xml1 = $this->parseXPath($sortedNewPath);
 
                 $doc1 = new \DOMDocument();
                 $doc1->loadXML($this->wrapMods($xml1));
