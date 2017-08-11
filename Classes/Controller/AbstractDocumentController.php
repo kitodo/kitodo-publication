@@ -17,7 +17,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentFormController
  */
-abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
     /**
