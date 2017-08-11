@@ -14,7 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-class DocumentFormController extends AbstractDocumentFormController
+class DocumentFormController extends AbstractDocumentController
 {
 
     public function __construct()
