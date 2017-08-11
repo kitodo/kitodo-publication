@@ -56,7 +56,7 @@ if (TYPO3_MODE === 'BE') {
             . 'listNew, listEdit, activate, inactivate, restore',
 
             'DocumentFormBE'   => 'list, show, new, create, edit, update, delete, cancel',
-            'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+            'AjaxDocument' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
             'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
         ),
         array(

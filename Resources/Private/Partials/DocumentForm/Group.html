@@ -39,7 +39,7 @@
                                 <button type="submit"
                                         title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                                         name="add_field" class="btn btn-default add_field" data-field="{fieldItem.uid}"
-                                        data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:110124,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
+                                        data-ajax="{f:uri.action(action:'field',controller:'AjaxDocument',pageType:110124,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
                                         data-index="{fieldItemIterator.index}">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>

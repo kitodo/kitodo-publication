@@ -36,12 +36,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'Qucosaform',
     array(
         'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel',
-        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxDocument' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
     ),
     // non-cacheable actions
     array(
         'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
-        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxDocument' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
     )
 );
 
@@ -81,4 +81,4 @@ $overrideSetup = 'plugin.tx_dpf_downloadtool.userFunc = EWW\Dpf\Plugins\Download
 $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\RelatedListTool\RelatedListTool->main';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
-$TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
+$TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentController.php:AjaxDocumentController->fieldAction';

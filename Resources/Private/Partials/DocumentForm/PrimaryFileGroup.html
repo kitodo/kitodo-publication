@@ -23,7 +23,7 @@
                 <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">{file.title}
                 </f:link.external>
                 <button type="submit" name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
-                        data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:110124,arguments:{fileUid: file.uid,isPrimary: 1})}">
+                        data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocument',pageType:110124,arguments:{fileUid: file.uid,isPrimary: 1})}">
                     <span class="glyphicon glyphicon-trash"></span>
                     {f:translate(key: 'form_button.remove_file', arguments: {0: ''})}
                 </button>

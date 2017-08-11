@@ -48,7 +48,7 @@
                                             <button type="submit" name="add_group"
                                                     class="btn btn-xs btn-default add_group"
                                                     data-group="{groupItem.uid}"
-                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:110124,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
+                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
                                                     data-index="{groupItemIterator.index}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                                 {f:translate(key: 'form_button.add_item', arguments: {0:
@@ -71,7 +71,7 @@
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
                 data-group="file-upload"
-                data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocumentForm',pageType:110124)}"
+                data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocument',pageType:110124)}"
                 data-index="0">
             <span class="glyphicon glyphicon-plus"></span>
             {f:translate(key: 'form_button.addFile')}

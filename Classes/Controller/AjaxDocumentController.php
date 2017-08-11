@@ -17,7 +17,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentFormController
  */
-class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
+class AjaxDocumentController extends \EWW\Dpf\Controller\AbstractController
 {
 
     /**
