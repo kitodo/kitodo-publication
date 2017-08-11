@@ -37,7 +37,7 @@
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
-        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+        <f:render partial="Document/FormBody" arguments="{documentForm:documentForm}"/>
     </f:form>
     <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
         <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">

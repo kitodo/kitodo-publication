@@ -12,11 +12,12 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:form action="create" name="documentData" object="{documentData}" enctype="multipart/form-data">
+<f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data">
     <f:form.hidden property="type" value="{documentForm.uid}"/>
+    <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
     <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
     <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
-    <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+    <f:render partial="Document/FormBody" arguments="{documentForm:documentForm}"/>
 </f:form>
 <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
     <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">

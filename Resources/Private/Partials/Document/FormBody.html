@@ -14,7 +14,7 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<f:render partial="DocumentForm/Validation.html" />
+<f:render partial="Document/Validation.html" />
 
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
@@ -41,7 +41,7 @@
                         <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
                             <eww:isElementAllowed condition="{groupItem.backendOnly}">
                                 <f:then>
-                                    <f:render partial="DocumentForm/Group"
+                                    <f:render partial="Document/Group"
                                               arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
                                     <f:if condition="{groupItem.maxIteration} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
@@ -66,9 +66,9 @@
     </f:for>
 
     <div id="tab-file-upload" class="fs_page tab-pane">
-        <f:render partial="DocumentForm/PrimaryFileGroup"
+        <f:render partial="Document/PrimaryFileGroup"
                   arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
-        <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
+        <f:render partial="Document/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
                 data-group="file-upload"
                 data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocument',pageType:110124)}"

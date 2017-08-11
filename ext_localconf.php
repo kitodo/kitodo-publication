@@ -35,12 +35,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Qucosaform',
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel',
+        'Document'     => 'list,show,new,create,edit,update,delete,cancel',
         'AjaxDocument' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
     ),
     // non-cacheable actions
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
+        'Document'     => 'list,show,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
         'AjaxDocument' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
     )
 );

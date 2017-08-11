@@ -12,17 +12,16 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="DocumentBE"/>
+<f:layout name="Default"/>
 
 <f:section name="main">
     <f:flashMessages renderMode="div"/>
     <f:comment>
-        <f:debug title="Form" maxDepth="20">
-            {documentForm}
-        </f:debug>
+        <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
     </f:comment>
+    <f:debug title="Form" maxDepth="20">{languages}</f:debug>
     <h2>
-        <f:translate key="documentForm.new.header" arguments="{foo: '{documentForm.displayName}'}"/>
+        <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
     </h2>
-    <f:render partial="DocumentForm/New" arguments="{documentForm:documentForm}"/>
+    <f:render partial="Document/Edit" arguments="{documentForm:documentForm}"/>
 </f:section>

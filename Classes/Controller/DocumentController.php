@@ -14,7 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-class DocumentFormController extends AbstractDocumentController
+class DocumentController extends AbstractDocumentController
 {
 
     public function __construct()
@@ -25,7 +25,7 @@ class DocumentFormController extends AbstractDocumentController
 
     protected function redirectToList($message = null)
     {
-        $this->redirect('list', 'DocumentForm', null, array('message' => $message));
+        $this->redirect('list', 'Document', null, array('message' => $message));
     }
 
     /**

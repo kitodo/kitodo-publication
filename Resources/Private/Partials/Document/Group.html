@@ -32,7 +32,7 @@
             <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
                 <eww:isElementAllowed condition="{fieldItem.backendOnly}">
                     <f:then>
-                        <f:render partial="DocumentForm/Field"
+                        <f:render partial="Document/Field"
                                   arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries}"/>
                         <f:if condition="{fieldItem.maxIteration} == 0">
                             <f:if condition="{fieldItemIterator.isLast}">
