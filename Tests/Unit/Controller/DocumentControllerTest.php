@@ -21,12 +21,12 @@ namespace EWW\Dpf\Tests\Unit\Controller;
 class DocumentControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var \EWW\Dpf\Controller\DocumentController
+	 * @var \EWW\Dpf\Controller\DocumentManagerController
 	 */
 	protected $subject = NULL;
 
 	protected function setUp() {
-		$this->subject = $this->getMock('EWW\\Dpf\\Controller\\DocumentController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
+		$this->subject = $this->getMock('EWW\\Dpf\\Controller\\DocumentManagerController', array('redirect', 'forward', 'addFlashMessage'), array(), '', FALSE);
 	}
 
 	protected function tearDown() {

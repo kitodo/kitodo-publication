@@ -15,12 +15,12 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
 <div class="btn-group" role="group">
-    <f:link.action action="listNew" controller="Document"
-                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listNew')}">
+    <f:link.action action="listNew" controller="DocumentManager"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'DocumentManager', actionName:'listNew')}">
         {f:translate(key: 'manager.document.state.new')}
     </f:link.action>
-    <f:link.action action="listEdit" controller="Document"
-                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
+    <f:link.action action="listEdit" controller="DocumentManager"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'DocumentManager', actionName:'listEdit')}">
         {f:translate(key: 'manager.document.state.inProgress')}
     </f:link.action>
 </div>

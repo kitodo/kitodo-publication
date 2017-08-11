@@ -17,7 +17,7 @@ namespace EWW\Dpf\Controller;
 /**
  * DocumentController
  */
-class DocumentController extends \EWW\Dpf\Controller\AbstractController
+class DocumentManagerController extends \EWW\Dpf\Controller\AbstractController
 {
 
     /**

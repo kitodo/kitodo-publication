@@ -295,7 +295,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
-                $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+                $this->redirect('list', 'DocumentManager', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
             }
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");

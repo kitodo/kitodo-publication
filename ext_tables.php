@@ -51,7 +51,7 @@ if (TYPO3_MODE === 'BE') {
         'qucosamanager',
         '',
         array(
-            'Document'         => 'list, show, new, create, edit, update, delete, discard, release, duplicate, '
+            'DocumentManager'         => 'list, show, new, create, edit, update, delete, discard, release, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
             . 'listNew, listEdit, activate, inactivate, restore',
 

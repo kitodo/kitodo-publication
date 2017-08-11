@@ -15,13 +15,13 @@
 <f:layout name="DefaultBE"/>
 
 <f:section name="main">
-    <h4>{f:translate(key: 'manager.deleteConfirmMessageHeader')}</h4>
-    {f:translate(key: 'manager.deleteConfirmMessage', arguments: {0: document.title})}
+    <h4>{f:translate(key: 'manager.restoreConfirmMessageHeader')}</h4>
+    {f:translate(key: 'manager.restoreConfirmMessage', arguments: {0: document.title})}
     <br/><br/>
-    <f:link.action action="delete" controller="Document" arguments="{document : document}" class="btn btn-danger">
+    <f:link.action action="restore" controller="DocumentManager" arguments="{document : document}" class="btn btn-danger">
         {f:translate(key: 'manager.releaseConfirmYes')}
     </f:link.action>
-    <f:link.action action="list" controller="Document" class="btn btn-primary">{f:translate(key:
+    <f:link.action action="list" controller="DocumentManager" class="btn btn-primary">{f:translate(key:
         'manager.releaseConfirmNo')}
     </f:link.action>
 </f:section>

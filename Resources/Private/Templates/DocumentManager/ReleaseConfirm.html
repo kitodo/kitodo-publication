@@ -26,10 +26,10 @@
         <br/><br/>
     </f:if>
 
-    <f:link.action action="release" controller="Document" arguments="{document : document}" class="btn btn-danger">
+    <f:link.action action="release" controller="DocumentManager" arguments="{document : document}" class="btn btn-danger">
         {f:translate(key: 'manager.releaseConfirmYes')}
     </f:link.action>
-    <f:link.action action="list" controller="Document" class="btn btn-primary">{f:translate(key:
+    <f:link.action action="list" controller="DocumentManager" class="btn btn-primary">{f:translate(key:
         'manager.releaseConfirmNo')}
     </f:link.action>
 </f:section>
