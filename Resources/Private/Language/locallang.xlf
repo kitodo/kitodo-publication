@@ -557,6 +557,9 @@ Date: ###DATE###
 		<trans-unit id="tx_dpf_domain_model_document.xml_data">
 			<source>Xml Data</source>
 		</trans-unit>
+		    <trans-unit id="tx_dpf_domain_model_document.metadata">
+            <source>Meta Data</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog">
 			<source>Document Transfer Log</source>
 		</trans-unit>

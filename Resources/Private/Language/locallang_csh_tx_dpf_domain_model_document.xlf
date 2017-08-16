@@ -14,6 +14,9 @@
 		<trans-unit id="document_type.description">
 			<source>documentType</source>
 		</trans-unit>
+		<trans-unit id="metadata.description">
+          <source>meta data</source>
+        </trans-unit>
 		<trans-unit id="object_identifier.description">
 			<source>objectIdentifier</source>
 		</trans-unit>

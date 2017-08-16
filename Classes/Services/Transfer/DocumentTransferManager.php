@@ -204,79 +204,11 @@ class DocumentTransferManager
         };
 
         if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            $mods = $mets->getMods();
-            $slub = $mets->getSlub();
-
-            $title   = $mods->getTitle();
-            $authors = $mods->getAuthors();
-
-            $documentTypeName = $slub->getDocumentType();
-            $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
-
-            if (empty($title) || empty($documentType)) {
-                return false;
+            $document = \EWW\Dpf\Domain\Factory\DocumentFactory::createByMets($remoteId, $metsXml);
+            if ($document) {
+                $this->documentRepository->add($document);
+                return true;
             }
-
-            $state = $mets->getState();
-
-            switch ($state) {
-                case "ACTIVE":
-                    $objectState = Document::OBJECT_STATE_ACTIVE;
-                    break;
-                case "INACTIVE":
-                    $objectState = Document::OBJECT_STATE_INACTIVE;
-                    break;
-                case "DELETED":
-                    $objectState = Document::OBJECT_STATE_DELETED;
-                    break;
-                default:
-                    $objectState = "ERROR";
-                    throw new \Exception("Unknown object state: " . $state);
-                    break;
-            }
-
-            $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-            $document->setObjectIdentifier($remoteId);
-            $document->setState($objectState);
-            $document->setTitle($title);
-            $document->setAuthors($authors);
-            $document->setDocumentType($documentType);
-
-            $document->setXmlData($mods->getModsXml());
-            $document->setSlubInfoData($slub->getSlubXml());
-
-            $document->setDateIssued($mods->getDateIssued());
-
-            $document->setProcessNumber($slub->getProcessNumber());
-
-            $this->documentRepository->add($document);
-            $this->persistenceManager->persistAll();
-
-            foreach ($mets->getFiles() as $attachment) {
-
-                $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
-                $file->setContentType($attachment['mimetype']);
-                $file->setDatastreamIdentifier($attachment['id']);
-                $file->setLink($attachment['href']);
-                $file->setTitle($attachment['title']);
-                $file->setLabel($attachment['title']);
-                $file->setDownload($attachment['download']);
-                $file->setArchive($attachment['archive']);
-
-                if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
-                    $file->setPrimaryFile(true);
-                }
-
-                $file->setDocument($document);
-
-                $this->fileRepository->add($file);
-            }
-
-            return true;
-
-        } else {
-            return false;
         }
 
         return false;

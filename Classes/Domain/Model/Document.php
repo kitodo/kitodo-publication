@@ -117,6 +117,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumber;
 
     /**
+     *
+     * @var array $metadata;
+     */
+    protected $metadata;
+
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -769,4 +776,29 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->processNumber = trim($processNumber);
     }
+
+    /**
+     * Returns the metadata
+     *
+     * @return array $metadata
+     */
+    public function getMetadata()
+    {
+        return unserialize($this->metadata);
+    }
+
+    /**
+     * Sets the metadata
+     *
+     * @param array $metadata
+     * @return void
+     */
+    public function setMetadata($metadata)
+    {
+        $this->metadata = serialize($metadata);
+    }
+
+
+
+
 }
