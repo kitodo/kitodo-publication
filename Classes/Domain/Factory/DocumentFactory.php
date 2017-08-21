@@ -274,7 +274,7 @@ class DocumentFactory
 
             foreach ($pageType->getMetadataGroup() as $groupType) {
                 $groups[$groupType->getUid()] = array();
-                for ($i = 0; $i < 2; $i++) {
+                for ($i = 0; $i < 1; $i++) {
                     $fields = array();
 
                     foreach ($groupType->getMetadataObject() as $fieldType) {

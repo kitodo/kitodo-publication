@@ -19,46 +19,26 @@
     <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
     <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
 
-    <f:comment>
-
-    <f:for each="{document.metadata}" key="groupUid" as="group">
-
-        <f:for each="{group}" as="groupItem" iteration="groupIterator">
-
-            <f:for each="{groupItem}" key="fieldUid" as="field">
-
-                <f:for each="{field}" as="fieldItem" iteration="fieldIterator">
-
-                    {groupUid}.{groupIterator.index}.{fieldUid}.{fieldIterator.index}
-                    <f:form.textfield id="inp_{field.uid}"
-
-                                      property="metadata.{groupUid}.{groupIterator.index}.{fieldUid}.{fieldIterator.index}"
-
-                                      value="{fieldItem}"
-                                      class="{}"
-                                      additionalAttributes="{}"/>
-
-                    <br />
-                </f:for>
-            </f:for>
-        </f:for>
-    </f:for>
-
-    </f:comment>
-
+<f:comment>
     <eww:document.pages document="{document}">
         <h2>{pageType.displayName}</h2> <br />
         <eww:document.groups pageType="{pageType}" groups="{groups}">
-            <h3>{groupType.displayname} {groupIndex}</h3> <br />
+            <h3>{groupType.displayname}</h3> <br />
             <eww:document.fields groupType="{groupType}" group="{group}">
-                {fieldType.displayName} {fieldIndex} <br />
+                {fieldType.displayName}
+                <f:form.textfield id="inp_{field.uid}"
+                                  property="metadata.{groupType.uid}.{groupIndex}.{fieldType.uid}.{fieldIndex}"
+                                  value="{field.value}"
+                                  class="{}"
+                                  additionalAttributes="{}"/>
+                <br />
             </eww:document.fields>
         </eww:document.groups>
 
         <br />
     </eww:document.pages>
-
-
+</f:comment>
+    <f:render partial="Document/FormBodyNew" arguments="{document:document}"/>
 </f:form>
 <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
     <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">

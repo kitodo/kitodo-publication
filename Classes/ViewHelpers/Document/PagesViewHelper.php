@@ -29,12 +29,20 @@ class PagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $output = "";
 
         $pageTypes = $document->getDocumentType()->getMetadataPage();
+        $pageCount = count($pageTypes);
         $index = 0;
+        $pageIterator = array();
 
         foreach ($pageTypes as $pageType) {
+            $pageIterator['index'] = $index;
+            $pageIterator['cycle'] = $index+1;
+            $pageIterator['isLast'] = $index+1 == $pageCount;
+
             $this->templateVariableContainer->add('groups', $document->getMetadata());
             $this->templateVariableContainer->add('pageType', $pageType);
+            $this->templateVariableContainer->add('pageIterator', $pageIterator);
             $output .= $this->renderChildren();
+            $this->templateVariableContainer->remove('pageIterator');
             $this->templateVariableContainer->remove('pageType');
             $this->templateVariableContainer->remove('groups');
             ++$index;

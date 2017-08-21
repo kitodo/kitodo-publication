@@ -1,0 +1,52 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace eww=EWW\Dpf\ViewHelpers}
+
+<fieldset class="fs_group" data-group="{groupType.uid}" data-mandatory="{groupType.mandatory}">
+    <legend>
+        <f:if condition="{groupIterator.index}">+{groupIndex}:</f:if>
+        {groupType.displayName}
+        <f:if condition="{groupIterator.index}">
+            <button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{groupType.uid}"><span
+                    class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: groupType.displayName})}</span>
+            </button>
+        </f:if>
+    </legend>
+    <div class="group-info-text">
+        <f:format.raw>{groupType.infoText}</f:format.raw>
+    </div>
+    <eww:document.fields groupType="{groupType}" group="{group}">
+            <div class="form-container {f:if(condition: '{fieldType.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
+                <eww:isElementAllowed condition="{fieldType.backendOnly}">
+                    <f:then>
+                        <f:render partial="Document/FieldNew"
+                                  arguments="{pageType:pageType, groupType:groupType, groupIterator:groupIterator, fieldType:fieldType, fieldIterator:fieldIterator, field:field}"/>
+                        <f:if condition="{fieldType.maxIteration} == 0">
+                            <f:if condition="{fieldIterator.isLast}">
+                                <button type="submit"
+                                        title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldType.displayName})}"
+                                        name="add_field" class="btn btn-default add_field" data-field="{fieldType.uid}"
+                                        data-ajax="{f:uri.action(action:'field',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:pageType.uid, groupUid:groupType.uid, groupIndex:groupIterator.index, fieldUid:fieldType.uid})}"
+                                        data-index="{fieldIterator.index}">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldType.displayName})}</span>
+                                </button>
+                            </f:if>
+                        </f:if>
+                    </f:then>
+                </eww:isElementAllowed>
+            </div>
+    </eww:document.fields>
+</fieldset>

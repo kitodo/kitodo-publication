@@ -31,16 +31,25 @@ class FieldsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 
         $fieldTypes = $groupType->getMetadataObject();
 
+        $fieldIterator = array();
+
         foreach ($fieldTypes as $fieldType) {
 
             $index = 0;
+            $fieldCount = count($group[$fieldType->getUid()]);
+
             foreach ($group[$fieldType->getUid()] as $field) {
+
+                $fieldIterator['index'] = $index;
+                $fieldIterator['cycle'] = $index+1;
+                $fieldIterator['isLast'] = $index+1 == $fieldCount;
+
                 $this->templateVariableContainer->add('fieldType', $fieldType);
-                $this->templateVariableContainer->add('fieldIndex', $index);
+                $this->templateVariableContainer->add('fieldIterator', $fieldIterator);
                 $this->templateVariableContainer->add('field', $field);
                 $output .= $this->renderChildren();
                 $this->templateVariableContainer->remove('field');
-                $this->templateVariableContainer->remove('fieldIndex');
+                $this->templateVariableContainer->remove('fieldIterator');
                 $this->templateVariableContainer->remove('fieldType');
                 ++$index;
             }
