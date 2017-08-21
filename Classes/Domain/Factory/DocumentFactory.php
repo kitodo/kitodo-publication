@@ -16,9 +16,10 @@ namespace EWW\Dpf\Domain\Factory;
 
 use \EWW\Dpf\Domain\Model\Document;
 
-class DocumentFactory {
+class DocumentFactory
+{
 
-    static function createByMets($remoteId, $metsXml)
+    static function createFromMets($remoteId, $metsXml)
     {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
@@ -28,11 +29,11 @@ class DocumentFactory {
         $mods = $mets->getMods();
         $slub = $mets->getSlub();
 
-        $title   = $mods->getTitle();
+        $title = $mods->getTitle();
         $authors = $mods->getAuthors();
 
         $documentTypeName = $slub->getDocumentType();
-        $documentType     = $documentTypeRepository->findOneByName($documentTypeName);
+        $documentType = $documentTypeRepository->findOneByName($documentTypeName);
 
         if (empty($title) || empty($documentType)) {
             return false;
@@ -88,18 +89,40 @@ class DocumentFactory {
             $document->addFile($file);
         }
 
-       $document->setMetadata(self::createMetadata($document, $metsXml));
-
-        //echo "<pre>";
-        //print_r($document->getMetadata());
-        //echo "</pre>";
-        //die();
+        $document->setMetadata(self::createMetadataFromMets($document->getDocumentType(), $metsXml));
 
         return $document;
     }
 
 
-    private static function createMetadata($document, $metsXml) {
+    static function create($documentType)
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+        $documentTypeRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository");
+
+        $document = $objectManager->get('\EWW\Dpf\Domain\Model\Document');
+        //$document->setObjectIdentifier();
+        //$document->setState($objectState);
+        //$document->setTitle($title);
+        //$document->setAuthors($authors);
+        $document->setDocumentType($documentType);
+
+        //$document->setXmlData($mods->getModsXml());
+        //$document->setSlubInfoData($slub->getSlubXml());
+
+        //$document->setDateIssued($mods->getDateIssued());
+
+        //$document->setProcessNumber($slub->getProcessNumber());
+
+
+        $document->setMetadata(self::createMetadata($document->getDocumentType()));
+
+
+        return $document;
+    }
+
+    private static function createMetadataFromMets($documentType, $metsXml)
+    {
 
         $mets = new \EWW\Dpf\Helper\Mets($metsXml);
         $mods = $mets->getMods();
@@ -107,7 +130,7 @@ class DocumentFactory {
 
         $documentGroupData = array();
 
-        foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage) {
+        foreach ($documentType->getMetadataPage() as $metadataPage) {
 
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
 
@@ -201,7 +224,7 @@ class DocumentFactory {
 
                                 foreach ($objectData as $key => $value) {
 
-                                   // $documentFormFieldItem = clone ($documentFormField);
+                                    // $documentFormFieldItem = clone ($documentFormField);
 
                                     $objectValue = $value->nodeValue;
 
@@ -242,4 +265,29 @@ class DocumentFactory {
         return $documentGroupData;
     }
 
+
+    private static function createMetadata($documentType)
+    {
+        $groups = array();
+
+        foreach ($documentType->getMetadataPage() as $pageType) {
+
+            foreach ($pageType->getMetadataGroup() as $groupType) {
+                $groups[$groupType->getUid()] = array();
+                for ($i = 0; $i < 2; $i++) {
+                    $fields = array();
+
+                    foreach ($groupType->getMetadataObject() as $fieldType) {
+                        $fields[$fieldType->getUid()] = array();
+                        for ($j = 0; $j < 1; $j++) {
+                            $fields[$fieldType->getUid()][] = "";
+                        }
+                    }
+                    $groups[$groupType->getUid()][] = $fields;
+                }
+            }
+        }
+
+        return $groups;
+    }
 }

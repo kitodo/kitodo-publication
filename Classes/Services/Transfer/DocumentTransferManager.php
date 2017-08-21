@@ -204,7 +204,7 @@ class DocumentTransferManager
         };
 
         if ($metsXml) {
-            $document = \EWW\Dpf\Domain\Factory\DocumentFactory::createByMets($remoteId, $metsXml);
+            $document = \EWW\Dpf\Domain\Factory\DocumentFactory::createFromMets($remoteId, $metsXml);
             if ($document) {
                 $this->documentRepository->add($document);
                 return true;

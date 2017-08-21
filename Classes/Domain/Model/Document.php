@@ -118,9 +118,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      *
-     * @var array $metadata;
+     * @var string $metadata;
      */
-    protected $metadata;
+    protected $metadata = '';
 
 
     /**

@@ -136,7 +136,7 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
      */
     public function initializeNewAction()
     {
-
+/*
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('documentData', $requestArguments)) {
@@ -154,23 +154,34 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
 
         $requestArguments['newDocumentForm'] = $docForm;
         $this->request->setArguments($requestArguments);
+*/
     }
 
     /**
      * action new
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
-     * @ignorevalidation $newDocumentForm
+     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocument
+     * @ignorevalidation $newDocument
      * @return void
      */
-    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
+    public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = null)
     {
-        $this->view->assign('documentForm', $newDocumentForm);
+        $requestArguments = $this->request->getArguments();
+
+        if (array_key_exists('documentType', $requestArguments)) {
+            $docTypeUid   = $this->request->getArgument('documentType');
+            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+            $newDocument = \EWW\Dpf\Domain\Factory\DocumentFactory::create($documentType);
+            $this->view->assign('document', $newDocument);
+        } else {
+            die('Error: Missing Document type.');
+        }
+
     }
 
     public function initializeCreateAction()
     {
-
+/*
         $requestArguments = $this->request->getArguments();
 
         if ($this->request->hasArgument('documentData')) {
@@ -191,17 +202,18 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
         }
+*/
     }
 
     /**
      * action create
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @param \EWW\Dpf\Domain\Model\Document $newDocument
      * @return void
      */
-    public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
+    public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument)
     {
-
+/*
         $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
@@ -246,11 +258,12 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         }
 
         $this->redirectToList('CREATE_OK');
+*/
     }
 
     public function initializeEditAction()
     {
-
+/*
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('document', $requestArguments)) {
@@ -264,22 +277,24 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
 
         $requestArguments['documentForm'] = $documentForm;
         $this->request->setArguments($requestArguments);
+*/
     }
 
     /**
      * action edit
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
-     * @ignorevalidation $documentForm
+     * @param \EWW\Dpf\Domain\Model\DocumentForm $document
+     * @ignorevalidation $document
      * @return void
      */
-    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    public function editAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $this->view->assign('documentForm', $documentForm);
+        $this->view->assign('document', $document);
     }
 
     public function initializeUpdateAction()
     {
+/*
         $requestArguments = $this->request->getArguments();
 
         if ($this->request->hasArgument('documentData')) {
@@ -300,17 +315,18 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
         }
+*/
     }
 
     /**
      * action update
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
-    public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    public function updateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-
+/*
         $requestArguments = $this->request->getArguments();
 
         $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
@@ -352,6 +368,7 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         }
 
         $this->redirectToList();
+*/
     }
 
     /**
