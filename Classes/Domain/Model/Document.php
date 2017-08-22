@@ -124,6 +124,19 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
 
     /**
+     *
+     * @var array $newFiles;
+     */
+    protected $newFiles;
+
+    /**
+     *
+     * @var array $deletedFiles;
+     */
+    protected $deletedFiles;
+
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -657,6 +670,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         !empty($this->objectIdentifier);
     }
 
+
+    public function isSaveAllowed()
+    {
+        return !($this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
+            $this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE &&
+            $this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW);
+    }
+
+
     /**
      *
      *
@@ -799,6 +821,71 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
 
+    /**
+     * Gets the main urn
+     *
+     * @return string
+     */
+    public function getUrn()
+    {
+        $urn = "";
 
+        $objectIdentifier = $this->getObjectIdentifier();
+
+        if (empty($objectIdentifier)) {
+            $objectIdentifier = $this->getReservedObjectIdentifier();
+        }
+
+        if (!empty($objectIdentifier)) {
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+            $urnService = $objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+            $urn  = $urnService->getUrn($objectIdentifier);
+        }
+
+        return $urn;
+    }
+
+
+    /**
+     * Sets the new files
+     *
+     * @param array $newFiles
+     * @return void
+     */
+    public function setNewFiles($newFiles)
+    {
+        $this->newFiles = $newFiles;
+    }
+
+    /**
+     * Gets the new files
+     *
+     * @return array
+     */
+    public function getNewFiles()
+    {
+        return $this->newFiles;
+    }
+
+    /**
+     * Sets the deleted files
+     *
+     * @param array $deletedFiles
+     * @return void
+     */
+    public function setDeletedFiles($deletedFiles)
+    {
+        $this->seletedFiles = $deletedFiles;
+    }
+
+    /**
+     * Gets the deleted files
+     *
+     * @return array
+     */
+    public function getDeletedFiles()
+    {
+        return $this->deletedFiles;
+    }
 
 }

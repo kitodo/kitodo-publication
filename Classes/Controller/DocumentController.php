@@ -31,12 +31,12 @@ class DocumentController extends AbstractDocumentController
     /**
      * action create
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
-    public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
+    public function createAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-
+/*
         foreach ($newDocumentForm->getNewFiles() as $newFile) {
             $uid = $newFile->getUID();
             if (empty($uid)) {
@@ -46,7 +46,7 @@ class DocumentController extends AbstractDocumentController
         }
 
         $newDocumentForm->setNewFiles($files);
-
-        parent::createAction($newDocumentForm);
+*/
+        parent::createAction($document);
     }
 }

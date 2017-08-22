@@ -15,11 +15,19 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <f:form action="create" name="document" object="{document}" enctype="multipart/form-data">
-    <f:form.hidden property="type" value="{documentForm.uid}"/>
-    <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
-    <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
+    <f:form.hidden property="documentType" value="{document.documentType}"/>
+    <f:if condition="{document.objectIdentifier}">
+        <f:then>
+            <f:form.hidden id="objectIdentifier" property="objectIdentifier" value="{document.objectIdentifier}"/>
+        </f:then>
+        <f:else>
+            <f:form.hidden id="objectIdentifier" property="objectIdentifier" value="{document.reservedObjectIdentifier}"/>
+        </f:else>
+    </f:if>
 
 <f:comment>
+    <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{}"/>
+
     <eww:document.pages document="{document}">
         <h2>{pageType.displayName}</h2> <br />
         <eww:document.groups pageType="{pageType}" groups="{groups}">

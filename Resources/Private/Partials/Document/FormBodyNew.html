@@ -60,35 +60,36 @@
                      data-page="{pageType.uid}">
 
                     <eww:document.groups pageType="{pageType}" groups="{groups}">
-                            <eww:isElementAllowed condition="{groupType.backendOnly}">
-                                <f:then>
-                                    <f:render partial="Document/GroupNew"
-                                              arguments="{pageType:pageType,groupType:groupType,group:group,groupIterator:groupIterator}"/>
+                        <eww:isElementAllowed condition="{groupType.backendOnly}">
+                            <f:then>
+                                <f:render partial="Document/GroupNew"
+                                          arguments="{pageType:pageType,groupType:groupType,group:group,groupIterator:groupIterator}"/>
 
-                                    <f:if condition="{groupType.maxIteration} == 0">
-                                        <f:if condition="{groupIterator.isLast}">
-                                            <button type="submit" name="add_group"
-                                                    class="btn btn-xs btn-default add_group"
-                                                    data-group="{groupType.uid}"
-                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:pageType.uid,groupUid:groupType.uid})}"
-                                                    data-index="{groupIterator.index}">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                                {f:translate(key: 'form_button.add_item', arguments: {0:
-                                                groupType.displayName})}
-                                            </button>
-                                        </f:if>
+                                <f:if condition="{groupType.maxIteration} == 0">
+                                    <f:if condition="{groupIterator.isLast}">
+                                        <button type="submit" name="add_group"
+                                                class="btn btn-xs btn-default add_group"
+                                                data-group="{groupType.uid}"
+                                                data-ajax="{f:uri.action(action:'group',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:pageType.uid,groupUid:groupType.uid})}"
+                                                data-index="{groupIterator.index}">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            {f:translate(key: 'form_button.add_item', arguments: {0:
+                                            groupType.displayName})}
+                                        </button>
                                     </f:if>
-                                </f:then>
-                            </eww:isElementAllowed>
+                                </f:if>
+                            </f:then>
+                        </eww:isElementAllowed>
                     </eww:document.groups>
                 </div>
             </f:then>
         </eww:isElementAllowed>
     </eww:document.pages>
 
+
     <div id="tab-file-upload" class="fs_page tab-pane">
         <f:render partial="Document/PrimaryFileGroup"
-                  arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
+                  arguments="{file:documentForm.primaryFile,virtual:document.virtual}"/>
         <f:render partial="Document/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
                 data-group="file-upload"
@@ -101,7 +102,7 @@
 </div>
 
 <div class="form-submit">
-    <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}"
+    <f:form.button name="save" id="save" disabled="{f:if(condition: '{document.saveAllowed} == 0', then: 'disabled')}"
                    class="btn btn-lg btn-success">
         <span class="glyphicon glyphicon-ok"></span>
         {f:translate(key: 'form_button.save')}

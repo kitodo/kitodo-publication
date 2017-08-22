@@ -136,25 +136,6 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
      */
     public function initializeNewAction()
     {
-/*
-        $requestArguments = $this->request->getArguments();
-
-        if (array_key_exists('documentData', $requestArguments)) {
-            die('Error: initializeNewAction');
-        } elseif (array_key_exists('documentType', $requestArguments)) {
-            $docTypeUid   = $this->request->getArgument('documentType');
-            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $document     = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-            $document->setDocumentType($documentType);
-            $mapper  = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-            $docForm = $mapper->getDocumentForm($document);
-        } elseif (array_key_exists('newDocumentForm', $requestArguments)) {
-            $docForm = $this->request->getArgument('newDocumentForm');
-        }
-
-        $requestArguments['newDocumentForm'] = $docForm;
-        $this->request->setArguments($requestArguments);
-*/
     }
 
     /**
@@ -181,84 +162,89 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
 
     public function initializeCreateAction()
     {
-/*
         $requestArguments = $this->request->getArguments();
+        if ($this->request->hasArgument('document')) {
 
-        if ($this->request->hasArgument('documentData')) {
-            $documentData = $this->request->getArgument('documentData');
+            $propertyMappingConfiguration = $this->arguments->getArgument('document')->getPropertyMappingConfiguration();
+            $propertyMappingConfiguration->allowProperties('deletedFiles');
+            $propertyMappingConfiguration->allowProperties('newFiles');
 
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            $formDataReader->setFormData($documentData);
 
-            $docForm                             = $formDataReader->getDocumentForm();
-            $requestArguments['newDocumentForm'] = $docForm;
-
-            if (!$formDataReader->uploadError()) {
-                $this->request->setArguments($requestArguments);
-            } else {
-                $t = $docForm->getNewFileNames();
-                $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+            // Metadata mapping
+            if (key_exists('metadata', $requestArguments['document'])) {
+               $metadata = $requestArguments['document']['metadata'];
+               if (is_array($metadata)) {
+                    $requestArguments['document']['metadata'] = serialize($metadata);
+                    $this->request->setArguments($requestArguments);
+               }
             }
-        } else {
-            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
-        }
-*/
+
+            // Files mapping
+            $fileUploadMapper = $this->objectManager->get('EWW\Dpf\Helper\FileUploadMapper');
+            $fileUploadMapper->setFormData($requestArguments['document']);
+            $requestArguments = $this->request->getArguments();
+            $requestArguments['document']['deletedFiles'] = $fileUploadMapper->getDeletedFiles();
+            $requestArguments['document']['newFiles'] = $fileUploadMapper->getNewAndUpdatedFiles();
+            unset($requestArguments['document']['primaryFile']);
+            unset($requestArguments['document']['primFile']);
+            unset($requestArguments['document']['secondaryFiles']);
+            unset($requestArguments['document']['secFiles']);
+            $this->request->setArguments($requestArguments);
+
+            if ($fileUploadMapper->uploadError()) {
+               $t = $docForm->getNewFileNames();
+               $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+            }
+
+       }  else {
+           $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+       }
+
     }
 
     /**
      * action create
      *
-     * @param \EWW\Dpf\Domain\Model\Document $newDocument
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
-    public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument)
+    public function createAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-/*
-        $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-        $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
-        $this->documentRepository->add($newDocument);
+        $this->documentRepository->add($document);
         $this->persistenceManager->persistAll();
 
-        $newDocument = $this->documentRepository->findByUid($newDocument->getUid());
+        $document = $this->documentRepository->findByUid($document->getUid());
         $this->persistenceManager->persistAll();
 
         // Add or update files
-        $newFiles = $newDocumentForm->getNewFiles();
-
-        if (is_array($newFiles)) {
-            foreach ($newFiles as $newFile) {
-
-                if ($newFile->getUID()) {
-                    $this->fileRepository->update($newFile);
-                } else {
-                    $newFile->setDocument($newDocument);
-                    $this->fileRepository->add($newFile);
-                }
+        foreach ($document->getNewFiles() as $newFile) {
+            if ($newFile->getUID()) {
+                $this->fileRepository->update($newFile);
+            } else {
+                $newFile->setDocument($document);
+                $this->fileRepository->add($newFile);
             }
         }
 
         $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
 
-        $notifier->sendNewDocumentNotification($newDocument);
+        $notifier->sendNewDocumentNotification($document);
 
         $requestArguments = $this->request->getArguments();
-
         if (array_key_exists('savecontinue', $requestArguments)) {
-
             $tmpDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-
-            $tmpDocument->setTitle($newDocument->getTitle());
-            $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setXmlData($newDocument->getXmlData());
-            $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
-            $tmpDocument->setDocumentType($newDocument->getDocumentType());
-
-            $this->forward('new', null, null, array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));
+            $tmpDocument->setTitle($document->getTitle());
+            $tmpDocument->setAuthors($document->getAuthors());
+            $tmpDocument->setXmlData($document->getXmlData());
+            $tmpDocument->setMetadata($document->getMetadata());
+            $tmpDocument->setSlubInfoData($document->getSlubInfoData());
+            $tmpDocument->setDocumentType($document->getDocumentType());
+            $this->forward('new', null, null, array('document' => $tmpDocument));
         }
 
         $this->redirectToList('CREATE_OK');
-*/
+
     }
 
     public function initializeEditAction()
