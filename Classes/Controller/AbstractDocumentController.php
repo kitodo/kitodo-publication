@@ -163,12 +163,14 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
     public function initializeCreateAction()
     {
         $requestArguments = $this->request->getArguments();
+
         if ($this->request->hasArgument('document')) {
-
             $propertyMappingConfiguration = $this->arguments->getArgument('document')->getPropertyMappingConfiguration();
-            $propertyMappingConfiguration->allowProperties('deletedFiles');
-            $propertyMappingConfiguration->allowProperties('newFiles');
-
+            $propertyMappingConfiguration->allowProperties('deleteFile');
+            $propertyMappingConfiguration->allowProperties('primaryFile');
+            $propertyMappingConfiguration->allowProperties('primFile');
+            $propertyMappingConfiguration->allowProperties('secondaryFiles');
+            $propertyMappingConfiguration->allowProperties('secFiles');
 
             // Metadata mapping
             if (key_exists('metadata', $requestArguments['document'])) {
@@ -178,28 +180,9 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
                     $this->request->setArguments($requestArguments);
                }
             }
-
-            // Files mapping
-            $fileUploadMapper = $this->objectManager->get('EWW\Dpf\Helper\FileUploadMapper');
-            $fileUploadMapper->setFormData($requestArguments['document']);
-            $requestArguments = $this->request->getArguments();
-            $requestArguments['document']['deletedFiles'] = $fileUploadMapper->getDeletedFiles();
-            $requestArguments['document']['newFiles'] = $fileUploadMapper->getNewAndUpdatedFiles();
-            unset($requestArguments['document']['primaryFile']);
-            unset($requestArguments['document']['primFile']);
-            unset($requestArguments['document']['secondaryFiles']);
-            unset($requestArguments['document']['secFiles']);
-            $this->request->setArguments($requestArguments);
-
-            if ($fileUploadMapper->uploadError()) {
-               $t = $docForm->getNewFileNames();
-               $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
-            }
-
-       }  else {
-           $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
-       }
-
+        } else {
+            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+        }
     }
 
     /**
@@ -210,41 +193,95 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
      */
     public function createAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $fileUploadMapper = $this->objectManager->get('EWW\Dpf\Helper\FileUploadMapper');
+        $fileUploadMapper->setDocument($document);
+        $newFiles = $fileUploadMapper->getNewAndUpdatedFiles();
 
-        $this->documentRepository->add($document);
-        $this->persistenceManager->persistAll();
+        if ($fileUploadMapper->uploadError()) {
 
-        $document = $this->documentRepository->findByUid($document->getUid());
-        $this->persistenceManager->persistAll();
-
-        // Add or update files
-        foreach ($document->getNewFiles() as $newFile) {
-            if ($newFile->getUID()) {
-                $this->fileRepository->update($newFile);
-            } else {
-                $newFile->setDocument($document);
-                $this->fileRepository->add($newFile);
+            $fileNames = array();
+            foreach ($newFiles as $file) {
+                $fileNames[] = $file->getTitle();
             }
+            $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $fileNames));
+
+        } else {
+
+            $processNumberGenerator = $this->objectManager->get("EWW\\Dpf\\Services\\ProcessNumber\\ProcessNumberGenerator");
+            $processNumber = $processNumberGenerator->getProcessNumber();
+            $document->setProcessNumber($processNumber);
+
+            $this->documentRepository->add($document);
+            $this->persistenceManager->persistAll();
+
+            $document = $this->documentRepository->findByUid($document->getUid());
+            $this->persistenceManager->persistAll();
+
+            foreach ($newFiles as $newFile) {
+                if ($newFile->getUID()) {
+                    $this->fileRepository->update($newFile);
+                } else {
+                    $document->addFile($newFile);
+                }
+            }
+
+            //
+            // ****
+            //
+            $metadataForExporter = $this->getMetadataForExporter($document);
+
+            $exporter = new \EWW\Dpf\Services\MetsExporter();
+
+            // mods:mods
+            $modsData['documentUid'] = $document->getUid();
+            $modsData['metadata'] = $metadataForExporter['mods'];
+            $modsData['files'] = array();
+
+            $exporter->buildModsFromForm($modsData);
+            $modsXml = $exporter->getModsData();
+
+            $document->setXmlData($modsXml);
+
+            $mods = new \EWW\Dpf\Helper\Mods($modsXml);
+
+            $document->setTitle($mods->getTitle());
+            $document->setAuthors($mods->getAuthors());
+
+            // slub:info
+            $slubInfoData['documentUid'] = $document->getUid();
+            $slubInfoData['metadata'] = $metadataForExporter['slubInfo'];
+            $slubInfoData['files'] = array();
+            $exporter->buildSlubInfoFromForm($slubInfoData, $document->getDocumentType(),
+                $document->getProcessNumber());
+            $slubInfoXml = $exporter->getSlubInfoData();
+
+            $document->setSlubInfoData($slubInfoXml);
+
+            $this->documentRepository->update($document);
+            $this->persistenceManager->persistAll();
+            //
+            // ****
+            //
+
+
+            $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
+
+            $notifier->sendNewDocumentNotification($document);
+
+            $requestArguments = $this->request->getArguments();
+            if (array_key_exists('savecontinue', $requestArguments)) {
+                $tmpDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+                $tmpDocument->setTitle($document->getTitle());
+                $tmpDocument->setAuthors($document->getAuthors());
+                $tmpDocument->setXmlData($document->getXmlData());
+                $tmpDocument->setMetadata($document->getMetadata());
+                $tmpDocument->setSlubInfoData($document->getSlubInfoData());
+                $tmpDocument->setDocumentType($document->getDocumentType());
+                $this->forward('new', null, null, array('document' => $tmpDocument));
+            }
+
+            $this->redirectToList('CREATE_OK');
         }
-
-        $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
-
-        $notifier->sendNewDocumentNotification($document);
-
-        $requestArguments = $this->request->getArguments();
-        if (array_key_exists('savecontinue', $requestArguments)) {
-            $tmpDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
-            $tmpDocument->setTitle($document->getTitle());
-            $tmpDocument->setAuthors($document->getAuthors());
-            $tmpDocument->setXmlData($document->getXmlData());
-            $tmpDocument->setMetadata($document->getMetadata());
-            $tmpDocument->setSlubInfoData($document->getSlubInfoData());
-            $tmpDocument->setDocumentType($document->getDocumentType());
-            $this->forward('new', null, null, array('document' => $tmpDocument));
-        }
-
-        $this->redirectToList('CREATE_OK');
-
     }
 
     public function initializeEditAction()
@@ -376,5 +413,95 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
     {
         $this->redirect('list');
     }
+
+
+    protected function getMetadataForExporter($document)
+    {
+        foreach ($document->getMetadata() as $groupUid => $group) {
+
+            foreach ($group as $groupIndex => $groupItem) {
+
+                $item = array();
+
+                $metadataGroup = $this->metadataGroupRepository->findByUid($groupUid);
+
+                $item['mapping'] = $metadataGroup->getRelativeMapping();
+
+                $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();
+
+                $item['modsExtensionReference'] = trim($metadataGroup->getModsExtensionReference(), " /");
+
+                $item['groupUid'] = $groupUid;
+
+                $fieldValueCount   = 0;
+                $defaultValueCount = 0;
+                $fieldCount        = 0;
+                foreach ($groupItem as $fieldUid => $field) {
+                    foreach ($field as $fieldIndex => $fieldItem) {
+                        $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
+
+                        $fieldMapping = $metadataObject->getRelativeMapping();
+
+                        $formField = array();
+
+                        $value = $fieldItem;
+
+                        if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
+                            $date = date_create_from_format('d.m.Y', trim($value));
+                            if ($date) {
+                                $value = date_format($date, 'Y-m-d');
+                            }
+                        }
+
+                        $fieldCount++;
+                        if (!empty($value)) {
+                            $fieldValueCount++;
+                            $defaultValue = $metadataObject->getDefaultValue();
+                            if ($defaultValue) {
+                                $defaultValueCount++;
+                            }
+                        }
+
+                        $value = str_replace('"', "'", $value);
+                        if ($value) {
+                            $formField['modsExtension'] = $metadataObject->getModsExtension();
+
+                            $formField['mapping'] = $fieldMapping;
+                            $formField['value']   = $value;
+
+                            if (strpos($fieldMapping, "@") === 0) {
+                                $item['attributes'][] = $formField;
+                            } else {
+                                $item['values'][] = $formField;
+                            }
+                        }
+                    }
+                }
+
+                if (!key_exists('attributes', $item)) {
+                    $item['attributes'] = array();
+                }
+
+                if (!key_exists('values', $item)) {
+                    $item['values'] = array();
+                }
+
+                if ($metadataGroup->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount) {
+                    if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
+                        $form['slubInfo'][] = $item;
+                    } else {
+                        $form['mods'][] = $item;
+                    }
+                }
+
+            }
+
+        }
+
+
+        return $form;
+
+    }
+
 
 }

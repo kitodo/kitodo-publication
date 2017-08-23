@@ -49,11 +49,11 @@ class FileUploadMapper
     protected $configurationManager;
 
     /**
-     * formData
+     * document
      *
-     * @var array
+     * @var \EWW\Dpf\Domain\Model\Document
      */
-    protected $formData;
+    protected $document;
 
 
     /**
@@ -83,11 +83,11 @@ class FileUploadMapper
 
     /**
      *
-     * @param array $formData
+     * @param \EWW\Dpf\Domain\Model\Document $document
      */
-    public function setFormData($formData)
+    public function setDocument($document)
     {
-        $this->formData     = $formData;
+        $this->document = $document;
     }
 
 
@@ -96,8 +96,8 @@ class FileUploadMapper
 
         $deletedFiles = array();
 
-        if (is_array($this->formData['deleteFile'])) {
-            foreach ($this->formData['deleteFile'] as $key => $value) {
+        if (is_array($this->document->getDeleteFile())) {
+            foreach ($this->document->getDeleteFile() as $key => $value) {
 
                 $file = $this->fileRepository->findByUid($value);
 
@@ -121,24 +121,25 @@ class FileUploadMapper
         $newFiles = array();
 
         // Primary file
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
+        $primaryFile = $this->document->getPrimaryFile();
 
+        if ($primaryFile && $primaryFile['error'] != 4) {
             // Use the existing file entry
             $file     = null;
-            $document = $this->documentRepository->findByUid($this->formData['documentUid']);
+            $document = $this->documentRepository->findByUid($this->document->getUid());
             if ($document) {
                 $file = $this->fileRepository->getPrimaryFileByDocument($document);
             }
 
-            $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], true, $file);
+            $newPrimaryFile = $this->getUploadedFile($primaryFile, true, $file);
             $newPrimaryFile->setLabel($fullTextLabel);
 
             $newFiles[] = $newPrimaryFile;
         }
 
-        if (is_array($this->formData['primFile'])) {
+        if (is_array($this->document->getPrimFile())) {
 
-            foreach ($this->formData['primFile'] as $fileId => $fileData) {
+            foreach ($this->document->getPrimFile() as $fileId => $fileData) {
 
                 $file       = $this->fileRepository->findByUID($fileId);
                 $fileStatus = $file->getStatus();
@@ -166,8 +167,8 @@ class FileUploadMapper
         }
 
         // Secondary files
-        if (is_array($this->formData['secondaryFiles'])) {
-            foreach ($this->formData['secondaryFiles'] as $tmpFile) {
+        if (is_array($this->document->getSecondaryFiles())) {
+            foreach ($this->document->getSecondaryFiles() as $tmpFile) {
                 if ($tmpFile['error'] != 4) {
                     $f          = $this->getUploadedFile($tmpFile);
                     $newFiles[] = $f;
@@ -175,9 +176,9 @@ class FileUploadMapper
             }
         }
 
-        if (is_array($this->formData['secFiles'])) {
+        if (is_array($this->document->getSecFiles())) {
 
-            foreach ($this->formData['secFiles'] as $fileId => $fileData) {
+            foreach ($this->document->getSecFiles() as $fileId => $fileData) {
 
                 $file       = $this->fileRepository->findByUID($fileId);
                 $fileStatus = $file->getStatus();
@@ -206,13 +207,13 @@ class FileUploadMapper
 
     public function uploadError()
     {
-
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 0) {
+        $primaryFile = $this->document->getPrimaryFile();
+        if ($primaryFile && $primaryFile['error'] != 0) {
             return true;
         }
 
-        if (is_array($this->formData['secondaryFiles'])) {
-            foreach ($this->formData['secondaryFiles'] as $tmpFile) {
+        if (is_array($this->document->getSecondaryFiles())) {
+            foreach ($this->document->getSecondaryFiles() as $tmpFile) {
                 if ($tmpFile['error'] != 0 && $tmpFile['error'] != 4) {
                     return true;
                 }

@@ -122,19 +122,35 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $metadata = '';
 
+    /**
+     *
+     * @var array $primaryFile;
+     */
+    protected $primaryFile;
 
     /**
      *
-     * @var array $newFiles;
+     * @var array $primFile;
      */
-    protected $newFiles;
+    protected $primFile;
 
     /**
      *
-     * @var array $deletedFiles;
+     * @var array $secondaryFiles;
      */
-    protected $deletedFiles;
+    protected $secondaryFiles;
 
+    /**
+     *
+     * @var array $secFiles;
+     */
+    protected $secFiles;
+
+    /**
+     *
+     * @var array deleteFile;
+     */
+    protected $deleteFile;
 
     /**
      * file
@@ -812,12 +828,16 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the metadata
      *
-     * @param array $metadata
+     * @param mixed $metadata
      * @return void
      */
     public function setMetadata($metadata)
     {
-        $this->metadata = serialize($metadata);
+        if(is_array($metadata)) {
+            $this->metadata = serialize($metadata);
+        } else {
+            $this->metadata = $metadata;
+        }
     }
 
 
@@ -845,47 +865,110 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $urn;
     }
 
-
     /**
-     * Sets the new files
-     *
-     * @param array $newFiles
-     * @return void
-     */
-    public function setNewFiles($newFiles)
-    {
-        $this->newFiles = $newFiles;
-    }
-
-    /**
-     * Gets the new files
+     * Gets the deleteFile
      *
      * @return array
      */
-    public function getNewFiles()
+    public function getDeleteFile()
     {
-        return $this->newFiles;
+        return $this->deleteFile;
     }
 
     /**
-     * Sets the deleted files
+     * Sets the deleteFile
      *
-     * @param array $deletedFiles
+     * @param array $deleteFile
      * @return void
      */
-    public function setDeletedFiles($deletedFiles)
+    public function setDeleteFile($deleteFile)
     {
-        $this->seletedFiles = $deletedFiles;
+        $this->deleteFile = $deleteFile;
     }
 
     /**
-     * Gets the deleted files
+     * Gets the primaryFile
      *
      * @return array
      */
-    public function getDeletedFiles()
+    public function getPrimaryFile()
     {
-        return $this->deletedFiles;
+        return $this->primaryFile;
     }
+
+    /**
+     * Sets the primaryFile
+     *
+     * @var array $primaryFile
+     * @return void
+     */
+    public function setPrimaryFile($primaryFile)
+    {
+        $this->primaryFile = $primaryFile;
+    }
+
+    /**
+     * Gets the primFile
+     *
+     * @return array
+     */
+    public function getPrimFile()
+    {
+        return $this->primFile;
+    }
+
+    /**
+     * Sets the primFile
+     *
+     * @var array $primFile
+     * @return void
+     */
+    public function setPrimFile($primFile)
+    {
+        $this->primFile = $primFile;
+    }
+
+    /**
+     * Gets the secondaryFiles
+     *
+     * @return array
+     */
+    public function getSecondaryFiles()
+    {
+        return $this->secondaryFiles;
+    }
+
+    /**
+     * Sets the secondaryFiles
+     *
+     * @var array $secondaryFiles
+     * @return void
+     */
+    public function setSecondaryFiles($secondaryFiles)
+    {
+        $this->secondaryFiles = $secondaryFiles;
+    }
+
+    /**
+     * Gets the secFiles
+     *
+     * @return array
+     */
+    public function getSecFiles()
+    {
+        return $this->secFiles;
+    }
+
+    /**
+     * Sets the secFiles
+     *
+     * @var array $secFiles
+     * @return void
+     */
+    public function setSecFiles($secFiles)
+    {
+        $this->secFiles = $secFiles;
+    }
+
 
 }
