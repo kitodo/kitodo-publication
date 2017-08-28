@@ -53,11 +53,12 @@ class DocumentBEController extends AbstractDocumentController
         $this->redirectToList();
     }
 
-    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+   /*
+    public function editAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
         $this->view->assign('document', $document);
         parent::editAction($documentForm);
     }
+   */
 }

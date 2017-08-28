@@ -686,6 +686,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         !empty($this->objectIdentifier);
     }
 
+    public function isDeleteDisabled()
+    {
+        return !$this->isDeleteAllowed();
+    }
+
 
     public function isSaveAllowed()
     {
@@ -694,6 +699,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW);
     }
 
+    public function isSaveDisabled()
+    {
+        return !$this->isSaveAllowed();
+    }
 
     /**
      *

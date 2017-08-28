@@ -15,7 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 /**
- * DocumentFormController
+ * DocumentController
  */
 abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -141,7 +141,7 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
     /**
      * action new
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocument
+     * @param \EWW\Dpf\Domain\Model\Document $newDocument
      * @ignorevalidation $newDocument
      * @return void
      */
@@ -286,37 +286,48 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
 
     public function initializeEditAction()
     {
-/*
-        $requestArguments = $this->request->getArguments();
-
-        if (array_key_exists('document', $requestArguments)) {
-            $documentUid  = $this->request->getArgument('document');
-            $document     = $this->documentRepository->findByUid($documentUid);
-            $mapper       = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-            $documentForm = $mapper->getDocumentForm($document);
-        } elseif (array_key_exists('documentForm', $requestArguments)) {
-            $documentForm = $this->request->getArgument('documentForm');
-        }
-
-        $requestArguments['documentForm'] = $documentForm;
-        $this->request->setArguments($requestArguments);
-*/
     }
 
     /**
      * action edit
      *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $document
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @ignorevalidation $document
      * @return void
      */
     public function editAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $files['primaryFile'] = $this->fileRepository->getPrimaryFileByDocument($document);
+        $files['secondaryFiles'] = $this->fileRepository->getSecondaryFilesByDocument($document);
         $this->view->assign('document', $document);
+        $this->view->assign('files', $files);
     }
 
     public function initializeUpdateAction()
     {
+        $requestArguments = $this->request->getArguments();
+
+        if ($this->request->hasArgument('document')) {
+            $propertyMappingConfiguration = $this->arguments->getArgument('document')->getPropertyMappingConfiguration();
+            $propertyMappingConfiguration->allowProperties('deleteFile');
+            $propertyMappingConfiguration->allowProperties('primaryFile');
+            $propertyMappingConfiguration->allowProperties('primFile');
+            $propertyMappingConfiguration->allowProperties('secondaryFiles');
+            $propertyMappingConfiguration->allowProperties('secFiles');
+
+            // Metadata mapping
+            if (key_exists('metadata', $requestArguments['document'])) {
+                $metadata = $requestArguments['document']['metadata'];
+                if (is_array($metadata)) {
+                    $requestArguments['document']['metadata'] = serialize($metadata);
+                    $this->request->setArguments($requestArguments);
+                }
+            }
+        } else {
+            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+        }
+
+
 /*
         $requestArguments = $this->request->getArguments();
 
@@ -349,6 +360,98 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
      */
     public function updateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $fileUploadMapper = $this->objectManager->get('EWW\Dpf\Helper\FileUploadMapper');
+        $fileUploadMapper->setDocument($document);
+        $newFiles = $fileUploadMapper->getNewAndUpdatedFiles();
+        $deletedFiles = $fileUploadMapper->getDeletedFiles();
+
+        if ($fileUploadMapper->uploadError()) {
+
+            $fileNames = array();
+            foreach ($newFiles as $file) {
+                $fileNames[] = $file->getTitle();
+            }
+            $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $fileNames));
+
+        } else {
+
+            $this->documentRepository->update($document);
+            //$this->persistenceManager->persistAll();
+
+
+            // Delete files
+            foreach ($deletedFiles as $deleteFile) {
+                $deleteFile->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_DELETED);
+                $this->fileRepository->update($deleteFile);
+            }
+
+            // Add or update files
+            foreach ($newFiles as $newFile) {
+                if ($newFile->getUID()) {
+                    $this->fileRepository->update($newFile);
+                } else {
+                    $document->addFile($newFile);
+                }
+            }
+
+
+            //
+            // ****
+            //
+            $metadataForExporter = $this->getMetadataForExporter($document);
+
+            $exporter = new \EWW\Dpf\Services\MetsExporter();
+
+            // mods:mods
+            $modsData['documentUid'] = $document->getUid();
+            $modsData['metadata'] = $metadataForExporter['mods'];
+            $modsData['files'] = array();
+
+            $exporter->buildModsFromForm($modsData);
+            $modsXml = $exporter->getModsData();
+
+            $document->setXmlData($modsXml);
+
+            $mods = new \EWW\Dpf\Helper\Mods($modsXml);
+
+            $document->setTitle($mods->getTitle());
+            $document->setAuthors($mods->getAuthors());
+
+            // slub:info
+            $slubInfoData['documentUid'] = $document->getUid();
+            $slubInfoData['metadata'] = $metadataForExporter['slubInfo'];
+            $slubInfoData['files'] = array();
+            $exporter->buildSlubInfoFromForm($slubInfoData, $document->getDocumentType(),
+                $document->getProcessNumber());
+            $slubInfoXml = $exporter->getSlubInfoData();
+
+            $document->setSlubInfoData($slubInfoXml);
+
+            $this->documentRepository->update($document);
+            $this->persistenceManager->persistAll();
+            //
+            // ****
+            //
+
+
+            // add document to local es index
+            $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+            $json                = $elasticsearchMapper->getElasticsearchJson($document);
+
+            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+            // send document to index
+            $elasticsearchRepository->add($document, $json);
+
+            $requestArguments = $this->request->getArguments();
+            if (array_key_exists('savecontinue', $requestArguments)) {
+                $this->forward('edit', null, null, array('document' => $document));
+            }
+
+            $this->redirectToList();
+
+        }
+
+
 /*
         $requestArguments = $this->request->getArguments();
 

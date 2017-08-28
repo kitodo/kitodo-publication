@@ -35,25 +35,29 @@ class GroupsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
 
         foreach ($groupTypes as $groupType) {
 
-            $index = 0;
-            $groupCount = count($groups[$groupType->getUid()]);
+            if (count($groupType->getMetadataObject()) > 0) {
+                $index = 0;
+                $groupCount = count($groups[$groupType->getUid()]);
 
-            foreach ($groups[$groupType->getUid()] as $group) {
+                if (!key_exists($groupType->getUid(),$groups)) {
+                    $groups[$groupType->getUid()][] = array();
+                }
 
-                $groupIterator['index'] = $index;
-                $groupIterator['cycle'] = $index+1;
-                $groupIterator['isLast'] = $index+1 == $groupCount;
+                foreach ($groups[$groupType->getUid()] as $group) {
+                    $groupIterator['index'] = $index;
+                    $groupIterator['cycle'] = $index + 1;
+                    $groupIterator['isLast'] = $index + 1 == $groupCount;
 
-                $this->templateVariableContainer->add('groupType', $groupType);
-                $this->templateVariableContainer->add('groupIterator', $groupIterator);
-                $this->templateVariableContainer->add('group', $group);
-                $output .= $this->renderChildren();
-                $this->templateVariableContainer->remove('group');
-                $this->templateVariableContainer->remove('groupIterator');
-                $this->templateVariableContainer->remove('groupType');
-                ++$index;
+                    $this->templateVariableContainer->add('groupType', $groupType);
+                    $this->templateVariableContainer->add('groupIterator', $groupIterator);
+                    $this->templateVariableContainer->add('group', $group);
+                    $output .= $this->renderChildren();
+                    $this->templateVariableContainer->remove('group');
+                    $this->templateVariableContainer->remove('groupIterator');
+                    $this->templateVariableContainer->remove('groupType');
+                    ++$index;
+                }
             }
-
         }
         return $output;
     }

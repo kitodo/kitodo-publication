@@ -20,24 +20,21 @@
 
     <f:comment>
         <f:debug title="Form" maxDepth="20">
-            {documentForm}
+            {document}
         </f:debug>
     </f:comment>
 
     <h2>
-        <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
+        <f:translate key="documentForm.edit.header" arguments="{foo: '{document.documentType.displayName}'}"/>
     </h2>
 
-    <h3 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h3>
+    <h3 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {document.processNumber}</h3>
 
-    <f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: '{documentForm.saveDisabled}'}">
-        <f:form.hidden property="type" value="{documentForm.uid}"/>
-        <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
-        <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
-        <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
-        <f:form.hidden id="validDocument" property="validDocument" value="0"/>
-        <f:render partial="Document/FormBody" arguments="{documentForm:documentForm}"/>
+    <f:form action="update" name="document" object="{document}" enctype="multipart/form-data"
+            additionalAttributes="{data-disabled: '{document.saveDisabled}'}">
+        <f:form.hidden property="documentType" value="{document.documentType}"/>
+        <f:form.hidden id="validDocument" property="valid" value="0"/>
+        <f:render partial="Document/FormBodyNew" arguments="{document:document,files:files}"/>
     </f:form>
     <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
         <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
@@ -46,13 +43,13 @@
         </f:form.button>
     </f:form>
 
-    <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
-        <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
+    <f:form action="delete" name="document" object="{document}" enctype="multipart/form-data" id="form_delete">
+        <f:form.hidden property="uid" value="{document.uid}"/>
 
         <f:form.button name="delete" id="save" class="btn btn-sm btn-danger"
-                       disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
+                       disabled="{f:if(condition: '{document.deleteDisabled}', then: 'disabled')}">
             <span class="glyphicon glyphicon-trash"></span>
-            {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
+            {f:translate(key: 'form_button.delete')} "{document.documentType.displayName}"
         </f:form.button>
     </f:form>
 

@@ -14,7 +14,6 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-
 <f:comment>
     <eww:document.pages document="{document}">
         <h2>{pageType.displayName}</h2> <br />
@@ -89,8 +88,8 @@
 
     <div id="tab-file-upload" class="fs_page tab-pane">
         <f:render partial="Document/PrimaryFileGroup"
-                  arguments="{file:document.primaryFile,virtual:document.virtual}"/>
-        <f:render partial="Document/SecondaryFileGroup" arguments="{files:document.secondaryFiles}"/>
+                  arguments="{file:files.primaryFile,virtual:document.virtual}"/>
+        <f:render partial="Document/SecondaryFileGroup" arguments="{files:files.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
                 data-group="file-upload"
                 data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocument',pageType:110124)}"

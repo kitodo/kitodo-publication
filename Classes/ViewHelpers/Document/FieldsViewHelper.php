@@ -34,12 +34,14 @@ class FieldsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelp
         $fieldIterator = array();
 
         foreach ($fieldTypes as $fieldType) {
-
             $index = 0;
             $fieldCount = count($group[$fieldType->getUid()]);
 
-            foreach ($group[$fieldType->getUid()] as $field) {
+            if (!key_exists($fieldType->getUid(),$group)) {
+                $group[$fieldType->getUid()][] = "";
+            }
 
+            foreach ($group[$fieldType->getUid()] as $field) {
                 $fieldIterator['index'] = $index;
                 $fieldIterator['cycle'] = $index+1;
                 $fieldIterator['isLast'] = $index+1 == $fieldCount;

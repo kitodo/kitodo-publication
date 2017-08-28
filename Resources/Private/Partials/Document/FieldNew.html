@@ -43,20 +43,20 @@
         <f:case value="0">
             <f:form.textfield id="inp_{fieldType.uid}"
                               property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
-                              value="{field.value}" class="input-field form-control {fieldType.fillOutService}"
+                              value="{field}" class="input-field form-control {fieldType.fillOutService}"
                               additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"/>
         </f:case>
         <f:case value="1">
             <f:form.textarea id="inp_{fieldType.uid}"
                              property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
-                             value="{field.value}" class="input-field form-control {fieldType.fillOutService}"
+                             value="{field}" class="input-field form-control {fieldType.fillOutService}"
                              additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"/>
         </f:case>
         <f:case value="2">
             <div class="form-control has-select">
                 <f:form.select id="inp_{fieldType.uid}"
                                property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
-                               value="{f:if(condition:'{field.value}', then:'{field.value}', else:'{fieldType.inputOptionList.defaultValue}')}" class="form-control input-field {fieldType.fillOutService}"
+                               value="{f:if(condition:'{field}', then:'{field}', else:'{fieldType.inputOptionList.defaultValue}')}" class="form-control input-field {fieldType.fillOutService}"
                                additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
                                options="{eww:document.inputOptions(inputOptionList:'{fieldType.inputOptionList}')}"/>
             </div>
@@ -68,17 +68,17 @@
                                      property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
                                      value="yes" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
-                                     checked="{field.value}" disabled="true"/>
+                                     checked="{field}" disabled="true"/>
                     <f:form.hidden
-                            property="metadata.{groupType.uid}-{groupIterator.index}-{fieldType.uid}-{fieldIterator.index}"
-                            value="{field.value}"/>
+                            property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
+                            value="{field}"/>
                 </f:then>
                 <f:else>
                     <f:form.checkbox id="inp_{fieldType.uid}"
                                      property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
                                      value="yes" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
-                                     checked="{field.value}"/>
+                                     checked="{field}"/>
                 </f:else>
             </eww:isConsentField>
         </f:case>
