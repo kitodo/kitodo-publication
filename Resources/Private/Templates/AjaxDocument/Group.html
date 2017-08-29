@@ -12,7 +12,7 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">
+<f:form action="" name="document" object="{document}" enctype="multipart/form-data">
     <f:render partial="Document/Group"
-              arguments="{formPageUid:formPageUid,formGroupUid:formGroupUid,formGroupDisplayName:formGroupDisplayName,groupItem:groupItem,groupIndex:groupIndex}"/>
+              arguments="{pageType:pageType,groupType:groupType,group:group,groupIterator:groupIterator}"/>
 </f:form>

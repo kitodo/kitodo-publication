@@ -12,9 +12,9 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:form action="" name="documentData" object="{documentData}" enctype="multipart/form-data">
+<f:form action="" name="document" object="{document}" enctype="multipart/form-data">
     <div id="new-element">
         <f:render partial="Document/Field"
-                  arguments="{formPageUid:formPageUid,formGroupUid:formGroupUid,formGroupDisplayName: formGroupDisplayName,groupItem: groupItem,groupIndex: groupIndex,fieldItem: fieldItem,formField: formField,fieldIndex: fieldIndex,countries: countries}"/>
+                  arguments="{pageType:pageType, groupType:groupType, groupIterator:groupIterator, fieldType:fieldType, fieldIterator:fieldIterator, field:field}"/>
     </div>
 </f:form>

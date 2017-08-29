@@ -29,6 +29,14 @@ class AjaxDocumentController extends \EWW\Dpf\Controller\AbstractController
     protected $metadataGroupRepository = null;
 
     /**
+     * metadataPageRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataPageRepository
+     * @inject
+     */
+    protected $metadataPageRepository = null;
+
+    /**
      * metadataObjectRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
@@ -45,35 +53,22 @@ class AjaxDocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function groupAction($pageUid, $groupUid, $groupIndex)
     {
+        $groupIterator['index'] = $groupIndex;
+        $groupIterator['cycle'] = $groupIndex + 1;
+        $groupIterator['isLast'] = TRUE;
 
-        $group = $this->metadataGroupRepository->findByUid($groupUid);
+        $pageType = $this->metadataPageRepository->findByUid($pageUid);
+        $groupType = $this->metadataGroupRepository->findByUid($groupUid);
 
-        //$groupItem = array();
-
-        $groupItem = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
-
-        foreach ($group->getMetadataObject() as $object) {
-
-            $field = new \EWW\Dpf\Domain\Model\DocumentFormField();
-
-            $field->setUid($object->getUid());
-            $field->setDisplayName($object->getDisplayName());
-            $field->setMandatory($object->getMandatory());
-            $field->setBackendOnly($object->getBackendOnly());
-            $field->setInputField($object->getInputField());
-            $field->setInputOptions($object->getInputOptionList());
-            $field->setMaxIteration($object->getMaxIteration());
-            $field->setFillOutService($object->getFillOutService());
-            $field->setValue("");
-
-            $groupItem->addItem($field);
+        $group = array();
+        foreach ($groupType->getMetadataObject() as $object) {
+            $group[0][$object->getUid()] = "";
         }
 
-        $this->view->assign('formPageUid', $pageUid);
-        $this->view->assign('formGroupUid', $groupUid);
-        $this->view->assign('formGroupDisplayName', $group->getDisplayName());
-        $this->view->assign('groupIndex', $groupIndex);
-        $this->view->assign('groupItem', $groupItem);
+        $this->view->assign('pageType', $pageType);
+        $this->view->assign('groupType', $groupType);
+        $this->view->assign('group', $group);
+        $this->view->assign('groupIterator', $groupIterator);
     }
 
     /**
@@ -87,30 +82,27 @@ class AjaxDocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function fieldAction($pageUid, $groupUid, $groupIndex, $fieldUid, $fieldIndex)
     {
+        $groupIterator['index'] = $groupIndex;
+        $groupIterator['cycle'] = $groupIndex + 1;
+        $groupIterator['isLast'] = TRUE;
 
-        $field = $this->metadataObjectRepository->findByUid($fieldUid);
+        $fieldIterator['index'] = $fieldIndex;
+        $fieldIterator['cycle'] = $fieldIndex + 1;
+        $fieldIterator['isLast'] = TRUE;
 
-        $fieldItem = new \EWW\Dpf\Domain\Model\DocumentFormField();
+        $pageType = $this->metadataPageRepository->findByUid($pageUid);
 
-        $fieldItem->setUid($field->getUid());
-        $fieldItem->setDisplayName($field->getDisplayName());
-        $fieldItem->setMandatory($field->getMandatory());
-        $fieldItem->setBackendOnly($field->getBackendOnly());
-        $fieldItem->setInputField($field->getInputField());
-        $fieldItem->setInputOptions($field->getInputOptionList());
-        $fieldItem->setMaxIteration($field->getMaxIteration());
-        $fieldItem->setFillOutService($field->getFillOutService());
-        $fieldItem->setValidation($field->getValidation());
-        $fieldItem->setDataType($field->getDataType());
-        $fieldItem->setValue("");
+        $groupType = $this->metadataGroupRepository->findByUid($groupUid);
 
-        $this->view->assign('formPageUid', $pageUid);
-        $this->view->assign('formGroupUid', $groupUid);
-        $this->view->assign('groupIndex', $groupIndex);
-        //   $this->view->assign('formField',$formField);
-        $this->view->assign('fieldIndex', $fieldIndex);
-        $this->view->assign('fieldItem', $fieldItem);
-        // $this->view->assign('countries',);
+        $fieldType = $this->metadataObjectRepository->findByUid($fieldUid);
+        $field[$fieldType->getUid()];
+
+        $this->view->assign('pageType', $pageType);
+        $this->view->assign('groupType', $groupType);
+        $this->view->assign('fieldType', $fieldType);
+        $this->view->assign('field', $field);
+        $this->view->assign('groupIterator', $groupIterator);
+        $this->view->assign('fieldIterator', $fieldIterator);
     }
 
     /**
