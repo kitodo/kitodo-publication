@@ -28,25 +28,4 @@ class DocumentController extends AbstractDocumentController
         $this->redirect('list', 'Document', null, array('message' => $message));
     }
 
-    /**
-     * action create
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function createAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-/*
-        foreach ($newDocumentForm->getNewFiles() as $newFile) {
-            $uid = $newFile->getUID();
-            if (empty($uid)) {
-                $newFile->setDownload(true);
-            }
-            $files[] = $newFile;
-        }
-
-        $newDocumentForm->setNewFiles($files);
-*/
-        parent::createAction($document);
-    }
 }

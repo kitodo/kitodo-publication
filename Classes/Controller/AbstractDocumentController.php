@@ -326,30 +326,6 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
         }
-
-
-/*
-        $requestArguments = $this->request->getArguments();
-
-        if ($this->request->hasArgument('documentData')) {
-            $documentData = $this->request->getArgument('documentData');
-
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
-            $formDataReader->setFormData($documentData);
-            $docForm = $formDataReader->getDocumentForm();
-
-            $requestArguments['documentForm'] = $docForm;
-
-            if (!$formDataReader->uploadError()) {
-                $this->request->setArguments($requestArguments);
-            } else {
-                $t = $docForm->getNewFileNames();
-                $this->redirect('list', 'DocumentManager', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
-            }
-        } else {
-            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
-        }
-*/
     }
 
     /**
@@ -374,10 +350,8 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
             $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $fileNames));
 
         } else {
-
+            $document->setChanged(true);
             $this->documentRepository->update($document);
-            //$this->persistenceManager->persistAll();
-
 
             // Delete files
             foreach ($deletedFiles as $deleteFile) {
@@ -393,7 +367,6 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
                     $document->addFile($newFile);
                 }
             }
-
 
             //
             // ****
@@ -450,51 +423,6 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
             $this->redirectToList();
 
         }
-
-
-/*
-        $requestArguments = $this->request->getArguments();
-
-        $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
-        $updateDocument = $documentMapper->getDocument($documentForm);
-
-        $objectIdentifier = $updateDocument->getObjectIdentifier();
-
-        $updateDocument->setChanged(true);
-
-        $this->documentRepository->update($updateDocument);
-
-        // Delete files
-        foreach ($documentForm->getDeletedFiles() as $deleteFile) {
-            $deleteFile->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_DELETED);
-            $this->fileRepository->update($deleteFile);
-        }
-
-        // Add or update files
-        foreach ($documentForm->getNewFiles() as $newFile) {
-
-            if ($newFile->getUID()) {
-                $this->fileRepository->update($newFile);
-            } else {
-                $updateDocument->addFile($newFile);
-            }
-
-        }
-
-        // add document to local es index
-        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
-        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
-
-        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-        // send document to index
-        $elasticsearchRepository->add($updateDocument, $json);
-
-        if (array_key_exists('savecontinue', $requestArguments)) {
-            $this->forward('edit', null, null, array('documentForm' => $documentForm));
-        }
-
-        $this->redirectToList();
-*/
     }
 
     /**
