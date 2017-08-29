@@ -206,6 +206,8 @@ class DocumentManagerController extends \EWW\Dpf\Controller\AbstractController
         $slub->setProcessNumber($processNumber);
         $newDocument->setSlubInfoData($slub->getSlubXml());
 
+        $newDocument->setMetadata($document->getMetadata());
+
         $this->documentRepository->add($newDocument);
 
         $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
