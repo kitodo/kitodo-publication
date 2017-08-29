@@ -13,10 +13,9 @@
     -->
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
-
 <fieldset class="fs_group" data-group="{groupType.uid}" data-mandatory="{groupType.mandatory}">
     <legend>
-        <f:if condition="{groupIterator.index}">+{groupIndex}:</f:if>
+        <f:if condition="{groupIterator.index}">+{groupIterator.index}:</f:if>
         {groupType.displayName}
         <f:if condition="{groupIterator.index}">
             <button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{groupType.uid}"><span
