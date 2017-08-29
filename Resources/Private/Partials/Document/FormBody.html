@@ -14,26 +14,6 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<f:comment>
-    <eww:document.pages document="{document}">
-        <h2>{pageType.displayName}</h2> <br />
-        <eww:document.groups pageType="{pageType}" groups="{groups}">
-            <h3>{groupType.displayname}</h3> <br />
-            <eww:document.fields groupType="{groupType}" group="{group}">
-                {fieldType.displayName}
-                <f:form.textfield id="inp_{field.uid}"
-                                  property="metadata.{groupType.uid}.{groupIndex}.{fieldType.uid}.{fieldIndex}"
-                                  value="{field.value}"
-                                  class="{}"
-                                  additionalAttributes="{}"/>
-                <br />
-            </eww:document.fields>
-        </eww:document.groups>
-
-        <br />
-    </eww:document.pages>
-</f:comment>
-
 <f:render partial="Document/Validation.html" />
 
 <div class="tx-dpf-tab-container">
