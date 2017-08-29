@@ -224,8 +224,6 @@ class DocumentFactory
 
                                 foreach ($objectData as $key => $value) {
 
-                                    // $documentFormFieldItem = clone ($documentFormField);
-
                                     $objectValue = $value->nodeValue;
 
                                     if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
@@ -238,11 +236,11 @@ class DocumentFactory
 
                                     $objectValue = str_replace('"', "'", $objectValue);
 
-                                    //$fieldItem = setValue($objectValue, $metadataObject->getDefaultValue());
+                                    // todo: default value?
                                     $documentFieldData[$metadataObject->getUid()][] = $objectValue;
                                 }
                             } else {
-                                //$documentFormField->setValue("", $metadataObject->getDefaultValue());
+                                // todo: default value?
                                 $documentFieldData[$metadataObject->getUid()][] = "";
                             }
 
@@ -253,7 +251,7 @@ class DocumentFactory
                 } else {
                     $documentFieldData = array();
                     foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
-                        //$documentFormField->setValue("", $metadataObject->getDefaultValue());
+                        // todo: default value?
                         $documentFieldData[$metadataObject->getUid()][] = "";
                     }
                     $documentGroupData[$metadataGroup->getUid()][] = $documentFieldData;

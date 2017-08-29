@@ -16,12 +16,8 @@
 
 <f:section name="main">
     <f:flashMessages renderMode="div"/>
-    <f:comment>
-        <f:debug title="Form" maxDepth="20">{documentForm}</f:debug>
-    </f:comment>
-    <f:debug title="Form" maxDepth="20">{languages}</f:debug>
     <h2>
-        <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
+        <f:translate key="documentForm.edit.header" arguments="{foo: '{document.documentType.displayName}'}"/>
     </h2>
     <f:render partial="Document/Edit" arguments="{document:document}"/>
 </f:section>

@@ -259,14 +259,4 @@ class FileUploadMapper
 
         return $file;
     }
-
-
-/*
-        $documentForm->setDeletedFiles($this->getDeletedFiles());
-
-        $documentForm->setNewFiles($this->getNewAndUpdatedFiles());
-
-        return $documentForm;
-*/
-
 }
