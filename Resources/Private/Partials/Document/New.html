@@ -24,29 +24,7 @@
             <f:form.hidden id="objectIdentifier" property="objectIdentifier" value="{document.reservedObjectIdentifier}"/>
         </f:else>
     </f:if>
-
-<f:comment>
-    <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{}"/>
-
-    <eww:document.pages document="{document}">
-        <h2>{pageType.displayName}</h2> <br />
-        <eww:document.groups pageType="{pageType}" groups="{groups}">
-            <h3>{groupType.displayname}</h3> <br />
-            <eww:document.fields groupType="{groupType}" group="{group}">
-                {fieldType.displayName}
-                <f:form.textfield id="inp_{field.uid}"
-                                  property="metadata.{groupType.uid}.{groupIndex}.{fieldType.uid}.{fieldIndex}"
-                                  value="{field.value}"
-                                  class="{}"
-                                  additionalAttributes="{}"/>
-                <br />
-            </eww:document.fields>
-        </eww:document.groups>
-
-        <br />
-    </eww:document.pages>
-</f:comment>
-    <f:render partial="Document/FormBodyNew" arguments="{document:document}"/>
+    <f:render partial="Document/FormBody" arguments="{document:document}"/>
 </f:form>
 <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
     <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">

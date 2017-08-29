@@ -34,7 +34,7 @@
             additionalAttributes="{data-disabled: '{document.saveDisabled}'}">
         <f:form.hidden property="documentType" value="{document.documentType}"/>
         <f:form.hidden id="validDocument" property="valid" value="0"/>
-        <f:render partial="Document/FormBodyNew" arguments="{document:document,files:files}"/>
+        <f:render partial="Document/FormBody" arguments="{document:document,files:files}"/>
     </f:form>
     <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
         <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">

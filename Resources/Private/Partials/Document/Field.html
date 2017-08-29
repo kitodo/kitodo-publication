@@ -16,22 +16,22 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <div class="form-group">
-    <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
-        <f:if condition="{fieldItem.mandatory}">
-            <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
+    <label for="inp_{fieldType.uid}" data-index="{fieldIterator.index}" data-field="{fieldType.uid}">{fieldType.displayName}
+        <f:if condition="{fieldType.mandatory}">
+            <span class="mandatory" data-index="{fieldIterator.index}" data-field="{fieldType.uid}">*</span>
         </f:if>
     </label>
 
-    <f:if condition="{fieldItem.dataType}=='DATE'">
+    <f:if condition="{fieldType.dataType}=='DATE'">
         <div class="datetimepicker input-group date">
     </f:if>
 
-    <f:if condition="{fieldItem.fillOutService} == 'urn'">
+    <f:if condition="{fieldType.fillOutService} == 'urn'">
         <f:then>
             <button type="submit" name="fill_out_service_urn" class="btn btn-default fill_out_service_urn"
-                    title="{f:translate(key: 'form_button.create_value')} URN" data-field="{fieldItem.uid}"
+                    title="{f:translate(key: 'form_button.create_value')} URN" data-field="{fieldType.uid}"
                     data-ajax="{f:uri.action(action:'fillOut',controller:'AjaxDocument',pageType:110124)}"
-                    data-index="{fieldIndex}" data-group="{formGroupUid}" data-groupindex="{groupIndex}"
+                    data-index="{fieldIterator.index}" data-group="{groupType.uid}" data-groupindex="{groupIterator.index}"
                     style="display: none;">
                 <span class="glyphicon glyphicon-edit"></span>
                 <span class="sr-only">{f:translate(key: 'form_button.create_value')} URN"</span>
@@ -39,60 +39,60 @@
         </f:then>
     </f:if>
 
-    <f:switch expression="{fieldItem.inputField}">
+    <f:switch expression="{fieldType.inputField}">
         <f:case value="0">
-            <f:form.textfield id="inp_{fieldItem.uid}"
-                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+            <f:form.textfield id="inp_{fieldType.uid}"
+                              property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
+                              value="{field}" class="input-field form-control {fieldType.fillOutService}"
+                              additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"/>
         </f:case>
         <f:case value="1">
-            <f:form.textarea id="inp_{fieldItem.uid}"
-                             property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                             value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+            <f:form.textarea id="inp_{fieldType.uid}"
+                             property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
+                             value="{field}" class="input-field form-control {fieldType.fillOutService}"
+                             additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"/>
         </f:case>
         <f:case value="2">
             <div class="form-control has-select">
-                <f:form.select id="inp_{fieldItem.uid}"
-                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                               value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
-                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
-                               options="{fieldItem.inputOptions}"/>
+                <f:form.select id="inp_{fieldType.uid}"
+                               property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
+                               value="{f:if(condition:'{field}', then:'{field}', else:'{fieldType.inputOptionList.defaultValue}')}" class="form-control input-field {fieldType.fillOutService}"
+                               additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
+                               options="{eww:document.inputOptions(inputOptionList:'{fieldType.inputOptionList}')}"/>
             </div>
         </f:case>
         <f:case value="3">
-            <eww:isConsentField condition="{fieldItem.consent}">
+            <eww:isConsentField condition="{fieldType.consent}">
                 <f:then>
-                    <f:form.checkbox id="inp_{fieldItem.uid}"
-                                     property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                    <f:form.checkbox id="inp_{fieldType.uid}"
+                                     property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
                                      value="yes" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
-                                     checked="{fieldItem.value}" disabled="true"/>
+                                     additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
+                                     checked="{field}" disabled="true"/>
                     <f:form.hidden
-                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                            value="{fieldItem.value}"/>
+                            property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
+                            value="{field}"/>
                 </f:then>
                 <f:else>
-                    <f:form.checkbox id="inp_{fieldItem.uid}"
-                                     property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                    <f:form.checkbox id="inp_{fieldType.uid}"
+                                     property="metadata.{groupType.uid}.{groupIterator.index}.{fieldType.uid}.{fieldIterator.index}"
                                      value="yes" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
-                                     checked="{fieldItem.value}"/>
+                                     additionalAttributes="{data-field:fieldType.uid,data-index:fieldIterator.index,data-mandatory:fieldType.mandatory,data-group:groupType.uid,data-groupindex:groupIterator.index,data-default:fieldType.hasDefaultValue,data-regexp:fieldType.validation,data-datatype:fieldType.dataType,data-label:fieldType.displayName}"
+                                     checked="{field}"/>
                 </f:else>
             </eww:isConsentField>
         </f:case>
     </f:switch>
 
-    <f:if condition="{fieldIndex}">
-        <button type="submit" name="rem_field" class="btn btn-default rem_field" data-index="{fieldIndex}"
-                data-field="{fieldItem.uid}">
+    <f:if condition="{fieldIterator.index}">
+        <button type="submit" name="rem_field" class="btn btn-default rem_field" data-index="{fieldIterator.index}"
+                data-field="{fieldType.uid}">
             <span class="glyphicon glyphicon-remove"></span>
-            <span class="sr-only">{fieldItem.displayName} entfernen</span>
+            <span class="sr-only">{fieldType.displayName} entfernen</span>
         </button>
     </f:if>
 
-    <f:if condition="{fieldItem.dataType}=='DATE'">
+    <f:if condition="{fieldType.dataType}=='DATE'">
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>

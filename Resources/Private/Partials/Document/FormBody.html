@@ -14,61 +14,82 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
+<f:comment>
+    <eww:document.pages document="{document}">
+        <h2>{pageType.displayName}</h2> <br />
+        <eww:document.groups pageType="{pageType}" groups="{groups}">
+            <h3>{groupType.displayname}</h3> <br />
+            <eww:document.fields groupType="{groupType}" group="{group}">
+                {fieldType.displayName}
+                <f:form.textfield id="inp_{field.uid}"
+                                  property="metadata.{groupType.uid}.{groupIndex}.{fieldType.uid}.{fieldIndex}"
+                                  value="{field.value}"
+                                  class="{}"
+                                  additionalAttributes="{}"/>
+                <br />
+            </eww:document.fields>
+        </eww:document.groups>
+
+        <br />
+    </eww:document.pages>
+</f:comment>
+
 <f:render partial="Document/Validation.html" />
 
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
-        <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-            <eww:isElementAllowed condition="{formPage.0.backendOnly}">
+        <eww:document.pages document="{document}">
+            <eww:isElementAllowed condition="{pageType.backendOnly}">
                 <f:then>
                     <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}">
-                        <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+                        <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{pageType.displayName}</a></li>
                 </f:then>
             </eww:isElementAllowed>
-        </f:for>
+        </eww:document.pages>
         <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
     </ul>
 </div>
 
 <div class="tab-content">
-    <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-        <eww:isElementAllowed condition="{formPage.0.backendOnly}">
+    <eww:document.pages document="{document}">
+        <eww:isElementAllowed condition="{pageType.backendOnly}">
             <f:then>
                 <div id="tab-{pageIterator.cycle}"
                      class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"
-                     data-page="{formPage.0.uid}">
-                    <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
-                        <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                            <eww:isElementAllowed condition="{groupItem.backendOnly}">
-                                <f:then>
-                                    <f:render partial="Document/Group"
-                                              arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
-                                    <f:if condition="{groupItem.maxIteration} == 0">
-                                        <f:if condition="{groupItemIterator.isLast}">
-                                            <button type="submit" name="add_group"
-                                                    class="btn btn-xs btn-default add_group"
-                                                    data-group="{groupItem.uid}"
-                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
-                                                    data-index="{groupItemIterator.index}">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                                {f:translate(key: 'form_button.add_item', arguments: {0:
-                                                groupItem.displayName})}
-                                            </button>
-                                        </f:if>
+                     data-page="{pageType.uid}">
+
+                    <eww:document.groups pageType="{pageType}" groups="{groups}">
+                        <eww:isElementAllowed condition="{groupType.backendOnly}">
+                            <f:then>
+                                <f:render partial="Document/Group"
+                                          arguments="{pageType:pageType,groupType:groupType,group:group,groupIterator:groupIterator}"/>
+
+                                <f:if condition="{groupType.maxIteration} == 0">
+                                    <f:if condition="{groupIterator.isLast}">
+                                        <button type="submit" name="add_group"
+                                                class="btn btn-xs btn-default add_group"
+                                                data-group="{groupType.uid}"
+                                                data-ajax="{f:uri.action(action:'group',controller:'AjaxDocument',pageType:110124,arguments:{pageUid:pageType.uid,groupUid:groupType.uid})}"
+                                                data-index="{groupIterator.index}">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            {f:translate(key: 'form_button.add_item', arguments: {0:
+                                            groupType.displayName})}
+                                        </button>
                                     </f:if>
-                                </f:then>
-                            </eww:isElementAllowed>
-                        </f:for>
-                    </f:for>
+                                </f:if>
+                            </f:then>
+                        </eww:isElementAllowed>
+                    </eww:document.groups>
                 </div>
             </f:then>
         </eww:isElementAllowed>
-    </f:for>
+    </eww:document.pages>
+
 
     <div id="tab-file-upload" class="fs_page tab-pane">
         <f:render partial="Document/PrimaryFileGroup"
-                  arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
-        <f:render partial="Document/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
+                  arguments="{file:files.primaryFile,virtual:document.virtual}"/>
+        <f:render partial="Document/SecondaryFileGroup" arguments="{files:files.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
                 data-group="file-upload"
                 data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocument',pageType:110124)}"
@@ -80,7 +101,7 @@
 </div>
 
 <div class="form-submit">
-    <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}"
+    <f:form.button name="save" id="save" disabled="{f:if(condition: '{document.saveAllowed} == 0', then: 'disabled')}"
                    class="btn btn-lg btn-success">
         <span class="glyphicon glyphicon-ok"></span>
         {f:translate(key: 'form_button.save')}
