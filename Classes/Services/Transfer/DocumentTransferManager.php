@@ -90,28 +90,10 @@ class DocumentTransferManager
         $document->setTransferStatus(Document::TRANSFER_QUEUED);
         $this->documentRepository->update($document);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-        $fileData = $document->getFileData();
-
-        $exporter->setFileData($fileData);
-
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        //$dateIssued = $mods->getDateIssued();
-        //if (empty($dateIssued)) {
+        $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
-        $mods->setDateIssued($dateIssued);
-        //}
-
-        $exporter->setMods($mods->getModsXml());
-
-        $exporter->setSlubInfo($document->getSlubInfoData());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $exporter->buildMets();
-
-        $metsXml = $exporter->getMetsData();
+        $document->setDateIssued($dateIssued);
+        $metsXml = $metadataExporter->getMetsXml($document);
 
         $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
 
@@ -147,28 +129,8 @@ class DocumentTransferManager
         $document->setTransferStatus(Document::TRANSFER_QUEUED);
         $this->documentRepository->update($document);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-        $fileData = $document->getFileData();
-
-        $exporter->setFileData($fileData);
-
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        //$dateIssued = $mods->getDateIssued();
-        //if (empty($dateIssued)) {
-        $dateIssued = $document->getDateIssued();
-        $mods->setDateIssued($dateIssued);
-        //}
-
-        $exporter->setMods($mods->getModsXml());
-
-        $exporter->setSlubInfo($document->getSlubInfoData());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $exporter->buildMets();
-
-        $metsXml = $exporter->getMetsData();
+        $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
+        $metsXml = $metadataExporter->getMetsXml($document);
 
         if ($this->remoteRepository->update($document, $metsXml)) {
             $document->setTransferStatus(Document::TRANSFER_SENT);

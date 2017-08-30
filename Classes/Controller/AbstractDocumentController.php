@@ -225,44 +225,18 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
                 }
             }
 
-            //
-            // ****
-            //
-            $metadataForExporter = $this->getMetadataForExporter($document);
-
-            $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-            // mods:mods
-            $modsData['documentUid'] = $document->getUid();
-            $modsData['metadata'] = $metadataForExporter['mods'];
-            $modsData['files'] = array();
-
-            $exporter->buildModsFromForm($modsData);
-            $modsXml = $exporter->getModsData();
-
-            $document->setXmlData($modsXml);
-
+            // ------------------------------------------------------------------------------
+            // todo: no more use of metadata in xml format
+            // ------------------------------------------------------------------------------
+            $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
+            $modsXml = $metadataExporter->getModsXml($document);
             $mods = new \EWW\Dpf\Helper\Mods($modsXml);
-
+            $document->setXmlData($modsXml);
             $document->setTitle($mods->getTitle());
             $document->setAuthors($mods->getAuthors());
-
-            // slub:info
-            $slubInfoData['documentUid'] = $document->getUid();
-            $slubInfoData['metadata'] = $metadataForExporter['slubInfo'];
-            $slubInfoData['files'] = array();
-            $exporter->buildSlubInfoFromForm($slubInfoData, $document->getDocumentType(),
-                $document->getProcessNumber());
-            $slubInfoXml = $exporter->getSlubInfoData();
-
-            $document->setSlubInfoData($slubInfoXml);
-
+            $document->setSlubInfoData($metadataExporter->getSlubInfoXml($document));
             $this->documentRepository->update($document);
-            $this->persistenceManager->persistAll();
-            //
-            // ****
-            //
-
+            // ------------------------------------------------------------------------------
 
             $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
 
@@ -368,44 +342,18 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
                 }
             }
 
-            //
-            // ****
-            //
-            $metadataForExporter = $this->getMetadataForExporter($document);
-
-            $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-            // mods:mods
-            $modsData['documentUid'] = $document->getUid();
-            $modsData['metadata'] = $metadataForExporter['mods'];
-            $modsData['files'] = array();
-
-            $exporter->buildModsFromForm($modsData);
-            $modsXml = $exporter->getModsData();
-
-            $document->setXmlData($modsXml);
-
+            // ------------------------------------------------------------------------------
+            // todo: no more use of metadata in xml format
+            // ------------------------------------------------------------------------------
+            $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
+            $modsXml = $metadataExporter->getModsXml($document);
             $mods = new \EWW\Dpf\Helper\Mods($modsXml);
-
+            $document->setXmlData($modsXml);
             $document->setTitle($mods->getTitle());
             $document->setAuthors($mods->getAuthors());
-
-            // slub:info
-            $slubInfoData['documentUid'] = $document->getUid();
-            $slubInfoData['metadata'] = $metadataForExporter['slubInfo'];
-            $slubInfoData['files'] = array();
-            $exporter->buildSlubInfoFromForm($slubInfoData, $document->getDocumentType(),
-                $document->getProcessNumber());
-            $slubInfoXml = $exporter->getSlubInfoData();
-
-            $document->setSlubInfoData($slubInfoXml);
-
+            $document->setSlubInfoData($metadataExporter->getSlubInfoXml($document));
             $this->documentRepository->update($document);
-            $this->persistenceManager->persistAll();
-            //
-            // ****
-            //
-
+            // ------------------------------------------------------------------------------
 
             // add document to local es index
             $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
@@ -444,95 +392,5 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
     {
         $this->redirect('list');
     }
-
-
-    protected function getMetadataForExporter($document)
-    {
-        foreach ($document->getMetadata() as $groupUid => $group) {
-
-            foreach ($group as $groupIndex => $groupItem) {
-
-                $item = array();
-
-                $metadataGroup = $this->metadataGroupRepository->findByUid($groupUid);
-
-                $item['mapping'] = $metadataGroup->getRelativeMapping();
-
-                $item['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();
-
-                $item['modsExtensionReference'] = trim($metadataGroup->getModsExtensionReference(), " /");
-
-                $item['groupUid'] = $groupUid;
-
-                $fieldValueCount   = 0;
-                $defaultValueCount = 0;
-                $fieldCount        = 0;
-                foreach ($groupItem as $fieldUid => $field) {
-                    foreach ($field as $fieldIndex => $fieldItem) {
-                        $metadataObject = $this->metadataObjectRepository->findByUid($fieldUid);
-
-                        $fieldMapping = $metadataObject->getRelativeMapping();
-
-                        $formField = array();
-
-                        $value = $fieldItem;
-
-                        if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
-                            $date = date_create_from_format('d.m.Y', trim($value));
-                            if ($date) {
-                                $value = date_format($date, 'Y-m-d');
-                            }
-                        }
-
-                        $fieldCount++;
-                        if (!empty($value)) {
-                            $fieldValueCount++;
-                            $defaultValue = $metadataObject->getDefaultValue();
-                            if ($defaultValue) {
-                                $defaultValueCount++;
-                            }
-                        }
-
-                        $value = str_replace('"', "'", $value);
-                        if ($value) {
-                            $formField['modsExtension'] = $metadataObject->getModsExtension();
-
-                            $formField['mapping'] = $fieldMapping;
-                            $formField['value']   = $value;
-
-                            if (strpos($fieldMapping, "@") === 0) {
-                                $item['attributes'][] = $formField;
-                            } else {
-                                $item['values'][] = $formField;
-                            }
-                        }
-                    }
-                }
-
-                if (!key_exists('attributes', $item)) {
-                    $item['attributes'] = array();
-                }
-
-                if (!key_exists('values', $item)) {
-                    $item['values'] = array();
-                }
-
-                if ($metadataGroup->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount) {
-                    if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                        $form['slubInfo'][] = $item;
-                    } else {
-                        $form['mods'][] = $item;
-                    }
-                }
-
-            }
-
-        }
-
-
-        return $form;
-
-    }
-
 
 }
