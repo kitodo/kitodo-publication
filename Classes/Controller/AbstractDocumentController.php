@@ -278,15 +278,18 @@ abstract class AbstractDocumentController extends \TYPO3\CMS\Extbase\Mvc\Control
         // todo: replace workaround with an extension manager update script
         // Workaround to generate metadata array for old documents without an array
         // ---------------------------------------------------------------------------------
-        $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
-        $metsXml = $metadataExporter->getMetsXml($document);
-        $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-        $xpath = $mets->getMetsXpath();
-        $xpath->registerNamespace("mets", "http://www.loc.gov/METS/");
-        $dmdSec = $xpath->query("/mets:mets/mets:dmdSec");
-        $dmdSec->item(0)->setAttribute("STATUS","ACTIVE");
-        $tmpDocument = \EWW\Dpf\Domain\Factory\DocumentFactory::createFromMets("", $mets->getMetsXml());
-        $document->setMetadata($tmpDocument->getMetadata());
+        $metadata = $document->getMetadata();
+        if (!is_array($metadata) || empty($metadata)) {
+            $metadataExporter = $this->objectManager->get('EWW\Dpf\Helper\MetadataExporter');
+            $metsXml = $metadataExporter->getMetsXml($document);
+            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
+            $xpath = $mets->getMetsXpath();
+            $xpath->registerNamespace("mets", "http://www.loc.gov/METS/");
+            $dmdSec = $xpath->query("/mets:mets/mets:dmdSec");
+            $dmdSec->item(0)->setAttribute("STATUS", "ACTIVE");
+            $tmpDocument = \EWW\Dpf\Domain\Factory\DocumentFactory::createFromMets("", $mets->getMetsXml());
+            $document->setMetadata($tmpDocument->getMetadata());
+        }
         // ---------------------------------------------------------------------------------
 
         $this->view->assign('document', $document);
