@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-04-26T16:04:20Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-19T09:24:17Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -41,27 +41,27 @@
 		<trans-unit id="documentForm.create.header">
 			<source>Create document</source>
 		</trans-unit>
-		<trans-unit id="documentForm.goBack">
-			<source>go back</source>
-		</trans-unit>
 		<trans-unit id="documentForm.create.ok">
 			<source>Document successfully created.</source>
 		</trans-unit>
-		<trans-unit id="documentForm.uploadPostError">
-			<source>Document couldn't be saved. Error while uploading files.</source>
-		</trans-unit>
-		<trans-unit id="documentForm.uploadError">
-			<source>Document couldn't be saved. File size limit exceeded:</source>
-		</trans-unit>
 		<trans-unit id="documentForm.edit.header">
 			<source>Edit %s</source>
+		</trans-unit>
+		<trans-unit id="documentForm.goBack">
+			<source>go back</source>
 		</trans-unit>
 		<trans-unit id="documentForm.new.header">
 			<source>New %s</source>
 		</trans-unit>
 		<trans-unit id="documentForm.processNumber">
-            <source>Process Number</source>
-        </trans-unit>
+			<source>Process Number</source>
+		</trans-unit>
+		<trans-unit id="documentForm.uploadError">
+			<source>Document couldn't be saved. File size limit exceeded:</source>
+		</trans-unit>
+		<trans-unit id="documentForm.uploadPostError">
+			<source>Document couldn't be saved. Error while uploading files.</source>
+		</trans-unit>
 		<trans-unit id="document_activate.failure">
 			<source>Activating %s failed.</source>
 		</trans-unit>
@@ -125,23 +125,23 @@
 		<trans-unit id="form_button.delete">
 			<source>delete</source>
 		</trans-unit>
-        <trans-unit id="form_button.remove_file">
-            <source>remove</source>
-        </trans-unit>
 		<trans-unit id="form_button.delete_item">
 			<source>delete %s</source>
 		</trans-unit>
 		<trans-unit id="form_button.not_delete">
 			<source>Do not delete</source>
 		</trans-unit>
+		<trans-unit id="form_button.remove_file">
+			<source>remove</source>
+		</trans-unit>
 		<trans-unit id="form_button.save">
 			<source>save</source>
 		</trans-unit>
-		<trans-unit id="form_button.validate">
-			<source>validate</source>
-		</trans-unit>
 		<trans-unit id="form_button.save_continue">
 			<source>save &amp; continue</source>
+		</trans-unit>
+		<trans-unit id="form_button.validate">
+			<source>validate</source>
 		</trans-unit>
 		<trans-unit id="form_error_msg.all">
 			<source>The form contains errors.</source>
@@ -303,8 +303,7 @@
 			<source>update</source>
 		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
-			<source>
-Your document has been published:
+			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###
 Title: ###TITLE###
 Author: ###AUTHOR###
@@ -316,8 +315,7 @@ Date: ###DATE###
 			<source>Document published</source>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.admin.body" xml:space="preserve">
-			<source>
-A new document has been registered:
+			<source>A new document has been registered:
 Submitter: ###SUBMITTER_NAME###
 Title: ###TITLE###
 Author: ###AUTHOR###
@@ -329,8 +327,7 @@ Date: ###DATE###
 			<source>New document registered</source>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.submitter.body" xml:space="preserve">
-			<source>
-You have registered the following document:
+			<source>You have registered the following document:
 Submitter: ###SUBMITTER_NAME###
 Title: ###TITLE###
 Author: ###AUTHOR###
@@ -380,30 +377,24 @@ Date: ###DATE###
 		<trans-unit id="search.form.button.search">
 			<source>Search</source>
 		</trans-unit>
+		<trans-unit id="search.form.corporation">
+			<source>Institution</source>
+		</trans-unit>
 		<trans-unit id="search.form.header.extendedSearch">
-			<source>Erweiterte Suche</source>
+			<source>Advanced search</source>
 		</trans-unit>
 		<trans-unit id="search.form.header.simpleSearch">
 			<source>Simple search</source>
+		</trans-unit>
+		<trans-unit id="search.form.label.abstract">
+			<source>Abstract</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.author">
 			<source>Author</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.corporation">
-            <source>Corporation</source>
-        </trans-unit>
-        <trans-unit id="search.form.label.abstract">
-            <source>Abstract</source>
-        </trans-unit>
-        <trans-unit id="search.form.label.tag">
-            <source>Tag</source>
-        </trans-unit>
-        <trans-unit id="search.form.label.type">
-            <source>Type</source>
-        </trans-unit>
-        <trans-unit id="search.form.label.institution">
-            <source>Institution</source>
-        </trans-unit>
+			<source>Corporation</source>
+		</trans-unit>
 		<trans-unit id="search.form.label.datasetIdentifier">
 			<source>ID</source>
 		</trans-unit>
@@ -416,8 +407,14 @@ Date: ###DATE###
 		<trans-unit id="search.form.label.inactiveDeleted">
 			<source>Inactive/Deleted</source>
 		</trans-unit>
+		<trans-unit id="search.form.label.institution">
+			<source>Institution</source>
+		</trans-unit>
 		<trans-unit id="search.form.label.query">
 			<source>Search String</source>
+		</trans-unit>
+		<trans-unit id="search.form.label.tag">
+			<source>Tag</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.title">
 			<source>Title</source>
@@ -425,17 +422,32 @@ Date: ###DATE###
 		<trans-unit id="search.form.label.to">
 			<source>To</source>
 		</trans-unit>
+		<trans-unit id="search.form.label.type">
+			<source>Type</source>
+		</trans-unit>
 		<trans-unit id="search.resultList.author">
 			<source>Author</source>
 		</trans-unit>
+		<trans-unit id="search.resultList.corporation">
+			<source>Corporation</source>
+		</trans-unit>
 		<trans-unit id="search.resultList.datasetIdentifier">
 			<source>ID</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.documentFound">
+			<source>document found.</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.documentsFound">
+			<source>documents found.</source>
 		</trans-unit>
 		<trans-unit id="search.resultList.identifier">
 			<source>Identifier</source>
 		</trans-unit>
 		<trans-unit id="search.resultList.more">
 			<source>More results</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.nothingFound">
+			<source>No results for your search.</source>
 		</trans-unit>
 		<trans-unit id="search.resultList.publicationDate">
 			<source>Publication date</source>
@@ -461,18 +473,6 @@ Date: ###DATE###
 		<trans-unit id="search.resultList.title">
 			<source>Title</source>
 		</trans-unit>
-        <trans-unit id="search.resultList.corporation">
-            <source>Corporation</source>
-        </trans-unit>
-		<trans-unit id="search.resultList.documentsFound">
-			<source>documents found.</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.documentFound">
-			<source>document found.</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.nothingFound">
-			<source>No results for your search.</source>
-		</trans-unit>
 		<trans-unit id="tt_content.dpf_downloadtool">
 			<source>DPF: DownloadTool</source>
 		</trans-unit>
@@ -482,29 +482,29 @@ Date: ###DATE###
 		<trans-unit id="tt_content.dpf_relatedlisttool">
 			<source>DPF: RelatedListTool</source>
 		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.select_function">
-			<source>Select Function of Plugin</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchAndResults">
-			<source>Show Search and Result List</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.showSearchForm">
-			<source>Show Search Form only</source>
-		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.apiPid">
 			<source>API Pid</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.sheet_general">
-			<source>Options</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.targetPid">
-			<source>Target page</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.landingPage">
 			<source>Landing Page</source>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchAndResults">
+			<source>Show Search and Result List</source>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsPid">
 			<source>Search Results on Page</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.select_function">
+			<source>Select Function of Plugin</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.sheet_general">
+			<source>Options</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.showSearchForm">
+			<source>Show Search Form only</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.targetPid">
+			<source>Target page</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client">
 			<source>Client</source>
@@ -542,12 +542,12 @@ Date: ###DATE###
 		<trans-unit id="tx_dpf_domain_model_document.object_state">
 			<source>Object State</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.process_number">
+			<source>Process Number</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.reserved_object_identifier">
 			<source>Reserved Object Identifier</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.process_number">
-            <source>Process Number</source>
-        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.slub_info_data">
 			<source>Slub Info Data</source>
 		</trans-unit>

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-23T14:47:49Z" product-name="dpf">
-		<header/>
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-19T09:35:44Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
 		<body>
-			<trans-unit id="xml_data.description">
-				<source>xmlData</source>
-			</trans-unit>
-                        <trans-unit id="slub_info_data.description">
-				<source>slubInfoData</source>
-			</trans-unit>
-			<trans-unit id="document_type.description">
-				<source>documentType</source>
-			</trans-unit>
+		<trans-unit id="document_type.description">
+			<source>documentType</source>
+		</trans-unit>
+		<trans-unit id="slub_info_data.description">
+			<source>slubInfoData</source>
+		</trans-unit>
+		<trans-unit id="xml_data.description">
+			<source>xmlData</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

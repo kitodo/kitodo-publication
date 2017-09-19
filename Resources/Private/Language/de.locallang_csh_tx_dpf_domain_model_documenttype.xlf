@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:41:32Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="display_name.description" approved="yes">
+			<source>displayName</source>
+			<target>Anzeigename</target>
+		</trans-unit>
+		<trans-unit id="display_name.virtual" approved="yes">
+			<source>virtual</source>
+			<target>Virtuell</target>
+		</trans-unit>
+		<trans-unit id="metadata_page.description" approved="yes">
+			<source>metadataPage</source>
+			<target>Metadaten-Seite</target>
+		</trans-unit>
+		<trans-unit id="name.description" approved="yes">
+			<source>name</source>
+			<target>Name</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>
