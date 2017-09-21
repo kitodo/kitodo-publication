@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:58:28Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="backend_only.description" approved="yes">
+			<source>backendOnly</source>
+			<target>Nur Backend</target>
+		</trans-unit>
+		<trans-unit id="consent.description" approved="yes">
+			<source>Consent field</source>
+			<target>Einwilligungsfeld</target>
+		</trans-unit>
+		<trans-unit id="data_type.description" approved="yes">
+			<source>Data type</source>
+			<target>Datentyp</target>
+		</trans-unit>
+		<trans-unit id="default_value.description" approved="yes">
+			<source>Default value</source>
+			<target>Standardwert</target>
+		</trans-unit>
+		<trans-unit id="display_name.description" approved="yes">
+			<source>Displayname</source>
+			<target>Anzeigename</target>
+		</trans-unit>
+		<trans-unit id="fill_out_service.description" approved="yes">
+			<source>Fillout service</source>
+			<target>Fillout Service</target>
+		</trans-unit>
+		<trans-unit id="input_field.description" approved="yes">
+			<source>Input field</source>
+			<target>Eingabefeld</target>
+		</trans-unit>
+		<trans-unit id="input_option_list.description" approved="yes">
+			<source>Input option list</source>
+			<target>Liste der Eingabeoptionen</target>
+		</trans-unit>
+		<trans-unit id="mandatory.description" approved="yes">
+			<source>Mandatory</source>
+			<target>Pflicht </target>
+		</trans-unit>
+		<trans-unit id="mapping.description" approved="yes">
+			<source>Mapping</source>
+			<target>Zuordnung</target>
+		</trans-unit>
+		<trans-unit id="max_iteration.description" approved="yes">
+			<source>Max iteration</source>
+			<target>Maximale Iterationen</target>
+		</trans-unit>
+		<trans-unit id="mods_extension.description" approved="yes">
+			<source>Mods extension</source>
+			<target>Modserweiterung</target>
+		</trans-unit>
+		<trans-unit id="name.description" approved="yes">
+			<source>Name</source>
+			<target>Name</target>
+		</trans-unit>
+		<trans-unit id="validation.description" approved="yes">
+			<source>Validation</source>
+			<target>Überprüfung</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

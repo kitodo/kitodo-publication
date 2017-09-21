@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:40:32Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="action.description" approved="yes">
+			<source>action</source>
+			<target>Aktion</target>
+		</trans-unit>
+		<trans-unit id="curl_error.description" approved="yes">
+			<source>curlError</source>
+			<target>curl Fehler</target>
+		</trans-unit>
+		<trans-unit id="date.description" approved="yes">
+			<source>date</source>
+			<target>Datum</target>
+		</trans-unit>
+		<trans-unit id="document_uid.description" approved="yes">
+			<source>document uid</source>
+			<target>Dokumenten UID</target>
+		</trans-unit>
+		<trans-unit id="object_identifier.description" approved="yes">
+			<source>object identifier</source>
+			<target>Obektkennung</target>
+		</trans-unit>
+		<trans-unit id="process_number.description" approved="yes">
+			<source>process number</source>
+			<target>Vorgangsnummer</target>
+		</trans-unit>
+		<trans-unit id="reserved_object_identifier.description" approved="yes">
+			<source>reserved object identifier</source>
+			<target>Reservierte Objektkennung</target>
+		</trans-unit>
+		<trans-unit id="response.description" approved="yes">
+			<source>response</source>
+			<target>Antwort </target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T10:00:11Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="counter.description" approved="yes">
+			<source>Counter</source>
+			<target>Zähler</target>
+		</trans-unit>
+		<trans-unit id="owner_id.description" approved="yes">
+			<source>Owner ID</source>
+			<target>Besitzer ID</target>
+		</trans-unit>
+		<trans-unit id="year.description" approved="yes">
+			<source>Year</source>
+			<target>Jahr</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

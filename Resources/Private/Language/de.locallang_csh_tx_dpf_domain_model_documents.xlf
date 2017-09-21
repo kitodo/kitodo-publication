@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:35:44Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="document_type.description" approved="yes">
+			<source>documentType</source>
+			<target>Dokumenttyp</target>
+		</trans-unit>
+		<trans-unit id="slub_info_data.description" approved="yes">
+			<source>slubInfoData</source>
+			<target>SLUB Info Daten</target>
+		</trans-unit>
+		<trans-unit id="xml_data.description" approved="yes">
+			<source>xmlData</source>
+			<target>XML Daten</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

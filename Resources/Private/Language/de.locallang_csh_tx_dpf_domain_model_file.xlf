@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:44:11Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="archive.description" approved="yes">
+			<source>archive</source>
+			<target>Archiv</target>
+		</trans-unit>
+		<trans-unit id="content_type.description" approved="yes">
+			<source>contentType</source>
+			<target>Inhaltstyp</target>
+		</trans-unit>
+		<trans-unit id="datastream_identifier.description" approved="yes">
+			<source>datastream identifier</source>
+			<target>datastream identifier</target>
+		</trans-unit>
+		<trans-unit id="document.description" approved="yes">
+			<source>document</source>
+			<target>Dokument</target>
+		</trans-unit>
+		<trans-unit id="download.description" approved="yes">
+			<source>download</source>
+			<target>Download</target>
+		</trans-unit>
+		<trans-unit id="label.description" approved="yes">
+			<source>label</source>
+			<target>Label</target>
+		</trans-unit>
+		<trans-unit id="link.description" approved="yes">
+			<source>link</source>
+			<target>link</target>
+		</trans-unit>
+		<trans-unit id="primary_file.description" approved="yes">
+			<source>primary file</source>
+			<target>Primärdatei</target>
+		</trans-unit>
+		<trans-unit id="status.description" approved="yes">
+			<source>status</source>
+			<target>Status</target>
+		</trans-unit>
+		<trans-unit id="title.description" approved="yes">
+			<source>title</source>
+			<target>Titel</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>
