@@ -197,7 +197,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         if (isset($filter['gte']) || isset($filter['lte'])) {
 
-            $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
+            $query['body']['query']['bool']['must'][] = array('range' => array('distribution_date' => $filter));
 
         }
 
