@@ -120,9 +120,9 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         }
 
 
-        if ($args['extSearch']['extCorporation']) {
+        if ($args['extSearch']['extInstitution']) {
 
-            $corporation                = $args['extSearch']['extCorporation'];
+            $corporation                = $args['extSearch']['extInstitution'];
             $fieldQuery['corporation']  = $corporation;
             $countFields++;
             // will be removed from query later
