@@ -27,7 +27,6 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     public function getResultList($query, $type)
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
         $results = $elasticSearch->search($query, $type);
 
         return $results;
@@ -119,7 +118,6 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         }
 
-
         if ($args['extSearch']['extInstitution']) {
 
             $corporation                = $args['extSearch']['extInstitution'];
@@ -127,6 +125,16 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             $countFields++;
             // will be removed from query later
             $query['extra']['corporation']  = $corporation;
+
+        }
+
+        if ($args['extSearch']['extTag']) {
+
+            $tag               = $args['extSearch']['extTag'];
+            $fieldQuery['tag'] = $tag;
+            $countFields++;
+            // will be removed from query later
+            $query['extra']['tag'] = $tag;
 
         }
 
