@@ -117,6 +117,42 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumber;
 
     /**
+     *
+     * @var string $metadata;
+     */
+    protected $metadata = '';
+
+    /**
+     *
+     * @var array $primaryFile;
+     */
+    protected $primaryFile;
+
+    /**
+     *
+     * @var array $primFile;
+     */
+    protected $primFile;
+
+    /**
+     *
+     * @var array $secondaryFiles;
+     */
+    protected $secondaryFiles;
+
+    /**
+     *
+     * @var array $secFiles;
+     */
+    protected $secFiles;
+
+    /**
+     *
+     * @var array deleteFile;
+     */
+    protected $deleteFile;
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -650,6 +686,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         !empty($this->objectIdentifier);
     }
 
+    public function isDeleteDisabled()
+    {
+        return !$this->isDeleteAllowed();
+    }
+
+
+    public function isSaveAllowed()
+    {
+        return !($this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
+            $this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE &&
+            $this->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW);
+    }
+
+    public function isSaveDisabled()
+    {
+        return !$this->isSaveAllowed();
+    }
+
     /**
      *
      *
@@ -769,4 +823,161 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->processNumber = trim($processNumber);
     }
+
+    /**
+     * Returns the metadata
+     *
+     * @return array $metadata
+     */
+    public function getMetadata()
+    {
+        return unserialize($this->metadata);
+    }
+
+    /**
+     * Sets the metadata
+     *
+     * @param mixed $metadata
+     * @return void
+     */
+    public function setMetadata($metadata)
+    {
+        if(is_array($metadata)) {
+            $this->metadata = serialize($metadata);
+        } else {
+            $this->metadata = $metadata;
+        }
+    }
+
+
+    /**
+     * Gets the main urn
+     *
+     * @return string
+     */
+    public function getUrn()
+    {
+        $urn = "";
+
+        $objectIdentifier = $this->getObjectIdentifier();
+
+        if (empty($objectIdentifier)) {
+            $objectIdentifier = $this->getReservedObjectIdentifier();
+        }
+
+        if (!empty($objectIdentifier)) {
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
+            $urnService = $objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+            $urn  = $urnService->getUrn($objectIdentifier);
+        }
+
+        return $urn;
+    }
+
+    /**
+     * Gets the deleteFile
+     *
+     * @return array
+     */
+    public function getDeleteFile()
+    {
+        return $this->deleteFile;
+    }
+
+    /**
+     * Sets the deleteFile
+     *
+     * @param array $deleteFile
+     * @return void
+     */
+    public function setDeleteFile($deleteFile)
+    {
+        $this->deleteFile = $deleteFile;
+    }
+
+    /**
+     * Gets the primaryFile
+     *
+     * @return array
+     */
+    public function getPrimaryFile()
+    {
+        return $this->primaryFile;
+    }
+
+    /**
+     * Sets the primaryFile
+     *
+     * @var array $primaryFile
+     * @return void
+     */
+    public function setPrimaryFile($primaryFile)
+    {
+        $this->primaryFile = $primaryFile;
+    }
+
+    /**
+     * Gets the primFile
+     *
+     * @return array
+     */
+    public function getPrimFile()
+    {
+        return $this->primFile;
+    }
+
+    /**
+     * Sets the primFile
+     *
+     * @var array $primFile
+     * @return void
+     */
+    public function setPrimFile($primFile)
+    {
+        $this->primFile = $primFile;
+    }
+
+    /**
+     * Gets the secondaryFiles
+     *
+     * @return array
+     */
+    public function getSecondaryFiles()
+    {
+        return $this->secondaryFiles;
+    }
+
+    /**
+     * Sets the secondaryFiles
+     *
+     * @var array $secondaryFiles
+     * @return void
+     */
+    public function setSecondaryFiles($secondaryFiles)
+    {
+        $this->secondaryFiles = $secondaryFiles;
+    }
+
+    /**
+     * Gets the secFiles
+     *
+     * @return array
+     */
+    public function getSecFiles()
+    {
+        return $this->secFiles;
+    }
+
+    /**
+     * Sets the secFiles
+     *
+     * @var array $secFiles
+     * @return void
+     */
+    public function setSecFiles($secFiles)
+    {
+        $this->secFiles = $secFiles;
+    }
+
+
 }

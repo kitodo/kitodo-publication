@@ -63,6 +63,7 @@ CREATE TABLE tx_dpf_domain_model_document (
 
   title VARCHAR(1024) DEFAULT '' NOT NULL,
   authors VARCHAR(1024) DEFAULT '' NOT NULL,
+  metadata TEXT NOT NULL,
   xml_data TEXT NOT NULL,
   slub_info_data TEXT NOT NULL,
   document_type INT(11) UNSIGNED DEFAULT '0',

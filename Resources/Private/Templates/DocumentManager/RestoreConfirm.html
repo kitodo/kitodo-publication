@@ -1,0 +1,27 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="DefaultBE"/>
+
+<f:section name="main">
+    <h4>{f:translate(key: 'manager.restoreConfirmMessageHeader')}</h4>
+    {f:translate(key: 'manager.restoreConfirmMessage', arguments: {0: document.title})}
+    <br/><br/>
+    <f:link.action action="restore" controller="DocumentManager" arguments="{document : document}" class="btn btn-danger">
+        {f:translate(key: 'manager.releaseConfirmYes')}
+    </f:link.action>
+    <f:link.action action="list" controller="DocumentManager" class="btn btn-primary">{f:translate(key:
+        'manager.releaseConfirmNo')}
+    </f:link.action>
+</f:section>

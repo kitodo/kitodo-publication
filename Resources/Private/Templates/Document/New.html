@@ -15,9 +15,9 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-    <h1></h1>
     <f:flashMessages renderMode="div"/>
-    <f:render partial="Document/Properties" arguments="{document:document}"/>
-    <f:link.action action="list">Zurück zur Liste</f:link.action>
-    <br/>
+    <h2>
+        <f:translate key="documentForm.new.header" arguments="{0: '{document.documentType.displayName}'}"/>
+    </h2>
+    <f:render partial="Document/New" arguments="{document:document}"/>
 </f:section>

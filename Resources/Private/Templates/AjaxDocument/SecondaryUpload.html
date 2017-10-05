@@ -12,12 +12,6 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Default"/>
-
-<f:section name="main">
-    <h1></h1>
-    <f:flashMessages renderMode="div"/>
-    <f:render partial="Document/Properties" arguments="{document:document}"/>
-    <f:link.action action="list">Zurück zur Liste</f:link.action>
-    <br/>
-</f:section>
+<f:form action="" name="document" object="{document}" enctype="multipart/form-data">
+    <f:render partial="Document/SecondaryUpload" arguments="{groupIndex:groupIndex}"/>
+</f:form>

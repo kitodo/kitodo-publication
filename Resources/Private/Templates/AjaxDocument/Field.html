@@ -12,12 +12,9 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Default"/>
-
-<f:section name="main">
-    <h1></h1>
-    <f:flashMessages renderMode="div"/>
-    <f:render partial="Document/Properties" arguments="{document:document}"/>
-    <f:link.action action="list">Zurück zur Liste</f:link.action>
-    <br/>
-</f:section>
+<f:form action="" name="document" object="{document}" enctype="multipart/form-data">
+    <div id="new-element">
+        <f:render partial="Document/Field"
+                  arguments="{pageType:pageType, groupType:groupType, groupIterator:groupIterator, fieldType:fieldType, fieldIterator:fieldIterator, field:field}"/>
+    </div>
+</f:form>
