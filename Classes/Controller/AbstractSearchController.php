@@ -27,7 +27,6 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     public function getResultList($query, $type)
     {
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
         $results = $elasticSearch->search($query, $type);
 
         return $results;
@@ -119,14 +118,23 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         }
 
+        if ($args['extSearch']['extInstitution']) {
 
-        if ($args['extSearch']['extCorporation']) {
-
-            $corporation                = $args['extSearch']['extCorporation'];
+            $corporation                = $args['extSearch']['extInstitution'];
             $fieldQuery['corporation']  = $corporation;
             $countFields++;
             // will be removed from query later
             $query['extra']['corporation']  = $corporation;
+
+        }
+
+        if ($args['extSearch']['extTag']) {
+
+            $tag               = $args['extSearch']['extTag'];
+            $fieldQuery['tag'] = $tag;
+            $countFields++;
+            // will be removed from query later
+            $query['extra']['tag'] = $tag;
 
         }
 
@@ -197,7 +205,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         if (isset($filter['gte']) || isset($filter['lte'])) {
 
-            $query['body']['query']['bool']['must'][] = array('range' => array('CREATED_DATE' => $filter));
+            $query['body']['query']['bool']['must'][] = array('range' => array('distribution_date' => $filter));
 
         }
 
