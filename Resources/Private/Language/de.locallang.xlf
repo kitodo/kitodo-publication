@@ -695,6 +695,58 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Target page</source>
 			<target>Zielseite</target>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections" approved="yes">
+			<source>Filter Search Results by Collections</source>
+			<target>Suchergebnisse nach Kollektionen filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title" approved="yes">
+			<source>Filter Search Results by Title</source>
+			<target>Suchergebnisse nach Titel filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.author" approved="yes">
+			<source>Filter Search Results by Author</source>
+			<target>Suchergebnisse nach Autor filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.abstract" approved="yes">
+			<source>Filter Search Results by Abstract</source>
+			<target>Suchergebnisse nach Zusammenfassung filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag" approved="yes">
+			<source>Filter Search Results by Tags</source>
+			<target>Suchergebnisse nach Schlagwörtern filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype" approved="yes">
+			<source>Filter Search Results by Document types</source>
+			<target>Suchergebnisse nach Dokumenttypen filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.corporation" approved="yes">
+			<source>Filter Search Results by Corporation</source>
+			<target>Suchergebnisse nach Institution filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.from" approved="yes">
+			<source>Filter Search Results by Date (from)</source>
+			<target>Suchergebnisse nach Datum (von) filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.till" approved="yes">
+			<source>Filter Search Results by Date (till)</source>
+			<target>Suchergebnisse nach Datum (bis) filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language" approved="yes">
+			<source>Filter Search Results by Languages</source>
+			<target>Suchergebnisse nach Sprachen filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification" approved="yes">
+			<source>Filter Search Results by Classification</source>
+			<target>Suchergebnisse nach Klassifikation filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.project" approved="yes">
+			<source>Filter Search Results by Project</source>
+			<target>Suchergebnisse nach Projekt filtern</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.submitter" approved="yes">
+			<source>Filter Search Results by Submitter</source>
+			<target>Suchergebnisse nach Einreicher filtern</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client" approved="yes">
 			<source>Client</source>
 			<target>Mandant</target>

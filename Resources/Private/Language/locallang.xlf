@@ -506,6 +506,45 @@ Date: ###DATE###
 		<trans-unit id="tt_content.pi_flexform.targetPid">
 			<source>Target page</source>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections">
+			<source>Filter Search Results by Collections</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title">
+			<source>Filter Search Results by Title</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.author">
+			<source>Filter Search Results by Author</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.abstract">
+			<source>Filter Search Results by Abstract</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag">
+			<source>Filter Search Results by Tags</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype">
+			<source>Filter Search Results by Document types</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.corporation">
+			<source>Filter Search Results by Corporation</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.from">
+			<source>Filter Search Results by Date (from)</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.till">
+			<source>Filter Search Results by Date (till)</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language">
+			<source>Filter Search Results by Languages</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification">
+			<source>Filter Search Results by Classification</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.project">
+			<source>Filter Search Results by Project</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.submitter">
+			<source>Filter Search Results by Submitter</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client">
 			<source>Client</source>
 		</trans-unit>
