@@ -695,9 +695,17 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Target page</source>
 			<target>Zielseite</target>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.options" approved="yes">
+			<source>Filter Options</source>
+			<target>Filteroptionen</target>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.description" approved="yes">
+			<source>Use these settings to filter search results. Multiple filters use AND as conjunction operator.</source>
+			<target>Diese Einstellungen ermöglichen das Filtern der Suchergebnisse. Mehrere Filter werden über ein logisches UND miteinander verknüpft.</target>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections" approved="yes">
-			<source>Filter Search Results by Collections</source>
-			<target>Suchergebnisse nach Kollektionen filtern</target>
+			<source>Filter Search Results by Collections (comma-separated Values)</source>
+			<target>Suchergebnisse nach Kollektionen filtern (kommaseparierte Liste)</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title" approved="yes">
 			<source>Filter Search Results by Title</source>
@@ -712,8 +720,8 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<target>Suchergebnisse nach Zusammenfassung filtern</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag" approved="yes">
-			<source>Filter Search Results by Tags</source>
-			<target>Suchergebnisse nach Schlagwörtern filtern</target>
+			<source>Filter Search Results by Tags (comma-separated Values)</source>
+			<target>Suchergebnisse nach Schlagwörtern filtern (kommaseparierte Liste)</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype" approved="yes">
 			<source>Filter Search Results by Document types</source>
@@ -732,8 +740,8 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<target>Suchergebnisse nach Datum (bis) filtern</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language" approved="yes">
-			<source>Filter Search Results by Languages</source>
-			<target>Suchergebnisse nach Sprachen filtern</target>
+			<source>Filter Search Results by Languages (comma-separated ISO 639-2 codes)</source>
+			<target>Suchergebnisse nach Sprachen filtern (kommaseparierte ISO 639-2 codes)</target>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification" approved="yes">
 			<source>Filter Search Results by Classification</source>

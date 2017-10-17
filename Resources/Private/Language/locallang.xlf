@@ -506,8 +506,14 @@ Date: ###DATE###
 		<trans-unit id="tt_content.pi_flexform.targetPid">
 			<source>Target page</source>
 		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.options">
+			<source>Filter Options</source>
+		</trans-unit>
+		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.description">
+			<source>Use these settings to filter search results. Multiple filters use AND as conjunction operator.</source>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections">
-			<source>Filter Search Results by Collections</source>
+			<source>Filter Search Results by Collections (comma-separated Values)</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title">
 			<source>Filter Search Results by Title</source>
@@ -519,7 +525,7 @@ Date: ###DATE###
 			<source>Filter Search Results by Abstract</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag">
-			<source>Filter Search Results by Tags</source>
+			<source>Filter Search Results by Tags (comma-separated Values)</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype">
 			<source>Filter Search Results by Document types</source>
@@ -534,7 +540,7 @@ Date: ###DATE###
 			<source>Filter Search Results by Date (till)</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language">
-			<source>Filter Search Results by Languages</source>
+			<source>Filter Search Results by Languages (comma-separated ISO 639-2 codes)</source>
 		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification">
 			<source>Filter Search Results by Classification</source>
