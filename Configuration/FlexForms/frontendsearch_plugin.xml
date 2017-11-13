@@ -157,6 +157,7 @@
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>
                                 <foreign_table>tx_dpf_domain_model_documenttype</foreign_table>
+								<foreign_table_where>AND tx_dpf_domain_model_documenttype.pid = ###PAGE_TSCONFIG_ID### ORDER BY tx_dpf_domain_model_documenttype.display_name</foreign_table_where>
                                 <size>5</size>
                                 <autoSizeMax>15</autoSizeMax>
                                 <maxitems>99</maxitems>
