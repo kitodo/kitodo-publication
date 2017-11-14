@@ -19,6 +19,7 @@ namespace EWW\Dpf\Controller;
  */
 class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 {
+
     /**
      * documentRepository
      *
@@ -48,14 +49,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args          = $this->request->getArguments();
+
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
         $this->view->assign('resultCount', self::RESULT_COUNT);
-
-        // assign form values
-        $this->assignExtraFields($args['extra']);
+        $this->view->assign('query', $args['query']);
     }
 
     /**
@@ -75,8 +75,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
         $query = $sessionVars['query'];
-
-        unset($query['extra']);
 
         $type = 'object';
 
@@ -98,14 +96,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
         $args          = $this->request->getArguments();
+
         $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
         $this->view->assign('resultCount', self::RESULT_COUNT);
 
-        // assign form values
-        $this->assignExtraFields($args['extra']);
+        $this->view->assign('query', $args['query']);
 
     }
 
@@ -120,9 +118,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         // set type local vs object
         $type = 'object';
-
-        // unset extra information
-        unset($query['extra']);
 
         $results = $this->getResultList($query, $type);
 
@@ -146,12 +141,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $sessionVars['resultCount'] = self::RESULT_COUNT;
         $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
+        $extSearch = ($args['query']['extSearch']) ? true : false;
+
         // set sorting
-        if ($args['extSearch']) {
+        if ($extSearch) {
+            unset($args['query']['extSearch']);
             // extended search
-            $query = $this->extendedSearch();
+            $query = $this->extendedSearch($args['query']);
+
         } else {
-            $query = $this->searchFulltext($args['search']['query']);
+            $query = $this->searchFulltext($args['query']['fulltext']);
         }
 
         // save search query
@@ -169,18 +168,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         // set type local vs object
         $type = 'object';
 
-        // unset extra information
-        $extra = $query['extra'];
-        unset($query['extra']);
-
         $results = $this->getResultList($query, $type);
 
-        if ($args['extSearch']) {
+        if ($extSearch) {
             // redirect to extended search view
-            $this->forward("extendedSearch", null, null, array('results' => $results, 'extra' => $extra));
+            $this->forward("extendedSearch", null, null, array('results' => $results, 'query' => $args['query']));
         } else {
             // redirect to list view
-            $this->forward("list", null, null, array('results' => $results, 'extra' => $extra));
+            $this->forward("list", null, null, array('results' => $results, 'query' => $args['query']));
         }
     }
 

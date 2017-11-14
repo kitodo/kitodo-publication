@@ -92,6 +92,9 @@ class PaginateController extends AbstractWidgetController
     public function indexAction($currentPage = 1)
     {
         // set current page
+        if(!empty($this->widgetConfiguration['currentPage'])) {
+            $currentPage = $this->widgetConfiguration['currentPage'];
+        };
         $this->currentPage = (int) $currentPage;
         if ($this->currentPage < 1) {
             $this->currentPage = 1;

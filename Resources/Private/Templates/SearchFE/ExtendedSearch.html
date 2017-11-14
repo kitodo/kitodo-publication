@@ -17,88 +17,97 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
+    <f:link.action action="search" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <f:translate key="search.control.simpleSearch"/>
+    </f:link.action>
 
-    <f:render partial="SearchFE/SearchControl" arguments="{searchList: searchList}"/>
-
-    <div class="searchForm">
-        <f:form action="search" name="extSearch" class="form-inline">
+    <span class="btn btn-default btn-sm active" aria-pressed="true">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <f:translate key="search.control.extendedSearch"/>
+    </span>
+    <div class="searchExtForm">
+        <f:form action="extendedSearch" name="query" class="form-inline">
             <h5>{f:translate(key: 'search.form.header.extendedSearch')}</h5>
             <div class="form-group">
-                <label for="extId">{f:translate(key: 'search.form.label.datasetIdentifier')}</label>
-                <f:form.textfield property="extId" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.datasetIdentifier')}" id="extId"
-                                  value="{id}"/>
+                <label for="title">{f:translate(key: 'search.form.label.title')}</label>
+                <f:form.textfield property="title" class="form-control"
+                    placeholder="{f:translate(key: 'search.form.label.title')}" id="title"
+                    value="{query.title}"/>
             </div>
             <div class="form-group">
-                <label for="extTitle">{f:translate(key: 'search.form.label.title')}</label>
-                <f:form.textfield property="extTitle" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.title')}" id="extTitle"
-                                  value="{title}"/>
+                <label for="author">{f:translate(key: 'search.form.label.author')}</label>
+                <f:form.textfield property="author" class="form-control"
+                    placeholder="{f:translate(key: 'search.form.label.author')}" id="author"
+                    value="{query.author}"/>
             </div>
             <div class="form-group">
-                <label for="extAuthor">{f:translate(key: 'search.form.label.author')}</label>
-                <f:form.textfield property="extAuthor" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.author')}" id="extAuthor"
-                                  value="{author}"/>
-            </div>
-            <div class="form-group">
-                <label for="extAbstract">{f:translate(key: 'search.form.label.abstract')}</label>
-                <f:form.textfield property="extAbstract" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.abstract')}" id="extAbstract"
-                                  value="{abstract}"/>
-            </div>
-            <div class="form-group">
-                <label for="extTag">{f:translate(key: 'search.form.label.abstract')}</label>
-                <f:form.textfield property="extTag" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.tag')}" id="extTag"
-                                  value="{tag}"/>
-            </div>
-            <div class="form-group">
-                <label for="extType">{f:translate(key: 'search.form.label.type')}</label>
-                <f:form.textfield property="extType" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.type')}" id="extType"
-                                  value="{type}"/>
-            </div>
-            <div class="form-group">
-                <label for="extInstitution">{f:translate(key: 'search.form.label.institution')}</label>
-                <f:form.textfield property="extInstitution" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.institution')}" id="extInstitution"
-                                  value="{institution}"/>
-            </div>
-            <div class="form-group">
-                <label for="extDeleted" class="show-label">{f:translate(key:
-                    'search.form.label.inactiveDeleted')}</label>
-                <f:form.checkbox property="extDeleted" class="form-control" id="extDeleted" value="true"
-                                 checked="{showDeleted}"/>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6" style="padding:0px;">
-                        <div class="form-group">
-                            <label for="extFrom">{f:translate(key: 'search.form.label.date')}</label>
-                            <f:form.textfield property="extFrom" class="form-control datetimepicker"
-                                              placeholder="{f:translate(key: 'search.form.label.from')}" id="extFrom"
-                                              value="{from}"/>
-                            <label for="extTill">{f:translate(key: 'search.form.label.to')}</label>
-                            <f:form.textfield property="extTill" class="form-control datetimepicker"
-                                              placeholder="{f:translate(key: 'search.form.label.to')}" id="extTill"
-                                              value="{till}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <f:form.hidden property="extSearch" value="true"/>
-            <f:form.button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
+                <label for="abstract">{f:translate(key: 'search.form.label.abstract')}</label>
+                <f:form.textfield property="abstract" class="form-control"
+                    placeholder="{f:translate(key: 'search.form.label.abstract')}" id="abstract"
+                    value="{query.abstract}"/>
+			</div>
+			<div class="form-group">
+				<label for="tag">{f:translate(key: 'search.form.label.tag')}</label>
+				<f:form.textfield property="tag" class="form-control"
+					placeholder="{f:translate(key: 'search.form.label.tag')}" id="tag"
+					value="{query.tag}"/>
+			</div>
+			<div class="form-group">
+				<label for="doctype">{f:translate(key: 'search.form.label.type')}</label>
+				<f:form.select property="doctype" options="{docTypes}" id="doctype" value="{query.doctype}" optionValueField="name" optionLabelField="displayName"/>
+			</div>
+			<div class="form-group">
+				<label for="corporation">{f:translate(key: 'search.form.label.institution')}</label>
+				<f:form.textfield property="corporation" class="form-control"
+					placeholder="{f:translate(key: 'search.form.label.institution')}" id="corporation"
+					value="{query.corporation}"/>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6" style="padding:0px;">
+						<div class="form-group">
+							<label for="from">{f:translate(key: 'search.form.label.date')}</label>
+							<f:form.textfield property="from" class="form-control datetimepicker"
+								placeholder="{f:translate(key: 'search.form.label.from')}" id="from"
+								value="{query.from}"/>
+							<label for="till">{f:translate(key: 'search.form.label.to')}</label>
+							<f:form.textfield property="till" class="form-control datetimepicker"
+								placeholder="{f:translate(key: 'search.form.label.to')}" id="till"
+								value="{query.till}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<f:form.button class="btn btn-default" type="submit">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				{f:translate(key: 'search.form.button.search')}
+			</f:form.button>
         </f:form>
     </div>
+	<f:if condition="{query}">
+    <div class="search-results">
+        <f:if condition="{resultList.total} > 1">
+            <f:then>
+                <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
+            </f:then>
+            <f:else>
+                <f:if condition="{resultList.total} == 1">
+                    <f:then>
+                        <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
+                    </f:then>
+                    <f:else>
+                        <span><f:translate key="search.resultList.nothingFound"/></span>
+                    </f:else>
+                </f:if>
+            </f:else>
+        </f:if>
+        <dpf:widget.paginate objects="{resultList.hits}" total="{resultList.total}" as="paginatedResults" currentPage="{currentPage}"
+                             configuration="{settings.list.paginate}">
 
-    <f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
-    <center>
-        <f:link.action id="next" controller="Search" action="nextResults">{f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </center>
+            <f:render partial="SearchFE/ResultList" arguments="{results: paginatedResults, currentPage: currentPage}"/>
+
+        </dpf:widget.paginate>
+    </div>
+	</f:if>
 </f:section>

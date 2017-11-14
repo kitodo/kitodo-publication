@@ -23,6 +23,36 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 {
 
     /**
+     * action
+     * @var string
+     */
+    protected $action;
+
+    /**
+     * query
+     * @var array
+     */
+    protected $query;
+
+    /**
+     * current page
+     * @var int
+     */
+    protected $currentPage;
+
+    /**
+     * type
+     * @var string
+     */
+    protected $type = 'object';
+
+    /**
+     * result list
+     * @var array
+     */
+    protected $resultList;
+
+    /**
      * documenTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
@@ -31,130 +61,144 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
     protected $documentTypeRepository;
 
     /**
+     * __construct
+     */
+    public function __construct()
+    {
+        // get session data
+        $session = $this->getSessionData('tx_dpf_frontendsearch');
+        // get action
+        $action = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('tx_dpf_frontendsearch')['action'];
+        // get query
+        $query = \TYPO3\CMS\Core\Utility\GeneralUtility::_POST('tx_dpf_frontendsearch')['query'];
+        // get current page
+        $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET('tx_dpf_frontendsearch')['@widget_0']['currentPage'];
+
+        // set action
+        if ($action == 'extendedSearch' ||
+            ($action != 'search' && (!empty($session) && key($session) == 'extendedSearch'))) {
+            $this->action = 'extendedSearch';
+        } else {
+            $this->action = 'search';
+        }
+
+        // set query
+        if ((!empty($query))) {
+            $this->query = $this->filterSafelyParameters($query);
+            $this->currentPage = 1;
+        } else {
+            // restore query
+            $this->query = (!empty($session[$this->action]['query'])) ? $session[$this->action]['query'] : array();
+            // set current page
+            if ((!empty($currentPage))) {
+                $this->currentPage = MathUtility::forceIntegerInRange($currentPage, 1);
+            } elseif (!empty($session[$this->action]['currentPage'])) {
+                // restore current page
+                $this->currentPage = MathUtility::forceIntegerInRange($session[$this->action]['currentPage'], 1);
+            }
+        }
+    }
+
+    /**
      * action search
-     *
      * @return void
      */
     public function searchAction()
     {
-        // get searchString
-        $args = $this->getParametersSafely('search');
-
-        // get extended search parameters
-        $extSearch = $this->getParametersSafely('extSearch');
-
-        $searchString = $args['query'];
-
-        // get only as much records as will be shown
-        $searchSize = $this->settings['list']['paginate']['itemsPerPage'];
-
-        // default ist first page
-        $currentPage = 1;
-
-        if (!empty($searchString)) {
-
-            $this->setSessionData('tx_dpf_searchString', $searchString);
-
-            $searchFrom = 0;
-
-        } else {
-
-            // get last search
-            $searchString = $this->getSessionData('tx_dpf_searchString');
-
-            $pagination = $this->getParametersSafely('@widget_0');
-
-            $currentPage = MathUtility::forceIntegerInRange(($pagination['currentPage']), 1);
-
-            $searchFrom = ($currentPage - 1) * $searchSize;
-
+        if ($this->action == 'extendedSearch') {
+            $this->forward('extendedSearch');
         }
-
-        // prepare search query
-        if ($extSearch['extSearch']) {
-
-            // extended search
-            $query = $this->extendedSearch();
-
-        } else {
-
-            $query = $this->searchFulltext($searchString);
-
+        if (!empty($this->query['fulltext'])) {
+            $query            = $this->searchFulltext($this->query['fulltext']);
+            $this->resultList = $this->getResults($query);
+            $this->setSession();
+            $this->viewAssign();
         }
-
-        $extra = $query['extra'];
-        unset($query['extra']);
-
-        // execute search query
-        if ($query) {
-
-            $query['body']['from'] = $searchFrom;
-            $query['body']['size'] = $searchSize;
-
-            // set type local vs object
-            $type = 'object';
-
-            $results = $this->getResultList($query, $type);
-
-        }
-
-        // get ext search values
-        $extSearch = $this->getParametersSafely('extSearch');
-
-        // get document types
-        $allTypes = $this->documentTypeRepository->findAll();
-
-        // add empty field
-        $docTypeArray[0] = ' ';
-
-        foreach ($allTypes as $key => $value) {
-
-            $docTypeArray[$value->getName()] = $value->getDisplayName();
-
-        }
-
-        if ($this->getParametersSafely('action') != 'extendedSearch' && empty($extSearch)) {
-
-            $flag = true;
-
-        } else {
-
-            $flag = false;
-
-        }
-
-        // add empty select value
-        $allTypes = $allTypes->toArray();
-        $tempArray[0] = ' ';
-
-        $allTypes = array_merge($tempArray, $allTypes);
-
-        $this->view->assign('extendedSearch', $flag);
-        $this->view->assign('extendedSearchValues', $extSearch);
-
-        $this->view->assign('docTypes', $allTypes);
-        $this->view->assign('results', $results);
-        $this->view->assign('searchString', $searchString);
-        $this->view->assign('currentPage', $currentPage);
-
     }
 
-    public function extendedSearchAction() {
+    /**
+     * action extendedSearch
+     * @return void
+     */
+    public function extendedSearchAction()
+    {
+        if ($this->action == 'search') {
+            $this->forward('search');
+        }
+        $this->docTypes();
+        if (!empty(implode('', $this->query))) {
+            $query            = $this->extendedSearch($this->query);
+            $this->resultList = $this->getResults($query);
+            $this->setSession();
+            $this->viewAssign();
+        }
+    }
 
-//        $this->view->assign('extendedSearch', true);
+    /**
+     * elastic searc
+     * @param  array $query
+     * @return array $results
+     */
+    private function getResults($query)
+    {
+        $size = $this->settings['list']['paginate']['itemsPerPage'];
 
-        $this->forward('search', NULL, NULL, array('extendedSearch' => true));
+        $query['body']['from'] = ($this->currentPage - 1) * $size;
+        $query['body']['size'] = $size;
+
+        $resultList = $this->getResultList($query, $this->type);
+
+        return $resultList;
     }
 
     /**
      * action showSearchForm
-     *
      * dummy action for showSearchForm Action used in sidebar
-     *
      * @return void
      */
-    public function showSearchFormAction()
+    public static function showSearchFormAction()
     {
 
+    }
+
+    /**
+     * set session data
+     * @return void
+     */
+    private function setSession()
+    {
+        $session[$this->action] = array (
+                'query'       => $this->query,
+                'currentPage' => $this->currentPage
+            );
+        $this->setSessionData('tx_dpf_frontendsearch', $session);
+    }
+
+    /**
+     * create docTypes
+     * @return void
+     */
+    private function docTypes()
+    {
+        // get document types
+        $allTypes = $this->documentTypeRepository->findAll();
+        // add empty field
+        $docTypeArray[0] = ' ';
+        foreach ($allTypes as $key => $value) {
+            $docTypeArray[$value->getName()] = $value->getDisplayName();
+        }
+        asort($docTypeArray);
+        $this->view->assign('docTypes', $docTypeArray);
+    }
+
+    /**
+     * create view
+     * @return void
+     */
+    private function viewAssign()
+    {
+        $this->view->assign('query',       $this->query);
+        $this->view->assign('resultList',  $this->resultList);
+        $this->view->assign('currentPage', $this->currentPage);
     }
 }
