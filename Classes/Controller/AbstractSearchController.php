@@ -34,33 +34,24 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
     /**
      * prepare fulltext query
-     *
      * @param  string $searchString
-     *
      * @return array query
      */
     public function searchFulltext($searchString)
     {
         // don't return query if searchString is empty
         if (empty($searchString)) {
-
             return null;
-
         }
-
-        $client = $this->clientRepository->findAll()->current();
 
         $searchString = $this->escapeQuery(trim($searchString));
 
-        // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
-
         $query['body']['query']['bool']['should'][0]['query_string']['query']                       = $searchString;
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchString;
-
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
-
         $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        $query = $this->resultsFilter($query);
 
         return $query;
 
@@ -73,7 +64,6 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     public function extendedSearch()
     {
         $args   = $this->request->getArguments();
-        $client = $this->clientRepository->findAll()->current();
 
         // extended search
         $countFields = 0;
@@ -145,10 +135,8 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             // STATE inactive
             $inactive['bool']['must'][] = array('match' => array('STATE' => 'I'));
-
             $query['body']['query']['bool']['should'][] = $delete;
             $query['body']['query']['bool']['should'][] = $inactive;
-
             $query['body']['query']['bool']['minimum_should_match'] = 1;
 
             $query['extra']['showDeleted'] = true;
@@ -209,10 +197,74 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         }
 
-        // owner id
-        $query['body']['query']['bool']['must'][] = array('match' => array('OWNER_ID' => $client->getOwnerId()));
-
+        $query = $this->resultsFilter($query);
         return $query;
+    }
+
+    /**
+     * build array for elasticsearch resultfilter
+     * @param array Elasticsearch query array
+     * @return array Elasticsearch queryFilter array
+     */
+    public function resultsFilter($query)
+    {
+        $queryFilter = array();
+        $searchResultsFilter = $this->settings['searchResultsFilter'];
+
+        // add doctypes
+        if($searchResultsFilter['doctype']) {
+
+            $uids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $searchResultsFilter['doctype']);
+            $documentTypeRepository = $this->documentTypeRepository;
+            $documentTypes = array();
+            foreach($uids as $uid) {
+                $documentType = $documentTypeRepository->findByUid($uid);
+                $documentTypes[] = $documentType->getName();
+            };
+            $searchResultsFilter['doctype'] = implode(',', $documentTypes);
+        }
+
+        // add date filter
+        $dateFilter = array();
+        if ($searchResultsFilter['from']) {
+
+            $from     = date('d.m.Y', $searchResultsFilter['from']);
+            $dateTime = $this->convertFormDate($from, false);
+            $dateFilter['gte'] = $dateTime->format('Y-m-d');
+            unset($searchResultsFilter['from']);
+
+        }
+
+        if ($searchResultsFilter['till']) {
+
+            $till          = date('d.m.Y', $searchResultsFilter['till']);
+            $dateTime = $this->convertFormDate($till, true);
+            $dateFilter['lte'] = $dateTime->format('Y-m-d');
+            unset($searchResultsFilter['till']);
+
+        }
+
+        if (isset($dateFilter['gte']) || isset($dateFilter['lte'])) {
+
+            $query['body']['query']['bool']['must'][] = array('range' => array('distribution_date' => $dateFilter));
+
+        }
+
+        // add owner id
+        $client = $this->clientRepository->findAll()->current();
+        $searchResultsFilter['OWNER_ID'] = $client->getOwnerId(); // qucosa
+
+        foreach ($searchResultsFilter as $key => $qry) {
+
+            if(!empty($qry)) {
+                $queryFilter['body']['query']['bool']['must'][] = array('match' => array($key => $qry));
+            }
+
+        }
+
+        $queryFilter = array_merge_recursive($queryFilter, $query);
+
+        return $queryFilter;
     }
 
     /**
