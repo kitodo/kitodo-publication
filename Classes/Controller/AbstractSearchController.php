@@ -81,7 +81,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             } elseif (!empty($qry) && in_array($key, self::$terms)) {
 
-                $query['body']['query']['bool']['term'][] = array('term' => array($key => $qry));
+                $query['body']['query']['bool']['must'][] = array('term' => array($key => $qry));
 
             } elseif (!empty($qry) && $key == 'from') {
 
@@ -157,7 +157,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             if (isset($dateFilter['gte']) || isset($dateFilter['lte'])) {
 
-                $query['body']['query']['bool']['must'][] = array('range' => array('distribution_date' => $dateFilter));
+                $queryFilter['body']['query']['bool']['must'][] = array('range' => array('distribution_date' => $dateFilter));
 
             }
 
