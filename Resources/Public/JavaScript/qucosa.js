@@ -213,14 +213,14 @@ var validateForm = function() {
 }
 var showFormError = function() {
     jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg + '</div>').insertBefore(jQuery('form').first());
+    jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg + '</div>').insertBefore(jQuery('.tx-dpf form').first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
 }
 var showFormSuccess = function() {
     jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_success_msg + '</div>').insertBefore(jQuery('form').first());
+    jQuery('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_success_msg + '</div>').insertBefore(jQuery('.tx-dpf form').first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
