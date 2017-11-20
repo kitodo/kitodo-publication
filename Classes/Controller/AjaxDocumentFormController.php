@@ -64,7 +64,9 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setInputOptions($object->getInputOptionList());
             $field->setMaxIteration($object->getMaxIteration());
             $field->setFillOutService($object->getFillOutService());
-            $field->setValue("");
+            $field->setValidation($object->getValidation());
+            $field->setDataType($object->getDataType());
+            $field->setValue("", $object->getDefaultValue());
 
             $groupItem->addItem($field);
         }
@@ -102,7 +104,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setFillOutService($field->getFillOutService());
         $fieldItem->setValidation($field->getValidation());
         $fieldItem->setDataType($field->getDataType());
-        $fieldItem->setValue("");
+        $fieldItem->setValue("", $field->getDefaultValue());
 
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);
