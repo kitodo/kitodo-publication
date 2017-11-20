@@ -305,6 +305,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.checkbox">
 			<source>checkbox</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.hidden">
+			<source>hidden</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input">
 			<source>input</source>
 		</trans-unit>
