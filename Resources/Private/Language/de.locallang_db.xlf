@@ -407,7 +407,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.hidden" approved="yes">
 			<source>hidden</source>
-			<target>Hidden</target>
+			<target>Versteckt</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input" approved="yes">
 			<source>input</source>
