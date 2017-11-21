@@ -64,10 +64,11 @@ class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
      *        \TYPO3\CMS\ExtBase\Persistence\ObjectStorage object or array
      * @param integer $total
      * @param string $as
+     * @param int $currentPage
      * @param array $configuration
      * @return string
      */
-    public function render($objects, $total, $as, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99))
+    public function render($objects, $total, $as, $currentPage, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99))
     {
         return $this->initiateSubRequest();
     }

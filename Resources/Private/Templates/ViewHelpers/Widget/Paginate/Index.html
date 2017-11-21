@@ -26,29 +26,17 @@
     <ul class="f3-widget-paginator">
         <f:if condition="{pagination.previousPage}">
             <li class="previous">
-                <f:if condition="{pagination.previousPage} > 1">
-                    <f:then>
-                        <f:widget.link arguments="{currentPage: pagination.previousPage}"
-                                       addQueryStringMethod="{configuration.addQueryStringMethod}">
-                            <button class="btn btn-default btn-sm">
-                                <f:translate key="widget.pagination.previous"/>
-                            </button>
-                        </f:widget.link>
-                    </f:then>
-                    <f:else>
-                        <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}">
-                            <button class="btn btn-default btn-sm">
-                                <f:translate key="widget.pagination.previous"/>
-                            </button>
-                        </f:widget.link>
-                    </f:else>
-                </f:if>
+                <f:widget.link arguments="{currentPage: pagination.previousPage}" addQueryStringMethod="{configuration.addQueryStringMethod}">
+                    <button class="btn btn-default btn-sm">
+                        <f:translate key="widget.pagination.previous"/>
+                    </button>
+                </f:widget.link>
             </li>
         </f:if>
         <f:if condition="{pagination.displayRangeStart} > 1">
             <li class="first">
-                <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}">
-                    <button class="btn btn-default  btn-sm">1</button>
+                <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}" arguments="{currentPage: 1}">
+                    <button class="btn btn-default btn-sm">1</button>
                 </f:widget.link>
             </li>
         </f:if>
@@ -74,8 +62,8 @@
                                 </f:widget.link>
                             </f:then>
                             <f:else>
-                                <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}">
-                                    <button class="btn btn-default  btn-sm">{page.number}</button>
+                                <f:widget.link  arguments="{currentPage: 1}" addQueryStringMethod="{configuration.addQueryStringMethod}">
+                                    <button class="btn btn-default btn-sm">{page.number}</button>
                                 </f:widget.link>
                             </f:else>
                         </f:if>
