@@ -260,17 +260,6 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         array('zu', 'zul', 'zul', 'zul', 'Zulu', 'isiZulu'),
     );
 
-    /*
-     * doi prefixes
-     *
-     * @var array
-     */
-    protected $doiPrefix = array(
-        'slub' => '10.25366',
-        'ubl'  => '10.25367',
-        'ubc'  => '10.25369',
-    );
-
     public function attachmentAction()
     {
 
@@ -477,8 +466,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         if(!empty($metsDoi)) {
             $dataCiteDoi = $metsDoi[0];
         } else {
-            $ownerId = $this->clientConfigurationManager->getOwnerId();
-            $dataCiteDoi = $this->doiPrefix[$ownerId] . '/' . date("Y") . ".xxxxx";
+            $dataCiteDoi = '10.1000/1'; // http://www.doi.org/index.html as default
         }
 
         // creators
