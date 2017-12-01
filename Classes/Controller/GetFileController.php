@@ -353,9 +353,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $dom->loadXML($dataCiteXml);
                 $title = $dom->getElementsByTagName('title')[0];
 
-                $filename = str_replace(' ', '_', $title->nodeValue);
-
-                $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.DataCite.xml"');
+                $this->response->setHeader('Content-Disposition', 'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
                 $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                 return $dataCiteXml;
 
@@ -427,6 +425,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             return 'Error while opening stream';
         }
 
+    }
+
+    private static function sanitizeFilename($filename)
+    {
+        // remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
+        $filename = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $filename);
+        // turn diacritical characters to ASCII
+        setlocale(LC_ALL, 'en_US.utf8');
+        $filename = iconv('utf-8', 'us-ascii//TRANSLIT', trim($filename));
+        // replace whitespaces with undercore
+        $filename = preg_replace('/\s+/', '_', $filename);
+
+        return $filename;
     }
 
     private function buildMetsXml($document)
