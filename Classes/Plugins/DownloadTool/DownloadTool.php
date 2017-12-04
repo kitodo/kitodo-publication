@@ -85,7 +85,7 @@ class DownloadTool extends \tx_dlf_plugin
 
                 $conf = array(
                     'useCacheHash'     => 0,
-                    'parameter'        => $this->conf['apiPid'],
+                    'parameter'        => $this->conf['apiPid'] . ' - piwik_download',
                     'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
                     'forceAbsoluteUrl' => true,
                 );
