@@ -92,6 +92,7 @@ class DataCiteXml
         if(strlen($dataCitePublicationYear) != 4) {
             $dataCitePublicationYear = substr($dataCitePublicationYear, 0, 4);
         }
+		$dataCitePublicationYear = (preg_match('/(19|20)\d{2}/', $dataCitePublicationYear)) ? $dataCitePublicationYear : "";
 
         // subjects
         $metsSubjects = $metsXml->xpath("//mods:classification[@authority='z']");
