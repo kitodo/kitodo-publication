@@ -92,7 +92,7 @@ class DataCiteXml
         if(strlen($dataCitePublicationYear) != 4) {
             $dataCitePublicationYear = substr($dataCitePublicationYear, 0, 4);
         }
-		$dataCitePublicationYear = (preg_match('/(19|20)\d{2}/', $dataCitePublicationYear)) ? $dataCitePublicationYear : "";
+        $dataCitePublicationYear = (preg_match('/(19|20)\d{2}/', $dataCitePublicationYear)) ? $dataCitePublicationYear : "";
 
         // subjects
         $metsSubjects = $metsXml->xpath("//mods:classification[@authority='z']");
@@ -105,9 +105,9 @@ class DataCiteXml
         $metsLanguage = $metsXml->xpath("//mods:language/mods:languageTerm[@authority='iso639-2b'][@type='code']");
         $dataCiteLanguage = \EWW\Dpf\Helper\LanguageCode::convertFrom6392Bto6391($metsLanguage[0]);
 
-        // description
+/*         // description
         $metsDescription = $metsXml->xpath("//mods:abstract[@type='summary']");
-        $dataCiteDescription = (!empty($metsDescription)) ? "<description descriptionType=\"Abstract\">{$metsDescription[0]}</description>" : "";
+        $dataCiteDescription = (!empty($metsDescription)) ? "<description descriptionType=\"Abstract\">{$metsDescription[0]}</description>" : ""; */
 
         // resource type
         $slubResourceType = $metsXml->xpath("//slub:documentType");
@@ -123,7 +123,6 @@ class DataCiteXml
     <publicationYear>{$dataCitePublicationYear}</publicationYear>
     <subjects>{$dataCiteSubjects}</subjects>
     <language>{$dataCiteLanguage}</language>
-    <descriptions>{$dataCiteDescription}</descriptions>
     <resourceType resourceTypeGeneral="Text">{$dataCiteResourceType}</resourceType>
 </resource>
 XML
