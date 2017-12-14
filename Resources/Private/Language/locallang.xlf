@@ -296,6 +296,9 @@
 		<trans-unit id="manager.tooltip.preview">
 			<source>Show document preview</source>
 		</trans-unit>
+		<trans-unit id="manager.tooltip.datacite">
+			<source>Download DataCite XML</source>
+		</trans-unit>
 		<trans-unit id="manager.unpublished">
 			<source>unpublished</source>
 		</trans-unit>

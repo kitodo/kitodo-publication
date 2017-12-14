@@ -395,6 +395,10 @@
 			<source>Show document preview</source>
 			<target>Dokumentenvorschau anzeigen</target>
 		</trans-unit>
+		<trans-unit id="manager.tooltip.datacite" approved="yes">
+			<source>Download DataCite XML</source>
+			<target>DataCite XML herunterladen</target>
+		</trans-unit>
 		<trans-unit id="manager.unpublished" approved="yes">
 			<source>unpublished</source>
 			<target>unveröffentlicht</target>

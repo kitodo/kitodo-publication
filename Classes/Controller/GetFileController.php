@@ -34,9 +34,11 @@ namespace EWW\Dpf\Controller;
  * 3. METS from Kitodo.Publication (this extension)
  *   http://localhost/api/3/preview/
  *
+ * 4. DataCite from Kitodo.Publication (this extension)
  *
  * @author    Alexander Bigga <alexander.bigga@slub-dresden.de>
  * @author    Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
+ * @author    Florian Rügamer <florian.ruegamer@slub-dresden.de>
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -63,7 +65,6 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $clientConfigurationManager;
 
-
     public function attachmentAction()
     {
 
@@ -82,38 +83,15 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                 if ($document) {
 
-                    // Build METS-Data
-                    $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-                    $fileData = $document->getCurrentFileData();
-
-                    $exporter->setFileData($fileData);
-
-                    $exporter->setMods($document->getXmlData());
-
-                    $exporter->setSlubInfo($document->getSlubInfoData());
-
-                    if (empty($document->getObjectIdentifier())) {
-
-                        $exporter->setObjId($document->getUid());
-
-                    } else {
-
-                        $exporter->setObjId($document->getObjectIdentifier());
-
-                    }
-
-                    $exporter->buildMets();
-
-                    $metsXml = $exporter->getMetsData();
-
+                    $metsXml = $this->buildMetsXml($document);
                     $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-
                     return $metsXml;
 
                 } else {
+
                     $this->response->setStatus(404);
                     return 'No such document';
+
                 }
 
             case 'attachment':
@@ -152,6 +130,37 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     $this->response->setStatus(404);
                     return 'No file found';
                 }
+
+                break;
+
+            case 'dataCite':
+
+                $qid = $piVars['qid'];
+                $source = explode(':', $qid);
+                if($source[0] == 'qucosa') {
+
+                    $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                    $metsXml = str_replace('&', '&amp;', file_get_contents($path));
+                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+
+                } elseif($document = $this->documentRepository->findByUid($piVars['qid'])) {
+
+                    $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
+                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+
+                } else {
+
+                    $this->response->setStatus(404);
+                    return 'No such document';
+
+                }
+                $dom = new \DOMDocument('1.0', 'UTF-8');
+                $dom->loadXML($dataCiteXml);
+                $title = $dom->getElementsByTagName('title')[0];
+
+                $this->response->setHeader('Content-Disposition', 'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
+                $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+                return $dataCiteXml;
 
                 break;
 
@@ -223,5 +232,42 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     }
 
+    private static function sanitizeFilename($filename)
+    {
+        // remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
+        $filename = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $filename);
+        // turn diacritical characters to ASCII
+        setlocale(LC_ALL, 'en_US.utf8');
+        $filename = iconv('utf-8', 'us-ascii//TRANSLIT', trim($filename));
+        // replace whitespaces with underscore
+        $filename = preg_replace('/\s+/', '_', $filename);
+
+        return $filename;
+    }
+
+    private function buildMetsXml($document)
+    {
+
+        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $fileData = $document->getCurrentFileData();
+        $exporter->setFileData($fileData);
+        $exporter->setMods($document->getXmlData());
+        $exporter->setSlubInfo($document->getSlubInfoData());
+
+        if (empty($document->getObjectIdentifier())) {
+
+            $exporter->setObjId($document->getUid());
+
+        } else {
+
+            $exporter->setObjId($document->getObjectIdentifier());
+
+        }
+
+        $exporter->buildMets();
+        $metsXml = $exporter->getMetsData();
+
+        return $metsXml;
+    }
 }
 

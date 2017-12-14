@@ -80,6 +80,12 @@
                         <span class="glyphicon glyphicon-eye-open"></span>
                     </dpf:link.preview>
 
+                    <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
+                                      pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
+                                      class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </dpf:link.dataCite>
+
                     <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
                         <f:then>
                             <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
@@ -127,6 +133,12 @@
                         <span class="glyphicon glyphicon-download-alt"></span>
                         {f:translate(key: 'manager.get')}
                     </f:link.action>
+
+                    <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
+                                      pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
+                                      class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </dpf:link.dataCite>
                 </td>
             </f:else>
         </f:if>
