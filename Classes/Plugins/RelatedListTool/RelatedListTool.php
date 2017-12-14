@@ -130,6 +130,15 @@ class RelatedListTool extends \tx_dlf_plugin
 
     }
 
+    private function compareBySortOrder($a, $b) {
+        if ($a['order'] > $b['order']) {
+            return 1;
+        } elseif ($a['order'] < $b['order']) {
+            return -1;
+        }
+        return 0;
+    }
+
     public function getRelatedItems()
     {
         $xPath = '//mods:relatedItem[@type="constituent"]';
@@ -138,30 +147,25 @@ class RelatedListTool extends \tx_dlf_plugin
 
         $relatedItems = array();
 
-        foreach ($items as $key => $value) {
+        foreach ($items as $index => $relatedItemXmlElement) {
+            $relatedItemXmlElement->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
 
-            $value->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+            $type = (string) $relatedItemXmlElement->xpath('mods:identifier/@type')[0];
+            $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
+            $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
+            $order = (string) $relatedItemXmlElement->xpath('mods:part/@order')[0];
 
-            $title = (string) $value->xpath('mods:titleInfo/mods:title')[0];
+            $element = array();
+            $element['type'] = $type;
+            $element['title'] = $title;
+            $element['docId'] = $docId;
+            $element['order'] = (is_numeric($order)) ? (int) $order : 0;
 
-            $type = (string) $value->xpath('mods:identifier/@type')[0];
-
-            $docId = (string) $value->xpath('mods:identifier[@type="' . $type . '"]')[0];
-
-            $order = (string) $value->xpath('mods:part/@order')[0];
-
-            $tempArray          = array();
-            $tempArray['type']  = $type;
-            $tempArray['docId'] = $docId;
-            $tempArray['title'] = $title;
-
-            $relatedItems[$order] = $tempArray;
-
+            $relatedItems[$index] = $element;
         }
 
-        if (count($relatedItems) > 1) {
-          ksort($relatedItems);
-        }
+        usort($relatedItems, array('RelatedListTool', 'compareBySortOrder'));
+
         return $relatedItems;
     }
 
