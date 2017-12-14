@@ -80,11 +80,11 @@
                         <span class="glyphicon glyphicon-eye-open"></span>
                     </dpf:link.preview>
 
-                    <dpf:link.datacite arguments="{documentObjectIdentifier : entry._source.PID}"
+                    <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
                                       pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
                                       class="btn btn-xs btn-default">
                         <span class="glyphicon glyphicon-info-sign"></span>
-                    </dpf:link.datacite>
+                    </dpf:link.dataCite>
 
                     <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
                         <f:then>
@@ -134,11 +134,11 @@
                         {f:translate(key: 'manager.get')}
                     </f:link.action>
 
-                    <dpf:link.datacite arguments="{documentObjectIdentifier : entry._source.PID}"
+                    <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
                                       pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
                                       class="btn btn-xs btn-default">
                         <span class="glyphicon glyphicon-info-sign"></span>
-                    </dpf:link.datacite>
+                    </dpf:link.dataCite>
                 </td>
             </f:else>
         </f:if>
