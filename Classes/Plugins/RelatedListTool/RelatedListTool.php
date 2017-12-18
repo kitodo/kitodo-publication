@@ -135,7 +135,7 @@ class RelatedListTool extends \tx_dlf_plugin
      * 1. comparing by XML mods:part[@order] (Sortierschlüssel)
      * 2. comparing by XML mods:number (Bandnummer)
      */
-    private function compareBySortOrder($a, $b)
+    static function compareBySortOrder($a, $b)
     {
         $a_order = $a['order'];
         $b_order = $b['order'];
@@ -172,7 +172,7 @@ class RelatedListTool extends \tx_dlf_plugin
             $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
             $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
             $order = (string) $relatedItemXmlElement->xpath('mods:part/@order')[0];
-            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@order=\'volume\']/mods:detail/mods:number')[0];
+            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume"]/mods:detail/mods:number')[0];
 
             $element = array();
             $element['type'] = $type;
