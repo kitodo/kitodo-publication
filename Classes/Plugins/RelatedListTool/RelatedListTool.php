@@ -184,7 +184,7 @@ class RelatedListTool extends \tx_dlf_plugin
             $relatedItems[$index] = $element;
         }
 
-        usort($relatedItems, array('RelatedListTool', 'compareBySortOrder'));
+        usort($relatedItems, array('EWW\Dpf\Plugins\RelatedListTool\RelatedListTool', 'compareBySortOrder'));
 
         return $relatedItems;
     }
