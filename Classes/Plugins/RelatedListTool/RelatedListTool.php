@@ -130,13 +130,31 @@ class RelatedListTool extends \tx_dlf_plugin
 
     }
 
-    private function compareBySortOrder($a, $b) {
-        if ($a['order'] > $b['order']) {
-            return 1;
-        } elseif ($a['order'] < $b['order']) {
+    /*
+     * Ordering of relatedItems.
+     * 1. comparing by XML mods:part[@order] (Sortierschlüssel)
+     * 2. comparing by XML mods:number (Bandnummer)
+     */
+    static function compareBySortOrder($a, $b)
+    {
+        $a_order = $a['order'];
+        $b_order = $b['order'];
+
+        if ($a_order < $b_order) {
             return -1;
         }
-        return 0;
+        if ($a_order > $b_order) {
+            return 1;
+        }
+        if ($a_order === $b_order) {
+            if (is_null($a['volume'])) {
+                return 1;
+            }
+            if (is_null($b['volume'])) {
+                return -1;
+            }
+            return strnatcasecmp($a['volume'], $b['volume']);
+        }
     }
 
     public function getRelatedItems()
@@ -154,19 +172,22 @@ class RelatedListTool extends \tx_dlf_plugin
             $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
             $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
             $order = (string) $relatedItemXmlElement->xpath('mods:part/@order')[0];
+            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume"]/mods:detail/mods:number')[0];
 
             $element = array();
             $element['type'] = $type;
             $element['title'] = $title;
             $element['docId'] = $docId;
-            $element['order'] = (is_numeric($order)) ? (int) $order : 0;
+            $element['order'] = (is_numeric($order)) ? (int) $order : PHP_INT_MAX;
+            $element['volume'] = (!empty($volume)) ? $volume : null;
 
             $relatedItems[$index] = $element;
         }
 
-        usort($relatedItems, array('RelatedListTool', 'compareBySortOrder'));
+        usort($relatedItems, array('EWW\Dpf\Plugins\RelatedListTool\RelatedListTool', 'compareBySortOrder'));
 
         return $relatedItems;
     }
 
 }
+
