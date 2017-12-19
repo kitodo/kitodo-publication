@@ -295,7 +295,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
             $requestArguments['documentForm'] = $docForm;
 
-            if (!$formDataReader->uploadError()) {
+            $docTypeUid = $documentData['type'];
+            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+            $virtual = $documentType->getVirtual();
+
+            if (!$formDataReader->uploadError() || $virtual === true) {
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
