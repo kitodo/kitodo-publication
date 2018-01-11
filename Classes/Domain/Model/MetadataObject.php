@@ -89,7 +89,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * inputOptionList
      *
-     * @var \Eww\Dpf\Domain\Model\InputOptionList
+     * @var \EWW\Dpf\Domain\Model\InputOptionList
      */
     protected $inputOptionList = null;
 
@@ -322,7 +322,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the inputOptionList
      *
-     * @return \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+     * @return \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
      */
     public function getInputOptionList()
     {
@@ -332,10 +332,10 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the inputOptionList
      *
-     * @param \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+     * @param \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
      * @return void
      */
-    public function setInputOptionList(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList)
+    public function setInputOptionList(\EWW\Dpf\Domain\Model\InputOptionList $inputOptionList)
     {
         $this->inputOptionList = $inputOptionList;
     }
