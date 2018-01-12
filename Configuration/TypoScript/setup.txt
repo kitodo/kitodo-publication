@@ -55,6 +55,22 @@ plugin.tx_dpf {
 			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
         }
 }
+// pi1 = GndAjax
+// PAGE object for Ajax call:
+search_page = PAGE
+search_page {
+	typeNum = 427590
+
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:application/json
+		debug = 0
+		no_cache = 1
+		admPanel = 0
+	}
+
+	10 < tt_content.list.20.dpf_qucosaform
+}
 
 # Actions, only allowed for developers and configured hosts
 [IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
@@ -107,7 +123,10 @@ plugin.tx_dpf._CSS_DEFAULT_STYLE (
 )
 
 page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
+page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css
+page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jquery-ui.structure.css
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js
+page.includeJS.tx_dpf_jquery_ui = EXT:dpf/Resources/Public/JavaScript/jquery-ui.min.js
 page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js

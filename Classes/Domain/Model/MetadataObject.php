@@ -101,6 +101,12 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fillOutService = '';
 
     const FILL_OUT_SERVICE_URN = 'urn';
+    const FILL_OUT_SERVICE_GND = 'gnd';
+
+    /**
+     * @var string
+     */
+    protected $gndFieldUid = '';
 
     /**
      * backendOnly
@@ -465,4 +471,21 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->dataType = $dataType;
     }
+
+    /**
+     * @return string
+     */
+    public function getGndFieldUid()
+    {
+        return $this->gndFieldUid;
+    }
+
+    /**
+     * @param string $gndFieldUid
+     */
+    public function setGndFieldUid($gndFieldUid)
+    {
+        $this->gndFieldUid = $gndFieldUid;
+    }
+
 }

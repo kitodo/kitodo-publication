@@ -33,7 +33,15 @@ class DocumentFormField extends AbstractFormElement
 
     protected $validation;
 
+    /**
+     * @var string
+     */
     protected $dataType;
+
+    /**
+     * @var int
+     */
+    protected $gndFieldUid;
 
     /**
      * consent
@@ -175,13 +183,45 @@ class DocumentFormField extends AbstractFormElement
         $this->validation = $validation;
     }
 
+    /**
+     * Gets the data type of the field, e.g. DATE
+     *
+     * @return string
+     */
     public function getDataType()
     {
         return $this->dataType;
     }
 
+    /**
+     * Sets the data type of the field, e.g. DATE
+     *
+     * @param string $dataType
+     * @return void
+     */
     public function setDataType($dataType)
     {
         $this->dataType = $dataType;
+    }
+
+    /**
+     * Gets the uid of the field which is
+     * linked with the gnd field
+     *
+     * @return int
+     */
+    public function getGndFieldUid() {
+        return $this->gndFieldUid;
+    }
+
+    /**
+     * Sets the uid of the field which is
+     * linked with the gnd field
+     *
+     * @param int $fieldId
+     * @return void
+     */
+    public function setGndFieldUid($fieldId) {
+        $this->gndFieldUid = $fieldId;
     }
 }

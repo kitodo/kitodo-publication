@@ -57,6 +57,7 @@ return array(
             'config'  => array(
                 //'readOnly' => 1,
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'foreign_table'       => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items'               => array(
@@ -72,6 +73,7 @@ return array(
             'config'      => array(
                 //'readOnly' => 1,
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'items'               => array(
                     array('', 0),
                 ),
@@ -179,6 +181,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.metadata_group',
             'config'    => array(
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'foreign_table'       => 'tx_dpf_domain_model_metadatagroup',
                 'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0) ORDER BY tx_dpf_domain_model_metadatagroup.name ASC',
                 'MM'                  => 'tx_dpf_metadatapage_metadatagroup_mm',

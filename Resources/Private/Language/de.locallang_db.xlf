@@ -393,6 +393,10 @@
 			<source>URN</source>
 			<target>URN</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.gnd" approved="yes">
+            <source>GND</source>
+            <target>GND</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field" approved="yes">
 			<source>Input Field</source>
 			<target>Eingabefeld</target>

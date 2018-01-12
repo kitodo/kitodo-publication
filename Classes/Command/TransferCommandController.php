@@ -35,9 +35,7 @@ class TransferCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Comman
 
     public function transferCommand()
     {
-
         $success = true;
-
         return true;
     }
 }
