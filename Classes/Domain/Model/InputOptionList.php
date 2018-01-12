@@ -1,5 +1,5 @@
 <?php
-namespace Eww\Dpf\Domain\Model;
+namespace EWW\Dpf\Domain\Model;
 
 /*
  * This file is part of the TYPO3 CMS project.

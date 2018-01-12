@@ -81,7 +81,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         return \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
     }
 
-    protected function initializeView($view)
+    protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
         parent::initializeView($view);
 

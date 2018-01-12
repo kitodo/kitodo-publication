@@ -1,5 +1,5 @@
 <?php
-namespace Eww\Dpf\Domain\Repository;
+namespace EWW\Dpf\Domain\Repository;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -23,7 +23,7 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * Finds all installed languages of the TYPO3 system (usually on pid 0).
      *
-     * @return \EWW\dpf\Domain\Model\SysLanguage | NULL
+     * @return \EWW\Dpf\Domain\Model\SysLanguage | NULL
      */
     public function findInstalledLanguages()
     {
@@ -34,7 +34,7 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         if ($result->execute()) {
             foreach ($result->execute() as $language) {
-                $sysLanguage = new \EWW\dpf\Domain\Model\SysLanguage();
+                $sysLanguage = new \EWW\Dpf\Domain\Model\SysLanguage();
                 $sysLanguage->setUid($language['uid']);
                 $sysLanguage->setPid($language['pid']);
                 $sysLanguage->setTitle($language['title']);

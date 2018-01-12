@@ -100,9 +100,9 @@ class DocumentFormField extends AbstractFormElement
 
     /**
      *
-     * @param \Eww\Dpf\Domain\Model\InputOptionList $inputOptionList
+     * @param \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
      */
-    public function setInputOptions(\Eww\Dpf\Domain\Model\InputOptionList $inputOptionList = null)
+    public function setInputOptions(\EWW\Dpf\Domain\Model\InputOptionList $inputOptionList = null)
     {
 
         $this->inputOptions = array();

@@ -497,13 +497,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     'archive'   => $file->getArchive(),
                     'use'       => '',
                     'id'        => null,
-                    'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                    $file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_CHANGED),
+                    'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
+                                    $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                 );
 
                 $grpUSE = ($file->getDownload()) ? 'download' : 'original';
 
-                if ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
+                if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
                     $dataStreamIdentifier = $file->getDatastreamIdentifier();
                     if (!empty($dataStreamIdentifier)) {
                         $tmpFile['id']                   = $file->getDatastreamIdentifier();
@@ -546,13 +546,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     'archive'   => $file->getArchive(),
                     'use'       => '',
                     'id'        => null,
-                    'hasFLocat' => ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                    $file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_CHANGED),
+                    'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
+                                    $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                 );
 
                 $grpUSE = ($file->getDownload()) ? 'download' : 'original';
 
-                if ($file->getStatus() == \Eww\Dpf\Domain\Model\File::STATUS_DELETED) {
+                if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
                     $dataStreamIdentifier = $file->getDatastreamIdentifier();
                     if (!empty($dataStreamIdentifier)) {
                         $tmpFile['id']                   = $file->getDatastreamIdentifier();
