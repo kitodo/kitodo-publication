@@ -219,7 +219,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         $dateTime->setDate($year, $month, $day);
 
-        if ($fillMax) {
+        if ($fillMax && !isset($date[2])) {
             $maxDayFormMonth = $dateTime->format('t');
             $dateTime->setDate($year, $month, $maxDayFormMonth);
         }
