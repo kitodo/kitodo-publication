@@ -85,13 +85,15 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
             } elseif (!empty($qry) && $key == 'from') {
 
-                $dateTime = $this->convertFormDate($qry, false);
-                $filter['gte'] = $dateTime->format('Y-m-d');
+                if ($dateTime = $this->convertFormDate($qry, false)) {
+                    $filter['gte'] = $dateTime->format('Y-m-d');
+                }
 
             } elseif (!empty($qry) && $key == 'till') {
 
-                $dateTime = $this->convertFormDate($qry, true);
-                $filter['lte'] = $dateTime->format('Y-m-d');
+                if ($dateTime = $this->convertFormDate($qry, true)) {
+                    $filter['lte'] = $dateTime->format('Y-m-d');
+                }
 
             }
         }
@@ -187,44 +189,32 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     }
 
     /**
-     * @param $date
-     * @param bool $fillMax: fills missing values with the maximum possible date if true
+     * Convert date from form input into DateTime object.
+     *
+     * A 4 character string is taken for a year and the returning
+     * DateTime object is supplemented with either the 01. Jan or 31. Dec
+     * depending on the $intervalEnd parameter. This allows querying time
+     * intervals like `2000 to 2003`.
+     *
+     * @param  string    $dateString  Date literal from form
+     * @param  bool      $intervalEnd Fills missing values with the maximum possible date if true
+     * @return DateTime               Determined date
      */
-    public function convertFormDate($date, $fillMax = false)
+    public function convertFormDate($dateString, $intervalEnd = false)
     {
-
-        $dateTime = new \DateTime('01-01-2000');
-
-        $date = explode(".", $date);
-        $year = 1;
-        if ($fillMax) {
-            $month = 12;
-        } else {
-            $month = 1;
-        }
-        $day = 1;
-
-        // reverse array to get year first
-        foreach (array_reverse($date) as $key => $value) {
-            if (strlen($value) == 4) {
-                $year = $value;
+        try {
+            if (strlen($dateString) == 4) {
+                // assuming year
+                $year  = $dateString;
+                $month = $intervalEnd ? "12" : "01";
+                $day   = $intervalEnd ? "31" : "01";
+                return new \DateTime("$year-$month-$day");
             } else {
-                if ($key == 1) {
-                    $month = $value;
-                } else if ($key == 2){
-                    $day = $value;
-                }
+                return new \DateTime($dateString);
             }
+        } catch (\Exception $_) {
+            return false;
         }
-
-        $dateTime->setDate($year, $month, $day);
-
-        if ($fillMax && !isset($date[2])) {
-            $maxDayFormMonth = $dateTime->format('t');
-            $dateTime->setDate($year, $month, $maxDayFormMonth);
-        }
-
-        return $dateTime;
     }
 
     /**
