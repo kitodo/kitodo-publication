@@ -33,10 +33,10 @@ $EM_CONF[$_EXTKEY] = array(
     'uploadfolder'     => '1',
     'createDirs'       => 'uploads/tx_dpf',
     'clearCacheOnLoad' => 0,
-    'version'          => '1.3.1',
+    'version'          => '1.3.2',
     'constraints'      => array(
         'depends'   => array(
-            'typo3' => '6.2',
+            'typo3' => '6.2.0-6.2.99',
         ),
         'conflicts' => array(
         ),
