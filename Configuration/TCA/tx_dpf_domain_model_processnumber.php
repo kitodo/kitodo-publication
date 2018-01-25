@@ -15,9 +15,32 @@
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-$GLOBALS['TCA']['tx_dpf_domain_model_processnumber']['ctrl']['requestUpdate'] = 'replace_niss_part';
-$GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = array(
-    'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']['ctrl'],
+
+return array(
+    'ctrl' => array(
+        'hideTable'                => 1,
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber',
+        'label'                    => 'owner_id',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'ownerId,year,counter',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
+    ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, owner_id, year, counter'
     ),
