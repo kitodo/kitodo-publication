@@ -33,7 +33,7 @@ class DataCiteXml
         $metsXml->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
         // doi
-        $metsDoi = $metsXml->xpath("//mods:identifier[@type='qucosa:doi']");
+        $metsDoi = $metsXml->xpath("//mods:identifier[@type='doi']");
         if(!empty($metsDoi)) {
             $dataCiteDoi = $metsDoi[0];
         } else {
@@ -46,6 +46,10 @@ class DataCiteXml
         foreach($metsCreator as $creator)
         {
             $creator->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+            $role = $creator->xpath(".//mods:roleTerm[@type='code']");
+            if($role[0] != 'aut' && $role[0] != 'cmp') {
+                continue;
+            }
             $names       = array();
             $givenName   = $creator->xpath(".//mods:namePart[@type='given']");
             $familyName  = $creator->xpath(".//mods:namePart[@type='family']");
@@ -78,8 +82,21 @@ class DataCiteXml
         }
 
         // publisher
-        $metsPublisher = $metsXml->xpath("//mods:name[@type='corporate'][@displayLabel='mapping-hack-other']/mods:namePart");
-        $dataCitePublisher = (!empty($metsPublisher)) ? $metsPublisher[0] : "";
+        $metsPublisher = $metsXml->xpath("//mods:name[@type='corporate']");
+        $dataCitePublisher = '';
+        foreach($metsPublisher as $corporation) {
+            $corporation->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+            $role = $corporation->xpath(".//mods:roleTerm[@type='code']");
+            $role = (string) $role[0];
+            $name = $corporation->xpath(".//mods:namePart");
+            $name = (string) $name[0];
+            if($role == 'pbl') {
+                $dataCitePublisher = $name;
+                break;
+            } elseif($role == 'dgg' || ($role == 'edt' && $dataCitePublisher == '')) {
+                $dataCitePublisher = $name;
+            }
+        }
 
         // publication year
         $metsPublicationYear = $metsXml->xpath("//mods:originInfo[@eventType='publication']/mods:dateIssued");
@@ -104,10 +121,6 @@ class DataCiteXml
         // language
         $metsLanguage = $metsXml->xpath("//mods:language/mods:languageTerm[@authority='iso639-2b'][@type='code']");
         $dataCiteLanguage = \EWW\Dpf\Helper\LanguageCode::convertFrom6392Bto6391($metsLanguage[0]);
-
-/*         // description
-        $metsDescription = $metsXml->xpath("//mods:abstract[@type='summary']");
-        $dataCiteDescription = (!empty($metsDescription)) ? "<description descriptionType=\"Abstract\">{$metsDescription[0]}</description>" : ""; */
 
         // resource type
         $slubResourceType = $metsXml->xpath("//slub:documentType");
