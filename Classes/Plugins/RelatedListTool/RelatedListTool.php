@@ -131,29 +131,31 @@ class RelatedListTool extends \tx_dlf_plugin
     }
 
     /*
-     * Ordering of relatedItems.
+     * lexicographic-Ordering (String-compare) of relatedItems.
      * 1. comparing by XML mods:part[@order] (Sortierschlüssel)
      * 2. comparing by XML mods:number (Bandnummer)
      */
-    static function compareBySortOrder($a, $b)
+    private function compareBySortOrder($a, $b)
     {
-        $a_order = $a['order'];
-        $b_order = $b['order'];
+        $ordercmp = strcasecmp($a['order'], $b['order']);
 
-        if ($a_order < $b_order) {
-            return -1;
+        if ($ordercmp != 0) {
+            if (is_null($a['order'])) {
+                return 1;
+            }
+            if (is_null($b['order'])) {
+                return -1;
+            }
+            return $ordercmp;
         }
-        if ($a_order > $b_order) {
-            return 1;
-        }
-        if ($a_order === $b_order) {
+        elseif ($ordercmp == 0) {
             if (is_null($a['volume'])) {
                 return 1;
             }
             if (is_null($b['volume'])) {
                 return -1;
             }
-            return strnatcasecmp($a['volume'], $b['volume']);
+            return strcasecmp($a['volume'], $b['volume']);
         }
     }
 
@@ -178,7 +180,7 @@ class RelatedListTool extends \tx_dlf_plugin
             $element['type'] = $type;
             $element['title'] = $title;
             $element['docId'] = $docId;
-            $element['order'] = (is_numeric($order)) ? (int) $order : PHP_INT_MAX;
+            $element['order'] = (!empty($order)) ? $order : null;
             $element['volume'] = (!empty($volume)) ? $volume : null;
 
             $relatedItems[$index] = $element;
