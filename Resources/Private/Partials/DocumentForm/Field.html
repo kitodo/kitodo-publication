@@ -16,11 +16,17 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <div class="form-group">
-    <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
-        <f:if condition="{fieldItem.mandatory}">
-            <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
-        </f:if>
-    </label>
+    <f:if condition="{fieldItem.inputField} == 5">
+        <f:then>
+        </f:then>
+        <f:else>
+            <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
+                <f:if condition="{fieldItem.mandatory}">
+                    <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
+                </f:if>
+            </label>
+        </f:else>
+    </f:if>
 
     <f:if condition="{fieldItem.dataType}=='DATE'">
         <div class="datetimepicker input-group date">
@@ -81,6 +87,38 @@
                                      checked="{fieldItem.value}"/>
                 </f:else>
             </f:if>
+        </f:case>
+        <f:case value="5">
+            <f:for each="{fieldItem.inputOptions}" as="optionItem" key="optionKey" iteration="optionItemIterator">
+                <f:if condition="{optionItem}">
+                    <div class="form-radio-group">
+                          <label for="inp_{fieldItem.uid}_{optionItemIterator.index}_{formGroupUid}_{groupIndex}">
+
+                              <f:if condition="{fieldItem.linkedFieldUid}">
+                                <f:then>
+                                    <f:form.radio id="inp_{fieldItem.uid}_{optionItemIterator.index}_{formGroupUid}_{groupIndex}"
+                                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                            class="form-check-input input-field form-control {fieldItem.fillOutService}"
+                                            value="{optionKey}"
+                                            additionalAttributes="{data-linkedfield:fieldItem.linkedFieldUid,data-linkedvalue:optionItem,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
+                                            checked="{f:if(condition: '{fieldItem.value} == {optionKey}', then: 'checked', else: '')}"
+                                    />
+                                </f:then>
+                                <f:else>
+                                    <f:form.radio id="inp_{fieldItem.uid}_{optionItemIterator.index}_{formGroupUid}_{groupIndex}"
+                                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                            class="form-check-input input-field form-control {fieldItem.fillOutService}"
+                                            value="{optionKey}"
+                                            additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
+                                            checked="{f:if(condition: '{fieldItem.value} == {optionKey}', then: 'checked', else: '')}"
+                                    />
+                                </f:else>
+                              </f:if>
+                              <span>{optionItem} <f:if condition="{eww:IsUrlString(url:'{optionKey}')}"><a href="{optionKey}" target="_blank">{f:translate(key: 'form_radio.linktext')}</a></f:if></span>
+                          </label>
+                    </div>
+                </f:if>
+            </f:for>
         </f:case>
     </f:switch>
 

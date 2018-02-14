@@ -180,6 +180,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   fill_out_service varchar(255) DEFAULT '' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
   consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  linked_field_uid varchar(255) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -481,6 +482,7 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
   name varchar(255) DEFAULT '' NOT NULL,
   display_name varchar(255) DEFAULT '' NOT NULL,
   value_list text NOT NULL,
+  additional_value_list text NOT NULL,
   value_label_list text NOT NULL,
   default_value text NOT NULL,
 

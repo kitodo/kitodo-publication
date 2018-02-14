@@ -73,12 +73,17 @@ $(document).ready(function() {
         });
         return false;
     });
+
+    initRadioGroupLinkedField();
+
     // Add metadata group
     jQuery(".tx-dpf").on("click", ".add_group", addGroup);
     jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
+    jQuery(".tx-dpf").on("change", ".form-radio-group input", setRadioGroupLinkedField);
+
     //jQuery(window).on("scroll", "", continuousScroll);
     jQuery(".tx-dpf").on("click", "#next", continuousScroll);
     // jQuery(".form-submit").on("click","#save",
@@ -240,15 +245,34 @@ var markPage = function(fieldset, error) {
 }
 var checkMandatoryInputs = function(fieldset) {
     var mandatoryError = false;
-    fieldset.find(".input-field[data-mandatory=1]").each(function() {
-        var id = jQuery(this).attr('id');
-        if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
-            mandatoryError = mandatoryError || true;
-            jQuery(this).addClass('mandatory-error');
-        } else {
-            jQuery(this).removeClass('mandatory-error');
-        }
-    });
+
+    fieldset.find(".input-field[data-mandatory=1]").each(function () {
+            var id = jQuery(this).attr('id');
+
+            if (jQuery(this).attr('type') == 'radio') {
+                var radioName = jQuery(this).attr('name');
+                if (!jQuery('input[name="'+radioName+'"]').is(":checked")) {
+                    mandatoryError = mandatoryError || true;
+                    jQuery(this).addClass('mandatory-error');
+                }  else {
+                    jQuery(this).removeClass('mandatory-error');
+                }
+            } else {
+                if (
+                    (jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) ||
+                    (
+                        jQuery(this).attr('type') == 'checkbox' &&
+                        (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked"))
+                    )
+                ) {
+                    mandatoryError = mandatoryError || true;
+                    jQuery(this).addClass('mandatory-error');
+                } else {
+                    jQuery(this).removeClass('mandatory-error');
+                }
+            }
+        });
+
     //markPage(fieldset,mandatoryError);
     return mandatoryError;
 }
@@ -486,4 +510,34 @@ function addRemoveFileButton() {
         evt.preventDefault();
         $(this).siblings('.input_file_upload').val('');
     })
+}
+
+var setRadioGroupLinkedField = function(event) {
+        var fieldUid = jQuery(event.target).attr('data-field');
+        var fieldIndex = jQuery(event.target).attr('data-index');
+        var groupUid = jQuery(event.target).attr('data-group');
+        var groupIndex = jQuery(event.target).attr('data-groupindex');
+        var linkedFieldUid = jQuery(event.target).data('linkedfield');
+        var linkedValue = jQuery(event.target).data('linkedvalue').trim();
+        var linkedField = jQuery('[data-field="' + linkedFieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
+
+        linkedField.val(linkedValue);
+}
+
+
+var initRadioGroupLinkedField = function() {
+
+    var element = jQuery('.form-radio-group input:checked');
+
+    if (element.length > 0) {
+        var fieldUid = element.attr('data-field');
+        var fieldIndex = element.attr('data-index');
+        var groupUid = element.attr('data-group');
+        var groupIndex = element.attr('data-groupindex');
+        var linkedFieldUid = element.data('linkedfield');
+        var linkedValue = element.data('linkedvalue').trim();
+        var linkedField = jQuery('[data-field="' + linkedFieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
+
+        linkedField.val(linkedValue);
+    }
 }
