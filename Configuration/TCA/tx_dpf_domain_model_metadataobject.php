@@ -11,13 +11,35 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_dpf_domain_model_metadataobject'] = array(
-    'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_metadataobject']['ctrl'],
+return array(
+    'ctrl' => array(
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject',
+        'label'                    => 'name',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'name,display_name,max_iteration,mandatory,mapping,mods_extension,input_field,',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
+    ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent',
     ),

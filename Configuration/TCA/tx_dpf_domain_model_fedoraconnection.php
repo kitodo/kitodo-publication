@@ -15,21 +15,43 @@
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-$GLOBALS['TCA']['tx_dpf_domain_model_processnumber']['ctrl']['requestUpdate'] = 'replace_niss_part';
-$GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = array(
-    'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']['ctrl'],
+
+return array(
+    'ctrl' => array(
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_fedoraconnection',
+        'label'                    => 'url',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'url,user,password,',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_fedoraconnection.gif',
+    ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, owner_id, year, counter'
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, url, user, password',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, owner_id, year, counter, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, url, user, password, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
     ),
     'columns'   => array(
 
-        'sys_language_uid'   => array(
+        'sys_language_uid' => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config'  => array(
@@ -42,7 +64,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = 
                 ),
             ),
         ),
-        'l10n_parent'        => array(
+        'l10n_parent'      => array(
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude'     => 1,
             'label'       => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
@@ -51,17 +73,17 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = 
                 'items'               => array(
                     array('', 0),
                 ),
-                'foreign_table'       => 'tx_dpf_domain_model_processnumber',
-                'foreign_table_where' => 'AND tx_dpf_domain_model_processnumber.pid=###CURRENT_PID### AND tx_dpf_domain_model_processnumber.sys_language_uid IN (-1,0)',
+                'foreign_table'       => 'tx_dpf_domain_model_fedoraconnection',
+                'foreign_table_where' => 'AND tx_dpf_domain_model_fedoraconnection.pid=###CURRENT_PID### AND tx_dpf_domain_model_fedoraconnection.sys_language_uid IN (-1,0)',
             ),
         ),
-        'l10n_diffsource'    => array(
+        'l10n_diffsource'  => array(
             'config' => array(
                 'type' => 'passthrough',
             ),
         ),
 
-        't3ver_label'        => array(
+        't3ver_label'      => array(
             'label'  => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => array(
                 'type' => 'input',
@@ -70,14 +92,14 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = 
             ),
         ),
 
-        'hidden'             => array(
+        'hidden'           => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
             'config'  => array(
                 'type' => 'check',
             ),
         ),
-        'starttime'          => array(
+        'starttime'        => array(
             'exclude'   => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
@@ -93,7 +115,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = 
                 ),
             ),
         ),
-        'endtime'            => array(
+        'endtime'          => array(
             'exclude'   => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
@@ -110,37 +132,33 @@ $GLOBALS['TCA']['tx_dpf_domain_model_processnumber']                          = 
             ),
         ),
 
-        'owner_id'           => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.owner_id',
-            'config'    => array(
-                'type' => 'input',
-                'size' => 4,
-                'max' => 4,
-                'eval' => 'trim,required',
-            ),
-        ),
-        'year'        => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.year',
-            'config'    => array(
-                'type' => 'input',
-                'size' => 4,
-                'max' => 2,
-                'eval' => 'trim,required',
-            ),
-        ),
-        'counter'   => array(
-            'exclude'     => 1,
-            'l10n_mode' => 'exclude',
-            'label'       => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.counter',
-            'config'      => array(
+        'url'              => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_fedoraconnection.url',
+            'config'  => array(
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required',
+                'eval' => 'trim',
             ),
         ),
+        'user'             => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_fedoraconnection.user',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'password'         => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_fedoraconnection.password',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+
     ),
 );

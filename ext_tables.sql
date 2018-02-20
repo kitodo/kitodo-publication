@@ -391,24 +391,6 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
 );
 
 #
-# Table structure for table 'tx_dpf_domain_model_metadatapage'
-#
-CREATE TABLE tx_dpf_domain_model_metadatapage (
-
-  documenttype int(11) unsigned DEFAULT '0' NOT NULL,
-
-);
-
-#
-# Table structure for table 'tx_dpf_domain_model_metadataobject'
-#
-CREATE TABLE tx_dpf_domain_model_metadataobject (
-
-  metadatagroup int(11) unsigned DEFAULT '0' NOT NULL,
-
-);
-
-#
 # Table structure for table 'tx_dpf_metadatapage_metadatagroup_mm'
 #
 CREATE TABLE tx_dpf_metadatapage_metadatagroup_mm (

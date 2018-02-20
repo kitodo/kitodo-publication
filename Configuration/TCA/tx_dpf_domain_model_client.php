@@ -11,31 +11,53 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-$GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl']['requestUpdate'] = 'replace_niss_part';
-$GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
-    'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_client']['ctrl'],
+return array(
+    'ctrl' => array(
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client',
+        'label'                    => 'project',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'project,client,ownerId',
+        'requestUpdate'            => 'replace_niss_part',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_client.gif',
+    ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, 
-        network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, 
-        sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password, 
-        elastic_search_host, elastic_search_port, upload_directory, upload_domain, 
-        admin_new_document_notification_subject, admin_new_document_notification_body, 
-        submitter_new_document_notification_subject, submitter_new_document_notification_body, 
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id,
+        network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
+        sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password,
+        elastic_search_host, elastic_search_port, upload_directory, upload_domain,
+        admin_new_document_notification_subject, admin_new_document_notification_body,
+        submitter_new_document_notification_subject, submitter_new_document_notification_body,
         submitter_ingest_notification_subject, submitter_ingest_notification_body'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, 
-        client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace, 
-        --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace, 
-        --div--;Fedora, fedora_host, fedora_user, fedora_password, 
-        --div--;Elastic search, elastic_search_host, elastic_search_port, 
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1,
+        client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
+        --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
+        --div--;Fedora, fedora_host, fedora_user, fedora_password,
+        --div--;Elastic search, elastic_search_host, elastic_search_port,
         --div--;Upload, upload_directory, upload_domain,
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,
-        --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body, 
+        --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -215,7 +237,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_client']                          = array(
                 'size' => 30,
                 'eval' => 'trim,required',
             ),
-        ),        
+        ),
         'sword_host' => array(
             'exclude'      => 1,
             'l10n_mode'    => 'exclude',

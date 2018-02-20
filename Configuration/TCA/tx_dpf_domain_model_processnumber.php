@@ -16,20 +16,43 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
-    'ctrl'      => $GLOBALS['TCA']['tx_dpf_domain_model_documenttype']['ctrl'],
+return array(
+    'ctrl' => array(
+        'hideTable'                => 1,
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber',
+        'label'                    => 'owner_id',
+        'tstamp'                   => 'tstamp',
+        'crdate'                   => 'crdate',
+        'cruser_id'                => 'cruser_id',
+        'dividers2tabs'            => true,
+
+        'versioningWS'             => 2,
+        'versioning_followPages'   => true,
+
+        'languageField'            => 'sys_language_uid',
+        'transOrigPointerField'    => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'delete'                   => 'deleted',
+        'enablecolumns'            => array(
+            'disabled'  => 'hidden',
+            'starttime' => 'starttime',
+            'endtime'   => 'endtime',
+        ),
+        'searchFields'             => 'ownerId,year,counter',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
+    ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, virtual, metadata_page',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, owner_id, year, counter'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, virtual, metadata_page, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, owner_id, year, counter, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
     ),
     'columns'   => array(
 
-        'sys_language_uid' => array(
+        'sys_language_uid'   => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config'  => array(
@@ -42,7 +65,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
                 ),
             ),
         ),
-        'l10n_parent'      => array(
+        'l10n_parent'        => array(
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude'     => 1,
             'label'       => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
@@ -51,17 +74,17 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
                 'items'               => array(
                     array('', 0),
                 ),
-                'foreign_table'       => 'tx_dpf_domain_model_documenttype',
-                'foreign_table_where' => 'AND tx_dpf_domain_model_documenttype.pid=###CURRENT_PID### AND tx_dpf_domain_model_documenttype.sys_language_uid IN (-1,0)',
+                'foreign_table'       => 'tx_dpf_domain_model_processnumber',
+                'foreign_table_where' => 'AND tx_dpf_domain_model_processnumber.pid=###CURRENT_PID### AND tx_dpf_domain_model_processnumber.sys_language_uid IN (-1,0)',
             ),
         ),
-        'l10n_diffsource'  => array(
+        'l10n_diffsource'    => array(
             'config' => array(
                 'type' => 'passthrough',
             ),
         ),
 
-        't3ver_label'      => array(
+        't3ver_label'        => array(
             'label'  => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => array(
                 'type' => 'input',
@@ -70,15 +93,14 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
             ),
         ),
 
-        'hidden'           => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
-            'config'    => array(
+        'hidden'             => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
+            'config'  => array(
                 'type' => 'check',
             ),
         ),
-        'starttime'        => array(
+        'starttime'          => array(
             'exclude'   => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
@@ -94,7 +116,7 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
                 ),
             ),
         ),
-        'endtime'          => array(
+        'endtime'            => array(
             'exclude'   => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
@@ -110,59 +132,38 @@ $GLOBALS['TCA']['tx_dpf_domain_model_documenttype'] = array(
                 ),
             ),
         ),
-        'name'             => array(
+
+        'owner_id'           => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.name',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.owner_id',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim,uniqueInPid',
+                'size' => 4,
+                'max' => 4,
+                'eval' => 'trim,required',
             ),
         ),
-        'display_name'     => array(
-            'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.display_name',
-            'config'  => array(
+        'year'        => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.year',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 4,
+                'max' => 2,
+                'eval' => 'trim,required',
+            ),
+        ),
+        'counter'   => array(
+            'exclude'     => 1,
+            'l10n_mode' => 'exclude',
+            'label'       => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber.counter',
+            'config'      => array(
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim',
+                'eval' => 'trim,required',
             ),
         ),
-        'virtual'          => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.virtual',
-            'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
-            ),
-        ),
-        'metadata_page'    => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.metadata_page',
-            'config'    => array(
-                'type'           => 'inline',
-                'foreign_table'  => 'tx_dpf_domain_model_metadatapage',
-                'foreign_field'  => 'documenttype',
-                'foreign_label'  => 'display_name',
-                'foreign_sortby' => 'page_number',
-                'behaviour'      => array(
-                    'disableMovingChildrenWithParent' => 1,
-                    //'disableCopyingChildrenWithParent' => 1
-                ),
-                'maxitems'       => 9999,
-                'appearance'     => array(
-                    'collapseAll'                     => 0,
-                    'levelLinksPosition'              => 'top',
-                    'showSynchronizationLink'         => 1,
-                    'showPossibleLocalizationRecords' => 1,
-                    'showAllLocalizationLink'         => 1,
-                ),
-            ),
-
-        ),
-
     ),
 );
