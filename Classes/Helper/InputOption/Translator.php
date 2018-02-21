@@ -65,13 +65,15 @@ class Translator
         }
 
         // load translation data for all other languages
-        foreach ($languages as $language) {
-            $langIsoCode = $language->getLangIsocode();
+        if (is_array($languages)) {
+            foreach ($languages as $language) {
+                $langIsoCode = $language->getLangIsocode();
 
-            if (!empty($langIsoCode)) {
-                $local = \EWW\Dpf\Helper\InputOption\Locallang::load($inputOptionClass, $langIsoCode);
-                if ($local) {
-                    $this->locallang[$language->getLangIsocode()] = $local;
+                if (!empty($langIsoCode)) {
+                    $local = \EWW\Dpf\Helper\InputOption\Locallang::load($inputOptionClass, $langIsoCode);
+                    if ($local) {
+                        $this->locallang[$language->getLangIsocode()] = $local;
+                    }
                 }
             }
         }
