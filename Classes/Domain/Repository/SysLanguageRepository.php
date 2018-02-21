@@ -28,12 +28,11 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findInstalledLanguages()
     {
         $result = $this->createQuery();
-        $result->getQuerySettings()->setRespectStoragePage(false);
-        $result->getQuerySettings()->setReturnRawQueryResult(true);
+        $result->getQuerySettings()->setRespectStoragePage(FALSE);
         $result->statement('SELECT l.uid,l.pid,l.title,l.flag,i.lg_iso_2 FROM sys_language as l LEFT JOIN static_languages as i ON i.uid = l.static_lang_isocode');
 
-        if ($result->execute()) {
-            foreach ($result->execute() as $language) {
+        if ($result->execute(TRUE)) {
+            foreach ($result->execute(TRUE) as $language) {
                 $sysLanguage = new \EWW\Dpf\Domain\Model\SysLanguage();
                 $sysLanguage->setUid($language['uid']);
                 $sysLanguage->setPid($language['pid']);
@@ -46,7 +45,7 @@ class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return $sysLanguages;
         }
 
-        return null;
+        return NULL;
     }
 
 }
