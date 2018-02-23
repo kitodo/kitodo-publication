@@ -226,25 +226,27 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         // create input option for all other languages
         $installedlanguages = $this->sysLanguageRepository->findInstalledLanguages();
-        foreach ($installedlanguages as $installedLanguage) {
-            $langIsoCode = $installedLanguage->getLangIsocode();
-            if (!empty($langIsoCode)) {
-                // only when an iso code has been configured, a translation dataset is created
-                if ($inputOptionTranslator->hasTranslation($langIsoCode)) {
-                    // only when a translation exists, a translation dataset is created
-                    $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(), $langIsoCode);
-                    $displayName    = $inputOptionTranslator->translate(array('languageList'), $langIsoCode);
+        if (is_array($installedlanguages)) {
+            foreach ($installedlanguages as $installedLanguage) {
+                $langIsoCode = $installedLanguage->getLangIsocode();
+                if (!empty($langIsoCode)) {
+                    // only when an iso code has been configured, a translation dataset is created
+                    if ($inputOptionTranslator->hasTranslation($langIsoCode)) {
+                        // only when a translation exists, a translation dataset is created
+                        $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(), $langIsoCode);
+                        $displayName    = $inputOptionTranslator->translate(array('languageList'), $langIsoCode);
 
-                    $translatedOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');
-                    $translatedOptionList->setDisplayName(implode('', $displayName));
-                    $translatedOptionList->setPid($storagePid);
-                    $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());
-                    $translatedOptionList->setL10nParent($languageOptionList->getUid());
-                    $translatedOptionList->setValueLabelList(implode('|', $valueLabelList));
-                    $this->inputOptionListRepository->add($translatedOptionList);
+                        $translatedOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');
+                        $translatedOptionList->setDisplayName(implode('', $displayName));
+                        $translatedOptionList->setPid($storagePid);
+                        $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());
+                        $translatedOptionList->setL10nParent($languageOptionList->getUid());
+                        $translatedOptionList->setValueLabelList(implode('|', $valueLabelList));
+                        $this->inputOptionListRepository->add($translatedOptionList);
+
+                    }
 
                 }
-
             }
         }
 
