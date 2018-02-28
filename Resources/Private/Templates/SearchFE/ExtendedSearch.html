@@ -21,7 +21,6 @@
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
         <f:translate key="search.control.simpleSearch"/>
     </f:link.action>
-
     <span class="btn btn-default btn-sm active" aria-pressed="true">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
         <f:translate key="search.control.extendedSearch"/>
@@ -46,70 +45,72 @@
                 <f:form.textfield property="abstract" class="form-control"
                     placeholder="{f:translate(key: 'search.form.label.abstract')}" id="abstract"
                     value="{query.abstract}"/>
-			</div>
-			<div class="form-group">
-				<label for="tag">{f:translate(key: 'search.form.label.tag')}</label>
-				<f:form.textfield property="tag" class="form-control"
-					placeholder="{f:translate(key: 'search.form.label.tag')}" id="tag"
-					value="{query.tag}"/>
-			</div>
-			<div class="form-group">
-				<label for="doctype">{f:translate(key: 'search.form.label.type')}</label>
-				<f:form.select property="doctype" class="form-control"
-            options="{docTypes}" id="doctype" value="{query.doctype}"
-            optionValueField="name" optionLabelField="displayName"/>
-			</div>
-			<div class="form-group">
-				<label for="corporation">{f:translate(key: 'search.form.label.institution')}</label>
-				<f:form.textfield property="corporation" class="form-control"
-					placeholder="{f:translate(key: 'search.form.label.institution')}" id="corporation"
-					value="{query.corporation}"/>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6" style="padding:0px;">
-						<div class="form-group">
-							<label for="from">{f:translate(key: 'search.form.label.date')}</label>
-							<f:form.textfield property="from" type="text" class="form-control datetimepicker"
-								placeholder="{f:translate(key: 'search.form.label.from')}" id="from"
-								value="{query.from}"/>
-							<label for="till">{f:translate(key: 'search.form.label.to')}</label>
-							<f:form.textfield property="till" type="text" class="form-control datetimepicker"
-								placeholder="{f:translate(key: 'search.form.label.to')}" id="till"
-								value="{query.till}"/>
-						</div>
-					</div>
-				</div>
-			</div>
-			<f:form.button class="btn btn-default" type="submit">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				{f:translate(key: 'search.form.button.search')}
-			</f:form.button>
+            </div>
+            <div class="form-group">
+                <label for="tag">{f:translate(key: 'search.form.label.tag')}</label>
+                <f:form.textfield property="tag" class="form-control"
+                    placeholder="{f:translate(key: 'search.form.label.tag')}" id="tag"
+                    value="{query.tag}"/>
+            </div>
+            <div class="form-group">
+                <label for="doctype">{f:translate(key: 'search.form.label.type')}</label>
+                <f:form.select property="doctype" class="form-control"
+                    options="{docTypes}" id="doctype" value="{query.doctype}"
+                    optionValueField="name" optionLabelField="displayName"/>
+            </div>
+            <div class="form-group">
+                <label for="corporation">{f:translate(key: 'search.form.label.institution')}</label>
+                <f:form.textfield property="corporation" class="form-control"
+                    placeholder="{f:translate(key: 'search.form.label.institution')}" id="corporation"
+                    value="{query.corporation}"/>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6" style="padding:0px;">
+                        <div class="form-group">
+                            <label for="from">{f:translate(key: 'search.form.label.date')}</label>
+                            <f:form.textfield property="from" type="text" class="form-control datetimepicker"
+                                placeholder="{f:translate(key: 'search.form.label.from')}" id="from"
+                                value="{query.from}"/>
+                            <label for="till">{f:translate(key: 'search.form.label.to')}</label>
+                            <f:form.textfield property="till" type="text" class="form-control datetimepicker"
+                                placeholder="{f:translate(key: 'search.form.label.to')}" id="till"
+                                value="{query.till}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <f:form.button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                {f:translate(key: 'search.form.button.search')}
+            </f:form.button>
         </f:form>
     </div>
-	<f:if condition="{query}">
-    <div class="search-results">
-        <f:if condition="{resultList.total} > 1">
-            <f:then>
-                <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
-            </f:then>
-            <f:else>
-                <f:if condition="{resultList.total} == 1">
-                    <f:then>
-                        <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
-                    </f:then>
-                    <f:else>
-                        <span><f:translate key="search.resultList.nothingFound"/></span>
-                    </f:else>
-                </f:if>
-            </f:else>
-        </f:if>
-        <dpf:widget.paginate objects="{resultList.hits}" total="{resultList.total}" as="paginatedResults" currentPage="{currentPage}"
-                             configuration="{settings.list.paginate}">
+    <f:if condition="{query}">
+        <div class="search-results">
+            <f:if condition="{resultList.total} > 1">
+                <f:then>
+                    <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
+                </f:then>
+                <f:else>
+                    <f:if condition="{resultList.total} == 1">
+                        <f:then>
+                            <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
+                        </f:then>
+                        <f:else>
+                            <span><f:translate key="search.resultList.nothingFound"/></span>
+                        </f:else>
+                    </f:if>
+                </f:else>
+            </f:if>
+            <dpf:widget.paginate objects="{resultList.hits}"
+                total="{resultList.total}" as="paginatedResults"
+                currentPage="{currentPage}"
+                configuration="{settings.list.paginate}">
 
-            <f:render partial="SearchFE/ResultList" arguments="{results: paginatedResults, currentPage: currentPage}"/>
+                <f:render partial="SearchFE/ResultList" arguments="{results: paginatedResults, currentPage: currentPage}"/>
 
-        </dpf:widget.paginate>
-    </div>
-	</f:if>
+            </dpf:widget.paginate>
+        </div>
+    </f:if>
 </f:section>
