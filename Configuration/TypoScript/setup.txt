@@ -56,6 +56,17 @@ plugin.tx_dpf {
         }
 }
 
+# Actions, only allowed for developers and localhost
+[IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
+	plugin.tx_dpf.settings.allowedActions {
+		1 = mets
+		2 = preview
+		3 = dataCite
+	}
+[end]
+
+# Action which is always allowed
+plugin.tx_dpf.settings.allowedActions.4 = attachment
 
 plugin.tx_dpf._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {

@@ -72,6 +72,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
 
+        if ($this->isForbidden($piVars['action'])) {
+            $this->response->setStatus(403);
+            return 'Forbidden';
+        }
+
         switch ($piVars['action']) {
             case 'mets':
                 $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
@@ -268,6 +273,15 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $metsXml = $exporter->getMetsData();
 
         return $metsXml;
+    }
+
+    private function isForbidden($action)
+    {
+        $allowed =
+            array_key_exists('allowedActions', $this->settings)
+            && is_array($this->settings['allowedActions'])
+            && in_array($action, $this->settings['allowedActions']);
+        return !$allowed;
     }
 }
 
