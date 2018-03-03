@@ -32,7 +32,7 @@
             <f:if condition="{fieldItem.inputField}!=4">
                 <f:then>
                     <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
-                        <eww:isElementAllowed condition="{fieldItem.backendOnly}">
+                        <f:if condition="{eww:IsElementAllowed(condition:'{fieldItem.backendOnly}')}">
                             <f:then>
                                 <f:render partial="DocumentForm/Field"
                                           arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries}"/>
@@ -49,7 +49,7 @@
                                     </f:if>
                                 </f:if>
                             </f:then>
-                        </eww:isElementAllowed>
+                        </f:if>
                     </div>
                 </f:then>
                 <f:else>

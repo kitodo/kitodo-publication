@@ -19,12 +19,12 @@
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-            <eww:isElementAllowed condition="{formPage.0.backendOnly}">
+            <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.backendOnly}')}">
                 <f:then>
                     <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}">
                         <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
                 </f:then>
-            </eww:isElementAllowed>
+            </f:if>
         </f:for>
         <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
     </ul>
@@ -32,14 +32,14 @@
 
 <div class="tab-content">
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-        <eww:isElementAllowed condition="{formPage.0.backendOnly}">
+        <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.backendOnly}')}">
             <f:then>
                 <div id="tab-{pageIterator.cycle}"
                      class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"
                      data-page="{formPage.0.uid}">
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
                         <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                            <eww:isElementAllowed condition="{groupItem.backendOnly}">
+                            <f:if condition="{eww:IsElementAllowed(condition:'{groupItem.backendOnly}')}">
                                 <f:then>
                                     <f:render partial="DocumentForm/Group"
                                               arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
@@ -57,12 +57,12 @@
                                         </f:if>
                                     </f:if>
                                 </f:then>
-                            </eww:isElementAllowed>
+                            </f:if>
                         </f:for>
                     </f:for>
                 </div>
             </f:then>
-        </eww:isElementAllowed>
+        </f:if>
     </f:for>
 
     <div id="tab-file-upload" class="fs_page tab-pane">

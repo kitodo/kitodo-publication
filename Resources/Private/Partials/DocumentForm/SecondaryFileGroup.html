@@ -36,7 +36,7 @@
                     <!--</button>-->
                 </div>
 
-                <eww:isElementAllowed condition="backendOnly">
+                <f:if condition="{eww:getTypo3Mode()} == 'BE'">
                     <f:then>
                         <div class="form-group">
                             <label for="inp_secFiles_label_{file.uid}" data-index="{groupIndex}">Display name</label>
@@ -58,7 +58,7 @@
                                              additionalAttributes="{}" checked="{file.archive}"/>
                         </div>
                     </f:then>
-                </eww:isElementAllowed>
+                </f:if>
             </fieldset>
         </f:for>
     </f:then>
