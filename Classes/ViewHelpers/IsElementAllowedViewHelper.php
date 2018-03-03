@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -25,9 +25,9 @@ class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
     public function render($condition)
     {
         if ((TYPO3_MODE === 'BE') || !$condition) {
-            return $this->renderThenChild();
+            return TRUE;
         }
-        return $this->renderElseChild();
+        return FALSE;
     }
 
 }
