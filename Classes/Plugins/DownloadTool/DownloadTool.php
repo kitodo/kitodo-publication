@@ -14,6 +14,8 @@ namespace EWW\Dpf\Plugins\DownloadTool;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Plugin 'DPF: DownloadTool' for the 'dlf / dpf' extension.
  *
@@ -76,6 +78,8 @@ class DownloadTool extends \tx_dlf_plugin
 
         // Show all PDF documents in download filegroup
         $attachments = $this->getAttachments();
+        // Get VG-Wort-Url
+        $vgwort = $this->getVGWortUrl();
 
         $content = '';
 
@@ -92,8 +96,25 @@ class DownloadTool extends \tx_dlf_plugin
 
                 $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
 
-                // replace uid with URI to dpf API
-                $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+                // Create a-tag without VG-Wort Redirect
+                if ($vgwort === FALSE) {
+
+                    // replace uid with URI to dpf API
+                    $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+
+                    // Create a-tag with VG-Wort Redirect
+                } elseif(!empty($vgwort)) {
+
+                    $qucosaUrl = urlencode($this->cObj->typoLink_URL($conf));
+
+                    $confVgwort = array(
+                        'useCacheHash'     => 0,
+                        'parameter'        => $vgwort . $qucosaUrl . ' - piwik_download',
+                    );
+
+                    $markerArray['###FILE###'] = $this->cObj->typoLink($title, $confVgwort);
+
+                }
 
                 $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
 
@@ -151,6 +172,33 @@ class DownloadTool extends \tx_dlf_plugin
         }
 
         return $attachments;
+    }
+
+    protected function getVGWortUrl()
+    {
+
+        // Get VG-Wort-OpenKey for document
+        $this->doc->mets->registerXPathNamespace("slub", 'http://slub-dresden.de/');
+        $xPath = '//slub:info/slub:vgwortOpenKey';
+        $vgwortOpenKey = $this->doc->mets->xpath($xPath)[0];
+
+        if (!empty($vgwortOpenKey) or $vgwortOpenKey != FALSE ) {
+
+            if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
+
+                $vgwortserver = 'https://ssl-vg03.met.vgwort.de/na/';
+
+            } else {
+
+                $vgwortserver = 'http://vg08.met.vgwort.de/na/';
+
+            }
+
+            return $vgworturl = $vgwortserver . $vgwortOpenKey . '?l=';
+
+        }
+
+        return FALSE;
     }
 
 }
