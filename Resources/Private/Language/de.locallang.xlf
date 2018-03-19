@@ -178,8 +178,8 @@
 			<target>entfernen</target>
 		</trans-unit>
 		<trans-unit id="form_button.save" approved="yes">
-			<source>save</source>
-			<target>speichern</target>
+			<source>submit</source>
+			<target>absenden</target>
 		</trans-unit>
 		<trans-unit id="form_button.save_continue" approved="yes">
 			<source>save &amp; continue</source>

@@ -135,7 +135,7 @@
 			<source>remove</source>
 		</trans-unit>
 		<trans-unit id="form_button.save">
-			<source>save</source>
+			<source>submit</source>
 		</trans-unit>
 		<trans-unit id="form_button.save_continue">
 			<source>save &amp; continue</source>
