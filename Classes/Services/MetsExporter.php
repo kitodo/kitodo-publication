@@ -101,7 +101,6 @@ class MetsExporter
         // mets data beginning
         $this->metsHeader = '<mets:mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                             xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xmlns:person="http://www.w3.org/ns/person#"
                             xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">';
 
         // Mets structure end
@@ -111,6 +110,7 @@ class MetsExporter
             xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/"
             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             xmlns:foaf="http://xmlns.com/foaf/0.1/"
+            xmlns:person="http://www.w3.org/ns/person#"
             xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-6.xsd"
             version="3.6">';
 
