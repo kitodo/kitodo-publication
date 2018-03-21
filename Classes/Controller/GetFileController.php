@@ -169,6 +169,12 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                 break;
 
+            case 'zip':
+                // FIXME Service locations on Fedora host are hard coded
+                $metsUrl = rtrim('http://' . $fedoraHost,"/") . '/mets?pid=' . $piVars['qid'];
+                $path = rtrim('http://' . $fedoraHost,"/") . '/zip?metsurl=' . rawurlencode($metsUrl);
+                break;
+
             default:
 
                 $this->response->setStatus(404);
