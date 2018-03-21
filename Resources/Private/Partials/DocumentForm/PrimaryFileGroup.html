@@ -28,8 +28,7 @@
                     {f:translate(key: 'form_button.remove_file', arguments: {0: ''})}
                 </button>
             </div>
-
-            <eww:isElementAllowed condition="backendOnly">
+            <f:if condition="{eww:getTypo3Mode()} == 'BE'">
                 <f:then>
                     <div class="form-group">
                         <label for="inp_primFile_label_{file.uid}" data-index="{groupIndex}">Display name</label>
@@ -50,7 +49,7 @@
                                          checked="{file.archive}"/>
                     </div>
                 </f:then>
-            </eww:isElementAllowed>
+            </f:if>
         </fieldset>
     </f:then>
     <f:else>

@@ -14,20 +14,15 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsConsentFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetTypo3ModeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
-     *
-     * @param boolean $condition
-     * @return string
+      * @return string
      */
-    public function render($condition)
+    public function render()
     {
-        if ((TYPO3_MODE === 'BE') && $condition) {
-            return TRUE;
-        }
-        return FALSE;
+        return TYPO3_MODE;
     }
 
 }
