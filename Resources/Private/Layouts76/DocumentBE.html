@@ -18,19 +18,13 @@
 <f:be.container enableClickMenu="false"
                 includeCssFiles="{0: '{f:uri.resource(path:\'CSS/qucosa.css\')}',1: '{f:uri.resource(path:\'CSS/qucosabe.css\')}'}"
                 includeJsFiles="{0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',1: '{f:uri.resource(path:\'JavaScript/moment-with-locales.min.js\')}',2: '{f:uri.resource(path:\'JavaScript/bootstrap.min.js\')}',3: '{f:uri.resource(path:\'JavaScript/bootstrap-datetimepicker.min.js\')}',4: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}">
-    <div class="tx-dpf" data-language="{dpf:language()}">
-        <f:comment>
-            <f:debug title="Debug" maxDepth="20">{debugData}</f:debug>
-        </f:comment>
 
-        <script type="text/javascript">
-            var form_error_msg_group_mandatory = '<f:translate key="form_error_msg.group_mandatory" default="Please fill in the required fields." />';
-            var form_error_msg_group_one_required = '<f:translate key="form_error_msg.group_one_required"  default="Please fill out at least one of the fields." />';
-            var form_error_msg_field_invalid = '<f:translate key="form_error_msg.field_invalid" default="Invalid input" />';
-            var form_error_msg = '<f:translate key="form_error_msg.all" default="The form contains errors."/>';
-            var form_success_msg = '<f:translate key="form_success_msg.all" default="Form successfully validated."/>';
-        </script>
+    <div class="tx-dpf" data-language="{dpf:language()}">
+
+        <f:render partial="Layouts/DocumentBE" arguments="{_all}" />
 
         <f:render section="main"/>
+
     </div>
+
 </f:be.container>
