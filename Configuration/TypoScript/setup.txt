@@ -16,9 +16,9 @@ plugin.tx_dpf {
 		callDefaultActionIfActionCantBeResolved = 1
 	}
 	view {
-		templateRootPath = {$plugin.tx_dpf.view.templateRootPath}
-		partialRootPath = {$plugin.tx_dpf.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_dpf.view.layoutRootPath}
+		templateRootPaths.10 = {$plugin.tx_dpf.view.templateRootPath}
+		partialRootPaths.10 = {$plugin.tx_dpf.view.partialRootPath}
+		layoutRootPaths.10 = {$plugin.tx_dpf.view.layoutRootPath}
 	}
 	persistence {
 		storagePid = {$plugin.tx_dpf.persistence.storagePid}
@@ -138,9 +138,9 @@ module.tx_dpf {
                 recursive = {$module.tx_dpf.persistence.recursive}
 	}
 	view {
-		templateRootPath = {$module.tx_dpf.view.templateRootPath}
-		partialRootPath = {$module.tx_dpf.view.partialRootPath}
-		layoutRootPath = {$module.tx_dpf.view.layoutRootPath}
+		templateRootPaths.10 = {$module.tx_dpf.view.templateRootPath}
+		partialRootPaths.10 = {$module.tx_dpf.view.partialRootPath}
+		layoutRootPaths.10 = {$module.tx_dpf.view.layoutRootPath}
 	}
 
 
@@ -153,3 +153,6 @@ module.tx_dpf {
         }
 }
 
+[compatVersion = 7.6.0]
+module.tx_dpf.view.layoutRootPaths.100 = EXT:dpf/Resources/Private/Layouts76/
+[global]
