@@ -277,6 +277,37 @@
     margin-left: 10px;
 }
 
+.form-radio-group {
+    margin-bottom: 10px;
+}
+
+.form-radio-group label input {
+    width: auto !important;
+    border: none;
+    background: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 18px;
+}
+
+.tx-dpf .form-radio-group label {
+    border: none;
+    background: none;
+    box-shadow: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 18px;
+}
+
+.tx-dpf .form-radio-group span {
+    white-space: pre-line;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.tx-dpf .form-radio-group label span a {
+    display: inline-block;
+}
 
 /* -- error handling -------------------------------------------------------------------- */
 
@@ -332,6 +363,5 @@ ul.error-files-backbutton li {
     list-style: disc;
     margin-left: 13px;
 }
-
 
 /* EOF */

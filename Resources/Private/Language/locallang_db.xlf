@@ -323,6 +323,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.textarea">
 			<source>textarea</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.radio">
+			<source>Radio group</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 			<source>Mandatory</source>
 		</trans-unit>

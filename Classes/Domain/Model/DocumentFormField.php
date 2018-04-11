@@ -35,6 +35,8 @@ class DocumentFormField extends AbstractFormElement
 
     protected $dataType;
 
+    protected $linkedFieldUid;
+
     /**
      * consent
      *
@@ -184,4 +186,13 @@ class DocumentFormField extends AbstractFormElement
     {
         $this->dataType = $dataType;
     }
+
+    public function getLinkedFieldUid() {
+        return $this->linkedFieldUid;
+    }
+
+    public function setLinkedFieldUid($fieldId) {
+        $this->linkedFieldUid = $fieldId;
+    }
+
 }

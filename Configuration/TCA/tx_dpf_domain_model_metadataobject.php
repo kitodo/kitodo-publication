@@ -41,10 +41,10 @@ return array(
         'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, linked_field_uid, default_value, backend_only, consent',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, default_value, backend_only, consent, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, input_option_list, fill_out_service, linked_field_uid, default_value, backend_only, consent, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -248,6 +248,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.select', \EWW\Dpf\Domain\Model\MetadataObject::select),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.checkbox', \EWW\Dpf\Domain\Model\MetadataObject::checkbox),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.hidden', \EWW\Dpf\Domain\Model\MetadataObject::hidden),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.radio', \EWW\Dpf\Domain\Model\MetadataObject::radio),
                 ),
                 'size'     => 1,
                 'maxitems' => 1,
@@ -287,10 +288,21 @@ return array(
                 'items'    => array(
                     array('', 0),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.fill_out_service.urn', \EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_URN),
-                ),
+                    ),
                 'size'     => 1,
                 'maxitems' => 1,
                 'eval'     => '',
+            ),
+        ),
+        'linked_field_uid' => array(
+            'displayCond' => 'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::radio,
+            'exclude'   => 0,
+            'exclude'   => 0,
+            'label' => 'Linked field',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
             ),
         ),
         'metadatagroup'     => array(

@@ -164,6 +164,9 @@
 		<trans-unit id="form_success_msg.all">
 			<source>Form successfully validated.</source>
 		</trans-unit>
+		<trans-unit id="form_radio.linktext">
+            <source>More information</source>
+        </trans-unit>
 		<trans-unit id="manager.activate">
 			<source>activate</source>
 		</trans-unit>

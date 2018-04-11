@@ -177,6 +177,7 @@ class DocumentMapper
                             $documentFormField->setInputField($metadataObject->getInputField());
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
+                            $documentFormField->setLinkedFieldUid($metadataObject->getLinkedFieldUid());
 
                             $objectMapping = "";
 
@@ -257,6 +258,7 @@ class DocumentMapper
                         $documentFormField->setInputField($metadataObject->getInputField());
                         $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                         $documentFormField->setFillOutService($metadataObject->getFillOutService());
+                        $documentFormField->setLinkedFieldUid($metadataObject->getLinkedFieldUid());
                         $documentFormField->setValue("", $metadataObject->getDefaultValue());
 
                         $documentFormGroup->addItem($documentFormField);

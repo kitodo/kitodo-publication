@@ -217,6 +217,10 @@
 			<source>Form successfully validated.</source>
 			<target>Formular erfolgreich überprüft.</target>
 		</trans-unit>
+		<trans-unit id="form_radio.linktext">
+            <source>More information</source>
+            <target>Mehr Informationen></target>
+        </trans-unit>
 		<trans-unit id="manager.activate" approved="yes">
 			<source>activate</source>
 			<target>aktivieren</target>

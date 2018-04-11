@@ -56,7 +56,7 @@
                     <f:form.hidden id="inp_{fieldItem.uid}"
                                    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIterator.index}"
                                    value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                                   additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+                                   additionalAttributes="{data-field:fieldItem.uid,data-index:fieldItemIterator.index,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
                 </f:else>
             </f:if>
         </f:for>
