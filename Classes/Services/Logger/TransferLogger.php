@@ -13,7 +13,10 @@ namespace EWW\Dpf\Services\Logger;
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Domain\Repository\DocumentTransferLogRepository;
+use EWW\Dpf\Domain\Model\DocumentTransferLog;
 
 class TransferLogger
 {
@@ -27,10 +30,10 @@ class TransferLogger
     public static function log($action, $documentUid, $objectIdentifier, $response)
     {
 
-        $objectManager                 = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $documentTransferLogRepository = $objectManager->get('\\EWW\\Dpf\\Domain\\Repository\\DocumentTransferLogRepository');
+        $objectManager                 = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $documentTransferLogRepository = $objectManager->get(DocumentTransferLogRepository::class);
 
-        $documentTransferLog = $objectManager->get('\\EWW\\Dpf\\Domain\\Model\\DocumentTransferLog');
+        $documentTransferLog = $objectManager->get(DocumentTransferLog::class);
         $documentTransferLog->setResponse(print_r($response, true));
         $documentTransferLog->setAction($action);
         $documentTransferLog->setDocumentUid($documentUid);

@@ -14,6 +14,8 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+
 class DocumentFormBEController extends AbstractDocumentFormController
 {
 
@@ -43,7 +45,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
         $document = $this->documentRepository->findByUid($documentData['documentUid']);
 
-        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
         // send document to index
         $elasticsearchRepository->delete($document, "");
 

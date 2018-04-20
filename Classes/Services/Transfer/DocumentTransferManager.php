@@ -14,7 +14,9 @@ namespace EWW\Dpf\Services\Transfer;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
 {
@@ -123,7 +125,7 @@ class DocumentTransferManager
             $this->documentRepository->remove($document);
 
             // remove document from local index
-            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
             $elasticsearchRepository->delete($document, "");
 
             return true;
@@ -176,7 +178,7 @@ class DocumentTransferManager
             $this->documentRepository->remove($document);
 
             // remove document from local index
-            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
             $elasticsearchRepository->delete($document, "");
 
             return true;
@@ -236,7 +238,7 @@ class DocumentTransferManager
                     break;
             }
 
-            $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+            $document = $this->objectManager->get(Document::class);
             $document->setObjectIdentifier($remoteId);
             $document->setState($objectState);
             $document->setTitle($title);
@@ -255,7 +257,7 @@ class DocumentTransferManager
 
             foreach ($mets->getFiles() as $attachment) {
 
-                $file = $this->objectManager->get('\EWW\Dpf\Domain\Model\File');
+                $file = $this->objectManager->get(File::class);
                 $file->setContentType($attachment['mimetype']);
                 $file->setDatastreamIdentifier($attachment['id']);
                 $file->setLink($attachment['href']);
@@ -312,7 +314,7 @@ class DocumentTransferManager
                     $this->documentRepository->update($document);
                     $this->documentRepository->remove($document);
                     // remove document from local index
-                    $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+                    $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
                     $elasticsearchRepository->delete($document, $state);
                     break;
             }

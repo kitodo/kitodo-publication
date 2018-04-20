@@ -14,7 +14,8 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
-
+use EWW\Dpf\Configuration\ClientConfigurationManager;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class UploadFileUrl
 {
@@ -27,8 +28,8 @@ class UploadFileUrl
     protected $clientConfigurationManager;
 
     public function __construct() {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $this->clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
     }
 
 

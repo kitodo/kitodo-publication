@@ -15,6 +15,8 @@ namespace EWW\Dpf\Services;
  */
 
 use \Elasticsearch\Client as Client;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 
 /**
  * ElasticSearch
@@ -40,8 +42,8 @@ class ElasticSearch
      */
     public function __construct()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         $this->server = $clientConfigurationManager->getElasticSearchHost();
         $this->port   = $clientConfigurationManager->getElasticSearchPort();

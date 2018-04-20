@@ -38,8 +38,6 @@ class TransferCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Comman
 
         $success = true;
 
-        $repository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
-
         return true;
     }
 }

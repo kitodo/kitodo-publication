@@ -15,6 +15,7 @@ namespace EWW\Dpf\Plugins\MetaTags;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Plugin 'DPF: MetaTags' for the 'dlf / dpf' extension.
@@ -175,7 +176,7 @@ class MetaTags extends \tx_dlf_plugin
 
                     // we need to make instance of cObj here because its not available in this context
                     /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-                    $cObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+                    $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
                     // replace uid with URI to dpf API
                     $outArray['citation_pdf_url'][] = $cObj->typoLink_URL($conf);

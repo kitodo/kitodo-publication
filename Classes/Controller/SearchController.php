@@ -14,6 +14,13 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Services\Transfer\DocumentTransferManager;
+use EWW\Dpf\Services\Transfer\FedoraRepository;
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Services\ElasticSearch;
+use EWW\Dpf\Helper\ElasticsearchMapper;
+
 /**
  * SearchController
  */
@@ -50,7 +57,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args          = $this->request->getArguments();
 
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
@@ -97,7 +103,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args          = $this->request->getArguments();
 
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
@@ -112,8 +117,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function latestAction()
     {
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
         $query = $this->searchLatest();
 
         // set type local vs object
@@ -133,8 +136,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     {
         // perform search action
         $args = $this->request->getArguments();
-
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // reset session pagination
         $sessionVars                = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
@@ -188,8 +189,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function importAction($documentObjectIdentifier, $objectState)
     {
-        $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-        $remoteRepository        = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
         $args[] = $documentObjectIdentifier;
@@ -226,9 +227,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
 
-        if (is_a($document, '\EWW\Dpf\Domain\Model\Document')) {
-            $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
-            $elasticsearchMapper     = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+        if (is_a($document, Document::class)) {
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            $elasticsearchMapper     = $this->objectManager->get(ElasticsearchMapper::class);
             $json                    = $elasticsearchMapper->getElasticsearchJson($document);
             // send document to index
             $elasticsearchRepository->add($document, $json);
@@ -245,7 +246,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        $elasticSearch = $this->objectManager->get(ElasticSearch::class);
 
         $client = $this->clientRepository->findAll()->current();
 

@@ -14,6 +14,13 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Helper\ElasticsearchMapper;
+use EWW\Dpf\Helper\FormDataReader;
+
 /**
  * DocumentFormController
  */
@@ -144,9 +151,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         } elseif (array_key_exists('documentType', $requestArguments)) {
             $docTypeUid   = $this->request->getArgument('documentType');
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $document     = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+            $document     = $this->objectManager->get(Document::class);
             $document->setDocumentType($documentType);
-            $mapper  = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+            $mapper  = $this->objectManager->get(DocumentMapper::class);
             $docForm = $mapper->getDocumentForm($document);
         } elseif (array_key_exists('newDocumentForm', $requestArguments)) {
             $docForm = $this->request->getArgument('newDocumentForm');
@@ -176,7 +183,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         if ($this->request->hasArgument('documentData')) {
             $documentData = $this->request->getArgument('documentData');
 
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+            $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
 
             $docForm                             = $formDataReader->getDocumentForm();
@@ -206,7 +213,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
 
-        $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
         $this->documentRepository->add($newDocument);
@@ -230,7 +237,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             }
         }
 
-        $notifier = $this->objectManager->get('\EWW\Dpf\Services\Email\Notifier');
+        $notifier = $this->objectManager->get(Notifier::class);
 
         $notifier->sendNewDocumentNotification($newDocument);
 
@@ -238,7 +245,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         if (array_key_exists('savecontinue', $requestArguments)) {
 
-            $tmpDocument = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+            $tmpDocument = $this->objectManager->get(Document::class);
 
             $tmpDocument->setTitle($newDocument->getTitle());
             $tmpDocument->setAuthors($newDocument->getAuthors());
@@ -260,7 +267,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         if (array_key_exists('document', $requestArguments)) {
             $documentUid  = $this->request->getArgument('document');
             $document     = $this->documentRepository->findByUid($documentUid);
-            $mapper       = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+            $mapper       = $this->objectManager->get(DocumentMapper::class);
             $documentForm = $mapper->getDocumentForm($document);
         } elseif (array_key_exists('documentForm', $requestArguments)) {
             $documentForm = $this->request->getArgument('documentForm');
@@ -289,7 +296,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         if ($this->request->hasArgument('documentData')) {
             $documentData = $this->request->getArgument('documentData');
 
-            $formDataReader = $this->objectManager->get('EWW\Dpf\Helper\FormDataReader');
+            $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
             $docForm = $formDataReader->getDocumentForm();
 
@@ -321,7 +328,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         $requestArguments = $this->request->getArguments();
 
-        $documentMapper = $this->objectManager->get('EWW\Dpf\Helper\DocumentMapper');
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         $objectIdentifier = $updateDocument->getObjectIdentifier();
@@ -348,10 +355,10 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         }
 
         // add document to local es index
-        $elasticsearchMapper = $this->objectManager->get('EWW\Dpf\Helper\ElasticsearchMapper');
+        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
         $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
 
-        $elasticsearchRepository = $this->objectManager->get('\EWW\Dpf\Services\Transfer\ElasticsearchRepository');
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
         // send document to index
         $elasticsearchRepository->add($updateDocument, $json);
 

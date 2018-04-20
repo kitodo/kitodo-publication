@@ -14,6 +14,10 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Identifier\Urn;
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+
 class DocumentMapper
 {
 
@@ -83,7 +87,7 @@ class DocumentMapper
         }
 
         if (!empty($qucosaId)) {
-            $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+            $urnService = $this->objectManager->get(Urn::class);
             $qucosaUrn  = $urnService->getUrn($qucosaId);
             $documentForm->setQucosaUrn($qucosaUrn);
         }
@@ -293,12 +297,12 @@ class DocumentMapper
         if ($documentForm->getDocumentUid()) {
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
         } else {
-            $document = $this->objectManager->get('\EWW\Dpf\Domain\Model\Document');
+            $document = $this->objectManager->get(Document::class);
         }
 
         $processNumber = $document->getProcessNumber();
         if (empty($processNumber)) {
-            $processNumberGenerator = $this->objectManager->get("EWW\\Dpf\\Services\\ProcessNumber\\ProcessNumberGenerator");
+            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
             $processNumber = $processNumberGenerator->getProcessNumber();
             $document->setProcessNumber($processNumber);
         }
