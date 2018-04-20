@@ -14,6 +14,10 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use EWW\Dpf\Configuration\InputOption\Iso6392b;
+use EWW\Dpf\\Helper\InputOption\Translator;
+use EWW\Dpf\Domain\Model\InputOptionList;
 /**
  * ClientController
  */
@@ -68,7 +72,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $this->pageInfo = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($this->selectedPageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
-        $configManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+        $configManager = $this->objectManager->get(BackendConfigurationManager::class);
 
         $this->settings = $configManager->getConfiguration(
             $this->request->getControllerExtensionName(),
@@ -198,13 +202,13 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function addBaseInputOptionLists($storagePid)
     {
 
-        $iso6392b = $this->objectManager->get('EWW\\Dpf\\Configuration\\InputOption\\Iso6392b');
+        $iso6392b = $this->objectManager->get(Iso6392b::class);
 
-        $inputOptionTranslator = $this->objectManager->get('EWW\\Dpf\\Helper\\InputOption\\Translator');
+        $inputOptionTranslator = $this->objectManager->get(Translator::class);
         $inputOptionTranslator->init(get_class($iso6392b));
 
         // create input option list for the default language
-        $languageOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');
+        $languageOptionList = $this->objectManager->get(InputOptionList::class);
         $languageOptionList->setName('languageList');
         $languageOptionList->setPid($storagePid);
         $languageOptionList->setSysLanguageUid(0);
@@ -236,7 +240,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                         $valueLabelList = $inputOptionTranslator->translate($iso6392b->getValues(), $langIsoCode);
                         $displayName    = $inputOptionTranslator->translate(array('languageList'), $langIsoCode);
 
-                        $translatedOptionList = $this->objectManager->get('EWW\\Dpf\\Domain\\Model\\InputOptionList');
+                        $translatedOptionList = $this->objectManager->get(InputOptionList::class);
                         $translatedOptionList->setDisplayName(implode('', $displayName));
                         $translatedOptionList->setPid($storagePid);
                         $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());

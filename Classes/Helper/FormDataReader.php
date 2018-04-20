@@ -14,6 +14,8 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\File;
+
 class FormDataReader
 {
 
@@ -279,7 +281,7 @@ class FormDataReader
     {
 
         if (empty($file)) {
-            $file = $this->objectManager->get('EWW\Dpf\Domain\Model\File');
+            $file = $this->objectManager->get(File::class);
         }
 
         $fileName = uniqid(time(), true);

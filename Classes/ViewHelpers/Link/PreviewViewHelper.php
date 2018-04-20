@@ -17,6 +17,8 @@ namespace EWW\Dpf\ViewHelpers\Link;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PreviewViewHelper extends AbstractBackendViewHelper
 {
@@ -49,7 +51,7 @@ class PreviewViewHelper extends AbstractBackendViewHelper
             $GLOBALS['TT'] = new \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
             $GLOBALS['TT']->start();
         }
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $id, $typeNum);
+        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $id, $typeNum);
         $GLOBALS['TSFE']->connectToDB();
         $GLOBALS['TSFE']->initFEuser();
         $GLOBALS['TSFE']->determineId();
@@ -87,7 +89,7 @@ class PreviewViewHelper extends AbstractBackendViewHelper
         // we need to make instance of cObj here because its not available in this context
         $this->initTSFE($apiPid, 0);
         /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-        $cObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         // replace uid with URI to dpf API
         $previewMets = $cObj->typoLink_URL($conf);

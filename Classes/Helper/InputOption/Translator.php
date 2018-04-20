@@ -14,6 +14,8 @@ namespace EWW\Dpf\Helper\InputOption;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+
 class Translator
 {
 
@@ -87,7 +89,7 @@ class Translator
      */
     public function getDefaultLanguage()
     {
-        $configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
         $extbaseConfiguration = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         $defaultLanguage = $extbaseConfiguration['config.']['language'];

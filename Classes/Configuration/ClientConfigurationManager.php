@@ -14,7 +14,12 @@ namespace EWW\Dpf\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ClientConfigurationManager 
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Domain\Repository\ClientRepository;
+
+class ClientConfigurationManager
 {
 
 	/**
@@ -54,11 +59,11 @@ class ClientConfigurationManager
      * @var array
      */
     protected $extensionConfiguration = array();
-   
+
     public function __construct()
     {
-    	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientRepository = $objectManager->get(ClientRepository::class);
 
 		if (TYPO3_MODE === 'BE')
 		{
@@ -67,7 +72,7 @@ class ClientConfigurationManager
             {
                 $this->client = $clientRepository->findAll()->current();
 
-                $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\BackendConfigurationManager');
+                $configurationManager = $objectManager->get(BackendConfigurationManager::class);
                 $settings = $configurationManager->getConfiguration(NULL,NULL);
                 $this->settings = $settings; //['settings'];
             }
@@ -77,7 +82,7 @@ class ClientConfigurationManager
 		{
             $this->client = $clientRepository->findAll()->current();
 
-    		$configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+            $configurationManager = $objectManager->get(ConfigurationManager::class);
     		$this->settings = $configurationManager->getConfiguration(
             	\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
         	);

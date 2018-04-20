@@ -17,6 +17,7 @@ namespace EWW\Dpf\ViewHelpers\Link;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class DataCiteViewHelper extends AbstractBackendViewHelper
 {
@@ -49,7 +50,7 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
         );
 
         /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-        $cObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         // replace uid with URI to dpf API
         $dataCite = $cObj->typoLink_URL($conf);

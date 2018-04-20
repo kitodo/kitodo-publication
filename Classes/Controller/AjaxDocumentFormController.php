@@ -14,6 +14,10 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Identifier\Urn;
+use EWW\Dpf\Services\Transfer\DocumentTransferManager;
+use EWW\Dpf\Services\Transfer\FedoraRepository;
+
 /**
  * DocumentFormController
  */
@@ -154,13 +158,13 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
     public function fillOutAction($qucosaId)
     {
 
-        $urnService = $this->objectManager->get('EWW\\Dpf\\Services\\Identifier\\Urn');
+        $urnService = $this->objectManager->get(Urn::class);
 
         if (!empty($qucosaId)) {
             $urn = $urnService->getUrn($qucosaId);
         } else {
-            $documentTransferManager = $this->objectManager->get('\EWW\Dpf\Services\Transfer\DocumentTransferManager');
-            $remoteRepository        = $this->objectManager->get('\EWW\Dpf\Services\Transfer\FedoraRepository');
+            $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+            $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
             $documentTransferManager->setRemoteRepository($remoteRepository);
 
             $qucosaId = $documentTransferManager->getNextDocumentId();

@@ -20,6 +20,8 @@ require_once $extpath . '/Lib/Vendor/Httpful/Bootstrap.php';
 \Httpful\Bootstrap::init();
 
 use \Httpful\Request;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 
 class ElasticsearchRepository implements Repository
 {
@@ -42,10 +44,10 @@ class ElasticsearchRepository implements Repository
 
     public function __construct()
     {
-        
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientConfigurationManager = $objectManager->get('EWW\\Dpf\\Configuration\\ClientConfigurationManager');
-    
+
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
         $this->host = $clientConfigurationManager->getElasticSearchHost() . ':' . $clientConfigurationManager->getElasticSearchPort();
 
         $this->index = 'fedora';

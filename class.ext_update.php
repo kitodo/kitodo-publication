@@ -16,6 +16,10 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
+use EWW\Dpf\Domain\Repository\ClientRepository;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Domain\Repository\DocumentRepository;
+
 class ext_update {
 
     public function access() {
@@ -24,11 +28,11 @@ class ext_update {
 
     public function main() {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
+        $clientRepository = $objectManager->get(ClientRepository);
 
-        $processNumberGenerator = $objectManager->get("EWW\\Dpf\\Services\\ProcessNumber\\ProcessNumberGenerator");
+        $processNumberGenerator = $objectManager->get(ProcessNumberGenerator::class);
 
-        $documentRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\DocumentRepository");
+        $documentRepository = $objectManager->get(DocumentRepository::class);
 
         $documents = $documentRepository->findDocumentsWithoutProcessNumber();
 

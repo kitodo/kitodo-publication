@@ -14,17 +14,23 @@ namespace EWW\Dpf\Services\ProcessNumber;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Domain\Repository\ProcessNumberRepository;
+use EWW\Dpf\Domain\Model\ProcessNumber;
+use EWW\Dpf\Domain\Repository\ClientRepository;
+
 class ProcessNumberGenerator
 {
     public function getProcessNumber($ownerId = NULL) {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $processNumberRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository");
-        $persistenceManager = $objectManager->get("TYPO3\\CMS\\Extbase\\Persistence\\PersistenceManagerInterface");
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $processNumberRepository = $objectManager->get(ProcessNumberRepository::class);
+        $persistenceManager = $objectManager->get(PersistenceManagerInterface::class);
 
         $processNumberRepository->startTransaction();
         try {
             if (!$ownerId) {
-                $clientRepository = $objectManager->get("EWW\\Dpf\\Domain\\Repository\\ClientRepository");
+                $clientRepository = $objectManager->get(ClientRepository::class);
                 $ownerId = $clientRepository->findAll()->getFirst()->getOwnerId();
             }
 
@@ -38,7 +44,7 @@ class ProcessNumberGenerator
                 $processNumber->setCounter($counter);
                 $processNumberRepository->update($processNumber);
             } else {
-                $processNumber = $objectManager->get("EWW\\Dpf\\Domain\\Model\\ProcessNumber");
+                $processNumber = $objectManager->get(ProcessNumber::class);
                 $processNumber->setOwnerId(strtolower($ownerId));
                 $processNumber->setYear($currentYear);
                 $processNumber->setCounter(1);

@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Services\ElasticSearch;
 
 abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractController
 {
@@ -32,7 +33,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     public function getResultList($query, $type)
     {
 
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
+        $elasticSearch = $this->objectManager->get(ElasticSearch::class);
         $results = $elasticSearch->search($query, $type);
 
         return $results;
