@@ -57,7 +57,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args          = $this->request->getArguments();
 
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
@@ -104,7 +103,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args          = $this->request->getArguments();
 
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
         // assign result list from elastic search
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('alreadyImported', $objectIdentifiers);
@@ -119,8 +117,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function latestAction()
     {
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
-
         $query = $this->searchLatest();
 
         // set type local vs object
@@ -140,8 +136,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     {
         // perform search action
         $args = $this->request->getArguments();
-
-        $elasticSearch = new \EWW\Dpf\Services\ElasticSearch();
 
         // reset session pagination
         $sessionVars                = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
