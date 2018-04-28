@@ -16,9 +16,8 @@ namespace EWW\Dpf\ViewHelpers\Link;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PreviewViewHelper extends AbstractBackendViewHelper
 {
@@ -45,26 +44,6 @@ class PreviewViewHelper extends AbstractBackendViewHelper
      */
     protected $documentRepository;
 
-    protected function initTSFE($id = 1, $typeNum = 0)
-    {
-        if (!is_object($GLOBALS['TT'])) {
-            $GLOBALS['TT'] = new \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
-            $GLOBALS['TT']->start();
-        }
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $id, $typeNum);
-        $GLOBALS['TSFE']->connectToDB();
-        $GLOBALS['TSFE']->initFEuser();
-        $GLOBALS['TSFE']->determineId();
-        $GLOBALS['TSFE']->initTemplate();
-        $GLOBALS['TSFE']->getConfigArray();
-
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
-            $rootline             = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($id);
-            $host                 = \TYPO3\CMS\Backend\Utility\BackendUtility::firstDomainRecord($rootline);
-            $_SERVER['HTTP_HOST'] = $host;
-        }
-    }
-
     /**
      * Returns the View Icon with link
      *
@@ -78,26 +57,12 @@ class PreviewViewHelper extends AbstractBackendViewHelper
     protected function getViewIcon(array $row, $pageUid, $apiPid, $insideText, $class)
     {
 
-        // Build typolink configuration array.
-        $conf = array(
-            'useCacheHash'     => 0,
-            'parameter'        => $apiPid,
-            'additionalParams' => '&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'],
-            'forceAbsoluteUrl' => true,
-        );
-
-        // we need to make instance of cObj here because its not available in this context
-        $this->initTSFE($apiPid, 0);
-        /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-
-        // replace uid with URI to dpf API
-        $previewMets = $cObj->typoLink_URL($conf);
+        $previewMets = BackendUtility::getViewDomain($pageUid) . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
 
         $additionalGetVars = '&tx_dlf[id]=' . urlencode($previewMets) . '&no_cache=1';
-        $title             = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
-        $icon              = '<a href="#" data-toggle="tooltip" class="' . $class . '" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($pageUid, $this->backPath, '', '', '', $additionalGetVars)) . '" title="' . $title . '">' .
-            $insideText . '</a>';
+        $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
+        $icon = '<a href="#" data-toggle="tooltip" class="' . $class . '" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($pageUid, $this->backPath, '', '', '', $additionalGetVars)) . '" title="' . $title . '">' .
+                          $insideText . '</a>';
 
         return $icon;
 
@@ -152,10 +117,6 @@ class PreviewViewHelper extends AbstractBackendViewHelper
             $row['uid'] = $arguments['documentObjectIdentifier'];
 
         }
-
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-
-        $row['storagePid'] = $frameworkConfiguration['persistence']['storagePid'];
 
         $insideText = $this->renderChildren();
 

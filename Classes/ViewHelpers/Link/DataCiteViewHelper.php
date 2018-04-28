@@ -16,8 +16,8 @@ namespace EWW\Dpf\ViewHelpers\Link;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class DataCiteViewHelper extends AbstractBackendViewHelper
 {
@@ -41,19 +41,7 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
     protected function getViewIcon($row, $pageUid, $apiPid, $insideText, $class)
     {
 
-        // Build typolink configuration array.
-        $conf = array(
-            'useCacheHash'     => 0,
-            'parameter'        => $apiPid,
-            'additionalParams' => '&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'],
-            'forceAbsoluteUrl' => true,
-        );
-
-        /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-
-        // replace uid with URI to dpf API
-        $dataCite = $cObj->typoLink_URL($conf);
+        $dataCite = BackendUtility::getViewDomain($pageUid) . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
 
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.datacite', 'dpf', $arguments = null);
         $icon  = '<a href="' . $dataCite . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';
