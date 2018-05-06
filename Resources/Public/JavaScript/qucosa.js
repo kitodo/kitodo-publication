@@ -11,6 +11,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 $(document).ready(function() {
+    jQuery('#new-document-form').trigger('reset');
     documentListConfirmDialog('#confirmDiscard');
     documentListConfirmDialog('#confirmPublish');
     documentListConfirmDialog('#confirmUpdate');
@@ -94,7 +95,7 @@ $(document).ready(function() {
     }
 
     addRemoveFileButton();
-    
+
 });
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
@@ -203,9 +204,9 @@ var validateForm = function() {
         });
         /*        if (checkPrimaryFile(fieldset)) {
                   jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
-                  showFormError();   
+                  showFormError();
                   error = true;
-                  markPage(fieldset,true);        
+                  markPage(fieldset,true);
                 }
           */
     });
@@ -273,7 +274,7 @@ var checkFilledInputs = function(fieldset) {
         }
         jQuery(this).removeClass('mandatory-error');
     });
-    //markPage(fieldset,filledInputs < 1);    
+    //markPage(fieldset,filledInputs < 1);
     return filledInputs < 1;
 }
 var addGroup = function() {
@@ -309,12 +310,12 @@ var addField = function() {
     var addButton = jQuery(this);
     // Get the field uid
     var dataField = jQuery(this).attr('data-field');
-    // Number of the next field item      
+    // Number of the next field item
     var fieldIndex = parseInt(jQuery(this).attr('data-index')) + 1;
     jQuery(this).attr('data-index', fieldIndex);
     var ajaxURL = jQuery(this).attr('data-ajax');
     var params = buildAjaxParams(ajaxURL, "fieldIndex", fieldIndex);
-    //do the ajax-call       
+    //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
         jQuery(field).css({
@@ -335,7 +336,7 @@ var deleteFile = function() {
     var ajaxURL = jQuery(this).attr('data-ajax');
     //var params = buildAjaxParams(ajaxURL,"fileUid",fieldIndex);
     var params = {}
-        //do the ajax-call       
+        //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
         jQuery(fileGroup).replaceWith(field);
@@ -367,15 +368,15 @@ var fillOutServiceUrn = function() {
     } else {
         params = buildAjaxParams(ajaxURL, "qucosaId", "");
     }
-    //do the ajax-call       
+    //do the ajax-call
     jQuery.getJSON(ajaxURL, params, function(element) {
         jQuery('#qucosaid').val(element.qucosaId);
         jQuery('#qucosaUrn').val(element.value);
-        //var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');                  
+        //var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
         var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
         inputField.val(element.value);
-        //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');           
-        //fillOutButton.hide();           
+        //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
+        //fillOutButton.hide();
         buttonFillOutServiceUrn();
     });
     return false;
