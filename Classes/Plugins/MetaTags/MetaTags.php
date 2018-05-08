@@ -174,12 +174,8 @@ class MetaTags extends \tx_dlf_plugin
                         'forceAbsoluteUrl' => true,
                     );
 
-                    // we need to make instance of cObj here because its not available in this context
-                    /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-                    $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-
                     // replace uid with URI to dpf API
-                    $outArray['citation_pdf_url'][] = $cObj->typoLink_URL($conf);
+                    $outArray['citation_pdf_url'][] = $this->cObj->typoLink_URL($conf);
 
                     break;
 
