@@ -41,5 +41,14 @@ class DocumentFormController extends AbstractDocumentFormController
         $newDocumentForm->setNewFiles($files);
 
         parent::createAction($newDocumentForm);
+
+        if (key_exists('afterDocSavedRedirectPage',$this->settings) && $this->settings['afterDocSavedRedirectPage']) {
+            $uri = $this->uriBuilder
+                ->setTargetPageUid($this->settings['afterDocSavedRedirectPage'])
+                ->build();
+            $this->redirectToUri($uri);
+        } else {
+            $this->redirectToList('CREATE_OK');
+        }
     }
 }
