@@ -44,6 +44,8 @@
         </div>
     </f:if>
 
-    <f:render partial="Document/List" arguments="{documents:documents}"/>
+    <f:if condition="{client}">
+      <f:render partial="Document/List" arguments="{documents:documents}"/>
+    </f:if>
 
 </f:section>
