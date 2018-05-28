@@ -25,6 +25,23 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     // search matches
     private static $matches = ['title', 'abstract', 'author', 'language', 'tag', 'corporation', 'doctype', 'collections'];
 
+
+    protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
+    {
+        parent::initializeView($view);
+
+        if (TYPO3_MODE === 'BE') {
+            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+            if ($selectedPageId) {
+                $client = $this->clientRepository->findAll()->current();
+            }
+            if (!$client) {
+                $this->redirect('list','Document');
+            } else {
+            }
+        }
+    }
+
     /**
      * get results from elastic search
      * @param  array $query elasticsearch search query
