@@ -14,7 +14,7 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-class AbstractFormElement
+class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**

@@ -98,7 +98,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = null)
     {
-
         $this->view->assign('newDocument', $newDocument);
     }
 

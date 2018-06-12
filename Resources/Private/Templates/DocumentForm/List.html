@@ -88,7 +88,7 @@
     <ol>
         <f:for each="{documentTypes}" as="documentType">
             <li>
-                <f:link.action action="new" arguments="{documentType:documentType.uid}">{documentType.displayName}
+                <f:link.action action="new" controller="DocumentForm" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
                 </f:link.action>
             </li>
         </f:for>
