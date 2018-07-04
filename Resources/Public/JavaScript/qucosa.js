@@ -101,6 +101,11 @@ var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
     if (validateForm()) {
         jQuery("#validDocument").val("1");
+
+        jQuery("#new-document-form #save").prop("disabled", true);
+
+        jQuery('#new-document-form').submit();
+
         return true;
     }
     return false;
