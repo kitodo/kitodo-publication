@@ -90,19 +90,24 @@ class ClientConfigurationManager
         }
 
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
-    }	
-   
+    }
 
+
+    /**
+     * Get setting from client or extension configuration.
+     *
+     * @var array
+     */
     public function getSetting($settingName, $extConfig = NULL)
     {
         $setting = NULL;
-        if ($this->client)
-        {
+        if ($this->client) {
             $setting = trim($this->client->{"get".ucfirst($settingName)}());
-            if (!(is_string($setting) && $setting != "") && $extConfig)
-            {
-                $setting = trim($this->extensionConfiguration[$extConfig]);
-            }
+        }
+
+        // use global extConfig if client settings is empty
+        if (empty($setting) && $extConfig) {
+            $setting = trim($this->extensionConfiguration[$extConfig]);
         }
 
         return $setting;
@@ -115,57 +120,57 @@ class ClientConfigurationManager
     }
 
     public function getSwordHost()
-    { 
+    {
     	return $this->getSetting("swordHost","swordHost");
     }
 
 	public function getSwordUser()
-    { 
+    {
     	return $this->getSetting("swordUser","swordUser");
     }
 
 	public function getSwordPassword()
-    { 
+    {
     	return $this->getSetting("swordPassword","swordPassword");
     }
 
 	public function getSwordCollectionNamespace()
-    { 
+    {
     	return $this->getSetting("swordCollectionNamespace","swordCollectionNamespace");
     }
 
 	public function getFedoraHost()
-    { 
+    {
     	return $this->getSetting("fedoraHost","fedoraHost");
     }
 
 	public function getFedoraUser()
-    { 
+    {
     	return $this->getSetting("fedoraUser","fedoraUser");
     }
 
 	public function getFedoraPassword()
-    { 
+    {
     	return $this->getSetting("fedoraPassword","fedoraPassword");
     }
 
 	public function getElasticSearchHost()
-    { 
+    {
     	return $this->getSetting("elasticSearchHost","elasticSearchHost");
     }
 
 	public function getElasticSearchPort()
-    { 
+    {
     	return $this->getSetting("elasticSearchPort","elasticSearchPort");
     }
 
 	public function getUploadDirectory()
-    { 
+    {
     	return $this->getSetting("uploadDirectory","uploadDirectory");
     }
 
 	public function getUploadDomain()
-    { 
+    {
     	return $this->getSetting("uploadDomain","uploadDomain");
     }
 
