@@ -16,7 +16,7 @@ namespace EWW\Dpf\Controller;
 
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use EWW\Dpf\Configuration\InputOption\Iso6392b;
-use EWW\Dpf\\Helper\InputOption\Translator;
+use EWW\Dpf\Helper\InputOption\Translator;
 use EWW\Dpf\Domain\Model\InputOptionList;
 /**
  * ClientController
