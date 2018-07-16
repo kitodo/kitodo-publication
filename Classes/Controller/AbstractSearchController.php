@@ -181,9 +181,14 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         };
 
-        // add owner id
-        $client = $this->clientRepository->findAll()->current();
-        $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
+        // add OWNER_ID if present
+        $clients = $this->clientRepository->findAll();
+        if ($clients) {
+            $client = $clients->getFirst();
+            if ($client) {
+                $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
+            }
+        }
 
         $queryFilter = array_merge_recursive($queryFilter, $query);
         return $queryFilter;
