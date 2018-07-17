@@ -103,6 +103,16 @@ body {
     margin-bottom: 20px;
 }
 
+.tx-dpf .dropdown-options .dropdown-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.tx-dpf .dropdown-options .dropdown-options-toggle {
+    margin-bottom: 0;
+    display: table;
+}
 
 
 ul[id^='ui-id-'].ui-autocomplete  {
@@ -128,6 +138,4 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
     background-color: #5A95F6;
     color: #ffffff;
 }
-
-
 /* EOF */

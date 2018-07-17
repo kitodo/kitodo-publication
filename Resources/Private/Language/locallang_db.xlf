@@ -326,6 +326,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.textarea">
 			<source>textarea</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.inputDropdown">
+			<source>input with dropdown</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 			<source>Mandatory</source>
 		</trans-unit>
