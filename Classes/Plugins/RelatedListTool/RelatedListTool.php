@@ -130,33 +130,11 @@ class RelatedListTool extends \tx_dlf_plugin
 
     }
 
-    /*
-     * lexicographic-Ordering (String-compare) of relatedItems.
-     * 1. comparing by XML mods:part[@order] (Sortierschlüssel)
-     * 2. comparing by XML mods:number (Bandnummer)
-     */
-    private function compareBySortOrder($a, $b)
+    private function compareByOrderVolumeTitle($a, $b)
     {
-        $ordercmp = strcasecmp($a['order'], $b['order']);
-
-        if ($ordercmp != 0) {
-            if (is_null($a['order'])) {
-                return 1;
-            }
-            if (is_null($b['order'])) {
-                return -1;
-            }
-            return $ordercmp;
-        }
-        elseif ($ordercmp == 0) {
-            if (is_null($a['volume'])) {
-                return 1;
-            }
-            if (is_null($b['volume'])) {
-                return -1;
-            }
-            return strcasecmp($a['volume'], $b['volume']);
-        }
+        $s1 = join(' ', array($a['order'], $a['volume'], $a['title']));
+        $s2 = join(' ', array($b['order'], $b['volume'], $b['title']));
+        return strnatcmp($s1, $s2);
     }
 
     public function getRelatedItems()
@@ -174,7 +152,7 @@ class RelatedListTool extends \tx_dlf_plugin
             $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
             $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
             $order = (string) $relatedItemXmlElement->xpath('mods:part/@order')[0];
-            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume"]/mods:detail/mods:number')[0];
+            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number')[0];
 
             $element = array();
             $element['type'] = $type;
@@ -186,7 +164,7 @@ class RelatedListTool extends \tx_dlf_plugin
             $relatedItems[$index] = $element;
         }
 
-        usort($relatedItems, array('EWW\Dpf\Plugins\RelatedListTool\RelatedListTool', 'compareBySortOrder'));
+        usort($relatedItems, array('EWW\Dpf\Plugins\RelatedListTool\RelatedListTool', 'compareByOrderVolumeTitle'));
 
         return $relatedItems;
     }
