@@ -147,11 +147,12 @@ class RelatedListTool extends \tx_dlf_plugin
 
         foreach ($items as $index => $relatedItemXmlElement) {
             $relatedItemXmlElement->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+            $relatedItemXmlElement->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
             $type = (string) $relatedItemXmlElement->xpath('mods:identifier/@type')[0];
             $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
             $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
-            $order = (string) $relatedItemXmlElement->xpath('mods:part/@order')[0];
+            $order = (string) $relatedItemXmlElement->xpath('mods:extension/slub:info/slub:sortingKey')[0];
             $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number')[0];
 
             $element = array();
