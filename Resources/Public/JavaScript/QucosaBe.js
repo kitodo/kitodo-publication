@@ -11,7 +11,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-define(['jquery', 'TYPO3/CMS/Backend/DateTimePicker'], function($, dtp) {
+define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
 
 	var documentListConfirmDialog = function(dialogId) {
 	    $(dialogId).modal({
@@ -31,15 +31,11 @@ define(['jquery', 'TYPO3/CMS/Backend/DateTimePicker'], function($, dtp) {
 	}
 
 	var datepicker = function() {
-	    var language = $('div.tx-dpf[data-language]').first().attr('data-language');
-	    if (!language) language = "en";
-//	    dtp.initialize({
-//		useCurrent: false,
-//		format: 'DD.MM.YYYY',
-//		locale: language,
-//		keepInvalid: true
-//	    });
-	}
+            $(".datetimepicker").datetimepicker({
+                useCurrent: false,
+                keepInvalid: false,
+                format: "DD.MM.YYYY"});
+        }
 
 	var buttonFillOutServiceUrn = function() {
 	    $('input.urn').each(function() {
