@@ -65,93 +65,6 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
 	    return result;
 	}
 
-	$(document).ready(function() {
-	    $('#new-document-form').trigger('reset');
-	    documentListConfirmDialog('#confirmDiscard');
-	    documentListConfirmDialog('#confirmPublish');
-	    documentListConfirmDialog('#confirmUpdate');
-	    documentListConfirmDialog('#confirmActivate');
-	    documentListConfirmDialog('#confirmInactivate');
-	    documentListConfirmDialog('#confirmRestore');
-	    documentListConfirmDialog('#confirmDelete');
-	    datepicker();
-	    $('[data-toggle="tooltip"]').tooltip();
-	    $disableForm = $('form[data-disabled]').attr('data-disabled');
-	    if ($disableForm) {
-		$('.input-field').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.rem_file_group').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.add_file_group').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.input_file_upload').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.add_field').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.add_group').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.rem_field').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.rem_group').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-		$('.fill_out_service_urn').each(function() {
-		    $(this).attr('disabled', 'disabled');
-		});
-	    }
-	    buttonFillOutServiceUrn();
-	    $(".tx-dpf").on("click", ".rem_group", function() {
-		$(this).parents('fieldset').fadeOut(300, function() {
-		    $(this).remove();
-		});
-		return false;
-	    });
-	    $(".tx-dpf").on("click", ".rem_file_group", deleteFile);
-	    $(".tx-dpf").on("click", ".rem_secondary_upload", function() {
-		var dataIndex = $(this).data("index");
-		$(this).parents('.fs_file_group').fadeOut(300, function() {
-		    $(this).remove();
-		});
-		return false;
-	    });
-	    $(".tx-dpf").on("click", ".rem_field", function() {
-		var dataIndex = $(this).data("index");
-		var dataField = $(this).data("field");
-		$(this).parents('.form-group').fadeOut(300, function() {
-		    $(this).remove();
-		});
-		return false;
-	    });
-	    // Add metadata group
-	    $(".tx-dpf").on("click", ".add_group", addGroup);
-	    $(".tx-dpf").on("click", ".add_file_group", addGroup);
-	    $(".tx-dpf").on("click", ".add_field", addField);
-	    $(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
-	    $(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
-	    //$(window).on("scroll", "", continuousScroll);
-	    $(".tx-dpf").on("click", "#next", continuousScroll);
-	    // $(".form-submit").on("click","#save",
-	    $(".form-submit").on("click", "#save", validateFormAndSave);
-	    $(".form-submit").on("click", "#validate", validateFormOnly);
-
-	    // hide 'more results' link
-	    var countResults = $('#search-results :not(thead) tr').length;
-	    var resultCount = $('#next').data('resultCount');
-
-	    if (countResults < resultCount) {
-		$("#next").hide();
-	    }
-
-	    addRemoveFileButton();
-
-	});
 
 	var validateFormAndSave = function() {
 	    $("#validDocument").val("0");
@@ -512,6 +425,94 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
 		$(this).siblings('.input_file_upload').val('');
 	    })
 	}
+
+	$(document).ready(function() {
+	    $('#new-document-form').trigger('reset');
+	    documentListConfirmDialog('#confirmDiscard');
+	    documentListConfirmDialog('#confirmPublish');
+	    documentListConfirmDialog('#confirmUpdate');
+	    documentListConfirmDialog('#confirmActivate');
+	    documentListConfirmDialog('#confirmInactivate');
+	    documentListConfirmDialog('#confirmRestore');
+	    documentListConfirmDialog('#confirmDelete');
+	    datepicker();
+	    $('[data-toggle="tooltip"]').tooltip();
+	    $disableForm = $('form[data-disabled]').attr('data-disabled');
+	    if ($disableForm) {
+		$('.input-field').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.rem_file_group').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.add_file_group').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.input_file_upload').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.add_field').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.add_group').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.rem_field').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.rem_group').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+		$('.fill_out_service_urn').each(function() {
+		    $(this).attr('disabled', 'disabled');
+		});
+	    }
+	    buttonFillOutServiceUrn();
+	    $(".tx-dpf").on("click", ".rem_group", function() {
+		$(this).parents('fieldset').fadeOut(300, function() {
+		    $(this).remove();
+		});
+		return false;
+	    });
+	    $(".tx-dpf").on("click", ".rem_file_group", deleteFile);
+	    $(".tx-dpf").on("click", ".rem_secondary_upload", function() {
+		var dataIndex = $(this).data("index");
+		$(this).parents('.fs_file_group').fadeOut(300, function() {
+		    $(this).remove();
+		});
+		return false;
+	    });
+	    $(".tx-dpf").on("click", ".rem_field", function() {
+		var dataIndex = $(this).data("index");
+		var dataField = $(this).data("field");
+		$(this).parents('.form-group').fadeOut(300, function() {
+		    $(this).remove();
+		});
+		return false;
+	    });
+	    // Add metadata group
+	    $(".tx-dpf").on("click", ".add_group", addGroup);
+	    $(".tx-dpf").on("click", ".add_file_group", addGroup);
+	    $(".tx-dpf").on("click", ".add_field", addField);
+	    $(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
+	    $(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
+	    //$(window).on("scroll", "", continuousScroll);
+	    $(".tx-dpf").on("click", "#next", continuousScroll);
+	    // $(".form-submit").on("click","#save",
+	    $(".form-submit").on("click", "#save", validateFormAndSave);
+	    $(".form-submit").on("click", "#validate", validateFormOnly);
+
+	    // hide 'more results' link
+	    var countResults = $('#search-results :not(thead) tr').length;
+	    var resultCount = $('#next').data('resultCount');
+
+	    if (countResults < resultCount) {
+		$("#next").hide();
+	    }
+
+	    addRemoveFileButton();
+
+	});
 
 });
 
