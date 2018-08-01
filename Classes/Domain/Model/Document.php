@@ -722,8 +722,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isIngestRemote()
     {
-        return $this->state == self::OBJECT_STATE_NEW &&
-        empty($this->objectIdentifier);
+        return ($this->state == self::OBJECT_STATE_NEW || $this->state == self::OBJECT_STATE_ACTIVE) && empty($this->objectIdentifier);
     }
 
     /**
@@ -733,9 +732,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isUpdateRemote()
     {
-        return ($this->state == self::OBJECT_STATE_ACTIVE ||
-            $this->state == self::OBJECT_STATE_INACTIVE) &&
-        !empty($this->objectIdentifier);
+        return ($this->state == self::OBJECT_STATE_ACTIVE || $this->state == self::OBJECT_STATE_INACTIVE) && !empty($this->objectIdentifier);
     }
 
     /**
@@ -745,7 +742,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getIsNew()
     {
-        return empty($this->objectIdentifier);
+        return (!$this->changed) && (empty($this->objectIdentifier));
     }
 
 

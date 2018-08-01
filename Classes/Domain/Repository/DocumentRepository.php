@@ -49,9 +49,9 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $query = $this->createQuery();
 
-        $constraints = array();
-        //$constraints[] = $query->equals('state', Document::OBJECT_STATE_NEW);
-        $constraints[] = $query->equals('object_identifier', '');
+        $constraints = array(
+                $query->equals('object_identifier', ''),
+                $query->equals('changed', false));
 
         if (count($constraints)) {
             $query->matching($query->logicalAnd($constraints));
@@ -74,10 +74,10 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
 
         $query = $this->createQuery();
-
-        $constraints = array();
-        //$constraints[] = $query->logicalNot($query->equals('state', Document::OBJECT_STATE_NEW));
-        $constraints[] = $query->like('object_identifier', 'qucosa%');
+        
+        $constraints = array(
+                $query->like('object_identifier', 'qucosa%'),
+                $query->equals('changed', true));
 
         if (count($constraints)) {
             $query->matching($query->logicalOr($constraints));

@@ -23,7 +23,7 @@
     </label>
 
     <f:if condition="{fieldItem.dataType}=='DATE'">
-        <div class="datetimepicker input-group date">
+        <div class="input-group datetimepicker">
     </f:if>
 
     <f:if condition="{fieldItem.fillOutService} == 'urn'">
@@ -41,10 +41,30 @@
 
     <f:switch expression="{fieldItem.inputField}">
         <f:case value="0">
-            <f:form.textfield id="inp_{fieldItem.uid}"
-                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+            <f:if condition="{fieldItem.dataType}=='DATE'">
+                    <f:then>
+                            <f:form.textfield id="inp_{fieldItem.uid}"
+                                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                              value="{fieldItem.value}"
+                                              class="form-control"
+                                              additionalAttributes="{
+							data-field:fieldItem.uid,
+							data-index:fieldIndex,
+							data-mandatory:fieldItem.mandatory,
+							data-group:formGroupUid,
+							data-groupindex:groupIndex,
+							data-default:fieldItem.hasDefaultValue,
+							data-regexp:fieldItem.validation,
+							data-label:fieldItem.displayName
+						}"/>
+                     </f:then>
+                    <f:else>
+                            <f:form.textfield id="inp_{fieldItem.uid}"
+                                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
+                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+                    </f:else>
+            </f:if>
         </f:case>
         <f:case value="1">
             <f:form.textarea id="inp_{fieldItem.uid}"
@@ -96,8 +116,8 @@
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
-</div>
-</f:if>
+        </div>
+    </f:if>
 </div>
 
 <f:form.validationResults>
