@@ -37,7 +37,6 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             }
             if (!$client) {
                 $this->redirect('list','Document');
-            } else {
             }
         }
     }
