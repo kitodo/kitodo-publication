@@ -153,23 +153,23 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
             $(this).removeClass('invalid-error');
             var validation = $(this).attr('data-regexp');
             if ($(this).val() && $(this).val().length > 0 && validation && validation.length > 0) {
-            try {
-                var regexp = new RegExp(validation);
-                var res = $(this).val().match(regexp);
-                if (!(res && res.length == 1 && res[0] == $(this).val())) {
-                $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + form_error_msg_field_invalid + ': ' + $(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                $(this).addClass('invalid-error');
-                showFormError();
-                markPage(fieldset, true);
-                error = true;
-                }
-            } catch (err) {
-                $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + form_error_msg_field_invalid + ': ' + $(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                $(this).addClass('invalid-error');
-                showFormError();
-                markPage(fieldset, true);
-                error = true;
-                }
+                try {
+                    var regexp = new RegExp(validation);
+                    var res = $(this).val().match(regexp);
+                    if (!(res && res.length == 1 && res[0] == $(this).val())) {
+                    $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + form_error_msg_field_invalid + ': ' + $(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
+                    $(this).addClass('invalid-error');
+                    showFormError();
+                    markPage(fieldset, true);
+                    error = true;
+                    }
+                } catch (err) {
+                    $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + form_error_msg_field_invalid + ': ' + $(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
+                    $(this).addClass('invalid-error');
+                    showFormError();
+                    markPage(fieldset, true);
+                    error = true;
+                    }
             } else {
                 var validateDate = $(this).attr('data-datatype') == 'DATE';
                 if ($(this).val() && $(this).val().length > 0 && validateDate && !isDate($(this).val())) {
