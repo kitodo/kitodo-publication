@@ -46,17 +46,18 @@
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}"
-                                              class="form-control"
+                                              class="form-control input-field"
                                               additionalAttributes="{
-							data-field:fieldItem.uid,
-							data-index:fieldIndex,
-							data-mandatory:fieldItem.mandatory,
-							data-group:formGroupUid,
-							data-groupindex:groupIndex,
-							data-default:fieldItem.hasDefaultValue,
-							data-regexp:fieldItem.validation,
-							data-label:fieldItem.displayName
-						}"/>
+                                                data-datatype: 'DATE',
+                                                data-field:fieldItem.uid,
+                                                data-index:fieldIndex,
+                                                data-mandatory:fieldItem.mandatory,
+                                                data-group:formGroupUid,
+                                                data-groupindex:groupIndex,
+                                                data-default:fieldItem.hasDefaultValue,
+                                                data-regexp:fieldItem.validation,
+                                                data-label:fieldItem.displayName
+                            }"/>
                      </f:then>
                     <f:else>
                             <f:form.textfield id="inp_{fieldItem.uid}"
