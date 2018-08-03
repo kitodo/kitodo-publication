@@ -11,7 +11,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
+define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], function($) {
 
     var documentListConfirmDialog = function(dialogId) {
         $(dialogId).modal({
@@ -288,6 +288,12 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
             buttonFillOutServiceUrn();
             datepicker();
             addRemoveFileButton();
+
+            // gnd autocomplete for new groups
+            gndField = $(group).find('.gnd');
+            if (gndField.length != 0) {
+                setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
+            }
         });
         return false;
     }
@@ -308,6 +314,13 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
                 .insertBefore(addButton).fadeIn();
             buttonFillOutServiceUrn();
             datepicker();
+
+            // gnd autocomplete for new fields
+            gndField = $(group).find('.gnd');
+            if (gndField.length != 0) {
+                setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
+            }
+
             //  var height =$('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
             // $('html, body').animate({
             //   scrollTop: element.offset().top - height
@@ -424,6 +437,100 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
         });
     }
 
+    function gndNothingFound(fieldId, groupIndex) {
+        var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
+
+        if (gndInputField.data('old_gnd_field_value')) {
+            gndInputField.val(gndInputField.data('old_gnd_field_value'));
+        } else {
+            gndInputField.val();
+        }
+
+        var gndFieldId = gndInputField.data('gndfield');
+        var linkedGroupIndex = gndInputField.data('groupindex');
+        var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
+
+        if (gndLinkedInputField.data('old_gnd_field_id')) {
+            gndLinkedInputField.val(gndLinkedInputField.data('old_gnd_field_id'));
+        } else {
+            gndLinkedInputField.val();
+        }
+
+        /** global: form_error_msg_nothing_found */
+        $('<div id="gnd-nothing-found" class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg_nothing_found + '</div>').insertBefore(gndInputField.closest('.form-container'));
+
+        gndInputField.bind("keypress click", function () {
+            $("#gnd-nothing-found").remove();
+        });
+
+        gndLinkedInputField.bind("keypress click", function () {
+            $("#gnd-nothing-found").remove();
+        });
+
+    }
+
+    function setGndAutocomplete(fieldId, groupIndex) {
+        // GND autocomplete
+        var ajaxURL = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').attr('data-ajax');
+
+        var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
+        var gndFieldId = gndInputField.data('gndfield');
+        var linkedGroupIndex = gndInputField.data('groupindex');
+        var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
+
+        gndInputField.attr('data-old_gnd_field_value',gndInputField.val());
+        gndLinkedInputField.attr('data-old_gnd_field_id',gndLinkedInputField.val());
+
+        // Get the name of the parameter array (tx_dpf_...),
+        // the name depends on whether the call is from the frontend or the backend
+        var res = ajaxURL.match(/(tx_dpf\w+?)%/);
+        var paramName = "tx_dpf_qucosaform[search]";
+        if (res && res[1]) {
+            paramName = res[1]+"[search]";
+        }
+
+        $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').autocomplete({
+            source: function (request, response) {
+
+                $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val('');
+
+                var requestData = {};
+                requestData[paramName] = request.term.replace(" ", "+");
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxURL,
+                    data: requestData,
+                    dataType: 'json',
+                    timeout: 10000,
+                    success: function (data) {
+                        if (data) {
+                            response(data);
+                        } else {
+                            gndNothingFound(fieldId, groupIndex);
+                            response([]);
+                        }
+                    },
+                    error: function () {
+                        gndNothingFound(fieldId, groupIndex);
+                        response([]);
+                    }
+                });
+            },
+            minLength: 3,
+            select: function (event, ui) {
+                gndFieldId = $(event.target).data('gndfield');
+                linkedGroupIndex = $(event.target).data('groupindex');
+                $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val(ui.item.gnd);
+            },
+        }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+            return $( "<li>" )
+                .append( "<div class='gnd-autocomplete'><span class='gnd-value' style='display:none;'>" + item.value + "</span>" +
+                    "<span class='gnd-label'>" + item.label + "</span></div>"
+                )
+                .appendTo( ul );
+        };
+    }
+
     $(window).scroll(function() {
         if ($(this).scrollTop() > 330) {
             $(".tx-dpf-tab-container").addClass("sticky");
@@ -497,6 +604,14 @@ define(['jquery', 'twbs/bootstrap-datetimepicker'], function($) {
         }
 
         addRemoveFileButton();
+
+        gnd = $('.gnd');
+        if(gnd.length > 0) {
+            gnd.each(function() {
+                setGndAutocomplete($(this).data("field"),  $(this).data("groupindex"));
+            });
+        }
+
     });
 });
 

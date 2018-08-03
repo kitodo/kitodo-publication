@@ -296,6 +296,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.urn">
 			<source>URN</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.gnd">
+            <source>GND</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 			<source>Input Field</source>
 		</trans-unit>

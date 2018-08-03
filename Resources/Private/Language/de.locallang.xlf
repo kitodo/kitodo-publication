@@ -205,6 +205,10 @@
 			<source>Please fill out at least one of the fields.</source>
 			<target>Bitte füllen Sie mindestens eins der Felder aus.</target>
 		</trans-unit>
+		<trans-unit id="form_error_msg.nothing_found">
+            <source>Nothing found.</source>
+            <target>Es wurde kein passender Eintrag gefunden.</target>
+        </trans-unit>
 		<trans-unit id="form_legend.primaryFile" approved="yes">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
 			<target>Volltextdatei* (Format: PDF / PDF/A)</target>

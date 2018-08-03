@@ -375,6 +375,7 @@ class FormDataReader
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                             $documentFormField->setInputField($metadataObject->getInputField());
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
+                            $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
 
                             $documentFormGroup->addItem($documentFormField);

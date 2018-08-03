@@ -56,6 +56,7 @@ return array(
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config'  => array(
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'foreign_table'       => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items'               => array(
@@ -70,6 +71,7 @@ return array(
             'label'       => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config'      => array(
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'items'               => array(
                     array('', 0),
                 ),
@@ -177,6 +179,7 @@ return array(
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.document_type',
             'config'  => array(
                 'type'                => 'select',
+                'renderType'          => 'selectSingle',
                 'foreign_table'       => 'tx_dpf_domain_model_documenttype',
                 'foreign_table_where' => '  AND tx_dpf_domain_model_documenttype.pid=###CURRENT_PID### AND tx_dpf_domain_model_documenttype.sys_language_uid = 0',
                 'minitems'            => 0,

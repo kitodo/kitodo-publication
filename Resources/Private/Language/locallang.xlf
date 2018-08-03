@@ -155,6 +155,9 @@
 		<trans-unit id="form_error_msg.group_one_required">
 			<source>Please fill out at least one of the fields.</source>
 		</trans-unit>
+        <trans-unit id="form_error_msg.nothing_found">
+        	<source>Nothing found.</source>
+        </trans-unit>
 		<trans-unit id="form_legend.primaryFile">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
 		</trans-unit>

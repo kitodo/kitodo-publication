@@ -42,29 +42,39 @@
     <f:switch expression="{fieldItem.inputField}">
         <f:case value="0">
             <f:if condition="{fieldItem.dataType}=='DATE'">
-                    <f:then>
+                <f:then>
+                    <f:form.textfield id="inp_{fieldItem.uid}"
+                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                      value="{fieldItem.value}"
+                                      class="form-control input-field"
+                                      additionalAttributes="{
+                                        data-datatype: 'DATE',
+                                        data-field:fieldItem.uid,
+                                        data-index:fieldIndex,
+                                        data-mandatory:fieldItem.mandatory,
+                                        data-group:formGroupUid,
+                                        data-groupindex:groupIndex,
+                                        data-default:fieldItem.hasDefaultValue,
+                                        data-regexp:fieldItem.validation,
+                                        data-label:fieldItem.displayName
+                    }"/>
+                </f:then>
+                <f:else>
+                    <f:if condition="{fieldItem.fillOutService} == 'gnd'">
+                        <f:then>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              value="{fieldItem.value}"
-                                              class="form-control input-field"
-                                              additionalAttributes="{
-                                                data-datatype: 'DATE',
-                                                data-field:fieldItem.uid,
-                                                data-index:fieldIndex,
-                                                data-mandatory:fieldItem.mandatory,
-                                                data-group:formGroupUid,
-                                                data-groupindex:groupIndex,
-                                                data-default:fieldItem.hasDefaultValue,
-                                                data-regexp:fieldItem.validation,
-                                                data-label:fieldItem.displayName
-                            }"/>
-                     </f:then>
-                    <f:else>
+                                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
+                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+                        </f:then>
+                        <f:else>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
                                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
-                    </f:else>
+                        </f:else>
+                    </f:if>
+                </f:else>
             </f:if>
         </f:case>
         <f:case value="1">

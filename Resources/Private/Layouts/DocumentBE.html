@@ -16,9 +16,18 @@
 {namespace dpf=EWW\Dpf\ViewHelpers}
 
 <f:be.container loadPrototype="false" loadScriptaculous="false" enableClickMenu="false"
-                includeCssFiles="{0: '{f:uri.resource(path:\'CSS/qucosa.css\')}',1: '{f:uri.resource(path:\'CSS/qucosabe.css\')}'}"
-                includeJsFiles="{0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',1: '{f:uri.resource(path:\'JavaScript/moment-with-locales.min.js\')}',2: '{f:uri.resource(path:\'JavaScript/bootstrap.min.js\')}',3: '{f:uri.resource(path:\'JavaScript/bootstrap-datetimepicker.min.js\')}',4: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}">
-
+                includeCssFiles="{
+                    0: '{f:uri.resource(path:\'CSS/jquery-ui.css\')}',
+                    1: '{f:uri.resource(path:\'CSS/jquery-ui.structure.css\')}',
+                    2: '{f:uri.resource(path:\'CSS/qucosa.css\')}'
+                    3: '{f:uri.resource(path:\'CSS/qucosabe.css\')}'}"
+                includeJsFiles="{
+                    0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',
+                    1: '{f:uri.resource(path:\'JavaScript/jquery-ui.min.js\')}',
+                    2: '{f:uri.resource(path:\'JavaScript/moment-with-locales.min.js\')}',
+                    3: '{f:uri.resource(path:\'JavaScript/bootstrap.min.js\')}',
+                    4: '{f:uri.resource(path:\'JavaScript/bootstrap-datetimepicker.min.js\')}',
+                    5: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}">
     <div class="tx-dpf" data-language="{dpf:language()}">
 
         <f:render partial="Layouts/DocumentBE" arguments="{_all}" />
