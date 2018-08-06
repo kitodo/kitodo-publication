@@ -261,6 +261,15 @@
     margin-right: 10px;
 }
 
+.prev-next-buttons {
+    padding-bottom: 100px;
+}
+
+.prev-next-buttons .btn {
+    float: right;
+    margin-left: 10px;
+}
+
 .form-submit {
     padding-top: 20px;
 }
