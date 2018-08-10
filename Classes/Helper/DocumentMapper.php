@@ -334,6 +334,7 @@ class DocumentMapper
 
         $document->setTitle($mods->getTitle());
         $document->setAuthors($mods->getAuthors());
+        $document->setDateIssued($mods->getDateIssued());
 
         // slub:info
         $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
