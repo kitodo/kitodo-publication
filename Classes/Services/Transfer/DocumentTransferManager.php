@@ -99,11 +99,10 @@ class DocumentTransferManager
         $exporter->setFileData($fileData);
 
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        //$dateIssued = $mods->getDateIssued();
-        //if (empty($dateIssued)) {
+
+        // Set current date as publication date
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
         $mods->setDateIssued($dateIssued);
-        //}
 
         $exporter->setMods($mods->getModsXml());
 
@@ -156,11 +155,6 @@ class DocumentTransferManager
         $exporter->setFileData($fileData);
 
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        //$dateIssued = $mods->getDateIssued();
-        //if (empty($dateIssued)) {
-        $dateIssued = $document->getDateIssued();
-        $mods->setDateIssued($dateIssued);
-        //}
 
         $exporter->setMods($mods->getModsXml());
 
