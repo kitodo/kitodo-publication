@@ -621,10 +621,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getDateIssued()
     {
-        if (empty($this->dateIssued)) {
-            return '';
-        }
-        return $this->dateIssued;
+        return empty($this->dateIssued) ? '' : $this->dateIssued;
     }
 
     /**
@@ -635,7 +632,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setDateIssued($dateIssued)
     {
-        $this->dateIssued = $dateIssued;
+        $this->dateIssued = empty($dateIssued) ? '' : $dateIssued;
     }
 
     /**
