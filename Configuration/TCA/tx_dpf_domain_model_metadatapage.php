@@ -181,7 +181,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.metadata_group',
             'config'    => array(
                 'type'                => 'select',
-                'renderType'          => 'selectSingle',
+                'renderType'          => 'selectMultipleSideBySide',
                 'foreign_table'       => 'tx_dpf_domain_model_metadatagroup',
                 'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0) ORDER BY tx_dpf_domain_model_metadatagroup.name ASC',
                 'MM'                  => 'tx_dpf_metadatapage_metadatagroup_mm',
