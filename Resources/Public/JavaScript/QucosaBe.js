@@ -531,6 +531,60 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         };
     }
 
+    var previousNextFormPage = function() {
+
+        $('.prev-next-buttons button').click(function (e) {
+            var activePage = $('.tx-dpf-tabs').find('li.active');
+            var newActivePage = activePage;
+
+            if ($(this).attr('id') == 'next-form-page') {
+                newActivePage = activePage.next();
+            } else {
+                newActivePage = activePage.prev();
+            }
+
+            if (newActivePage.length > 0) {
+                activePage.removeClass('active');
+                activePage.find('a').attr('aria-expanded', 'false')
+                $('.tab-content').find('div.active').removeClass('active');
+
+                newActivePage.addClass('active');
+                newActivePage.find('a').attr('aria-expanded', 'true');
+                $('.tab-content').find(newActivePage.find('a').attr('href')).addClass('active');
+
+                updatePrevNextButtons(newActivePage);
+
+                $('html, body').animate({
+                    scrollTop:$('.tx-dpf').offset().top
+                },'fast');
+            }
+
+            e.preventDefault();
+
+        });
+
+        updatePrevNextButtons($('.tx-dpf-tabs li.active'));
+
+        $('.tx-dpf-tabs li').click(function(){
+            updatePrevNextButtons($(this));
+        });
+
+    }
+
+    var updatePrevNextButtons = function(activePage) {
+
+        if (activePage.prev().length < 1) {
+            $('#prev-form-page').addClass('disabled');
+        } else {
+            $('#prev-form-page').removeClass('disabled');
+        }
+        if (activePage.next().length < 1) {
+            $('#next-form-page').addClass('disabled');
+        } else {
+            $('#next-form-page').removeClass('disabled');
+        }
+    }
+
     $(window).scroll(function() {
         if ($(this).scrollTop() > 330) {
             $(".tx-dpf-tab-container").addClass("sticky");
@@ -604,6 +658,8 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         }
 
         addRemoveFileButton();
+
+        previousNextFormPage();
 
         gnd = $('.gnd');
         if(gnd.length > 0) {

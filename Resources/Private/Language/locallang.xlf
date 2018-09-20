@@ -143,6 +143,12 @@
 		<trans-unit id="form_button.validate">
 			<source>validate</source>
 		</trans-unit>
+		<trans-unit id="form_button.nextPage">
+			<source>next</source>
+		</trans-unit>
+		<trans-unit id="form_button.prevPage">
+			<source>previous</source>
+		</trans-unit>
 		<trans-unit id="form_error_msg.all">
 			<source>The form contains errors.</source>
 		</trans-unit>
