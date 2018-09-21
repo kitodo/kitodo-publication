@@ -62,4 +62,11 @@ class DocumentFormBEController extends AbstractDocumentFormController
         $this->view->assign('document', $document);
         parent::editAction($documentForm);
     }
+
+
+    public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
+    {
+        parent::createAction($newDocumentForm);
+        $this->redirectToList('CREATE_OK');
+    }
 }

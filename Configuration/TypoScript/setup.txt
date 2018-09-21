@@ -53,6 +53,8 @@ plugin.tx_dpf {
 			apiPid = {$plugin.tx_dpf.settings.apiPid}
 			landingPage = {$plugin.tx_dpf.settings.landingPage}
 			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
+
+			afterDocSavedRedirectPage =
         }
 }
 // pi1 = GndAjax

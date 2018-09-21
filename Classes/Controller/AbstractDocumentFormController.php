@@ -256,7 +256,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $this->forward('new', null, null, array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));
         }
 
-        $this->redirectToList('CREATE_OK');
     }
 
     public function initializeEditAction()
