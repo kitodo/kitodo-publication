@@ -437,9 +437,6 @@ Date: ###DATE###
 		<trans-unit id="search.form.label.type">
 			<source>Type</source>
 		</trans-unit>
-		<trans-unit id="search.form.placeholder">
-			<source>DD.MM.YYYY</source>
-		</trans-unit>
 		<trans-unit id="search.resultList.author">
 			<source>Author</source>
 		</trans-unit>
