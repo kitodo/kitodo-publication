@@ -10,7 +10,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
 
 /*
  *
@@ -383,5 +383,20 @@ ul.error-files-backbutton li {
     margin-left: 13px;
 }
 
+/* -- extended search form--------------------------------------------------- */
 
+.tx-dpf div.searchExtForm div.container {
+  width: 100%;
+}
+
+@media only screen and (min-width: 23em) {
+  .tx-dpf div.searchExtForm div.container .col-md-6 {
+    padding: 0px;
+  }
+}
+@media only screen and (min-width: 60em) {
+  .tx-dpf div.searchExtForm div.container .col-md-6:nth-child(2) {
+    padding: 0px 0px 0px 3px;
+  }
+}
 /* EOF */

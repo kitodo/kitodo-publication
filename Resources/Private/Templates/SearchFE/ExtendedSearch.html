@@ -66,12 +66,16 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6" style="padding:0px;">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="from">{f:translate(key: 'search.form.label.date')}</label>
                             <f:form.textfield property="from" type="text" class="form-control datetimepicker"
                                 placeholder="{f:translate(key: 'search.form.placeholder')}" id="from"
                                 value="{query.from}"/>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
                             <label for="till">{f:translate(key: 'search.form.label.to')}</label>
                             <f:form.textfield property="till" type="text" class="form-control datetimepicker"
                                 placeholder="{f:translate(key: 'search.form.placeholder')}" id="till"
