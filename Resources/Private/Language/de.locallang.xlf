@@ -603,10 +603,6 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Type</source>
 			<target>Dokumenttyp</target>
 		</trans-unit>
-		<trans-unit id="search.form.placeholder">
-			<source>DD.MM.YYYY</source>
-			<target>DD.MM.YYYY</target>
-		</trans-unit>
 		<trans-unit id="search.resultList.author" approved="yes">
 			<source>Author</source>
 			<target>Autor</target>
