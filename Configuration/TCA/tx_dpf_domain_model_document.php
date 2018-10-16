@@ -201,7 +201,7 @@ return array(
             'exclude' => 0,
             'label'   => 'Timestamp',
             'config'  => array(
-                'type'   => 'none',
+                'type'   => 'input',
                 'format' => 'datetime',
                 'eval'   => 'datetime',
             ),
