@@ -545,7 +545,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
 
             if (newActivePage.length > 0) {
                 activePage.removeClass('active');
-                activePage.find('a').attr('aria-expanded', 'false')
+                activePage.find('a').attr('aria-expanded', 'false');
                 $('.tab-content').find('div.active').removeClass('active');
 
                 newActivePage.addClass('active');

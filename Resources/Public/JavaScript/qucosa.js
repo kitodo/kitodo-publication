@@ -625,7 +625,7 @@ var previousNextFormPage = function() {
 
         if (newActivePage.length > 0) {
             activePage.removeClass('active');
-            activePage.find('a').attr('aria-expanded', 'false')
+            activePage.find('a').attr('aria-expanded', 'false');
             $('.tab-content').find('div.active').removeClass('active');
 
             newActivePage.addClass('active');
