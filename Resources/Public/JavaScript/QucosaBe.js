@@ -290,7 +290,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             addRemoveFileButton();
 
             // gnd autocomplete for new groups
-            gndField = $(group).find('.gnd');
+            var gndField = $(group).find('.gnd');
             if (gndField.length != 0) {
                 setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
             }
@@ -316,7 +316,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             datepicker();
 
             // gnd autocomplete for new fields
-            gndField = $(group).find('.gnd');
+            var gndField = $(group).find('.gnd');
             if (gndField.length != 0) {
                 setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
             }
@@ -410,9 +410,9 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         var dtArray = value.match(rxDatePattern); // is format OK?
         if (dtArray == null) return false;
         //Checks for mm/dd/yyyy format.
-        dtMonth = dtArray[3];
-        dtDay = dtArray[1];
-        dtYear = dtArray[5];
+        var dtMonth = dtArray[3];
+        var dtDay = dtArray[1];
+        var dtYear = dtArray[5];
         if (dtMonth < 1 || dtMonth > 12) {
             return false;
         }
@@ -545,7 +545,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
 
             if (newActivePage.length > 0) {
                 activePage.removeClass('active');
-                activePage.find('a').attr('aria-expanded', 'false')
+                activePage.find('a').attr('aria-expanded', 'false');
                 $('.tab-content').find('div.active').removeClass('active');
 
                 newActivePage.addClass('active');
@@ -606,7 +606,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         datepicker();
 
         $('[data-toggle="tooltip"]').tooltip();
-        $disableForm = $('form[data-disabled]').attr('data-disabled');
+        var $disableForm = $('form[data-disabled]').attr('data-disabled');
         if ($disableForm) {
             $('.input-field').each(function() {$(this).attr('disabled', 'disabled');});
             $('.rem_file_group').each(function() {$(this).attr('disabled', 'disabled');});
@@ -661,7 +661,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
 
         previousNextFormPage();
 
-        gnd = $('.gnd');
+        var gnd = $('.gnd');
         if(gnd.length > 0) {
             gnd.each(function() {
                 setGndAutocomplete($(this).data("field"),  $(this).data("groupindex"));

@@ -21,7 +21,7 @@ $(document).ready(function() {
     documentListConfirmDialog('#confirmDelete');
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
-    $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
+    var $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
     if ($disableForm) {
         jQuery('.input-field').each(function() {
             jQuery(this).attr('disabled', 'disabled');
@@ -476,9 +476,9 @@ var isDate = function(value) {
     var dtArray = value.match(rxDatePattern); // is format OK?
     if (dtArray == null) return false;
     //Checks for mm/dd/yyyy format.
-    dtMonth = dtArray[3];
-    dtDay = dtArray[1];
-    dtYear = dtArray[5];
+    var dtMonth = dtArray[3];
+    var dtDay = dtArray[1];
+    var dtYear = dtArray[5];
     if (dtMonth < 1 || dtMonth > 12) {
         return false;
     } else if (dtDay < 1 || dtDay > 31) {
@@ -625,7 +625,7 @@ var previousNextFormPage = function() {
 
         if (newActivePage.length > 0) {
             activePage.removeClass('active');
-            activePage.find('a').attr('aria-expanded', 'false')
+            activePage.find('a').attr('aria-expanded', 'false');
             $('.tab-content').find('div.active').removeClass('active');
 
             newActivePage.addClass('active');
