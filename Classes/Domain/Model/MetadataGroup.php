@@ -254,7 +254,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function relativeMapping($mapping)
     {
-        $modsRegExp = "/^.*?(mods:mods|slub:info)/i";
+        $modsRegExp = "/^\/?(mods:mods|slub:info)/";
         $mapping    = preg_replace($modsRegExp, "", $mapping);
         //if (empty($mapping)) throw new \Exception("Invalid Mapping!");
         return trim($mapping, " /");
@@ -316,7 +316,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isSlubInfo($mapping)
     {
-        $modsRegExp = "/^.*?slub:info/i";
+        $modsRegExp = "/^\/?slub:info/";
         $match      = $mapping;
         if (preg_match($modsRegExp, $match)) {
             return true;
