@@ -182,6 +182,20 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 return 'No such action';
         }
 
+        // stop here, if Fedora document is not active
+        $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
+        $objectProfileXML = file_get_contents($objectProfileURI);
+        if (FALSE !== $objectProfileXML) {
+            $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
+            if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
+                $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+                if ('A' !== $objectState->nodeValue) {
+                    $this->response->setStatus(403);
+                    return 'Forbidden';
+                }
+            }
+        }
+
         // get remote header and set it before passtrough
         $headers = get_headers($path);
 
