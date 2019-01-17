@@ -189,9 +189,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
             if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
                 $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
-                if ('A' !== $objectState->nodeValue) {
+                if ('I' === $objectState->nodeValue) {
                     $this->response->setStatus(403);
                     return 'Forbidden';
+                }
+                if ('D' === $objectState->nodeValue) {
+                    $this->response->setStatus(404);
+                    return 'Not Found';
                 }
             }
         }
