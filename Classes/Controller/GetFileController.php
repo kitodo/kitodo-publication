@@ -182,20 +182,29 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 return 'No such action';
         }
 
-        // stop here, if Fedora document is not active
-        $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
-        $objectProfileXML = file_get_contents($objectProfileURI);
-        if (FALSE !== $objectProfileXML) {
-            $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-            if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
-                $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
-                if ('I' === $objectState->nodeValue) {
-                    $this->response->setStatus(403);
-                    return 'Forbidden';
-                }
-                if ('D' === $objectState->nodeValue) {
-                    $this->response->setStatus(404);
-                    return 'Not Found';
+        // stop here, if inactive Fedora objects are not allowed to be disseminated
+
+        $restrictToActiveDocuments = TRUE;
+
+        if ('yes' == $piVars['deliverInactive']) {
+            $restrictToActiveDocuments = FALSE;
+        }
+
+        if (TRUE === $restrictToActiveDocuments) {
+            $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
+            $objectProfileXML = file_get_contents($objectProfileURI);
+            if (FALSE !== $objectProfileXML) {
+                $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
+                if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
+                    $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+                    if ('I' === $objectState->nodeValue) {
+                        $this->response->setStatus(403);
+                        return 'Forbidden';
+                    }
+                    if ('D' === $objectState->nodeValue) {
+                        $this->response->setStatus(404);
+                        return 'Not Found';
+                    }
                 }
             }
         }

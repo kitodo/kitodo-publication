@@ -57,7 +57,14 @@ class PreviewViewHelper extends AbstractBackendViewHelper
     protected function getViewIcon(array $row, $pageUid, $apiPid, $insideText, $class)
     {
 
-        $previewMets = BackendUtility::getViewDomain($pageUid) . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
+        $previewMets = BackendUtility::getViewDomain($pageUid)
+            . '/index.php?id=' . $apiPid
+            . '&tx_dpf[qid]=' . $row['uid']
+            . '&tx_dpf[action]=' . $row['action'];
+
+        if (array_key_exists('deliverInactive', $row)) {
+            $previewMets .= '&tx_dpf[deliverInactive]=' . $row['deliverInactive'];
+        }
 
         $additionalGetVars = '&tx_dlf[id]=' . urlencode($previewMets) . '&no_cache=1';
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
@@ -115,6 +122,8 @@ class PreviewViewHelper extends AbstractBackendViewHelper
             $row['action'] = 'mets';
 
             $row['uid'] = $arguments['documentObjectIdentifier'];
+
+            $row['deliverInactive'] = 'yes';
 
         }
 
