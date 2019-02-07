@@ -72,6 +72,9 @@
     border: 0 none;
 }
 
+#content form .tab-content {
+    padding-top: 1px;
+}
 
 /* -- basic setup ------------------------------------------------------------------------ */
 
