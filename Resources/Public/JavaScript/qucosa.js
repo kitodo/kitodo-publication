@@ -468,6 +468,10 @@ var datepicker = function() {
         format: 'DD.MM.YYYY',
         locale: language,
         keepInvalid: true
+    }).on("keydown", function(e){
+        if (e.which == 13) {
+            $('.datetimepicker').closest('form').submit();
+        }
     });
 }
 var isDate = function(value) {
