@@ -206,6 +206,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                         return 'Not Found';
                     }
                 }
+            } else {
+                $this->response->setStatus(500);
+                return 'Internal Server Error';
             }
         }
 
