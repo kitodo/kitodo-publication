@@ -90,6 +90,9 @@ plugin.tx_dpf.settings.allowedActions {
 	5 = zip
 }
 
+# !!ChangeThis!! Secret key for delivering inactive documents via API
+plugin.tx_dpf.settings.deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
+
 plugin.tx_dpf._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;

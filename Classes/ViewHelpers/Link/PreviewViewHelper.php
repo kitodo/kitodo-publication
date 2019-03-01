@@ -123,7 +123,12 @@ class PreviewViewHelper extends AbstractBackendViewHelper
 
             $row['uid'] = $arguments['documentObjectIdentifier'];
 
-            $row['deliverInactive'] = 'yes';
+            // pass configured API secret key parameter to enable dissemination of inactive documents
+            $settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+
+            if (array_key_exists('plugin.tx_dpf.settings.deliverInactiveSecretKey', $settings)) {
+                $row['deliverInactive'] = $this->settings['plugin.tx_dpf.settings.deliverInactiveSecretKey'];
+            }
 
         }
 

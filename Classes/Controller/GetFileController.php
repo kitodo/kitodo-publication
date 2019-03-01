@@ -184,13 +184,18 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         // stop here, if inactive Fedora objects are not allowed to be disseminated
 
-        $restrictToActiveDocuments = TRUE;
+        // allow dissemination if a request parameter 'deliverInactive' has the secret
+        // TYPOScript configuration value 'deliverInactiveSecretKey'
 
-        if ('yes' == $piVars['deliverInactive']) {
+        $restrictToActiveDocuments = TRUE;
+        $deliverInactiveSecretKey = $this->settings['deliverInactiveSecretKey'];
+
+        if ($deliverInactiveSecretKey == $piVars['deliverInactive']) {
             $restrictToActiveDocuments = FALSE;
         }
 
         if (TRUE === $restrictToActiveDocuments) {
+            // if restriction applies, check object state before dissemination
             $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
             $objectProfileXML = file_get_contents($objectProfileURI);
             if (FALSE !== $objectProfileXML) {
