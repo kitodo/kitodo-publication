@@ -18,23 +18,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class PreviewViewHelper extends AbstractBackendViewHelper
 {
 
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
      */
     protected $configurationManager;
-
-    /**
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-     * @return void
-     */
-    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
-    {
-        $this->configurationManager = $configurationManager;
-    }
 
     /**
      * documentRepository
@@ -43,6 +36,25 @@ class PreviewViewHelper extends AbstractBackendViewHelper
      * @inject
      */
     protected $documentRepository;
+
+    /**
+     * Secret API key for delivering inactive documents.
+     * @var string
+     */
+    private $secretKey;
+
+    /**
+     * Initialize secret key from plugin TYPOScript configuration.
+     */
+    public function initialize() {
+        parent::initialize();
+
+        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
+        if (isset($settings['plugin.']['tx_dpf.']['settings.']['deliverInactiveSecretKey'])) {
+            $this->secretKey = $settings['plugin.']['tx_dpf.']['settings.']['deliverInactiveSecretKey'];
+        }
+    }
 
     /**
      * Returns the View Icon with link
@@ -124,10 +136,8 @@ class PreviewViewHelper extends AbstractBackendViewHelper
             $row['uid'] = $arguments['documentObjectIdentifier'];
 
             // pass configured API secret key parameter to enable dissemination of inactive documents
-            $settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-
-            if (array_key_exists('plugin.tx_dpf.settings.deliverInactiveSecretKey', $settings)) {
-                $row['deliverInactive'] = $this->settings['plugin.tx_dpf.settings.deliverInactiveSecretKey'];
+            if (isset($this->secretKey)) {
+                $row['deliverInactive'] = $this->secretKey;
             }
 
         }
