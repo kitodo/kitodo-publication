@@ -77,6 +77,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             return 'Forbidden';
         }
 
+        $isRepositoryObject = !is_numeric($piVars['qid']);
+
         switch ($piVars['action']) {
             case 'mets':
                 $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
@@ -194,26 +196,28 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $restrictToActiveDocuments = FALSE;
         }
 
-        if (TRUE === $restrictToActiveDocuments) {
-            // if restriction applies, check object state before dissemination
-            $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
-            $objectProfileXML = file_get_contents($objectProfileURI);
-            if (FALSE !== $objectProfileXML) {
-                $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-                if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
-                    $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
-                    if ('I' === $objectState->nodeValue) {
-                        $this->response->setStatus(403);
-                        return 'Forbidden';
+        if (TRUE === $isRepositoryObject) {
+            if (TRUE === $restrictToActiveDocuments) {
+                // if restriction applies, check object state before dissemination
+                $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
+                $objectProfileXML = file_get_contents($objectProfileURI);
+                if (FALSE !== $objectProfileXML) {
+                    $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
+                    if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
+                        $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+                        if ('I' === $objectState->nodeValue) {
+                            $this->response->setStatus(403);
+                            return 'Forbidden';
+                        }
+                        if ('D' === $objectState->nodeValue) {
+                            $this->response->setStatus(404);
+                            return 'Not Found';
+                        }
                     }
-                    if ('D' === $objectState->nodeValue) {
-                        $this->response->setStatus(404);
-                        return 'Not Found';
-                    }
+                } else {
+                    $this->response->setStatus(500);
+                    return 'Internal Server Error';
                 }
-            } else {
-                $this->response->setStatus(500);
-                return 'Internal Server Error';
             }
         }
 
