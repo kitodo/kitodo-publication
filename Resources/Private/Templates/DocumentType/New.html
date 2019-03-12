@@ -16,7 +16,7 @@
 
 <f:section name="main">
     <h1>New DocumentType</h1>
-    <f:flashMessages renderMode="div"/>
+    <f:flashMessages />
     <f:render partial="FormErrors" arguments="{object:DocumentType}"/>
     <f:form action="create" name="newDocumentType" object="{newDocumentType}">
         <f:render partial="DocumentType/FormFields"/>
