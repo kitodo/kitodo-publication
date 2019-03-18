@@ -47,13 +47,8 @@ class GndController extends \EWW\Dpf\Controller\AbstractController
             $i++;
         }
 
-        if (empty($listArray)) {
-            echo json_encode(null);
-        } else {
-            echo json_encode($listArray);
-        }
-
-        return '';
+        $this->request->setFormat('json');
+        $this->view->assign('results', $listArray);
     }
 
 }
