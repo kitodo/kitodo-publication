@@ -101,8 +101,11 @@
 		<trans-unit id="tx_dpf_domain_model_document.object_identifier">
 			<source>Object Identifier</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.object_state">
-			<source>Object State</source>
+		<trans-unit id="tx_dpf_domain_model_document.state">
+			<source>Local State</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.transfer_status">
+			<source>Transfer State</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.process_number">
 			<source>Process Number</source>
@@ -118,6 +121,15 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.xml_data">
 			<source>Xml Data</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.valid">
+			<source>Valid</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.changed">
+			<source>Changed</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.file">
+			<source>File</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog">
 			<source>Document Transfer Log</source>

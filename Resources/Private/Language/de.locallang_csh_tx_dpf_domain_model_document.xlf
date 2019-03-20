@@ -21,9 +21,13 @@
 			<source>objectIdentifier</source>
 			<target>Objektkennung</target>
 		</trans-unit>
-		<trans-unit id="object_state.description" approved="yes">
-			<source>objectState</source>
-			<target>Objektstatus</target>
+		<trans-unit id="state.description" approved="yes">
+			<source>Local State</source>
+			<target>Lokaler Status</target>
+		</trans-unit>
+		<trans-unit id="transfer_status.description" approved="yes">
+			<source>Transfer State</source>
+			<target>Transfer Status</target>
 		</trans-unit>
 		<trans-unit id="process_number.description" approved="yes">
 			<source>processNumber</source>
@@ -45,6 +49,18 @@
 			<source>xmlData</source>
 			<target>XML Daten</target>
 		</trans-unit>
+        <trans-unit id="valid.description" approved="yes">
+            <source>valid</source>
+            <target>gültig</target>
+        </trans-unit>
+        <trans-unit id="changed.description" approved="yes">
+            <source>changed</source>
+            <target>geändert</target>
+        </trans-unit>
+        <trans-unit id="file.description" approved="yes">
+            <source>file</source>
+            <target>Datei</target>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

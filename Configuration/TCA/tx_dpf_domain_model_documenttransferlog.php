@@ -23,11 +23,7 @@ return array(
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'dividers2tabs'            => true,
-
-        'versioningWS'             => 2,
-        'versioning_followPages'   => true,
-
+        'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -37,14 +33,16 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'date,response,curl_error,document_uid,object_identifier,action',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_documenttransferlog.gif',
+        'searchFields'             => 'date, response, curl_error, document_uid, object_identifier, action',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttransferlog.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document_uid, object_identifier, reserved_object_identifier, action',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document_uid, object_identifier, action',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, date, response, curl_error, document_uid, object_identifier, reserved_object_identifier, action, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1,
+        date, response, curl_error, document_uid, object_identifier, action,
+        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -107,8 +105,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -123,8 +121,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -139,6 +137,7 @@ return array(
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttransferlog.date',
             'config'  => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 10,
                 'eval'     => 'datetime',
                 'checkbox' => 1,
