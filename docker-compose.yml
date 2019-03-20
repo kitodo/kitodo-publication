@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+    typo3-database:
+        image: mysql:5.7
+        hostname: db
+        command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: typo3
+            MYSQL_PASSWORD: typo3
+            MYSQL_DATABASE: typo3
+        volumes:
+            - database:/var/lib/mysql
+
+    typo3-web:
+        build:
+            context: Dockerfiles
+            dockerfile: Dockerfile-typo3-web
+        image: slub/typo3:7
+
+    typo3-extensions:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: kitodo-publication
+        hostname: typo3
+        ports:
+            - "8000:80"
+        volumes:
+            - $PWD:/app
+        depends_on:
+            - typo3-web
+            - typo3-database
+        links:
+            - typo3-database:db
+
+volumes:
+    database:
