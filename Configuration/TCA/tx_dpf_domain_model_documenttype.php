@@ -23,11 +23,7 @@ return array(
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'dividers2tabs'            => true,
-
-        'versioningWS'             => 2,
-        'versioning_followPages'   => true,
-
+        'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -37,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name,display_name,metadata_page,',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
+        'searchFields'             => 'name, display_name, virtual, metadata_page',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, virtual, metadata_page',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, display_name, virtual, metadata_page, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, virtual, metadata_page, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -108,8 +104,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -124,8 +120,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -174,7 +170,6 @@ return array(
                 'foreign_sortby' => 'page_number',
                 'behaviour'      => array(
                     'disableMovingChildrenWithParent' => 1,
-                    //'disableCopyingChildrenWithParent' => 1
                 ),
                 'maxitems'       => 9999,
                 'appearance'     => array(

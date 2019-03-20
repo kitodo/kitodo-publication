@@ -17,8 +17,11 @@
 		<trans-unit id="object_identifier.description">
 			<source>objectIdentifier</source>
 		</trans-unit>
-		<trans-unit id="object_state.description">
-			<source>objectState</source>
+		<trans-unit id="state.description">
+			<source>Local State</source>
+		</trans-unit>
+		<trans-unit id="transfer_status.description">
+			<source>Transfer State</source>
 		</trans-unit>
 		<trans-unit id="process_number.description">
 			<source>processNumber</source>
@@ -35,6 +38,15 @@
 		<trans-unit id="xml_data.description">
 			<source>xmlData</source>
 		</trans-unit>
+        <trans-unit id="valid.description">
+            <source>valid</source>
+        </trans-unit>
+        <trans-unit id="changed.description">
+            <source>changed</source>
+        </trans-unit>
+        <trans-unit id="file.description">
+            <source>file</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

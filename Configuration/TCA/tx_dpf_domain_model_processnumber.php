@@ -18,17 +18,12 @@ if (!defined('TYPO3_MODE')) {
 
 return array(
     'ctrl' => array(
-        'hideTable'                => 1,
         'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_processnumber',
         'label'                    => 'owner_id',
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'dividers2tabs'            => true,
-
-        'versioningWS'             => 2,
-        'versioning_followPages'   => true,
-
+        'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -38,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'ownerId,year,counter',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
+        'searchFields'             => 'owner_id, year, counter',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, owner_id, year, counter'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, owner_id, year, counter, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, owner_id, year, counter, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -108,8 +103,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -124,8 +119,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,

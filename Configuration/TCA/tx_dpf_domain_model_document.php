@@ -23,11 +23,7 @@ return array(
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'dividers2tabs'            => true,
-
-        'versioningWS'             => 2,
-        'versioning_followPages'   => true,
-
+        'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -37,14 +33,20 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'xml_data,document_type,',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_document.gif',
+        'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
+        process_number, valid, changed, state, reserved_object_identifier, object_identifier, transfer_status, file',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, file',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
+        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        state, reserved_object_identifier, object_identifier, transfer_status, file',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, file, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, 
+        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        state, reserved_object_identifier, object_identifier, transfer_status, file,
+        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -107,8 +109,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -123,8 +125,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -202,6 +204,7 @@ return array(
             'label'   => 'Timestamp',
             'config'  => array(
                 'type'   => 'input',
+                'renderType' => 'inputDateTime',
                 'format' => 'datetime',
                 'eval'   => 'datetime',
             ),
@@ -209,7 +212,7 @@ return array(
 
         'transfer_status'            => array(
             'exclude' => 0,
-            'label'   => 'Transfer Status',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.transfer_status',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
@@ -219,7 +222,7 @@ return array(
 
         'object_identifier'          => array(
             'exclude' => 0,
-            'label'   => 'Object Identifier',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.object_identifier',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
@@ -229,7 +232,7 @@ return array(
 
         'reserved_object_identifier' => array(
             'exclude' => 0,
-            'label'   => 'Reserved Object Identifier',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.reserved_object_identifier',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
@@ -239,7 +242,7 @@ return array(
 
         'process_number' => array(
             'exclude' => 0,
-            'label'   => 'Process Number',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.process_number',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
@@ -249,7 +252,7 @@ return array(
 
         'state'                      => array(
             'exclude' => 0,
-            'label'   => 'Local State',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.state',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
@@ -296,7 +299,6 @@ return array(
                 'foreign_field' => 'document',
                 'behaviour'     => array(
                     'disableMovingChildrenWithParent' => 1,
-                    //'disableCopyingChildrenWithParent' => 1
                 ),
                 'maxitems'      => 9999,
                 'appearance'    => array(

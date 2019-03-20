@@ -22,11 +22,7 @@ return array(
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
-        'dividers2tabs'            => true,
-
-        'versioningWS'             => 2,
-        'versioning_followPages'   => true,
-
+        'versioningWS'             => true,
         'languageField'            => 'sys_language_uid',
         'transOrigPointerField'    => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -36,12 +32,18 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'project,client,ownerId',
+        'searchFields'             => 'client, owner_id, network_initial, library_identifier, admin_email, project, 
+            replace_niss_part, niss_part_search, niss_part_replace, sword_host, sword_user, sword_password, 
+            sword_collection_namespace, fedora_host, fedora_user, fedora_password, 
+            elastic_search_host, elastic_search_port, upload_directory, upload_domain, 
+            admin_new_document_notification_subject, admin_new_document_notification_body, 
+            submitter_new_document_notification_subject, submitter_new_document_notification_body, 
+            submitter_ingest_notification_subject, submitter_ingest_notification_body',
         'requestUpdate'            => 'replace_niss_part',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dpf') . 'Resources/Public/Icons/tx_dpf_domain_model_client.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id,
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, 
         network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
         sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password,
         elastic_search_host, elastic_search_port, upload_directory, upload_domain,
@@ -50,7 +52,7 @@ return array(
         submitter_ingest_notification_subject, submitter_ingest_notification_body'
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1,
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
         --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
@@ -58,7 +60,7 @@ return array(
         --div--;Upload, upload_directory, upload_domain,
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
-        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -121,8 +123,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
@@ -137,8 +139,8 @@ return array(
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
                 'type'     => 'input',
+                'renderType' => 'inputDateTime',
                 'size'     => 13,
-                'max'      => 20,
                 'eval'     => 'datetime',
                 'checkbox' => 0,
                 'default'  => 0,
