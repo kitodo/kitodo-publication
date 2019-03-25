@@ -18,6 +18,8 @@ services:
             context: Dockerfiles
             dockerfile: Dockerfile-typo3-web
         image: slub/typo3:7
+        volumes:
+            - website:/var/www/html
 
     typo3-extensions:
         build:
@@ -29,6 +31,7 @@ services:
             - "8000:80"
         volumes:
             - $PWD:/app
+            - website:/var/www/html
         depends_on:
             - typo3-web
             - typo3-database
@@ -37,3 +40,4 @@ services:
 
 volumes:
     database:
+    website:
