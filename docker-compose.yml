@@ -13,15 +13,7 @@ services:
         volumes:
             - database:/var/lib/mysql
 
-    typo3-web:
-        build:
-            context: Dockerfiles
-            dockerfile: Dockerfile-typo3-web
-        image: slub/typo3:7
-        volumes:
-            - website:/var/www/html
-
-    typo3-extensions:
+    typo3-app:
         build:
             context: .
             dockerfile: Dockerfile
@@ -33,7 +25,6 @@ services:
             - $PWD:/app
             - website:/var/www/html
         depends_on:
-            - typo3-web
             - typo3-database
         links:
             - typo3-database:db
