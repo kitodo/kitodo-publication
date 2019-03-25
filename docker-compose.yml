@@ -2,7 +2,7 @@ version: '2'
 
 services:
     typo3-database:
-        image: mysql:5.7
+        image: mysql:5.6
         hostname: db
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
         environment:
@@ -11,7 +11,7 @@ services:
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - database:/var/lib/mysql
+            - mysql56:/var/lib/mysql
 
     typo3-app:
         build:
@@ -30,5 +30,5 @@ services:
             - typo3-database:db
 
 volumes:
-    database:
+    mysql56:
     website:
