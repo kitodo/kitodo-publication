@@ -26,7 +26,14 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
 
         $query = $this->createQuery();
-        $query->statement("SELECT * FROM tx_dpf_domain_model_document where object_identifier != '' and object_identifier IS NOT NULL and deleted = 0");
+
+        $constraints = array(
+            $query->logicalNot($query->equals('object_identifier', '')),
+            $query->logicalNot($query->equals('object_identifier', NULL)));
+
+        if (count($constraints)) {
+            $query->matching($query->logicalAnd($constraints));
+        }
 
         $result = $query->execute();
 
