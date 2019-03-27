@@ -1,2 +1,0 @@
-{namespace dpf = EWW\Dpf\ViewHelpers}
-<dpf:format.json value="{results}" />
