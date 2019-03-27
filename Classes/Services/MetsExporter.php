@@ -722,47 +722,46 @@ class MetsExporter
      */
     public function buildFileSection()
     {
-
-        // Build xml Mets:fileSec
-
-        if (count($this->files['original']) > 0 || count($this->files['download']) > 0) {
-            $domDocument = new \DOMDocument();
-            $domDocument->loadXML($this->metsHeader);
-
-            $domElement = $domDocument->firstChild;
-
-            $fileSec = $domDocument->createElement('mets:fileSec');
-            $domElement->appendChild($fileSec);
-
-            $domElement = $domElement->firstChild;
-
-            $fileSecElement = $domElement;
-
-            $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
-            $fileGrpOriginal->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
-            $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
-
-            // loop xml file entries
-            if (!empty($this->files['original'])) {
-                $this->loopFiles($this->files['original'], $fileGrpOriginal, $domDocument);
-                $domElement->appendChild($fileGrpOriginal);
-            }
-
-            // switch back to filesec element
-            $domElement = $fileSecElement;
-
-            $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
-            $fileGrpDownload->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
-            $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
-
-            // loop xml
-            if (!empty($this->files['download'])) {
-                $this->loopFiles($this->files['download'], $fileGrpDownload, $domDocument);
-                $domElement->appendChild($fileGrpDownload);
-            }
-
-            return $domDocument;
+        if (empty($this->files['original']) && empty($this->files['download'])) {
+            return;
         }
+
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($this->metsHeader);
+
+        $domElement = $domDocument->firstChild;
+
+        $fileSec = $domDocument->createElement('mets:fileSec');
+        $domElement->appendChild($fileSec);
+
+        $domElement = $domElement->firstChild;
+
+        $fileSecElement = $domElement;
+
+        $fileGrpOriginal = $domDocument->createElement('mets:fileGrp');
+        $fileGrpOriginal->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
+        $fileGrpOriginal->setAttribute('USE', 'ORIGINAL');
+
+        // loop xml file entries
+        if (!empty($this->files['original'])) {
+            $this->loopFiles($this->files['original'], $fileGrpOriginal, $domDocument);
+            $domElement->appendChild($fileGrpOriginal);
+        }
+
+        // switch back to filesec element
+        $domElement = $fileSecElement;
+
+        $fileGrpDownload = $domDocument->createElement('mets:fileGrp');
+        $fileGrpDownload->setAttribute('xmlns:mext', "http://slub-dresden.de/mets");
+        $fileGrpDownload->setAttribute('USE', 'DOWNLOAD');
+
+        // loop xml
+        if (!empty($this->files['download'])) {
+            $this->loopFiles($this->files['download'], $fileGrpDownload, $domDocument);
+            $domElement->appendChild($fileGrpDownload);
+        }
+
+        return $domDocument;
     }
 
     /**
