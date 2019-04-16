@@ -28,7 +28,17 @@ services:
             - typo3-database
         links:
             - typo3-database:db
+        networks:
+            - default
+            - qucosafcrepodocker_default
+        external_links:
+            - qucosafcrepodocker_fcrepo_1:fcrepo
+            - qucosafcrepodocker_elasticsearch_1:elasticsearch
 
 volumes:
     mysql56:
     website:
+
+networks:
+    qucosafcrepodocker_default:
+        external: true
