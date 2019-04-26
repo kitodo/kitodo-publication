@@ -15,7 +15,6 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-    <h1>{f:translate(key: 'documentForm.header.create')}</h1>
 
     <f:flashMessages />
 
@@ -52,37 +51,6 @@
                 <f:translate key="documentForm.goBack"/>
             </a>
         </div>
-    </f:if>
-
-    <f:if condition="{listtype}=='list'">
-
-        <table class="tx_dpf">
-            <tr>
-                <th>Titel</th>
-                <th>Typ</th>
-                <th></th>
-            </tr>
-
-            <f:for each="{documents}" as="document">
-                <tr>
-                    <td>
-                        <f:link.action action="show" arguments="{document : document}"> {document.title}</f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="show" arguments="{document : document}">
-                            {document.documentType.displayName}
-                        </f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="edit" arguments="{document : document}">bearbeiten</f:link.action>
-                    </td>
-                    <td>
-                        <f:link.action action="delete" arguments="{document : document}">löschen</f:link.action>
-                    </td>
-                </tr>
-            </f:for>
-        </table>
-
     </f:if>
 
     <ol>

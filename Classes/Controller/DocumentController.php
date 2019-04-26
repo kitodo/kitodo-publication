@@ -78,69 +78,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * action show
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function showAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-
-        $this->view->assign('document', $document);
-    }
-
-    /**
-     * action new
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $newDocument
-     * @ignorevalidation $newDocument
-     * @return void
-     */
-    public function newAction(\EWW\Dpf\Domain\Model\Document $newDocument = null)
-    {
-        $this->view->assign('newDocument', $newDocument);
-    }
-
-    /**
-     * action create
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $newDocument
-     * @return void
-     */
-    public function createAction(\EWW\Dpf\Domain\Model\Document $newDocument)
-    {
-
-        $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. ', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->documentRepository->add($newDocument);
-        $this->redirect('list');
-    }
-
-    /**
-     * action edit
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @ignorevalidation $document
-     * @return void
-     */
-    public function editAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        $this->view->assign('document', $document);
-    }
-
-    /**
-     * action update
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function updateAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. ', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->documentRepository->update($document);
-        $this->redirect('list');
-    }
-
-    /**
      * action discardConfirm
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
