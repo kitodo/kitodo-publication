@@ -15,6 +15,7 @@ namespace EWW\Dpf\Tests\Unit\Services;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+include_once 'Classes/Services/XPathXMLGenerator.php';
 
 class XPathXMLGeneratorTest extends UnitTestCase
 {
