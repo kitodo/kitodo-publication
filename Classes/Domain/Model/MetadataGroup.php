@@ -109,9 +109,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Initializes all ObjectStorage properties
-     * Do not modify this method!
-     * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
      *
      * @return void
      */

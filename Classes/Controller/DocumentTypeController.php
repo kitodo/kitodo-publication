@@ -70,7 +70,7 @@ class DocumentTypeController extends \EWW\Dpf\Controller\AbstractController
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentType $newDocumentType)
     {
-        $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->documentTypeRepository->add($newDocumentType);
         $this->redirect('list');
     }
@@ -95,7 +95,7 @@ class DocumentTypeController extends \EWW\Dpf\Controller\AbstractController
      */
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentType $documentType)
     {
-        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. ', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->documentTypeRepository->update($documentType);
         $this->redirect('list');
     }
@@ -108,7 +108,7 @@ class DocumentTypeController extends \EWW\Dpf\Controller\AbstractController
      */
     public function deleteAction(\EWW\Dpf\Domain\Model\DocumentType $documentType)
     {
-        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See <a href="http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain" target="_blank">Wiki</a>', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. ', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->documentTypeRepository->remove($documentType);
         $this->redirect('list');
     }
