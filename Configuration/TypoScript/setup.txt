@@ -203,7 +203,3 @@ module.tx_dpf {
             }
         }
 }
-
-[compatVersion = 7.6.0]
-module.tx_dpf.view.layoutRootPaths.100 = EXT:dpf/Resources/Private/Layouts76/
-[global]

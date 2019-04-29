@@ -15,9 +15,9 @@
 
 {namespace dpf=EWW\Dpf\ViewHelpers}
 
-<f:be.container loadPrototype="false" loadScriptaculous="false" enableClickMenu="false"
+<f:be.container enableClickMenu="false"
                 includeCssFiles="{0: '{f:uri.resource(path:\'CSS/bootstrap.min.css\')}',1: '{f:uri.resource(path:\'CSS/manager.css\')}'}"
-                includeJsFiles="{0: '{f:uri.resource(path:\'JavaScript/jQuery.min.js\')}',1: '{f:uri.resource(path:\'JavaScript/moment-with-locales.min.js\')}',2: '{f:uri.resource(path:\'JavaScript/bootstrap.min.js\')}',3: '{f:uri.resource(path:\'JavaScript/bootstrap-datetimepicker.min.js\')}',4: '{f:uri.resource(path:\'JavaScript/qucosa.js\')}'}">
+                includeRequireJsModules="{0: 'TYPO3/CMS/Dpf/QucosaBe'}">
 
     <div class="tx-dpf" data-language="{dpf:language()}">
 
