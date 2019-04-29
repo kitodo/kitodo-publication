@@ -253,7 +253,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $modsRegExp = "/^\/?(mods:mods|slub:info)/";
         $mapping    = preg_replace($modsRegExp, "", $mapping);
-        //if (empty($mapping)) throw new \Exception("Invalid Mapping!");
         return trim($mapping, " /");
     }
 

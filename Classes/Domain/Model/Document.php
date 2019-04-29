@@ -195,7 +195,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $authors       = implode("; ", $authors);
         $this->authors = $authors;
-        //htmlspecialchars_decode($authors,ENT_QUOTES);
     }
 
     /**

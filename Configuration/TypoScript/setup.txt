@@ -148,9 +148,6 @@ ajax_page {
     config{
     disableAllHeaderCode = 1
     admPanel = 0
-    #Choose your header type (json or text/plain)
-    #additionalHeaders = Content-type:application/json
-    #additionalHeaders = Content-type: text/plain
     xhtml_cleaning = 0
     no_cache = 1
     debug = 0

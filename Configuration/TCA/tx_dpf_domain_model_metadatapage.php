@@ -66,7 +66,6 @@ return array(
             'exclude'     => 1,
             'label'       => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config'      => array(
-                //'readOnly' => 1,
                 'type'                => 'select',
                 'renderType'          => 'selectSingle',
                 'items'               => array(

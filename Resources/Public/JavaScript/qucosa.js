@@ -80,9 +80,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
-    //jQuery(window).on("scroll", "", continuousScroll);
     jQuery(".tx-dpf").on("click", "#next", continuousScroll);
-    // jQuery(".form-submit").on("click","#save",
     jQuery(".form-submit").on("click", "#save", validateFormAndSave);
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
 
@@ -219,13 +217,6 @@ var validateForm = function() {
                 }
             }
         });
-        /*        if (checkPrimaryFile(fieldset)) {
-                  jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
-                  showFormError();
-                  error = true;
-                  markPage(fieldset,true);
-                }
-          */
     });
     return !error;
 }
@@ -267,7 +258,6 @@ var checkMandatoryInputs = function(fieldset) {
             jQuery(this).removeClass('mandatory-error');
         }
     });
-    //markPage(fieldset,mandatoryError);
     return mandatoryError;
 }
 var checkPrimaryFile = function(fieldset) {
@@ -280,7 +270,6 @@ var checkPrimaryFile = function(fieldset) {
             jQuery(this).removeClass('mandatory-error');
         }
     });
-    //  markPage(fieldset,mandatoryError);
     return mandatoryError;
 }
 var checkFilledInputs = function(fieldset) {
@@ -291,7 +280,6 @@ var checkFilledInputs = function(fieldset) {
         }
         jQuery(this).removeClass('mandatory-error');
     });
-    //markPage(fieldset,filledInputs < 1);
     return filledInputs < 1;
 }
 var addGroup = function() {
@@ -299,7 +287,6 @@ var addGroup = function() {
     // Get the group uid
     var dataGroup = jQuery(this).attr('data-group');
     // Number of the next group item
-    // var groupIndex = jQuery(this).parent().find('fieldset[data-group="'+dataGroup+'"]').length;
     var groupIndex = parseInt(jQuery(this).attr('data-index')) + 1;
     jQuery(this).attr('data-index', groupIndex);
     var ajaxURL = jQuery(this).attr('data-ajax');
@@ -352,18 +339,12 @@ var addField = function() {
         if (gndField.length != 0) {
             setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
         }
-        //  var height =jQuery('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
-        // jQuery('html, body').animate({
-        //   scrollTop: element.offset().top - height
-        //}, 400);
     });
     return false;
 }
 var deleteFile = function() {
     var fileGroup = jQuery(this).parent().parent();
-    //jQuery(this).parent().remove();
     var ajaxURL = jQuery(this).attr('data-ajax');
-    //var params = buildAjaxParams(ajaxURL,"fileUid",fieldIndex);
     var params = {}
         //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
@@ -401,11 +382,8 @@ var fillOutServiceUrn = function() {
     jQuery.getJSON(ajaxURL, params, function(element) {
         jQuery('#qucosaid').val(element.qucosaId);
         jQuery('#qucosaUrn').val(element.value);
-        //var inputField = jQuery('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
         var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
         inputField.val(element.value);
-        //var fillOutButton = jQuery('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
-        //fillOutButton.hide();
         buttonFillOutServiceUrn();
     });
     return false;

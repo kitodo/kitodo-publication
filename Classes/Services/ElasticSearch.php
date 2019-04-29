@@ -58,9 +58,6 @@ class ElasticSearch
         // $client = ClientBuilder::create()->build();
         $this->es = new Client($params);
 
-        // establish connection
-        // $this->es = new Client($params);
-
     }
 
     /**

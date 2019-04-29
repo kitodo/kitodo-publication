@@ -29,7 +29,6 @@
 #content .tx-dpf-tab-container {
     position: absolute;
     top: -53px;
-    /* right:-90px; */
     z-index: 3000;
 }
 
@@ -233,15 +232,6 @@
     height: 24px;
     padding: 3px 4px;
     margin-bottom: 6px;
-}
-
-.tx-dpf .rem_secondary_upload {
-    /*color: #c00;*/
-    /*line-height: 1;*/
-    /*width: 24px;*/
-    /*height: 24px;*/
-    /*padding: 3px 4px;*/
-    /*margin-bottom: 10px;*/
 }
 
 .tx-dpf input[type="file"] {
