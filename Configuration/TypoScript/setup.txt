@@ -59,28 +59,6 @@ plugin.tx_dpf {
         }
 }
 
-config.tx_extbase {
-	persistence {
-		classes {
-			EWW\Dpf\Domain\Model\SysLanguage {
-				mapping {
-					tableName = sys_language
-					#Tx_Dpf_SysLanguage
-					recordType = \EWW\Dpf\Domain\Model\SysLanguage
-					columns {
-						uid.mapOnProperty = uid
-						pid.mapOnProperty = pid
-						title.mapOnProperty = title
-						flag.mapOnProperty = flag
-						language_isocode.mapOnProperty = langIsocode
-					}
-				}
-			}
-		}
-	}
-}
-
-
 // pi1 = GndAjax
 // PAGE object for Ajax call:
 search_page = PAGE
