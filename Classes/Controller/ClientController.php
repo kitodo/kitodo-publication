@@ -211,7 +211,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $languageOptionList = $this->objectManager->get(InputOptionList::class);
         $languageOptionList->setName('languageList');
         $languageOptionList->setPid($storagePid);
-        $languageOptionList->setSysLanguageUid(0);
+        $languageOptionList->setLanguageUid(0);
         $this->inputOptionListRepository->add($languageOptionList);
 
         $languageOptionList->setValueList($iso6392b->getValuesString());
@@ -243,7 +243,7 @@ class ClientController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                         $translatedOptionList = $this->objectManager->get(InputOptionList::class);
                         $translatedOptionList->setDisplayName(implode('', $displayName));
                         $translatedOptionList->setPid($storagePid);
-                        $translatedOptionList->setSysLanguageUid($installedLanguage->getUid());
+                        $translatedOptionList->setLanguageUid($installedLanguage->getUid());
                         $translatedOptionList->setL10nParent($languageOptionList->getUid());
                         $translatedOptionList->setValueLabelList(implode('|', $valueLabelList));
                         $this->inputOptionListRepository->add($translatedOptionList);
