@@ -212,8 +212,8 @@ class MetaTags extends \tx_dlf_plugin
         foreach ($outArray as $tagName => $values) {
 
             foreach ($values as $value) {
-
-                $GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="' . $tagName . '" content="' . $value . '">');
+                $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+                $pageRenderer->addMetaTag('<meta name="' . $tagName . '" content="' . $value . '">');
 
             }
 

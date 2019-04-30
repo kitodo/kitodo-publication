@@ -171,9 +171,9 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->l10nParent = $l10nParent;
     }
 
-    public function setSysLanguageUid($sysLanguageUid)
+    public function setLanguageUid($languageUid)
     {
-        $this->_languageUid = $sysLanguageUid;
+        $this->_languageUid = $languageUid;
     }
 
     /**
