@@ -35,8 +35,13 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "typo3/cms-core": "^7.6.0",
-        "sjbr/static-info-tables":"^6.3"
+        "typo3/cms-core": "^7",
+        "sjbr/static-info-tables":"^6.3",
+        "nategood/httpful": "*",
+        "elasticsearch/elasticsearch": "~1.0"
+    },
+    "require-dev": {
+        "nimut/testing-framework": "*"
     },
     "replace": {
         "dpf": "self.version",
@@ -44,7 +49,7 @@
     },
     "autoload": {
         "psr-4": {
-          "EWW\\Dpf\\": "Classes/"
+            "EWW\\Dpf\\": "Classes/"
         }
     },
     "extra": {
