@@ -43,7 +43,7 @@ return array(
         state, reserved_object_identifier, object_identifier, transfer_status, file',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, 
+        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier, transfer_status, file,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
