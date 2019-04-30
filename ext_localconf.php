@@ -16,6 +16,10 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
+$composerAutoloadFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY)
+    . 'vendor/autoload.php';
+require_once($composerAutoloadFile);
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\TransferTask'] = array(
     'extension'   => $_EXTKEY,
     'title'       => 'Qucosa-Dokumente ans Repository übertragen.',
