@@ -1,0 +1,11 @@
+build:
+    dependencies:
+        before:
+            - sudo apt-get install -y ca-certificates
+            - composer config repositories.t3ter composer https://composer.typo3.org
+            - composer config minimum-stability dev
+            - composer config prefer-stable true
+
+filter:
+    excluded_paths:
+        - "Lib/"
