@@ -61,4 +61,22 @@ class XPathXMLGeneratorTest extends UnitTestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function testXMLGeneration3()
+    {
+        $xpath = 'mods:originInfo[@eventType="publication"]';
+        $expectedXml = '<mods:originInfo eventType="publication"/>';
+
+        $this->xpathGenerator->loop($xpath);
+
+        $this->assertEquals(
+            $expectedXml,
+            $this->xpathGenerator->getXML()
+        );
+    }
+
+
+
 }

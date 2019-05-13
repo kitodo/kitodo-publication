@@ -21,7 +21,7 @@ namespace EWW\Dpf\Services;
  */
 class XPathXMLGenerator
 {
-    protected $regex = '/[a-zA-Z:]+|[<=>]|[@][a-z][a-z0-9_\-\:\.]*|\[|\'.*?\'|".*?"|\]|\//';
+    protected $regex = '/[a-zA-Z:]+|[<=>]|[@][a-z][a-zA-Z0-9_\-\:\.]*|\[|\'.*?\'|".*?"|\]|\//';
 
     private $xmlWriter;
 
