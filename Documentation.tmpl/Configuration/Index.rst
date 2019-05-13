@@ -3,102 +3,151 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
 
 .. _configuration:
 
-Configuration Reference
+Configuration document types
 =======================
 
-Technical information: Installation, Reference of TypoScript options,
-configuration options on system level, how to extend it, the technical
-details, how to debug it and so on.
-
-Language should be technical, assuming developer knowledge of TYPO3.
-Small examples/visuals are always encouraged.
-
-Target group: **Developers**
+This part of the documentation describes how a document type can be configured.
 
 
-.. _configuration-typoscript:
+.. _configuration-document:
 
-TypoScript Reference
+Document type
 --------------------
 
-Possible subsections: Reference of TypoScript options.
-The construct below show the recommended structure for
-TypoScript properties listing and description.
+Description of document type
 
-Properties should be listed in the order in which they
-are executed by your extension, but the first should be
-alphabetical for easier access.
+Virtual ->
+MetadataPage ->
 
-When detailing data types or standard TypoScript
-features, don't hesitate to cross-link to the TypoScript
-Reference as shown below. See the :file:`Settings.yml`
-file for the declaration of cross-linking keys.
+Each document type can have an own configuration but it is also possible to use existent configurations or in this case metadata pages.
+The matadata pages are displayed as tab element and they are used to structure the form elements for the user.
 
+.. figure:: ../Images/Documenttype.png
+   :width: 500px
+   :alt: Documenttype configuration
 
-Properties
-^^^^^^^^^^
-
-.. container:: ts-properties
-
-	=========================== ===================================== ======================= ====================
-	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
-	=========================== ===================================== ======================= ====================
-	allWrap_                    :ref:`t3tsref:data-type-wrap`         yes                     :code:`<div>|</div>`
-	`subst\_elementUid`_        :ref:`t3tsref:data-type-boolean`      no                      0
-	wrapItemAndSub_             :ref:`t3tsref:data-type-wrap`
-	=========================== ===================================== ======================= ====================
+   Documenttype configuration (metadata pages)
 
 
-Property details
-^^^^^^^^^^^^^^^^
 
-.. only:: html
+.. _configuration-page:
 
-	.. contents::
-		:local:
-		:depth: 1
+Metadata page
+--------------------
 
+Description of metadata page
 
-.. _ts-plugin-tx-extensionkey-stdwrap:
+BackendOnly ->
+MetadataGroups ->
 
-allWrap
-"""""""
-
-:typoscript:`plugin.tx_extensionkey.allWrap =` :ref:`t3tsref:data-type-wrap`
-
-Wraps the whole item.
+Each of this pages can have several metadata groups. These groups are used to combine metadata objects together if they are in the same mods parent element.
+See the example below in "How to use xpath to write Mods"
 
 
-.. _ts-plugin-tx-extensionkey-wrapitemandsub:
+.. _configuration-group:
 
-wrapItemAndSub
-""""""""""""""
+Metadata group
+--------------------
 
-:typoscript:`plugin.tx_extensionkey.wrapItemAndSub =` :ref:`t3tsref:data-type-wrap`
+Description of metadata group
 
-Wraps the whole item and any submenu concatenated to it.
+Each of this groups can have several metadata objects. These objects are generated inside of the group element.
+See the example below in "How to use xpath to write Mods"
+
+* Mandatory
+   * If activated the whole group is mandatory, so all form fields needs to be filled out.
+* Mapping for reading
+   * In some cases the reading location is different from the writing location. So this option can be used with a reading xpath.
+* Mapping
+   * ?
+* Mods extension mapping
+   * ?
+* Max iteration
+   * With this option the number of maximum group iterations are defined
+
+* BackendOnly
+   * This group is only displayed in the backend.
 
 
-.. _ts-plugin-tx-extensionkey-substelementUid:
-
-subst_elementUid
-""""""""""""""""
-
-:typoscript:`plugin.tx_extensionkey.subst_elementUid =` :ref:`t3tsref:data-type-boolean`
-
-If set, all appearances of the string ``{elementUid}`` in the total element html-code (after wrapped in allWrap_)
-is substituted with the uid number of the menu item. This is useful if you want to insert an identification code
-in the HTML in order to manipulate properties with JavaScript.
 
 
-.. _configuration-faq:
+.. _configuration-object:
 
-FAQ
----
+Metadata object
+--------------------
 
-Possible subsection: FAQ
+Description of metadata object
+
+* Max Iteration
+   * With this option the number of maximum object iterations are defined
+* Mandatory
+   * If activated the object is mandatory, so it needs to be filled out.
+* DataType
+   * ?
+* Validation
+   * Configures the validation type for this object
+* Mapping
+   * ?
+* Mods Extension field
+   * ?
+* Input Field
+   * The following input types are available:
+      * input
+      * textarea
+      * select
+      * checkbox
+      * hidden
+      * input with dropdown
+* input option list
+   * ?
+* fill out service
+   * ?
+* default value
+   * ?
+* backend only
+   * This object is only displayed in the backend.
+* consent field
+   * ?
+
+
+.. _configuration-xpath:
+
+How to use xpath to write Mods
+--------------------
+
+There are two places (groups and objects) in the configuration data where the xpath is needed to describe where a value is located in the mods format.
+In other cases xpath is only for reading in xml data. But in this case we use it to write data.
+
+The group defines location inside the mods and every object gets written inside the group location.
+For example:
+
++----------------+------------------+
+| Parameter      | xpath            |
++================+==================+
+| group          | mods:name        |
++----------------+------------------+
+| object1        | mods:namePart    |
++----------------+------------------+
+| object2        | mods:displayForm |
++----------------+------------------+
+
+
+This example would generate the following xml:
+
+.. code-block:: xml
+   :linenos:
+
+   <mods:mods>
+      <mods:name>
+         <mods:namePart>someValue</mods:namePart>
+         <mods:displayForm>someValue</mods:displayForm>
+      </mods:name>
+   </mods:mods>
+
+
+.. important::
+
+   Not all xpath operators which are available for reading are also available for writing. So here are some examples:

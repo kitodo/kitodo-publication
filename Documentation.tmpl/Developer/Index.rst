@@ -3,56 +3,21 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
 
 .. _developer:
 
-Developer Corner
+Developer
 ================
 
-Target group: **Developers**
+.. _developer-tests:
 
-Use this section for *providing code examples* or any **useful** information code wise.
-
-
-.. _developer-hooks:
-
-Hooks
+Tests
 -----
 
-Possible hook examples. Input parameters are:
+This extension uses the nimut/testing-framework to run and write unit tests. The test cases are located in the "Tests" directory.
+To run the tests use the following command inside the extension root path:
+.. code-block::
+   vendor/phpunit/phpunit/phpunit -c vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/
 
-+----------------+---------------+---------------------------------+
-| Parameter      | Data type     | Description                     |
-+================+===============+=================================+
-| $table         | string        | Name of the table               |
-+----------------+---------------+---------------------------------+
-| $field         | string        | Name of the field               |
-+----------------+---------------+---------------------------------+
-
-Use parameter :code:`$table` to retrieve the table name...
-
-.. _developer-api:
-
-API
----
-
-How to use the API...
-
-.. code-block:: php
-
-	$stuff = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\Foo\\Bar\\Utility\\Stuff');
-	$stuff->do();
-
-or some other language:
-
-.. code-block:: javascript
-   :linenos:
-   :emphasize-lines: 2-4
-
-	$(document).ready(
-		function () {
-			doStuff();
-		}
-	);
+.. important::
+    (Notice: It is necessary that all dev dependencies are loaded)

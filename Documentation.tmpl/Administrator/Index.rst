@@ -3,54 +3,28 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
-
 .. _admin-manual:
 
 Administrator Manual
 ====================
 
-Target group: **Administrators**
-
-Describes how to manage the extension from an administrator point of view.
-That relates to Page/User TSconfig, permissions, configuration etc.,
-which administrator level users have access to.
-
-Language should be non / semi-technical, explaining, using small examples.
-
+* Elasticsearch 1.3
+* Fedora
+* SWORD
+* Kitodo.Presentation (optional)
 
 .. _admin-installation:
 
 Installation
 ------------
 
-- How should the extension be installed?
-- Are they dependencies to resolve?
-- Is it a static template file to be included?
-
-To install the extension, perform the following steps:
-
-#. Go to the Extension Manager
-#. Install the extension
+#. Copy the extension to /typo3conf/ext/dpf/ and use composer to install all needed dependancies.
 #. Load the static template
-#. ...
+#. Add a folder to the page tree for configuration data
+#. Add typoscript configuration (see configuration part in the documentation)
+#. Create document and form configuration (see configuration part in the documentation)
 
-For a list of configuration options, using a definition list is recommended:
-
-Some Configuration
-  This option enables...
-
-Other configuration
-  This other option is for all the rest...
-
-
-.. figure:: ../Images/AdministratorManual/ExtensionManager.png
-   :alt: Extension Manager
-
-   Extension Manager (caption of the image)
-
-   List of extensions within the Extension Manager also shorten with "EM" (legend of the image)
+Some Screenshots
 
 
 .. _admin-configuration:
@@ -58,25 +32,18 @@ Other configuration
 Configuration
 -------------
 
-* Where and how the extension should be configured? TypoScript? PHP?
+* Typoscript configuration
 
-* Are there other prerequisite to full fill beforehand?
-  For example, configure a setting in a special way somewhere.
+.. code-block:: typoscript
+   :linenos:
+
+   plugin.tx_dpf {
+      persistence {
+         # cat=module.tx_dpf/link; type=int+; label=Default storage PID
+         storagePid = 22
+      }
+   }
+   module.tx_dpf.persistence < plugin.tx_dpf.persistence
 
 
-.. _admin-faq:
-
-FAQ
----
-
-Possible subsection: FAQ
-
-Subsection
-^^^^^^^^^^
-
-Some subsection
-
-Sub-subsection
-""""""""""""""
-
-Deeper into the structure...
+* Client data
