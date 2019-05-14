@@ -31,10 +31,18 @@ class XPathXMLGenerator
         $this->xmlWriter->openMemory();
     }
 
+    function replaceLineBreaks($string) {
+        return str_replace("\n", "%%nl%%", $string);
+    }
+
+    function undoReplaceLineBreaks($string) {
+        return str_replace("%%nl%%", "\n", $string);
+    }
+
     function loop($xpath)
     {
         // split xpath to find predicates, attributes and texts
-        preg_match_all($this->regex, $xpath, $matches);
+        preg_match_all($this->regex, $this->replaceLineBreaks($xpath), $matches);
         $i = 0;
         $predicateStack = 0;
         $tokenStack = 0;
@@ -75,13 +83,12 @@ class XPathXMLGenerator
 
             } else if ($firstChar === '"' || $firstChar === "'") {
                 // string found
-                $this->setText(trim($value, "'\""));
+                $this->setText(trim($this->undoReplaceLineBreaks($value), "'\""));
             } else if ($firstChar === ']') {
                 $this->endAttribute();
                 array_pop($loopStack);
                 $predicateStack--;
-
-            } else if ($firstChar !== '=' && $firstChar !== '[' && $firstChar !== '@' && $firstChar !== '/') {
+            } else if ($firstChar !== '=' && $firstChar !== '[' && $firstChar !== '@' && $firstChar !== '/' && $firstChar!== '.') {
                 $this->startToken($value);
                 $loopStack[] = 'token';
                 if ($predicateStack > 0) {
