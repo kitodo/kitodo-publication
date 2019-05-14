@@ -37,7 +37,7 @@ class XPathXMLGeneratorTest extends UnitTestCase
         $xpath = 'mods:name[mods:role/mods:roleTerm[@type="code"][@authority="marcrelator"]="edt"]/mods:displayForm';
         $expectedXml = '<mods:name><mods:role><mods:roleTerm type="code" authority="marcrelator">edt</mods:roleTerm></mods:role><mods:displayForm/></mods:name>';
 
-        $this->xpathGenerator->loop($xpath);
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
 
         $this->assertEquals(
             $expectedXml,
@@ -53,7 +53,7 @@ class XPathXMLGeneratorTest extends UnitTestCase
         $xpath = 'mods:language/mods:languageTerm[@authority="iso639-2b"][@type="code"]="ger"';
         $expectedXml = '<mods:language><mods:languageTerm authority="iso639-2b" type="code">ger</mods:languageTerm></mods:language>';
 
-        $this->xpathGenerator->loop($xpath);
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
 
         $this->assertEquals(
             $expectedXml,
@@ -69,7 +69,7 @@ class XPathXMLGeneratorTest extends UnitTestCase
         $xpath = 'mods:originInfo[@eventType="publication"]';
         $expectedXml = '<mods:originInfo eventType="publication"/>';
 
-        $this->xpathGenerator->loop($xpath);
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
 
         $this->assertEquals(
             $expectedXml,
@@ -85,7 +85,7 @@ class XPathXMLGeneratorTest extends UnitTestCase
         $xpath = "mods:originInfo[@eventType='publication']=\"A\nB\nC\n\"";
         $expectedXml = "<mods:originInfo eventType=\"publication\">A\nB\nC\n</mods:originInfo>";
 
-        $this->xpathGenerator->loop($xpath);
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
 
         $this->assertEquals(
             $expectedXml,

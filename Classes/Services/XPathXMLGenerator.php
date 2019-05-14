@@ -39,7 +39,7 @@ class XPathXMLGenerator
         return str_replace("%%nl%%", "\n", $string);
     }
 
-    function loop($xpath)
+    function generateXmlFromXPath($xpath)
     {
         // split xpath to find predicates, attributes and texts
         preg_match_all($this->regex, $this->replaceLineBreaks($xpath), $matches);
@@ -68,7 +68,7 @@ class XPathXMLGenerator
 
                         if (!empty($predicateString)) {
                             // recursive call with predicate string
-                            $this->loop(trim($predicateString, "[]"));
+                            $this->generateXmlFromXPath(trim($predicateString, "[]"));
                             $predicateString = "";
                         }
                     }

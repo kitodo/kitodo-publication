@@ -311,7 +311,7 @@ class MetsExporter
     public function parseXPath($xPath)
     {
 
-        $this->parser->loop($xPath);
+        $this->parser->generateXmlFromXPath($xPath);
         $xml = $this->parser->getXML();
 
         return $xml;
