@@ -14,7 +14,7 @@ namespace EWW\Dpf\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \Elasticsearch\Client as Client;
+use Elasticsearch\Client as Client;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 
@@ -50,7 +50,6 @@ class ElasticSearch
 
         // initialize elasticsearch lib
         $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
-        require_once $extensionPath . '/Lib/ElasticSearchPhpClient/vendor/autoload.php';
 
         $params['hosts'] = array(
             $this->server . ':' . $this->port,
