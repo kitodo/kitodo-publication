@@ -37,7 +37,7 @@
         "ext-libxml": "*",
         "typo3/cms-core": "^7.6.0",
         "sjbr/static-info-tables":"^6.3",
-        "nategood/httpful": "*",
+        "nategood/httpful": "^0.2.20",
         "elasticsearch/elasticsearch": "~1.0"
     },
     "require-dev": {
