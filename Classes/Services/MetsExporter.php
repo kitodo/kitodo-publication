@@ -129,9 +129,9 @@ class MetsExporter
         $this->sxe = new \SimpleXMLElement($this->metsHeader);
 
         // Parser
-        include_once 'xPathXMLGenerator.php';
+        include_once 'XPathXMLGenerator.php';
 
-        $this->parser = new xPathXMLGenerator();
+        $this->parser = new XPathXMLGenerator();
     }
 
     /**
@@ -310,8 +310,9 @@ class MetsExporter
      */
     public function parseXPath($xPath)
     {
-        //
-        $xml = $this->parser->parse($xPath);
+
+        $this->parser->generateXmlFromXPath($xPath);
+        $xml = $this->parser->getXML();
 
         return $xml;
     }
