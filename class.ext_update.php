@@ -36,7 +36,7 @@ class ext_update {
     public function main() {
         // This script registers itself into the sys_registry table to prevent a re-run with the same version number.
         $registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
-        $version = $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
+        $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
 
         return "Das Updatescript wurde erfolgreich ausgeführt.";
     }
