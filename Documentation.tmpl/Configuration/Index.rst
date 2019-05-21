@@ -7,7 +7,7 @@
 .. _configuration:
 
 Configuration document types
-=======================
+=============================
 
 This part of the documentation describes how a document type can be configured.
 
@@ -116,7 +116,7 @@ Description of metadata object
 .. _configuration-xpath:
 
 How to use xpath to write Mods
---------------------
+-------------------------------
 
 There are two places (groups and objects) in the configuration data where the xpath is needed to describe where a value is located in the mods format.
 In other cases xpath is only for reading in xml data. But in this case we use it to write data.

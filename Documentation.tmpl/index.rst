@@ -21,8 +21,3 @@ Qucosa Publication
     Configuration/Index
     Developer/Index
     User/Index
-
-..	KnownProblems/Index
-..	ToDoList/Index
-..	ChangeLog/Index
-..	Targets

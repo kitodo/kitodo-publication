@@ -12,7 +12,7 @@ Introduction
 .. _about:
 
 About Kitodo.Publication
-----------------
+------------------------
 
 Kitodo.Publication is a typo3 extension and can be used to record for example publications or other documents.
 The metadata are recorded with a configured form, which is shown in the frontend.
