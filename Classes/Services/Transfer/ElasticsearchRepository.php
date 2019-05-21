@@ -82,7 +82,7 @@ class ElasticsearchRepository implements Repository
                 ->body($esJson)
                 ->send();
 
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             var_dump($exception);
         }
 
@@ -100,7 +100,7 @@ class ElasticsearchRepository implements Repository
             $response = Request::delete($this->url . $document->getUid())
                 ->send();
 
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             var_dump($exception);
         }
 

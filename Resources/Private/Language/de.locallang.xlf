@@ -145,6 +145,18 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
+        <trans-unit id="document_transfer.connection_error" approved="yes">
+            <source>The connection to the repository server failed.</source>
+            <target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>
+        </trans-unit>
+        <trans-unit id="document_transfer.connection_timeout_error" approved="yes">
+            <source>The connection to the repository server ended with a timeout.</source>
+            <target>Die Verbindung zum Repository-Server wurde mit einer Zeitüberschreitung abgebrochen.</target>
+        </trans-unit>
+        <trans-unit id="document_transfer.unexpected_error" approved="yes">
+            <source>Failed, an unexpected error occurred.</source>
+            <target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
+        </trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
 			<target>Weitere Datei hinzufügen</target>

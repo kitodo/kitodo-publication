@@ -195,12 +195,23 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args[] = $documentObjectIdentifier;
 
-        if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+        try {
+            if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RetrieveDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+            }
         }
 
         // Show success or failure of the action in a flash message

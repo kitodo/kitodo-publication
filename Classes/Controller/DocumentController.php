@@ -186,60 +186,69 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function releaseAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $defaultMessage = "";
 
-        // generate URN if needed
-        $qucosaId = $document->getObjectIdentifier();
-        if (empty($qucosaId)) {
-            $qucosaId = $document->getReservedObjectIdentifier();
-        }
-        if (empty($qucosaId)) {
+        try {
+            // generate URN if needed
+            $qucosaId = $document->getObjectIdentifier();
+            if (empty($qucosaId)) {
+                $qucosaId = $document->getReservedObjectIdentifier();
+            }
+            if (empty($qucosaId)) {
+                $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+                $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+                $documentTransferManager->setRemoteRepository($remoteRepository);
+                $qucosaId = $documentTransferManager->getNextDocumentId();
+                $document->setReservedObjectIdentifier($qucosaId);
+            }
+
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            if (!$mods->hasQucosaUrn()) {
+                $urnService = $this->objectManager->get(Urn::class);
+                $urn        = $urnService->getUrn($qucosaId);
+                $mods->addQucosaUrn($urn);
+                $document->setXmlData($mods->getModsXml());
+            }
+
             $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
             $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
             $documentTransferManager->setRemoteRepository($remoteRepository);
-            $qucosaId = $documentTransferManager->getNextDocumentId();
-            $document->setReservedObjectIdentifier($qucosaId);
-        }
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        if (!$mods->hasQucosaUrn()) {
-            $urnService = $this->objectManager->get(Urn::class);
-            $urn        = $urnService->getUrn($qucosaId);
-            $mods->addQucosaUrn($urn);
-            $document->setXmlData($mods->getModsXml());
-        }
+            $objectIdentifier = $document->getObjectIdentifier();
 
-        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
-        $documentTransferManager->setRemoteRepository($remoteRepository);
+            if (empty($objectIdentifier)) {
 
-        $objectIdentifier = $document->getObjectIdentifier();
+                // Document is not in the fedora repository.
 
-        if (empty($objectIdentifier)) {
-
-            // Document is not in the fedora repository.
-
-            if ($documentTransferManager->ingest($document)) {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                $notifier = $this->objectManager->get(Notifier::class);
-                $notifier->sendIngestNotification($document);
+                if ($documentTransferManager->ingest($document)) {
+                    $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                    $notifier = $this->objectManager->get(Notifier::class);
+                    $notifier->sendIngestNotification($document);
+                }
             } else {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+                // Document needs to be updated.
+
+                if ($documentTransferManager->update($document)) {
+                    $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                }
             }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-        } else {
-
-            // Document needs to be updated.
-
-            if ($documentTransferManager->update($document)) {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\IngestDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\UpdateDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
             } else {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
             }
-
         }
 
         $this->flashMessage($document, $key, $severity);
@@ -271,12 +280,23 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        if ($documentTransferManager->delete($document, "inactivate")) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';
+        try {
+            if ($documentTransferManager->delete($document, "inactivate")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RestoreDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+            }
         }
 
         $this->flashMessage($document, $key, $severity);
@@ -308,12 +328,23 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        if ($documentTransferManager->delete($document, "")) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';
+        try {
+            if ($documentTransferManager->delete($document, "")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\DeleteDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+            }
         }
 
         $this->flashMessage($document, $key, $severity);
@@ -345,12 +376,23 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        if ($documentTransferManager->delete($document, "revert")) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.failure';
+        try {
+            if ($documentTransferManager->delete($document, "revert")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ActivateDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.failure';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+            }
         }
 
         $this->flashMessage($document, $key, $severity);
@@ -382,12 +424,23 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        if ($documentTransferManager->delete($document, "inactivate")) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';
+        try {
+            if ($documentTransferManager->delete($document, "inactivate")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RestoreDocumentErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+            }
         }
 
         $this->flashMessage($document, $key, $severity);
@@ -405,8 +458,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @param string $key
      * @param string $severity
+     * @param string $defaultMessage
      */
-    protected function flashMessage(\EWW\Dpf\Domain\Model\Document $document, $key, $severity)
+    protected function flashMessage(\EWW\Dpf\Domain\Model\Document $document, $key, $severity, $defaultMessage = "")
     {
 
         // Show success or failure of the action in a flash message
@@ -414,7 +468,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $args[] = $document->getObjectIdentifier();
 
         $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
-        $message = empty($message) ? "" : $message;
+        $message = empty($message) ? $defaultMessage : $message;
 
         $this->addFlashMessage(
             $message,

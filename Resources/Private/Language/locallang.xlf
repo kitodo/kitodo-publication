@@ -110,6 +110,15 @@
 		<trans-unit id="document_update.success">
 			<source>%s successfully updated.</source>
 		</trans-unit>
+        <trans-unit id="document_transfer.connection_error">
+            <source>The connection to the repository server failed.</source>
+        </trans-unit>
+        <trans-unit id="document_transfer.connection_timeout_error">
+            <source>The connection to the repository server ended with a timeout.</source>
+        </trans-unit>
+        <trans-unit id="document_transfer.unexpected_error">
+            <source>Failed, an unexpected error occurred.</source>
+        </trans-unit>
 		<trans-unit id="form_button.addFile">
 			<source>add file</source>
 		</trans-unit>
