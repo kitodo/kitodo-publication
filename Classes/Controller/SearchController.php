@@ -203,11 +203,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RetrieveDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\RetrieveDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';

@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Services\Transfer;
+namespace EWW\Dpf\Exceptions;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,6 +14,6 @@ namespace EWW\Dpf\Services\Transfer;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ConnectionTimeoutErrorException extends \Exception
+class ConnectionErrorException extends \Exception
 {
 }

@@ -82,7 +82,7 @@ class FedoraRepository implements Repository
                 return $this->getRemoteDocumentId($response);
             } else {
                 TransferLogger::Log('INGEST', $document->getUid(), null, $response);
-                throw new \EWW\Dpf\Services\Transfer\IngestDocumentErrorException("Fedora error while ingest document.");
+                throw new \EWW\Dpf\Exceptions\IngestDocumentErrorException("Fedora error while ingest document.");
             }
         }
         catch (\Exception $exception) {
@@ -91,9 +91,9 @@ class FedoraRepository implements Repository
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
                 if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
                 } else {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
                 }
             } else {
                 throw $exception;
@@ -130,7 +130,7 @@ class FedoraRepository implements Repository
                 return $this->getRemoteDocumentId($response);
             } else {
                 TransferLogger::Log('UPDATE', $document->getUid(), $remoteId, $response);
-                throw new \EWW\Dpf\Services\Transfer\UpdateDocumentErrorException("Fedora error while update document.");
+                throw new \EWW\Dpf\Exceptions\UpdateDocumentErrorException("Fedora error while update document.");
             }
         } catch (\Exception $exception) {
             TransferLogger::Log('INGEST', $document->getUid(), null, $exception->getMessage());
@@ -138,9 +138,9 @@ class FedoraRepository implements Repository
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
                 if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
                 } else {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
                 }
             } else {
                 throw $exception;
@@ -171,7 +171,7 @@ class FedoraRepository implements Repository
                 return $response->__toString();
             } else {
                 TransferLogger::Log('RETRIEVE', null, $remoteId, $response);
-                throw new \EWW\Dpf\Services\Transfer\RetrieveDocumentErrorException("Fedora has returned an error.");
+                throw new \EWW\Dpf\Exceptions\RetrieveDocumentErrorException("Fedora has returned an error.");
             }
         } catch (\Exception $exception) {
             TransferLogger::Log('INGEST', $document->getUid(), null, $exception->getMessage());
@@ -179,9 +179,9 @@ class FedoraRepository implements Repository
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
                 if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
                 } else {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
                 }
             } else {
                 throw $exception;
@@ -213,7 +213,7 @@ class FedoraRepository implements Repository
                 return $response->__toString();
             } else {
                 TransferLogger::Log('GET_NEXT_DOCUMENT_ID', null, null, $response);
-                throw new \EWW\Dpf\Services\Transfer\NextDocumentIdErrorException("Fedora error while getting a document id.");
+                throw new \EWW\Dpf\Exceptions\NextDocumentIdErrorException("Fedora error while getting a document id.");
             }
         } catch (\Exception $exception) {
             TransferLogger::Log('INGEST', null, null, $exception->getMessage());
@@ -221,9 +221,9 @@ class FedoraRepository implements Repository
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
                 if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
                 } else {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
                 }
             } else {
                 throw $exception;
@@ -261,13 +261,13 @@ class FedoraRepository implements Repository
                 TransferLogger::Log('DELETE', $document->getUid(), $remoteId, $response);
                 switch ($state) {
                     case "revert":
-                        throw new \EWW\Dpf\Services\Transfer\ActivateDocumentErrorException("Fedora error while activate document.");
+                        throw new \EWW\Dpf\Exceptions\ActivateDocumentErrorException("Fedora error while activate document.");
                         break;
                     case "inactivate":
-                        throw new \EWW\Dpf\Services\Transfer\RestoreDocumentErrorException("Fedora error while restore document.");
+                        throw new \EWW\Dpf\Exceptions\RestoreDocumentErrorException("Fedora error while restore document.");
                         break;
                     default:
-                        throw new \EWW\Dpf\Services\Transfer\DeleteDocumentErrorException("Fedora error while delete document.");
+                        throw new \EWW\Dpf\Exceptions\DeleteDocumentErrorException("Fedora error while delete document.");
                         break;
                 }
             }
@@ -277,9 +277,9 @@ class FedoraRepository implements Repository
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
                 if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
                 } else {
-                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
                 }
             } else {
                 throw $exception;

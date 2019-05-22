@@ -111,9 +111,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.failure';
@@ -168,9 +168,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.failure';
@@ -255,13 +255,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\IngestDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\IngestDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.failure';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\UpdateDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\UpdateDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
@@ -305,11 +305,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RestoreDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\RestoreDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
@@ -353,11 +353,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\DeleteDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\DeleteDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
@@ -401,11 +401,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ActivateDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ActivateDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
@@ -449,11 +449,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\RestoreDocumentErrorException) {
+            } elseif ($exception instanceof \EWW\Dpf\Exceptions\RestoreDocumentErrorException) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
