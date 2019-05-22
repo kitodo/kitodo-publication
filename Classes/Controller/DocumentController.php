@@ -96,22 +96,31 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function discardAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        // remove document from local index
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        // send document to index
-        $elasticsearchRepository->delete($document, "");
+        try {
+            // remove document from local index
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            // send document to index
+            $elasticsearchRepository->delete($document, "");
 
-        $this->documentRepository->remove($document);
+            $this->documentRepository->remove($document);
 
-        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
 
-        $args = array();
+        } catch (\Exception $exception) {
 
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
-        $message = empty($message) ? "" : $message;
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-        $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.failure';
+            }
+        }
 
+        $this->flashMessage($document, $key, $severity);
         $this->redirect('list');
     }
 
@@ -123,44 +132,52 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        try {
+            $newDocument = $this->objectManager->get(Document::class);
 
-        $args = array();
+            $newDocument->setTitle($document->getTitle());
+            $newDocument->setAuthors($document->getAuthors());
 
-        $key     = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
-        $message = empty($message) ? "" : $message;
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $mods->clearAllUrn();
+            $newDocument->setXmlData($mods->getModsXml());
 
-        $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+            $newDocument->setDocumentType($document->getDocumentType());
 
-        $newDocument = $this->objectManager->get(Document::class);
+            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+            $processNumber = $processNumberGenerator->getProcessNumber();
+            $newDocument->setProcessNumber($processNumber);
 
-        $newDocument->setTitle($document->getTitle());
-        $newDocument->setAuthors($document->getAuthors());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $slub->setProcessNumber($processNumber);
+            $newDocument->setSlubInfoData($slub->getSlubXml());
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $mods->clearAllUrn();
-        $newDocument->setXmlData($mods->getModsXml());
+            // send document to index
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
 
-        $newDocument->setDocumentType($document->getDocumentType());
+            $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+            $json = $elasticsearchMapper->getElasticsearchJson($newDocument);
 
-        $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-        $processNumber = $processNumberGenerator->getProcessNumber();
-        $newDocument->setProcessNumber($processNumber);
+            $elasticsearchRepository->add($newDocument, $json);
 
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setProcessNumber($processNumber);
-        $newDocument->setSlubInfoData($slub->getSlubXml());
+            $this->documentRepository->add($newDocument);
 
-        $this->documentRepository->add($newDocument);
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+        } catch (\Exception $exception) {
 
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-        $this->persistenceManager->persistAll();
-        // send document to index
-        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-        $json                = $elasticsearchMapper->getElasticsearchJson($newDocument);
+            if ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+            } elseif ($exception instanceof \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.failure';
+            }
+        }
 
-        $elasticsearchRepository->add($newDocument, $json);
+        $this->flashMessage($document, $key, $severity);
 
         $this->redirect('list');
     }

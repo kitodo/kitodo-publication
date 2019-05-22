@@ -77,8 +77,14 @@
 		<trans-unit id="document_discard.success">
 			<source>Document successfully discarded.</source>
 		</trans-unit>
+		<trans-unit id="document_discard.failure">
+			<source>Document could not be discarded.</source>
+		</trans-unit>
 		<trans-unit id="document_duplicate.success">
 			<source>The document has been duplicated.</source>
+		</trans-unit>
+		<trans-unit id="document_duplicate.failure">
+			<source>The document could not be duplicated.</source>
 		</trans-unit>
 		<trans-unit id="document_inactivate.failure">
 			<source>Inactivating %s failed.</source>

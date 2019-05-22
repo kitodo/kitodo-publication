@@ -101,9 +101,17 @@
 			<source>Document successfully discarded.</source>
 			<target>Dokument erfolgreich verworfen.</target>
 		</trans-unit>
+		<trans-unit id="document_discard.failure" approved="yes">
+			<source>Document could not be discarded.</source>
+			<target>Dokument konnte nicht verworfen werden.</target>
+		</trans-unit>
 		<trans-unit id="document_duplicate.success" approved="yes">
 			<source>The document has been duplicated.</source>
 			<target>Das Dokument wurde dupliziert.</target>
+		</trans-unit>
+		<trans-unit id="document_duplicate.failure">
+			<source>The document could not be duplicated.</source>
+			<target>Das Dokument konnte nicht dupliziert werden.</target>
 		</trans-unit>
 		<trans-unit id="document_inactivate.failure" approved="yes">
 			<source>Inactivating %s failed.</source>

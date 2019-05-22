@@ -83,7 +83,17 @@ class ElasticsearchRepository implements Repository
                 ->send();
 
         } catch (\Exception $exception) {
-            var_dump($exception);
+
+            if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
+                $message = $exception->getMessage();
+                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
+                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                } else {
+                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                }
+            } else {
+                throw $exception;
+            }
         }
 
     }
@@ -101,7 +111,17 @@ class ElasticsearchRepository implements Repository
                 ->send();
 
         } catch (\Exception $exception) {
-            var_dump($exception);
+
+            if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
+                $message = $exception->getMessage();
+                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
+                    throw new \EWW\Dpf\Services\Transfer\ConnectionTimeoutErrorException($message);
+                } else {
+                    throw new \EWW\Dpf\Services\Transfer\ConnectionErrorException($message);
+                }
+            } else {
+                throw $exception;
+            }
         }
 
     }
