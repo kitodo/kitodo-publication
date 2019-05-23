@@ -378,13 +378,25 @@ var fillOutServiceUrn = function() {
     } else {
         params = buildAjaxParams(ajaxURL, "qucosaId", "");
     }
+
+    var group = $(this).closest(".fs_group");
+
     //do the ajax-call
     jQuery.getJSON(ajaxURL, params, function(element) {
-        jQuery('#qucosaid').val(element.qucosaId);
-        jQuery('#qucosaUrn').val(element.value);
-        var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
-        inputField.val(element.value);
-        buttonFillOutServiceUrn();
+
+        group.find('.alert-filloutservice-urn').remove();
+
+        if (element.error) {
+            var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg_filloutservice + '</div>');
+            errorMsg.insertAfter(group.find('legend'));
+            $("html, body").animate({scrollTop: group.offset().top}, 200);
+        } else {
+            jQuery('#qucosaid').val(element.qucosaId);
+            jQuery('#qucosaUrn').val(element.value);
+            var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
+            inputField.val(element.value);
+            buttonFillOutServiceUrn();
+        }
     });
     return false;
 }

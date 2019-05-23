@@ -159,28 +159,40 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      */
     public function fillOutAction($qucosaId)
     {
+        try {
+            $urnService = $this->objectManager->get(Urn::class);
 
-        $urnService = $this->objectManager->get(Urn::class);
+            if (!empty($qucosaId)) {
+                $urn = $urnService->getUrn($qucosaId);
+            } else {
+                $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+                $remoteRepository = $this->objectManager->get(FedoraRepository::class);
+                $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        if (!empty($qucosaId)) {
-            $urn = $urnService->getUrn($qucosaId);
-        } else {
-            $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-            $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
-            $documentTransferManager->setRemoteRepository($remoteRepository);
+                $qucosaId = $documentTransferManager->getNextDocumentId();
 
-            $qucosaId = $documentTransferManager->getNextDocumentId();
+                $urn = $urnService->getUrn($qucosaId);
 
-            $urn = $urnService->getUrn($qucosaId);
+            }
 
+            return json_encode(
+                array(
+                    'error' => false,
+                    'qucosaId' => $qucosaId,
+                    'value'    => $urn,
+                )
+            );
+
+        } catch (\Exception $exception) {
+            return json_encode(
+                array(
+                    'error' =>  true,
+                    'qucosaId' => null,
+                    'value'    => null,
+                )
+            );
         }
 
-        return json_encode(
-            array(
-                'qucosaId' => $qucosaId,
-                'value'    => $urn,
-            )
-        );
     }
 
 }

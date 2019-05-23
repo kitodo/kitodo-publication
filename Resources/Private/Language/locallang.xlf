@@ -179,6 +179,9 @@
         <trans-unit id="form_error_msg.nothing_found">
         	<source>Nothing found.</source>
         </trans-unit>
+        <trans-unit id="form_error_msg.filloutservice_urn">
+        	<source>URN service unavailable.</source>
+        </trans-unit>
 		<trans-unit id="form_legend.primaryFile">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
 		</trans-unit>

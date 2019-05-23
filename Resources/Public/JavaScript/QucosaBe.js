@@ -352,13 +352,24 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             params = buildAjaxParams(ajaxURL, "qucosaId", "");
         }
 
+        var group = $(this).closest(".fs_group");
+
         //do the ajax-call
         $.getJSON(ajaxURL, params, function(element) {
-            $('#qucosaid').val(element.qucosaId);
-            $('#qucosaUrn').val(element.value);
-            var inputField = $('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
-            inputField.val(element.value);
-            buttonFillOutServiceUrn();
+
+            group.find('.alert-filloutservice-urn').remove();
+
+            if (element.error) {
+                var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg_filloutservice + '</div>');
+                errorMsg.insertAfter(group.find('legend'));
+                $("html, body").animate({scrollTop: group.offset().top}, 200);
+            } else {
+                $('#qucosaid').val(element.qucosaId);
+                $('#qucosaUrn').val(element.value);
+                var inputField = $('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
+                inputField.val(element.value);
+                buttonFillOutServiceUrn();
+            }
         });
         return false;
     }

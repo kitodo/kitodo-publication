@@ -237,6 +237,10 @@
             <source>Nothing found.</source>
             <target>Es wurde kein passender Eintrag gefunden.</target>
         </trans-unit>
+        <trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
+        	<source>URN service unavailable.</source>
+        	<target>URN-Service nicht verfügbar.</target>
+        </trans-unit>
 		<trans-unit id="form_legend.primaryFile" approved="yes">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
 			<target>Volltextdatei* (Format: PDF / PDF/A)</target>
