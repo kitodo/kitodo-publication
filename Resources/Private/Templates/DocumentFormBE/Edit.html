@@ -15,14 +15,16 @@
 <f:layout name="DocumentBE"/>
 
 <f:section name="main">
-
-    <f:flashMessages />
-
+    
     <h2>
         <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
     </h2>
 
     <h3 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h3>
+
+    <f:flashMessages />
+
+    <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
 
     <f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
             additionalAttributes="{data-disabled: '{documentForm.saveDisabled}'}">
