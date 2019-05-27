@@ -16,54 +16,29 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-use EWW\Dpf\Domain\Repository\ClientRepository;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
-use EWW\Dpf\Domain\Repository\DocumentRepository;
-
 class ext_update {
 
+    // Ideally the version corresponds with the extension version
+    const VERSION = "v2.0.0";
+
     public function access() {
+        $registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
+        $version = $registry->get('tx_dpf','updatescript-'.self::VERSION);
+
+        // If the version has already been registered in the table sys_register the updatscript will be blocked.
+        if ($version) {
+            return FALSE;
+        }
+
         return TRUE;
     }
 
     public function main() {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\Object\\ObjectManager');
-        $clientRepository = $objectManager->get(ClientRepository);
+        // This script registers itself into the sys_registry table to prevent a re-run with the same version number.
+        $registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
+        $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
 
-        $processNumberGenerator = $objectManager->get(ProcessNumberGenerator::class);
-
-        $documentRepository = $objectManager->get(DocumentRepository::class);
-
-        $documents = $documentRepository->findDocumentsWithoutProcessNumber();
-
-        if (count($documents) == 0) return;
-
-        foreach ($documents as $document) {
-            $pid = $document->getPid();
-            $clients = $clientRepository->findAllByPid($pid);
-            if ($clients) {
-                if (count($clients) != 1) {
-                    throw new \Exception('Invalid number of client records for pid: '.$pid);
-                }
-            }
-        }
-
-        foreach ($documents as $document) {
-            $pid = $document->getPid();
-            $clients = $clientRepository->findAllByPid($pid);
-            if ($clients) {
-                if (count($clients) == 1) {
-                    $client = $clients->getFirst();
-                    $ownerId = $client->getOwnerId();
-                    $processNumber = $processNumberGenerator->getProcessNumber($ownerId);
-                    $document->setProcessNumber($processNumber);
-                    $documentRepository->update($document);
-                }
-            }
-        }
-
-        return "Das Update wurde erfolgreich ausgeführt.";
-
+        return "Das Updatescript wurde erfolgreich ausgeführt.";
     }
 
 
