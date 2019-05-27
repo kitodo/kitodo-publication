@@ -20,6 +20,7 @@ use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
 
 /**
  * SearchController
@@ -203,12 +204,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
-            } elseif ($exception instanceof \EWW\Dpf\Exceptions\RetrieveDocumentErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
             }

@@ -116,6 +116,9 @@
 		<trans-unit id="document_update.success">
 			<source>%s successfully updated.</source>
 		</trans-unit>
+		<trans-unit id="document_transfer.next_id_failure">
+			<source>Couldn't get a valid Document id from the repository.</source>
+		</trans-unit>
         <trans-unit id="document_transfer.connection_error">
             <source>The connection to the repository server failed.</source>
         </trans-unit>

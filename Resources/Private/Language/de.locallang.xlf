@@ -153,6 +153,10 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
+		<trans-unit id="document_transfer.next_id_failure" approved="yes">
+			<source>Couldn't get a valid Document id from the repository.</source>
+			<target>Es konnte keine gültige Dokument-ID aus dem Repository abgerufen werden.</target>
+		</trans-unit>
         <trans-unit id="document_transfer.connection_error" approved="yes">
             <source>The connection to the repository server failed.</source>
             <target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>

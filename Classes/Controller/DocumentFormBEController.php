@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
 
 class DocumentFormBEController extends AbstractDocumentFormController
 {
@@ -59,10 +60,8 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
             }
@@ -99,10 +98,8 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
-            if ($exception instanceof \EWW\Dpf\Exceptions\ConnectionErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
-            } elseif ($exception instanceof \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
             }

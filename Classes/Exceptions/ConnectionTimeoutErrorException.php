@@ -14,6 +14,10 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ConnectionTimeoutErrorException extends \Exception
+class ConnectionTimeoutErrorException extends \Exception implements DPFExceptionInterface
 {
+    public function messageLanguageKey()
+    {
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+    }
 }

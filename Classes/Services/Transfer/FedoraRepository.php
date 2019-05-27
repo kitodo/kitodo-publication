@@ -200,7 +200,6 @@ class FedoraRepository implements Repository
      */
     public function getNextDocumentId()
     {
-
         try {
             $response = Request::get($this->clientConfigurationManager->getFedoraHost() . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")
                 ->authenticateWith($this->clientConfigurationManager->getFedoraUser(), $this->clientConfigurationManager->getFedoraPassword())

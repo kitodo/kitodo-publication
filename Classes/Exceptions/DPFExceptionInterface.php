@@ -14,10 +14,7 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class RetrieveDocumentErrorException extends \Exception implements DPFExceptionInterface
+interface DPFExceptionInterface
 {
-    public function messageLanguageKey()
-    {
-        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
-    }
+  public function messageLanguageKey();
 }

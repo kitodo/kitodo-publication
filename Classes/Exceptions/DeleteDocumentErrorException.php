@@ -14,6 +14,10 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class DeleteDocumentErrorException extends \Exception
+class DeleteDocumentErrorException extends \Exception implements DPFExceptionInterface
 {
+    public function messageLanguageKey()
+    {
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure';
+    }
 }
