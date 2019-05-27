@@ -181,13 +181,6 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 }
             }
         });
-        /*        if (checkPrimaryFile(fieldset)) {
-              $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>'+form_error_msg_group_mandatory+'</div>').insertBefore(fieldset.find('legend').last());
-              showFormError();
-              error = true;
-              markPage(fieldset,true);
-            }
-          */
         });
         return !error;
     }
@@ -230,7 +223,6 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 $(this).removeClass('mandatory-error');
             }
         });
-        //markPage(fieldset,mandatoryError);
         return mandatoryError;
     }
 
@@ -244,7 +236,6 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 $(this).removeClass('mandatory-error');
             }
         });
-        //  markPage(fieldset,mandatoryError);
         return mandatoryError;
     }
 
@@ -256,7 +247,6 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             }
             $(this).removeClass('mandatory-error');
         });
-        //markPage(fieldset,filledInputs < 1);
         return filledInputs < 1;
     }
 
@@ -265,7 +255,6 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         // Get the group uid
         var dataGroup = $(this).attr('data-group');
         // Number of the next group item
-        // var groupIndex = $(this).parent().find('fieldset[data-group="'+dataGroup+'"]').length;
         var groupIndex = parseInt($(this).attr('data-index')) + 1;
         $(this).attr('data-index', groupIndex);
         var ajaxURL = $(this).attr('data-ajax');
@@ -320,20 +309,13 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             if (gndField.length != 0) {
                 setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
             }
-
-            //  var height =$('input[data-field="'+dataField+'"][data-index="'+fieldIndex+'"]').last().outerHeight(true)
-            // $('html, body').animate({
-            //   scrollTop: element.offset().top - height
-            //}, 400);
         });
         return false;
     }
 
     var deleteFile = function() {
         var fileGroup = $(this).parent().parent();
-        //$(this).parent().remove();
         var ajaxURL = $(this).attr('data-ajax');
-        //var params = buildAjaxParams(ajaxURL,"fileUid",fieldIndex);
         var params = {};
         //do the ajax-call
         $.post(ajaxURL, params, function(element) {
@@ -374,11 +356,8 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         $.getJSON(ajaxURL, params, function(element) {
             $('#qucosaid').val(element.qucosaId);
             $('#qucosaUrn').val(element.value);
-            //var inputField = $('.input-field[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
             var inputField = $('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
             inputField.val(element.value);
-            //var fillOutButton = $('.fill_out_service_urn[data-field="'+ fieldUid +'"][data-index="'+ fieldIndex +'"]');
-            //fillOutButton.hide();
             buttonFillOutServiceUrn();
         });
         return false;
@@ -697,9 +676,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         $(".tx-dpf").on("click", ".add_field", addField);
         $(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
         $(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
-        //$(window).on("scroll", "", continuousScroll);
         $(".tx-dpf").on("click", "#next", continuousScroll);
-        // $(".form-submit").on("click","#save",
         $(".form-submit").on("click", "#save", validateFormAndSave);
         $(".form-submit").on("click", "#validate", validateFormOnly);
 

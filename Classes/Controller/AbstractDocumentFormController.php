@@ -118,8 +118,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
-        $this->view->assign('listtype', $this->settings['listtype']);
-
         $this->view->assign('documentTypes', $docTypes);
         $this->view->assign('documents', $documents);
     }

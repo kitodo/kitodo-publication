@@ -221,22 +221,6 @@
 			<source>Virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection" approved="yes">
-			<source>Fedora Connection</source>
-			<target>Fedora Verbindung</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.password" approved="yes">
-			<source>Password</source>
-			<target>Paswort</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.url" approved="yes">
-			<source>Url</source>
-			<target>Url</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.user" approved="yes">
-			<source>User</source>
-			<target>Benutzer</target>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
 			<source>File</source>
 			<target>Datei</target>

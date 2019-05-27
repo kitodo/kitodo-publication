@@ -51,7 +51,7 @@ if (TYPO3_MODE === 'BE') {
         'qucosamanager',
         '',
         array(
-            'Document'         => 'list, show, new, create, edit, update, delete, discard, release, duplicate, '
+            'Document'         => 'list, delete, discard, release, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
             . 'listNew, listEdit, activate, inactivate, restore',
 
@@ -67,23 +67,7 @@ if (TYPO3_MODE === 'BE') {
             'navigationComponentId' => 'typo3-pagetree',
         )
     );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'EWW.' . $_EXTKEY,
-        'qucosaMain',
-        'admin',
-        '',
-        array(
-            'Client' => 'new,create,default',
-        ),
-        array(
-            'access'                => 'user,group',
-            'icon'                  => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-            'labels'                => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_admin.xlf',
-            'navigationComponentId' => 'typo3-pagetree',
-        )
-    );
-
+    
 }
 
 
@@ -99,9 +83,6 @@ if (TYPO3_MODE === 'BE') {
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dpf_domain_model_metadataobject', 'EXT:dpf/Resources/Private/Language/locallang_csh_tx_dpf_domain_model_metadataobject.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_metadataobject');
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dpf_domain_model_fedoraconnection', 'EXT:dpf/Resources/Private/Language/locallang_csh_tx_dpf_domain_model_fedoraconnection.xlf');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_fedoraconnection');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dpf_domain_model_metadatapage', 'EXT:dpf/Resources/Private/Language/locallang_csh_tx_dpf_domain_model_metadatapage.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_metadatapage');

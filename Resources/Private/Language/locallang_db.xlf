@@ -167,18 +167,6 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.virtual">
 			<source>Virtual</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection">
-			<source>Fedora Connection</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.password">
-			<source>Password</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.url">
-			<source>Url</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_fedoraconnection.user">
-			<source>User</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file">
 			<source>File</source>
 		</trans-unit>

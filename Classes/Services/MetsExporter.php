@@ -145,7 +145,6 @@ class MetsExporter
         $xml = preg_replace("/eww=\"\d-\d-\d\"/", '${1}${2}${3}', $xml);
 
         return $xml;
-        // return $this->metsData->saveXML();
     }
 
     /**
@@ -364,7 +363,7 @@ class MetsExporter
                 preg_match($search, $match[2], $secondMatch);
                 // first part nested xpath
                 if ($match[2] && $secondMatch[2]) {
-                    $nested = $match[2]; //  $match[1].'/'
+                    $nested = $match[2];
 
                     $nestedXml = $this->parseXPath($nested);
 
@@ -425,7 +424,7 @@ class MetsExporter
                 preg_match($search, $match[2], $secondMatch);
                 // first part nested xpath
                 if ($match[2] && $secondMatch[2]) {
-                    $nested = $match[2]; //  $match[1].'/'
+                    $nested = $match[2];
 
                     $nestedXml = $this->parseXPath($nested);
 
@@ -698,16 +697,12 @@ class MetsExporter
 
                 $domElement->appendChild($file);
                 $domElementFLocat = $domElement->childNodes->item($i);
-                // print_r($domElement->childNodes->item(0));
 
                 if ($value['hasFLocat']) {
                     $fLocat = $domDocument->createElement('mets:FLocat');
                     $fLocat->setAttribute('LOCTYPE', 'URL');
                     $fLocat->setAttribute('xlink:href', $value['path']);
                     $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
-                    //if ($value['title']) {
-                    //    $fLocat->setAttribute('xlink:title', $value['title']);
-                    //}
                     $domElementFLocat->appendChild($fLocat);
                 }
 
@@ -880,7 +875,6 @@ class MetsExporter
             foreach ($slubInfoData['metadata'] as $key => $group) {
                 //groups
                 $mapping = $group['mapping'];
-                // $mapping = substr($mapping, 10);
 
                 $values     = $group['values'];
                 $attributes = $group['attributes'];
@@ -912,7 +906,6 @@ class MetsExporter
                             $xml = $this->customXPathSlub($path, false, $value['value']);
                         } else {
                             $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
-                            // print_r($path);print_r("\n");
 
                             if ($i == 0) {
                                 $newGroupFlag = true;
