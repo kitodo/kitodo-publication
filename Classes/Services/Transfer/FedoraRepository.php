@@ -133,7 +133,7 @@ class FedoraRepository implements Repository
                 throw new \EWW\Dpf\Exceptions\UpdateDocumentErrorException("Fedora error while update document.");
             }
         } catch (\Exception $exception) {
-            TransferLogger::Log('INGEST', $document->getUid(), null, $exception->getMessage());
+            TransferLogger::Log('UPDATE', $document->getUid(), null, $exception->getMessage());
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
@@ -174,7 +174,7 @@ class FedoraRepository implements Repository
                 throw new \EWW\Dpf\Exceptions\RetrieveDocumentErrorException("Fedora has returned an error.");
             }
         } catch (\Exception $exception) {
-            TransferLogger::Log('INGEST', $document->getUid(), null, $exception->getMessage());
+            TransferLogger::Log('RETRIEVE', null, $remoteId, $exception->getMessage());
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
@@ -215,7 +215,7 @@ class FedoraRepository implements Repository
                 throw new \EWW\Dpf\Exceptions\NextDocumentIdErrorException("Fedora error while getting a document id.");
             }
         } catch (\Exception $exception) {
-            TransferLogger::Log('INGEST', null, null, $exception->getMessage());
+            TransferLogger::Log('GET_NEXT_DOCUMENT_ID', null, null, $exception->getMessage());
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
@@ -271,7 +271,7 @@ class FedoraRepository implements Repository
                 }
             }
         } catch (\Exception $exception) {
-            TransferLogger::Log('INGEST', $document->getUid(), null, $exception->getMessage());
+            TransferLogger::Log('DELETE', $document->getUid(), null, $exception->getMessage());
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();

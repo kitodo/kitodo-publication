@@ -200,8 +200,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function releaseAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $defaultMessage = "";
-
         try {
             // generate URN if needed
             $qucosaId = $document->getObjectIdentifier();
