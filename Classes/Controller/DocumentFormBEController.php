@@ -63,7 +63,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
             if ($exception instanceof DPFExceptionInterface) {
                 $key = $exception->messageLanguageKey();
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
             }
 
             $document = $this->documentRepository->findByUid($documentData['documentUid']);
@@ -101,7 +101,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
             if ($exception instanceof DPFExceptionInterface) {
                 $key = $exception->messageLanguageKey();
             } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.unexpected_error';
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
             }
 
             $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);

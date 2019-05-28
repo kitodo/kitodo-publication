@@ -125,7 +125,7 @@
         <trans-unit id="document_transfer.connection_timeout_error">
             <source>The connection to the repository server ended with a timeout.</source>
         </trans-unit>
-        <trans-unit id="document_transfer.unexpected_error">
+        <trans-unit id="error.unexpected">
             <source>Failed, an unexpected error occurred.</source>
         </trans-unit>
 		<trans-unit id="form_button.addFile">

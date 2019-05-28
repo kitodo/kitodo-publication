@@ -165,7 +165,7 @@
             <source>The connection to the repository server ended with a timeout.</source>
             <target>Die Verbindung zum Repository-Server wurde mit einer Zeitüberschreitung abgebrochen.</target>
         </trans-unit>
-        <trans-unit id="document_transfer.unexpected_error" approved="yes">
+        <trans-unit id="error.unexpected" approved="yes">
             <source>Failed, an unexpected error occurred.</source>
             <target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
         </trans-unit>
