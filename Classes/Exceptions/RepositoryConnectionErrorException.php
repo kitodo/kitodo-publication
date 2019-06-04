@@ -14,10 +14,10 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ConnectionErrorException extends \Exception implements DPFExceptionInterface
+class RepositoryConnectionErrorException extends \Exception implements DPFExceptionInterface
 {
     public function messageLanguageKey()
     {
-        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_error';
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.repository_connection_error';
     }
 }

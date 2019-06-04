@@ -15,7 +15,7 @@ namespace EWW\Dpf\Services;
  */
 
 use Elasticsearch\Client as Client;
-use EWW\Dpf\Exceptions\ConnectionErrorException;
+use EWW\Dpf\Exceptions\RepositoryConnectionErrorException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 
@@ -87,9 +87,9 @@ class ElasticSearch
 
             return $this->resultList;
         } catch ( \Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost $exception) {
-            throw new \EWW\Dpf\Exceptions\ConnectionErrorException("Could not connect to repository server.");
+            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
         } catch (\Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException $exception) {
-            throw new \EWW\Dpf\Exceptions\ConnectionErrorException("Could not connect to repository server.");
+            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
         }
     }
 

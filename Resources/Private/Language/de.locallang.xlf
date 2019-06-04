@@ -157,13 +157,13 @@
 			<source>Couldn't get a valid Document id from the repository.</source>
 			<target>Es konnte keine gültige Dokument-ID aus dem Repository abgerufen werden.</target>
 		</trans-unit>
-        <trans-unit id="document_transfer.connection_error" approved="yes">
+        <trans-unit id="document_transfer.repository_connection_error" approved="yes">
             <source>The connection to the repository server failed.</source>
             <target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>
         </trans-unit>
-        <trans-unit id="document_transfer.connection_timeout_error" approved="yes">
-            <source>The connection to the repository server ended with a timeout.</source>
-            <target>Die Verbindung zum Repository-Server wurde mit einer Zeitüberschreitung abgebrochen.</target>
+        <trans-unit id="document_transfer.elasticsearch_connection_error" approved="yes">
+            <source>The connection to the search server failed.</source>
+            <target>Die Verbindung zum Such-Server ist fehlgeschlagen.</target>
         </trans-unit>
         <trans-unit id="error.unexpected" approved="yes">
             <source>Failed, an unexpected error occurred.</source>

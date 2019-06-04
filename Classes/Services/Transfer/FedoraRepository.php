@@ -90,11 +90,7 @@ class FedoraRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\RepositoryConnectionErrorException($message);
             } else {
                 throw $exception;
             }
@@ -137,11 +133,7 @@ class FedoraRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\RepositoryConnectionErrorException($message);
             } else {
                 throw $exception;
             }
@@ -178,11 +170,7 @@ class FedoraRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\RepositoryConnectionErrorException($message);
             } else {
                 throw $exception;
             }
@@ -219,11 +207,7 @@ class FedoraRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\RepositoryConnectionErrorException($message);
             } else {
                 throw $exception;
             }
@@ -275,11 +259,7 @@ class FedoraRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\RepositoryConnectionErrorException($message);
             } else {
                 throw $exception;
             }

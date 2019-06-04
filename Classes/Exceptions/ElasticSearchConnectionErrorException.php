@@ -14,10 +14,10 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ConnectionTimeoutErrorException extends \Exception implements DPFExceptionInterface
+class ElasticSearchConnectionErrorException extends \Exception implements DPFExceptionInterface
 {
     public function messageLanguageKey()
     {
-        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.connection_timeout_error';
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.elasticsearch_connection_error';
     }
 }

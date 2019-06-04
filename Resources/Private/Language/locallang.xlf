@@ -119,11 +119,11 @@
 		<trans-unit id="document_transfer.next_id_failure">
 			<source>Couldn't get a valid Document id from the repository.</source>
 		</trans-unit>
-        <trans-unit id="document_transfer.connection_error">
+        <trans-unit id="document_transfer.repository_connection_error">
             <source>The connection to the repository server failed.</source>
         </trans-unit>
-        <trans-unit id="document_transfer.connection_timeout_error">
-            <source>The connection to the repository server ended with a timeout.</source>
+        <trans-unit id="document_transfer.elasticsearch_connection_error">
+            <source>The connection to the search server failed.</source>
         </trans-unit>
         <trans-unit id="error.unexpected">
             <source>Failed, an unexpected error occurred.</source>

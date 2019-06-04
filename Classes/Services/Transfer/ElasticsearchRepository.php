@@ -86,11 +86,7 @@ class ElasticsearchRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException($message);
             } else {
                 throw $exception;
             }
@@ -114,11 +110,7 @@ class ElasticsearchRepository implements Repository
 
             if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
                 $message = $exception->getMessage();
-                if (strpos(strtolower($message),"28 connection timed out") !== FALSE) {
-                    throw new \EWW\Dpf\Exceptions\ConnectionTimeoutErrorException($message);
-                } else {
-                    throw new \EWW\Dpf\Exceptions\ConnectionErrorException($message);
-                }
+                throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException($message);
             } else {
                 throw $exception;
             }
