@@ -19,8 +19,8 @@ Document type
 
 Description of document type
 
-Virtual ->
-MetadataPage ->
+* Virtual
+* MetadataPage
 
 Each document type can have an own configuration but it is also possible to use existent configurations or in this case metadata pages.
 The matadata pages are displayed as tab element and they are used to structure the form elements for the user.
@@ -40,8 +40,8 @@ Metadata page
 
 Description of metadata page
 
-BackendOnly ->
-MetadataGroups ->
+* BackendOnly
+* MetadataGroups
 
 Each of this pages can have several metadata groups. These groups are used to combine metadata objects together if they are in the same mods parent element.
 See the example below in "How to use xpath to write Mods"
