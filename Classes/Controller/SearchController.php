@@ -20,6 +20,7 @@ use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
 
 /**
  * SearchController
@@ -70,27 +71,47 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function nextResultsAction()
     {
-        $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-        if (!$sessionVars['resultCount']) {
-            // set number of results in session
-            $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
-        } else {
-            $resultCount                = $sessionVars['resultCount'];
-            $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
+        try {
+            $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+            if (!$sessionVars['resultCount']) {
+                // set number of results in session
+                $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
+            } else {
+                $resultCount                = $sessionVars['resultCount'];
+                $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
+            }
+            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+
+            $query = $sessionVars['query'];
+
+            $type = 'object';
+
+            $query['body']['from'] = $sessionVars['resultCount'];
+            $query['body']['size'] = self::NEXT_RESULT_COUNT;
+
+            $results = $this->getResultList($query, $type);
+
+            $this->view->assign('resultList', $results);
+            $this->view->assign('alreadyImported', array());
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
         }
-        $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
-        $query = $sessionVars['query'];
-
-        $type = 'object';
-
-        $query['body']['from'] = $sessionVars['resultCount'];
-        $query['body']['size'] = self::NEXT_RESULT_COUNT;
-
-        $results = $this->getResultList($query, $type);
-
-        $this->view->assign('resultList', $results);
-        $this->view->assign('alreadyImported', array());
     }
 
     /**
@@ -117,15 +138,34 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function latestAction()
     {
-        $query = $this->searchLatest();
+        try {
+            $query = $this->searchLatest();
 
-        // set type local vs object
-        $type = 'object';
+            // set type local vs object
+            $type = 'object';
 
-        $results = $this->getResultList($query, $type);
+            $results = $this->getResultList($query, $type);
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
+
+        }
 
         $this->forward("list", null, null, array('results' => $results));
-
     }
 
     /**
@@ -134,42 +174,61 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function searchAction()
     {
-        // perform search action
-        $args = $this->request->getArguments();
+        try {
+            // perform search action
+            $args = $this->request->getArguments();
 
-        // reset session pagination
-        $sessionVars                = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
-        $sessionVars['resultCount'] = self::RESULT_COUNT;
-        $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-
-        $extSearch = ($args['query']['extSearch']) ? true : false;
-
-        // set sorting
-        if ($extSearch) {
-            unset($args['query']['extSearch']);
-            // extended search
-            $query = $this->extendedSearch($args['query']);
-
-        } else {
-            $query = $this->searchFulltext($args['query']['fulltext']);
-        }
-
-        // save search query
-        if ($query) {
-            $query['body']['from'] = '0';
-            $query['body']['size'] = '' . self::RESULT_COUNT . '';
-            $sessionVars           = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
-            $sessionVars['query']  = $query;
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
-        } else {
+            // reset session pagination
             $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
-            $query       = $sessionVars['query'];
+            $sessionVars['resultCount'] = self::RESULT_COUNT;
+            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+
+            $extSearch = ($args['query']['extSearch']) ? true : false;
+
+            // set sorting
+            if ($extSearch) {
+                unset($args['query']['extSearch']);
+                // extended search
+                $query = $this->extendedSearch($args['query']);
+
+            } else {
+                $query = $this->searchFulltext($args['query']['fulltext']);
+            }
+
+            // save search query
+            if ($query) {
+                $query['body']['from'] = '0';
+                $query['body']['size'] = '' . self::RESULT_COUNT . '';
+                $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+                $sessionVars['query'] = $query;
+                $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+            } else {
+                $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+                $query = $sessionVars['query'];
+            }
+
+            // set type local vs object
+            $type = 'object';
+
+            $results = $this->getResultList($query, $type);
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
         }
-
-        // set type local vs object
-        $type = 'object';
-
-        $results = $this->getResultList($query, $type);
 
         if ($extSearch) {
             // redirect to extended search view
@@ -195,18 +254,24 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $args[] = $documentObjectIdentifier;
 
-        if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        } else {
-            $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+        try {
+            if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
         }
 
         // Show success or failure of the action in a flash message
 
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
-        $message = empty($message) ? "" : $message;
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
         $this->addFlashMessage(
             $message,
@@ -246,39 +311,61 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $elasticSearch = $this->objectManager->get(ElasticSearch::class);
+        try {
+            $elasticSearch = $this->objectManager->get(ElasticSearch::class);
 
-        $client = $this->clientRepository->findAll()->current();
+            $client = $this->clientRepository->findAll()->current();
 
-        // es source fields
-        // title
-        // abstract
-        // author
-        // language
-        // publisher
-        // publisher_place
-        // distributor
-        // distributor_place
-        // distributor_date
-        // classification
-        // tag
-        // identifier
-        // submitter
-        // project
+            // es source fields
+            // title
+            // abstract
+            // author
+            // language
+            // publisher
+            // publisher_place
+            // distributor
+            // distributor_place
+            // distributor_date
+            // classification
+            // tag
+            // identifier
+            // submitter
+            // project
 
-        // is doublet existing?
-        $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
+            // is doublet existing?
+            $query['body']['query']['bool']['must'][]['match']['title'] = $document->getTitle();
 
-        // set owner id
-        $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
+            // set owner id
+            $query['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
 
-        $results = $elasticSearch->search($query, '');
+            $results = $elasticSearch->search($query, '');
 
-        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+            $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
-        $this->view->assign('document', $document);
-        $this->view->assign('searchList', $results['hits']);
-        $this->view->assign('alreadyImported', $objectIdentifiers);
+            $this->view->assign('document', $document);
+            $this->view->assign('searchList', $results['hits']);
+            $this->view->assign('alreadyImported', $objectIdentifiers);
+
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
+
+            $this->redirect('list', 'Document', null);
+        }
 
     }
 

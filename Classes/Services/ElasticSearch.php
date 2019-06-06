@@ -15,6 +15,7 @@ namespace EWW\Dpf\Services;
  */
 
 use Elasticsearch\Client as Client;
+use EWW\Dpf\Exceptions\RepositoryConnectionErrorException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 
@@ -67,23 +68,29 @@ class ElasticSearch
      */
     public function search($query, $type)
     {
-        // define type and index
-        if (empty($query['index'])) {
-            $query['index'] = $this->index;
+        try {
+            // define type and index
+            if (empty($query['index'])) {
+                $query['index'] = $this->index;
+            }
+            if (!empty($type)) {
+                $query['type'] = $type;
+                // $query['type'] = $this->type;
+            }
+
+            // Search request
+            $results = $this->es->search($query);
+
+            $this->hits = $results['hits']['total'];
+
+            $this->resultList = $results['hits'];
+
+            return $this->resultList;
+        } catch ( \Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost $exception) {
+            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
+        } catch (\Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException $exception) {
+            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
         }
-        if (!empty($type)) {
-            $query['type'] = $type;
-            // $query['type'] = $this->type;
-        }
-
-        // Search request
-        $results = $this->es->search($query);
-
-        $this->hits = $results['hits']['total'];
-
-        $this->resultList = $results['hits'];
-
-        return $this->resultList;
     }
 
     /**

@@ -82,8 +82,14 @@ class ElasticsearchRepository implements Repository
                 ->body($esJson)
                 ->send();
 
-        } catch (Exception $exception) {
-            var_dump($exception);
+        } catch (\Exception $exception) {
+
+            if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
+                $message = $exception->getMessage();
+                throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException($message);
+            } else {
+                throw $exception;
+            }
         }
 
     }
@@ -100,8 +106,14 @@ class ElasticsearchRepository implements Repository
             $response = Request::delete($this->url . $document->getUid())
                 ->send();
 
-        } catch (Exception $exception) {
-            var_dump($exception);
+        } catch (\Exception $exception) {
+
+            if ($exception instanceof \Httpful\Exception\ConnectionErrorException) {
+                $message = $exception->getMessage();
+                throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException($message);
+            } else {
+                throw $exception;
+            }
         }
 
     }

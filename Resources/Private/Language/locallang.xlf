@@ -77,8 +77,14 @@
 		<trans-unit id="document_discard.success">
 			<source>Document successfully discarded.</source>
 		</trans-unit>
+		<trans-unit id="document_discard.failure">
+			<source>Document could not be discarded.</source>
+		</trans-unit>
 		<trans-unit id="document_duplicate.success">
 			<source>The document has been duplicated.</source>
+		</trans-unit>
+		<trans-unit id="document_duplicate.failure">
+			<source>The document could not be duplicated.</source>
 		</trans-unit>
 		<trans-unit id="document_inactivate.failure">
 			<source>Inactivating %s failed.</source>
@@ -110,6 +116,18 @@
 		<trans-unit id="document_update.success">
 			<source>%s successfully updated.</source>
 		</trans-unit>
+		<trans-unit id="document_transfer.next_id_failure">
+			<source>Couldn't get a valid Document id from the repository.</source>
+		</trans-unit>
+        <trans-unit id="document_transfer.repository_connection_error">
+            <source>The connection to the repository server failed.</source>
+        </trans-unit>
+        <trans-unit id="document_transfer.elasticsearch_connection_error">
+            <source>The connection to the search server failed.</source>
+        </trans-unit>
+        <trans-unit id="error.unexpected">
+            <source>Failed, an unexpected error occurred.</source>
+        </trans-unit>
 		<trans-unit id="form_button.addFile">
 			<source>add file</source>
 		</trans-unit>
@@ -163,6 +181,9 @@
 		</trans-unit>
         <trans-unit id="form_error_msg.nothing_found">
         	<source>Nothing found.</source>
+        </trans-unit>
+        <trans-unit id="form_error_msg.filloutservice_urn">
+        	<source>URN service unavailable.</source>
         </trans-unit>
 		<trans-unit id="form_legend.primaryFile">
 			<source>Primary File* (Format: PDF / PDF/A)</source>

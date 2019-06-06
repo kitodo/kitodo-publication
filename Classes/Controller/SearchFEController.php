@@ -105,14 +105,27 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function searchAction()
     {
-        if ($this->action == 'extendedSearch') {
-            $this->forward('extendedSearch');
-        }
-        if (!empty($this->query['fulltext'])) {
-            $query            = $this->searchFulltext($this->query['fulltext']);
-            $this->resultList = $this->getResults($query);
-            $this->setSession();
-            $this->viewAssign();
+        try {
+            if ($this->action == 'extendedSearch') {
+                $this->forward('extendedSearch');
+            }
+            if (!empty($this->query['fulltext'])) {
+                $query = $this->searchFulltext($this->query['fulltext']);
+                $this->resultList = $this->getResults($query);
+                $this->setSession();
+                $this->viewAssign();
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
         }
     }
 
@@ -122,15 +135,28 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function extendedSearchAction()
     {
-        if ($this->action == 'search') {
-            $this->forward('search');
-        }
-        $this->docTypes();
-        if (!empty(implode('', $this->query))) {
-            $query            = $this->extendedSearch($this->query);
-            $this->resultList = $this->getResults($query);
-            $this->setSession();
-            $this->viewAssign();
+        try {
+            if ($this->action == 'search') {
+                $this->forward('search');
+            }
+            $this->docTypes();
+            if (!empty(implode('', $this->query))) {
+                $query = $this->extendedSearch($this->query);
+                $this->resultList = $this->getResults($query);
+                $this->setSession();
+                $this->viewAssign();
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
         }
     }
 

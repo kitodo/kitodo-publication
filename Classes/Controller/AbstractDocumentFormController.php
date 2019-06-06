@@ -328,7 +328,13 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $updateDocument = $documentMapper->getDocument($documentForm);
 
-        $objectIdentifier = $updateDocument->getObjectIdentifier();
+        // add document to local es index
+        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
+
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+        // send document to index
+        $elasticsearchRepository->add($updateDocument, $json);
 
         $updateDocument->setChanged(true);
 
@@ -350,14 +356,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             }
 
         }
-
-        // add document to local es index
-        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
-
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        // send document to index
-        $elasticsearchRepository->add($updateDocument, $json);
 
         if (array_key_exists('savecontinue', $requestArguments)) {
             $this->forward('edit', null, null, array('documentForm' => $documentForm));

@@ -101,9 +101,17 @@
 			<source>Document successfully discarded.</source>
 			<target>Dokument erfolgreich verworfen.</target>
 		</trans-unit>
+		<trans-unit id="document_discard.failure" approved="yes">
+			<source>Document could not be discarded.</source>
+			<target>Dokument konnte nicht verworfen werden.</target>
+		</trans-unit>
 		<trans-unit id="document_duplicate.success" approved="yes">
 			<source>The document has been duplicated.</source>
 			<target>Das Dokument wurde dupliziert.</target>
+		</trans-unit>
+		<trans-unit id="document_duplicate.failure">
+			<source>The document could not be duplicated.</source>
+			<target>Das Dokument konnte nicht dupliziert werden.</target>
 		</trans-unit>
 		<trans-unit id="document_inactivate.failure" approved="yes">
 			<source>Inactivating %s failed.</source>
@@ -145,6 +153,22 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
+		<trans-unit id="document_transfer.next_id_failure" approved="yes">
+			<source>Couldn't get a valid Document id from the repository.</source>
+			<target>Es konnte keine gültige Dokument-ID aus dem Repository abgerufen werden.</target>
+		</trans-unit>
+        <trans-unit id="document_transfer.repository_connection_error" approved="yes">
+            <source>The connection to the repository server failed.</source>
+            <target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>
+        </trans-unit>
+        <trans-unit id="document_transfer.elasticsearch_connection_error" approved="yes">
+            <source>The connection to the search server failed.</source>
+            <target>Die Verbindung zum Such-Server ist fehlgeschlagen.</target>
+        </trans-unit>
+        <trans-unit id="error.unexpected" approved="yes">
+            <source>Failed, an unexpected error occurred.</source>
+            <target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
+        </trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
 			<target>Weitere Datei hinzufügen</target>
@@ -216,6 +240,10 @@
 		<trans-unit id="form_error_msg.nothing_found">
             <source>Nothing found.</source>
             <target>Es wurde kein passender Eintrag gefunden.</target>
+        </trans-unit>
+        <trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
+        	<source>URN service unavailable.</source>
+        	<target>URN-Service nicht verfügbar.</target>
         </trans-unit>
 		<trans-unit id="form_legend.primaryFile" approved="yes">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
