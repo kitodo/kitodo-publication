@@ -191,7 +191,7 @@ return array(
 
         'crdate'                     => array(
             'exclude' => 0,
-            'label'   => 'Creation date',
+            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.creationDate',
             'config'  => array(
                 'type'   => 'none',
                 'format' => 'datetime',
@@ -201,7 +201,7 @@ return array(
 
         'tstamp'                     => array(
             'exclude' => 0,
-            'label'   => 'Timestamp',
+            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.timestamp',
             'config'  => array(
                 'type'   => 'input',
                 'renderType' => 'inputDateTime',

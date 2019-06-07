@@ -20,12 +20,6 @@
 		<trans-unit id="object_identifier.description">
 			<source>object identifier</source>
 		</trans-unit>
-		<trans-unit id="process_number.description">
-			<source>process number</source>
-		</trans-unit>
-		<trans-unit id="reserved_object_identifier.description">
-			<source>reserved object identifier</source>
-		</trans-unit>
 		<trans-unit id="response.description">
 			<source>response</source>
 		</trans-unit>

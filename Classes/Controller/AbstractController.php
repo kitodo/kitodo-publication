@@ -36,9 +36,13 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
             if ($selectedPageId) {
                 $client = $this->clientRepository->findAll()->current();
             }
+
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.chooseClientMessage';
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
             if (!$client) {
                 $this->addFlashMessage(
-                    "Es wurde kein gültiger Mandantenordner ausgewählt.",
+                    $message,
                     $messageTitle = '',
                     $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
                     $storeInSession = true

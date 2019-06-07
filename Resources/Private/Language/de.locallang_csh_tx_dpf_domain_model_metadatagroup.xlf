@@ -6,47 +6,47 @@
 		</header>
 		<body>
 		<trans-unit id="backend_only.description" approved="yes">
-			<source>backendOnly</source>
+			<source>Backend only</source>
 			<target>Nur Backend</target>
 		</trans-unit>
 		<trans-unit id="display_name.description" approved="yes">
-			<source>displayName</source>
+			<source>Display name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
 		<trans-unit id="info_text.description" approved="yes">
-			<source>info text</source>
+			<source>Info text</source>
 			<target>Info Text</target>
 		</trans-unit>
 		<trans-unit id="mandatory.description" approved="yes">
-			<source>mandatory</source>
+			<source>Mandatory</source>
 			<target>Pflicht</target>
 		</trans-unit>
 		<trans-unit id="mapping.description" approved="yes">
-			<source>mapping</source>
+			<source>Mapping</source>
 			<target>Zuordnung</target>
 		</trans-unit>
 		<trans-unit id="mapping_for_reading.description" approved="yes">
-			<source>mapping for reading</source>
+			<source>Mapping for reading</source>
 			<target>Zuordnung für Lesen</target>
 		</trans-unit>
 		<trans-unit id="max_iteration.description" approved="yes">
-			<source>maxIteration</source>
+			<source>Max iteration</source>
 			<target>Maximale Iterationen</target>
 		</trans-unit>
 		<trans-unit id="metadata_object.description" approved="yes">
-			<source>metadataObject</source>
+			<source>Metadata object</source>
 			<target>Metadatenobjekt</target>
 		</trans-unit>
 		<trans-unit id="mods_extension_mapping.description" approved="yes">
-			<source>mods extension mapping</source>
+			<source>Mods extension mapping</source>
 			<target>Zuordnung Modserweiterund</target>
 		</trans-unit>
 		<trans-unit id="mods_extension_reference.description" approved="yes">
-			<source>mods extension reference attribute</source>
+			<source>Mods extension reference attribute</source>
 			<target>Referenzattribut Modserweiterung</target>
 		</trans-unit>
 		<trans-unit id="name.description" approved="yes">
-			<source>name</source>
+			<source>Name</source>
 			<target>Name</target>
 		</trans-unit>
 		</body>

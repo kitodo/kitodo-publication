@@ -25,14 +25,6 @@
 			<source>object identifier</source>
 			<target>Obektkennung</target>
 		</trans-unit>
-		<trans-unit id="process_number.description" approved="yes">
-			<source>process number</source>
-			<target>Vorgangsnummer</target>
-		</trans-unit>
-		<trans-unit id="reserved_object_identifier.description" approved="yes">
-			<source>reserved object identifier</source>
-			<target>Reservierte Objektkennung</target>
-		</trans-unit>
 		<trans-unit id="response.description" approved="yes">
 			<source>response</source>
 			<target>Antwort </target>

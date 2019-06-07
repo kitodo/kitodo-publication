@@ -5,24 +5,84 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-		<trans-unit id="admin_email.description">
-			<source>Admin email</source>
-		</trans-unit>
-		<trans-unit id="client.description">
-			<source>Client name</source>
-		</trans-unit>
-		<trans-unit id="library_identifier.description">
-			<source>Library identifier</source>
-		</trans-unit>
-		<trans-unit id="network_initial.description">
-			<source>Network initial</source>
-		</trans-unit>
-		<trans-unit id="owner_id.description">
-			<source>Owner ID</source>
-		</trans-unit>
-		<trans-unit id="project.description">
-			<source>Project name</source>
-		</trans-unit>
+        <trans-unit id="project.description">
+            <source>Project name</source>
+        </trans-unit>
+        <trans-unit id="client.description">
+            <source>Client name</source>
+        </trans-unit>
+        <trans-unit id="network_initial.description">
+            <source>Network initial</source>
+        </trans-unit>
+        <trans-unit id="library_identifier.description">
+            <source>Library identifier</source>
+        </trans-unit>
+        <trans-unit id="owner_id.description">
+            <source>Owner ID</source>
+        </trans-unit>
+        <trans-unit id="admin_email.description">
+            <source>Admin email</source>
+        </trans-unit>
+        <trans-unit id="replace_niss_part.description">
+            <source>Replace NISS part: Workaround to ensure clear URNs for local generation in the frontend</source>
+        </trans-unit>
+        <trans-unit id="niss_part_search.description">
+            <source>NISS part search: Workaround to ensure clear URNs for local generation in the frontend</source>
+        </trans-unit>
+        <trans-unit id="niss_part_replace.description">
+            <source>NISS part replace: Workaround to ensure clear URNs for local generation in the frontend</source>
+        </trans-unit>
+        <trans-unit id="sword_host.description">
+            <source>Host address</source>
+        </trans-unit>
+        <trans-unit id="sword_user.description">
+            <source>Username</source>
+        </trans-unit>
+        <trans-unit id="sword_password.description">
+            <source>Password</source>
+        </trans-unit>
+        <trans-unit id="sword_collection_namespace.description">
+            <source>Collection namespace</source>
+        </trans-unit>
+        <trans-unit id="fedora_host.description">
+            <source>Host address</source>
+        </trans-unit>
+        <trans-unit id="fedora_user.description">
+            <source>Username</source>
+        </trans-unit>
+        <trans-unit id="fedora_password.description">
+            <source>Password</source>
+        </trans-unit>
+        <trans-unit id="elastic_search_host.description">
+            <source>Host address </source>
+        </trans-unit>
+        <trans-unit id="elastic_search_port.description">
+            <source>Port</source>
+        </trans-unit>
+        <trans-unit id="upload_directory.description">
+            <source>Directory path</source>
+        </trans-unit>
+        <trans-unit id="upload_domain.description">
+            <source>Domain</source>
+        </trans-unit>
+        <trans-unit id="admin_new_document_notification_subject.description">
+            <source>New document subject</source>
+        </trans-unit>
+        <trans-unit id="admin_new_document_notification_body.description">
+            <source>New document body</source>
+        </trans-unit>
+        <trans-unit id="submitter_new_document_notification_subject.description">
+            <source>New document subject</source>
+        </trans-unit>
+        <trans-unit id="submitter_new_document_notification_body.description">
+            <source>New document body</source>
+        </trans-unit>
+        <trans-unit id="submitter_ingest_notification_subject.description">
+            <source>Ingest subject</source>
+        </trans-unit>
+        <trans-unit id="submitter_ingest_notification_body.description">
+            <source>Ingest body</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

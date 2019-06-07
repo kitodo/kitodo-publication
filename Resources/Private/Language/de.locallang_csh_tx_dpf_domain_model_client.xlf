@@ -5,30 +5,110 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-		<trans-unit id="admin_email.description" approved="yes">
-			<source>Admin email</source>
-			<target>Admin E-Mail</target>
-		</trans-unit>
-		<trans-unit id="client.description" approved="yes">
-			<source>Client name</source>
-			<target>Mandantenname</target>
-		</trans-unit>
-		<trans-unit id="library_identifier.description" approved="yes">
-			<source>Library identifier</source>
-			<target>Bibliothekskennung</target>
-		</trans-unit>
-		<trans-unit id="network_initial.description" approved="yes">
-			<source>Network initial</source>
-			<target>Netzwerk Initial</target>
-		</trans-unit>
-		<trans-unit id="owner_id.description" approved="yes">
-			<source>Owner ID</source>
-			<target>Besitzer ID</target>
-		</trans-unit>
-		<trans-unit id="project.description" approved="yes">
-			<source>Project name</source>
-			<target>Projektname</target>
-		</trans-unit>
+        <trans-unit id="project.description" approved="yes">
+            <source>Project name</source>
+            <target>Projektname</target>
+        </trans-unit>
+        <trans-unit id="client.description" approved="yes">
+            <source>Client name</source>
+            <target>Mandantenname</target>
+        </trans-unit>
+        <trans-unit id="network_initial.description" approved="yes">
+            <source>Network initial</source>
+            <target>Netzwerk Initial</target>
+        </trans-unit>
+        <trans-unit id="library_identifier.description" approved="yes">
+            <source>Library identifier</source>
+            <target>Bibliothekskennung</target>
+        </trans-unit>
+        <trans-unit id="owner_id.description" approved="yes">
+            <source>Owner ID</source>
+            <target>Besitzer ID</target>
+        </trans-unit>
+        <trans-unit id="admin_email.description" approved="yes">
+            <source>Admin email</source>
+            <target>Admin E-Mail</target>
+        </trans-unit>
+        <trans-unit id="replace_niss_part.description" approved="yes">
+            <source>Replace NISS part: Workaround to ensure clear URNs for local generation in the frontend</source>
+            <target>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</target>
+        </trans-unit>
+        <trans-unit id="niss_part_search.description" approved="yes">
+            <source>NISS part search: Workaround to ensure clear URNs for local generation in the frontend</source>
+            <target>NISS part search: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</target>
+        </trans-unit>
+        <trans-unit id="niss_part_replace.description" approved="yes">
+            <source>NISS part replace: Workaround to ensure clear URNs for local generation in the frontend</source>
+            <target>NISS part replace: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</target>
+        </trans-unit>
+        <trans-unit id="sword_host.description" approved="yes">
+            <source>Host address</source>
+            <target>Hostadresse</target>
+        </trans-unit>
+        <trans-unit id="sword_user.description" approved="yes">
+            <source>Username</source>
+            <target>Benutzername</target>
+        </trans-unit>
+        <trans-unit id="sword_password.description" approved="yes">
+            <source>Password</source>
+            <target>Passwort</target>
+        </trans-unit>
+        <trans-unit id="sword_collection_namespace.description" approved="yes">
+            <source>Collection namespace</source>
+            <target>Kollektionsnamensraum</target>
+        </trans-unit>
+        <trans-unit id="fedora_host.description" approved="yes">
+            <source>Host address</source>
+            <target>Hostadresse</target>
+        </trans-unit>
+        <trans-unit id="fedora_user.description" approved="yes">
+            <source>Username</source>
+            <target>Benutzername</target>
+        </trans-unit>
+        <trans-unit id="fedora_password.description" approved="yes">
+            <source>Password</source>
+            <target>Passwort</target>
+        </trans-unit>
+        <trans-unit id="elastic_search_host.description" approved="yes">
+            <source>Host address </source>
+            <target>Hostadresse</target>
+        </trans-unit>
+        <trans-unit id="elastic_search_port.description" approved="yes">
+            <source>Port</source>
+            <target>Port</target>
+        </trans-unit>
+        <trans-unit id="upload_directory.description" approved="yes">
+            <source>Directory path</source>
+            <target>Verzeichnispfad</target>
+        </trans-unit>
+        <trans-unit id="upload_domain.description" approved="yes">
+            <source>Domain</source>
+            <target>Domain</target>
+        </trans-unit>
+        <trans-unit id="admin_new_document_notification_subject.description" approved="yes">
+            <source>New document subject</source>
+            <target>Neues Dokumententhema</target>
+        </trans-unit>
+        <trans-unit id="admin_new_document_notification_body.description" approved="yes">
+            <source>New document body</source>
+            <target>Neuer Dokument Body</target>
+        </trans-unit>
+        <trans-unit id="submitter_new_document_notification_subject.description" approved="yes">
+            <source>New document subject</source>
+            <target>Neues Dokumententhema</target>
+        </trans-unit>
+        <trans-unit id="submitter_new_document_notification_body.description" approved="yes">
+            <source>New document body</source>
+            <target>Neuer Dokument Body</target>
+        </trans-unit>
+        <trans-unit id="submitter_ingest_notification_subject.description" approved="yes">
+            <source>Ingest subject</source>
+            <target>Aufnahme Thema</target>
+        </trans-unit>
+        <trans-unit id="submitter_ingest_notification_body.description" approved="yes">
+            <source>Ingest body</source>
+            <target>Aufnahme Body</target>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

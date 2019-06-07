@@ -9,7 +9,7 @@
 			<source>displayName</source>
 			<target>Anzeigename</target>
 		</trans-unit>
-		<trans-unit id="display_name.virtual" approved="yes">
+		<trans-unit id="virtual.description" approved="yes">
 			<source>virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>

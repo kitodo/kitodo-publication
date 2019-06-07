@@ -299,6 +299,9 @@
         <trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service.gnd">
             <source>GND</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.gnd_field_uid">
+            <source>GND No. field UID</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 			<source>Input Field</source>
 		</trans-unit>
@@ -313,12 +316,6 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input">
 			<source>input</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language">
-			<source>language</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.license">
-			<source>license</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select">
 			<source>select</source>
