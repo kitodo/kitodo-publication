@@ -20,7 +20,7 @@ services:
         image: kitodo-publication
         hostname: typo3
         ports:
-            - "8000:80"
+            - "80:80"
         volumes:
             - $PWD:/app
             - website:/var/www/html
