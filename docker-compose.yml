@@ -12,6 +12,8 @@ services:
             MYSQL_DATABASE: typo3
         volumes:
             - mysql56:/var/lib/mysql
+        networks:
+            - frontend
 
     typo3-app:
         build:
@@ -29,8 +31,8 @@ services:
         links:
             - typo3-database:db
         networks:
-            - default
-            - qucosafcrepodocker_default
+            - frontend
+            - qucosafcrepodocker_backend
         external_links:
             - qucosafcrepodocker_fcrepo_1:fcrepo
             - qucosafcrepodocker_elasticsearch_1:elasticsearch
@@ -40,5 +42,6 @@ volumes:
     website:
 
 networks:
-    qucosafcrepodocker_default:
+    frontend:
+    qucosafcrepodocker_backend:
         external: true
