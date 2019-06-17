@@ -137,6 +137,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $validation = '';
 
+
+    /**
+     * max input length
+     *
+     * @var integer
+     */
+    protected $maxInputLength = 0;
+
+
     /**
      * Returns the name
      *
@@ -487,6 +496,30 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setGndFieldUid($gndFieldUid)
     {
         $this->gndFieldUid = $gndFieldUid;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getMaxInputLength()
+    {
+        if ($this->maxInputLength == 0) {
+            if ($this->inputField == self::input) {
+                return 255;
+            } else {
+                return 2048;
+            }
+        } else {
+            return $this->maxInputLength;
+        }
+    }
+
+    /**
+     * @return integer
+     */
+    public function setMaxInputLength($maxInputLength)
+    {
+        $this->maxInputLength = $maxInputLength;
     }
 
 }

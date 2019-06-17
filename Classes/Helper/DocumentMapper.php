@@ -182,6 +182,7 @@ class DocumentMapper
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
+                            $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
 
                             $objectMapping = "";
 
@@ -263,6 +264,7 @@ class DocumentMapper
                         $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                         $documentFormField->setFillOutService($metadataObject->getFillOutService());
                         $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
+                        $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                         $documentFormField->setValue("", $metadataObject->getDefaultValue());
 
                         $documentFormGroup->addItem($documentFormField);
