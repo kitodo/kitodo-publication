@@ -14,6 +14,8 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
+
 class DocumentFormController extends AbstractDocumentFormController
 {
 
@@ -40,15 +42,31 @@ class DocumentFormController extends AbstractDocumentFormController
 
         $newDocumentForm->setNewFiles($files);
 
-        parent::createAction($newDocumentForm);
+        try {
+            parent::createAction($newDocumentForm);
 
-        if (key_exists('afterDocSavedRedirectPage',$this->settings) && $this->settings['afterDocSavedRedirectPage']) {
-            $uri = $this->uriBuilder
-                ->setTargetPageUid($this->settings['afterDocSavedRedirectPage'])
-                ->build();
-            $this->redirectToUri($uri);
-        } else {
-            $this->redirectToList('CREATE_OK');
+            if (key_exists('afterDocSavedRedirectPage',$this->settings) && $this->settings['afterDocSavedRedirectPage']) {
+                $uri = $this->uriBuilder
+                    ->setTargetPageUid($this->settings['afterDocSavedRedirectPage'])
+                    ->build();
+                $this->redirectToUri($uri);
+            } else {
+                $this->redirectToList('CREATE_OK');
+            }
+        } catch (\Exception $exception) {
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(implode(" ", $message), '', $severity,true);
+            $this->forward('new', DocumentForm, null, array('newDocumentForm' => $newDocumentForm));
         }
     }
 }

@@ -214,6 +214,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
+        // xml data fields are limited to 64 KB
+        if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->slubInfoData() >= 64 * 10124)) {
+            throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
+        }
+
         $this->documentRepository->add($newDocument);
         $this->persistenceManager->persistAll();
 
@@ -327,6 +332,11 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $updateDocument = $documentMapper->getDocument($documentForm);
+
+        // xml data fields are limited to 64 KB
+        if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->slubInfoData() >= 64 * 10124)) {
+            throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
+        }
 
         // add document to local es index
         $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
