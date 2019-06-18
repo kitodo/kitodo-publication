@@ -194,7 +194,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return boolean $fileGroupDeleted
      */
-    public function getFileGroupDeleted()
+    public function isFileGroupDeleted()
     {
         return $this->fileGroupDeleted;
     }

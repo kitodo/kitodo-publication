@@ -485,7 +485,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
 
-                if (!$file->getFileGroupDeleted()) {
+                if (!$file->isFileGroupDeleted()) {
 
                     $tmpFile = array(
                         'path'      => $file->getLink(),

@@ -16,54 +16,52 @@
 <f:if condition="{files}">
     <f:then>
         <f:for each="{files}" as="file" iteration="fileIterator">
+            <f:if condition="{file.fileGroupDeleted} == 0">
+                <fieldset class="fs_file_group" data-group="file-upload">
 
+                    <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
 
-<f:if condition="{file.fileGroupDeleted} == 0">
-            <fieldset class="fs_file_group" data-group="file-upload">
+                    <div class="form-control-static">
+                        <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">
+                            {file.title}
+                        </f:link.external>
+                        <button type="submit" name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
+                                data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:110124,arguments:{fileUid: file.uid})}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            {f:translate(key: 'form_button.remove_file' arguments: {0: ''})}
+                        </button>
+                        <!--<button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"-->
+                                <!--data-index="{groupIndex}">-->
+                            <!--<span class="glyphicon glyphicon-remove"></span>-->
+                            <!--<span class="sr-only">delete secondary file upload</span>-->
+                        <!--</button>-->
+                    </div>
 
-                <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
-
-                <div class="form-control-static">
-                    <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">
-                        {file.title}
-                    </f:link.external>
-                    <button type="submit" name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
-                            data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:110124,arguments:{fileUid: file.uid})}">
-                        <span class="glyphicon glyphicon-trash"></span>
-                        {f:translate(key: 'form_button.remove_file' arguments: {0: ''})}
-                    </button>
-                    <!--<button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"-->
-                            <!--data-index="{groupIndex}">-->
-                        <!--<span class="glyphicon glyphicon-remove"></span>-->
-                        <!--<span class="sr-only">delete secondary file upload</span>-->
-                    <!--</button>-->
-                </div>
-
-                <f:if condition="{eww:getTypo3Mode()} == 'BE'">
-                    <f:then>
-                        <div class="form-group">
-                            <label for="inp_secFiles_label_{file.uid}" data-index="{groupIndex}">Display name</label>
-                            <f:form.textfield id="inp_secFiles_label_{file.uid}" property="secFiles.{file.uid}.label"
-                                              value="{file.label}" class="input-field form-control"
-                                              additionalAttributes="{}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="inp_secFiles_download_{file.uid}" data-index="{groupIndex}">Download</label>
-                            <f:form.checkbox id="inp_secFiles_download_{file.uid}"
-                                             property="secFiles.{file.uid}.download" value="yes"
-                                             class="input-field input-field-checkbox" additionalAttributes="{}"
-                                             checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="inp_secFile_archive_{file.uid}" data-index="{groupIndex}">Archive</label>
-                            <f:form.checkbox id="inp_secFiles_archive_{file.uid}" property="secFiles.{file.uid}.archive"
-                                             value="yes" class="input-field input-field-checkbox"
-                                             additionalAttributes="{}" checked="{file.archive}"/>
-                        </div>
-                    </f:then>
-                </f:if>
-            </fieldset>
-</f:if>
+                    <f:if condition="{eww:getTypo3Mode()} == 'BE'">
+                        <f:then>
+                            <div class="form-group">
+                                <label for="inp_secFiles_label_{file.uid}" data-index="{groupIndex}">Display name</label>
+                                <f:form.textfield id="inp_secFiles_label_{file.uid}" property="secFiles.{file.uid}.label"
+                                                  value="{file.label}" class="input-field form-control"
+                                                  additionalAttributes="{}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="inp_secFiles_download_{file.uid}" data-index="{groupIndex}">Download</label>
+                                <f:form.checkbox id="inp_secFiles_download_{file.uid}"
+                                                 property="secFiles.{file.uid}.download" value="yes"
+                                                 class="input-field input-field-checkbox" additionalAttributes="{}"
+                                                 checked="{f:if(condition: '{file}', then: '{file.download}', else: 'checked')}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="inp_secFile_archive_{file.uid}" data-index="{groupIndex}">Archive</label>
+                                <f:form.checkbox id="inp_secFiles_archive_{file.uid}" property="secFiles.{file.uid}.archive"
+                                                 value="yes" class="input-field input-field-checkbox"
+                                                 additionalAttributes="{}" checked="{file.archive}"/>
+                            </div>
+                        </f:then>
+                    </f:if>
+                </fieldset>
+            </f:if>
         </f:for>
     </f:then>
 </f:if>
