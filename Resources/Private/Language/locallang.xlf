@@ -380,8 +380,14 @@ Date: ###DATE###
 		<trans-unit id="search.doubletCheck.nothingFoundMessage">
 			<source>There were no potential duplicates found.</source>
 		</trans-unit>
-		<trans-unit id="search.doubletCheck.submitterOrPublishedDate">
-			<source>Submitter/Published date</source>
+		<trans-unit id="search.doubletCheck.publicationDate">
+			<source>Publication Date</source>
+		</trans-unit>
+		<trans-unit id="search.doubletCheck.submitter" approved="yes">
+			<source>Submitter</source>
+		</trans-unit>
+		<trans-unit id="search.doubletCheck.publishedDate" approved="yes">
+			<source>Published date</source>
 		</trans-unit>
 		<trans-unit id="search.doubletCheck.title">
 			<source>Title</source>
@@ -466,6 +472,9 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="search.resultList.state">
 			<source>State</source>
+		</trans-unit>
+		<trans-unit id="search.resultList.state.new">
+			<source>NEW</source>
 		</trans-unit>
 		<trans-unit id="search.resultList.state.active">
 			<source>ACTIVE</source>

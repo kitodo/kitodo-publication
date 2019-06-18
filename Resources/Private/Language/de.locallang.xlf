@@ -527,9 +527,17 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>There were no potential duplicates found.</source>
 			<target>Es wurden keine möglichen Doubletten gefunden.</target>
 		</trans-unit>
-		<trans-unit id="search.doubletCheck.submitterOrPublishedDate" approved="yes">
-			<source>Submitter/Published date</source>
-			<target>Einreicher/Veröffentlichungsdatum</target>
+		<trans-unit id="search.doubletCheck.publicationDate" approved="yes">
+			<source>Publication Date</source>
+			<target>Veröffentlichungsdatum</target>
+		</trans-unit>
+		<trans-unit id="search.doubletCheck.submitter" approved="yes">
+			<source>Submitter</source>
+			<target>Einreicher</target>
+		</trans-unit>
+		<trans-unit id="search.doubletCheck.publishedDate" approved="yes">
+			<source>Published date</source>
+			<target>Veröffentlichungsdatum</target>
 		</trans-unit>
 		<trans-unit id="search.doubletCheck.title" approved="yes">
 			<source>Title</source>
@@ -642,6 +650,10 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="search.resultList.state" approved="yes">
 			<source>State</source>
 			<target>Status</target>
+		</trans-unit>
+		<trans-unit id="search.resultList.state.new" approved="yes">
+			<source>NEW</source>
+			<target>NEU</target>
 		</trans-unit>
 		<trans-unit id="search.resultList.state.active" approved="yes">
 			<source>ACTIVE</source>

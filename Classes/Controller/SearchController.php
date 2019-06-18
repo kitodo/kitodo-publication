@@ -340,10 +340,28 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
             $results = $elasticSearch->search($query, '');
 
+            $searchList = array();
+
+            // filter out identical document from the search result list
+            foreach ($results['hits'] as $entry) {
+
+                if ($document->getObjectIdentifier() && ($document->getObjectIdentifier() === $entry['_source']['PID'])) {
+                    continue;
+                }
+
+                $entryIdentifier = $entry['_source']['_dissemination']['_content']['identifier'][0];
+                if (is_numeric($entryIdentifier) && $document->getUid() == $entryIdentifier) {
+                    continue;
+                }
+
+                $searchList[] = $entry;
+            }
+
+
             $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
 
             $this->view->assign('document', $document);
-            $this->view->assign('searchList', $results['hits']);
+            $this->view->assign('searchList', $searchList);
             $this->view->assign('alreadyImported', $objectIdentifiers);
 
         } catch (\Exception $exception) {
