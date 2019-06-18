@@ -16,6 +16,9 @@
 <f:if condition="{files}">
     <f:then>
         <f:for each="{files}" as="file" iteration="fileIterator">
+
+
+<f:if condition="{file.fileGroupDeleted} == 0">
             <fieldset class="fs_file_group" data-group="file-upload">
 
                 <legend>{f:translate(key: 'form_legend.secondaryFile')}</legend>
@@ -60,6 +63,7 @@
                     </f:then>
                 </f:if>
             </fieldset>
+</f:if>
         </f:for>
     </f:then>
 </f:if>

@@ -229,6 +229,10 @@
 			<source>Archive</source>
 			<target>Archiv</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_file.file_group_deleted" approved="yes">
+			<source>Deleted</source>
+			<target>Gelöscht</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file.content_type" approved="yes">
 			<source>Content Type</source>
 			<target>Inhaltstyp</target>
