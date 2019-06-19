@@ -255,6 +255,8 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             $string
         );
 
+        $string = str_replace("/", "\/", $string);
+
         return $string;
     }
 
