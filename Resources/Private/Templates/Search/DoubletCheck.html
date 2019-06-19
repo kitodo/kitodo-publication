@@ -109,8 +109,8 @@
             <td>{entry._source._dissemination._content.author.0}</td>
             <td>{entry._source._dissemination._content.submitter}</td>
             <td>
-                <f:if condition="{entry._source.CREATED_DATE}">
-                    <f:format.date date="{entry._source.CREATED_DATE}" format="d.m.Y"/>
+                <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y"/>
                 </f:if>
             </td>
             <td>{entry._source.PID}</td>
