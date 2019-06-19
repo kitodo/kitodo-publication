@@ -221,6 +221,10 @@
 			<source>Invalid input</source>
 			<target>Ungültige Eingabe</target>
 		</trans-unit>
+		<trans-unit id="form_error_msg.field_max_length">
+			<source>The maximum number of %s characters has been exceeded.</source>
+			<target>Die maximale Anzahl von %s Zeichen wurde überschritten.</target>
+		</trans-unit>
 		<trans-unit id="form_error_msg.group_mandatory" approved="yes">
 			<source>Please fill in the required fields.</source>
 			<target>Bitte füllen Sie die Pflichtfelder aus.</target>

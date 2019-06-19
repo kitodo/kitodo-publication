@@ -180,6 +180,18 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                     error = true;
                 }
             }
+
+            var maxLength = $(this).attr('data-maxlength');
+            if (maxLength && maxLength > 0) {
+                if ($(this).val().length > maxLength) {
+                    var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
+                    $('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + max_lengrth_msg + $(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
+                    $(this).addClass('invalid-error');
+                    showFormError();
+                    markPage(fieldset, true);
+                    error = true;
+                }
+            }
         });
         });
         return !error;

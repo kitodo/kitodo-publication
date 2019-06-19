@@ -167,6 +167,9 @@
 		<trans-unit id="form_error_msg.field_invalid">
 			<source>Invalid input</source>
 		</trans-unit>
+		<trans-unit id="form_error_msg.field_max_length">
+			<source>The maximum number of %s characters has been exceeded.</source>
+		</trans-unit>
 		<trans-unit id="form_error_msg.group_mandatory">
 			<source>Please fill in the required fields.</source>
 		</trans-unit>
