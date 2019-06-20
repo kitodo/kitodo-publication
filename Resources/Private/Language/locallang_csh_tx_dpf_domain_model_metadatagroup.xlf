@@ -6,37 +6,37 @@
 		</header>
 		<body>
 		<trans-unit id="backend_only.description">
-			<source>backendOnly</source>
+			<source>Backend only</source>
 		</trans-unit>
 		<trans-unit id="display_name.description">
-			<source>displayName</source>
+			<source>Display name</source>
 		</trans-unit>
 		<trans-unit id="info_text.description">
-			<source>info text</source>
+			<source>Info text</source>
 		</trans-unit>
 		<trans-unit id="mandatory.description">
-			<source>mandatory</source>
+			<source>Mandatory</source>
 		</trans-unit>
 		<trans-unit id="mapping.description">
-			<source>mapping</source>
+			<source>Mapping</source>
 		</trans-unit>
 		<trans-unit id="mapping_for_reading.description">
-			<source>mapping for reading</source>
+			<source>Mapping for reading</source>
 		</trans-unit>
 		<trans-unit id="max_iteration.description">
-			<source>maxIteration</source>
+			<source>Max iteration</source>
 		</trans-unit>
 		<trans-unit id="metadata_object.description">
-			<source>metadataObject</source>
+			<source>Metadata object</source>
 		</trans-unit>
 		<trans-unit id="mods_extension_mapping.description">
-			<source>mods extension mapping</source>
+			<source>Mods extension mapping</source>
 		</trans-unit>
 		<trans-unit id="mods_extension_reference.description">
-			<source>mods extension reference attribute</source>
+			<source>Mods extension reference attribute</source>
 		</trans-unit>
 		<trans-unit id="name.description">
-			<source>name</source>
+			<source>Name</source>
 		</trans-unit>
 		</body>
 	</file>

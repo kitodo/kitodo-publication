@@ -299,7 +299,7 @@ return array(
         'gnd_field_uid' => array(
             'displayCond' => 'FIELD:fill_out_service:=:'.\EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_GND,
             'exclude'   => 0,
-            'label' => 'GND Nr Feld',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.gnd_field_uid',
             'config'  => array(
                 'type' => 'input',
                 'size' => 30,

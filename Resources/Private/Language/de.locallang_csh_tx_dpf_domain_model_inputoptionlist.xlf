@@ -6,23 +6,23 @@
 		</header>
 		<body>
 		<trans-unit id="default_value.description" approved="yes">
-			<source>default value</source>
+			<source>Default value</source>
 			<target>Standardwert</target>
 		</trans-unit>
 		<trans-unit id="display_name.description" approved="yes">
-			<source>displayName</source>
+			<source>Display name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
 		<trans-unit id="name.description" approved="yes">
-			<source>name</source>
+			<source>Name</source>
 			<target>Name</target>
 		</trans-unit>
 		<trans-unit id="value_label_list.description" approved="yes">
-			<source>valueLabelList</source>
+			<source>Value label list</source>
 			<target>Wertelabel-Liste</target>
 		</trans-unit>
 		<trans-unit id="value_list.description" approved="yes">
-			<source>valueList</source>
+			<source>Value list</source>
 			<target>Werteliste</target>
 		</trans-unit>
 		</body>

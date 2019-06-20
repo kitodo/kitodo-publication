@@ -6,19 +6,19 @@
 		</header>
 		<body>
 		<trans-unit id="default_value.description">
-			<source>default value</source>
+			<source>Default value</source>
 		</trans-unit>
 		<trans-unit id="display_name.description">
-			<source>displayName</source>
+			<source>Display name</source>
 		</trans-unit>
 		<trans-unit id="name.description">
-			<source>name</source>
+			<source>Name</source>
 		</trans-unit>
 		<trans-unit id="value_label_list.description">
-			<source>valueLabelList</source>
+			<source>Value label list</source>
 		</trans-unit>
 		<trans-unit id="value_list.description">
-			<source>valueList</source>
+			<source>Value list</source>
 		</trans-unit>
 		</body>
 	</file>

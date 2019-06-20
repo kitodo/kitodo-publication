@@ -397,6 +397,10 @@
             <source>GND</source>
             <target>GND</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.gnd_field_uid" approved="yes">
+            <source>GND No. field UID</source>
+			<target>GND-Nr. Feld-UID</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field" approved="yes">
 			<source>Input Field</source>
 			<target>Eingabefeld</target>
@@ -416,14 +420,6 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.input" approved="yes">
 			<source>input</source>
 			<target>Eingabe</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.language" approved="yes">
-			<source>language</source>
-			<target>Sprache</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.license" approved="yes">
-			<source>license</source>
-			<target>Lizenz</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.select" approved="yes">
 			<source>select</source>

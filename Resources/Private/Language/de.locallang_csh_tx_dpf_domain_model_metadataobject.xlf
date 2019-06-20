@@ -6,7 +6,7 @@
 		</header>
 		<body>
 		<trans-unit id="backend_only.description" approved="yes">
-			<source>backendOnly</source>
+			<source>Backend only</source>
 			<target>Nur Backend</target>
 		</trans-unit>
 		<trans-unit id="consent.description" approved="yes">
@@ -22,12 +22,16 @@
 			<target>Standardwert</target>
 		</trans-unit>
 		<trans-unit id="display_name.description" approved="yes">
-			<source>Displayname</source>
+			<source>Display name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
 		<trans-unit id="fill_out_service.description" approved="yes">
 			<source>Fillout service</source>
 			<target>Fillout Service</target>
+		</trans-unit>
+		<trans-unit id="gnd_field_uid.description" approved="yes">
+			<source>UID of the metadata object record which configures the GND No. field</source>
+			<target>UID des Metadatenobjekt-Datensatzes, der das Feld GND No. konfiguriert</target>
 		</trans-unit>
 		<trans-unit id="input_field.description" approved="yes">
 			<source>Input field</source>
