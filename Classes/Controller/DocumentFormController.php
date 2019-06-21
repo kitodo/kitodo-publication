@@ -66,7 +66,7 @@ class DocumentFormController extends AbstractDocumentFormController
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
-            $this->forward('new', DocumentForm, null, array('newDocumentForm' => $newDocumentForm));
+            $this->forward('new', 'DocumentForm', null, array('newDocumentForm' => $newDocumentForm));
         }
     }
 }

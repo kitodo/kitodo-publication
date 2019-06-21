@@ -215,7 +215,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
         // xml data fields are limited to 64 KB
-        if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->slubInfoData() >= 64 * 10124)) {
+        if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->getSlubInfoData() >= 64 * 1024)) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
@@ -334,7 +334,7 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         // xml data fields are limited to 64 KB
-        if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->slubInfoData() >= 64 * 10124)) {
+        if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->getSlubInfoData() >= 64 * 1024)) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
