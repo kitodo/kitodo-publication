@@ -344,6 +344,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.validation">
 			<source>Validation</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.max_input_length">
+			<source>Max input length</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatapage">
 			<source>Metadata Page</source>
 		</trans-unit>

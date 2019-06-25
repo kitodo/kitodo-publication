@@ -216,8 +216,21 @@ var validateForm = function() {
                     error = true;
                 }
             }
+
+            var maxLength = jQuery(this).attr('data-maxlength');
+            if (maxLength && maxLength > 0) {
+                if (jQuery(this).val().length > maxLength) {
+                    var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
+                    jQuery('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon glyphicon-warning-sign pull-right"></span>' + max_lengrth_msg + jQuery(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
+                    jQuery(this).addClass('invalid-error');
+                    showFormError();
+                    markPage(fieldset, true);
+                    error = true;
+                }
+            }
         });
     });
+
     return !error;
 }
 var showFormError = function() {

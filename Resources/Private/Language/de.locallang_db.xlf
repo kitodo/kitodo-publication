@@ -405,6 +405,10 @@
 			<source>Input Field</source>
 			<target>Eingabefeld</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.max_input_length" approved="yes">
+			<source>Max input length</source>
+			<target>Maximale Eingabelänge</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list" approved="yes">
 			<source>Input option list</source>
 			<target>Liste der Einfügeoptionen</target>

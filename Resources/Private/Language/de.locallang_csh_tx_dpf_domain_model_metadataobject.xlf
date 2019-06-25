@@ -65,6 +65,10 @@
 			<source>Validation</source>
 			<target>Überprüfung</target>
 		</trans-unit>
+		<trans-unit id="max_input_length.description" approved="yes">
+			<source>Max input length: If set to 0 then the length is limited to 255 for input fields and to 2048 for textarea fields. If a value > 0 is specified, this value is used for the limitation.</source>
+			<target>Maximale Eingabelänge: Bei 0 wird die Länge für Eingabefelder auf 255 und für Textfeldfelder auf 2048 begrenzt. Wenn ein Wert > 0 angegeben wird, wird dieser Wert für die Begrenzung verwendet.</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -149,6 +149,10 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
+        <trans-unit id="document_save.max_size_error" approved="yes">
+            <source>Maximum document size exceeded.</source>
+            <target>Maximale Größe des Dokuments überschritten.</target>
+        </trans-unit>
 		<trans-unit id="document_transfer.next_id_failure" approved="yes">
 			<source>Couldn't get a valid Document id from the repository.</source>
 			<target>Es konnte keine gültige Dokument-ID aus dem Repository abgerufen werden.</target>
@@ -216,6 +220,10 @@
 		<trans-unit id="form_error_msg.field_invalid" approved="yes">
 			<source>Invalid input</source>
 			<target>Ungültige Eingabe</target>
+		</trans-unit>
+		<trans-unit id="form_error_msg.field_max_length">
+			<source>The maximum number of %s characters has been exceeded.</source>
+			<target>Die maximale Anzahl von %s Zeichen wurde überschritten.</target>
 		</trans-unit>
 		<trans-unit id="form_error_msg.group_mandatory" approved="yes">
 			<source>Please fill in the required fields.</source>

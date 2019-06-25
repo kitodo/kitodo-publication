@@ -384,7 +384,16 @@ ul.error-files-backbutton li {
     margin-left: 13px;
 }
 
-/* -- extended search form--------------------------------------------------- */
+
+.typo3-messages {
+    padding: 0;
+}
+
+.typo3-messages li {
+    list-style: none;
+}
+
+    /* -- extended search form--------------------------------------------------- */
 
 .tx-dpf div.searchExtForm div.container {
   width: 100%;

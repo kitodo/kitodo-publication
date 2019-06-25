@@ -50,6 +50,12 @@ class DocumentFormField extends AbstractFormElement
      */
     protected $consent;
 
+    /**
+     * @var int
+     */
+    protected $maxInputLength;
+
+
     public function getValue()
     {
         return $this->value;
@@ -224,4 +230,23 @@ class DocumentFormField extends AbstractFormElement
     public function setGndFieldUid($fieldId) {
         $this->gndFieldUid = $fieldId;
     }
+
+    /**
+     * Gets the max length of characters for the input field.
+     *
+     * @return int
+     */
+    public function getMaxInputLength() {
+        return $this->maxInputLength;
+    }
+
+    /**
+     * Sets the max length of characters for the input field.
+     *
+     * @return int
+     */
+    public function setMaxInputLength($maxInputLength) {
+        $this->maxInputLength = $maxInputLength;
+    }
+
 }

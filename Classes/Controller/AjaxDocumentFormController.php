@@ -71,6 +71,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setValidation($object->getValidation());
             $field->setDataType($object->getDataType());
             $field->setGndFieldUid($object->getGndFieldUid());
+            $field->setMaxInputLength($object->getMaxInputLength());
             $field->setValue("", $object->getDefaultValue());
 
             $groupItem->addItem($field);
@@ -110,6 +111,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setValidation($field->getValidation());
         $fieldItem->setDataType($field->getDataType());
         $fieldItem->setGndFieldUid($field->getGndFieldUid());
+        $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());
 
         $this->view->assign('formPageUid', $pageUid);

@@ -118,7 +118,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
 
-            $this->forward('edit', DocumentFormBE, null, array('document' => $updateDocument));
+            $this->forward('edit', 'DocumentFormBE', null, array('document' => $updateDocument));
         }
     }
 
