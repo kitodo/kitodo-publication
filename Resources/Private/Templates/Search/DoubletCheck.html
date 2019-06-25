@@ -28,10 +28,13 @@
                 <f:translate key="search.resultList.state"/>
             </th>
             <th class="xcol-md-2">
-                <f:translate key="search.doubletCheck.authors"/>
+                <f:translate key="search.doubletCheck.author"/>
             </th>
             <th class="xcol-md-2">
-                <f:translate key="search.doubletCheck.submitterOrPublishedDate"/>
+                <f:translate key="search.doubletCheck.submitter"/>
+            </th>
+            <th class="xcol-md-2">
+                <f:translate key="search.doubletCheck.publishedDate"/>
             </th>
             <th class="xcol-md-2">
                 <f:translate key="search.doubletCheck.datasetIdentifier"/>
@@ -45,7 +48,7 @@
 
         <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
             <td>{document.title}</td>
-            <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
+            <td>{dpf:showState(state:'{document.state}')}</td>
             <td>
                 <f:for each="{document.authors}" as="author" iteration="itemIterator">
                     {author}
@@ -56,10 +59,15 @@
                 </f:for>
             </td>
             <td>
-                <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                {document.submitterName}
+            </td>
+            <td>
+                <f:if condition="{document.dateIssued}">
+                    <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                </f:if>
             </td>
             <td>{document.objectIdentifier}</td>
-            <td></td>
+            <td>{document.qucosaUrn}</td>
             <td></td>
         </tr>
 
@@ -74,6 +82,7 @@
                     </f:else>
                 </f:if>
             </td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -99,8 +108,17 @@
             <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
             <td>{entry._source._dissemination._content.author.0}</td>
             <td>{entry._source._dissemination._content.submitter}</td>
+            <td>
+                <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
+                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}" format="d.m.Y"/>
+                </f:if>
+            </td>
             <td>{entry._source.PID}</td>
-            <td>{entry._source._dissemination._content.identifier.0}</td>
+            <td>
+                <f:if condition="{dpf:isUrn(value:'{entry._source._dissemination._content.identifier.0}')}">
+                    {entry._source._dissemination._content.identifier.0}
+                </f:if>
+            </td>
 
             <td class="table_col_function">
                 <f:if condition="{entry._source.PID}">

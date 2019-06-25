@@ -28,12 +28,19 @@ class ShowStateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         $key = "";
 
         switch ($state) {
+            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW:
+                $key = 'search.resultList.state.new';
+                break;
+            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE:
             case 'A':
                 $key = 'search.resultList.state.active';
                 break;
+            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE:
             case 'I':
                 $key = 'search.resultList.state.inactive';
                 break;
+            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_DELETED:
+            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED:
             case 'D':
                 $key = 'search.resultList.state.deleted';
                 break;

@@ -759,4 +759,32 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->processNumber = trim($processNumber);
     }
+
+
+    /**
+     * Gets the submitter name of the document
+     *
+     * @return string
+     */
+    public function getSubmitterName()
+    {
+        try {
+            $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
+            return $slub->getSubmitterName();
+        } catch (\Exception $exception) {
+            return "";
+        }
+    }
+
+    /**
+     * Gets the qucosa urn of the document
+     *
+     * @return string
+     */
+    public function getQucosaUrn()
+    {
+        $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
+        return $mods->getQucosaUrn();
+    }
+
 }
