@@ -507,7 +507,7 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 			<source>Simple search</source>
 			<target>Einfache Suche</target>
 		</trans-unit>
-		<trans-unit id="search.doubletCheck.authors" approved="yes">
+		<trans-unit id="search.doubletCheck.author" approved="yes">
 			<source>Author</source>
 			<target>Autor</target>
 		</trans-unit>

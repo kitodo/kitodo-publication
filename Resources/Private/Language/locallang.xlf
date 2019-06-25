@@ -365,7 +365,7 @@ Date: ###DATE###
 		<trans-unit id="search.control.simpleSearch">
 			<source>Simple search</source>
 		</trans-unit>
-		<trans-unit id="search.doubletCheck.authors">
+		<trans-unit id="search.doubletCheck.author">
 			<source>Author</source>
 		</trans-unit>
 		<trans-unit id="search.doubletCheck.datasetIdentifier">
