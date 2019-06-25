@@ -270,6 +270,7 @@ CREATE TABLE tx_dpf_domain_model_file (
   label varchar(255) DEFAULT '' NOT NULL,
   download tinyint(4) unsigned DEFAULT '0' NOT NULL,
   archive tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  file_group_deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
   content_type varchar(255) DEFAULT '' NOT NULL,
   link varchar(255) DEFAULT '' NOT NULL,
   status varchar(255) DEFAULT '' NOT NULL,

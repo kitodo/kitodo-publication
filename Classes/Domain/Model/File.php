@@ -49,6 +49,13 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $archive;
 
     /**
+     * fileGroupDeleted
+     *
+     * @var boolean
+     */
+    protected $fileGroupDeleted;
+
+    /**
      * contentType
      *
      * @var string
@@ -180,6 +187,26 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setArchive($archive)
     {
         $this->archive = $archive;
+    }
+
+    /**
+     * Returns the fileGroupDeleted
+     *
+     * @return boolean $fileGroupDeleted
+     */
+    public function isFileGroupDeleted()
+    {
+        return $this->fileGroupDeleted;
+    }
+
+    /**
+     * Sets the fileGroupDeleted
+     *
+     * @return boolean $fileGroupDeleted
+     */
+    public function setFileGroupDeleted($fileGroupDeleted)
+    {
+        $this->fileGroupDeleted = $fileGroupDeleted;
     }
 
     /**

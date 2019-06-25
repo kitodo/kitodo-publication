@@ -485,38 +485,40 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
 
-                $tmpFile = array(
-                    'path'      => $file->getLink(),
-                    'type'      => $file->getContentType(),
-                    'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                    'download'  => $file->getDownload(),
-                    'archive'   => $file->getArchive(),
-                    'use'       => '',
-                    'id'        => null,
-                    'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                    $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
-                );
+                if (!$file->isFileGroupDeleted()) {
 
-                $grpUSE = ($file->getDownload()) ? 'download' : 'original';
+                    $tmpFile = array(
+                        'path'      => $file->getLink(),
+                        'type'      => $file->getContentType(),
+                        'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                        'download'  => $file->getDownload(),
+                        'archive'   => $file->getArchive(),
+                        'use'       => '',
+                        'id'        => null,
+                        'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
+                                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
+                    );
 
-                if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
-                    $dataStreamIdentifier = $file->getDatastreamIdentifier();
-                    if (!empty($dataStreamIdentifier)) {
-                        $tmpFile['id']                   = $file->getDatastreamIdentifier();
-                        $tmpFile['use']                  = 'DELETE';
+                    $grpUSE = ($file->getDownload()) ? 'download' : 'original';
+
+                    if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
+                        $dataStreamIdentifier = $file->getDatastreamIdentifier();
+                        if (!empty($dataStreamIdentifier)) {
+                            $tmpFile['id'] = $file->getDatastreamIdentifier();
+                            $tmpFile['use'] = 'DELETE';
+                            $files[$grpUSE][$file->getUid()] = $tmpFile;
+                        }
+                    } else {
+                        $tmpFile['id'] = $fileId->getId($file);
+                        $tmpFile['use'] = ($file->getArchive()) ? 'ARCHIVE' : '';
                         $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
-                } else {
-                    $tmpFile['id']                   = $fileId->getId($file);
-                    $tmpFile['use']                  = ($file->getArchive()) ? 'ARCHIVE' : '';
-                    $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
 
             }
         }
 
         return $files;
-
     }
 
     /**

@@ -258,6 +258,7 @@ class DocumentTransferManager
                 $file->setLabel($attachment['title']);
                 $file->setDownload($attachment['download']);
                 $file->setArchive($attachment['archive']);
+                $file->setFileGroupDeleted($attachment['deleted']);
 
                 if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
                     $file->setPrimaryFile(true);

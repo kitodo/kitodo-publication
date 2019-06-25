@@ -92,6 +92,7 @@ class Mets
 
         $fileNodesOriginal = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp[@USE="ORIGINAL"]/mets:file');
         $fileNodesDownload = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp[@USE="DOWNLOAD"]/mets:file');
+        $fileNodesDeleted = $xpath->query('/mets:mets/mets:fileSec/mets:fileGrp[@USE="DELETED"]/mets:file');
 
         $files = array();
 
@@ -112,6 +113,7 @@ class Mets
                 'title'    => $item->getAttributeNS($mextNS, "LABEL"),
                 'archive'  => ($item->getAttribute("USE") == 'ARCHIVE'),
                 'download' => false,
+                'deleted'  => false,
             );
         }
 
@@ -132,6 +134,28 @@ class Mets
                 'title'    => $item->getAttributeNS($mextNS, "LABEL"),
                 'archive'  => ($item->getAttribute("USE") == 'ARCHIVE'),
                 'download' => true,
+                'deleted'  => false,
+            );
+        }
+
+        foreach ($fileNodesDeleted as $item) {
+
+            $xlinkNS = "http://www.w3.org/1999/xlink";
+            $mextNS  = "http://slub-dresden.de/mets";
+
+            $flocat = $xpath->query('mets:FLocat', $item);
+            if ($flocat->length > 0) {
+                $href = $flocat->item(0)->getAttributeNS($xlinkNS, "href");
+            }
+
+            $files[] = array(
+                'id'       => $item->getAttribute("ID"),
+                'mimetype' => $item->getAttribute("MIMETYPE"),
+                'href'     => $href,
+                'title'    => $item->getAttributeNS($mextNS, "LABEL"),
+                'archive'  => ($item->getAttribute("USE") == 'ARCHIVE'),
+                'download' => false,
+                'deleted'  => true,
             );
         }
 
