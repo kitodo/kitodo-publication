@@ -491,6 +491,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                         'path'      => $file->getLink(),
                         'type'      => $file->getContentType(),
                         'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                        'download'  => $file->getDownload(),
+                        'archive'   => $file->getArchive(),
                         'use'       => '',
                         'id'        => null,
                         'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
@@ -538,6 +540,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     'path'      => $file->getLink(),
                     'type'      => $file->getContentType(),
                     'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                    'download'  => $file->getDownload(),
+                    'archive'   => $file->getArchive(),
                     'use'       => '',
                     'id'        => null,
                     'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
