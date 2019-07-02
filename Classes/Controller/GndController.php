@@ -26,6 +26,11 @@ class GndController extends \EWW\Dpf\Controller\AbstractController
 
     protected $searchUrl = 'search?format=json:suggest&filter=type:SubjectHeading&size=100&q=';
 
+    public function initializeAction() {
+        // format needs to be configured here for Fluid to find the template file
+        $this->request->setFormat('json');
+    }
+
     /**
      *
      * @param string $search
@@ -47,7 +52,6 @@ class GndController extends \EWW\Dpf\Controller\AbstractController
             $i++;
         }
 
-        $this->request->setFormat('json');
         $this->view->assign('results', $listArray);
     }
 
