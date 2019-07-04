@@ -92,7 +92,7 @@
         </tr>
 
         <f:for each="{searchList}" as="entry">
-            <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+            <f:if condition="{dpf:inArray(needle:'{entry._source.PID}', array:'{alreadyImported}')}">
                 <f:then>
                     <tr class="success">
                 </f:then>
@@ -137,7 +137,7 @@
                     </f:else>
                 </f:if>
 
-                <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+                <f:if condition="{dpf:inArray(needle:'{entry._source.PID}', array:'{alreadyImported}')}">
                     <f:then>
                         <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
                                        class="btn btn-xs btn-info disabled">
