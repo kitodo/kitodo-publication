@@ -43,6 +43,15 @@ class PreviewViewHelper extends AbstractBackendViewHelper
      */
     private $secretKey;
 
+
+    /**
+     * escapeOutput, activates / deactivates HTML escaping.
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+
     /**
      * Initialize secret key from plugin TYPOScript configuration.
      */
