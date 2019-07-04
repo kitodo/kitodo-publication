@@ -39,7 +39,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /usr/src/*
 WORKDIR /var/www/html
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN echo '{"require":{"typo3/cms":"~7.6.0"}}' > /var/www/html/composer.json && \
+RUN echo '{"require":{"typo3/cms":"~8.7.0"}}' > /var/www/html/composer.json && \
     composer update && \
     touch FIRST_INSTALL && \
     chown -R www-data .
@@ -54,6 +54,8 @@ RUN composer require sjbr/static-info-tables:6.5.1 && \
     composer require devlog/devlog:~3.0.4 && \
     composer require typo3-ter/dlf:~2.2.0
 RUN composer require nimut/testing-framework
+RUN composer require devlog/devlog:~3.0.4 && \
+    composer require kitodo/presentation
 COPY . /app
 RUN composer require kitodo/publication && \
     chown -R www-data .
