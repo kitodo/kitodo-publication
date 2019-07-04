@@ -36,7 +36,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /usr/src/*
 WORKDIR /var/www/html
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN echo '{"require":{"typo3/cms":"~7.6.0"}}' > /var/www/html/composer.json && \
+RUN echo '{"require":{"typo3/cms":"~8.7.0"}}' > /var/www/html/composer.json && \
     composer update && \
     touch FIRST_INSTALL && \
     chown -R www-data .
@@ -47,9 +47,8 @@ RUN composer config repositories.t3ter composer https://composer.typo3.org && \
     composer config repositories.kitodo-publication path /app && \
     composer config minimum-stability dev && \
     composer config prefer-stable true
-RUN composer require sjbr/static-info-tables:6.5.1 && \
-    composer require devlog/devlog:~3.0.4 && \
-    composer require typo3-ter/dlf:~2.2.0
+RUN composer require devlog/devlog:~3.0.4 && \
+    composer require kitodo/presentation
 COPY . /app
 RUN composer require kitodo/publication && \
     chown -R www-data .

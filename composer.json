@@ -35,7 +35,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "typo3/cms-core": "^7.6.0",
+        "typo3/cms-core": "^8.7.0",
         "nategood/httpful": "^0.2.20",
         "elasticsearch/elasticsearch": "~1.0"
     },
