@@ -44,29 +44,6 @@ if (TYPO3_MODE === 'BE') {
             'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_main.xlf',
         )
     );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'EWW.' . $_EXTKEY,
-        'qucosaMain',
-        'qucosamanager',
-        '',
-        array(
-            'Document'         => 'list, delete, discard, release, duplicate, '
-            . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listNew, listEdit, activate, inactivate, restore',
-
-            'DocumentFormBE'   => 'list, show, new, create, edit, update, delete, cancel',
-            'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-            'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
-            'Gnd'              => 'search',
-        ),
-        array(
-            'access'                => 'user,group',
-            'icon'                  => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-            'labels'                => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_qucosa_mod_manager.xlf',
-            'navigationComponentId' => 'typo3-pagetree',
-        )
-    );
     
 }
 

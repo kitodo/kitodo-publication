@@ -15,20 +15,14 @@
 
 {namespace dpf=EWW\Dpf\ViewHelpers}
 
-<f:be.container enableClickMenu="false"
-                includeCssFiles="{
-                    0: '{f:uri.resource(path:\'CSS/jquery-ui.css\')}',
-                    1: '{f:uri.resource(path:\'CSS/jquery-ui.structure.css\')}',
-                    2: '{f:uri.resource(path:\'CSS/qucosa.css\')}'
-                    3: '{f:uri.resource(path:\'CSS/qucosabe.css\')}'}"
-                includeRequireJsModules="{0: 'TYPO3/CMS/Dpf/QucosaBe'}">
+<div id="tx-dpf-backoffice" class="document-manager">
 
     <div class="tx-dpf" data-language="{dpf:language()}">
 
-        <f:render partial="Layouts/DocumentBE" arguments="{_all}" />
+        <f:render partial="Layouts/Backoffice" arguments="{_all}" />
 
         <f:render section="main"/>
 
     </div>
 
-</f:be.container>
+</div>

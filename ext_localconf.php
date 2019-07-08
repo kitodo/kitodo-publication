@@ -37,13 +37,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Qucosaform',
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Gnd'              => 'search',
     )
@@ -70,6 +70,31 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     // non-cacheable actions
     array(
         'GetFile'     => 'attachment',
+    )
+);
+
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
+    'Backoffice',
+    array(
+        'Document'         => 'list, delete, discard, release, duplicate, '
+            . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
+            . 'listNew, listEdit, activate, inactivate, restore',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
+        'Gnd'              => 'search',
+    ),
+    // non-cacheable actions
+    array(
+        'Document'         => 'list, delete, discard, release, duplicate, '
+            . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
+            . 'listNew, listEdit, activate, inactivate, restore',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
+        'Gnd'              => 'search',
     )
 );
 

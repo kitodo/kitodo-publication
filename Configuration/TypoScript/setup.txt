@@ -95,41 +95,8 @@ plugin.tx_dpf.settings.allowedActions {
 # !!ChangeThis!! Secret key for delivering inactive documents via API
 plugin.tx_dpf.settings.deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
 
-plugin.tx_dpf._CSS_DEFAULT_STYLE (
-	textarea.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-
-	input.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-
-	.tx-dpf table {
-		border-collapse:separate;
-		border-spacing:10px;
-	}
-
-	.tx-dpf table th {
-		font-weight:bold;
-	}
-
-	.tx-dpf table td {
-		vertical-align:top;
-	}
-
-	.typo3-messages .message-error {
-		color:red;
-	}
-
-	.typo3-messages .message-ok {
-		color:green;
-	}
-
-)
-
 page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
+page.includeCSS.tx_dpf_backoffice = EXT:dpf/Resources/Public/CSS/backoffice.css
 page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css
 page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jquery-ui.structure.css
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js

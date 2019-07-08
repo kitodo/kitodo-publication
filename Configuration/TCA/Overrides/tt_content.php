@@ -34,6 +34,13 @@ if (!defined('TYPO3_MODE')) {
     'DPF: FrontendSearch'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'EWW.Dpf',
+    'Backoffice',
+    'DPF: Backoffice'
+);
+
+
 // frontendsearch plugin configuration: additional fields
 $pluginSignature = 'dpf_frontendsearch';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';

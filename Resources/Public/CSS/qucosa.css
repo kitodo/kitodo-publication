@@ -393,19 +393,54 @@ ul.error-files-backbutton li {
     list-style: none;
 }
 
-    /* -- extended search form--------------------------------------------------- */
+    /* -- search form--------------------------------------------------- */
 
-.tx-dpf div.searchExtForm div.container {
+#tx-dpf-backoffice.document-manager .searchForm .form-group {
+    display: inline-block;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm .main-search-fields {
+    margin: 10px 0 10px 0;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label {
+    display: none;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label.show-label {
+    display: inline;
+    background: none;
+    border: none;
+    width: auto;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm #showDeleted {
+    width: 2em;
+    margin: 0;
+}
+
+#tx-dpf-backoffice.document-manager div.searchForm div.container {
   width: 100%;
 }
 
+#tx-dpf-backoffice.document-manager div.searchForm div.container .form-control {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+#tx-dpf-backoffice.document-manager div.searchForm .form-inline {
+    margin-bottom: 20px;
+}
+
 @media only screen and (min-width: 23em) {
-  .tx-dpf div.searchExtForm div.container .col-md-6 {
+    #tx-dpf-backoffice.document-manager div.searchForm div.container .col-md-6 {
     padding: 0px;
   }
 }
 @media only screen and (min-width: 60em) {
-  .tx-dpf div.searchExtForm div.container .col-md-6:nth-child(2) {
+    #tx-dpf-backoffice.document-manager div.searchForm div.container .col-md-6:nth-child(2) {
     padding: 0px 0px 0px 3px;
   }
 }

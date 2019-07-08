@@ -17,13 +17,6 @@
 
 <p class="bg-info client">{f:translate(key: 'manager.client')}: <strong>{client.client}</strong></p>
 
-<f:be.menus.actionMenu>
-    <f:be.menus.actionMenuItem label="{f:translate(key: 'manager.control.documents')}" controller="Document"
-                               action="list"/>
-    <f:be.menus.actionMenuItem label="{f:translate(key: 'manager.control.search')}" controller="Search"
-                               action="list"/>
-</f:be.menus.actionMenu>
-
 <div class="be-page-header">
     <div class="btn-group controller-switch" role="group">
         <f:link.action action="list" controller="Document"

@@ -24,7 +24,7 @@ use EWW\Dpf\Helper\FormDataReader;
 /**
  * DocumentFormController
  */
-abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\AbstractController
 {
 
     /**
@@ -120,18 +120,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         $this->view->assign('documentTypes', $docTypes);
         $this->view->assign('documents', $documents);
-    }
-
-    /**
-     * action show
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function showAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-
-        $this->view->assign('document', $document);
     }
 
     /**
@@ -263,14 +251,21 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
     public function initializeEditAction()
     {
-
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('document', $requestArguments)) {
-            $documentUid  = $this->request->getArgument('document');
-            $document     = $this->documentRepository->findByUid($documentUid);
-            $mapper       = $this->objectManager->get(DocumentMapper::class);
-            $documentForm = $mapper->getDocumentForm($document);
+
+            if ($this->request->getArgument('document') instanceof \EWW\Dpf\Domain\Model\Document) {
+                $document = $this->request->getArgument('document');
+            } elseif (is_numeric($this->request->getArgument('document'))) {
+                $document = $this->documentRepository->findByUid($this->request->getArgument('document'));
+            }
+
+            if ($document) {
+                $mapper = $this->objectManager->get(DocumentMapper::class);
+                $documentForm = $mapper->getDocumentForm($document);
+            }
+
         } elseif (array_key_exists('documentForm', $requestArguments)) {
             $documentForm = $this->request->getArgument('documentForm');
         }

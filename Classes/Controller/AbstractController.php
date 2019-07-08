@@ -31,25 +31,20 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         parent::initializeView($view);
 
-        if (TYPO3_MODE === 'BE') {
-            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
-            if ($selectedPageId) {
-                $client = $this->clientRepository->findAll()->current();
-            }
+        $client = $this->clientRepository->findAll()->current();
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.chooseClientMessage';
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.chooseClientMessage';
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
-            if (!$client) {
-                $this->addFlashMessage(
-                    $message,
-                    $messageTitle = '',
-                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
-                    $storeInSession = true
-                );
-            } else {
-                $view->assign('client', $client);
-            }
+        if (!$client) {
+            $this->addFlashMessage(
+                $message,
+                $messageTitle = '',
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
+                $storeInSession = true
+            );
+        } else {
+            $view->assign('client', $client);
         }
     }
 

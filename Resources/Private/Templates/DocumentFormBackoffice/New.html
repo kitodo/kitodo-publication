@@ -12,12 +12,12 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Default"/>
+<f:layout name="DocumentFormBackoffice"/>
 
 <f:section name="main">
-    <h1></h1>
     <f:flashMessages />
-    <f:render partial="Document/Properties" arguments="{document:document}"/>
-    <f:link.action action="list">{f:translate(key: 'documentForm.goBack')}</f:link.action>
-    <br/>
+    <h2>
+        <f:translate key="documentForm.new.header" arguments="{foo: '{documentForm.displayName}'}"/>
+    </h2>
+    <f:render partial="DocumentForm/New" arguments="{documentForm:documentForm}"/>
 </f:section>

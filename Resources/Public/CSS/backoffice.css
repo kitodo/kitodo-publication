@@ -13,25 +13,37 @@
  */
 
 
- /*
+/*
  *
- * Backend stylesheet for document manager
+ * Stylesheet for document backoffice
  *
  */
 
 
 /* -- basic setup ----------------------------------------------------------------------- */
 
-body {
+#tx-dpf-backoffice.document-manager {
     background: #fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
     padding-top: 49px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-.tx-dpf {
+
+#tx-dpf-backoffice.document-form {
+    background: #fff;
+    padding-top: 49px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#tx-dpf-backoffice .tx-dpf {
     padding: 24px;
 }
 
-.tx-dpf:before {
+#tx-dpf-backoffice .tx-dpf:before {
     position: fixed;
     top: 0;
     right: 0;
@@ -43,7 +55,7 @@ body {
     z-index: 500;
 }
 
-.tx-dpf .client {
+#tx-dpf-backoffice .tx-dpf .client {
     position: fixed;
     top: 17px;
     right: 25px;
@@ -58,31 +70,40 @@ body {
     z-index: 501;
 }
 
-.be-page-header {
-    margin-bottom: 30px;
-}
-
-.be-page-header h3 {
+#tx-dpf-backoffice.document-form .tx-dpf h2 {
     font-family: Share, Verdana, Arial, Helvetica, sans-serif;
     font-size: 2em;
     color: #555;
-    margin: 0;
-    float: left;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 400;
 }
 
-.docheader-funcmenu {
+
+#tx-dpf-backoffice.document-manager .docheader-funcmenu {
     position: fixed;
     top: 3px;
     left: 24px;
     z-index: 502;
 }
 
-.controller-switch {
+#tx-dpf-backoffice.document-manager .controller-switch {
     float: right;
     margin-right: 17px;
 }
 
-.be-page-header:after {
+#tx-dpf-backoffice.document-manager .be-page-header {
+    margin-bottom: 30px;
+}
+
+#tx-dpf-backoffice.document-manager .be-page-header h3 {
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: #555;
+    margin: 0;
+    float: left;
+}
+#tx-dpf-backoffice.document-manager .be-page-header:after {
     position: relative;
     display: table;
     content: "";
@@ -92,48 +113,49 @@ body {
 
 /* -- table setup ------------------------------------------------------------------------ */
 
-table.tx_dpf {
+#tx-dpf-backoffice.document-manager table.tx_dpf {
     border-bottom: 2px solid #ddd;
 }
 
-table.tx_dpf .table_col_function {
+#tx-dpf-backoffice.document-manager table.tx_dpf .table_col_function {
     text-align: right;
     padding: 8px 15px 8px 0;
 }
 
-table.tx_dpf .table_col_function a {
+#tx-dpf-backoffice.document-managertable.tx_dpf .table_col_function a {
     text-decoration: none;
 }
 
-table.tx_dpf > tbody > tr > td {
+#tx-dpf-backoffice.document-manager table.tx_dpf > tbody > tr > td {
     vertical-align: middle;
 }
 
-.searchForm {
+#tx-dpf-backoffice.document-manager .searchForm {
     margin: 0 20px 20px 0;
     float: left;
 }
 
-.searchForm label.show-label {
+#tx-dpf-backoffice.document-manager .searchForm label.show-label {
     display: initial !important;
 }
 
-.searchForm label {
+#tx-dpf-backoffice.document-manager .searchForm label {
     display: none;
 }
 
 
 /* -- upload error message --------------------------------------------------------------- */
 
-ul.error-files-backbutton {
+#tx-dpf-backoffice.document-manager ul.error-files-backbutton {
     margin: 10px 0 10px 0 !important;
     padding: 0 !important;
 }
 
-ul.error-files-backbutton li {
+#tx-dpf-backoffice.document-manager ul.error-files-backbutton li {
     list-style: disc;
     margin-left: 13px;
 }
+
 
 
 /* EOF */

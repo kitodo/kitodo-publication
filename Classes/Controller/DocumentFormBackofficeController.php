@@ -17,7 +17,7 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 
-class DocumentFormBEController extends AbstractDocumentFormController
+class DocumentFormBackofficeController extends AbstractDocumentFormController
 {
 
     public function __construct()
@@ -76,7 +76,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
 
-            $this->forward('edit', DocumentFormBE, null, array('document' => $document));
+            $this->forward('edit', DocumentFormBackoffice, null, array('document' => $document));
         }
 
 
@@ -118,7 +118,7 @@ class DocumentFormBEController extends AbstractDocumentFormController
 
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
 
-            $this->forward('edit', 'DocumentFormBE', null, array('document' => $updateDocument));
+            $this->forward('edit', 'DocumentFormBackoffice', null, array('document' => $updateDocument));
         }
     }
 
