@@ -31,6 +31,13 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
     protected $documentRepository;
 
     /**
+     * escapeOutput, activates / deactivates HTML escaping.
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * Returns the View Icon with link
      * @param  integer $viewPage Detail View page id
      * @param  integer $apiPid
