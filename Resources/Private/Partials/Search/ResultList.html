@@ -39,7 +39,7 @@
     </thead>
     <tbody>
     <f:for each="{searchList.hits}" as="entry">
-        <f:if condition="{dpf:inArray(needle:'{entry._source.PID}' array:'{alreadyImported}')}">
+        <f:if condition="{dpf:inArray(needle:'{entry._source.PID}', array:'{alreadyImported}')}">
             <f:then>
                 <tr class="success">
             </f:then>
@@ -86,7 +86,7 @@
                         <span class="glyphicon glyphicon-info-sign"></span>
                     </dpf:link.dataCite>
 
-                    <f:if condition="{dpf:inArray(needle:'{entry._id}' array:'{alreadyImported}')}">
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{alreadyImported}')}">
                         <f:then>
                             <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
                                            class="btn btn-xs btn-info disabled">
