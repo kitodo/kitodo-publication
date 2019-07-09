@@ -252,13 +252,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        $args[] = array();
+        $args = array();
 
         try {
             if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
                 $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                $args[] = $documentObjectIdentifier;
+                $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+                $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
             }
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
