@@ -25,6 +25,19 @@ class DocumentFormController extends AbstractDocumentFormController
     }
 
     /**
+     * action new
+     *
+     * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @ignorevalidation $newDocumentForm
+     * @return void
+     */
+    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
+    {
+        $this->view->assign('frontendForm', TRUE);
+        $this->view->assign('documentForm', $newDocumentForm);
+    }
+
+    /**
      * action create
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm

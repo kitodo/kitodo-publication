@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Security;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,22 +14,22 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ResearcherAuthorization extends Authorization
 {
-
     /**
      *
-     * @param boolean $condition
-     * @param boolean $frontendForm
-     *
-     * @return string
+     * @param string $arttribute
      */
-    public function render($condition, $frontendForm)
+    public function checkAttributePermission($attribute)
     {
-        if (($frontendForm === FALSE) || !$condition) {
-            return TRUE;
+        switch ($attribute) {
+            case 'EWW\Dpf\Controller\DocumentController::listAction': {
+                return FALSE;
+                break;
+            }
+
+            default: return FALSE;
         }
-        return FALSE;
     }
 
 }

@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Domain\Model;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,22 +14,31 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+/**
+* Frontend user group
+*/
+class FrontendUserGroup extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup
 {
+    /**
+     * Gets the kitodo role
+     *
+     * @var string
+     */
+    protected $kitodoRole = '';
+
+    public function getKitodoRole()
+    {
+        return $this->kitodoRole;
+    }
 
     /**
+     * Sets the kitodo role
      *
-     * @param boolean $condition
-     * @param boolean $frontendForm
-     *
-     * @return string
+     * @param $kitodoRole
      */
-    public function render($condition, $frontendForm)
+    public function setKitodoRole($kitodoRole)
     {
-        if (($frontendForm === FALSE) || !$condition) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->kitodoRole = $kitodoRole;
     }
 
 }

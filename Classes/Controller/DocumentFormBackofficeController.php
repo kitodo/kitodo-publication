@@ -128,4 +128,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->redirectToList('CREATE_OK');
     }
 
+
+    public function initializeAction()
+    {
+        parent::initializeAction();
+    }
+
 }

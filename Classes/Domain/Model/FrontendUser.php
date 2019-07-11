@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Domain\Model;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,22 +14,9 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+/**
+* Frontend user
+*/
+class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 {
-
-    /**
-     *
-     * @param boolean $condition
-     * @param boolean $frontendForm
-     *
-     * @return string
-     */
-    public function render($condition, $frontendForm)
-    {
-        if (($frontendForm === FALSE) || !$condition) {
-            return TRUE;
-        }
-        return FALSE;
-    }
-
 }

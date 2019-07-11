@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Security;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,22 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+abstract class Authorization
 {
-
-    /**
-     *
-     * @param boolean $condition
-     * @param boolean $frontendForm
-     *
-     * @return string
-     */
-    public function render($condition, $frontendForm)
-    {
-        if (($frontendForm === FALSE) || !$condition) {
-            return TRUE;
-        }
-        return FALSE;
-    }
 
 }

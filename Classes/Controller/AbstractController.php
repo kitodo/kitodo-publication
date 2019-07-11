@@ -18,6 +18,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+    /**
+     * authorizationChecker
+     *
+     * @var \EWW\Dpf\Security\AuthorizationChecker
+     * @inject
+     */
+    protected $authorizationChecker = null;
 
     /**
      * clientRepository
@@ -124,6 +131,17 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
             return $param;
         } else {
             return GeneralUtility::removeXSS($param);
+        }
+    }
+
+    public function initializeAction()
+    {
+        //die(self::class);
+        //die($this->actionMethodName);
+        parent::initializeAction();
+
+        if ( !$this->authorizationChecker->isGranted(static::class."::".$this->actionMethodName) ) {
+            throw new \Exception("Access denied!");
         }
     }
 
