@@ -27,7 +27,13 @@ class AnonymousAuthorization extends Authorization
             case 'EWW\Dpf\Controller\DocumentFormController::listAction':
             case 'EWW\Dpf\Controller\DocumentFormController::cancelAction':
             case 'EWW\Dpf\Controller\DocumentFormController::newAction':
-            case 'EWW\Dpf\Controller\DocumentFormController::createAction': {
+            case 'EWW\Dpf\Controller\DocumentFormController::createAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::primaryUploadAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::secondaryUploadAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::deleteFileAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::fillOutAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::fieldAction':
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::groupAction': {
                 return TRUE;
                 break;
             }

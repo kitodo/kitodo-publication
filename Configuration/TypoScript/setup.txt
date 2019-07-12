@@ -136,9 +136,32 @@ ajax_page {
     no_cache = 1
     debug = 0
   }
-
 }
 
+plugin.tx_dpf {
+	settings {
+		ajaxTypeNum = 110124
+	}
+}
+
+ajax_backoffice = PAGE
+ajax_backoffice {
+	typeNum = 110125
+	10 < tt_content.list.20.dpf_backoffice
+	config{
+		disableAllHeaderCode = 1
+		admPanel = 0
+		xhtml_cleaning = 0
+		no_cache = 1
+		debug = 0
+	}
+}
+
+plugin.tx_dpf_backoffice {
+	settings {
+		ajaxTypeNum = 110125
+	}
+}
 
 # Module configuration
 module.tx_dpf {
