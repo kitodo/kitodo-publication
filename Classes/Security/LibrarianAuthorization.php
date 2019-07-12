@@ -29,13 +29,20 @@ class LibrarianAuthorization extends Authorization
             case 'EWW\Dpf\Controller\DocumentController::listEditAction':
             case 'EWW\Dpf\Controller\DocumentController::discardAction':
             case 'EWW\Dpf\Controller\DocumentController::duplicateAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::deleteAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::cancelAction':
             case 'EWW\Dpf\Controller\DocumentFormBackofficeController::editAction':
             case 'EWW\Dpf\Controller\DocumentFormBackofficeController::updateAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::newAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::createAction':
             case 'EWW\Dpf\Controller\SearchController::doubletCheckAction':
             case 'EWW\Dpf\Controller\SearchController::listAction':
             case 'EWW\Dpf\Controller\SearchController::searchAction':
             case 'EWW\Dpf\Controller\SearchController::extendedSearchAction':
-            case 'EWW\Dpf\Controller\SearchController::latestAction': {
+            case 'EWW\Dpf\Controller\SearchController::nextResultsAction':
+            case 'EWW\Dpf\Controller\SearchController::latestAction':
+            case 'EWW\Dpf\Controller\SearchController::importAction':
+            case 'EWW\Dpf\Controller\SearchController::updateIndexAction': {
                 return TRUE;
                 break;
             }

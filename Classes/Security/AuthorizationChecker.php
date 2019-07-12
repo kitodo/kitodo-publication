@@ -40,18 +40,22 @@ class AuthorizationChecker
      */
     protected $frontendUserRepository = null;
 
+    const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
     const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
 
     /**
      * @param string $attribute
+     * @param string $plugin
      * @return bool
      */
-    public function isGranted($attribute) {
+    public function isGranted($attribute, $plugin = NULL) {
 
         $clientUserRoles = $this->getClientUserRoles();
+        $clientUserRoles[] = self::ROLE_ANONYMOUS;
 
         foreach ($clientUserRoles as $role) {
+
             $roleAuthorization = $this->getAuthorizationByRole($role);
             if ($roleAuthorization->checkAttributePermission($attribute)) {
                 return TRUE;
@@ -80,7 +84,7 @@ class AuthorizationChecker
 
         // Get frontend user groups of the user.
         $frontendUserGroups = array();
-        $frontendUser = $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        $frontendUser = $this->getUser();
         if ($frontendUser) {
             foreach ($frontendUser->getUsergroup() as $userGroup) {
                 // Because getUsergroup() does not return objects of the class
@@ -99,33 +103,7 @@ class AuthorizationChecker
         }
 
         return $roles;
-/*
 
-        if (is_array($GLOBALS['TSFE']->fe_user->groupData['uid'])) {
-            foreach ($GLOBALS['TSFE']->fe_user->groupData['uid'] as $groupUid) {
-                $group = $frontendUserGroupRepository->findByUid($groupUid);
-                if (is_object($group)) {
-                    $kitodoGroups[] = $group->getTitle();
-                    $kitodoRoles[] = $group->getKitodoRole();
-                }
-            }
-        } else {
-            return FALSE;
-        }
-
-
-        $group = $frontendUserGroupRepository->findAll();
-        foreach ($group as $g) {
-            $kitodoGroups_[] = $g->getTitle();
-        }
-        print_r($kitodoGroups_); die();
-
-        if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']->loginUser) {
-            return false;
-        }
-
-        return in_array($role, $kitodoRoles);
-*/
     }
 
     /**
@@ -143,6 +121,15 @@ class AuthorizationChecker
         }
 
         return NULL;
+    }
+
+    /**
+     * Gets the logged in user
+     *
+     * @return mixed
+     */
+    protected function getUser() {
+        return $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
     }
 
 
