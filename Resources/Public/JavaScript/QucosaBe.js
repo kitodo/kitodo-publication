@@ -367,7 +367,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         var group = $(this).closest(".fs_group");
 
         //do the ajax-call
-        $.getJSON(ajaxURL, params, function(element) {
+        $.post(ajaxURL, params, function(element) {
 
             group.find('.alert-filloutservice-urn').remove();
 
@@ -382,7 +382,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 inputField.val(element.value);
                 buttonFillOutServiceUrn();
             }
-        });
+        }, "json");
         return false;
     }
 

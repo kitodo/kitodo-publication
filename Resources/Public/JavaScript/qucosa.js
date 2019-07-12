@@ -395,7 +395,7 @@ var fillOutServiceUrn = function() {
     var group = $(this).closest(".fs_group");
 
     //do the ajax-call
-    jQuery.getJSON(ajaxURL, params, function(element) {
+    jQuery.post(ajaxURL, params, function(element) {
 
         group.find('.alert-filloutservice-urn').remove();
 
@@ -410,7 +410,8 @@ var fillOutServiceUrn = function() {
             inputField.val(element.value);
             buttonFillOutServiceUrn();
         }
-    });
+    }, "json");
+
     return false;
 }
 var buttonFillOutServiceUrn = function() {
