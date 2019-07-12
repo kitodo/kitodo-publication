@@ -505,6 +505,18 @@
 			<source>Year</source>
 			<target>Jahr</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role">
+    		<source>KITODO Role</source>
+    		<target>KITODO-Rolle</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_researcher">
+			<source>Researcher</source>
+			<target>Forschende</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_librarian">
+			<source>Librarian</source>
+			<target>Bibliothekar</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

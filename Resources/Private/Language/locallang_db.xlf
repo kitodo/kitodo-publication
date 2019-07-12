@@ -377,6 +377,15 @@
 		<trans-unit id="tx_dpf_domain_model_processnumber.year">
 			<source>Year</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role">
+			<source>KITODO Role</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_researcher">
+			<source>Researcher</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_librarian">
+			<source>Librarian</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

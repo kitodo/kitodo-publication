@@ -19,13 +19,19 @@ if (!defined('TYPO3_MODE')) {
 $temporaryColumns = array (
     'kitodo_role' => array (
         'exclude' => 0,
-        'label' => 'examples_options',
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
         'config' => array (
         'type' => 'select',
         'items' => array (
             array('', ''),
-            array('Forschender', \EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER),
-            array('Bibliothekar', \EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN),
+            array(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher',
+                \EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER
+            ),
+            array(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian',
+                \EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN
+            ),
         ),
             'size' => 1,
             'maxitems' => 1,
@@ -38,7 +44,10 @@ $temporaryColumns = array (
     'fe_groups',
     $temporaryColumns
 );
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_groups',
-    'kitodo_role'
+    'kitodo_role',
+    '',
+    'after:title'
 );
