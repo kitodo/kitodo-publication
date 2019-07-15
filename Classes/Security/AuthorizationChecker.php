@@ -57,7 +57,7 @@ class AuthorizationChecker
         foreach ($clientUserRoles as $role) {
 
             $roleAuthorization = $this->getAuthorizationByRole($role);
-            if ($roleAuthorization->checkAttributePermission($attribute)) {
+            if ($roleAuthorization && $roleAuthorization->checkAttributePermission($attribute)) {
                 return TRUE;
             } else {
                 continue;
@@ -79,7 +79,9 @@ class AuthorizationChecker
         // Get frontend user groups of the client.
         $clientFrontendGroups = array();
         foreach ($this->frontendUserGroupRepository->findAll() as $clientGroup) {
-            $clientFrontendGroups[$clientGroup->getUid()] = $clientGroup;
+           if ($clientGroup->getKitodoRole()) {
+               $clientFrontendGroups[$clientGroup->getUid()] = $clientGroup;
+           }
         }
 
         // Get frontend user groups of the user.
@@ -113,12 +115,19 @@ class AuthorizationChecker
      */
     protected function getAuthorizationByRole($role)
     {
-        $authorizationClass = ucfirst(strtolower(str_replace('ROLE_','', $role))).'Authorization';
-        $authorizationClass = 'EWW\\Dpf\\Security\\'.$authorizationClass;
 
-        if (class_exists($authorizationClass)) {
-            return $this->objectManager->get($authorizationClass);
-        }
+       if (strpos($role, 'ROLE_') === 0) {
+           $authorizationPrefix = ucfirst(strtolower(str_replace('ROLE_', '', $role)));
+
+           if ($authorizationPrefix) {
+               $authorizationClass = $authorizationPrefix . 'Authorization';
+               $authorizationClass = 'EWW\\Dpf\\Security\\' . $authorizationClass;
+
+               if (class_exists($authorizationClass)) {
+                   return $this->objectManager->get($authorizationClass);
+               }
+           }
+       }
 
         return NULL;
     }
