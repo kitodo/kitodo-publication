@@ -252,12 +252,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($remoteRepository);
 
-        $args[] = $documentObjectIdentifier;
+        $args = array();
 
         try {
             if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
                 $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+                $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
             }
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
@@ -271,7 +273,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         // Show success or failure of the action in a flash message
 
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
 
         $this->addFlashMessage(
             $message,
