@@ -46,7 +46,6 @@ ADD . /app
 WORKDIR /var/www/html
 RUN composer config repositories.t3ter composer https://composer.typo3.org && \
     composer config repositories.kitodo-publication path /app && \
-		composer config repositories.kitodo-presentation path /app && \
     composer config minimum-stability dev && \
     composer config prefer-stable true
 RUN composer require sjbr/static-info-tables:6.5.1 && \
