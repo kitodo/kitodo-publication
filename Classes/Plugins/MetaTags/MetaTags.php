@@ -158,7 +158,7 @@ class MetaTags extends \tx_dlf_plugin
                     if (is_array($values)) {
 
                         // Provide full dates in the "2010/5/12" format if available; or a year alone otherwise.
-                        $outArray['citation_publication_date'][] = date('Y/m/d', strtotime($values[0]));
+                        $outArray['citation_online_date'][] = date('Y/m/d', strtotime($values[0]));
 
                     }
 
