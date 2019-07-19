@@ -164,6 +164,16 @@ class MetaTags extends \tx_dlf_plugin
 
                     break;
 
+                case 'publication_date':
+
+                    if (is_array($values)) {
+
+                        $outArray['citation_publication_date'][] = date('Y', strtotime($values[0]));
+
+                    }
+
+                    break;
+
                 case 'record_id':
 
                     // Build typolink configuration array.
