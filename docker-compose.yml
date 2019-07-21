@@ -19,7 +19,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: kitodo-publication
+        image: kitodo-publication:2.x
         hostname: typo3
         ports:
             - "80:80"
