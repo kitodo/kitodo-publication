@@ -18,18 +18,30 @@ class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
 {
 
     /**
-     *
-     * @param boolean $condition
-     * @param boolean $frontendForm
-     *
-     * @return string
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return boolean
      */
-    public function render($condition, $frontendForm)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface $renderingContext)
     {
-        if (($frontendForm === FALSE) || !$condition) {
+        $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
+
+        if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
             return TRUE;
         }
+
         return FALSE;
+    }
+
+
+    /**
+     *
+     * @param boolean $condition
+     *
+     */
+    public function render($condition)
+    {
     }
 
 }

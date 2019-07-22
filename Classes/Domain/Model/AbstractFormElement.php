@@ -54,6 +54,13 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $backendOnly;
 
     /**
+     * An array of roles to which access to the form element should be restricted.
+     *
+     * @var array
+     */
+    protected $accessRestrictions = array();
+
+    /**
      *
      * @var integer
      */
@@ -118,6 +125,16 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setBackendOnly($backendOnly)
     {
         $this->backendOnly = $backendOnly;
+    }
+
+    public function getAccessRestrictions()
+    {
+        return $this->accessRestrictions;
+    }
+
+    public function setAccessRestrictions($accessRestrictions)
+    {
+        $this->accessRestrictions = $accessRestrictions;
     }
 
     public function getMaxIteration()

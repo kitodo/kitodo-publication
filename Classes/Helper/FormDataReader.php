@@ -348,6 +348,10 @@ class FormDataReader
             $documentFormPage->setName($metadataPage->getName());
             $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
 
+            if ($metadataPage->getBackendOnly()) {
+                $documentFormPage->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+            }
+
             foreach ($page as $groupUid => $groupItem) {
                 foreach ($groupItem as $group) {
                     $metadataGroup     = $this->metadataGroupRepository->findByUid($groupUid);
@@ -356,7 +360,13 @@ class FormDataReader
                     $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
                     $documentFormGroup->setName($metadataGroup->getName());
                     $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+
                     $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());
+
+                    if ($metadataGroup->getBackendOnly()) {
+                        $documentFormGroup->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+                    }
+
                     $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
                     foreach ($group as $objectUid => $objectItem) {
@@ -367,7 +377,13 @@ class FormDataReader
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());
                             $documentFormField->setMandatory($metadataObject->getMandatory());
+
                             $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                            if ($metadataObject->getBackendOnly()) {
+                                $documentFormField->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+                            }
+
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setDataType($metadataObject->getDataType());

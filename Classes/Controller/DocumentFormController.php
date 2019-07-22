@@ -33,7 +33,6 @@ class DocumentFormController extends AbstractDocumentFormController
      */
     public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
     {
-        $this->view->assign('frontendForm', TRUE);
         $this->view->assign('documentForm', $newDocumentForm);
     }
 

@@ -108,6 +108,10 @@ class DocumentMapper
             $documentFormPage->setName($metadataPage->getName());
             $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
 
+            if ($metadataPage->getBackendOnly()) {
+                $documentFormPage->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+            }
+
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
 
                 $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
@@ -115,7 +119,13 @@ class DocumentMapper
                 $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
                 $documentFormGroup->setName($metadataGroup->getName());
                 $documentFormGroup->setMandatory($metadataGroup->getMandatory());
+
                 $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());
+
+                if ($metadataGroup->getBackendOnly()) {
+                    $documentFormGroup->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+                }
+
                 $documentFormGroup->setInfoText($metadataGroup->getInfoText());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
@@ -173,7 +183,13 @@ class DocumentMapper
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());
                             $documentFormField->setMandatory($metadataObject->getMandatory());
+
                             $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                            if ($metadataObject->getBackendOnly()) {
+                                $documentFormField->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+                            }
+
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setDataType($metadataObject->getDataType());
@@ -255,7 +271,13 @@ class DocumentMapper
                         $documentFormField->setDisplayName($metadataObject->getDisplayName());
                         $documentFormField->setName($metadataObject->getName());
                         $documentFormField->setMandatory($metadataObject->getMandatory());
+
                         $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                        if ($metadataObject->getBackendOnly()) {
+                            $documentFormField->setAccessRestrictions(array(\EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN));
+                        }
+
                         $documentFormField->setConsent($metadataObject->getConsent());
                         $documentFormField->setValidation($metadataObject->getValidation());
                         $documentFormField->setDataType($metadataObject->getDataType());
