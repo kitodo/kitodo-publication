@@ -14,20 +14,23 @@ namespace EWW\Dpf\ViewHelpers\Link;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
-class PreviewViewHelper extends AbstractBackendViewHelper
+class PreviewViewHelper extends AbstractViewHelper
 {
-
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
      * @inject
      */
     protected $configurationManager;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
+     * @inject
+     */
+    protected $uriBuilder;
 
     /**
      * documentRepository
@@ -78,18 +81,31 @@ class PreviewViewHelper extends AbstractBackendViewHelper
     protected function getViewIcon(array $row, $pageUid, $apiPid, $insideText, $class)
     {
 
-        $previewMets = BackendUtility::getViewDomain($pageUid)
-            . '/index.php?id=' . $apiPid
-            . '&tx_dpf[qid]=' . $row['uid']
-            . '&tx_dpf[action]=' . $row['action'];
+       $previewMets = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($apiPid)
+            ->setArguments(array( 'tx_dpf' => $row))
+            ->setCreateAbsoluteUri(true)
+            ->setUseCacheHash(FALSE)
+            //->setNoCache(TRUE)
+            ->buildFrontendUri();
 
-        if (array_key_exists('deliverInactive', $row)) {
-            $previewMets .= '&tx_dpf[deliverInactive]=' . $row['deliverInactive'];
-        }
+        $additionalGetVars = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($pageUid)
+            ->setUseCacheHash(TRUE)
+            //->setNoCache(TRUE)
+            ->setArguments(
+                array( 'tx_dlf' => array(
+                        'id' => urldecode($previewMets),
+                    )
+                )
+            )
+            ->setCreateAbsoluteUri(true)
+            ->buildFrontendUri();
 
-        $additionalGetVars = '&tx_dlf[id]=' . urlencode($previewMets) . '&no_cache=1';
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
-        $icon = '<a href="#" data-toggle="tooltip" class="' . $class . '" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($pageUid, $this->backPath, '', '', '', $additionalGetVars)) . '" title="' . $title . '">' .
+        $icon = '<a href="'. $additionalGetVars . '" data-toggle="tooltip" class="' . $class . ' title="' . $title . '">' .
                           $insideText . '</a>';
 
         return $icon;
@@ -108,7 +124,6 @@ class PreviewViewHelper extends AbstractBackendViewHelper
      */
     public function render(array $arguments, $pageUid, $apiPid, $class)
     {
-
         if ($arguments['document']) {
 
             // it's already a document object?
@@ -125,9 +140,7 @@ class PreviewViewHelper extends AbstractBackendViewHelper
             // we found a valid document
             if ($document) {
 
-                $row['uid'] = $document->getUid();
-
-                $row['title'] = $document->getTitle();
+                $row['qid'] = $document->getUid();
 
                 $row['action'] = 'preview';
 
@@ -142,7 +155,7 @@ class PreviewViewHelper extends AbstractBackendViewHelper
 
             $row['action'] = 'mets';
 
-            $row['uid'] = $arguments['documentObjectIdentifier'];
+            $row['qid'] = $arguments['documentObjectIdentifier'];
 
             // pass configured API secret key parameter to enable dissemination of inactive documents
             if (isset($this->secretKey)) {
