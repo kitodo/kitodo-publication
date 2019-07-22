@@ -33,7 +33,10 @@ class AnonymousAuthorization extends Authorization
             case 'EWW\Dpf\Controller\AjaxDocumentFormController::deleteFileAction':
             case 'EWW\Dpf\Controller\AjaxDocumentFormController::fillOutAction':
             case 'EWW\Dpf\Controller\AjaxDocumentFormController::fieldAction':
-            case 'EWW\Dpf\Controller\AjaxDocumentFormController::groupAction': {
+            case 'EWW\Dpf\Controller\AjaxDocumentFormController::groupAction':
+            case 'EWW\Dpf\Controller\SearchFEController::searchAction':
+            case 'EWW\Dpf\Controller\SearchFEController::extendedSearchAction':
+            case 'EWW\Dpf\Controller\GetFileController::attachmentAction': {
                 return TRUE;
                 break;
             }
