@@ -3,7 +3,6 @@ version: '2'
 services:
     database_2x:
         image: mysql:5.6
-        hostname: db
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -11,7 +10,7 @@ services:
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - mysql56:/var/lib/mysql
+            - mysql56_latest:/var/lib/mysql
         networks:
             frontend:
                 aliases:
@@ -20,8 +19,7 @@ services:
     typo3_2x:
         build:
             context: .
-            dockerfile: Dockerfile
-        image: kitodo-publication:2.x
+        image: kitodo-publication:latest
         hostname: typo3
         ports:
             - "80:80"
@@ -31,7 +29,6 @@ services:
             XDEBUG_CONFIG: remote_host=xdebug.remote.host remote_port=9000 remote_enable=1
         volumes:
             - $PWD:/app
-            - website:/var/www/html
         depends_on:
             - database_2x
         networks:
@@ -41,8 +38,7 @@ services:
                     - typo3
 
 volumes:
-    mysql56:
-    website:
+    mysql56_latest:
 
 networks:
     frontend:
