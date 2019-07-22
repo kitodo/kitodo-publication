@@ -29,6 +29,11 @@ class LibrarianAuthorization extends Authorization
             case 'EWW\Dpf\Controller\DocumentController::listEditAction':
             case 'EWW\Dpf\Controller\DocumentController::discardAction':
             case 'EWW\Dpf\Controller\DocumentController::duplicateAction':
+            case 'EWW\Dpf\Controller\DocumentController::releaseAction':
+            case 'EWW\Dpf\Controller\DocumentController::activateAction':
+            case 'EWW\Dpf\Controller\DocumentController::inactivateAction':
+            case 'EWW\Dpf\Controller\DocumentController::deleteAction':
+            case 'EWW\Dpf\Controller\DocumentController::restoreAction':
             case 'EWW\Dpf\Controller\DocumentFormBackofficeController::deleteAction':
             case 'EWW\Dpf\Controller\DocumentFormBackofficeController::cancelAction':
             case 'EWW\Dpf\Controller\DocumentFormBackofficeController::editAction':
