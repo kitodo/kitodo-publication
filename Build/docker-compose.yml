@@ -3,7 +3,6 @@ version: '2'
 services:
     typo3-database:
         image: mysql:5.6
-        hostname: db
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -11,21 +10,19 @@ services:
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - mysql56:/var/lib/mysql
+            - mysql56_latest:/var/lib/mysql
         networks:
             - frontend
 
     typo3-app:
         build:
             context: .
-            dockerfile: Dockerfile
-        image: kitodo-publication
+        image: kitodo-publication:latest
         hostname: typo3
         ports:
             - "80:80"
         volumes:
             - $PWD:/app
-            - website:/var/www/html
         depends_on:
             - typo3-database
         links:
@@ -38,8 +35,7 @@ services:
             - qucosafcrepodocker_elasticsearch_1:elasticsearch
 
 volumes:
-    mysql56:
-    website:
+    mysql56_latest:
 
 networks:
     frontend:
