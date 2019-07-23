@@ -29,6 +29,7 @@ services:
             - "80:80"
         volumes:
             - ..:/app
+            - website-latest:/var/www/html
         depends_on:
             - typo3-database
         links:
@@ -42,6 +43,7 @@ services:
 
 volumes:
     mysql-latest:
+    website-latest:
 
 networks:
     frontend:
