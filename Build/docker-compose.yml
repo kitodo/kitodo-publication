@@ -28,7 +28,7 @@ services:
         ports:
             - "80:80"
         volumes:
-            - $PWD:/app
+            - ..:/app
         depends_on:
             - typo3-database
         links:
