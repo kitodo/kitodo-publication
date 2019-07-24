@@ -14,7 +14,10 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+
+class IsElementAllowedViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -23,7 +26,7 @@ class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
      * @param RenderingContextInterface $renderingContext
      * @return boolean
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface $renderingContext)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
 
@@ -42,6 +45,11 @@ class IsElementAllowedViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
      */
     public function render($condition)
     {
+        return static::renderStatic(
+            array('condition' => $condition),
+            $this->buildRenderChildrenClosure(),
+            $this->renderingContext
+        );
     }
 
 }
