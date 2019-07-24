@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    typo3-database:
+    database_2x:
         image: mysql:5.6
         hostname: db
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
@@ -15,7 +15,7 @@ services:
         networks:
             - frontend
 
-    typo3-app:
+    typo3_2x:
         build:
             context: .
             dockerfile: Dockerfile
@@ -27,9 +27,9 @@ services:
             - $PWD:/app
             - website:/var/www/html
         depends_on:
-            - typo3-database
+            - database_2x
         links:
-            - typo3-database:db
+            - database_2x:db
         networks:
             - frontend
             - qucosafcrepodocker_backend
