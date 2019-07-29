@@ -34,18 +34,18 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
-        process_number, valid, changed, state, reserved_object_identifier, object_identifier, transfer_status, file',
+        process_number, valid, changed, state, reserved_object_identifier, object_identifier, transfer_status, file, owner',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        state, reserved_object_identifier, object_identifier, transfer_status, file',
+        state, reserved_object_identifier, object_identifier, transfer_status, file, owner',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        state, reserved_object_identifier, object_identifier, transfer_status, file,
+        state, reserved_object_identifier, object_identifier, transfer_status, file, owner,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -311,5 +311,21 @@ return array(
             ),
 
         ),
+
+        'owner'              => array(
+            'exclude' => 1,
+            'label'   => 'Owner',
+            'config'  => array(
+                'type'          => 'select',
+                'items' => array (
+                    array('', 0),
+                ),
+                'renderType'    => 'selectSingle',
+                'foreign_table' => 'fe_users',
+                'minitems'      => 0,
+                'maxitems'      => 1,
+            ),
+        ),
+
     ),
 );

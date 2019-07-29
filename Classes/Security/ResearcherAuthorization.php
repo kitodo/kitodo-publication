@@ -23,8 +23,16 @@ class ResearcherAuthorization extends Authorization
     public function checkAttributePermission($attribute)
     {
         switch ($attribute) {
-            case 'EWW\Dpf\Controller\DocumentController::listAction': {
-                return FALSE;
+            case 'EWW\Dpf\Controller\DocumentController::listAction':
+            case 'EWW\Dpf\Controller\DocumentController::listNewAction':
+            case 'EWW\Dpf\Controller\DocumentController::listEditAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::deleteAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::cancelAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::editAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::updateAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::newAction':
+            case 'EWW\Dpf\Controller\DocumentFormBackofficeController::createAction': {
+                return TRUE;
                 break;
             }
 

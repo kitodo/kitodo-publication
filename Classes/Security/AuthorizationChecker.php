@@ -137,7 +137,7 @@ class AuthorizationChecker
      *
      * @return mixed
      */
-    protected function getUser() {
+    public function getUser() {
         return $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
     }
 

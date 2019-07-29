@@ -117,6 +117,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumber;
 
     /**
+     * owner
+     *
+     * @var integer
+     */
+    protected $owner = 0;
+
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -787,6 +795,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
         return $mods->getQucosaUrn();
+    }
+
+    /**
+     * Returns the owner uid
+     *
+     * @return integer
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Sets the owner uid
+     *
+     * @param integer $owner
+     * @return void
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = owner;
     }
 
 }

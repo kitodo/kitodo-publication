@@ -53,7 +53,19 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function listAction()
     {
-        $documents = $this->documentRepository->findAll();
+        // Get the documents of the current fe_user
+        if (
+            in_array(
+              $this->authorizationChecker::ROLE_LIBRARIAN,
+              $this->authorizationChecker->getClientUserRoles()
+            )
+        ) {
+            $ownerFilter = NULL;
+        } else {
+            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
+        }
+
+        $documents = $this->documentRepository->findAllFiltered($ownerFilter);
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -68,13 +80,47 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
     public function listNewAction()
     {
-        $documents = $this->documentRepository->getNewDocuments();
+        // Get the new documents of the current fe_user
+        if (
+        in_array(
+            $this->authorizationChecker::ROLE_LIBRARIAN,
+            $this->authorizationChecker->getClientUserRoles()
+        )
+        ) {
+            $ownerFilter = NULL;
+        } else {
+            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
+        }
+
+        $documents = $this->documentRepository->findAllFiltered(
+            $ownerFilter,
+            $this->documentRepository::DOCUMENT_STATE_NEW
+        );
+
         $this->view->assign('documents', $documents);
     }
 
     public function listEditAction()
     {
-        $documents = $this->documentRepository->getInProgressDocuments();
+        // Get the in progress documents of the current fe_user
+        if (
+            in_array(
+                $this->authorizationChecker::ROLE_LIBRARIAN,
+                $this->authorizationChecker->getClientUserRoles()
+            )
+        ) {
+            $ownerFilter = NULL;
+        } else {
+            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
+        }
+
+        $documents = $this->documentRepository->findAllFiltered(
+            $ownerFilter,
+            $this->documentRepository::DOCUMENT_STATE_IN_PROGRESS
+        );
+
+
+        //$documents = $this->documentRepository->getInProgressDocuments();
         $this->view->assign('documents', $documents);
     }
 

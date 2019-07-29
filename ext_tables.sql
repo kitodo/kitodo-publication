@@ -77,6 +77,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
+  owner int(11) unsigned default '0',
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -521,5 +522,5 @@ CREATE TABLE tx_dpf_domain_model_processnumber (
 # Table extension structure for table 'fe_groups'
 #
 CREATE TABLE fe_groups (
-        kitodo_role varchar(255) DEFAULT '' NOT NULL,
+  kitodo_role varchar(255) DEFAULT '' NOT NULL,
 );

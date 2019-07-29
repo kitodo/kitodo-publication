@@ -22,6 +22,57 @@ use \EWW\Dpf\Domain\Model\Document;
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
+    const DOCUMENT_STATE_NEW = 'DOCUMENT_STATE_NEW';
+    const DOCUMENT_STATE_IN_PROGRESS = 'DOCUMENT_STATE_IN_PROGRESS';
+
+    /**
+     * /**
+     * Finds all documents filtered by owner uid and document state.
+     * If all parameters are empty, all documents will be returned.
+     *
+     * @param int $ownerUid
+     * @param string $documentState
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findAllFiltered($ownerUid = NULL, $documentState = NULL)
+    {
+        $query = $this->createQuery();
+        $constraintsAnd = array();
+
+        if ($documentState) {
+            switch ($documentState) {
+                case self::DOCUMENT_STATE_NEW:
+                    // Finds all new documents
+                    $constraintsAnd[] = $query->equals('object_identifier', '');
+                    $constraintsAnd[] = $query->equals('changed', false);
+                    $query->setOrderings(
+                        array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+                    );
+                    break;
+                case self::DOCUMENT_STATE_IN_PROGRESS:
+                    // Finds all documents in progress
+                    $constraintsAnd[] = $query->logicalOr(
+                        array(
+                            $query->like('object_identifier', 'qucosa%'),
+                            $query->equals('changed', true)
+                        )
+                    );
+                    break;
+            }
+        }
+
+        if ($ownerUid) {
+            $constraintsAnd[] = $query->equals('owner', $ownerUid);
+        }
+
+        if (!empty($constraintsAnd)) {
+            $query->matching($query->logicalAnd($constraintsAnd));
+        }
+
+        return $query->execute();
+    }
+
     public function getObjectIdentifiers()
     {
 
@@ -45,54 +96,6 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $objectIdentifiers;
     }
-
-    /**
-     * Finds all new documents
-     *
-     * @return array The found Document Objects
-     */
-    public function getNewDocuments()
-    {
-
-        $query = $this->createQuery();
-
-        $constraints = array(
-                $query->equals('object_identifier', ''),
-                $query->equals('changed', false));
-
-        if (count($constraints)) {
-            $query->matching($query->logicalAnd($constraints));
-        }
-
-        // order by start_date -> start_time...
-        $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
-        return $query->execute();
-    }
-
-    /**
-     * Finds all documents in progress
-     *
-     * @return array The found Document Objects
-     */
-    public function getInProgressDocuments()
-    {
-
-        $query = $this->createQuery();
-        
-        $constraints = array(
-                $query->like('object_identifier', 'qucosa%'),
-                $query->equals('changed', true));
-
-        if (count($constraints)) {
-            $query->matching($query->logicalOr($constraints));
-        }
-
-        return $query->execute();
-    }
-
 
     /**
      * Finds all documents without a process number,
