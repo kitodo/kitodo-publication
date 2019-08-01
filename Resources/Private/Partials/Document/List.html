@@ -100,14 +100,13 @@
                                additionalAttributes="{data-toggle: 'tooltip' }">
                     <span class="glyphicon glyphicon-duplicate"></span>
                 </f:link.action>
-
                 <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}',
                     inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}',
                     confirm: '{f:if(condition: \'{document.activateRemote}\', then: \'#confirmActivate\', else: \'#confirmInactivate\')}'}">
                     <f:link.action
                             action="{f:if(condition: '{document.activateRemote}', then: 'activate')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivate')}"
                             arguments="{document : document}"
-                            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0' then: 'disabled')}"
+                            class="btn btn-xs btn-default {f:if(condition: '{document.activationChangeAllowed} == 0', then: 'disabled')}"
                             additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: confirm}">
                             <span class="glyphicon {f:if(condition: '{document.active}', then: 'glyphicon-ok-circle', else: 'glyphicon-ban-circle')}"
                                   data-toggle="tooltip"

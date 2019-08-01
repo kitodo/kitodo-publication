@@ -55,7 +55,7 @@
                         {entry._source._dissemination._content.issue}
                     </f:if>
                 </td>
-                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
+                <td>{dpf:showStatus(status:'{entry._source.STATE}')}</td>
                 <td>{entry._source._dissemination._content.author.0}</td>
                 <td>
                     <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">
@@ -110,7 +110,7 @@
                 <td>{entry._source.title.0}
                     <f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if>
                 </td>
-                <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
+                <td>{dpf:showStatus(status:'{entry._source.STATE}'})}</td>
                 <td>{entry._source.author}</td>
                 <td>
                     <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">

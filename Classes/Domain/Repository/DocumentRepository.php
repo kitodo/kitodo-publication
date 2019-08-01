@@ -21,45 +21,24 @@ use \EWW\Dpf\Domain\Model\Document;
  */
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
-    const DOCUMENT_STATE_NEW = 'DOCUMENT_STATE_NEW';
-    const DOCUMENT_STATE_IN_PROGRESS = 'DOCUMENT_STATE_IN_PROGRESS';
-
     /**
      * /**
-     * Finds all documents filtered by owner uid and document state.
+     * Finds all documents filtered by owner uid and local document status.
      * If all parameters are empty, all documents will be returned.
      *
      * @param int $ownerUid
-     * @param string $documentState
+     * @param string $localDocumentStatus
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllFiltered($ownerUid = NULL, $documentState = NULL)
+    public function findAllFiltered($ownerUid = NULL, $localDocumentStatus = NULL)
     {
+
         $query = $this->createQuery();
         $constraintsAnd = array();
 
-        if ($documentState) {
-            switch ($documentState) {
-                case self::DOCUMENT_STATE_NEW:
-                    // Finds all new documents
-                    $constraintsAnd[] = $query->equals('object_identifier', '');
-                    $constraintsAnd[] = $query->equals('changed', false);
-                    $query->setOrderings(
-                        array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-                    );
-                    break;
-                case self::DOCUMENT_STATE_IN_PROGRESS:
-                    // Finds all documents in progress
-                    $constraintsAnd[] = $query->logicalOr(
-                        array(
-                            $query->like('object_identifier', 'qucosa%'),
-                            $query->equals('changed', true)
-                        )
-                    );
-                    break;
-            }
+        if ($localDocumentStatus) {
+            $constraintsAnd[] = $query->equals('localStatus', $localDocumentStatus);
         }
 
         if ($ownerUid) {
@@ -69,6 +48,10 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if (!empty($constraintsAnd)) {
             $query->matching($query->logicalAnd($constraintsAnd));
         }
+
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
 
         return $query->execute();
     }
@@ -117,6 +100,22 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         return $query->execute();
+    }
+
+
+    /**
+     * Finds all documents of all clients.
+     *
+     * @param bool $returnRawQueryResult
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function crossClientFindAll($returnRawQueryResult = TRUE) {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(false);
+        $this->setDefaultQuerySettings($querySettings);
+        $query = $this->createQuery();
+        return $query->execute($returnRawQueryResult);
     }
 
 }

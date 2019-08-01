@@ -14,33 +14,35 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ShowStateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+
+class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
      *
-     * @param string $state
+     * @param string $status
      *
      */
-    public function render($state)
+    public function render($status)
     {
-
         $key = "";
 
-        switch ($state) {
-            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW:
+        switch ($status) {
+            case LocalDocumentStatus::NEW:
                 $key = 'search.resultList.state.new';
                 break;
-            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE:
+            case RemoteDocumentStatus::ACTIVE:
             case 'A':
                 $key = 'search.resultList.state.active';
                 break;
-            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE:
+            case RemoteDocumentStatus::INACTIVE:
             case 'I':
                 $key = 'search.resultList.state.inactive';
                 break;
-            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_DELETED:
-            case \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED:
+            case LocalDocumentStatus::DELETED:
+            case RemoteDocumentStatus::DELETED:
             case 'D':
                 $key = 'search.resultList.state.deleted';
                 break;

@@ -48,7 +48,7 @@
 
         <tr class="{f:if(condition: '{searchList}', then: 'danger', else: '')}">
             <td>{document.title}</td>
-            <td>{dpf:showState(state:'{document.state}')}</td>
+            <td>{dpf:showStatus(status:'{document.state}')}</td>
             <td>
                 <f:for each="{document.authors}" as="author" iteration="itemIterator">
                     {author}
@@ -105,7 +105,7 @@
                     {entry._source._dissemination._content.issue}
                 </f:if>
             </td>
-            <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
+            <td>{dpf:showStatus(status:'{entry._source.STATE}')}</td>
             <td>{entry._source._dissemination._content.author.0}</td>
             <td>{entry._source._dissemination._content.submitter}</td>
             <td>

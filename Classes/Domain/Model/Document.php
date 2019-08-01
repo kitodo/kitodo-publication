@@ -14,6 +14,10 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+
+
 /**
  * Document
  */
@@ -70,11 +74,18 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reservedObjectIdentifier;
 
     /**
-     * state
+     * localStatus
      *
      * @var string
      */
-    protected $state = self::OBJECT_STATE_NEW;
+    protected $localStatus = NULL;
+
+    /**
+     * remoteStatus
+     *
+     * @var string
+     */
+    protected $remoteStatus = NULL;
 
     /**
      * transferStatus
@@ -135,12 +146,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const TRANSFER_ERROR  = "ERROR";
     const TRANSFER_QUEUED = "QUEUED";
     const TRANSFER_SENT   = "SENT";
-
-    const OBJECT_STATE_NEW             = "NEW";
-    const OBJECT_STATE_ACTIVE          = "ACTIVE";
-    const OBJECT_STATE_INACTIVE        = "INACTIVE";
-    const OBJECT_STATE_DELETED         = "DELETED";
-    const OBJECT_STATE_LOCALLY_DELETED = "LOCALLY_DELETED";
 
     /**
      * __construct
@@ -310,24 +315,43 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the state
+     * Returns the localStatus
      *
      * @return string
      */
-    public function getState()
+    public function getLocalStatus()
     {
-        return $this->state;
+        return $this->localStatus;
     }
 
     /**
-     * Sets the state
+     * Sets the localStatus
      *
-     * @param string $state
-     * @return void
+     * @return string
      */
-    public function setState($state)
+    public function setLocalStatus($localStatus)
     {
-        $this->state = $state;
+        $this->localStatus = $localStatus;
+    }
+
+    /**
+     * Returns the remoteStatus
+     *
+     * @return string
+     */
+    public function getRemoteStatus()
+    {
+        return $this->remoteStatus;
+    }
+
+    /**
+     * Sets the remoteStatus
+     *
+     * @return string
+     */
+    public function setRemoteStatus($remoteStatus)
+    {
+        $this->remoteStatus = $remoteStatus;
     }
 
     /**
@@ -648,9 +672,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isDeleteAllowed()
     {
-        return ($this->state == self::OBJECT_STATE_INACTIVE ||
-            $this->state == self::OBJECT_STATE_ACTIVE) &&
-        !empty($this->objectIdentifier);
+        return $this->getRemoteStatus() != RemoteDocumentStatus::DELETED && !empty($this->objectIdentifier);
     }
 
     /**
@@ -660,11 +682,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isActive()
     {
-        return $this->state == self::OBJECT_STATE_ACTIVE ||
-        $this->state == self::OBJECT_STATE_NEW ||
-            ($this->state != self::OBJECT_STATE_INACTIVE &&
-            $this->state != self::OBJECT_STATE_DELETED &&
-            $this->state != self::OBJECT_STATE_LOCALLY_DELETED);
+        return $this->getRemoteStatus() == RemoteDocumentStatus::ACTIVE;
     }
 
     /**
@@ -674,8 +692,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isActivationChangeAllowed()
     {
-        return $this->state == self::OBJECT_STATE_INACTIVE ||
-        $this->state == self::OBJECT_STATE_ACTIVE;
+        return $this->remoteStatus == RemoteDocumentStatus::ACTIVE
+            || $this->remoteStatus == RemoteDocumentStatus::INACTIVE;
     }
 
     /**
@@ -685,7 +703,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isDeleteRemote()
     {
-        return $this->state == self::OBJECT_STATE_LOCALLY_DELETED;
+        return $this->localStatus == LocalDocumentStatus::DELETED;
     }
 
     /**
@@ -695,7 +713,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isRestoreRemote()
     {
-        return $this->state == self::OBJECT_STATE_DELETED;
+        return $this->getRemoteStatus() == RemoteDocumentStatus::DELETED
+            && $this->getLocalStatus() != LocalDocumentStatus::DELETED;
     }
 
     /**
@@ -705,7 +724,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isActivateRemote()
     {
-        return $this->state == self::OBJECT_STATE_INACTIVE;
+        return $this->getRemoteStatus() == RemoteDocumentStatus::INACTIVE;
     }
 
     /**
@@ -715,7 +734,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isInactivateRemote()
     {
-        return $this->state == self::OBJECT_STATE_ACTIVE;
+        return $this->getRemoteStatus() == RemoteDocumentStatus::ACTIVE;
     }
 
     /**
@@ -725,7 +744,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isIngestRemote()
     {
-        return ($this->state == self::OBJECT_STATE_NEW || $this->state == self::OBJECT_STATE_ACTIVE) && empty($this->objectIdentifier);
+        return empty($this->remoteStatus) && empty($this->objectIdentifier);
     }
 
     /**
@@ -735,7 +754,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isUpdateRemote()
     {
-        return ($this->state == self::OBJECT_STATE_ACTIVE || $this->state == self::OBJECT_STATE_INACTIVE) && !empty($this->objectIdentifier);
+        return $this->localStatus != LocalDocumentStatus::DELETED
+            && $this->remoteStatus != RemoteDocumentStatus::DELETED
+            && !empty($this->objectIdentifier);
     }
 
     /**

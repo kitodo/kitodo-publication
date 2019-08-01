@@ -15,6 +15,8 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
@@ -198,9 +200,11 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
+        $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
 
         // xml data fields are limited to 64 KB
         if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->getSlubInfoData() >= 64 * 1024)) {
@@ -339,7 +343,10 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $requestArguments = $this->request->getArguments();
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
         $updateDocument = $documentMapper->getDocument($documentForm);
+        $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
 
         // xml data fields are limited to 64 KB
         if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->getSlubInfoData() >= 64 * 1024)) {

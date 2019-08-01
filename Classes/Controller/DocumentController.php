@@ -15,6 +15,8 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -94,7 +96,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $documents = $this->documentRepository->findAllFiltered(
             $ownerFilter,
-            $this->documentRepository::DOCUMENT_STATE_NEW
+            LocalDocumentStatus::NEW
         );
 
         $this->view->assign('documents', $documents);
@@ -116,7 +118,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $documents = $this->documentRepository->findAllFiltered(
             $ownerFilter,
-            $this->documentRepository::DOCUMENT_STATE_IN_PROGRESS
+            LocalDocumentStatus::IN_PROGRESS
         );
 
 
@@ -178,7 +180,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
         try {
+            /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
             $newDocument = $this->objectManager->get(Document::class);
+
+            $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+            $newDocument->setRemoteStatus(NULL);
 
             $newDocument->setTitle($document->getTitle());
             $newDocument->setAuthors($document->getAuthors());

@@ -16,6 +16,8 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 
 class DocumentMapper
@@ -309,9 +311,8 @@ class DocumentMapper
         $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
 
         $documentForm->setSaveDisabled(
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE &&
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW
+            $document->getLocalStatus() == LocalDocumentStatus::DELETED
+            || $document->getRemoteStatus() == RemoteDocumentStatus::DELETED
         );
 
         return $documentForm;

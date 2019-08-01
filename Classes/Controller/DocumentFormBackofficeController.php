@@ -16,6 +16,8 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 
 class DocumentFormBackofficeController extends AbstractDocumentFormController
 {
@@ -44,14 +46,15 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         }
 
         try {
-
+            /* @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->documentRepository->findByUid($documentData['documentUid']);
 
             $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
             // send document to index
             $elasticsearchRepository->delete($document, "");
 
-            $document->setState(\EWW\Dpf\Domain\Model\Document::OBJECT_STATE_LOCALLY_DELETED);
+            $document->setLocalStatus(LocalDocumentStatus::DELETED);
+
             $this->documentRepository->update($document);
 
             $this->redirectToList();
@@ -76,7 +79,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
 
-            $this->forward('edit', DocumentFormBackoffice, null, array('document' => $document));
+            $this->forward('edit', 'DocumentFormBackoffice', null, array('document' => $document));
         }
 
 

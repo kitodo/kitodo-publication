@@ -17,8 +17,11 @@
 		<trans-unit id="object_identifier.description">
 			<source>objectIdentifier</source>
 		</trans-unit>
-		<trans-unit id="state.description">
-			<source>Local State</source>
+		<trans-unit id="local_status.description" approved="yes">
+			<source>Local Status</source>
+		</trans-unit>
+		<trans-unit id="remote_status.description" approved="yes">
+			<source>Remote Status</source>
 		</trans-unit>
 		<trans-unit id="transfer_status.description">
 			<source>Transfer State</source>
