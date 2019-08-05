@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, info_text',
+        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadatagroup.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, info_text',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, info_text, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -216,6 +216,18 @@ return array(
             'config'    => array(
                 'type'    => 'check',
                 'default' => 0,
+            ),
+        ),
+        'access_restriction_roles' => array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.access_restriction_roles',
+            'config' => array(
+                'type' => 'select',
+                'size' => 2,
+                'maxitems' => 2,
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN),
+                ),
             ),
         ),
         'info_text'                => array(

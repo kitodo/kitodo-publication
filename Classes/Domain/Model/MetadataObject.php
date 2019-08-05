@@ -110,11 +110,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $gndFieldUid = '';
 
     /**
-     * backendOnly
+     * accessRestrictionRoles
      *
-     * @var boolean
+     * @var string
      */
-    protected $backendOnly = false;
+    protected $accessRestrictionRoles = '';
 
     /**
      * consent
@@ -378,24 +378,28 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the backendOnly
+     * Returns the accessRestrictionRoles
      *
-     * @return boolean $backendOnly
+     * @return array $accessRestrictionRoles
      */
-    public function getBackendOnly()
+    public function getAccessRestrictionRoles()
     {
-        return $this->backendOnly;
+        if ($this->accessRestrictionRoles) {
+            return array_map('trim', explode(',', $this->accessRestrictionRoles));
+        } else {
+            return array();
+        }
     }
 
     /**
-     * Sets the backendOnly
+     * Sets the accessRestrictionRoles
      *
-     * @param boolean $backendOnly
+     * @param array $accessRestrictionRoles
      * @return void
      */
-    public function setBackendOnly($backendOnly)
+    public function setAccessRestrictionRoles($accessRestrictionRoles)
     {
-        $this->backendOnly = $backendOnly;
+        $this->accessRestrictionRoles = implode(',', $accessRestrictionRoles);
     }
 
     /**

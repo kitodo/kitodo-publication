@@ -321,6 +321,10 @@
 			<source>Backend only</source>
 			<target>Nur Backend</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name" approved="yes">
 			<source>Display Name</source>
 			<target>Anzeigename</target>
@@ -368,6 +372,10 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.backend_only" approved="yes">
 			<source>Backend only</source>
 			<target>Nur Backend</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.consent" approved="yes">
 			<source>Consent field</source>
@@ -476,6 +484,10 @@
 		<trans-unit id="tx_dpf_domain_model_metadatapage.backend_only" approved="yes">
 			<source>Backend only</source>
 			<target>Nur Backend</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatapage.display_name" approved="yes">
 			<source>Display Name</source>

@@ -48,17 +48,11 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $mandatory;
 
     /**
-     *
-     * @var boolean
-     */
-    protected $backendOnly;
-
-    /**
      * An array of roles to which access to the form element should be restricted.
      *
      * @var array
      */
-    protected $accessRestrictions = array();
+    protected $accessRestrictionRoles = array();
 
     /**
      *
@@ -117,24 +111,14 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->mandatory = $mandatory;
     }
 
-    public function getBackendOnly()
+    public function getAccessRestrictionRoles()
     {
-        return $this->backendOnly;
+        return $this->accessRestrictionRoles;
     }
 
-    public function setBackendOnly($backendOnly)
+    public function setAccessRestrictionRoles($accessRestrictionRoles)
     {
-        $this->backendOnly = $backendOnly;
-    }
-
-    public function getAccessRestrictions()
-    {
-        return $this->accessRestrictions;
-    }
-
-    public function setAccessRestrictions($accessRestrictions)
-    {
-        $this->accessRestrictions = $accessRestrictions;
+        $this->accessRestrictionRoles = $accessRestrictionRoles;
     }
 
     public function getMaxIteration()

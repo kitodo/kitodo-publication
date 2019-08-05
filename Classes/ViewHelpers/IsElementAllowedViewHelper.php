@@ -16,9 +16,19 @@ namespace EWW\Dpf\ViewHelpers;
 
 use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use \EWW\Dpf\Security\AuthorizationChecker;
 
 class IsElementAllowedViewHelper extends AbstractViewHelper
 {
+    /**
+     * authorizationChecker
+     *
+     * @var \EWW\Dpf\Security\AuthorizationChecker
+     * @inject
+     */
+    protected $authorizationChecker = null;
 
     /**
      * @param array $arguments
@@ -28,10 +38,28 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
+        //$pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
 
-        if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
+        $roles = array();
+        if (key_exists('condition', $arguments)) {
+            $roles = $arguments['condition'];
+            if (!is_array($roles)) return FALSE;
+        }
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $authorizationChecker = $objectManager->get(AuthorizationChecker::class);
+        $clientUserRoles = $authorizationChecker->getClientUserRoles();
+
+        //if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
+        //    return TRUE;
+        //}
+
+        if (empty($roles)) {
             return TRUE;
+        } else {
+            foreach ($roles as $role) {
+                if (in_array($role, $clientUserRoles)) return TRUE;
+            }
         }
 
         return FALSE;
@@ -40,7 +68,7 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
 
     /**
      *
-     * @param boolean $condition
+     * @param array $condition
      *
      */
     public function render($condition)

@@ -121,6 +121,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   name varchar(255) DEFAULT '' NOT NULL,
   display_name varchar(255) DEFAULT '' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
   mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
   max_iteration int(11) DEFAULT '0' NOT NULL,
   mapping_for_reading varchar(1024) DEFAULT '' NOT NULL,
@@ -182,6 +183,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   default_value text NOT NULL,
   fill_out_service varchar(255) DEFAULT '' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
   consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
   gnd_field_uid varchar(255) DEFAULT '' NOT NULL,
   max_input_length int(11) DEFAULT '0' NOT NULL,
@@ -325,6 +327,7 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
   page_number int(11) DEFAULT '0' NOT NULL,
   metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
