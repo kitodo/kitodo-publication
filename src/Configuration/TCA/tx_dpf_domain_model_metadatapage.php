@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, page_number, access_restriction_roles, metadata_group',
+        'searchFields'             => 'name, display_name, page_number, backend_only, access_restriction_roles, metadata_group',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadatapage.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, access_restriction_roles, metadata_group',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, backend_only, access_restriction_roles, metadata_group',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, page_number, access_restriction_roles, metadata_group, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, page_number, backend_only, access_restriction_roles, metadata_group, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -165,6 +165,18 @@ return array(
                 'items' => array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\Security::ROLE_RESEARCHER),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\Security::ROLE_LIBRARIAN),
+                ),
+            ),
+        ),
+        'access_restriction_roles' => array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.access_restriction_roles',
+            'config' => array(
+                'type' => 'select',
+                'size' => 2,
+                'maxitems' => 2,
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN),
                 ),
             ),
         ),

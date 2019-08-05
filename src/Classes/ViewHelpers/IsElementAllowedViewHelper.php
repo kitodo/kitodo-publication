@@ -19,9 +19,18 @@ use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use \EWW\Dpf\Security\Security;
+use \EWW\Dpf\Security\AuthorizationChecker;
 
 class IsElementAllowedViewHelper extends AbstractViewHelper
 {
+    /**
+     * authorizationChecker
+     *
+     * @var \EWW\Dpf\Security\AuthorizationChecker
+     * @inject
+     */
+    protected $authorizationChecker = null;
+
     /**
      * @param array $arguments
      * @param \Closure $renderChildrenClosure
@@ -39,9 +48,8 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
         }
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var Security $security */
-        $security = $objectManager->get(Security::class);
-        $clientUserRole = $security->getUser()->getUserRole();
+        $authorizationChecker = $objectManager->get(AuthorizationChecker::class);
+        $clientUserRoles = $authorizationChecker->getClientUserRoles();
 
         //if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
         //    return TRUE;
@@ -51,7 +59,7 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
             return TRUE;
         } else {
             foreach ($roles as $role) {
-                if ($role === $clientUserRole) return TRUE;
+                if (in_array($role, $clientUserRoles)) return TRUE;
             }
         }
 

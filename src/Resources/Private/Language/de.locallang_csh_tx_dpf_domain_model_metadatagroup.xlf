@@ -9,6 +9,10 @@
 			<source>Access restriction roles</source>
             <target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
+		<trans-unit id="access_restriction_roles.description" approved="yes">
+			<source>Access restriction roles</source>
+            <target>Zugriffsbeschränkungsrollen</target>
+		</trans-unit>
 		<trans-unit id="display_name.description" approved="yes">
 			<source>Display name</source>
 			<target>Anzeigename</target>
