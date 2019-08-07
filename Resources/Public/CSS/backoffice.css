@@ -19,12 +19,20 @@
  *
  */
 
+body {
+    font-size: 1 rem;
+}
+
+#main .sticky-top {
+    top: 3rem;
+    background-color: #FFFFFF;
+}
+
 
 /* -- basic setup ----------------------------------------------------------------------- */
 
 #tx-dpf-backoffice.document-manager {
     background: #fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
-    padding-top: 49px;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -33,42 +41,11 @@
 
 #tx-dpf-backoffice.document-form {
     background: #fff;
-    padding-top: 49px;
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-#tx-dpf-backoffice .tx-dpf {
-    padding: 24px;
-}
-
-#tx-dpf-backoffice .tx-dpf:before {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 49px;
-    background: #585858;
-    border-bottom: 22px solid #dadada;
-    content: "";
-    z-index: 500;
-}
-
-#tx-dpf-backoffice .tx-dpf .client {
-    position: fixed;
-    top: 17px;
-    right: 25px;
-    height: 34px;
-    padding: 5px 15px;
-    line-height: 30px;
-    color: #666;
-    text-align: right;
-    background: #fff;
-    border: 1px solid #d7d7d7;
-    border-bottom-width: 0;
-    z-index: 501;
-}
 
 #tx-dpf-backoffice.document-form .tx-dpf h2 {
     font-family: Share, Verdana, Arial, Helvetica, sans-serif;
@@ -77,37 +54,6 @@
     margin-top: 0;
     margin-bottom: 30px;
     font-weight: 400;
-}
-
-
-#tx-dpf-backoffice.document-manager .docheader-funcmenu {
-    position: fixed;
-    top: 3px;
-    left: 24px;
-    z-index: 502;
-}
-
-#tx-dpf-backoffice.document-manager .controller-switch {
-    float: right;
-    margin-right: 17px;
-}
-
-#tx-dpf-backoffice.document-manager .be-page-header {
-    margin-bottom: 30px;
-}
-
-#tx-dpf-backoffice.document-manager .be-page-header h3 {
-    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
-    font-size: 2em;
-    color: #555;
-    margin: 0;
-    float: left;
-}
-#tx-dpf-backoffice.document-manager .be-page-header:after {
-    position: relative;
-    display: table;
-    content: "";
-    clear: both;
 }
 
 
@@ -129,6 +75,11 @@
 #tx-dpf-backoffice.document-manager table.tx_dpf > tbody > tr > td {
     vertical-align: middle;
 }
+
+#tx-dpf-backoffice table.table-manager > thead > tr > th {
+    border-top: none;
+}
+
 
 #tx-dpf-backoffice.document-manager .searchForm {
     margin: 0 20px 20px 0;

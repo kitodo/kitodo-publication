@@ -22,13 +22,12 @@
 
     <div class="searchForm">
         <f:form action="search" name="query" class="form-inline">
-            <h5>{f:translate(key: 'search.form.header.extendedSearch')}</h5>
             <div class="form-group form-group-show-deleted">
                 <label for="showDeleted" class="show-label">{f:translate(key:
                     'search.form.label.inactiveDeleted')}</label>
                 <f:form.checkbox property="showDeleted" class="form-control" id="showDeleted" value="true"
                                  checked="{query.showDeleted}"/>
-            </div>
+            </div>&nbsp;
             <div class="main-search-fields">
             <div class="form-group">
                 <label for="id">{f:translate(key: 'search.form.label.datasetIdentifier')}</label>
@@ -73,8 +72,8 @@
             </div>
 
             <f:form.hidden property="extSearch" value="true"/>
-            <f:form.button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <f:form.button class="btn btn-secondary" type="submit">
+                <i class="fas fa-search"></i>
                 {f:translate(key: 'search.form.button.search')}
             </f:form.button>
         </f:form>

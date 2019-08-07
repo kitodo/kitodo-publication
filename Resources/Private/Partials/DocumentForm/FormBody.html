@@ -21,12 +21,12 @@
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
             <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
                 <f:then>
-                    <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}">
-                        <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
                 </f:then>
             </f:if>
         </f:for>
-        <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
     </ul>
 </div>
 
@@ -46,11 +46,11 @@
                                     <f:if condition="{groupItem.maxIteration} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
                                             <button type="submit" name="add_group"
-                                                    class="btn btn-xs btn-default add_group"
+                                                    class="btn btn-sm btn-secondary add_group"
                                                     data-group="{groupItem.uid}"
                                                     data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
                                                     data-index="{groupItemIterator.index}">
-                                                <span class="glyphicon glyphicon-plus"></span>
+                                                <i class="fas fa-plus"></i>
                                                 {f:translate(key: 'form_button.add_item', arguments: {0:
                                                 groupItem.displayName})}
                                             </button>
@@ -69,11 +69,11 @@
         <f:render partial="DocumentForm/PrimaryFileGroup"
                   arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
-        <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
+        <button type="submit" name="add_file_group" class="btn btn-sm btn-secondary add_file_group"
                 data-group="file-upload"
                 data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum)}"
                 data-index="0">
-            <span class="glyphicon glyphicon-plus"></span>
+            <i class="fas fa-plus"></i>
             {f:translate(key: 'form_button.addFile')}
         </button>
     </div>

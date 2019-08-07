@@ -125,14 +125,14 @@
                     <f:then>
                         <dpf:link.preview arguments="{documentObjectIdentifier: entry._source.PID}"
                                           pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
-                                          class="btn btn-xs btn-default">
-                            <span class="glyphicon glyphicon-eye-open"></span>
+                                          class="btn btn-sm btn-secondary">
+                            <i class="fas fa-eye"></i>
                         </dpf:link.preview>
                     </f:then>
                     <f:else>
                         <dpf:link.preview arguments="{document: entry._id}" pageUid="{settings.previewPage}"
-                                          apiPid="{settings.apiPid}" class="btn btn-xs btn-default">
-                            <span class="glyphicon glyphicon-eye-open"></span>
+                                          apiPid="{settings.apiPid}" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-eye"></i>
                         </dpf:link.preview>
                     </f:else>
                 </f:if>
@@ -140,16 +140,16 @@
                 <f:if condition="{dpf:inArray(needle:'{entry._source.PID}', array:'{alreadyImported}')}">
                     <f:then>
                         <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
-                                       class="btn btn-xs btn-info disabled">
-                            <span class="glyphicon glyphicon-download-alt"></span>
+                                       class="btn btn-sm btn-info disabled">
+                            <i class="fas fa-download"></i>
                             {f:translate(key: 'manager.get')}
                         </f:link.action>
                     </f:then>
                     <f:else>
                         <f:link.action action="import"
                                        arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }"
-                                       class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
-                            <span class="glyphicon glyphicon-download-alt"></span>
+                                       class="btn btn-sm btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
+                            <i class="fas fa-download"></i>
                             {f:translate(key: 'manager.get')}
                         </f:link.action>
                     </f:else>

@@ -72,6 +72,8 @@ plugin.tx_dpf {
 			landingPage = {$plugin.tx_dpf.settings.landingPage}
 			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
 
+			loginPage = {$plugin.tx_dpf.settings.loginPage}
+
 			afterDocSavedRedirectPage =
 
 			previewPage = {$plugin.tx_dpf.settings.previewPid}
@@ -124,6 +126,7 @@ page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
+page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 
 
 #Define ajax page type
@@ -163,4 +166,10 @@ plugin.tx_dpf_backoffice {
 	settings {
 		ajaxTypeNum = 110125
 	}
+}
+
+lib.feUsername = TEXT
+lib.feUsername {
+	insertData = 1
+	value = {TSFE:fe_user|user|username}
 }

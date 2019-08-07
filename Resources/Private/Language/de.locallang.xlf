@@ -331,6 +331,10 @@
 			<source>In progress</source>
 			<target>In Bearbeitung</target>
 		</trans-unit>
+		<trans-unit id="manager.document.state.all" approved="yes">
+			<source>All</source>
+			<target>Alle</target>
+		</trans-unit>
 		<trans-unit id="manager.document.state.new" approved="yes">
 			<source>New</source>
 			<target>Neu</target>
@@ -550,10 +554,6 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="search.form.header.extendedSearch" approved="yes">
 			<source>Advanced search</source>
 			<target>Erweiterte Suche</target>
-		</trans-unit>
-		<trans-unit id="search.form.header.simpleSearch" approved="yes">
-			<source>Simple search</source>
-			<target>Einfache Suche</target>
 		</trans-unit>
 		<trans-unit id="search.form.label.abstract" approved="yes">
 			<source>Abstract</source>

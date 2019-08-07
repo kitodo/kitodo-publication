@@ -19,8 +19,8 @@
         <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
         {formGroupDisplayName}
         <f:if condition="{groupIndex}">
-            <button type="submit" name="rem_group" class="btn btn-default rem_group" data-group="{formGroupUid}"><span
-                    class="glyphicon glyphicon-remove"></span><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
+            <button type="submit" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
+                <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
             </button>
         </f:if>
     </legend>
@@ -40,10 +40,10 @@
                                     <f:if condition="{fieldItemIterator.isLast}">
                                         <button type="submit"
                                                 title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
-                                                name="add_field" class="btn btn-default add_field" data-field="{fieldItem.uid}"
+                                                name="add_field" class="btn btn-secondary add_field" data-field="{fieldItem.uid}"
                                                 data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:ajaxTypeNum,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
                                                 data-index="{fieldItemIterator.index}">
-                                            <span class="glyphicon glyphicon-plus"></span>
+                                            <i class="fas fa-plus"></i>
                                             <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
                                         </button>
                                     </f:if>

@@ -12,10 +12,10 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="DocumentFormBackoffice"/>
+<f:layout name="Backoffice"/>
 
 <f:section name="main">
-    
+
     <h2>
         <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
     </h2>
@@ -34,8 +34,8 @@
         <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
     </f:form>
     <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
-        <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-default">
-            <span class="glyphicon glyphicon-remove"></span>
+        <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-secondary">
+            <i class="fas fa-times"></i>
             {f:translate(key: 'form_button.cancel')}
         </f:form.button>
     </f:form>
@@ -45,7 +45,7 @@
 
         <f:form.button name="delete" id="save" class="btn btn-sm btn-danger"
                        disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
-            <span class="glyphicon glyphicon-trash"></span>
+            <i class="fas fa-trash-alt"></i>
             {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
         </f:form.button>
     </f:form>
@@ -53,7 +53,7 @@
     <f:link.action action="discard" controller="Document" arguments="{document : document}"
                    class="btn btn-sm btn-warning btn-edit-discard"
                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        <i class="fas fa-times"></i>
         {f:translate(key: 'manager.discard')}
     </f:link.action>
 
@@ -61,16 +61,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h5>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h4>
                 </div>
                 <div class="modal-body">
                     <p>{f:translate(key: 'manager.discardConfirmMessage', arguments: {0: '%s'})}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key:
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
                         'manager.discardConfirmNo')}
                     </button>
                     <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:

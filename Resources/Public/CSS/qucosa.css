@@ -21,7 +21,8 @@
 
 /* -- import boostrap basics also to frontend -------------------------------------------- */
 
-@import "bootstrap.min.css";
+@import "bootstrap/bootstrap.min.css";
+@import "bootstrap/dashboard.css";
 @import "bootstrap-datetimepicker.min.css";
 
 /* -- redesigning tabs to sticky nav ----------------------------------------------------- */
@@ -32,12 +33,14 @@
     z-index: 3000;
 }
 
+/*
 #content .tx-dpf-tab-container.sticky {
     position: fixed;
     right: 0;
     left: 0;
     z-index: 3000;
 }
+*/
 
 #content .tx-dpf-tabs {
     position: relative;
@@ -195,7 +198,6 @@
     height: 26px;
     padding: 0;
     z-index: 10;
-    color: #666;
 }
 
 .tx-dpf .form-container button.fill_out_service_urn {
@@ -293,7 +295,21 @@
 
 .btn-edit-discard {
     margin-left: 10px;
+    color: #ffffff;
 }
+
+.btn-edit-discard:hover {
+    color: #ffffff;
+}
+
+.btn-warning {
+    color: #ffffff;
+}
+
+.btn-warning:hover {
+    color: #ffffff;
+}
+
 
 .tx-dpf .dropdown-options .dropdown-menu {
     height: auto;
@@ -340,10 +356,12 @@ li a.invalid-error, li a.mandatory-error {
 }
 
 li a.invalid-error:after, li a.mandatory-error:after {
+/*
     content: "\e104";
     font-family: 'Glyphicons Halflings';
     margin-left: 3px;
     line-height: 1;
+*/
 }
 
 .qucosa-search-form input[type="text"] {

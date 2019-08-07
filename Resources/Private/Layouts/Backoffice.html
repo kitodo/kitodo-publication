@@ -19,10 +19,81 @@
 
     <div class="tx-dpf" data-language="{dpf:language()}">
 
-        <f:render partial="Layouts/Backoffice" arguments="{_all}" />
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <span class="navbar-brand col-sm-3 col-md-2 mr-0">
+                {f:translate(key: 'manager.client')}: {client.client}
+            </span>
 
-        <f:render section="main"/>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex pr-4">
+                <li class="nav-item px-3">
+                    <a class="nav-link href="#">
+                        <i class="fas fa-user"></i>
+                        <f:cObject typoscriptObjectPath="lib.feUsername"></f:cObject>
+                    </a>
+                </li>
+                <li class="nav-item pr-2">
+                    <f:link.page class="nav-link" pageUid="{settings.loginPage}" additionalParams="{logintype:'logout'}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sign out
+                    </f:link.page>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-address-book"></i>
+                                    <span>Meine Publikationen</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-plus"></i>
+                                    Neue Publikationen anlegen
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <f:link.action action="list" controller="Document"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
+                                    <i class="fas fa-file"></i>
+                                    {f:translate(key: 'manager.control.documents')}
+                                </f:link.action>
+                            </li>
+                            <li class="nav-item">
+                                <f:link.action action="list" controller="Search"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
+                                    <i class="fas fa-search"></i>
+                                    {f:translate(key: 'manager.control.search')}
+                                </f:link.action>
+                            </li>
+                        </ul>
+
+                    </div>
+                </nav>
+
+                <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-0 px-4">
+
+                    <f:render section="main"/>
+
+                </main>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
+
+
+
+
+
+
+
+

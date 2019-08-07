@@ -301,10 +301,15 @@ var addGroup = function() {
     var dataGroup = jQuery(this).attr('data-group');
     // Number of the next group item
     var groupIndex = parseInt(jQuery(this).attr('data-index')) + 1;
+
     jQuery(this).attr('data-index', groupIndex);
     var ajaxURL = jQuery(this).attr('data-ajax');
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
+
+    console.log(ajaxURL);
+    console.log(params);
+
     jQuery.post(ajaxURL, params, function(group) {
         var group = jQuery(group).find("fieldset");
         // add the new group
@@ -624,7 +629,7 @@ function setGndAutocomplete(fieldId, groupIndex) {
 var previousNextFormPage = function() {
 
     $('.prev-next-buttons button').click(function (e) {
-        var activePage = $('.tx-dpf-tabs').find('li.active');
+        var activePage = $('.tx-dpf-tabs').find('li a.active');
         var newActivePage = activePage;
 
         if ($(this).attr('id') == 'next-form-page') {

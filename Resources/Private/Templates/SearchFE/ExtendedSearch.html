@@ -17,12 +17,12 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-    <f:link.action action="search" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+    <f:link.action action="search" class="btn btn-secondary btn-sm">
+        <i class="fas fa-search"></i>
         <f:translate key="search.control.simpleSearch"/>
     </f:link.action>
-    <span class="btn btn-default btn-sm active" aria-pressed="true">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+    <span class="btn btn-secondary btn-sm active" aria-pressed="true">
+        <i class="fas fa-search"></i>
         <f:translate key="search.control.extendedSearch"/>
     </span>
     <div class="searchExtForm">
@@ -84,8 +84,8 @@
                     </div>
                 </div>
             </div>
-            <f:form.button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <f:form.button class="btn btn-secondary" type="submit">
+                <i class="fas fa-search"></i>
                 {f:translate(key: 'search.form.button.search')}
             </f:form.button>
         </f:form>
