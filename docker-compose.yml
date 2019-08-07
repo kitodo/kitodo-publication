@@ -13,7 +13,9 @@ services:
         volumes:
             - mysql56:/var/lib/mysql
         networks:
-            - frontend
+            frontend:
+                aliases:
+                    - db
 
     typo3_2x:
         build:
@@ -28,14 +30,11 @@ services:
             - website:/var/www/html
         depends_on:
             - database_2x
-        links:
-            - database_2x:db
         networks:
-            - frontend
-            - qucosafcrepodocker_backend
-        external_links:
-            - qucosafcrepodocker_fcrepo_1:fcrepo
-            - qucosafcrepodocker_elasticsearch_1:elasticsearch
+            frontend:
+            qucosafcrepodocker_backend:
+                aliases:
+                    - typo3
 
 volumes:
     mysql56:
