@@ -125,21 +125,17 @@ class MetaTags extends \tx_dlf_plugin
         // Load all the metadata values into the content object's data array.
         foreach ($metadata as $index_name => $values) {
 
-            switch ($index_name) {
-
-                case 'author':
-
-                    if (is_array($values)) {
-
-                        foreach ($values as $id => $value) {
-
+            if (preg_match("/^author[[:digit:]]+/", $index_name)) {
+                if (is_array($values)) {
+                    foreach ($values as $id => $value) {
+                        if ($value) {
                             $outArray['citation_author'][] = $value;
-
                         }
-
                     }
+                }
+            }
 
-                    break;
+            switch ($index_name) {
 
                 case 'title':
 
