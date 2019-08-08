@@ -153,8 +153,10 @@ class MetaTags extends \tx_dlf_plugin
 
                     if (is_array($values)) {
 
-                        // Provide full dates in the "2010/5/12" format if available; or a year alone otherwise.
-                        $outArray['citation_online_date'][] = date('Y/m/d', strtotime($values[0]));
+                        if ($values[0]) {
+                            // Provide full dates in the "2010/5/12" format if available; or a year alone otherwise.
+                            $outArray['citation_online_date'][] = $this->safelyFormatDate("Y/m/d", $values[0]);
+                        }
 
                     }
 
@@ -164,7 +166,9 @@ class MetaTags extends \tx_dlf_plugin
 
                     if (is_array($values)) {
 
-                        $outArray['citation_publication_date'][] = date('Y', strtotime($values[0]));
+                        if ($values[0]) {
+                            $outArray['citation_publication_date'][] = $this->safelyFormatDate("Y", $values[0]);
+                        }
 
                     }
 
@@ -227,6 +231,21 @@ class MetaTags extends \tx_dlf_plugin
 
         return $output;
 
+    }
+
+    /**
+     * Format given date with given format, assuming the input date format is
+     * parseable by strtotime(). If the input string has a length of 4 (like
+     * "1989") the string is returned as is, without formatting.
+     *
+     * @param String $format Target string format
+     * @param String $date   Date string to format
+     *
+     * @return Formatted date
+     */
+    protected function safelyFormatDate($format, $date)
+    {
+        return (strlen($date) == 4) ? $date : date($format, strtotime($date));
     }
 
 }
