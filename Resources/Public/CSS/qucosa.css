@@ -284,11 +284,6 @@
     float: right;
 }
 
-.tx-dpf button .glyphicon {
-    top: 0;
-    left: 1px;
-}
-
 .tx-dpf ol li {
     list-style: none;
 }
@@ -356,12 +351,6 @@ li a.invalid-error, li a.mandatory-error {
 }
 
 li a.invalid-error:after, li a.mandatory-error:after {
-/*
-    content: "\e104";
-    font-family: 'Glyphicons Halflings';
-    margin-left: 3px;
-    line-height: 1;
-*/
 }
 
 .qucosa-search-form input[type="text"] {

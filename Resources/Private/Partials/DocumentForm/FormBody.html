@@ -81,22 +81,22 @@
 <div class="prev-next-buttons">
     <button id="next-form-page" class="btn btn-s btn-primary">
         {f:translate(key: 'form_button.nextPage')}
-        <span class="glyphicon glyphicon glyphicon-menu-right"></span>
+        <i class="fas fa-chevron-right"></i>
     </button>
     <button id="prev-form-page" class="btn btn-s btn-primary">
-        <span class="glyphicon glyphicon glyphicon-menu-left"></span>
+        <i class="fas fa-chevron-left"></i>
         {f:translate(key: 'form_button.prevPage')}
     </button>
 </div>
 <div class="form-submit">
     <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}"
                    class="btn btn-lg btn-success">
-        <span class="glyphicon glyphicon-ok"></span>
+        <i class="fas fa-check"></i>
         {f:translate(key: 'form_button.save')}
     </f:form.button>
 
     <f:form.button name="validate" type="button" id="validate" class="btn btn-lg btn-info">
-        <span class="glyphicon glyphicon-chevron-right"></span>
+        <i class="fas fa-chevron-right"></i>
         {f:translate(key: 'form_button.validate')}
     </f:form.button>
 </div>

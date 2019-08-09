@@ -18,11 +18,11 @@
 
     <f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">
         <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+            <i class="fab fa-gripfire pull-right"></i>
             <f:translate key="documentForm.uploadPostError"/>
             <br/><br/>
             <a href="javascript:history.back()" class="btn btn-sm btn-primary">
-                <span class="glyphicon glyphicon-arrow-left"></span>
+                <i class="fas fa-long-arrow-alt-left"></i>
                 <f:translate key="documentForm.goBack"/>
             </a>
         </div>
@@ -30,7 +30,7 @@
 
     <f:if condition="{message}=='UPLOAD_MAX_FILESIZE_ERROR'">
         <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon glyphicon-fire pull-right"></span>
+            <i class="fab fa-gripfire pull-right"></i>
             <f:translate key="documentForm.uploadError"/>
             <ul class="error-files-backbutton">
                 <f:for each="{errorFiles}" as="file">
@@ -38,7 +38,7 @@
                 </f:for>
             </ul>
             <a href="javascript:history.back()" class="btn btn-sm btn-primary">
-                <span class="glyphicon glyphicon-arrow-left"></span>
+                <i class="fas fa-long-arrow-alt-left"></i>
                 <f:translate key="documentForm.goBack"/>
             </a>
         </div>
