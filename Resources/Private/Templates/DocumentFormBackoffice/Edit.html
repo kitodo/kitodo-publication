@@ -45,7 +45,7 @@
 
         <f:form.button name="delete" id="save" class="btn btn-sm btn-danger"
                        disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-eraser"></i>
             {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
         </f:form.button>
     </f:form>
@@ -53,7 +53,7 @@
     <f:link.action action="discard" controller="Document" arguments="{document : document}"
                    class="btn btn-sm btn-warning btn-edit-discard"
                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-        <i class="fas fa-times"></i>
+        <i class="fas fa-trash-alt"></i>
         {f:translate(key: 'manager.discard')}
     </f:link.action>
 

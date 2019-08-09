@@ -34,6 +34,8 @@
     </div>
 </div>
 
+<f:flashMessages />
+
 <table class="tx_dpf table table-striped table-manager table-condensed">
     <thead>
     <tr>
@@ -159,7 +161,7 @@
                     <f:link.action action="restore" arguments="{document : document, releaseType : 'restore'}"
                                    class="btn btn-sm btn-primary"
                                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
-                        <i class="fas fa-sync"></i>
+                        <i class="fas fa-undo-alt"></i>
                         {f:translate(key: 'manager.restore')}restore
                     </f:link.action>
                 </f:if>
