@@ -100,15 +100,25 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
     }
 
     /**
+     * initializes the search action
+     *
+     * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
+    public function initializeSearchAction()
+    {
+        if ($this->action == 'extendedSearch') {
+            $this->forward('extendedSearch');
+        }
+    }
+
+    /**
      * action search
      * @return void
      */
     public function searchAction()
     {
         try {
-            if ($this->action == 'extendedSearch') {
-                $this->forward('extendedSearch');
-            }
             if (!empty($this->query['fulltext'])) {
                 $query = $this->searchFulltext($this->query['fulltext']);
                 $this->resultList = $this->getResults($query);
@@ -130,15 +140,25 @@ class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
     }
 
     /**
+     * initializes the extended search action
+     *
+     * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
+    public function initializeExtendedSearchAction()
+    {
+        if ($this->action == 'search') {
+            $this->forward('search');
+        }
+    }
+
+    /**
      * action extendedSearch
      * @return void
      */
     public function extendedSearchAction()
     {
         try {
-            if ($this->action == 'search') {
-                $this->forward('search');
-            }
             $this->docTypes();
             if (!empty(implode('', $this->query))) {
                 $query = $this->extendedSearch($this->query);
