@@ -35,16 +35,19 @@ plugin.tx_dpf {
             defaultValue {
                 fullTextLabel = Volltext (PDF)
             }
-			# cat=plugin.tx_dpf/link; type=int+; label=Default Api PID
+
+			# cat=plugin.tx_dpf/link; type=int+; label=Api PID
 			apiPid =
+
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
 			landingPage =
-			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
 
-			loginPage =
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the login page
+			loginPage =
 
+			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
 			searchResultsPid =
+
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page (Backend Preview)
 			previewPid =
         }
