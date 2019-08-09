@@ -63,7 +63,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setUid($object->getUid());
             $field->setDisplayName($object->getDisplayName());
             $field->setMandatory($object->getMandatory());
-            $field->setBackendOnly($object->getBackendOnly());
+            $field->setAccessRestrictionRoles($object->getAccessRestrictionRoles());
             $field->setInputField($object->getInputField());
             $field->setInputOptions($object->getInputOptionList());
             $field->setMaxIteration($object->getMaxIteration());
@@ -103,7 +103,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setUid($field->getUid());
         $fieldItem->setDisplayName($field->getDisplayName());
         $fieldItem->setMandatory($field->getMandatory());
-        $fieldItem->setBackendOnly($field->getBackendOnly());
+        $fieldItem->setAccessRestrictionRoles($field->getAccessRestrictionRoles());
         $fieldItem->setInputField($field->getInputField());
         $fieldItem->setInputOptions($field->getInputOptionList());
         $fieldItem->setMaxIteration($field->getMaxIteration());
