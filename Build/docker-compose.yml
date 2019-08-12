@@ -14,7 +14,9 @@ services:
         volumes:
             - mysql-latest:/var/lib/mysql
         networks:
-            - frontend
+            frontend:
+                aliases:
+                    - db
 
     typo3-app:
         build:
