@@ -5,6 +5,7 @@ services:
         image: mysql:5.6
         container_name: kitodo-publication-mysql
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
+        hostname: db
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: typo3
@@ -29,14 +30,9 @@ services:
             - website-latest:/var/www/html
         depends_on:
             - typo3-database
-        links:
-            - typo3-database:db
         networks:
             - frontend
             - qucosafcrepodocker_backend
-        external_links:
-            - qucosafcrepodocker_fcrepo_1:fcrepo
-            - qucosafcrepodocker_elasticsearch_1:elasticsearch
 
 volumes:
     mysql-latest:
