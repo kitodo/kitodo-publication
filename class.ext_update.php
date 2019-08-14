@@ -28,7 +28,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class ext_update {
 
     // Ideally the version corresponds with the extension version
-    const VERSION = "v2.0.0";
+    const VERSION = "v3.0.0";
 
     public function access() {
         $registry = GeneralUtility::makeInstance(Registry::class);
