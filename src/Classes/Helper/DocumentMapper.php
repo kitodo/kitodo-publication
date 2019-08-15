@@ -359,7 +359,7 @@ class DocumentMapper
         $modsData['files']       = array();
 
         $exporter->buildModsFromForm($modsData);
-        $modsXml = $exporter->getModsData();
+        $modsXml = $exporter->getXMLData();
         $document->setXmlData($modsXml);
 
         /** @var Mods $mods */
@@ -375,10 +375,10 @@ class DocumentMapper
         $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
         $slubInfoData['metadata']    = $formMetaData['slubInfo'];
         $slubInfoData['files']       = array();
-        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
-        $slubInfoXml = $exporter->getSlubInfoData();
+//        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
+//        $slubInfoXml = $exporter->getSlubInfoData();
 
-        $document->setSlubInfoData($slubInfoXml);
+//        $document->setSlubInfoData($slubInfoXml);
 
         return $document;
     }
