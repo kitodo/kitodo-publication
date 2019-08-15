@@ -204,7 +204,7 @@
 			<source>Client</source>
 		</trans-unit>
 		<trans-unit id="manager.control.documents">
-			<source>Documents</source>
+			<source>Workspace</source>
 		</trans-unit>
 		<trans-unit id="manager.control.search">
 			<source>Search</source>

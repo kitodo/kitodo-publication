@@ -270,8 +270,8 @@
 			<target>Mandant</target>
 		</trans-unit>
 		<trans-unit id="manager.control.documents" approved="yes">
-			<source>Documents</source>
-			<target>Dokumente</target>
+			<source>Workspace</source>
+			<target>Arbeitsbereich</target>
 		</trans-unit>
 		<trans-unit id="manager.control.search" approved="yes">
 			<source>Search</source>

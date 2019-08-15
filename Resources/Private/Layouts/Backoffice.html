@@ -45,31 +45,35 @@
                 <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fas fa-address-book"></i>
-                                    <span>Meine Publikationen</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fas fa-plus"></i>
-                                    Neue Publikationen anlegen
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <f:link.action action="list" controller="Document"
-                                               class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
-                                    <i class="fas fa-file"></i>
-                                    {f:translate(key: 'manager.control.documents')}
-                                </f:link.action>
-                            </li>
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <i class="fas fa-address-book"></i>
+                                        <span>Meine Publikationen</span>
+                                    </a>
+                                </li>
+                            </f:if>
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                                <li class="nav-item">
+                                    <f:link.action action="list" controller="Document"
+                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
+                                        <i class="fas fa-file"></i>
+                                        {f:translate(key: 'manager.control.documents')}
+                                    </f:link.action>
+                                </li>
+                            </f:if>
                             <li class="nav-item">
                                 <f:link.action action="list" controller="Search"
                                                class="nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
                                     <i class="fas fa-search"></i>
                                     {f:translate(key: 'manager.control.search')}
                                 </f:link.action>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-plus"></i>
+                                    Neue Publikationen anlegen
+                                </a>
                             </li>
                         </ul>
 
