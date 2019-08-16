@@ -206,6 +206,9 @@
 		<trans-unit id="manager.control.documents">
 			<source>Workspace</source>
 		</trans-unit>
+		<trans-unit id="manager.control.myPublications">
+			<source>My publications</source>
+		</trans-unit>
 		<trans-unit id="manager.control.search">
 			<source>Search</source>
 		</trans-unit>

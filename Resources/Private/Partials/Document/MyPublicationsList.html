@@ -12,8 +12,12 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Backoffice"/>
+{namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:section name="main">
-    <f:render partial="Document/WorkspaceList" arguments="{documents:documents}"/>
-</f:section>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+    <h1 class="h2">{f:translate(key: 'manager.control.myPublications')}</h1>
+</div>
+
+<f:flashMessages />
+
+<f:render partial="Document/List" arguments="{documents:documents}"/>

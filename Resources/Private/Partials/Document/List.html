@@ -14,28 +14,6 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
-    <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-            <f:link.action action="listNew" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'listNew')}">
-                {f:translate(key: 'manager.document.state.new')}
-            </f:link.action>
-            <f:link.action action="listEdit" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
-                {f:translate(key: 'manager.document.state.inProgress')}
-            </f:link.action>
-            <f:link.action action="list" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'list')}">
-                {f:translate(key: 'manager.document.state.all')}
-            </f:link.action>
-        </div>
-    </div>
-</div>
-
-<f:flashMessages />
-
 <table class="tx_dpf table table-striped table-manager table-condensed">
     <thead>
     <tr>
@@ -84,88 +62,7 @@
                 {document.documentType.displayName}
             </td>
             <td class="table_col_function">
-
-                <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
-                               class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
-                </f:link.action>
-
-                <dpf:link.preview
-                        arguments="{document : document}"
-                        pageUid="{settings.previewPage}"
-                        apiPid="{settings.apiPid}"
-                        class="btn btn-sm btn-outline-secondary">
-                    <i class="fas fa-eye"></i>
-                </dpf:link.preview>
-
-                <dpf:link.dataCite
-                        arguments="{document : document}"
-                        pageUid="{settings.previewPage}"
-                        apiPid="{settings.apiPid}"
-                        class="btn btn-sm btn-outline-secondary">
-                    <i class="fas fa-info-circle"></i>
-                </dpf:link.dataCite>
-
-                <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
-                               title="{f:translate(key: 'manager.tooltip.duplicate')}"
-                               additionalAttributes="{data-toggle: 'tooltip' }">
-                    <i class="fas fa-copy"></i>
-                </f:link.action>
-                <f:alias map="{activateTooltip: '{f:translate(key: \'manager.tooltip.activate\')}',
-                    inactivateTooltip: '{f:translate(key: \'manager.tooltip.inactivate\')}',
-                    confirm: '{f:if(condition: \'{document.activateRemote}\', then: \'#confirmActivate\', else: \'#confirmInactivate\')}'}">
-                    <f:link.action
-                            action="{f:if(condition: '{document.activateRemote}', then: 'activate')}{f:if(condition: '{document.inactivateRemote}', then: 'inactivate')}"
-                            arguments="{document : document}"
-                            class="btn btn-sm btn-outline-secondary {f:if(condition: '{document.activationChangeAllowed} == 0', then: 'disabled')}"
-                            additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: confirm}">
-                            <i class="fas {f:if(condition: '{document.active}', then: 'fa-check-circle', else: 'fa-ban')}"
-                               data-toggle="tooltip"
-                               title="{f:if(condition: '{document.activateRemote}', then: '{activateTooltip}', else: '{inactivateTooltip}')}">
-                            </i>
-                    </f:link.action>
-                </f:alias>
-
-                <f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
-                               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                    {f:translate(key: 'manager.discard')}
-                </f:link.action>
-
-                <f:if condition="{document.ingestRemote}">
-                    <f:link.action action="release" arguments="{document : document, releaseType : 'publish'}"
-                                   class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success disabled')}"
-                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPublish'}">
-                        <i class="fas fa-check"></i>
-                        {f:translate(key: 'manager.publish')}
-                    </f:link.action>
-                </f:if>
-
-                <f:if condition="{document.updateRemote}">
-                    <f:link.action action="release" arguments="{document : document, releaseType : 'update'}"
-                                   class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-info', else: 'btn-info disabled')}"
-                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmUpdate'}">
-                        <i class="fas fa-sync"></i>
-                        {f:translate(key: 'manager.update')}
-                    </f:link.action>
-                </f:if>
-
-                <f:if condition="{document.deleteRemote}">
-                    <f:link.action action="delete" arguments="{document : document}" class="btn btn-sm btn-danger"
-                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDelete'}">
-                        <i class="fas fa-eraser"></i>
-                        {f:translate(key: 'manager.delete')}
-                    </f:link.action>
-                </f:if>
-
-                <f:if condition="{document.restoreRemote}">
-                    <f:link.action action="restore" arguments="{document : document, releaseType : 'restore'}"
-                                   class="btn btn-sm btn-primary"
-                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
-                        <i class="fas fa-undo-alt"></i>
-                        {f:translate(key: 'manager.restore')}restore
-                    </f:link.action>
-                </f:if>
-
+                <f:render partial="Document/ListItemActions" arguments="{document:document}"/>
             </td>
         </tr>
     </f:for>

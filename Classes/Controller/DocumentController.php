@@ -55,19 +55,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function listAction()
     {
-        // Get the documents of the current fe_user
-        if (
-            in_array(
-              $this->authorizationChecker::ROLE_LIBRARIAN,
-              $this->authorizationChecker->getClientUserRoles()
-            )
-        ) {
-            $ownerFilter = NULL;
-        } else {
-            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
-        }
-
-        $documents = $this->documentRepository->findAllFiltered($ownerFilter);
+        $documents = $this->documentRepository->findAllFiltered(NULL);
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -82,20 +70,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
     public function listNewAction()
     {
-        // Get the new documents of the current fe_user
-        if (
-        in_array(
-            $this->authorizationChecker::ROLE_LIBRARIAN,
-            $this->authorizationChecker->getClientUserRoles()
-        )
-        ) {
-            $ownerFilter = NULL;
-        } else {
-            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
-        }
-
         $documents = $this->documentRepository->findAllFiltered(
-            $ownerFilter,
+            NULL,
             LocalDocumentStatus::NEW
         );
 
@@ -104,20 +80,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
     public function listEditAction()
     {
-        // Get the in progress documents of the current fe_user
-        if (
-            in_array(
-                $this->authorizationChecker::ROLE_LIBRARIAN,
-                $this->authorizationChecker->getClientUserRoles()
-            )
-        ) {
-            $ownerFilter = NULL;
-        } else {
-            $ownerFilter = $this->authorizationChecker->getUser()->getUid();
-        }
-
         $documents = $this->documentRepository->findAllFiltered(
-            $ownerFilter,
+            NULL,
             LocalDocumentStatus::IN_PROGRESS
         );
 
@@ -125,6 +89,29 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         //$documents = $this->documentRepository->getInProgressDocuments();
         $this->view->assign('documents', $documents);
     }
+
+
+    /**
+     * action myPublications
+     *
+     * @return void
+     */
+    public function myPublicationsAction()
+    {
+        $ownerFilter = $this->authorizationChecker->getUser()->getUid();
+        $documents = $this->documentRepository->findAllFiltered($ownerFilter);
+
+        if ($this->request->hasArgument('message')) {
+            $this->view->assign('message', $this->request->getArgument('message'));
+        }
+
+        if ($this->request->hasArgument('errorFiles')) {
+            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
+        }
+
+        $this->view->assign('documents', $documents);
+    }
+
 
     /**
      * action discardConfirm

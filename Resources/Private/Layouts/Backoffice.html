@@ -47,10 +47,11 @@
                         <ul class="nav flex-column">
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <f:link.action action="myPublications" controller="Document"
+                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
                                         <i class="fas fa-address-book"></i>
-                                        <span>Meine Publikationen</span>
-                                    </a>
+                                        {f:translate(key: 'manager.control.myPublications')}
+                                    </f:link.action>
                                 </li>
                             </f:if>
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">

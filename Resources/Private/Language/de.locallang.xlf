@@ -273,6 +273,10 @@
 			<source>Workspace</source>
 			<target>Arbeitsbereich</target>
 		</trans-unit>
+		<trans-unit id="manager.control.myPublications" approved="yes">
+			<source>My publications</source>
+			<target>Meine Publicationen</target>
+		</trans-unit>
 		<trans-unit id="manager.control.search" approved="yes">
 			<source>Search</source>
 			<target>Suche</target>
