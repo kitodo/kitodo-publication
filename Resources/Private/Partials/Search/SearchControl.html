@@ -18,17 +18,17 @@
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <f:link.action action="list" controller="Search"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionName:'list')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'list'})}">
                 <i class="fas fa-search"></i>
                 <f:translate key="search.control.simpleSearch"/>
             </f:link.action>
             <f:link.action action="extendedSearch" controller="Search"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionName:'extendedSearch')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'extendedSearch'})}">
                 <i class="fas fa-search"></i>
                 <f:translate key="search.control.extendedSearch"/>
             </f:link.action>
             <f:link.action action="latest" controller="Search"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionName:'latest')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'latest'})}">
                 <i class="fas fa-search"></i>
                 <f:translate key="search.control.new"/>
             </f:link.action>

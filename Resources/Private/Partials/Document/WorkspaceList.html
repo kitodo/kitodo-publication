@@ -19,15 +19,15 @@
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <f:link.action action="listNew" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'listNew')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listNew'})}">
                 {f:translate(key: 'manager.document.state.new')}
             </f:link.action>
             <f:link.action action="listEdit" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listEdit'})}">
                 {f:translate(key: 'manager.document.state.inProgress')}
             </f:link.action>
             <f:link.action action="list" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionName:'list')}">
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
                 {f:translate(key: 'manager.document.state.all')}
             </f:link.action>
         </div>

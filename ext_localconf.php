@@ -78,7 +78,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, myPublications, delete, discard, release, duplicate, '
+        'Document'         => 'default, list, myPublications, delete, discard, release, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
             . 'listNew, listEdit, activate, inactivate, restore',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',
@@ -88,7 +88,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, myPublications, delete, discard, release, duplicate, '
+        'Document'         => 'default, list, myPublications, delete, discard, release, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
             . 'listNew, listEdit, activate, inactivate, restore',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',

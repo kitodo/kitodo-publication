@@ -24,6 +24,7 @@ class LibrarianAuthorization extends Authorization
     public function checkAttributePermission($attribute)
     {
         switch ($attribute) {
+            case 'EWW\Dpf\Controller\DocumentController::defaultAction':
             case 'EWW\Dpf\Controller\DocumentController::listAction':
             case 'EWW\Dpf\Controller\DocumentController::listNewAction':
             case 'EWW\Dpf\Controller\DocumentController::listEditAction':

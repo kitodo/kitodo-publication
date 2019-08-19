@@ -48,6 +48,21 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $persistenceManager;
 
+
+    /**
+     * action default
+     *
+     * @return void
+     */
+    public function defaultAction()
+    {
+        if ($this->authorizationChecker->isGranted(static::class."::myPublicationsAction") ) {
+            $this->forward('myPublications');
+        } else {
+            $this->forward('list');
+        }
+    }
+
     /**
      * action list
      *

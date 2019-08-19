@@ -48,7 +48,7 @@
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
                                 <li class="nav-item">
                                     <f:link.action action="myPublications" controller="Document"
-                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
+                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'myPublications'})}">
                                         <i class="fas fa-address-book"></i>
                                         {f:translate(key: 'manager.control.myPublications')}
                                     </f:link.action>
@@ -57,7 +57,7 @@
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
                                 <li class="nav-item">
                                     <f:link.action action="list" controller="Document"
-                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document')}">
+                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
                                         <i class="fas fa-file"></i>
                                         {f:translate(key: 'manager.control.documents')}
                                     </f:link.action>
