@@ -23,6 +23,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
   display_name varchar(255) DEFAULT '' NOT NULL,
   virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
   metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
+  transformation_file int(11) unsigned DEFAULT '0' NOT NULL,
   crossref_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   crossref_types varchar(1024) DEFAULT '' NOT NULL,
   datacite_transformation int(11) unsigned DEFAULT '0' NOT NULL,
@@ -548,7 +549,6 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
 
 );
 
-
 #
 # Table structure for table 'tx_dpf_domain_model_transformationfile'
 #
@@ -589,7 +589,6 @@ CREATE TABLE tx_dpf_domain_model_transformationfile (
   KEY language (l10n_parent,sys_language_uid)
 
 );
-
 
 #
 # Table structure for table 'tx_dpf_domain_model_processnumber'

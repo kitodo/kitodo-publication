@@ -341,6 +341,10 @@
 			<source>Virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.transformation_file" approved="yes">
+            <source>Transformation file</source>
+            <target>Transformations Datei</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 			<target>--- Bitte wählen ---</target>
@@ -721,22 +725,6 @@
 			<source>Librarian</source>
 			<target>Bibliothekar</target>
 		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_transformationfile" approved="yes">
-            <source>Transformation file</source>
-            <target>Transformations Datei</target>
-        </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_transformationfile.title" approved="yes">
-            <source>title</source>
-            <target>Titel</target>
-        </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_transformationfile.label" approved="yes">
-            <source>label</source>
-            <target>Label</target>
-        </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
-            <source>New relation</source>
-            <target>Datei auswählen</target>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_editinglock" approved="yes">
             <source>Editing Lock</source>
             <target>Bearbeitungssperre</target>
@@ -760,6 +748,22 @@
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser" approved="yes">
             <source>FE user</source>
             <target>FE-User</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile" approved="yes">
+            <source>Transformation file</source>
+            <target>Transformations Datei</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.title" approved="yes">
+            <source>title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.label" approved="yes">
+            <source>label</source>
+            <target>Label</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
+            <source>New relation</source>
+            <target>Datei auswählen</target>
         </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_feuser.fis_pers_id">
 			<source>Identifier</source>

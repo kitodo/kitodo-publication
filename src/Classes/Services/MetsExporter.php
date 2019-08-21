@@ -14,6 +14,10 @@ namespace EWW\Dpf\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Configuration\ClientConfigurationManager;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Services\Transformer\DocumentTransformer;
+
 /**
  * MetsExporter
  */
@@ -92,50 +96,28 @@ class MetsExporter
      */
     public function getXMLData()
     {
-        return $this->xmlData->saveXML();
+        $xml = $this->xmlData->saveXML();
+        $xml = preg_replace("/eww=\"\d-\d-\d\"/", '${1}${2}${3}', $xml);
+
+        return $xml;
     }
 
-//    TODO ADD A SERVICE THAT CAN TRANSFORM (via XSLT) THE INTERAL FORMAT
-//    /**
-//     * Build mets data structure
-//     * @return string mets xml
-//     */
-//    public function buildMets()
-//    {
-//        // get mods domDocument
-//        $modsWrap = $this->buildModsWrap();
-//        // get mets filesection
-//        $fileSection = $this->buildFileSection();
-//        // get mets structuremap
-//        $structureMap = $this->buildStructureMap();
-//
-//        $xmlData = $modsWrap->firstChild->firstChild->firstChild->firstChild;
-//
-//        // import mods into mets
-//        $nodeAppendModsData = $modsWrap->importNode($this->modsData->firstChild, true);
-//        $xmlData->appendChild($nodeAppendModsData);
-//
-//        // add SLUB data
-//        $nodeAppendModsData = $modsWrap->importNode($this->buildMetsSlub()->firstChild, true);
-//        $modsWrap->firstChild->appendChild($nodeAppendModsData);
-//
-//        if ($fileSection) {
-//            // add filesection
-//            $nodeAppendModsData = $modsWrap->importNode($fileSection->firstChild->firstChild, true);
-//            $modsWrap->firstChild->appendChild($nodeAppendModsData);
-//        }
-//
-//        if ($structureMap) {
-//            // add structure map
-//            $nodeAppendModsData = $modsWrap->importNode($structureMap->firstChild->firstChild, true);
-//            $modsWrap->firstChild->appendChild($nodeAppendModsData);
-//        }
-//
-//        $modsWrap->formatOutput = true;
-//        $modsWrap->encoding     = 'UTF-8';
-//
-//        $this->metsData = $modsWrap;
-//    }
+    /**
+     * @param $document
+     * @return string The transformed xml
+     */
+    public function getTransformedXML($document)
+    {
+        $documentType = $document->getDocumentType();
+        $transformationFile = $documentType->getTransformationFile()->current();
+        $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
+
+        $documentTransformer = new DocumentTransformer();
+
+        $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $this->getXMLData());
+
+        return $transformedXml;
+    }
 
 
     /**
