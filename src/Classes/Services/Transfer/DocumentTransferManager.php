@@ -117,11 +117,9 @@ class DocumentTransferManager
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $exporter->buildMets();
+        $transformedXml = $exporter->getTransformedXML($document);
 
-        $metsXml = $exporter->getMetsData();
-
-        $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
+        $remoteDocumentId = $this->remoteRepository->ingest($document, $transformedXml);
 
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
@@ -190,11 +188,13 @@ class DocumentTransferManager
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $exporter->buildMets();
+        $transformedXml = $exporter->getTransformedXML($document);
 
-        $metsXml = $exporter->getMetsData();
+        if ($this->remoteRepository->update($document, $transformedXml)) {
+            $document->setTransferStatus(Document::TRANSFER_SENT);
+            $this->documentRepository->update($document);
+            $this->documentRepository->remove($document);
 
-        if ($this->remoteRepository->update($document, $metsXml)) {
             return true;
         } else {
             return false;

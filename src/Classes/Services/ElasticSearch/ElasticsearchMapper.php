@@ -64,11 +64,10 @@ class ElasticsearchMapper
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $exporter->buildMets();
-        $metsXml = $exporter->getMetsData();
+        $transformedXml = $exporter->getTransformedXML($document);
 
         $xml = new \DOMDocument;
-        $xml->loadXML($metsXml);
+        $xml->loadXML($transformedXml);
 
         // xslt processing
         $proc = new \XSLTProcessor;

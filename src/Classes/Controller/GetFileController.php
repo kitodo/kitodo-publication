@@ -314,10 +314,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         }
 
-        $exporter->buildMets();
-        $metsXml = $exporter->getMetsData();
+        $transformedXml = $exporter->getTransformedXML($document);
 
-        return $metsXml;
+        return $transformedXml;
     }
 
     private function isForbidden($action)
