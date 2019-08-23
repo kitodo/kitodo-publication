@@ -14,9 +14,11 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
-               class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
-</f:link.action>
+<f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+    <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
+                   class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
+    </f:link.action>
+</f:if>
 
 <dpf:link.preview
         arguments="{document : document}"
@@ -34,10 +36,18 @@
     <i class="fas fa-info-circle"></i>
 </dpf:link.dataCite>
 
-<f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
-               title="{f:translate(key: 'manager.tooltip.duplicate')}"
+<f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+    <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
+                   title="{f:translate(key: 'manager.tooltip.duplicate')}"
+                   additionalAttributes="{data-toggle: 'tooltip' }">
+        <i class="fas fa-copy"></i>
+    </f:link.action>
+</f:if>
+
+<f:link.action action="uploadFiles" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
+               title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
                additionalAttributes="{data-toggle: 'tooltip' }">
-    <i class="fas fa-copy"></i>
+    <i class="fas fa-file-upload"></i>
 </f:link.action>
 
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
@@ -57,11 +67,23 @@
     </f:alias>
 </f:if>
 
-<f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
-               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-    <i class="fas fa-trash-alt" aria-hidden="true"></i>
-    {f:translate(key: 'manager.discard')}
-</f:link.action>
+
+<f:if condition="{document.localStatus} == 'NEW'">
+    <f:then>
+        <f:link.action action="deleteLocally" arguments="{document : document}" class="btn btn-sm btn-danger"
+                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+            {f:translate(key: 'form_button.deleteLocally')}
+        </f:link.action>
+    </f:then>
+    <f:else>
+        <f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
+                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+            {f:translate(key: 'manager.discard')}
+        </f:link.action>
+    </f:else>
+</f:if>
 
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
     <f:if condition="{document.ingestRemote}">

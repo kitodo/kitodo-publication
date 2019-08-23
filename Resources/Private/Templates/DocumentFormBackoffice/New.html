@@ -15,9 +15,19 @@
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.control.createNewDocument')}</h1>
+        <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" noCacheHash="TRUE">
+            <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-secondary">
+                <i class="fas fa-times"></i>
+                {f:translate(key: 'form_button.cancel')}
+            </f:form.button>
+        </f:form>
+    </div>
+
     <f:flashMessages />
-    <h2>
-        <f:translate key="documentForm.new.header" arguments="{foo: '{documentForm.displayName}'}"/>
-    </h2>
+
     <f:render partial="DocumentForm/New" arguments="{documentForm:documentForm}"/>
+
 </f:section>

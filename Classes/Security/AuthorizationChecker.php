@@ -14,6 +14,8 @@ namespace EWW\Dpf\Security;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+
 class AuthorizationChecker
 {
     /**
@@ -68,6 +70,45 @@ class AuthorizationChecker
 
     }
 
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param string $action
+     * @return bool
+     */
+    public function hasDocumentAccessRight(\EWW\Dpf\Domain\Model\Document $document, $action) {
+
+        $clientUserRoles = $this->getClientUserRoles();
+
+        if (
+            in_array(
+                self::ROLE_LIBRARIAN,
+                $clientUserRoles
+            )
+        ) {
+            switch ($document->getLocalStatus()) {
+                case LocalDocumentStatus::NEW:
+                    return $document->getOwner() === $this->getUser()->getUid();
+                    break;
+
+                default:
+                    return TRUE;
+                    break;
+            }
+        } elseif (
+            in_array(
+                self::ROLE_RESEARCHER,
+                $clientUserRoles
+            )
+        ) {
+            if ($document->getOwner() === $this->getUser()->getUid()) {
+
+            } else {
+                return FALSE;
+            }
+        }
+
+        return FALSE;
+    }
 
     /**
      * Get the roles the user has in the current client

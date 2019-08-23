@@ -16,6 +16,17 @@
 
 <f:section name="main">
 
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.control.createNewDocument')}</h1>
+    </div>
+
+    <f:if condition="{message}=='CREATE_OK'">
+        <div class="alert alert-success" role="alert">
+            <i class="fab fa-gripfire pull-right"></i>
+            <f:translate key="documentForm.create.ok"/>
+        </div>
+    </f:if>
+
     <f:if condition="{message}=='UPLOAD_POST_SIZE_ERROR'">
         <div class="alert alert-danger" role="alert">
             <i class="fab fa-gripfire pull-right"></i>
@@ -44,8 +55,12 @@
         </div>
     </f:if>
 
-    <f:if condition="{client}">
-      <f:render partial="Document/MyPublicationsList" arguments="{documents:documents}"/>
-    </f:if>
-
+    <ol>
+        <f:for each="{documentTypes}" as="documentType">
+            <li>
+                <f:link.action action="new" controller="DocumentFormBackoffice" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
+                </f:link.action>
+            </li>
+        </f:for>
+    </ol>
 </f:section>

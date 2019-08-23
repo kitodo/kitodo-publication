@@ -1,0 +1,90 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">Details</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="mr-2">
+                <f:if condition="{allowedActions.register}">
+                    <f:link.action
+                            action="{allowedActions.register}"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-warning"
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRegister'}">
+                        <i class="fas fa-share"></i>
+                        {f:translate(key: 'form_button.register')}
+                    </f:link.action>
+                </f:if>
+
+                <f:if condition="{allowedActions.edit}">
+                    <f:link.action
+                            action="{allowedActions.edit}"
+                            controller="DocumentFormBackoffice"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i>
+                        {f:translate(key: 'form_button.edit')}
+                    </f:link.action>
+                </f:if>
+
+                <f:if condition="{allowedActions.deleteLocally}">
+                    <f:link.action
+                            action="{allowedActions.deleteLocally}"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-danger"
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                        <i class="fas fa-trash-alt"></i>
+                        {f:translate(key: 'form_button.deleteLocally')}
+                    </f:link.action>
+                </f:if>
+
+                <f:link.action
+                        action="cancelListTask"
+                        controller="Document"
+                        class="btn btn-sm btn-secondary">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.cancel')}
+                </f:link.action>
+
+            </div>
+        </div>
+    </div>
+    <ul>
+        <li>{document.title}</li>
+        <li>
+            <f:for each="{document.authors}" as="author" iteration="itemIterator">
+                {author}
+                <f:if condition="{itemIterator.isLast}">
+                    <f:then></f:then>
+                    <f:else>;</f:else>
+                </f:if>
+            </f:for>
+        </li>
+        <li>{document.objectIdentifier}</li>
+        <li>{document.documentType.displayName}</li>
+    </ul>
+
+    <f:render partial="Document/ConfirmDeleteLocally" />
+    <f:render partial="Document/ConfirmRegister" />
+
+</f:section>

@@ -18,13 +18,13 @@
     <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <f:link.action action="listNew" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listNew'})}">
-                {f:translate(key: 'manager.document.state.new')}
+            <f:link.action action="listRegistered" controller="Document"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listRegistered'})}">
+                {f:translate(key: 'manager.document.localStatus.registered')}
             </f:link.action>
-            <f:link.action action="listEdit" controller="Document"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listEdit'})}">
-                {f:translate(key: 'manager.document.state.inProgress')}
+            <f:link.action action="listInProgress" controller="Document"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listInProgress'})}">
+                {f:translate(key: 'manager.document.localStatus.in_progress')}
             </f:link.action>
             <f:link.action action="list" controller="Document"
                            class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">

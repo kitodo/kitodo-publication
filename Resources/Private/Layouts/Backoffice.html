@@ -8,7 +8,7 @@
 
     For the full copyright and license information, please read the
     LICENSE.txt file that was distributed with this source code.
-
+<f:flashMessages />
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
@@ -45,23 +45,26 @@
                 <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
-                                <li class="nav-item">
-                                    <f:link.action action="myPublications" controller="Document"
-                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'myPublications'})}">
-                                        <i class="fas fa-address-book"></i>
-                                        {f:translate(key: 'manager.control.myPublications')}
-                                    </f:link.action>
-                                </li>
-                            </f:if>
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                                <f:then>
                                 <li class="nav-item">
                                     <f:link.action action="list" controller="Document"
-                                                   class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
+                                                   class="nav-link
+                                                   {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
                                         <i class="fas fa-file"></i>
                                         {f:translate(key: 'manager.control.documents')}
                                     </f:link.action>
                                 </li>
+                                </f:then>
+                                <f:else>
+                                    <li class="nav-item">
+                                        <f:link.action action="myPublications" controller="Document"
+                                                       class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
+                                            <i class="fas fa-address-book"></i>
+                                            {f:translate(key: 'manager.control.myPublications')}
+                                        </f:link.action>
+                                    </li>
+                                </f:else>
                             </f:if>
                             <li class="nav-item">
                                 <f:link.action action="list" controller="Search"
@@ -71,10 +74,11 @@
                                 </f:link.action>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <f:link.action action="list" controller="DocumentFormBackoffice"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'DocumentFormBackoffice', actionNames:{0:'list', 1:'new'})}">
                                     <i class="fas fa-plus"></i>
-                                    Neue Publikationen anlegen
-                                </a>
+                                    {f:translate(key: 'manager.control.createNewDocument')}
+                                </f:link.action>
                             </li>
                         </ul>
 

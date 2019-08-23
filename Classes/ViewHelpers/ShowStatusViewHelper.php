@@ -23,34 +23,16 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
     /**
      *
      * @param string $status
+     * @param boolean $remote
      *
      */
-    public function render($status)
+    public function render($status, $remote = FALSE)
     {
-        $key = "";
-
-        switch ($status) {
-            case LocalDocumentStatus::NEW:
-                $key = 'search.resultList.state.new';
-                break;
-            case RemoteDocumentStatus::ACTIVE:
-            case 'A':
-                $key = 'search.resultList.state.active';
-                break;
-            case RemoteDocumentStatus::INACTIVE:
-            case 'I':
-                $key = 'search.resultList.state.inactive';
-                break;
-            case LocalDocumentStatus::DELETED:
-            case RemoteDocumentStatus::DELETED:
-            case 'D':
-                $key = 'search.resultList.state.deleted';
-                break;
-            default:
-                return "-";
-                break;
+        if ($remote) {
+            $key = 'manager.document.remoteStatus.'.strtolower($status);
+        } else {
+            $key = 'manager.document.localStatus.'.strtolower($status);
         }
-
         return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $arguments = null);
     }
 }

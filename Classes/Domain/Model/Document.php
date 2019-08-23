@@ -836,7 +836,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setOwner($owner)
     {
-        $this->owner = owner;
+        $this->owner = $owner;
     }
 
 }

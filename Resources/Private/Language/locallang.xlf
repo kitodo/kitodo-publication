@@ -113,6 +113,9 @@
 		<trans-unit id="document_update.success">
 			<source>%s successfully updated.</source>
 		</trans-unit>
+		<trans-unit id="document_register.success" approved="yes">
+			<source>Document successfully registered.</source>
+		</trans-unit>
         <trans-unit id="document_save.max_size_error">
             <source>Maximum document size exceeded.</source>
         </trans-unit>
@@ -137,6 +140,12 @@
 		<trans-unit id="form_button.cancel">
 			<source>cancel</source>
 		</trans-unit>
+		<trans-unit id="form_button.edit">
+			<source>edit</source>
+		</trans-unit>
+		<trans-unit id="form_button.register">
+			<source>register</source>
+		</trans-unit>
 		<trans-unit id="form_button.create_value">
 			<source>create</source>
 		</trans-unit>
@@ -145,6 +154,9 @@
 		</trans-unit>
 		<trans-unit id="form_button.delete_item">
 			<source>delete %s</source>
+		</trans-unit>
+		<trans-unit id="form_button.deleteLocally">
+			<source>remove</source>
 		</trans-unit>
 		<trans-unit id="form_button.remove_file">
 			<source>remove</source>
@@ -206,6 +218,12 @@
 		<trans-unit id="manager.control.documents">
 			<source>Workspace</source>
 		</trans-unit>
+		<trans-unit id="manager.control.editDocument">
+			<source>Edit Publication</source>
+		</trans-unit>
+		<trans-unit id="manager.control.createNewDocument">
+			<source>Create new publication</source>
+		</trans-unit>
 		<trans-unit id="manager.control.myPublications">
 			<source>My publications</source>
 		</trans-unit>
@@ -220,6 +238,12 @@
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessageHeader">
 			<source>Do you really want to delete the document?</source>
+		</trans-unit>
+		<trans-unit id="manager.registerConfirmMessage">
+			<source>The document &quot;%s&quot; will be registered for publication.</source>
+		</trans-unit>
+		<trans-unit id="manager.registerConfirmMessageHeader" approved="yes">
+			<source>Do you really want to register the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.discard">
 			<source>discard</source>
@@ -248,14 +272,35 @@
 		<trans-unit id="manager.document.state">
 			<source>State</source>
 		</trans-unit>
-		<trans-unit id="manager.document.state.inProgress">
-			<source>In progress</source>
-		</trans-unit>
 		<trans-unit id="manager.document.state.all">
 			<source>All</source>
 		</trans-unit>
-		<trans-unit id="manager.document.state.new">
+		<trans-unit id="manager.document.remoteStatus.active">
+			<source>Active</source>
+		</trans-unit>
+		<trans-unit id="manager.document.remoteStatus.inactive">
+			<source>Inactive</source>
+		</trans-unit>
+		<trans-unit id="manager.document.remoteStatus.deleted">
+			<source>Deleted</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.new">
 			<source>New</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.registered">
+			<source>Registered</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.in_progress">
+			<source>In progress</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.discarded">
+			<source>Discarded</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.postponed">
+			<source>Postponed</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.deleted">
+			<source>Deleted</source>
 		</trans-unit>
 		<trans-unit id="manager.document.title">
 			<source>Title</source>
@@ -316,6 +361,9 @@
 		</trans-unit>
 		<trans-unit id="manager.tooltip.preview">
 			<source>Show document preview</source>
+		</trans-unit>
+		<trans-unit id="manager.tooltip.uploadFiles">
+			<source>Upload Full texts / media</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.datacite">
 			<source>Download DataCite XML</source>

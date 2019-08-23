@@ -15,6 +15,7 @@ namespace EWW\Dpf\Domain\Repository;
  */
 
 use \EWW\Dpf\Domain\Model\Document;
+use \EWW\Dpf\Domain\Model\LocalDocumentStatus;
 
 /**
  * The repository for Documents
@@ -27,18 +28,21 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * If all parameters are empty, all documents will be returned.
      *
      * @param int $ownerUid
-     * @param string $localDocumentStatus
+     * @param array $excludeLocalStatuses
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllFiltered($ownerUid = NULL, $localDocumentStatus = NULL)
+    public function findAllFiltered($ownerUid = NULL, $excludeLocalStatuses = array())
     {
-
         $query = $this->createQuery();
         $constraintsAnd = array();
 
-        if ($localDocumentStatus) {
-            $constraintsAnd[] = $query->equals('localStatus', $localDocumentStatus);
+        if (is_array($excludeLocalStatuses) && !empty($excludeLocalStatuses)) {
+            foreach ($excludeLocalStatuses as $excludeLocalStatus) {
+                $constraintsAnd[] = $query->logicalNot(
+                    $query->equals('localStatus', $excludeLocalStatus)
+                );
+            }
         }
 
         if ($ownerUid) {
@@ -55,6 +59,85 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
+
+    /**
+     *
+     * Finds all documents filtered by owner uid for user role librarian
+     *
+     * @param int $ownerUid
+     * @param string $localStatusFilter
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findAllOfALibrarian($ownerUid, $localStatusFilter = NULL)
+    {
+        $query = $this->createQuery();
+        $constraintsOr = array();
+
+        $constraintsOr[] = $query->logicalAnd(
+            array(
+                $query->equals('localStatus', LocalDocumentStatus::NEW),
+                $query->equals('owner', $ownerUid)
+            )
+        );
+
+        $constraintsOr[] = $query->logicalAnd(
+            $query->logicalNot(
+                $query->equals('localStatus', LocalDocumentStatus::NEW)
+            )
+        );
+
+        if ($localStatusFilter) {
+            $query->matching(
+                $query->logicalAnd(
+                    $query->logicalOr($constraintsOr),
+                    $query->equals('localStatus', $localStatusFilter)
+                )
+            );
+        } else {
+            $query->matching($query->logicalOr($constraintsOr));
+        }
+
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
+
+        return $query->execute();
+    }
+
+    /**
+     *
+     * Finds all documents filtered by owner uid for user role researcher
+     *
+     * @param int $ownerUid
+     * @param string $localStatusFilter
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findAllOfAResearcher($ownerUid, $localStatusFilter = NULL)
+    {
+        $query = $this->createQuery();
+
+        $constraintsAnd = array(
+            $query->equals('owner', $ownerUid),
+            $query->logicalNot(
+                $query->equals('localStatus', LocalDocumentStatus::DELETED)
+            )
+        );
+
+        if ($localStatusFilter) {
+            $constraintsAnd[] =   $query->equals('localStatus', $localStatusFilter);
+        }
+
+        $query->matching($query->logicalAnd($constraintsAnd));
+
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
+
+        return $query->execute();
+    }
+
 
     public function getObjectIdentifiers()
     {

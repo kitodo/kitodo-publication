@@ -84,7 +84,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      */
     public function listAction()
     {
-
         $documents = $this->documentRepository->findAll();
 
         $documentTypes = $this->documentTypeRepository->findAll();
@@ -205,6 +204,12 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
         $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+
+        $ownerUid = $this->authorizationChecker->getUser()->getUid();
+
+        if ($ownerUid) {
+            $newDocument->setOwner($ownerUid);
+        }
 
         // xml data fields are limited to 64 KB
         if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->getSlubInfoData() >= 64 * 1024)) {
@@ -346,7 +351,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
 
         /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
         $updateDocument = $documentMapper->getDocument($documentForm);
-        $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+        //$updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
 
         // xml data fields are limited to 64 KB
         if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->getSlubInfoData() >= 64 * 1024)) {
@@ -386,7 +391,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
             $this->forward('edit', null, null, array('documentForm' => $documentForm));
         }
 
-        $this->redirectToList();
+        $this->redirectToCurrentWorkspace();
     }
 
     /**
@@ -399,12 +404,27 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $this->redirectToList();
     }
 
+    /**
+     * action cancel edit
+     *
+     * @return void
+     */
+    public function cancelEditAction()
+    {
+        $this->redirectToCurrentWorkspace();
+    }
+
     public function initializeAction()
     {
         parent::initializeAction();
     }
 
     protected function redirectToList($message = null)
+    {
+        $this->redirect('list');
+    }
+
+    protected function redirectToCurrentWorkspace($message = null)
     {
         $this->redirect('list');
     }

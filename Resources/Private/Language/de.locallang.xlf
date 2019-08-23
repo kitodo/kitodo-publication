@@ -149,6 +149,10 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
+		<trans-unit id="document_register.success" approved="yes">
+			<source>Document successfully registered.</source>
+			<target>Dokument erfolgreich gemeldet.</target>
+		</trans-unit>
         <trans-unit id="document_save.max_size_error" approved="yes">
             <source>Maximum document size exceeded.</source>
             <target>Maximale Größe des Dokuments überschritten.</target>
@@ -181,6 +185,14 @@
 			<source>cancel</source>
 			<target>abbrechen</target>
 		</trans-unit>
+		<trans-unit id="form_button.edit" approved="yes">
+			<source>edit</source>
+			<target>bearbeiten</target>
+		</trans-unit>
+		<trans-unit id="form_button.register" approved="yes">
+			<source>register</source>
+			<target>melden</target>
+		</trans-unit>
 		<trans-unit id="form_button.create_value" approved="yes">
 			<source>create</source>
 			<target>anlegen</target>
@@ -192,6 +204,10 @@
 		<trans-unit id="form_button.delete_item" approved="yes">
 			<source>delete %s</source>
 			<target>lösche %s</target>
+		</trans-unit>
+		<trans-unit id="form_button.deleteLocally" approved="yes">
+			<source>remove</source>
+			<target>entfernen</target>
 		</trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
 			<source>remove</source>
@@ -273,9 +289,17 @@
 			<source>Workspace</source>
 			<target>Arbeitsbereich</target>
 		</trans-unit>
+        <trans-unit id="manager.control.editDocument">
+    		<source>Edit Publication</source>
+    		<target>Publication bearbeiten</target>
+    	</trans-unit>
+		<trans-unit id="manager.control.createNewDocument">
+			<source>Create new publication</source>
+			<target>Neue Publikation anlegen</target>
+		</trans-unit>
 		<trans-unit id="manager.control.myPublications" approved="yes">
 			<source>My publications</source>
-			<target>Meine Publicationen</target>
+			<target>Meine Publikationen</target>
 		</trans-unit>
 		<trans-unit id="manager.control.search" approved="yes">
 			<source>Search</source>
@@ -287,13 +311,19 @@
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessage" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
-			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen. 
-
-</target>
+			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen. </target>
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessageHeader" approved="yes">
 			<source>Do you really want to delete the document?</source>
 			<target>Möchten Sie das Dokument wirklich löschen?</target>
+		</trans-unit>
+		<trans-unit id="manager.registerConfirmMessage" approved="yes" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be registered for publication.</source>
+			<target>Das Dokument &quot;%s&quot; wird zur Veröffentlichung angemeldet. </target>
+		</trans-unit>
+		<trans-unit id="manager.registerConfirmMessageHeader" approved="yes">
+			<source>Do you really want to register the document?</source>
+			<target>Möchten Sie das Dokument wirklich melden?</target>
 		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
@@ -331,17 +361,45 @@
 			<source>State</source>
 			<target>Status</target>
 		</trans-unit>
-		<trans-unit id="manager.document.state.inProgress" approved="yes">
-			<source>In progress</source>
-			<target>In Bearbeitung</target>
-		</trans-unit>
 		<trans-unit id="manager.document.state.all" approved="yes">
 			<source>All</source>
 			<target>Alle</target>
 		</trans-unit>
-		<trans-unit id="manager.document.state.new" approved="yes">
+		<trans-unit id="manager.document.remoteStatus.active" approved="yes">
+			<source>Active</source>
+			<target>Aktiv</target>
+		</trans-unit>
+		<trans-unit id="manager.document.remoteStatus.inactive" approved="yes">
+			<source>Inactive</source>
+			<target>Inaktiv</target>
+		</trans-unit>
+		<trans-unit id="manager.document.remoteStatus.deleted" approved="yes">
+			<source>Deleted</source>
+			<target>Gelöscht</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.new" approved="yes">
 			<source>New</source>
-			<target>Neu</target>
+			<target>Eingestellt</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.registered" approved="yes">
+			<source>Registered</source>
+			<target>Gemeldet</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.in_progress" approved="yes">
+			<source>In progress</source>
+			<target>In Bearbeitung</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.discarded" approved="yes">
+			<source>Discarded</source>
+			<target>Verworfen</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.postponed" approved="yes">
+			<source>Postponed</source>
+			<target>Zurückgestellt</target>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.deleted" approved="yes">
+			<source>Deleted</source>
+			<target>Gelöscht</target>
 		</trans-unit>
 		<trans-unit id="manager.document.title" approved="yes">
 			<source>Title</source>
@@ -426,6 +484,10 @@
 		<trans-unit id="manager.tooltip.datacite" approved="yes">
 			<source>Download DataCite XML</source>
 			<target>DataCite XML herunterladen</target>
+		</trans-unit>
+		<trans-unit id="manager.tooltip.uploadFiles" approved="yes">
+			<source>Upload Full texts / media</source>
+			<target>Volltexte / Medien hochladen</target>
 		</trans-unit>
 		<trans-unit id="manager.update" approved="yes">
 			<source>update</source>

@@ -20,4 +20,12 @@
         <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
     </h2>
     <f:render partial="DocumentForm/Edit" arguments="{documentForm:documentForm}"/>
+
+    <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data">
+        <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-secondary">
+            <i class="fas fa-times"></i>
+            {f:translate(key: 'form_button.cancel')}
+        </f:form.button>
+    </f:form>
+
 </f:section>

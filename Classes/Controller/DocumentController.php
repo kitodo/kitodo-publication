@@ -56,65 +56,27 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function defaultAction()
     {
+        /*
         if ($this->authorizationChecker->isGranted(static::class."::myPublicationsAction") ) {
             $this->forward('myPublications');
         } else {
             $this->forward('list');
         }
+        */
     }
 
     /**
      * action list
      *
-     * @return void
-     */
-    public function listAction()
-    {
-        $documents = $this->documentRepository->findAllFiltered(NULL);
-
-        if ($this->request->hasArgument('message')) {
-            $this->view->assign('message', $this->request->getArgument('message'));
-        }
-
-        if ($this->request->hasArgument('errorFiles')) {
-            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
-        }
-
-        $this->view->assign('documents', $documents);
-    }
-
-    public function listNewAction()
-    {
-        $documents = $this->documentRepository->findAllFiltered(
-            NULL,
-            LocalDocumentStatus::NEW
-        );
-
-        $this->view->assign('documents', $documents);
-    }
-
-    public function listEditAction()
-    {
-        $documents = $this->documentRepository->findAllFiltered(
-            NULL,
-            LocalDocumentStatus::IN_PROGRESS
-        );
-
-
-        //$documents = $this->documentRepository->getInProgressDocuments();
-        $this->view->assign('documents', $documents);
-    }
-
-
-    /**
-     * action myPublications
+     * @param string $localStatusFilter
      *
      * @return void
      */
-    public function myPublicationsAction()
+    public function listAction($localStatusFilter = NULL)
     {
-        $ownerFilter = $this->authorizationChecker->getUser()->getUid();
-        $documents = $this->documentRepository->findAllFiltered($ownerFilter);
+        $this->setSessionData('currentWorkspaceAction','list');
+
+        list($isWorkspace, $documents) = $this->getListViewData($localStatusFilter);
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -124,6 +86,42 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
+        $this->view->assign('isWorkspace', $isWorkspace);
+        $this->view->assign('documents', $documents);
+    }
+
+    public function listRegisteredAction()
+    {
+        $this->setSessionData('currentWorkspaceAction','listRegistered');
+        list($isWorkspace, $documents) = $this->getListViewData(LocalDocumentStatus::REGISTERED);
+
+        if ($this->request->hasArgument('message')) {
+            $this->view->assign('message', $this->request->getArgument('message'));
+        }
+
+        if ($this->request->hasArgument('errorFiles')) {
+            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
+        }
+
+        $this->view->assign('isWorkspace', $isWorkspace);
+        $this->view->assign('documents', $documents);
+    }
+
+    public function listInProgressAction()
+    {
+        $this->setSessionData('currentWorkspaceAction','listInProgress');
+
+        if ($this->request->hasArgument('message')) {
+            $this->view->assign('message', $this->request->getArgument('message'));
+        }
+
+        if ($this->request->hasArgument('errorFiles')) {
+            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
+        }
+
+        list($isWorkspace, $documents) = $this->getListViewData(LocalDocumentStatus::IN_PROGRESS);
+
+        $this->view->assign('isWorkspace', $isWorkspace);
         $this->view->assign('documents', $documents);
     }
 
@@ -153,6 +151,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             // send document to index
             $elasticsearchRepository->delete($document, "");
 
+
             $this->documentRepository->remove($document);
 
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
@@ -174,6 +173,55 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
+     * action deleteLocallyConfirm
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function deleteLocallyConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        try {
+            // remove document from local index
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            // send document to index
+            $elasticsearchRepository->delete($document, "");
+
+            $this->documentRepository->remove($document);
+
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+
+        } catch (\Exception $exception) {
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.failure';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+        $this->redirect('list');
+    }
+
+    /**
+     * action deleteLocallyAction
+     *
+     * @param Document $document
+     */
+    public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        if ($document->getLocalStatus(LocalDocumentStatus::NEW)) {
+            $this->documentRepository->remove($document);
+            $this->redirect('list');
+        } else {
+            throw new \Exception("Access denied!");
+        }
+    }
+
+    /**
      * action duplicate
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -190,6 +238,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             $newDocument->setTitle($document->getTitle());
             $newDocument->setAuthors($document->getAuthors());
+
+            $newDocument->setOwner($this->authorizationChecker->getUser()->getUid());
 
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $mods->clearAllUrn();
@@ -448,6 +498,82 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->redirect('list');
     }
 
+
+    /**
+     * action register
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function registerAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $userUid = $this->authorizationChecker->getUser()->getUid();
+
+        if ($document->getOwner() === $userUid) {
+            $document->setLocalStatus(LocalDocumentStatus::REGISTERED);
+            $this->documentRepository->update($document);
+
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            $this->flashMessage($document, $key, $severity);
+
+            $this->redirect('list');
+        } else {
+            throw new \Exception("Access denied!");
+        }
+
+    }
+
+    /**
+     * action showDetails
+     *
+     * @param Document $document
+     * @return void
+     */
+    public function showDetailsAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $allowedActions = array();
+
+        $localStatus = $document->getLocalStatus();
+
+        $hasRoleLibrarian = in_array(
+                $this->authorizationChecker::ROLE_LIBRARIAN,
+                $this->authorizationChecker->getClientUserRoles()
+            );
+
+        if ($localStatus == LocalDocumentStatus::NEW) {
+            $allowedActions['register'] = 'register';
+            $allowedActions['deleteLocally'] = 'deleteLocally';
+            $allowedActions['edit'] = 'edit';
+        }
+
+        if ($localStatus == LocalDocumentStatus::REGISTERED) {
+            $allowedActions['edit'] = 'edit';
+        }
+
+        if ($hasRoleLibrarian) {
+            $allowedActions['edit'] = 'edit';
+        }
+
+
+
+        $this->view->assign('allowedActions', $allowedActions);
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * action cancelListTask
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function cancelListTaskAction()
+    {
+        $redirectAction = $this->getSessionData('currentWorkspaceAction');
+        $redirectAction = empty($redirectAction)? 'defaultAction' : $redirectAction;
+        $this->redirect($redirectAction, 'Document', null, array('message' => $message));
+    }
+
     /**
      * action inactivateConfirm
      *
@@ -490,6 +616,57 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->flashMessage($document, $key, $severity);
 
         $this->redirect('list');
+    }
+
+    /**
+     * action uploadFiles
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function uploadFilesAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * get list view data
+     *
+     * @param string $localStatusFilter
+     *
+     * @return array
+     */
+    protected function getListViewData($localStatusFilter = NULL)
+    {
+        if (
+            in_array(
+                $this->authorizationChecker::ROLE_LIBRARIAN,
+                $this->authorizationChecker->getClientUserRoles()
+            )
+        ) {
+            $documents = $this->documentRepository->findAllOfALibrarian(
+                $this->authorizationChecker->getUser()->getUid(),
+                $localStatusFilter
+            );
+            $isWorkspace = TRUE;
+        } elseif (
+            in_array(
+                $this->authorizationChecker::ROLE_RESEARCHER,
+                $this->authorizationChecker->getClientUserRoles()
+            )
+        ) {
+            $documents = $this->documentRepository->findAllOfAResearcher(
+                $this->authorizationChecker->getUser()->getUid(),
+                $localStatusFilter
+            );
+        } else {
+            $documents = NULL;
+        }
+
+        return array(
+            $isWorkspace,
+            $documents
+        );
     }
 
     protected function getStoragePID()

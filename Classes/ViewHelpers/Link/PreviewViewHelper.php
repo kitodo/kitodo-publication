@@ -105,8 +105,7 @@ class PreviewViewHelper extends AbstractViewHelper
             ->buildFrontendUri();
 
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
-        $icon = '<a href="'. $additionalGetVars . '" data-toggle="tooltip" class="' . $class . ' title="' . $title . '">' .
-                          $insideText . '</a>';
+        $icon = '<a href="'. $additionalGetVars . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';
 
         return $icon;
 

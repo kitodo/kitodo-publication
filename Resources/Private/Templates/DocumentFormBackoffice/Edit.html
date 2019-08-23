@@ -16,15 +16,23 @@
 
 <f:section name="main">
 
-    <h2>
-        <f:translate key="documentForm.edit.header" arguments="{foo: '{documentForm.displayName}'}"/>
-    </h2>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.control.editDocument')}</h1>
+        <f:link.action
+                id="cancel"
+                action="cancelEdit"
+                controller="DocumentFormBackoffice"
+                class="btn btn-sm btn-secondary">
+            <i class="fas fa-times"></i>
+            {f:translate(key: 'form_button.cancel')}
+        </f:link.action>
+    </div>
 
-    <h3 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h3>
+    <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
 
     <f:flashMessages />
 
-    <f:form action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
+    <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
             additionalAttributes="{data-disabled: '{documentForm.saveDisabled}'}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
@@ -32,12 +40,6 @@
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
         <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
-    </f:form>
-    <f:form action="cancel" name="cancelData" object="{}" enctype="multipart/form-data" id="form_cancel">
-        <f:form.button name="cancel" id="cancel" class="btn btn-sm btn-secondary">
-            <i class="fas fa-times"></i>
-            {f:translate(key: 'form_button.cancel')}
-        </f:form.button>
     </f:form>
 
     <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">

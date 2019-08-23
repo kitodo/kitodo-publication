@@ -78,20 +78,20 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'default, list, myPublications, delete, discard, release, duplicate, '
+        'Document'         => 'list, showDetails, delete, discard, deleteLocally, register, release, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listNew, listEdit, activate, inactivate, restore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',
+            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'default, list, myPublications, delete, discard, release, duplicate, '
+        'Document'         => 'list, showDetails, delete, discard, deleteLocally, release, register, duplicate, '
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listNew, listEdit, activate, inactivate, restore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancel',
+            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',

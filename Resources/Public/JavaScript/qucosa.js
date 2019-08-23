@@ -19,6 +19,8 @@ $(document).ready(function() {
     documentListConfirmDialog('#confirmInactivate');
     documentListConfirmDialog('#confirmRestore');
     documentListConfirmDialog('#confirmDelete');
+    documentListConfirmDialog('#confirmDeleteLocally');
+    documentListConfirmDialog('#confirmRegister');
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
     var $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
@@ -235,14 +237,14 @@ var validateForm = function() {
 }
 var showFormError = function() {
     jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery('.tx-dpf form').first());
+    jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery('.tx-dpf form.document-form-main').first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
 }
 var showFormSuccess = function() {
     jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery('.tx-dpf form').first());
+    jQuery('<div class="alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery('.tx-dpf form.document-form-main').first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);

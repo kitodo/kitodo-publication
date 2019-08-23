@@ -44,16 +44,23 @@
         </div>
     </f:if>
 
-    <f:if condition="{client}">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">Details</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="mr-2">
+                <f:link.action
+                        action="cancelListTask"
+                        controller="Document"
+                        class="btn btn-sm btn-secondary">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.cancel')}
+                </f:link.action>
 
-        <f:if condition="{isWorkspace}">
-            <f:then>
-                <f:render partial="Document/WorkspaceList" arguments="{documents:documents}"/>
-            </f:then>
-            <f:else>
-                <f:render partial="Document/MyPublicationsList" arguments="{documents:documents}"/>
-            </f:else>
-        </f:if>
-    </f:if>
+            </div>
+        </div>
+    </div>
+
+
+    Volltexte / Medien zum Dokument "{document.title}" hochladen.
 
 </f:section>

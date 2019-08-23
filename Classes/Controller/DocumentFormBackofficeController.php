@@ -28,9 +28,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
     }
 
-    protected function redirectToList($message = null)
+    protected function redirectToCurrentWorkspace($message = null)
     {
-        $this->redirect('list', 'Document', null, array('message' => $message));
+        $redirectAction = $this->getSessionData('currentWorkspaceAction');
+
+        $redirectAction = empty($redirectAction)? 'defaultAction' : $redirectAction;
+
+        $this->redirect($redirectAction, 'Document', null, array('message' => $message));
     }
 
     /**
@@ -85,6 +89,14 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
     }
 
+
+    /**
+     * action edit
+     *
+     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
+     * @ignorevalidation $documentForm
+     * @return void
+     */
     public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
@@ -109,6 +121,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
             $updateDocument = $documentMapper->getDocument($documentForm);
+            $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
 
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
