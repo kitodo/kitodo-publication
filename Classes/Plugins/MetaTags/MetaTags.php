@@ -86,6 +86,11 @@ class MetaTags extends \tx_dlf_plugin
 
         $metadata = $this->doc->getTitleData($this->conf['pages']);
 
+        // Collect files from download file group
+        if (!empty($this->conf['fileGrpDownload'])) {
+            $metadata['attachments'] = $this->getAttachments();
+        }
+
         $metadata['_id'] = $this->doc->toplevelId;
 
         if (empty($metadata)) {
@@ -174,19 +179,16 @@ class MetaTags extends \tx_dlf_plugin
 
                     break;
 
-                case 'record_id':
-
-                    // Build typolink configuration array.
-                    $conf = array(
-                        'useCacheHash'     => 0,
-                        'parameter'        => $this->conf['apiPid'],
-                        'additionalParams' => '&tx_dpf[qid]=' . $values[0] . '&tx_dpf[action]=attachment&tx_dpf[attachment]=ATT-0',
-                        'forceAbsoluteUrl' => true,
-                    );
-
-                    // replace uid with URI to dpf API
-                    $outArray['citation_pdf_url'][] = $this->cObj->typoLink_URL($conf);
-
+                case 'attachments':
+                    foreach($values as $attachment) {
+                        $conf = array(
+                            'useCacheHash'     => 0,
+                            'parameter'        => $this->conf['apiPid'],
+                            'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment&tx_dpf[attachment]=' . $attachment['ID'],
+                            'forceAbsoluteUrl' => true,
+                        );
+                        $outArray['citation_pdf_url'][] = $this->cObj->typoLink_URL($conf);
+                    }
                     break;
 
                 case 'abstract_ger':
@@ -246,6 +248,42 @@ class MetaTags extends \tx_dlf_plugin
     protected function safelyFormatDate($format, $date)
     {
         return (strlen($date) == 4) ? $date : date($format, strtotime($date));
+    }
+
+
+    /**
+     * Get PDF document list
+
+     * @return array of attachments
+     */
+    protected function getAttachments()
+    {
+        $attachments = array();
+
+        $xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file';
+        $files = $this->doc->mets->xpath($xPath);
+
+        if (is_array($files)) {
+            foreach ($files as $key => $file) {
+                $singleFile = array();
+
+                foreach ($file->attributes('mext', 1) as $attribute => $value) {
+                    $singleFile[$attribute] = $value;
+                }
+
+                foreach ($file->attributes() as $attribute => $value) {
+                    $singleFile[$attribute] = $value;
+                }
+
+                $attachments[(string) $singleFile['ID']] = $singleFile;
+            }
+        }
+
+        if (count($attachments) > 1) {
+            ksort($attachments);
+        }
+
+        return $attachments;
     }
 
 }
