@@ -48,10 +48,10 @@
 
         <f:if condition="{isWorkspace}">
             <f:then>
-                <f:render partial="Document/WorkspaceList" arguments="{documents:documents}"/>
+                <f:render partial="Document/WorkspaceList" arguments="{documents:documents, currentUser:currentUser}"/>
             </f:then>
             <f:else>
-                <f:render partial="Document/MyPublicationsList" arguments="{documents:documents}"/>
+                <f:render partial="Document/MyPublicationsList" arguments="{documents:documents, currentUser:currentUser}"/>
             </f:else>
         </f:if>
     </f:if>

@@ -14,6 +14,7 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
+
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
     <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
                    class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
@@ -67,23 +68,59 @@
     </f:alias>
 </f:if>
 
+<f:switch expression="{document.localStatus}">
 
-<f:if condition="{document.localStatus} == 'NEW'">
-    <f:then>
-        <f:link.action action="deleteLocally" arguments="{document : document}" class="btn btn-sm btn-danger"
-                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-            {f:translate(key: 'form_button.deleteLocally')}
-        </f:link.action>
-    </f:then>
-    <f:else>
-        <f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
-                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-            {f:translate(key: 'manager.discard')}
-        </f:link.action>
-    </f:else>
-</f:if>
+    <f:case value="NEW">
+        <f:if condition="{document.owner} == {currentUser.uid}">
+            <f:then>
+                <f:link.action action="deleteLocally" arguments="{document : document}" class="btn btn-sm btn-danger"
+                               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                    {f:translate(key: 'form_button.deleteLocally')}
+                </f:link.action>
+            </f:then>
+        </f:if>
+    </f:case>
+
+    <f:case value="REGISTERED">
+        <f:if condition="{document.owner} == {currentUser.uid}">
+            <f:then>
+                <f:link.action action="deleteLocally" arguments="{document : document}" class="btn btn-sm btn-danger"
+                               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                    {f:translate(key: 'form_button.deleteLocally')}
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                    <f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
+                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        {f:translate(key: 'manager.discard')}
+                    </f:link.action>
+                </f:if>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:defaultCase>
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+            <f:link.action action="discard" arguments="{document : document}" class="btn btn-sm btn-warning"
+                           additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                {f:translate(key: 'manager.discard')}
+             </f:link.action>
+        </f:if>
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+            <f:link.action action="suggest" arguments="{document : document}" class="btn btn-sm btn-primary"
+                           additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: ''}">
+                <i class="fas fa-question-circle"></i>
+                {f:translate(key: 'form_button.suggest')}
+            </f:link.action>
+         </f:if>
+    </f:defaultCase>
+
+</f:switch>
 
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
     <f:if condition="{document.ingestRemote}">

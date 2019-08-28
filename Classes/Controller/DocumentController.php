@@ -17,6 +17,7 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -48,23 +49,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $persistenceManager;
 
-
-    /**
-     * action default
-     *
-     * @return void
-     */
-    public function defaultAction()
-    {
-        /*
-        if ($this->authorizationChecker->isGranted(static::class."::myPublicationsAction") ) {
-            $this->forward('myPublications');
-        } else {
-            $this->forward('list');
-        }
-        */
-    }
-
     /**
      * action list
      *
@@ -86,6 +70,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
+        $this->view->assign('currentUser', $this->security->getUser());
         $this->view->assign('isWorkspace', $isWorkspace);
         $this->view->assign('documents', $documents);
     }
@@ -147,12 +132,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     {
         try {
             // remove document from local index
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            //$elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
             // send document to index
-            $elasticsearchRepository->delete($document, "");
+            //$elasticsearchRepository->delete($document, "");
+            //$this->documentRepository->remove($document);
 
-
-            $this->documentRepository->remove($document);
+            $document->setLocalStatus(LocalDocumentStatus::DISCARDED);
+            $this->documentRepository->update($document);
 
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
@@ -180,30 +166,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function deleteLocallyConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        try {
-            // remove document from local index
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-            // send document to index
-            $elasticsearchRepository->delete($document, "");
-
-            $this->documentRepository->remove($document);
-
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-
-        } catch (\Exception $exception) {
-
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.failure';
-            }
-        }
-
-        $this->flashMessage($document, $key, $severity);
-        $this->redirect('list');
+        throw new \Exception('deleteLocallyConfirmAction');
     }
 
     /**
@@ -239,7 +202,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $newDocument->setTitle($document->getTitle());
             $newDocument->setAuthors($document->getAuthors());
 
-            $newDocument->setOwner($this->authorizationChecker->getUser()->getUid());
+            $newDocument->setOwner($this->security->getUser()->getUid());
 
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $mods->clearAllUrn();
@@ -507,21 +470,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function registerAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $userUid = $this->authorizationChecker->getUser()->getUid();
+        $document->setLocalStatus(LocalDocumentStatus::REGISTERED);
+        $this->documentRepository->update($document);
 
-        if ($document->getOwner() === $userUid) {
-            $document->setLocalStatus(LocalDocumentStatus::REGISTERED);
-            $this->documentRepository->update($document);
+        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
+        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+        $this->flashMessage($document, $key, $severity);
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-            $this->flashMessage($document, $key, $severity);
-
-            $this->redirect('list');
-        } else {
-            throw new \Exception("Access denied!");
-        }
-
+        $this->redirect('list');
     }
 
     /**
@@ -536,11 +492,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $localStatus = $document->getLocalStatus();
 
-        $hasRoleLibrarian = in_array(
-                $this->authorizationChecker::ROLE_LIBRARIAN,
-                $this->authorizationChecker->getClientUserRoles()
-            );
-
         if ($localStatus == LocalDocumentStatus::NEW) {
             $allowedActions['register'] = 'register';
             $allowedActions['deleteLocally'] = 'deleteLocally';
@@ -551,7 +502,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $allowedActions['edit'] = 'edit';
         }
 
-        if ($hasRoleLibrarian) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $allowedActions['edit'] = 'edit';
         }
 
@@ -629,6 +580,22 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('document', $document);
     }
 
+
+    public function initializeAction()
+    {
+        parent::initializeAction();
+
+        // Check access right
+        $document = NULL;
+        if ($this->request->hasArgument('document')) {
+            $documentUid = $this->request->getArgument('document');
+            $document = $this->documentRepository->findByUid($documentUid);
+        }
+
+        $this->authorizationChecker->denyAccessUnlessGranted($this->getAccessAttribute(), $document);
+    }
+
+
     /**
      * get list view data
      *
@@ -638,29 +605,25 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected function getListViewData($localStatusFilter = NULL)
     {
-        if (
-            in_array(
-                $this->authorizationChecker::ROLE_LIBRARIAN,
-                $this->authorizationChecker->getClientUserRoles()
-            )
-        ) {
-            $documents = $this->documentRepository->findAllOfALibrarian(
-                $this->authorizationChecker->getUser()->getUid(),
-                $localStatusFilter
-            );
-            $isWorkspace = TRUE;
-        } elseif (
-            in_array(
-                $this->authorizationChecker::ROLE_RESEARCHER,
-                $this->authorizationChecker->getClientUserRoles()
-            )
-        ) {
-            $documents = $this->documentRepository->findAllOfAResearcher(
-                $this->authorizationChecker->getUser()->getUid(),
-                $localStatusFilter
-            );
-        } else {
-            $documents = NULL;
+        switch ($this->security->getUserRole()) {
+
+            case Security::ROLE_LIBRARIAN:
+                $documents = $this->documentRepository->findAllOfALibrarian(
+                    $this->security->getUser()->getUid(),
+                    $localStatusFilter
+                );
+                $isWorkspace = TRUE;
+                break;
+
+            case Security::ROLE_RESEARCHER;
+                $documents = $this->documentRepository->findAllOfAResearcher(
+                    $this->security->getUser()->getUid(),
+                    $localStatusFilter
+                );
+                break;
+
+            default:
+                $documents = NULL;
         }
 
         return array(

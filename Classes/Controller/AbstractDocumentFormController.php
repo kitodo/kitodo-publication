@@ -205,7 +205,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
         $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
 
-        $ownerUid = $this->authorizationChecker->getUser()->getUid();
+        $ownerUid = $this->security->getUser()->getUid();
 
         if ($ownerUid) {
             $newDocument->setOwner($ownerUid);
@@ -271,19 +271,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
             }
 
             if ($document) {
-
-                if (
-                    !in_array(
-                        $this->authorizationChecker::ROLE_LIBRARIAN,
-                        $this->authorizationChecker->getClientUserRoles()
-                    )
-                    && !( $document->getOwner() > 0
-                         && $this->authorizationChecker->getUser()->getUid() === $document->getOwner())
-                    ) {
-
-                    throw new \Exception("Access denied!");
-                }
-
                 $mapper = $this->objectManager->get(DocumentMapper::class);
                 $documentForm = $mapper->getDocumentForm($document);
             }

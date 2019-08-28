@@ -158,6 +158,9 @@
 		<trans-unit id="form_button.deleteLocally">
 			<source>remove</source>
 		</trans-unit>
+		<trans-unit id="form_button.suggest">
+			<source>suggest</source>
+		</trans-unit>
 		<trans-unit id="form_button.remove_file">
 			<source>remove</source>
 		</trans-unit>

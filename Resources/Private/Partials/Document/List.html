@@ -55,7 +55,7 @@
                 {document.documentType.displayName}
             </td>
             <td class="table_col_function">
-                <f:render partial="Document/ListItemActions" arguments="{document:document}"/>
+                <f:render partial="Document/ListItemActions" arguments="{document:document, currentUser:currentUser}"/>
             </td>
         </tr>
     </f:for>

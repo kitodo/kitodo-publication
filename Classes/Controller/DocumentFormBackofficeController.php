@@ -14,6 +14,8 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Exceptions\AccessDeniedExcepion;
+use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
@@ -46,7 +48,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     public function deleteAction($documentData)
     {
         if (!$GLOBALS['BE_USER']) {
-            throw new \Exception('Access denied');
+         //   throw new \Exception('Access denied');
         }
 
         try {
@@ -121,7 +123,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
             $updateDocument = $documentMapper->getDocument($documentForm);
-            $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+
+            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+            }
 
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
@@ -144,10 +149,23 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->redirectToList('CREATE_OK');
     }
 
-
     public function initializeAction()
     {
         parent::initializeAction();
+
+        // Check access right
+        $document = NULL;
+        if ($this->request->hasArgument('document')) {
+            $documentUid = $this->request->getArgument('document');
+            $document = $this->documentRepository->findByUid($documentUid);
+        } elseif ($this->request->hasArgument("documentData")) {
+            $documentData = $this->request->getArgument('documentData');
+            $document = $this->documentRepository->findByUid($documentData['documentUid']);
+        } elseif ($this->request->hasArgument("documentForm")) {
+
+        }
+
+        $this->authorizationChecker->denyAccessUnlessGranted($this->getAccessAttribute(), $document);
     }
 
 }

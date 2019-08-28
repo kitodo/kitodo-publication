@@ -26,25 +26,40 @@ class AuthorizationChecker
      */
     protected $objectManager = null;
 
-    /**
-     * frontendUserGroupRepository
-     *
-     * @var \EWW\Dpf\Domain\Repository\FrontendUserGroupRepository
-     * @inject
-     */
-    protected $frontendUserGroupRepository = null;
 
     /**
-     * frontendUserRepository
+     * $documentVoter
      *
-     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
+     * @var \EWW\Dpf\Security\DocumentVoter
      * @inject
      */
-    protected $frontendUserRepository = null;
+    protected $documentVoter = null;
+
 
     const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
     const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
+
+
+    public function denyAccessUnlessGranted($attribute, $subject = NULL)
+    {
+        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
+        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
+
+
+        foreach ($voters as $voter) {
+            if ($voter->supports($attribute, $subject)) {
+                if($voter->voteOnAttribute($attribute, $subject)) {
+                    return;
+                } else {
+                    throw new \Exception("Access denied!");
+                }
+            }
+        }
+
+        throw new \Exception("Access denied!");
+    }
+
 
     /**
      * @param string $attribute
@@ -110,77 +125,6 @@ class AuthorizationChecker
         return FALSE;
     }
 
-    /**
-     * Get the roles the user has in the current client
-     *
-     * @return array
-     */
-    public function getClientUserRoles() {
-
-        // Get frontend user groups of the client.
-        $clientFrontendGroups = array();
-        foreach ($this->frontendUserGroupRepository->findAll() as $clientGroup) {
-           if ($clientGroup->getKitodoRole()) {
-               $clientFrontendGroups[$clientGroup->getUid()] = $clientGroup;
-           }
-        }
-
-        // Get frontend user groups of the user.
-        $frontendUserGroups = array();
-        $frontendUser = $this->getUser();
-        if ($frontendUser) {
-            foreach ($frontendUser->getUsergroup() as $userGroup) {
-                // Because getUsergroup() does not return objects of the class
-                // \EWW\Dpf\Domain\Repository\FrontendUserRepository
-                $userGroup = $this->frontendUserGroupRepository->findByUid($userGroup->getUid());
-                $frontendUserGroups[$userGroup->getUid()] = $userGroup;
-            }
-        }
-
-        // Get the roles the user has in the current client.
-        $roles = array();
-        foreach ($frontendUserGroups as $uid => $group) {
-            if (array_key_exists($uid, $clientFrontendGroups)) {
-                $roles[$uid] = $group->getKitodoRole();
-            }
-        }
-
-        return $roles;
-
-    }
-
-    /**
-     * Gets an authorization object associated with the given role
-     *
-     * @param string $role
-     */
-    protected function getAuthorizationByRole($role)
-    {
-
-       if (strpos($role, 'ROLE_') === 0) {
-           $authorizationPrefix = ucfirst(strtolower(str_replace('ROLE_', '', $role)));
-
-           if ($authorizationPrefix) {
-               $authorizationClass = $authorizationPrefix . 'Authorization';
-               $authorizationClass = 'EWW\\Dpf\\Security\\' . $authorizationClass;
-
-               if (class_exists($authorizationClass)) {
-                   return $this->objectManager->get($authorizationClass);
-               }
-           }
-       }
-
-        return NULL;
-    }
-
-    /**
-     * Gets the logged in user
-     *
-     * @return mixed
-     */
-    public function getUser() {
-        return $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-    }
 
 
 

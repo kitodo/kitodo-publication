@@ -209,6 +209,10 @@
 			<source>remove</source>
 			<target>entfernen</target>
 		</trans-unit>
+		<trans-unit id="form_button.suggest" approved="yes">
+			<source>suggest</source>
+			<target>vorschlagen</target>
+		</trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
 			<source>remove</source>
 			<target>entfernen</target>

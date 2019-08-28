@@ -27,6 +27,14 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     protected $authorizationChecker = null;
 
     /**
+     * security
+     *
+     * @var \EWW\Dpf\Security\Security
+     * @inject
+     */
+    protected $security = null;
+
+    /**
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
@@ -136,13 +144,14 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
 
     public function initializeAction()
     {
-        //die(self::class);
-        //die($this->actionMethodName);
         parent::initializeAction();
+    }
 
-        if ( !$this->authorizationChecker->isGranted(static::class."::".$this->actionMethodName) ) {
-            throw new \Exception("Access denied!");
-        }
+    protected function getAccessAttribute()
+    {
+        return strtoupper($this->request->getPluginName()
+            ."_".$this->request->getControllerName()
+            ."_".$this->request->getControllerActionName());
     }
 
 }
