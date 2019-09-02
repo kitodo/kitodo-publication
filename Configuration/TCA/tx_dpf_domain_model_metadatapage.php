@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, page_number, backend_only, access_restriction_roles, metadata_group',
+        'searchFields'             => 'name, display_name, page_number, access_restriction_roles, metadata_group',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadatapage.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, backend_only, access_restriction_roles, metadata_group',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, page_number, access_restriction_roles, metadata_group',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, page_number, backend_only, access_restriction_roles, metadata_group, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, page_number, access_restriction_roles, metadata_group, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -154,15 +154,6 @@ return array(
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'int',
-            ),
-        ),
-        'backend_only'     => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.backend_only',
-            'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
             ),
         ),
         'access_restriction_roles' => array(

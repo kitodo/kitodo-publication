@@ -236,9 +236,6 @@
 		<trans-unit id="tx_dpf_domain_model_metadatagroup">
 			<source>Metadata Group</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only">
-			<source>Backend only</source>
-		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_metadatagroup.access_restriction_roles">
 			<source>Access restriction roles</source>
 		</trans-unit>
@@ -274,9 +271,6 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject">
 			<source>Metadata Object</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.backend_only">
-			<source>Backend only</source>
 		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_metadataobject.access_restriction_roles">
 			<source>Access restriction roles</source>
@@ -358,9 +352,6 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatapage">
 			<source>Metadata Page</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.backend_only">
-			<source>Backend only</source>
 		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_metadatapage.access_restriction_roles">
 			<source>Access restriction roles</source>

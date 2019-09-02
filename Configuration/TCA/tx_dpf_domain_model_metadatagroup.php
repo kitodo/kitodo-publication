@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text',
+        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, access_restriction_roles, info_text',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadatagroup.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, access_restriction_roles, info_text',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, backend_only, access_restriction_roles, info_text, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, max_iteration, metadata_object, access_restriction_roles, info_text, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -207,15 +207,6 @@ return array(
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'int',
-            ),
-        ),
-        'backend_only'             => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.backend_only',
-            'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
             ),
         ),
         'access_restriction_roles' => array(
