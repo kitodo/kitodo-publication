@@ -20,9 +20,13 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
+use EWW\Dpf\Domain\Repository\MetadataObjectRepository;
+use EWW\Dpf\Domain\Repository\MetadataGroupRepository;
+use EWW\Dpf\Domain\Repository\MetadataPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Security\Security;
 
 
 class ext_update {
@@ -49,11 +53,13 @@ class ext_update {
         if ($version) {
             return FALSE;
         } else {
+
+            // The necessary updates.
+            (new UpdateState)->execute();
+            (new UpdateAccessRestrictions)->execute();
+
             $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
         }
-
-        // The necessary updates.
-        (new UpdateState)->execute();
 
         return "The extension has been successfully updated.";
     }
@@ -105,6 +111,27 @@ class UpdateState
             }
 
             $documentRepository->update($newDocument);
+        }
+    }
+}
+
+class UpdateAccessRestrictions
+{
+    public function execute() {
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $repositories[] = $objectManager->get(\EWW\Dpf\Domain\Repository\MetadataObjectRepository::class);
+        $repositories[] = $objectManager->get(\EWW\Dpf\Domain\Repository\MetadataGroupRepository::class);
+        $repositories[] = $objectManager->get(\EWW\Dpf\Domain\Repository\MetadataPageRepository::class);
+
+        foreach ($repositories as $repository) {
+            foreach ($repository->crossClientFindAll() as $record) {
+                if ($record['backend_only']) {
+                    $recordObject = $repository->findByUid($record['uid']);
+                    $recordObject->setAccessRestrictionRoles(array(Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER));
+                    $repository->update($recordObject);
+                }
+            }
         }
     }
 }

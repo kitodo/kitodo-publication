@@ -16,13 +16,13 @@ namespace EWW\Dpf\Domain\Repository;
 
 use \EWW\Dpf\Domain\Model\Document;
 use \EWW\Dpf\Domain\Model\LocalDocumentStatus;
-
 /**
  * The repository for Documents
  */
-class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
     /**
+
      * /**
      * Finds all documents filtered by owner uid and local document status.
      * If all parameters are empty, all documents will be returned.
@@ -183,22 +183,6 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         return $query->execute();
-    }
-
-
-    /**
-     * Finds all documents of all clients.
-     *
-     * @param bool $returnRawQueryResult
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     */
-    public function crossClientFindAll($returnRawQueryResult = TRUE) {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-        $querySettings->setRespectStoragePage(false);
-        $this->setDefaultQuerySettings($querySettings);
-        $query = $this->createQuery();
-        return $query->execute($returnRawQueryResult);
     }
 
 }

@@ -17,7 +17,7 @@ namespace EWW\Dpf\Domain\Repository;
 /**
  * The repository for MetadataObjects
  */
-class MetadataObjectRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class MetadataObjectRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
 
     protected $defaultOrderings = array("sorting" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
