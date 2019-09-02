@@ -413,4 +413,31 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         return $query;
     }
 
+    public function initializeAction()
+    {
+        parent::initializeAction();
+
+        $document = NULL;
+        if ($this->request->hasArgument('document')) {
+            $documentUid = $this->request->getArgument('document');
+            $document = $this->documentRepository->findByUid($documentUid);
+        }
+
+        // Check access right
+       /*
+        $document = NULL;
+        if ($this->request->hasArgument('document')) {
+            $documentUid = $this->request->getArgument('document');
+            $document = $this->documentRepository->findByUid($documentUid);
+        } elseif ($this->request->hasArgument("documentData")) {
+            $documentData = $this->request->getArgument('documentData');
+            $document = $this->documentRepository->findByUid($documentData['documentUid']);
+        } elseif ($this->request->hasArgument("documentForm")) {
+
+        }
+*/
+        $this->authorizationChecker->denyAccessUnlessGranted($this->getAccessAttribute(), $document);
+    }
+
+
 }

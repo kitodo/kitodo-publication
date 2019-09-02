@@ -14,7 +14,13 @@ use EWW\Dpf\Security\Security;
 
 class SearchVoter extends Voter
 {
+    const BACKOFFICE_SEARCH_LIST = "BACKOFFICE_SEARCH_LIST";
+    const BACKOFFICE_SEARCH_SEARCH = "BACKOFFICE_SEARCH_SEARCH";
+    const BACKOFFICE_SEARCH_UPDATEINDEX = "BACKOFFICE_SEARCH_UPDATEINDEX";
     const BACKOFFICE_SEARCH_DOUBLETCHECK = "BACKOFFICE_SEARCH_DOUBLETCHECK";
+    const BACKOFFICE_SEARCH_IMPORT = "BACKOFFICE_SEARCH_IMPORT";
+    const BACKOFFICE_SEARCH_LATEST = "BACKOFFICE_SEARCH_LATEST";
+    const BACKOFFICE_SEARCH_EXTENDEDSEARCH = "BACKOFFICE_SEARCH_EXTENDEDSEARCH";
 
     /**
      * DocumentFormBackofficeVoter constructor.
@@ -22,7 +28,13 @@ class SearchVoter extends Voter
     public function __construct()
     {
         $this->attributes = array(
-            self::BACKOFFICE_SEARCH_DOUBLETCHECK
+            self::BACKOFFICE_SEARCH_DOUBLETCHECK,
+            self::BACKOFFICE_SEARCH_LIST,
+            self::BACKOFFICE_SEARCH_SEARCH,
+            self::BACKOFFICE_SEARCH_IMPORT,
+            self::BACKOFFICE_SEARCH_UPDATEINDEX,
+            self::BACKOFFICE_SEARCH_EXTENDEDSEARCH,
+            self::BACKOFFICE_SEARCH_LATEST
         );
     }
 
@@ -58,7 +70,21 @@ class SearchVoter extends Voter
     {
         switch ($attribute) {
 
+            case self::BACKOFFICE_SEARCH_LIST:
+                return $this->defaultAccess();
+                break;
+            case self::BACKOFFICE_SEARCH_EXTENDEDSEARCH:
+            case self::BACKOFFICE_SEARCH_LATEST:
+            case self::BACKOFFICE_SEARCH_SEARCH:
+                return $this->defaultAccess();
+                break;
             case self::BACKOFFICE_SEARCH_DOUBLETCHECK:
+                return $this->librarianOnly();
+                break;
+            case self::BACKOFFICE_SEARCH_IMPORT:
+                return $this->librarianOnly();
+                break;
+            case self::BACKOFFICE_SEARCH_UPDATEINDEX:
                 return $this->librarianOnly();
                 break;
         }

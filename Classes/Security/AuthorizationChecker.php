@@ -45,7 +45,7 @@ class AuthorizationChecker
     {
         $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
         $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
-
+        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
 
         foreach ($voters as $voter) {
             if ($voter->supports($attribute, $subject)) {
