@@ -203,12 +203,15 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
 
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
-        $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+
 
         $ownerUid = $this->security->getUser()->getUid();
 
         if ($ownerUid) {
             $newDocument->setOwner($ownerUid);
+            $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+        } else {
+            $newDocument->setLocalStatus(LocalDocumentStatus::REGISTERED);
         }
 
         // xml data fields are limited to 64 KB
