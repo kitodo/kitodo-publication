@@ -43,6 +43,9 @@ class AuthorizationChecker
 
     public function denyAccessUnlessGranted($attribute, $subject = NULL)
     {
+        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.access_denied';
+        $accessDeniedMessage = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
         $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
         $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
         $voters[] = $this->objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
@@ -52,12 +55,15 @@ class AuthorizationChecker
                 if($voter->voteOnAttribute($attribute, $subject)) {
                     return;
                 } else {
-                    throw new \Exception("Access denied!");
+                    header('Temporary-Header: True', true, 403);
+                    header_remove('Temporary-Header');
+                    die($accessDeniedMessage);
                 }
             }
         }
-
-        throw new \Exception("Access denied!");
+        header('Temporary-Header: True', true, 403);
+        header_remove('Temporary-Header');
+        die($accessDeniedMessage);
     }
 
 

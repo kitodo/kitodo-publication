@@ -173,6 +173,10 @@
             <source>Failed, an unexpected error occurred.</source>
             <target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
         </trans-unit>
+        <trans-unit id="error.access_denied" approved="yes">
+            <source>Access denied!</source>
+            <target>Zugriff verweigert!</target>
+        </trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
 			<target>Weitere Datei hinzufügen</target>

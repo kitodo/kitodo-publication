@@ -131,6 +131,9 @@
         <trans-unit id="error.unexpected">
             <source>Failed, an unexpected error occurred.</source>
         </trans-unit>
+        <trans-unit id="error.access_denied" approved="yes">
+            <source>Access denied!</source>
+        </trans-unit>
 		<trans-unit id="form_button.addFile">
 			<source>add file</source>
 		</trans-unit>
