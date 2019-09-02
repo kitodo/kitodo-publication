@@ -39,6 +39,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->redirect($redirectAction, 'Document', null, array('message' => $message));
     }
 
+    protected function redirectToList($message = null)
+    {
+        $this->redirect('list', 'DocumentFormBackoffice', null);
+    }
+
     /**
      * action delete
      *
@@ -145,8 +150,39 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-        parent::createAction($newDocumentForm);
-        $this->redirectToList('CREATE_OK');
+        try {
+            parent::createAction($newDocumentForm);
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:documentForm.create.ok';
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+            $this->addFlashMessage(
+                $message,
+                '',
+                $severity,
+                true
+            );
+        } catch (\Exception $exception) {
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+
+            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+
+            $this->addFlashMessage(
+                implode(" ", $message),
+                '',
+                $severity,
+                true
+            );
+        }
+
+        $this->redirectToList();
     }
 
     public function initializeAction()

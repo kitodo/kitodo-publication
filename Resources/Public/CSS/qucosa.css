@@ -400,6 +400,10 @@ ul.error-files-backbutton li {
     list-style: none;
 }
 
+.typo3-messages p.alert-message {
+    margin: 0;
+}
+
     /* -- search form--------------------------------------------------- */
 
 #tx-dpf-backoffice.document-manager .searchForm .form-group {
