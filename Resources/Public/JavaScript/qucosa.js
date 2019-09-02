@@ -631,7 +631,7 @@ function setGndAutocomplete(fieldId, groupIndex) {
 var previousNextFormPage = function() {
 
     $('.prev-next-buttons button').click(function (e) {
-        var activePage = $('.tx-dpf-tabs').find('li a.active');
+        var activePage = $('.tx-dpf-tabs').find('li a.active').parent();
         var newActivePage = activePage;
 
         if ($(this).attr('id') == 'next-form-page') {
@@ -641,11 +641,11 @@ var previousNextFormPage = function() {
         }
 
         if (newActivePage.length > 0) {
-            activePage.removeClass('active');
+            activePage.find('a').removeClass('active');
             activePage.find('a').attr('aria-expanded', 'false');
             $('.tab-content').find('div.active').removeClass('active');
 
-            newActivePage.addClass('active');
+            newActivePage.find('a').addClass('active');
             newActivePage.find('a').attr('aria-expanded', 'true');
             $('.tab-content').find(newActivePage.find('a').attr('href')).addClass('active');
 
@@ -660,10 +660,10 @@ var previousNextFormPage = function() {
 
     });
 
-    updatePrevNextButtons($('.tx-dpf-tabs li.active'));
+    updatePrevNextButtons($('.tx-dpf-tabs a.active').parent());
 
-    $('.tx-dpf-tabs li').click(function(){
-        updatePrevNextButtons($(this));
+    $('.tx-dpf-tabs a').click(function(){
+        updatePrevNextButtons($(this).parent());
     });
 
 }
