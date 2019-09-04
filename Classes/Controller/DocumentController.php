@@ -17,6 +17,7 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Security\AuthorizationChecker;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -493,20 +494,30 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $localStatus = $document->getLocalStatus();
 
         if ($localStatus == LocalDocumentStatus::NEW) {
-            $allowedActions['register'] = 'register';
-            $allowedActions['deleteLocally'] = 'deleteLocally';
-            $allowedActions['edit'] = 'edit';
+            if ($this->security->getUser()->getUid() === $document->getOwner()) {
+                $allowedActions['register'] = 'register';
+                $allowedActions['deleteLocally'] = 'deleteLocally';
+                $allowedActions['edit'] = 'edit';
+            }
         }
 
         if ($localStatus == LocalDocumentStatus::REGISTERED) {
-            $allowedActions['edit'] = 'edit';
-            $allowedActions['discard'] = 'discard';
+            if ($this->security->getUser()->getUid() === $document->getOwner() ||
+                $this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                    $allowedActions['edit'] = 'edit';
+                    $allowedActions['discard'] = 'discard';
+                } else {
+                    $allowedActions['suggest'] = 'suggest';
+                }
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            $allowedActions['edit'] = 'edit';
+        if ($localStatus == LocalDocumentStatus::DISCARDED) {
+            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                    $allowedActions['edit'] = 'edit';
+            } else {
+                $allowedActions['suggest'] = 'suggest';
+            }
         }
-
 
 
         $this->view->assign('allowedActions', $allowedActions);

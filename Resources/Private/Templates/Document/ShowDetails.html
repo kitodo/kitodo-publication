@@ -35,6 +35,17 @@
                     </f:link.action>
                 </f:if>
 
+                <f:if condition="{allowedActions.suggest}">
+                    <f:link.action
+                            action="showDetails"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-question-circle"></i>
+                        {f:translate(key: 'form_button.suggest')}
+                    </f:link.action>
+                </f:if>
+
                 <f:if condition="{allowedActions.edit}">
                     <f:link.action
                             action="{allowedActions.edit}"

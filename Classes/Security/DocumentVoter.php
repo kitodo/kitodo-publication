@@ -228,11 +228,28 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
+        /* @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $subject;
+
+        if ($document->getOwner() === $this->security->getUser()->getUid()) {
+            return TRUE;
+        }
+
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+
+            if ($document->getLocalStatus() === LocalDocumentStatus::NEW) {
+                return FALSE;
+            }
+
             return TRUE;
         }
 
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+
+            if ($document->getLocalStatus() === LocalDocumentStatus::NEW) {
+                return FALSE;
+            }
+
             return TRUE;
         }
 
