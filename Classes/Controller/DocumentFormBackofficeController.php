@@ -129,7 +129,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
             $updateDocument = $documentMapper->getDocument($documentForm);
 
-            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
+                $updateDocument->getLocalStatus() !== LocalDocumentStatus::NEW) {
                 $updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
             }
 
