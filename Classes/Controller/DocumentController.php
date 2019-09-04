@@ -500,6 +500,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         if ($localStatus == LocalDocumentStatus::REGISTERED) {
             $allowedActions['edit'] = 'edit';
+            $allowedActions['discard'] = 'discard';
         }
 
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {

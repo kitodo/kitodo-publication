@@ -184,8 +184,17 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
+        /* @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $subject;
+
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return TRUE;
+        }
+
+        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+            if ($document->getOwner() === $this->security->getUser()->getUid()) {
+                return $document->getLocalStatus() === LocalDocumentStatus::REGISTERED;
+            }
         }
 
         return FALSE;
@@ -302,10 +311,7 @@ class DocumentVoter extends Voter
         $document = $subject;
 
         if (
-            (
-                $document->getLocalStatus() === LocalDocumentStatus::NEW ||
-                $document->getLocalStatus() === LocalDocumentStatus::REGISTERED
-            ) &&
+            $document->getLocalStatus() === LocalDocumentStatus::NEW &&
             $document->getOwner() === $this->security->getUser()->getUid()
         ) {
             return TRUE;
