@@ -519,6 +519,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             }
         }
 
+        if ($localStatus == LocalDocumentStatus::IN_PROGRESS ||
+            $localStatus == LocalDocumentStatus::POSTPONED) {
+
+            if ($this->security->getUser()->getUid() !== $document->getOwner()) {
+                $allowedActions['suggest'] = 'suggest';
+            }
+        }
 
         $this->view->assign('allowedActions', $allowedActions);
         $this->view->assign('document', $document);
