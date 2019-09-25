@@ -15,6 +15,7 @@ namespace EWW\Dpf\Services;
  */
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 
@@ -23,6 +24,21 @@ use EWW\Dpf\Services\Transformer\DocumentTransformer;
  */
 class MetsExporter
 {
+    /**
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @inject
+     */
+    protected $clientConfigurationManager;
+
+    /**
+     * documentTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     */
+    protected $documentTypeRepository = null;
+
     /**
      * formData
      *
@@ -79,6 +95,11 @@ class MetsExporter
      */
     public function __construct()
     {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
+        $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
+
         $this->xmlHeader = '<kitodopublication></kitodopublication>';
 
         $this->xmlData =  new \DOMDocument();
@@ -102,19 +123,55 @@ class MetsExporter
         return $xml;
     }
 
+    public function transformInputXML($xml) {
+        $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
+
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($xml);
+
+        $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
+
+        $domXPath->registerNamespace('mods', "http://www.loc.gov/mods/v3");
+        $domXPath->registerNamespace('slub', "http://slub-dresden.de/");
+        $domXPath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
+        $domXPath->registerNamespace('person', "http://www.w3.org/ns/person#");
+        $domXPath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+
+        $documentTypeName = $domXPath->query('//' . $docTypeInput)->item(0)->nodeValue;
+
+        $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
+
+        $transformationFile = $documentType->getTransformationFileInput()->current();
+        if ($transformationFile != NULL) {
+            $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
+            $documentTransformer = new DocumentTransformer();
+
+            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $xml);
+        } else {
+            // return generated xml if no transformation file is present
+            $transformedXml = $xml;
+        }
+
+        return $transformedXml;
+    }
+
     /**
      * @param $document
      * @return string The transformed xml
      */
-    public function getTransformedXML($document)
+    public function getTransformedOutputXML($document)
     {
         $documentType = $document->getDocumentType();
-        $transformationFile = $documentType->getTransformationFile()->current();
-        $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
+        $transformationFile = $documentType->getTransformationFileOutput()->current();
+        if ($transformationFile != NULL) {
+            $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
+            $documentTransformer = new DocumentTransformer();
 
-        $documentTransformer = new DocumentTransformer();
-
-        $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $this->getXMLData());
+            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $this->getXMLData());
+        } else {
+            // return generated xml if no transformation file is present
+            $transformedXml = $this->getXMLData();
+        }
 
         return $transformedXml;
     }
@@ -124,7 +181,7 @@ class MetsExporter
      * build mods from form array
      * @param array $array structured form data array
      */
-    public function buildModsFromForm($array)
+    public function buildXmlFromForm($array)
     {
         $this->xmlData = $this->xmlData;
         // Build xml mods from form fields
@@ -358,58 +415,84 @@ class MetsExporter
         return $this->xmlData->saveXML();
     }
 
-
-    public function setMods($value = '')
-    {
+    public function setXML($value = '') {
         $domDocument = new \DOMDocument();
         if (is_null(@$domDocument->loadXML($value))) {
             throw new \Exception("Couldn't load MODS data");
         }
-        $this->modsData = $domDocument;
+        $this->xmlData = $domDocument;
     }
 
+    /**
+     * sets the file data and generates file xml
+     * @param string $value
+     */
     public function setFileData($value = '')
     {
         $this->files = $value;
+        $this->generateFileXML();
     }
 
-    public function loopFiles($array, $domElement, $domDocument)
-    {
-        $i = 0;
-        // set xml for uploded files
-        foreach ($array as $key => $value) {
-            $file = $domDocument->createElement('mets:file');
-            $file->setAttribute('ID', $value['id']);
-            if ($value['use'] == 'DELETE') {
-                $file->setAttribute('USE', $value['use']);
-                $domElement->appendChild($file);
-            } else {
-                $file->setAttribute('MIMETYPE', $value['type']);
+    /**
+     * generates the internal xml format for files
+     */
+    public function generateFileXML() {
 
-                if ($value['use']) {
-                    $file->setAttribute('USE', $value['use']);
-                }
+        $fileXpathConfiguration = $this->clientConfigurationManager->getFileXpath();
 
-                if ($value['title']) {
-                    $file->setAttribute('mext:LABEL', $value['title']);
-                }
+        foreach ($this->files as $key => $fileGrp) {
+            foreach ($fileGrp as $file) {
 
-                $domElement->appendChild($file);
-                $domElementFLocat = $domElement->childNodes->item($i);
-
-                if ($value['hasFLocat']) {
-                    $fLocat = $domDocument->createElement('mets:FLocat');
-                    $fLocat->setAttribute('LOCTYPE', 'URL');
-                    $fLocat->setAttribute('xlink:href', $value['path']);
-                    $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
-                    $domElementFLocat->appendChild($fLocat);
-                }
+                $this->customXPath($fileXpathConfiguration . '/href', true, $file["path"]);
+                $this->customXPath($fileXpathConfiguration . '%mimetype', false, $file["type"]);
+                $this->customXPath($fileXpathConfiguration . '%title', false, $file["title"]);
+                $this->customXPath($fileXpathConfiguration . '%download', false, $file["download"]);
+                $this->customXPath($fileXpathConfiguration . '%archive', false, $file["archive"]);
+                $this->customXPath($fileXpathConfiguration . '%use', false, $file["use"]);
+                $this->customXPath($fileXpathConfiguration . '%id', false, $file["id"]);
+                $this->customXPath($fileXpathConfiguration . '%hasFLocat', false, $file["hasFLocat"]);
 
             }
-
-            $i++;
         }
     }
+
+//    public function loopFiles($array, $domElement, $domDocument)
+//    {
+//        $i = 0;
+//        // set xml for uploded files
+//        foreach ($array as $key => $value) {
+//            $file = $domDocument->createElement('mets:file');
+//            $file->setAttribute('ID', $value['id']);
+//            if ($value['use'] == 'DELETE') {
+//                $file->setAttribute('USE', $value['use']);
+//                $domElement->appendChild($file);
+//            } else {
+//                $file->setAttribute('MIMETYPE', $value['type']);
+//
+//                if ($value['use']) {
+//                    $file->setAttribute('USE', $value['use']);
+//                }
+//
+//                if ($value['title']) {
+//                    $file->setAttribute('mext:LABEL', $value['title']);
+//                }
+//
+//                $domElement->appendChild($file);
+//                $domElementFLocat = $domElement->childNodes->item($i);
+//
+//                if ($value['hasFLocat']) {
+//                    $fLocat = $domDocument->createElement('mets:FLocat');
+//                    $fLocat->setAttribute('LOCTYPE', 'URL');
+//                    $fLocat->setAttribute('xlink:href', $value['path']);
+//                    $fLocat->setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
+//                    $domElementFLocat->appendChild($fLocat);
+//                }
+//
+//            }
+//
+//            $i++;
+//        }
+//    }
 
 //    /**
 //     * Builds the xml fileSection part if files are uploaded

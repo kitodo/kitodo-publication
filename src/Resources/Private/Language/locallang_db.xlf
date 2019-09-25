@@ -128,6 +128,24 @@
 		<trans-unit id="tx_dpf_domain_model_client.upload_domain">
 			<source>Domain</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.date_xpath" approved="yes">
+            <source>Date xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.urn_xpath" approved="yes">
+            <source>Urn xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.state_xpath" approved="yes">
+            <source>State xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_xpath" approved="yes">
+            <source>File xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath" approved="yes">
+            <source>Type xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
+            <source>Type xpath input</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 		</trans-unit>
@@ -251,6 +269,12 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.virtual">
 			<source>Virtual</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">
+            <source>Transformation file input</source>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_output" approved="yes">
+            <source>Transformation file output</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation">
 			<source>--- Please choose ---</source>
 		</trans-unit>

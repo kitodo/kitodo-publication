@@ -53,7 +53,13 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
      * @cascade remove
      */
-    protected $transformationFile = null;
+    protected $transformationFileOutput = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $transformationFileInput = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
@@ -238,21 +244,36 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile> $transformationFile
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
      */
-    public function getTransformationFile()
+    public function getTransformationFileOutput(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
-        return $this->transformationFile;
+        return $this->transformationFileOutput;
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile> $transformationFile
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileOutput
      */
-    public function setTransformationFile(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFile)
+    public function setTransformationFileOutput(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileOutput)
     {
-        $this->transformationFile = $transformationFile;
+        $this->transformationFileOutput = $transformationFileOutput;
     }
 
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getTransformationFileInput(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->transformationFileInput;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileInput
+     */
+    public function setTransformationFileInput(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileInput)
+    {
+        $this->transformationFileInput = $transformationFileInput;
+    }
 
 
     /**

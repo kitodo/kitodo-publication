@@ -173,6 +173,30 @@
 			<source>Domain</source>
 			<target>Domain</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.urn_xpath" approved="yes">
+            <source>Urn xpath</source>
+            <target>Datei Speicherort XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.date_xpath" approved="yes">
+            <source>Date xpath</source>
+            <target>Datei Speicherort XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.state_xpath" approved="yes">
+            <source>State xpath</source>
+            <target>Dokumentszustand Speicherort per XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_xpath" approved="yes">
+            <source>File xpath</source>
+            <target>Datei Speicherort XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath" approved="yes">
+            <source>Type xpath</source>
+            <target>Documenttype Speicherort XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
+            <source>Type xpath input</source>
+            <target>Documenttype Speicherort XPath vor Umwandlung in Internformat</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 			<target>--- Bitte wählen ---</target>
@@ -341,9 +365,13 @@
 			<source>Virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.transformation_file" approved="yes">
-            <source>Transformation file</source>
-            <target>Transformations Datei</target>
+        <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">
+            <source>Transformation file input</source>
+            <target>Transformations Datei Import</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_output" approved="yes">
+            <source>Transformation file output</source>
+            <target>Transformations Datei Export</target>
         </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>

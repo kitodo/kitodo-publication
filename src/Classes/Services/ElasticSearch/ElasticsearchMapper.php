@@ -60,11 +60,11 @@ class ElasticsearchMapper
         // slub:info
         $exporter->setSlubInfo($document->getSlubInfoData());
 
-        $exporter->setMods($document->getXmlData());
+        $exporter->setXML($document->getXmlData());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $transformedXml = $exporter->getTransformedXML($document);
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
         $xml = new \DOMDocument;
         $xml->loadXML($transformedXml);

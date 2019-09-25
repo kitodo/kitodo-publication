@@ -95,19 +95,17 @@ class DocumentTransferManager
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
-        $fileData = $document->getFileData();
+        $exporter->setFileData($document->getFileData());
 
-        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
-        $exporter->setFileData($fileData);
-
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+//        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
 
         // Set current date as publication date
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
-        $mods->setDateIssued($dateIssued);
+        $internalFormat->setDateIssued($dateIssued);
 
-        $exporter->setMods($mods->getModsXml());
+        $exporter->setXML($internalFormat->getXml());
 
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
@@ -117,7 +115,7 @@ class DocumentTransferManager
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $transformedXml = $exporter->getTransformedXML($document);
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
         $remoteDocumentId = $this->remoteRepository->ingest($document, $transformedXml);
 
@@ -176,9 +174,10 @@ class DocumentTransferManager
 
         $exporter->setFileData($fileData);
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+//        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
-        $exporter->setMods($mods->getModsXml());
+        $exporter->setXML($internalFormat->getXml());
 
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
@@ -188,7 +187,7 @@ class DocumentTransferManager
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $transformedXml = $exporter->getTransformedXML($document);
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
         if ($this->remoteRepository->update($document, $transformedXml)) {
             $document->setTransferStatus(Document::TRANSFER_SENT);
@@ -212,24 +211,32 @@ class DocumentTransferManager
      */
     public function retrieve($remoteId)
     {
-        $metsXml = $this->remoteRepository->retrieve($remoteId);
 
-        if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            $mods = $mets->getMods();
-            $slub = $mets->getSlub();
+        $remoteXml = $this->remoteRepository->retrieve($remoteId);
 
-            $title   = $mods->getTitle();
-            $authors = $mods->getAuthors();
+        if ($this->documentRepository->findOneByObjectIdentifier($remoteId)) {
+            throw new \Exception("Document already exist: $remoteId");
+        };
 
-            $documentTypeName = $slub->getDocumentType();
+        if ($remoteXml) {
+
+            $exporter = new \EWW\Dpf\Services\MetsExporter();
+            $inputTransformedXML = $exporter->transformInputXML($remoteXml);
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
+
+            $title = $internalFormat->getTitle();
+            $authors = '';
+
+
+            $documentTypeName = $internalFormat->getDocumentType();
             $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
 
             if (empty($title) || empty($documentType)) {
                 return false;
             }
 
-            $state = $mets->getState();
+            $state = $internalFormat->getState();
 
             /* @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->objectManager->get(Document::class);
@@ -255,8 +262,8 @@ class DocumentTransferManager
             $document->setAuthors($authors);
             $document->setDocumentType($documentType);
 
-            $document->setXmlData($mods->getModsXml());
-            $document->setSlubInfoData($slub->getSlubXml());
+            $document->setXmlData($inputTransformedXML);
+            $document->setSlubInfoData($inputTransformedXML);
 
             $document->setDateIssued($mods->getDateIssued());
 

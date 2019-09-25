@@ -186,4 +186,34 @@ class ClientConfigurationManager
         return $this->getSetting("suggestionFlashmessage", "suggestionFlashmessage");
     }
 
+    public function getFileXpath()
+    {
+        return $this->getSetting("fileXpath","fileXpath");
+    }
+
+    public function getStateXpath()
+    {
+        return $this->getSetting("stateXpath","stateXpath");
+    }
+
+    public function getTypeXpath()
+    {
+        return $this->getSetting("typeXpath","typeXpath");
+    }
+
+    public function getTypeXpathInput()
+    {
+        return $this->getSetting("typeXpathInput","typeXpathInput");
+    }
+
+    public function getUrnXpath()
+    {
+        return $this->getSetting("urnXpath","urnXpath");
+    }
+
+    public function getDateXpath()
+    {
+        return $this->getSetting("dateXpath","dateXpath");
+    }
+
 }

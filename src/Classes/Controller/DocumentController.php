@@ -650,58 +650,274 @@ class DocumentController extends AbstractController
      */
     public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::DUPLICATE, $document)) {
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.accessDenied';
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+        try {
+            /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+            $newDocument = $this->objectManager->get(Document::class);
+
+            $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+            $newDocument->setRemoteStatus(NULL);
+
+            $newDocument->setTitle($document->getTitle());
+            $newDocument->setAuthors($document->getAuthors());
+            
+            $newDocument->setOwner($this->security->getUser()->getUid());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat->clearAllUrn();
+            $newDocument->setXmlData($internalFormat->getXml());
+
+            $newDocument->setDocumentType($document->getDocumentType());
+
+            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+            $processNumber = $processNumberGenerator->getProcessNumber();
+            $newDocument->setProcessNumber($processNumber);
+
+//            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+//            $slub->setProcessNumber($processNumber);
+//            $newDocument->setSlubInfoData($slub->getSlubXml());
+
+            // send document to index
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+
+            $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+            $json = $elasticsearchMapper->getElasticsearchJson($newDocument);
+
+            $elasticsearchRepository->add($newDocument, $json);
+
+            $this->documentRepository->add($newDocument);
+
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+        } catch (\Exception $exception) {
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.failure';
+            }
         }
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
-        $newDocument = $this->objectManager->get(Document::class);
+        $this->flashMessage($document, $key, $severity);
 
-        $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
-
-        $copyTitle = LocalizationUtility::translate("manager.workspace.title.copy", "dpf").$document->getTitle();
-
-        $newDocument->setTitle($copyTitle);
-
-        $newDocument->setAuthors($document->getAuthors());
-
-        $newDocument->setCreator($this->security->getUser()->getUid());
-
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $mods->clearAllUrn();
-        $mods->setDateIssued('');
-        $mods->setTitle($copyTitle);
-
-        $newDocument->setXmlData($mods->getModsXml());
-
-        $newDocument->setDocumentType($document->getDocumentType());
-
-        $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-        $processNumber = $processNumberGenerator->getProcessNumber();
-        $newDocument->setProcessNumber($processNumber);
-
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setProcessNumber($processNumber);
-        $newDocument->setSlubInfoData($slub->getSlubXml());
-
-
-        $documentMapper = $this->objectManager->get(DocumentMapper::class);
-
-        /** @var $documentForm \EWW\Dpf\Domain\Model\DocumentForm */
-        $newDocumentForm = $documentMapper->getDocumentForm($newDocument);
-
-        $this->forward(
-            'new',
-            'DocumentFormBackoffice',
-            NULL,
-            ['newDocumentForm' => $newDocumentForm, 'returnDocumentId' => $document->getUid()]
-        );
-
+        $this->redirect('list');
     }
 
+    /**
+     * action releaseConfirm
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param string $releaseType
+     * @return void
+     */
+    public function releaseConfirmAction(\EWW\Dpf\Domain\Model\Document $document, $releaseType)
+    {
+        $this->view->assign('releaseType', $releaseType);
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * action release
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function releaseAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        try {
+            // generate URN if needed
+            $qucosaId = $document->getObjectIdentifier();
+            if (empty($qucosaId)) {
+                $qucosaId = $document->getReservedObjectIdentifier();
+            }
+            if (empty($qucosaId)) {
+                $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+                $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+                $documentTransferManager->setRemoteRepository($remoteRepository);
+                $qucosaId = $documentTransferManager->getNextDocumentId();
+                $document->setReservedObjectIdentifier($qucosaId);
+            }
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            if (!$internalFormat->hasQucosaUrn()) {
+                $urnService = $this->objectManager->get(Urn::class);
+                $urn        = $urnService->getUrn($qucosaId);
+                $internalFormat->addQucosaUrn($urn);
+                $document->setXmlData($internalFormat->getXml());
+            }
+
+            $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+            $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+            $documentTransferManager->setRemoteRepository($remoteRepository);
+
+            $objectIdentifier = $document->getObjectIdentifier();
+
+            if (empty($objectIdentifier)) {
+
+                // Document is not in the fedora repository.
+
+                if ($documentTransferManager->ingest($document)) {
+                    $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.success';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                    $notifier = $this->objectManager->get(Notifier::class);
+                    $notifier->sendIngestNotification($document);
+                }
+            } else {
+
+                // Document needs to be updated.
+
+                if ($documentTransferManager->update($document)) {
+                    $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                }
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+
+        $this->redirect('list');
+    }
+
+    /**
+     * action restoreConfirm
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function restoreConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * action restore
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function restoreAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        try {
+            if ($documentTransferManager->delete($document, "inactivate")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+
+        $this->redirect('list');
+    }
+
+    /**
+     * action deleteConfirm
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function deleteConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * action delete
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function deleteAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        try {
+            if ($documentTransferManager->delete($document, "")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+
+        $this->redirect('list');
+    }
+
+    /**
+     * action activateConfirm
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function activateConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $this->view->assign('document', $document);
+    }
+
+    /**
+     * action activate
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function activateAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        try {
+            if ($documentTransferManager->delete($document, "revert")) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+
+        $this->redirect('list');
+    }
 
     /**
      * releasePublishAction
@@ -718,15 +934,14 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-
+        
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
         /** @var Notifier $notifier */
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendReleasePublishNotification($document);
     }
-
-
+    
     /**
      * releaseActivateAction
      *
@@ -742,11 +957,11 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-
+        
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
-
+        
     }
-
+    
     /**
      * action register
      *

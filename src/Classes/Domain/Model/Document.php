@@ -736,8 +736,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getQucosaUrn()
     {
-        $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
-        return $mods->getQucosaUrn();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getQucosaUrn();
     }
 
     /**

@@ -353,28 +353,33 @@ class DocumentMapper
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
-        // mods:mods
-        $modsData['documentUid'] = $documentForm->getDocumentUid();
-        $modsData['metadata']    = $formMetaData['mods'];
-        $modsData['files']       = array();
+        $exporter->setFileData($document->getFileData());
 
-        $exporter->buildModsFromForm($modsData);
-        $modsXml = $exporter->getXMLData();
-        $document->setXmlData($modsXml);
+        $documentData['documentUid'] = $documentForm->getDocumentUid();
+        $documentData['metadata']    = $formMetaData['mods'];
+        $documentData['files']       = array();
+
+        $exporter->buildXmlFromForm($documentData);
+
+        $internalXml = $exporter->getXmlData();
+        $document->setXmlData($internalXml);
+
+        $document->setSlubInfoData($exporter->getTransformedOutputXML($document));
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml);
 
         /** @var Mods $mods */
         $mods = new Mods($modsXml);
         $document->setNewlyAssignedFobIdentifiers(array_diff($mods->getFobIdentifiers(), $fobIdentifiers));
 
-        $document->setTitle($mods->getTitle());
+        $document->setTitle($internalFormat->getTitle());
+        $document->setEmbargoDate($formMetaData['embargo']);
         $document->setAuthors($mods->getAuthors());
         $document->setDateIssued($mods->getDateIssued());
-        $document->setEmbargoDate($formMetaData['embargo']);
 
         // slub:info
-        $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
-        $slubInfoData['metadata']    = $formMetaData['slubInfo'];
-        $slubInfoData['files']       = array();
+//        $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
+//        $slubInfoData['metadata']    = $formMetaData['slubInfo'];
+//        $slubInfoData['files']       = array();
 //        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
 //        $slubInfoXml = $exporter->getSlubInfoData();
 

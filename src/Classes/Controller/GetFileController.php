@@ -301,7 +301,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $exporter = new \EWW\Dpf\Services\MetsExporter();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
-        $exporter->setMods($document->getXmlData());
+        $exporter->setXML($document->getXmlData());
         $exporter->setSlubInfo($document->getSlubInfoData());
 
         if (empty($document->getObjectIdentifier())) {
@@ -314,7 +314,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         }
 
-        $transformedXml = $exporter->getTransformedXML($document);
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
         return $transformedXml;
     }
