@@ -302,7 +302,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
         $exporter->setXML($document->getXmlData());
-        $exporter->setSlubInfo($document->getSlubInfoData());
+//        $exporter->setSlubInfo($document->getSlubInfoData());
 
         if (empty($document->getObjectIdentifier())) {
 

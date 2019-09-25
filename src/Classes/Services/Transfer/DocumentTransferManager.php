@@ -106,12 +106,12 @@ class DocumentTransferManager
         $internalFormat->setDateIssued($dateIssued);
 
         $exporter->setXML($internalFormat->getXml());
-
         // Set the document creator
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getCreator());
-        $slub->setDocumentCreationDate($document->getCreationDate());
-        $exporter->setSlubInfo($slub->getSlubXml());
+//        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+//        $slub->setDocumentCreator($document->getCreator());
+//        $slub->setDocumentCreationDate($document->getCreationDate());
+//        $exporter->setSlubInfo($document->getSlubInfoData());
+//        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
@@ -179,11 +179,12 @@ class DocumentTransferManager
 
         $exporter->setXML($internalFormat->getXml());
 
-        // Set the document creator
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getCreator());
-        $slub->setDocumentCreationDate($document->getCreationDate());
-        $exporter->setSlubInfo($slub->getSlubXml());
+          // Set the document creator
+//        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+//        $slub->setDocumentCreator($document->getCreator());
+//        $slub->setDocumentCreationDate($document->getCreationDate());
+//        $exporter->setSlubInfo($document->getSlubInfoData());
+//        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 

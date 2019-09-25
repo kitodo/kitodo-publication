@@ -58,7 +58,7 @@ class ElasticsearchMapper
         $exporter->setFileData($fileData);
 
         // slub:info
-        $exporter->setSlubInfo($document->getSlubInfoData());
+//        $exporter->setSlubInfo($document->getSlubInfoData());
 
         $exporter->setXML($document->getXmlData());
 
