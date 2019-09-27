@@ -36,9 +36,9 @@ namespace EWW\Dpf\Controller;
  *
  * 4. DataCite from Kitodo.Publication (this extension)
  *
- * @author    Alexander Bigga <alexander.bigga@slub-dresden.de>
- * @author    Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
- * @author    Florian Rügamer <florian.ruegamer@slub-dresden.de>
+ * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
+ * @author Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
+ * @author Florian Rügamer <florian.ruegamer@slub-dresden.de>
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -144,13 +144,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                 $qid = $piVars['qid'];
                 $source = explode(':', $qid);
-                if($source[0] == 'qucosa') {
+                if ($source[0] == 'qucosa') {
 
-                    $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                    $path = rtrim('http://' . $fedoraHost, "/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
 
-                } elseif($document = $this->documentRepository->findByUid($piVars['qid'])) {
+                } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
 
                     $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
@@ -173,8 +173,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
             case 'zip':
                 // FIXME Service locations on Fedora host are hard coded
-                $metsUrl = rtrim('http://' . $fedoraHost,"/") . '/mets?pid=' . $piVars['qid'];
-                $path = rtrim('http://' . $fedoraHost,"/") . '/zip?xmdpfilter=true&metsurl=' . rawurlencode($metsUrl);
+                $metsUrl = rtrim('http://' . $fedoraHost, "/") . '/mets?pid=' . $piVars['qid'];
+                $path = rtrim('http://' . $fedoraHost, "/") . '/zip?xmdpfilter=true&metsurl=' . rawurlencode($metsUrl);
                 break;
 
             default:
