@@ -100,7 +100,7 @@ class MetsExporter
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
-        $this->xmlHeader = '<kitodopublication></kitodopublication>';
+        $this->xmlHeader = '<data></data>';
 
         $this->xmlData =  new \DOMDocument();
         $this->xmlData->loadXML($this->xmlHeader);
@@ -274,7 +274,7 @@ class MetsExporter
 
             $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
-            if (!$newGroupFlag && $modsDataXPath->query('/kitodopublication/' . $newPath[0])->length > 0) {
+            if (!$newGroupFlag && $modsDataXPath->query('/data/' . $newPath[0])->length > 0) {
                 // first xpath path exist
 
                 // build xml from second xpath part
@@ -318,7 +318,7 @@ class MetsExporter
                     $node->appendChild($importNode);
                 }
 
-                $domNode = $domXPath->query('/kitodopublication/' . $path);
+                $domNode = $domXPath->query('/data/' . $path);
                 $node = $docXML->documentElement;
 
                 $nodeAppendModsData = $this->xmlData->importNode($node, true);
@@ -400,7 +400,7 @@ class MetsExporter
             $docXML->loadXML($xml);
 
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
-            $domNode  = $domXPath->query('/kitodopublication');
+            $domNode  = $domXPath->query('/data');
 
             $domNodeList = $docXML->getElementsByTagName("mods");
 

@@ -289,7 +289,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
         if ($this->isSlubInfo($this->getMapping())) {
             return "/slub:info/" . $this->getRelativeMapping();
         } else {
-            return "/kitodopublication/" . $this->getRelativeMapping();
+            return "/data/" . $this->getRelativeMapping();
         }
     }
 
@@ -303,7 +303,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
         if ($this->isSlubInfo($this->getMappingForReading())) {
             return "/slub:info/" . $this->getRelativeMappingForReading();
         } else {
-            return "/kitodopublication/" . $this->getRelativeMappingForReading();
+            return "/data/" . $this->getRelativeMappingForReading();
         }
     }
 
@@ -363,7 +363,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteModsExtensionMapping()
     {
-        return "/kitodopublication/" . $this->getRelativeModsExtensionMapping();
+        return "/data/" . $this->getRelativeModsExtensionMapping();
     }
 
     /**

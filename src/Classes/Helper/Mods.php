@@ -79,10 +79,10 @@ class Mods
 
     public function getTitle()
     {
-        $titleNode = $this->getModsXpath()->query('/kitodopublication/titleInfo/title');
+        $titleNode = $this->getModsXpath()->query('/data/titleInfo/title');
 
         if ($titleNode->length == 0) {
-            $titleNode = $this->getModsXpath()->query("/kitodopublication/titleInfo/title");
+            $titleNode = $this->getModsXpath()->query("/data/titleInfo/title");
         }
         return $titleNode->item(0)->nodeValue;
     }
