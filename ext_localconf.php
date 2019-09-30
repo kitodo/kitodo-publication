@@ -78,9 +78,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, showDetails, delete, discard, deleteLocally, register, release, duplicate, '
-            . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles',
+        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, register, release, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles, '
+            . 'causeChange, suggestRestore',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
@@ -88,9 +89,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, showDetails, delete, discard, deleteLocally, release, register, duplicate, '
-            . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles',
+        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, release, register, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles, '
+            . 'causeChange, suggestRestore',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',

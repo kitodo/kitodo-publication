@@ -14,9 +14,6 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
-
 class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
@@ -28,6 +25,8 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     public function render($status, $remote = FALSE)
     {
+        return $status;
+
         if ($remote) {
             $key = 'manager.document.remoteStatus.'.strtolower($status);
         } else {

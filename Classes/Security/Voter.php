@@ -1,12 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hauke
- * Date: 28.08.19
- * Time: 12:49
- */
-
 namespace EWW\Dpf\Security;
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -36,7 +42,7 @@ abstract class Voter
      * @param mixed $subject
      * @return mixed
      */
-    abstract public function supports($attribute, $subject);
+    abstract public static function supports($attribute, $subject);
 
 
     /**
@@ -58,8 +64,8 @@ abstract class Voter
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $voters[] = $objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
-        $voters[] = $objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
-        $voters[] = $objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
+        //$voters[] = $objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
+        //$voters[] = $objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
 
         return $voters;
     }

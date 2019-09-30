@@ -14,124 +14,77 @@ namespace EWW\Dpf\Security;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 
 class AuthorizationChecker
 {
     /**
      * objectManager
      *
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      * @inject
      */
-    protected $objectManager = null;
-
+    protected $objectManager;
 
     /**
-     * $documentVoter
+     * security
      *
-     * @var \EWW\Dpf\Security\DocumentVoter
+     * @var \EWW\Dpf\Security\Security
      * @inject
      */
-    protected $documentVoter = null;
+    protected $security = null;
 
 
     const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
     const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
 
+    public function denyAccessUnlessLoggedIn()
+    {
+        $security = $this->objectManager->get(\EWW\Dpf\Security\Security::class);
+
+        if (
+            $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
+            $this->security->getUserRole() === Security::ROLE_RESEARCHER
+        ) {
+            return;
+        } else {
+            header('Temporary-Header: True', true, 403);
+            header_remove('Temporary-Header');
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.access_denied';
+            $accessDeniedMessage = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            die($accessDeniedMessage);
+        }
+    }
 
     public function denyAccessUnlessGranted($attribute, $subject = NULL)
     {
-        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.access_denied';
-        $accessDeniedMessage = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
-
-        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
-        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
-        $voters[] = $this->objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
-
-        foreach ($voters as $voter) {
-            if ($voter->supports($attribute, $subject)) {
-                if($voter->voteOnAttribute($attribute, $subject)) {
-                    return;
-                } else {
-                    header('Temporary-Header: True', true, 403);
-                    header_remove('Temporary-Header');
-                    die($accessDeniedMessage);
-                }
-            }
+        if($this->isGranted($attribute, $subject)) {
+            return;
+        } else {
+            header('Temporary-Header: True', true, 403);
+            header_remove('Temporary-Header');
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.access_denied';
+            $accessDeniedMessage = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            die($accessDeniedMessage);
         }
-        header('Temporary-Header: True', true, 403);
-        header_remove('Temporary-Header');
-        die($accessDeniedMessage);
     }
 
 
     /**
      * @param string $attribute
-     * @param string $plugin
+     * @param object $subject
      * @return bool
      */
-    public function isGranted($attribute, $plugin = NULL) {
+    public function isGranted($attribute, $subject = NULL) {
+        $voters = Voter::getVoters();
 
-        $clientUserRoles = $this->getClientUserRoles();
-        $clientUserRoles[] = self::ROLE_ANONYMOUS;
-
-        foreach ($clientUserRoles as $role) {
-
-            $roleAuthorization = $this->getAuthorizationByRole($role);
-            if ($roleAuthorization && $roleAuthorization->checkAttributePermission($attribute)) {
-                return TRUE;
-            } else {
-                continue;
-            }
-        }
-
-        return FALSE;
-
-    }
-
-    /**
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @param string $action
-     * @return bool
-     */
-    public function hasDocumentAccessRight(\EWW\Dpf\Domain\Model\Document $document, $action) {
-
-        $clientUserRoles = $this->getClientUserRoles();
-
-        if (
-            in_array(
-                self::ROLE_LIBRARIAN,
-                $clientUserRoles
-            )
-        ) {
-            switch ($document->getLocalStatus()) {
-                case LocalDocumentStatus::NEW:
-                    return $document->getOwner() === $this->getUser()->getUid();
-                    break;
-
-                default:
-                    return TRUE;
-                    break;
-            }
-        } elseif (
-            in_array(
-                self::ROLE_RESEARCHER,
-                $clientUserRoles
-            )
-        ) {
-            if ($document->getOwner() === $this->getUser()->getUid()) {
-
-            } else {
-                return FALSE;
+        foreach ($voters as $voter) {
+            if ($voter->supports($attribute, $subject)) {
+                return $voter->voteOnAttribute($attribute, $subject);
             }
         }
 
         return FALSE;
     }
-
-
-
 
 }

@@ -1,0 +1,39 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:alias map="{actionName: '{f:format.case(value: \'{action}\', mode: \'capital\')}'}">
+    <div class="modal fade" id="confirm{f:format.case(value: '{actionName}', mode: 'capital')}" tabindex="-1" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{f:translate(key: 'manager.confirm{actionName}.messageHeader')}</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="{f:translate(key: 'manager.confirm.no')}"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>{f:translate(key: 'manager.confirm{actionName}.message', arguments: {0: '%s'})}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
+                        'manager.confirm.no')}
+                    </button>
+                    <a id="confirm{actionName}Document" class="btn btn-danger" href="#">
+                        {f:translate(key: 'manager.confirm.yes')}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</f:alias>

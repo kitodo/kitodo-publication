@@ -42,6 +42,9 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      */
     protected $clientRepository = null;
 
+
+
+
     protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
         parent::initializeView($view);
@@ -146,12 +149,4 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         parent::initializeAction();
     }
-
-    protected function getAccessAttribute()
-    {
-        return strtoupper($this->request->getPluginName()
-            ."_".$this->request->getControllerName()
-            ."_".$this->request->getControllerActionName());
-    }
-
 }

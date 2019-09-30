@@ -15,9 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
-use EWW\Dpf\Security\AuthorizationChecker;
+use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -27,6 +25,8 @@ use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Backend\Exception;
 
 /**
  * DocumentController
@@ -51,17 +51,25 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     protected $persistenceManager;
 
     /**
+     * workflow
+     *
+     * @var \EWW\Dpf\Domain\Workflow\DocumentWorkflow
+     */
+    protected $workflow;
+
+
+    /**
      * action list
      *
-     * @param string $localStatusFilter
+     * @param array $stateFilters
      *
      * @return void
      */
-    public function listAction($localStatusFilter = NULL)
+    public function listAction($stateFilters = array())
     {
         $this->setSessionData('currentWorkspaceAction','list');
 
-        list($isWorkspace, $documents) = $this->getListViewData($localStatusFilter);
+        list($isWorkspace, $documents) = $this->getListViewData($stateFilters);
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -79,7 +87,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function listRegisteredAction()
     {
         $this->setSessionData('currentWorkspaceAction','listRegistered');
-        list($isWorkspace, $documents) = $this->getListViewData(LocalDocumentStatus::REGISTERED);
+        list($isWorkspace, $documents) = $this->getListViewData([DocumentWorkflow::STATE_REGISTERED_NONE]);
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -105,7 +113,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
-        list($isWorkspace, $documents) = $this->getListViewData(LocalDocumentStatus::IN_PROGRESS);
+        list($isWorkspace, $documents) = $this->getListViewData(
+            [
+                DocumentWorkflow::STATE_IN_PROGRESS_NONE,
+                DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE,
+                DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
+                DocumentWorkflow::STATE_IN_PROGRESS_DELETED,
+            ]
+        );
 
         $this->view->assign('isWorkspace', $isWorkspace);
         $this->view->assign('documents', $documents);
@@ -131,18 +146,41 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function discardAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DISCARD, $document);
+
         try {
-            // remove document from local index
-            //$elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-            // send document to index
-            //$elasticsearchRepository->delete($document, "");
-            //$this->documentRepository->remove($document);
+                // remove document from local index
+                //$elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+                // send document to index
+                //$elasticsearchRepository->delete($document, "");
+                //$this->documentRepository->remove($document);
 
-            $document->setLocalStatus(LocalDocumentStatus::DISCARDED);
-            $this->documentRepository->update($document);
+                if (
+                    in_array(
+                        $document->getState(),
+                        [
+                            DocumentWorkflow::STATE_IN_PROGRESS_DELETED,
+                            DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
+                            DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE
+                        ]
+                    )
+                ) {
+                    /* todo:
+                        ...
+                        $documentTransferManager->update($document);
+                        ...
+                    */
+                    $this->workflow->apply($document, DocumentWorkflow::TRANSITION_DISCARD);
+                    $this->documentRepository->update($document);
+                    $this->documentRepository->remove($document);
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                } else {
+                    $this->workflow->apply($document, DocumentWorkflow::TRANSITION_DISCARD);
+                    $this->documentRepository->update($document);
+                }
+
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
 
         } catch (\Exception $exception) {
 
@@ -158,6 +196,53 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->flashMessage($document, $key, $severity);
         $this->redirect('list');
     }
+
+    /**
+     * action postpone
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function postponeAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::POSTPONE, $document);
+
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository = $this->objectManager->get(FedoraRepository::class);
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        try {
+            if ($document->getState() === DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE) {
+                if ($documentTransferManager->delete($document, "inactivate")) {
+                    $this->documentRepository->update($document);
+                    $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_POSTPONE);
+                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_postpone.success';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                } else {
+                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_postpone.failure';
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+                }
+            } else {
+                $this->documentRepository->update($document);
+                $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_POSTPONE);
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_postpone.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+            }
+        } catch (\Exception $exception) {
+
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_error.unexpected';
+            }
+        }
+
+        $this->flashMessage($document, $key, $severity);
+        $this->redirect('list');
+    }
+
 
     /**
      * action deleteLocallyConfirm
@@ -177,12 +262,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        if ($document->getLocalStatus(LocalDocumentStatus::NEW)) {
-            $this->documentRepository->remove($document);
-            $this->redirect('list');
-        } else {
-            throw new \Exception("Access denied!");
-        }
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DELETE_LOCALLY, $document);
+
+        $this->documentRepository->remove($document);
+        $this->redirect('list');
     }
 
     /**
@@ -193,12 +276,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DUPLICATE, $document);
+
         try {
             /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
             $newDocument = $this->objectManager->get(Document::class);
 
-            $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
-            $newDocument->setRemoteStatus(NULL);
+            $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
 
             $newDocument->setTitle($document->getTitle());
             $newDocument->setAuthors($document->getAuthors());
@@ -247,18 +331,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->redirect('list');
     }
 
-    /**
-     * action releaseConfirm
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @param string $releaseType
-     * @return void
-     */
-    public function releaseConfirmAction(\EWW\Dpf\Domain\Model\Document $document, $releaseType)
-    {
-        $this->view->assign('releaseType', $releaseType);
-        $this->view->assign('document', $document);
-    }
 
     /**
      * action release
@@ -330,16 +402,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->redirect('list');
     }
 
-    /**
-     * action restoreConfirm
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function restoreConfirmAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        $this->view->assign('document', $document);
-    }
 
     /**
      * action restore
@@ -393,6 +455,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function deleteAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        die("deleteAction is obsolete");
 
         $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
@@ -471,7 +534,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function registerAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $document->setLocalStatus(LocalDocumentStatus::REGISTERED);
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::REGISTER, $document);
+
+        $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER);
+
         $this->documentRepository->update($document);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
@@ -489,52 +555,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function showDetailsAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-        $allowedActions = array();
-
-        $localStatus = $document->getLocalStatus();
-
-        if ($localStatus == LocalDocumentStatus::NEW) {
-            if ($this->security->getUser()->getUid() === $document->getOwner()) {
-                $allowedActions['register'] = 'register';
-                $allowedActions['deleteLocally'] = 'deleteLocally';
-                $allowedActions['edit'] = 'edit';
-            }
-        }
-
-        if ($localStatus == LocalDocumentStatus::REGISTERED) {
-            if ($this->security->getUser()->getUid() === $document->getOwner() ||
-                $this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-                    $allowedActions['edit'] = 'edit';
-                    $allowedActions['discard'] = 'discard';
-                } else {
-                    $allowedActions['suggest'] = 'suggest';
-                }
-        }
-
-        if ($localStatus == LocalDocumentStatus::DISCARDED) {
-            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-                    $allowedActions['edit'] = 'edit';
-            } else {
-                $allowedActions['suggest'] = 'suggest';
-            }
-        }
-
-        if ($localStatus == LocalDocumentStatus::IN_PROGRESS ||
-            $localStatus == LocalDocumentStatus::POSTPONED) {
-
-            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-                $allowedActions['edit'] = 'edit';
-                $allowedActions['discard'] = 'discard';
-            } else {
-                if ($this->security->getUser()->getUid() !== $document->getOwner()) {
-                    $allowedActions['suggest'] = 'suggest';
-                }
-            }
-
-
-        }
-
-        $this->view->assign('allowedActions', $allowedActions);
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::SHOW_DETAILS, $document);
         $this->view->assign('document', $document);
     }
 
@@ -607,36 +628,59 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     }
 
 
+    /**
+     * action cause change
+     *
+     * @param Document $document
+     * @return void
+     */
+    public function causeChangeAction(\EWW\Dpf\Domain\Model\Document $document) {
+
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::CAUSE_CHANGE, $document);
+
+        $this->view->assign('document', $document);
+    }
+
+
+    /**
+     * action suggest restore
+     *
+     * @param Document $document
+     * @return void
+     */
+    public function suggestRestoreAction(\EWW\Dpf\Domain\Model\Document $document) {
+
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::SUGGEST_RESTORE, $document);
+
+        $this->view->assign('document', $document);
+    }
+
+
     public function initializeAction()
     {
+        $this->authorizationChecker->denyAccessUnlessLoggedIn();
+
         parent::initializeAction();
 
-        // Check access right
-        $document = NULL;
-        if ($this->request->hasArgument('document')) {
-            $documentUid = $this->request->getArgument('document');
-            $document = $this->documentRepository->findByUid($documentUid);
-        }
-
-        $this->authorizationChecker->denyAccessUnlessGranted($this->getAccessAttribute(), $document);
+        $this->workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
     }
 
 
     /**
      * get list view data
      *
-     * @param string $localStatusFilter
+     * @param array $stateFilters
      *
      * @return array
      */
-    protected function getListViewData($localStatusFilter = NULL)
+    protected function getListViewData($stateFilters = array())
     {
         switch ($this->security->getUserRole()) {
 
             case Security::ROLE_LIBRARIAN:
                 $documents = $this->documentRepository->findAllOfALibrarian(
                     $this->security->getUser()->getUid(),
-                    $localStatusFilter
+                    $stateFilters
                 );
                 $isWorkspace = TRUE;
                 break;
@@ -644,7 +688,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             case Security::ROLE_RESEARCHER;
                 $documents = $this->documentRepository->findAllOfAResearcher(
                     $this->security->getUser()->getUid(),
-                    $localStatusFilter
+                    $stateFilters
                 );
                 break;
 

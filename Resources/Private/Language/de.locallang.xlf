@@ -85,6 +85,14 @@
 			<source>%s successfully activated.</source>
 			<target>%s erfolgreich aktiviert.</target>
 		</trans-unit>
+		<trans-unit id="document_inactivate.failure" approved="yes">
+			<source>Inactivating %s failed.</source>
+			<target>Aktivierung von %s fehlgeschlagen.</target>
+		</trans-unit>
+		<trans-unit id="document_inactivate.success" approved="yes">
+			<source>%s successfully inactivated.</source>
+			<target>%s erfolgreich inaktiviert.</target>
+		</trans-unit>
 		<trans-unit id="document_delete.failure" approved="yes">
 			<source>Deleting %s failed.</source>
 			<target>Löschen von %s fehlgeschlagen.</target>
@@ -100,6 +108,14 @@
 		<trans-unit id="document_discard.failure" approved="yes">
 			<source>Document could not be discarded.</source>
 			<target>Dokument konnte nicht verworfen werden.</target>
+		</trans-unit>
+		<trans-unit id="document_postpone.success" approved="yes">
+			<source>%s successfully postponed.</source>
+			<target>%s erfolgreich zurückgestellt.</target>
+		</trans-unit>
+		<trans-unit id="document_postpone.failure" approved="yes">
+			<source>Document could not be postponed.</source>
+			<target>Dokument konnte nicht zurückgestellt werden.</target>
 		</trans-unit>
 		<trans-unit id="document_duplicate.success" approved="yes">
 			<source>The document has been duplicated.</source>
@@ -213,9 +229,13 @@
 			<source>remove</source>
 			<target>entfernen</target>
 		</trans-unit>
-		<trans-unit id="form_button.suggest" approved="yes">
-			<source>suggest</source>
-			<target>vorschlagen</target>
+		<trans-unit id="form_button.causeChange" approved="yes">
+			<source>cause change</source>
+			<target>Änderung veranlassen</target>
+		</trans-unit>
+		<trans-unit id="form_button.suggestRestore" approved="yes">
+			<source>suggest restore</source>
+			<target>Wiederherstellung vorschlagen</target>
 		</trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
 			<source>remove</source>
@@ -281,11 +301,11 @@
 			<source>activate</source>
 			<target>aktivieren</target>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessage" approved="yes">
+		<trans-unit id="manager.confirmActivate.message" approved="yes">
 			<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
 			<target>Das Dokument &quot;%s&quot; wird im Repository als aktiv markiert.</target>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmActivate.messageHeader" approved="yes">
 			<source>Do you really want to activate the document?</source>
 			<target>Wollen Sie das Dokument wirklich aktivieren?</target>
 		</trans-unit>
@@ -313,23 +333,43 @@
 			<source>Search</source>
 			<target>Suche</target>
 		</trans-unit>
+        <trans-unit id="manager.confirm.no" approved="yes">
+            <source>cancel</source>
+            <target>abbrechen</target>
+        </trans-unit>
+        <trans-unit id="manager.confirm.yes" approved="yes">
+            <source>continue</source>
+            <target>fortsetzen</target>
+        </trans-unit>
 		<trans-unit id="manager.delete" approved="yes">
 			<source>delete</source>
 			<target>löschen</target>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessage" approved="yes" xml:space="preserve">
+		<trans-unit id="manager.confirmDelete.message" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
 			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen. </target>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmDelete.messageHeader" approved="yes">
 			<source>Do you really want to delete the document?</source>
 			<target>Möchten Sie das Dokument wirklich löschen?</target>
 		</trans-unit>
-		<trans-unit id="manager.registerConfirmMessage" approved="yes" xml:space="preserve">
+		<trans-unit id="manager.deleteLocally" approved="yes">
+			<source>delete</source>
+			<target>löschen</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted locally, all local changes are rejected.</source>
+			<target>Das Dokument &quot;%s&quot; wird lokal gelöscht und alle Änderungen werden verworfen. </target>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
+			<source>Do you really want to delete the document locally?</source>
+			<target>Möchten Sie das lokale Dokument wirklich löschen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be registered for publication.</source>
 			<target>Das Dokument &quot;%s&quot; wird zur Veröffentlichung angemeldet. </target>
 		</trans-unit>
-		<trans-unit id="manager.registerConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 			<source>Do you really want to register the document?</source>
 			<target>Möchten Sie das Dokument wirklich melden?</target>
 		</trans-unit>
@@ -337,21 +377,25 @@
 			<source>discard</source>
 			<target>verwerfen</target>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessage" approved="yes">
+		<trans-unit id="manager.confirmDiscard.message" approved="yes">
 			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
 			<target>Das Dokument &quot;%s&quot; wird aus der lokalen Liste entfernt und daher alle Änderungen verworfen. Dokumente im Repository bleiben uverändert.</target>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmDiscard.messageHeader" approved="yes">
 			<source>Do you really want to discard the document?</source>
 			<target>Möchten Sie das Dokument wirklich verwerfen?</target>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmNo" approved="yes">
-			<source>cancel</source>
-			<target>abbrechen</target>
+		<trans-unit id="manager.postpone" approved="yes">
+			<source>postpone</source>
+			<target>zurückstellen</target>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmYes" approved="yes">
-			<source>continue</source>
-			<target>fortsetzen</target>
+		<trans-unit id="manager.confirmPostpone.message" approved="yes">
+			<source>The document processing &quot;%s&quot; will be postponed.</source>
+			<target>Die Dokument-Bearbeitung &quot;%s&quot; wird zurückgestellt.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmPostpone.messageHeader" approved="yes">
+			<source>Do you really want to postponed the document processing?</source>
+			<target>Möchten Sie die Dokument-Bearbeitung wirklich zurückstellen?</target>
 		</trans-unit>
 		<trans-unit id="manager.document.authors" approved="yes">
 			<source>Authors</source>
@@ -429,11 +473,11 @@
 			<source>inactivate</source>
 			<target>inaktiv</target>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessage" approved="yes">
+		<trans-unit id="manager.confirmInactivate.message" approved="yes">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 			<target>Das Dokument &quot;%s&quot; wird im Repository als inaktiv markiert.</target>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmInactivate.messageHeader" approved="yes">
 			<source>Do you really want to inactivate the document?</source>
 			<target>Wollen Sie das Dokument wirklich deaktivieren?</target>
 		</trans-unit>
@@ -441,35 +485,27 @@
 			<source>publish</source>
 			<target>veröffentlichen</target>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.publish" approved="yes">
+		<trans-unit id="manager.confirmReleasePublish.message" approved="yes">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 			<target>Das Dokumentt &quot;%s&quot; wird an das Repository gesendet und das lokale Dokument verworfen.</target>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.update" approved="yes">
+		<trans-unit id="manager.confirmReleaseUpdate.message" approved="yes">
 			<source>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 			<target>Alle Änderungen am Dokument &quot;%s&quot; werden an das Repository gesendet und das lokale Dokument verworfen.</target>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.publish" approved="yes">
+		<trans-unit id="manager.confirmReleasePublish.messageHeader" approved="yes">
 			<source>Do you really want to publish the document?</source>
 			<target>Wollen Sie das Dokument wirklich veröffentlichen?</target>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.update" approved="yes">
+		<trans-unit id="manager.confirmReleaseUpdate.messageHeader" approved="yes">
 			<source>Do you really want to update the document?</source>
 			<target>Wollen Sie das Dokument wirklich aktualisieren?</target>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmNo" approved="yes">
-			<source>cancel</source>
-			<target>abbrechen</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmYes" approved="yes">
-			<source>continue</source>
-			<target>fortsetzen</target>
-		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessage" approved="yes">
+		<trans-unit id="manager.confirmRestore.message" approved="yes">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 			<target>Das Dokument &quot;%s&quot; wird im Repository als inaktiv markiert.</target>
 		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.confirmRestore.messageHeader" approved="yes">
 			<source>Do you really want to restore the document?</source>
 			<target>Wollen Sie das Dokument wirklich wiederherstellen?</target>
 		</trans-unit>

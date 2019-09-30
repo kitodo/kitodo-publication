@@ -65,6 +65,12 @@
 		<trans-unit id="document_activate.success">
 			<source>%s successfully activated.</source>
 		</trans-unit>
+		<trans-unit id="document_inactivate.failure">
+			<source>Inactivating %s failed.</source>
+		</trans-unit>
+		<trans-unit id="document_inactivate.success">
+			<source>%s successfully inactivated.</source>
+		</trans-unit>
 		<trans-unit id="document_delete.failure">
 			<source>Deleting %s failed.</source>
 		</trans-unit>
@@ -76,6 +82,12 @@
 		</trans-unit>
 		<trans-unit id="document_discard.failure">
 			<source>Document could not be discarded.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.success">
+			<source>%s successfully postponed.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.failure">
+			<source>Document could not be postponed.</source>
 		</trans-unit>
 		<trans-unit id="document_duplicate.success">
 			<source>The document has been duplicated.</source>
@@ -161,8 +173,11 @@
 		<trans-unit id="form_button.deleteLocally">
 			<source>remove</source>
 		</trans-unit>
-		<trans-unit id="form_button.suggest">
-			<source>suggest</source>
+		<trans-unit id="form_button.causeChange">
+			<source>cause change</source>
+		</trans-unit>
+		<trans-unit id="form_button.suggestRestore">
+			<source>suggest restore</source>
 		</trans-unit>
 		<trans-unit id="form_button.remove_file">
 			<source>remove</source>
@@ -212,10 +227,10 @@
 		<trans-unit id="manager.activate">
 			<source>activate</source>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessage">
+		<trans-unit id="manager.confirmActivate.message">
 			<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessageHeader">
+		<trans-unit id="manager.confirmActivate.messageHeader">
 			<source>Do you really want to activate the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.client">
@@ -236,35 +251,53 @@
 		<trans-unit id="manager.control.search">
 			<source>Search</source>
 		</trans-unit>
+        <trans-unit id="manager.confirm.no">
+            <source>cancel</source>
+        </trans-unit>
+        <trans-unit id="manager.confirm.yes">
+            <source>continue</source>
+        </trans-unit>
 		<trans-unit id="manager.delete">
 			<source>delete</source>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessage">
+		<trans-unit id="manager.confirmDelete.message">
 			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessageHeader">
+		<trans-unit id="manager.confirmDelete.messageHeader">
 			<source>Do you really want to delete the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.registerConfirmMessage">
+		<trans-unit id="manager.confirmRegister.message">
 			<source>The document &quot;%s&quot; will be registered for publication.</source>
 		</trans-unit>
-		<trans-unit id="manager.registerConfirmMessageHeader" approved="yes">
+		<trans-unit id="manager.deleteLocally">
+			<source>delete</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.message">
+			<source>The document &quot;%s&quot; will be deleted locally, all local changes are rejected.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.messageHeader">
+			<source>Do you really want to delete the document locally?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 			<source>Do you really want to register the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.discard">
 			<source>discard</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessage">
+		<trans-unit id="manager.confirmDiscard.message">
 			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessageHeader">
+		<trans-unit id="manager.confirmDiscard.messageHeader">
 			<source>Do you really want to discard the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmNo">
-			<source>cancel</source>
+		<trans-unit id="manager.postpone">
+			<source>postpone</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmYes">
-			<source>continue</source>
+		<trans-unit id="manager.confirmPostpone.message">
+			<source>The document processing &quot;%s&quot; will be postponed.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmPostpone.messageHeader">
+			<source>Do you really want to postponed the document processing?</source>
 		</trans-unit>
 		<trans-unit id="manager.document.authors">
 			<source>Authors</source>
@@ -323,37 +356,31 @@
 		<trans-unit id="manager.inactivate">
 			<source>inactivate</source>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessage">
+		<trans-unit id="manager.confirmInactivate.message">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessageHeader">
+		<trans-unit id="manager.confirmInactivate.messageHeader">
 			<source>Do you really want to inactivate the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.publish">
 			<source>publish</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.publish">
+		<trans-unit id="manager.confirmReleasePublish.message">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.update">
+		<trans-unit id="manager.confirmReleaseUpdate.message">
 			<source>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.publish">
+		<trans-unit id="manager.confirmReleasePublish.messageHeader">
 			<source>Do you really want to publish the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.update">
+		<trans-unit id="manager.confirmReleaseUpdate.messageHeader">
 			<source>Do you really want to update the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmNo">
-			<source>cancel</source>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmYes">
-			<source>continue</source>
-		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessage">
+		<trans-unit id="manager.confirmRestore.message">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessageHeader">
+		<trans-unit id="manager.confirmRestore.messageHeader">
 			<source>Do you really want to restore the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.activate">

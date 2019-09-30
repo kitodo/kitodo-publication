@@ -15,8 +15,7 @@ namespace EWW\Dpf\Services\Transfer;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Domain\Model\File;
 
@@ -126,7 +125,9 @@ class DocumentTransferManager
             $document->setDateIssued($dateIssued);
             $document->setObjectIdentifier($remoteDocumentId);
             $document->setTransferStatus(Document::TRANSFER_SENT);
-            $document->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
+
+            $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
+
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
 
@@ -223,20 +224,18 @@ class DocumentTransferManager
 
             switch ($state) {
                 case "ACTIVE":
-                    $document->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
+                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
                     break;
                 case "INACTIVE":
-                    $document->setRemoteStatus(RemoteDocumentStatus::INACTIVE);
+                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
                     break;
                 case "DELETED":
-                    $document->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
                     break;
                 default:
                     throw new \Exception("Unknown object state: " . $state);
                     break;
             }
-
-            $document->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
 
             $document->setObjectIdentifier($remoteId);
             $document->setTitle($title);
@@ -300,7 +299,7 @@ class DocumentTransferManager
                 case "revert":
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
+                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
                         $this->documentRepository->update($document);
                         return true;
                     }
@@ -308,7 +307,7 @@ class DocumentTransferManager
                 case "inactivate":
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setRemoteStatus(RemoteDocumentStatus::INACTIVE);
+                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
                         $this->documentRepository->update($document);
                         return true;
                     }
@@ -320,7 +319,7 @@ class DocumentTransferManager
 
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
                         $this->documentRepository->update($document);
                         $this->documentRepository->remove($document);
                         return true;

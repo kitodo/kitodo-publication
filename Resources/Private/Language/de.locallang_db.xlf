@@ -141,6 +141,10 @@
 			<source>Remote Status</source>
 			<target>Entfernter Status</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.state" approved="yes">
+			<source>State</source>
+			<target>Status</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.transfer_status" approved="yes">
 			<source>Transfer State</source>
 			<target>Übertragungs-Status</target>

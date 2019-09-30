@@ -14,84 +14,46 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \EWW\Dpf\Domain\Model\Document;
-use \EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+
 /**
  * The repository for Documents
  */
 class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
-    /**
-
-     * /**
-     * Finds all documents filtered by owner uid and local document status.
-     * If all parameters are empty, all documents will be returned.
-     *
-     * @param int $ownerUid
-     * @param array $excludeLocalStatuses
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
-     */
-    public function findAllFiltered($ownerUid = NULL, $excludeLocalStatuses = array())
-    {
-        $query = $this->createQuery();
-        $constraintsAnd = array();
-
-        if (is_array($excludeLocalStatuses) && !empty($excludeLocalStatuses)) {
-            foreach ($excludeLocalStatuses as $excludeLocalStatus) {
-                $constraintsAnd[] = $query->logicalNot(
-                    $query->equals('localStatus', $excludeLocalStatus)
-                );
-            }
-        }
-
-        if ($ownerUid) {
-            $constraintsAnd[] = $query->equals('owner', $ownerUid);
-        }
-
-        if (!empty($constraintsAnd)) {
-            $query->matching($query->logicalAnd($constraintsAnd));
-        }
-
-        $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
-        return $query->execute();
-    }
 
     /**
      *
      * Finds all documents filtered by owner uid for user role librarian
      *
      * @param int $ownerUid
-     * @param string $localStatusFilter
+     * @param array $stateFilters
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllOfALibrarian($ownerUid, $localStatusFilter = NULL)
+    public function findAllOfALibrarian($ownerUid, $stateFilters = array())
     {
         $query = $this->createQuery();
         $constraintsOr = array();
 
         $constraintsOr[] = $query->logicalAnd(
             array(
-                $query->equals('localStatus', LocalDocumentStatus::NEW),
+                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE),
                 $query->equals('owner', $ownerUid)
             )
         );
 
         $constraintsOr[] = $query->logicalAnd(
             $query->logicalNot(
-                $query->equals('localStatus', LocalDocumentStatus::NEW)
+                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE)
             )
         );
 
-        if ($localStatusFilter) {
+        if ($stateFilters) {
             $query->matching(
                 $query->logicalAnd(
                     $query->logicalOr($constraintsOr),
-                    $query->equals('localStatus', $localStatusFilter)
+                    $query->in('state', $stateFilters)
                 )
             );
         } else {
@@ -110,23 +72,20 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
      * Finds all documents filtered by owner uid for user role researcher
      *
      * @param int $ownerUid
-     * @param string $localStatusFilter
+     * @param array $stateFilters
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllOfAResearcher($ownerUid, $localStatusFilter = NULL)
+    public function findAllOfAResearcher($ownerUid, $stateFilters = array())
     {
         $query = $this->createQuery();
 
         $constraintsAnd = array(
-            $query->equals('owner', $ownerUid),
-            $query->logicalNot(
-                $query->equals('localStatus', LocalDocumentStatus::DELETED)
-            )
+            $query->equals('owner', $ownerUid)
         );
 
-        if ($localStatusFilter) {
-            $constraintsAnd[] =   $query->equals('localStatus', $localStatusFilter);
+        if ($stateFilters) {
+            $constraintsAnd[] = $query->in('state', $stateFilters);
         }
 
         $query->matching($query->logicalAnd($constraintsAnd));

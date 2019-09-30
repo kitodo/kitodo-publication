@@ -23,9 +23,9 @@
         <h1 class="h2">Details</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
-                <f:if condition="{allowedActions.register}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_REGISTER')}">
                     <f:link.action
-                            action="{allowedActions.register}"
+                            action="register"
                             controller="Document"
                             arguments="{document:document}"
                             class="btn btn-sm btn-warning"
@@ -35,20 +35,31 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{allowedActions.suggest}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_CAUSE_CHANGE')}">
                     <f:link.action
-                            action="showDetails"
+                            action="causeChange"
                             controller="Document"
                             arguments="{document:document}"
                             class="btn btn-sm btn-primary">
                         <i class="fas fa-question-circle"></i>
-                        {f:translate(key: 'form_button.suggest')}
+                        {f:translate(key: 'form_button.causeChange')}
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{allowedActions.edit}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
                     <f:link.action
-                            action="{allowedActions.edit}"
+                            action="suggestRestore"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-question-circle"></i>
+                        {f:translate(key: 'form_button.suggestRestore')}
+                    </f:link.action>
+                </f:if>
+
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
+                    <f:link.action
+                            action="edit"
                             controller="DocumentFormBackoffice"
                             arguments="{document:document}"
                             class="btn btn-sm btn-primary">
@@ -57,9 +68,22 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{allowedActions.discard}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_UPLOAD_FILES')}">
                     <f:link.action
-                            action="{allowedActions.discard}"
+                            action="uploadFiles"
+                            arguments="{document : document}"
+                            class="btn btn-sm btn-outline-secondary"
+                            title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
+                            additionalAttributes="{data-toggle: 'tooltip' }">
+                        <i class="fas fa-file-upload"></i>
+                        {f:translate(key: 'manager.tooltip.uploadFiles')}
+                </f:link.action>
+                </f:if>
+
+
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
+                    <f:link.action
+                            action="discard"
                             controller="Document"
                             arguments="{document:document}"
                             class="btn btn-sm btn-warning"
@@ -69,9 +93,21 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{allowedActions.deleteLocally}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
                     <f:link.action
-                            action="{allowedActions.deleteLocally}"
+                            action="postpone"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-warning"
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPostpone'}">
+                        <i class="fas fa-pause-circle"></i>
+                        {f:translate(key: 'manager.postpone')}
+                    </f:link.action>
+                </f:if>
+
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
+                    <f:link.action
+                            action="deleteLocally"
                             controller="Document"
                             arguments="{document:document}"
                             class="btn btn-sm btn-danger"
@@ -92,6 +128,9 @@
             </div>
         </div>
     </div>
+
+    <f:flashMessages />
+
     <ul>
         <li>{document.title}</li>
         <li>
@@ -107,8 +146,9 @@
         <li>{document.documentType.displayName}</li>
     </ul>
 
-    <f:render partial="Document/ConfirmDiscard" />
-    <f:render partial="Document/ConfirmDeleteLocally" />
-    <f:render partial="Document/ConfirmRegister" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
 
 </f:section>

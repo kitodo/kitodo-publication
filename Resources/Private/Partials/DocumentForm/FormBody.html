@@ -12,14 +12,14 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-{namespace eww=EWW\Dpf\ViewHelpers}
+{namespace dpf=EWW\Dpf\ViewHelpers}
 
 <f:render partial="DocumentForm/Validation.html" />
 
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-            <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
+            <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
                 <f:then>
                     <li class="nav-item">
                         <a class="nav-link {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
@@ -32,14 +32,14 @@
 
 <div class="tab-content">
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-        <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
+        <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
             <f:then>
                 <div id="tab-{pageIterator.cycle}"
                      class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"
                      data-page="{formPage.0.uid}">
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
                         <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                            <f:if condition="{eww:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
                                     <f:render partial="DocumentForm/Group"
                                               arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
@@ -89,11 +89,26 @@
     </button>
 </div>
 <div class="form-submit">
-    <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}"
-                   class="btn btn-lg btn-success">
-        <i class="fas fa-check"></i>
-        {f:translate(key: 'form_button.save')}
-    </f:form.button>
+
+    <f:if condition="{edit}">
+        <f:then>
+            <f:form.button name="save" id="save"
+                           class="btn btn-lg btn-success"
+                           disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: 'disabled')}">
+                <i class="fas fa-check"></i>
+                {f:translate(key: 'form_button.save')}
+            </f:form.button>
+        </f:then>
+        <f:else>
+            <f:form.button name="save" id="save"
+                           class="btn btn-lg btn-success"
+                           disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE\')} ||
+                   {dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE_REGISTER\')}', then: '', else: 'disabled')}">
+                <i class="fas fa-check"></i>
+                {f:translate(key: 'form_button.save')}
+            </f:form.button>
+        </f:else>
+    </f:if>
 
     <f:form.button name="validate" type="button" id="validate" class="btn btn-lg btn-info">
         <i class="fas fa-chevron-right"></i>

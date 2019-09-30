@@ -75,18 +75,6 @@ class DocumentForm extends AbstractFormElement
      *
      * @var boolean
      */
-    protected $deleteDisabled;
-
-    /**
-     *
-     * @var boolean
-     */
-    protected $saveDisabled;
-
-    /**
-     *
-     * @var boolean
-     */
     protected $valid = false;
 
     /**
@@ -213,26 +201,6 @@ class DocumentForm extends AbstractFormElement
     public function setNewFiles($newFiles)
     {
         $this->newFiles = $newFiles;
-    }
-
-    public function getDeleteDisabled()
-    {
-        return $this->deleteDisabled;
-    }
-
-    public function setDeleteDisabled($deleteDisabled)
-    {
-        $this->deleteDisabled = $deleteDisabled;
-    }
-
-    public function getSaveDisabled()
-    {
-        return $this->saveDisabled;
-    }
-
-    public function setSaveDisabled($saveDisabled)
-    {
-        $this->saveDisabled = $saveDisabled;
     }
 
     public function getValid()

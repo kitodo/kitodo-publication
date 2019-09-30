@@ -16,8 +16,7 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 
 class DocumentMapper
@@ -292,13 +291,6 @@ class DocumentMapper
 
         $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();
         $documentForm->setSecondaryFiles($secondaryFiles);
-
-        $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
-
-        $documentForm->setSaveDisabled(
-            $document->getLocalStatus() == LocalDocumentStatus::DELETED
-            || $document->getRemoteStatus() == RemoteDocumentStatus::DELETED
-        );
 
         return $documentForm;
     }

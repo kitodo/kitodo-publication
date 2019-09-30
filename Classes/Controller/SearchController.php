@@ -21,6 +21,7 @@ use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Security\DocumentVoter;
 
 /**
  * SearchController
@@ -313,6 +314,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DOUBLET_CHECK, $document);
+
         try {
             $elasticSearch = $this->objectManager->get(ElasticSearch::class);
 
@@ -422,21 +425,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             $documentUid = $this->request->getArgument('document');
             $document = $this->documentRepository->findByUid($documentUid);
         }
-
-        // Check access right
-       /*
-        $document = NULL;
-        if ($this->request->hasArgument('document')) {
-            $documentUid = $this->request->getArgument('document');
-            $document = $this->documentRepository->findByUid($documentUid);
-        } elseif ($this->request->hasArgument("documentData")) {
-            $documentData = $this->request->getArgument('documentData');
-            $document = $this->documentRepository->findByUid($documentData['documentUid']);
-        } elseif ($this->request->hasArgument("documentForm")) {
-
-        }
-*/
-        $this->authorizationChecker->denyAccessUnlessGranted($this->getAccessAttribute(), $document);
     }
 
 

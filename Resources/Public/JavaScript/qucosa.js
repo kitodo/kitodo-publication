@@ -13,14 +13,15 @@
 $(document).ready(function() {
     jQuery('#new-document-form').trigger('reset');
     documentListConfirmDialog('#confirmDiscard');
-    documentListConfirmDialog('#confirmPublish');
-    documentListConfirmDialog('#confirmUpdate');
+    documentListConfirmDialog('#confirmReleasePublish');
+    documentListConfirmDialog('#confirmReleaseUpdate');
     documentListConfirmDialog('#confirmActivate');
     documentListConfirmDialog('#confirmInactivate');
     documentListConfirmDialog('#confirmRestore');
     documentListConfirmDialog('#confirmDelete');
     documentListConfirmDialog('#confirmDeleteLocally');
     documentListConfirmDialog('#confirmRegister');
+    documentListConfirmDialog('#confirmPostpone');
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
     var $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
@@ -309,9 +310,6 @@ var addGroup = function() {
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
 
-    console.log(ajaxURL);
-    console.log(params);
-
     jQuery.post(ajaxURL, params, function(group) {
         var group = jQuery(group).find("fieldset");
         // add the new group
@@ -509,18 +507,23 @@ var isDate = function(value) {
     return true;
 }
 var documentListConfirmDialog = function(dialogId) {
+
+    var title = '%s';
+
     jQuery(dialogId).modal({
         show: false,
         backdrop: 'static'
     });
     jQuery(dialogId).on('show.bs.modal', function(e) {
-        jQuery(this).find('#discardDocument').attr('href', jQuery(e.relatedTarget).attr('href'));
+        jQuery(this).find(dialogId+'Document').attr('href', jQuery(e.relatedTarget).attr('href'));
         var bodyText = jQuery(this).find('.modal-body p').html();
-        var title = jQuery(e.relatedTarget).attr('data-documenttitle');
+        title = jQuery(e.relatedTarget).attr('data-documenttitle');
         jQuery(this).find('.modal-body p').html(bodyText.replace('%s', title));
         jQuery(e.relatedTarget).parent().parent().addClass('danger marked-for-removal');
     });
     jQuery(dialogId).on('hidden.bs.modal', function(e) {
+        var bodyText = jQuery(this).find('.modal-body p').html();
+        jQuery(this).find('.modal-body p').html(bodyText.replace(title, '%s'));
         jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
     });
 }

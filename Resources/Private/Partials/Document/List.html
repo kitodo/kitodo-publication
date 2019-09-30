@@ -49,7 +49,7 @@
             </td>
             <td>{document.objectIdentifier}</td>
             <td>
-                {dpf:showStatus(status:'{document.localStatus}', remote:0)}
+                {dpf:showStatus(status:'{document.state}', remote:0)}
             </td>
             <td>
                 {document.documentType.displayName}
@@ -61,11 +61,13 @@
     </f:for>
 </table>
 
-<f:render partial="Document/ConfirmDeleteLocally" />
-<f:render partial="Document/ConfirmDiscard" />
-<f:render partial="Document/ConfirmUpdate" />
-<f:render partial="Document/ConfirmPublish" />
-<f:render partial="Document/ConfirmActivate" />
-<f:render partial="Document/ConfirmInactivate" />
-<f:render partial="Document/ConfirmRestore" />
-<f:render partial="Document/ConfirmDelete" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'releaseUpdate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'activate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'inactivate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'restore'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'delete'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />

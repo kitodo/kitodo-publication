@@ -1,55 +1,94 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hauke
- * Date: 28.08.19
- * Time: 12:49
- */
-
 namespace EWW\Dpf\Security;
 
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Security\Security;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 class DocumentVoter extends Voter
 {
-    const BACKOFFICE_DOCUMENT_LIST = "BACKOFFICE_DOCUMENT_LIST";
-    const BACKOFFICE_DOCUMENT_LISTREGISTERED = "BACKOFFICE_DOCUMENT_LISTREGISTERED";
-    const BACKOFFICE_DOCUMENT_LISTINPROGRESS = "BACKOFFICE_DOCUMENT_LISTINPROGRESS";
-    const BACKOFFICE_DOCUMENT_DISCARD = "BACKOFFICE_DOCUMENT_DISCARD";
-    const BACKOFFICE_DOCUMENT_DELETELOCALLY = "BACKOFFICE_DOCUMENT_DELETELOCALLY";
-    const BACKOFFICE_DOCUMENT_DUPLICATE = "BACKOFFICE_DOCUMENT_DUPLICATE";
-    const BACKOFFICE_DOCUMENT_RELEASE = "BACKOFFICE_DOCUMENT_RELEASE";
-    const BACKOFFICE_DOCUMENT_RESTORE = "BACKOFFICE_DOCUMENT_RESTORE";
-    const BACKOFFICE_DOCUMENT_DELETE = "BACKOFFICE_DOCUMENT_DELETE";
-    const BACKOFFICE_DOCUMENT_ACTIVATE = "BACKOFFICE_DOCUMENT_ACTIVATE";
-    const BACKOFFICE_DOCUMENT_REGISTER = "BACKOFFICE_DOCUMENT_REGISTER";
-    const BACKOFFICE_DOCUMENT_SHOWDETAILS = "BACKOFFICE_DOCUMENT_SHOWDETAILS";
-    const BACKOFFICE_DOCUMENT_CANCELLISTTASK = "BACKOFFICE_DOCUMENT_CANCELLISTTASK";
-    const BACKOFFICE_DOCUMENT_INACTIVATE = "BACKOFFICE_DOCUMENT_INACTIVATE";
-    const BACKOFFICE_DOCUMENT_UPLOADFILES = "BACKOFFICE_DOCUMENT_UPLOADFILES";
+    const CREATE = "DOCUMENT_CREATE";
+    const CREATE_REGISTER = "DOCUMENT_CREATE_REGISTER";
+    const UPDATE = "DOCUMENT_UPDATE";
+    const LIST = "DOCUMENT_LIST";
+    const LIST_REGISTERED = "DOCUMENT_LIST_REGISTERED";
+    const LIST_IN_PROGRESS = "DOCUMENT_LIST_IN_PROGRESS";
+    const DISCARD = "DOCUMENT_DISCARD";
+    const DELETE_LOCALLY = "DOCUMENT_DELETE_LOCALLY";
+    const DUPLICATE = "DOCUMENT_DUPLICATE";
+    const RELEASE = "DOCUMENT_RELEASE";
+    const RESTORE = "DOCUMENT_RESTORE";
+    const ACTIVATE = "DOCUMENT_ACTIVATE";
+    const REGISTER = "DOCUMENT_REGISTER";
+    const SHOW_DETAILS = "DOCUMENT_SHOW_DETAILS";
+    const CANCEL_LIST_TASK = "DOCUMENT_CANCEL_LIST_TASK";
+    const INACTIVATE = "DOCUMENT_INACTIVATE";
+    const UPLOAD_FILES = "DOCUMENT_UPLOAD_FILES";
+    const EDIT = "DOCUMENT_EDIT";
+    const SUGGEST = "DOCUMENT_SUGGEST";
+    const POSTPONE = "DOCUMENT_POSTPONE";
+    const DOUBLET_CHECK = "DOCUMENT_DOUBLET_CHECK";
+    const CAUSE_CHANGE = "DOCUMENT_CAUSE_CHANGE";
+    const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
+
+    /**
+     * workflow
+     *
+     * @var DocumentWorkflow
+     */
+    protected $workflow;
 
     public function __construct()
     {
-        $this->attributes = array(
-            self::BACKOFFICE_DOCUMENT_LIST,
-            self::BACKOFFICE_DOCUMENT_LISTREGISTERED,
-            self::BACKOFFICE_DOCUMENT_LISTINPROGRESS,
-            self::BACKOFFICE_DOCUMENT_DISCARD,
-            self::BACKOFFICE_DOCUMENT_DELETELOCALLY,
-            self::BACKOFFICE_DOCUMENT_DUPLICATE,
-            self::BACKOFFICE_DOCUMENT_RELEASE,
-            self::BACKOFFICE_DOCUMENT_RESTORE,
-            self::BACKOFFICE_DOCUMENT_DELETE,
-            self::BACKOFFICE_DOCUMENT_ACTIVATE,
-            self::BACKOFFICE_DOCUMENT_REGISTER,
-            self::BACKOFFICE_DOCUMENT_SHOWDETAILS,
-            self::BACKOFFICE_DOCUMENT_CANCELLISTTASK,
-            self::BACKOFFICE_DOCUMENT_INACTIVATE,
-            self::BACKOFFICE_DOCUMENT_UPLOADFILES
+       $this->workflow = DocumentWorkflow::getWorkflow();
+    }
+
+
+    /**
+     * Returns all supported attributes.
+     *
+     * @return array
+     */
+    protected static function getAttributes()
+    {
+        return array(
+            self::CREATE,
+            self::CREATE_REGISTER,
+            self::UPDATE,
+            self::LIST,
+            self::LIST_REGISTERED,
+            self::LIST_IN_PROGRESS,
+            self::DISCARD,
+            self::DELETE_LOCALLY,
+            self::DUPLICATE,
+            self::RELEASE,
+            self::RESTORE,
+            self::ACTIVATE,
+            self::REGISTER,
+            self::SHOW_DETAILS,
+            self::CANCEL_LIST_TASK,
+            self::INACTIVATE,
+            self::UPLOAD_FILES,
+            self::EDIT,
+            self::POSTPONE,
+            self::DOUBLET_CHECK,
+            self::CAUSE_CHANGE,
+            self::SUGGEST_RESTORE
         );
     }
+
 
     /**
      * Determines if the voter supports the given attribute.
@@ -58,9 +97,9 @@ class DocumentVoter extends Voter
      * @param mixed $subject
      * @return mixed
      */
-    public function supports($attribute, $subject = NULL)
+    public static function supports($attribute, $subject = NULL)
     {
-        if (!in_array($attribute, $this->attributes)) {
+        if (!in_array($attribute, self::getAttributes())) {
             return FALSE;
         }
 
@@ -80,66 +119,97 @@ class DocumentVoter extends Voter
      */
     public function voteOnAttribute($attribute, $subject = NULL)
     {
+        if (!$subject instanceof Document) {
+            return FALSE;
+        }
+
         switch ($attribute) {
-            case self::BACKOFFICE_DOCUMENT_LIST:
+
+            case self::CREATE:
+                return $this->defaultAccess($subject);
+                break;
+
+            case self::CREATE_REGISTER:
+                return $this->canCreateRegister($subject);
+                break;
+
+            case self::UPDATE:
+                return $this->canUpdate($subject);
+                break;
+
+            case self::LIST:
                 return $this->defaultAccess();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_LISTREGISTERED:
+            case self::LIST_REGISTERED:
                 return $this->defaultAccess();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_LISTINPROGRESS:
+            case self::LIST_IN_PROGRESS:
                 return $this->defaultAccess();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_DISCARD:
+            case self::DISCARD:
                 return $this->canDiscard($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_DELETELOCALLY:
+            case self::DELETE_LOCALLY:
                 return $this->canDeleteLocally($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_DUPLICATE:
-                return $this->librarianOnly($subject);
+            case self::DUPLICATE:
+                return $this->librarianOnly();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_RELEASE:
-                return $this->librarianOnly($subject);
+            case self::RELEASE:
+                return $this->librarianOnly();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_RESTORE:
-                return $this->librarianOnly($subject);
+            case self::RESTORE:
+                return $this->librarianOnly();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_DELETE:
-                return $this->canDelete($subject);
+            case self::ACTIVATE:
+                return $this->canActivationChange($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_ACTIVATE:
-                return $this->canChangeRemoteStatus($subject);
-                break;
-
-            case self::BACKOFFICE_DOCUMENT_REGISTER:
+            case self::REGISTER:
                 return $this->canRegister($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_SHOWDETAILS:
+            case self::SHOW_DETAILS:
                 return $this->canShowDetails($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_CANCELLISTTASK:
+            case self::CANCEL_LIST_TASK:
                 return $this->defaultAccess();
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_INACTIVATE:
-                return $this->canChangeRemoteStatus($subject);
+            case self::INACTIVATE:
+                return $this->canActivationChange($subject);
                 break;
 
-            case self::BACKOFFICE_DOCUMENT_UPLOADFILES:
-                return $this->canUpload($subject);
+            case self::UPLOAD_FILES:
+            case self::EDIT:
+                return $this->canUpdate($subject);
                 break;
+
+            case self::POSTPONE:
+                return $this->canPostpone($subject);
+                break;
+
+            case self::DOUBLET_CHECK:
+                return $this->librarianOnly();
+                break;
+
+            case self::CAUSE_CHANGE:
+                return $this->canCauseChange($subject);
+                break;
+
+            case self::SUGGEST_RESTORE:
+                return $this->canSuggestRestore($subject);
+                break;
+
         }
 
         throw new \Exception('An unexpected error occurred!');
@@ -162,7 +232,6 @@ class DocumentVoter extends Voter
     }
 
     /**
-     * @param $subject
      * @return bool
      */
     protected function librarianOnly()
@@ -175,162 +244,183 @@ class DocumentVoter extends Voter
     }
 
     /**
-     * @param object $subject
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
-    protected function canDiscard($subject)
+    protected function canDiscard($document)
     {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DISCARD)) {
 
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $subject;
+            return (
+                $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
+                (
+                    $document->getOwner() === $this->security->getUser()->getUid() &&
+                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                )
+            );
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-            if ($document->getOwner() === $this->security->getUser()->getUid()) {
-                return $document->getLocalStatus() === LocalDocumentStatus::REGISTERED;
-            }
         }
 
         return FALSE;
     }
 
     /**
-     *
-     * @param object $subject
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
-    protected function canDelete($subject)
+    protected function canShowDetails($document)
     {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        return FALSE;
+        return (
+            $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
+            $document->getOwner() === $this->security->getUser()->getUid()
+        );
     }
 
     /**
-     * @param object $subject
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
-    protected function canShowDetails($subject)
+    protected function canRegister($document)
     {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
-
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $subject;
-
-        if ($document->getOwner() === $this->security->getUser()->getUid()) {
-            return TRUE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-
-            if ($document->getLocalStatus() === LocalDocumentStatus::NEW) {
-                return FALSE;
-            }
-
-            return TRUE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-
-            if ($document->getLocalStatus() === LocalDocumentStatus::NEW) {
-                return FALSE;
-            }
-
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * @param object $subject
-     * @return bool
-     */
-    protected function canUpload($subject)
-    {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * @param object $subject
-     * @return bool
-     */
-    protected function canChangeRemoteStatus($subject)
-    {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * @param object $subject
-     * @return bool
-     */
-    protected function canRegister($subject)
-    {
-        if (!$subject instanceof Document) {
-            return FALSE;
-        }
-
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $subject;
-
-        if ($document->getOwner() === $this->security->getUser()->getUid()) {
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * @param $subject
-     * @return bool
-     */
-    protected function canDeleteLocally($subject)
-    {
-        if (!$subject instanceof Document) {
-            return false;
-        }
-
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $subject;
-
         if (
-            $document->getLocalStatus() === LocalDocumentStatus::NEW &&
+            $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER) &&
             $document->getOwner() === $this->security->getUser()->getUid()
         ) {
+           return TRUE;
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canActivationChange($document)
+    {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+
+            if (
+                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_ACTIVATE) ||
+                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_INACTIVATE)
+            ) {
+                return TRUE;
+            }
+
+        }
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canDeleteLocally($document)
+    {
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY)) {
+            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        }
+
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_LOCALLY)) {
+            return $document->getOwner() === $this->security->getUser()->getUid();
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canUpdate($document)
+    {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            return (
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
+                $document->getOwner() === $this->security->getUser()->getUid()
+            );
+        }
+
+        if ($document->getOwner() === $this->security->getUser()->getUid()) {
+            return (
+                $document->getState() === DocumentWorkflow::STATE_NEW_NONE ||
+                $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+            );
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canCauseChange($document)
+    {
+        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+            return (
+                (
+                    $document->getOwner() !== $this->security->getUser()->getUid() &&
+                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                ) ||
+                (
+                    $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
+                    $document->getState() !== DocumentWorkflow::STATE_REGISTERED_NONE
+                )
+            );
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canSuggestRestore($document)
+    {
+        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+            return (
+                (
+                    $document->getState() === DocumentWorkflow::STATE_DISCARDED_NONE ||
+                    $document->getState() === DocumentWorkflow::STATE_NONE_DELETED
+                )
+            );
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canPostpone($document)
+    {
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_POSTPONE)) {
+            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        }
+
+        return FALSE;
+    }
+
+
+    /**
+     * @return bool
+     */
+    protected function canCreateRegister($document)
+    {
+        if ($this->security->getUserRole()) {
+            return FALSE;
+        }
+
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER)) {
             return TRUE;
         }
 

@@ -15,13 +15,12 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Helper\FormDataReader;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 /**
  * DocumentFormController
@@ -204,14 +203,14 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
 
+        $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 
-        $ownerUid = $this->security->getUser()->getUid();
-
-        if ($ownerUid) {
+        if ($this->request->getPluginName() === "Backoffice") {
+            $ownerUid = $this->security->getUser()->getUid();
             $newDocument->setOwner($ownerUid);
-            $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE);
         } else {
-            $newDocument->setLocalStatus(LocalDocumentStatus::REGISTERED);
+            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER);
         }
 
         // xml data fields are limited to 64 KB
@@ -341,7 +340,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
 
         /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
         $updateDocument = $documentMapper->getDocument($documentForm);
-        //$updateDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
 
         // xml data fields are limited to 64 KB
         if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->getSlubInfoData() >= 64 * 1024)) {

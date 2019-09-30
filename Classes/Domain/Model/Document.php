@@ -14,9 +14,7 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
-
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 /**
  * Document
@@ -78,14 +76,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $localStatus = NULL;
+    protected $localStatus = null;
 
     /**
      * remoteStatus
      *
      * @var string
      */
-    protected $remoteStatus = NULL;
+    protected $remoteStatus = null;
 
     /**
      * transferStatus
@@ -97,7 +95,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      *  transferDate
      *
-     *  @var integer
+     * @var integer
      */
     protected $transferDate;
 
@@ -134,6 +132,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $owner = 0;
 
+    /**
+     * state
+     *
+     * @var string
+     */
+    protected $state = DocumentWorkflow::STATE_NONE_NONE;
 
     /**
      * file
@@ -143,9 +147,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $file = null;
 
-    const TRANSFER_ERROR  = "ERROR";
+    const TRANSFER_ERROR = "ERROR";
     const TRANSFER_QUEUED = "QUEUED";
-    const TRANSFER_SENT   = "SENT";
+    const TRANSFER_SENT = "SENT";
 
     /**
      * __construct
@@ -206,7 +210,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setAuthors($authors)
     {
-        $authors       = implode("; ", $authors);
+        $authors = implode("; ", $authors);
         $this->authors = $authors;
     }
 
@@ -520,15 +524,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if (!$file->isFileGroupDeleted()) {
 
                     $tmpFile = array(
-                        'path'      => $file->getLink(),
-                        'type'      => $file->getContentType(),
-                        'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                        'download'  => $file->getDownload(),
-                        'archive'   => $file->getArchive(),
-                        'use'       => '',
-                        'id'        => null,
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                        'download' => $file->getDownload(),
+                        'archive' => $file->getArchive(),
+                        'use' => '',
+                        'id' => null,
                         'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
+                            $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                     );
 
                     $grpUSE = ($file->getDownload()) ? 'download' : 'original';
@@ -569,15 +573,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             foreach ($this->getFile() as $file) {
 
                 $tmpFile = array(
-                    'path'      => $file->getLink(),
-                    'type'      => $file->getContentType(),
-                    'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                    'download'  => $file->getDownload(),
-                    'archive'   => $file->getArchive(),
-                    'use'       => '',
-                    'id'        => null,
+                    'path' => $file->getLink(),
+                    'type' => $file->getContentType(),
+                    'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                    'download' => $file->getDownload(),
+                    'archive' => $file->getArchive(),
+                    'use' => '',
+                    'id' => null,
                     'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                    $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
+                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                 );
 
                 $grpUSE = ($file->getDownload()) ? 'download' : 'original';
@@ -585,13 +589,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
                     $dataStreamIdentifier = $file->getDatastreamIdentifier();
                     if (!empty($dataStreamIdentifier)) {
-                        $tmpFile['id']                   = $file->getDatastreamIdentifier();
-                        $tmpFile['use']                  = 'DELETE';
+                        $tmpFile['id'] = $file->getDatastreamIdentifier();
+                        $tmpFile['use'] = 'DELETE';
                         $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
                 } else {
-                    $tmpFile['id']                   = $fileId->getId($file);
-                    $tmpFile['use']                  = ($file->getArchive()) ? 'ARCHIVE' : '';
+                    $tmpFile['id'] = $fileId->getId($file);
+                    $tmpFile['use'] = ($file->getArchive()) ? 'ARCHIVE' : '';
                     $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
 
@@ -670,30 +674,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return boolean
      */
-    public function isDeleteAllowed()
-    {
-        return $this->getRemoteStatus() != RemoteDocumentStatus::DELETED && !empty($this->objectIdentifier);
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
     public function isActive()
     {
-        return $this->getRemoteStatus() == RemoteDocumentStatus::ACTIVE;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isActivationChangeAllowed()
-    {
-        return $this->remoteStatus == RemoteDocumentStatus::ACTIVE
-            || $this->remoteStatus == RemoteDocumentStatus::INACTIVE;
+        return $this->getState() == DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE;
     }
 
     /**
@@ -839,4 +822,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->owner = $owner;
     }
 
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
 }

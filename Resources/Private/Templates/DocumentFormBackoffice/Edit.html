@@ -12,6 +12,8 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
+{namespace dpf=EWW\Dpf\ViewHelpers}
+
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
@@ -33,26 +35,32 @@
     <f:flashMessages />
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: '{documentForm.saveDisabled}'}">
+            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: 'disabled')}\"}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
-        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm}"/>
+        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1}"/>
     </f:form>
 
-    <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
-        <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
 
+    <f:comment>
+        TODO: check if it should be removed.
+        <f:form action="delete" name="documentData" object="{documentData}" enctype="multipart/form-data" id="form_delete">
+        <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.button name="delete" id="save" class="btn btn-sm btn-danger"
-                       disabled="{f:if(condition: '{documentForm.deleteDisabled}', then: 'disabled')}">
+            disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_DELETE\')}', then: '', else: 'disabled')}">
             <i class="fas fa-eraser"></i>
             {f:translate(key: 'form_button.delete')} "{documentForm.displayName}"
         </f:form.button>
-    </f:form>
+        </f:form>
+    </f:comment>
 
-    <f:link.action action="discard" controller="Document" arguments="{document : document}"
+    <f:comment>
+        TODO: check if it should be removed.
+
+        <f:link.action action="discard" controller="Document" arguments="{document : document}"
                    class="btn btn-sm btn-warning btn-edit-discard"
                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
         <i class="fas fa-trash-alt"></i>
@@ -65,7 +73,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h5>
                     <button type="button" class="close" data-dismiss="modal"
-                            aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
+                            aria-label="{f:translate(key: 'manager.confirm.no')}"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
@@ -73,13 +81,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
-                        'manager.discardConfirmNo')}
+                        'manager.confirm.no')}
                     </button>
                     <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
-                        'manager.discardConfirmYes')}</a>
+                        'manager.confirm.yes')}</a>
                 </div>
             </div>
         </div>
     </div>
-
+    </f:comment>
 </f:section>
