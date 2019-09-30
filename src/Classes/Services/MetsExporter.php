@@ -402,9 +402,7 @@ class MetsExporter
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/data');
 
-            $domNodeList = $docXML->getElementsByTagName("mods");
-
-            $node = $domNodeList->documentElement;
+            $node = $docXML->documentElement;
 
             $nodeAppendModsData = $this->xmlData->importNode($node, true);
             $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
