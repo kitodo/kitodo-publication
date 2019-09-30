@@ -219,4 +219,31 @@ class InternalFormat
 
     }
 
+    public function getSubmitterEmail() {
+        $xpath = $this->getXpath();
+        $submitterXpath = 'submitter/mail';
+
+        $dateNodes = $xpath->query($submitterXpath);
+
+        return $dateNodes->item(0)->nodeValue;
+    }
+
+    public function getSubmitterName() {
+        $xpath = $this->getXpath();
+        $submitterXpath = 'submitter/name';
+
+        $dateNodes = $xpath->query($submitterXpath);
+
+        return $dateNodes->item(0)->nodeValue;
+    }
+
+    public function getSubmitterNotice() {
+        $xpath = $this->getXpath();
+        $submitterXpath = 'submitter/notice';
+
+        $dateNodes = $xpath->query($submitterXpath);
+
+        return $dateNodes->item(0)->nodeValue;
+    }
+
 }
