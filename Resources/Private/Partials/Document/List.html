@@ -1,0 +1,78 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<table class="tx_dpf table table-striped table-manager table-condensed">
+    <thead>
+    <tr>
+        <th class="xcol-md-4">{f:translate(key: 'manager.document.title')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.authors')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.publishedDate')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.datasetIdentifier')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.state')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.type')}</th>
+        <th class="xcol-md-2"><!-- ACTIONS --></th>
+    </tr>
+    </thead>
+    <f:for each="{documents}" as="document">
+        <tr>
+            <td>
+                <f:link.action action="showDetails" controller="Document" arguments="{document:document}">
+                    <f:if condition="!{document.title}">
+                        <f:then>
+                            [{f:translate(key: 'manager.document.noTitle')}]
+                        </f:then>
+                        <f:else>
+                            {document.title}
+                        </f:else>
+                    </f:if>
+                </f:link.action>
+            </td>
+            <td>
+                <f:for each="{document.authors}" as="author" iteration="itemIterator">
+                    {author}
+                    <f:if condition="{itemIterator.isLast}">
+                        <f:then></f:then>
+                        <f:else>;</f:else>
+                    </f:if>
+                </f:for>
+            </td>
+            <td>
+                <f:if condition="{document.dateIssued}">
+                    <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                </f:if>
+            </td>
+            <td>{document.objectIdentifier}</td>
+            <td>
+                {dpf:showStatus(status:'{document.localStatus}', remote:0)}
+            </td>
+            <td>
+                {document.documentType.displayName}
+            </td>
+            <td class="table_col_function">
+                <f:render partial="Document/ListItemActions" arguments="{document:document, currentUser:currentUser}"/>
+            </td>
+        </tr>
+    </f:for>
+</table>
+
+<f:render partial="Document/ConfirmDeleteLocally" />
+<f:render partial="Document/ConfirmDiscard" />
+<f:render partial="Document/ConfirmUpdate" />
+<f:render partial="Document/ConfirmPublish" />
+<f:render partial="Document/ConfirmActivate" />
+<f:render partial="Document/ConfirmInactivate" />
+<f:render partial="Document/ConfirmRestore" />
+<f:render partial="Document/ConfirmDelete" />
