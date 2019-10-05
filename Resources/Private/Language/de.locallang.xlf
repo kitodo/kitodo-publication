@@ -319,6 +319,10 @@
 			<source>Dateset Identifier</source>
 			<target>Dateset Identifier</target>
 		</trans-unit>
+		<trans-unit id="manager.document.processNumber" approved="yes">
+			<source>Process Number</source>
+			<target>Vorgangsnummer</target>
+		</trans-unit>
 		<trans-unit id="manager.document.publishedDate" approved="yes">
 			<source>Published Date</source>
 			<target>Veröffentlichungsdatum</target>

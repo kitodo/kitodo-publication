@@ -239,6 +239,9 @@
 		<trans-unit id="manager.document.datasetIdentifier">
 			<source>Dateset Identifier</source>
 		</trans-unit>
+		<trans-unit id="manager.document.processNumber">
+			<source>Process Number</source>
+		</trans-unit>
 		<trans-unit id="manager.document.publishedDate">
 			<source>Published Date</source>
 		</trans-unit>
