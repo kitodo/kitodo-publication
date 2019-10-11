@@ -146,6 +146,9 @@
         <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
             <source>Type xpath input</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.namespaces" approved="yes">
+            <source>Namespaces ("=" prefix separator, ";" namespace separator</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 		</trans-unit>

@@ -305,6 +305,12 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $urnXpath = '';
 
+    /**
+     * urnXpath
+     *
+     * @var string
+     */
+    protected $namespaces = '';
 
     /**
      * $mypublicationsUpdateNotificationSubject
@@ -1479,6 +1485,22 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setUrnXpath(string $urnXpath)
     {
         $this->urnXpath = $urnXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespaces(): string
+    {
+        return $this->namespaces;
+    }
+
+    /**
+     * @param string $namespaces
+     */
+    public function setNamespaces(string $namespaces)
+    {
+        $this->namespaces = $namespaces;
     }
 
 

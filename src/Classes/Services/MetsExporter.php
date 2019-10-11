@@ -82,6 +82,11 @@ class MetsExporter
      */
     protected $counter = 0;
 
+    /**
+     * namespaces as string
+     * @var string
+     */
+    protected $namespaceString = '';
 
     /**
      * objId
@@ -100,7 +105,15 @@ class MetsExporter
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
-        $this->xmlHeader = '<data></data>';
+        $namespaceConfiguration = explode(";",$this->clientConfigurationManager->getNamespaces());
+
+
+        foreach ($namespaceConfiguration as $key => $value) {
+            $namespace = explode("=", $value);
+            $this->namespaceString .= ' xmlns:' . $namespace[0] . '="' . $namespace[1] . '"';
+        }
+
+        $this->xmlHeader = '<data' . $this->namespaceString . '></data>';
 
         $this->xmlData =  new \DOMDocument();
         $this->xmlData->loadXML($this->xmlHeader);
@@ -239,6 +252,16 @@ class MetsExporter
         return $xml;
     }
 
+    public function parseXPathWrapped($xPath)
+    {
+        $this->parser->generateXmlFromXPath($xPath);
+        $xml = $this->parser->getXML();
+
+        $xml = '<data' . $this->namespaceString . '>' . $xml . '</data>';
+
+        return $xml;
+    }
+
     /**
      * Customized xPath parser
      * @param  xpath  $xPath xpath expression
@@ -326,7 +349,7 @@ class MetsExporter
             } else {
                 // first xpath doesn't exist
                 // parse first xpath part
-                $xml1 = $this->parseXPath($newPath[0]);
+                $xml1 = $this->parseXPathWrapped($newPath[0]);
 
                 $doc1 = new \DOMDocument();
                 $doc1->loadXML($xml1);
@@ -336,7 +359,7 @@ class MetsExporter
                 $domNode = $domXPath->query('//' . $path);
 
                 // parse second xpath part
-                $xml2 = $this->parseXPath($path . $newPath[1]);
+                $xml2 = $this->parseXPathWrapped($path . $newPath[1]);
 
                 // check if xpath [] are nested
                 $search = '/(\/\w*:?\w*)\[(.*)\]/';
@@ -347,12 +370,12 @@ class MetsExporter
                 if ($match[2] && $secondMatch[2]) {
                     $nested = $match[2];
 
-                    $nestedXml = $this->parseXPath($nested);
+                    $nestedXml = $this->parseXPathWrapped($nested);
 
                     // object xpath without nested element []
                     $newPath[1] = str_replace('['.$match[2].']', '', $newPath[1]);
 
-                    $xml2 = $this->parseXPath($path . $newPath[1]);
+                    $xml2 = $this->parseXPathWrapped($path . $newPath[1]);
                 }
 
                 $doc2 = new \DOMDocument();
@@ -385,7 +408,7 @@ class MetsExporter
                 // add to modsData (merge not required)
                 // get mods tag
                 $firstChild = $this->xmlData->firstChild;
-                $firstItem = $doc1->documentElement;
+                $firstItem = $doc1->documentElement->firstChild;
 
                 $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
                 $firstChild->appendChild($nodeAppendModsData);

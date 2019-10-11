@@ -216,4 +216,9 @@ class ClientConfigurationManager
         return $this->getSetting("dateXpath","dateXpath");
     }
 
+    public function getNamespaces()
+    {
+        return $this->getSetting("namespaces","namespaces");
+    }
+
 }

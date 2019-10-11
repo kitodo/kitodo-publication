@@ -14,8 +14,19 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Configuration\ClientConfigurationManager;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 class XPath
 {
+
+    /**
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @inject
+     */
+    protected $clientConfigurationManager;
 
     /**
      * Returns a new XPath object for the given DOMDocument,
@@ -26,12 +37,19 @@ class XPath
      */
     public static function create($dom)
     {
+
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
+        $namespaceConfiguration = explode(";",$clientConfigurationManager->getNamespaces());
+
         $xpath = new \DOMXPath($dom);
-//        $xpath->registerNamespace('mods', "http://www.loc.gov/mods/v3");
-//        $xpath->registerNamespace('slub', "http://slub-dresden.de/");
-//        $xpath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
-//        $xpath->registerNamespace('person', "http://www.w3.org/ns/person#");
-//        $xpath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+
+        foreach ($namespaceConfiguration as $key => $value) {
+            $namespace = explode("=", $value);
+            $xpath->registerNamespace($namespace[0], $namespace[1]);
+        }
+
         return $xpath;
     }
 
