@@ -148,6 +148,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $newDocument->setXmlData($mods->getModsXml());
 
             $newDocument->setDocumentType($document->getDocumentType());
+            $newDocument->setTemplate(false);
 
             $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
             $processNumber = $processNumberGenerator->getProcessNumber();
@@ -183,6 +184,29 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->flashMessage($document, $key, $severity);
 
         $this->redirect('list');
+    }
+
+    /**
+     * action template
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function templateAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        $wasTemplate = empty($document->isTemplate())?1:0;
+
+        $document->setTemplate($wasTemplate);
+
+        $this->documentRepository->update($document);
+
+        if($wasTemplate){
+          $this->redirect('listTemplates');
+        } else {
+          $this->redirect('list');
+        }
+
     }
 
     /**

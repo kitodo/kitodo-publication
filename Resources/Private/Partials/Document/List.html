@@ -124,6 +124,12 @@
                     </f:link.action>
                 </f:alias>
 
+                <f:link.action action="template" arguments="{document : document}" class="btn btn-xs btn-default"
+                                title="{f:translate(key: 'manager.tooltip.template')}">
+
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> In Vorlage konvertieren
+                                 </f:link.action>
+
                 <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning"
                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
