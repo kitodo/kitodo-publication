@@ -29,7 +29,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $constraints = array(
             $query->logicalNot($query->equals('object_identifier', '')),
-            $query->logicalNot($query->equals('object_identifier', NULL)));
+            $query->logicalNot($query->equals('object_identifier', null)));
 
         if (count($constraints)) {
             $query->matching($query->logicalAnd($constraints));
@@ -161,11 +161,11 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findDocumentsWithoutProcessNumber()
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(FALSE);
+        $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraints = array();
         $constraints[] =  $query->equals('process_number', '');
-        $constraints[] =  $query->equals('process_number', NULL);
+        $constraints[] =  $query->equals('process_number', null);
 
         if (count($constraints)) {
             $query->matching($query->logicalOr($constraints));
@@ -173,5 +173,4 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
-
 }

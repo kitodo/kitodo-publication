@@ -283,7 +283,7 @@
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessage" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
-			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen. 
+			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen.
 
 </target>
 		</trans-unit>

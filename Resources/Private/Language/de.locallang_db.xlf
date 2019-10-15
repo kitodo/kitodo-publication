@@ -163,11 +163,11 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
-            <target>Gültig</target>
+			<target>Gültig</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.changed">
 			<source>Changed</source>
-            <target>Geändert</target>
+			<target>Geändert</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.file">
 			<source>File</source>

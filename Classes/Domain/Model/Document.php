@@ -491,9 +491,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
-
                 if (!$file->isFileGroupDeleted()) {
-
                     $tmpFile = array(
                         'path'      => $file->getLink(),
                         'type'      => $file->getContentType(),
@@ -521,7 +519,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                         $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
                 }
-
             }
         }
 
@@ -542,7 +539,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
-
                 $tmpFile = array(
                     'path'      => $file->getLink(),
                     'type'      => $file->getContentType(),
@@ -569,12 +565,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     $tmpFile['use']                  = ($file->getArchive()) ? 'ARCHIVE' : '';
                     $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
-
             }
         }
 
         return $files;
-
     }
 
     /**
@@ -816,5 +810,4 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
         return $mods->getQucosaUrn();
     }
-
 }
