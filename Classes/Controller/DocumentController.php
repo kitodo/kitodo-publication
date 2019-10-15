@@ -192,16 +192,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
-    public function templateAction(\EWW\Dpf\Domain\Model\Document $document)
+    public function convertTemplateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
 
-        $wasTemplate = empty($document->isTemplate())?1:0;
-
-        $document->setTemplate($wasTemplate);
+        $oldTemplateStatus = $document->toggleTemplateStatus();
 
         $this->documentRepository->update($document);
 
-        if($wasTemplate){
+        if($oldTemplateStatus == false){
           $this->redirect('listTemplates');
         } else {
           $this->redirect('list');

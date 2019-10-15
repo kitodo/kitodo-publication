@@ -51,7 +51,7 @@ if (TYPO3_MODE === 'BE') {
         'qucosamanager',
         '',
         array(
-            'Document'         => 'list, delete, discard, release, duplicate, template,'
+            'Document'         => 'list, delete, discard, release, duplicate, convertTemplate,'
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
             . 'listNew, listEdit, listTemplates, activate, inactivate, restore',
 
@@ -67,7 +67,7 @@ if (TYPO3_MODE === 'BE') {
             'navigationComponentId' => 'typo3-pagetree',
         )
     );
-    
+
 }
 
 

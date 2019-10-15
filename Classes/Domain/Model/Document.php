@@ -624,6 +624,19 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Toogles the template status and returns the old value
+     *
+     * @return boolean
+     */
+    public function toggleTemplateStatus()
+    {
+        $oldTemplateStatus = $this->isTemplate;
+        $this->isTemplate = !$oldTemplateStatus;
+        return $oldTemplateStatus;
+    }
+
+
+    /**
      * Sets the template status
      *
      * @param boolean $isTemplate
