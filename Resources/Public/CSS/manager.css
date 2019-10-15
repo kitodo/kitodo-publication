@@ -101,6 +101,10 @@ table.tx_dpf .table_col_function {
     padding: 8px 15px 8px 0;
 }
 
+table.tx_dpf th.title {
+  width: 300px;
+}
+
 table.tx_dpf .table_col_function a {
     text-decoration: none;
 }
