@@ -53,7 +53,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function listAction()
     {
-        $documents = $this->documentRepository->findAll();
+        $documents = $this->documentRepository->getAllDocuments();
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
