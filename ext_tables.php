@@ -51,9 +51,9 @@ if (TYPO3_MODE === 'BE') {
         'qucosamanager',
         '',
         array(
-            'Document'         => 'list, delete, discard, release, duplicate, '
+            'Document'         => 'list, delete, discard, release, duplicate, template,'
             . 'deleteConfirm, releaseConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, restoreConfirm, '
-            . 'listNew, listEdit, activate, inactivate, restore',
+            . 'listNew, listEdit, listTemplates, activate, inactivate, restore',
 
             'DocumentFormBE'   => 'list, show, new, create, edit, update, delete, cancel',
             'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
