@@ -173,6 +173,10 @@
 			<source>File</source>
 			<target>Datei</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.template">
+			<source>Template</source>
+			<target>Vorlage</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
 			<source>Document Transfer Log</source>
 			<target>Dokumentenübertragungsprotokoll</target>

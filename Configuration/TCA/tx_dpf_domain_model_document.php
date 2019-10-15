@@ -39,12 +39,12 @@ return array(
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
-        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed, is_template,
         state, reserved_object_identifier, object_identifier, transfer_status, file',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
-        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,
+        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed, is_template,
         state, reserved_object_identifier, object_identifier, transfer_status, file,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -274,6 +274,16 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.valid',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
+
+        'is_template'                   => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.template',
             'config'    => array(
                 'type'    => 'check',
                 'default' => 0,

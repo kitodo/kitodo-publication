@@ -105,6 +105,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $valid = false;
 
     /**
+     * isTemplate
+     *
+     * @var boolean
+     */
+    protected $isTemplate = false;
+
+    /**
      *
      * @var string $dateIssued
      */
@@ -610,6 +617,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setValid($valid)
     {
         $this->valid = $valid;
+    }
+
+    /**
+     * Returns the template status
+     *
+     * @return boolean $isTemplate
+     */
+    public function isTemplate()
+    {
+        return $this->isTemplate;
+    }
+
+    /**
+     * Sets the template status
+     *
+     * @param boolean $isTemplate
+     * @return void
+     */
+    public function setTemplate($isTemplate)
+    {
+        $this->isTemplate = $isTemplate;
     }
 
     /**
