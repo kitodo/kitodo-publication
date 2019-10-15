@@ -254,6 +254,9 @@
 		<trans-unit id="manager.document.state.new">
 			<source>New</source>
 		</trans-unit>
+		<trans-unit id="manager.document.templates">
+			<source>Templates</source>
+		</trans-unit>
 		<trans-unit id="manager.document.title">
 			<source>Title</source>
 		</trans-unit>

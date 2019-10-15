@@ -339,6 +339,10 @@
 			<source>New</source>
 			<target>Neu</target>
 		</trans-unit>
+		<trans-unit id="manager.document.templates" approved="yes">
+			<source>Templates</source>
+			<target>Vorlagen</target>
+		</trans-unit>
 		<trans-unit id="manager.document.title" approved="yes">
 			<source>Title</source>
 			<target>Titel</target>

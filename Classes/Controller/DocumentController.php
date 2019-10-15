@@ -78,6 +78,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('documents', $documents);
     }
 
+     public function listTemplatesAction()
+    {
+        $documents = $this->documentRepository->getTemplates();
+        $this->view->assign('documents', $documents);
+    }
+
     /**
      * action discardConfirm
      *
