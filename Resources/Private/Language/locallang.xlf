@@ -221,6 +221,12 @@
 		<trans-unit id="manager.discard">
 			<source>discard</source>
 		</trans-unit>
+		<trans-unit id="manager.createTemplate">
+			<source>Use as template</source>
+		</trans-unit>
+		<trans-unit id="manager.documentFromTemplate">
+			<source>New document from template</source>
+		</trans-unit>
 		<trans-unit id="manager.discardConfirmMessage">
 			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
 		</trans-unit>
@@ -310,6 +316,9 @@
 		</trans-unit>
 		<trans-unit id="manager.tooltip.duplicate">
 			<source>Duplicate document</source>
+		</trans-unit>
+		<trans-unit id="manager.tooltip.removeTemplate">
+			<source>Convert to document</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.inactivate">
 			<source>Inactivate document</source>

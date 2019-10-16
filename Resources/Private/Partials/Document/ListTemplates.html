@@ -84,14 +84,14 @@
             <td class="table_col_function">
 
               <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default"
-                             title="{f:translate(key: 'manager.tooltip.duplicate')}"
-                             additionalAttributes="{data-toggle: 'tooltip' }">
-                <span class="glyphicon glyphicon-duplicate"></span>
+                             title="{f:translate(key: 'manager.documentFromTemplate')}">
+                <span class="glyphicon glyphicon-duplicate"></span> {f:translate(key: 'manager.documentFromTemplate')}
               </f:link.action>
 
               <f:link.action action="convertTemplate" arguments="{document : document}" class="btn btn-xs btn-default"
-                             title="{f:translate(key: 'manager.tooltip.template')}">
-                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> In Dokument konvertieren
+                             title="{f:translate(key: 'manager.tooltip.removeTemplate')}"
+                             additionalAttributes="{data-toggle: 'tooltip' }">
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
               </f:link.action>
 
               <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning"

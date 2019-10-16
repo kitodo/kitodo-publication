@@ -125,10 +125,9 @@
                 </f:alias>
 
                 <f:link.action action="convertTemplate" arguments="{document : document}" class="btn btn-xs btn-default"
-                                title="{f:translate(key: 'manager.tooltip.template')}">
-
-                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> In Vorlage konvertieren
-                                 </f:link.action>
+                                title="{f:translate(key: 'manager.createTemplate')}">
+                  {f:translate(key: 'manager.createTemplate')}
+                </f:link.action>
 
                 <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning"
                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
@@ -166,7 +165,7 @@
                                    class="btn btn-xs btn-warning"
                                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
                         <span class="glyphicon glyphicon-refresh"></span>
-                        {f:translate(key: 'manager.restore')}restore
+                        {f:translate(key: 'manager.restore')}
                     </f:link.action>
                 </f:if>
 
