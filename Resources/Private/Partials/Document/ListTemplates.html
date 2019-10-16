@@ -90,7 +90,7 @@
 
               <f:link.action action="convertTemplate" arguments="{document : document}" class="btn btn-xs btn-default"
                              title="{f:translate(key: 'manager.tooltip.removeTemplate')}"
-                             additionalAttributes="{data-toggle: 'tooltip' }">
+                             additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: '#confirmTemplate'}">
                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
               </f:link.action>
 
@@ -122,6 +122,29 @@
                 </button>
                 <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
                     'manager.discardConfirmYes')}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmTemplate" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{f:translate(key: 'manager.createDocumentMessageHeader')}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{f:translate(key: 'manager.createDocumentMessage', arguments: {0: '%s'})}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key:
+                    'manager.releaseConfirmNo')}
+                </button>
+                <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
+                    'manager.releaseConfirmYes')}</a>
             </div>
         </div>
     </div>

@@ -290,6 +290,22 @@
 			<source>Do you really want to delete the document?</source>
 			<target>Möchten Sie das Dokument wirklich löschen?</target>
 		</trans-unit>
+		<trans-unit id="manager.createTemplateMessage">
+			<source>The document &quot;%s&quot; will be converted into ta template.</source>
+			<target>Das Dokument &quot;%s&quot; wird in eine Vorlage umgewandelt. Anhand dieser Vorlage können Sie weitere Dokumente erstellen.</target>
+		</trans-unit>
+		<trans-unit id="manager.createTemplateMessageHeader">
+			<source>Do you really want to convert the document into a template?</source>
+			<target>Möchten Sie das Dokument wirklich in eine Vorlage umwandeln?</target>
+		</trans-unit>
+		<trans-unit id="manager.createDocumentMessage">
+			<source>The template &quot;%s&quot; will be converted into a document.</source>
+			<target>Die Vorlage &quot;%s&quot; wird in ein Dokument umgewandelt.</target>
+		</trans-unit>
+		<trans-unit id="manager.createDocumentMessageHeader">
+			<source>Do you really want to convert the template into a document?</source>
+			<target>Möchten Sie die Vorlage wirklich in ein Dokument umwandeln?</target>
+		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
 			<target>verwerfen</target>
