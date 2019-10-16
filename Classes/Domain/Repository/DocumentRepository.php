@@ -47,7 +47,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * Finds all new documents
+     * Finds all documents (excluding templates)
      *
      * @return array The found Document Objects
      */
