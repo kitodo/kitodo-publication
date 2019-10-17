@@ -29,7 +29,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $constraints = array(
             $query->logicalNot($query->equals('object_identifier', '')),
-            $query->logicalNot($query->equals('object_identifier', NULL)));
+            $query->logicalNot($query->equals('object_identifier', null)));
 
         if (count($constraints)) {
             $query->matching($query->logicalAnd($constraints));
@@ -47,6 +47,31 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
+     * Finds all documents (excluding templates)
+     *
+     * @return array The found Document Objects
+     */
+    public function getAllDocuments()
+    {
+
+        $query = $this->createQuery();
+
+        $constraints = array(
+                $query->equals('is_template', false));
+
+        if (count($constraints)) {
+            $query->matching($query->logicalAnd($constraints));
+        }
+
+        // order by start_date -> start_time...
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
+
+        return $query->execute();
+    }
+
+    /**
      * Finds all new documents
      *
      * @return array The found Document Objects
@@ -58,7 +83,8 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $constraints = array(
                 $query->equals('object_identifier', ''),
-                $query->equals('changed', false));
+                $query->equals('changed', false),
+                $query->equals('is_template', false));
 
         if (count($constraints)) {
             $query->matching($query->logicalAnd($constraints));
@@ -81,14 +107,46 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
 
         $query = $this->createQuery();
-        
-        $constraints = array(
+
+        $orConstraints = array(
                 $query->like('object_identifier', 'qucosa%'),
                 $query->equals('changed', true));
 
-        if (count($constraints)) {
-            $query->matching($query->logicalOr($constraints));
+        if (count($orConstraints)) {
+            $query->matching($query->logicalOr($orConstraints));
         }
+
+        $andConstraints = array(
+          $query->like('is_template', false));
+
+        if (count($andConstraints)) {
+            $query->matching($query->logicalAnd($andConstraints));
+        }
+
+        return $query->execute();
+    }
+
+    /**
+     * Finds all templates
+     *
+     * @return array The found Document Objects
+     */
+    public function getTemplates()
+    {
+
+        $query = $this->createQuery();
+
+        $constraints = array(
+                $query->equals('is_template', true));
+
+        if (count($constraints)) {
+            $query->matching($query->logicalAnd($constraints));
+        }
+
+        // order by start_date -> start_time...
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
 
         return $query->execute();
     }
@@ -103,11 +161,11 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findDocumentsWithoutProcessNumber()
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(FALSE);
+        $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraints = array();
         $constraints[] =  $query->equals('process_number', '');
-        $constraints[] =  $query->equals('process_number', NULL);
+        $constraints[] =  $query->equals('process_number', null);
 
         if (count($constraints)) {
             $query->matching($query->logicalOr($constraints));
@@ -115,5 +173,4 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
-
 }

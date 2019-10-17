@@ -1,0 +1,151 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<div class="btn-group" role="group">
+    <f:link.action action="listNew" controller="Document"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listNew')}">
+        {f:translate(key: 'manager.document.state.new')}
+    </f:link.action>
+    <f:link.action action="listEdit" controller="Document"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
+        {f:translate(key: 'manager.document.state.inProgress')}
+    </f:link.action>
+     <f:link.action action="listTemplates" controller="Document"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listTemplates')}">
+        {f:translate(key: 'manager.document.templates')}
+    </f:link.action>
+</div>
+
+
+<table class="tx_dpf table table-striped table-manager table-condensed">
+    <thead>
+    <tr>
+        <th class="xcol-md-4 title">{f:translate(key: 'manager.document.title')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.authors')}</th>
+        <th class="xcol-md-3">{f:translate(key: 'manager.document.processNumber')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.publishedDate')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.datasetIdentifier')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.state')}</th>
+        <th class="xcol-md-2">{f:translate(key: 'manager.document.type')}</th>
+        <th class="xcol-md-2"><!-- ACTIONS --></th>
+    </tr>
+    </thead>
+    <f:for each="{documents}" as="document">
+        <tr>
+            <td>
+                <f:link.action action="edit" controller="DocumentFormBE" arguments="{document : document}">
+                    {document.title}
+                </f:link.action>
+            </td>
+            <td>
+                <f:for each="{document.authors}" as="author" iteration="itemIterator">
+                    {author}
+                    <f:if condition="{itemIterator.isLast}">
+                        <f:then></f:then>
+                        <f:else>;</f:else>
+                    </f:if>
+                </f:for>
+            </td>
+             <td>
+               {document.processNumber}
+            </td>
+            <td>
+                <f:if condition="{document.dateIssued}">
+                    <f:format.date date="{document.dateIssued}" format="d.m.Y"/>
+                </f:if>
+            </td>
+            <td>{document.objectIdentifier}</td>
+            <td>
+                <f:if condition="{document.isNew}">
+                    <f:then>
+                        {f:translate(key: 'manager.document.state.new')}
+                    </f:then>
+                    <f:else>
+                        {f:translate(key: 'manager.document.state.inProgress')}
+                    </f:else>
+                </f:if>
+            </td>
+            <td>
+                {document.documentType.displayName}
+            </td>
+            <td class="table_col_function">
+
+              <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-xs btn-default"
+                             title="{f:translate(key: 'manager.documentFromTemplate')}">
+                <span class="glyphicon glyphicon-duplicate"></span> {f:translate(key: 'manager.documentFromTemplate')}
+              </f:link.action>
+
+              <f:link.action action="convertTemplate" arguments="{document : document}" class="btn btn-xs btn-default"
+                             title="{f:translate(key: 'manager.tooltip.removeTemplate')}"
+                             additionalAttributes="{data-documenttitle: document.title, data-toggle: 'modal', data-target: '#confirmTemplate'}">
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+              </f:link.action>
+
+              <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning"
+                             additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    {f:translate(key: 'manager.discard')}
+                </f:link.action>
+            </td>
+        </tr>
+    </f:for>
+</table>
+
+<div class="modal fade" id="confirmDiscard" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{f:translate(key: 'manager.discardConfirmMessageHeader')}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{f:translate(key: 'manager.discardConfirmMessage', arguments: {0: '%s'})}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key:
+                    'manager.discardConfirmNo')}
+                </button>
+                <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
+                    'manager.discardConfirmYes')}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmTemplate" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{f:translate(key: 'manager.createDocumentMessageHeader')}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{f:translate(key: 'manager.createDocumentMessage', arguments: {0: '%s'})}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key:
+                    'manager.releaseConfirmNo')}
+                </button>
+                <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
+                    'manager.releaseConfirmYes')}</a>
+            </div>
+        </div>
+    </div>
+</div>

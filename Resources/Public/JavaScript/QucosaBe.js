@@ -658,6 +658,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         documentListConfirmDialog('#confirmInactivate');
         documentListConfirmDialog('#confirmRestore');
         documentListConfirmDialog('#confirmDelete');
+        documentListConfirmDialog('#confirmTemplate');
 
         datepicker();
 

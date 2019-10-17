@@ -149,26 +149,26 @@
 			<source>%s successfully updated.</source>
 			<target>%s erfolgreich aktualisiert.</target>
 		</trans-unit>
-        <trans-unit id="document_save.max_size_error" approved="yes">
-            <source>Maximum document size exceeded.</source>
-            <target>Maximale Größe des Dokuments überschritten.</target>
-        </trans-unit>
+				<trans-unit id="document_save.max_size_error" approved="yes">
+						<source>Maximum document size exceeded.</source>
+						<target>Maximale Größe des Dokuments überschritten.</target>
+				</trans-unit>
 		<trans-unit id="document_transfer.next_id_failure" approved="yes">
 			<source>Couldn't get a valid Document id from the repository.</source>
 			<target>Es konnte keine gültige Dokument-ID aus dem Repository abgerufen werden.</target>
 		</trans-unit>
-        <trans-unit id="document_transfer.repository_connection_error" approved="yes">
-            <source>The connection to the repository server failed.</source>
-            <target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>
-        </trans-unit>
-        <trans-unit id="document_transfer.elasticsearch_connection_error" approved="yes">
-            <source>The connection to the search server failed.</source>
-            <target>Die Verbindung zum Such-Server ist fehlgeschlagen.</target>
-        </trans-unit>
-        <trans-unit id="error.unexpected" approved="yes">
-            <source>Failed, an unexpected error occurred.</source>
-            <target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
-        </trans-unit>
+				<trans-unit id="document_transfer.repository_connection_error" approved="yes">
+						<source>The connection to the repository server failed.</source>
+						<target>Die Verbindung zum Repository-Server ist fehlgeschlagen.</target>
+				</trans-unit>
+				<trans-unit id="document_transfer.elasticsearch_connection_error" approved="yes">
+						<source>The connection to the search server failed.</source>
+						<target>Die Verbindung zum Such-Server ist fehlgeschlagen.</target>
+				</trans-unit>
+				<trans-unit id="error.unexpected" approved="yes">
+						<source>Failed, an unexpected error occurred.</source>
+						<target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>
+				</trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
 			<target>Weitere Datei hinzufügen</target>
@@ -205,14 +205,14 @@
 			<source>validate</source>
 			<target>überprüfen</target>
 		</trans-unit>
-        <trans-unit id="form_button.nextPage">
-            <source>next</source>
-            <target>nächste </target>
-        </trans-unit>
-        <trans-unit id="form_button.prevPage">
-            <source>previous</source>
-            <target>vorherige</target>
-        </trans-unit>
+				<trans-unit id="form_button.nextPage">
+						<source>next</source>
+						<target>nächste </target>
+				</trans-unit>
+				<trans-unit id="form_button.prevPage">
+						<source>previous</source>
+						<target>vorherige</target>
+				</trans-unit>
 		<trans-unit id="form_error_msg.all" approved="yes">
 			<source>The form contains errors.</source>
 			<target>Das Formular enthält Fehler.</target>
@@ -234,13 +234,13 @@
 			<target>Bitte füllen Sie mindestens eins der Felder aus.</target>
 		</trans-unit>
 		<trans-unit id="form_error_msg.nothing_found">
-            <source>Nothing found.</source>
-            <target>Es wurde kein passender Eintrag gefunden.</target>
-        </trans-unit>
-        <trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
-        	<source>URN service unavailable.</source>
-        	<target>URN-Service nicht verfügbar.</target>
-        </trans-unit>
+			<source>Nothing found.</source>
+			<target>Es wurde kein passender Eintrag gefunden.</target>
+		</trans-unit>
+		<trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
+			<source>URN service unavailable.</source>
+			<target>URN-Service nicht verfügbar.</target>
+		</trans-unit>
 		<trans-unit id="form_legend.primaryFile" approved="yes">
 			<source>Primary File* (Format: PDF / PDF/A)</source>
 			<target>Volltextdatei* (Format: PDF / PDF/A)</target>
@@ -283,17 +283,40 @@
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessage" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
-			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen. 
-
-</target>
+			<target>Das Dokument &quot;%s&quot; wird im Repository als gelöscht markiert und das lokale Dokument und alle Änderungen werden verworfen.
+		</target>
 		</trans-unit>
 		<trans-unit id="manager.deleteConfirmMessageHeader" approved="yes">
 			<source>Do you really want to delete the document?</source>
 			<target>Möchten Sie das Dokument wirklich löschen?</target>
 		</trans-unit>
+		<trans-unit id="manager.createTemplateMessage">
+			<source>The document &quot;%s&quot; will be converted into ta template.</source>
+			<target>Das Dokument &quot;%s&quot; wird in eine Vorlage umgewandelt. Anhand dieser Vorlage können Sie weitere Dokumente erstellen.</target>
+		</trans-unit>
+		<trans-unit id="manager.createTemplateMessageHeader">
+			<source>Do you really want to convert the document into a template?</source>
+			<target>Möchten Sie das Dokument wirklich in eine Vorlage umwandeln?</target>
+		</trans-unit>
+		<trans-unit id="manager.createDocumentMessage">
+			<source>The template &quot;%s&quot; will be converted into a document.</source>
+			<target>Die Vorlage &quot;%s&quot; wird in ein Dokument umgewandelt.</target>
+		</trans-unit>
+		<trans-unit id="manager.createDocumentMessageHeader">
+			<source>Do you really want to convert the template into a document?</source>
+			<target>Möchten Sie die Vorlage wirklich in ein Dokument umwandeln?</target>
+		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
 			<target>verwerfen</target>
+		</trans-unit>
+		<trans-unit id="manager.createTemplate">
+			<source>Use as template</source>
+			<target>Als Vorlage</target>
+		</trans-unit>
+		<trans-unit id="manager.documentFromTemplate">
+			<source>New document from template</source>
+			<target>Neues Dokument aus Vorlage</target>
 		</trans-unit>
 		<trans-unit id="manager.discardConfirmMessage" approved="yes">
 			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
@@ -338,6 +361,10 @@
 		<trans-unit id="manager.document.state.new" approved="yes">
 			<source>New</source>
 			<target>Neu</target>
+		</trans-unit>
+		<trans-unit id="manager.document.templates" approved="yes">
+			<source>Templates</source>
+			<target>Vorlagen</target>
 		</trans-unit>
 		<trans-unit id="manager.document.title" approved="yes">
 			<source>Title</source>
@@ -410,6 +437,10 @@
 		<trans-unit id="manager.tooltip.duplicate" approved="yes">
 			<source>Duplicate document</source>
 			<target>Dokument duplizieren</target>
+		</trans-unit>
+		<trans-unit id="manager.tooltip.removeTemplate">
+			<source>Convert to document</source>
+			<target>In Dokument umwandeln</target>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.inactivate" approved="yes">
 			<source>Inactivate document</source>

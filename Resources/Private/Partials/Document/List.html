@@ -23,13 +23,17 @@
                    class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listEdit')}">
         {f:translate(key: 'manager.document.state.inProgress')}
     </f:link.action>
+     <f:link.action action="listTemplates" controller="Document"
+                   class="btn btn-default btn-sm {dpf:activeManagerMenu(controllerName:'Document', actionName:'listTemplates')}">
+        {f:translate(key: 'manager.document.templates')}
+    </f:link.action>
 </div>
 
 
 <table class="tx_dpf table table-striped table-manager table-condensed">
     <thead>
     <tr>
-        <th class="xcol-md-4">{f:translate(key: 'manager.document.title')}</th>
+        <th class="xcol-md-4 title">{f:translate(key: 'manager.document.title')}</th>
         <th class="xcol-md-2">{f:translate(key: 'manager.document.authors')}</th>
         <th class="xcol-md-3">{f:translate(key: 'manager.document.processNumber')}</th>
         <th class="xcol-md-2">{f:translate(key: 'manager.document.publishedDate')}</th>
@@ -120,6 +124,11 @@
                     </f:link.action>
                 </f:alias>
 
+                <f:link.action action="convertTemplate" arguments="{document : document}" class="btn btn-xs btn-default"
+                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmTemplate'}">
+                  {f:translate(key: 'manager.createTemplate')}
+                </f:link.action>
+
                 <f:link.action action="discard" arguments="{document : document}" class="btn btn-xs btn-warning"
                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -156,7 +165,7 @@
                                    class="btn btn-xs btn-warning"
                                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRestore'}">
                         <span class="glyphicon glyphicon-refresh"></span>
-                        {f:translate(key: 'manager.restore')}restore
+                        {f:translate(key: 'manager.restore')}
                     </f:link.action>
                 </f:if>
 
@@ -183,6 +192,29 @@
                 </button>
                 <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
                     'manager.discardConfirmYes')}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmTemplate" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{f:translate(key: 'manager.createTemplateMessageHeader')}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{f:translate(key: 'manager.createTemplateMessage', arguments: {0: '%s'})}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{f:translate(key:
+                    'manager.releaseConfirmNo')}
+                </button>
+                <a id="discardDocument" class="btn btn-danger" href="#">{f:translate(key:
+                    'manager.releaseConfirmYes')}</a>
             </div>
         </div>
     </div>
@@ -287,7 +319,7 @@
                 <button type="button" class="close" data-dismiss="modal"
                         aria-label="{f:translate(key: 'manager.discardConfirmNo')}"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{f:translate(key: 'manager.restoreConfirmMessageHeader')}</h4>
+                <h4 class="modal-title">{f:translate(key: 'manager.restoreConfirmMessageHeader')} </h4>
             </div>
             <div class="modal-body">
                 <p>{f:translate(key: 'manager.restoreConfirmMessage', arguments: {0: '%s'})}</p>
@@ -325,4 +357,3 @@
         </div>
     </div>
 </div>
-

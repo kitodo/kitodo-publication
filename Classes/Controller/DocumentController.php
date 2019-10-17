@@ -53,7 +53,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function listAction()
     {
-        $documents = $this->documentRepository->findAll();
+        $documents = $this->documentRepository->getAllDocuments();
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -75,6 +75,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function listEditAction()
     {
         $documents = $this->documentRepository->getInProgressDocuments();
+        $this->view->assign('documents', $documents);
+    }
+
+     public function listTemplatesAction()
+    {
+        $documents = $this->documentRepository->getTemplates();
         $this->view->assign('documents', $documents);
     }
 
@@ -142,6 +148,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $newDocument->setXmlData($mods->getModsXml());
 
             $newDocument->setDocumentType($document->getDocumentType());
+            $newDocument->setTemplate(false);
 
             $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
             $processNumber = $processNumberGenerator->getProcessNumber();
@@ -177,6 +184,27 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->flashMessage($document, $key, $severity);
 
         $this->redirect('list');
+    }
+
+    /**
+     * action template
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return void
+     */
+    public function convertTemplateAction(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        $oldTemplateStatus = $document->toggleTemplateStatus();
+
+        $this->documentRepository->update($document);
+
+        if($oldTemplateStatus == false){
+          $this->redirect('listTemplates');
+        } else {
+          $this->redirect('list');
+        }
+
     }
 
     /**

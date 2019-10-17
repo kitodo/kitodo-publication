@@ -105,6 +105,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $valid = false;
 
     /**
+     * isTemplate
+     *
+     * @var boolean
+     */
+    protected $isTemplate = false;
+
+    /**
      *
      * @var string $dateIssued
      */
@@ -484,9 +491,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
-
                 if (!$file->isFileGroupDeleted()) {
-
                     $tmpFile = array(
                         'path'      => $file->getLink(),
                         'type'      => $file->getContentType(),
@@ -514,7 +519,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                         $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
                 }
-
             }
         }
 
@@ -535,7 +539,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
-
                 $tmpFile = array(
                     'path'      => $file->getLink(),
                     'type'      => $file->getContentType(),
@@ -562,12 +565,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                     $tmpFile['use']                  = ($file->getArchive()) ? 'ARCHIVE' : '';
                     $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
-
             }
         }
 
         return $files;
-
     }
 
     /**
@@ -610,6 +611,40 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setValid($valid)
     {
         $this->valid = $valid;
+    }
+
+    /**
+     * Returns the template status
+     *
+     * @return boolean $isTemplate
+     */
+    public function isTemplate()
+    {
+        return $this->isTemplate;
+    }
+
+    /**
+     * Toogles the template status and returns the old value
+     *
+     * @return boolean
+     */
+    public function toggleTemplateStatus()
+    {
+        $oldTemplateStatus = $this->isTemplate;
+        $this->isTemplate = !$oldTemplateStatus;
+        return $oldTemplateStatus;
+    }
+
+
+    /**
+     * Sets the template status
+     *
+     * @param boolean $isTemplate
+     * @return void
+     */
+    public function setTemplate($isTemplate)
+    {
+        $this->isTemplate = $isTemplate;
     }
 
     /**
@@ -788,5 +823,4 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
         return $mods->getQucosaUrn();
     }
-
 }
