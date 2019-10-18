@@ -116,7 +116,7 @@ class DocumentWorkflow
             "to" => [self::STATE_POSTPONED_NONE, self::STATE_POSTPONED_NONE, self::STATE_NONE_INACTIVE]
         ],
         self::TRANSITION_PUBLISH => [
-            "from" => [self::STATE_IN_PROGRESS_NONE],
+            "from" => [self::STATE_IN_PROGRESS_NONE, self::STATE_IN_PROGRESS_INACTIVE, self::STATE_IN_PROGRESS_DELETED],
             "to" => self::STATE_NONE_ACTIVE
         ],
         self::TRANSITION_UPDATE => [

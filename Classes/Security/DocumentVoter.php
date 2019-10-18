@@ -162,7 +162,7 @@ class DocumentVoter extends Voter
                 break;
 
             case self::RELEASE:
-                return $this->librarianOnly();
+                return $this->canRelease($subject);
                 break;
 
             case self::RESTORE:
@@ -304,6 +304,26 @@ class DocumentVoter extends Voter
             if (
                 $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_ACTIVATE) ||
                 $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_INACTIVATE)
+            ) {
+                return TRUE;
+            }
+
+        }
+        return FALSE;
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canRelease($document)
+    {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+
+            if (
+                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_PUBLISH) ||
+                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_UPDATE)
             ) {
                 return TRUE;
             }
