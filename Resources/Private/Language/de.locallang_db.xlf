@@ -145,6 +145,10 @@
 			<source>State</source>
 			<target>Status</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.remote_last_mod_date" approved="yes">
+			<source>Remote last modification date</source>
+			<target>Datum der Letzten Änderung auf dem Server </target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.transfer_status" approved="yes">
 			<source>Transfer State</source>
 			<target>Übertragungs-Status</target>
@@ -172,6 +176,18 @@
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
             <target>Gültig</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.owner" approved="yes">
+			<source>Owner</source>
+			<target>Besitzer</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.editor_uid" approved="yes">
+			<source>Editor UID</source>
+			<target>Bearbeiter-UID</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
+			<source>Temporary</source>
+			<target>Temporär</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.changed">
 			<source>Changed</source>

@@ -21,7 +21,6 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
  */
 class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * title
      *
@@ -138,6 +137,34 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $state = DocumentWorkflow::STATE_NONE_NONE;
+
+    /**
+     * editorUid
+     *
+     * @var integer
+     */
+    protected $editorUid = 0;
+
+    /**
+     * temporary
+     *
+     * @var boolean
+     */
+    protected $temporary = FALSE;
+
+    /**
+     * remoteLastModDate
+     *
+     * @var string
+     */
+    protected $remoteLastModDate = '';
+
+    /**
+     * tstamp
+     *
+     * @var integer
+     */
+    protected $tstamp;
 
     /**
      * file
@@ -831,4 +858,69 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->state = $state;
     }
+
+    /**
+     * @return boolean $temporary
+     */
+    public function getTemporary() {
+        return $this->temporary;
+    }
+
+    /**
+     * @return boolean $temporary
+     */
+    public function isTemporary() {
+        return $this->getTemporary();
+    }
+
+    /**
+     * @param boolean $temporary
+     * @return void
+     */
+    public function setTemporary($temporary) {
+        $this->temporary = $temporary;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEditorUid()
+    {
+        return $this->editorUid;
+    }
+
+    /**
+     * @param integer $editorUid
+     * @return void
+     */
+    public function setEditorUid($editorUid)
+    {
+        $this->editorUid = $editorUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoteLastModDate()
+    {
+        return $this->remoteLastModDate;
+    }
+
+    /**
+     * @param string $remoteLastModDate
+     * @return void
+     */
+    public function setRemoteLastModDate($remoteLastModDate)
+    {
+        $this->remoteLastModDate = $remoteLastModDate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTstamp()
+    {
+        return $this->tstamp;
+    }
+
 }

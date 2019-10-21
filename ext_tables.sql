@@ -70,6 +70,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
   process_number varchar(255) DEFAULT '' NOT NULL,
   state varchar(255) DEFAULT '' NOT NULL,
+  remote_last_mod_date varchar(255) DEFAULT '' NOT NULL,
   transfer_status varchar(255) DEFAULT '' NOT NULL,
   transfer_date int(11) DEFAULT '0' NOT NULL,
   date_issued varchar(255) DEFAULT '' NOT NULL,
@@ -79,7 +80,9 @@ CREATE TABLE tx_dpf_domain_model_document (
   remote_status varchar(255),
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
-  owner int(11) unsigned default '0',
+  owner int(11) unsigned default '0' NOT NULL,
+  editor_uid int(11) unsigned default '0' NOT NULL,
+  temporary tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

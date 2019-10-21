@@ -80,17 +80,12 @@ class DocumentMapper
         $documentForm->setDocumentUid($document->getUid());
         $documentForm->setVirtual($document->getDocumentType()->getVirtual());
         $documentForm->setProcessNumber($document->getProcessNumber());
+        $documentForm->setTemporary($document->getTemporary());
 
         $qucosaId = $document->getObjectIdentifier();
 
         if (empty($qucosaId)) {
             $qucosaId = $document->getReservedObjectIdentifier();
-        }
-
-        if (!empty($qucosaId)) {
-            $urnService = $this->objectManager->get(Urn::class);
-            $qucosaUrn  = $urnService->getUrn($qucosaId);
-            $documentForm->setQucosaUrn($qucosaUrn);
         }
 
         $documentForm->setQucosaId($qucosaId);
@@ -99,8 +94,6 @@ class DocumentMapper
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
 
         $excludeGroupAttributes = array();
-
-        $documentData = array();
 
         foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage) {
             $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();

@@ -34,18 +34,21 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
-        process_number, valid, changed, local_status, remote_status, state, reserved_object_identifier, object_identifier, transfer_status, file, owner',
+        process_number, valid, changed, local_status, remote_status, state, reserved_object_identifier, 
+        object_identifier, transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        local_status, remote_status, state, reserved_object_identifier, object_identifier, transfer_status, file, owner',
+        local_status, remote_status, state, reserved_object_identifier, object_identifier,
+        transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        local_status, remote_status, state, reserved_object_identifier, object_identifier, transfer_status, file, owner,
+        local_status, remote_status, state, reserved_object_identifier, object_identifier,
+        transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -280,6 +283,16 @@ return array(
             ),
         ),
 
+        'remote_last_mod_date'       => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.remote_last_mod_date',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+
         'changed'                    => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -346,6 +359,28 @@ return array(
                 'maxitems'      => 1,
             ),
         ),
+
+        'editor_uid'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.editor_uid',
+            'config'    => array(
+                'type'    => 'input',
+                'size'    => 30,
+                'eval'    => 'trim'
+            ),
+        ),
+
+        'temporary'                      => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.temporary',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
+
 
     ),
 );

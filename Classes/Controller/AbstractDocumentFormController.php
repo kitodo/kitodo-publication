@@ -245,19 +245,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
 
         $requestArguments = $this->request->getArguments();
 
-        if (array_key_exists('savecontinue', $requestArguments)) {
-
-            $tmpDocument = $this->objectManager->get(Document::class);
-
-            $tmpDocument->setTitle($newDocument->getTitle());
-            $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setXmlData($newDocument->getXmlData());
-            $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
-            $tmpDocument->setDocumentType($newDocument->getDocumentType());
-
-            $this->forward('new', null, null, array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));
-        }
-
     }
 
     public function initializeEditAction()
@@ -333,9 +320,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      */
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
-
-        $requestArguments = $this->request->getArguments();
-
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
         /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
@@ -374,12 +358,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
             }
 
         }
-
-        if (array_key_exists('savecontinue', $requestArguments)) {
-            $this->forward('edit', null, null, array('documentForm' => $documentForm));
-        }
-
-        $this->redirectToCurrentWorkspace();
     }
 
     /**
@@ -392,27 +370,17 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $this->redirectToList();
     }
 
-    /**
-     * action cancel edit
-     *
-     * @return void
-     */
-    public function cancelEditAction()
-    {
-        $this->redirectToCurrentWorkspace();
-    }
-
     public function initializeAction()
     {
         parent::initializeAction();
     }
 
-    protected function redirectToList($message = null)
+    protected function redirectAfterUpdate($document)
     {
         $this->redirect('list');
     }
 
-    protected function redirectToCurrentWorkspace($message = null)
+    protected function redirectToList($message = null)
     {
         $this->redirect('list');
     }

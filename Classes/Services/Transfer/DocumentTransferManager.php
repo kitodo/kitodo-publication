@@ -152,8 +152,8 @@ class DocumentTransferManager
         $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
         $elasticsearchRepository->delete($document, "");
 
-        $document->setTransferStatus(Document::TRANSFER_QUEUED);
-        $this->documentRepository->update($document);
+        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
+        //$this->documentRepository->update($document);
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
@@ -174,14 +174,14 @@ class DocumentTransferManager
         $metsXml = $exporter->getMetsData();
 
         if ($this->remoteRepository->update($document, $metsXml)) {
-            $document->setTransferStatus(Document::TRANSFER_SENT);
-            $this->documentRepository->update($document);
-            $this->documentRepository->remove($document);
+            //$document->setTransferStatus(Document::TRANSFER_SENT);
+            //$this->documentRepository->update($document);
+            //$this->documentRepository->remove($document);
 
             return true;
         } else {
-            $document->setTransferStatus(Document::TRANSFER_ERROR);
-            $this->documentRepository->update($document);
+            //$document->setTransferStatus(Document::TRANSFER_ERROR);
+            //$this->documentRepository->update($document);
             return false;
         }
 
@@ -191,16 +191,21 @@ class DocumentTransferManager
      * Gets an existing document from the Fedora repository
      *
      * @param string $remoteId
-     * @return boolean
+     * @param integer editorFeUserUid
+     *
+     * @return \EWW\Dpf\Domain\Model\Document|null
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function retrieve($remoteId)
+    public function retrieve($remoteId, $editorFeUserUid = 0)
     {
 
         $metsXml = $this->remoteRepository->retrieve($remoteId);
 
-        if ($this->documentRepository->findOneByObjectIdentifier($remoteId)) {
-            throw new \Exception("Document already exist: $remoteId");
-        };
+        // @var \EWW\Dpf\Domain\Model\Document $document
+        // $document = $this->documentRepository->findOneByObjectIdentifier($remoteId);
+        // if ($document) {
+        //    throw new \Exception("Document working copy already exist: $remoteId");
+        // }
 
         if ($metsXml) {
             $mets = new \EWW\Dpf\Helper\Mets($metsXml);
@@ -237,6 +242,7 @@ class DocumentTransferManager
                     break;
             }
 
+            $document->setRemoteLastModDate($mets->getLastModDate());
             $document->setObjectIdentifier($remoteId);
             $document->setTitle($title);
             $document->setAuthors($authors);
@@ -248,6 +254,9 @@ class DocumentTransferManager
             $document->setDateIssued($mods->getDateIssued());
 
             $document->setProcessNumber($slub->getProcessNumber());
+
+            $document->setTemporary(TRUE);
+            $document->setEditorUid($editorFeUserUid);
 
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
@@ -273,13 +282,13 @@ class DocumentTransferManager
                 $this->fileRepository->add($file);
             }
 
-            return true;
+            return $document;
 
         } else {
-            return false;
+            return NULL;
         }
 
-        return false;
+        return NULL;
     }
 
     /**
@@ -292,23 +301,23 @@ class DocumentTransferManager
     public function delete($document, $state)
     {
 
-        $document->setTransferStatus(Document::TRANSFER_QUEUED);
-        $this->documentRepository->update($document);
+        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
+        //$this->documentRepository->update($document);
 
             switch ($state) {
                 case "revert":
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
-                        $this->documentRepository->update($document);
+                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
+                        //$this->documentRepository->update($document);
                         return true;
                     }
                     break;
                 case "inactivate":
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
-                        $this->documentRepository->update($document);
+                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
+                        //$this->documentRepository->update($document);
                         return true;
                     }
                     break;
@@ -319,16 +328,16 @@ class DocumentTransferManager
 
                     if ($this->remoteRepository->delete($document, $state)) {
                         $document->setTransferStatus(Document::TRANSFER_SENT);
-                        $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
-                        $this->documentRepository->update($document);
-                        $this->documentRepository->remove($document);
+                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
+                        //$this->documentRepository->update($document);
+                        //$this->documentRepository->remove($document);
                         return true;
                     }
                     break;
             }
 
-            $document->setTransferStatus(Document::TRANSFER_ERROR);
-            $this->documentRepository->update($document);
+            //$document->setTransferStatus(Document::TRANSFER_ERROR);
+            //$this->documentRepository->update($document);
             return false;
     }
 
@@ -348,6 +357,23 @@ class DocumentTransferManager
         $nextDocumentId = $xpath->query("/management:pidList/management:pid");
 
         return $nextDocumentId->item(0)->nodeValue;
+    }
+
+    /**
+     * Gets the last modification date of the remote document (remoteId)
+     *
+     * @param string $remoteId
+     * @return string
+     */
+    public function getLastModDate($remoteId) {
+        $metsXml = $this->remoteRepository->retrieve($remoteId);
+
+        if ($metsXml) {
+            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
+            return $mets->getLastModDate();
+        }
+
+        return NULL;
     }
 
 }

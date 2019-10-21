@@ -110,6 +110,9 @@
 		<trans-unit id="tx_dpf_domain_model_document.state">
 			<source>State</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.remote_last_mod_date">
+			<source>Remote last modification date</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.transfer_status">
 			<source>Transfer State</source>
 		</trans-unit>
@@ -130,6 +133,15 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.owner">
+			<source>Owner</source>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.editor_uid">
+			<source>Editor uid</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.temporary">
+			<source>Temporary</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.changed">
 			<source>Changed</source>
@@ -392,6 +404,12 @@
 		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_librarian">
 			<source>Librarian</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_viewer">
+            <source>Viewer</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_viewer.fe_user_uid">
+            <source>FeUser Uid</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -148,5 +149,8 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     public function initializeAction()
     {
         parent::initializeAction();
+
+        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+        $signalSlotDispatcher->dispatch(get_class($this), 'actionChange', [$this->actionMethodName, get_class($this)]);
     }
 }

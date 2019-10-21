@@ -86,20 +86,40 @@
                         <i class="fas fa-info-circle"></i>
                     </dpf:link.dataCite>
 
-                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{alreadyImported}')}">
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
                         <f:then>
-                            <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
-                                           class="btn btn-sm btn-info disabled">
+                            <f:link.action action="showDetails"
+                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                                           class="btn btn-sm btn-info">
                                 <i class="fas fa-download"></i>
-                                {f:translate(key: 'manager.get')}
+                                {f:translate(key: 'manager.showWorkingCopy')}
                             </f:link.action>
                         </f:then>
                         <f:else>
-                            <f:link.action action="import"
-                                           arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }"
-                                           class="btn btn-sm btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
+                            <f:link.action action="showDetails"
+                                           arguments="{documentObjectIdentifier : ''}"
+                                           class="btn btn-sm btn-info disabled">
                                 <i class="fas fa-download"></i>
-                                {f:translate(key: 'manager.get')}
+                                {f:translate(key: 'manager.showWorkingCopy')}
+                            </f:link.action>
+                        </f:else>
+                    </f:if>
+
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
+                        <f:then>
+                            <f:link.action action="importForEditing"
+                                           arguments="{documentObjectIdentifier : ''}"
+                                           class="btn btn-sm btn-info disabled">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.show')}
+                            </f:link.action>
+                        </f:then>
+                        <f:else>
+                            <f:link.action action="importForEditing"
+                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                                           class="btn btn-sm btn-info">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.show')}
                             </f:link.action>
                         </f:else>
                     </f:if>
@@ -128,6 +148,7 @@
                     </f:if>
                 </td>
                 <td class="table_col_function">
+
                     <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
                                    class="btn btn-sm btn-info disabled">
                         <i class="fas fa-download"></i>

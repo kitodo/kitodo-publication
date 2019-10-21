@@ -46,6 +46,15 @@
     </f:link.action>
 </f:if>
 
+<f:link.action
+        action="uploadFiles"
+        arguments="{document : document}"
+        class="btn btn-sm btn-outline-secondary
+            {f:if(condition: '{dpf:canAccess(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
+        title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
+        additionalAttributes="{data-toggle: 'tooltip' }">
+    <i class="fas fa-file-upload"></i>
+</f:link.action>
 
 <f:comment>
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
@@ -68,6 +77,7 @@
 </f:if>
 </f:comment>
 
+<f:comment>
 <f:link.action
         action="discard"
         controller="Document"
@@ -107,30 +117,38 @@
                 </f:link.action>
             </f:then>
             <f:else>
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE')}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE_PUBLISH')} && {dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE_UPDATE')}">
                     <f:then>
-                        <f:if condition="{document.ingestRemote}">
-                            <f:link.action action="release" arguments="{document : document, releaseType : 'publish'}"
-                                           class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success disabled')}"
-                                           additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-check"></i>
-                                {f:translate(key: 'manager.publish')}
-                            </f:link.action>
-                        </f:if>
-                        <f:if condition="{document.updateRemote}">
-                            <f:link.action action="release" arguments="{document : document, releaseType : 'update'}"
-                                           class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success disabled')}"
-                                           additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleaseUpdate'}">
-                                <i class="fas fa-sync"></i>
-                                {f:translate(key: 'manager.update')}
-                            </f:link.action>
-                        </f:if>
+                                {f:translate(key: 'manager.releasePublish')}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <f:link.action action="releaseUpdate" arguments="{document : document}"
+                                               class="dropdown-item {f:if(condition: '{document.valid}', then: '', else: 'btn-success disab')}"
+                                               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleaseUpdate'}">
+                                    <i class="fas fa-sync"></i>
+                                    {f:translate(key: 'manager.releaseUpdate')}
+                                </f:link.action>
+                                <f:link.action action="releasePublish" arguments="{document : document}"
+                                               class="dropdown-item {f:if(condition: '{document.valid}', then: '', else: 'btn-success disabled')}"
+                                               additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
+                                    <i class="fas fa-check"></i>
+                                    {f:translate(key: 'manager.releasePublish')}
+                                </f:link.action>
+                            </div>
+                        </div>
                     </f:then>
                     <f:else>
-                        <a href="#" class="btn btn-sm btn-success disabled">
+                        <f:link.action action="releasePublish" arguments="{document : document}"
+                                       class="btn btn-sm btn-success
+                                        {f:if(condition: '{dpf:canAccess(subject:\'{document}\', attribute:\'DOCUMENT_ACTIVATE\')} ||
+                                        {document.valid}', then: '', else: 'disabled')}"
+                                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
                             <i class="fas fa-check"></i>
-                            {f:translate(key: 'manager.publish')}
-                        </a>
+                            {f:translate(key: 'manager.releasePublish')}
+                        </f:link.action>
                     </f:else>
                 </f:if>
             </f:else>
@@ -160,3 +178,5 @@
         additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
     <i class="fas fa-trash-alt" data-toggle="tooltip" title="{f:translate(key: 'form_button.deleteLocally')}"></i>
 </f:link.action>
+
+</f:comment>

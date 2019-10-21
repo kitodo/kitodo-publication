@@ -26,6 +26,9 @@
 		<trans-unit id="transfer_status.description">
 			<source>Transfer State</source>
 		</trans-unit>
+		<trans-unit id="remote_last_mod_date.description">
+			<source>Remote last modification date</source>
+		</trans-unit>
 		<trans-unit id="process_number.description">
 			<source>processNumber</source>
 		</trans-unit>
@@ -49,6 +52,18 @@
         </trans-unit>
         <trans-unit id="file.description">
             <source>file</source>
+        </trans-unit>
+        <trans-unit id="owner.description">
+            <source>owner</source>
+        </trans-unit>
+        <trans-unit id="editor_uid.description">
+            <source>editor uid</source>
+        </trans-unit>
+        <trans-unit id="temporary.description">
+            <source>temporary</source>
+        </trans-unit>
+        <trans-unit id="viewers.description">
+            <source>viewers</source>
         </trans-unit>
 		</body>
 	</file>

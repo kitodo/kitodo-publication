@@ -21,28 +21,38 @@ use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\Transfer\DocumentTransferManager;
+use EWW\Dpf\Services\Transfer\FedoraRepository;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+
 
 class DocumentFormBackofficeController extends AbstractDocumentFormController
 {
+    /**
+     * documentTransferManager
+     *
+     * @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager
+     */
+    protected $documentTransferManager;
 
+    /**
+     * fedoraRepository
+     *
+     * @var \EWW\Dpf\Services\Transfer\FedoraRepository $fedoraRepository
+     */
+    protected $fedoraRepository;
+
+    /**
+     * DocumentController constructor.
+     */
     public function __construct()
     {
         parent::__construct();
 
-    }
-
-    protected function redirectToCurrentWorkspace($message = null)
-    {
-        $redirectAction = $this->getSessionData('currentWorkspaceAction');
-
-        $redirectAction = empty($redirectAction)? 'defaultAction' : $redirectAction;
-
-        $this->redirect($redirectAction, 'Document', null, array('message' => $message));
-    }
-
-    protected function redirectToList($message = null)
-    {
-        $this->redirect('list', 'DocumentFormBackoffice', null);
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $this->documentTransferManager = $objectManager->get(DocumentTransferManager::class);
+        $this->fedoraRepository = $objectManager->get(FedoraRepository::class);
+        $this->documentTransferManager->setRemoteRepository($this->fedoraRepository);
     }
 
     /**
@@ -53,19 +63,25 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     public function deleteAction($documentData)
     {
+        die("TODO: obsolete action?");
+        // TODO: obsolete action?
+
         /* @var $document \EWW\Dpf\Domain\Model\Document */
         $document = $this->documentRepository->findByUid($documentData['documentUid']);
-        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DELETE, $document);
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::DELETE, $document)) {
+            $message = "Das Dokument konnte nicht gelöscht werden, der Zugriff wurde verweigert.";
+            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
 
         try {
             $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+
             // send document to index
             $elasticsearchRepository->delete($document, "");
-
-            //$document->setLocalStatus(LocalDocumentStatus::DELETED);
-
             $this->documentRepository->update($document);
-
             $this->redirectToList();
 
         } catch (\Exception $exception) {
@@ -90,8 +106,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $this->forward('edit', 'DocumentFormBackoffice', null, array('document' => $document));
         }
-
-
     }
 
 
@@ -104,23 +118,104 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-        $this->view->assign('document', $document);
-        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::EDIT, $document);
 
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::EDIT, $document)) {
+            $message[] = "Das Dokumnet wird bereits bearbeitet.";
+                //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+
+        $document->setEditorUid($this->security->getUser()->getUid());
+        $this->documentRepository->update($document);
+        $this->persistenceManager->persistAll();
         parent::editAction($documentForm);
     }
 
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
+        if ($this->request->hasArgument('saveAndUpdate')) {
+            $this->forward('updateRemote',NULL, NULL, ['documentForm' => $documentForm]);
+        } else {
+            $this->forward(
+                'updateLocally',
+                NULL,
+                NULL,
+                [
+                    'documentForm' => $documentForm,
+                    'workingCopy' => $this->request->hasArgument('saveWorkingCopy')
+                ]
+            );
+
+        }
+
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
+     * @param bool $workingCopy
+     * @return bool
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function updateLocallyAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $workingCopy)
+    {
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-        $this->view->assign('document', $document);
-        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::UPDATE, $document);
+
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+            $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
+            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
 
         try {
             parent::updateAction($documentForm);
-        } catch (\Exception $exception) {
 
+            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
+
+            /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
+            $updateDocument = $documentMapper->getDocument($documentForm);
+
+            if ($updateDocument->getTemporary()) {
+                if ($workingCopy) {
+                    $documents = $this->documentRepository->findByObjectIdentifier($updateDocument->getObjectIdentifier());
+                    foreach ($documents as $document) {
+                        if (!$document->getTemporary()) {
+                            $message[] = "Das Dokument kann nicht gespeichert werden, es gibt bereits eine Arbeitskopie.";
+                            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+                            $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
+                        }
+                    }
+                    $updateDocument->setTemporary(FALSE);
+                }
+            }
+
+            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
+                $updateDocument->getState() === DocumentWorkflow::STATE_REGISTERED_NONE) {
+
+                $state = explode(":", $updateDocument->getState());
+
+                $state[0] = DocumentWorkflow::LOCAL_STATE_IN_PROGRESS;
+                $updateDocument->setState(implode(":", $state));
+
+            }
+
+            if (!$updateDocument->getTemporary()) {
+                $updateDocument->setEditorUid(0);
+            }
+
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
+        } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -132,15 +227,62 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
             $updateDocument = $documentMapper->getDocument($documentForm);
 
-            if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
-                $updateDocument->getState() !== DocumentWorkflow::STATE_NEW_NONE) {
+            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
+                'dpf',
+                array($updateDocument->getTitle())
+            );
 
-                $state = explode(":", $updateDocument->getState());
+            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
-                $state[0] = DocumentWorkflow::LOCAL_STATE_IN_PROGRESS;
-                $updateDocument->setState(implode(":", $state));
+            $this->addFlashMessage(implode(" ", $message), '', $severity,true);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        }
+    }
 
+
+    public function updateRemoteAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    {
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
+        $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+            $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
+            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+
+        try {
+            parent::updateAction($documentForm);
+
+            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
+
+            /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
+            $updateDocument = $documentMapper->getDocument($documentForm);
+
+            $this->documentTransferManager->update($updateDocument);
+
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$document->getTitle()]);
+            $this->addFlashMessage( $message, '', AbstractMessage::OK);
+            $this->redirectToDocumentList();
+
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
             }
+
+            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
+            $updateDocument = $documentMapper->getDocument($documentForm);
 
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
@@ -150,18 +292,29 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
-
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
-
-            $this->forward('edit', 'DocumentFormBackoffice', null, array('document' => $updateDocument));
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
     }
 
+
+
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
+        /** @var \EWW\Dpf\Helper\DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $documentMapper->getDocument($newDocumentForm);
-        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::CREATE, $document);
+
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::CREATE, $document)) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:documentForm.create.accessDenied';
+            $args[] = $document->getTitle();
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
 
         try {
             parent::createAction($newDocumentForm);
@@ -198,6 +351,34 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->redirectToList();
     }
 
+
+    /**
+     * action cancel edit
+     *
+     * @param integer $documentUid
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     *
+     * @return void
+     */
+    public function cancelEditAction($documentUid = 0)
+    {
+        if ($documentUid) {
+            /* @var $document \EWW\Dpf\Domain\Model\Document */
+            $document = $this->documentRepository->findByUid($documentUid);
+
+            if ($document) {
+                if (!$document->getTemporary() && $document->getEditorUid() === $this->security->getUser()->getUid()) {
+                    $document->setEditorUid(0);
+                }
+                $this->documentRepository->update($document);
+            }
+
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        }
+
+    }
+
     public function initializeAction()
     {
         $this->authorizationChecker->denyAccessUnlessLoggedIn();
@@ -205,5 +386,20 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         parent::initializeAction();
 
     }
+
+    /**
+     * Redirect to the current document list.
+     *
+     * @param null $message
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    protected function redirectToDocumentList($message = null)
+    {
+        $redirectAction = $this->getSessionData('redirectToDocumentListAction');
+        $redirectController = $this->getSessionData('redirectToDocumentListController');
+        $this->redirect($redirectAction, $redirectController, null, array('message' => $message));
+    }
+
 
 }

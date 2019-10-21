@@ -78,24 +78,24 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, register, release, '
-            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles, '
+        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, register, releasePublish, '
+            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, releaseActivate, inactivate, restore, cancelListTask, uploadFiles, '
             . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-        'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
+        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, release, register, '
-            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, activate, inactivate, restore, cancelListTask, uploadFiles, '
+        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, releasePublish, '
+            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, releaseActivate, inactivate, restore, cancelListTask, uploadFiles, '
             . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, delete, cancelEdit, cancel',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, delete, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-        'Search'           => 'list, search, import, doubletCheck, nextResults, extendedSearch, latest',
+        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     )
 );
@@ -114,3 +114,26 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
+
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\DocumentController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\SearchController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\DocumentFormBackofficeController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);

@@ -14,6 +14,7 @@ $(document).ready(function() {
     jQuery('#new-document-form').trigger('reset');
     documentListConfirmDialog('#confirmDiscard');
     documentListConfirmDialog('#confirmReleasePublish');
+    documentListConfirmDialog('#confirmReleaseActivate');
     documentListConfirmDialog('#confirmReleaseUpdate');
     documentListConfirmDialog('#confirmActivate');
     documentListConfirmDialog('#confirmInactivate');

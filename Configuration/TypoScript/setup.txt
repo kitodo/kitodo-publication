@@ -24,6 +24,12 @@ config.tx_extbase {
 					tableName = fe_groups
 				}
 			}
+
+			EWW\Dpf\Domain\Model\Document {
+				mapping {
+					tstamp.mapOnProperty = tstamp
+				}
+			}
 		}
 	}
 }
@@ -123,6 +129,7 @@ page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jq
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js
 page.includeJS.tx_dpf_jquery_ui = EXT:dpf/Resources/Public/JavaScript/jquery-ui.min.js
 page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
+page.includeJSFooter.tx_dpf_pooper = https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
