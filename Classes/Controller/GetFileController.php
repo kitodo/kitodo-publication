@@ -66,7 +66,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $clientConfigurationManager;
 
-    public function attachmentAction()
+    public function dispatchAction()
     {
 
         $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail

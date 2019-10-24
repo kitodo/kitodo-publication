@@ -65,11 +65,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Getfile',
     array(
-        'GetFile'     => 'attachment',
+        'GetFile'     => 'dispatch',
     ),
     // non-cacheable actions
     array(
-        'GetFile'     => 'attachment',
+        'GetFile'     => 'dispatch',
     )
 );
 
