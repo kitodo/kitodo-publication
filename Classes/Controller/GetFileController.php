@@ -41,6 +41,8 @@
 namespace EWW\Dpf\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Services\MetsExporter;
+use EWW\Dpf\Helper\DataCiteXml;
 
 /**
  * GetFileController
@@ -137,10 +139,10 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                         . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
 
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
-                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
                 } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
                     $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
-                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
                 } else {
                     $this->response->setStatus(404);
                     return 'No such document';
@@ -282,7 +284,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function buildMetsXml($document)
     {
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new MetsExporter();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
         $exporter->setMods($document->getXmlData());
