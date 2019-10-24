@@ -1,7 +1,6 @@
 <?php
-namespace EWW\Dpf\Controller;
 
-/*
+/**
  * This file is part of the TYPO3 CMS project.
  *
  * It is free software; you can redistribute it and/or modify it under
@@ -12,9 +11,7 @@ namespace EWW\Dpf\Controller;
  * LICENSE.txt file that was distributed with this source code.
  *
  * The TYPO3 project - inspiring people to share!
- */
-
-/**
+ *
  * API to return METS dissemination and Attachments from Fedora.
  * Also renders METS XML for preview. Structure of the URIs totally
  * depend on proper RealURL configuration.
@@ -40,6 +37,8 @@ namespace EWW\Dpf\Controller;
  * @author Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
  * @author Florian Rügamer <florian.ruegamer@slub-dresden.de>
  */
+
+namespace EWW\Dpf\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -81,56 +80,44 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         switch ($piVars['action']) {
             case 'mets':
-                $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                $path = rtrim('http://' . $fedoraHost, "/")
+                    . '/fedora/objects/' . $piVars['qid']
+                    . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
                 break;
 
             case 'preview':
-
                 $document = $this->documentRepository->findByUid($piVars['qid']);
 
                 if ($document) {
-
                     $metsXml = $this->buildMetsXml($document);
                     $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                     return $metsXml;
-
                 } else {
-
                     $this->response->setStatus(404);
                     return 'No such document';
-
                 }
+                break;
 
             case 'attachment':
-
                 $qid = $piVars['qid'];
-
                 $attachment = $piVars['attachment'];
 
                 if (is_numeric($piVars['qid'])) {
-
                     // qid is local uid
                     $document = $this->documentRepository->findByUid($piVars['qid']);
-
                     $files = $document->getCurrentFileData();
 
                     foreach ($files['download'] as $id => $file) {
-
                         if ($file['id'] == $attachment) {
-
                             $path = $file['path'];
-
                             $contentType = $file['type'];
-
                             break;
-
                         }
                     }
-
                 } else {
-
-                    $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
-
+                    $path = rtrim('http://' . $fedoraHost, "/")
+                        . '/fedora/objects/' . $qid
+                        . '/datastreams/' . $attachment . '/content';
                 }
 
                 if (empty($path)) {
@@ -141,25 +128,22 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 break;
 
             case 'dataCite':
-
                 $qid = $piVars['qid'];
                 $source = explode(':', $qid);
-                if ($source[0] == 'qucosa') {
 
-                    $path = rtrim('http://' . $fedoraHost, "/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                if ($source[0] == 'qucosa') {
+                    $path = rtrim('http://' . $fedoraHost, "/")
+                        . '/fedora/objects/' . $piVars['qid']
+                        . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
-
                 } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
-
                     $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
-
                 } else {
-
                     $this->response->setStatus(404);
                     return 'No such document';
-
                 }
                 $dom = new \DOMDocument('1.0', 'UTF-8');
                 $dom->loadXML($dataCiteXml);
@@ -178,9 +162,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 break;
 
             default:
-
                 $this->response->setStatus(404);
-
                 return 'No such action';
         }
 
@@ -189,26 +171,32 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // allow dissemination if a request parameter 'deliverInactive' has the secret
         // TYPOScript configuration value 'deliverInactiveSecretKey'
 
-        $restrictToActiveDocuments = TRUE;
+        $restrictToActiveDocuments = true;
         $deliverInactiveSecretKey = $this->settings['deliverInactiveSecretKey'];
 
         if ($deliverInactiveSecretKey == $piVars['deliverInactive']) {
-            $restrictToActiveDocuments = FALSE;
+            $restrictToActiveDocuments = false;
         }
 
-        if (TRUE === $isRepositoryObject) {
-            if (TRUE === $restrictToActiveDocuments) {
+        if (true === $isRepositoryObject) {
+            if (true === $restrictToActiveDocuments) {
                 // if restriction applies, check object state before dissemination
-                $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
+                $objectProfileURI = rtrim('http://' . $fedoraHost, "/")
+                    . '/fedora/objects/' . $piVars['qid'] . '?format=XML';
+
                 $objectProfileXML = file_get_contents($objectProfileURI);
-                if (FALSE !== $objectProfileXML) {
+
+                if (false !== $objectProfileXML) {
                     $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-                    if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
+
+                    if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
                         $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+
                         if ('I' === $objectState->nodeValue) {
                             $this->response->setStatus(403);
                             return 'Forbidden';
                         }
+
                         if ('D' === $objectState->nodeValue) {
                             $this->response->setStatus(404);
                             return 'Not Found';
@@ -224,7 +212,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // get remote header and set it before passtrough
         $headers = get_headers($path);
 
-        if (FALSE === $headers) {
+        if (false === $headers) {
             $this->response->setStatus(500);
             return 'Error while fetching headers';
         }
@@ -234,19 +222,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         foreach ($headers as $value) {
 
-            if (FALSE !== stripos($value, 'Content-Disposition')) {
+            if (false !== stripos($value, 'Content-Disposition')) {
                 header($value);
                 $contentDispFlag = true;
                 continue;
             }
 
-            if (FALSE !== stripos($value, 'Content-Type')) {
+            if (false !== stripos($value, 'Content-Type')) {
                 header($value);
                 $contentTypeFlag = true;
                 continue;
             }
 
-            if (FALSE !== stripos($value, 'Content-Length')) {
+            if (false !== stripos($value, 'Content-Length')) {
                 header($value);
                 continue;
             }
@@ -261,7 +249,6 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         }
 
         if ($stream = fopen($path, 'r')) {
-
             // close active session if any
             session_write_close();
 
@@ -274,12 +261,10 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
             // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
             exit;
-
         } else {
             $this->response->setStatus(500);
             return 'Error while opening stream';
         }
-
     }
 
     private static function sanitizeFilename($filename)
@@ -297,7 +282,6 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function buildMetsXml($document)
     {
-
         $exporter = new \EWW\Dpf\Services\MetsExporter();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
@@ -305,13 +289,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $exporter->setSlubInfo($document->getSlubInfoData());
 
         if (empty($document->getObjectIdentifier())) {
-
             $exporter->setObjId($document->getUid());
-
         } else {
-
             $exporter->setObjId($document->getObjectIdentifier());
-
         }
 
         $exporter->buildMets();
@@ -329,4 +309,3 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         return !$allowed;
     }
 }
-
