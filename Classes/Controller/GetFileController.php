@@ -41,8 +41,10 @@
 namespace EWW\Dpf\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use EWW\Dpf\Services\MetsExporter;
+use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Helper\DataCiteXml;
+use EWW\Dpf\Services\MetsExporter;
 
 /**
  * GetFileController
@@ -53,7 +55,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     /**
      * documentRepository
      *
-     * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+     * @var DocumentRepository
      * @inject
      */
     protected $documentRepository;
@@ -61,106 +63,104 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     /**
      * clientConfigurationManager
      *
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @var ClientConfigurationManager
      * @inject
      */
     protected $clientConfigurationManager;
 
     public function dispatchAction()
     {
+        $queryParams = $this->getQueryParameters();
 
-        $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
+        $action = $queryParams['action'];
+        $qid = $queryParams['qid'];
+        $attachmentId = $queryParams['attachment'];
+        $deliverInactiveKey = $queryParams['deliverInactive'];
 
-        $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
-
-        if ($this->isForbidden($piVars['action'])) {
+        if ($this->isForbidden($action)) {
             $this->response->setStatus(403);
-            return 'Forbidden';
+            return "Forbidden";
         }
 
-        $isRepositoryObject = !is_numeric($piVars['qid']);
+        if (!$qid) {
+            $this->response->setStatus(400);
+            return 'Bad Request';
+        }
 
-        switch ($piVars['action']) {
+        $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
+        $isRepositoryObject = !is_numeric($qid);
+        $contentType = "text/xml; charset=UTF-8"; // default content-type
+
+        switch ($action) {
             case 'mets':
-                $path = rtrim('http://' . $fedoraHost, "/")
-                    . '/fedora/objects/' . $piVars['qid']
-                    . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                $contentUri = $this->buildMetsURI($fedoraHost, $qid);
                 break;
 
             case 'preview':
-                $document = $this->documentRepository->findByUid($piVars['qid']);
+                $metsXml = $this->buildPreviewDocument($qid);
 
-                if ($document) {
-                    $metsXml = $this->buildMetsXml($document);
-                    $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                    return $metsXml;
-                } else {
+                if (!$metsXml) {
                     $this->response->setStatus(404);
                     return 'No such document';
                 }
+
+                $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+                return $metsXml;
+
                 break;
 
             case 'attachment':
-                $qid = $piVars['qid'];
-                $attachment = $piVars['attachment'];
-
-                if (is_numeric($piVars['qid'])) {
-                    // qid is local uid
-                    $document = $this->documentRepository->findByUid($piVars['qid']);
-                    $files = $document->getCurrentFileData();
-
-                    foreach ($files['download'] as $id => $file) {
-                        if ($file['id'] == $attachment) {
-                            $path = $file['path'];
-                            $contentType = $file['type'];
-                            break;
-                        }
+                if ($isRepositoryObject) {
+                    $contentUri = $this->buildAttachmentURI($fedoraHost, $qid, $attachmentId);
+                    if (empty($contentUri)) {
+                        $this->response->setStatus(404);
+                        return 'No file found';
                     }
                 } else {
-                    $path = rtrim('http://' . $fedoraHost, "/")
-                        . '/fedora/objects/' . $qid
-                        . '/datastreams/' . $attachment . '/content';
+                    $document = $this->documentRepository->findByUid($qid);
+                    if (!$document) {
+                        $this->response->setStatus(404);
+                        return 'No such document';
+                    }
+                    $file = $this->findFileObject($document, $attachmentId);
+                    if (!$file) {
+                        $this->response->setStatus(404);
+                        return 'No file found';
+                    }
+                    $contentUri = $file['path'];
+                    $contentType = $file['type']; // override default content-type
                 }
-
-                if (empty($path)) {
-                    $this->response->setStatus(404);
-                    return 'No file found';
-                }
-
                 break;
 
             case 'dataCite':
-                $qid = $piVars['qid'];
-                $source = explode(':', $qid);
-
-                if ($source[0] == 'qucosa') {
-                    $path = rtrim('http://' . $fedoraHost, "/")
-                        . '/fedora/objects/' . $piVars['qid']
-                        . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
-
-                    $metsXml = str_replace('&', '&amp;', file_get_contents($path));
-                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
-                } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
-                    $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
-                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
+                if ($isRepositoryObject) {
+                    $contentUri = $this->buildMetsURI($fedoraHost, $qid);
+                    $metsXml = file_get_contents($contentUri);
                 } else {
+                    $metsXml = $this->buildPreviewDocument($qid);
+                }
+
+                if (!$metsXml) {
                     $this->response->setStatus(404);
                     return 'No such document';
                 }
-                $dom = new \DOMDocument('1.0', 'UTF-8');
-                $dom->loadXML($dataCiteXml);
-                $title = $dom->getElementsByTagName('title')[0];
 
-                $this->response->setHeader('Content-Disposition', 'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
+                $dataCiteRecord = $this->buildDataCiteRecord($metsXml);
                 $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                return $dataCiteXml;
+                $this->response->setHeader(
+                    'Content-Disposition',
+                    'attachment; filename="' . $dataCiteRecord['filename'] . '"'
+                );
+                return $dataCiteRecord['content'];
 
                 break;
 
             case 'zip':
                 // FIXME Service locations on Fedora host are hard coded
-                $metsUrl = rtrim('http://' . $fedoraHost, "/") . '/mets?pid=' . $piVars['qid'];
-                $path = rtrim('http://' . $fedoraHost, "/") . '/zip?xmdpfilter=true&metsurl=' . rawurlencode($metsUrl);
+                $metsUrl = rtrim('http://' . $fedoraHost, "/") . '/mets?pid=' . $qid;
+                $contentUri = rtrim('http://' . $fedoraHost, "/")
+                    . '/zip?xmdpfilter=true&metsurl='
+                    . rawurlencode($metsUrl);
                 break;
 
             default:
@@ -168,108 +168,152 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 return 'No such action';
         }
 
-        // stop here, if inactive Fedora objects are not allowed to be disseminated
-
-        // allow dissemination if a request parameter 'deliverInactive' has the secret
-        // TYPOScript configuration value 'deliverInactiveSecretKey'
-
+        // default is to restrict access
         $restrictToActiveDocuments = true;
-        $deliverInactiveSecretKey = $this->settings['deliverInactiveSecretKey'];
 
-        if ($deliverInactiveSecretKey == $piVars['deliverInactive']) {
+        // if the given secret key matches the configured secret key, lift above restriction
+        $deliverInactiveKeySecretKey = $this->settings['deliverInactiveSecretKey'];
+        if ($deliverInactiveKeySecretKey == $deliverInactiveKey) {
             $restrictToActiveDocuments = false;
         }
 
-        if (true === $isRepositoryObject) {
-            if (true === $restrictToActiveDocuments) {
-                // if restriction applies, check object state before dissemination
-                $objectProfileURI = rtrim('http://' . $fedoraHost, "/")
-                    . '/fedora/objects/' . $piVars['qid'] . '?format=XML';
+        // if restriction applies, check object state before dissemination
+        if ($isRepositoryObject && $restrictToActiveDocuments) {
+            $objectState = $this->fedoraObjectState($fedoraHost, $qid);
 
-                $objectProfileXML = file_get_contents($objectProfileURI);
-
-                if (false !== $objectProfileXML) {
-                    $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-
-                    if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
-                        $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
-
-                        if ('I' === $objectState->nodeValue) {
-                            $this->response->setStatus(403);
-                            return 'Forbidden';
-                        }
-
-                        if ('D' === $objectState->nodeValue) {
-                            $this->response->setStatus(404);
-                            return 'Not Found';
-                        }
-                    }
-                } else {
-                    $this->response->setStatus(500);
-                    return 'Internal Server Error';
-                }
+            if ($objectState === null) {
+                $this->response->setStatus(500);
+                return 'Internal Server Error';
+            }
+            if ($objectState === 'I') {
+                $this->response->setStatus(403);
+                return 'Forbidden';
+            }
+            if ($objectState === 'D') {
+                $this->response->setStatus(404);
+                return 'Not Found';
             }
         }
 
-        // get remote header and set it before passtrough
-        $headers = get_headers($path);
+        // Get headers from from remote resource and copy them to the response
+        $resourceHeaders = get_headers($contentUri);
+        $this->copyHeaderOrSetIfNotNull($resourceHeaders, 'Content-Disposition', 'attachment');
+        $this->copyHeaderOrSetIfNotNull($resourceHeaders, 'Content-Type', $contentType);
+        $this->copyHeaderOrSetIfNotNull($resourceHeaders, 'Content-Length', null);
 
-        if (false === $headers) {
-            $this->response->setStatus(500);
-            return 'Error while fetching headers';
-        }
-
-        $contentDispFlag = false;
-        $contentTypeFlag = false;
-
-        foreach ($headers as $value) {
-
-            if (false !== stripos($value, 'Content-Disposition')) {
-                header($value);
-                $contentDispFlag = true;
-                continue;
-            }
-
-            if (false !== stripos($value, 'Content-Type')) {
-                header($value);
-                $contentTypeFlag = true;
-                continue;
-            }
-
-            if (false !== stripos($value, 'Content-Length')) {
-                header($value);
-                continue;
-            }
-        }
-
-        if (!$contentDispFlag) {
-            header('Content-Disposition: attachment');
-        }
-
-        if (!$contentTypeFlag) {
-            header('Content-Type: ' . $contentType);
-        }
-
-        if ($stream = fopen($path, 'r')) {
-            // close active session if any
-            session_write_close();
-
-            // stop output buffering
-            ob_end_clean();
-
-            fpassthru($stream);
-
-            fclose($stream);
-
-            // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
-            exit;
+        if ($this->streamFile($contentUri)) {
+            exit; // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
         } else {
             $this->response->setStatus(500);
-            return 'Error while opening stream';
+            return 'Error while streaming content';
         }
     }
 
-    private static function sanitizeFilename($filename)
+    /**
+     * Stream the file content at $uri to output buffer.
+     *
+     * Ends all open sessions and disables all output buffering for
+     * streaming potentially large files.
+     *
+     * @param string $uri URI of the content to stream.
+     * @return bool True if streaming was successful, false if not.
+     */
+    private function streamFile(string $uri)
+    {
+        $stream = fopen($uri, 'r');
+        if ($stream === false) {
+            return false;
+        }
+        session_write_close(); // close active session if any
+        ob_end_clean(); // stop output buffering
+        fpassthru($stream);
+        fclose($stream);
+        return true;
+    }
+
+    private function copyHeaderOrSetIfNotNull(array $headers, string $header, $value)
+    {
+        // case-insensitive check if $header is a value in $headers
+        $matchingHeaders = preg_grep("/^" . $header . "/i", $headers);
+        if ($matchingHeaders) {
+            header(current($matchingHeaders));
+        } else {
+            if ($value != null) {
+                header(trim($header) . ": " . trim($value));
+            }
+        }
+    }
+
+    public function fedoraObjectState($fedoraHost, $pid)
+    {
+        $objectProfileURI = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $pid . '?format=XML';
+        $objectProfileXML = file_get_contents($objectProfileURI);
+
+        if (false !== $objectProfileXML) {
+            $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
+            if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
+                $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+                return $objectState->nodeValue;
+            }
+        }
+
+        return null;
+    }
+
+    private function buildDataCiteRecord($metsXml)
+    {
+        $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom->loadXML($dataCiteXml);
+        $title = $dom->getElementsByTagName('title')[0];
+        $filename = $this->sanitizeFilename($title->nodeValue) . '.DataCite.xml';
+        return [
+            "filename" => $filename,
+            "content" => $dom->saveXML()
+        ];
+    }
+
+    private function findFileObject($document, $attachmentId)
+    {
+        $files = $document->getCurrentFileData();
+
+        foreach ($files['download'] as $id => $file) {
+            if ($file['id'] == $attachmentId) {
+                return $file;
+                break;
+            }
+        }
+
+        return null;
+    }
+
+    private function buildAttachmentURI($fedoraHost, $pid, $dsid)
+    {
+        return rtrim('http://' . $fedoraHost, "/")
+            . '/fedora/objects/' . $pid
+            . '/datastreams/' . $dsid . '/content';
+    }
+
+    private function buildPreviewDocument($pid)
+    {
+        $document = $this->documentRepository->findByUid($pid);
+
+        if ($document) {
+            $metsXml = $this->buildMetsXml($document);
+            return $metsXml;
+        } else {
+            return null;
+        }
+    }
+
+    private function buildMetsURI($fedoraHost, $pid)
+    {
+        return rtrim('http://' . $fedoraHost, "/")
+            . '/fedora/objects/' . $pid
+            . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+    }
+
+    private function sanitizeFilename($filename)
     {
         // remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
         $filename = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $filename);
@@ -309,5 +353,23 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             && is_array($this->settings['allowedActions'])
             && in_array($action, $this->settings['allowedActions']);
         return !$allowed;
+    }
+
+    /**
+     * Returns an associative array of query parameters.
+     *
+     * If a parameter is not set, it's array value is null.
+     *
+     * @return array Associative array containing the parameters.
+     */
+    private function getQueryParameters()
+    {
+        $queryParams = GeneralUtility::_GP('tx_dpf');
+        $params = ["action", "attachment", "deliverInactive", "qid"];
+        $result = [];
+        foreach ($params as $p) {
+            $result[$p] = (array_key_exists($p, $queryParams)) ? $queryParams[$p] : null;
+        }
+        return $result;
     }
 }
