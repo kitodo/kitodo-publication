@@ -126,13 +126,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             return FALSE;
         }
 
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
+        $updateDocument = $documentMapper->getDocument($documentForm);
+
         try {
             parent::updateAction($documentForm);
-
-            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
-
-            /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
-            $updateDocument = $documentMapper->getDocument($documentForm);
 
             if ($updateDocument->getTemporary()) {
                 if ($workingCopy) {
@@ -159,29 +159,28 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
                 $state[0] = DocumentWorkflow::LOCAL_STATE_IN_PROGRESS;
                 $updateDocument->setState(implode(":", $state));
-
+                die("state");
             }
 
             if (!$updateDocument->getTemporary()) {
                 $updateDocument->setEditorUid(0);
             }
 
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            $this->documentRepository->update($updateDocument);
+
+            $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
 
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+            $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
                 $key = $exception->messageLanguageKey();
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
             }
-
-            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
-            $updateDocument = $documentMapper->getDocument($documentForm);
 
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
@@ -192,7 +191,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
             $this->addFlashMessage(implode(" ", $message), '', $severity,true);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
         }
     }
 
