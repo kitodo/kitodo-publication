@@ -148,7 +148,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
                         }
                     }
-                    $updateDocument->setTemporary(FALSE);
+                    $updateDocument->setTemporary(false);
                 }
             }
 
@@ -168,6 +168,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $this->documentRepository->update($updateDocument);
 
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.success',
+                'dpf',
+                array($updateDocument->getTitle())
+            );
+            $this->addFlashMessage($message, '', AbstractMessage::OK);
             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
 
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
@@ -213,20 +219,25 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         }
 
         try {
-            parent::updateAction($documentForm);
-
-            $documentMapper = $this->objectManager->get(\EWW\Dpf\Helper\DocumentMapper::class);
+            $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
             /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
             $updateDocument = $documentMapper->getDocument($documentForm);
 
-            $this->documentTransferManager->update($updateDocument);
+            if ($this->documentTransferManager->getLastModDate($updateDocument->getObjectIdentifier()) === $updateDocument->getRemoteLastModDate()) {
+                parent::updateAction($documentForm);
+                $this->documentTransferManager->update($updateDocument);
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$document->getTitle()]);
-            $this->addFlashMessage( $message, '', AbstractMessage::OK);
-            $this->redirectToDocumentList();
-
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$updateDocument->getTitle()]);
+                $this->addFlashMessage($message, '', AbstractMessage::OK);
+                $this->redirectToDocumentList();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failureNewVersion';
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$updateDocument->getTitle()]);
+                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                $this->redirectToDocumentList();
+            }
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling

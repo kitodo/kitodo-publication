@@ -89,6 +89,10 @@
 			<source>%s could not be released, access denied.</source>
 			<target>%s konnte nicht freigegeben werden, der Zugriff wurde verweigert.</target>
 		</trans-unit>
+		<trans-unit id="document_activate.failureNewVersion" approved="yes">
+			<source>Releasing %s failed. There is a newer Version.</source>
+			<target>Freigabe von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
+		</trans-unit>
 		<trans-unit id="document_activate.success" approved="yes">
 			<source>%s successfully released.</source>
 			<target>%s erfolgreich freigegeben.</target>
@@ -134,8 +138,16 @@
 			<target>Speicherung von %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
 		</trans-unit>
 		<trans-unit id="document_updateLocally.failureCreateWorkingCopy" approved="yes">
-			<source>Saving %s failed, there is already a work copy.</source>
+			<source>Saving %s failed, there is already a working copy.</source>
 			<target>Speicherung von %s fehlgeschlagen, es existiert bereits Arbeitspopie.</target>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.failureNewVersion" approved="yes">
+			<source>Saving %s failed. There is a newer Version.</source>
+			<target>Speicherung von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.success" approved="yes">
+			<source>%s successfully saved.</source>
+			<target>%s erfolgreich gespeichert.</target>
 		</trans-unit>
 		<trans-unit id="document_edit.failureBlocked" approved="yes">
 			<source>%s is already being edited.</source>
