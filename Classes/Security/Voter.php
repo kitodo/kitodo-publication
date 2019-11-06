@@ -64,9 +64,6 @@ abstract class Voter
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $voters[] = $objectManager->get(\EWW\Dpf\Security\DocumentVoter::class);
-        //$voters[] = $objectManager->get(\EWW\Dpf\Security\DocumentFormBackofficeVoter::class);
-        //$voters[] = $objectManager->get(\EWW\Dpf\Security\SearchVoter::class);
-
         return $voters;
     }
 

@@ -37,21 +37,27 @@ class DocumentWorkflow
     public const REMOTE_STATE_DELETED      = "DELETED";
 
     public const STATE_NONE_NONE            = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_NONE;
-    // Eingestellt
+
+    // New
     public const STATE_NEW_NONE             = self::LOCAL_STATE_NEW.':'.self::REMOTE_STATE_NONE;
-    // Gemeldet
+
+    // Registered
     public const STATE_REGISTERED_NONE      = self::LOCAL_STATE_REGISTERED.':'.self::REMOTE_STATE_NONE;
-    // In Bearbeitung
+
+    // In progress
     public const STATE_IN_PROGRESS_NONE     = self::LOCAL_STATE_IN_PROGRESS.':'.self::REMOTE_STATE_NONE;
     public const STATE_IN_PROGRESS_ACTIVE   = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_ACTIVE;
     public const STATE_IN_PROGRESS_INACTIVE = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_INACTIVE;
     public const STATE_IN_PROGRESS_DELETED  = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_DELETED;
-    // Freigegeben
+
+    // Active
     public const STATE_NONE_ACTIVE          = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_ACTIVE;
-    // Zurückgestellt
+
+    // Postponed
     public const STATE_POSTPONED_NONE       = self::LOCAL_STATE_POSTPONED.':'.self::REMOTE_STATE_NONE;
     public const STATE_NONE_INACTIVE        = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_INACTIVE;
-    // Verworfen
+
+    // Discarded
     public const STATE_DISCARDED_NONE       = self::LOCAL_STATE_DISCARDED.':'.self::REMOTE_STATE_NONE;
     public const STATE_NONE_DELETED         = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_DELETED;
 
@@ -65,8 +71,6 @@ class DocumentWorkflow
     public const TRANSITION_RELEASE_ACTIVATE    = "RELEASE_ACTIVATE_TRANSITION";
     public const TRANSITION_DELETE_LOCALLY      = "DELETE_LOCALLY_TRANSITION";
     public const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
-    //public const TRANSITION_ACTIVATE            = "ACTIVATE_TRANSITION";
-    //public const TRANSITION_INACTIVATE          = "INACTIVATE_TRANSITION";
 
     public const PLACES = [
         self::STATE_NONE_NONE,
@@ -208,11 +212,7 @@ class DocumentWorkflow
 
         $marking = new MethodMarkingStore(TRUE, 'state');
 
-        $dispatcher = new EventDispatcher();
-        $listener = new DocumentWorkflowGuardSubscriber();
-        $dispatcher->addSubscriber($listener);
-
-        return new Workflow($definition, $marking, $dispatcher);
+        return new Workflow($definition, $marking);
     }
 
 }

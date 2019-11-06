@@ -18,7 +18,6 @@ use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Exceptions\AccessDeniedExcepion;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -55,59 +54,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->documentTransferManager->setRemoteRepository($this->fedoraRepository);
     }
 
-    /**
-     * action delete
-     *
-     * @param array $documentData
-     * @throws \Exception
-     */
-    public function deleteAction($documentData)
-    {
-        die("TODO: obsolete action?");
-        // TODO: obsolete action?
-
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $this->documentRepository->findByUid($documentData['documentUid']);
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::DELETE, $document)) {
-            $message = "Das Dokument konnte nicht gelöscht werden, der Zugriff wurde verweigert.";
-            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
-            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
-        }
-
-        try {
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-
-            // send document to index
-            $elasticsearchRepository->delete($document, "");
-            $this->documentRepository->update($document);
-            $this->redirectToList();
-
-        } catch (\Exception $exception) {
-
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-
-            $document = $this->documentRepository->findByUid($documentData['documentUid']);
-            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failure',
-                'dpf',
-                array($document->getTitle())
-            );
-
-            $message[] = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
-            $this->addFlashMessage(implode(" ", $message), '', $severity,true);
-
-            $this->forward('edit', 'DocumentFormBackoffice', null, array('document' => $document));
-        }
-    }
-
 
     /**
      * action edit
@@ -123,7 +69,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::EDIT, $document)) {
             $message[] = "Das Dokumnet wird bereits bearbeitet.";
-                //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
@@ -168,7 +113,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
             $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
-            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
@@ -248,7 +192,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
             $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
-            //\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;

@@ -55,8 +55,8 @@ class ext_update {
         } else {
 
             // The necessary updates.
-            (new UpdateState)->execute();
-            (new UpdateAccessRestrictions)->execute();
+            //(new UpdateState)->execute();
+            //(new UpdateAccessRestrictions)->execute();
 
             $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
         }

@@ -180,12 +180,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $document->setEditorUid($this->security->getUser()->getUid());
 
         try {
-                // remove document from local index
-                //$elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-                // send document to index
-                //$elasticsearchRepository->delete($document, "");
-                //$this->documentRepository->remove($document);
-
                 if (
                     in_array(
                         $document->getState(),
@@ -523,76 +517,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
     }
 
-    /**
-     * action restore
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function restoreAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        die("TODO: Is restoreAction obsolete?");
-
-        try {
-            if ($this->documentTransferManager->delete($document, "inactivate")) {
-
-                $document->update($document);
-
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.success';
-                $this->flashMessage($document, $key, AbstractMessage::OK);
-                $this->redirect('list');
-            } else {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_restore.failure';
-                $this->flashMessage($document, $key, AbstractMessage::ERROR);
-                $this->redirect('list');
-            }
-        } catch (\Exception $exception) {
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('list');
-        }
-    }
-
-    /**
-     * action delete
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function deleteAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        die("TODO: Is deleteAction obsolete?");
-
-        try {
-            if ($this->documentTransferManager->getLastModDate($document->getObjectIdentifier()) === $document->getRemoteLastModDate()) {
-                if ($this->documentTransferManager->delete($document, "")) {
-                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.success';
-                    $this->flashMessage($document, $key, AbstractMessage::OK);
-                    $this->redirect('list');
-                }
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_delete.failureNewVersion';
-                $this->flashMessage($document, $key, AbstractMessage::ERROR);
-                $this->redirect('showDetails', 'Document', NULL, ['document' => $document]);
-            }
-        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
-            // A redirect always throws this exception, but in this case, however,
-            // redirection is desired and should not lead to an exception handling
-        } catch (\Exception $exception) {
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('list');
-        }
-    }
-
 
     /**
      * releaseActivateAction
@@ -689,38 +613,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function cancelListTaskAction()
     {
         $this->redirectToDocumentList();
-    }
-
-
-    /**
-     * action inactivate
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function inactivateAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        die("TODO: Is inactivateAction obsolete?");
-
-        try {
-            if ($this->documentTransferManager->delete($document, "inactivate")) {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.success';
-                $this->flashMessage($document, $key, AbstractMessage::OK);
-                $this->redirect('list');
-            } else {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_inactivate.failure';
-                $this->flashMessage($document, $key, AbstractMessage::ERROR);
-                $this->redirect('list');
-            }
-        } catch (\Exception $exception) {
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('list');
-        }
     }
 
     /**

@@ -165,7 +165,6 @@ class DocumentCleaner
             !array_key_exists($controllerClass, $excludeActions) ||
             (
                 !array_key_exists($actionMethodName, $excludeActions[$controllerClass])
-                //|| $excludeActions[$controllerClass][$actionMethodName] === 'temporary'
             )
         ) {
             $lockedDocuments = $this->documentRepository->findByEditorUid($feUserUid);

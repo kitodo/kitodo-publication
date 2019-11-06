@@ -129,7 +129,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             // add doctypes
             if($searchResultsFilter['doctype']) {
 
-                $uids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $searchResultsFilter['doctype']);
+                $uids = GeneralUtility::trimExplode(',', $searchResultsFilter['doctype']);
                 $documentTypeRepository = $this->documentTypeRepository;
                 $documentTypes = array();
                 foreach($uids as $uid) {

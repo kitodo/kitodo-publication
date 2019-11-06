@@ -31,12 +31,9 @@ class DocumentVoter extends Voter
     const RELEASE_PUBLISH = "DOCUMENT_RELEASE_PUBLISH";
     const RELEASE_UPDATE = "DOCUMENT_RELEASE_UPDATE";
     const RELEASE_ACTIVATE = "DOCUMENT_RELEASE_ACTIVATE";
-    //const RESTORE = "DOCUMENT_RESTORE";
-    //const ACTIVATE = "DOCUMENT_ACTIVATE";
     const REGISTER = "DOCUMENT_REGISTER";
     const SHOW_DETAILS = "DOCUMENT_SHOW_DETAILS";
     const CANCEL_LIST_TASK = "DOCUMENT_CANCEL_LIST_TASK";
-    //const INACTIVATE = "DOCUMENT_INACTIVATE";
     const UPLOAD_FILES = "DOCUMENT_UPLOAD_FILES";
     const EDIT = "DOCUMENT_EDIT";
     const SUGGEST = "DOCUMENT_SUGGEST";
@@ -78,12 +75,9 @@ class DocumentVoter extends Voter
             self::RELEASE_PUBLISH,
             self::RELEASE_UPDATE,
             self::RELEASE_ACTIVATE,
-            //self::RESTORE,
-            //self::ACTIVATE,
             self::REGISTER,
             self::SHOW_DETAILS,
             self::CANCEL_LIST_TASK,
-            //self::INACTIVATE,
             self::UPLOAD_FILES,
             self::EDIT,
             self::POSTPONE,
@@ -177,14 +171,6 @@ class DocumentVoter extends Voter
                 return $this->canReleaseActivate($subject);
                 break;
 
-//            case self::RESTORE:
-//                return $this->librarianOnly();
-//                break;
-
-//            case self::ACTIVATE:
-//                return $this->canActivationChange($subject);
-//                break;
-
             case self::REGISTER:
                 return $this->canRegister($subject);
                 break;
@@ -196,10 +182,6 @@ class DocumentVoter extends Voter
             case self::CANCEL_LIST_TASK:
                 return $this->defaultAccess();
                 break;
-
-//            case self::INACTIVATE:
-//                return $this->canActivationChange($subject);
-//                break;
 
             case self::UPLOAD_FILES:
                 return $this->canUpdate($subject);
@@ -319,26 +301,6 @@ class DocumentVoter extends Voter
            return TRUE;
         }
 
-        return FALSE;
-    }
-
-
-    /**
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return bool
-     */
-    protected function canActivationChange($document)
-    {
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-
-            if (
-                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_ACTIVATE) ||
-                $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_INACTIVATE)
-            ) {
-                return TRUE;
-            }
-
-        }
         return FALSE;
     }
 

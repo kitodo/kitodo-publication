@@ -78,22 +78,22 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, register, releasePublish, '
+        'Document'         => 'list, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, releaseActivate, inactivate, restore, cancelListTask, uploadFiles, '
+            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, delete, cancelEdit, cancel',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, showDetails, delete, discard, postpone, deleteLocally, releasePublish, '
+        'Document'         => 'list, showDetails, discard, postpone, deleteLocally, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, releaseActivate, inactivate, restore, cancelListTask, uploadFiles, '
+            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, delete, cancelEdit, cancel',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',

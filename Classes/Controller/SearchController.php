@@ -270,25 +270,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = NULL;
 
-        /*
-        if ($documentObjectIdentifier) {
-            $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
-        }
-        if (!$document) {
-            $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
-        } elseif (
-            $document->getTemporary() &&
-            (
-                $document->getEditorUid() === $this->security->getUser()->getUid() ||
-                $document->getEditorUid() === 0
-            )
-        ) {
-            $this->documentRepository->remove($document);
-            $this->persistenceManager->persistAll();
-            $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
-        }
-        */
-
         if ($documentObjectIdentifier) {
             $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
 
@@ -500,13 +481,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     public function initializeAction()
     {
         parent::initializeAction();
-
-        $document = NULL;
-        if ($this->request->hasArgument('document')) {
-            $documentUid = $this->request->getArgument('document');
-            $document = $this->documentRepository->findByUid($documentUid);
-        }
     }
-
 
 }
