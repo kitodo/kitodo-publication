@@ -129,6 +129,18 @@
 			<source>%s successfully removed.</source>
 		    <target>%s erfolgreich entfernt.</target>
 		</trans-unit>
+		<trans-unit id="document_updateLocally.accessDenied" approved="yes">
+			<source>Saving %s failed, access denied.</source>
+			<target>Speicherung von %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.failureCreateWorkingCopy" approved="yes">
+			<source>Saving %s failed, there is already a work copy.</source>
+			<target>Speicherung von %s fehlgeschlagen, es existiert bereits Arbeitspopie.</target>
+		</trans-unit>
+		<trans-unit id="document_edit.failureBlocked" approved="yes">
+			<source>%s is already being edited.</source>
+		    <target>%s wird bereits bearbeitet.</target>
+		</trans-unit>
 		<trans-unit id="document_discard.success" approved="yes">
 			<source>%s successfully discarded.</source>
 			<target>%s erfolgreich verworfen.</target>

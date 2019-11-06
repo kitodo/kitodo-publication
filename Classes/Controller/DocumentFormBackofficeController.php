@@ -68,8 +68,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::EDIT, $document)) {
-            $message[] = "Das Dokumnet wird bereits bearbeitet.";
-            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.failureBlocked',
+                'dpf',
+                array($document->getTitle())
+            );
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
@@ -112,8 +116,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
-            $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
-            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.accessDenied',
+                'dpf',
+                array($document->getTitle())
+            );
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
@@ -131,8 +139,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $documents = $this->documentRepository->findByObjectIdentifier($updateDocument->getObjectIdentifier());
                     foreach ($documents as $document) {
                         if (!$document->getTemporary()) {
-                            $message[] = "Das Dokument kann nicht gespeichert werden, es gibt bereits eine Arbeitskopie.";
-                            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+                            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.failureCreateWorkingCopy',
+                                'dpf',
+                                array($document->getTitle())
+                            );
+                            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
                             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
                         }
                     }
@@ -191,8 +203,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
-            $message[] = "Das Dokument kann nicht gespeichert werden, der Zugriff wurde verweigert.";
-            $this->addFlashMessage(implode(" ", $message), '', AbstractMessage::ERROR);
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied',
+                'dpf',
+                array($document->getTitle())
+            );
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
@@ -264,7 +280,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:documentForm.create.ok';
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
             $this->addFlashMessage(
                 $message,
                 '',

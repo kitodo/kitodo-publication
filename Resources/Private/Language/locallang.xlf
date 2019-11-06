@@ -98,6 +98,15 @@
 		<trans-unit id="document_deleteLocally.success">
 			<source>%s successfully removed.</source>
 		</trans-unit>
+		<trans-unit id="document_updateLocally.accessDenied" approved="yes">
+			<source>Saving %s failed, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.failureCreateWorkingCopy" approved="yes">
+			<source>Saving %s failed, there is already a work copy.</source>
+		</trans-unit>
+		<trans-unit id="document_edit.failureBlocked">
+			<source>%s is already being edited.</source>
+		</trans-unit>
 		<trans-unit id="document_discard.success">
 			<source>Document successfully discarded.</source>
 		</trans-unit>
