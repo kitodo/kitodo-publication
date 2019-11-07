@@ -56,7 +56,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $constraintsAnd[] = $query->in('state', $stateFilters);
         }
 
-        $constraintsAnd[] = $query->equals('suggestion', false)
+        $constraintsAnd[] = $query->equals('suggestion', false);
 
         $constraintsAnd[] = $query->equals('temporary', FALSE);
         $query->matching($query->logicalAnd($constraintsAnd));
