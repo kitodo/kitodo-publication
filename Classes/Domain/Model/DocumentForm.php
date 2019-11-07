@@ -83,6 +83,11 @@ class DocumentForm extends AbstractFormElement
     protected $temporary;
 
     /**
+     * @var string
+     */
+    protected $comment = '';
+
+    /**
      *
      * @return integer
      */
@@ -241,5 +246,23 @@ class DocumentForm extends AbstractFormElement
     {
         $this->temporary = $temporary;
     }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+
 
 }

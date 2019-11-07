@@ -26,6 +26,8 @@ use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use EWW\Dpf\Helper\DocumentMapper;
+use TYPO3\CMS\Backend\Exception;
 
 /**
  * DocumentController
@@ -109,6 +111,159 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('currentUser', $this->security->getUser());
         $this->view->assign('isWorkspace', $isWorkspace);
         $this->view->assign('documents', $documents);
+    }
+
+    public function listSuggestionsAction() {
+        $this->setSessionData('currentWorkspaceAction','listSuggestions');
+
+        list($isWorkspace, $documents) = $this->getListViewData([], true);
+
+        if ($this->request->hasArgument('message')) {
+            $this->view->assign('message', $this->request->getArgument('message'));
+        }
+
+        if ($this->request->hasArgument('errorFiles')) {
+            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
+        }
+
+        $this->view->assign('currentUser', $this->security->getUser());
+        $this->view->assign('isWorkspace', $isWorkspace);
+        $this->view->assign('documents', $documents);
+    }
+
+    /**
+     * @param Document $document
+     * @param bool $confirmAll
+     */
+    public function confirmSuggestionAction(\EWW\Dpf\Domain\Model\Document $document, bool $confirmAll = true) {
+
+        $args = $this->request->getArguments();
+
+        $linkedUid = $document->getLinkedUid();
+        $originDocument = $this->documentRepository->findByUid($linkedUid);
+
+        if ($confirmAll) {
+            // all changes are confirmed
+
+            $originDocument->copy($document);
+
+            $this->documentRepository->add($originDocument);
+            $this->documentRepository->remove($document);
+        }
+
+        $this->redirect("list", "Document");
+
+    }
+
+
+    public function showSuggestionDetailsAction(\EWW\Dpf\Domain\Model\Document $document) {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::SHOW_DETAILS, $document);
+
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        $linkedDocument = $this->documentRepository->findByUid($document->getLinkedUid());
+        $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+
+        $newDocumentForm = $documentMapper->getDocumentForm($document);
+
+        $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
+
+        $this->view->assign('diff', $diff);
+        $this->view->assign('document', $document);
+
+    }
+
+    public function documentFormDiff($docForm1, $docForm2) {
+        $returnArray = ['changed' => ['new' => [], 'old' => []], 'deleted' => [], 'added' => []];
+
+        // pages
+        foreach ($docForm1->getItems() as $keyPage => $valuePage) {
+            foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+
+                // groups
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+
+                    $checkFieldsForAdding = false;
+                    $valueGroupCounter = count($valueGroup);
+
+                    if ($valueGroupCounter < count($docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup])) {
+                        $checkFieldsForAdding = true;
+                    }
+
+                    foreach ($valueGroup as $keyRepeatGroup => $valueRepeatGroup) {
+
+                        // fields
+                        foreach ($valueRepeatGroup->getItems() as $keyField => $valueField) {
+                            foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+
+                                $fieldCounter = count($docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup]);
+                                $valueFieldCounter = count($valueField);
+
+                                // check if group or field is not existing
+                                $notExisting = false;
+                                try {
+                                    $flag = 'page';
+                                    $value2 = $docForm2->getItems()[$keyPage];
+                                    $flag = 'group';
+                                    $value2 = $value2[$keyRepeatPage];
+                                    $value2 = $value2->getItems()[$keyGroup];
+                                    $value2 = $value2[$keyRepeatGroup]->getItems()[$keyField];
+                                    $flag = 'field';
+                                } catch (\Throwable $t) {
+                                    $notExisting = true;
+                                }
+
+                                $item = NULL;
+                                if ($flag == 'group') {
+                                    $itemExisting = $valueRepeatGroup;
+                                    $itemNew = $docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup];
+                                } else if ($flag == 'field') {
+                                    $itemExisting = $valueRepeatField;
+                                    $itemNew = $docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup][$keyRepeatGroup]->getItems()[$keyField][$keyRepeatField];
+                                }
+
+                                if ($notExisting || ($valueRepeatField->getValue() != $value2[$keyRepeatField]->getValue() && empty($value2[$keyRepeatField]->getValue()))) {
+                                    // deleted
+                                    $returnArray['deleted'][] = $itemExisting;
+
+                                } else if ($valueRepeatField->getValue() != $value2[$keyRepeatField]->getValue() && !empty($value2[$keyRepeatField]->getValue())) {
+                                    // changed
+                                    $returnArray['changed']['old'][] = $itemExisting;
+                                    $returnArray['changed']['new'][] = $itemNew;
+                                }
+
+                                if ($flag == 'group') {
+                                    break 2;
+                                }
+                            }
+
+                            // check if new document form has more field items as the existing form
+                            if ($valueFieldCounter < $fieldCounter && !$checkFieldsForAdding) {
+                                // field added
+                                for ($i = count($valueField); $i < $fieldCounter;$i++) {
+                                    $returnArray['added'][] = $docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup][$keyRepeatGroup]->getItems()[$keyField][$i];
+
+                                }
+                            }
+                        }
+                    }
+
+                    // check if new document form has more group items as the existing form
+                    if ($valueGroupCounter < count($docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup])) {
+                        // group added
+                        $counter = count($docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup]);
+                        for ($i = $valueGroupCounter; $i < $counter;$i++) {
+                            $returnArray['added'][] = $docForm2->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup][$i];
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return $returnArray;
+
     }
 
     public function listRegisteredAction()
@@ -664,6 +819,23 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('document', $document);
     }
 
+    /**
+     * @param Document $document
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
+    public function suggestModificationAction(\EWW\Dpf\Domain\Model\Document $document) {
+
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::SUGGEST_MODIFICATION, $document);
+
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        $documentForm = $documentMapper->getDocumentForm($document);
+
+        $this->view->assign('suggestMod', true);
+        $this->forward('edit','DocumentFormBackoffice',NULL, ['documentForm' => $documentForm, 'suggestMod' => true]);
+    }
+
 
     /**
      * initializeAction
@@ -696,26 +868,39 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * get list view data
      *
      * @param array $stateFilters
+     * @param bool $suggestionsOnly
      *
      * @return array
      */
-    protected function getListViewData($stateFilters = array())
+    protected function getListViewData($stateFilters = array(), bool $suggestionsOnly = false)
     {
         switch ($this->security->getUserRole()) {
 
             case Security::ROLE_LIBRARIAN:
-                $documents = $this->documentRepository->findAllOfALibrarian(
-                    $this->security->getUser()->getUid(),
-                    $stateFilters
-                );
+                if ($suggestionsOnly) {
+                    $documents = $this->documentRepository->findAllLibrarianDocumentSuggestions(
+                        $this->security->getUser()->getUid()
+                    );
+                } else {
+                    $documents = $this->documentRepository->findAllOfALibrarian(
+                        $this->security->getUser()->getUid(),
+                        $stateFilters
+                    );
+                }
                 $isWorkspace = TRUE;
                 break;
 
             case Security::ROLE_RESEARCHER;
-                $documents = $this->documentRepository->findAllOfAResearcher(
-                    $this->security->getUser()->getUid(),
-                    $stateFilters
-                );
+                if ($suggestionsOnly) {
+                    $documents = $this->documentRepository->findAllResearcherDocumentSuggestions(
+                        $this->security->getUser()->getUid()
+                    );
+                } else {
+                    $documents = $this->documentRepository->findAllOfAResearcher(
+                        $this->security->getUser()->getUid(),
+                        $stateFilters
+                    );
+                }
                 break;
 
             default:

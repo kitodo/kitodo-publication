@@ -56,11 +56,37 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $constraintsAnd[] = $query->in('state', $stateFilters);
         }
 
+        $constraintsAnd[] = $query->equals('suggestion', false)
+
         $constraintsAnd[] = $query->equals('temporary', FALSE);
         $query->matching($query->logicalAnd($constraintsAnd));
 
         $query->setOrderings(
             array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
+
+        return $query->execute();
+    }
+
+    public function findAllLibrarianDocumentSuggestions($ownerUid) {
+        $query = $this->createQuery();
+
+        $query->matching(
+            $query->equals('suggestion', true)
+        );
+
+        return $query->execute();
+    }
+
+    public function findAllResearcherDocumentSuggestions($ownerUid) {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                array(
+                    $query->equals('suggestion', true),
+                    $query->equals('owner', $ownerUid)
+                )
+            )
         );
 
         return $query->execute();
@@ -80,7 +106,8 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         $constraintsAnd = array(
-            $query->equals('owner', $ownerUid)
+            $query->equals('owner', $ownerUid),
+            $query->equals('suggestion', 0)
         );
 
         if ($stateFilters) {

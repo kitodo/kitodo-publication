@@ -128,6 +128,9 @@
 		<trans-unit id="tx_dpf_domain_model_document.title">
 			<source>Title</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.comment">
+            <source>Comment</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.xml_data">
 			<source>Xml Data</source>
 		</trans-unit>
@@ -149,6 +152,12 @@
 		<trans-unit id="tx_dpf_domain_model_document.file">
 			<source>File</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.suggestion">
+            <source>Suggestion</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.linked_uid">
+            <source>Linked uid</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog">
 			<source>Document Transfer Log</source>
 		</trans-unit>

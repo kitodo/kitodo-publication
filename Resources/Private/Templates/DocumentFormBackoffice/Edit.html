@@ -42,7 +42,19 @@
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
+        <f:form.hidden id="suggestMod" property="suggestMod" value="{suggestMod}"/>
         <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1}"/>
+        <f:if condition="{suggestMod}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="commentTextarea">Comment</label>
+                        <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="Enter comment"/>
+                    </div>
+                </div>
+            </div>
+
+        </f:if>
     </f:form>
 
 </f:section>

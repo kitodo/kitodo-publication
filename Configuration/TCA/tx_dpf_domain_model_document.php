@@ -382,5 +382,38 @@ return array(
         ),
 
 
+        'suggestion' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.suggestion',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
+
+        'linked_uid' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.linked_uid',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
+
+        'comment' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.comment',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+
+
+
+
     ),
 );

@@ -345,6 +345,10 @@
 			<source>suggest restore</source>
 			<target>Wiederherstellung vorschlagen</target>
 		</trans-unit>
+        <trans-unit id="form_button.suggestConfirm" approved="yes">
+            <source>suggest confirm</source>
+            <target>Änderungsvorschlag akzeptieren</target>
+        </trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
 			<source>remove</source>
 			<target>entfernen</target>
@@ -433,6 +437,10 @@
 			<source>Workspace</source>
 			<target>Arbeitsbereich</target>
 		</trans-unit>
+        <trans-unit id="manager.control.suggestions" approved="yes">
+            <source>Suggestions</source>
+            <target>Änderungsvorschläge</target>
+        </trans-unit>
         <trans-unit id="manager.control.editDocument">
     		<source>Edit Publication</source>
     		<target>Publication bearbeiten</target>

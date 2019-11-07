@@ -326,6 +326,9 @@ class FormDataReader
         $documentForm->setDocumentUid($this->formData['documentUid']);
         $documentForm->setQucosaId($this->formData['qucosaId']);
         $documentForm->setValid(!empty($this->formData['validDocument']));
+        if ($this->formData['comment']) {
+            $documentForm->setComment($this->formData['comment']);
+        }
 
         $documentData = array();
 

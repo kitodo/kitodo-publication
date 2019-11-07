@@ -81,8 +81,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'Document'         => 'list, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
-            . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel',
+            . 'causeChange, suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, confirmSuggestion',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
@@ -92,8 +92,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'Document'         => 'list, showDetails, discard, postpone, deleteLocally, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
-            . 'causeChange, suggestRestore',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel',
+            . 'causeChange, suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, confirmSuggestion',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',

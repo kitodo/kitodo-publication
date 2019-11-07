@@ -125,6 +125,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumber;
 
     /**
+     * @var bool $suggestion
+     */
+    protected $suggestion = false;
+
+    /**
      * owner
      *
      * @var integer
@@ -165,6 +170,16 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var integer
      */
     protected $tstamp;
+
+    /**
+     * @var int
+     */
+    protected $linkedUid = 0;
+
+    /**
+     * @var string
+     */
+    protected $comment = '';
 
     /**
      * file
@@ -839,5 +854,71 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->tstamp;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSuggestion(): bool
+    {
+        return $this->suggestion;
+    }
+
+    /**
+     * @param bool $suggestion
+     */
+    public function setSuggestion(bool $suggestion)
+    {
+        $this->suggestion = $suggestion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLinkedUid(): int
+    {
+        return $this->linkedUid;
+    }
+
+    /**
+     * @param int $linkedUid
+     */
+    public function setLinkedUid(int $linkedUid)
+    {
+        $this->linkedUid = $linkedUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment)
+    {
+        $this->comment = $comment;
+    }
+
+
+    public function copy($documentToCopy) {
+        $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($documentToCopy);
+        $newDocument = $this;
+
+        foreach ($availableProperties as $propertyName) {
+            if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newDocument, $propertyName)
+                && !in_array($propertyName, array('uid','pid', 'file', 'comment'))) {
+
+                $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($documentToCopy, $propertyName);
+                \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newDocument, $propertyName, $propertyValue);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

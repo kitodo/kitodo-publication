@@ -169,6 +169,10 @@
 			<source>Title</source>
 			<target>Titel</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.comment">
+            <source>Comment</source>
+            <target>Kommentar</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
 			<source>Xml Data</source>
 			<target>Xml Daten</target>
@@ -197,6 +201,14 @@
 			<source>File</source>
 			<target>Datei</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.suggestion">
+            <source>Suggestion</source>
+            <target>Änderungsvorschlag</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.linked_uid">
+            <source>Linked uid</source>
+            <target>Verknüpfte Dokument uid</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
 			<source>Document Transfer Log</source>
 			<target>Dokumentenübertragungsprotokoll</target>

@@ -30,7 +30,14 @@
         <tr>
             <td>
                 <f:link.action action="showDetails" controller="Document" arguments="{document:document}">
-                    {document.title}
+                    <f:if condition="!{document.title}">
+                        <f:then>
+                            [{f:translate(key: 'manager.document.noTitle')}]
+                        </f:then>
+                        <f:else>
+                            {document.title}
+                        </f:else>
+                    </f:if>
                 </f:link.action>
             </td>
             <td>

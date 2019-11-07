@@ -51,6 +51,19 @@
                     </f:link.action>
                 </f:if>
 
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_MODIFICATION')}">
+                    <f:link.action
+                            action="suggestModification"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-secondary"
+                            additionalAttributes="{data-documenttitle: document.title}">
+                        <i class="fas fa-sticky-note"></i>
+                        Änderungsvorschlag
+                        <f:comment>{f:translate(key: 'form_button.register')}</f:comment>
+                    </f:link.action>
+                </f:if>
+
                 <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_REGISTER')}">
                     <f:link.action
                             action="register"

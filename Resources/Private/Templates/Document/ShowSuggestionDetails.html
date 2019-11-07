@@ -1,0 +1,158 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">Suggest Details</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="mr-2">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
+                    <f:link.action
+                            action="confirmSuggestion"
+                            controller="Document"
+                            arguments="{document:document, confirmAll:1}"
+                            class="btn btn-sm btn-success">
+                        <i class="fas fa-check-circle"></i>
+                        {f:translate(key: 'form_button.suggestConfirm')}
+                    </f:link.action>
+                </f:if>
+
+
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
+                    <f:link.action
+                            action="suggestRestore"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-question-circle"></i>
+                        {f:translate(key: 'form_button.suggestRestore')}
+                    </f:link.action>
+                </f:if>
+
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
+                    <f:link.action
+                            action="suggestDiscard"
+                            controller="Document"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-danger"
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+                        <i class="fas fa-ban"></i>
+                        {f:translate(key: 'manager.discard')}
+                    </f:link.action>
+                </f:if>
+
+                <f:link.action
+                        action="cancelListTask"
+                        controller="Document"
+                        class="btn btn-sm btn-secondary">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.cancel')}
+                </f:link.action>
+
+            </div>
+        </div>
+    </div>
+
+    <f:flashMessages />
+
+    <div class="card" style="margin-bottom:10px;">
+        <div class="card-body">
+            <f:format.nl2br>
+                {document.comment}
+            </f:format.nl2br>
+        </div>
+    </div>
+
+    <f:form controller="document" action="confirmSuggestion" name="test">
+        <f:form.hidden name="document" value="{document}"/>
+        <f:form.hidden name="confirmAll" value="0"/>
+        <table class="table">
+            <tr>
+                <th>
+                    Field
+                </th>
+                <th>
+                    Before
+                </th>
+                <th>
+                    After
+                </th>
+            </tr>
+            <f:for each="{diff.changed.old}" as="changedOld" iteration="iteratorChanged">
+                <tr>
+                    <td>{changedOld.displayName}:</td>
+                    <td>{changedOld.value}</td>
+                    <td>{diff.changed.new.{iteratorChanged.index}.value}</td>
+                </tr>
+            </f:for>
+
+            <f:for each="{diff.added}" as="added" iteration="iteratorAdded">
+                <f:if condition="{added}">
+                    <tr>
+                        <td>{added.displayName}:</td>
+                        <td>-</td>
+                        <td>
+                            <f:if condition="{added.value}=='' && {f:count(subject: {added.items})}>0">
+                                <f:then>
+                                    <f:for each="{added.items}" as="item" iteration="iterator">
+                                        {item.0.displayName}: <span style="color:#16ca16;">{item.0.value}</span><br/>
+                                    </f:for>
+                                </f:then>
+                                <f:else>
+                                    {added.value}
+                                </f:else>
+                            </f:if>
+
+                        </td>
+                    </tr>
+                </f:if>
+            </f:for>
+
+            <f:for each="{diff.deleted}" as="deleted" iteration="iteratorDeleted">
+                <f:if condition="{deleted}">
+                    <tr>
+                        <td>{deleted.displayName}:</td>
+                        <td>
+                            <f:if condition="{deleted.value}=='' && {f:count(subject: {deleted.items})}>0">
+                                <f:then>
+                                    <f:for each="{deleted.items}" as="item" iteration="iterator">
+                                        {item.0.displayName}: <span style="color:#ff0000;">{item.0.value}</span><br/>
+                                    </f:for>
+                                </f:then>
+                                <f:else>
+                                    {deleted.value}
+                                </f:else>
+                            </f:if>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                </f:if>
+            </f:for>
+        </table>
+
+
+    </f:form>
+
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
+
+</f:section>
