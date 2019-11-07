@@ -407,6 +407,9 @@
 		<trans-unit id="manager.document.state.all">
 			<source>All</source>
 		</trans-unit>
+        <trans-unit id="manager.document.suggestions">
+            <source>Suggestions</source>
+        </trans-unit>
 		<trans-unit id="manager.document.remoteStatus.active">
 			<source>Active</source>
 		</trans-unit>

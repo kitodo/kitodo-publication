@@ -541,6 +541,10 @@
 			<source>All</source>
 			<target>Alle</target>
 		</trans-unit>
+        <trans-unit id="manager.document.suggestions" approved="yes">
+            <source>Suggestions</source>
+            <target>Änderungsvorschläge</target>
+        </trans-unit>
 		<trans-unit id="manager.document.remoteStatus.active" approved="yes">
 			<source>Active</source>
 			<target>Aktiv</target>
