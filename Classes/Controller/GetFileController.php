@@ -375,8 +375,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     private function getQueryParameters()
     {
         $queryParams = GeneralUtility::_GP('tx_dpf');
-        $params = ["action", "attachment", "deliverInactive", "qid"];
+        if ($queryParams === null) {
+            $queryParams = [];
+        }
         $result = [];
+        $params = ["action", "attachment", "deliverInactive", "qid"];
         foreach ($params as $p) {
             $result[$p] = (array_key_exists($p, $queryParams)) ? $queryParams[$p] : null;
         }
