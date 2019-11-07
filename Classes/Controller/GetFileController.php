@@ -16,22 +16,32 @@
  * Also renders METS XML for preview. Structure of the URIs totally
  * depend on proper RealURL configuration.
  *
- * Example:
+ * Examples:
  *
  * 1. METS from Fedora
- *   http://localhost/api/qucosa:1234/mets/
+ *    http://localhost/api/qucosa:1234/mets/
  *
- *   This always returns METS which is supplemented with additional information.
- *   The embedded MODS record is not the original MODS as it is stored in the
- *   repository datastream.
+ *    This always returns METS which is supplemented with additional information.
+ *    The embedded MODS record is not the original MODS as it is stored in the
+ *    repository datastream.
  *
  * 2. Attachment from Fedora
- *   http://localhost/api/qucosa:1234/attachment/ATT-0/
+ *    http://localhost/api/qucosa:1234/attachment/ATT-0/
  *
  * 3. METS from Kitodo.Publication (this extension)
- *   http://localhost/api/3/preview/
+ *    http://localhost/api/3/preview/
  *
  * 4. DataCite from Kitodo.Publication (this extension)
+ *    http://localhost/api/3/datacite
+ *    http://localhost/api/qucosa:1234/datacite
+ *
+ *    Returns a DataCite XML document generated from either a local preview METS
+ *    document or from a remote repository METS document.
+ *
+ * 5. Zip from Fedora
+ *    http://localhost/api/qucosa:1234/zip
+ *
+ *    Returns a ZIP transfer file containing all attachments required for DNB harvesting.
  *
  * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
  * @author Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
