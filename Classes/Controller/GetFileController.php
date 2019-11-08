@@ -81,14 +81,24 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     public function dispatchAction()
     {
-        $queryParams = $this->getQueryParameters();
+        $queryParams = $this->collectEntries(
+            ["action", "attachment", "deliverInactive", "qid"],
+            GeneralUtility::_GP('tx_dpf')
+        );
+        $settings = $this->collectEntries(["allowedActions", "deliverInactiveSecretKey"], $this->settings);
 
-        $action = $queryParams['action'];
-        $qid = $queryParams['qid'];
-        $attachmentId = $queryParams['attachment'];
-        $deliverInactiveKey = $queryParams['deliverInactive'];
+        $params = array_merge($queryParams, $settings);
 
-        $allowedActions = array_key_exists('allowedActions', $this->settings) ? $this->settings['allowedActions'] : [];
+        $action = $params['action'];
+        $qid = $params['qid'];
+        $attachmentId = $params['attachment'];
+        $deliverInactiveKey = $params['deliverInactive'];
+        $deliverInactiveKeySecretKey = $params['deliverInactiveSecretKey'];
+
+        $allowedActions = $params['allowedActions'];
+        if ($allowedActions === null) {
+            $allowedActions = [];
+        }
 
         try {
             if (!$qid) {
@@ -97,6 +107,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
             $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
             $isRepositoryObject = !is_numeric($qid);
+            $content = null;
+            $contentUri = null;
             $contentType = "text/xml; charset=UTF-8"; // default content-type
 
             switch ($action) {
@@ -116,7 +128,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     }
 
                     $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                    return $metsXml;
+                    $content = $metsXml;
 
                     break;
 
@@ -162,7 +174,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                         'Content-Disposition',
                         'attachment; filename="' . $dataCiteRecord['filename'] . '"'
                     );
-                    return $dataCiteRecord['content'];
+                    $content = $dataCiteRecord['content'];
 
                     break;
 
@@ -184,7 +196,6 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $restrictToActiveDocuments = true;
 
             // if the given secret key matches the configured secret key, lift above restriction
-            $deliverInactiveKeySecretKey = $this->settings['deliverInactiveSecretKey'];
             if ($deliverInactiveKeySecretKey == $deliverInactiveKey) {
                 $restrictToActiveDocuments = false;
             }
@@ -194,13 +205,17 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $this->assertActiveFedoraObject($fedoraHost, $qid);
             }
 
-            // Get headers from from remote resource and copy them to the response
-            $resourceHeaders = get_headers($contentUri);
-            $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Disposition', 'attachment');
-            $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Type', $contentType);
-            $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Length', null);
+            if ($contentUri) {
+                // Get headers from from remote resource and copy them to the response
+                $resourceHeaders = get_headers($contentUri);
+                $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Disposition', 'attachment');
+                $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Type', $contentType);
+                $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Length', null);
 
-            $this->streamAndExit($contentUri);
+                $this->streamAndExit($contentUri);
+            } elseif ($content) {
+                return $content;
+            }
         } catch (Exception $e) {
             $this->response->setStatus($e->getCode());
             return $e->getMessage();
@@ -367,22 +382,16 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * Returns an associative array of query parameters.
+     * Returns an array of key-value pairs from a given array.
+     * If a particular key is not present, it's value is set to null.
      *
-     * If a parameter is not set, it's array value is null.
-     *
-     * @return array Associative array containing the parameters.
+     * @return array Associative array containing the values or nulls.
      */
-    private function getQueryParameters()
+    private function collectEntries(array $keys, array $from)
     {
-        $queryParams = GeneralUtility::_GP('tx_dpf');
-        if ($queryParams === null) {
-            $queryParams = [];
-        }
         $result = [];
-        $params = ["action", "attachment", "deliverInactive", "qid"];
-        foreach ($params as $p) {
-            $result[$p] = (array_key_exists($p, $queryParams)) ? $queryParams[$p] : null;
+        foreach ($keys as $k) {
+            $result[$k] = (array_key_exists($k, $from)) ? $from[$k] : null;
         }
         return $result;
     }
