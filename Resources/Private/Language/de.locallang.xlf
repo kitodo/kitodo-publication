@@ -321,6 +321,10 @@
 			<source>register</source>
 			<target>melden</target>
 		</trans-unit>
+        <trans-unit id="form_button.suggestion" approved="yes">
+            <source>suggestion</source>
+            <target>Änderungsvorschlag</target>
+        </trans-unit>
 		<trans-unit id="form_button.create_value" approved="yes">
 			<source>create</source>
 			<target>anlegen</target>

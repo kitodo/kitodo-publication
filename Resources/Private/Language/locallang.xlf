@@ -242,6 +242,9 @@
 		<trans-unit id="form_button.register">
 			<source>register</source>
 		</trans-unit>
+        <trans-unit id="form_button.suggestion">
+            <source>suggestion</source>
+        </trans-unit>
 		<trans-unit id="form_button.create_value">
 			<source>create</source>
 		</trans-unit>
