@@ -99,16 +99,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $allowedActions = $params['allowedActions'];
 
         try {
+            // check if required parameters are present
+            if (!$action) {
+                throw new Exception("No action given", 400);
+            }
+            if (!$qid) {
+                throw new Exception("Missing parameter `qid`", 400);
+            }
+
             // check if action is allowed
             if ($allowedActions === null) {
                 $allowedActions = [];
             }
             $this->assertActionAllowed($allowedActions, $action);
-
-            // check if required parameters are present
-            if (!$qid) {
-                throw new Exception("Missing parameter `qid`", 400);
-            }
 
             $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
             $isRepositoryObject = !is_numeric($qid);
