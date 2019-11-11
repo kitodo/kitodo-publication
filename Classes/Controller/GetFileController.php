@@ -50,6 +50,7 @@
 
 namespace EWW\Dpf\Controller;
 
+use DOMXPath;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
@@ -117,7 +118,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $deliverInactiveKey,
                 $deliverInactiveKeySecretKey,
                 $fedoraHost,
-                $qid
+                $qid,
+                $attachmentId
             );
 
             switch ($action) {
@@ -186,6 +188,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         if ($isRepositoryObject) {
             $contentUri = $this->buildAttachmentURI($fedoraHost, $qid, $attachmentId);
+            $contentType = null; // use content type from remote resource
             if (empty($contentUri)) {
                 throw new Exception("No file found", 404);
             }
@@ -234,7 +237,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $this->streamAndExit($contentUri);
     }
 
-    private function assertAccessAllowed($isRepositoryObject, $givenKey, $secretKey, $fedoraHost, $pid)
+    private function assertAccessAllowed($isRepositoryObject, $givenKey, $secretKey, $fedoraHost, $pid, $dsid)
     {
         // if the given secret key matches the configured secret key, lift restriction
         $restrictToActiveDocuments = ($secretKey !== $givenKey);
@@ -242,6 +245,14 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // if restriction applies, check object state before dissemination
         if ($isRepositoryObject && $restrictToActiveDocuments) {
             $this->assertActiveFedoraObject($fedoraHost, $pid);
+        }
+
+        // if datastream id is given, check datastream download metadata
+        if ($dsid !== null) {
+            $downloadable = $this->datastreamDownloadCondition($fedoraHost, $pid, $dsid);
+            if (!$downloadable && $restrictToActiveDocuments) {
+                throw new Exception("File is not accessible", 403);
+            }
         }
     }
 
@@ -320,6 +331,40 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 header(trim($header) . ": " . trim($value));
             }
         }
+    }
+
+    /**
+     * Check if a datastream is downloadable.
+     *
+     * Loads SLUB-INFO metadata for the specified object and checks for appropriate
+     * metadata which grants download access to the specified datastream.
+     *
+     * @param string $fedoraHost Host of the Fedora system
+     * @param string $pid        Fedora object identifier
+     * @param string $dsid       Fedora object datastream identifier
+     * @return bool True if datastream is downloadable. False otherwise.
+     */
+    private function datastreamDownloadCondition(string $fedoraHost, string $pid, $dsid)
+    {
+        $slubInfoURI = rtrim('http://' . $fedoraHost, "/")
+            . '/fedora/objects/' . $pid
+            . '/datastreams/SLUB-INFO/content';
+        $slubInfoXML = file_get_contents($slubInfoURI);
+
+        if (false !== $slubInfoXML) {
+            $slubInfoDOM = new \DOMDocument('1.0', 'UTF-8');
+            if (true === $slubInfoDOM->loadXML($slubInfoXML)) {
+                $xpath = new DOMXPath($slubInfoDOM);
+                $xpath->registerNamespace('slub', 'http://slub-dresden.de/');
+
+                $query = '//slub:attachment[@ref="' . $dsid . '" and @isDownloadable="yes"]';
+                $match = $xpath->evaluate($query);
+
+                return ($match !== null) && ($match->count() > 0);
+            }
+        }
+
+        throw new Exception("Cannot obtain datastream access conditions", 500);
     }
 
     private function fedoraObjectState($fedoraHost, $pid)
