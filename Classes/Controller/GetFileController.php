@@ -469,9 +469,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      * Returns an array of key-value pairs from a given array.
      * If a particular key is not present, it's value is set to null.
      *
+     * @param $keys Array of keys for which to collect entries.
+     * @param $from Source array from which to collect entries.
      * @return array Associative array containing the values or nulls.
      */
-    private function collectEntries(array $keys, array $from)
+    private function collectEntries(array $keys, $from = [])
     {
         $result = [];
         foreach ($keys as $k) {
