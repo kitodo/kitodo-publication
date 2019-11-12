@@ -363,7 +363,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $query = '//slub:attachment[@ref="' . $dsid . '" and @isDownloadable="yes"]';
                 $match = $xpath->evaluate($query);
 
-                return ($match !== null) && ($match->count() > 0);
+                return ($match !== null) && ($match->length > 0);
             }
         }
 
