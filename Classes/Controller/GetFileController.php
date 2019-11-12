@@ -131,6 +131,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     return $this->previewAction($qid);
                     break;
                 case 'attachment':
+                    if (!$attachmentId) {
+                        throw new Exception("Missing parameter `attachment`", 400);
+                    }
                     $this->attachmentAction($fedoraHost, $qid, $attachmentId, $isRepositoryObject);
                     break;
                 case 'dataCite':
@@ -200,13 +203,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             }
             $file = $this->findFileObject($document, $attachmentId);
             if (!$file) {
-                throw new Exception("No file found", 404);
+                throw new Exception("No such file", 404);
+            }
+            if (!$file["download"]) {
+                throw new Exception("File is not accessible", 403);
             }
             $contentUri = $file['path'];
             $contentType = $file['type']; // override default content-type
         }
 
         $resourceHeaders = get_headers($contentUri);
+        if (!$resourceHeaders) {
+            throw new Exception("Cannot fetch remote resource headers", 500);
+        }
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Disposition', 'attachment');
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Type', $contentType);
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Length', null);
@@ -248,8 +257,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $this->assertActiveFedoraObject($fedoraHost, $pid);
         }
 
-        // if datastream id is given, check datastream download metadata
-        if (!empty($dsid)) {
+        /*
+           If datastream id is given, check datastream download metadata.
+           Non-repository (local) files are directly checked in attachmentAction()
+           because the file handling is totally entangled and we want to avoid
+           code duplication for now.
+        */
+        if ($isRepositoryObject && !empty($dsid)) {
             $downloadable = $this->datastreamDownloadCondition($fedoraHost, $pid, $dsid);
             if (!$downloadable && $restrictToActiveDocuments) {
                 throw new Exception("File is not accessible", 403);
@@ -401,10 +415,14 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $files = $document->getCurrentFileData();
 
-        foreach ($files['download'] as $id => $file) {
+        foreach ($files['original'] as $file) {
             if ($file['id'] == $attachmentId) {
                 return $file;
-                break;
+            }
+        }
+        foreach ($files['download'] as $file) {
+            if ($file['id'] == $attachmentId) {
+                return $file;
             }
         }
 
