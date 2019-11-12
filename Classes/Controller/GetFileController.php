@@ -249,7 +249,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         }
 
         // if datastream id is given, check datastream download metadata
-        if ($dsid !== null) {
+        if (!empty($dsid)) {
             $downloadable = $this->datastreamDownloadCondition($fedoraHost, $pid, $dsid);
             if (!$downloadable && $restrictToActiveDocuments) {
                 throw new Exception("File is not accessible", 403);
