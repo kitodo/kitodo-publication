@@ -52,8 +52,6 @@ namespace EWW\Dpf\Controller;
 
 use DOMXPath;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use EWW\Dpf\Configuration\ClientConfigurationManager;
-use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Helper\DataCiteXml;
 use EWW\Dpf\Services\MetsExporter;
 use Exception;
@@ -67,7 +65,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     /**
      * documentRepository
      *
-     * @var DocumentRepository
+     * @var \EWW\Dpf\Domain\Repository\DocumentRepository
      * @inject
      */
     protected $documentRepository;
@@ -75,7 +73,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     /**
      * clientConfigurationManager
      *
-     * @var ClientConfigurationManager
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
      * @inject
      */
     protected $clientConfigurationManager;
