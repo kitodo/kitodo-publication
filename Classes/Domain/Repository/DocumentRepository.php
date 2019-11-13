@@ -108,20 +108,24 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $query = $this->createQuery();
 
+        $constraints = array();
+
         $orConstraints = array(
                 $query->like('object_identifier', 'qucosa%'),
                 $query->equals('changed', true));
 
         if (count($orConstraints)) {
-            $query->matching($query->logicalOr($orConstraints));
+            $constraints[] = $query->logicalOr($orConstraints);
         }
 
         $andConstraints = array(
           $query->like('is_template', false));
 
         if (count($andConstraints)) {
-            $query->matching($query->logicalAnd($andConstraints));
+            $constraints[] = $query->logicalAnd($andConstraints);
         }
+
+        $query->matching($query->logicalAnd($constraints));
 
         return $query->execute();
     }
