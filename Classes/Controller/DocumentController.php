@@ -114,7 +114,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     }
 
     public function listSuggestionsAction() {
-        $this->setSessionData('currentWorkspaceAction','listSuggestions');
+        $this->setSessionData('redirectToDocumentListAction','listSuggestions');
+        $this->setSessionData('redirectToDocumentListController','Document');
 
         list($isWorkspace, $documents) = $this->getListViewData([], true);
 
@@ -133,16 +134,16 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      * @param Document $document
-     * @param bool $confirmAll
+     * @param bool $acceptAll
      */
-    public function confirmSuggestionAction(\EWW\Dpf\Domain\Model\Document $document, bool $confirmAll = true) {
+    public function acceptSuggestionAction(\EWW\Dpf\Domain\Model\Document $document, bool $acceptAll = true) {
 
         $args = $this->request->getArguments();
 
         $linkedUid = $document->getLinkedUid();
         $originDocument = $this->documentRepository->findByUid($linkedUid);
 
-        if ($confirmAll) {
+        if ($acceptAll) {
             // all changes are confirmed
 
             $originDocument->copy($document);
@@ -151,8 +152,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->documentRepository->remove($document);
         }
 
-        $this->redirect("list", "Document");
-
+        $this->redirectToDocumentList();
     }
 
 

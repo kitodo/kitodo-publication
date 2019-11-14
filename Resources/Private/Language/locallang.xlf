@@ -260,8 +260,8 @@
 		<trans-unit id="form_button.suggestRestore">
 			<source>suggest restore</source>
 		</trans-unit>
-        <trans-unit id="form_button.suggestConfirm">
-            <source>suggest confirm</source>
+        <trans-unit id="form_button.acceptSuggest">
+            <source>accept suggestion</source>
         </trans-unit>
 		<trans-unit id="form_button.remove_file">
 			<source>remove</source>
@@ -409,6 +409,9 @@
 		</trans-unit>
         <trans-unit id="manager.document.suggestions">
             <source>Suggestions</source>
+        </trans-unit>
+        <trans-unit id="manager.document.suggestionDetails">
+            <source>Suggestion details.</source>
         </trans-unit>
 		<trans-unit id="manager.document.remoteStatus.active">
 			<source>Active</source>

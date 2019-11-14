@@ -90,7 +90,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::EDIT, $document)) {
+        if ($suggestMod) {
+            $documentVoterAttribute = DocumentVoter::SUGGEST_MODIFICATION;
+        } else {
+            $documentVoterAttribute = DocumentVoter::EDIT;
+        }
+
+        if (!$this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.failureBlocked',
                 'dpf',

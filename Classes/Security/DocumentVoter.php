@@ -41,6 +41,7 @@ class DocumentVoter extends Voter
     const DOUBLET_CHECK = "DOCUMENT_DOUBLET_CHECK";
     const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
     const SUGGEST_MODIFICATION = "DOCUMENT_SUGGEST_MODIFICATION";
+    const SUGGESTION_ACCEPT = "DOCUMENT_SUGGESTION_ACCEPT";
 
     /**
      * workflow
@@ -83,7 +84,8 @@ class DocumentVoter extends Voter
             self::POSTPONE,
             self::DOUBLET_CHECK,
             self::SUGGEST_RESTORE,
-            self::SUGGEST_MODIFICATION
+            self::SUGGEST_MODIFICATION,
+            self::SUGGESTION_ACCEPT
         );
     }
 
@@ -207,6 +209,9 @@ class DocumentVoter extends Voter
                 return $this->canSuggestModification($subject);
                 break;
 
+            case self::SUGGESTION_ACCEPT:
+                return $this->canSuggestionAccept($subject);
+                break;
         }
 
         throw new \Exception('An unexpected error occurred!');
@@ -217,15 +222,10 @@ class DocumentVoter extends Voter
      */
     protected function defaultAccess()
     {
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-            return TRUE;
-        }
-
-        return FALSE;
+        return (
+            $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
+            $this->security->getUserRole() === Security::ROLE_RESEARCHER
+        );
     }
 
     /**
@@ -233,11 +233,7 @@ class DocumentVoter extends Voter
      */
     protected function librarianOnly()
     {
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return TRUE;
-        }
-
-        return FALSE;
+        return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
     }
 
     /**
@@ -394,7 +390,7 @@ class DocumentVoter extends Voter
             return $document->getOwner() === $this->security->getUser()->getUid();
         }
 
-        return FALSE;
+        return $document->isSuggestion();
     }
 
 
@@ -493,6 +489,16 @@ class DocumentVoter extends Voter
         return FALSE;
     }
 
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canSuggestionAccept($document)
+    {
+        // TODO: What if a document should be restored?
+
+        return $this->librarianOnly();
+    }
 
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -513,6 +519,7 @@ class DocumentVoter extends Voter
 
 
     /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
     protected function canCreateRegister($document)

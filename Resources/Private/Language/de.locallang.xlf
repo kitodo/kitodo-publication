@@ -345,8 +345,8 @@
 			<source>suggest restore</source>
 			<target>Wiederherstellung vorschlagen</target>
 		</trans-unit>
-        <trans-unit id="form_button.suggestConfirm" approved="yes">
-            <source>suggest confirm</source>
+        <trans-unit id="form_button.acceptSuggest" approved="yes">
+            <source>accept suggestion</source>
             <target>Änderungsvorschlag akzeptieren</target>
         </trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
@@ -544,6 +544,10 @@
         <trans-unit id="manager.document.suggestions" approved="yes">
             <source>Suggestions</source>
             <target>Änderungsvorschläge</target>
+        </trans-unit>
+        <trans-unit id="manager.document.suggestionDetails" approved="yes">
+            <source>Suggestion details.</source>
+            <target>Details zum Änderungsvorschlag</target>
         </trans-unit>
 		<trans-unit id="manager.document.remoteStatus.active" approved="yes">
 			<source>Active</source>

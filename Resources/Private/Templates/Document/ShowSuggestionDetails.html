@@ -20,41 +20,29 @@
 <f:section name="main">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
-        <h1 class="h2">Suggest Details</h1>
+        <h1 class="h2">{f:translate(key: 'manager.document.suggestionDetails')}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGESTION_ACCEPT')}">
                     <f:link.action
-                            action="confirmSuggestion"
+                            action="acceptSuggestion"
                             controller="Document"
-                            arguments="{document:document, confirmAll:1}"
+                            arguments="{document:document, acceptAll:1}"
                             class="btn btn-sm btn-success">
                         <i class="fas fa-check-circle"></i>
-                        {f:translate(key: 'form_button.suggestConfirm')}
+                        {f:translate(key: 'form_button.acceptSuggest')}
                     </f:link.action>
                 </f:if>
 
-<f:comment>
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
-                            action="suggestRestore"
+                            action="deleteLocally"
                             controller="Document"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-secondary">
-                        <i class="fas fa-question-circle"></i>
-                        {f:translate(key: 'form_button.suggestRestore')}
-                    </f:link.action>
-                </f:if>
-</f:comment>
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
-                    <f:link.action
-                            action="suggestDiscard"
-                            controller="Document"
-                            arguments="{document:document}"
+                            arguments="{document:document, tstamp:document.tstamp}"
                             class="btn btn-sm btn-danger"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
-                        <i class="fas fa-ban"></i>
-                        {f:translate(key: 'manager.discard')}
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                        <i class="fas fa-trash-alt"></i>
+                        {f:translate(key: 'form_button.deleteLocally')}
                     </f:link.action>
                 </f:if>
 
@@ -80,9 +68,9 @@
         </div>
     </div>
 
-    <f:form controller="document" action="confirmSuggestion" name="test">
+    <f:form controller="document" action="acceptSuggestion" name="test">
         <f:form.hidden name="document" value="{document}"/>
-        <f:form.hidden name="confirmAll" value="0"/>
+        <f:form.hidden name="acceptAll" value="0"/>
         <table class="table">
             <tr>
                 <th>
@@ -150,9 +138,6 @@
 
     </f:form>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
 
 </f:section>

@@ -13,7 +13,7 @@
     -->
 </f:comment>
 {namespace dpf=EWW\Dpf\ViewHelpers}
-
+formBody
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
@@ -36,14 +36,14 @@
     <f:flashMessages />
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: 'disabled')}\"}">
+            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
         <f:form.hidden id="suggestMod" property="suggestMod" value="{suggestMod}"/>
-        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1}"/>
+        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod}"/>
         <f:if condition="{suggestMod}">
             <div class="container">
                 <div class="row">
