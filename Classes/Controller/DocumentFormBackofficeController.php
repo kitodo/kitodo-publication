@@ -140,8 +140,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->addFlashMessage("Failed", '', $severity,false);
         }
 
-        $this->redirectToCurrentWorkspace();
-
+        $this->redirectToDocumentList();
     }
 
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
