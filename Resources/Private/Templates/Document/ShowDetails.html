@@ -112,27 +112,18 @@
                     </f:link.action>
                 </f:if>
 
+<f:comment>
                 <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
                     <f:link.action
                             action="suggestRestore"
                             controller="Document"
                             arguments="{document:document}"
-                            class="btn btn-sm btn-primary">
+                            class="btn btn-sm btn-secondary">
                         <i class="fas fa-question-circle"></i>
                         {f:translate(key: 'form_button.suggestRestore')}
                     </f:link.action>
                 </f:if>
-
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_CAUSE_CHANGE')}">
-                    <f:link.action
-                            action="causeChange"
-                            controller="Document"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-primary">
-                        <i class="fas fa-question-circle"></i>
-                        {f:translate(key: 'form_button.causeChange')}
-                    </f:link.action>
-                </f:if>
+</f:comment>
 
                 <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
                     <f:link.action

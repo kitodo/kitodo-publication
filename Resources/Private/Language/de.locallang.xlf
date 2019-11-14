@@ -341,10 +341,6 @@
 			<source>remove</source>
 			<target>entfernen</target>
 		</trans-unit>
-		<trans-unit id="form_button.causeChange" approved="yes">
-			<source>cause change</source>
-			<target>Änderung veranlassen</target>
-		</trans-unit>
 		<trans-unit id="form_button.suggestRestore" approved="yes">
 			<source>suggest restore</source>
 			<target>Wiederherstellung vorschlagen</target>

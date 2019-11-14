@@ -257,9 +257,6 @@
 		<trans-unit id="form_button.deleteLocally">
 			<source>remove</source>
 		</trans-unit>
-		<trans-unit id="form_button.causeChange">
-			<source>cause change</source>
-		</trans-unit>
 		<trans-unit id="form_button.suggestRestore">
 			<source>suggest restore</source>
 		</trans-unit>

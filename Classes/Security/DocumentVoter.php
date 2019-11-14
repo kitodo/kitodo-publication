@@ -39,7 +39,6 @@ class DocumentVoter extends Voter
     const SUGGEST = "DOCUMENT_SUGGEST";
     const POSTPONE = "DOCUMENT_POSTPONE";
     const DOUBLET_CHECK = "DOCUMENT_DOUBLET_CHECK";
-    const CAUSE_CHANGE = "DOCUMENT_CAUSE_CHANGE";
     const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
     const SUGGEST_MODIFICATION = "DOCUMENT_SUGGEST_MODIFICATION";
 
@@ -83,7 +82,6 @@ class DocumentVoter extends Voter
             self::EDIT,
             self::POSTPONE,
             self::DOUBLET_CHECK,
-            self::CAUSE_CHANGE,
             self::SUGGEST_RESTORE,
             self::SUGGEST_MODIFICATION
         );
@@ -199,10 +197,6 @@ class DocumentVoter extends Voter
 
             case self::DOUBLET_CHECK:
                 return $this->librarianOnly();
-                break;
-
-            case self::CAUSE_CHANGE:
-                return $this->canCauseChange($subject);
                 break;
 
             case self::SUGGEST_RESTORE:
@@ -459,30 +453,6 @@ class DocumentVoter extends Voter
         return false;
     }
 
-
-    /**
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return bool
-     */
-    protected function canCauseChange($document)
-    {
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-            return (
-                (
-                    $document->getOwner() !== $this->security->getUser()->getUid() &&
-                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
-                ) ||
-                (
-                    $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
-                    $document->getState() !== DocumentWorkflow::STATE_REGISTERED_NONE
-                )
-            );
-        }
-
-        return FALSE;
-    }
-
-
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
@@ -520,9 +490,8 @@ class DocumentVoter extends Voter
             );
         }
 
-        return TRUE;
+        return FALSE;
     }
-
 
 
     /**

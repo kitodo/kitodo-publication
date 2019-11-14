@@ -781,26 +781,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('document', $document);
     }
 
-
-    /**
-     * action cause change
-     *
-     * @param Document $document
-     * @return void
-     */
-    public function causeChangeAction(\EWW\Dpf\Domain\Model\Document $document) {
-
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::CAUSE_CHANGE, $document)) {
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_suggestChange.accessDenied';
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
-        }
-
-        $this->view->assign('document', $document);
-    }
-
-
     /**
      * action suggest restore
      *
