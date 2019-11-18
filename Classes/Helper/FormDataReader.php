@@ -261,8 +261,11 @@ class FormDataReader
 
     public function uploadError()
     {
-
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 0) {
+        if (
+            $this->formData['primaryFile'] &&
+            $this->formData['primaryFile']['error'] != 0 &&
+            $this->formData['primaryFile']['error'] != 4
+        ) {
             return true;
         }
 

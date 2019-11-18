@@ -566,7 +566,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
             $this->flashMessage($document, $key, AbstractMessage::OK);
             $this->redirect('list');
-
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
             if ($exception instanceof DPFExceptionInterface) {
                 $key = $exception->messageLanguageKey();
