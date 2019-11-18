@@ -739,12 +739,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
 
         $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER);
-
         $this->documentRepository->update($document);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
         $this->flashMessage($document, $key, AbstractMessage::OK);
-        $this->redirect('list');
+        $this->redirect('showDetails', 'Document', null, ['document' => $document]);
     }
 
     /**
