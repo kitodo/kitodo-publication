@@ -21,6 +21,7 @@ $(document).ready(function() {
     documentListConfirmDialog('#confirmRestore');
     documentListConfirmDialog('#confirmDelete');
     documentListConfirmDialog('#confirmDeleteLocally');
+    documentListConfirmDialog('#confirmDeleteWorkingCopy');
     documentListConfirmDialog('#confirmRegister');
     documentListConfirmDialog('#confirmPostpone');
     datepicker();

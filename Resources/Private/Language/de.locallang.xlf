@@ -482,12 +482,20 @@
 			<target>löschen</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
-			<source>The document &quot;%s&quot; will be deleted locally, all local changes are rejected.</source>
-			<target>Das Dokument &quot;%s&quot; wird lokal gelöscht und alle Änderungen werden verworfen. </target>
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+			<target>Das Dokument &quot;%s&quot; wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
-			<source>Do you really want to delete the document locally?</source>
-			<target>Möchten Sie das lokale Dokument wirklich löschen?</target>
+			<source>Do you really want to delete the document completely?</source>
+			<target>Möchten Sie das Dokument wirklich vollständig löschen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.message" approved="yes" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+			<target>Das Dokument &quot;%s&quot; wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader" approved="yes">
+			<source>Do you really want to delete the working copy completely?</source>
+			<target>Möchten Sie die Arbeitskopie wirklich vollständig löschen?</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
 			<source>The document &quot;%s&quot; will be registered for publication.</source>

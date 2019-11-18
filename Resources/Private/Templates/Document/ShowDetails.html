@@ -100,6 +100,18 @@
                     </f:link.action>
                 </f:if>
 
+                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
+                    <f:link.action
+                            action="deleteLocally"
+                            controller="Document"
+                            arguments="{document:document, tstamp:document.tstamp}"
+                            class="btn btn-sm btn-danger"
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteWorkingCopy'}">
+                        <i class="fas fa-trash-alt"></i>
+                        {f:translate(key: 'form_button.deleteLocally')}
+                    </f:link.action>
+                </f:if>
+
                 <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
                             action="deleteLocally"
@@ -168,6 +180,7 @@
     <f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteWorkingCopy'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />

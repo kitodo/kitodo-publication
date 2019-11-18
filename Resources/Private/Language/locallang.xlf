@@ -365,11 +365,17 @@
 		<trans-unit id="manager.deleteLocally">
 			<source>delete</source>
 		</trans-unit>
-		<trans-unit id="manager.confirmDeleteLocally.message">
-			<source>The document &quot;%s&quot; will be deleted locally, all local changes are rejected.</source>
+		<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
 		</trans-unit>
-		<trans-unit id="manager.confirmDeleteLocally.messageHeader">
-			<source>Do you really want to delete the document locally?</source>
+		<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
+			<source>Do you really want to delete the document completely?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader">
+			<source>Do you really want to delete the working copy completely?</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 			<source>Do you really want to register the document?</source>

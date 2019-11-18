@@ -27,6 +27,7 @@ class DocumentVoter extends Voter
     const LIST_IN_PROGRESS = "DOCUMENT_LIST_IN_PROGRESS";
     const DISCARD = "DOCUMENT_DISCARD";
     const DELETE_LOCALLY = "DOCUMENT_DELETE_LOCALLY";
+    const DELETE_WORKING_COPY = "DOCUMENT_DELETE_WORKING_COPY";
     const DUPLICATE = "DOCUMENT_DUPLICATE";
     const RELEASE_PUBLISH = "DOCUMENT_RELEASE_PUBLISH";
     const RELEASE_UPDATE = "DOCUMENT_RELEASE_UPDATE";
@@ -72,6 +73,7 @@ class DocumentVoter extends Voter
             self::LIST_IN_PROGRESS,
             self::DISCARD,
             self::DELETE_LOCALLY,
+            self::DELETE_WORKING_COPY,
             self::DUPLICATE,
             self::RELEASE_PUBLISH,
             self::RELEASE_UPDATE,
@@ -155,6 +157,10 @@ class DocumentVoter extends Voter
 
             case self::DELETE_LOCALLY:
                 return $this->canDeleteLocally($subject);
+                break;
+
+            case self::DELETE_WORKING_COPY:
+                return $this->canDeleteWorkingCopy($subject);
                 break;
 
             case self::DUPLICATE:
@@ -371,7 +377,6 @@ class DocumentVoter extends Voter
     }
 
 
-
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
@@ -382,15 +387,29 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY)) {
-            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
-        }
-
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_LOCALLY)) {
             return $document->getOwner() === $this->security->getUser()->getUid();
         }
 
         return $document->isSuggestion();
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canDeleteWorkingCopy($document)
+    {
+        if ($document->getTemporary() || $this->isDocumentLocked($document)) {
+            return FALSE;
+        }
+
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY)) {
+            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        }
+
+        return FALSE;
     }
 
 

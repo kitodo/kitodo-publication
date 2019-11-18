@@ -490,7 +490,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
     {
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::DELETE_LOCALLY, $document)) {
+        if ($document->getObjectIdentifier()) {
+            $voterAttribute = DocumentVoter::DELETE_WORKING_COPY;
+        } else {
+            $voterAttribute = DocumentVoter::DELETE_LOCALLY;
+        }
+
+        if (!$this->authorizationChecker->isGranted($voterAttribute, $document)) {
             if ($document->getEditorUid()) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.failureBlocked';
             } else {
