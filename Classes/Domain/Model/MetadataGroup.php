@@ -37,9 +37,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * mandatory
      *
-     * @var boolean
+     * @var string
      */
-    protected $mandatory = false;
+    protected $mandatory = '';
 
     /**
      * mapping
@@ -162,7 +162,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the mandatory
      *
-     * @return boolean $mandatory
+     * @return string $mandatory
      */
     public function getMandatory()
     {
@@ -172,22 +172,12 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the mandatory
      *
-     * @param boolean $mandatory
+     * @param string $mandatory
      * @return void
      */
     public function setMandatory($mandatory)
     {
         $this->mandatory = $mandatory;
-    }
-
-    /**
-     * Returns the boolean state of mandatory
-     *
-     * @return boolean
-     */
-    public function isMandatory()
-    {
-        return $this->mandatory;
     }
 
     /**

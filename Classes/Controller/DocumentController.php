@@ -25,9 +25,13 @@ use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Core\Error\DebugExceptionHandler;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use EWW\Dpf\Helper\DocumentMapper;
 use TYPO3\CMS\Backend\Exception;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+
 
 /**
  * DocumentController
@@ -50,6 +54,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @inject
      */
     protected $persistenceManager;
+
+    /**
+     * documentValidator
+     *
+     * @var \EWW\Dpf\Helper\DocumentValidator
+     * @inject
+     */
+    protected $documentValidator;
 
     /**
      * workflow
@@ -765,15 +777,22 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function showDetailsAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+
+        if (!$this->documentValidator->validate($document, true)) {
+            //$key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
+            $this->addFlashMessage("INVALID","",AbstractMessage::ERROR);
+          //  $this->redirectToDocumentList();
+        }
+
         if (!$this->authorizationChecker->isGranted(DocumentVoter::SHOW_DETAILS, $document)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirectToDocumentList();
-            return FALSE;
         }
 
         $this->view->assign('document', $document);
     }
+
 
     public function cancelListTaskAction()
     {

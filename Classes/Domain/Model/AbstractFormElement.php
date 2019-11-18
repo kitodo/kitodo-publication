@@ -43,7 +43,7 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      *
-     * @var boolean
+     * @var string
      */
     protected $mandatory;
 

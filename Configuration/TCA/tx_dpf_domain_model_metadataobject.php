@@ -165,8 +165,14 @@ return array(
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.mandatory',
             'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
+                'type' => 'select',
+                'size' => 1,
+                'maxitems' => 1,
+                'items' => array(
+                    array('',''),
+                    array('yes','1'),
+                    array('file only','FILE_ONLY'),
+                ),
             ),
         ),
         'mapping'           => array(

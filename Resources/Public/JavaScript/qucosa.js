@@ -138,8 +138,16 @@ var validateForm = function() {
     jQuery('.tx-dpf-tabs li a').each(function() {
         jQuery(this).removeClass('mandatory-error');
     });
+    jQuery('.input-field[data-mandatory]').each(function() {
+        jQuery(this).removeClass('mandatory-error');
+    });
+
     // check mandatory groups
-    jQuery('fieldset[data-mandatory=1]').each(function() {
+    var search = 'fieldset[data-mandatory="1"]';
+    if (hasFiles()) {
+        search = search + ',fieldset[data-mandatory="FILE_ONLY"]';
+    }
+    jQuery(search).each(function() {
         var fieldset = jQuery(this);
         if (hasMandatoryInputs(fieldset)) {
             if (checkMandatoryInputs(fieldset)) {
@@ -168,7 +176,7 @@ var validateForm = function() {
         }
     });
     // check non mandatory groups
-    jQuery('fieldset[data-mandatory=""]').each(function() {
+    jQuery('fieldset[data-mandatory=""],fieldset[data-mandatory="0"]').each(function() {
         var fieldset = jQuery(this);
         var filledInputs = 0;
         jQuery(this).find('.input-field').each(function() {
@@ -252,8 +260,30 @@ var showFormSuccess = function() {
         scrollTop: 0
     }, 200);
 }
+
+
+var hasFiles = function() {
+    var $hasFiles = 0;
+    jQuery(".input_file_upload").each(function() {
+        if (jQuery(this).val()) {
+            $hasFiles++;
+        }
+    });
+    jQuery(".fs_file_group .file_link").each(function() {
+        if (jQuery(this).attr('href')) {
+            $hasFiles++;
+        }
+    });
+
+    return $hasFiles > 0;
+}
+
 var hasMandatoryInputs = function(fieldset) {
-    var inputs = fieldset.find(".input-field[data-mandatory=1]");
+    var search = '.input-field[data-mandatory="1"]';
+    if (hasFiles()) {
+        search = search + ',.input-field[data-mandatory="FILE_ONLY"]';
+    }
+    var inputs = fieldset.find(search);
     return inputs.length > 0
 }
 var markPage = function(fieldset, error) {
@@ -267,7 +297,11 @@ var markPage = function(fieldset, error) {
 }
 var checkMandatoryInputs = function(fieldset) {
     var mandatoryError = false;
-    fieldset.find(".input-field[data-mandatory=1]").each(function() {
+    var search = '.input-field[data-mandatory="1"]';
+    if (hasFiles()) {
+        search = search + ',.input-field[data-mandatory="FILE_ONLY"]';
+    }
+    fieldset.find(search).each(function() {
         var id = jQuery(this).attr('id');
         if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
             mandatoryError = mandatoryError || true;
