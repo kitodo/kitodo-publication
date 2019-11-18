@@ -227,7 +227,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
                 $state[0] = DocumentWorkflow::LOCAL_STATE_IN_PROGRESS;
                 $updateDocument->setState(implode(":", $state));
-                die("state");
             }
 
             if (!$updateDocument->getTemporary()) {

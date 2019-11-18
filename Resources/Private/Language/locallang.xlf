@@ -384,7 +384,7 @@
 			<source>discard</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmDiscard.message">
-			<source>The document &quot;%s&quot; will be marked as discarded, working copy changes are updated in the repository.</source>
+			<source>The document &quot;%s&quot; will be marked as discarded.</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmDiscard.messageHeader">
 			<source>Do you really want to discard the document?</source>
@@ -393,7 +393,7 @@
 			<source>postpone</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmPostpone.message">
-			<source>The document &quot;%s&quot; will be marked as postponed, working copy changes are updated in the repository.</source>
+			<source>The document &quot;%s&quot; will be marked as postponed.</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmPostpone.messageHeader">
 			<source>Do you really want to postpone the document processing?</source>
