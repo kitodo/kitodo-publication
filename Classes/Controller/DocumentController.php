@@ -758,7 +758,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         if (!$this->authorizationChecker->isGranted(DocumentVoter::SHOW_DETAILS, $document)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            $this->redirectToDocumentList();
             return FALSE;
         }
 
