@@ -148,7 +148,6 @@ class FormDataReader
 
     protected function getDeletedFiles()
     {
-
         $deletedFiles = array();
 
         if (is_array($this->formData['deleteFile'])) {
@@ -157,10 +156,11 @@ class FormDataReader
                 $file = $this->fileRepository->findByUid($value);
 
                 // Deleting the primary file is not allowed.
-                if (!$file->isPrimaryFile()) {
-                    $deletedFiles[] = $file;
-                }
+                // if (!$file->isPrimaryFile()) {
+                //    $deletedFiles[] = $file;
+                // }
 
+                $deletedFiles[] = $file;
             }
         }
 
