@@ -285,7 +285,10 @@ class DocumentVoter extends Voter
         }
 
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
-            return $document->getOwner() === $this->security->getUser()->getUid();
+            return (
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
+                $document->getOwner() === $this->security->getUser()->getUid()
+            );
         }
 
         return FALSE;

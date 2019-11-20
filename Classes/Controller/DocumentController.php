@@ -327,7 +327,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.accessDenied';
             }
-            $this->flashMessage($$document, $key, AbstractMessage::ERROR);
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }

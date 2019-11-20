@@ -116,6 +116,9 @@
 		<trans-unit id="document_edit.failureBlocked">
 			<source>%s is already being edited.</source>
 		</trans-unit>
+		<trans-unit id="document_edit.accessDenied">
+			<source>Can not edit %s, access denied.</source>
+		</trans-unit>
 		<trans-unit id="document_discard.success">
 			<source>Document successfully discarded.</source>
 		</trans-unit>

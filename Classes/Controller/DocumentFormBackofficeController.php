@@ -97,11 +97,21 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         }
 
         if (!$this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.failureBlocked',
-                'dpf',
-                array($document->getTitle())
-            );
+
+            if ($document->getOwner() !== $this->security->getUser()->getUid()) {
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.accessDenied',
+                    'dpf',
+                    array($document->getTitle())
+                );
+            } else {
+                $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.failureBlocked',
+                    'dpf',
+                    array($document->getTitle())
+                );
+            }
+
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;

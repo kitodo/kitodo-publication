@@ -153,6 +153,10 @@
 			<source>%s is already being edited.</source>
 		    <target>%s wird bereits bearbeitet.</target>
 		</trans-unit>
+		<trans-unit id="document_edit.accessDenied" approved="yes">
+			<source>Can not edit %s, access denied.</source>
+			<target>%s kann nicht bearbeitet werden, der Zugriff wurde verweigert.</target>
+		</trans-unit>
 		<trans-unit id="document_discard.success" approved="yes">
 			<source>%s successfully discarded.</source>
 			<target>%s erfolgreich verworfen.</target>
@@ -631,7 +635,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmReleasePublish.message" approved="yes">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
-			<target>Das Dokumentt &quot;%s&quot; wird an das Repository gesendet und das lokale Dokument verworfen.</target>
+			<target>Das Dokument &quot;%s&quot; wird an das Repository gesendet und das lokale Dokument verworfen.</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmReleaseUpdate.message" approved="yes">
 			<source>All document changes of &quot;%s&quot; will be sent to the repository and the working copy will be removed.</source>
