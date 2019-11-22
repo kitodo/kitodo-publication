@@ -180,9 +180,16 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         var filledInputs = 0;
         jQuery(this).find('.input-field').each(function() {
-            if (jQuery(this).val() && jQuery(this).attr('data-default') != '1') {
+            var id = jQuery(this).attr('id');
+            if (
+                ((jQuery(this).attr('type') != 'checkbox' && jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length > 0))) &&
+                jQuery(this).attr('data-default') != '1'
+            ) {
                 filledInputs++;
             }
+            //if (jQuery(this).val() && jQuery(this).attr('data-default') != '1') {
+            //    filledInputs++;
+            //}
             jQuery(this).removeClass('mandatory-error');
         });
         // if there are fields with a value then mandatory fields
@@ -327,9 +334,16 @@ var checkPrimaryFile = function(fieldset) {
 var checkFilledInputs = function(fieldset) {
     var filledInputs = 0;
     fieldset.find('.input-field').each(function() {
-        if (jQuery(this).val()) {
+        var id = jQuery(this).attr('id');
+        if (
+            ((jQuery(this).attr('type') != 'checkbox' && jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length > 0))) &&
+            jQuery(this).attr('data-default') != '1'
+        ) {
             filledInputs++;
         }
+        //if (jQuery(this).val()) {
+        //    filledInputs++;
+        //}
         jQuery(this).removeClass('mandatory-error');
     });
     return filledInputs < 1;
