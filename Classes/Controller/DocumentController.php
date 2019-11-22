@@ -758,11 +758,19 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+        }
+
+        if (!$this->documentValidator->validate($document)) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.missingValues';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
 
         $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER);
         $this->documentRepository->update($document);
+
+        $notifier = $this->objectManager->get(Notifier::class);
+        $notifier->sendRegisterNotification($document);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
         $this->flashMessage($document, $key, AbstractMessage::OK);
@@ -777,13 +785,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function showDetailsAction(\EWW\Dpf\Domain\Model\Document $document)
     {
-
-        if (!$this->documentValidator->validate($document, true)) {
-            //$key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
-            $this->addFlashMessage("INVALID","",AbstractMessage::ERROR);
-          //  $this->redirectToDocumentList();
-        }
-
         if (!$this->authorizationChecker->isGranted(DocumentVoter::SHOW_DETAILS, $document)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);

@@ -21,6 +21,14 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_body" approved="yes">
+			<source>Document registration body</source>
+			<target>Dokumentanmeldung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_subject" approved="yes">
+			<source>Document registration subject</source>
+			<target>Dokumentanmeldung Thema</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.client" approved="yes">
 			<source>Client name</source>
 			<target>Mandantenname</target>

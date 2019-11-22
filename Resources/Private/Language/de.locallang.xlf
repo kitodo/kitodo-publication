@@ -269,6 +269,10 @@
 			<source>Registering %s failed, access denied.</source>
 			<target>Anmeldung von %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
 		</trans-unit>
+		<trans-unit id="document_register.missingValues" approved="yes">
+			<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
+			<target>Anmeldung von %s fehlgeschlagen, es fehlen noch Angaben. Bitte füllen Sie alle Pflichtfelder aus.</target>
+		</trans-unit>
 		<trans-unit id="document_showDetails.accessDenied" approved="yes">
 			<source>Can not show %s, access denied.</source>
 			<target>%s kann nicht angezeigt werden, der Zugriff wurde verweigert.</target>
@@ -756,6 +760,26 @@ Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
 		<trans-unit id="notification.newDocument.submitter.subject" approved="yes">
 			<source>You have registered a document</source>
 			<target>Ihre Veröffentlichung auf Qucosa – Anmeldebestätigung</target>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.body" approved="yes" xml:space="preserve">
+			<source>A document has been registered:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
+			<target>Ein Dokument wurde angemeldet:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</target>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.subject" approved="yes">
+			<source>Document registered</source>
+			<target>Ein Dokument wurde angemeldet</target>
 		</trans-unit>
 		<trans-unit id="search.control.extendedSearch" approved="yes">
 			<source>Extended search</source>

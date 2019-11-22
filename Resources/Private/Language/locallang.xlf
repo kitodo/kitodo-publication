@@ -203,6 +203,9 @@
 		<trans-unit id="document_register.accessDenied">
 			<source>Registering %s failed, access denied.</source>
 		</trans-unit>
+		<trans-unit id="document_register.missingValues">
+			<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
+		</trans-unit>
 		<trans-unit id="document_showDetails.accessDenied">
 			<source>Can not show %s, access denied.</source>
 		</trans-unit>
@@ -553,6 +556,18 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="notification.newDocument.submitter.subject">
 			<source>You have registered a document</source>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.body" xml:space="preserve">
+			<source>A document has been registered:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.subject">
+			<source>Document registered</source>
 		</trans-unit>
 		<trans-unit id="search.control.extendedSearch">
 			<source>Extended search</source>

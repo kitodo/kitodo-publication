@@ -412,6 +412,8 @@ CREATE TABLE tx_dpf_domain_model_client (
   submitter_new_document_notification_body text NOT NULL,
   submitter_ingest_notification_subject varchar(1024) DEFAULT '' NOT NULL,
   submitter_ingest_notification_body text NOT NULL,
+  admin_register_document_notification_subject varchar(1024) DEFAULT '' NOT NULL,
+  admin_register_document_notification_body text NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

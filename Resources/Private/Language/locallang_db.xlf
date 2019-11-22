@@ -17,6 +17,12 @@
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_subject">
 			<source>New document subject</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_body">
+			<source>Registered document body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_subject">
+			<source>Registered document subject</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.client">
 			<source>Client name</source>
 		</trans-unit>
