@@ -373,6 +373,14 @@
 			<source>Mandatory</source>
 			<target>Pflicht</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_yes" approved="yes">
+			<source>Yes</source>
+			<target>Ja</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_file_only" approved="yes">
+			<source>Only with attached files</source>
+			<target>Nur bei angehängten Dateien</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping" approved="yes">
 			<source>Mapping</source>
 			<target>Zuordnung</target>
@@ -488,6 +496,14 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory" approved="yes">
 			<source>Mandatory</source>
 			<target>Pflicht</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_yes" approved="yes">
+			<source>Yes</source>
+			<target>Ja</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_file_only" approved="yes">
+			<source>Only with attached files</source>
+			<target>Nur bei angehängten Dateien</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
 			<source>Mapping</source>

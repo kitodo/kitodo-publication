@@ -281,6 +281,12 @@
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 			<source>Mapping</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_yes">
+			<source>Yes</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_file_only">
+			<source>Only with attached files</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading">
 			<source>Mapping for reading</source>
 		</trans-unit>
@@ -361,6 +367,12 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 			<source>Mandatory</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_yes">
+			<source>Yes</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_file_only">
+			<source>Only with attached files</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 			<source>Mapping</source>

@@ -160,8 +160,8 @@ return array(
                 'maxitems' => 1,
                 'items' => array(
                     array('',''),
-                    array('yes','1'),
-                    array('file only','FILE_ONLY'),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_yes','1'),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_file_only','FILE_ONLY'),
                 ),
             ),
         ),
