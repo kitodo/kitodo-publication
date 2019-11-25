@@ -319,15 +319,15 @@
 		</trans-unit>
 		<trans-unit id="form_button.cancel" approved="yes">
 			<source>cancel</source>
-			<target>abbrechen</target>
+			<target>Abbrechen</target>
 		</trans-unit>
 		<trans-unit id="form_button.edit" approved="yes">
 			<source>edit</source>
-			<target>bearbeiten</target>
+			<target>Bearbeiten</target>
 		</trans-unit>
 		<trans-unit id="form_button.register" approved="yes">
 			<source>register</source>
-			<target>melden</target>
+			<target>Melden</target>
 		</trans-unit>
         <trans-unit id="form_button.suggestion" approved="yes">
             <source>suggestion</source>
@@ -335,19 +335,19 @@
         </trans-unit>
 		<trans-unit id="form_button.create_value" approved="yes">
 			<source>create</source>
-			<target>anlegen</target>
+			<target>Anlegen</target>
 		</trans-unit>
 		<trans-unit id="form_button.delete" approved="yes">
 			<source>delete</source>
-			<target>löschen</target>
+			<target>Löschen</target>
 		</trans-unit>
 		<trans-unit id="form_button.delete_item" approved="yes">
 			<source>delete %s</source>
-			<target>lösche %s</target>
+			<target>Lösche %s</target>
 		</trans-unit>
 		<trans-unit id="form_button.deleteLocally" approved="yes">
 			<source>remove</source>
-			<target>entfernen</target>
+			<target>Entfernen</target>
 		</trans-unit>
 		<trans-unit id="form_button.suggestRestore" approved="yes">
 			<source>suggest restore</source>
@@ -359,11 +359,11 @@
         </trans-unit>
 		<trans-unit id="form_button.remove_file" approved="yes">
 			<source>remove</source>
-			<target>entfernen</target>
+			<target>Entfernen</target>
 		</trans-unit>
 		<trans-unit id="form_button.save" approved="yes">
 			<source>save</source>
-			<target>speichern</target>
+			<target>Speichern</target>
 		</trans-unit>
 		<trans-unit id="form_button.saveWorkingCopy" approved="yes">
 			<source>save working copy</source>
@@ -375,15 +375,15 @@
 		</trans-unit>
 		<trans-unit id="form_button.validate" approved="yes">
 			<source>validate</source>
-			<target>überprüfen</target>
+			<target>Überprüfen</target>
 		</trans-unit>
         <trans-unit id="form_button.nextPage">
             <source>next</source>
-            <target>nächste </target>
+            <target>Nächste </target>
         </trans-unit>
         <trans-unit id="form_button.prevPage">
             <source>previous</source>
-            <target>vorherige</target>
+            <target>Vorherige</target>
         </trans-unit>
 		<trans-unit id="form_error_msg.all" approved="yes">
 			<source>The form contains errors.</source>
@@ -515,7 +515,7 @@
 		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
-			<target>verwerfen</target>
+			<target>Verwerfen</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmDiscard.message" approved="yes">
 			<source>The document &quot;%s&quot; will be marked as discarded.</source>
@@ -527,7 +527,7 @@
 		</trans-unit>
 		<trans-unit id="manager.postpone" approved="yes">
 			<source>postpone</source>
-			<target>zurückstellen</target>
+			<target>Zurückstellen</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmPostpone.message" approved="yes">
             <source>The document &quot;%s&quot; will be marked as postponed.</source>
@@ -635,7 +635,7 @@
 		</trans-unit>
 		<trans-unit id="manager.releasePublish" approved="yes">
 			<source>release</source>
-			<target>freigeben</target>
+			<target>Freigeben</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmReleasePublish.message" approved="yes">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
@@ -687,7 +687,7 @@
 		</trans-unit>
 		<trans-unit id="manager.releaseUpdate" approved="yes">
 			<source>update</source>
-			<target>aktualisieren</target>
+			<target>Aktualisieren</target>
 		</trans-unit>
 		<trans-unit id="manager.chooseClientMessage" approved="yes">
 			<source>Please select a client in the page tree.</source>
@@ -1071,11 +1071,11 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="widget.pagination.next" approved="yes">
 			<source>next</source>
-			<target>nächste</target>
+			<target>Nächste</target>
 		</trans-unit>
 		<trans-unit id="widget.pagination.previous" approved="yes">
 			<source>previous</source>
-			<target>vorherige</target>
+			<target>Vorherige</target>
 		</trans-unit>
 		</body>
 	</file>
