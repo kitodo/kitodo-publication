@@ -114,24 +114,24 @@
 			<target>%s erfolgreich gelöscht.</target>
 		</trans-unit>
 		<trans-unit id="document_deleteLocally.failure">
-			<source>Removing %s failed.</source>
-			<target>Entfernen von %s fehlgeschlagen.</target>
+			<source>Deleting %s failed.</source>
+			<target>Löschen von %s fehlgeschlagen.</target>
 		</trans-unit>
 		<trans-unit id="document_deleteLocally.failureNewVersion">
-			<source>Removing %s failed. There is a newer Version.</source>
-			<target>Entfernen von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
+			<source>Deleting %s failed. There is a newer Version.</source>
+			<target>Löschen von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
 		</trans-unit>
 		<trans-unit id="document_deleteLocally.failureBlocked" approved="yes">
-			<source>%s could not be removed, because it is currently being edited.</source>
-			<target>%s konnte nicht entfernt werden, da es gerade bearbeitet wird.</target>
+			<source>%s could not be deleted, because it is currently being edited.</source>
+			<target>%s konnte nicht gelöscht werden, da es gerade bearbeitet wird.</target>
 		</trans-unit>
 		<trans-unit id="document_deleteLocally.accessDenied" approved="yes">
-			<source>%s could not be removed, access denied.</source>
-			<target>%s konnte nicht entfernt werden, der Zugriff wurde verweigert.</target>
+			<source>%s could not be deleted, access denied.</source>
+			<target>%s konnte nicht gelöscht werden, der Zugriff wurde verweigert.</target>
 		</trans-unit>
 		<trans-unit id="document_deleteLocally.success">
-			<source>%s successfully removed.</source>
-		    <target>%s erfolgreich entfernt.</target>
+			<source>%s successfully deleted.</source>
+		    <target>%s erfolgreich gelöscht.</target>
 		</trans-unit>
 		<trans-unit id="document_updateLocally.accessDenied" approved="yes">
 			<source>Saving %s failed, access denied.</source>
@@ -346,8 +346,12 @@
 			<target>Lösche %s</target>
 		</trans-unit>
 		<trans-unit id="form_button.deleteLocally" approved="yes">
-			<source>remove</source>
-			<target>Entfernen</target>
+			<source>delete</source>
+			<target>Löschen</target>
+		</trans-unit>
+		<trans-unit id="form_button.deleteWorkingCopy" approved="yes">
+			<source>delete working copy</source>
+			<target>Arbeitskopie löschen</target>
 		</trans-unit>
 		<trans-unit id="form_button.suggestRestore" approved="yes">
 			<source>suggest restore</source>

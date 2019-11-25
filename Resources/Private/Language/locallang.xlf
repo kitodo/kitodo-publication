@@ -260,9 +260,12 @@
 		<trans-unit id="form_button.delete_item">
 			<source>delete %s</source>
 		</trans-unit>
-		<trans-unit id="form_button.deleteLocally">
-			<source>remove</source>
-		</trans-unit>
+        <trans-unit id="form_button.deleteLocally">
+            <source>delete</source>
+        </trans-unit>
+        <trans-unit id="form_button.deleteWorkingCopy">
+            <source>delete working copy</source>
+        </trans-unit>
 		<trans-unit id="form_button.suggestRestore">
 			<source>suggest restore</source>
 		</trans-unit>
