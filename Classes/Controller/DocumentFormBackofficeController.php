@@ -374,6 +374,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $severity,
                 true
             );
+
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
 
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
@@ -394,7 +398,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             );
         }
 
-        $this->redirectToList();
+        $this->redirect('list', 'Document');
     }
 
 
