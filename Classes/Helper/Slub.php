@@ -91,4 +91,32 @@ class Slub
         return $nameNode->item(0)->nodeValue;
     }
 
+    public function getNotes()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:note");
+
+        $notes = array();
+
+        for ($i=0; $i < $node->length; $i++)
+        {
+            $notes[] = $node->item($i)->nodeValue;
+        }
+
+        return $notes;
+    }
+
+    public function addNote($noteContent)
+    {
+        $slubInfoNode = $this->getSlubXpath()->query('/slub:info');
+
+        if ($slubInfoNode->length == 1) {
+            $note = $this->slubDom->createElement('slub:note');
+            $note->setAttribute('type', 'private');
+            $note->nodeValue = $noteContent;
+            $slubInfoNode->item(0)->appendChild($note);
+        } else {
+            throw new \Exception('Invalid slubInfo data.');
+        }
+    }
+
 }

@@ -920,5 +920,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this;
     }
 
+    public function getNotes() {
+        $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
+        return $slub->getNotes();
+    }
+
 
 }

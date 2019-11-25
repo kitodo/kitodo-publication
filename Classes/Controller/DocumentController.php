@@ -33,6 +33,7 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 
+
 /**
  * DocumentController
  */
@@ -46,6 +47,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @inject
      */
     protected $documentRepository = null;
+
+    /**
+     * inputOptionListRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\InputOptionListRepository
+     * @inject
+     */
+    protected $inputOptionListRepository = null;
 
     /**
      * persistence manager
@@ -329,9 +338,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @param integer $tstamp
+     * @param string $reason
      * @return void
      */
-    public function discardAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
+    public function discardAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = NULL)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::DISCARD, $document)) {
             if ($document->getEditorUid()) {
@@ -345,6 +355,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
 
         $document->setEditorUid($this->security->getUser()->getUid());
+
+        if ($reason) {
+            $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
+            $note = "Das Dokument wurde verworfen: ".$timeStamp."\n".$reason;
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $slub->addNote($note);
+            $document->setSlubInfoData($slub->getSlubXml());
+        }
 
         try {
                 if (
@@ -413,9 +431,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @param integer $tstamp
+     * @param string $reason
      * @return void
      */
-    public function postponeAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
+    public function postponeAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = NULL)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::POSTPONE, $document)) {
             if ($document->getEditorUid()) {
@@ -429,6 +448,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
 
         $document->setEditorUid($this->security->getUser()->getUid());
+
+        if ($reason) {
+            $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
+            $note = "Das Dokument wurde zurückgestellt: ".$timeStamp."\n".$reason;
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $slub->addNote($note);
+            $document->setSlubInfoData($slub->getSlubXml());
+        }
 
         try {
             if (
@@ -790,6 +817,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirectToDocumentList();
         }
+
+        $discardOptions = $this->inputOptionListRepository->findOneByName("discardOptions");
+        $postponeOptions = $this->inputOptionListRepository->findOneByName("postponeOptions");
+
+        $this->view->assign('discardOptions', $discardOptions->getInputOptions());
+        $this->view->assign('postponeOptions', $postponeOptions->getInputOptions());
 
         $this->view->assign('document', $document);
     }

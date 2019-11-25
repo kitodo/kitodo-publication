@@ -565,7 +565,8 @@ var documentListConfirmDialog = function(dialogId) {
         backdrop: 'static'
     });
     jQuery(dialogId).on('show.bs.modal', function(e) {
-        jQuery(this).find(dialogId+'Document').attr('href', jQuery(e.relatedTarget).attr('href'));
+        //jQuery(this).find(dialogId+'Document').attr('href', jQuery(e.relatedTarget).attr('href'));
+        jQuery(this).find(dialogId+'Document').attr('action', jQuery(e.relatedTarget).attr('href'));
         var bodyText = jQuery(this).find('.modal-body p').html();
         title = jQuery(e.relatedTarget).attr('data-documenttitle');
         jQuery(this).find('.modal-body p').html(bodyText.replace('%s', title));
@@ -576,6 +577,24 @@ var documentListConfirmDialog = function(dialogId) {
         jQuery(this).find('.modal-body p').html(bodyText.replace(title, '%s'));
         jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
     });
+
+    jQuery(dialogId+'Document').submit(function(e) {
+        var reason = jQuery(dialogId+'Document').find('textarea');
+        if (typeof reason !== 'undefined' && reason.length > 0) {
+            if (reason.val().trim().length == 0) {
+                reason.val("");
+                e.preventDefault();
+            }
+        }
+    });
+
+
+    jQuery(dialogId+'ReasonSelect').on('change', function(e){
+        jQuery(dialogId+'Reason').val(jQuery(this).val());
+    });
+
+
+
 }
 
 function addRemoveFileButton() {

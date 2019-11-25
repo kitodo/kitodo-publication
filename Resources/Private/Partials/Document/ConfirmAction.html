@@ -25,13 +25,31 @@
                 </div>
                 <div class="modal-body">
                     <p>{f:translate(key: 'manager.confirm{actionName}.message', arguments: {0: '%s'})}</p>
+                    <f:form id="confirm{actionName}Document" action="postpone" method="post" name="document" object="{document}" enctype="multipart/form-data">
+                        <f:if condition="{reasonRequired}">
+                            <label data-error="wrong" data-success="right">Bitte geben Sie einen Grund an:</label>
+                            <div class="input-group">
+                                <select id="confirm{actionName}ReasonSelect" name="reasonSelect" class="form-control">
+                                    <option></option>
+                                    <f:for each="{reasonOptions}" as="option">
+                                        <option value="{option}">{option}</option>
+                                    </f:for>
+                                </select>
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <f:form.textarea id="confirm{actionName}Reason" name="reason" class="form-control validate" value="" additionalAttributes="{required:'required'}"/>
+                            </div>
+                        </f:if>
+                    </f:form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
                         'manager.confirm.no')}
                     </button>
-                    <a id="confirm{actionName}Document" class="btn btn-danger" href="#">
-                        {f:translate(key: 'manager.confirm.yes')}</a>
+                    <button type="submit" form="confirm{actionName}Document" class="btn btn-danger">{f:translate(key:
+                        'manager.confirm.yes')}
+                    </button>
                 </div>
             </div>
         </div>

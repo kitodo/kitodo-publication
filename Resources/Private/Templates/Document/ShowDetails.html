@@ -175,10 +175,20 @@
         </li>
         <li>{document.objectIdentifier}</li>
         <li>{document.documentType.displayName}</li>
+
+        <f:if condition="{document.notes}">
+            <li>
+                <b>Bearbeitungsnotizen:</b><br />
+                <f:for each="{document.notes}" as="note">
+                    <f:format.nl2br>{note}</f:format.nl2br>
+                    <br /><br />
+                </f:for>
+            </li>
+        </f:if>
     </ul>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard'}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteWorkingCopy'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
