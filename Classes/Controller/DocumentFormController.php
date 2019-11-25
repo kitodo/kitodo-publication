@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Helper\DocumentMapper;
 
 class DocumentFormController extends AbstractDocumentFormController
 {
@@ -56,6 +57,15 @@ class DocumentFormController extends AbstractDocumentFormController
 
         try {
             parent::createAction($newDocumentForm);
+
+            /** @var \EWW\Dpf\Helper\DocumentMapper $documentMapper */
+            $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+            /** @var \EWW\Dpf\Domain\Model\Document $newDocument */
+            $newDocument = $documentMapper->getDocument($newDocumentForm);
+
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendNewDocumentNotification($newDocument);
 
             if (key_exists('afterDocSavedRedirectPage',$this->settings) && $this->settings['afterDocSavedRedirectPage']) {
                 $uri = $this->uriBuilder

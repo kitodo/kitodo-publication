@@ -15,7 +15,6 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\ElasticsearchMapper;
@@ -238,13 +237,6 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
                 }
             }
         }
-
-        $notifier = $this->objectManager->get(Notifier::class);
-
-        $notifier->sendNewDocumentNotification($newDocument);
-
-        $requestArguments = $this->request->getArguments();
-
     }
 
     public function initializeEditAction()
