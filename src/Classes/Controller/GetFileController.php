@@ -298,7 +298,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     private function buildMetsXml($document)
     {
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
         $exporter->setXML($document->getXmlData());

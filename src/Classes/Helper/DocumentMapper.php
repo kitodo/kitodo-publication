@@ -351,7 +351,7 @@ class DocumentMapper
 
         $formMetaData = $this->getMetadata($documentForm);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
 
         $exporter->setFileData($document->getFileData());
 
