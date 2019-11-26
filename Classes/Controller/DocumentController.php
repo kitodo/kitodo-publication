@@ -818,11 +818,15 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->redirectToDocumentList();
         }
 
-        $discardOptions = $this->inputOptionListRepository->findOneByName("discardOptions");
-        $postponeOptions = $this->inputOptionListRepository->findOneByName("postponeOptions");
+        $postponeOptions = $this->inputOptionListRepository->findOneByName($this->settings['postponeOptionListName']);
+        if ($postponeOptions) {
+            $this->view->assign('postponeOptions', $postponeOptions->getInputOptions());
+        }
 
-        $this->view->assign('discardOptions', $discardOptions->getInputOptions());
-        $this->view->assign('postponeOptions', $postponeOptions->getInputOptions());
+        $discardOptions = $this->inputOptionListRepository->findOneByName($this->settings['discardOptionListName']);
+        if ($discardOptions) {
+            $this->view->assign('discardOptions', $discardOptions->getInputOptions());
+        }
 
         $this->view->assign('document', $document);
     }
