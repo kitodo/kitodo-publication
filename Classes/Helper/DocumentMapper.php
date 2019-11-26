@@ -78,7 +78,14 @@ class DocumentMapper
         $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
-        $documentForm->setVirtual($document->getDocumentType()->getVirtual());
+
+
+        $documentForm->setPrimaryFileMandatory(
+            $document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE &&
+            $document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE &&
+            !$document->getDocumentType()->getVirtual()
+        );
+
         $documentForm->setProcessNumber($document->getProcessNumber());
         $documentForm->setTemporary($document->getTemporary());
 

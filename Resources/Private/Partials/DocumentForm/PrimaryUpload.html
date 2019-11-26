@@ -14,9 +14,9 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<fieldset class="fs_file_group" data-group="file-upload" id="primary_file" data-virtual="{virtual}">
-    <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{virtual}', then: '', else: '*')}</legend>
-    <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-virtual:virtual}"
+<fieldset class="fs_file_group" data-group="file-upload" id="primary_file" data-primaryFileMandatory="{primaryFileMandatory}">
+    <legend>{f:translate(key: 'form_legend.primaryFile')}{f:if(condition: '{primaryFileMandatory}', then: '*', else: '')}</legend>
+    <f:form.upload id="inp_primaryFile" property="primaryFile" additionalAttributes="{data-primaryFileMandatory:primaryFileMandatory}"
                    class="input_file_upload"/>
     <button type="submit" name="rem_file" class="rem_file btn btn-sm btn-secondary">
         <i class="fas fa-trash-alt"></i>

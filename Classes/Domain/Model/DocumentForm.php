@@ -27,7 +27,7 @@ class DocumentForm extends AbstractFormElement
      *
      * @var boolean
      */
-    protected $virtual;
+    protected $primaryFileMandatory;
 
     /**
      *
@@ -109,18 +109,18 @@ class DocumentForm extends AbstractFormElement
      *
      * @return boolean
      */
-    public function getVirtual()
+    public function getPrimaryFileMandatory()
     {
-        return $this->virtual;
+        return $this->primaryFileMandatory;
     }
 
     /**
      *
-     * @param boolean $virtual
+     * @param boolean $primaryFileMandatory
      */
-    public function setVirtual($virtual)
+    public function setPrimaryFileMandatory($primaryFileMandatory)
     {
-        $this->virtual = $virtual;
+        $this->primaryFileMandatory = $primaryFileMandatory;
     }
 
     /**

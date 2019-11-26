@@ -67,7 +67,7 @@
 
     <div id="tab-file-upload" class="fs_page tab-pane">
         <f:render partial="DocumentForm/PrimaryFileGroup"
-                  arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
+                  arguments="{file:documentForm.primaryFile,primaryFileMandatory:documentForm.primaryFileMandatory}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-sm btn-secondary add_file_group"
                 data-group="file-upload"
