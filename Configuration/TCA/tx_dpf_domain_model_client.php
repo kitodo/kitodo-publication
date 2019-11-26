@@ -39,7 +39,6 @@ return array(
             admin_new_document_notification_subject, admin_new_document_notification_body,
             submitter_new_document_notification_subject, submitter_new_document_notification_body,
             submitter_ingest_notification_subject, submitter_ingest_notification_body',
-        'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
     'interface' => array(
@@ -215,6 +214,7 @@ return array(
                 'type'    => 'check',
                 'default' => 0,
             ),
+            'onChange' => 'reload',
         ),
         'niss_part_search'   => array(
             'exclude'     => 1,
