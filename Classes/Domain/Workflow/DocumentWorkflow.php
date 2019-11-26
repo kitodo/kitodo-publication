@@ -71,6 +71,7 @@ class DocumentWorkflow
     public const TRANSITION_RELEASE_ACTIVATE    = "RELEASE_ACTIVATE_TRANSITION";
     public const TRANSITION_DELETE_LOCALLY      = "DELETE_LOCALLY_TRANSITION";
     public const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
+    public const TRANSITION_DELETE_DISCARDED    = "DELETE_DISCARDED_TRANSITION";
 
     public const PLACES = [
         self::STATE_NONE_NONE,
@@ -190,6 +191,10 @@ class DocumentWorkflow
 */
         self::TRANSITION_DELETE_LOCALLY => [
             "from" => [self::STATE_NEW_NONE],
+            "to" => self::STATE_NONE_NONE
+        ],
+        self::TRANSITION_DELETE_DISCARDED => [
+            "from" => [self::STATE_DISCARDED_NONE],
             "to" => self::STATE_NONE_NONE
         ],
         self::TRANSITION_DELETE_WORKING_COPY => [

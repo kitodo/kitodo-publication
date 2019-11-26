@@ -395,6 +395,10 @@ class DocumentVoter extends Voter
             return $document->getOwner() === $this->security->getUser()->getUid();
         }
 
+        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_DISCARDED)) {
+            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        }
+
         return $document->isSuggestion();
     }
 
