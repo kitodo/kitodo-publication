@@ -134,7 +134,7 @@
             </f:if>
         </f:then>
         <f:else>
-            <f:form.button name="save" id="save"
+            <f:form.button name="save" id="{f:if(condition: '{backoffice}', then: 'saveCreate', else: 'save')}"
                            class="btn btn-lg btn-success"
                            disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE\')} ||
                    {dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE_REGISTER\')}', then: '', else: 'disabled')}">
