@@ -181,27 +181,15 @@ return array(
                 'multiple'            => 0,
                 'wizards'             => array(
                     '_VERTICAL' => 1,
-                    'edit'      => array(
-                        'type'                     => 'popup',
-                        'title'                    => 'Edit',
-                        'module' => array(
-                          'name' => 'wizard_edit',
-                        ),
-                        'icon'                     => 'actions-open',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'JSopenParams'             => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+                ),
+                'fieldControl' => array(
+                    'editPopup' => array(
+                        'disabled' => false,
                     ),
-                    'add'       => array(
-                        'type'   => 'script',
-                        'title'  => 'Create new',
-                        'icon'   => 'actions-add',
-                        'params' => array(
-                            'table'    => 'tx_dpf_domain_model_metadatagroup',
-                            'pid'      => '###CURRENT_PID###',
+                    'addRecord' => array(
+                        'disabled' => false,
+                        'options' =>  array(
                             'setValue' => 'prepend',
-                        ),
-                        'module' => array(
-                          'name' => 'wizard_add',
                         ),
                     ),
                 ),
