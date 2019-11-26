@@ -30,7 +30,7 @@ class DocumentVoter extends Voter
     const DELETE_WORKING_COPY = "DOCUMENT_DELETE_WORKING_COPY";
     const DUPLICATE = "DOCUMENT_DUPLICATE";
     const RELEASE_PUBLISH = "DOCUMENT_RELEASE_PUBLISH";
-    const RELEASE_UPDATE = "DOCUMENT_RELEASE_UPDATE";
+//    const RELEASE_UPDATE = "DOCUMENT_RELEASE_UPDATE";
     const RELEASE_ACTIVATE = "DOCUMENT_RELEASE_ACTIVATE";
     const REGISTER = "DOCUMENT_REGISTER";
     const SHOW_DETAILS = "DOCUMENT_SHOW_DETAILS";
@@ -76,7 +76,7 @@ class DocumentVoter extends Voter
             self::DELETE_WORKING_COPY,
             self::DUPLICATE,
             self::RELEASE_PUBLISH,
-            self::RELEASE_UPDATE,
+//            self::RELEASE_UPDATE,
             self::RELEASE_ACTIVATE,
             self::REGISTER,
             self::SHOW_DETAILS,
@@ -171,9 +171,9 @@ class DocumentVoter extends Voter
                 return $this->canReleasePublish($subject);
                 break;
 
-            case self::RELEASE_UPDATE:
-                return $this->canReleaseUpdate($subject);
-                break;
+//            case self::RELEASE_UPDATE:
+//                return $this->canReleaseUpdate($subject);
+//                break;
 
             case self::RELEASE_ACTIVATE:
                 return $this->canReleaseActivate($subject);
@@ -329,10 +329,10 @@ class DocumentVoter extends Voter
         return FALSE;
     }
 
-    /**
+    /*
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
-     */
+     *
     protected function canReleaseUpdate($document)
     {
         if ($this->isDocumentLocked($document)) {
@@ -353,6 +353,7 @@ class DocumentVoter extends Voter
 
         return FALSE;
     }
+    */
 
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document

@@ -107,13 +107,17 @@ class DocumentWorkflow
                 self::STATE_POSTPONED_NONE,
                 self::STATE_IN_PROGRESS_ACTIVE,
                 self::STATE_IN_PROGRESS_INACTIVE,
+                self::STATE_IN_PROGRESS_DELETED,
                 self::STATE_NONE_ACTIVE,
-                self::STATE_NONE_INACTIVE
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_DELETED
             ],
             "to" => [
                 self::STATE_DISCARDED_NONE,
                 self::STATE_DISCARDED_NONE,
                 self::STATE_DISCARDED_NONE,
+                self::STATE_NONE_DELETED,
+                self::STATE_NONE_DELETED,
                 self::STATE_NONE_DELETED,
                 self::STATE_NONE_DELETED,
                 self::STATE_NONE_DELETED,
@@ -127,13 +131,17 @@ class DocumentWorkflow
                 self::STATE_DISCARDED_NONE,
                 self::STATE_IN_PROGRESS_ACTIVE,
                 self::STATE_IN_PROGRESS_DELETED,
+                self::STATE_IN_PROGRESS_INACTIVE,
                 self::STATE_NONE_ACTIVE,
-                self::STATE_NONE_DELETED
+                self::STATE_NONE_DELETED,
+                self::STATE_NONE_INACTIVE
             ],
             "to" => [
                 self::STATE_POSTPONED_NONE,
                 self::STATE_POSTPONED_NONE,
                 self::STATE_POSTPONED_NONE,
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_INACTIVE,
                 self::STATE_NONE_INACTIVE,
                 self::STATE_NONE_INACTIVE,
                 self::STATE_NONE_INACTIVE,
@@ -151,14 +159,17 @@ class DocumentWorkflow
         ],
         self::TRANSITION_RELEASE_ACTIVATE => [
             "from" => [
+                self::STATE_IN_PROGRESS_ACTIVE,
                 self::STATE_IN_PROGRESS_INACTIVE,
                 self::STATE_IN_PROGRESS_DELETED,
+                self::STATE_NONE_ACTIVE,
                 self::STATE_NONE_INACTIVE,
                 self::STATE_NONE_DELETED
             ],
             "to" => self::STATE_NONE_ACTIVE
         ],
-        self::TRANSITION_RELEASE_UPDATE => [
+/*
+         self::TRANSITION_RELEASE_UPDATE => [
             "from" => [
                 self::STATE_IN_PROGRESS_ACTIVE,
                 self::STATE_IN_PROGRESS_INACTIVE,
@@ -176,6 +187,7 @@ class DocumentWorkflow
                 self::STATE_NONE_DELETED
             ],
         ],
+*/
         self::TRANSITION_DELETE_LOCALLY => [
             "from" => [self::STATE_NEW_NONE],
             "to" => self::STATE_NONE_NONE

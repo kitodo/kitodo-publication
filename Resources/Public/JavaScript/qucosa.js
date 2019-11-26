@@ -578,6 +578,8 @@ var documentListConfirmDialog = function(dialogId) {
         jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
     });
 
+    /*
+    //make reason mandatory
     jQuery(dialogId+'Document').submit(function(e) {
         var reason = jQuery(dialogId+'Document').find('textarea');
         if (typeof reason !== 'undefined' && reason.length > 0) {
@@ -587,13 +589,11 @@ var documentListConfirmDialog = function(dialogId) {
             }
         }
     });
-
+    */
 
     jQuery(dialogId+'ReasonSelect').on('change', function(e){
         jQuery(dialogId+'Reason').val(jQuery(this).val());
     });
-
-
 
 }
 
