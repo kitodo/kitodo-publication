@@ -35,7 +35,6 @@ return array(
         ),
         'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, backend_only, consent',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
-        'requestUpdate' => 'fill_out_service',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, backend_only, consent',
@@ -312,6 +311,7 @@ return array(
                 'maxitems' => 1,
                 'eval'     => '',
             ),
+            'onChange' => 'reload',
         ),
         'gnd_field_uid' => array(
             'displayCond' => 'FIELD:fill_out_service:=:'.\EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_GND,
