@@ -46,7 +46,6 @@ return array(
         '1' => array('showitem' => ''),
     ),
     'columns'   => array(
-
         'sys_language_uid' => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -80,7 +79,6 @@ return array(
                 'type' => 'passthrough',
             ),
         ),
-
         't3ver_label'      => array(
             'label'  => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => array(
@@ -89,7 +87,6 @@ return array(
                 'max'  => 255,
             ),
         ),
-
         'hidden'           => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -130,7 +127,6 @@ return array(
                 ),
             ),
         ),
-
         'name'             => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -179,7 +175,7 @@ return array(
                 'foreign_table'       => 'tx_dpf_domain_model_metadatagroup',
                 'foreign_table_where' => ' AND (tx_dpf_domain_model_metadatagroup.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_metadatagroup.sys_language_uid = 0) ORDER BY tx_dpf_domain_model_metadatagroup.name ASC',
                 'MM'                  => 'tx_dpf_metadatapage_metadatagroup_mm',
-                'size'                => 10,
+                'size'                => 11,
                 'autoSizeMax'         => 30,
                 'maxitems'            => 9999,
                 'multiple'            => 0,
@@ -191,14 +187,14 @@ return array(
                         'module' => array(
                           'name' => 'wizard_edit',
                         ),
-                        'icon'                     => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
+                        'icon'                     => 'actions-open',
                         'popup_onlyOpenIfSelected' => 1,
                         'JSopenParams'             => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
                     ),
                     'add'       => array(
                         'type'   => 'script',
                         'title'  => 'Create new',
-                        'icon'   => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
+                        'icon'   => 'actions-add',
                         'params' => array(
                             'table'    => 'tx_dpf_domain_model_metadatagroup',
                             'pid'      => '###CURRENT_PID###',
@@ -211,7 +207,6 @@ return array(
                 ),
             ),
         ),
-
         'documenttype'     => array(
             'config' => array(
                 'type' => 'passthrough',

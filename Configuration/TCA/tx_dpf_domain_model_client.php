@@ -32,18 +32,18 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'client, owner_id, network_initial, library_identifier, admin_email, project, 
-            replace_niss_part, niss_part_search, niss_part_replace, sword_host, sword_user, sword_password, 
-            sword_collection_namespace, fedora_host, fedora_user, fedora_password, 
-            elastic_search_host, elastic_search_port, upload_directory, upload_domain, 
-            admin_new_document_notification_subject, admin_new_document_notification_body, 
-            submitter_new_document_notification_subject, submitter_new_document_notification_body, 
+        'searchFields'             => 'client, owner_id, network_initial, library_identifier, admin_email, project,
+            replace_niss_part, niss_part_search, niss_part_replace, sword_host, sword_user, sword_password,
+            sword_collection_namespace, fedora_host, fedora_user, fedora_password,
+            elastic_search_host, elastic_search_port, upload_directory, upload_domain,
+            admin_new_document_notification_subject, admin_new_document_notification_body,
+            submitter_new_document_notification_subject, submitter_new_document_notification_body,
             submitter_ingest_notification_subject, submitter_ingest_notification_body',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id, 
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id,
         network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
         sword_host, sword_user, sword_password, sword_collection_namespace, fedora_host, fedora_user, fedora_password,
         elastic_search_host, elastic_search_port, upload_directory, upload_domain,
@@ -66,7 +66,6 @@ return array(
         '1' => array('showitem' => ''),
     ),
     'columns'   => array(
-
         'sys_language_uid'   => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -100,7 +99,6 @@ return array(
                 'type' => 'passthrough',
             ),
         ),
-
         't3ver_label'        => array(
             'label'  => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => array(
@@ -109,7 +107,6 @@ return array(
                 'max'  => 255,
             ),
         ),
-
         'hidden'             => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
@@ -149,7 +146,6 @@ return array(
                 ),
             ),
         ),
-
         'project'            => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -191,7 +187,6 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-
         'owner_id'           => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -379,8 +374,8 @@ return array(
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
+                'enableRichtext' => true,
             ),
-            'defaultExtras' => 'richtext[]'
         ),
         'submitter_new_document_notification_subject' => array(
             'exclude' => 1,
@@ -399,8 +394,8 @@ return array(
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
+                'enableRichtext' => true,
             ),
-            'defaultExtras' => 'richtext[]'
         ),
         'submitter_ingest_notification_subject' => array(
             'exclude' => 1,
@@ -419,8 +414,8 @@ return array(
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
+                'enableRichtext' => true,
             ),
-            'defaultExtras' => 'richtext[]'
         ),
     ),
 );
