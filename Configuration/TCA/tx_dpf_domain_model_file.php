@@ -222,7 +222,6 @@ return array(
                 'default' => 0,
             ),
         ),
-
         'document'              => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf2/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
@@ -232,6 +231,7 @@ return array(
                 'foreign_table' => 'tx_dpf_domain_model_document',
                 'minitems'      => 0,
                 'maxitems'      => 1,
+                'default' => 0,
             ),
         ),
     ),
