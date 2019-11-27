@@ -107,12 +107,6 @@
 		<trans-unit id="tx_dpf_domain_model_document.object_identifier">
 			<source>Object Identifier</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.local_status">
-			<source>Local Status</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.remote_status">
-			<source>Remote Status</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.state">
 			<source>State</source>
 		</trans-unit>

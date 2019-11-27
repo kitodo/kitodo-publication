@@ -21,14 +21,6 @@
 			<source>objectIdentifier</source>
 			<target>Objektkennung</target>
 		</trans-unit>
-		<trans-unit id="local_status.description" approved="yes">
-			<source>Local Status</source>
-			<target>Lokaler Status</target>
-		</trans-unit>
-		<trans-unit id="remote_status.description" approved="yes">
-			<source>Remote Status</source>
-			<target>Entfernter Status</target>
-		</trans-unit>
 		<trans-unit id="transfer_status.description" approved="yes">
 			<source>Transfer State</source>
 			<target>Transfer Status</target>

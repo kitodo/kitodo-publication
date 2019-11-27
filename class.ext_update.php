@@ -89,28 +89,28 @@ class UpdateState
 
             switch ($oldState) {
                 case self::OBJECT_STATE_NEW:
-                    $newDocument->setLocalStatus(LocalDocumentStatus::NEW);
-                    $newDocument->setRemoteStatus(NULL);
+                    //$newDocument->setLocalStatus(LocalDocumentStatus::NEW);
+                    //$newDocument->setRemoteStatus(NULL);
                     break;
                 case self::OBJECT_STATE_ACTIVE:
-                    $newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    $newDocument->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
+                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
                     break;
                 case self::OBJECT_STATE_INACTIVE:
-                    $newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    $newDocument->setRemoteStatus(RemoteDocumentStatus::INACTIVE);
+                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::INACTIVE);
                     break;
                 case self::OBJECT_STATE_DELETED:
-                    $newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    $newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
+                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
                     break;
                 case self::OBJECT_STATE_LOCALLY_DELETED:
-                    $newDocument->setLocalStatus(LocalDocumentStatus::DELETED);
-                    $newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                    //$newDocument->setLocalStatus(LocalDocumentStatus::DELETED);
+                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
                     break;
             }
 
-            $documentRepository->update($newDocument);
+            //$documentRepository->update($newDocument);
         }
     }
 }

@@ -141,14 +141,6 @@
 			<source>Object Identifier</source>
 			<target>Objektkennung</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.local_status" approved="yes">
-			<source>Local Status</source>
-			<target>Lokaler Status</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.remote_status" approved="yes">
-			<source>Remote Status</source>
-			<target>Entfernter Status</target>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.state" approved="yes">
 			<source>State</source>
 			<target>Status</target>

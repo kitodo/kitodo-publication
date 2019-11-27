@@ -71,20 +71,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reservedObjectIdentifier;
 
     /**
-     * localStatus
-     *
-     * @var string
-     */
-    protected $localStatus = null;
-
-    /**
-     * remoteStatus
-     *
-     * @var string
-     */
-    protected $remoteStatus = null;
-
-    /**
      * transferStatus
      *
      * @var string
@@ -358,46 +344,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setReservedObjectIdentifier($reservedObjectIdentifier)
     {
         $this->reservedObjectIdentifier = $reservedObjectIdentifier;
-    }
-
-    /**
-     * Returns the localStatus
-     *
-     * @return string
-     */
-    public function getLocalStatus()
-    {
-        return $this->localStatus;
-    }
-
-    /**
-     * Sets the localStatus
-     *
-     * @return string
-     */
-    public function setLocalStatus($localStatus)
-    {
-        $this->localStatus = $localStatus;
-    }
-
-    /**
-     * Returns the remoteStatus
-     *
-     * @return string
-     */
-    public function getRemoteStatus()
-    {
-        return $this->remoteStatus;
-    }
-
-    /**
-     * Sets the remoteStatus
-     *
-     * @return string
-     */
-    public function setRemoteStatus($remoteStatus)
-    {
-        $this->remoteStatus = $remoteStatus;
     }
 
     /**

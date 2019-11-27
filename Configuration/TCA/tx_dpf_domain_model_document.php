@@ -34,20 +34,20 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
-        process_number, valid, changed, local_status, remote_status, state, reserved_object_identifier, 
+        process_number, valid, changed, state, reserved_object_identifier, 
         object_identifier, transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        local_status, remote_status, state, reserved_object_identifier, object_identifier,
+        state, reserved_object_identifier, object_identifier,
         transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
-        local_status, remote_status, state, reserved_object_identifier, object_identifier,
+        state, reserved_object_identifier, object_identifier,
         transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -246,26 +246,6 @@ return array(
         'process_number' => array(
             'exclude' => 0,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.process_number',
-            'config'  => array(
-                'type' => 'input',
-                'size' => '30',
-                'eval' => 'trim',
-            ),
-        ),
-
-        'local_status'                      => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.local_status',
-            'config'  => array(
-                'type' => 'input',
-                'size' => '30',
-                'eval' => 'trim',
-            ),
-        ),
-
-        'remote_status'                      => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.remote_status',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
