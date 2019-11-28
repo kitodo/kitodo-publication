@@ -61,7 +61,7 @@
             <source>file</source>
             <target>Datei</target>
         </trans-unit>
-        <trans-unit id="owner.description approved="yes"">
+        <trans-unit id="owner.description" approved="yes">
             <source>owner</source>
             <target>Besitzer</target>
         </trans-unit>
