@@ -16,13 +16,7 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\LocalDocumentStatus;
-use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
-use EWW\Dpf\Domain\Repository\MetadataObjectRepository;
-use EWW\Dpf\Domain\Repository\MetadataGroupRepository;
-use EWW\Dpf\Domain\Repository\MetadataPageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -55,8 +49,8 @@ class ext_update {
         } else {
 
             // The necessary updates.
-            //(new UpdateState)->execute();
-            //(new UpdateAccessRestrictions)->execute();
+            (new UpdateState)->execute();
+            (new UpdateAccessRestrictions)->execute();
 
             $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
         }
@@ -89,28 +83,23 @@ class UpdateState
 
             switch ($oldState) {
                 case self::OBJECT_STATE_NEW:
-                    //$newDocument->setLocalStatus(LocalDocumentStatus::NEW);
-                    //$newDocument->setRemoteStatus(NULL);
+                    $newDocument->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE);
                     break;
                 case self::OBJECT_STATE_ACTIVE:
-                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::ACTIVE);
+                    $newDocument->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
                     break;
                 case self::OBJECT_STATE_INACTIVE:
-                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::INACTIVE);
+                    $newDocument->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
                     break;
                 case self::OBJECT_STATE_DELETED:
-                    //$newDocument->setLocalStatus(LocalDocumentStatus::IN_PROGRESS);
-                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                    $newDocument->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
                     break;
                 case self::OBJECT_STATE_LOCALLY_DELETED:
-                    //$newDocument->setLocalStatus(LocalDocumentStatus::DELETED);
-                    //$newDocument->setRemoteStatus(RemoteDocumentStatus::DELETED);
+                    $newDocument->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE);
                     break;
             }
 
-            //$documentRepository->update($newDocument);
+            $documentRepository->update($newDocument);
         }
     }
 }
