@@ -31,6 +31,7 @@ use EWW\Dpf\Helper\DocumentMapper;
 use TYPO3\CMS\Backend\Exception;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use EWW\Dpf\Domain\Model\File;
 
 
 
@@ -92,6 +93,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @var \EWW\Dpf\Services\Transfer\FedoraRepository $fedoraRepository
      */
     protected $fedoraRepository;
+
+    /**
+     * fileRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\FileRepository
+     * @inject
+     */
+    protected $fileRepository = null;
 
 
     /**
@@ -166,8 +175,18 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         if ($acceptAll) {
             // all changes are confirmed
+            // copy suggest to origin document
+            $originDocument->copy($document, true);
 
-            $originDocument->copy($document);
+            // copy files from suggest document
+            foreach ($document->getFile() as $key => $file) {
+                $newFile = $this->objectManager->get(File::class);
+                $newFile->copy($file);
+                $newFile->setDocument($originDocument);
+                $this->fileRepository->add($newFile);
+                $originDocument->addFile($newFile);
+
+            }
 
             $this->documentRepository->add($originDocument);
             $this->documentRepository->remove($document);

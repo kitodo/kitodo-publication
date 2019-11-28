@@ -65,6 +65,9 @@
 		<trans-unit id="documentForm.uploadPostError">
 			<source>Document couldn't be saved. Error while uploading files.</source>
 		</trans-unit>
+        <trans-unit id="documentForm.newFiles">
+            <source>New files</source>
+        </trans-unit>
 		<trans-unit id="document_activate.failure">
 			<source>Activating %s failed.</source>
 		</trans-unit>

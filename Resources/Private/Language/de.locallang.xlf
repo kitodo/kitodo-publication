@@ -89,6 +89,10 @@
 			<source>Document couldn't be saved. Error while uploading files.</source>
 			<target>Das Dokument konnte nicht gespeichert werden. Fehler beim Dateiupload.</target>
 		</trans-unit>
+        <trans-unit id="documentForm.newFiles" approved="yes">
+            <source>New files</source>
+            <target>Neue Dateien</target>
+        </trans-unit>
 		<trans-unit id="document_activate.failure" approved="yes">
 			<source>Releasing %s failed.</source>
 			<target>Freigabe von %s fehlgeschlagen.</target>

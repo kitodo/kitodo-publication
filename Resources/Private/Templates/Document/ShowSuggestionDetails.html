@@ -143,6 +143,17 @@
             </f:for>
         </table>
 
+        <f:if condition="{document.file}">
+            <div class="card" style="margin-bottom:10px;">
+                <div class="card-body">
+                    {f:translate(key: 'documentForm.newFiles')} <br/>
+                    <f:for each="{document.file}" as="newFile" iteration="fileIterator">
+                        <a href="{newFile.link}">{newFile.title}</a>
+                    </f:for>
+                </div>
+            </div>
+        </f:if>
+
 
     </f:form>
 

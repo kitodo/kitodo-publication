@@ -129,15 +129,22 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $restore
      */
-    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore) {
-
+    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore)
+    {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        $hasFilesFlag = true;
 
         $workingCopy = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if ($workingCopy->getTemporary()) {
             $workingCopy->setTemporary(false);
             $workingCopy->setEditorUid(0);
+        }
+
+        if (empty($workingCopy->getFileData())) {
+            // no files are linked to the document
+            $hasFilesFlag = false;
         }
 
         $this->documentRepository->update($workingCopy);
@@ -159,8 +166,22 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setTransferStatus("RESTORE");
         }
 
-        // remove files
-        $newDocument->setFile($this->objectManager->get(ObjectStorage::class));
+        if (!$hasFilesFlag) {
+            // Add or update files
+            foreach ($documentForm->getNewFiles() as $newFile) {
+                if ($newFile->getUID()) {
+                    $this->fileRepository->update($newFile);
+                } else {
+                    $newFile->setDocument($newDocument);
+                    $this->fileRepository->add($newFile);
+                }
+
+            }
+        } else {
+            // remove files for suggest object
+            $newDocument->setFile($this->objectManager->get(ObjectStorage::class));
+        }
+
 
         try {
             $this->documentRepository->add($newDocument);
