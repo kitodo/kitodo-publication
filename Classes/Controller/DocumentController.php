@@ -404,7 +404,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         if ($reason) {
             $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
-            $note = "Das Dokument wurde verworfen: ".$timeStamp."\n".$reason;
+            $note = "Das Dokument wurde verworfen: ".$timeStamp."\n"."Kommentar: ".$reason;
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $slub->addNote($note);
             $document->setSlubInfoData($slub->getSlubXml());
@@ -497,7 +497,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         if ($reason) {
             $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
-            $note = "Das Dokument wurde zurückgestellt: ".$timeStamp."\n".$reason;
+            $note = "Das Dokument wurde zurückgestellt: ".$timeStamp."\n"."Kommentar: ".$reason;
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $slub->addNote($note);
             $document->setSlubInfoData($slub->getSlubXml());
