@@ -271,6 +271,12 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
         $document = NULL;
 
         if ($documentObjectIdentifier) {
+            $existingDocument = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
+
+            if ($existingDocument) {
+                $this->redirect('search');
+            }
+
             $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
 
             if ($document) {
@@ -292,9 +298,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     {
         if ($documentObjectIdentifier) {
             /** @var  \EWW\Dpf\Domain\Model\Document $document */
-            $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+            $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
 
-            if (!$document->getTemporary()) {
+            if ($document) {
                 $this->redirect('showDetails', 'Document', null, ['document'=>$document]);
             }
         }
@@ -321,7 +327,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
                 $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+                $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
                 $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
             }
         } catch (\Exception $exception) {

@@ -201,12 +201,6 @@ class DocumentTransferManager
 
         $metsXml = $this->remoteRepository->retrieve($remoteId);
 
-        // @var \EWW\Dpf\Domain\Model\Document $document
-        // $document = $this->documentRepository->findOneByObjectIdentifier($remoteId);
-        // if ($document) {
-        //    throw new \Exception("Document working copy already exist: $remoteId");
-        // }
-
         if ($metsXml) {
             $mets = new \EWW\Dpf\Helper\Mets($metsXml);
             $mods = $mets->getMods();

@@ -137,7 +137,14 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $query->logicalNot($query->equals('object_identifier', NULL)));
 
         if (count($constraints)) {
-            $constraints[] = $query->equals('temporary', $temporary);
+            $constraints[] = $query->logicalAnd(
+                $query->logicalNot(
+                    $query->logicalOr(
+                        $query->equals('temporary', TRUE),
+                        $query->equals('suggestion', TRUE)
+                    )
+                )
+            );
             $query->matching($query->logicalAnd($constraints));
         }
 
@@ -229,6 +236,26 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         );
 
         return $query->execute();
+    }
+
+
+    /**
+     * @param string $objectIdentifier
+     * @return array
+     */
+    public function findWorkingCopyByObjectIdentifier($objectIdentifier)
+    {
+        $query = $this->createQuery();
+
+        $constraints = array(
+            $query->equals('object_identifier', $objectIdentifier),
+            $query->logicalNot($query->equals('temporary', TRUE)),
+            $query->logicalNot($query->equals('suggestion', TRUE))
+        );
+
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
     }
 
 }

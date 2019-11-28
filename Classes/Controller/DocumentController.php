@@ -569,6 +569,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.success';
             $this->flashMessage($document, $key, AbstractMessage::OK);
             $this->documentRepository->remove($document);
+
+            $suggestions = $this->documentRepository->findByLinkedUid($document->getUid());
+            foreach ($suggestions as $suggestion) {
+                $this->documentRepository->remove($suggestion);
+            }
+
             $this->redirectToDocumentList();
         } else {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.failureNewVersion';

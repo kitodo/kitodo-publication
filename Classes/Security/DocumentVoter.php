@@ -394,6 +394,10 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
+        if ($document->isSuggestion()) {
+            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        }
+
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_LOCALLY)) {
             return $document->getOwner() === $this->security->getUser()->getUid();
         }
@@ -402,7 +406,7 @@ class DocumentVoter extends Voter
             return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
         }
 
-        return $document->isSuggestion();
+        return FALSE;
     }
 
 
