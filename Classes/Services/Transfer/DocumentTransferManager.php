@@ -90,7 +90,7 @@ class DocumentTransferManager
     public function ingest($document)
     {
 
-        $document->setTransferStatus(Document::TRANSFER_QUEUED);
+        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
         $this->documentRepository->update($document);
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
@@ -124,7 +124,7 @@ class DocumentTransferManager
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
             $document->setObjectIdentifier($remoteDocumentId);
-            $document->setTransferStatus(Document::TRANSFER_SENT);
+            //$document->setTransferStatus(Document::TRANSFER_SENT);
 
             $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
 
@@ -133,7 +133,7 @@ class DocumentTransferManager
 
             return true;
         } else {
-            $document->setTransferStatus(Document::TRANSFER_ERROR);
+            //$document->setTransferStatus(Document::TRANSFER_ERROR);
             $this->documentRepository->update($document);
             return false;
         }
@@ -301,7 +301,7 @@ class DocumentTransferManager
             switch ($state) {
                 case "revert":
                     if ($this->remoteRepository->delete($document, $state)) {
-                        $document->setTransferStatus(Document::TRANSFER_SENT);
+                        //$document->setTransferStatus(Document::TRANSFER_SENT);
                         //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
                         //$this->documentRepository->update($document);
                         return true;
@@ -309,7 +309,7 @@ class DocumentTransferManager
                     break;
                 case "inactivate":
                     if ($this->remoteRepository->delete($document, $state)) {
-                        $document->setTransferStatus(Document::TRANSFER_SENT);
+                        //$document->setTransferStatus(Document::TRANSFER_SENT);
                         //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
                         //$this->documentRepository->update($document);
                         return true;
@@ -321,7 +321,7 @@ class DocumentTransferManager
                     $elasticsearchRepository->delete($document, $state);
 
                     if ($this->remoteRepository->delete($document, $state)) {
-                        $document->setTransferStatus(Document::TRANSFER_SENT);
+                        //$document->setTransferStatus(Document::TRANSFER_SENT);
                         //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
                         //$this->documentRepository->update($document);
                         //$this->documentRepository->remove($document);

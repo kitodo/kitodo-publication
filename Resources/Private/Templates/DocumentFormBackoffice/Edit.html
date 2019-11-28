@@ -47,7 +47,7 @@ formBody
                 <div class="row">
                     <div class="col-sm form-group">
                         <label for="suggestRestore">{f:translate(key: 'documentForm.suggestRestore')}</label>
-                        <f:if condition="{document.remoteState}=='INACTIVE' OR {document.localState}=='POSTPONED'">
+                        <f:if condition="{document.remoteState}=='DELETED' OR {document.localState}=='DISCARDED'">
                             <f:then>
                                 <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" class="form-control"/>
                             </f:then>

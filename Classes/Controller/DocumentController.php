@@ -188,12 +188,22 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $args = $this->request->getArguments();
 
         $linkedUid = $document->getLinkedUid();
+
+        /** @var \EWW\Dpf\Domain\Model\Document $originDocument */
         $originDocument = $this->documentRepository->findByUid($linkedUid);
 
         if ($acceptAll) {
             // all changes are confirmed
             // copy suggest to origin document
             $originDocument->copy($document, true);
+
+            if ($originDocument->getTransferStatus() == 'RESTORE') {
+                if ($originDocument->getObjectIdentifier()) {
+                    $originDocument->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
+                } else {
+                    $originDocument->setState(DocumentWorkflow::STATE_IN_PROGRESS_NONE);
+                }
+            }
 
             // copy files from suggest document
             foreach ($document->getFile() as $key => $file) {
