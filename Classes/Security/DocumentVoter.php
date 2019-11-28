@@ -287,7 +287,10 @@ class DocumentVoter extends Voter
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 $document->getOwner() === $this->security->getUser()->getUid() ||
-                $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE ||
+                $document->getState() === DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE ||
+                $document->getState() === DocumentWorkflow::STATE_IN_PROGRESS_DELETED ||
+                $document->getState() === DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE
             );
         }
 

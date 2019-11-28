@@ -31,8 +31,6 @@ formBody
         </f:link.action>
     </div>
 
-    <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
-
     <f:flashMessages />
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
@@ -43,11 +41,26 @@ formBody
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
         <f:form.hidden id="suggestMod" property="suggestMod" value="{suggestMod}"/>
-        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod}"/>
+
         <f:if condition="{suggestMod}">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm">
+                    <div class="col-sm form-group">
+                        <label for="suggestRestore">{f:translate(key: 'documentForm.suggestRestore')}</label>
+                        <f:if condition="{document.remoteState}=='INACTIVE' OR {document.localState}=='POSTPONED'">
+                            <f:then>
+                                <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" class="form-control"/>
+                            </f:then>
+                            <f:else>
+                                <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" disabled="true" class="form-control"/>
+                            </f:else>
+                        </f:if>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm form-group">
                         <label for="commentTextarea">Comment</label>
                         <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="Enter comment"/>
                     </div>
@@ -55,6 +68,10 @@ formBody
             </div>
 
         </f:if>
+
+        <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
+
+        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod}"/>
     </f:form>
 
 </f:section>

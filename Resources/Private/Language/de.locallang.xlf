@@ -73,6 +73,14 @@
 			<source>Process Number</source>
 			<target>Vorgangsnummer</target>
 		</trans-unit>
+        <trans-unit id="documentForm.suggestRestore" approved="yes">
+            <source>Suggest restore</source>
+            <target>Wiederherstellung vorschlagen</target>
+        </trans-unit>
+        <trans-unit id="documentForm.restoreDocument" approved="yes">
+            <source>Restore document</source>
+            <target>Wiederherstellung des Dokuments</target>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError" approved="yes">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 			<target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>

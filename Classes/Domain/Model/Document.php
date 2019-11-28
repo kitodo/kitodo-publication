@@ -737,6 +737,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->state = $state;
     }
 
+    public function getRemoteState() {
+        return explode(':', $this->state)[1];
+    }
+
+    public function getLocalState() {
+        return explode(':', $this->state)[0];
+    }
+
     /**
      * @return boolean $temporary
      */

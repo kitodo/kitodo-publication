@@ -103,14 +103,17 @@ class DocumentCleaner
                 'discardAction',
                 'releasePublishAction',
                 'releaseUpdateAction',
-                'releaseActivateAction'
+                'releaseActivateAction',
+                'suggestModificationAction'
             ],
             \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
                 'editAction',
                 'cancelEditAction',
                 'updateAction',
                 'updateLocallyAction',
-                'updateRemoteAction'
+                'updateRemoteAction',
+                'updateAction',
+                'createSuggestionDocumentAction'
             ]
         ];
 
@@ -150,14 +153,17 @@ class DocumentCleaner
                 'discardAction' => 'all',
                 'releasePublishAction' => 'all',
                 'releaseUpdateAction' => 'all',
-                'releaseActivateAction' => 'all'
+                'releaseActivateAction' => 'all',
+                'suggestModificationAction' => 'all'
             ],
             \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
                 'editAction' => 'all',
                 'cancelEditAction' => 'all',
                 'updateAction' => 'all',
                 'updateLocallyAction' => 'all',
-                'updateRemoteAction' => 'all'
+                'updateRemoteAction' => 'all',
+                'updateAction' => 'all',
+                'createSuggestionDocumentAction' => 'all'
             ]
         ];
 

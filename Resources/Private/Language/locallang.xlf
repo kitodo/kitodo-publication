@@ -56,6 +56,9 @@
 		<trans-unit id="documentForm.processNumber">
 			<source>Process Number</source>
 		</trans-unit>
+        <trans-unit id="documentForm.suggestRestore">
+            <source>Suggest restore</source>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 		</trans-unit>
@@ -269,6 +272,9 @@
 		<trans-unit id="form_button.suggestRestore">
 			<source>suggest restore</source>
 		</trans-unit>
+        <trans-unit id="documentForm.restoreDocument">
+            <source>Restore document</source>
+        </trans-unit>
         <trans-unit id="form_button.acceptSuggest">
             <source>accept suggestion</source>
         </trans-unit>

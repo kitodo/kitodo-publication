@@ -68,6 +68,14 @@
         </div>
     </div>
 
+    <f:if condition="{document.transferStatus}=='RESTORE'">
+        <div class="card" style="margin-bottom:10px;">
+            <div class="card-body">
+                {f:translate(key: 'documentForm.restoreDocument')}
+            </div>
+        </div>
+    </f:if>
+
     <f:form controller="document" action="acceptSuggestion" name="test">
         <f:form.hidden name="document" value="{document}"/>
         <f:form.hidden name="acceptAll" value="0"/>

@@ -127,22 +127,37 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
     /**
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
+     * @param bool $restore
      */
-    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm) {
+    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore) {
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
-        $document = $documentMapper->getDocument($documentForm);
+        $workingCopy = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+
+        if ($workingCopy->getTemporary()) {
+            $workingCopy->setTemporary(false);
+            $workingCopy->setEditorUid(0);
+        }
+
+        $this->documentRepository->update($workingCopy);
 
         $newDocument = $this->objectManager->get(Document::class);
 
         $this->documentRepository->add($newDocument);
         $this->persistenceManager->persistAll();
 
+        /* @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $documentMapper->getDocument($documentForm);
+
         $newDocument = $newDocument->copy($document);
         $newDocument->setLinkedUid($document->getUid());
         $newDocument->setSuggestion(true);
+        $newDocument->setComment($document->getComment());
+
+        if ($restore) {
+            $newDocument->setTransferStatus("RESTORE");
+        }
 
         // remove files
         $newDocument->setFile($this->objectManager->get(ObjectStorage::class));
@@ -162,7 +177,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
         if ($this->request->getArgument('documentData')['suggestMod']) {
-            $this->forward('createSuggestionDocument', null, null, ['documentForm' => $documentForm]);
+            $restore = $this->request->getArgument('documentData')['suggestRestore'];
+            $this->forward('createSuggestionDocument', null, null, ['documentForm' => $documentForm, 'restore' => $restore]);
         }
         if ($this->request->hasArgument('saveAndUpdate')) {
             $this->forward('updateRemote',NULL, NULL, ['documentForm' => $documentForm]);
