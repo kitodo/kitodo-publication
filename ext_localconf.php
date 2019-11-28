@@ -78,7 +78,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
@@ -89,7 +89,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',

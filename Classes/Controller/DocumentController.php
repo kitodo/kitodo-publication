@@ -25,14 +25,12 @@ use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use TYPO3\CMS\Core\Error\DebugExceptionHandler;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use EWW\Dpf\Helper\DocumentMapper;
 use TYPO3\CMS\Backend\Exception;
-use TYPO3\CMS\Core\Utility\DebugUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use EWW\Dpf\Domain\Model\File;
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 /**
@@ -114,6 +112,25 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->documentTransferManager = $objectManager->get(DocumentTransferManager::class);
         $this->fedoraRepository = $objectManager->get(FedoraRepository::class);
         $this->documentTransferManager->setRemoteRepository($this->fedoraRepository);
+    }
+
+    /**
+     * action logout of the backoffice
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function logoutAction()
+    {
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $uri = $cObj->typolink_URL([
+            'parameter' => $this->settings['loginPage'],
+            //'linkAccessRestrictedPages' => 1,
+            'forceAbsoluteUrl' => 1,
+            'additionalParams' => GeneralUtility::implodeArrayForUrl(NULL, ['logintype'=>'logout'])
+        ]);
+
+        $this->redirectToUri($uri);
     }
 
     /**
