@@ -385,6 +385,10 @@
 			<source>save and update</source>
 			<target>Speichern und aktualisieren</target>
 		</trans-unit>
+		<trans-unit id="form_button.saveSuggestion" approved="yes">
+			<source>save suggestion</source>
+			<target>Vorschlag absenden"</target>
+		</trans-unit>
 		<trans-unit id="form_button.validate" approved="yes">
 			<source>validate</source>
 			<target>Überprüfen</target>

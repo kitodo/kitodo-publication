@@ -284,6 +284,9 @@
 		<trans-unit id="form_button.save">
 			<source>save</source>
 		</trans-unit>
+		<trans-unit id="form_button.saveSuggestion">
+			<source>save suggestion</source>
+		</trans-unit>
 		<trans-unit id="form_button.saveWorkingCopy">
 			<source>save working copy</source>
 		</trans-unit>
