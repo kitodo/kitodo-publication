@@ -217,6 +217,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             $this->documentRepository->add($originDocument);
             $this->documentRepository->remove($document);
+
+            // redirect to document
+            $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }
 
         $this->redirectToDocumentList();
