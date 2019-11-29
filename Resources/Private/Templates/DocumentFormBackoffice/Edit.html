@@ -19,7 +19,16 @@ formBody
 <f:section name="main">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
-        <h1 class="h2">{f:translate(key: 'manager.control.editDocument')}</h1>
+
+        <f:if condition="{suggestMod}">
+            <f:then>
+                <h1 class="h2">{f:translate(key: 'manager.control.editSuggestion')}</h1>
+            </f:then>
+            <f:else>
+                <h1 class="h2">{f:translate(key: 'manager.control.editDocument')}</h1>
+            </f:else>
+         </f:if>
+
         <f:link.action
                 id="cancel"
                 action="cancelEdit"
@@ -32,6 +41,10 @@ formBody
     </div>
 
     <f:flashMessages />
+
+    <p>
+        {f:translate(key: 'manager.control.suggestionDescription')}
+    </p>
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
             additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
@@ -57,8 +70,8 @@ formBody
                 </div>
                 <div class="row">
                     <div class="col-sm form-group">
-                        <label for="commentTextarea">Comment</label>
-                        <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="Enter comment"/>
+                        <label for="commentTextarea">{f:translate(key: 'documentForm.suggestComment')}</label>
+                        <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="{f:translate(key: 'documentForm.suggestCommentPlaceHolder')}"/>
                     </div>
                 </div>
             </div>
