@@ -81,6 +81,14 @@
             <source>Restore document</source>
             <target>Wiederherstellung des Dokuments</target>
         </trans-unit>
+        <trans-unit id="documentForm.suggestComment" approved="yes">
+            <source>Comment</source>
+            <target>Kommentar</target>
+        </trans-unit>
+        <trans-unit id="documentForm.suggestCommentPlaceHolder" approved="yes">
+            <source>Here you can explain or justify your suggestion.</source>
+            <target>Hier können Sie Ihren Vorschlag erläutern oder begründen.</target>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError" approved="yes">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 			<target>Das Dokument konnte nicht gespeichert werden. Dateigrößenlimit wurde überschritten:</target>
@@ -471,12 +479,20 @@
         </trans-unit>
         <trans-unit id="manager.control.editDocument">
     		<source>Edit Publication</source>
-    		<target>Publication bearbeiten</target>
+    		<target>Publikation bearbeiten</target>
     	</trans-unit>
 		<trans-unit id="manager.control.createNewDocument">
 			<source>Create new publication</source>
 			<target>Neue Publikation anlegen</target>
 		</trans-unit>
+        <trans-unit id="manager.control.editSuggestion">
+    		<source>Suggestion</source>
+    		<target>Änderungsvorschlag</target>
+    	</trans-unit>
+        <trans-unit id="manager.control.suggestionDescription">
+    		<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
+    		<target>Hier können Sie Vorschläge für Änderungen an bestehenden Datensätzen einreichen. Sie können zugehörige Dateien hochladen und bei verworfenen Datensätzen die Wiederherstellung vorschlagen. Bitte geben Sie Ihre Änderungen direkt in die entsprechenden Felder ein.</target>
+    	</trans-unit>
 		<trans-unit id="manager.control.myPublications" approved="yes">
 			<source>My publications</source>
 			<target>Meine Publikationen</target>

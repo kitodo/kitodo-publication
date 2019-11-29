@@ -59,6 +59,12 @@
         <trans-unit id="documentForm.suggestRestore">
             <source>Suggest restore</source>
         </trans-unit>
+        <trans-unit id="documentForm.suggestComment">
+            <source>Comment</source>
+        </trans-unit>
+        <trans-unit id="documentForm.suggestCommentPlaceHolder">
+            <source>Please enter a comment.</source>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 		</trans-unit>
@@ -356,6 +362,12 @@
 		<trans-unit id="manager.control.editDocument">
 			<source>Edit Publication</source>
 		</trans-unit>
+        <trans-unit id="manager.control.editSuggestion">
+    		<source>Suggestion</source>
+    	</trans-unit>
+        <trans-unit id="manager.control.suggestionDescription">
+    		<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
+    	</trans-unit>
 		<trans-unit id="manager.control.createNewDocument">
 			<source>Create new publication</source>
 		</trans-unit>
