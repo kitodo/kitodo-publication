@@ -13,7 +13,7 @@
     -->
 </f:comment>
 {namespace dpf=EWW\Dpf\ViewHelpers}
-formBody
+
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
@@ -74,6 +74,65 @@ formBody
                         <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="{f:translate(key: 'documentForm.suggestCommentPlaceHolder')}"/>
                     </div>
                 </div>
+            </div>
+            <div class="form-submit form-submit-top">
+                        <f:if condition="{documentForm.qucosaId} && {documentForm.temporary}">
+                            <f:then>
+                                <f:if condition="{suggestMod}">
+                                    <f:then>
+                                        <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       value="suggestModification">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveSuggestion')}
+                                        </f:form.button>
+                                    </f:then>
+                                    <f:else>
+                                        <f:form.button name="saveAndUpdate" id="saveAndUpdate"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveAndUpdate')}
+                                        </f:form.button>
+                                        <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       value="workingCopy">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveWorkingCopy')}
+                                        </f:form.button>
+                                    </f:else>
+                                </f:if>
+                            </f:then>
+                            <f:else>
+                                <f:if condition="{suggestMod}">
+                                    <f:then>
+                                        <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       value="suggestModification">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveSuggestion')}
+                                        </f:form.button>
+                                    </f:then>
+                                    <f:else>
+                                        <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       value="workingCopy">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.save')}
+                                        </f:form.button>
+                                    </f:else>
+                                </f:if>
+
+                            </f:else>
+                        </f:if>
+                <f:form.button name="validate" type="button" id="validate" class="btn btn-lg btn-info">
+                    <i class="fas fa-chevron-right"></i>
+                    {f:translate(key: 'form_button.validate')}
+                </f:form.button>
             </div>
 
         </f:if>

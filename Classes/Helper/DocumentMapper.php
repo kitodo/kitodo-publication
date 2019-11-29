@@ -81,9 +81,10 @@ class DocumentMapper
 
 
         $documentForm->setPrimaryFileMandatory(
-            $document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE &&
-            $document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE &&
-            !$document->getDocumentType()->getVirtual()
+            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE &&
+            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE &&
+            //!$document->getDocumentType()->getVirtual()
+            FALSE
         );
 
         $documentForm->setProcessNumber($document->getProcessNumber());
