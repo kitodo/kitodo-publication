@@ -45,19 +45,15 @@ formBody
         <f:if condition="{suggestMod}">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm form-group">
-                        <label for="suggestRestore">{f:translate(key: 'documentForm.suggestRestore')}</label>
+
                         <f:if condition="{document.remoteState}=='DELETED' OR {document.localState}=='DISCARDED'">
                             <f:then>
-                                <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" class="form-control"/>
+                                <div class="col-sm form-group">
+                                    <label for="suggestRestore">{f:translate(key: 'documentForm.suggestRestore')}</label>
+                                    <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" class="form-control"/>
+                                </div>
                             </f:then>
-                            <f:else>
-                                <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" disabled="true" class="form-control"/>
-                            </f:else>
                         </f:if>
-
-
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm form-group">
