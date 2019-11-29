@@ -129,7 +129,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $restore
      */
-    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore)
+    public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore = FALSE)
     {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
