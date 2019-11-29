@@ -239,6 +239,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
+        $usernameString = $this->security->getUser()->getUsername();
+
+        $this->view->assign('documentOwner', $usernameString);
         $this->view->assign('diff', $diff);
         $this->view->assign('document', $document);
 

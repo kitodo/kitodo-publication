@@ -60,6 +60,8 @@
 
     <f:flashMessages />
 
+    {documentOwner}: <f:format.date date="{document.tstamp}" format="d.m.Y"/>
+
     <div class="card" style="margin-bottom:10px;">
         <div class="card-body">
             {f:translate(key: 'documentForm.suggestComment')} :<br/>
