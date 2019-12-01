@@ -147,8 +147,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $hasFilesFlag = false;
         }
 
-        $this->documentRepository->update($workingCopy);
-
         $newDocument = $this->objectManager->get(Document::class);
 
         $this->documentRepository->add($newDocument);
@@ -158,7 +156,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $document = $documentMapper->getDocument($documentForm);
 
         $newDocument = $newDocument->copy($document);
-        $newDocument->setLinkedUid($document->getUid());
+
+        if ($document->getObjectIdentifier()) {
+            $newDocument->setLinkedUid($document->getObjectIdentifier());
+        } else {
+            $newDocument->setLinkedUid($document->getUid());
+        }
+
         $newDocument->setSuggestion(true);
         $newDocument->setComment($document->getComment());
 

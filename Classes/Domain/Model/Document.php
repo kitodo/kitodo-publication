@@ -158,9 +158,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $tstamp;
 
     /**
-     * @var int
+     * @var string
      */
-    protected $linkedUid = 0;
+    protected $linkedUid = '';
 
     /**
      * @var string
@@ -826,17 +826,17 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getLinkedUid(): int
+    public function getLinkedUid(): string
     {
         return $this->linkedUid;
     }
 
     /**
-     * @param int $linkedUid
+     * @param string $linkedUid
      */
-    public function setLinkedUid(int $linkedUid)
+    public function setLinkedUid(string $linkedUid)
     {
         $this->linkedUid = $linkedUid;
     }

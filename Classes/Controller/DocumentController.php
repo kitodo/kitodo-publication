@@ -187,10 +187,21 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
 
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
         $linkedUid = $document->getLinkedUid();
 
         /** @var \EWW\Dpf\Domain\Model\Document $originDocument */
         $originDocument = $this->documentRepository->findByUid($linkedUid);
+
+        if ($originDocument) {
+            $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
+        } else {
+            // get remote document
+            $originDocument = $this->documentTransferManager->retrieve($document->getLinkedUid());
+            $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
+        }
 
         if ($acceptAll) {
             // all changes are confirmed
@@ -233,10 +244,16 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
         $linkedDocument = $this->documentRepository->findByUid($document->getLinkedUid());
-        $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+
+        if ($linkedDocument) {
+            $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+        } else {
+            // get remote document
+            $linkedDocument = $this->documentTransferManager->retrieve($document->getLinkedUid());
+            $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+        }
 
         $newDocumentForm = $documentMapper->getDocumentForm($document);
-
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
         $usernameString = $this->security->getUser()->getUsername();

@@ -377,8 +377,7 @@ return array(
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.linked_uid',
             'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
+                'type'    => 'check'
             ),
         ),
 
