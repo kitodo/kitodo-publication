@@ -55,7 +55,7 @@
 		</trans-unit>
 		<trans-unit id="documentForm.edit.header" approved="yes">
 			<source>Edit %s</source>
-			<target>% bearbeiten</target>
+			<target>%s bearbeiten</target>
 		</trans-unit>
 		<trans-unit id="documentForm.goBack" approved="yes">
 			<source>go back</source>
