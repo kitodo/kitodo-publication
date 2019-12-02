@@ -16,6 +16,9 @@ namespace EWW\Dpf\Security;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Domain\Repository\DocumentRepository;
 
 class DocumentVoter extends Voter
 {
@@ -492,12 +495,19 @@ class DocumentVoter extends Voter
     protected function canSuggestRestore($document)
     {
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+
+            $objectManager =GeneralUtility::makeInstance(ObjectManager::class);
+            $documentRepository = $objectManager->get(DocumentRepository::class);
+
+            $linkedDocument = $documentRepository->findOneByLinkedUid($document->getUid());
+            if (!$linkedDocument && $document->getObjectIdentifier()) {
+                $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
+            }
+
             return (
-                (
-                    $document->getState() === DocumentWorkflow::STATE_DISCARDED_NONE ||
-                    $document->getState() === DocumentWorkflow::STATE_NONE_DELETED
-                )
-            );
+                $document->getState() === DocumentWorkflow::STATE_DISCARDED_NONE ||
+                $document->getState() === DocumentWorkflow::STATE_NONE_DELETED
+            ) && !$linkedDocument;
         }
 
         return FALSE;
@@ -509,6 +519,14 @@ class DocumentVoter extends Voter
      */
     protected function canSuggestModification($document)
     {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $documentRepository = $objectManager->get(DocumentRepository::class);
+
+        $linkedDocument = $documentRepository->findOneByLinkedUid($document->getUid());
+        if (!$linkedDocument && $document->getObjectIdentifier()) {
+            $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
+        }
+
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 (
@@ -519,7 +537,7 @@ class DocumentVoter extends Voter
                     $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
                     $document->getState() !== DocumentWorkflow::STATE_REGISTERED_NONE
                 )
-            );
+            ) && !$linkedDocument;
         }
 
         return FALSE;
