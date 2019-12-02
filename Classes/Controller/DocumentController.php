@@ -202,7 +202,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $linkedUid = $document->getLinkedUid();
 
         /** @var \EWW\Dpf\Domain\Model\Document $originDocument */
-        $originDocument = $this->documentRepository->findByUid($linkedUid);
+        if (is_integer($linkedUid)) {
+            $originDocument = $this->documentRepository->findOneByUid($linkedUid);
+        } else {
+            $originDocument = $this->documentRepository->findOneByObjectIdentifier($linkedUid);
+        }
 
         if ($originDocument) {
             $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
