@@ -317,7 +317,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
                                     // deleted
                                     $returnArray['deleted'][] = $itemExisting;
 
-                                } else if ($valueRepeatField->getValue() != $value2[$keyRepeatField]->getValue() && !empty($value2[$keyRepeatField]->getValue())) {
+                                } else if ($this->removeControlCharacterFromString($valueRepeatField->getValue()) != $this->removeControlCharacterFromString($value2[$keyRepeatField]->getValue())
+                                    && !empty($value2[$keyRepeatField]->getValue())) {
+
                                     // changed
                                     $returnArray['changed']['old'][] = $itemExisting;
                                     $returnArray['changed']['new'][] = $itemNew;
@@ -354,6 +356,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         return $returnArray;
 
+    }
+
+    public function removeControlCharacterFromString($string) {
+        return preg_replace('/\p{C}+/u', "", $string);
     }
 
     public function listRegisteredAction()
