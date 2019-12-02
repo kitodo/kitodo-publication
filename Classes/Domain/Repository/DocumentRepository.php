@@ -258,4 +258,30 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         return $query->execute()->getFirst();
     }
 
+    /**
+     * @param string $identifier
+     * @return array
+     */
+    public function findWorkingCopy($identifier)
+    {
+        $query = $this->createQuery();
+
+        if (is_integer($identifier)) {
+            $constraints = [
+                $query->equals('uid', $identifier)
+            ];
+        } else {
+            $constraints = [
+                $query->equals('object_identifier', $identifier)
+            ];
+        }
+
+        $constraints[] = $query->logicalNot($query->equals('temporary', TRUE));
+        $constraints[] = $query->logicalNot($query->equals('suggestion', TRUE));
+
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
+    }
+
 }

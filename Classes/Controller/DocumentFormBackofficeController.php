@@ -155,6 +155,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         /* @var $document \EWW\Dpf\Domain\Model\Document */
         $document = $documentMapper->getDocument($documentForm);
 
+        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument = $newDocument->copy($document);
 
         if ($document->getObjectIdentifier()) {
@@ -258,7 +259,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 if ($workingCopy) {
                     $documents = $this->documentRepository->findByObjectIdentifier($updateDocument->getObjectIdentifier());
                     foreach ($documents as $document) {
-                        if (!$document->getTemporary()) {
+                        if (!$document->getTemporary() && !$document->isSuggestion()) {
                             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.failureCreateWorkingCopy',
                                 'dpf',

@@ -199,20 +199,16 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        $linkedUid = $document->getLinkedUid();
-
+        // Existing working copy?
         /** @var \EWW\Dpf\Domain\Model\Document $originDocument */
-        if (is_integer($linkedUid)) {
-            $originDocument = $this->documentRepository->findOneByUid($linkedUid);
-        } else {
-            $originDocument = $this->documentRepository->findOneByObjectIdentifier($linkedUid);
-        }
+        $linkedUid = $document->getLinkedUid();
+        $originDocument = $this->documentRepository->findWorkingCopy($linkedUid);
 
         if ($originDocument) {
             $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
         } else {
             // get remote document
-            $originDocument = $this->documentTransferManager->retrieve($document->getLinkedUid());
+            $originDocument = $this->documentTransferManager->retrieve($document->getLinkedUid(), $this->security->getUser()->getUid());
             $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
         }
 
@@ -239,7 +235,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             }
 
-            $this->documentRepository->add($originDocument);
+            $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
             // redirect to document
@@ -256,13 +252,15 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        $linkedDocument = $this->documentRepository->findByUid($document->getLinkedUid());
+        $linkedUid = $document->getLinkedUid();
+        $linkedDocument = $this->documentRepository->findWorkingCopy($linkedUid);
 
         if ($linkedDocument) {
+            // Existing working copy
             $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
         } else {
-            // get remote document
-            $linkedDocument = $this->documentTransferManager->retrieve($document->getLinkedUid());
+            // No existing working copy, get remote document from fedora
+            $linkedDocument = $this->documentTransferManager->retrieve($document->getLinkedUid(), $this->security->getUser()->getUid());
             $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
         }
 
