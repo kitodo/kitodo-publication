@@ -102,6 +102,15 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
 
     /**
+     * frontendUserRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository = null;
+
+
+    /**
      * DocumentController constructor.
      */
     public function __construct()
@@ -256,7 +265,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $newDocumentForm = $documentMapper->getDocumentForm($document);
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
-        $usernameString = $this->security->getUser()->getUsername();
+        //$usernameString = $this->security->getUser()->getUsername();
+        $user = $this->frontendUserRepository->findOneByUid($document->getOwner());
+
+        if ($user) {
+            $usernameString = $user->getUsername();
+        }
 
         $this->view->assign('documentOwner', $usernameString);
         $this->view->assign('diff', $diff);

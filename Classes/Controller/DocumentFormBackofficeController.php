@@ -188,6 +188,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
 
         try {
+            $newDocument->setOwner($this->security->getUser()->getUid());
             $this->documentRepository->add($newDocument);
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::SUCCESS;
             $this->addFlashMessage("Success", '', $severity,false);
