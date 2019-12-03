@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    database_2x:
+    database_3x:
         image: mysql:5.6
         command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
         environment:
@@ -10,13 +10,13 @@ services:
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - mysql56_latest:/var/lib/mysql
+            - mysql56_3x:/var/lib/mysql
         networks:
             frontend:
                 aliases:
                     - db
 
-    typo3_2x:
+    typo3_3x:
         build:
             context: .
         image: kitodo-publication:latest
@@ -30,7 +30,7 @@ services:
         volumes:
             - $PWD:/app
         depends_on:
-            - database_2x
+            - database_3x
         networks:
             frontend:
             qucosafcrepodocker_backend:
@@ -38,7 +38,7 @@ services:
                     - typo3
 
 volumes:
-    mysql56_latest:
+    mysql56_3x:
 
 networks:
     frontend:
