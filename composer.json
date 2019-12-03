@@ -43,7 +43,6 @@
         "nimut/testing-framework": "*"
     },
     "replace": {
-        "dpf": "self.version",
         "typo3-ter/dpf": "self.version"
     },
     "autoload": {
