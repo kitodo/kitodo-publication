@@ -125,6 +125,8 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->metadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->transformationFileInput = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->transformationFileOutput = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**

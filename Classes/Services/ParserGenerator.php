@@ -16,6 +16,7 @@ namespace EWW\Dpf\Services;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
+use EWW\Dpf\Helper\XSLTransformator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 
@@ -136,36 +137,10 @@ class ParserGenerator
         return $xml;
     }
 
-    public function transformInputXML($xml) {
-        $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
-
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML($xml);
-
-        $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
-
-        $domXPath->registerNamespace('mods', "http://www.loc.gov/mods/v3");
-        $domXPath->registerNamespace('slub', "http://slub-dresden.de/");
-        $domXPath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
-        $domXPath->registerNamespace('person', "http://www.w3.org/ns/person#");
-        $domXPath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-
-        $documentTypeName = $domXPath->query('//' . $docTypeInput)->item(0)->nodeValue;
-
-        $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
-
-        $transformationFile = $documentType->getTransformationFileInput()->current();
-        if ($transformationFile != NULL) {
-            $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
-            $documentTransformer = new DocumentTransformer();
-
-            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $xml);
-        } else {
-            // return generated xml if no transformation file is present
-            $transformedXml = $xml;
-        }
-
-        return $transformedXml;
+    public function transformInputXML($xml)
+    {
+        $XSLTransformator = new XSLTransformator();
+        return $XSLTransformator->transformInputXML($xml);
     }
 
     /**
@@ -174,19 +149,8 @@ class ParserGenerator
      */
     public function getTransformedOutputXML($document)
     {
-        $documentType = $document->getDocumentType();
-        $transformationFile = $documentType->getTransformationFileOutput()->current();
-        if ($transformationFile != NULL) {
-            $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
-            $documentTransformer = new DocumentTransformer();
-
-            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $this->getXMLData());
-        } else {
-            // return generated xml if no transformation file is present
-            $transformedXml = $this->getXMLData();
-        }
-
-        return $transformedXml;
+        $XSLTransformator = new XSLTransformator();
+        return $XSLTransformator->getTransformedOutputXML($document, $this->getXMLData());
     }
 
 

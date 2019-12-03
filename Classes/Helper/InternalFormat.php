@@ -19,6 +19,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class InternalFormat
 {
+    const rootNode = '//data/';
 
     /**
      * clientConfigurationManager
@@ -69,7 +70,7 @@ class InternalFormat
 
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
 
-        $typeList = $xpath->query($typeXpath);
+        $typeList = $xpath->query(self::rootNode . $typeXpath);
         return $typeList->item(0)->nodeValue;
     }
 
@@ -79,7 +80,7 @@ class InternalFormat
 
         $xpath = $this->getXpath();
 
-        $stateList = $xpath->query($stateXpath);
+        $stateList = $xpath->query(self::rootNode . $stateXpath);
         return $stateList->item(0)->nodeValue;
     }
 
@@ -87,7 +88,7 @@ class InternalFormat
     {
         $xpath = $this->getXpath();
 
-        $stateList = $xpath->query("titleInfo/title");
+        $stateList = $xpath->query(self::rootNode . "titleInfo/title");
         return $stateList->item(0)->nodeValue;
     }
 
@@ -97,7 +98,7 @@ class InternalFormat
 
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
 
-        $fileNodes = $xpath->query($fileXpath);
+        $fileNodes = $xpath->query(self::rootNode . $fileXpath);
 
         $files = [];
 
@@ -115,7 +116,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
 
-        $dateNodes = $xpath->query($dateXpath);
+        $dateNodes = $xpath->query(self::rootNode . $dateXpath);
         $dateNodes->item(0)->nodeValue = $date;
 
     }
@@ -124,7 +125,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
 
-        $dateNodes = $xpath->query($dateXpath);
+        $dateNodes = $xpath->query(self::rootNode . $dateXpath);
 
         return $dateNodes->item(0)->nodeValue;
 
@@ -135,7 +136,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
 
-        $dateNodes = $xpath->query($dateXpath);
+        $dateNodes = $xpath->query(self::rootNode . $dateXpath);
         if ($dateNodes->length > 0) {
             $dateNodes->item(0)->parentNode->removeChild($dateNodes->item(0));
         }
@@ -147,7 +148,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
 
-        $urnNodes = $xpath->query($urnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $urnXpath);
         if ($urnNodes->length > 0) {
             return true;
         } else {
@@ -161,7 +162,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
 
-        $urnNodes = $xpath->query($urnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $urnXpath);
         if ($urnNodes->length > 0) {
             return $urnNodes->item(0)->nodeValue;
         } else {
@@ -176,9 +177,9 @@ class InternalFormat
 
         $rootNode = $this->getDocument()->documentElement;
 
-        if ($rootNode->length == 1) {
+        if ($rootNode) {
 
-            $urnNodes = $xpath->query($urnXpath);
+            $urnNodes = $xpath->query(self::rootNode . $urnXpath);
             if ($urnNodes->length > 0) {
                 $urnNodes->item(0)->nodeValue = $urn;
             } else {
@@ -197,7 +198,7 @@ class InternalFormat
                     }
                     $i++;
                 }
-                $document->appendChild($newElement);
+                $rootNode->appendChild($newElement);
             }
 
         } else {
@@ -212,7 +213,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
 
-        $urnNodes = $xpath->query($urnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $urnXpath);
         if ($urnNodes->length > 0) {
             $urnNodes->item(0)->parentNode->removeChild($urnNodes->item(0));
         }
@@ -223,7 +224,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $submitterXpath = 'submitter/mail';
 
-        $dateNodes = $xpath->query($submitterXpath);
+        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
         return $dateNodes->item(0)->nodeValue;
     }
@@ -232,7 +233,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $submitterXpath = 'submitter/name';
 
-        $dateNodes = $xpath->query($submitterXpath);
+        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
         return $dateNodes->item(0)->nodeValue;
     }
@@ -241,7 +242,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $submitterXpath = 'submitter/notice';
 
-        $dateNodes = $xpath->query($submitterXpath);
+        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
         return $dateNodes->item(0)->nodeValue;
     }

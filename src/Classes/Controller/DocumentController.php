@@ -17,6 +17,10 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Security\DocumentVoter;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Helper\XSLTransformator;
+use EWW\Dpf\Security\AuthorizationChecker;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -752,6 +756,10 @@ class DocumentController extends AbstractController
             $documentTransferManager->setRemoteRepository($remoteRepository);
 
             $objectIdentifier = $document->getObjectIdentifier();
+
+            // transform if xslt exists
+            $XSLTransformator = new XSLTransformator();
+            $document->setXmlData($XSLTransformator->getTransformedOutputXML($document));
 
             if (empty($objectIdentifier)) {
 

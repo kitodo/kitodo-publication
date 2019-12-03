@@ -17,7 +17,7 @@ namespace EWW\Dpf\Services\Transformer;
 class DocumentTransformer
 {
 
-    public function transform($xslt, $xml)
+    public function transform($xslt, $xml, $params)
     {
         $xslDoc = new \DOMDocument();
         $xslDoc->load($xslt);
@@ -26,6 +26,10 @@ class DocumentTransformer
         $xmlDoc->loadXML($xml);
 
         $processor = new \XSLTProcessor();
+
+        foreach ($params as $key => $value) {
+            $processor->setParameter('', $key, $value);
+        }
 
         libxml_use_internal_errors(true);
         $result = $processor->importStyleSheet($xslDoc);
