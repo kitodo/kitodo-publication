@@ -40,7 +40,7 @@ return array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document_uid, object_identifier, action',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,        
+        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,
         date, response, curl_error, document_uid, object_identifier, action,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -61,6 +61,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'       => array(
@@ -73,6 +74,7 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_documenttransferlog',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_documenttransferlog.pid=###CURRENT_PID### AND tx_dpf_domain_model_documenttransferlog.sys_language_uid IN (-1,0)',
             ),

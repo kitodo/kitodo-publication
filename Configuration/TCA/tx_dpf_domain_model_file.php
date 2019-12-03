@@ -59,6 +59,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'           => array(
@@ -71,6 +72,7 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_file',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_file.pid=###CURRENT_PID### AND tx_dpf_domain_model_file.sys_language_uid IN (-1,0)',
             ),
@@ -220,7 +222,6 @@ return array(
                 'default' => 0,
             ),
         ),
-
         'document'              => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf2/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
@@ -230,6 +231,7 @@ return array(
                 'foreign_table' => 'tx_dpf_domain_model_document',
                 'minitems'      => 0,
                 'maxitems'      => 1,
+                'default' => 0,
             ),
         ),
     ),

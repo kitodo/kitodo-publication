@@ -58,6 +58,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'      => array(
@@ -70,6 +71,7 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_metadatapage',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_metadatapage.pid=###CURRENT_PID### AND tx_dpf_domain_model_metadatapage.sys_language_uid IN (-1,0)',
             ),
