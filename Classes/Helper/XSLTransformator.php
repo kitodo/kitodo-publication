@@ -84,7 +84,7 @@ class XSLTransformator
 
             $transformParams = [
                 'record_state' => $remoteState,
-                'agent_name' => 'TEST',
+                'owner_id' => $document->getOwner(),
                 'document_type' => $document->getDocumentType()->getName(),
                 'process_number' => $document->getProcessNumber()
             ];
