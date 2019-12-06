@@ -17,7 +17,7 @@ namespace EWW\Dpf\Services\Transformer;
 class DocumentTransformer
 {
 
-    public function transform($xslt, $xml, $params)
+    public function transform($xslt, $xml, $params = [])
     {
         $xslDoc = new \DOMDocument();
         $xslDoc->load($xslt);

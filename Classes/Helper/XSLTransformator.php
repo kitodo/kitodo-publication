@@ -15,7 +15,9 @@ namespace EWW\Dpf\Helper;
  */
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class XSLTransformator
 {
@@ -29,10 +31,22 @@ class XSLTransformator
     protected $clientConfigurationManager;
 
     /**
+     * documentTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @inject
+     */
+    protected $documentTypeRepository;
+
+    /**
      * @param $xml
      * @return string
      */
     public function transformInputXML($xml) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+        $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
+
         $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
 
         $domDocument = new \DOMDocument();
@@ -70,6 +84,10 @@ class XSLTransformator
      */
     public function getTransformedOutputXML($document, $xmlData = false)
     {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
+        $ownerId = $this->clientConfigurationManager->getOwnerId();
         $documentType = $document->getDocumentType();
         $transformationFile = $documentType->getTransformationFileOutput()->toArray()[0];
         if ($transformationFile != NULL) {
@@ -84,7 +102,7 @@ class XSLTransformator
 
             $transformParams = [
                 'record_state' => $remoteState,
-                'owner_id' => $document->getOwner(),
+                'owner_id' => $ownerId,
                 'document_type' => $document->getDocumentType()->getName(),
                 'process_number' => $document->getProcessNumber()
             ];
