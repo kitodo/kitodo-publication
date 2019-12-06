@@ -759,7 +759,7 @@ class DocumentController extends AbstractController
 
             // transform if xslt exists
             $XSLTransformator = new XSLTransformator();
-            $document->setXmlData($XSLTransformator->getTransformedOutputXML($document));
+            $document->setSlubInfoData($XSLTransformator->getTransformedOutputXML($document));
 
             if (empty($objectIdentifier)) {
 
