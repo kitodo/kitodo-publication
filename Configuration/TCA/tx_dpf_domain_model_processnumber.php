@@ -35,6 +35,7 @@ return array(
         ),
         'searchFields'             => 'owner_id, year, counter',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_processnumber.gif',
+        'rootLevel' => 1,
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, owner_id, year, counter'
