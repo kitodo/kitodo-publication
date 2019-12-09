@@ -11,54 +11,54 @@
  * The TYPO3 project - inspiring people to share!
  */
 $(document).ready(function() {
-    jQuery('#new-document-form').trigger('reset');
-    documentListConfirmDialog('#confirmDiscard');
-    documentListConfirmDialog('#confirmReleasePublish');
-    documentListConfirmDialog('#confirmReleaseActivate');
-    documentListConfirmDialog('#confirmReleaseUpdate');
-    documentListConfirmDialog('#confirmActivate');
-    documentListConfirmDialog('#confirmInactivate');
-    documentListConfirmDialog('#confirmRestore');
-    documentListConfirmDialog('#confirmDelete');
-    documentListConfirmDialog('#confirmDeleteLocally');
-    documentListConfirmDialog('#confirmDeleteWorkingCopy');
-    documentListConfirmDialog('#confirmRegister');
-    documentListConfirmDialog('#confirmPostpone');
+    jQuery("#new-document-form").trigger("reset");
+    documentListConfirmDialog("#confirmDiscard");
+    documentListConfirmDialog("#confirmReleasePublish");
+    documentListConfirmDialog("#confirmReleaseActivate");
+    documentListConfirmDialog("#confirmReleaseUpdate");
+    documentListConfirmDialog("#confirmActivate");
+    documentListConfirmDialog("#confirmInactivate");
+    documentListConfirmDialog("#confirmRestore");
+    documentListConfirmDialog("#confirmDelete");
+    documentListConfirmDialog("#confirmDeleteLocally");
+    documentListConfirmDialog("#confirmDeleteWorkingCopy");
+    documentListConfirmDialog("#confirmRegister");
+    documentListConfirmDialog("#confirmPostpone");
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
-    var $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
+    var $disableForm = jQuery("form[data-disabled]").attr("data-disabled");
     if ($disableForm) {
-        jQuery('.input-field').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".input-field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.rem_file_group').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".rem_file_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.add_file_group').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".add_file_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.input_file_upload').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".input_file_upload").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.add_field').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".add_field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.add_group').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".add_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.rem_field').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".rem_field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.rem_group').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".rem_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
-        jQuery('.fill_out_service_urn').each(function() {
-            jQuery(this).attr('disabled', 'disabled');
+        jQuery(".fill_out_service_urn").each(function() {
+            jQuery(this).attr("disabled", "disabled");
         });
     }
     buttonFillOutServiceUrn();
     jQuery(".tx-dpf").on("click", ".rem_group", function() {
-        jQuery(this).parents('fieldset').fadeOut(300, function() {
+        jQuery(this).parents("fieldset").fadeOut(300, function() {
             jQuery(this).remove();
         });
         return false;
@@ -66,7 +66,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".rem_file_group", deleteFile);
     jQuery(".tx-dpf").on("click", ".rem_secondary_upload", function() {
         var dataIndex = jQuery(this).data("index");
-        jQuery(this).parents('.fs_file_group').fadeOut(300, function() {
+        jQuery(this).parents(".fs_file_group").fadeOut(300, function() {
             jQuery(this).remove();
         });
         return false;
@@ -74,7 +74,7 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".rem_field", function() {
         var dataIndex = jQuery(this).data("index");
         var dataField = jQuery(this).data("field");
-        jQuery(this).parents('.form-group').fadeOut(300, function() {
+        jQuery(this).parents(".form-group").fadeOut(300, function() {
             jQuery(this).remove();
         });
         return false;
@@ -90,8 +90,8 @@ $(document).ready(function() {
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
 
     // hide 'more results' link
-    var countResults = $('#search-results :not(thead) tr').length;
-    var resultCount = $('#next').data('resultCount');
+    var countResults = $("#search-results :not(thead) tr").length;
+    var resultCount = $("#next").data("resultCount");
 
     if (countResults < resultCount) {
         jQuery("#next").hide();
@@ -101,7 +101,7 @@ $(document).ready(function() {
 
     previousNextFormPage();
 
-    var gnd = jQuery('.gnd');
+    var gnd = jQuery(".gnd");
     if(gnd.length > 0) {
         gnd.each(function() {
             setGndAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
@@ -119,7 +119,7 @@ var validateFormAndSave = function() {
 
         jQuery("#new-document-form #save").prop("disabled", true);
 
-        jQuery('#new-document-form').submit();
+        jQuery("#new-document-form").submit();
 
         return true;
     }
@@ -133,13 +133,13 @@ var validateFormOnly = function() {
 }
 var validateForm = function() {
     var error = false;
-    jQuery('span.mandatory-error').remove();
-    jQuery('div.alert').remove();
-    jQuery('.tx-dpf-tabs li a').each(function() {
-        jQuery(this).removeClass('mandatory-error');
+    jQuery("span.mandatory-error").remove();
+    jQuery("div.alert").remove();
+    jQuery(".tx-dpf-tabs li a").each(function() {
+        jQuery(this).removeClass("mandatory-error");
     });
-    jQuery('.input-field[data-mandatory]').each(function() {
-        jQuery(this).removeClass('mandatory-error');
+    jQuery(".input-field[data-mandatory]").each(function() {
+        jQuery(this).removeClass("mandatory-error");
     });
 
     // check mandatory groups
@@ -151,14 +151,14 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         if (hasMandatoryInputs(fieldset)) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find('legend').last());
+                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
             }
         } else {
             if (checkFilledInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find('legend').last());
+                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
@@ -166,10 +166,10 @@ var validateForm = function() {
             }
         }
     });
-    jQuery('fieldset[id=primary_file]').each(function() {
+    jQuery("fieldset[id=primary_file]").each(function() {
         var fieldset = jQuery(this);
         if (checkPrimaryFile(fieldset)) {
-            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find('legend').last());
+            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
             showFormError();
             error = true;
             markPage(fieldset, true);
@@ -179,70 +179,70 @@ var validateForm = function() {
     jQuery('fieldset[data-mandatory=""],fieldset[data-mandatory="0"]').each(function() {
         var fieldset = jQuery(this);
         var filledInputs = 0;
-        jQuery(this).find('.input-field').each(function() {
-            var id = jQuery(this).attr('id');
+        jQuery(this).find(".input-field").each(function() {
+            var id = jQuery(this).attr("id");
             if (
-                ((jQuery(this).attr('type') != 'checkbox' && jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length > 0))) &&
-                jQuery(this).attr('data-default') != '1'
+                ((jQuery(this).attr("type") != "checkbox" && jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length > 0))) &&
+                jQuery(this).attr("data-default") != "1"
             ) {
                 filledInputs++;
             }
-            //if (jQuery(this).val() && jQuery(this).attr('data-default') != '1') {
+            //if (jQuery(this).val() && jQuery(this).attr("data-default") != "1") {
             //    filledInputs++;
             //}
-            jQuery(this).removeClass('mandatory-error');
+            jQuery(this).removeClass("mandatory-error");
         });
         // if there are fields with a value then mandatory fields
         // are relevant.
         if (filledInputs) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find('legend').last());
+                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 markPage(fieldset, true);
                 error = true;
             }
         }
     });
-    jQuery('fieldset').each(function() {
+    jQuery("fieldset").each(function() {
         var fieldset = jQuery(this);
-        fieldset.find('.input-field').each(function() {
-            jQuery(this).removeClass('invalid-error');
-            var validation = jQuery(this).attr('data-regexp');
+        fieldset.find(".input-field").each(function() {
+            jQuery(this).removeClass("invalid-error");
+            var validation = jQuery(this).attr("data-regexp");
             if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {
                 try {
                     var regexp = new RegExp(validation);
                     var res = jQuery(this).val().match(regexp);
                     if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
-                        jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                        jQuery(this).addClass('invalid-error');
+                        jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+                        jQuery(this).addClass("invalid-error");
                         showFormError();
                         markPage(fieldset, true);
                         error = true;
                     }
                 } catch (err) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                    jQuery(this).addClass('invalid-error');
+                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+                    jQuery(this).addClass("invalid-error");
                     showFormError();
                     markPage(fieldset, true);
                     error = true;
                 }
             } else {
-                var validateDate = jQuery(this).attr('data-datatype') == 'DATE';
+                var validateDate = jQuery(this).attr("data-datatype") == 'DATE';
                 if (jQuery(this).val() && jQuery(this).val().length > 0 && validateDate && !isDate(jQuery(this).val())) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                    jQuery(this).addClass('invalid-error');
+                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+                    jQuery(this).addClass("invalid-error");
                     showFormError();
                     markPage(fieldset, true);
                     error = true;
                 }
             }
 
-            var maxLength = jQuery(this).attr('data-maxlength');
+            var maxLength = jQuery(this).attr("data-maxlength");
             if (maxLength && maxLength > 0) {
                 if (jQuery(this).val().length > maxLength) {
                     var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + jQuery(this).attr('data-label') + '</div>').insertAfter(fieldset.find('legend').last());
-                    jQuery(this).addClass('invalid-error');
+                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+                    jQuery(this).addClass("invalid-error");
                     showFormError();
                     markPage(fieldset, true);
                     error = true;
@@ -254,15 +254,15 @@ var validateForm = function() {
     return !error;
 }
 var showFormError = function() {
-    jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery('.tx-dpf form.document-form-main').first());
+    jQuery(".tx-dpf div.alert-danger").remove();
+    jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
 }
 var showFormSuccess = function() {
-    jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery('.tx-dpf form.document-form-main').first());
+    jQuery(".tx-dpf div.alert-danger").remove();
+    jQuery('<div class="alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
@@ -277,7 +277,7 @@ var hasFiles = function() {
         }
     });
     jQuery(".fs_file_group .file_link").each(function() {
-        if (jQuery(this).attr('href')) {
+        if (jQuery(this).attr("href")) {
             $hasFiles++;
         }
     });
@@ -294,12 +294,12 @@ var hasMandatoryInputs = function(fieldset) {
     return inputs.length > 0
 }
 var markPage = function(fieldset, error) {
-    var pageId = fieldset.parent().attr('id');
-    var page = jQuery('.tx-dpf-tabs li a[href=#' + pageId + ']');
+    var pageId = fieldset.parent().attr("id");
+    var page = jQuery(".tx-dpf-tabs li a[href=#" + pageId + "]");
     if (error) {
-        page.addClass('mandatory-error');
+        page.addClass("mandatory-error");
     } else {
-        page.removeClass('mandatory-error');
+        page.removeClass("mandatory-error");
     }
 }
 var checkMandatoryInputs = function(fieldset) {
@@ -309,12 +309,12 @@ var checkMandatoryInputs = function(fieldset) {
         search = search + ',.input-field[data-mandatory="FILE_ONLY"]';
     }
     fieldset.find(search).each(function() {
-        var id = jQuery(this).attr('id');
-        if ((jQuery(this).attr('type') != 'checkbox' && !jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
+        var id = jQuery(this).attr("id");
+        if ((jQuery(this).attr("type") != "checkbox" && !jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
             mandatoryError = mandatoryError || true;
-            jQuery(this).addClass('mandatory-error');
+            jQuery(this).addClass("mandatory-error");
         } else {
-            jQuery(this).removeClass('mandatory-error');
+            jQuery(this).removeClass("mandatory-error");
         }
     });
     return mandatoryError;
@@ -324,39 +324,39 @@ var checkPrimaryFile = function(fieldset) {
     fieldset.find("input#inp_primaryFile[data-primaryfilemandatory=1]").each(function() {
         if (!jQuery(this).val()) {
             mandatoryError = mandatoryError || true;
-            jQuery(this).addClass('mandatory-error');
+            jQuery(this).addClass("mandatory-error");
         } else {
-            jQuery(this).removeClass('mandatory-error');
+            jQuery(this).removeClass("mandatory-error");
         }
     });
     return mandatoryError;
 }
 var checkFilledInputs = function(fieldset) {
     var filledInputs = 0;
-    fieldset.find('.input-field').each(function() {
-        var id = jQuery(this).attr('id');
+    fieldset.find(".input-field").each(function() {
+        var id = jQuery(this).attr("id");
         if (
-            ((jQuery(this).attr('type') != 'checkbox' && jQuery(this).val()) || (jQuery(this).attr('type') == 'checkbox' && (jQuery("#" + id + ":checked").length > 0))) &&
-            jQuery(this).attr('data-default') != '1'
+            ((jQuery(this).attr("type") != "checkbox" && jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length > 0))) &&
+            jQuery(this).attr("data-default") != "1"
         ) {
             filledInputs++;
         }
         //if (jQuery(this).val()) {
         //    filledInputs++;
         //}
-        jQuery(this).removeClass('mandatory-error');
+        jQuery(this).removeClass("mandatory-error");
     });
     return filledInputs < 1;
 }
 var addGroup = function() {
     var element = jQuery(this);
     // Get the group uid
-    var dataGroup = jQuery(this).attr('data-group');
+    var dataGroup = jQuery(this).attr("data-group");
     // Number of the next group item
-    var groupIndex = parseInt(jQuery(this).attr('data-index')) + 1;
+    var groupIndex = parseInt(jQuery(this).attr("data-index")) + 1;
 
-    jQuery(this).attr('data-index', groupIndex);
-    var ajaxURL = jQuery(this).attr('data-ajax');
+    jQuery(this).attr("data-index", groupIndex);
+    var ajaxURL = jQuery(this).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
 
@@ -367,7 +367,7 @@ var addGroup = function() {
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
         var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true)
-        jQuery('html, body').animate({
+        jQuery("html, body").animate({
             scrollTop: element.offset().top - height
         }, 400, function() {
             jQuery(group).fadeIn();
@@ -377,9 +377,9 @@ var addGroup = function() {
         addRemoveFileButton();
 
         // gnd autocomplete for new groups
-        var gndField = jQuery(group).find('.gnd');
+        var gndField = jQuery(group).find(".gnd");
         if (gndField.length != 0) {
-            setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
+            setGndAutocomplete(gndField.data("field"),gndField.data("groupindex"));
         }
     });
     return false;
@@ -387,32 +387,32 @@ var addGroup = function() {
 var addField = function() {
     var addButton = jQuery(this);
     // Get the field uid
-    var dataField = jQuery(this).attr('data-field');
+    var dataField = jQuery(this).attr("data-field");
     // Number of the next field item
-    var fieldIndex = parseInt(jQuery(this).attr('data-index')) + 1;
-    jQuery(this).attr('data-index', fieldIndex);
-    var ajaxURL = jQuery(this).attr('data-ajax');
+    var fieldIndex = parseInt(jQuery(this).attr("data-index")) + 1;
+    jQuery(this).attr("data-index", fieldIndex);
+    var ajaxURL = jQuery(this).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "fieldIndex", fieldIndex);
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
         jQuery(field).css({
-            'display': 'none'
+            "display": "none"
         }).insertBefore(addButton).fadeIn();
         buttonFillOutServiceUrn();
         datepicker();
 
         // gnd autocomplete for new fields
-        var gndField = jQuery(element).find('.gnd');
+        var gndField = jQuery(element).find(".gnd");
         if (gndField.length != 0) {
-            setGndAutocomplete(gndField.data('field'),gndField.data('groupindex'));
+            setGndAutocomplete(gndField.data("field"),gndField.data("groupindex"));
         }
     });
     return false;
 }
 var deleteFile = function() {
     var fileGroup = jQuery(this).parent().parent();
-    var ajaxURL = jQuery(this).attr('data-ajax');
+    var ajaxURL = jQuery(this).attr("data-ajax");
     var params = {}
         //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
@@ -434,12 +434,12 @@ function buildAjaxParams(ajaxURL, indexName, index) {
 }
 var fillOutServiceUrn = function() {
     // Get the field uid
-    var fieldUid = jQuery(this).attr('data-field');
-    var fieldIndex = jQuery(this).attr('data-index');
-    var groupUid = jQuery(this).attr('data-group');
-    var groupIndex = jQuery(this).attr('data-groupindex');
-    var ajaxURL = jQuery(this).attr('data-ajax');
-    var qucosaId = jQuery('#qucosaid').val();
+    var fieldUid = jQuery(this).attr("data-field");
+    var fieldIndex = jQuery(this).attr("data-index");
+    var groupUid = jQuery(this).attr("data-group");
+    var groupIndex = jQuery(this).attr("data-groupindex");
+    var ajaxURL = jQuery(this).attr("data-ajax");
+    var qucosaId = jQuery("#qucosaid").val();
     var params = {};
     if (qucosaId) {
         params = buildAjaxParams(ajaxURL, "qucosaId", qucosaId);
@@ -452,15 +452,15 @@ var fillOutServiceUrn = function() {
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
 
-        group.find('.alert-filloutservice-urn').remove();
+        group.find(".alert-filloutservice-urn").remove();
 
         if (element.error) {
             var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_filloutservice + '</div>');
-            errorMsg.insertAfter(group.find('legend'));
+            errorMsg.insertAfter(group.find("legend"));
             $("html, body").animate({scrollTop: group.offset().top}, 200);
         } else {
-            jQuery('#qucosaid').val(element.qucosaId);
-            jQuery('#qucosaUrn').val(element.value);
+            jQuery("#qucosaid").val(element.qucosaId);
+            jQuery("#qucosaUrn").val(element.value);
             var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
             inputField.val(element.value);
             buttonFillOutServiceUrn();
@@ -470,11 +470,11 @@ var fillOutServiceUrn = function() {
     return false;
 }
 var buttonFillOutServiceUrn = function() {
-    jQuery('input.urn').each(function() {
-        var fieldUid = jQuery(this).attr('data-field');
-        var fieldIndex = jQuery(this).attr('data-index');
-        var groupUid = jQuery(this).attr('data-group');
-        var groupIndex = jQuery(this).attr('data-groupindex');
+    jQuery("input.urn").each(function() {
+        var fieldUid = jQuery(this).attr("data-field");
+        var fieldIndex = jQuery(this).attr("data-index");
+        var groupUid = jQuery(this).attr("data-group");
+        var groupIndex = jQuery(this).attr("data-groupindex");
         var fillOutButton = jQuery('.fill_out_service_urn[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"]');
         if ((jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn()) {
             fillOutButton.hide();
@@ -486,8 +486,8 @@ var buttonFillOutServiceUrn = function() {
 }
 var hasQucosaUrn = function() {
     var result = false;
-    var qucosaUrn = jQuery('#qucosaUrn').val();
-    jQuery('input.urn').each(function() {
+    var qucosaUrn = jQuery("#qucosaUrn").val();
+    jQuery("input.urn").each(function() {
         var currentUrn = jQuery(this).val();
         if (currentUrn && qucosaUrn && (currentUrn == qucosaUrn)) {
             result = result || true;
@@ -496,7 +496,7 @@ var hasQucosaUrn = function() {
     return result;
 }
 var continuousScroll = function() {
-    var ajaxURL = jQuery("#next").attr('href');
+    var ajaxURL = jQuery("#next").attr("href");
     jQuery.ajax({
         url: ajaxURL,
         success: function(html) {
@@ -522,21 +522,21 @@ $(window).scroll(function() {
     }
 });
 var datepicker = function() {
-    var language = jQuery('div.tx-dpf[data-language]').first().attr('data-language');
+    var language = jQuery("div.tx-dpf[data-language]").first().attr("data-language");
     if (!language) language = "en";
-    jQuery('.datetimepicker').datetimepicker({
+    jQuery(".datetimepicker").datetimepicker({
         useCurrent: false,
-        format: 'DD.MM.YYYY',
+        format: "DD.MM.YYYY",
         locale: language,
         keepInvalid: true
     }).on("keydown", function(e){
         if (e.which == 13) {
-            $('.datetimepicker').closest('form').submit();
+            $(".datetimepicker").closest("form").submit();
         }
     });
 }
 var isDate = function(value) {
-    if (value == '') return false;
+    if (value == "") return false;
     var rxDatePattern = /^(\d{1,2})(\.)(\d{1,2})(\.)(\d{4})$/; //Declare Regex
     var dtArray = value.match(rxDatePattern); // is format OK?
     if (dtArray == null) return false;
@@ -564,24 +564,24 @@ var documentListConfirmDialog = function(dialogId) {
         show: false,
         backdrop: 'static'
     });
-    jQuery(dialogId).on('show.bs.modal', function(e) {
-        //jQuery(this).find(dialogId+'Document').attr('href', jQuery(e.relatedTarget).attr('href'));
-        jQuery(this).find(dialogId+'Document').attr('action', jQuery(e.relatedTarget).attr('href'));
-        var bodyText = jQuery(this).find('.modal-body p').html();
-        title = jQuery(e.relatedTarget).attr('data-documenttitle');
-        jQuery(this).find('.modal-body p').html(bodyText.replace('%s', title));
-        jQuery(e.relatedTarget).parent().parent().addClass('danger marked-for-removal');
+    jQuery(dialogId).on("show.bs.modal", function(e) {
+        //jQuery(this).find(dialogId+"Document").attr("href", jQuery(e.relatedTarget).attr("href"));
+        jQuery(this).find(dialogId+"Document").attr("action", jQuery(e.relatedTarget).attr("href"));
+        var bodyText = jQuery(this).find(".modal-body p").html();
+        title = jQuery(e.relatedTarget).attr("data-documenttitle");
+        jQuery(this).find(".modal-body p").html(bodyText.replace("%s", title));
+        jQuery(e.relatedTarget).parent().parent().addClass("danger marked-for-removal");
     });
-    jQuery(dialogId).on('hidden.bs.modal', function(e) {
-        var bodyText = jQuery(this).find('.modal-body p').html();
-        jQuery(this).find('.modal-body p').html(bodyText.replace(title, '%s'));
-        jQuery('.marked-for-removal').removeClass('danger marked-for-removal');
+    jQuery(dialogId).on("hidden.bs.modal", function(e) {
+        var bodyText = jQuery(this).find(".modal-body p").html();
+        jQuery(this).find(".modal-body p").html(bodyText.replace(title, "%s"));
+        jQuery(".marked-for-removal").removeClass("danger marked-for-removal");
     });
 
     /*
     //make reason mandatory
-    jQuery(dialogId+'Document').submit(function(e) {
-        var reason = jQuery(dialogId+'Document').find('textarea');
+    jQuery(dialogId+"Document").submit(function(e) {
+        var reason = jQuery(dialogId+"Document").find("textarea");
         if (typeof reason !== 'undefined' && reason.length > 0) {
             if (reason.val().trim().length == 0) {
                 reason.val("");
@@ -591,17 +591,17 @@ var documentListConfirmDialog = function(dialogId) {
     });
     */
 
-    jQuery(dialogId+'ReasonSelect').on('change', function(e){
-        jQuery(dialogId+'Reason').val(jQuery(this).val());
+    jQuery(dialogId+"ReasonSelect").on("change", function(e){
+        jQuery(dialogId+"Reason").val(jQuery(this).val());
     });
 
 }
 
 function addRemoveFileButton() {
-    $('.rem_file').unbind('click');
-    $('.rem_file').bind('click', function (evt) {
+    $(".rem_file").unbind("click");
+    $(".rem_file").bind("click", function (evt) {
         evt.preventDefault();
-        $(this).siblings('.input_file_upload').val('');
+        $(this).siblings(".input_file_upload").val("");
     })
 }
 
@@ -609,24 +609,24 @@ function addRemoveFileButton() {
 function gndNothingFound(fieldId, groupIndex) {
         var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
 
-        if (gndInputField.data('old_gnd_field_value')) {
-            gndInputField.val(gndInputField.data('old_gnd_field_value'));
+        if (gndInputField.data("old_gnd_field_value")) {
+            gndInputField.val(gndInputField.data("old_gnd_field_value"));
         } else {
             gndInputField.val();
         }
 
-        var gndFieldId = gndInputField.data('gndfield');
-        var linkedGroupIndex = gndInputField.data('groupindex');
+        var gndFieldId = gndInputField.data("gndfield");
+        var linkedGroupIndex = gndInputField.data("groupindex");
         var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
 
-        if (gndLinkedInputField.data('old_gnd_field_id')) {
-            gndLinkedInputField.val(gndLinkedInputField.data('old_gnd_field_id'));
+        if (gndLinkedInputField.data("old_gnd_field_id")) {
+            gndLinkedInputField.val(gndLinkedInputField.data("old_gnd_field_id"));
         } else {
             gndLinkedInputField.val();
         }
 
         /** global: form_error_msg_nothing_found */
-        jQuery('<div id="gnd-nothing-found" class="alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(gndInputField.closest('.form-container'));
+        jQuery('<div id="gnd-nothing-found" class="alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(gndInputField.closest(".form-container"));
 
         gndInputField.bind("keypress click", function () {
             jQuery("#gnd-nothing-found").remove();
@@ -640,15 +640,15 @@ function gndNothingFound(fieldId, groupIndex) {
 
 function setGndAutocomplete(fieldId, groupIndex) {
     // GND autocomplete
-    var ajaxURL = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').attr('data-ajax');
+    var ajaxURL = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').attr("data-ajax");
 
     var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
-    var gndFieldId = gndInputField.data('gndfield');
-    var linkedGroupIndex = gndInputField.data('groupindex');
+    var gndFieldId = gndInputField.data("gndfield");
+    var linkedGroupIndex = gndInputField.data("groupindex");
     var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
 
-    gndInputField.attr('data-old_gnd_field_value',gndInputField.val());
-    gndLinkedInputField.attr('data-old_gnd_field_id',gndLinkedInputField.val());
+    gndInputField.attr("data-old_gnd_field_value",gndInputField.val());
+    gndLinkedInputField.attr("data-old_gnd_field_id",gndLinkedInputField.val());
 
     // Get the name of the parameter array (tx_dpf_...),
     // the name depends on whether the call is from the frontend or the backend
@@ -661,7 +661,7 @@ function setGndAutocomplete(fieldId, groupIndex) {
     $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').autocomplete({
         source: function (request, response) {
 
-            $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val('');
+            $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val("");
 
             var requestData = {};
             requestData[paramName] = request.term.replace(" ", "+");
@@ -687,8 +687,8 @@ function setGndAutocomplete(fieldId, groupIndex) {
         },
         minLength: 3,
         select: function (event, ui) {
-            gndFieldId = jQuery(event.target).data('gndfield');
-            linkedGroupIndex = jQuery(event.target).data('groupindex');
+            gndFieldId = jQuery(event.target).data("gndfield");
+            linkedGroupIndex = jQuery(event.target).data("groupindex");
             $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val(ui.item.gnd);
         },
     }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -702,39 +702,39 @@ function setGndAutocomplete(fieldId, groupIndex) {
 
 var previousNextFormPage = function() {
 
-    $('.prev-next-buttons button').click(function (e) {
-        var activePage = $('.tx-dpf-tabs').find('li a.active').parent();
+    $(".prev-next-buttons button").click(function (e) {
+        var activePage = $(".tx-dpf-tabs").find("li a.active").parent();
         var newActivePage = activePage;
 
-        if ($(this).attr('id') == 'next-form-page') {
+        if ($(this).attr("id") == "next-form-page") {
             newActivePage = activePage.next();
         } else {
             newActivePage = activePage.prev();
         }
 
         if (newActivePage.length > 0) {
-            activePage.find('a').removeClass('active');
-            activePage.find('a').attr('aria-expanded', 'false');
-            $('.tab-content').find('div.active').removeClass('active');
+            activePage.find("a").removeClass("active");
+            activePage.find("a").attr("aria-expanded", "false");
+            $(".tab-content").find("div.active").removeClass("active");
 
-            newActivePage.find('a').addClass('active');
-            newActivePage.find('a').attr('aria-expanded', 'true');
-            $('.tab-content').find(newActivePage.find('a').attr('href')).addClass('active');
+            newActivePage.find("a").addClass("active");
+            newActivePage.find("a").attr("aria-expanded", "true");
+            $(".tab-content").find(newActivePage.find("a").attr("href")).addClass("active");
 
             updatePrevNextButtons(newActivePage);
 
-            $('html, body').animate({
-                scrollTop:$('.tx-dpf').offset().top
-            },'fast');
+            $("html, body").animate({
+                scrollTop:$(".tx-dpf").offset().top
+            },"fast");
         }
 
         e.preventDefault();
 
     });
 
-    updatePrevNextButtons($('.tx-dpf-tabs a.active').parent());
+    updatePrevNextButtons($(".tx-dpf-tabs a.active").parent());
 
-    $('.tx-dpf-tabs a').click(function(){
+    $(".tx-dpf-tabs a").click(function(){
         updatePrevNextButtons($(this).parent());
     });
 
@@ -743,14 +743,14 @@ var previousNextFormPage = function() {
 var updatePrevNextButtons = function(activePage) {
 
     if (activePage.prev().length < 1) {
-        $('#prev-form-page').addClass('disabled');
+        $("#prev-form-page").addClass("disabled");
     } else {
-        $('#prev-form-page').removeClass('disabled');
+        $("#prev-form-page").removeClass("disabled");
     }
     if (activePage.next().length < 1) {
-        $('#next-form-page').addClass('disabled');
+        $("#next-form-page").addClass("disabled");
     } else {
-        $('#next-form-page').removeClass('disabled');
+        $("#next-form-page").removeClass("disabled");
     }
 }
 
