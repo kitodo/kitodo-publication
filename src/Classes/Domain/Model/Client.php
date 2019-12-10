@@ -306,11 +306,32 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $urnXpath = '';
 
     /**
-     * urnXpath
+     * namespaces
      *
      * @var string
      */
     protected $namespaces = '';
+
+    /**
+     * title xpath
+     *
+     * @var string
+     */
+    protected $titleXpath = '';
+
+    /**
+     * authors xpath
+     *
+     * @var string
+     */
+    protected $authorsXpath = '';
+
+    /**
+     * process number xpath
+     *
+     * @var string
+     */
+    protected $processNumberXpath = '';
 
     /**
      * $mypublicationsUpdateNotificationSubject

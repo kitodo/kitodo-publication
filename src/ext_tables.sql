@@ -429,6 +429,9 @@ CREATE TABLE tx_dpf_domain_model_client (
   date_xpath varchar(1024) DEFAULT '' NOT NULL,
   urn_xpath varchar(1024) DEFAULT '' NOT NULL,
   namespaces varchar(1024) DEFAULT '' NOT NULL,
+  title_xpath varchar(1024) DEFAULT '' NOT NULL,
+  authors_xpath varchar(1024) DEFAULT '' NOT NULL,
+  process_number_xpath varchar(1024) DEFAULT '' NOT NULL,
 
   sword_host varchar(255) DEFAULT '' NOT NULL,
   sword_user varchar(255) DEFAULT '' NOT NULL,

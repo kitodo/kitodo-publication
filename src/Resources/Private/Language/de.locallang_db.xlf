@@ -197,6 +197,18 @@
             <source>Namespaces ("=" prefix separator, ";" namespace separator)</source>
             <target>Namespaces ("=" Prefix Separator, ";" Namespace separator)</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.title_xpath" approved="yes">
+            <source>Title xpath</source>
+            <target>Titel XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.authors_xpath" approved="yes">
+            <source>Authors xpath</source>
+            <target>Autoren XPath</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.process_number_xpath" approved="yes">
+            <source>Process number xpath</source>
+            <target>Prozessnummer XPath</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
             <source>Type xpath input</source>
             <target>Documenttype Speicherort XPath vor Umwandlung in Internformat</target>

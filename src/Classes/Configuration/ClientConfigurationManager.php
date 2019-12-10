@@ -221,4 +221,19 @@ class ClientConfigurationManager
         return $this->getSetting("namespaces","namespaces");
     }
 
+    public function getTitleXpath()
+    {
+        return $this->getSetting("title_xpath","title_xpath");
+    }
+
+    public function getAuthorsXpath()
+    {
+        return $this->getSetting("authors_xpath","authors_xpath");
+    }
+
+    public function getProcessNumberXpath()
+    {
+        return $this->getSetting("process_number_xpath","process_number_xpath");
+    }
+
 }

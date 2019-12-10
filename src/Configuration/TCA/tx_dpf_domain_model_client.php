@@ -48,8 +48,8 @@ return array(
             admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
             suggestion_flashmessage,
             active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
-            fis_mapping,
-            file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces',
+            fis_mapping,            
+            file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -70,13 +70,13 @@ return array(
         admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,        
         suggestion_flashmessage,
         active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
-        fis_mapping,
-        file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces'
+        fis_mapping,        
+        file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
-        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input,
+        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath
         --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
@@ -580,6 +580,36 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.namespaces',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'title_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.title_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'authors_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.authors_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'process_number_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.process_number_xpath',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,

@@ -86,9 +86,14 @@ class InternalFormat
 
     public function getTitle()
     {
+        $titleXpath = $this->clientConfigurationManager->getTitleXpath();
         $xpath = $this->getXpath();
 
-        $stateList = $xpath->query(self::rootNode . "titleInfo/title");
+        if (!$titleXpath) {
+            $titleXpath = "titleInfo/title";
+        }
+
+        $stateList = $xpath->query(self::rootNode . $titleXpath);
         return $stateList->item(0)->nodeValue;
     }
 

@@ -149,6 +149,15 @@
         <trans-unit id="tx_dpf_domain_model_client.namespaces" approved="yes">
             <source>Namespaces ("=" prefix separator, ";" namespace separator</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.title_xpath" approved="yes">
+            <source>Title xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.authors_xpath" approved="yes">
+            <source>Authors xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.process_number_xpath" approved="yes">
+            <source>Process number xpath</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 		</trans-unit>
