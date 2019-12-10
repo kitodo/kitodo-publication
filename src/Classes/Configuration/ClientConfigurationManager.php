@@ -236,4 +236,19 @@ class ClientConfigurationManager
         return $this->getSetting("process_number_xpath","process_number_xpath");
     }
 
+    public function getSubmitterNameXpath()
+    {
+        return $this->getSetting("submitter_name_xpath","submitter_name_xpath");
+    }
+
+    public function getSubmitterEmailXpath()
+    {
+        return $this->getSetting("submitter_email_xpath","submitter_email_xpath");
+    }
+
+    public function getSubmitterNoticeXpath()
+    {
+        return $this->getSetting("submitter_notice_xpath","submitter_notice_xpath");
+    }
+
 }

@@ -209,6 +209,18 @@
             <source>Process number xpath</source>
             <target>Prozessnummer XPath</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
+            <source>Submitter name</source>
+            <target>Name des Erstellers</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_email" approved="yes">
+            <source>Submitter email</source>
+            <target>Email des Erstellers</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_notice" approved="yes">
+            <source>Submitter notice</source>
+            <target>Notiz des Erstellers</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
             <source>Type xpath input</source>
             <target>Documenttype Speicherort XPath vor Umwandlung in Internformat</target>

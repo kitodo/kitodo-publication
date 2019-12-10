@@ -158,6 +158,15 @@
         <trans-unit id="tx_dpf_domain_model_client.process_number_xpath" approved="yes">
             <source>Process number xpath</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
+            <source>Submitter name</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_email" approved="yes">
+            <source>Submitter email</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_notice" approved="yes">
+            <source>Submitter notice</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
 			<source>--- Please choose ---</source>
 		</trans-unit>

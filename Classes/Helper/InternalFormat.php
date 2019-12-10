@@ -227,7 +227,7 @@ class InternalFormat
 
     public function getSubmitterEmail() {
         $xpath = $this->getXpath();
-        $submitterXpath = 'submitter/mail';
+        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterEmailXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
@@ -236,7 +236,7 @@ class InternalFormat
 
     public function getSubmitterName() {
         $xpath = $this->getXpath();
-        $submitterXpath = 'submitter/name';
+        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterNameXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
@@ -245,7 +245,7 @@ class InternalFormat
 
     public function getSubmitterNotice() {
         $xpath = $this->getXpath();
-        $submitterXpath = 'submitter/notice';
+        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterNoticeXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
