@@ -54,12 +54,6 @@ class XSLTransformator
 
         $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
 
-        $domXPath->registerNamespace('mods', "http://www.loc.gov/mods/v3");
-        $domXPath->registerNamespace('slub', "http://slub-dresden.de/");
-        $domXPath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
-        $domXPath->registerNamespace('person', "http://www.w3.org/ns/person#");
-        $domXPath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-
         $documentTypeName = $domXPath->query('//' . $docTypeInput)->item(0)->nodeValue;
 
         $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
