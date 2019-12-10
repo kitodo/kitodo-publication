@@ -47,7 +47,6 @@ return array(
         '1' => array('showitem' => ''),
     ),
     'columns'   => array(
-
         'sys_language_uid'   => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
@@ -83,7 +82,6 @@ return array(
                 'type' => 'passthrough',
             ),
         ),
-
         't3ver_label'        => array(
             'label'  => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => array(
@@ -92,7 +90,6 @@ return array(
                 'max'  => 255,
             ),
         ),
-
         'hidden'             => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
@@ -132,7 +129,6 @@ return array(
                 ),
             ),
         ),
-
         'owner_id'           => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -140,7 +136,7 @@ return array(
             'config'    => array(
                 'type' => 'input',
                 'size' => 4,
-                'max' => 4,
+                'max' => 255,
                 'eval' => 'trim,required',
             ),
         ),
