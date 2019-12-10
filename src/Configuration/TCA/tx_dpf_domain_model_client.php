@@ -78,7 +78,7 @@ return array(
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
-        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath, submitter_name, submitter_email, submitter_notice
+        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath, submitter_name, submitter_email, submitter_notice,
         --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
@@ -618,7 +618,7 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'submitter_name' => array(
+        'submitter_name_xpath' => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_name',
@@ -628,7 +628,7 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'submitter_email' => array(
+        'submitter_email_xpath' => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_email',
@@ -638,7 +638,7 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'submitter_notice' => array(
+        'submitter_notice_xpath' => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_notice',

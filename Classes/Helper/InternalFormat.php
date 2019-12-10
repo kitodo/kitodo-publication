@@ -61,7 +61,7 @@ class InternalFormat
 
     public function getXpath()
     {
-        return new \DOMXPath($this->xml);
+        return $domXPath = \EWW\Dpf\Helper\XPath::create($this->xml);
     }
 
     public function getDocumentType()
@@ -69,8 +69,8 @@ class InternalFormat
         $xpath = $this->getXpath();
 
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
-
         $typeList = $xpath->query(self::rootNode . $typeXpath);
+
         return $typeList->item(0)->nodeValue;
     }
 
@@ -84,6 +84,19 @@ class InternalFormat
         return $stateList->item(0)->nodeValue;
     }
 
+    public function getProcessNumber()
+    {
+        $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
+        $xpath = $this->getXpath();
+
+        if ($processNumberXpath) {
+            $stateList = $xpath->query(self::rootNode . $processNumberXpath);
+            return $stateList->item(0)->nodeValue;
+        } else {
+            return "";
+        }
+    }
+
     public function getTitle()
     {
         $titleXpath = $this->clientConfigurationManager->getTitleXpath();
@@ -95,6 +108,21 @@ class InternalFormat
 
         $stateList = $xpath->query(self::rootNode . $titleXpath);
         return $stateList->item(0)->nodeValue;
+    }
+
+    public function getAuthors()
+    {
+        $titleXpath = $this->clientConfigurationManager->getTitleXpath();
+        $xpath = $this->getXpath();
+
+        if ($titleXpath) {
+            $stateList = $xpath->query(self::rootNode . $titleXpath);
+            return $stateList->item(0)->nodeValue;
+        } else {
+            return "";
+        }
+
+
     }
 
     public function getFiles()
