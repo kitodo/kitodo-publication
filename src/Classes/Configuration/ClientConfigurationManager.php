@@ -223,32 +223,32 @@ class ClientConfigurationManager
 
     public function getTitleXpath()
     {
-        return $this->getSetting("title_xpath","title_xpath");
+        return $this->getSetting("titleXpath","titleXpath");
     }
 
     public function getAuthorsXpath()
     {
-        return $this->getSetting("authors_xpath","authors_xpath");
+        return $this->getSetting("authorsXpath","authorsXpath");
     }
 
     public function getProcessNumberXpath()
     {
-        return $this->getSetting("process_number_xpath","process_number_xpath");
+        return $this->getSetting("processnumberXpath","processnumberXpath");
     }
 
     public function getSubmitterNameXpath()
     {
-        return $this->getSetting("submitter_name_xpath","submitter_name_xpath");
+        return $this->getSetting("submitterNameXpath","submitterNameXpath");
     }
 
     public function getSubmitterEmailXpath()
     {
-        return $this->getSetting("submitter_email_xpath","submitter_email_xpath");
+        return $this->getSetting("submitterEmailXpath","submitterEmailXpath");
     }
 
     public function getSubmitterNoticeXpath()
     {
-        return $this->getSetting("submitter_notice_xpath","submitter_notice_xpath");
+        return $this->getSetting("submitterNoticeXpath","submitterNoticeXpath");
     }
 
 }

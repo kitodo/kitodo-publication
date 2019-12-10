@@ -334,6 +334,27 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumberXpath = '';
 
     /**
+     * submitter name
+     *
+     * @var string
+     */
+    protected $submitterNameXpath = '';
+
+    /**
+     * submitter email
+     *
+     * @var string
+     */
+    protected $submitterEmailXpath = '';
+
+    /**
+     * submitter notice
+     *
+     * @var string
+     */
+    protected $submitterNoticeXpath = '';
+
+    /**
      * $mypublicationsUpdateNotificationSubject
      *
      * @var string
@@ -1522,6 +1543,102 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setNamespaces(string $namespaces)
     {
         $this->namespaces = $namespaces;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleXpath(): string
+    {
+        return $this->titleXpath;
+    }
+
+    /**
+     * @param string $titleXpath
+     */
+    public function setTitleXpath(string $titleXpath)
+    {
+        $this->titleXpath = $titleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorsXpath(): string
+    {
+        return $this->authorsXpath;
+    }
+
+    /**
+     * @param string $authorsXpath
+     */
+    public function setAuthorsXpath(string $authorsXpath)
+    {
+        $this->authorsXpath = $authorsXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcessNumberXpath(): string
+    {
+        return $this->processNumberXpath;
+    }
+
+    /**
+     * @param string $processNumberXpath
+     */
+    public function setProcessNumberXpath(string $processNumberXpath)
+    {
+        $this->processNumberXpath = $processNumberXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterNameXpath(): string
+    {
+        return $this->submitterNameXpath;
+    }
+
+    /**
+     * @param string $submitterNameXpath
+     */
+    public function setSubmitterNameXpath(string $submitterNameXpath)
+    {
+        $this->submitterNameXpath = $submitterNameXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterEmailXpath(): string
+    {
+        return $this->submitterEmailXpath;
+    }
+
+    /**
+     * @param string $submitterEmailXpath
+     */
+    public function setSubmitterEmailXpath(string $submitterEmailXpath)
+    {
+        $this->submitterEmailXpath = $submitterEmailXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterNoticeXpath(): string
+    {
+        return $this->submitterNoticeXpath;
+    }
+
+    /**
+     * @param string $submitterNoticeXpath
+     */
+    public function setSubmitterNoticeXpath(string $submitterNoticeXpath)
+    {
+        $this->submitterNoticeXpath = $submitterNoticeXpath;
     }
 
 

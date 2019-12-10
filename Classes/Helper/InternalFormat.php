@@ -230,8 +230,12 @@ class InternalFormat
         $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterEmailXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
+        if (!$dateNodes) {
+            return '';
+        } else {
+            return $dateNodes->item(0)->nodeValue;
+        }
 
-        return $dateNodes->item(0)->nodeValue;
     }
 
     public function getSubmitterName() {
@@ -240,7 +244,11 @@ class InternalFormat
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
-        return $dateNodes->item(0)->nodeValue;
+        if (!$dateNodes) {
+            return '';
+        } else {
+            return $dateNodes->item(0)->nodeValue;
+        }
     }
 
     public function getSubmitterNotice() {
@@ -249,7 +257,11 @@ class InternalFormat
 
         $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
 
-        return $dateNodes->item(0)->nodeValue;
+        if (!$dateNodes) {
+            return '';
+        } else {
+            return $dateNodes->item(0)->nodeValue;
+        }
     }
 
 }
