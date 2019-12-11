@@ -722,8 +722,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getSubmitterName()
     {
         try {
-            $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
-            return $slub->getSubmitterName();
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+            return $internalFormat->getSubmitterName();
         } catch (\Exception $exception) {
             return "";
         }

@@ -676,10 +676,6 @@ class DocumentController extends AbstractController
             $processNumber = $processNumberGenerator->getProcessNumber();
             $newDocument->setProcessNumber($processNumber);
 
-//            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-//            $slub->setProcessNumber($processNumber);
-//            $newDocument->setSlubInfoData($slub->getSlubXml());
-
             // send document to index
             $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
 

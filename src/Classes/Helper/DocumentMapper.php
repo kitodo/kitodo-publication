@@ -107,8 +107,7 @@ class DocumentMapper
 
         $documentForm->setQucosaId($qucosaId);
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
         $excludeGroupAttributes = array();
 
@@ -135,9 +134,9 @@ class DocumentMapper
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
                 if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                    $xpath = $slub->getSlubXpath();
+                    $xpath = $internalFormat->getXpath();
                 } else {
-                    $xpath = $mods->getModsXpath();
+                    $xpath = $internalFormat->getXpath();
                 }
 
                 // get fixed attributes from xpath configuration
