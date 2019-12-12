@@ -15,6 +15,7 @@ namespace EWW\Dpf\Helper;
  */
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Services\ParserGenerator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class InternalFormat
@@ -112,12 +113,16 @@ class InternalFormat
 
     public function getAuthors()
     {
-        $titleXpath = $this->clientConfigurationManager->getTitleXpath();
+        $authorsXpath = $this->clientConfigurationManager->getAuthorsXpath();
         $xpath = $this->getXpath();
 
-        if ($titleXpath) {
-            $stateList = $xpath->query(self::rootNode . $titleXpath);
-            return $stateList->item(0)->nodeValue;
+        if ($authorsXpath) {
+            $stateList = $xpath->query(self::rootNode . $authorsXpath);
+            $authorArray = [];
+            foreach ($stateList as $key => $value) {
+                $authorArray[] = $value->nodeValue;
+            }
+            return $authorArray;
         } else {
             return "";
         }
@@ -150,7 +155,14 @@ class InternalFormat
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $dateXpath);
-        $dateNodes->item(0)->nodeValue = $date;
+        if ($dateNodes->length > 0) {
+            $dateNodes->item(0)->nodeValue = $date;
+        } else {
+            $parserGenerator = new ParserGenerator();
+            $parserGenerator->setXml($this->xml->saveXML());
+            $parserGenerator->customXPath($dateXpath,true, $date);
+            $this->xml = new \DOMDocument($parserGenerator->getXMLData());
+        }
 
     }
 

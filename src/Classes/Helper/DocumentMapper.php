@@ -372,8 +372,9 @@ class DocumentMapper
 
         $document->setTitle($internalFormat->getTitle());
         $document->setEmbargoDate($formMetaData['embargo']);
-        $document->setAuthors($mods->getAuthors());
-        $document->setDateIssued($mods->getDateIssued());
+        $document->setAuthors($internalFormat->getAuthors());
+        $document->setDateIssued($internalFormat->getDateIssued());
+
 
         // slub:info
 //        $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
