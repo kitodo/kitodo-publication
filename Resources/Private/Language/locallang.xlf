@@ -299,6 +299,12 @@
 		<trans-unit id="form_button.prevPage">
 			<source>previous</source>
 		</trans-unit>
+        <trans-unit id="form_page.files">
+            <source>Files</source>
+        </trans-unit>
+        <trans-unit id="form_value.yes">
+            <source>yes</source>
+        </trans-unit>
 		<trans-unit id="form_error_msg.all">
 			<source>The form contains errors.</source>
 		</trans-unit>

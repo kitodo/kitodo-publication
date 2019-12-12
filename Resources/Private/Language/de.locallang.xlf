@@ -397,6 +397,14 @@
             <source>previous</source>
             <target>Vorherige</target>
         </trans-unit>
+        <trans-unit id="form_page.files">
+            <source>Files</source>
+            <target>Dateien</target>
+        </trans-unit>
+        <trans-unit id="form_value.yes">
+            <source>yes</source>
+            <target>ja</target>
+        </trans-unit>
 		<trans-unit id="form_error_msg.all" approved="yes">
 			<source>The form contains errors.</source>
 			<target>Das Formular enthält Fehler.</target>

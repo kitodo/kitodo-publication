@@ -696,6 +696,11 @@ class DocumentController extends AbstractController
             $this->view->assign('discardOptions', $discardOptions->getInputOptions());
         }
 
+        $mapper = $this->objectManager->get(DocumentMapper::class);
+        $documentForm = $mapper->getDocumentForm($document, false);
+
+        $this->view->assign('documentForm', $documentForm);
+
         $this->view->assign('document', $document);
     }
 

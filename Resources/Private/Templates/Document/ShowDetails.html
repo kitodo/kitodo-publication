@@ -150,30 +150,53 @@
 
     <f:flashMessages />
 
-    <ul>
-        <li>{document.title}</li>
-        <li>
-            <f:for each="{document.authors}" as="author" iteration="itemIterator">
-                {author}
-                <f:if condition="{itemIterator.isLast}">
-                    <f:then></f:then>
-                    <f:else>;</f:else>
-                </f:if>
+    <div id="details-view">
+        <ul>
+            <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
+                <li>
+                    <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
+                        <li>
+                            <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
+                                <ul>
+                                    <li class="details-group">
+                                        <span class="details-group-name">{groupItem.displayName}</span>
+                                        <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+                                            <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+                                                <f:if condition="{fieldItem.value}">
+                                                    <f:if condition="{fieldItem.displayName}">
+                                                        <span class="details-field-name">
+                                                            {fieldItem.displayName}:
+                                                        </span>
+                                                    </f:if>
+                                                    <f:render partial="ShowDetails/FieldValue" arguments="{fieldItem:fieldItem}" />
+                                                    <br />
+                                                </f:if>
+                                            </f:for>
+                                        </f:for>
+                                    </li>
+                                </ul>
+                            </f:for>
+                        <li>
+                    </f:for>
+                </li>
             </f:for>
-        </li>
-        <li>{document.objectIdentifier}</li>
-        <li>{document.documentType.displayName}</li>
-
-        <f:if condition="{document.notes}">
             <li>
-                <b>Bearbeitungsnotizen:</b><br />
-                <f:for each="{document.notes}" as="note">
-                    <f:format.nl2br>{note}</f:format.nl2br>
-                    <br /><br />
-                </f:for>
+                <f:if condition="{documentForm.primaryFile} || {documentForm.secondaryFiles}">
+                    <span class="details-group-name">{f:translate(key: 'form_page.files')}</span>
+                    <ul>
+                        <li>
+                            <f:render partial="ShowDetails/File" arguments="{file: documentForm.primaryFile}"/>
+                        </li>
+                        <f:for each="{documentForm.secondaryFiles}" as="secondaryFile" iteration="secondaryFileIterator">
+                            <li>
+                                <f:render partial="ShowDetails/File" arguments="{file: secondaryFile}"/>
+                            </li>
+                        </f:for>
+                    </ul>
+                </f:if>
             </li>
-        </f:if>
-    </ul>
+        </ul>
+    </div>
 
     <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions}" />
