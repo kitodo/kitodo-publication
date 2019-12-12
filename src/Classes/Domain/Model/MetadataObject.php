@@ -365,9 +365,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function getRelativeMapping()
     {
-        $modsRegExp = "/^.*?mods:mods/i";
-        $mapping    = preg_replace($modsRegExp, "", $this->mapping);
-        return trim($mapping, " /");
+        return trim($this->mapping, " /");
     }
 
     /**
