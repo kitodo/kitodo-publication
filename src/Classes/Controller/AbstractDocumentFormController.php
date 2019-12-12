@@ -363,6 +363,14 @@ abstract class AbstractDocumentFormController extends AbstractController
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
+        // add document to local es index
+        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
+
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+        // send document to index
+        $elasticsearchRepository->add($updateDocument, $json);
+
         $updateDocument->setChanged(true);
         $this->documentRepository->update($updateDocument);
 
