@@ -75,6 +75,23 @@ class InternalFormat
         return $typeList->item(0)->nodeValue;
     }
 
+    public function setDocumentType($type)
+    {
+        $xpath = $this->getXpath();
+        $typeXpath = $this->clientConfigurationManager->getTypeXpath();
+
+        $dateNodes = $xpath->query(self::rootNode . $typeXpath);
+        if ($dateNodes->length > 0) {
+            $dateNodes->item(0)->nodeValue = $type;
+        } else {
+            $parserGenerator = new ParserGenerator();
+            $parserGenerator->setXml($this->xml->saveXML());
+            $parserGenerator->customXPath($typeXpath,true, $type);
+            $this->xml = new \DOMDocument();
+            $this->xml->loadXML($parserGenerator->getXMLData());
+        }
+    }
+
     public function getState()
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
@@ -83,6 +100,23 @@ class InternalFormat
 
         $stateList = $xpath->query(self::rootNode . $stateXpath);
         return $stateList->item(0)->nodeValue;
+    }
+
+    public function setState($state)
+    {
+        $xpath = $this->getXpath();
+        $stateXpath = $this->clientConfigurationManager->getStateXpath();
+
+        $dateNodes = $xpath->query(self::rootNode . $stateXpath);
+        if ($dateNodes->length > 0) {
+            $dateNodes->item(0)->nodeValue = $state;
+        } else {
+            $parserGenerator = new ParserGenerator();
+            $parserGenerator->setXml($this->xml->saveXML());
+            $parserGenerator->customXPath($stateXpath,true, $state);
+            $this->xml = new \DOMDocument();
+            $this->xml->loadXML($parserGenerator->getXMLData());
+        }
     }
 
     public function getProcessNumber()
@@ -95,6 +129,23 @@ class InternalFormat
             return $stateList->item(0)->nodeValue;
         } else {
             return "";
+        }
+    }
+
+    public function setProcessNumber($processNumber)
+    {
+        $xpath = $this->getXpath();
+        $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
+
+        $dateNodes = $xpath->query(self::rootNode . $processNumberXpath);
+        if ($dateNodes->length > 0) {
+            $dateNodes->item(0)->nodeValue = $processNumber;
+        } else {
+            $parserGenerator = new ParserGenerator();
+            $parserGenerator->setXml($this->xml->saveXML());
+            $parserGenerator->customXPath($processNumberXpath,true, $processNumber);
+            $this->xml = new \DOMDocument();
+            $this->xml->loadXML($parserGenerator->getXMLData());
         }
     }
 
