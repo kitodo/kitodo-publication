@@ -13,11 +13,13 @@
     -->
 </f:comment>
 
+{namespace eww=EWW\Dpf\ViewHelpers}
+
 <f:if condition="{file.label}">
     <f:then>
-        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.label, url:file.link}"/>
+        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.label, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
     </f:then>
     <f:else>
-        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.title, url:file.link}"/>
+        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.title, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
     </f:else>
 </f:if>

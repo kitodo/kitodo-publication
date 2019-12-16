@@ -61,5 +61,10 @@ plugin.tx_dpf {
 				# cat=plugin.tx_dpf/api; type=string; label=Number of links to be shown for the pagination of the list views workspace, my publications and search results.
 				maximumNumberOfLinks = 5
 			}
+
+			development {
+				# cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
+				docker = 0
+			}
         }
 }

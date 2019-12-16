@@ -61,16 +61,34 @@ class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      */
     protected function buildFileUri($uri)
     {
-
         $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
 
-        $regex = '/\/(\w*:\d*)\/datastreams\/(\w*-\d*)/';
-        preg_match($regex, $uri, $treffer);
+        if (strpos(strtolower($uri), "datastreams")) {
+            $regex = '/\/(\w*:\d*)\/datastreams\/(\w*-\d*)/';
+            preg_match($regex, $uri, $treffer);
 
-        if (!empty($treffer)) {
-            $qid = $treffer[1];
-            $fid = $treffer[2];
-            return $uploadFileUrl->getBaseUrl() . '/api/' . urlencode($qid) . '/attachment/' . $fid;
+            if (!empty($treffer)) {
+                $qid = $treffer[1];
+                $fid = $treffer[2];
+                $uri = $uploadFileUrl->getBaseUrl() . '/api/' . urlencode($qid) . '/attachment/' . $fid;
+            }
+        }
+
+        $host = parse_url($uri, PHP_URL_HOST);
+
+        // If in docker (development) mode: IP address needs to be replaced by "localhost", since docker container IP addresses
+        // are not reachable from TYPO3 frontend.
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $settings = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+        if (
+            $settings['development']['docker'] && (
+                $host == '127.0.0.1' ||
+                !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                )
+            )
+        ) {
+            $uri = str_replace($host, "localhost", $uri);
         }
 
         return $uri;

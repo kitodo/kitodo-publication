@@ -97,7 +97,11 @@ plugin.tx_dpf {
 			documentListPagination {
 				maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
 			}
-		}
+
+			development {
+				docker = {$plugin.tx_dpf.settings.development.docker};
+			}
+        }
 }
 
 

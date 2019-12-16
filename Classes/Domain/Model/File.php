@@ -368,4 +368,23 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this;
     }
 
+    /**
+     * Gets the full url of the file.
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        $url = $this->getLink();
+
+        if (strpos(strtolower($url), "datastreams") === false) {
+            // File is a locally uploaded file, therefor we need to
+            // determine the path
+            $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
+            $fileName = pathInfo($url, PATHINFO_BASENAME);
+            $url = $uploadFileUrl->getUploadUrl() . "/" . $fileName;
+        }
+
+        return $url;
+    }
 }
