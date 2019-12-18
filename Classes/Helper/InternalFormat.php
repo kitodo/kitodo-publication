@@ -188,7 +188,6 @@ class InternalFormat
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
 
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
-
         $files = [];
 
         foreach ($fileNodes as $file) {
@@ -198,6 +197,8 @@ class InternalFormat
             }
             $files[] = $fileAttrArray;
         }
+
+        return $files;
 
     }
 
