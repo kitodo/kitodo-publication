@@ -233,8 +233,8 @@ class DocumentTransferManager
 
         if ($remoteXml) {
 
-            $exporter = new \EWW\Dpf\Services\ParserGenerator();
-            $inputTransformedXML = $exporter->transformInputXML($remoteXml);
+            $XSLTransformator = new XSLTransformator();
+            $inputTransformedXML = $XSLTransformator->transformInputXML($remoteXml);
 
             $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
 
