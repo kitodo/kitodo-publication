@@ -84,6 +84,7 @@ class XSLTransformator
         $ownerId = $this->clientConfigurationManager->getOwnerId();
         $documentType = $document->getDocumentType();
         $transformationFile = $documentType->getTransformationFileOutput()->toArray()[0];
+
         if ($transformationFile != NULL) {
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
@@ -109,7 +110,7 @@ class XSLTransformator
 
         } else {
             // return generated xml if no transformation file is present
-            $transformedXml = $this->getXMLData();
+            $transformedXml = $document->getXmlData();
         }
 
         return $transformedXml;

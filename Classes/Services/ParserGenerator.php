@@ -150,7 +150,7 @@ class ParserGenerator
     public function getTransformedOutputXML($document)
     {
         $XSLTransformator = new XSLTransformator();
-        return $XSLTransformator->getTransformedOutputXML($document, $this->getXMLData());
+        return $XSLTransformator->getTransformedOutputXML($document);
     }
 
 

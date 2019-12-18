@@ -16,6 +16,10 @@ namespace EWW\Dpf\Services\Transfer;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Helper\XSLTransformator;
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
@@ -113,9 +117,13 @@ class DocumentTransferManager
 
         $exporter->setObjId($document->getObjectIdentifier());
 
-        $transformedXml = $exporter->getTransformedOutputXML($document);
+//        $document->setXmlData($internalFormat->getXml());
+
+        $XSLTransformator = new XSLTransformator();
+        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
         $remoteDocumentId = $this->remoteRepository->ingest($document, $transformedXml);
+
 
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
