@@ -349,9 +349,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getRelativeModsExtensionMapping()
     {
-        $modsRegExp = "/^.*?mods:mods/i";
-        $mapping    = preg_replace($modsRegExp, "", $this->modsExtensionMapping);
-        return trim($mapping, " /");
+//        $modsRegExp = "/^.*?mods:mods/i";
+//        $mapping    = preg_replace($modsRegExp, "", $this->modsExtensionMapping);
+        return trim($this->modsExtensionMapping, " /");
     }
 
     /**

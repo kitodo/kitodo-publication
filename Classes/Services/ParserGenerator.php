@@ -171,24 +171,50 @@ class ParserGenerator
             $attributes = $group['attributes'];
 
             $attributeXPath     = '';
+            $extensionAttribute = '';
             foreach ($attributes as $attribute) {
-                $attributeXPath .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
+                if (!$attribute["modsExtension"]) {
+                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
+                } else {
+                    $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
+                }
+
             }
 
-            $i = 0;
+            // mods extension
+            if ($group['modsExtensionMapping']) {
+                $counter = sprintf("%'03d", $this->counter);
+                $attributeXPath .= '[@ID="QUCOSA_' . $counter . '"]';
+            }
+
+            $existsExtensionFlag = false;
+            $i                   = 0;
             // loop each object
             if (!empty($values)) {
                 foreach ($values as $value) {
-                    $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
 
-                    if ($i == 0) {
-                        $newGroupFlag = true;
+                    if ($value['modsExtension']) {
+                        $existsExtensionFlag = true;
+                        // mods extension
+                        $counter            = sprintf("%'03d", $this->counter);
+                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
+
+                        $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
+
+                        $xml = $this->customXPath($path, false, $value['value']);
                     } else {
-                        $newGroupFlag = false;
-                    }
+                        $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
+
+                        if ($i == 0) {
+                            $newGroupFlag = true;
+                        } else {
+                            $newGroupFlag = false;
+                        }
 
                     $this->customXPath($path, $newGroupFlag, $value['value']);
                     $i++;
+
+                    }
 
                 }
             } else {
@@ -196,6 +222,13 @@ class ParserGenerator
                     $path = $mapping . $attributeXPath;
                     $this->customXPath($path, true, '', true);
                 }
+            }
+            if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
+                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
+                $xml   = $this->customXPath($xPath, true, '', true);
+            }
+            if ($group['modsExtensionMapping']) {
+                $this->counter++;
             }
         }
 
@@ -361,7 +394,6 @@ class ParserGenerator
 
                     $node->appendChild($importNode);
                 }
-
                 $domNode2 = $domXPath2->query('//' . $path)->item(0)->childNodes->item(0);
 
                 // merge xml nodes
