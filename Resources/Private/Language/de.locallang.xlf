@@ -313,6 +313,10 @@
             <source>Access denied!</source>
             <target>Zugriff verweigert!</target>
         </trans-unit>
+        <trans-unit id="error.retrieve_failed" approved="yes">
+            <source>Retrieve failed. Title or document type wasn't found.</source>
+            <target>Laden des Dokuments fehlgeschlagen. Titel oder Dokumenttyp nicht gefunden</target>
+        </trans-unit>
 		<trans-unit id="form_button.addFile" approved="yes">
 			<source>add file</source>
 			<target>Weitere Datei hinzufügen</target>
