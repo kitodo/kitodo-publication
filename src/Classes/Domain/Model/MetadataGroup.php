@@ -284,11 +284,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteMapping()
     {
-        if ($this->isSlubInfo($this->getMapping())) {
-            return "/slub:info/" . $this->getRelativeMapping();
-        } else {
-            return "/data/" . $this->getRelativeMapping();
-        }
+        return "/data/" . $this->getRelativeMapping();
     }
 
     /**
@@ -298,11 +294,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteMappingForReading()
     {
-        if ($this->isSlubInfo($this->getMappingForReading())) {
-            return "/slub:info/" . $this->getRelativeMappingForReading();
-        } else {
-            return "/data/" . $this->getRelativeMappingForReading();
-        }
+        return "/data/" . $this->getRelativeMappingForReading();
     }
 
     /**

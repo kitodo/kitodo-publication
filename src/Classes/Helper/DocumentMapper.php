@@ -475,11 +475,7 @@ class DocumentMapper
                     }
 
                     if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount) {
-                        if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                            $form['slubInfo'][] = $item;
-                        } else {
-                            $form['mods'][] = $item;
-                        }
+                        $form['mods'][] = $item;
                     }
 
                 }
