@@ -24,7 +24,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
                     <f:if condition="{document.state} != 'IN_PROGRESS:ACTIVE' || {document.temporary} == 0">
                         <f:link.action action="releaseActivate" arguments="{document : document, tstamp : document.tstamp}"
                                        class="btn
@@ -37,7 +37,7 @@
                     </f:if>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE_PUBLISH')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_PUBLISH')}">
                     <f:link.action action="releasePublish" arguments="{document : document, tstamp : document.tstamp}"
                                    class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
                                    additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
@@ -47,7 +47,7 @@
                 </f:if>
 
                 <f:comment>
-                    <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_RELEASE_UPDATE')}">
+                    <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_UPDATE')}">
                         <f:link.action action="releaseUpdate" arguments="{document : document, tstamp : document.tstamp}"
                                        class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
                                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleaseUpdate'}">
@@ -57,7 +57,7 @@
                     </f:if>
                 </f:comment>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_MODIFICATION')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGEST_MODIFICATION')}">
                     <f:link.action
                             action="suggestModification"
                             controller="Document"
@@ -69,20 +69,20 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_REGISTER')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_REGISTER')}">
                     <f:link.action
                             action="register"
                             controller="Document"
                             arguments="{document:document}"
                             class="btn btn-sm btn-success
-                                        {f:if(condition: '{dpf:canAccess(subject:\'{document}\', attribute:\'DOCUMENT_REGISTER\')}', then: '', else: 'disabled')}"
+                                        {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_REGISTER\')}', then: '', else: 'disabled')}"
                             additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRegister'}">
                         <i class="fas fa-share"></i>
                         {f:translate(key: 'form_button.register')}
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
                     <f:if condition="{document.state} != 'IN_PROGRESS:INACTIVE' || {document.temporary} == 0">
                         <f:link.action
                                 action="postpone"
@@ -96,7 +96,7 @@
                         </f:link.action>
                     </f:if>
                 </f:if>
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
                     <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.temporary} == 0">
                         <f:link.action
                                 action="discard"
@@ -111,7 +111,7 @@
                     </f:if>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
                     <f:link.action
                             action="deleteLocally"
                             controller="Document"
@@ -123,7 +123,7 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
                             action="deleteLocally"
                             controller="Document"
@@ -136,7 +136,7 @@
                 </f:if>
 
 <f:comment>
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
                     <f:link.action
                             action="suggestRestore"
                             controller="Document"
@@ -148,7 +148,7 @@
                 </f:if>
 </f:comment>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
                     <f:link.action
                             action="edit"
                             controller="DocumentFormBackoffice"

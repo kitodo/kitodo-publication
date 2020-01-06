@@ -483,10 +483,4 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         return $query;
     }
-
-    public function initializeAction()
-    {
-        parent::initializeAction();
-    }
-
 }

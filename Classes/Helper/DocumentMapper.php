@@ -88,7 +88,7 @@ class DocumentMapper
         );
 
         $documentForm->setProcessNumber($document->getProcessNumber());
-        $documentForm->setTemporary($document->getTemporary());
+        $documentForm->setTemporary($document->isTemporary());
 
         $qucosaId = $document->getObjectIdentifier();
 

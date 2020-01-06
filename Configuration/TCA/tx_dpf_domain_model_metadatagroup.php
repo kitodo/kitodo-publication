@@ -160,8 +160,8 @@ return array(
                 'maxitems' => 1,
                 'items' => array(
                     array('',''),
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_yes','1'),
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_file_only','FILE_ONLY'),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_yes', \EWW\Dpf\Domain\Model\MetadataMandatoryInterface::MANDATORY),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mandatory_file_only', \EWW\Dpf\Domain\Model\MetadataMandatoryInterface::MANDATORY_FILE_ONLY),
                 ),
             ),
         ),
@@ -222,8 +222,8 @@ return array(
                 'size' => 2,
                 'maxitems' => 2,
                 'items' => array(
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER),
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\Security::ROLE_RESEARCHER),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\Security::ROLE_LIBRARIAN),
                 ),
             ),
         ),

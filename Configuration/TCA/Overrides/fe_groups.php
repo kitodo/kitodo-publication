@@ -26,11 +26,11 @@ $temporaryColumns = array (
             array('', ''),
             array(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher',
-                \EWW\Dpf\Security\AuthorizationChecker::ROLE_RESEARCHER
+                \EWW\Dpf\Security\Security::ROLE_RESEARCHER
             ),
             array(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian',
-                \EWW\Dpf\Security\AuthorizationChecker::ROLE_LIBRARIAN
+                \EWW\Dpf\Security\Security::ROLE_LIBRARIAN
             ),
         ),
             'size' => 1,

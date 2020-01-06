@@ -14,24 +14,43 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+
 class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
+     * Maps the internal states to more user friendly and localized state names.
      *
      * @param string $status
      * @param boolean $remote
-     *
+     * @return string
      */
     public function render($status, $remote = FALSE)
     {
-        return $status;
+        // A,I and D are the states returned by a repository search.
+        // The other states are the ones used in the document table.
+        $statusMapping = [
+            "A" => 'released',
+            "I" => 'postponed',
+            "D" => 'discarded',
+            DocumentWorkflow::STATE_NEW_NONE => "new",
+            DocumentWorkflow::STATE_REGISTERED_NONE => "registered",
+            DocumentWorkflow::STATE_POSTPONED_NONE => "postponed",
+            DocumentWorkflow::STATE_DISCARDED_NONE => "discarded",
+            DocumentWorkflow::STATE_IN_PROGRESS_NONE => "inProgress",
+            DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => "in_progress",
+            DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => "in_progress",
+            DocumentWorkflow::STATE_IN_PROGRESS_DELETED => "in_progress",
+        ];
 
-        if ($remote) {
-            $key = 'manager.document.remoteStatus.'.strtolower($status);
-        } else {
-            $key = 'manager.document.localStatus.'.strtolower($status);
+        if (array_key_exists($status, $statusMapping)) {
+            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                "manager.documentList.state.".$statusMapping[$status],
+                'dpf',
+                $arguments = null
+            );
         }
-        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $arguments = null);
+
+        return "-";
     }
 }

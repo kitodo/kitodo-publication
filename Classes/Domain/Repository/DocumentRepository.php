@@ -15,6 +15,7 @@ namespace EWW\Dpf\Domain\Repository;
  */
 
 use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use \EWW\Dpf\Security\Security;
 
 /**
  * The repository for Documents
@@ -23,104 +24,100 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
 
     /**
+     * Finds all documents of the given user role filtered by owner uid
      *
-     * Finds all documents filtered by owner uid for user role librarian
-     *
+     * @param string role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
      * @param int $ownerUid
      * @param array $stateFilters
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllOfALibrarian($ownerUid, $stateFilters = array())
+    public function findAllByRole($role, $ownerUid, $stateFilters = array())
     {
         $query = $this->createQuery();
         $constraintsOr = array();
         $constraintsAnd = array();
 
-        $constraintsOr[] = $query->logicalAnd(
-            array(
+        switch ($role) {
+
+            case Security::ROLE_LIBRARIAN:
+
+                $constraintsOr[] = $query->logicalAnd(
+                array(
                 $query->equals('state', DocumentWorkflow::STATE_NEW_NONE),
                 $query->equals('owner', $ownerUid)
-            )
-        );
+                )
+                );
 
-        $constraintsOr[] = $query->logicalAnd(
-            $query->logicalNot(
+                $constraintsOr[] = $query->logicalAnd(
+                $query->logicalNot(
                 $query->equals('state', DocumentWorkflow::STATE_NEW_NONE)
-            )
-        );
+                )
+                );
 
-        $constraintsAnd[] = $query->logicalOr($constraintsOr);
+                $constraintsAnd[] = $query->logicalOr($constraintsOr);
 
-        if ($stateFilters) {
-            $constraintsAnd[] = $query->in('state', $stateFilters);
+                if ($stateFilters) {
+                $constraintsAnd[] = $query->in('state', $stateFilters);
+                }
+
+                $constraintsAnd[] = $query->equals('suggestion', false);
+
+                break;
+
+            case Security::ROLE_RESEARCHER:
+
+                $constraintsAnd = array(
+                    $query->equals('owner', $ownerUid),
+                    $query->equals('suggestion', 0)
+                );
+
+                if ($stateFilters) {
+                    $constraintsAnd[] = $query->in('state', $stateFilters);
+                }
+
+                break;
         }
 
-        $constraintsAnd[] = $query->equals('suggestion', false);
-
-        $constraintsAnd[] = $query->equals('temporary', FALSE);
+        $constraintsAnd[] = $query->equals('temporary', false);
         $query->matching($query->logicalAnd($constraintsAnd));
 
         $query->setOrderings(
             array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
-        return $query->execute();
-    }
-
-    public function findAllLibrarianDocumentSuggestions($ownerUid) {
-        $query = $this->createQuery();
-
-        $query->matching(
-            $query->equals('suggestion', true)
-        );
-
-        return $query->execute();
-    }
-
-    public function findAllResearcherDocumentSuggestions($ownerUid) {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd(
-                array(
-                    $query->equals('suggestion', true),
-                    $query->equals('owner', $ownerUid)
-                )
-            )
         );
 
         return $query->execute();
     }
 
     /**
+     * Finds all suggestion documents of the given user role filtered by owner uid
      *
-     * Finds all documents filtered by owner uid for user role researcher
-     *
+     * @param string $role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
      * @param int $ownerUid
-     * @param array $stateFilters
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findAllOfAResearcher($ownerUid, $stateFilters = array())
-    {
+    public function findAllDocumentSuggestions($role, $ownerUid) {
         $query = $this->createQuery();
 
-        $constraintsAnd = array(
-            $query->equals('owner', $ownerUid),
-            $query->equals('suggestion', 0)
-        );
+        switch ($role) {
 
-        if ($stateFilters) {
-            $constraintsAnd[] = $query->in('state', $stateFilters);
+            case Security::ROLE_LIBRARIAN:
+                $query->matching(
+                    $query->equals('suggestion', true)
+                );
+                break;
+
+            case Security::ROLE_RESEARCHER:
+                $query->matching(
+                    $query->logicalAnd(
+                        array(
+                            $query->equals('suggestion', true),
+                            $query->equals('owner', $ownerUid)
+                        )
+                    )
+                );
+                break;
         }
-
-        $constraintsAnd[] = $query->equals('temporary', FALSE);
-        $query->matching($query->logicalAnd($constraintsAnd));
-
-        $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
         return $query->execute();
     }
 
@@ -189,7 +186,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     /**
      * Finds all outdated temporary documents,
      *
-     * @param integer $timeout
+     * @param integer $timeout : Time interval (in seconds) in which documents are not outdated.
      * @return array The found Document Objects
      */
     public function findOutdatedTemporaryDocuments($timeout = 3600)
@@ -215,7 +212,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     /**
      * Finds all outdated locked documents,
      *
-     * @param integer $timeout
+     * @param integer $timeout : Time interval (in seconds) in which documents are not outdated.
      * @return array The found Document Objects
      */
     public function findOutdatedLockedDocuments($timeout = 3600)

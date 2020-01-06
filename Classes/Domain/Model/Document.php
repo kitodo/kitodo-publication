@@ -737,29 +737,35 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->state = $state;
     }
 
-    public function getRemoteState() {
-        return explode(':', $this->state)[1];
+    public function getRemoteState()
+    {
+        $state = explode(':', $this->state);
+        if (is_array($state) && array_key_exists(1)) {
+            return $state[1];
+        }
+        return DocumentWorkflow::REMOTE_STATE_NONE;
     }
 
     public function getLocalState() {
-        return explode(':', $this->state)[0];
+        $state = explode(':', $this->state);
+        if (is_array($state) && array_key_exists(0)) {
+            return $state[0];
+        }
+        return DocumentWorkflow::LOCAL_STATE_NONE;
     }
 
     /**
+     * Returns if a document is a temporary document.
+     *
      * @return boolean $temporary
      */
-    public function getTemporary() {
+    public function isTemporary() {
         return $this->temporary;
     }
 
     /**
-     * @return boolean $temporary
-     */
-    public function isTemporary() {
-        return $this->getTemporary();
-    }
-
-    /**
+     * Sets if a document is a temporary document or not.
+     *
      * @param boolean $temporary
      * @return void
      */
@@ -857,8 +863,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->comment = $comment;
     }
 
-
-    public function copy($documentToCopy) {
+    /**
+     * Copies the data of the given document object into the current document object.
+     *
+     * @param Document $documentToCopy
+     * @return $this
+     * @throws \TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException
+     */
+    public function copy(Document $documentToCopy) {
         $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($documentToCopy);
         $newDocument = $this;
 

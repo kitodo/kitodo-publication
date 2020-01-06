@@ -17,7 +17,7 @@ namespace EWW\Dpf\Domain\Model;
 /**
  * MetadataGroup
  */
-class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements MetadataMandatoryInterface
 {
 
     /**

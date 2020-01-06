@@ -294,45 +294,15 @@ class DocumentTransferManager
      */
     public function delete($document, $state)
     {
+        if ($state == "revert" || $state == "inactivate") {
+            return $this->remoteRepository->delete($document, $state);
+        }
 
-        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
-        //$this->documentRepository->update($document);
+        // remove document from local index
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+        $elasticsearchRepository->delete($document, $state);
 
-            switch ($state) {
-                case "revert":
-                    if ($this->remoteRepository->delete($document, $state)) {
-                        //$document->setTransferStatus(Document::TRANSFER_SENT);
-                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
-                        //$this->documentRepository->update($document);
-                        return true;
-                    }
-                    break;
-                case "inactivate":
-                    if ($this->remoteRepository->delete($document, $state)) {
-                        //$document->setTransferStatus(Document::TRANSFER_SENT);
-                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
-                        //$this->documentRepository->update($document);
-                        return true;
-                    }
-                    break;
-                default:
-                    // remove document from local index
-                    $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-                    $elasticsearchRepository->delete($document, $state);
-
-                    if ($this->remoteRepository->delete($document, $state)) {
-                        //$document->setTransferStatus(Document::TRANSFER_SENT);
-                        //$document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
-                        //$this->documentRepository->update($document);
-                        //$this->documentRepository->remove($document);
-                        return true;
-                    }
-                    break;
-            }
-
-            //$document->setTransferStatus(Document::TRANSFER_ERROR);
-            //$this->documentRepository->update($document);
-            return false;
+        return $this->remoteRepository->delete($document, $state);
     }
 
     public function getNextDocumentId()

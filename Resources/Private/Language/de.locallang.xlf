@@ -601,18 +601,6 @@
             <source>Suggestion details.</source>
             <target>Details zum Änderungsvorschlag</target>
         </trans-unit>
-		<trans-unit id="manager.document.remoteStatus.active" approved="yes">
-			<source>Active</source>
-			<target>Aktiv</target>
-		</trans-unit>
-		<trans-unit id="manager.document.remoteStatus.inactive" approved="yes">
-			<source>Inactive</source>
-			<target>Inaktiv</target>
-		</trans-unit>
-		<trans-unit id="manager.document.remoteStatus.deleted" approved="yes">
-			<source>Deleted</source>
-			<target>Gelöscht</target>
-		</trans-unit>
 		<trans-unit id="manager.document.localStatus.new" approved="yes">
 			<source>New</source>
 			<target>Eingestellt</target>
@@ -645,6 +633,30 @@
 			<source>Type</source>
 			<target>Typ</target>
 		</trans-unit>
+        <trans-unit id="manager.documentList.state.new" approved="yes">
+            <source>New</source>
+            <target>Eingestellt</target>
+        </trans-unit>
+        <trans-unit id="manager.documentList.state.registered" approved="yes">
+            <source>Registered</source>
+            <target>Gemeldet</target>
+        </trans-unit>
+		<trans-unit id="manager.documentList.state.released" approved="yes">
+			<source>Released</source>
+			<target>Veröffentlicht</target>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.postponed" approved="yes">
+			<source>Postponed</source>
+			<target>Zurückgestellt</target>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.discarded" approved="yes">
+			<source>Discarded</source>
+			<target>Verworfen</target>
+		</trans-unit>
+        <trans-unit id="manager.documentList.state.in_progress" approved="yes">
+            <source>In progress</source>
+            <target>In Bearbeitung</target>
+        </trans-unit>
 		<trans-unit id="manager.doublet" approved="yes">
 			<source>Doublet Check</source>
 			<target>Doubletten-Check</target>

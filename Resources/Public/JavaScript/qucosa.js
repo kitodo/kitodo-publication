@@ -143,9 +143,9 @@ var validateForm = function() {
     });
 
     // check mandatory groups
-    var search = 'fieldset[data-mandatory="1"]';
+    var search = 'fieldset[data-mandatory="'+constants['mandatory']+'"]';
     if (hasFiles()) {
-        search = search + ',fieldset[data-mandatory="FILE_ONLY"]';
+        search = search + ',fieldset[data-mandatory="'+constants['mandatory_file_only']+'"]';
     }
     jQuery(search).each(function() {
         var fieldset = jQuery(this);
@@ -286,9 +286,9 @@ var hasFiles = function() {
 }
 
 var hasMandatoryInputs = function(fieldset) {
-    var search = '.input-field[data-mandatory="1"]';
+    var search = '.input-field[data-mandatory="'+constants['mandatory']+'"]';
     if (hasFiles()) {
-        search = search + ',.input-field[data-mandatory="FILE_ONLY"]';
+        search = search + ',.input-field[data-mandatory="'+constants['mandatory_file_only']+'"]';
     }
     var inputs = fieldset.find(search);
     return inputs.length > 0
@@ -304,9 +304,9 @@ var markPage = function(fieldset, error) {
 }
 var checkMandatoryInputs = function(fieldset) {
     var mandatoryError = false;
-    var search = '.input-field[data-mandatory="1"]';
+    var search = '.input-field[data-mandatory="'+constants['mandatory']+'"]';
     if (hasFiles()) {
-        search = search + ',.input-field[data-mandatory="FILE_ONLY"]';
+        search = search + ',.input-field[data-mandatory="'+constants['mandatory_file_only']+'"]';
     }
     fieldset.find(search).each(function() {
         var id = jQuery(this).attr("id");

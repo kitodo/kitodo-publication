@@ -276,7 +276,7 @@ class DocumentVoter extends Voter
      */
     protected function canShowDetails($document)
     {
-        if ($document->getTemporary() && $this->isDocumentLocked($document)) {
+        if ($document->isTemporary() && $this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -325,7 +325,7 @@ class DocumentVoter extends Voter
      */
     protected function canReleasePublish($document)
     {
-        if ($document->getTemporary() || $this->isDocumentLocked($document)) {
+        if ($document->isTemporary() || $this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -348,7 +348,7 @@ class DocumentVoter extends Voter
         }
 
         if (
-            $document->getTemporary() &&
+            $document->isTemporary() &&
             $document->getEditorUid() !== $this->security->getUser()->getUid()
         ) {
             return FALSE;
@@ -374,7 +374,7 @@ class DocumentVoter extends Voter
         }
 
         if (
-            $document->getTemporary() &&
+            $document->isTemporary() &&
             $document->getEditorUid() !== $this->security->getUser()->getUid()
         ) {
             return FALSE;
@@ -395,7 +395,7 @@ class DocumentVoter extends Voter
      */
     protected function canDeleteLocally($document)
     {
-        if ($document->getTemporary() || $this->isDocumentLocked($document)) {
+        if ($document->isTemporary() || $this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -421,7 +421,7 @@ class DocumentVoter extends Voter
      */
     protected function canDeleteWorkingCopy($document)
     {
-        if ($document->getTemporary() || $this->isDocumentLocked($document)) {
+        if ($document->isTemporary() || $this->isDocumentLocked($document)) {
             return FALSE;
         }
 

@@ -362,12 +362,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $this->redirectToList();
     }
 
-    public function initializeAction()
-    {
-        parent::initializeAction();
-    }
-
-    protected function redirectAfterUpdate($document)
+    protected function redirectAfterUpdate()
     {
         $this->redirect('list');
     }

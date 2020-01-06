@@ -16,6 +16,7 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentFormGroup;
+use EWW\Dpf\Domain\Model\MetadataMandatoryInterface;
 
 
 class DocumentValidator
@@ -47,8 +48,8 @@ class DocumentValidator
         foreach ($group->getItems() as $fields) {
             foreach ($fields as $field) {
                 switch ($group->getMandatory()) {
-                    case '1':
-                    case 'FILE_ONLY':
+                    case MetadataMandatoryInterface::MANDATORY:
+                    case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
                         if ($field->getValue()) {
                             return TRUE;
                         }
@@ -76,10 +77,10 @@ class DocumentValidator
         foreach ($group->getItems() as $fields) {
             foreach ($fields as $field) {
                 switch ($field->getMandatory()) {
-                    case '1':
+                    case MetadataMandatoryInterface::MANDATORY:
                         if (!$field->getValue()) return FALSE;
                         break;
-                    case 'FILE_ONLY':
+                    case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
                         if ($hasFiles && !$field->getValue()) return FALSE;
                         break;
                 }
@@ -98,9 +99,9 @@ class DocumentValidator
     protected function hasAllMandatoryGroupValues(DocumentFormGroup $group, $hasFiles)
     {
         switch ($group->getMandatory()) {
-            case '1':
+            case MetadataMandatoryInterface::MANDATORY:
                 return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles);
-            case 'FILE_ONLY':
+            case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
                 if ($hasFiles) {
                     return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles);
                 }

@@ -14,6 +14,10 @@ namespace EWW\Dpf\Services\Email;
  * The TYPO3 project - inspiring people to share!
  */
 
+use \TYPO3\CMS\Core\Log\LogLevel;
+use \TYPO3\CMS\Core\Log\LogManager;
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class Notifier
 {
 
@@ -33,6 +37,7 @@ class Notifier
      * @inject
      */
     protected $documentTypeRepository = null;
+
 
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
@@ -98,7 +103,17 @@ class Notifier
                 $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
 
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
 
     }
 
@@ -145,7 +160,17 @@ class Notifier
 
                 $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendIngestNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
 
     }
 
@@ -195,7 +220,17 @@ class Notifier
 
             }
 
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
 
     }
 

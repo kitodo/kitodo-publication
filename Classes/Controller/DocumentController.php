@@ -466,7 +466,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
                         ]
                     )
                 ) {
-                    if ($document->getTemporary()) {
+                    if ($document->isTemporary()) {
                         $noNewerVersion = $this->documentTransferManager->getLastModDate($document->getObjectIdentifier()) === $document->getRemoteLastModDate();
                     } else {
                         $noNewerVersion = $tstamp === $document->getTstamp();
@@ -559,7 +559,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
                     ]
                 )
             ) {
-                if ($document->getTemporary()) {
+                if ($document->isTemporary()) {
                     $noNewerVersion = $this->documentTransferManager->getLastModDate($document->getObjectIdentifier()) === $document->getRemoteLastModDate();
                 } else {
                     $noNewerVersion = $tstamp === $document->getTstamp();
@@ -1018,37 +1018,25 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected function getListViewData($stateFilters = array(), bool $suggestionsOnly = false)
     {
-        switch ($this->security->getUserRole()) {
+        $documents = NULL;
+        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
 
-            case Security::ROLE_LIBRARIAN:
-                if ($suggestionsOnly) {
-                    $documents = $this->documentRepository->findAllLibrarianDocumentSuggestions(
-                        $this->security->getUser()->getUid()
-                    );
-                } else {
-                    $documents = $this->documentRepository->findAllOfALibrarian(
-                        $this->security->getUser()->getUid(),
-                        $stateFilters
-                    );
-                }
-                $isWorkspace = TRUE;
-                break;
-
-            case Security::ROLE_RESEARCHER;
-                if ($suggestionsOnly) {
-                    $documents = $this->documentRepository->findAllResearcherDocumentSuggestions(
-                        $this->security->getUser()->getUid()
-                    );
-                } else {
-                    $documents = $this->documentRepository->findAllOfAResearcher(
-                        $this->security->getUser()->getUid(),
-                        $stateFilters
-                    );
-                }
-                break;
-
-            default:
-                $documents = NULL;
+        if (
+            $this->security->getUserRole() == Security::ROLE_LIBRARIAN ||
+            $this->security->getUserRole() == Security::ROLE_RESEARCHER
+        ) {
+            if ($suggestionsOnly) {
+                $documents = $this->documentRepository->findAllDocumentSuggestions(
+                    $this->security->getUserRole(),
+                    $this->security->getUser()->getUid()
+                );
+            } else {
+                $documents = $this->documentRepository->findAllByRole(
+                    $this->security->getUserRole(),
+                    $this->security->getUser()->getUid(),
+                    $stateFilters
+                );
+            }
         }
 
         return array(
@@ -1057,6 +1045,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         );
     }
 
+    /**
+     * Gets the storage PID of the current client
+     *
+     * @return mixed
+     */
     protected function getStoragePID()
     {
         return $this->settings['persistence']['classes']['EWW\Dpf\Domain\Model\Document']['newRecordStoragePid'];

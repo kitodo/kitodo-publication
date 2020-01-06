@@ -23,7 +23,7 @@
         <h1 class="h2">{f:translate(key: 'manager.document.suggestionDetails')}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_SUGGESTION_ACCEPT')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGESTION_ACCEPT')}">
                     <f:link.action
                             action="acceptSuggestion"
                             controller="Document"
@@ -34,7 +34,7 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:canAccess(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
                             action="deleteLocally"
                             controller="Document"

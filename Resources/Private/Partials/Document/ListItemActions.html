@@ -50,7 +50,7 @@
         action="uploadFiles"
         arguments="{document : document}"
         class="btn btn-sm btn-outline-secondary
-            {f:if(condition: '{dpf:canAccess(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
+            {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
         title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
         additionalAttributes="{data-toggle: 'tooltip' }">
     <i class="fas fa-file-upload"></i>

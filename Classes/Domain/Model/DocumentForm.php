@@ -229,17 +229,17 @@ class DocumentForm extends AbstractFormElement
     }
 
     /**
-     * Getss the temporary
+     * Returns if a document is a temporary document.
      *
      * @return bool
      */
-    public function getTemporary()
+    public function isTemporary()
     {
         return $this->temporary;
     }
 
     /**
-     * Sets the temporary
+     * Sets if a document is a temporary document or not.
      * @param bool $temporary
      */
     public function setTemporary($temporary)

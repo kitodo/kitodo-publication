@@ -47,7 +47,7 @@
     </p>
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
+            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
@@ -82,7 +82,7 @@
                                     <f:then>
                                         <f:form.button name="saveSuggestion" id="saveSuggestion"
                                                        class="btn btn-lg btn-success"
-                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
                                                        value="suggestModification">
                                             <i class="fas fa-check"></i>
                                             {f:translate(key: 'form_button.saveSuggestion')}
@@ -91,13 +91,13 @@
                                     <f:else>
                                         <f:form.button name="saveAndUpdate" id="saveAndUpdate"
                                                        class="btn btn-lg btn-success"
-                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}">
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}">
                                             <i class="fas fa-check"></i>
                                             {f:translate(key: 'form_button.saveAndUpdate')}
                                         </f:form.button>
                                         <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
                                                        class="btn btn-lg btn-success"
-                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
                                                        value="workingCopy">
                                             <i class="fas fa-check"></i>
                                             {f:translate(key: 'form_button.saveWorkingCopy')}
@@ -110,7 +110,7 @@
                                     <f:then>
                                         <f:form.button name="saveSuggestion" id="saveSuggestion"
                                                        class="btn btn-lg btn-success"
-                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
                                                        value="suggestModification">
                                             <i class="fas fa-check"></i>
                                             {f:translate(key: 'form_button.saveSuggestion')}
@@ -119,7 +119,7 @@
                                     <f:else>
                                         <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
                                                        class="btn btn-lg btn-success"
-                                                       disabled="{f:if(condition: '{dpf:canAccess(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
                                                        value="workingCopy">
                                             <i class="fas fa-check"></i>
                                             {f:translate(key: 'form_button.save')}

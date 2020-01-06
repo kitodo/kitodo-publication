@@ -17,10 +17,9 @@ namespace EWW\Dpf\ViewHelpers;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Security\AuthorizationChecker;
 
-class CanAccessViewHelper extends AbstractViewHelper
+class IsAccessGrantedViewHelper extends AbstractViewHelper
 {
     /**
      * Checks if access can be granted for the given attribute and subject.

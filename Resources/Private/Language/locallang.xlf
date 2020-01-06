@@ -452,15 +452,6 @@
         <trans-unit id="manager.document.suggestionDetails">
             <source>Suggestion details.</source>
         </trans-unit>
-		<trans-unit id="manager.document.remoteStatus.active">
-			<source>Active</source>
-		</trans-unit>
-		<trans-unit id="manager.document.remoteStatus.inactive">
-			<source>Inactive</source>
-		</trans-unit>
-		<trans-unit id="manager.document.remoteStatus.deleted">
-			<source>Deleted</source>
-		</trans-unit>
 		<trans-unit id="manager.document.localStatus.new">
 			<source>New</source>
 		</trans-unit>
@@ -485,6 +476,24 @@
 		<trans-unit id="manager.document.type">
 			<source>Type</source>
 		</trans-unit>
+        <trans-unit id="manager.documentList.state.new">
+            <source>New</source>
+        </trans-unit>
+        <trans-unit id="manager.documentList.state.registered">
+            <source>Registered</source>
+        </trans-unit>
+		<trans-unit id="manager.documentList.state.released">
+			<source>Released</source>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.postponed">
+			<source>Postponed</source>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.discarded">
+			<source>Discarded</source>
+		</trans-unit>
+        <trans-unit id="manager.documentList.state.in_progress">
+            <source>In progress</source>
+        </trans-unit>
 		<trans-unit id="manager.doublet">
 			<source>Doublet Check</source>
 		</trans-unit>

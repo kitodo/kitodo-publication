@@ -33,11 +33,6 @@ class AuthorizationChecker
      */
     protected $security = null;
 
-
-    const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
-    const ROLE_RESEARCHER = "ROLE_RESEARCHER";
-    const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
-
     public function denyAccessUnlessLoggedIn()
     {
         $security = $this->objectManager->get(\EWW\Dpf\Security\Security::class);

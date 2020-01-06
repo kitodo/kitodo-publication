@@ -345,7 +345,14 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->datastreamIdentifier = $datastreamIdentifier;
     }
 
-    public function copy($fileToCopy) {
+    /**
+     * Copies the data of the given file object into the current file object.
+     *
+     * @param File $fileToCopy
+     * @return $this
+     * @throws \TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException
+     */
+    public function copy(File $fileToCopy) {
         $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($fileToCopy);
         $newFile = $this;
 

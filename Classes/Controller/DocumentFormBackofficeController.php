@@ -137,7 +137,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         $workingCopy = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
-        if ($workingCopy->getTemporary()) {
+        if ($workingCopy->isTemporary()) {
             $workingCopy->setTemporary(false);
             $workingCopy->setEditorUid(0);
         }
@@ -255,11 +255,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         try {
             parent::updateAction($documentForm);
 
-            if ($updateDocument->getTemporary()) {
+            if ($updateDocument->isTemporary()) {
                 if ($workingCopy) {
                     $documents = $this->documentRepository->findByObjectIdentifier($updateDocument->getObjectIdentifier());
                     foreach ($documents as $document) {
-                        if (!$document->getTemporary() && !$document->isSuggestion()) {
+                        if (!$document->isTemporary() && !$document->isSuggestion()) {
                             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.failureCreateWorkingCopy',
                                 'dpf',
@@ -282,7 +282,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $updateDocument->setState(implode(":", $state));
             }
 
-            if (!$updateDocument->getTemporary()) {
+            if (!$updateDocument->isTemporary()) {
                 $updateDocument->setEditorUid(0);
             }
 
@@ -461,7 +461,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $document = $this->documentRepository->findByUid($documentUid);
 
             if ($document) {
-                if (!$document->getTemporary() && $document->getEditorUid() === $this->security->getUser()->getUid()) {
+                if (!$document->isTemporary() && $document->getEditorUid() === $this->security->getUser()->getUid()) {
                     $document->setEditorUid(0);
                 }
                 $this->documentRepository->update($document);
