@@ -740,7 +740,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getRemoteState()
     {
         $state = explode(':', $this->state);
-        if (is_array($state) && array_key_exists(1)) {
+        if (is_array($state) && array_key_exists(1, $state)) {
             return $state[1];
         }
         return DocumentWorkflow::REMOTE_STATE_NONE;
@@ -748,7 +748,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getLocalState() {
         $state = explode(':', $this->state);
-        if (is_array($state) && array_key_exists(0)) {
+        if (is_array($state) && array_key_exists(0, $state)) {
             return $state[0];
         }
         return DocumentWorkflow::LOCAL_STATE_NONE;
