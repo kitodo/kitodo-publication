@@ -176,7 +176,7 @@ class FormDataReader
         $newFiles = array();
 
         // Primary file
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
+        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE) {
 
             // Use the existing file entry
             $file     = null;
@@ -223,7 +223,7 @@ class FormDataReader
         // Secondary files
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 4) {
+                if ($tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
                     $f          = $this->getUploadedFile($tmpFile);
                     $newFiles[] = $f;
                 }
@@ -263,15 +263,15 @@ class FormDataReader
     {
         if (
             $this->formData['primaryFile'] &&
-            $this->formData['primaryFile']['error'] != 0 &&
-            $this->formData['primaryFile']['error'] != 4
+            $this->formData['primaryFile']['error'] != UPLOAD_ERR_OK &&
+            $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE
         ) {
             return true;
         }
 
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 0 && $tmpFile['error'] != 4) {
+                if ($tmpFile['error'] != UPLOAD_ERR_OK && $tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
                     return true;
                 }
             }
