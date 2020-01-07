@@ -263,7 +263,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     {
         $query = $this->createQuery();
 
-        if (is_integer($identifier)) {
+        if (is_numeric($identifier)) {
             $constraints = [
                 $query->equals('uid', $identifier)
             ];
