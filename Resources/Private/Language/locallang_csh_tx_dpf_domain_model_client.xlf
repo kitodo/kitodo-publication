@@ -69,6 +69,12 @@
             <source>New document subject</source>
         </trans-unit>
         <trans-unit id="admin_new_document_notification_body.description">
+            <source>Document registration body</source>
+        </trans-unit>
+        <trans-unit id="admin_register_document_notification_subject.description">
+            <source>Document registration subject</source>
+        </trans-unit>
+        <trans-unit id="admin_register_document_notification_body.description">
             <source>New document body</source>
         </trans-unit>
         <trans-unit id="submitter_new_document_notification_subject.description">

@@ -25,14 +25,14 @@
                         <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">
                             {file.title}
                         </f:link.external>
-                        <button type="submit" name="rem_file_group" class="rem_file_group btn btn-xs btn-default"
-                                data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:110124,arguments:{fileUid: file.uid})}">
-                            <span class="glyphicon glyphicon-trash"></span>
-                            {f:translate(key: 'form_button.remove_file' arguments: {0: ''})}
+                        <button type="submit" name="rem_file_group" class="rem_file_group btn btn-sm btn-secondary"
+                                data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{fileUid: file.uid})}">
+                            <i class="fas fa-trash-alt"></i>
+                            {f:translate(key: 'form_button.remove_file', arguments: {0: ''})}
                         </button>
-                        <!--<button type="submit" name="rem_secondary_upload" class="btn btn-default rem_secondary_upload"-->
+                        <!--<button type="submit" name="rem_secondary_upload" class="btn btn-secondary rem_secondary_upload"-->
                                 <!--data-index="{groupIndex}">-->
-                            <!--<span class="glyphicon glyphicon-remove"></span>-->
+                            <!--<i class="fas fa-times"></i></span>-->
                             <!--<span class="sr-only">delete secondary file upload</span>-->
                         <!--</button>-->
                     </div>

@@ -21,6 +21,7 @@ use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Security\DocumentVoter;
 
 /**
  * SearchController
@@ -44,6 +45,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     protected $clientRepository = null;
 
+    /**
+     * persistence manager
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+     * @inject
+     */
+    protected $persistenceManager;
+
     const RESULT_COUNT      = 50;
     const NEXT_RESULT_COUNT = 50;
 
@@ -54,13 +63,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function listAction()
     {
-        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
-
-        $args          = $this->request->getArguments();
+        $workingCopies['noneTemporary'] = $this->documentRepository->getObjectIdentifiers(FALSE);
+        $workingCopies['temporary'] = $this->documentRepository->getObjectIdentifiers(TRUE);
+        $this->view->assign('workingCopies', $workingCopies);
 
         // assign result list from elastic search
+        $args = $this->request->getArguments();
         $this->view->assign('searchList', $args['results']);
-        $this->view->assign('alreadyImported', $objectIdentifiers);
         $this->view->assign('resultCount', self::RESULT_COUNT);
         $this->view->assign('query', $args['query']);
     }
@@ -72,7 +81,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     public function nextResultsAction()
     {
         try {
-            $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+            $sessionVars = $GLOBALS["TSFE"]->getSessionData("tx_dpf");
             if (!$sessionVars['resultCount']) {
                 // set number of results in session
                 $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
@@ -80,7 +89,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
                 $resultCount                = $sessionVars['resultCount'];
                 $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
             }
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+            $GLOBALS['TSFE']->setAndSaveSessionData('tx_dpf', $sessionVars);
 
             $query = $sessionVars['query'];
 
@@ -179,9 +188,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             $args = $this->request->getArguments();
 
             // reset session pagination
-            $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+            $sessionVars = $this->getSessionData('tx_dpf');
             $sessionVars['resultCount'] = self::RESULT_COUNT;
-            $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+            $this->setSessionData('tx_dpf', $sessionVars);
 
             $extSearch = ($args['query']['extSearch']) ? true : false;
 
@@ -199,11 +208,11 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             if ($query) {
                 $query['body']['from'] = '0';
                 $query['body']['size'] = '' . self::RESULT_COUNT . '';
-                $sessionVars = $GLOBALS["BE_USER"]->getSessionData("tx_dpf");
+                $sessionVars = $this->getSessionData("tx_dpf");
                 $sessionVars['query'] = $query;
-                $GLOBALS['BE_USER']->setAndSaveSessionData('tx_dpf', $sessionVars);
+                $this->setSessionData('tx_dpf', $sessionVars);
             } else {
-                $sessionVars = $GLOBALS['BE_USER']->getSessionData('tx_dpf');
+                $sessionVars = $this->getSessionData('tx_dpf');
                 $query = $sessionVars['query'];
             }
 
@@ -240,13 +249,73 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     }
 
     /**
+     * action importForEditingAction
+     *
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function importForEditingAction($documentObjectIdentifier)
+    {
+        $this->setSessionData('redirectToDocumentListAction', 'search');
+        $this->setSessionData('redirectToDocumentListController', 'Search');
+
+        /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+
+        /** @var  \EWW\Dpf\Services\Transfer\FedoraRepository $remoteRepository */
+        $remoteRepository = $this->objectManager->get(FedoraRepository::class);
+
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
+        $document = NULL;
+
+        if ($documentObjectIdentifier) {
+            $existingDocument = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
+
+            if ($existingDocument) {
+                $this->redirect('search');
+            }
+
+            $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
+
+            if ($document) {
+                $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            }
+        }
+
+        $this->redirect('search');
+    }
+
+
+    /**
+     * action showDetailsAction
+     *
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function showDetailsAction($documentObjectIdentifier)
+    {
+        if ($documentObjectIdentifier) {
+            /** @var  \EWW\Dpf\Domain\Model\Document $document */
+            $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
+
+            if ($document) {
+                $this->redirect('showDetails', 'Document', null, ['document'=>$document]);
+            }
+        }
+
+        $this->redirect('search');
+    }
+
+
+    /**
      * action import
      *
      * @param  string $documentObjectIdentifier
-     * @param  string $objectState
      * @return void
      */
-    public function importAction($documentObjectIdentifier, $objectState)
+    public function importAction($documentObjectIdentifier)
     {
         $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
         $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
@@ -258,7 +327,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
                 $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+                $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
                 $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
             }
         } catch (\Exception $exception) {
@@ -313,6 +382,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function doubletCheckAction(\EWW\Dpf\Domain\Model\Document $document)
     {
+        $this->authorizationChecker->denyAccessUnlessGranted(DocumentVoter::DOUBLET_CHECK, $document);
+
         try {
             $elasticSearch = $this->objectManager->get(ElasticSearch::class);
 
@@ -412,5 +483,4 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         return $query;
     }
-
 }

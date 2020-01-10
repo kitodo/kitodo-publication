@@ -5,9 +5,9 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-		<trans-unit id="backend_only.description" approved="yes">
-			<source>backendOnly</source>
-			<target>Nur Backend</target>
+		<trans-unit id="access_restriction_roles.description" approved="yes">
+			<source>Access restriction roles</source>
+            <target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="display_name.description" approved="yes">
 			<source>displayName</source>

@@ -16,6 +16,7 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 
 class DocumentMapper
@@ -77,19 +78,22 @@ class DocumentMapper
         $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
-        $documentForm->setVirtual($document->getDocumentType()->getVirtual());
+
+
+        $documentForm->setPrimaryFileMandatory(
+            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE &&
+            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE &&
+            //!$document->getDocumentType()->getVirtual()
+            FALSE
+        );
+
         $documentForm->setProcessNumber($document->getProcessNumber());
+        $documentForm->setTemporary($document->isTemporary());
 
         $qucosaId = $document->getObjectIdentifier();
 
         if (empty($qucosaId)) {
             $qucosaId = $document->getReservedObjectIdentifier();
-        }
-
-        if (!empty($qucosaId)) {
-            $urnService = $this->objectManager->get(Urn::class);
-            $qucosaUrn  = $urnService->getUrn($qucosaId);
-            $documentForm->setQucosaUrn($qucosaUrn);
         }
 
         $documentForm->setQucosaId($qucosaId);
@@ -99,14 +103,13 @@ class DocumentMapper
 
         $excludeGroupAttributes = array();
 
-        $documentData = array();
-
         foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage) {
             $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
             $documentFormPage->setUid($metadataPage->getUid());
             $documentFormPage->setDisplayName($metadataPage->getDisplayName());
             $documentFormPage->setName($metadataPage->getName());
-            $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
+
+            $documentFormPage->setAccessRestrictionRoles($metadataPage->getAccessRestrictionRoles());
 
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
 
@@ -115,7 +118,9 @@ class DocumentMapper
                 $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
                 $documentFormGroup->setName($metadataGroup->getName());
                 $documentFormGroup->setMandatory($metadataGroup->getMandatory());
-                $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());
+
+                $documentFormGroup->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
+
                 $documentFormGroup->setInfoText($metadataGroup->getInfoText());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
@@ -173,7 +178,9 @@ class DocumentMapper
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());
                             $documentFormField->setMandatory($metadataObject->getMandatory());
-                            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                            $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
+
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setDataType($metadataObject->getDataType());
@@ -255,7 +262,9 @@ class DocumentMapper
                         $documentFormField->setDisplayName($metadataObject->getDisplayName());
                         $documentFormField->setName($metadataObject->getName());
                         $documentFormField->setMandatory($metadataObject->getMandatory());
-                        $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                        $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
+
                         $documentFormField->setConsent($metadataObject->getConsent());
                         $documentFormField->setValidation($metadataObject->getValidation());
                         $documentFormField->setDataType($metadataObject->getDataType());
@@ -284,14 +293,6 @@ class DocumentMapper
         $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();
         $documentForm->setSecondaryFiles($secondaryFiles);
 
-        $documentForm->setDeleteDisabled(!$document->isDeleteAllowed());
-
-        $documentForm->setSaveDisabled(
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_ACTIVE &&
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_INACTIVE &&
-            $document->getState() != \EWW\Dpf\Domain\Model\Document::OBJECT_STATE_NEW
-        );
-
         return $documentForm;
     }
 
@@ -318,6 +319,10 @@ class DocumentMapper
         $document->setReservedObjectIdentifier($documentForm->getQucosaId());
 
         $document->setValid($documentForm->getValid());
+        
+        if ($documentForm->getComment()) {
+            $document->setComment($documentForm->getComment());
+        }
 
         $formMetaData = $this->getMetadata($documentForm);
 
@@ -350,7 +355,7 @@ class DocumentMapper
         return $document;
     }
 
-    protected function getMetadata($documentForm)
+    public function getMetadata($documentForm)
     {
 
         foreach ($documentForm->getItems() as $page) {

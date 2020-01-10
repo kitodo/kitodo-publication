@@ -229,10 +229,10 @@ class FedoraRepository implements Repository
 
         $remoteId = $document->getObjectIdentifier();
 
-        $state = ($state) ? "?" . $state : "";
+        $stateParam = ($state)? "?" . $state : "";
 
         try {
-            $response = Request::delete($this->clientConfigurationManager->getSwordHost() . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId . $state)
+            $response = Request::delete($this->clientConfigurationManager->getSwordHost() . "/sword/" . $this->getSWORDCollection() . "/" . $remoteId . $stateParam)
                 ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->send();
@@ -247,7 +247,7 @@ class FedoraRepository implements Repository
                         throw new \EWW\Dpf\Exceptions\ActivateDocumentErrorException("Fedora error while activate document.");
                         break;
                     case "inactivate":
-                        throw new \EWW\Dpf\Exceptions\RestoreDocumentErrorException("Fedora error while restore document.");
+                        throw new \EWW\Dpf\Exceptions\InactivateDocumentErrorException("Fedora error while inactivate document.");
                         break;
                     default:
                         throw new \EWW\Dpf\Exceptions\DeleteDocumentErrorException("Fedora error while delete document.");

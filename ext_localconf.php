@@ -37,13 +37,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Qucosaform',
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'DocumentForm'     => 'list,show,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'Gnd'              => 'search',
     )
@@ -74,6 +74,33 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
 );
 
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
+    'Backoffice',
+    array(
+        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+        'Gnd'              => 'search',
+    ),
+    // non-cacheable actions
+    array(
+        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+        'Gnd'              => 'search',
+    )
+);
+
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($_EXTKEY, 'Classes/Plugins/MetaTags/MetaTags.php', '_metatags', 'list_type', true);
 $overrideSetup = 'plugin.tx_dpf_metatags.userFunc = EWW\Dpf\Plugins\MetaTags\MetaTags->main';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
@@ -87,3 +114,26 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
+
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\DocumentController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\SearchController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\DocumentFormBackofficeController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);

@@ -70,6 +70,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
   process_number varchar(255) DEFAULT '' NOT NULL,
   state varchar(255) DEFAULT '' NOT NULL,
+  remote_last_mod_date varchar(255) DEFAULT '' NOT NULL,
   transfer_status varchar(255) DEFAULT '' NOT NULL,
   transfer_date int(11) DEFAULT '0' NOT NULL,
   date_issued varchar(255) DEFAULT '' NOT NULL,
@@ -77,6 +78,12 @@ CREATE TABLE tx_dpf_domain_model_document (
   valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
+  owner int(11) unsigned default '0' NOT NULL,
+  editor_uid int(11) unsigned default '0' NOT NULL,
+  temporary tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  suggestion tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  linked_uid varchar(255) DEFAULT '' NOT NULL,
+  comment varchar(1024) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -118,7 +125,8 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   name varchar(255) DEFAULT '' NOT NULL,
   display_name varchar(255) DEFAULT '' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
-  mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
+  mandatory varchar(255) DEFAULT '' NOT NULL,
   max_iteration int(11) DEFAULT '0' NOT NULL,
   mapping_for_reading varchar(1024) DEFAULT '' NOT NULL,
   mapping varchar(1024) DEFAULT '' NOT NULL,
@@ -169,7 +177,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   name varchar(255) DEFAULT '' NOT NULL,
   display_name varchar(255) DEFAULT '' NOT NULL,
   max_iteration int(11) DEFAULT '0' NOT NULL,
-  mandatory tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  mandatory varchar(255) DEFAULT '' NOT NULL,
   data_type varchar(255) DEFAULT '' NOT NULL,
   validation varchar(255) DEFAULT '' NOT NULL,
   mapping varchar(255) DEFAULT '' NOT NULL,
@@ -179,6 +187,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   default_value text NOT NULL,
   fill_out_service varchar(255) DEFAULT '' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
   consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
   gnd_field_uid varchar(255) DEFAULT '' NOT NULL,
   max_input_length int(11) DEFAULT '0' NOT NULL,
@@ -322,6 +331,7 @@ CREATE TABLE tx_dpf_domain_model_metadatapage (
   page_number int(11) DEFAULT '0' NOT NULL,
   metadata_group int(11) unsigned DEFAULT '0' NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -400,6 +410,8 @@ CREATE TABLE tx_dpf_domain_model_client (
   submitter_new_document_notification_body text NOT NULL,
   submitter_ingest_notification_subject varchar(1024) DEFAULT '' NOT NULL,
   submitter_ingest_notification_body text NOT NULL,
+  admin_register_document_notification_subject varchar(1024) DEFAULT '' NOT NULL,
+  admin_register_document_notification_body text NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -516,3 +528,10 @@ CREATE TABLE tx_dpf_domain_model_processnumber (
   KEY language (l10n_parent,sys_language_uid)
 
 ) ENGINE=InnoDB;
+
+#
+# Table extension structure for table 'fe_groups'
+#
+CREATE TABLE fe_groups (
+  kitodo_role varchar(255) DEFAULT '' NOT NULL,
+);

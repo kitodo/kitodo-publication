@@ -20,16 +20,15 @@ class ActiveManagerMenuViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
     /**
      *
      * @param string $controllerName The controller to be active.
-     * @param string $actionName The action to be active.
+     * @param array $actionNames The actions to be active.
      */
-    public function render($controllerName, $actionName = '')
+    public function render($controllerName, $actionNames = array())
     {
-
         if ($this->controllerContext->getRequest()->getControllerName() == $controllerName) {
 
-            if (empty($actionName)) {
+            if (empty($actionNames)) {
                 return 'active';
-            } elseif ($this->controllerContext->getRequest()->getControllerActionName() == $actionName) {
+            } elseif (in_array($this->controllerContext->getRequest()->getControllerActionName(), $actionNames)) {
                 return 'active';
             } else {
                 return '';

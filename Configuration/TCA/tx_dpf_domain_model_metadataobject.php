@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, backend_only, consent',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, backend_only, consent',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, backend_only, consent, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -165,8 +165,14 @@ return array(
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.mandatory',
             'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
+                'type' => 'select',
+                'size' => 1,
+                'maxitems' => 1,
+                'items' => array(
+                    array('',''),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.mandatory_yes', \EWW\Dpf\Domain\Model\MetadataMandatoryInterface::MANDATORY),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.mandatory_file_only', \EWW\Dpf\Domain\Model\MetadataMandatoryInterface::MANDATORY_FILE_ONLY),
+                ),
             ),
         ),
         'mapping'           => array(
@@ -215,13 +221,16 @@ return array(
                 'default' => 0,
             ),
         ),
-        'backend_only'      => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.backend_only',
-            'config'    => array(
-                'type'    => 'check',
-                'default' => 0,
+        'access_restriction_roles' => array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.access_restriction_roles',
+            'config' => array(
+                'type' => 'select',
+                'size' => 2,
+                'maxitems' => 2,
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher', EWW\Dpf\Security\Security::ROLE_RESEARCHER),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian', EWW\Dpf\Security\Security::ROLE_LIBRARIAN),
+                ),
             ),
         ),
         'consent'           => array(

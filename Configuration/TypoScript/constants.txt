@@ -35,38 +35,20 @@ plugin.tx_dpf {
             defaultValue {
                 fullTextLabel = Volltext (PDF)
             }
-			# cat=plugin.tx_dpf/link; type=int+; label=Default Api PID
+
+			# cat=plugin.tx_dpf/link; type=int+; label=Api PID
 			apiPid =
+
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
 			landingPage =
+
+			# cat=plugin.tx_dpf/link; type=int+; label=PID of the login page
+			loginPage =
+
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
 			searchResultsPid =
-        }
-}
 
-module.tx_dpf {
-	view {
-		# cat=module.tx_dpf/file; type=string; label=Path to template root (BE)
-		templateRootPath = EXT:dpf/Resources/Private/Templates/
-		# cat=module.tx_dpf/file; type=string; label=Path to template partials (BE)
-		partialRootPath = EXT:dpf/Resources/Private/Partials/
-		# cat=module.tx_dpf/file; type=string; label=Path to template layouts (BE)
-		layoutRootPath = EXT:dpf/Resources/Private/Layouts/
-	}
-	persistence {
-		recursive = 1
-		# cat=module.tx_dpf/link; type=int+; label=Default storage PID
-		storagePid =
-	}
-
-        settings {
-            previewPage =
-            apiPid =
-
-            defaultValue {
-                fullTextLabel = Volltext (PDF)
-            }
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page (Backend Preview)
 			previewPid =
-	}
+        }
 }

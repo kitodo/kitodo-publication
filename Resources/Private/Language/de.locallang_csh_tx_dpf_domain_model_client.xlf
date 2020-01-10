@@ -93,6 +93,14 @@
             <source>New document body</source>
             <target>Neuer Dokument Body</target>
         </trans-unit>
+        <trans-unit id="admin_register_document_notification_subject.description" approved="yes">
+            <source>Document registration subject</source>
+            <target>Dokumentanmeldung Thema</target>
+        </trans-unit>
+        <trans-unit id="admin_register_document_notification_body.description" approved="yes">
+            <source>Document registration body</source>
+            <target>Dokumentanmeldung Body</target>
+        </trans-unit>
         <trans-unit id="submitter_new_document_notification_subject.description" approved="yes">
             <source>New document subject</source>
             <target>Neues Dokumententhema</target>

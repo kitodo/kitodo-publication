@@ -15,9 +15,25 @@ namespace EWW\Dpf\Controller;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+    /**
+     * authorizationChecker
+     *
+     * @var \EWW\Dpf\Security\AuthorizationChecker
+     * @inject
+     */
+    protected $authorizationChecker = null;
+
+    /**
+     * security
+     *
+     * @var \EWW\Dpf\Security\Security
+     * @inject
+     */
+    protected $security = null;
 
     /**
      * clientRepository
@@ -27,29 +43,27 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      */
     protected $clientRepository = null;
 
+
+
+
     protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
         parent::initializeView($view);
 
-        if (TYPO3_MODE === 'BE') {
-            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
-            if ($selectedPageId) {
-                $client = $this->clientRepository->findAll()->current();
-            }
+        $client = $this->clientRepository->findAll()->current();
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.chooseClientMessage';
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+        $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.chooseClientMessage';
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
 
-            if (!$client) {
-                $this->addFlashMessage(
-                    $message,
-                    $messageTitle = '',
-                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
-                    $storeInSession = true
-                );
-            } else {
-                $view->assign('client', $client);
-            }
+        if (!$client) {
+            $this->addFlashMessage(
+                $message,
+                $messageTitle = '',
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING,
+                $storeInSession = true
+            );
+        } else {
+            $view->assign('client', $client);
         }
     }
 
@@ -132,4 +146,11 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
         }
     }
 
+    public function initializeAction()
+    {
+        parent::initializeAction();
+
+        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+        $signalSlotDispatcher->dispatch(get_class($this), 'actionChange', [$this->actionMethodName, get_class($this)]);
+    }
 }

@@ -13,19 +13,25 @@
     -->
 </f:comment>
 
-<div class="be-page-header">
-    <div class="btn-group controller-switch" role="group">
-        <f:link.action action="list" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <f:translate key="search.control.simpleSearch"/>
-        </f:link.action>
-        <f:link.action action="extendedSearch" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <f:translate key="search.control.extendedSearch"/>
-        </f:link.action>
-        <f:link.action action="latest" controller="Search" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <f:translate key="search.control.new"/>
-        </f:link.action>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+    <h1 class="h2">{f:translate(key: 'manager.control.search')}</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <f:link.action action="list" controller="Search"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'list'})}">
+                <i class="fas fa-search"></i>
+                <f:translate key="search.control.simpleSearch"/>
+            </f:link.action>
+            <f:link.action action="extendedSearch" controller="Search"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'extendedSearch'})}">
+                <i class="fas fa-search"></i>
+                <f:translate key="search.control.extendedSearch"/>
+            </f:link.action>
+            <f:link.action action="latest" controller="Search"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'latest'})}">
+                <i class="fas fa-search"></i>
+                <f:translate key="search.control.new"/>
+            </f:link.action>
+        </div>
     </div>
 </div>

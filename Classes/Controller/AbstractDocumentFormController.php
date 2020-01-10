@@ -15,16 +15,16 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Helper\FormDataReader;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 /**
  * DocumentFormController
  */
-abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\AbstractController
 {
 
     /**
@@ -82,7 +82,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
      */
     public function listAction()
     {
-
         $documents = $this->documentRepository->findAll();
 
         $documentTypes = $this->documentTypeRepository->findAll();
@@ -120,18 +119,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
 
         $this->view->assign('documentTypes', $docTypes);
         $this->view->assign('documents', $documents);
-    }
-
-    /**
-     * action show
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function showAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-
-        $this->view->assign('document', $document);
     }
 
     /**
@@ -210,9 +197,20 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
+
+        $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
+
+        if ($this->request->getPluginName() === "Backoffice") {
+            $ownerUid = $this->security->getUser()->getUid();
+            $newDocument->setOwner($ownerUid);
+            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE);
+        } else {
+            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER);
+        }
 
         // xml data fields are limited to 64 KB
         if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->getSlubInfoData() >= 64 * 1024)) {
@@ -239,38 +237,25 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
                 }
             }
         }
-
-        $notifier = $this->objectManager->get(Notifier::class);
-
-        $notifier->sendNewDocumentNotification($newDocument);
-
-        $requestArguments = $this->request->getArguments();
-
-        if (array_key_exists('savecontinue', $requestArguments)) {
-
-            $tmpDocument = $this->objectManager->get(Document::class);
-
-            $tmpDocument->setTitle($newDocument->getTitle());
-            $tmpDocument->setAuthors($newDocument->getAuthors());
-            $tmpDocument->setXmlData($newDocument->getXmlData());
-            $tmpDocument->setSlubInfoData($newDocument->getSlubInfoData());
-            $tmpDocument->setDocumentType($newDocument->getDocumentType());
-
-            $this->forward('new', null, null, array('newDocumentForm' => $documentMapper->getDocumentForm($tmpDocument)));
-        }
-
     }
 
     public function initializeEditAction()
     {
-
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('document', $requestArguments)) {
-            $documentUid  = $this->request->getArgument('document');
-            $document     = $this->documentRepository->findByUid($documentUid);
-            $mapper       = $this->objectManager->get(DocumentMapper::class);
-            $documentForm = $mapper->getDocumentForm($document);
+
+            if ($this->request->getArgument('document') instanceof \EWW\Dpf\Domain\Model\Document) {
+                $document = $this->request->getArgument('document');
+            } elseif (is_numeric($this->request->getArgument('document'))) {
+                $document = $this->documentRepository->findByUid($this->request->getArgument('document'));
+            }
+
+            if ($document) {
+                $mapper = $this->objectManager->get(DocumentMapper::class);
+                $documentForm = $mapper->getDocumentForm($document);
+            }
+
         } elseif (array_key_exists('documentForm', $requestArguments)) {
             $documentForm = $this->request->getArgument('documentForm');
         }
@@ -327,10 +312,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
      */
     public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
-
-        $requestArguments = $this->request->getArguments();
-
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         // xml data fields are limited to 64 KB
@@ -366,12 +350,6 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             }
 
         }
-
-        if (array_key_exists('savecontinue', $requestArguments)) {
-            $this->forward('edit', null, null, array('documentForm' => $documentForm));
-        }
-
-        $this->redirectToList();
     }
 
     /**
@@ -384,9 +362,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         $this->redirectToList();
     }
 
-    public function initializeAction()
+    protected function redirectAfterUpdate()
     {
-        parent::initializeAction();
+        $this->redirect('list');
     }
 
     protected function redirectToList($message = null)

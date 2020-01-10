@@ -1,0 +1,145 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf=EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+
+        <f:if condition="{suggestMod}">
+            <f:then>
+                <h1 class="h2">{f:translate(key: 'manager.control.editSuggestion')}</h1>
+            </f:then>
+            <f:else>
+                <h1 class="h2">{f:translate(key: 'manager.control.editDocument')}</h1>
+            </f:else>
+         </f:if>
+
+        <f:link.action
+                id="cancel"
+                action="cancelEdit"
+                controller="DocumentFormBackoffice"
+                class="btn btn-sm btn-outline-secondary"
+                arguments="{documentUid:documentForm.documentUid}">
+            <i class="fas fa-times"></i>
+            {f:translate(key: 'form_button.cancel')}
+        </f:link.action>
+    </div>
+
+    <f:flashMessages />
+
+    <p>
+        {f:translate(key: 'manager.control.suggestionDescription')}
+    </p>
+
+    <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
+            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
+        <f:form.hidden property="type" value="{documentForm.uid}"/>
+        <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
+        <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
+        <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
+        <f:form.hidden id="validDocument" property="validDocument" value="0"/>
+        <f:form.hidden id="suggestMod" property="suggestMod" value="{suggestMod}"/>
+
+        <f:if condition="{suggestMod}">
+            <div class="container">
+                <div class="row">
+
+                        <f:if condition="{document.remoteState}=='DELETED' OR {document.localState}=='DISCARDED'">
+                            <f:then>
+                                <div class="col-sm form-group">
+                                    <label for="suggestRestore">{f:translate(key: 'documentForm.suggestRestore')}</label>
+                                    <f:form.checkbox property="suggestRestore" id="suggestRestore" value="1" class="form-control"/>
+                                </div>
+                            </f:then>
+                        </f:if>
+                </div>
+                <div class="row">
+                    <div class="col-sm form-group">
+                        <label for="commentTextarea">{f:translate(key: 'documentForm.suggestComment')}</label>
+                        <f:form.textarea id="commentTextarea" property="comment" value="{comment}" class="form-control" placeholder="{f:translate(key: 'documentForm.suggestCommentPlaceHolder')}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-submit form-submit-top">
+                        <f:if condition="{documentForm.qucosaId} && {documentForm.temporary}">
+                            <f:then>
+                                <f:if condition="{suggestMod}">
+                                    <f:then>
+                                        <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       value="suggestModification">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveSuggestion')}
+                                        </f:form.button>
+                                    </f:then>
+                                    <f:else>
+                                        <f:form.button name="saveAndUpdate" id="saveAndUpdate"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveAndUpdate')}
+                                        </f:form.button>
+                                        <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       value="workingCopy">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveWorkingCopy')}
+                                        </f:form.button>
+                                    </f:else>
+                                </f:if>
+                            </f:then>
+                            <f:else>
+                                <f:if condition="{suggestMod}">
+                                    <f:then>
+                                        <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                                       value="suggestModification">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.saveSuggestion')}
+                                        </f:form.button>
+                                    </f:then>
+                                    <f:else>
+                                        <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                                       class="btn btn-lg btn-success"
+                                                       disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                                       value="workingCopy">
+                                            <i class="fas fa-check"></i>
+                                            {f:translate(key: 'form_button.save')}
+                                        </f:form.button>
+                                    </f:else>
+                                </f:if>
+
+                            </f:else>
+                        </f:if>
+                <f:form.button name="validate" type="button" id="validate" class="btn btn-lg btn-info">
+                    <i class="fas fa-chevron-right"></i>
+                    {f:translate(key: 'form_button.validate')}
+                </f:form.button>
+            </div>
+
+        </f:if>
+
+        <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
+
+        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod}"/>
+    </f:form>
+
+</f:section>

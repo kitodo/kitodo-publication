@@ -21,7 +21,8 @@
 
 /* -- import boostrap basics also to frontend -------------------------------------------- */
 
-@import "bootstrap.min.css";
+@import "bootstrap/bootstrap.min.css";
+@import "bootstrap/dashboard.css";
 @import "bootstrap-datetimepicker.min.css";
 
 /* -- redesigning tabs to sticky nav ----------------------------------------------------- */
@@ -32,12 +33,14 @@
     z-index: 3000;
 }
 
+/*
 #content .tx-dpf-tab-container.sticky {
     position: fixed;
     right: 0;
     left: 0;
     z-index: 3000;
 }
+*/
 
 #content .tx-dpf-tabs {
     position: relative;
@@ -195,7 +198,6 @@
     height: 26px;
     padding: 0;
     z-index: 10;
-    color: #666;
 }
 
 .tx-dpf .form-container button.fill_out_service_urn {
@@ -282,18 +284,27 @@
     float: right;
 }
 
-.tx-dpf button .glyphicon {
-    top: 0;
-    left: 1px;
-}
-
 .tx-dpf ol li {
     list-style: none;
 }
 
 .btn-edit-discard {
     margin-left: 10px;
+    color: #ffffff;
 }
+
+.btn-edit-discard:hover {
+    color: #ffffff;
+}
+
+.btn-warning {
+    color: #ffffff;
+}
+
+.btn-warning:hover {
+    color: #ffffff;
+}
+
 
 .tx-dpf .dropdown-options .dropdown-menu {
     height: auto;
@@ -340,10 +351,6 @@ li a.invalid-error, li a.mandatory-error {
 }
 
 li a.invalid-error:after, li a.mandatory-error:after {
-    content: "\e104";
-    font-family: 'Glyphicons Halflings';
-    margin-left: 3px;
-    line-height: 1;
 }
 
 .qucosa-search-form input[type="text"] {
@@ -393,19 +400,58 @@ ul.error-files-backbutton li {
     list-style: none;
 }
 
-    /* -- extended search form--------------------------------------------------- */
+.typo3-messages p.alert-message {
+    margin: 0;
+}
 
-.tx-dpf div.searchExtForm div.container {
+    /* -- search form--------------------------------------------------- */
+
+#tx-dpf-backoffice.document-manager .searchForm .form-group {
+    display: inline-block;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm .main-search-fields {
+    margin: 10px 0 10px 0;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label {
+    display: none;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label.show-label {
+    display: inline;
+    background: none;
+    border: none;
+    width: auto;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm #showDeleted {
+    width: 2em;
+    margin: 0;
+}
+
+#tx-dpf-backoffice.document-manager div.searchForm div.container {
   width: 100%;
 }
 
+#tx-dpf-backoffice.document-manager div.searchForm div.container .form-control {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+#tx-dpf-backoffice.document-manager div.searchForm .form-inline {
+    margin-bottom: 20px;
+}
+
 @media only screen and (min-width: 23em) {
-  .tx-dpf div.searchExtForm div.container .col-md-6 {
+    #tx-dpf-backoffice.document-manager div.searchForm div.container .col-md-6 {
     padding: 0px;
   }
 }
 @media only screen and (min-width: 60em) {
-  .tx-dpf div.searchExtForm div.container .col-md-6:nth-child(2) {
+    #tx-dpf-backoffice.document-manager div.searchForm div.container .col-md-6:nth-child(2) {
     padding: 0px 0px 0px 3px;
   }
 }

@@ -27,19 +27,13 @@ class DocumentForm extends AbstractFormElement
      *
      * @var boolean
      */
-    protected $virtual;
+    protected $primaryFileMandatory;
 
     /**
      *
      * @var string
      */
     protected $qucosaId;
-
-    /**
-     *
-     * @var string
-     */
-    protected $qucosaUrn;
 
     /**
      *
@@ -75,18 +69,6 @@ class DocumentForm extends AbstractFormElement
      *
      * @var boolean
      */
-    protected $deleteDisabled;
-
-    /**
-     *
-     * @var boolean
-     */
-    protected $saveDisabled;
-
-    /**
-     *
-     * @var boolean
-     */
     protected $valid = false;
 
     /**
@@ -94,6 +76,16 @@ class DocumentForm extends AbstractFormElement
      * @var string
      */
     protected $processNumber;
+
+    /**
+     * @var bool
+     */
+    protected $temporary;
+
+    /**
+     * @var string
+     */
+    protected $comment = '';
 
     /**
      *
@@ -117,18 +109,18 @@ class DocumentForm extends AbstractFormElement
      *
      * @return boolean
      */
-    public function getVirtual()
+    public function getPrimaryFileMandatory()
     {
-        return $this->virtual;
+        return $this->primaryFileMandatory;
     }
 
     /**
      *
-     * @param boolean $virtual
+     * @param boolean $primaryFileMandatory
      */
-    public function setVirtual($virtual)
+    public function setPrimaryFileMandatory($primaryFileMandatory)
     {
-        $this->virtual = $virtual;
+        $this->primaryFileMandatory = $primaryFileMandatory;
     }
 
     /**
@@ -147,24 +139,6 @@ class DocumentForm extends AbstractFormElement
     public function setQucosaId($qucosaId)
     {
         $this->qucosaId = $qucosaId;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getQucosaUrn()
-    {
-        return $this->qucosaUrn;
-    }
-
-    /**
-     *
-     * @param string $qucosaUrn
-     */
-    public function setQucosaUrn($qucosaUrn)
-    {
-        $this->qucosaUrn = $qucosaUrn;
     }
 
     /**
@@ -215,26 +189,6 @@ class DocumentForm extends AbstractFormElement
         $this->newFiles = $newFiles;
     }
 
-    public function getDeleteDisabled()
-    {
-        return $this->deleteDisabled;
-    }
-
-    public function setDeleteDisabled($deleteDisabled)
-    {
-        $this->deleteDisabled = $deleteDisabled;
-    }
-
-    public function getSaveDisabled()
-    {
-        return $this->saveDisabled;
-    }
-
-    public function setSaveDisabled($saveDisabled)
-    {
-        $this->saveDisabled = $saveDisabled;
-    }
-
     public function getValid()
     {
         return $this->valid;
@@ -273,5 +227,42 @@ class DocumentForm extends AbstractFormElement
     {
         $this->processNumber = $processNumber;
     }
+
+    /**
+     * Returns if a document is a temporary document.
+     *
+     * @return bool
+     */
+    public function isTemporary()
+    {
+        return $this->temporary;
+    }
+
+    /**
+     * Sets if a document is a temporary document or not.
+     * @param bool $temporary
+     */
+    public function setTemporary($temporary)
+    {
+        $this->temporary = $temporary;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+
 
 }

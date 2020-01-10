@@ -17,7 +17,7 @@ namespace EWW\Dpf\Domain\Model;
 /**
  * MetadataObject
  */
-class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity implements MetadataMandatoryInterface
 {
 
     /**
@@ -44,9 +44,9 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * mandatory
      *
-     * @var boolean
+     * @var string
      */
-    protected $mandatory = false;
+    protected $mandatory = '';
 
     /**
      * mapping
@@ -110,11 +110,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $gndFieldUid = '';
 
     /**
-     * backendOnly
+     * accessRestrictionRoles
      *
-     * @var boolean
+     * @var string
      */
-    protected $backendOnly = false;
+    protected $accessRestrictionRoles = '';
 
     /**
      * consent
@@ -212,7 +212,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the mandatory
      *
-     * @return boolean $mandatory
+     * @return string $mandatory
      */
     public function getMandatory()
     {
@@ -222,22 +222,12 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the mandatory
      *
-     * @param boolean $mandatory
+     * @param string $mandatory
      * @return void
      */
     public function setMandatory($mandatory)
     {
         $this->mandatory = $mandatory;
-    }
-
-    /**
-     * Returns the boolean state of mandatory
-     *
-     * @return boolean
-     */
-    public function isMandatory()
-    {
-        return $this->mandatory;
     }
 
     /**
@@ -378,24 +368,28 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the backendOnly
+     * Returns the accessRestrictionRoles
      *
-     * @return boolean $backendOnly
+     * @return array $accessRestrictionRoles
      */
-    public function getBackendOnly()
+    public function getAccessRestrictionRoles()
     {
-        return $this->backendOnly;
+        if ($this->accessRestrictionRoles) {
+            return array_map('trim', explode(',', $this->accessRestrictionRoles));
+        } else {
+            return array();
+        }
     }
 
     /**
-     * Sets the backendOnly
+     * Sets the accessRestrictionRoles
      *
-     * @param boolean $backendOnly
+     * @param array $accessRestrictionRoles
      * @return void
      */
-    public function setBackendOnly($backendOnly)
+    public function setAccessRestrictionRoles($accessRestrictionRoles)
     {
-        $this->backendOnly = $backendOnly;
+        $this->accessRestrictionRoles = implode(',', $accessRestrictionRoles);
     }
 
     /**

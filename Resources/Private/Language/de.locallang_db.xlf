@@ -21,6 +21,14 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_body" approved="yes">
+			<source>Document registration body</source>
+			<target>Dokumentanmeldung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_subject" approved="yes">
+			<source>Document registration subject</source>
+			<target>Dokumentanmeldung Thema</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.client" approved="yes">
 			<source>Client name</source>
 			<target>Mandantenname</target>
@@ -134,8 +142,12 @@
 			<target>Objektkennung</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.state" approved="yes">
-			<source>Local State</source>
-			<target>Lokaler Status</target>
+			<source>State</source>
+			<target>Status</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.remote_last_mod_date" approved="yes">
+			<source>Remote last modification date</source>
+			<target>Datum der Letzten Änderung auf dem Server </target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.transfer_status" approved="yes">
 			<source>Transfer State</source>
@@ -157,6 +169,10 @@
 			<source>Title</source>
 			<target>Titel</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_document.comment">
+            <source>Comment</source>
+            <target>Kommentar</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
 			<source>Xml Data</source>
 			<target>Xml Daten</target>
@@ -164,6 +180,18 @@
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
             <target>Gültig</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.owner" approved="yes">
+			<source>Owner</source>
+			<target>Besitzer</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.editor_uid" approved="yes">
+			<source>Editor UID</source>
+			<target>Bearbeiter-UID</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
+			<source>Temporary</source>
+			<target>Temporär</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.changed">
 			<source>Changed</source>
@@ -173,6 +201,14 @@
 			<source>File</source>
 			<target>Datei</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.suggestion">
+            <source>Suggestion</source>
+            <target>Änderungsvorschlag</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.linked_uid">
+            <source>Linked uid</source>
+            <target>Verknüpfte Dokument uid</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
 			<source>Document Transfer Log</source>
 			<target>Dokumentenübertragungsprotokoll</target>
@@ -313,9 +349,9 @@
 			<source>Metadata Group</source>
 			<target>Metadatengruppe</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatagroup.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Nur Backend</target>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.display_name" approved="yes">
 			<source>Display Name</source>
@@ -328,6 +364,14 @@
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory" approved="yes">
 			<source>Mandatory</source>
 			<target>Pflicht</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_yes" approved="yes">
+			<source>Yes</source>
+			<target>Ja</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_file_only" approved="yes">
+			<source>Only with attached files</source>
+			<target>Nur bei angehängten Dateien</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping" approved="yes">
 			<source>Mapping</source>
@@ -361,9 +405,9 @@
 			<source>Metadata Object</source>
 			<target>Metadatenobjekt</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Nur Backend</target>
+        <trans-unit id="tx_dpf_domain_model_metadataobject.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.consent" approved="yes">
 			<source>Consent field</source>
@@ -445,6 +489,14 @@
 			<source>Mandatory</source>
 			<target>Pflicht</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_yes" approved="yes">
+			<source>Yes</source>
+			<target>Ja</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory_file_only" approved="yes">
+			<source>Only with attached files</source>
+			<target>Nur bei angehängten Dateien</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
 			<source>Mapping</source>
 			<target>Zuordnung</target>
@@ -469,9 +521,9 @@
 			<source>Metadata Page</source>
 			<target>Metadaten-Seite</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadatapage.backend_only" approved="yes">
-			<source>Backend only</source>
-			<target>Nur Backend</target>
+        <trans-unit id="tx_dpf_domain_model_metadatapage.access_restriction_roles">
+			<source>Access restriction roles</source>
+			<target>Zugriffsbeschränkungsrollen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatapage.display_name" approved="yes">
 			<source>Display Name</source>
@@ -504,6 +556,18 @@
 		<trans-unit id="tx_dpf_domain_model_processnumber.year" approved="yes">
 			<source>Year</source>
 			<target>Jahr</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role">
+    		<source>KITODO Role</source>
+    		<target>KITODO-Rolle</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_researcher">
+			<source>Researcher</source>
+			<target>Forschende</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_librarian">
+			<source>Librarian</source>
+			<target>Bibliothekar</target>
 		</trans-unit>
 		</body>
 	</file>

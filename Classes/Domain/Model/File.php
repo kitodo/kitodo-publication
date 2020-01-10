@@ -345,4 +345,27 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->datastreamIdentifier = $datastreamIdentifier;
     }
 
+    /**
+     * Copies the data of the given file object into the current file object.
+     *
+     * @param File $fileToCopy
+     * @return $this
+     * @throws \TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException
+     */
+    public function copy(File $fileToCopy) {
+        $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($fileToCopy);
+        $newFile = $this;
+
+        foreach ($availableProperties as $propertyName) {
+            if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newFile, $propertyName)
+                && !in_array($propertyName, array('uid','pid'))) {
+
+                $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($fileToCopy, $propertyName);
+                \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newFile, $propertyName, $propertyValue);
+            }
+        }
+
+        return $this;
+    }
+
 }

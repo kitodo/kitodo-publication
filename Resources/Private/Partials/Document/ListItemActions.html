@@ -1,0 +1,57 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:comment>
+    <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+        <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
+                       class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
+        </f:link.action>
+    </f:if>
+</f:comment>
+
+<dpf:link.preview
+        arguments="{document : document}"
+        pageUid="{settings.previewPage}"
+        apiPid="{settings.apiPid}"
+        class="btn btn-sm btn-outline-secondary">
+    <i class="fas fa-eye"></i>
+</dpf:link.preview>
+
+<dpf:link.dataCite
+        arguments="{document : document}"
+        pageUid="{settings.previewPage}"
+        apiPid="{settings.apiPid}"
+        class="btn btn-sm btn-outline-secondary">
+    <i class="fas fa-info-circle"></i>
+</dpf:link.dataCite>
+
+<f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+    <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
+                   title="{f:translate(key: 'manager.tooltip.duplicate')}"
+                   additionalAttributes="{data-toggle: 'tooltip' }">
+        <i class="fas fa-copy"></i>
+    </f:link.action>
+</f:if>
+
+<f:link.action
+        action="uploadFiles"
+        arguments="{document : document}"
+        class="btn btn-sm btn-outline-secondary
+            {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
+        title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
+        additionalAttributes="{data-toggle: 'tooltip' }">
+    <i class="fas fa-file-upload"></i>
+</f:link.action>

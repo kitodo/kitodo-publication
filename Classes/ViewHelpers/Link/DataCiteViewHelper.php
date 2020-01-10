@@ -14,13 +14,16 @@ namespace EWW\Dpf\ViewHelpers\Link;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class DataCiteViewHelper extends AbstractBackendViewHelper
+class DataCiteViewHelper extends AbstractViewHelper
 {
+    /**
+     * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
+     * @inject
+     */
+    protected $uriBuilder;
 
     /**
      * documentRepository
@@ -47,8 +50,13 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
      */
     protected function getViewIcon($row, $pageUid, $apiPid, $insideText, $class)
     {
-
-        $dataCite = BackendUtility::getViewDomain($pageUid) . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
+        $dataCite = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($apiPid)
+            ->setArguments(array( 'tx_dpf' => $row))
+            ->setCreateAbsoluteUri(true)
+            ->setUseCacheHash(FALSE)
+            ->buildFrontendUri();
 
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.datacite', 'dpf', $arguments = null);
         $icon  = '<a href="' . $dataCite . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';
@@ -85,9 +93,7 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
             // we found a valid document
             if ($document) {
 
-                $row['uid'] = $document->getUid();
-
-                $row['title'] = $document->getTitle();
+                $row['qid'] = $document->getUid();
 
                 $row['action'] = 'dataCite';
 
@@ -102,7 +108,7 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
 
             $row['action'] = 'dataCite';
 
-            $row['uid'] = $arguments['documentObjectIdentifier'];
+            $row['qid'] = $arguments['documentObjectIdentifier'];
 
         }
 

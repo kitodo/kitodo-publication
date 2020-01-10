@@ -148,7 +148,6 @@ class FormDataReader
 
     protected function getDeletedFiles()
     {
-
         $deletedFiles = array();
 
         if (is_array($this->formData['deleteFile'])) {
@@ -157,10 +156,11 @@ class FormDataReader
                 $file = $this->fileRepository->findByUid($value);
 
                 // Deleting the primary file is not allowed.
-                if (!$file->isPrimaryFile()) {
-                    $deletedFiles[] = $file;
-                }
+                // if (!$file->isPrimaryFile()) {
+                //    $deletedFiles[] = $file;
+                // }
 
+                $deletedFiles[] = $file;
             }
         }
 
@@ -176,7 +176,7 @@ class FormDataReader
         $newFiles = array();
 
         // Primary file
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 4) {
+        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE) {
 
             // Use the existing file entry
             $file     = null;
@@ -223,7 +223,7 @@ class FormDataReader
         // Secondary files
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 4) {
+                if ($tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
                     $f          = $this->getUploadedFile($tmpFile);
                     $newFiles[] = $f;
                 }
@@ -261,14 +261,17 @@ class FormDataReader
 
     public function uploadError()
     {
-
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != 0) {
+        if (
+            $this->formData['primaryFile'] &&
+            $this->formData['primaryFile']['error'] != UPLOAD_ERR_OK &&
+            $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE
+        ) {
             return true;
         }
 
         if (is_array($this->formData['secondaryFiles'])) {
             foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != 0 && $tmpFile['error'] != 4) {
+                if ($tmpFile['error'] != UPLOAD_ERR_OK && $tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
                     return true;
                 }
             }
@@ -326,6 +329,9 @@ class FormDataReader
         $documentForm->setDocumentUid($this->formData['documentUid']);
         $documentForm->setQucosaId($this->formData['qucosaId']);
         $documentForm->setValid(!empty($this->formData['validDocument']));
+        if ($this->formData['comment']) {
+            $documentForm->setComment($this->formData['comment']);
+        }
 
         $documentData = array();
 
@@ -346,7 +352,8 @@ class FormDataReader
             $documentFormPage->setUid($metadataPage->getUid());
             $documentFormPage->setDisplayName($metadataPage->getDisplayName());
             $documentFormPage->setName($metadataPage->getName());
-            $documentFormPage->setBackendOnly($metadataPage->getBackendOnly());
+
+            $documentFormPage->setAccessRestrictionRoles($metadataPage->getAccessRestrictionRoles());
 
             foreach ($page as $groupUid => $groupItem) {
                 foreach ($groupItem as $group) {
@@ -356,7 +363,9 @@ class FormDataReader
                     $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
                     $documentFormGroup->setName($metadataGroup->getName());
                     $documentFormGroup->setMandatory($metadataGroup->getMandatory());
-                    $documentFormGroup->setBackendOnly($metadataGroup->getBackendOnly());
+
+                    $documentFormGroup->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
+
                     $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
                     foreach ($group as $objectUid => $objectItem) {
@@ -367,7 +376,9 @@ class FormDataReader
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());
                             $documentFormField->setMandatory($metadataObject->getMandatory());
-                            $documentFormField->setBackendOnly($metadataObject->getBackendOnly());
+
+                            $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
+
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setDataType($metadataObject->getDataType());

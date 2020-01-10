@@ -41,6 +41,9 @@
 		<trans-unit id="documentForm.create.ok">
 			<source>Document successfully created.</source>
 		</trans-unit>
+		<trans-unit id="documentForm.create.accessDenied">
+			<source>Could not create document, access denied.</source>
+		</trans-unit>
 		<trans-unit id="documentForm.edit.header">
 			<source>Edit %s</source>
 		</trans-unit>
@@ -53,17 +56,41 @@
 		<trans-unit id="documentForm.processNumber">
 			<source>Process Number</source>
 		</trans-unit>
+        <trans-unit id="documentForm.suggestRestore">
+            <source>Suggest restore</source>
+        </trans-unit>
+        <trans-unit id="documentForm.suggestComment">
+            <source>Comment</source>
+        </trans-unit>
+        <trans-unit id="documentForm.suggestCommentPlaceHolder">
+            <source>Please enter a comment.</source>
+        </trans-unit>
 		<trans-unit id="documentForm.uploadError">
 			<source>Document couldn't be saved. File size limit exceeded:</source>
 		</trans-unit>
 		<trans-unit id="documentForm.uploadPostError">
 			<source>Document couldn't be saved. Error while uploading files.</source>
 		</trans-unit>
+        <trans-unit id="documentForm.newFiles">
+            <source>New files</source>
+        </trans-unit>
 		<trans-unit id="document_activate.failure">
 			<source>Activating %s failed.</source>
 		</trans-unit>
+		<trans-unit id="document_activate.accessDenied">
+			<source>%s could not be released, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_activate.failureNewVersion">
+			<source>Releasing %s failed. There is a newer Version.</source>
+		</trans-unit>
 		<trans-unit id="document_activate.success">
 			<source>%s successfully activated.</source>
+		</trans-unit>
+		<trans-unit id="document_inactivate.failure">
+			<source>Inactivating %s failed.</source>
+		</trans-unit>
+		<trans-unit id="document_inactivate.success">
+			<source>%s successfully inactivated.</source>
 		</trans-unit>
 		<trans-unit id="document_delete.failure">
 			<source>Deleting %s failed.</source>
@@ -71,17 +98,77 @@
 		<trans-unit id="document_delete.success">
 			<source>%s successfully deleted.</source>
 		</trans-unit>
+		<trans-unit id="document_deleteLocally.failure">
+			<source>Removing %s failed.</source>
+		</trans-unit>
+		<trans-unit id="document_deleteLocally.failureNewVersion">
+			<source>Removing %s failed. There is a newer Version.</source>
+		</trans-unit>
+		<trans-unit id="document_deleteLocally.failureBlocked">
+			<source>%s could not be removed, because it is currently being edited.</source>
+		</trans-unit>
+		<trans-unit id="document_deleteLocally.accessDenied">
+			<source>%s could not be removed, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_deleteLocally.success">
+			<source>%s successfully removed.</source>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.accessDenied">
+			<source>Saving %s failed, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.failureCreateWorkingCopy">
+			<source>Saving %s failed, there is already a working copy.</source>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.failureNewVersion">
+			<source>Saving %s failed. There is a newer Version.</source>
+		</trans-unit>
+		<trans-unit id="document_updateLocally.success">
+			<source>%s successfully saved.</source>
+		</trans-unit>
+		<trans-unit id="document_edit.failureBlocked">
+			<source>%s is already being edited.</source>
+		</trans-unit>
+		<trans-unit id="document_edit.accessDenied">
+			<source>Can not edit %s, access denied.</source>
+		</trans-unit>
 		<trans-unit id="document_discard.success">
 			<source>Document successfully discarded.</source>
 		</trans-unit>
 		<trans-unit id="document_discard.failure">
 			<source>Document could not be discarded.</source>
 		</trans-unit>
+		<trans-unit id="document_discard.failureNewVersion">
+			<source>%s could not be discarded. There is a newer version.</source>
+		</trans-unit>
+		<trans-unit id="document_discard.failureBlocked">
+			<source>%s could not be discarded, because it is currently being edited.</source>
+		</trans-unit>
+		<trans-unit id="document_discard.accessDenied">
+			<source>%s could not be discarded, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.success">
+			<source>%s successfully postponed.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.failure">
+			<source>%s could not be postponed.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.failureNewVersion">
+		    <source>%s could not be postponed. There is a newer Version.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.failureBlocked">
+			<source>%s could not be postponed, because it is currently being edited.</source>
+		</trans-unit>
+		<trans-unit id="document_postpone.accessDenied">
+			<source>%s could not be postponed, access denied.</source>
+		</trans-unit>
 		<trans-unit id="document_duplicate.success">
 			<source>The document has been duplicated.</source>
 		</trans-unit>
 		<trans-unit id="document_duplicate.failure">
 			<source>The document could not be duplicated.</source>
+		</trans-unit>
+		<trans-unit id="document_duplicate.accessDenied">
+			<source>%s could not be duplicated, access denied.</source>
 		</trans-unit>
 		<trans-unit id="document_inactivate.failure">
 			<source>Inactivating %s failed.</source>
@@ -90,10 +177,13 @@
 			<source>%s successfully inactivated.</source>
 		</trans-unit>
 		<trans-unit id="document_ingest.failure">
-			<source>Publishing %s failed.</source>
+			<source>Releasing %s failed.</source>
+		</trans-unit>
+		<trans-unit id="document_ingest.accessDenied">
+			<source>Releasing %s failed, access denied.</source>
 		</trans-unit>
 		<trans-unit id="document_ingest.success">
-			<source>%s successfully published.</source>
+			<source>%s successfully released.</source>
 		</trans-unit>
 		<trans-unit id="document_restore.failure">
 			<source>Restoring %s failed.</source>
@@ -110,8 +200,32 @@
 		<trans-unit id="document_update.failure">
 			<source>Updating %s failed.</source>
 		</trans-unit>
+		<trans-unit id="document_update.failureNewVersion">
+			<source>Updating %s failed. There is a newer version.</source>
+		</trans-unit>
+		<trans-unit id="document_update.accessDenied">
+			<source>Updating %s failed, access denied.</source>
+		</trans-unit>
 		<trans-unit id="document_update.success">
 			<source>%s successfully updated.</source>
+		</trans-unit>
+		<trans-unit id="document_register.success" approved="yes">
+			<source>Document successfully registered.</source>
+		</trans-unit>
+		<trans-unit id="document_register.accessDenied">
+			<source>Registering %s failed, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_register.missingValues">
+			<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
+		</trans-unit>
+		<trans-unit id="document_showDetails.accessDenied">
+			<source>Can not show %s, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_suggestChange.accessDenied">
+			<source>Suggesting changes for %s failed, access denied.</source>
+		</trans-unit>
+		<trans-unit id="document_suggestRestore.accessDenied">
+			<source>Suggesting restore of %s failed, access denied.</source>
 		</trans-unit>
         <trans-unit id="document_save.max_size_error">
             <source>Maximum document size exceeded.</source>
@@ -128,6 +242,9 @@
         <trans-unit id="error.unexpected">
             <source>Failed, an unexpected error occurred.</source>
         </trans-unit>
+        <trans-unit id="error.access_denied" approved="yes">
+            <source>Access denied!</source>
+        </trans-unit>
 		<trans-unit id="form_button.addFile">
 			<source>add file</source>
 		</trans-unit>
@@ -137,6 +254,15 @@
 		<trans-unit id="form_button.cancel">
 			<source>cancel</source>
 		</trans-unit>
+		<trans-unit id="form_button.edit">
+			<source>edit</source>
+		</trans-unit>
+		<trans-unit id="form_button.register">
+			<source>register</source>
+		</trans-unit>
+        <trans-unit id="form_button.suggestion">
+            <source>suggestion</source>
+        </trans-unit>
 		<trans-unit id="form_button.create_value">
 			<source>create</source>
 		</trans-unit>
@@ -146,11 +272,35 @@
 		<trans-unit id="form_button.delete_item">
 			<source>delete %s</source>
 		</trans-unit>
+        <trans-unit id="form_button.deleteLocally">
+            <source>delete</source>
+        </trans-unit>
+        <trans-unit id="form_button.deleteWorkingCopy">
+            <source>delete working copy</source>
+        </trans-unit>
+		<trans-unit id="form_button.suggestRestore">
+			<source>suggest restore</source>
+		</trans-unit>
+        <trans-unit id="documentForm.restoreDocument">
+            <source>Restore document</source>
+        </trans-unit>
+        <trans-unit id="form_button.acceptSuggest">
+            <source>accept suggestion</source>
+        </trans-unit>
 		<trans-unit id="form_button.remove_file">
 			<source>remove</source>
 		</trans-unit>
 		<trans-unit id="form_button.save">
-			<source>submit</source>
+			<source>save</source>
+		</trans-unit>
+		<trans-unit id="form_button.saveSuggestion">
+			<source>save suggestion</source>
+		</trans-unit>
+		<trans-unit id="form_button.saveWorkingCopy">
+			<source>save working copy</source>
+		</trans-unit>
+		<trans-unit id="form_button.saveAndUpdate">
+			<source>save and update</source>
 		</trans-unit>
 		<trans-unit id="form_button.validate">
 			<source>validate</source>
@@ -194,44 +344,92 @@
 		<trans-unit id="manager.activate">
 			<source>activate</source>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessage">
+		<trans-unit id="manager.confirmActivate.message">
 			<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.activateConfirmMessageHeader">
+		<trans-unit id="manager.confirmActivate.messageHeader">
 			<source>Do you really want to activate the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.client">
 			<source>Client</source>
 		</trans-unit>
 		<trans-unit id="manager.control.documents">
-			<source>Documents</source>
+			<source>Workspace</source>
+		</trans-unit>
+        <trans-unit id="manager.control.suggestions">
+            <source>Suggestions</source>
+        </trans-unit>
+		<trans-unit id="manager.control.editDocument">
+			<source>Edit Publication</source>
+		</trans-unit>
+        <trans-unit id="manager.control.editSuggestion">
+    		<source>Suggestion</source>
+    	</trans-unit>
+        <trans-unit id="manager.control.suggestionDescription">
+    		<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
+    	</trans-unit>
+		<trans-unit id="manager.control.createNewDocument">
+			<source>Create new publication</source>
+		</trans-unit>
+		<trans-unit id="manager.control.myPublications">
+			<source>My publications</source>
 		</trans-unit>
 		<trans-unit id="manager.control.search">
 			<source>Search</source>
 		</trans-unit>
+        <trans-unit id="manager.confirm.no">
+            <source>cancel</source>
+        </trans-unit>
+        <trans-unit id="manager.confirm.yes">
+            <source>continue</source>
+        </trans-unit>
 		<trans-unit id="manager.delete">
 			<source>delete</source>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessage">
-			<source>The document &quot;%s&quot; will be marked as deleted in the repository and the local document will be discarded, all local changes are rejected.</source>
+		<trans-unit id="manager.confirmDelete.message">
+            <source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
 		</trans-unit>
-		<trans-unit id="manager.deleteConfirmMessageHeader">
+		<trans-unit id="manager.confirmDelete.messageHeader">
 			<source>Do you really want to delete the document?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmRegister.message">
+			<source>The document &quot;%s&quot; will be registered for publication.</source>
+		</trans-unit>
+		<trans-unit id="manager.deleteLocally">
+			<source>delete</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
+			<source>Do you really want to delete the document completely?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
+			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader">
+			<source>Do you really want to delete the working copy completely?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
+			<source>Do you really want to register the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.discard">
 			<source>discard</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessage">
-			<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
+		<trans-unit id="manager.confirmDiscard.message">
+			<source>The document &quot;%s&quot; will be marked as discarded.</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmMessageHeader">
+		<trans-unit id="manager.confirmDiscard.messageHeader">
 			<source>Do you really want to discard the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmNo">
-			<source>cancel</source>
+		<trans-unit id="manager.postpone">
+			<source>postpone</source>
 		</trans-unit>
-		<trans-unit id="manager.discardConfirmYes">
-			<source>continue</source>
+		<trans-unit id="manager.confirmPostpone.message">
+			<source>The document &quot;%s&quot; will be marked as postponed.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmPostpone.messageHeader">
+			<source>Do you really want to postpone the document processing?</source>
 		</trans-unit>
 		<trans-unit id="manager.document.authors">
 			<source>Authors</source>
@@ -245,11 +443,32 @@
 		<trans-unit id="manager.document.state">
 			<source>State</source>
 		</trans-unit>
-		<trans-unit id="manager.document.state.inProgress">
+		<trans-unit id="manager.document.state.all">
+			<source>All</source>
+		</trans-unit>
+        <trans-unit id="manager.document.suggestions">
+            <source>Suggestions</source>
+        </trans-unit>
+        <trans-unit id="manager.document.suggestionDetails">
+            <source>Suggestion details.</source>
+        </trans-unit>
+		<trans-unit id="manager.document.localStatus.new">
+			<source>New</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.registered">
+			<source>Registered</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.in_progress">
 			<source>In progress</source>
 		</trans-unit>
-		<trans-unit id="manager.document.state.new">
-			<source>New</source>
+		<trans-unit id="manager.document.localStatus.discarded">
+			<source>Discarded</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.postponed">
+			<source>Postponed</source>
+		</trans-unit>
+		<trans-unit id="manager.document.localStatus.deleted">
+			<source>Deleted</source>
 		</trans-unit>
 		<trans-unit id="manager.document.title">
 			<source>Title</source>
@@ -257,46 +476,61 @@
 		<trans-unit id="manager.document.type">
 			<source>Type</source>
 		</trans-unit>
+        <trans-unit id="manager.documentList.state.new">
+            <source>New</source>
+        </trans-unit>
+        <trans-unit id="manager.documentList.state.registered">
+            <source>Registered</source>
+        </trans-unit>
+		<trans-unit id="manager.documentList.state.released">
+			<source>Released</source>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.postponed">
+			<source>Postponed</source>
+		</trans-unit>
+		<trans-unit id="manager.documentList.state.discarded">
+			<source>Discarded</source>
+		</trans-unit>
+        <trans-unit id="manager.documentList.state.in_progress">
+            <source>In progress</source>
+        </trans-unit>
 		<trans-unit id="manager.doublet">
 			<source>Doublet Check</source>
 		</trans-unit>
-		<trans-unit id="manager.get">
-			<source>Get</source>
+		<trans-unit id="manager.show">
+			<source>Show</source>
+		</trans-unit>
+		<trans-unit id="manager.showWorkingCopy" approved="yes">
+			<source>Show working copy</source>
 		</trans-unit>
 		<trans-unit id="manager.inactivate">
 			<source>inactivate</source>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessage">
+		<trans-unit id="manager.confirmInactivate.message">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.inactivateConfirmMessageHeader">
+		<trans-unit id="manager.confirmInactivate.messageHeader">
 			<source>Do you really want to inactivate the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.publish">
-			<source>publish</source>
+		<trans-unit id="manager.releasePublish">
+			<source>release</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.publish">
+		<trans-unit id="manager.confirmReleasePublish.message">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessage.update">
-			<source>All document changes of &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
+		<trans-unit id="manager.confirmReleaseUpdate.message">
+			<source>All document changes of &quot;%s&quot; will be sent to the repository and the working copy will be removed.</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.publish">
+		<trans-unit id="manager.confirmReleasePublish.messageHeader">
 			<source>Do you really want to publish the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmMessageHeader.update">
+		<trans-unit id="manager.confirmReleaseUpdate.messageHeader">
 			<source>Do you really want to update the document?</source>
 		</trans-unit>
-		<trans-unit id="manager.releaseConfirmNo">
-			<source>cancel</source>
-		</trans-unit>
-		<trans-unit id="manager.releaseConfirmYes">
-			<source>continue</source>
-		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessage">
+		<trans-unit id="manager.confirmRestore.message">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
 		</trans-unit>
-		<trans-unit id="manager.restoreConfirmMessageHeader">
+		<trans-unit id="manager.confirmRestore.messageHeader">
 			<source>Do you really want to restore the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.activate">
@@ -311,10 +545,13 @@
 		<trans-unit id="manager.tooltip.preview">
 			<source>Show document preview</source>
 		</trans-unit>
+		<trans-unit id="manager.tooltip.uploadFiles">
+			<source>Upload Full texts / media</source>
+		</trans-unit>
 		<trans-unit id="manager.tooltip.datacite">
 			<source>Download DataCite XML</source>
 		</trans-unit>
-		<trans-unit id="manager.update">
+		<trans-unit id="manager.releaseUpdate">
 			<source>update</source>
 		</trans-unit>
 		<trans-unit id="manager.chooseClientMessage">
@@ -355,6 +592,18 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="notification.newDocument.submitter.subject">
 			<source>You have registered a document</source>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.body" xml:space="preserve">
+			<source>A document has been registered:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
+		</trans-unit>
+		<trans-unit id="notification.registerDocument.admin.subject">
+			<source>Document registered</source>
 		</trans-unit>
 		<trans-unit id="search.control.extendedSearch">
 			<source>Extended search</source>
@@ -397,9 +646,6 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="search.form.header.extendedSearch">
 			<source>Advanced search</source>
-		</trans-unit>
-		<trans-unit id="search.form.header.simpleSearch">
-			<source>Simple search</source>
 		</trans-unit>
 		<trans-unit id="search.form.label.abstract">
 			<source>Abstract</source>

@@ -1,0 +1,112 @@
+
+/**
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+
+/*
+ *
+ * Stylesheet for document backoffice
+ *
+ */
+
+body {
+    font-size: 1 rem;
+}
+
+#main .sticky-top {
+    top: 3rem;
+    background-color: #FFFFFF;
+}
+
+
+/* -- basic setup ----------------------------------------------------------------------- */
+
+#tx-dpf-backoffice.document-manager {
+    background: #fff url(../images/be_bglogo_smooth.png) no-repeat right bottom fixed;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+#tx-dpf-backoffice.document-form {
+    background: #fff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+#tx-dpf-backoffice.document-form .tx-dpf h2 {
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+
+/* -- table setup ------------------------------------------------------------------------ */
+
+#tx-dpf-backoffice.document-manager table.tx_dpf {
+    border-bottom: 2px solid #ddd;
+}
+
+#tx-dpf-backoffice.document-manager table.tx_dpf .table_col_function {
+    text-align: right;
+    padding: 8px 15px 8px 0;
+}
+
+#tx-dpf-backoffice.document-managertable.tx_dpf .table_col_function a {
+    text-decoration: none;
+}
+
+#tx-dpf-backoffice.document-manager table.tx_dpf > tbody > tr > td {
+    vertical-align: middle;
+}
+
+#tx-dpf-backoffice table.table-manager > thead > tr > th {
+    border-top: none;
+}
+
+
+#tx-dpf-backoffice.document-manager .searchForm {
+    margin: 0 20px 20px 0;
+    float: left;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label.show-label {
+    display: initial !important;
+}
+
+#tx-dpf-backoffice.document-manager .searchForm label {
+    display: none;
+}
+
+
+/* -- upload error message --------------------------------------------------------------- */
+
+#tx-dpf-backoffice.document-manager ul.error-files-backbutton {
+    margin: 10px 0 10px 0 !important;
+    padding: 0 !important;
+}
+
+#tx-dpf-backoffice.document-manager ul.error-files-backbutton li {
+    list-style: disc;
+    margin-left: 13px;
+}
+
+
+
+/* EOF */

@@ -84,6 +84,15 @@ class Mets
         return $dmdSec->item(0)->getAttribute("STATUS");
     }
 
+    public function getLastModDate()
+    {
+        $xpath = $this->getMetsXpath();
+        $xpath->registerNamespace("mets", "http://www.loc.gov/METS/");
+
+        $dmdSec = $xpath->query("/mets:mets/mets:metsHdr");
+        return $dmdSec->item(0)->getAttribute("LASTMODDATE");
+    }
+
     public function getFiles()
     {
         $xpath = $this->getMetsXpath();

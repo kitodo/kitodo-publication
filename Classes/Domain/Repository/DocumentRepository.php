@@ -14,17 +14,119 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \EWW\Dpf\Domain\Model\Document;
+use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use \EWW\Dpf\Security\Security;
 
 /**
  * The repository for Documents
  */
-class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
 
-    public function getObjectIdentifiers()
+    /**
+     * Finds all documents of the given user role filtered by owner uid
+     *
+     * @param string role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
+     * @param int $ownerUid
+     * @param array $stateFilters
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function findAllByRole($role, $ownerUid, $stateFilters = array())
     {
+        $query = $this->createQuery();
+        $constraintsOr = array();
+        $constraintsAnd = array();
 
+        switch ($role) {
+
+            case Security::ROLE_LIBRARIAN:
+
+                $constraintsOr[] = $query->logicalAnd(
+                array(
+                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE),
+                $query->equals('owner', $ownerUid)
+                )
+                );
+
+                $constraintsOr[] = $query->logicalAnd(
+                $query->logicalNot(
+                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE)
+                )
+                );
+
+                $constraintsAnd[] = $query->logicalOr($constraintsOr);
+
+                if ($stateFilters) {
+                $constraintsAnd[] = $query->in('state', $stateFilters);
+                }
+
+                $constraintsAnd[] = $query->equals('suggestion', false);
+
+                break;
+
+            case Security::ROLE_RESEARCHER:
+
+                $constraintsAnd = array(
+                    $query->equals('owner', $ownerUid),
+                    $query->equals('suggestion', 0)
+                );
+
+                if ($stateFilters) {
+                    $constraintsAnd[] = $query->in('state', $stateFilters);
+                }
+
+                break;
+        }
+
+        $constraintsAnd[] = $query->equals('temporary', false);
+        $query->matching($query->logicalAnd($constraintsAnd));
+
+        $query->setOrderings(
+            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+        );
+
+        return $query->execute();
+    }
+
+    /**
+     * Finds all suggestion documents of the given user role filtered by owner uid
+     *
+     * @param string $role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
+     * @param int $ownerUid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllDocumentSuggestions($role, $ownerUid) {
+        $query = $this->createQuery();
+
+        switch ($role) {
+
+            case Security::ROLE_LIBRARIAN:
+                $query->matching(
+                    $query->equals('suggestion', true)
+                );
+                break;
+
+            case Security::ROLE_RESEARCHER:
+                $query->matching(
+                    $query->logicalAnd(
+                        array(
+                            $query->equals('suggestion', true),
+                            $query->equals('owner', $ownerUid)
+                        )
+                    )
+                );
+                break;
+        }
+        return $query->execute();
+    }
+
+    /**
+     * @param boolean $temporary
+     * @return array
+     */
+    public function getObjectIdentifiers($temporary = FALSE)
+    {
         $query = $this->createQuery();
 
         $constraints = array(
@@ -32,6 +134,14 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->logicalNot($query->equals('object_identifier', NULL)));
 
         if (count($constraints)) {
+            $constraints[] = $query->logicalAnd(
+                $query->logicalNot(
+                    $query->logicalOr(
+                        $query->equals('temporary', TRUE),
+                        $query->equals('suggestion', TRUE)
+                    )
+                )
+            );
             $query->matching($query->logicalAnd($constraints));
         }
 
@@ -45,54 +155,6 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $objectIdentifiers;
     }
-
-    /**
-     * Finds all new documents
-     *
-     * @return array The found Document Objects
-     */
-    public function getNewDocuments()
-    {
-
-        $query = $this->createQuery();
-
-        $constraints = array(
-                $query->equals('object_identifier', ''),
-                $query->equals('changed', false));
-
-        if (count($constraints)) {
-            $query->matching($query->logicalAnd($constraints));
-        }
-
-        // order by start_date -> start_time...
-        $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
-        return $query->execute();
-    }
-
-    /**
-     * Finds all documents in progress
-     *
-     * @return array The found Document Objects
-     */
-    public function getInProgressDocuments()
-    {
-
-        $query = $this->createQuery();
-        
-        $constraints = array(
-                $query->like('object_identifier', 'qucosa%'),
-                $query->equals('changed', true));
-
-        if (count($constraints)) {
-            $query->matching($query->logicalOr($constraints));
-        }
-
-        return $query->execute();
-    }
-
 
     /**
      * Finds all documents without a process number,
@@ -110,10 +172,113 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $constraints[] =  $query->equals('process_number', NULL);
 
         if (count($constraints)) {
-            $query->matching($query->logicalOr($constraints));
+            $query->matching(
+                $query->logicalAnd(
+                    $query->equals('temporary', FALSE),
+                    $query->logicalOr($constraints)
+                )
+            );
         }
 
         return $query->execute();
+    }
+
+    /**
+     * Finds all outdated temporary documents,
+     *
+     * @param integer $timeout : Time interval (in seconds) in which documents are not outdated.
+     * @return array The found Document Objects
+     */
+    public function findOutdatedTemporaryDocuments($timeout = 3600)
+    {
+        $query = $this->createQuery();
+
+        $dateTimeObj= new \DateTime();
+        $dateTimeObj->sub(new \DateInterval("PT".$timeout."S"));
+
+        $constraints = array();
+        $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
+
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('temporary', TRUE),
+                $query->logicalOr($constraints)
+            )
+        );
+
+        return $query->execute();
+    }
+
+    /**
+     * Finds all outdated locked documents,
+     *
+     * @param integer $timeout : Time interval (in seconds) in which documents are not outdated.
+     * @return array The found Document Objects
+     */
+    public function findOutdatedLockedDocuments($timeout = 3600)
+    {
+        $query = $this->createQuery();
+
+        $dateTimeObj= new \DateTime();
+        $dateTimeObj->sub(new \DateInterval("PT".$timeout."S"));
+
+        $constraints = array();
+        $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
+
+        $query->matching(
+            $query->logicalAnd(
+                $query->logicalNot($query->equals('editor_uid', 0)),
+                $query->logicalOr($constraints)
+            )
+        );
+
+        return $query->execute();
+    }
+
+
+    /**
+     * @param string $objectIdentifier
+     * @return array
+     */
+    public function findWorkingCopyByObjectIdentifier($objectIdentifier)
+    {
+        $query = $this->createQuery();
+
+        $constraints = array(
+            $query->equals('object_identifier', $objectIdentifier),
+            $query->logicalNot($query->equals('temporary', TRUE)),
+            $query->logicalNot($query->equals('suggestion', TRUE))
+        );
+
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
+     * @param string $identifier
+     * @return array
+     */
+    public function findWorkingCopy($identifier)
+    {
+        $query = $this->createQuery();
+
+        if (is_numeric($identifier)) {
+            $constraints = [
+                $query->equals('uid', $identifier)
+            ];
+        } else {
+            $constraints = [
+                $query->equals('object_identifier', $identifier)
+            ];
+        }
+
+        $constraints[] = $query->logicalNot($query->equals('temporary', TRUE));
+        $constraints[] = $query->logicalNot($query->equals('suggestion', TRUE));
+
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
     }
 
 }

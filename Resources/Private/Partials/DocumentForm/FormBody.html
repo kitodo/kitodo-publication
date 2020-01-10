@@ -12,45 +12,45 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-{namespace eww=EWW\Dpf\ViewHelpers}
+{namespace dpf=EWW\Dpf\ViewHelpers}
 
 <f:render partial="DocumentForm/Validation.html" />
 
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-            <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.backendOnly}')}">
+            <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
                 <f:then>
-                    <li class="{f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}">
-                        <a href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
                 </f:then>
             </f:if>
         </f:for>
-        <li><a href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
     </ul>
 </div>
 
 <div class="tab-content">
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-        <f:if condition="{eww:IsElementAllowed(condition:'{formPage.0.backendOnly}')}">
+        <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
             <f:then>
                 <div id="tab-{pageIterator.cycle}"
                      class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"
                      data-page="{formPage.0.uid}">
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
                         <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                            <f:if condition="{eww:IsElementAllowed(condition:'{groupItem.backendOnly}')}">
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
                                     <f:render partial="DocumentForm/Group"
                                               arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
                                     <f:if condition="{groupItem.maxIteration} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
                                             <button type="submit" name="add_group"
-                                                    class="btn btn-xs btn-default add_group"
+                                                    class="btn btn-sm btn-secondary add_group"
                                                     data-group="{groupItem.uid}"
-                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:110124,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
+                                                    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
                                                     data-index="{groupItemIterator.index}">
-                                                <span class="glyphicon glyphicon-plus"></span>
+                                                <i class="fas fa-plus"></i>
                                                 {f:translate(key: 'form_button.add_item', arguments: {0:
                                                 groupItem.displayName})}
                                             </button>
@@ -67,13 +67,13 @@
 
     <div id="tab-file-upload" class="fs_page tab-pane">
         <f:render partial="DocumentForm/PrimaryFileGroup"
-                  arguments="{file:documentForm.primaryFile,virtual:documentForm.virtual}"/>
+                  arguments="{file:documentForm.primaryFile,primaryFileMandatory:documentForm.primaryFileMandatory}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
-        <button type="submit" name="add_file_group" class="btn btn-xs btn-default add_file_group"
+        <button type="submit" name="add_file_group" class="btn btn-sm btn-secondary add_file_group"
                 data-group="file-upload"
-                data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocumentForm',pageType:110124)}"
+                data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum)}"
                 data-index="0">
-            <span class="glyphicon glyphicon-plus"></span>
+            <i class="fas fa-plus"></i>
             {f:translate(key: 'form_button.addFile')}
         </button>
     </div>
@@ -81,22 +81,84 @@
 <div class="prev-next-buttons">
     <button id="next-form-page" class="btn btn-s btn-primary">
         {f:translate(key: 'form_button.nextPage')}
-        <span class="glyphicon glyphicon glyphicon-menu-right"></span>
+        <i class="fas fa-chevron-right"></i>
     </button>
     <button id="prev-form-page" class="btn btn-s btn-primary">
-        <span class="glyphicon glyphicon glyphicon-menu-left"></span>
+        <i class="fas fa-chevron-left"></i>
         {f:translate(key: 'form_button.prevPage')}
     </button>
 </div>
 <div class="form-submit">
-    <f:form.button name="save" id="save" disabled="{f:if(condition: '{documentForm.saveDisabled}', then: 'disabled')}"
-                   class="btn btn-lg btn-success">
-        <span class="glyphicon glyphicon-ok"></span>
-        {f:translate(key: 'form_button.save')}
-    </f:form.button>
+
+    <f:if condition="{edit}">
+        <f:then>
+            <f:if condition="{documentForm.qucosaId} && {documentForm.temporary}">
+                <f:then>
+                    <f:if condition="{suggestMod}">
+                        <f:then>
+                            <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                           class="btn btn-lg btn-success"
+                                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                           value="suggestModification">
+                                <i class="fas fa-check"></i>
+                                {f:translate(key: 'form_button.saveSuggestion')}
+                            </f:form.button>
+                        </f:then>
+                        <f:else>
+                            <f:form.button name="saveAndUpdate" id="saveAndUpdate"
+                                           class="btn btn-lg btn-success"
+                                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}">
+                                <i class="fas fa-check"></i>
+                                {f:translate(key: 'form_button.saveAndUpdate')}
+                            </f:form.button>
+                            <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                           class="btn btn-lg btn-success"
+                                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                           value="workingCopy">
+                                <i class="fas fa-check"></i>
+                                {f:translate(key: 'form_button.saveWorkingCopy')}
+                            </f:form.button>
+                        </f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <f:if condition="{suggestMod}">
+                        <f:then>
+                            <f:form.button name="saveSuggestion" id="saveSuggestion"
+                                           class="btn btn-lg btn-success"
+                                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_SUGGEST_MODIFICATION\')}', then: '', else: 'disable')}"
+                                           value="suggestModification">
+                                <i class="fas fa-check"></i>
+                                {f:translate(key: 'form_button.saveSuggestion')}
+                            </f:form.button>
+                        </f:then>
+                        <f:else>
+                            <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                                           class="btn btn-lg btn-success"
+                                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
+                                           value="workingCopy">
+                                <i class="fas fa-check"></i>
+                                {f:translate(key: 'form_button.save')}
+                            </f:form.button>
+                        </f:else>
+                    </f:if>
+
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <f:form.button name="save" id="{f:if(condition: '{backoffice}', then: 'saveCreate', else: 'save')}"
+                           class="btn btn-lg btn-success"
+                           disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE\')} ||
+                   {dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE_REGISTER\')}', then: '', else: 'disabled')}">
+                <i class="fas fa-check"></i>
+                {f:translate(key: 'form_button.save')}
+            </f:form.button>
+        </f:else>
+    </f:if>
 
     <f:form.button name="validate" type="button" id="validate" class="btn btn-lg btn-info">
-        <span class="glyphicon glyphicon-chevron-right"></span>
+        <i class="fas fa-chevron-right"></i>
         {f:translate(key: 'form_button.validate')}
     </f:form.button>
 </div>

@@ -14,12 +14,13 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+
 /**
  * Document
  */
 class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * title
      *
@@ -70,13 +71,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reservedObjectIdentifier;
 
     /**
-     * state
-     *
-     * @var string
-     */
-    protected $state = self::OBJECT_STATE_NEW;
-
-    /**
      * transferStatus
      *
      * @var string
@@ -86,7 +80,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      *  transferDate
      *
-     *  @var integer
+     * @var integer
      */
     protected $transferDate;
 
@@ -117,6 +111,63 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $processNumber;
 
     /**
+     * @var bool $suggestion
+     */
+    protected $suggestion = false;
+
+    /**
+     * owner
+     *
+     * @var integer
+     */
+    protected $owner = 0;
+
+    /**
+     * state
+     *
+     * @var string
+     */
+    protected $state = DocumentWorkflow::STATE_NONE_NONE;
+
+    /**
+     * editorUid
+     *
+     * @var integer
+     */
+    protected $editorUid = 0;
+
+    /**
+     * temporary
+     *
+     * @var boolean
+     */
+    protected $temporary = FALSE;
+
+    /**
+     * remoteLastModDate
+     *
+     * @var string
+     */
+    protected $remoteLastModDate = '';
+
+    /**
+     * tstamp
+     *
+     * @var integer
+     */
+    protected $tstamp;
+
+    /**
+     * @var string
+     */
+    protected $linkedUid = '';
+
+    /**
+     * @var string
+     */
+    protected $comment = '';
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -124,15 +175,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $file = null;
 
-    const TRANSFER_ERROR  = "ERROR";
+    const TRANSFER_ERROR = "ERROR";
     const TRANSFER_QUEUED = "QUEUED";
-    const TRANSFER_SENT   = "SENT";
-
-    const OBJECT_STATE_NEW             = "NEW";
-    const OBJECT_STATE_ACTIVE          = "ACTIVE";
-    const OBJECT_STATE_INACTIVE        = "INACTIVE";
-    const OBJECT_STATE_DELETED         = "DELETED";
-    const OBJECT_STATE_LOCALLY_DELETED = "LOCALLY_DELETED";
+    const TRANSFER_SENT = "SENT";
 
     /**
      * __construct
@@ -193,7 +238,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setAuthors($authors)
     {
-        $authors       = implode("; ", $authors);
+        $authors = implode("; ", $authors);
         $this->authors = $authors;
     }
 
@@ -299,27 +344,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setReservedObjectIdentifier($reservedObjectIdentifier)
     {
         $this->reservedObjectIdentifier = $reservedObjectIdentifier;
-    }
-
-    /**
-     * Returns the state
-     *
-     * @return string
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * Sets the state
-     *
-     * @param string $state
-     * @return void
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
     }
 
     /**
@@ -488,15 +512,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if (!$file->isFileGroupDeleted()) {
 
                     $tmpFile = array(
-                        'path'      => $file->getLink(),
-                        'type'      => $file->getContentType(),
-                        'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                        'download'  => $file->getDownload(),
-                        'archive'   => $file->getArchive(),
-                        'use'       => '',
-                        'id'        => null,
+                        'path' => $file->getLink(),
+                        'type' => $file->getContentType(),
+                        'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                        'download' => $file->getDownload(),
+                        'archive' => $file->getArchive(),
+                        'use' => '',
+                        'id' => null,
                         'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
+                            $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                     );
 
                     $grpUSE = ($file->getDownload()) ? 'download' : 'original';
@@ -537,15 +561,15 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             foreach ($this->getFile() as $file) {
 
                 $tmpFile = array(
-                    'path'      => $file->getLink(),
-                    'type'      => $file->getContentType(),
-                    'title'     => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                    'download'  => $file->getDownload(),
-                    'archive'   => $file->getArchive(),
-                    'use'       => '',
-                    'id'        => null,
+                    'path' => $file->getLink(),
+                    'type' => $file->getContentType(),
+                    'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
+                    'download' => $file->getDownload(),
+                    'archive' => $file->getArchive(),
+                    'use' => '',
+                    'id' => null,
                     'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                                    $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
+                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
                 );
 
                 $grpUSE = ($file->getDownload()) ? 'download' : 'original';
@@ -553,13 +577,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
                     $dataStreamIdentifier = $file->getDatastreamIdentifier();
                     if (!empty($dataStreamIdentifier)) {
-                        $tmpFile['id']                   = $file->getDatastreamIdentifier();
-                        $tmpFile['use']                  = 'DELETE';
+                        $tmpFile['id'] = $file->getDatastreamIdentifier();
+                        $tmpFile['use'] = 'DELETE';
                         $files[$grpUSE][$file->getUid()] = $tmpFile;
                     }
                 } else {
-                    $tmpFile['id']                   = $fileId->getId($file);
-                    $tmpFile['use']                  = ($file->getArchive()) ? 'ARCHIVE' : '';
+                    $tmpFile['id'] = $fileId->getId($file);
+                    $tmpFile['use'] = ($file->getArchive()) ? 'ARCHIVE' : '';
                     $files[$grpUSE][$file->getUid()] = $tmpFile;
                 }
 
@@ -633,113 +657,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->dateIssued = empty($dateIssued) ? '' : $dateIssued;
     }
 
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isDeleteAllowed()
-    {
-        return ($this->state == self::OBJECT_STATE_INACTIVE ||
-            $this->state == self::OBJECT_STATE_ACTIVE) &&
-        !empty($this->objectIdentifier);
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isActive()
-    {
-        return $this->state == self::OBJECT_STATE_ACTIVE ||
-        $this->state == self::OBJECT_STATE_NEW ||
-            ($this->state != self::OBJECT_STATE_INACTIVE &&
-            $this->state != self::OBJECT_STATE_DELETED &&
-            $this->state != self::OBJECT_STATE_LOCALLY_DELETED);
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isActivationChangeAllowed()
-    {
-        return $this->state == self::OBJECT_STATE_INACTIVE ||
-        $this->state == self::OBJECT_STATE_ACTIVE;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isDeleteRemote()
-    {
-        return $this->state == self::OBJECT_STATE_LOCALLY_DELETED;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isRestoreRemote()
-    {
-        return $this->state == self::OBJECT_STATE_DELETED;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isActivateRemote()
-    {
-        return $this->state == self::OBJECT_STATE_INACTIVE;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isInactivateRemote()
-    {
-        return $this->state == self::OBJECT_STATE_ACTIVE;
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isIngestRemote()
-    {
-        return ($this->state == self::OBJECT_STATE_NEW || $this->state == self::OBJECT_STATE_ACTIVE) && empty($this->objectIdentifier);
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function isUpdateRemote()
-    {
-        return ($this->state == self::OBJECT_STATE_ACTIVE || $this->state == self::OBJECT_STATE_INACTIVE) && !empty($this->objectIdentifier);
-    }
-
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function getIsNew()
-    {
-        return (!$this->changed) && (empty($this->objectIdentifier));
-    }
-
 
     /**
      * Returns the process number
@@ -788,5 +705,191 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
         return $mods->getQucosaUrn();
     }
+
+    /**
+     * Returns the owner uid
+     *
+     * @return integer
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Sets the owner uid
+     *
+     * @param integer $owner
+     * @return void
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    public function getRemoteState()
+    {
+        $state = explode(':', $this->state);
+        if (is_array($state) && array_key_exists(1, $state)) {
+            return $state[1];
+        }
+        return DocumentWorkflow::REMOTE_STATE_NONE;
+    }
+
+    public function getLocalState() {
+        $state = explode(':', $this->state);
+        if (is_array($state) && array_key_exists(0, $state)) {
+            return $state[0];
+        }
+        return DocumentWorkflow::LOCAL_STATE_NONE;
+    }
+
+    /**
+     * Returns if a document is a temporary document.
+     *
+     * @return boolean $temporary
+     */
+    public function isTemporary() {
+        return $this->temporary;
+    }
+
+    /**
+     * Sets if a document is a temporary document or not.
+     *
+     * @param boolean $temporary
+     * @return void
+     */
+    public function setTemporary($temporary) {
+        $this->temporary = $temporary;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEditorUid()
+    {
+        return $this->editorUid;
+    }
+
+    /**
+     * @param integer $editorUid
+     * @return void
+     */
+    public function setEditorUid($editorUid)
+    {
+        $this->editorUid = $editorUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoteLastModDate()
+    {
+        return $this->remoteLastModDate;
+    }
+
+    /**
+     * @param string $remoteLastModDate
+     * @return void
+     */
+    public function setRemoteLastModDate($remoteLastModDate)
+    {
+        $this->remoteLastModDate = $remoteLastModDate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTstamp()
+    {
+        return $this->tstamp;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuggestion(): bool
+    {
+        return $this->suggestion;
+    }
+
+    /**
+     * @param bool $suggestion
+     */
+    public function setSuggestion(bool $suggestion)
+    {
+        $this->suggestion = $suggestion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLinkedUid(): string
+    {
+        return $this->linkedUid;
+    }
+
+    /**
+     * @param string $linkedUid
+     */
+    public function setLinkedUid(string $linkedUid)
+    {
+        $this->linkedUid = $linkedUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * Copies the data of the given document object into the current document object.
+     *
+     * @param Document $documentToCopy
+     * @return $this
+     * @throws \TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException
+     */
+    public function copy(Document $documentToCopy) {
+        $availableProperties = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getGettablePropertyNames($documentToCopy);
+        $newDocument = $this;
+
+        foreach ($availableProperties as $propertyName) {
+            if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newDocument, $propertyName)
+                && !in_array($propertyName, array('uid','pid', 'file', 'comment', 'linkedUid', 'suggestion', 'owner'))) {
+
+                $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($documentToCopy, $propertyName);
+                \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newDocument, $propertyName, $propertyValue);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNotes() {
+        $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
+        return $slub->getNotes();
+    }
+
 
 }

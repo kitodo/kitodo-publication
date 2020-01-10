@@ -204,7 +204,20 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $submitterIngestNotificationBody = '';
+    
+    /**
+     * adminRegisterDocumentNotificationSubject
+     *
+     * @var string
+     */
+    protected $adminRegisterDocumentNotificationSubject = '';
 
+    /**
+     * adminRegisterDocumentNotificationBody
+     *
+     * @var string
+     */
+    protected $adminRegisterDocumentNotificationBody = '';
 
     /**
      * Returns the project
@@ -750,6 +763,48 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setAdminNewDocumentNotificationBody($adminNewDocumentNotificationBody)
     {
         $this->adminNewDocumentNotificationBody = $adminNewDocumentNotificationBody;
+    }
+
+    /**
+     * Gets the adminRegisterDocumentNotificationSubject
+     *
+     * @return string
+     */
+    public function getAdminRegisterDocumentNotificationSubject()
+    {
+        return $this->adminRegisterDocumentNotificationSubject;
+    }
+
+    /**
+     * Sets the adminRegisterDocumentNotificationSubject
+     *
+     * @var string $adminRegisterDocumentNotificationSubject
+     * @return void
+     */
+    public function setAdminRegisterDocumentNotificationSubject($adminRegisterDocumentNotificationSubject)
+    {
+        $this->adminRegisterDocumentNotificationSubject = $adminRegisterDocumentNotificationSubject;
+    }
+
+    /**
+     * Gets the adminRegisterDocumentNotificationBody
+     *
+     * @return string
+     */
+    public function getAdminRegisterDocumentNotificationBody()
+    {
+        return $this->adminRegisterDocumentNotificationBody;
+    }
+
+    /**
+     * Sets the adminRegisterDocumentNotificationBody
+     *
+     * @var string $adminRegisterDocumentNotificationBody
+     * @return void
+     */
+    public function setAdminRegisterDocumentNotificationBody($adminRegisterDocumentNotificationBody)
+    {
+        $this->adminRegisterDocumentNotificationBody = $adminRegisterDocumentNotificationBody;
     }
 
 }

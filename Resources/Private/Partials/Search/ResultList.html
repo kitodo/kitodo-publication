@@ -55,7 +55,7 @@
                         {entry._source._dissemination._content.issue}
                     </f:if>
                 </td>
-                <td>{dpf:showState(state:'{entry._source.STATE}')}</td>
+                <td>{dpf:showStatus(status:'{entry._source.STATE}')}</td>
                 <td>{entry._source._dissemination._content.author.0}</td>
                 <td>
                     <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">
@@ -76,30 +76,50 @@
                 <td class="table_col_function">
                     <dpf:link.preview arguments="{documentObjectIdentifier : entry._source.PID}"
                                       pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
-                                      class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-eye-open"></span>
+                                      class="btn btn-sm btn-secondary">
+                        <i class="fas fa-eye"></i>
                     </dpf:link.preview>
 
                     <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
                                       pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
-                                      class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                                      class="btn btn-sm btn-secondary">
+                        <i class="fas fa-info-circle"></i>
                     </dpf:link.dataCite>
 
-                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{alreadyImported}')}">
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
                         <f:then>
-                            <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
-                                           class="btn btn-xs btn-info disabled">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                                {f:translate(key: 'manager.get')}
+                            <f:link.action action="showDetails"
+                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                                           class="btn btn-sm btn-info">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.showWorkingCopy')}
                             </f:link.action>
                         </f:then>
                         <f:else>
-                            <f:link.action action="import"
-                                           arguments="{documentObjectIdentifier : entry._source.PID, objectState: entry._source.STATE }"
-                                           class="btn btn-xs btn-info  {f:if(condition: '{entry._source.PID}', then: '', else: 'disabled')}">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                                {f:translate(key: 'manager.get')}
+                            <f:link.action action="showDetails"
+                                           arguments="{documentObjectIdentifier : ''}"
+                                           class="btn btn-sm btn-info disabled">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.showWorkingCopy')}
+                            </f:link.action>
+                        </f:else>
+                    </f:if>
+
+                    <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
+                        <f:then>
+                            <f:link.action action="importForEditing"
+                                           arguments="{documentObjectIdentifier : ''}"
+                                           class="btn btn-sm btn-info disabled">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.show')}
+                            </f:link.action>
+                        </f:then>
+                        <f:else>
+                            <f:link.action action="importForEditing"
+                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                                           class="btn btn-sm btn-info">
+                                <i class="fas fa-download"></i>
+                                {f:translate(key: 'manager.show')}
                             </f:link.action>
                         </f:else>
                     </f:if>
@@ -110,7 +130,7 @@
                 <td>{entry._source.title.0}
                     <f:if condition="{entry._source.issue}">, {entry._source.issue}</f:if>
                 </td>
-                <td>{dpf:showState(state:'{entry._source.STATE}'})}</td>
+                <td>{dpf:showStatus(status:'{entry._source.STATE}'})}</td>
                 <td>{entry._source.author}</td>
                 <td>
                     <f:for each="{entry._source._dissemination._content.corporation}" as="corporation">
@@ -128,16 +148,17 @@
                     </f:if>
                 </td>
                 <td class="table_col_function">
+
                     <f:link.action action="import" arguments="{documentObjectIdentifier : '', objectState: ''}"
                                    class="btn btn-sm btn-info disabled">
-                        <span class="glyphicon glyphicon-download-alt"></span>
+                        <i class="fas fa-download"></i>
                         {f:translate(key: 'manager.get')}
                     </f:link.action>
 
                     <dpf:link.dataCite arguments="{documentObjectIdentifier : entry._source.PID}"
                                       pageUid="{settings.previewPage}" apiPid="{settings.apiPid}"
-                                      class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                                      class="btn btn-sm btn-secondary">
+                        <i class="fas fa-info-circle"></i>
                     </dpf:link.dataCite>
                 </td>
             </f:else>

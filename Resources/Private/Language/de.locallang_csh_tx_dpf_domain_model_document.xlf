@@ -21,14 +21,14 @@
 			<source>objectIdentifier</source>
 			<target>Objektkennung</target>
 		</trans-unit>
-		<trans-unit id="state.description" approved="yes">
-			<source>Local State</source>
-			<target>Lokaler Status</target>
-		</trans-unit>
 		<trans-unit id="transfer_status.description" approved="yes">
 			<source>Transfer State</source>
 			<target>Transfer Status</target>
 		</trans-unit>
+        <trans-unit id="remote_last_mod_date.description" approved="yes">
+            <source>Remote last modification date</source>
+            <target>Datum der letzten Änderung auf dem Server</target>
+        </trans-unit>
 		<trans-unit id="process_number.description" approved="yes">
 			<source>processNumber</source>
 			<target>Vorgangsnummer</target>
@@ -60,6 +60,22 @@
         <trans-unit id="file.description" approved="yes">
             <source>file</source>
             <target>Datei</target>
+        </trans-unit>
+        <trans-unit id="owner.description" approved="yes">
+            <source>owner</source>
+            <target>Besitzer</target>
+        </trans-unit>
+        <trans-unit id="editor_uid.description" approved="yes">
+            <source>editor uid</source>
+            <target>Bearbeiter-UID</target>
+        </trans-unit>
+        <trans-unit id="temporary.description" approved="yes">
+            <source>temporary</source>
+            <target>Temporär</target>
+        </trans-unit>
+        <trans-unit id="viewers.description" approved="yes">
+            <source>viewers</source>
+            <target>Betrachter</target>
         </trans-unit>
 		</body>
 	</file>
