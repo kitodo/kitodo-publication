@@ -38,13 +38,17 @@ WORKDIR /var/www/html
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN echo '{"require":{"typo3/cms":"~8.7.0"}}' > /var/www/html/composer.json && \
     composer update && \
+    composer config extra.typo3/cms.cms-package-dir '{$vendor-dir}/typo3/cms' && \
+    mkdir typo3temp && \
+    mkdir typo3conf && \
+    mkdir fileadmin && \
+    mkdir uploads && \
     touch FIRST_INSTALL && \
     chown -R www-data .
 
 FROM typo3builder
 WORKDIR /var/www/html
-RUN composer config repositories.t3ter composer https://composer.typo3.org && \
-    composer config repositories.kitodo-publication path /app && \
+RUN composer config repositories.kitodo-publication '{"type": "path", "url": "/app", "options": {"symlink": true}}' && \
     composer config minimum-stability dev && \
     composer config prefer-stable true
 RUN composer require devlog/devlog:~3.0.4 && \
