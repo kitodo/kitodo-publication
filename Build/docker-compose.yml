@@ -1,11 +1,9 @@
-version: '2'
+version: '3.5'
 
 services:
-    typo3-database:
+    db:
         image: mysql:5.6
-        container_name: kitodo-publication-mysql
-        command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
-        hostname: db
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
         ports:
             - "3306:3306"
         environment:
@@ -14,35 +12,39 @@ services:
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - mysql-latest:/var/lib/mysql
+            - db:/var/lib/mysql
         networks:
-            frontend:
-                aliases:
-                    - db
+            - frontend
 
-    typo3-app:
+    typo3:
         build:
             context: ..
             dockerfile: Build/Dockerfile-TYPO3
         image: kitodo-publication:latest
-        container_name: kitodo-publication-typo3
-        hostname: typo3
         ports:
             - "80:80"
         volumes:
             - ..:/app
-            - website-latest:/var/www/html
+            - fileadmin:/var/www/html/fileadmin
+            - typo3temp:/var/www/html/typo3temp
+            - typo3conf:/var/www/html/typo3conf
+            - uploads:/var/www/html/uploads
         depends_on:
-            - typo3-database
+            - db
         networks:
             - frontend
-            - qucosafcrepodocker_backend
+            - backend
 
 volumes:
-    mysql-latest:
-    website-latest:
+    db:
+    fileadmin:
+    typo3temp:
+    typo3conf:
+    uploads:
 
 networks:
     frontend:
-    qucosafcrepodocker_backend:
-        external: true
+        name: kitodopublication_frontend
+    backend:
+        external:
+            name: qucosa_backend
