@@ -54,5 +54,6 @@ RUN composer config repositories.kitodo-publication '{"type": "path", "url": "/a
 RUN composer require devlog/devlog:~3.0.4 && \
     composer require kitodo/presentation
 COPY . /app
-RUN composer require kitodo/publication && \
+RUN composer require nimut/testing-framework && \
+    composer require kitodo/publication:@dev && \
     chown -R www-data .
