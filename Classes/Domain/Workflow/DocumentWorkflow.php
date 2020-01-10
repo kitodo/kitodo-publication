@@ -19,7 +19,6 @@ use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
 use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
 use Symfony\Component\Workflow\Registry;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class DocumentWorkflow
 {
