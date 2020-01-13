@@ -46,17 +46,6 @@
                     </f:link.action>
                 </f:if>
 
-                <f:comment>
-                    <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_UPDATE')}">
-                        <f:link.action action="releaseUpdate" arguments="{document : document, tstamp : document.tstamp}"
-                                       class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
-                                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleaseUpdate'}">
-                            <i class="fas fa-sync"></i>
-                            {f:translate(key: 'manager.releaseUpdate')}
-                        </f:link.action>
-                    </f:if>
-                </f:comment>
-
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGEST_MODIFICATION')}">
                     <f:link.action
                             action="suggestModification"
@@ -205,6 +194,5 @@
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseUpdate'}" />
 
 </f:section>

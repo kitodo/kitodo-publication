@@ -44,6 +44,14 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     protected $fedoraRepository;
 
     /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @inject
+     */
+    protected $editingLockService = null;
+
+    /**
      * DocumentController constructor.
      */
     public function __construct()
@@ -119,7 +127,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         $this->view->assign('document', $document);
         $this->view->assign('suggestMod', $suggestMod);
-        $document->setEditorUid($this->security->getUser()->getUid());
+
+        $this->editingLockService->lock(
+            ($document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid()),
+            $this->security->getUser()->getUid()
+        );
+
         $this->documentRepository->update($document);
         $this->persistenceManager->persistAll();
         parent::editAction($documentForm);
@@ -457,16 +470,16 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     public function cancelEditAction($documentUid = 0)
     {
         if ($documentUid) {
-            /* @var $document \EWW\Dpf\Domain\Model\Document */
+            /** @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->documentRepository->findByUid($documentUid);
 
-            if ($document) {
+/*            if ($document) {
                 if (!$document->isTemporary() && $document->getEditorUid() === $this->security->getUser()->getUid()) {
                     $document->setEditorUid(0);
                 }
                 $this->documentRepository->update($document);
             }
-
+*/
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
 

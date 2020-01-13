@@ -518,14 +518,8 @@
 		<trans-unit id="manager.confirmReleasePublish.message">
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 		</trans-unit>
-		<trans-unit id="manager.confirmReleaseUpdate.message">
-			<source>All document changes of &quot;%s&quot; will be sent to the repository and the working copy will be removed.</source>
-		</trans-unit>
 		<trans-unit id="manager.confirmReleasePublish.messageHeader">
 			<source>Do you really want to publish the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmReleaseUpdate.messageHeader">
-			<source>Do you really want to update the document?</source>
 		</trans-unit>
 		<trans-unit id="manager.confirmRestore.message">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
@@ -550,9 +544,6 @@
 		</trans-unit>
 		<trans-unit id="manager.tooltip.datacite">
 			<source>Download DataCite XML</source>
-		</trans-unit>
-		<trans-unit id="manager.releaseUpdate">
-			<source>update</source>
 		</trans-unit>
 		<trans-unit id="manager.chooseClientMessage">
 			<source>Please select a client in the page tree.</source>

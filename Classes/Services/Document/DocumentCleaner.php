@@ -26,6 +26,14 @@ class DocumentCleaner
     protected $documentRepository = null;
 
     /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @inject
+     */
+    protected $editingLockService = null;
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
@@ -48,61 +56,25 @@ class DocumentCleaner
      * @param \EWW\Dpf\Domain\Model\Document $openedDocument
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function cleanUpDocuments($actionMethodName, $controllerClass, $openedDocument = NULL)
+    public function cleanUpDocuments($actionMethodName, $controllerClass)
     {
-        $this->cleanUpOutdatedDocuments();
-
-        $feUserUid = $this->security->getUser()->getUid();
-        $this->cleanUpTemporaryDocumentsByFeUser($feUserUid, $actionMethodName, $controllerClass);
-        $this->unlockDocumentsByFeUser($feUserUid, $actionMethodName, $controllerClass);
+        $this->cleanUpTemporaryDocuments($actionMethodName, $controllerClass);
+        $this->cleanUpEditingLocks($actionMethodName, $controllerClass);
     }
 
-
     /**
-     * Removes all outdated temporary documents and unlocks all outdated locked documents.
-     *
+     * @param string $actionMethodName
+     * @param string $controllerClass
+     * @param \EWW\Dpf\Domain\Model\Document $openedDocument
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    protected function cleanUpOutdatedDocuments()
-    {
-        // Remove outdated temporary documents from the document table.
-        $outdatedTemporaryDocuments = $this->documentRepository->findOutdatedTemporaryDocuments(3600);
-        foreach ($outdatedTemporaryDocuments as $outdatedTemporaryDocument) {
-            /** @var  \EWW\Dpf\Domain\Model\Document $outdatedTemporaryDocument */
-            $this->documentRepository->remove($outdatedTemporaryDocument);
-        }
-
-        // Unlock outdated locked documents.
-        $outdatedLockedDocuments = $this->documentRepository->findOutdatedLockedDocuments(3600);
-        foreach ($outdatedLockedDocuments as $outdatedLockedDocument) {
-            /** @var  \EWW\Dpf\Domain\Model\Document $outdatedTemporaryDocument */
-            $this->documentRepository->update($outdatedLockedDocument);
-        }
-
-        $this->persistenceManager->persistAll();
-    }
-
-
-    /**
-     * Removes the temporary documents of a frontend user.
-     *
-     * @param $feUserUid
-     * @param $actionMethodName
-     * @param $controllerClass
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     */
-    public function cleanUpTemporaryDocumentsByFeUser($feUserUid, $actionMethodName, $controllerClass)
+    public function cleanUpTemporaryDocuments($actionMethodName, $controllerClass)
     {
         $excludeActions = [
             \EWW\Dpf\Controller\DocumentController::class => [
                 'showDetailsAction',
-                'deleteLocallyAction',
                 'postponeAction',
                 'discardAction',
-                'releasePublishAction',
-                'releaseUpdateAction',
                 'releaseActivateAction',
                 'suggestModificationAction'
             ],
@@ -112,15 +84,18 @@ class DocumentCleaner
                 'updateAction',
                 'updateLocallyAction',
                 'updateRemoteAction',
-                'updateAction',
                 'createSuggestionDocumentAction'
             ]
         ];
+
+        $this->cleanUpOutdatedTemporaryDocuments();
 
         if (
             !array_key_exists($controllerClass, $excludeActions) ||
             !in_array($actionMethodName, $excludeActions[$controllerClass])
         ) {
+            // Remove all temporary documents of the user.
+            $feUserUid = $this->security->getUser()->getUid();
             $documents = $this->documentRepository->findByTemporary(TRUE);
             foreach ($documents as $document) {
                 /** @var  \EWW\Dpf\Domain\Model\Document $document */
@@ -129,60 +104,47 @@ class DocumentCleaner
                 }
             }
         }
-
-        $this->persistenceManager->persistAll();
     }
 
-
     /**
-     * Unlocks the locked documents of a frontend user.
+     * Removes all outdated temporary documents and unlocks all outdated editing locks.
      *
-     * @param $feUserUid
-     * @param $actionMethodName
-     * @param $controllerClass
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function unlockDocumentsByFeUser($feUserUid, $actionMethodName, $controllerClass)
+    protected function cleanUpOutdatedTemporaryDocuments()
     {
-        $excludeActions = [
-            \EWW\Dpf\Controller\DocumentController::class => [
-                'showDetailsAction' => 'temporary',
-                'deleteLocallyAction' => 'all',
-                'postponeAction' => 'all',
-                'discardAction' => 'all',
-                'releasePublishAction' => 'all',
-                'releaseUpdateAction' => 'all',
-                'releaseActivateAction' => 'all',
-                'suggestModificationAction' => 'all'
-            ],
-            \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
-                'editAction' => 'all',
-                'cancelEditAction' => 'all',
-                'updateAction' => 'all',
-                'updateLocallyAction' => 'all',
-                'updateRemoteAction' => 'all',
-                'updateAction' => 'all',
-                'createSuggestionDocumentAction' => 'all'
-            ]
-        ];
-
-        if (
-            !array_key_exists($controllerClass, $excludeActions) ||
-            (
-                !array_key_exists($actionMethodName, $excludeActions[$controllerClass])
-            )
-        ) {
-            $lockedDocuments = $this->documentRepository->findByEditorUid($feUserUid);
-            foreach ($lockedDocuments as $lockedDocument) {
-                /** @var  \EWW\Dpf\Domain\Model\Document $lockedDocument */
-                $lockedDocument->setEditorUid(0);
-                $this->documentRepository->update($lockedDocument);
-            }
+        // Remove outdated temporary documents from the document table.
+        $outdatedTemporaryDocuments = $this->documentRepository->findOutdatedTemporaryDocuments(3600);
+        foreach ($outdatedTemporaryDocuments as $outdatedTemporaryDocument) {
+            /** @var  \EWW\Dpf\Domain\Model\Document $outdatedTemporaryDocument */
+            $this->documentRepository->remove($outdatedTemporaryDocument);
         }
-
         $this->persistenceManager->persistAll();
     }
 
+    /**
+     * Unlocks all editing locks of the current user.
+     */
+    protected function cleanUpEditingLocks($controllerClass, $actionMethodName)
+    {
+        $excludeActions = [
+            \EWW\Dpf\Controller\DocumentController::class => [
+            ],
+            \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
+            ]
+        ];
+
+        // Unlock outdated editing locks.
+        $this->editingLockService->unlockOutdatedLocks(3600);
+
+        if (
+            !array_key_exists($controllerClass, $excludeActions) ||
+            !in_array($actionMethodName, $excludeActions[$controllerClass])
+        ) {
+            $feUserUid = $this->security->getUser()->getUid();
+            $this->editingLockService->unlockAllByEditor($feUserUid);
+        }
+    }
 
 }

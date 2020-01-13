@@ -79,7 +79,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'Backoffice',
     array(
         'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
-            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
@@ -90,7 +90,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     // non-cacheable actions
     array(
         'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
-            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',

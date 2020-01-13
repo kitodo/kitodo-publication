@@ -431,6 +431,15 @@
         <trans-unit id="tx_dpf_domain_model_viewer.fe_user_uid">
             <source>FeUser Uid</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock">
+            <source>Editing Lock</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.document_identifier">
+            <source>Document Identifier</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.editor_uid">
+            <source>Editor UID</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

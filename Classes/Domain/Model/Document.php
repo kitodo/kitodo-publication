@@ -891,5 +891,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $slub->getNotes();
     }
 
+    /**
+     * Gets the document Identifier
+     *
+     * @return string|int
+     */
+    public function getDocumentIdentifier()
+    {
+        return $this->getObjectIdentifier()? $this->getObjectIdentifier() : $this->getUid();
+    }
 
 }

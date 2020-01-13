@@ -64,6 +64,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     protected $persistenceManager;
 
     /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @inject
+     */
+    protected $editingLockService = null;
+
+    /**
      * documentValidator
      *
      * @var \EWW\Dpf\Helper\DocumentValidator
@@ -435,7 +443,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function discardAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = NULL)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::DISCARD, $document)) {
-            if ($document->getEditorUid()) {
+            if (
+                $this->editingLockService->isLocked(
+                    $document->getDocumentIdentifier(),
+                    $this->security->getUser()->getUid()
+                )
+            ) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.failureBlocked';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_discard.accessDenied';
@@ -528,7 +541,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     public function postponeAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = NULL)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::POSTPONE, $document)) {
-            if ($document->getEditorUid()) {
+            if (
+                $this->editingLockService->isLocked(
+                    $document->getDocumentIdentifier(),
+                    $this->security->getUser()->getUid()
+                )
+            ) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_postpone.failureBlocked';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_postpone.accessDenied';
@@ -627,7 +645,12 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
 
         if (!$this->authorizationChecker->isGranted($voterAttribute, $document)) {
-            if ($document->getEditorUid()) {
+            if (
+                $this->editingLockService->isLocked(
+                    $document->getDocumentIdentifier(),
+                    $this->security->getUser()->getUid()
+                )
+            ) {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.failureBlocked';
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.accessDenied';
@@ -722,53 +745,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
     }
 
-
-    /**
-     * releaseUpdateAction
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @param integer $tstamp
-     * @return void
-     */
-    public function releaseUpdateAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
-    {
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::RELEASE_UPDATE, $document)) {
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied';
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
-        }
-
-        try {
-            if (
-                $this->documentTransferManager->getLastModDate($document->getObjectIdentifier()) === $document->getRemoteLastModDate() &&
-                $tstamp === $document->getTstamp()
-            ) {
-                if ($this->documentTransferManager->update($document)) {
-                    $this->documentRepository->remove($document);
-                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
-                    $this->flashMessage($document, $key, AbstractMessage::OK);
-                    $this->redirect('list');
-                }
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failureNewVersion';
-                $this->flashMessage($document, $key, AbstractMessage::ERROR);
-                $this->redirect('showDetails', 'Document', NULL, ['document' => $document]);
-            }
-        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
-            // A redirect always throws this exception, but in this case, however,
-            // redirection is desired and should not lead to an exception handling
-        } catch (\Exception $exception) {
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('list');
-        }
-
-    }
 
     /**
      * releasePublishAction

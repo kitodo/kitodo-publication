@@ -15,7 +15,6 @@ $(document).ready(function() {
     documentListConfirmDialog("#confirmDiscard");
     documentListConfirmDialog("#confirmReleasePublish");
     documentListConfirmDialog("#confirmReleaseActivate");
-    documentListConfirmDialog("#confirmReleaseUpdate");
     documentListConfirmDialog("#confirmActivate");
     documentListConfirmDialog("#confirmInactivate");
     documentListConfirmDialog("#confirmRestore");

@@ -33,7 +33,6 @@ class DocumentVoter extends Voter
     const DELETE_WORKING_COPY = "DOCUMENT_DELETE_WORKING_COPY";
     const DUPLICATE = "DOCUMENT_DUPLICATE";
     const RELEASE_PUBLISH = "DOCUMENT_RELEASE_PUBLISH";
-//    const RELEASE_UPDATE = "DOCUMENT_RELEASE_UPDATE";
     const RELEASE_ACTIVATE = "DOCUMENT_RELEASE_ACTIVATE";
     const REGISTER = "DOCUMENT_REGISTER";
     const SHOW_DETAILS = "DOCUMENT_SHOW_DETAILS";
@@ -46,6 +45,14 @@ class DocumentVoter extends Voter
     const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
     const SUGGEST_MODIFICATION = "DOCUMENT_SUGGEST_MODIFICATION";
     const SUGGESTION_ACCEPT = "DOCUMENT_SUGGESTION_ACCEPT";
+
+    /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @inject
+     */
+    protected $editingLockService = null;
 
     /**
      * workflow
@@ -79,7 +86,6 @@ class DocumentVoter extends Voter
             self::DELETE_WORKING_COPY,
             self::DUPLICATE,
             self::RELEASE_PUBLISH,
-//            self::RELEASE_UPDATE,
             self::RELEASE_ACTIVATE,
             self::REGISTER,
             self::SHOW_DETAILS,
@@ -174,10 +180,6 @@ class DocumentVoter extends Voter
                 return $this->canReleasePublish($subject);
                 break;
 
-//            case self::RELEASE_UPDATE:
-//                return $this->canReleaseUpdate($subject);
-//                break;
-
             case self::RELEASE_ACTIVATE:
                 return $this->canReleaseActivate($subject);
                 break;
@@ -256,7 +258,6 @@ class DocumentVoter extends Voter
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DISCARD)) {
-
             return (
                 $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
                 (
@@ -276,10 +277,6 @@ class DocumentVoter extends Voter
      */
     protected function canShowDetails($document)
     {
-        if ($document->isTemporary() && $this->isDocumentLocked($document)) {
-            return FALSE;
-        }
-
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
@@ -337,31 +334,6 @@ class DocumentVoter extends Voter
         return FALSE;
     }
 
-    /*
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return bool
-     *
-    protected function canReleaseUpdate($document)
-    {
-        if ($this->isDocumentLocked($document)) {
-            return FALSE;
-        }
-
-        if (
-            $document->isTemporary() &&
-            $document->getEditorUid() !== $this->security->getUser()->getUid()
-        ) {
-            return FALSE;
-        }
-
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            return $this->workflow->can($document,
-                \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_RELEASE_UPDATE);
-        }
-
-        return FALSE;
-    }
-    */
 
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -467,7 +439,7 @@ class DocumentVoter extends Voter
      */
     protected function canUpdate($document)
     {
-        if ($this->security->getUser()->getUid() !== $document->getEditorUid()) {
+        if ($this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -595,10 +567,8 @@ class DocumentVoter extends Voter
      */
     protected function isDocumentLocked($document)
     {
-        return (
-            $document->getEditorUid() !== 0 &&
-            $document->getEditorUid() !== $this->security->getUser()->getUid()
-        );
+        $identifier = $document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid();
+        return $this->editingLockService->isLocked($identifier, $this->security->getUser()->getUid());
     }
 
 }

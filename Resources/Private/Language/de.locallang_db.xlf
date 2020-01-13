@@ -569,6 +569,18 @@
 			<source>Librarian</source>
 			<target>Bibliothekar</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock" approved="yes">
+            <source>Editing Lock</source>
+            <target>Bearbeitungssperre</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.document_identifier" approved="yes">
+            <source>Document Identifier</source>
+            <target>Dokument-Bezeichner</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.editor_uid" approved="yes">
+            <source>Editor UID</source>
+            <target>Bearbeiter-UID</target>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

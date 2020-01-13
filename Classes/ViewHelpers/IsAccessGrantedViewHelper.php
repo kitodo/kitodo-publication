@@ -62,6 +62,7 @@ class IsAccessGrantedViewHelper extends AbstractViewHelper
 
         if ($subject instanceof $class) {
             $authorizationChecker = $objectManager->get(AuthorizationChecker::class);
+            
             return $authorizationChecker->isGranted($attribute, $subject);
         }
 
