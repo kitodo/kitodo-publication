@@ -272,6 +272,7 @@ return array(
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'trim,number',
+                'default' => 0,
             ),
         ),
         'input_option_list' => array(
