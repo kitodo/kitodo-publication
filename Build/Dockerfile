@@ -21,6 +21,7 @@ RUN apt-get update && \
     echo 'max_input_vars = 1500' >> /usr/local/etc/php/conf.d/typo3.ini && \
     echo 'upload_max_filesize = 32M' >> /usr/local/etc/php/conf.d/typo3.ini && \
     echo 'post_max_size = 32M' >> /usr/local/etc/php/conf.d/typo3.ini && \
+    echo 'xdebug.max_nesting_level = 400' >> /usr/local/etc/php/conf.d/typo3.ini && \
 # Install XDebug
     pecl install xdebug && \
     echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
