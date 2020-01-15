@@ -55,10 +55,6 @@ WORKDIR /var/www/html
 RUN composer config repositories.kitodo-publication '{"type": "path", "url": "/app", "options": {"symlink": true}}' && \
     composer config minimum-stability dev && \
     composer config prefer-stable true
-RUN composer require sjbr/static-info-tables:6.5.1 && \
-    composer require devlog/devlog:~3.0.4 && \
-    composer require typo3-ter/dlf:~2.2.0
-RUN composer require nimut/testing-framework
 RUN composer require devlog/devlog:~3.0.4 && \
     composer require kitodo/presentation
 COPY . /app
