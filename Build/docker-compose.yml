@@ -19,7 +19,8 @@ services:
     typo3:
         build:
             context: .
-        image: kitodo-publication:latest
+            dockerfile: Build/Dockerfile-TYPO3
+        image: kitodo-publication:3.x
         ports:
             - "80:80"
         extra_hosts:
