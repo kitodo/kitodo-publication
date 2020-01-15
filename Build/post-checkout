@@ -1,0 +1,7 @@
+#!/bin/sh
+BRANCH=$(git symbolic-ref HEAD | cut -d '/' -f3)
+PWD=$(basename `pwd`)
+if [ ! -z "$BRANCH" ]
+then
+    echo "COMPOSE-PROJECT-NAME=$PWD-$BRANCH" > .env
+fi
