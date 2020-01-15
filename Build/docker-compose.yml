@@ -1,26 +1,25 @@
-version: '2'
+version: '3.5'
 
 services:
-    database_3x:
+    db:
         image: mysql:5.6
-        command: mysqld --character-set-server=utf8  --collation-server=utf8_unicode_ci
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+        ports:
+            - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: typo3
             MYSQL_PASSWORD: typo3
             MYSQL_DATABASE: typo3
         volumes:
-            - mysql56_3x:/var/lib/mysql
+            - db:/var/lib/mysql
         networks:
-            frontend:
-                aliases:
-                    - db
+            - frontend
 
-    typo3_3x:
+    typo3:
         build:
             context: .
         image: kitodo-publication:latest
-        hostname: typo3
         ports:
             - "80:80"
         extra_hosts:
@@ -28,19 +27,27 @@ services:
         environment:
             XDEBUG_CONFIG: remote_host=xdebug.remote.host remote_port=9000 remote_enable=1
         volumes:
-            - $PWD:/app
+            - ..:/app
+            - fileadmin:/var/www/html/fileadmin
+            - typo3temp:/var/www/html/typo3temp
+            - typo3conf:/var/www/html/typo3conf
+            - uploads:/var/www/html/uploads
         depends_on:
-            - database_3x
+            - db
         networks:
-            frontend:
-            qucosafcrepodocker_backend:
-                aliases:
-                    - typo3
+            - frontend
+            - backend
 
 volumes:
-    mysql56_3x:
+    db:
+    fileadmin:
+    typo3temp:
+    typo3conf:
+    uploads:
 
 networks:
     frontend:
-    qucosafcrepodocker_backend:
-        external: true
+        name: kitodopublication_frontend
+    backend:
+        external:
+            name: qucosa_backend
