@@ -111,6 +111,7 @@ class MetsExporter
             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             xmlns:foaf="http://xmlns.com/foaf/0.1/"
             xmlns:person="http://www.w3.org/ns/person#"
+            xmlns:xlink="https://www.w3.org/1999/xlink"
             xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-7.xsd"
             version="3.7">';
 
