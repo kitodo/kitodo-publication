@@ -79,6 +79,22 @@ class XPathXMLGeneratorTest extends UnitTestCase
     /**
      * @test
      */
+    public function testAttributeWithNamespacePrefix()
+    {
+        $xpath = 'mods:accessCondition[@xlink:href="http://example.org"]';
+        $expectedXml = '<mods:accessCondition xlink:href="http://example.org"/>';
+
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
+
+        $this->assertEquals(
+            $expectedXml,
+            $this->xpathGenerator->getXML()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function testValuesWithLinebreaks()
     {
         $xpath = "mods:originInfo[@eventType='publication']=\"A\nB\nC\n\"";
