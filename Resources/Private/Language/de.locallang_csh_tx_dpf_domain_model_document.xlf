@@ -65,10 +65,6 @@
             <source>owner</source>
             <target>Besitzer</target>
         </trans-unit>
-        <trans-unit id="editor_uid.description" approved="yes">
-            <source>editor uid</source>
-            <target>Bearbeiter-UID</target>
-        </trans-unit>
         <trans-unit id="temporary.description" approved="yes">
             <source>temporary</source>
             <target>Temporär</target>

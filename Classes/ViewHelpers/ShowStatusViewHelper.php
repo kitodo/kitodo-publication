@@ -37,7 +37,7 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
             DocumentWorkflow::STATE_REGISTERED_NONE => "registered",
             DocumentWorkflow::STATE_POSTPONED_NONE => "postponed",
             DocumentWorkflow::STATE_DISCARDED_NONE => "discarded",
-            DocumentWorkflow::STATE_IN_PROGRESS_NONE => "inProgress",
+            DocumentWorkflow::STATE_IN_PROGRESS_NONE => "in_progress",
             DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => "in_progress",
             DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => "in_progress",
             DocumentWorkflow::STATE_IN_PROGRESS_DELETED => "in_progress",

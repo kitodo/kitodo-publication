@@ -66,7 +66,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   xml_data text NOT NULL,
   slub_info_data text NOT NULL,
   document_type int(11) unsigned default '0',
-  object_identifier varchar(255) DEFAULT '' NOT NULL,
+  object_identifier varchar(255) DEFAULT NULL,
   reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
   process_number varchar(255) DEFAULT '' NOT NULL,
   state varchar(255) DEFAULT '' NOT NULL,
@@ -79,7 +79,6 @@ CREATE TABLE tx_dpf_domain_model_document (
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
   owner int(11) unsigned default '0' NOT NULL,
-  editor_uid int(11) unsigned default '0' NOT NULL,
   temporary tinyint(1) unsigned DEFAULT '0' NOT NULL,
   suggestion tinyint(1) unsigned DEFAULT '0' NOT NULL,
   linked_uid varchar(255) DEFAULT '' NOT NULL,
@@ -110,7 +109,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-  KEY language (l10n_parent,sys_language_uid)
+  KEY language (l10n_parent,sys_language_uid),
 
 );
 

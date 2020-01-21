@@ -140,9 +140,6 @@
 		<trans-unit id="tx_dpf_domain_model_document.owner">
 			<source>Owner</source>
 		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_document.editor_uid">
-			<source>Editor uid</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.temporary">
 			<source>Temporary</source>
 		</trans-unit>

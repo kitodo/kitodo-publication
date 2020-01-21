@@ -152,7 +152,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if ($workingCopy->isTemporary()) {
             $workingCopy->setTemporary(false);
-            $workingCopy->setEditorUid(0);
+            // +++delete+++ $workingCopy->setEditorUid(0);
         }
 
         if (empty($workingCopy->getFileData())) {
@@ -295,10 +295,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $updateDocument->setState(implode(":", $state));
             }
 
-            if (!$updateDocument->isTemporary()) {
-                $updateDocument->setEditorUid(0);
-            }
-
             $this->documentRepository->update($updateDocument);
 
             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
@@ -360,6 +356,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ($this->documentTransferManager->getLastModDate($updateDocument->getObjectIdentifier()) === $updateDocument->getRemoteLastModDate()) {
                 parent::updateAction($documentForm);
                 $this->documentTransferManager->update($updateDocument);
+                $this->documentRepository->remove($updateDocument);
 
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
                 $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$updateDocument->getTitle()]);
@@ -473,13 +470,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             /** @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->documentRepository->findByUid($documentUid);
 
-/*            if ($document) {
-                if (!$document->isTemporary() && $document->getEditorUid() === $this->security->getUser()->getUid()) {
-                    $document->setEditorUid(0);
-                }
-                $this->documentRepository->update($document);
-            }
-*/
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
 

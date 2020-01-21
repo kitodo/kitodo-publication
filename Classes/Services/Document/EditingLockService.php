@@ -39,12 +39,12 @@ class EditingLockService
      *
      * @param string $documentIdentifier
      * @param int $userUid
-     * @throws \Exception
+     * @return bool
      */
     public function lock($documentIdentifier, $userUid)
     {
         if ($this->editingLockRepository->findOneByDocumentIdentifier($documentIdentifier)) {
-            throw new \Exception("Error: Unexpected editing lock!");
+            return FALSE;
         }
 
         /** @var \EWW\Dpf\Domain\Model\EditingLock $editingLock */
@@ -53,6 +53,8 @@ class EditingLockService
         $editingLock->setDocumentIdentifier($documentIdentifier);
         $this->editingLockRepository->add($editingLock);
         $this->persistenceManager->persistAll();
+
+        return TRUE;
     }
 
     /**
@@ -117,6 +119,19 @@ class EditingLockService
         }
 
         $this->persistenceManager->persistAll();
+    }
+
+    public function getLockedDocumentIdentifiersByUserUid($userUid)
+    {
+        $identifiers = array();
+
+        $locks = $this->editingLockRepository->findByEditorUid($userUid);
+        /** @var  \EWW\Dpf\Domain\Model\EditingLock $lock */
+        foreach ($locks as $lock) {
+            $identifiers[] = $lock->getDocumentIdentifier();
+        }
+
+        return $identifiers;
     }
 
 }

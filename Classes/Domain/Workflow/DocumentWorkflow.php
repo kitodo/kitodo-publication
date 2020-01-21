@@ -28,7 +28,6 @@ class DocumentWorkflow
     public const LOCAL_STATE_IN_PROGRESS   = 'IN_PROGRESS';
     public const LOCAL_STATE_DISCARDED     = 'DISCARDED';
     public const LOCAL_STATE_POSTPONED     = 'POSTPONED';
-    public const LOCAL_STATE_DELETED       = 'DELETED';
 
     public const REMOTE_STATE_NONE         = 'NONE';
     public const REMOTE_STATE_ACTIVE       = "ACTIVE";

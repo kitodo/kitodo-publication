@@ -25,10 +25,10 @@
             <div class="mr-2">
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:ACTIVE' || {document.temporary} == 0">
+                    <f:if condition="{document.state} != 'IN_PROGRESS:ACTIVE' || {document.workingcopy} == 0">
                         <f:link.action action="releaseActivate" arguments="{document : document, tstamp : document.tstamp}"
                                        class="btn
-                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.temporary} == 0', then: 'btn-m', else: 'btn-sm')}
+                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}
                                             {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
                                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
                             <i class="fas fa-check"></i>
@@ -72,13 +72,13 @@
                 </f:if>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:INACTIVE' || {document.temporary} == 0">
+                    <f:if condition="{document.state} != 'IN_PROGRESS:INACTIVE' || {document.workingcopy} == 0">
                         <f:link.action
                                 action="postpone"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-info
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.temporary} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPostpone'}">
                             <i class="fas fa-pause-circle"></i>
                             {f:translate(key: 'manager.postpone')}
@@ -86,13 +86,13 @@
                     </f:if>
                 </f:if>
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.temporary} == 0">
+                    <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.workingcopy} == 0">
                         <f:link.action
                                 action="discard"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-warning
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.temporary} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
                             <i class="fas fa-ban"></i>
                             {f:translate(key: 'manager.discard')}
@@ -123,19 +123,6 @@
                         {f:translate(key: 'form_button.deleteLocally')}
                     </f:link.action>
                 </f:if>
-
-<f:comment>
-                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGEST_RESTORE')}">
-                    <f:link.action
-                            action="suggestRestore"
-                            controller="Document"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-secondary">
-                        <i class="fas fa-question-circle"></i>
-                        {f:translate(key: 'form_button.suggestRestore')}
-                    </f:link.action>
-                </f:if>
-</f:comment>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
                     <f:link.action

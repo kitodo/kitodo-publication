@@ -49,7 +49,6 @@ class DocumentCleaner
      */
     protected $security = null;
 
-
     /**
      * @param string $actionMethodName
      * @param string $controllerClass
@@ -57,18 +56,6 @@ class DocumentCleaner
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function cleanUpDocuments($actionMethodName, $controllerClass)
-    {
-        $this->cleanUpTemporaryDocuments($actionMethodName, $controllerClass);
-        $this->cleanUpEditingLocks($actionMethodName, $controllerClass);
-    }
-
-    /**
-     * @param string $actionMethodName
-     * @param string $controllerClass
-     * @param \EWW\Dpf\Domain\Model\Document $openedDocument
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     */
-    public function cleanUpTemporaryDocuments($actionMethodName, $controllerClass)
     {
         $excludeActions = [
             \EWW\Dpf\Controller\DocumentController::class => [
@@ -94,16 +81,20 @@ class DocumentCleaner
             !array_key_exists($controllerClass, $excludeActions) ||
             !in_array($actionMethodName, $excludeActions[$controllerClass])
         ) {
-            // Remove all temporary documents of the user.
+            // Remove all locked temporary documents of the current user.
             $feUserUid = $this->security->getUser()->getUid();
             $documents = $this->documentRepository->findByTemporary(TRUE);
+            $docIdentifiers = $this->editingLockService->getLockedDocumentIdentifiersByUserUid($feUserUid);
+
             foreach ($documents as $document) {
                 /** @var  \EWW\Dpf\Domain\Model\Document $document */
-                if ($document->getEditorUid() === $feUserUid) {
+                if (in_array($document->getDocumentIdentifier(), $docIdentifiers)) {
                     $this->documentRepository->remove($document);
                 }
             }
         }
+
+        $this->cleanUpEditingLocks($actionMethodName, $controllerClass);
     }
 
     /**

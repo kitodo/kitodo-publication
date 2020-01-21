@@ -61,7 +61,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $objectIdentifier;
+    protected $objectIdentifier = null;
 
     /**
      * reservedObjectIdentifier
@@ -128,13 +128,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $state = DocumentWorkflow::STATE_NONE_NONE;
-
-    /**
-     * editorUid
-     *
-     * @var integer
-     */
-    protected $editorUid = 0;
 
     /**
      * temporary
@@ -322,7 +315,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setObjectIdentifier($objectIdentifier)
     {
-        $this->objectIdentifier = $objectIdentifier;
+        // Due to uniqe key uc_object_identifier, which should ignore empty object identifiers.
+        $this->objectIdentifier = empty($objectIdentifier)? null : $objectIdentifier;
     }
 
     /**
@@ -774,23 +768,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return integer
-     */
-    public function getEditorUid()
-    {
-        return $this->editorUid;
-    }
-
-    /**
-     * @param integer $editorUid
-     * @return void
-     */
-    public function setEditorUid($editorUid)
-    {
-        $this->editorUid = $editorUid;
-    }
-
-    /**
      * @return string
      */
     public function getRemoteLastModDate()
@@ -899,6 +876,27 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getDocumentIdentifier()
     {
         return $this->getObjectIdentifier()? $this->getObjectIdentifier() : $this->getUid();
+    }
+
+    /**
+     * Returns if a document is a working copy of a published document.
+     *
+     * @return bool
+     */
+    public function isWorkingCopy()
+    {
+        return $this->getObjectIdentifier() && !$this->isSuggestion();
+
+        /*
+        $workingCopy = in_array(
+            $document->getState(),
+            [
+                DocumentWorkflow::STATE_IN_PROGRESS_DELETED,
+                DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
+                DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE
+            ]
+        );
+        */
     }
 
 }

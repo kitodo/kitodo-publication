@@ -28,7 +28,9 @@ class DocumentVoter extends Voter
     const LIST = "DOCUMENT_LIST";
     const LIST_REGISTERED = "DOCUMENT_LIST_REGISTERED";
     const LIST_IN_PROGRESS = "DOCUMENT_LIST_IN_PROGRESS";
+
     const DISCARD = "DOCUMENT_DISCARD";
+
     const DELETE_LOCALLY = "DOCUMENT_DELETE_LOCALLY";
     const DELETE_WORKING_COPY = "DOCUMENT_DELETE_WORKING_COPY";
     const DUPLICATE = "DOCUMENT_DUPLICATE";
@@ -39,7 +41,6 @@ class DocumentVoter extends Voter
     const CANCEL_LIST_TASK = "DOCUMENT_CANCEL_LIST_TASK";
     const UPLOAD_FILES = "DOCUMENT_UPLOAD_FILES";
     const EDIT = "DOCUMENT_EDIT";
-    const SUGGEST = "DOCUMENT_SUGGEST";
     const POSTPONE = "DOCUMENT_POSTPONE";
     const DOUBLET_CHECK = "DOCUMENT_DOUBLET_CHECK";
     const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
@@ -225,7 +226,7 @@ class DocumentVoter extends Voter
                 break;
         }
 
-        throw new \Exception('An unexpected error occurred!');
+        throw new \Exception("This code should not be reached!");
     }
 
     /**
@@ -322,7 +323,7 @@ class DocumentVoter extends Voter
      */
     protected function canReleasePublish($document)
     {
-        if ($document->isTemporary() || $this->isDocumentLocked($document)) {
+        if ($this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -345,13 +346,6 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if (
-            $document->isTemporary() &&
-            $document->getEditorUid() !== $this->security->getUser()->getUid()
-        ) {
-            return FALSE;
-        }
-
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return $this->workflow->can($document,
                 \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE);
@@ -360,14 +354,13 @@ class DocumentVoter extends Voter
         return FALSE;
     }
 
-
     /**
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
     protected function canDeleteLocally($document)
     {
-        if ($document->isTemporary() || $this->isDocumentLocked($document)) {
+        if ($this->isDocumentLocked($document)) {
             return FALSE;
         }
 
@@ -472,6 +465,7 @@ class DocumentVoter extends Voter
             $documentRepository = $objectManager->get(DocumentRepository::class);
 
             $linkedDocument = $documentRepository->findOneByLinkedUid($document->getUid());
+
             if (!$linkedDocument && $document->getObjectIdentifier()) {
                 $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
             }

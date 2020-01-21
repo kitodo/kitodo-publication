@@ -50,9 +50,6 @@
         <trans-unit id="owner.description">
             <source>owner</source>
         </trans-unit>
-        <trans-unit id="editor_uid.description">
-            <source>editor uid</source>
-        </trans-unit>
         <trans-unit id="temporary.description">
             <source>temporary</source>
         </trans-unit>

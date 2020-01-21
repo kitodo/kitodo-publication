@@ -89,7 +89,8 @@
                     <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
                         <f:then>
                             <f:link.action action="showDetails"
-                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                                           controller="Document"
+                                           arguments="{document : entry._source.PID}"
                                            class="btn btn-sm btn-info">
                                 <i class="fas fa-download"></i>
                                 {f:translate(key: 'manager.showWorkingCopy')}
@@ -97,7 +98,8 @@
                         </f:then>
                         <f:else>
                             <f:link.action action="showDetails"
-                                           arguments="{documentObjectIdentifier : ''}"
+                                           controller="Document"
+                                           arguments="{document : ''}"
                                            class="btn btn-sm btn-info disabled">
                                 <i class="fas fa-download"></i>
                                 {f:translate(key: 'manager.showWorkingCopy')}
@@ -107,16 +109,18 @@
 
                     <f:if condition="{dpf:inArray(needle:'{entry._id}', array:'{workingCopies.noneTemporary}')}">
                         <f:then>
-                            <f:link.action action="importForEditing"
-                                           arguments="{documentObjectIdentifier : ''}"
+                            <f:link.action action="showDetails"
+                                           controller="Document"
+                                           arguments="{document : ''}"
                                            class="btn btn-sm btn-info disabled">
                                 <i class="fas fa-download"></i>
                                 {f:translate(key: 'manager.show')}
                             </f:link.action>
                         </f:then>
                         <f:else>
-                            <f:link.action action="importForEditing"
-                                           arguments="{documentObjectIdentifier : entry._source.PID}"
+                            <f:link.action action="showDetails"
+                                           controller="Document"
+                                           arguments="{document : entry._source.PID}"
                                            class="btn btn-sm btn-info">
                                 <i class="fas fa-download"></i>
                                 {f:translate(key: 'manager.show')}

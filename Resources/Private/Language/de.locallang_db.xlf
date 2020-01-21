@@ -185,10 +185,6 @@
 			<source>Owner</source>
 			<target>Besitzer</target>
 		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_document.editor_uid" approved="yes">
-			<source>Editor UID</source>
-			<target>Bearbeiter-UID</target>
-		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
 			<source>Temporary</source>
 			<target>Temporär</target>

@@ -35,20 +35,20 @@ return array(
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
         process_number, valid, changed, state, reserved_object_identifier, 
-        object_identifier, transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
+        object_identifier, transfer_status, file, owner, temporary, remote_last_mod_date',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date',
+        transfer_status, file, owner, temporary, remote_last_mod_date',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, owner, temporary, editor_uid, remote_last_mod_date,
+        transfer_status, file, owner, temporary, remote_last_mod_date,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -337,17 +337,6 @@ return array(
                 'foreign_table' => 'fe_users',
                 'minitems'      => 0,
                 'maxitems'      => 1,
-            ),
-        ),
-
-        'editor_uid'         => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.editor_uid',
-            'config'    => array(
-                'type'    => 'input',
-                'size'    => 30,
-                'eval'    => 'trim'
             ),
         ),
 

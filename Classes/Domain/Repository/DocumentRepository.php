@@ -14,6 +14,7 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use \EWW\Dpf\Security\Security;
 
@@ -257,9 +258,9 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
     /**
      * @param string $identifier
-     * @return array
+     * @return Document
      */
-    public function findWorkingCopy($identifier)
+    public function findByIdentifier($identifier)
     {
         $query = $this->createQuery();
 
@@ -273,8 +274,33 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             ];
         }
 
-        $constraints[] = $query->logicalNot($query->equals('temporary', TRUE));
-        $constraints[] = $query->logicalNot($query->equals('suggestion', TRUE));
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
+     * @param string $identifier
+     * @param bool $includeTemporary
+     * @param bool $includeSuggestion
+     * @return Document
+     */
+    public function findWorkingCopy($identifier, $includeTemporary = false, $includeSuggestion = false)
+    {
+        $query = $this->createQuery();
+
+        if (is_numeric($identifier)) {
+            $constraints = [
+                $query->equals('uid', $identifier)
+            ];
+        } else {
+            $constraints = [
+                $query->equals('object_identifier', $identifier)
+            ];
+        }
+
+        $constraints[] = $query->equals('temporary', $includeTemporary);
+        $constraints[] = $query->equals('suggestion', $includeSuggestion);
 
         $query->matching($query->logicalAnd($constraints));
 
