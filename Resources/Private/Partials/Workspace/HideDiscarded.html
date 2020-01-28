@@ -1,0 +1,33 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:if condition="{isSuggestions} != 1">
+    <div class="custom-control custom-switch">
+        <input id="hideDiscarded" class="custom-control-input"
+               type="checkbox" aria-label="Checkbox to hide discarded documents"
+               {f:if(condition:'{isHideDiscarded}', then:'checked="checked"', else:'')}
+               data-ajax="{f:uri.action(action:'toggleWorkspaceExcludeDiscarded',controller:'AjaxBackoffice',pageType:'110125')}">
+        <label class="custom-control-label" for="hideDiscarded">
+            <f:if condition="{isHideDiscarded}">
+                <f:then>
+                    {f:translate(key: 'manager.workspace.showDiscarded')}
+                </f:then>
+                <f:else>
+                    {f:translate(key: 'manager.workspace.hideDiscarded')}
+                </f:else>
+            </f:if>
+        </label>
+    </div>
+</f:if>

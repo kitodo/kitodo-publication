@@ -1,0 +1,105 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:if condition="{configuration.insertAbove}">
+    <f:render section="paginator" arguments="{pagination: pagination, configuration: configuration}"/>
+</f:if>
+
+<f:renderChildren arguments="{contentArguments}"/>
+
+<f:if condition="{configuration.insertBelow}">
+    <f:render section="paginator" arguments="{pagination: pagination, configuration: configuration}"/>
+</f:if>
+
+<f:section name="paginator">
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center">
+            <f:if condition="{pagination.previousPage}">
+                <li class="page-item">
+                    <f:widget.link arguments="{currentPage: pagination.previousPage}"
+                                   addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                   class="page-link"
+                                   additionalAttributes="{aria-label='Previous'}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </f:widget.link>
+                </li>
+            </f:if>
+            <f:if condition="{pagination.displayRangeStart} > 1">
+                <li class="page-item">
+                    <f:widget.link action="{workspaceListAction}"
+                                   addQueryStringMethod="{configuration.addQueryStringMethod}" arguments="{currentPage: 1}"
+                                   class="page-link">
+                        1
+                    </f:widget.link>
+                </li>
+            </f:if>
+            <f:if condition="{pagination.hasLessPages}">
+                <li class="page-item">...</li>
+            </f:if>
+            <f:for each="{pagination.pages}" as="page">
+                <f:if condition="{page.isCurrent}">
+                    <f:then>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">{page.number}</a>
+                        </li>
+                    </f:then>
+                    <f:else>
+                        <li class="page-item">
+                            <f:if condition="{page.number} > 1">
+                                <f:then>
+                                    <f:widget.link action="{workspaceListAction}" arguments="{currentPage: page.number}"
+                                                   addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                                   class="page-link">
+                                        {page.number}
+                                    </f:widget.link>
+                                </f:then>
+                                <f:else>
+                                    <f:widget.link action="{workspaceListAction}" arguments="{currentPage: 1}"
+                                                   addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                                   class="page-link">
+                                        {page.number}
+                                    </f:widget.link>
+                                </f:else>
+                            </f:if>
+                        </li>
+                    </f:else>
+                </f:if>
+            </f:for>
+            <f:if condition="{pagination.hasMorePages}">
+                <li class="page-item">...</li>
+            </f:if>
+            <f:if condition="{pagination.displayRangeEnd} < {pagination.numberOfPages}">
+                <li class="page-item">
+                    <f:widget.link arguments="{currentPage: pagination.numberOfPages}"
+                                   addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                   class="page-link">
+                        {pagination.numberOfPages}
+                    </f:widget.link>
+                </li>
+            </f:if>
+            <f:if condition="{pagination.nextPage}">
+                <li class="page-item">
+                    <f:widget.link arguments="{currentPage: pagination.nextPage}"
+                                   addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                   class="page-link"
+                                   additionalAttributes="{aria-label='Previous'}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </f:widget.link>
+                </li>
+            </f:if>
+        </ul>
+    </nav>
+</f:section>

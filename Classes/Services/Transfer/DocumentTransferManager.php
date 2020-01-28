@@ -187,7 +187,6 @@ class DocumentTransferManager
      */
     public function retrieve($remoteId)
     {
-
         $metsXml = $this->remoteRepository->retrieve($remoteId);
 
         if ($metsXml) {

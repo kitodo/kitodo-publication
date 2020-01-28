@@ -126,6 +126,18 @@ class Mods
 
     }
 
+
+    public function getPublishingYear()
+    {
+        $year = $this->getModsXpath()->query('/mods:mods/mods:originInfo[@eventType="publication"]/mods:dateIssued[@encoding="iso8601"]');
+        if ($year->length > 0) {
+            return $year->item(0)->nodeValue;
+        }
+
+        return null;
+    }
+
+
     public function getDateIssued()
     {
 

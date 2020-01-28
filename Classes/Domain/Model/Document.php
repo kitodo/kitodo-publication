@@ -15,6 +15,7 @@ namespace EWW\Dpf\Domain\Model;
  */
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Helper\Mods;
 
 /**
  * Document
@@ -897,6 +898,45 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             ]
         );
         */
+    }
+
+    /**
+     * Gets the publication year out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getPublicationYear()
+    {
+        $mods = new Mods($this->getXmlData());
+        return $mods->getPublishingYear();
+    }
+
+    /**
+     * Gets the main title out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getMainTitle()
+    {
+        $mods = new Mods($this->getXmlData());
+        return $mods->getTitle();
+    }
+
+
+    /**
+     * Gets the translated state name.
+     *
+     * @return NULL|string
+     */
+    public function getStateName_()
+    {
+        if (array_key_exists($this->getState(), DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
+            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                "manager.documentList.state.".DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$this->getState()],
+                'dpf',
+                $arguments = null
+            );
+        }
     }
 
 }

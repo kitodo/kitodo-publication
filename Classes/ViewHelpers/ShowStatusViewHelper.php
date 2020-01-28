@@ -22,10 +22,9 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      * Maps the internal states to more user friendly and localized state names.
      *
      * @param string $status
-     * @param boolean $remote
      * @return string
      */
-    public function render($status, $remote = FALSE)
+    public function render($status)
     {
         // A,I and D are the states returned by a repository search.
         // The other states are the ones used in the document table.
@@ -41,16 +40,26 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
             DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => "in_progress",
             DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => "in_progress",
             DocumentWorkflow::STATE_IN_PROGRESS_DELETED => "in_progress",
+            DocumentWorkflow::STATE_NONE_ACTIVE => "released",
+            DocumentWorkflow::STATE_NONE_INACTIVE => "postponed",
+            DocumentWorkflow::STATE_NONE_DELETED => "discarded",
         ];
 
+
         if (array_key_exists($status, $statusMapping)) {
+            $simpleState = $statusMapping[$status];
+        } else {
+            $simpleState = $status;
+        }
+
+        if ($simpleState) {
             return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.documentList.state.".$statusMapping[$status],
+                "manager.documentList.state.".$simpleState,
                 'dpf',
                 $arguments = null
             );
         }
 
-        return "-";
+        return "";
     }
 }

@@ -297,6 +297,9 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $this->documentRepository->update($updateDocument);
 
+            // index the document
+            $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$updateDocument]);
+
             $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_updateLocally.success',
                 'dpf',
@@ -309,6 +312,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
+
             $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -356,7 +360,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ($this->documentTransferManager->getLastModDate($updateDocument->getObjectIdentifier()) === $updateDocument->getRemoteLastModDate()) {
                 parent::updateAction($documentForm);
                 $this->documentTransferManager->update($updateDocument);
+                DocumentWorkflow::getWorkflow()->apply($document, DocumentWorkflow::TRANSITION_REMOTE_UPDATE);
                 $this->documentRepository->remove($updateDocument);
+
+                // index the document
+                $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$updateDocument]);
 
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success';
                 $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', [$updateDocument->getTitle()]);
@@ -451,7 +459,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             );
         }
 
-        $this->redirect('list', 'Document');
+        $this->redirect('listWorkspace', 'Workspace');
     }
 
 
@@ -492,8 +500,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     protected function redirectToDocumentList($message = null)
     {
-        $redirectAction = $this->getSessionData('redirectToDocumentListAction');
-        $redirectController = $this->getSessionData('redirectToDocumentListController');
+        list($redirectAction, $redirectController) = $this->session->getListAction();
         $this->redirect($redirectAction, $redirectController, null, array('message' => $message));
     }
 

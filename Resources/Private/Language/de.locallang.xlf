@@ -589,10 +589,6 @@
 			<source>State</source>
 			<target>Status</target>
 		</trans-unit>
-		<trans-unit id="manager.document.state.all" approved="yes">
-			<source>All</source>
-			<target>Alle</target>
-		</trans-unit>
         <trans-unit id="manager.document.suggestions" approved="yes">
             <source>Suggestions</source>
             <target>Änderungsvorschläge</target>
@@ -729,7 +725,87 @@
 			<source>Please select a client in the page tree.</source>
 			<target>Bitte Mandanten im Seitenbaum auswählen.</target>
 		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
+        <trans-unit id="manager.workspace.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.publicationType" approved="yes">
+            <source>publication type</source>
+            <target>Publikationstyp</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.persons" approved="yes">
+            <source>Persons</source>
+            <target>Personen</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.publicationYear" approved="yes">
+            <source>Year</source>
+            <target>Jahr</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.state" approved="yes">
+            <source>State</source>
+            <target>Status</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator" approved="yes">
+            <source>Creator</source>
+            <target>Ersteller_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.self" approved="yes">
+            <source>Self</source>
+            <target>Sie selbst</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.librarian" approved="yes">
+            <source>Librarian</source>
+            <target>Bibliothekar_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.user" approved="yes">
+            <source>User</source>
+            <target>Nutzer_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.unknown" approved="yes">
+            <source>Unknown</source>
+            <target>Unbekannt</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication" approved="yes">
+            <source>UL publication</source>
+            <target>UL-Publikation</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.fulltextMedia" approved="yes">
+            <source>Fulltext/Media</source>
+            <target>Volltext/Med.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.noTitle" approved="yes">
+            <source>No title</source>
+            <target>kein Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hasFiles.aggregations.true" approved="yes">
+            <source>Yes</source>
+            <target>Ja</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hasFiles.aggregations.false" approved="yes">
+            <source>No</source>
+            <target>Nein</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.aggregations.true" approved="yes">
+            <source>Yes</source>
+            <target>Ja</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.aggregations.false" approved="yes">
+            <source>No</source>
+            <target>Nein</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.listDocuments" approved="yes">
+            <source>Documents</source>
+            <target>Dokumente</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hideDiscarded" approved="yes">
+            <source>Hide discarded</source>
+            <target>Verworfene ausblenden</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.showDiscarded" approved="yes">
+            <source>Show discarded</source>
+            <target>Verworfene anzeigen</target>
+        </trans-unit>
+        <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###
 Title: ###TITLE###

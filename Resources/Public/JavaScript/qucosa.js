@@ -10,6 +10,84 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+
+var selectFilter = function(selectFilterId, searchInput = false) {
+    selectFilterId = '#'+selectFilterId;
+
+    var options = {};
+    if (!searchInput) {
+        options['minimumResultsForSearch'] = 'Infinity';
+    }
+
+    jQuery(selectFilterId).select2(options);
+
+    jQuery(selectFilterId).on("select2:select", function(e) {
+        var data = e.params.data;
+
+
+        var filterName = jQuery(selectFilterId).attr('name');
+        var filterValue = [];
+        if (e.params.data.id) {
+            filterValue = [e.params.data.id];
+        }
+        var ajaxURL = jQuery(selectFilterId).parent().data('ajax');
+
+        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+        var params = {};
+        var indexParam = {};
+        if (res && res[1]) {
+            indexParam['name'] = filterName;
+            indexParam['values'] = filterValue;
+            params[res[1]] = indexParam;
+        }
+
+        jQuery.post(ajaxURL, params, function(data) {
+            var url = jQuery(".workspace-nav-link").attr("href");
+            window.location.href = url;
+        });
+
+    });
+}
+
+
+var toggleDiscardedFilter = function() {
+    jQuery("#hideDiscarded").on("click", function() {
+        var ajaxURL = jQuery(this).data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+            var url = jQuery(".workspace-nav-link").attr("href");
+            window.location.href = url;
+        });
+
+    });
+}
+
+
+var selectSort = function() {
+    jQuery(".sort-button").on("click", function(element){
+
+        var field = jQuery(this).attr('data-field');
+        var order = jQuery(this).attr('data-order');
+        var ajaxURL = jQuery(this).parent().data('ajax');
+
+        var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+        var params = {};
+        var indexParam = {};
+        if (res && res[1]) {
+            indexParam['field'] = field;
+            indexParam['order'] = order;
+            params[res[1]] = indexParam;
+        }
+
+        jQuery.post(ajaxURL, params, function(data) {
+            var url = jQuery(".workspace-nav-link").attr("href");
+            window.location.href = url;
+        });
+    })
+}
+
+
 $(document).ready(function() {
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
@@ -106,6 +184,19 @@ $(document).ready(function() {
             setGndAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
         });
     }
+
+
+    selectFilter('doctype-filter');
+    selectFilter('author-filter', true);
+    selectFilter('simpleState-filter');
+    selectFilter('year-filter', true);
+    selectFilter('hasFiles-filter');
+    selectFilter('universityCollection-filter');
+    selectFilter('creatorRole-filter');
+
+    selectSort();
+
+    toggleDiscardedFilter();
 
     inputWithOptions();
 

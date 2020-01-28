@@ -43,7 +43,21 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      */
     protected $clientRepository = null;
 
+    /**
+     * signalSlotDispatcher
+     *
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     * @inject
+     */
+    protected $signalSlotDispatcher = null;
 
+    /**
+     * session
+     *
+     * @var \EWW\Dpf\Helper\Session
+     * @inject
+     */
+    protected $session = null;
 
 
     protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)

@@ -1,0 +1,36 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:comment>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <f:link.action action="{workspaceListAction}" controller="Workspace" arguments="{sortField: sortField, sortOrder: 'asc'}"
+                       class="btn btn-sm btn-light">
+            <i class="fas fa-caret-up"></i>
+        </f:link.action>
+        <f:link.action action="{workspaceListAction}" controller="Workspace" arguments="{sortField: sortField, sortOrder: 'desc'}"
+                       class="btn btn-sm btn-light">
+            <i class="fas fa-caret-down"></i>
+        </f:link.action>
+    </div>
+</f:comment>
+
+<div class="btn-group" role="group" aria-label="sort buttons" data-ajax="{f:uri.action(action:'addWorkspaceSort',controller:'AjaxBackoffice',pageType:'110125')}">
+    <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="asc">
+        <i class="fas fa-caret-up"></i>
+    </a>
+    <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="desc">
+        <i class="fas fa-caret-down"></i>
+    </a>
+</div>

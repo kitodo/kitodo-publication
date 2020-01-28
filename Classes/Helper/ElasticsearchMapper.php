@@ -40,11 +40,13 @@ class ElasticsearchMapper
      */
     public function getElasticsearchJson($document)
     {
-        // document 2 json        
-        $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
-        
+        // document 2 json
+        //$fedoraHost = $this->clientConfigurationManager->getFedoraHost();
+
         // load xslt from fedora
-        $xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
+        //$xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
+
+        $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/mets-mods-xml2json.xsl');
 
         // xslt
         $xsl = new \DOMDocument;

@@ -26,7 +26,7 @@
 
             <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex pr-4">
                 <li class="nav-item px-3">
-                    <a class="nav-link href="#">
+                    <a class="nav-link" href="#">
                         <i class="fas fa-user"></i>
                         <f:cObject typoscriptObjectPath="lib.feUsername"></f:cObject>
                     </a>
@@ -48,9 +48,9 @@
                             <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
                                 <f:then>
                                 <li class="nav-item">
-                                    <f:link.action action="list" controller="Document"
-                                                   class="nav-link
-                                                   {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
+                                    <f:link.action action="listWorkspace" controller="Workspace"
+                                                   class="nav-link workspace-nav-link
+                                                   {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listWorkspace'})}">
                                         <i class="fas fa-file"></i>
                                         {f:translate(key: 'manager.control.documents')}
                                     </f:link.action>
@@ -58,8 +58,9 @@
                                 </f:then>
                                 <f:else>
                                     <li class="nav-item">
-                                        <f:link.action action="myPublications" controller="Document"
-                                                       class="nav-link {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
+                                        <f:link.action action="listMyPublications" controller="Workspace"
+                                                       class="nav-link workspace-nav-link
+                                                       {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listMyPublications'})}">
                                             <i class="fas fa-address-book"></i>
                                             {f:translate(key: 'manager.control.myPublications')}
                                         </f:link.action>

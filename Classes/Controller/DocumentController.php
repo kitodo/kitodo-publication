@@ -22,7 +22,6 @@ use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -156,38 +155,20 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->redirectToUri($uri);
     }
 
-    /**
-     * action list
-     *
-     * @param array $stateFilters
-     *
-     * @return void
-     */
-    public function listAction($stateFilters = array())
-    {
-        $this->setSessionData('redirectToDocumentListAction','list');
-        $this->setSessionData('redirectToDocumentListController','Document');
-
-        list($isWorkspace, $documents) = $this->getListViewData($stateFilters);
-
-        if ($this->request->hasArgument('message')) {
-            $this->view->assign('message', $this->request->getArgument('message'));
-        }
-
-        if ($this->request->hasArgument('errorFiles')) {
-            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
-        }
-
-        $this->view->assign('currentUser', $this->security->getUser());
-        $this->view->assign('isWorkspace', $isWorkspace);
-        $this->view->assign('documents', $documents);
-    }
-
     public function listSuggestionsAction() {
-        $this->setSessionData('redirectToDocumentListAction','listSuggestions');
-        $this->setSessionData('redirectToDocumentListController','Document');
+        $this->session->setListAction('listSuggestions', 'Document');
 
-        list($isWorkspace, $documents) = $this->getListViewData([], true);
+        $documents = NULL;
+        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+
+        if (
+            $this->security->getUserRole() == Security::ROLE_LIBRARIAN
+        ) {
+                $documents = $this->documentRepository->findAllDocumentSuggestions(
+                    $this->security->getUserRole(),
+                    $this->security->getUser()->getUid()
+                );
+        }
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -392,52 +373,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         return preg_replace('/\p{C}+/u', "", $string);
     }
 
-    public function listRegisteredAction()
-    {
-        $this->setSessionData('redirectToDocumentListAction','listRegistered');
-        $this->setSessionData('redirectToDocumentListController','Document');
-
-        list($isWorkspace, $documents) = $this->getListViewData([DocumentWorkflow::STATE_REGISTERED_NONE]);
-
-        if ($this->request->hasArgument('message')) {
-            $this->view->assign('message', $this->request->getArgument('message'));
-        }
-
-        if ($this->request->hasArgument('errorFiles')) {
-            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
-        }
-
-        $this->view->assign('isWorkspace', $isWorkspace);
-        $this->view->assign('documents', $documents);
-    }
-
-    public function listInProgressAction()
-    {
-        $this->setSessionData('redirectToDocumentListAction','listInProgress');
-        $this->setSessionData('redirectToDocumentListController','Document');
-
-        if ($this->request->hasArgument('message')) {
-            $this->view->assign('message', $this->request->getArgument('message'));
-        }
-
-        if ($this->request->hasArgument('errorFiles')) {
-            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
-        }
-
-        list($isWorkspace, $documents) = $this->getListViewData(
-            [
-                DocumentWorkflow::STATE_IN_PROGRESS_NONE,
-                DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE,
-                DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
-                DocumentWorkflow::STATE_IN_PROGRESS_DELETED,
-            ]
-        );
-
-        $this->view->assign('isWorkspace', $isWorkspace);
-        $this->view->assign('documents', $documents);
-    }
-
-
     /**
      * action discard
      *
@@ -534,6 +469,24 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->flashMessage($document, $key, AbstractMessage::OK);
             $this->documentRepository->remove($document);
 
+
+            if ($document->isWorkingCopy()) {
+
+                $this->workflow->apply($document, DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY);
+
+                // index the document
+                $this->signalSlotDispatcher->dispatch(
+                    \EWW\Dpf\Controller\AbstractController::class,
+                    'indexDocument', [$document]
+                );
+            } else {
+                // delete document from index
+                $this->signalSlotDispatcher->dispatch(
+                    \EWW\Dpf\Controller\AbstractController::class,
+                    'deleteDocumentFromIndex', [$document->getDocumentIdentifier()]
+                );
+            }
+
             $suggestions = $this->documentRepository->findByLinkedUid($document->getUid());
             foreach ($suggestions as $suggestion) {
                 $this->documentRepository->remove($suggestion);
@@ -590,16 +543,22 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             // send document to index
             $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
 
-            $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-            $json = $elasticsearchMapper->getElasticsearchJson($newDocument);
-
-            $elasticsearchRepository->add($newDocument, $json);
+            //$elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+            //$json = $elasticsearchMapper->getElasticsearchJson($newDocument);
+            //$elasticsearchRepository->add($newDocument, $json);
 
             $this->documentRepository->add($newDocument);
+            $this->persistenceManager->persistAll();
+
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                \EWW\Dpf\Controller\AbstractController::class,
+                'indexDocument', [$newDocument]
+            );
 
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
             $this->flashMessage($document, $key, AbstractMessage::OK);
-            $this->redirect('list');
+            $this->redirect('listWorkspace', 'Workspace');
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
@@ -681,6 +640,9 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
+
+        // index the document
+        $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
         $this->flashMessage($document, $key, AbstractMessage::OK);
@@ -800,47 +762,8 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected function redirectToDocumentList($message = null)
     {
-        $redirectAction = $this->getSessionData('redirectToDocumentListAction');
-        $redirectController = $this->getSessionData('redirectToDocumentListController');
-        $this->redirect($redirectAction, $redirectController, null, array('message' => $message));
-    }
-
-
-    /**
-     * get list view data
-     *
-     * @param array $stateFilters
-     * @param bool $suggestionsOnly
-     *
-     * @return array
-     */
-    protected function getListViewData($stateFilters = array(), bool $suggestionsOnly = false)
-    {
-        $documents = NULL;
-        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
-
-        if (
-            $this->security->getUserRole() == Security::ROLE_LIBRARIAN ||
-            $this->security->getUserRole() == Security::ROLE_RESEARCHER
-        ) {
-            if ($suggestionsOnly) {
-                $documents = $this->documentRepository->findAllDocumentSuggestions(
-                    $this->security->getUserRole(),
-                    $this->security->getUser()->getUid()
-                );
-            } else {
-                $documents = $this->documentRepository->findAllByRole(
-                    $this->security->getUserRole(),
-                    $this->security->getUser()->getUid(),
-                    $stateFilters
-                );
-            }
-        }
-
-        return array(
-            $isWorkspace,
-            $documents
-        );
+        $redirectInfo = $this->session->getListAction();
+        $this->redirectToUri($redirectInfo[2]);
     }
 
     /**
@@ -925,6 +848,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             }
 
             if ($this->documentManager->update($document, $workflowTransition)) {
+
+                // delete local document from index
+                $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]);
+
+                // index the document
+                $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);
+
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.success';
                 $this->flashMessage($document, $key, AbstractMessage::OK);
                 $this->redirectToDocumentList();

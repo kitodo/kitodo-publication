@@ -66,9 +66,61 @@ class DocumentWorkflow
     public const TRANSITION_POSTPONE            = "POSTPONE_TRANSITION";
     public const TRANSITION_RELEASE_PUBLISH     = "RELEASE_PUBLISH_TRANSITION";
     public const TRANSITION_RELEASE_ACTIVATE    = "RELEASE_ACTIVATE_TRANSITION";
+    public const TRANSITION_REMOTE_UPDATE       = "REMOTE_UPDATE_TRANSITION";
     public const TRANSITION_DELETE_LOCALLY      = "DELETE_LOCALLY_TRANSITION";
     public const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
     public const TRANSITION_DELETE_DISCARDED    = "DELETE_DISCARDED_TRANSITION";
+
+
+    const SIMPLE_STATE_NEW = "new";
+    const SIMPLE_STATE_REGISTERED = "registered";
+    const SIMPLE_STATE_POSTPONED = "postponed";
+    const SIMPLE_STATE_DISCARDED = "discarded";
+    const SIMPLE_STATE_IN_PROGRESS = "in_progress";
+    const SIMPLE_STATE_RELEASED = "released";
+
+    const SIMPLE_STATES = [
+        self::SIMPLE_STATE_NEW,
+        self::SIMPLE_STATE_REGISTERED,
+        self::SIMPLE_STATE_POSTPONED,
+        self::SIMPLE_STATE_DISCARDED,
+        self::SIMPLE_STATE_IN_PROGRESS,
+        self::SIMPLE_STATE_RELEASED
+    ];
+
+    const STATE_TO_SIMPLESTATE_MAPPING = [
+        DocumentWorkflow::STATE_NEW_NONE => DocumentWorkflow::SIMPLE_STATE_NEW,
+        DocumentWorkflow::STATE_REGISTERED_NONE => DocumentWorkflow::SIMPLE_STATE_REGISTERED,
+        DocumentWorkflow::STATE_POSTPONED_NONE => DocumentWorkflow::SIMPLE_STATE_POSTPONED,
+        DocumentWorkflow::STATE_DISCARDED_NONE => DocumentWorkflow::SIMPLE_STATE_DISCARDED,
+        DocumentWorkflow::STATE_IN_PROGRESS_NONE =>DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_DELETED => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_NONE_ACTIVE => DocumentWorkflow::SIMPLE_STATE_RELEASED,
+        DocumentWorkflow::STATE_NONE_INACTIVE => DocumentWorkflow::SIMPLE_STATE_POSTPONED,
+        DocumentWorkflow::STATE_NONE_DELETED => DocumentWorkflow::SIMPLE_STATE_DISCARDED
+    ];
+
+    const SIMPLESTATE_TO_STATE_MAPPING = [
+        DocumentWorkflow::SIMPLE_STATE_NEW => [DocumentWorkflow::STATE_NEW_NONE],
+        DocumentWorkflow::SIMPLE_STATE_REGISTERED => [DocumentWorkflow::STATE_REGISTERED_NONE],
+        DocumentWorkflow::SIMPLE_STATE_POSTPONED => [
+            DocumentWorkflow::STATE_POSTPONED_NONE,
+            DocumentWorkflow::STATE_NONE_INACTIVE
+        ],
+        DocumentWorkflow::SIMPLE_STATE_DISCARDED => [
+            DocumentWorkflow::STATE_DISCARDED_NONE,
+            DocumentWorkflow::STATE_NONE_DELETED
+        ],
+        DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS => [
+            DocumentWorkflow::STATE_IN_PROGRESS_NONE,
+            DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE,
+            DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
+            DocumentWorkflow::STATE_IN_PROGRESS_DELETED
+        ],
+        DocumentWorkflow::SIMPLE_STATE_RELEASED => [DocumentWorkflow::STATE_NONE_ACTIVE]
+    ];
 
     public const PLACES = [
         self::STATE_NONE_NONE,
@@ -176,7 +228,19 @@ class DocumentWorkflow
         ],
         self::TRANSITION_DELETE_WORKING_COPY => [
             "from" => [self::STATE_IN_PROGRESS_ACTIVE, self::STATE_IN_PROGRESS_INACTIVE, self::STATE_IN_PROGRESS_DELETED],
-            "to" => self::STATE_NONE_NONE
+            "to" => [self::STATE_NONE_ACTIVE, self::STATE_NONE_INACTIVE, self::STATE_NONE_DELETED]
+        ],
+        self::TRANSITION_REMOTE_UPDATE => [
+            "from" => [
+                self::STATE_IN_PROGRESS_ACTIVE,
+                self::STATE_IN_PROGRESS_INACTIVE,
+                self::STATE_IN_PROGRESS_DELETED,
+            ],
+            "to" => [
+                self::STATE_NONE_ACTIVE,
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_DELETED,
+            ]
         ],
     ];
     

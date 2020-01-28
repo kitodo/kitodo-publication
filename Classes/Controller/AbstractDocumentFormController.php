@@ -237,6 +237,11 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
                 }
             }
         }
+        $this->persistenceManager->persistAll();
+
+        // index the document
+        $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$newDocument]);
+
     }
 
     public function initializeEditAction()

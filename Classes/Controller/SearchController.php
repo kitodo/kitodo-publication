@@ -18,7 +18,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
-use EWW\Dpf\Services\ElasticSearch;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Security\DocumentVoter;
@@ -45,6 +45,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     protected $clientRepository = null;
 
+
+    /**
+     * elasticSearch
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
+     * @inject
+     */
+    protected $elasticSearch = null;
+
+
     /**
      * persistence manager
      *
@@ -63,6 +73,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function listAction()
     {
+        $this->session->setListAction('search', 'Search');
+
         $workingCopies['noneTemporary'] = $this->documentRepository->getObjectIdentifiers(FALSE);
         $workingCopies['temporary'] = $this->documentRepository->getObjectIdentifiers(TRUE);
         $this->view->assign('workingCopies', $workingCopies);
@@ -256,8 +268,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function importForEditingAction($documentObjectIdentifier)
     {
-        $this->setSessionData('redirectToDocumentListAction', 'search');
-        $this->setSessionData('redirectToDocumentListController', 'Search');
+        $this->session->setListAction('search', 'Search');
 
         /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
         $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
@@ -479,7 +490,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+        // child_type is invalid in elasticsearch 7.5
+        $query['body']['query']['bool']['should'][1]['has_child']['type'] = "datastream"; // 1
 
         return $query;
     }

@@ -17,30 +17,7 @@
 
 <f:section name="main">
 
-
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
-        <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-                <f:link.action action="listRegistered" controller="Document"
-                               class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listRegistered'})}">
-                    {f:translate(key: 'manager.document.localStatus.registered')}
-                </f:link.action>
-                <f:link.action action="listInProgress" controller="Document"
-                               class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listInProgress'})}">
-                    {f:translate(key: 'manager.document.localStatus.in_progress')}
-                </f:link.action>
-                <f:link.action action="list" controller="Document"
-                               class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'list'})}">
-                    {f:translate(key: 'manager.document.state.all')}
-                </f:link.action>
-                <f:link.action action="listSuggestions" controller="Document"
-                               class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listSuggestions'})}">
-                    {f:translate(key: 'manager.document.suggestions')}
-                </f:link.action>
-            </div>
-        </div>
-    </div>
+    <f:render partial="Workspace/Header" arguments="{workspace:'workspace', isSuggestions: 1}"/>
 
     <f:flashMessages />
 
@@ -86,15 +63,12 @@
                 </td>
                 <td>{document.objectIdentifier}</td>
                 <td>
-                    {dpf:showStatus(status:'{document.state}', remote:0)}
+                    {dpf:showStatus(status:'{document.state}')}
                 </td>
                 <td>
                     {document.documentType.displayName}
                 </td>
                 <td class="table_col_function">
-                    <f:comment>
-                        <f:render partial="Document/ListItemActions" arguments="{document:document, currentUser:currentUser}"/>
-                    </f:comment>
                 </td>
             </tr>
         </f:for>

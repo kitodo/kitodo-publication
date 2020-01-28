@@ -1,0 +1,73 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+
+<f:render partial="Workspace/UploadError" arguments="{message:message}"/>
+
+<f:if condition="{client}">
+    <f:render partial="Workspace/Header" arguments="{
+        workspace:workspace,
+        isHideDiscarded:isHideDiscarded}"/>
+
+    <f:flashMessages />
+
+    <f:render partial="Workspace/List" arguments="{
+        documents:documents,
+        currentUser:currentUser,
+        workspaceListAction:workspaceListAction,
+        aggregations:aggregations,
+        filters:filters}"
+    />
+
+    <div class="workspace-batch-operations">
+        <button type="button" class="btn btn-sm btn-secondary">Eingestellte melden</button>
+        <button type="button" class="btn btn-sm btn-secondary">Exportieren</button>
+        <button type="button" class="btn btn-sm btn-secondary">
+            <f:if condition="{workspace} == 'workspace'">
+                <f:then>
+                    Aus "Arbeitsbereich" entfernen
+                </f:then>
+                <f:else>
+                    Aus "Meine Publikationen" entfernen
+                </f:else>
+            </f:if>
+        </button>
+        <f:if condition="{workspace} == 'workspace'">
+            <f:then>
+                <button type="button" class="btn btn-sm btn-secondary">Freigeben und validieren</button>
+                <button type="button" class="btn btn-sm btn-secondary">Freigeben und nicht validieren</button>
+            </f:then>
+        </f:if>
+    </div>
+
+    <f:render partial="Workspace/Pagination" arguments="{
+        workspaceListAction:workspaceListAction,
+        pages:pages,
+        itemsPerPage:itemsPerPage,
+        maximumNumberOfLinks:maximumNumberOfLinks}"
+    />
+
+</f:if>
+
+<f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'activate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'inactivate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'restore'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'delete'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
