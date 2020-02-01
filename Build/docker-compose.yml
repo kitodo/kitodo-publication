@@ -18,7 +18,7 @@ services:
 
     typo3:
         build:
-            context: .
+            context: ..
             dockerfile: Build/Dockerfile-TYPO3
         image: kitodo-publication:3.x
         ports:
