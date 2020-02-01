@@ -63,9 +63,8 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->matching($query->logicalAnd($constraints));
         }
 
-        // order by start_date -> start_time...
         $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+            array('uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)
         );
 
         return $query->execute();
@@ -90,9 +89,8 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->matching($query->logicalAnd($constraints));
         }
 
-        // order by start_date -> start_time...
         $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+            array('uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)
         );
 
         return $query->execute();
@@ -127,6 +125,10 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $query->matching($query->logicalAnd($constraints));
 
+        $query->setOrderings(
+            array('uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)
+        );
+
         return $query->execute();
     }
 
@@ -147,9 +149,8 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $query->matching($query->logicalAnd($constraints));
         }
 
-        // order by start_date -> start_time...
         $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
+            array('uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)
         );
 
         return $query->execute();
