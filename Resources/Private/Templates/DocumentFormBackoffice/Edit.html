@@ -42,9 +42,11 @@
 
     <f:flashMessages />
 
-    <p>
-        {f:translate(key: 'manager.control.suggestionDescription')}
-    </p>
+    <f:if condition="{suggestMod}">
+        <p>
+            {f:translate(key: 'manager.control.suggestionDescription')}
+        </p>
+    </f:if>
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
             additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
