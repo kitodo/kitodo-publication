@@ -174,7 +174,7 @@ class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
         foreach ($outArray as $tagName => $values) {
             foreach ($values as $value) {
                 $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
-                $pageRenderer->addMetaTag('<meta name="' . $tagName . '" content="' . $value . '">');
+                $pageRenderer->addMetaTag('<meta name="' . $tagName . '" content="' . htmlspecialchars($value) . '">');
             }
         }
         return $output;
