@@ -101,7 +101,6 @@ class DocumentManager
                     break;
 
                 default:
-                    return false;
                     break;
             }
 

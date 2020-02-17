@@ -24,18 +24,43 @@
 
     <f:flashMessages />
 
+
+    <f:form action="batch" name="batch" object="{listData}" enctype="multipart/form-data">
+
     <f:render partial="Workspace/List" arguments="{
-        documents:documents,
-        currentUser:currentUser,
-        workspaceListAction:workspaceListAction,
-        aggregations:aggregations,
-        filters:filters}"
+            documents:documents,
+            currentUser:currentUser,
+            workspaceListAction:workspaceListAction,
+            aggregations:aggregations,
+            filters:filters,
+            checkedDocumentIdentifiers: checkedDocumentIdentifiers
+        }"
     />
 
     <div class="workspace-batch-operations">
-        <button type="button" class="btn btn-sm btn-secondary">Eingestellte melden</button>
-        <button type="button" class="btn btn-sm btn-secondary">Exportieren</button>
-        <button type="button" class="btn btn-sm btn-secondary">
+
+        <f:form.button id="button-batch-register"
+                       type="submit"
+                       class="btn btn-sm btn-secondary"
+                       name="listData[action]" value="batchRegister"
+                       formmethod="post"
+                       disabled="disabled">
+            Eingestellte melden
+        </f:form.button>
+
+        <f:form.button type="submit"
+                       disabled="disabled"
+                       class="btn btn-sm btn-secondary"
+                       name="listData[action]" value="batchExport"
+                       formmethod="post">
+            Exportieren
+        </f:form.button>
+
+        <f:form.button type="submit"
+                       class="btn btn-sm btn-secondary"
+                       name="listData[action]" value="batchRemove"
+                       formmethod="post">
+
             <f:if condition="{workspace} == 'workspace'">
                 <f:then>
                     Aus "Arbeitsbereich" entfernen
@@ -44,14 +69,27 @@
                     Aus "Meine Publikationen" entfernen
                 </f:else>
             </f:if>
-        </button>
+        </f:form.button>
+
         <f:if condition="{workspace} == 'workspace'">
             <f:then>
-                <button type="button" class="btn btn-sm btn-secondary">Freigeben und validieren</button>
-                <button type="button" class="btn btn-sm btn-secondary">Freigeben und nicht validieren</button>
+                <f:form.button type="submit"
+                               class="btn btn-sm btn-secondary"
+                               name="listData[action]" value="batchReleaseValidated"
+                               formmethod="post">
+                    Freigeben und validieren
+                </f:form.button>
+                <f:form.button type="submit"
+                               class="btn btn-sm btn-secondary"
+                               name="listData[action]" value="batchReleaseUnvalidated"
+                               formmethod="post">
+                    Freigeben und nicht validieren
+                </f:form.button>
             </f:then>
         </f:if>
     </div>
+
+    </f:form>
 
     <f:render partial="Workspace/Pagination" arguments="{
         workspaceListAction:workspaceListAction,

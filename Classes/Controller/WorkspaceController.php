@@ -75,6 +75,31 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
     protected $elasticSearch = null;
 
     /**
+     * documentManager
+     *
+     * @var \EWW\Dpf\Services\Document\DocumentManager
+     * @inject
+     */
+    protected $documentManager = null;
+
+    /**
+     * documentValidator
+     *
+     * @var \EWW\Dpf\Helper\DocumentValidator
+     * @inject
+     */
+    protected $documentValidator;
+
+    /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @inject
+     */
+    protected $editingLockService = null;
+
+
+    /**
      * list
      *
      * @param int $from
@@ -142,10 +167,11 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      *
      * @param string $sortField
      * @param string $sortOrder
+     * @param array $checkedDocumentIdentifiers
      *
      * @return void
      */
-    protected function listWorkspaceAction($sortField = null, $sortOrder = null)
+    protected function listWorkspaceAction($sortField = null, $sortOrder = null, $checkedDocumentIdentifiers = [])
     {
         $this->session->setListAction('listWorkspace', 'Workspace',
             $this->uriBuilder->getRequest()->getRequestUri()
@@ -154,29 +180,151 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
         $currentPage = null;
         $pagination = $this->getParametersSafely('@widget_0');
         if ($pagination) {
+            $checkedDocumentIdentifiers = [];
             $currentPage = $pagination['currentPage'];
         }
 
         $this->list(
             (is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $sortField, $sortOrder
         );
+
+        $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
     }
 
     /**
      * Lists documents of the  "My publications" workspace.
      *
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param array $checkedDocumentIdentifiers
+     *
      * @return void
      */
-    protected function listMyPublicationsAction()
+    protected function listMyPublicationsAction($sortField = null, $sortOrder = null, $checkedDocumentIdentifiers = [])
     {
-        $this->session->setListAction('listMyPublications', 'Workspace');
+        $this->session->setListAction('listMyPublications', 'Workspace',
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
 
+        $currentPage = null;
         $pagination = $this->getParametersSafely('@widget_0');
         if ($pagination) {
+            $checkedDocumentIdentifiers = [];
             $currentPage = $pagination['currentPage'];
         }
 
-        $this->list((is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()));
+        $this->list(
+            (is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $sortField, $sortOrder
+        );
+
+        $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
+    }
+
+    /**
+     * Batch operations action.
+     * @param array $listData
+     */
+    public function batchAction($listData)
+    {
+        if (array_key_exists('action', $listData)) {
+            $this->forward($listData['action'], null, null, ['listData' => $listData]);
+        }
+    }
+
+    /**
+     * Batch operation, register documents.
+     * @param array $listData
+     */
+    public function batchRegisterAction($listData)
+    {
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+
+                $this->editingLockService->lock(
+                    $documentIdentifier, $this->security->getUser()->getUid()
+                );
+
+                if (is_numeric($documentIdentifier)) {
+                    $document = $this->documentManager->read($documentIdentifier);
+
+                    if ($this->authorizationChecker->isGranted(DocumentVoter::REGISTER, $document)) {
+
+                        if ($this->documentValidator->validate($document)) {
+
+                            if (
+                                $this->documentManager->update(
+                                    $document,
+                                    DocumentWorkflow::TRANSITION_REGISTER
+                                )
+                            ) {
+                                $successful[] = $documentIdentifier;
+
+                                $notifier = $this->objectManager->get(Notifier::class);
+                                $notifier->sendRegisterNotification($document);
+
+                                // index the document
+                                $this->signalSlotDispatcher->dispatch(
+                                    \EWW\Dpf\Controller\AbstractController::class,
+                                    'indexDocument', [$document]
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'manager.workspace.batchRegister.success',
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+        } else {
+            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'manager.workspace.batchRegister.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getListAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
+    }
+
+    /**
+     * Batch operation, remove documents.
+     * @param array $listData
+     */
+    public function batchRemoveAction($listData)
+    {
+        die("batchRemoveAction");
+    }
+
+    /**
+     * Batch operation, release as validated documents.
+     * @param array $listData
+     */
+    public function batchReleaseValidatedAction($listData)
+    {
+        die("batchReleaseValidatedAction");
+    }
+
+    /**
+     * Batch operation, release as unvalidated documents.
+     * @param array $listData
+     */
+    public function batchReleaseUnvalidatedAction($listData)
+    {
+        die("batchReleaseUnvalidated");
     }
 
 
@@ -246,7 +394,10 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             ]
         ];
 
-        return $this->buildQuery($workspaceFilter, $from, $bookmarkIdentifiers, $filters, $excludeFilters, $sortField, $sortOrder);
+        return $this->buildQuery(
+            $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
+            $excludeFilters, $sortField, $sortOrder
+        );
     }
 
 
@@ -263,8 +414,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      * @return array
      */
     protected function getMyPublicationsQuery(
-        $from = 0, $filters = [] , $excludeFilters = [], $bookmarkIdentifiers = array(),
-        $sortField = null, $sortOrder = null
+        $from = 0, $bookmarkIdentifiers = [], $filters= [], $excludeFilters = [], $sortField = null, $sortOrder = null
     )
     {
         $workspaceFilter = [
@@ -280,8 +430,8 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
         ];
 
         return $this->buildQuery(
-            $workspaceFilter, $from, $bookmarkIdentifiers,
-            $sortField, $sortOrder
+            $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
+            $excludeFilters, $sortField, $sortOrder
         );
     }
 
@@ -408,7 +558,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
         ];
 
 
-        //echo "<pre>"; print_r($query); echo "</pre>"; die();
+       //echo "<pre>"; print_r($query); echo "</pre>"; die();
 
         return $query;
     }

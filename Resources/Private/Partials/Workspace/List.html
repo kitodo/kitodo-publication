@@ -14,7 +14,7 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<table class="tx_dpf table table-striped table-manager table-condensed">
+<table id="workspace-list" class="tx_dpf table table-striped table-manager table-condensed">
     <thead>
     <tr>
         <th class="xcol-md-1"></th>
@@ -86,8 +86,20 @@
     </thead>
     <f:for each="{documents}" as="document">
         <tr>
-            <td>
-                <f:form.checkbox name="workspace[checkbox][]" value="{document._id}" />
+            <td data-simple-state="{document._source.simpleState}">
+                <f:if condition="{dpf:inArray(needle:'{document._id}', array:'{checkedDocumentIdentifiers}')}">
+                    <f:then>
+                        <f:form.checkbox class="batch-checkbox"
+                                         name="listData[documentIdentifiers][]"
+                                         value="{document._id}"
+                                         checked="1"/>
+                    </f:then>
+                    <f:else>
+                        <f:form.checkbox class="batch-checkbox"
+                                         name="listData[documentIdentifiers][]"
+                                         value="{document._id}"/>
+                    </f:else>
+                </f:if>
             </td>
             <td>
                 <f:link.action action="showDetails" controller="Document" arguments="{document:document._id}">

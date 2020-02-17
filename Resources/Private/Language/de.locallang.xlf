@@ -805,6 +805,14 @@
             <source>Show discarded</source>
             <target>Verworfene anzeigen</target>
         </trans-unit>
+        <trans-unit id="manager.workspace.batchRegister.success" approved="yes">
+            <source>%s documents out of %s registered</source>
+            <target>%s Dokumente von %s gemeldet</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchRegister.failure" approved="yes">
+            <source>No documents could be regeisterd</source>
+            <target>Es konnten keine Dokumente gemeldet werden.</target>
+        </trans-unit>
         <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###

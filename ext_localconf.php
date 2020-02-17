@@ -78,7 +78,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Workspace'        => 'listWorkspace, listMyPublications, initIndex',
+        'Workspace'        => 'listWorkspace, listMyPublications, initIndex, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, uploadFiles, '
@@ -91,7 +92,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     ),
     // non-cacheable actions
     array(
-        'Workspace'        => 'listWorkspace, listMyPublications, initIndex',
+        'Workspace'        => 'listWorkspace, listMyPublications, initIndex, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, uploadFiles, '
@@ -138,6 +140,13 @@ $signalSlotDispatcher->connect(
 );
 $signalSlotDispatcher->connect(
     \EWW\Dpf\Controller\DocumentFormBackofficeController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\WorkspaceController::class,
     'actionChange',
     \EWW\Dpf\Services\Document\DocumentCleaner::class,
     'cleanUpDocuments',

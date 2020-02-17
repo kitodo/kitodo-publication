@@ -605,6 +605,12 @@
         <trans-unit id="manager.workspace.showDiscarded">
             <source>Show discarded</source>
         </trans-unit>
+        <trans-unit id="manager.workspace.batchRegister.success">
+            <source>%s documents out of %s registered</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchRegister.failure">
+            <source>No documents could be regeisterd</source>
+        </trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###

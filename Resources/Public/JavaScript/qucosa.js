@@ -88,6 +88,18 @@ var selectSort = function() {
 }
 
 
+// Activates/inactivates the batch register button depending on the status
+var batchRegisterButton = function() {
+    jQuery(".batch-checkbox").on("click", function(){
+        if (jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length > 0) {
+            jQuery("#button-batch-register").removeAttr("disabled");
+        } else {
+            jQuery("#button-batch-register").attr("disabled", "disabled");
+        }
+    });
+}
+
+
 $(document).ready(function() {
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
@@ -197,6 +209,8 @@ $(document).ready(function() {
     selectSort();
 
     toggleDiscardedFilter();
+
+    batchRegisterButton();
 
     inputWithOptions();
 
