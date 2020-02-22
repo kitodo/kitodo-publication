@@ -45,28 +45,22 @@
                 <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
-                                <f:then>
-                                <li class="nav-item">
-                                    <f:link.action action="listWorkspace" controller="Workspace"
-                                                   class="nav-link workspace-nav-link
-                                                   {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listWorkspace'})}">
+                            <li class="nav-item">
+                                <f:link.action action="listWorkspace" controller="Workspace" arguments="{refresh:1}"
+                                               class="nav-link workspace-nav-link
+                                               {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listWorkspace'})}">
+
+                                    <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
                                         <i class="fas fa-file"></i>
                                         {f:translate(key: 'manager.control.documents')}
-                                    </f:link.action>
-                                </li>
-                                </f:then>
-                                <f:else>
-                                    <li class="nav-item">
-                                        <f:link.action action="listMyPublications" controller="Workspace"
-                                                       class="nav-link workspace-nav-link
-                                                       {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listMyPublications'})}">
-                                            <i class="fas fa-address-book"></i>
-                                            {f:translate(key: 'manager.control.myPublications')}
-                                        </f:link.action>
-                                    </li>
-                                </f:else>
-                            </f:if>
+                                    </f:if>
+                                    <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+                                        <i class="fas fa-address-book"></i>
+                                        {f:translate(key: 'manager.control.myPublications')}
+                                    </f:if>
+
+                                </f:link.action>
+                            </li>
                             <li class="nav-item">
                                 <f:link.action action="list" controller="Search"
                                                class="nav-link {dpf:activeManagerMenu(controllerName:'Search')}">

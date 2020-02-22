@@ -577,6 +577,18 @@
             <source>Editor UID</source>
             <target>Bearbeiter-UID</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark" approved="yes">
+            <source>Bookmark</source>
+            <target>Bookmark</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.document_identifier" approved="yes">
+            <source>Document Identifier</source>
+            <target>Dokument-Bezeichner</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.feuser" approved="yes">
+            <source>FE user</source>
+            <target>FE-User</target>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

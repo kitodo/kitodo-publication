@@ -113,18 +113,6 @@
 		<trans-unit id="document_deleteLocally.success">
 			<source>%s successfully removed.</source>
 		</trans-unit>
-		<trans-unit id="document_updateLocally.accessDenied">
-			<source>Saving %s failed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureCreateWorkingCopy">
-			<source>Saving %s failed, there is already a working copy.</source>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureNewVersion">
-			<source>Saving %s failed. There is a newer Version.</source>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.success">
-			<source>%s successfully saved.</source>
-		</trans-unit>
 		<trans-unit id="document_edit.failureBlocked">
 			<source>%s is already being edited.</source>
 		</trans-unit>
@@ -395,6 +383,12 @@
 		<trans-unit id="manager.confirmRegister.message">
 			<source>The document &quot;%s&quot; will be registered for publication.</source>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.messageHeader">
+			<source>Do you really want to register the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.message" xml:space="preserve">
+			<source>The selected documents will be registered for publication.</source>
+		</trans-unit>
 		<trans-unit id="manager.deleteLocally">
 			<source>delete</source>
 		</trans-unit>
@@ -412,6 +406,30 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 			<source>Do you really want to register the document?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
+			<source>Do you really want to remove the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.message" xml:space="preserve">
+			<source>The selected documents will be removed from your workspace.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader">
+			<source>Do you really want to release and validate the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.message" xml:space="preserve">
+			<source>The selected documents will be released and validated.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader">
+			<source>Do you really want to release but not validate the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" xml:space="preserve">
+			<source>The selected documents will be released but not validated.</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
+			<source>Do you really want to remove the document from the list?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be removed from the list.</source>
 		</trans-unit>
 		<trans-unit id="manager.discard">
 			<source>discard</source>
@@ -545,6 +563,9 @@
 		<trans-unit id="manager.chooseClientMessage">
 			<source>Please select a client in the page tree.</source>
 		</trans-unit>
+        <trans-unit id="manager.workspace.accessDenied">
+            <source>Access denied.</source>
+        </trans-unit>
         <trans-unit id="manager.workspace.title">
             <source>Title</source>
         </trans-unit>
@@ -605,12 +626,24 @@
         <trans-unit id="manager.workspace.showDiscarded">
             <source>Show discarded</source>
         </trans-unit>
+        <trans-unit id="manager.workspace.showBookmarksOnly">
+            <source>Show bookmarks only</source>
+        </trans-unit>
         <trans-unit id="manager.workspace.batchRegister.success">
             <source>%s documents out of %s registered</source>
         </trans-unit>
         <trans-unit id="manager.workspace.batchRegister.failure">
             <source>No documents could be regeisterd</source>
         </trans-unit>
+		<trans-unit id="manager.workspace.bookmarkRemoved">
+			<source>Record has been removed from workspace.</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarksRemoved">
+			<source>%s Records have been removed from workspace.</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarkAdded">
+			<source>Record has been added to the workspace.</source>
+		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###

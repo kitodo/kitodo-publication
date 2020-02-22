@@ -1,0 +1,47 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+    <div class="modal fade confirmBatchAction" id="confirmWorkspaceRemoveBookmark" tabindex="-1" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{f:translate(key: 'manager.confirmRemoveBookmark.messageHeader')}</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="{f:translate(key: 'manager.confirm.no')}"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>{f:translate(key: 'manager.confirmRemoveBookmark.message', arguments: {0: '%s'})}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
+                        'manager.confirm.no')}
+                    </button>
+
+                    <f:form id="batchFormRemove" action="batch" controller="Workspace" method="post" name="listData" object="{listData}" enctype="multipart/form-data">
+                        <f:form.hidden class="workspaceAction" name="listData[action]" value="batchRemove"/>
+                        <f:form.hidden class="documentIdentifier" name="listData[documentIdentifiers][]" value="qucosa:1018"/>
+
+                        <button type="submit"
+                                form="batchFormRemove"
+                                class="btn btn-danger"
+                                data-ajax="{f:uri.action(action:'batch',controller:'Workspace', pageType:settings.ajaxTypeNum)}">
+                            {f:translate(key: 'manager.confirm.yes')}
+                        </button>
+                    </f:form>
+                </div>
+            </div>
+        </div>
+    </div>

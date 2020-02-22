@@ -22,55 +22,55 @@ use Symfony\Component\Workflow\Registry;
 
 class DocumentWorkflow
 {
-    public const LOCAL_STATE_NONE          = 'NONE';
-    public const LOCAL_STATE_NEW           = 'NEW';
-    public const LOCAL_STATE_REGISTERED    = 'REGISTERED';
-    public const LOCAL_STATE_IN_PROGRESS   = 'IN_PROGRESS';
-    public const LOCAL_STATE_DISCARDED     = 'DISCARDED';
-    public const LOCAL_STATE_POSTPONED     = 'POSTPONED';
+    const LOCAL_STATE_NONE          = 'NONE';
+    const LOCAL_STATE_NEW           = 'NEW';
+    const LOCAL_STATE_REGISTERED    = 'REGISTERED';
+    const LOCAL_STATE_IN_PROGRESS   = 'IN_PROGRESS';
+    const LOCAL_STATE_DISCARDED     = 'DISCARDED';
+    const LOCAL_STATE_POSTPONED     = 'POSTPONED';
 
-    public const REMOTE_STATE_NONE         = 'NONE';
-    public const REMOTE_STATE_ACTIVE       = "ACTIVE";
-    public const REMOTE_STATE_INACTIVE     = "INACTIVE";
-    public const REMOTE_STATE_DELETED      = "DELETED";
+    const REMOTE_STATE_NONE         = 'NONE';
+    const REMOTE_STATE_ACTIVE       = "ACTIVE";
+    const REMOTE_STATE_INACTIVE     = "INACTIVE";
+    const REMOTE_STATE_DELETED      = "DELETED";
 
-    public const STATE_NONE_NONE            = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_NONE;
+    const STATE_NONE_NONE            = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_NONE;
 
     // New
-    public const STATE_NEW_NONE             = self::LOCAL_STATE_NEW.':'.self::REMOTE_STATE_NONE;
+    const STATE_NEW_NONE             = self::LOCAL_STATE_NEW.':'.self::REMOTE_STATE_NONE;
 
     // Registered
-    public const STATE_REGISTERED_NONE      = self::LOCAL_STATE_REGISTERED.':'.self::REMOTE_STATE_NONE;
+    const STATE_REGISTERED_NONE      = self::LOCAL_STATE_REGISTERED.':'.self::REMOTE_STATE_NONE;
 
     // In progress
-    public const STATE_IN_PROGRESS_NONE     = self::LOCAL_STATE_IN_PROGRESS.':'.self::REMOTE_STATE_NONE;
-    public const STATE_IN_PROGRESS_ACTIVE   = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_ACTIVE;
-    public const STATE_IN_PROGRESS_INACTIVE = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_INACTIVE;
-    public const STATE_IN_PROGRESS_DELETED  = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_DELETED;
+    const STATE_IN_PROGRESS_NONE     = self::LOCAL_STATE_IN_PROGRESS.':'.self::REMOTE_STATE_NONE;
+    const STATE_IN_PROGRESS_ACTIVE   = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_ACTIVE;
+    const STATE_IN_PROGRESS_INACTIVE = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_INACTIVE;
+    const STATE_IN_PROGRESS_DELETED  = self::LOCAL_STATE_IN_PROGRESS.":".self::REMOTE_STATE_DELETED;
 
     // Active
-    public const STATE_NONE_ACTIVE          = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_ACTIVE;
+    const STATE_NONE_ACTIVE          = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_ACTIVE;
 
     // Postponed
-    public const STATE_POSTPONED_NONE       = self::LOCAL_STATE_POSTPONED.':'.self::REMOTE_STATE_NONE;
-    public const STATE_NONE_INACTIVE        = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_INACTIVE;
+    const STATE_POSTPONED_NONE       = self::LOCAL_STATE_POSTPONED.':'.self::REMOTE_STATE_NONE;
+    const STATE_NONE_INACTIVE        = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_INACTIVE;
 
     // Discarded
-    public const STATE_DISCARDED_NONE       = self::LOCAL_STATE_DISCARDED.':'.self::REMOTE_STATE_NONE;
-    public const STATE_NONE_DELETED         = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_DELETED;
+    const STATE_DISCARDED_NONE       = self::LOCAL_STATE_DISCARDED.':'.self::REMOTE_STATE_NONE;
+    const STATE_NONE_DELETED         = self::LOCAL_STATE_NONE.':'.self::REMOTE_STATE_DELETED;
 
-    public const TRANSITION_CREATE              = "CREATE_TRANSITION";
-    public const TRANSITION_CREATE_REGISTER     = "CREATE_REGISTER_TRANSITION";
-    public const TRANSITION_REGISTER            = "REGISTER_TRANSITION";
-    public const TRANSITION_DISCARD             = "DISCARD_TRANSITION";
-    public const TRANSITION_POSTPONE            = "POSTPONE_TRANSITION";
-    public const TRANSITION_RELEASE_PUBLISH     = "RELEASE_PUBLISH_TRANSITION";
-    public const TRANSITION_RELEASE_ACTIVATE    = "RELEASE_ACTIVATE_TRANSITION";
-    public const TRANSITION_REMOTE_UPDATE       = "REMOTE_UPDATE_TRANSITION";
-    public const TRANSITION_DELETE_LOCALLY      = "DELETE_LOCALLY_TRANSITION";
-    public const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
-    public const TRANSITION_DELETE_DISCARDED    = "DELETE_DISCARDED_TRANSITION";
-
+    const TRANSITION_CREATE              = "CREATE_TRANSITION";
+    const TRANSITION_CREATE_REGISTER     = "CREATE_REGISTER_TRANSITION";
+    const TRANSITION_REGISTER            = "REGISTER_TRANSITION";
+    const TRANSITION_DISCARD             = "DISCARD_TRANSITION";
+    const TRANSITION_POSTPONE            = "POSTPONE_TRANSITION";
+    const TRANSITION_RELEASE_PUBLISH     = "RELEASE_PUBLISH_TRANSITION";
+    const TRANSITION_RELEASE_ACTIVATE    = "RELEASE_ACTIVATE_TRANSITION";
+    const TRANSITION_REMOTE_UPDATE       = "REMOTE_UPDATE_TRANSITION";
+    const TRANSITION_IN_PROGRESS         = "IN_PROGRESS_TRANSITION";
+    const TRANSITION_DELETE_LOCALLY      = "DELETE_LOCALLY_TRANSITION";
+    const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
+    const TRANSITION_DELETE_DISCARDED    = "DELETE_DISCARDED_TRANSITION";
 
     const SIMPLE_STATE_NEW = "new";
     const SIMPLE_STATE_REGISTERED = "registered";
@@ -122,7 +122,7 @@ class DocumentWorkflow
         DocumentWorkflow::SIMPLE_STATE_RELEASED => [DocumentWorkflow::STATE_NONE_ACTIVE]
     ];
 
-    public const PLACES = [
+    const PLACES = [
         self::STATE_NONE_NONE,
         self::STATE_NEW_NONE,
         self::STATE_REGISTERED_NONE,
@@ -137,7 +137,7 @@ class DocumentWorkflow
         self::STATE_IN_PROGRESS_DELETED
     ];
 
-    public const TRANSITIONS = [
+    const TRANSITIONS = [
         self::TRANSITION_CREATE => [
             "from" => [self::STATE_NONE_NONE],
             "to" => self::STATE_NEW_NONE
@@ -235,13 +235,33 @@ class DocumentWorkflow
                 self::STATE_IN_PROGRESS_ACTIVE,
                 self::STATE_IN_PROGRESS_INACTIVE,
                 self::STATE_IN_PROGRESS_DELETED,
+                self::STATE_NONE_ACTIVE,
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_DELETED
             ],
             "to" => [
                 self::STATE_NONE_ACTIVE,
                 self::STATE_NONE_INACTIVE,
                 self::STATE_NONE_DELETED,
+                self::STATE_NONE_ACTIVE,
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_DELETED
             ]
         ],
+        self::TRANSITION_IN_PROGRESS => [
+            "from" => [
+                self::STATE_REGISTERED_NONE,
+                self::STATE_NONE_ACTIVE,
+                self::STATE_NONE_INACTIVE,
+                self::STATE_NONE_DELETED
+            ],
+            "to" => [
+                self::STATE_IN_PROGRESS_NONE,
+                self::STATE_IN_PROGRESS_ACTIVE,
+                self::STATE_IN_PROGRESS_INACTIVE,
+                self::STATE_IN_PROGRESS_DELETED
+            ]
+        ]
     ];
     
     public static function getWorkflow()

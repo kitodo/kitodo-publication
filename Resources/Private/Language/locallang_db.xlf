@@ -437,6 +437,15 @@
         <trans-unit id="tx_dpf_domain_model_editinglock.editor_uid">
             <source>Editor UID</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark">
+            <source>Bookmark</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.document_identifier">
+            <source>Document Identifier</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.feuser">
+            <source>FE user</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

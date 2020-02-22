@@ -20,7 +20,7 @@
                        class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
         </f:link.action>
     </f:if>
-</f:comment>
+
 
 <dpf:link.preview
         arguments="{document : document}"
@@ -47,4 +47,14 @@
                    additionalAttributes="{data-toggle: 'tooltip' }">
         <i class="fas fa-copy"></i>
     </f:link.action>
+</f:if>
+</f:comment>
+
+<f:if condition="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}">
+    <a href="#" class="remove-bookmark"
+       title="Bookmark entfernen" data-toggle="tooltip"
+       data-id="{document._id}"
+       data-ajaxURL="{}">
+        <i class="fas fa-backspace"></i>
+    </a>
 </f:if>

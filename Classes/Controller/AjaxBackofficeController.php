@@ -31,10 +31,10 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
 
     /**
-     * Creates a bookmark for the given document identifier
+     * Adds a the given document identifier to the bookmark list of the current fe user.
      *
      * @param string $identifier
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @return bool
      */
     public function addBookmarkAction($identifier)
     {
@@ -43,11 +43,30 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         if (!$bookmark) {
             $bookmark = $this->objectManager->get(\EWW\Dpf\Domain\Model\Bookmark::class);
             $bookmark->setDocumentIdentifier($identifier);
-            $bookmark->setOwnerUid($this->security->getUser()->getUid());
+            $bookmark->setFeUserUid($this->security->getUser()->getUid());
             $this->bookmarkRepository->add($bookmark);
+            return true;
         }
 
-        return;
+        return false;
+    }
+
+    /**
+     * Removes the given document from the bookmark list of the current fe user.
+     *
+     * @param string $identifier
+     * @return bool
+     */
+    public function removeBookmarkAction($identifier)
+    {
+        /** @var \EWW\Dpf\Domain\Model\Bookmark $bookmark */
+        $bookmark = $this->bookmarkRepository->findBookmark($this->security->getUser()->getUid(), $identifier);
+        if ($bookmark) {
+            $this->bookmarkRepository->remove($bookmark);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -97,6 +116,16 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     public function toggleWorkspaceExcludeDiscardedAction()
     {
         $this->session->toggleWorkspaceExcludeDiscardedFilter();
+        return;
+    }
+
+    /**
+     * Toggles the filter to hide bookmarked documents.
+     *
+     */
+    public function toggleWorkspaceBookmarksOnlyAction()
+    {
+        $this->session->toggleWorkspaceBookmarksOnlyFilter();
         return;
     }
 

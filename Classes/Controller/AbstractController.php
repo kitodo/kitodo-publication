@@ -167,4 +167,18 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
         $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
         $signalSlotDispatcher->dispatch(get_class($this), 'actionChange', [$this->actionMethodName, get_class($this)]);
     }
+
+
+    public function getCurrentAction()
+    {
+        return str_replace('Action', '', $this->actionMethodName);
+    }
+
+    public function getCurrentController()
+    {
+        $controllerName = end(explode('\\', get_Class($this)));
+        return str_replace('Controller', '', $controllerName);
+    }
+
+
 }

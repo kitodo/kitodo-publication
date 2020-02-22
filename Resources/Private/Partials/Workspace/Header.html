@@ -16,12 +16,12 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
 
-    <f:if condition="{workspace} == 'workspace'">
+    <f:if condition="{isWorkspace}">
         <f:then>
             <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
 
-            <f:render partial="Workspace/HideDiscarded" arguments="{
-                isHideDiscarded: isHideDiscarded,
+            <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                isBookmarksOnly: isBookmarksOnly,
                 workspace: workspace,
                 isSuggestions: isSuggestions}" />
 
@@ -40,6 +40,10 @@
         </f:then>
         <f:else>
             <h1 class="h2">{f:translate(key: 'manager.control.myPublications')}</h1>
+            <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                isBookmarksOnly: isBookmarksOnly,
+                workspace: workspace,
+                isSuggestions: isSuggestions}" />
             <f:render partial="Workspace/HideDiscarded" arguments="{
                 isHideDiscarded: isHideDiscarded,
                 workspace: workspace,

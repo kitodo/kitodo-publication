@@ -184,16 +184,12 @@ ajax_backoffice {
 	}
 }
 
-#plugin.tx_dpf_backoffice {
-#	settings {
-#		ajaxTypeNum = 110125
-#
-#		yamlConfigurations {
-#			10 = EXT:dpf/Configuration/Yaml/Workflow.yaml
-#		}
-#
-#	}
-#}
+plugin.tx_dpf_backoffice {
+	settings {
+		ajaxTypeNum = 110125
+
+	}
+}
 
 lib.feUsername = TEXT
 lib.feUsername {

@@ -63,6 +63,21 @@ class Session
 
 
     /**
+     * Deletes the filter values.
+     */
+    public function clearFilter()
+    {
+        $userGlobals = $this->getUserGlobals();
+
+        if ($userGlobals) {
+            $workspaceFilters = $userGlobals->getSessionData("workspaceFilters");
+            $workspaceFilters = [];
+            $userGlobals->setAndSaveSessionData("workspaceFilters", $workspaceFilters);
+        }
+    }
+
+
+    /**
      * Stores the given action name, controller name and uri.
      *
      * @param $action
@@ -128,6 +143,31 @@ class Session
         $sessionData[self::WORKSPACE_EXCLUDE_FILTER_KEY] = $filters;
         $this->setData($sessionData);
     }
+
+    /**
+     * Toggles the hide bookmarks filter.
+     *
+     */
+    public function toggleWorkspaceBookmarksOnlyFilter()
+    {
+        $sessionData = $this->getData();
+
+        $filters = [];
+        if (is_array($sessionData) && array_key_exists(self::WORKSPACE_EXCLUDE_FILTER_KEY, $sessionData)) {
+            $filters = $sessionData[self::WORKSPACE_EXCLUDE_FILTER_KEY];
+        }
+
+        if (array_key_exists('bookmarks', $filters)) {
+            unset($filters['bookmarks']);
+        } else {
+            $filters['bookmarks'] = true;
+        }
+
+        $sessionData[self::WORKSPACE_EXCLUDE_FILTER_KEY] = $filters;
+        $this->setData($sessionData);
+    }
+
+
 
     /**
      * Set session data

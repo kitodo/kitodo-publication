@@ -18,7 +18,7 @@
         <input id="hideDiscarded" class="custom-control-input"
                type="checkbox" aria-label="Checkbox to hide discarded documents"
                {f:if(condition:'{isHideDiscarded}', then:'checked="checked"', else:'')}
-               data-ajax="{f:uri.action(action:'toggleWorkspaceExcludeDiscarded',controller:'AjaxBackoffice',pageType:'110125')}">
+               data-ajax="{f:uri.action(action:'toggleWorkspaceExcludeDiscarded',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
         <label class="custom-control-label" for="hideDiscarded">
             <f:if condition="{isHideDiscarded}">
                 <f:then>

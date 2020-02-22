@@ -30,11 +30,11 @@ class Bookmark extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $documentIdentifier = '';
 
     /**
-     * ownerUid : Uid of the editor frontend user.
+     * feUserUid : Uid of the frontend user.
      *
      * @var integer
      */
-    protected $ownerUid = 0;
+    protected $feUserUid = 0;
 
     /**
      * Gets the document identifier
@@ -57,23 +57,23 @@ class Bookmark extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Gets the owner uid
+     * Gets the feuser uid
      *
      * @return int
      */
-    public function getOwnerUid()
+    public function getFeUserUid()
     {
-        return $this->ownerUid;
+        return $this->feUserUid;
     }
 
     /**
-     * Sets the editor uid
+     * Sets the feuser uid
      *
-     * @param int $ownerUid
+     * @param int $feUserUid
      */
-    public function setOwnerUid($ownerUid)
+    public function setFeUserUid($feUserUid)
     {
-        $this->ownerUid = $ownerUid;
+        $this->feUserUid = $feUserUid;
     }
 
 }

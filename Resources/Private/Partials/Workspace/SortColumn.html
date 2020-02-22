@@ -26,11 +26,13 @@
     </div>
 </f:comment>
 
-<div class="btn-group" role="group" aria-label="sort buttons" data-ajax="{f:uri.action(action:'addWorkspaceSort',controller:'AjaxBackoffice',pageType:'110125')}">
-    <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="asc">
-        <i class="fas fa-caret-up"></i>
-    </a>
-    <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="desc">
-        <i class="fas fa-caret-down"></i>
-    </a>
+<div class="btn-toolbar" role="toolbar">
+    <div class="btn-group" role="group" aria-label="sort buttons" data-ajax="{f:uri.action(action:'addWorkspaceSort',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+        <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="asc">
+            <i class="fas fa-caret-up"></i>
+        </a>
+        <a href="#" class="btn btn-sm btn-light sort-button" data-field="{sortField}" data-order="desc">
+            <i class="fas fa-caret-down"></i>
+        </a>
+    </div>
 </div>

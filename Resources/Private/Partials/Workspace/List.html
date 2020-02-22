@@ -81,12 +81,15 @@
                       arguments="{aggregation: aggregations.hasFiles, filterName: 'hasFiles', filterValues: filters.hasFiles}"
             />
         </th>
-        <f:comment><th class="xcol-md-2"><!-- ACTIONS --></th></f:comment>
+        <th class="xcol-md-2"><!-- ACTIONS --></th>
     </tr>
     </thead>
     <f:for each="{documents}" as="document">
-        <tr>
-            <td data-simple-state="{document._source.simpleState}">
+        <tr data-id="{document._id}">
+            <td data-simple-state="{document._source.simpleState}"
+                data-bookmark="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}"
+                data-release="{f:if(condition:'{document._source.simpleState} == \'new\'', then:'0', else:'1')}">
+
                 <f:if condition="{dpf:inArray(needle:'{document._id}', array:'{checkedDocumentIdentifiers}')}">
                     <f:then>
                         <f:form.checkbox class="batch-checkbox"
@@ -127,7 +130,7 @@
             <td>
                 {document._source.year}
             </td>
-            <td>
+            <td data-simpleState="{document._source.simpleState}">
                 {dpf:showStatus(status:'{document._source.state}')}
             </td>
             <td><dpf:showCreatorRole feUserId="{document._source.creator}" /></td>
@@ -160,12 +163,15 @@
                 </f:if>
             </td>
 
-            <f:comment>
             <td class="table_col_function">
-                <f:render partial="Workspace/ListItemActions" arguments="{document:document, currentUser:currentUser}"/>
+                <f:render partial="Workspace/ListItemActions"
+                          arguments="{
+                            document:document,
+                            bookmarkIdentifiers:bookmarkIdentifiers
+                            }"
+                />
             </td>
-            </f:comment>
-            
+
         </tr>
     </f:for>
 </table>

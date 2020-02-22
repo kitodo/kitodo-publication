@@ -19,84 +19,102 @@
 
 <f:if condition="{client}">
     <f:render partial="Workspace/Header" arguments="{
-        workspace:workspace,
-        isHideDiscarded:isHideDiscarded}"/>
+        isWorkspace:isWorkspace,
+        isHideDiscarded:isHideDiscarded,
+        isBookmarksOnly: isBookmarksOnly}"/>
 
     <f:flashMessages />
 
-
-    <f:form action="batch" name="batch" object="{listData}" enctype="multipart/form-data">
+    <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data">
 
     <f:render partial="Workspace/List" arguments="{
             documents:documents,
-            currentUser:currentUser,
             workspaceListAction:workspaceListAction,
             aggregations:aggregations,
             filters:filters,
-            checkedDocumentIdentifiers: checkedDocumentIdentifiers
+            checkedDocumentIdentifiers: checkedDocumentIdentifiers,
+            bookmarkIdentifiers: bookmarkIdentifiers
         }"
     />
 
     <div class="workspace-batch-operations">
 
-        <f:form.button id="button-batch-register"
-                       type="submit"
-                       class="btn btn-sm btn-secondary"
-                       name="listData[action]" value="batchRegister"
-                       formmethod="post"
-                       disabled="disabled">
-            Eingestellte melden
-        </f:form.button>
+        <button class="btn btn-sm btn-light workspace-select-toggle workspace-select-all" style="display:none;"
+           title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Auswahl aufheben')}" data-toggle="tooltip"
+        >
+            <i class="far fa-check-square dpf-fa-check-color"></i>
+        </button>
+        <button class="btn btn-sm btn-light workspace-select-toggle workspace-unselect-all" style="display:none;"
+           title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Alle auswählen')}" data-toggle="tooltip"
+        >
+            <i class="far fa-square dpf-fa-check-color"></i>
+        </button>
 
-        <f:form.button type="submit"
-                       disabled="disabled"
-                       class="btn btn-sm btn-secondary"
-                       name="listData[action]" value="batchExport"
-                       formmethod="post">
-            Exportieren
-        </f:form.button>
 
-        <f:form.button type="submit"
-                       class="btn btn-sm btn-secondary"
-                       name="listData[action]" value="batchRemove"
-                       formmethod="post">
+        <a href="#" id="workspaceButtonBatchRegister" class="btn btn-sm btn-secondary disabled">
+            {f:translate(key: 'manger.workspace.batch.buttonRegister', default: 'Eingestellte melden')}
+        </a>
+        <f:form.hidden
+                id="workspaceActionBatchRegister"
+                class="workspaceAction"
+                name="listData[action]"
+                value="batchRegister"
+                additionalAttributes="{disabled:'disabled'}"
+        />
 
-            <f:if condition="{workspace} == 'workspace'">
-                <f:then>
-                    Aus "Arbeitsbereich" entfernen
-                </f:then>
-                <f:else>
-                    Aus "Meine Publikationen" entfernen
-                </f:else>
-            </f:if>
-        </f:form.button>
+        <a href="#" id="workspaceButtonBatchExport" class="btn btn-sm btn-secondary disabled">
+            {f:translate(key: 'manger.workspace.batch.buttonExport', default: 'Exportieren')}
+        </a>
 
-        <f:if condition="{workspace} == 'workspace'">
+        <f:if condition="{isWorkspace}">
             <f:then>
-                <f:form.button type="submit"
-                               class="btn btn-sm btn-secondary"
-                               name="listData[action]" value="batchReleaseValidated"
-                               formmethod="post">
-                    Freigeben und validieren
-                </f:form.button>
-                <f:form.button type="submit"
-                               class="btn btn-sm btn-secondary"
-                               name="listData[action]" value="batchReleaseUnvalidated"
-                               formmethod="post">
-                    Freigeben und nicht validieren
-                </f:form.button>
+                <a href="#" id="workspaceButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
+                    {f:translate(key: 'manger.workspace.batch.buttonRemove', default: 'Aus "Arbeitsbereich" entfernen')}
+                </a>
+                <f:form.hidden
+                        id="workspaceActionBatchRemove"
+                        class="workspaceAction"
+                        name="listData[action]"
+                        value="batchRemove"
+                        additionalAttributes="{disabled:'disabled'}"
+                />
+
+                <a href="#" id="workspaceButtonBatchReleaseValidated" class="btn btn-sm btn-secondary disabled">
+                    {f:translate(key: 'manger.workspace.batch.buttonReleaseValidated', default: ' Freigeben und validieren')}
+                </a>
+                <f:form.hidden
+                        id="workspaceActionBatchReleaseValidated"
+                        class="workspaceAction"
+                        name="listData[action]"
+                        value="batchReleaseValidated"
+                        additionalAttributes="{disabled:'disabled'}"
+                />
+
+                <a href="#" id="workspaceButtonBatchReleaseUnvalidated" class="btn btn-sm btn-secondary disabled">
+                    {f:translate(key: 'manger.workspace.batch.buttonReleaseUnvalidated', default: 'Freigeben und nicht validieren')}
+                </a>
+                <f:form.hidden
+                        id="workspaceActionBatchReleaseUnvalidated"
+                        class="workspaceAction"
+                        name="listData[action]"
+                        value="batchReleaseUnvalidated"
+                        additionalAttributes="{disabled:'disabled'}"
+                />
             </f:then>
         </f:if>
     </div>
 
     </f:form>
 
-    <f:render partial="Workspace/Pagination" arguments="{
-        workspaceListAction:workspaceListAction,
-        pages:pages,
-        itemsPerPage:itemsPerPage,
-        maximumNumberOfLinks:maximumNumberOfLinks}"
-    />
+
+    <f:if condition="{pages.{itemsPerPage}}">
+        <f:render partial="Workspace/Pagination" arguments="{
+            workspaceListAction:workspaceListAction,
+            pages:pages,
+            itemsPerPage:itemsPerPage,
+            maximumNumberOfLinks:maximumNumberOfLinks}"
+        />
+    </f:if>
 
 </f:if>
 
@@ -109,3 +127,9 @@
 <f:render partial="Document/ConfirmAction" arguments="{action: 'delete'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
+
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRegister'}" />
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRemove'}" />
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchReleaseValidated'}" />
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchReleaseUnvalidated'}" />
+<f:render partial="Workspace/ConfirmRemoveBookmark" />

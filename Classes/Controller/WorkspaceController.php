@@ -14,29 +14,19 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Helper\Session;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-//use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Domain\Model\File;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
-use \TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Controller for the "workspace"/"my publications" area.
  */
-class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
+class WorkspaceController  extends AbstractController
 {
     const MAXIMUM_NUMBER_OF_LINKS = 5;
     const DEFAULT_SORT_FIELD = 'title';
@@ -103,15 +93,12 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      * list
      *
      * @param int $from
-     * @param string $sortField
-     * @param string $sortOrder
-     *
      * @return void
      */
-    protected function list($from = 0, $sortField = null, $sortOrder = null)
+    protected function list($from = 0)
     {
         $bookmarkIdentifiers = array();
-        $bookmarks = $this->bookmarkRepository->findByOwnerUid($this->security->getUser()->getUid());
+        $bookmarks = $this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid());
         foreach ($bookmarks as $bookmark) {
             $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
         }
@@ -124,7 +111,6 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
         if (!$excludeFilters) {
             $excludeFilters = [];
         }
-        $isHideDiscarded = array_key_exists('simpleState', $excludeFilters);
 
         list($sortField, $sortOrder) = $this->session->getWorkspaceSort();
 
@@ -140,7 +126,9 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             $results = $this->elasticSearch->search($query, 'object');
         } catch (\Exception $e) {
             $this->session->clearWorkspaceSort();
-            $this->addFlashMessage("Error while buildig the list!", '', AbstractMessage::ERROR);
+            $this->addFlashMessage(
+                "Error while buildig the list!", '', AbstractMessage::ERROR
+            );
         }
 
         if ($this->request->hasArgument('message')) {
@@ -151,29 +139,48 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
-        $this->view->assign('currentUser', $this->security->getUser());
+
+        if ($filters && $results['hits']['total']['value'] < 1) {
+            $this->session->clearFilter();
+            list($redirectAction, $redirectController) = $this->session->getListAction();
+            $this->redirect(
+                $redirectAction, $redirectController, null,
+                array('message' => [], 'checkedDocumentIdentifiers' => [])
+            );
+        }
+
         $this->view->assign('documents', $results['hits']['hits']);
         $this->view->assign('pages', range(1, $results['hits']['total']['value']));
         $this->view->assign('itemsPerPage', $this->itemsPerPage());
         $this->view->assign('maximumNumberOfLinks', self::MAXIMUM_NUMBER_OF_LINKS);
         $this->view->assign('aggregations', $results['aggregations']);
         $this->view->assign('filters', $filters);
-        $this->view->assign('isHideDiscarded', $isHideDiscarded);
+        $this->view->assign('isHideDiscarded', array_key_exists('simpleState', $excludeFilters));
+        $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
+        $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
     }
-
 
     /**
      * Lists documents of the workspace
      *
-     * @param string $sortField
-     * @param string $sortOrder
      * @param array $checkedDocumentIdentifiers
      *
      * @return void
      */
-    protected function listWorkspaceAction($sortField = null, $sortOrder = null, $checkedDocumentIdentifiers = [])
+    protected function listWorkspaceAction($checkedDocumentIdentifiers = [])
     {
-        $this->session->setListAction('listWorkspace', 'Workspace',
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            $this->view->assign('isWorkspace', true);
+        } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER){
+            $this->view->assign('isWorkspace', false);
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.accessDenied', 'dpf'
+            );
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
         );
 
@@ -184,41 +191,12 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             $currentPage = $pagination['currentPage'];
         }
 
-        $this->list(
-            (is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $sortField, $sortOrder
-        );
+        $this->list((is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()));
 
+        $this->view->assign('workspaceListAction', $this->getCurrentAction());
         $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
     }
 
-    /**
-     * Lists documents of the  "My publications" workspace.
-     *
-     * @param string $sortField
-     * @param string $sortOrder
-     * @param array $checkedDocumentIdentifiers
-     *
-     * @return void
-     */
-    protected function listMyPublicationsAction($sortField = null, $sortOrder = null, $checkedDocumentIdentifiers = [])
-    {
-        $this->session->setListAction('listMyPublications', 'Workspace',
-            $this->uriBuilder->getRequest()->getRequestUri()
-        );
-
-        $currentPage = null;
-        $pagination = $this->getParametersSafely('@widget_0');
-        if ($pagination) {
-            $checkedDocumentIdentifiers = [];
-            $currentPage = $pagination['currentPage'];
-        }
-
-        $this->list(
-            (is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $sortField, $sortOrder
-        );
-
-        $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
-    }
 
     /**
      * Batch operations action.
@@ -234,6 +212,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
     /**
      * Batch operation, register documents.
      * @param array $listData
+     * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      */
     public function batchRegisterAction($listData)
     {
@@ -261,6 +240,10 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                                     DocumentWorkflow::TRANSITION_REGISTER
                                 )
                             ) {
+                                $this->bookmarkRepository->addBookmark(
+                                    $this->security->getUser()->getUid(), $document
+                                );
+
                                 $successful[] = $documentIdentifier;
 
                                 $notifier = $this->objectManager->get(Notifier::class);
@@ -278,8 +261,8 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             }
 
 
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                'manager.workspace.batchRegister.success',
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.success',
                 'dpf',
                 [sizeof($successful), sizeof($listData['documentIdentifiers'])]
             );
@@ -287,9 +270,10 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                 $message, '',
                 (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
             );
+
         } else {
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                'manager.workspace.batchRegister.failure',
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
                 'dpf');
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
@@ -306,16 +290,50 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      */
     public function batchRemoveAction($listData)
     {
-        die("batchRemoveAction");
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+                $feUserUid = $this->security->getUser()->getUid();
+                $bookmark = $this->bookmarkRepository->findBookmark($feUserUid, $documentIdentifier);
+                if ($bookmark instanceof Bookmark) {
+                    $this->bookmarkRepository->remove($bookmark);
+                    $successful[] = $documentIdentifier;
+                }
+            }
+
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.success',
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getListAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
     }
 
+
     /**
-     * Batch operation, release as validated documents.
+     * Batch operation, release documents.
      * @param array $listData
      */
     public function batchReleaseValidatedAction($listData)
     {
-        die("batchReleaseValidatedAction");
+        $this->batchRelease($listData, true);
     }
 
     /**
@@ -324,9 +342,113 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      */
     public function batchReleaseUnvalidatedAction($listData)
     {
-        die("batchReleaseUnvalidated");
+        $this->batchRelease($listData, false);
     }
 
+
+
+
+    /**
+     * Batch operation, release documents.
+     * @param array $listData
+     * @param bool $validated
+     */
+    protected function batchRelease($listData, $validated)
+    {
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+
+                $this->editingLockService->lock(
+                    $documentIdentifier, $this->security->getUser()->getUid()
+                );
+
+                $document = $this->documentManager->read($documentIdentifier);
+
+                switch ($document->getState()) {
+                    case DocumentWorkflow::STATE_REGISTERED_NONE:
+                    case DocumentWorkflow::STATE_DISCARDED_NONE:
+                    case DocumentWorkflow::STATE_POSTPONED_NONE:
+                        $documentVoterAttribute = DocumentVoter::RELEASE_PUBLISH;
+                        $documentWorkflowTransition = DocumentWorkflow::TRANSITION_RELEASE_PUBLISH;
+                        break;
+
+                    case DocumentWorkflow::STATE_NONE_DELETED:
+                    case DocumentWorkflow::STATE_NONE_INACTIVE:
+                    case DocumentWorkflow::STATE_IN_PROGRESS_DELETED:
+                    case DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE:
+                    case DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE:
+                        $documentVoterAttribute = DocumentVoter::RELEASE_ACTIVATE;
+                        $documentWorkflowTransition = DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE;
+                        break;
+                    default:
+                        $documentVoterAttribute = null;
+                        $documentWorkflowTransition = null;
+                        break;
+                }
+
+                if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
+
+                    //if ($this->documentValidator->validate($document)) {
+
+                        if ($this->documentManager->update($document, $documentWorkflowTransition)) {
+                            $successful[] = $documentIdentifier;
+
+                            $this->bookmarkRepository->removeBookmark(
+                                $document, $this->security->getUser()->getUid()
+                            );
+
+                            //$notifier = $this->objectManager->get(Notifier::class);
+                            //$notifier->sendRegisterNotification($document);
+                        }
+                    //}
+                }
+            }
+
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.success',
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+
+            if (sizeof($successful) === 1 ) {
+                $this->addFlashMessage(
+                    "1 ".LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"),
+                    '',
+                    AbstractMessage::INFO
+                );
+            }
+
+            if (sizeof($successful) > 1 ) {
+                $this->addFlashMessage(
+                    LocalizationUtility::translate(
+                        "manager.workspace.bookmarksRemoved", "dpf", [sizeof($successful)]
+                    ),
+                    '',
+                    AbstractMessage::INFO
+                );
+            }
+
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getListAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
+
+    }
 
     /**
      * get list view data for the workspace
@@ -349,42 +471,21 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                 'must' => [
                     [
                         'bool' => [
-                            'should' => [
+                            'must' => [
                                 [
                                     'term' => [
-                                        'owner' => $this->security->getUser()->getUid()
+                                        'creator' => $this->security->getUser()->getUid()
                                     ]
                                 ],
                                 [
                                     'bool' => [
-                                        'must_not' => [
+                                        'should' => [
                                             [
                                                 'term' => [
                                                     'state' => DocumentWorkflow::STATE_NEW_NONE
                                                 ]
                                             ]
                                         ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ],
-                    [
-                        'bool' => [
-                            'must_not' => [
-                                [
-                                    'term' => [
-                                        'state' => DocumentWorkflow::STATE_NONE_ACTIVE
-                                    ]
-                                ],
-                                [
-                                    'term' => [
-                                        'state' => DocumentWorkflow::STATE_NONE_INACTIVE
-                                    ]
-                                ],
-                                [
-                                    'term' => [
-                                        'state' => DocumentWorkflow::STATE_NONE_DELETED
                                     ]
                                 ]
                             ]
@@ -422,7 +523,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                 'must' => [
                     [
                         'term' => [
-                            'owner' => $this->security->getUser()->getUid()
+                            'creator' => $this->security->getUser()->getUid()
                         ]
                     ]
                 ]
@@ -459,7 +560,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                     [
                         'bool' => [
                             'should' => [
-                                //0 => $workspaceFilter
+                                0 => $workspaceFilter
                             ]
                         ]
                     ]
@@ -467,15 +568,29 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             ]
         ];
 
-        // Add user document bookmarks.
-        foreach ($bookmarkIdentifiers as $bookmarkId) {
-            $queryFilter['bool']['must'][0]['bool']['should'][] = [
-                'term' => [
-                    '_id' => $bookmarkId
+        if (!($excludeFilters && array_key_exists('bookmarks', $excludeFilters))) {
+            // Add user document bookmarks.
+            if ($bookmarkIdentifiers) {
+                $queryFilter['bool']['must'][0]['bool']['should'][] = [
+                    'terms' => [
+                        '_id' => $bookmarkIdentifiers
+                    ]
+                ];
+            }
+        } else {
+            // Show only user document bookmarks.
+            $queryFilter['bool']['must'][0] = [
+                'terms' => [
+                    '_id' => $bookmarkIdentifiers
                 ]
             ];
         }
 
+        $filterPart = $this->buildFilterQueryPart($filters, $excludeFilters);
+
+        if ($filterPart) {
+            $queryFilter['bool']['must'][] = $filterPart;
+        }
 
         // Put together the complete query.
         $query = [
@@ -487,7 +602,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                         'must' => [
                             'match_all' => (object)[]
                         ],
-                        'filter' => $this->buildFilterQueryPart($filters, $excludeFilters)
+                        'filter' => $queryFilter
                     ]
                 ],
                 'sort' => $this->buildSortQueryPart($sortField, $sortOrder),
@@ -542,11 +657,11 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                                     ") {".
                                     "    return 'librarian';".
                                     "}".
-                                    "if(doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {".
-                                    "    return 'user';".
-                                    "}".
                                     "if(doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
                                     "    return 'self';".
+                                    "}".
+                                    "if(doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {".
+                                    "    return 'user';".
                                     "}".
                                     "return 'unknown'"
                             ]
@@ -557,8 +672,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             ]
         ];
 
-
-       //echo "<pre>"; print_r($query); echo "</pre>"; die();
+        //echo "<pre>"; print_r($query); echo "</pre>"; die();
 
         return $query;
     }
@@ -571,10 +685,16 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
      * @return array
      */
     protected function buildFilterQueryPart($filters, $excludeFilters = []) {
+
         $queryFilter = [];
+
         // Build the column filter part.
         if ($filters && is_array($filters)) {
-            $validKeys = ['simpleState', 'author', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'];
+
+            $validKeys = [
+                'simpleState', 'author', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+            ];
+
             foreach ($filters as $key => $filterValues) {
                 $queryFilterPart = [];
                 if (in_array($key, $validKeys, true)) {
@@ -708,12 +828,23 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
                     $queryFilter['bool']['must'][] = [
                         'bool' => [
                             'must_not' => [
-                                'term' => [
-                                    'simpleState' => $simpleStateExclude
+                                'bool' => [
+                                    'must' => [
+                                        [
+                                            'term' => [
+                                                'simpleState' => $simpleStateExclude
+                                            ]
+                                        ],
+                                        [
+                                            'term' => [
+                                                'creator' => $this->security->getUser()->getUid()
+                                            ]
+                                        ]
+                                    ]
                                 ]
                             ]
                         ]
-                    ] ;
+                    ];
                 }
             }
         }
@@ -818,7 +949,7 @@ class WorkspaceController  extends \EWW\Dpf\Controller\AbstractController
             if (array_key_exists($state, DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
                 $simpleState = DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$state];
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$simpleState;
-                $stateName = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+                $stateName = LocalizationUtility::translate($key, 'dpf');
                 $sortStates[] = "if (doc['state'].value == '".$state."') return '".$stateName."';";
             }
         }

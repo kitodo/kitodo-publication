@@ -14,13 +14,16 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 <div class="workspace-filter"
-     data-ajax="{f:uri.action(action:'addWorkspaceFilter',controller:'AjaxBackoffice',pageType:'110125')}">
+     data-ajax="{f:uri.action(action:'addWorkspaceFilter',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
     <select id="{filterName}-filter" class="workspace-filter-select" name="{filterName}">
         <option value="">&nbsp</option>
         <f:for each="{aggregation.buckets}" as="filterItem">
             <f:if condition="{filterValues}">
                 <f:then>
-                    <option value="{filterItem.key}" {f:if(condition: '{dpf:inArray(needle:\'{filterItem.key}\', array:\'{filterValues}\')}', then: 'selected="selected"')}>
+                    <option value="{filterItem.key}"
+                            {f:if(condition: '{dpf:inArray(needle:\'{filterItem.key}\', array:\'{filterValues}\')}', then: 'selected="selected"')}
+                            data-filter-count="{filterItem.doc_count}">
+
                         <f:render partial="Workspace/FilterOptionLabel"
                                   arguments="{filterName: filterName, filterItem: filterItem}"
                         />

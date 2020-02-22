@@ -886,19 +886,20 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isWorkingCopy()
     {
-        return $this->getObjectIdentifier() && !$this->isSuggestion();
-
-        /*
-        $workingCopy = in_array(
-            $document->getState(),
-            [
-                DocumentWorkflow::STATE_IN_PROGRESS_DELETED,
-                DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
-                DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE
-            ]
-        );
-        */
+        return $this->getObjectIdentifier() && !$this->isTemporary() && !$this->isSuggestion();
     }
+
+
+    /**
+     * Returns if a document is a temporary copy of a published document.
+     *
+     * @return bool
+     */
+    public function isTemporaryCopy()
+    {
+        return $this->getObjectIdentifier() && $this->isTemporary() && !$this->isSuggestion();
+    }
+
 
     /**
      * Gets the publication year out of the mods-xml data.

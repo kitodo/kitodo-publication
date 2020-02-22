@@ -78,29 +78,31 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Workspace'        => 'listWorkspace, listMyPublications, initIndex, '
+        'Workspace'        => 'listWorkspace, initIndex, '
             .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-        'AjaxBackoffice'   => 'addBookmark, addWorkspaceFilter, addWorkspaceSort, toggleWorkspaceExcludeDiscarded',
+        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'Workspace'        => 'listWorkspace, listMyPublications, initIndex, '
+        'Workspace'        => 'listWorkspace, initIndex, '
             .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, uploadFiles, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-        'AjaxBackoffice'   => 'addBookmark, addWorkspaceFilter, addWorkspaceSortAction, toggleWorkspaceExcludeDiscarded',
+        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSortAction, '
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     )

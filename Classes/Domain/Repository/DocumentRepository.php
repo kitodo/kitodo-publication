@@ -240,4 +240,33 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         return $query->execute()->getFirst();
     }
 
+
+    /**
+     * @param object $modifiedObject The modified object
+     * @throws \Exception
+     */
+    public function update($modifiedObject)
+    {
+        /** @var Document $document */
+        $document = $modifiedObject;
+
+        if (trim($document->getObjectIdentifier()) && !$document->isTemporary() && !$document->isSuggestion()) {
+            $query = $this->createQuery();
+            $constraints[] = $query->equals('object_identifier', trim($document->getObjectIdentifier()));
+            $constraints[] = $query->equals('temporary', false);
+            $constraints[] = $query->equals('suggestion', false);
+            $query->matching($query->logicalAnd($constraints));
+
+            /** @var Document $workingCopy */
+            foreach ($query->execute() as $workingCopy) {
+                if ($workingCopy->getUid() !== $document->getUid()) {
+                    throw new \Exception(
+                        "Working copy for " . $document->getObjectIdentifier() . " already exists."
+                    );
+                }
+            }
+        }
+
+        parent::update($document);
+    }
 }

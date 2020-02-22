@@ -17,21 +17,5 @@
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
-        <f:render partial="Workspace/ListWorkspace"
-                  arguments="{
-                    documents:documents,
-                    currentUser:currentUser,
-                    workspace:'workspace',
-                    workspaceListAction:'listWorkspace',
-                    client:client,
-                    message:message,
-                    pages:pages,
-                    itemsPerPage:itemsPerPage,
-                    maximumNumberOfLinks:maximumNumberOfLinks,
-                    aggregations:aggregations,
-                    filters:filters,
-                    isHideDiscarded: isHideDiscarded,
-                    checkedDocumentIdentifiers: checkedDocumentIdentifiers
-                  }"
-        />
+    <f:render partial="Workspace/ListWorkspace" arguments="{_all}" />
 </f:section>

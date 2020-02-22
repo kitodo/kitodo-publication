@@ -63,8 +63,18 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     protected $persistenceManager;
 
-    const RESULT_COUNT      = 50;
-    const NEXT_RESULT_COUNT = 50;
+
+    /**
+     * bookmarkRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
+     * @inject
+     */
+    protected $bookmarkRepository = null;
+
+
+    const RESULT_COUNT      = 500;
+    const NEXT_RESULT_COUNT = 500;
 
     /**
      * action list
@@ -73,14 +83,21 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function listAction()
     {
-        $this->session->setListAction('search', 'Search');
-
         $workingCopies['noneTemporary'] = $this->documentRepository->getObjectIdentifiers(FALSE);
         $workingCopies['temporary'] = $this->documentRepository->getObjectIdentifiers(TRUE);
         $this->view->assign('workingCopies', $workingCopies);
 
         // assign result list from elastic search
         $args = $this->request->getArguments();
+
+        $bookmarkIdentifiers = [];
+        foreach ($this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid()) as $bookmark) {
+            $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
+        }
+
+        $this->view->assign('bookmarks', $bookmarkIdentifiers);
+        $this->view->assign('feUserUid', $this->security->getUser()->getUid());
+
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('resultCount', self::RESULT_COUNT);
         $this->view->assign('query', $args['query']);
@@ -195,6 +212,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function searchAction()
     {
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
+
         try {
             // perform search action
             $args = $this->request->getArguments();
@@ -232,6 +251,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             $type = 'object';
 
             $results = $this->getResultList($query, $type);
+
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
@@ -268,7 +288,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function importForEditingAction($documentObjectIdentifier)
     {
-        $this->session->setListAction('search', 'Search');
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
 
         /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
         $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);

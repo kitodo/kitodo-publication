@@ -587,7 +587,7 @@ CREATE TABLE tx_dpf_domain_model_bookmark (
   pid int(11) DEFAULT '0' NOT NULL,
 
   document_identifier varchar(255) DEFAULT '' NOT NULL,
-  owner_uid int(11) unsigned default '0' NOT NULL,
+  fe_user_uid int(11) unsigned default '0' NOT NULL,
 
 #  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 #  crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -616,6 +616,6 @@ CREATE TABLE tx_dpf_domain_model_bookmark (
 #  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 #  KEY language (l10n_parent,sys_language_uid),
 
-  UNIQUE KEY uc_bookmark (owner_uid,document_identifier)
+  UNIQUE KEY uc_bookmark (fe_user_uid,document_identifier)
 
 );

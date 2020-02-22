@@ -18,7 +18,7 @@ if (!defined('TYPO3_MODE')) {
 
 return array(
     'ctrl' => array(
-        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_editinglock'.'-bookmark',
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark'.'-bookmark',
         'label'                    => 'document_identifier',
         //'tstamp'                   => 'tstamp',
         //'crdate'                   => 'crdate',
@@ -33,15 +33,15 @@ return array(
         //    'starttime' => 'starttime',
         //    'endtime'   => 'endtime',
         //),
-        'searchFields'             => 'document_identifier, owner_uid',
+        'searchFields'             => 'document_identifier, fe_user_uid',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_editinglock.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'document_identifier, owner_uid',
+        'showRecordFieldList' => 'document_identifier, fe_user_uid',
     ),
     'types'     => array(
         '1' => array('showitem' => ',--palette--;;1, 
-        document_identifier, owner_uid,        
+        document_identifier, fe_user_uid,      
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access'),
     ),
     'palettes'  => array(
@@ -51,17 +51,17 @@ return array(
 
         'document_identifier' => array(
             'exclude' => 0,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_editinglock.document_identifier',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark.document_identifier',
             'config'  => array(
                 'type' => 'input',
                 'size' => '30',
                 'eval' => 'trim',
             ),
         ),
-        'owner_uid'         => array(
+        'fe_user_uid'         => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_editinglock.editor_uid',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark.feuser',
             'config'    => array(
                 'type'    => 'input',
                 'size'    => 30,

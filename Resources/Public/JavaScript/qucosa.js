@@ -63,6 +63,18 @@ var toggleDiscardedFilter = function() {
     });
 }
 
+var toggleBookmarksOnly = function() {
+    jQuery("#bookmarksOnly").on("click", function() {
+        var ajaxURL = jQuery(this).data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+            var url = jQuery(".workspace-nav-link").attr("href");
+            window.location.href = url;
+        });
+
+    });
+}
+
 
 var selectSort = function() {
     jQuery(".sort-button").on("click", function(element){
@@ -88,133 +100,143 @@ var selectSort = function() {
 }
 
 
-// Activates/inactivates the batch register button depending on the status
-var batchRegisterButton = function() {
-    jQuery(".batch-checkbox").on("click", function(){
-        if (jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length > 0) {
-            jQuery("#button-batch-register").removeAttr("disabled");
-        } else {
-            jQuery("#button-batch-register").attr("disabled", "disabled");
-        }
+var batchConfirmDialog = function(actionName) {
+
+    jQuery("#workspaceButton"+actionName).on("click", function(e) {
+        jQuery("#workspaceAction"+actionName).removeAttr("disabled")
+        jQuery("#confirmWorkspace"+actionName).modal('show');
+        e.preventDefault();
+    });
+
+    jQuery("#confirmWorkspace"+actionName).on('hidden.bs.modal', function(){
+        jQuery(".workspaceAction").attr("disabled","disabled")
     });
 }
 
+var addBookmarkHandler = {
+    init: function() {
+        jQuery(".add-bookmark").on("click", function(e) {
+            var button = jQuery(this);
+            var ajaxURL = jQuery(this).data('ajax');
+            var identifier = jQuery(this).data('id');
 
-$(document).ready(function() {
-    jQuery("#new-document-form").trigger("reset");
-    documentListConfirmDialog("#confirmDiscard");
-    documentListConfirmDialog("#confirmReleasePublish");
-    documentListConfirmDialog("#confirmReleaseActivate");
-    documentListConfirmDialog("#confirmActivate");
-    documentListConfirmDialog("#confirmInactivate");
-    documentListConfirmDialog("#confirmRestore");
-    documentListConfirmDialog("#confirmDelete");
-    documentListConfirmDialog("#confirmDeleteLocally");
-    documentListConfirmDialog("#confirmDeleteWorkingCopy");
-    documentListConfirmDialog("#confirmRegister");
-    documentListConfirmDialog("#confirmPostpone");
-    datepicker();
-    jQuery('[data-toggle="tooltip"]').tooltip();
-    var $disableForm = jQuery("form[data-disabled]").attr("data-disabled");
-    if ($disableForm) {
-        jQuery(".input-field").each(function() {
-            jQuery(this).attr("disabled", "disabled");
+            var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+            var params = {};
+            var indexParam = {};
+            if (res && res[1]) {
+                indexParam['identifier'] = identifier;
+                params[res[1]] = indexParam;
+            }
+
+            jQuery.post(ajaxURL, params, function(data) {
+                button.find("span").removeClass("d-none");
+            }).done(function() {
+                setTimeout(function() {
+                    button.find("span").addClass("d-none");
+                    button.addClass("disabled");
+                }, 500);
+            }).fail(function() {
+            }).always(function() {
+            });
+
+            e.preventDefault();
         });
-        jQuery(".rem_file_group").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".add_file_group").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".input_file_upload").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".add_field").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".add_group").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".rem_field").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".rem_group").each(function() {
-            jQuery(this).attr("disabled", "disabled");
-        });
-        jQuery(".fill_out_service_urn").each(function() {
-            jQuery(this).attr("disabled", "disabled");
+
+    }
+}
+
+var removeBookmarkHandler = {
+    init: function() {
+        jQuery(".remove-bookmark").on("click", function(e) {
+
+            var identifier = jQuery(this).attr("data-id")
+
+            jQuery("#confirmWorkspaceRemoveBookmark .documentIdentifier").val(identifier);
+            jQuery("tr[data-id='"+identifier+"']").addClass("table-danger");
+            jQuery("#confirmWorkspaceRemoveBookmark").modal('show');
+
+            jQuery("#confirmWorkspaceRemoveBookmark").on('hidden.bs.modal', function(){
+                jQuery("tr[data-id='"+identifier+"']").removeClass("table-danger");
+            });
         });
     }
-    buttonFillOutServiceUrn();
-    jQuery(".tx-dpf").on("click", ".rem_group", function() {
-        jQuery(this).parents("fieldset").fadeOut(300, function() {
-            jQuery(this).remove();
-        });
-        return false;
-    });
-    jQuery(".tx-dpf").on("click", ".rem_file_group", deleteFile);
-    jQuery(".tx-dpf").on("click", ".rem_secondary_upload", function() {
-        var dataIndex = jQuery(this).data("index");
-        jQuery(this).parents(".fs_file_group").fadeOut(300, function() {
-            jQuery(this).remove();
-        });
-        return false;
-    });
-    jQuery(".tx-dpf").on("click", ".rem_field", function() {
-        var dataIndex = jQuery(this).data("index");
-        var dataField = jQuery(this).data("field");
-        jQuery(this).parents(".form-group").fadeOut(300, function() {
-            jQuery(this).remove();
-        });
-        return false;
-    });
-    // Add metadata group
-    jQuery(".tx-dpf").on("click", ".add_group", addGroup);
-    jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
-    jQuery(".tx-dpf").on("click", ".add_field", addField);
-    jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
-    jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
-    jQuery(".tx-dpf").on("click", "#next", continuousScroll);
-    jQuery(".form-submit").on("click", "#save", validateFormAndSave);
-    jQuery(".form-submit").on("click", "#validate", validateFormOnly);
+}
 
-    // hide 'more results' link
-    var countResults = $("#search-results :not(thead) tr").length;
-    var resultCount = $("#next").data("resultCount");
+var batchSelectHandler = {
 
-    if (countResults < resultCount) {
-        jQuery("#next").hide();
+    init: function() {
+        var _this = this;
+
+        this.refreshToggleButtons();
+
+        jQuery(".workspace-select-toggle").removeClass("d-none");
+
+        jQuery(".workspace-select-toggle").on("click", function(e){
+
+            if (jQuery(".batch-checkbox:checked").length) {
+                jQuery(".batch-checkbox").each(function() {
+                    jQuery(this).prop("checked", false);
+                });
+            } else {
+                jQuery(".batch-checkbox").each(function() {
+                    jQuery(this).prop("checked", true);
+                });
+            }
+
+            _this.refreshToggleButtons();
+
+            e.preventDefault();
+        });
+
+        jQuery(".batch-checkbox").on("click", function() {
+            _this.refreshToggleButtons();
+        });
+    },
+    refreshToggleButtons: function() {
+        this.toggleSelectButton();
+        this.toggleRegisterButton();
+        this.toggleBatchRemoveButton();
+        this.toggleBatchReleaseButton();
+    },
+    toggleSelectButton: function() {
+        if (jQuery(".batch-checkbox:checked").length > 0) {
+            jQuery(".workspace-select-all").show();
+            jQuery(".workspace-unselect-all").hide();
+        } else {
+            jQuery(".workspace-select-all").hide();
+            jQuery(".workspace-unselect-all").show();
+        }
+    },
+    toggleRegisterButton: function() {
+        if (jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length > 0) {
+            jQuery("#workspaceButtonBatchRegister").removeClass("disabled");
+        } else {
+            jQuery("#workspaceButtonBatchRegister").addClass("disabled");
+        }
+    },
+    toggleBatchRemoveButton: function() {
+        if (jQuery('#workspace-list [data-bookmark="1"] .batch-checkbox:checked').length > 0) {
+            jQuery("#workspaceButtonBatchRemove").removeClass("disabled");
+        } else {
+            jQuery("#workspaceButtonBatchRemove").addClass("disabled");
+        }
+    },
+    toggleBatchReleaseButton: function() {
+        var countChecked = jQuery('#workspace-list .batch-checkbox:checked').length;
+        var countCheckedNew = jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length;
+        var countCheckedReleased = jQuery('#workspace-list [data-simple-state="released"] .batch-checkbox:checked').length;
+
+        if (countChecked - (countCheckedNew + countCheckedReleased) > 0) {
+            jQuery("#workspaceButtonBatchReleaseUnvalidated").removeClass("disabled");
+            jQuery("#workspaceButtonBatchReleaseValidated").removeClass("disabled");
+        } else {
+            jQuery("#workspaceButtonBatchReleaseUnvalidated").addClass("disabled");
+            jQuery("#workspaceButtonBatchReleaseValidated").addClass("disabled");
+        }
     }
-
-    addRemoveFileButton();
-
-    previousNextFormPage();
-
-    var gnd = jQuery(".gnd");
-    if(gnd.length > 0) {
-        gnd.each(function() {
-            setGndAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
-        });
-    }
+}
 
 
-    selectFilter('doctype-filter');
-    selectFilter('author-filter', true);
-    selectFilter('simpleState-filter');
-    selectFilter('year-filter', true);
-    selectFilter('hasFiles-filter');
-    selectFilter('universityCollection-filter');
-    selectFilter('creatorRole-filter');
-
-    selectSort();
-
-    toggleDiscardedFilter();
-
-    batchRegisterButton();
-
-    inputWithOptions();
-
-});
 
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
@@ -463,14 +485,13 @@ var addGroup = function() {
     var ajaxURL = jQuery(this).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
-
     jQuery.post(ajaxURL, params, function(group) {
         var group = jQuery(group).find("fieldset");
         // add the new group
         jQuery(group).css({
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
-        var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true)
+        var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true);
         jQuery("html, body").animate({
             scrollTop: element.offset().top - height
         }, 400, function() {
@@ -699,6 +720,8 @@ var documentListConfirmDialog = function(dialogId) {
         jQuery(dialogId+"Reason").val(jQuery(this).val());
     });
 
+
+
 }
 
 function addRemoveFileButton() {
@@ -846,15 +869,17 @@ var previousNextFormPage = function() {
 
 var updatePrevNextButtons = function(activePage) {
 
-    if (activePage.prev().length < 1) {
-        $("#prev-form-page").addClass("disabled");
-    } else {
-        $("#prev-form-page").removeClass("disabled");
-    }
-    if (activePage.next().length < 1) {
-        $("#next-form-page").addClass("disabled");
-    } else {
-        $("#next-form-page").removeClass("disabled");
+    if (activePage !== undefined) {
+        if (activePage.prev().length < 1) {
+            $("#prev-form-page").addClass("disabled");
+        } else {
+            $("#prev-form-page").removeClass("disabled");
+        }
+        if (activePage.next().length < 1) {
+            $("#next-form-page").addClass("disabled");
+        } else {
+            $("#next-form-page").removeClass("disabled");
+        }
     }
 }
 
@@ -911,3 +936,128 @@ var inputWithOptions = function() {
 
     $( ".dropdown-options-input" ).dropdownoptions();
 }
+
+// -------------------------------------------------------
+// Document ready
+// -------------------------------------------------------
+$(document).ready(function() {
+    jQuery("#new-document-form").trigger("reset");
+    documentListConfirmDialog("#confirmDiscard");
+    documentListConfirmDialog("#confirmReleasePublish");
+    documentListConfirmDialog("#confirmReleaseActivate");
+    documentListConfirmDialog("#confirmActivate");
+    documentListConfirmDialog("#confirmInactivate");
+    documentListConfirmDialog("#confirmRestore");
+    documentListConfirmDialog("#confirmDelete");
+    documentListConfirmDialog("#confirmDeleteLocally");
+    documentListConfirmDialog("#confirmDeleteWorkingCopy");
+    documentListConfirmDialog("#confirmRegister");
+    documentListConfirmDialog("#confirmPostpone");
+
+    batchConfirmDialog("BatchRegister");
+    batchConfirmDialog("BatchRemove");
+    batchConfirmDialog("BatchReleaseValidated");
+    batchConfirmDialog("BatchReleaseUnvalidated");
+
+    removeBookmarkHandler.init();
+    addBookmarkHandler.init();
+    batchSelectHandler.init();
+
+    datepicker();
+    jQuery('[data-toggle="tooltip"]').tooltip();
+    var $disableForm = jQuery("form[data-disabled]").attr("data-disabled");
+    if ($disableForm) {
+        jQuery(".input-field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".rem_file_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".add_file_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".input_file_upload").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".add_field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".add_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".rem_field").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".rem_group").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+        jQuery(".fill_out_service_urn").each(function() {
+            jQuery(this).attr("disabled", "disabled");
+        });
+    }
+    buttonFillOutServiceUrn();
+    jQuery(".tx-dpf").on("click", ".rem_group", function() {
+        jQuery(this).parents("fieldset").fadeOut(300, function() {
+            jQuery(this).remove();
+        });
+        return false;
+    });
+    jQuery(".tx-dpf").on("click", ".rem_file_group", deleteFile);
+    jQuery(".tx-dpf").on("click", ".rem_secondary_upload", function() {
+        var dataIndex = jQuery(this).data("index");
+        jQuery(this).parents(".fs_file_group").fadeOut(300, function() {
+            jQuery(this).remove();
+        });
+        return false;
+    });
+    jQuery(".tx-dpf").on("click", ".rem_field", function() {
+        var dataIndex = jQuery(this).data("index");
+        var dataField = jQuery(this).data("field");
+        jQuery(this).parents(".form-group").fadeOut(300, function() {
+            jQuery(this).remove();
+        });
+        return false;
+    });
+    // Add metadata group
+    jQuery(".tx-dpf").on("click", ".add_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_field", addField);
+    jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
+    jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
+    jQuery(".tx-dpf").on("click", "#next", continuousScroll);
+    jQuery(".form-submit").on("click", "#save", validateFormAndSave);
+    jQuery(".form-submit").on("click", "#validate", validateFormOnly);
+
+    // hide 'more results' link
+    var countResults = $("#search-results :not(thead) tr").length;
+    var resultCount = $("#next").data("resultCount");
+
+    if (countResults < resultCount) {
+        jQuery("#next").hide();
+    }
+
+    addRemoveFileButton();
+
+    previousNextFormPage();
+
+    var gnd = jQuery(".gnd");
+    if(gnd.length > 0) {
+        gnd.each(function() {
+            setGndAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
+        });
+    }
+
+    selectFilter('doctype-filter');
+    selectFilter('author-filter', true);
+    selectFilter('simpleState-filter');
+    selectFilter('year-filter', true);
+    selectFilter('hasFiles-filter');
+    selectFilter('universityCollection-filter');
+    selectFilter('creatorRole-filter');
+
+    selectSort();
+
+    toggleDiscardedFilter();
+    toggleBookmarksOnly();
+    inputWithOptions();
+});

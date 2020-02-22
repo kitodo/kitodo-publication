@@ -38,7 +38,7 @@
     </tr>
     </thead>
     <tbody>
-    <f:for each="{searchList.hits}" as="entry">
+    <f:for each="{searchList.hits.hits}" as="entry">
 
         <f:comment>
         <f:if condition="{dpf:inArray(needle:'{entry._source.PID}', array:'{alreadyImported}')}">
@@ -53,13 +53,12 @@
 
         <f:if condition="{entry._source._dissemination}">
             <f:then>
-                <td>{entry._id}</td>
+                <td>{entry._id} <a href="#" class="btn btn-sm" data-id="{entry._id}" data-creator="entry._source.creator">Bookmark</a></td>
                 <td>{entry._source._dissemination._content.title.0}
                     <f:if condition="{entry._source._dissemination._content.issue}">,
                         {entry._source._dissemination._content.issue}
                     </f:if>
                 </td>
-                <f:debug>{entry}</f:debug>
                 <td>{dpf:showStatus(status:'{entry._source.state}')}</td>
                 <td>{entry._source._dissemination._content.author.0}</td>
                 <td>
@@ -135,7 +134,19 @@
                 </td>
             </f:then>
             <f:else>
-                <td>{entry._id}</td>
+                <td>
+                    {entry._id}<br />
+                    <a class="btn btn-sm btn-secondary add-bookmark {f:if(condition: '{dpf:isDocumentBookmarkable(identifier:\'{entry._id}\', creator:\'{entry._source.creator}\', state:\'{entry._source.state}\')}', then: '', else: 'disabled')}"
+                       href="#"
+                       data-id="{entry._id}"
+                       data-ajax="{f:uri.action(action:'addBookmark',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                    >
+                        Merken
+                        <span class="bookmark-loading spinner-grow spinner-grow-sm d-none"
+                              role="status" aria-hidden="true">
+                        </span>
+                    </a>
+                    </td>
                 <td>{entry._source.title.0}
                     <f:if condition="{entry._source.issue}">,
                         {entry._source.issue}

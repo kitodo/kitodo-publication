@@ -153,22 +153,6 @@
 			<source>%s successfully deleted.</source>
 		    <target>%s erfolgreich gelöscht.</target>
 		</trans-unit>
-		<trans-unit id="document_updateLocally.accessDenied" approved="yes">
-			<source>Saving %s failed, access denied.</source>
-			<target>Speicherung von %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureCreateWorkingCopy" approved="yes">
-			<source>Saving %s failed, there is already a working copy.</source>
-			<target>Speicherung von %s fehlgeschlagen, es existiert bereits Arbeitspopie.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureNewVersion" approved="yes">
-			<source>Saving %s failed. There is a newer Version.</source>
-			<target>Speicherung von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.success" approved="yes">
-			<source>%s successfully saved.</source>
-			<target>%s erfolgreich gespeichert.</target>
-		</trans-unit>
 		<trans-unit id="document_edit.failureBlocked" approved="yes">
 			<source>%s is already being edited.</source>
 		    <target>%s wird bereits bearbeitet.</target>
@@ -549,6 +533,46 @@
 			<source>Do you really want to register the document?</source>
 			<target>Möchten Sie das Dokument wirklich melden?</target>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.messageHeader" approved="yes">
+			<source>Do you really want to register the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich melden?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be registered for publication.</source>
+			<target>Die ausgwählten Dokumente werden zur Veröffentlichung angemeldet. </target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
+			<source>Do you really want to remove the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich entfernen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be removed from your workspace.</source>
+			<target>Die ausgwählten Dokumente werden aus Ihrem Arbeitsbereich entfernt. </target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader" approved="yes">
+			<source>Do you really want to release and validate the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben und validieren?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be released and validated.</source>
+			<target>Die ausgwählten Dokumente werden freigegeben und validiert.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader" approved="yes">
+			<source>Do you really want to release but not validate the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben aber nicht validieren?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be released but not validated.</source>
+			<target>Die ausgwählten Dokumente werden freigegeben aber nicht validiert.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
+			<source>Do you really want to remove the document from the list?</source>
+			<target>Möchten Sie das Dokument wirklich aus der Liste entfernen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be removed from the list.</source>
+			<target>Das ausgwählte Dokument wird aus der Liste entfernt.</target>
+		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
 			<target>Verwerfen</target>
@@ -725,6 +749,10 @@
 			<source>Please select a client in the page tree.</source>
 			<target>Bitte Mandanten im Seitenbaum auswählen.</target>
 		</trans-unit>
+        <trans-unit id="manager.workspace.accessDenied" approved="yes">
+            <source>Access denied.</source>
+            <target>Der Zugriff wurde verweigert.</target>
+        </trans-unit>
         <trans-unit id="manager.workspace.title" approved="yes">
             <source>Title</source>
             <target>Titel</target>
@@ -798,21 +826,37 @@
             <target>Dokumente</target>
         </trans-unit>
         <trans-unit id="manager.workspace.hideDiscarded" approved="yes">
-            <source>Hide discarded</source>
-            <target>Verworfene ausblenden</target>
+            <source>Hide own discarded</source>
+            <target>Eigene verworfene ausblenden</target>
         </trans-unit>
         <trans-unit id="manager.workspace.showDiscarded" approved="yes">
-            <source>Show discarded</source>
-            <target>Verworfene anzeigen</target>
+            <source>Show own discarded</source>
+            <target>Eigene verworfene anzeigen</target>
         </trans-unit>
-        <trans-unit id="manager.workspace.batchRegister.success" approved="yes">
-            <source>%s documents out of %s registered</source>
-            <target>%s Dokumente von %s gemeldet</target>
+        <trans-unit id="manager.workspace.showBookmarksOnly" approved="yes">
+            <source>Show bookmarks only</source>
+            <target>Nur Gemerkte anzeigen</target>
         </trans-unit>
-        <trans-unit id="manager.workspace.batchRegister.failure" approved="yes">
-            <source>No documents could be regeisterd</source>
-            <target>Es konnten keine Dokumente gemeldet werden.</target>
+        <trans-unit id="manager.workspace.batchAction.success" approved="yes">
+            <source>%s out of %s successful.</source>
+            <target>%s von %s erfolgreich</target>
         </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.failure" approved="yes">
+            <source>The desired action is not possible for your selection.</source>
+            <target>Die gewünschte Aktion ist für Ihre Auswahl nicht möglich.</target>
+        </trans-unit>
+		<trans-unit id="manager.workspace.bookmarkRemoved" approved="yes">
+			<source>Record has been removed from workspace.</source>
+			<target>Datensatz aus Arbeitsbereich entfernt.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarksRemoved" approved="yes">
+			<source>%s Records have been removed from workspace.</source>
+			<target>%s Datensätze aus Arbeitsbereich entfernt.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarkAdded" approved="yes">
+			<source>Record has been added to the workspace.</source>
+			<target>Datensatz wurde dem Arbeitsbereich hinzugefügt.</target>
+		</trans-unit>
         <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###

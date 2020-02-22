@@ -15,6 +15,7 @@ namespace EWW\Dpf\Domain\Repository;
  */
 
 use EWW\Dpf\Domain\Model\Bookmark;
+use EWW\Dpf\Domain\Model\Document;
 use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use \EWW\Dpf\Security\Security;
 
@@ -24,22 +25,72 @@ use \EWW\Dpf\Security\Security;
 class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
     /**
-     * @param int $owner
+     * @param int $feUserUid
      * @param string $identifier
      * @return object
      */
-    public function findBookmark($owner, $identifier)
+    public function findBookmark($feUserUid, $identifier)
     {
         $query = $this->createQuery();
 
         $query->matching(
             $query->logicalAnd(
                 $query->equals('document_identifier', $identifier),
-                $query->equals('owner_uid', $owner)
+                $query->equals('fe_user_uid', $feUserUid)
             )
         );
 
         return $query->execute()->getFirst();
+    }
+
+    /**
+     * @param mixed $document
+     * @param int|null $feUserUid
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function removeBookmark($document, $feUserUid)
+    {
+        $query = $this->createQuery();
+
+        if ($document instanceof Document) {
+            $constraintsAnd[] = $query->logicalOr(
+                $query->equals('document_identifier', $document->getObjectIdentifier()),
+                $query->equals('document_identifier', $document->getUid())
+            );
+        } else {
+            $constraintsAnd[] = $query->equals('document_identifier', $document);
+        }
+
+        $constraintsAnd[] = $query->equals('fe_user_uid', $feUserUid);
+
+        $query->matching($query->logicalAnd($constraintsAnd));
+
+        /** @var Bookmark @$bookmark */
+        foreach ($query->execute() as $bookmark) {
+            $this->remove($bookmark);
+        }
+    }
+
+    /**
+     * @param int $feUserUid
+     * @param Document $document
+     * @return bool
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function addBookmark($feUserUid, Document $document)
+    {
+        $identifier = $document->getDocumentIdentifier();
+
+        $bookmark = $this->findBookmark($feUserUid, $identifier);
+        if (!$bookmark) {
+            $bookmark = new Bookmark();
+            $bookmark->setDocumentIdentifier($identifier);
+            $bookmark->setFeUserUid($feUserUid);
+            $this->add($bookmark);
+            return true;
+        }
+
+        return false;
     }
 
 }

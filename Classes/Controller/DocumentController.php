@@ -29,12 +29,13 @@ use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Domain\Model\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 
 /**
  * DocumentController
  */
-class DocumentController extends \EWW\Dpf\Controller\AbstractController
+class DocumentController extends AbstractController
 {
 
     /**
@@ -124,6 +125,14 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     protected $documentManager = null;
 
     /**
+     * bookmarkRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
+     * @inject
+     */
+    protected $bookmarkRepository = null;
+
+    /**
      * DocumentController constructor.
      */
     public function __construct()
@@ -156,7 +165,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     }
 
     public function listSuggestionsAction() {
-        $this->session->setListAction('listSuggestions', 'Document');
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
         $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
@@ -381,7 +390,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      * @param string $reason
      * @return void
      */
-    public function discardAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = NULL)
+    public function discardAction(Document $document, $tstamp, $reason = NULL)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::DISCARD, $document)) {
             if (
@@ -469,17 +478,28 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $this->flashMessage($document, $key, AbstractMessage::OK);
             $this->documentRepository->remove($document);
 
+            if ($document->isWorkingCopy() || $document->isTemporaryCopy()) {
 
-            if ($document->isWorkingCopy()) {
+                if ($document->isWorkingCopy()) {
+                    $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
+                    $this->addFlashMessage(
+                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"), '',
+                        AbstractMessage::INFO
+                    );
+                }
 
-                $this->workflow->apply($document, DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY);
+                $this->persistenceManager->persistAll();
+                $document = $this->documentManager->read($document->getDocumentIdentifier());
 
                 // index the document
                 $this->signalSlotDispatcher->dispatch(
                     \EWW\Dpf\Controller\AbstractController::class,
                     'indexDocument', [$document]
                 );
+
+                $this->documentRepository->remove($document);
             } else {
+                $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
                 // delete document from index
                 $this->signalSlotDispatcher->dispatch(
                     \EWW\Dpf\Controller\AbstractController::class,
@@ -487,7 +507,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
                 );
             }
 
-            $suggestions = $this->documentRepository->findByLinkedUid($document->getUid());
+            $suggestions = $this->documentRepository->findByLinkedUid($document->getDocumentIdentifier());
             foreach ($suggestions as $suggestion) {
                 $this->documentRepository->remove($suggestion);
             }
@@ -638,6 +658,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         $this->workflow->apply($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER);
         $this->documentRepository->update($document);
 
+
+        $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
+
+
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
 
@@ -652,10 +676,10 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
     /**
      * action showDetails
      *
-     * @param Document $document
+     * @param \EWW\Dpf\Domain\Model\Document $document
      * @return void
      */
-    public function showDetailsAction(\EWW\Dpf\Domain\Model\Document $document)
+    public function showDetailsAction(Document $document)
     {
         if (!$this->authorizationChecker->isGranted(DocumentVoter::SHOW_DETAILS, $document)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_showDetails.accessDenied';
@@ -667,7 +691,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             ($document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid()),
             $this->security->getUser()->getUid()
         );
-
 
         $postponeOptions = $this->inputOptionListRepository->findOneByName($this->settings['postponeOptionListName']);
         if ($postponeOptions) {
@@ -749,6 +772,11 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         if ($this->request->hasArgument('document')) {
             $document = $this->request->getArgument('document');
             $document = $this->documentManager->read($document, $this->security->getUser()->getUID());
+
+            if (!$document) {
+                $this->redirectToDocumentList();
+            }
+
             $this->request->setArgument('document', $document);
         }
     }
@@ -762,8 +790,13 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     protected function redirectToDocumentList($message = null)
     {
-        $redirectInfo = $this->session->getListAction();
-        $this->redirectToUri($redirectInfo[2]);
+        list($action, $controller, $redirectUri) = $this->session->getListAction();
+
+        if ($redirectUri) {
+            $this->redirectToUri($redirectUri);
+        } else {
+            $this->redirect($action, $controller);
+        }
     }
 
     /**
@@ -791,7 +824,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
             $args[] = $document->getObjectIdentifier();
         }
 
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+        $message = LocalizationUtility::translate($key, 'dpf', $args);
         $message = empty($message) ? $defaultMessage : $message;
 
         $this->addFlashMessage(
@@ -833,12 +866,6 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
         }
 
         try {
-            if ($this->documentManager->hasNewerVersion($document, $tstamp)) {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.failureNewVersion';
-                $this->flashMessage($document, $key, AbstractMessage::ERROR);
-                $this->redirect('showDetails', 'Document', NULL, ['document' => $document]);
-            }
-
             if ($reason) {
                 $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
                 $note = "Das Dokument wurde verworfen: ".$timeStamp."\n"."Kommentar: ".$reason;
@@ -849,14 +876,30 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
             if ($this->documentManager->update($document, $workflowTransition)) {
 
-                // delete local document from index
-                $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]);
-
-                // index the document
-                $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);
-
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.success';
                 $this->flashMessage($document, $key, AbstractMessage::OK);
+
+                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                    switch ($document->getState()) {
+                        case DocumentWorkflow::STATE_POSTPONED_NONE:
+                        case DocumentWorkflow::STATE_DISCARDED_NONE:
+                        case DocumentWorkflow::STATE_NONE_INACTIVE:
+                        case DocumentWorkflow::STATE_NONE_ACTIVE:
+                        case DocumentWorkflow::STATE_NONE_DELETED:
+                            $this->bookmarkRepository->removeBookmark(
+                                $document,
+                                $this->security->getUser()->getUid()
+                            );
+
+                            $this->addFlashMessage(
+                                LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"), '',
+                                AbstractMessage::INFO
+                            );
+
+                            break;
+                    }
+                }
+
                 $this->redirectToDocumentList();
             } else {
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.failure';
