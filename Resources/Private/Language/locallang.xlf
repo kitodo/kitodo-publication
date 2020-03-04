@@ -644,6 +644,12 @@
 		<trans-unit id="manager.workspace.bookmarkAdded">
 			<source>Record has been added to the workspace.</source>
 		</trans-unit>
+		<trans-unit id="manager.workspace.to">
+			<source>to</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.of">
+			<source>of</source>
+		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###

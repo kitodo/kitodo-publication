@@ -17,7 +17,9 @@
 
 <f:section name="main">
 
-    <f:render partial="Workspace/Header" arguments="{isWorkspace:'isWorkspace', isSuggestions: 1}"/>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.control.suggestions')}</h1>
+    </div>
 
     <f:flashMessages />
 

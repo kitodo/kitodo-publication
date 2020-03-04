@@ -106,6 +106,9 @@
 
     </f:form>
 
+    <p class="text-center">
+        <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+    </p>
 
     <f:if condition="{pages.{itemsPerPage}}">
         <f:render partial="Workspace/Pagination" arguments="{

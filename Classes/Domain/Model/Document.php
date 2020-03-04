@@ -708,7 +708,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getOwner()
     {
-        return $this->owner;
+        return $this->owner? $this->owner : 0;
     }
 
     /**
@@ -909,7 +909,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getPublicationYear()
     {
         $mods = new Mods($this->getXmlData());
-        return $mods->getPublishingYear();
+        $year =  $mods->getPublishingYear();
+        return $year? $year : "";
     }
 
     /**
@@ -920,7 +921,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getMainTitle()
     {
         $mods = new Mods($this->getXmlData());
-        return $mods->getTitle();
+        $title = $mods->getTitle();
+        return $title? $title : "";
     }
 
 

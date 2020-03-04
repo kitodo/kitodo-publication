@@ -92,6 +92,12 @@ class DocumentManager
 
         try {
             $document = $this->getDocumentTransferManager()->retrieve($identifier);
+
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$document]
+            );
+
         } catch (\EWW\Dpf\Exceptions\RetrieveDocumentErrorException $exception) {
             return null;
         }

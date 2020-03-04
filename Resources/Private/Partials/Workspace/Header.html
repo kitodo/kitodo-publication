@@ -20,11 +20,14 @@
         <f:then>
             <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
 
-            <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
-                isBookmarksOnly: isBookmarksOnly,
-                workspace: workspace,
-                isSuggestions: isSuggestions}" />
+            <div>
+                <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                    isBookmarksOnly: isBookmarksOnly,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+            </div>
 
+            <f:comment>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group mr-2">
                     <f:link.action action="listWorkspace" controller="Workspace"
@@ -37,17 +40,20 @@
                     </f:link.action>
                 </div>
             </div>
+            </f:comment>
         </f:then>
         <f:else>
             <h1 class="h2">{f:translate(key: 'manager.control.myPublications')}</h1>
-            <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
-                isBookmarksOnly: isBookmarksOnly,
-                workspace: workspace,
-                isSuggestions: isSuggestions}" />
-            <f:render partial="Workspace/HideDiscarded" arguments="{
-                isHideDiscarded: isHideDiscarded,
-                workspace: workspace,
-                isSuggestions: isSuggestions}" />
+            <div>
+                <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                    isBookmarksOnly: isBookmarksOnly,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+                <f:render partial="Workspace/HideDiscarded" arguments="{
+                    isHideDiscarded: isHideDiscarded,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+            </div>
         </f:else>
     </f:if>
 </div>

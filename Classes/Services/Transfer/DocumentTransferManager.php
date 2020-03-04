@@ -107,7 +107,10 @@ class DocumentTransferManager
 
         $exporter->setMods($mods->getModsXml());
 
-        $exporter->setSlubInfo($document->getSlubInfoData());
+        // Set the document creator
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setDocumentCreator($document->getOwner());
+        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
@@ -137,10 +140,6 @@ class DocumentTransferManager
      */
     public function update($document)
     {
-        // remove document from local index
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        $elasticsearchRepository->delete($document, "");
-
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
         $fileData = $document->getFileData();
@@ -151,7 +150,10 @@ class DocumentTransferManager
 
         $exporter->setMods($mods->getModsXml());
 
-        $exporter->setSlubInfo($document->getSlubInfoData());
+        // Set the document creator
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setDocumentCreator($document->getOwner());
+        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
@@ -226,6 +228,8 @@ class DocumentTransferManager
             $document->setDateIssued($mods->getDateIssued());
 
             $document->setProcessNumber($slub->getProcessNumber());
+
+            $document->setOwner($slub->getDocumentCreator());
 
             $document->setTemporary(TRUE);
 

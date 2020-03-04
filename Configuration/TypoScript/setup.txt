@@ -88,6 +88,8 @@ plugin.tx_dpf {
 			discardOptionListName = discardOptions
 
 			workspaceItemsPerPage = {$plugin.tx_dpf.settings.workspaceItemsPerPage}
+
+			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
         }
 }
 

@@ -149,6 +149,7 @@ class WorkspaceController  extends AbstractController
             );
         }
 
+        $this->view->assign('documentCount', $results['hits']['total']['value']);
         $this->view->assign('documents', $results['hits']['hits']);
         $this->view->assign('pages', range(1, $results['hits']['total']['value']));
         $this->view->assign('itemsPerPage', $this->itemsPerPage());
@@ -189,10 +190,13 @@ class WorkspaceController  extends AbstractController
         if ($pagination) {
             $checkedDocumentIdentifiers = [];
             $currentPage = $pagination['currentPage'];
+        } else {
+            $currentPage = 1;
         }
 
-        $this->list((is_null($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()));
+        $this->list((empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()));
 
+        $this->view->assign('currentPage', $currentPage);
         $this->view->assign('workspaceListAction', $this->getCurrentAction());
         $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
     }
@@ -392,19 +396,21 @@ class WorkspaceController  extends AbstractController
 
                 if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
-                    //if ($this->documentValidator->validate($document)) {
+                    $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
 
-                        if ($this->documentManager->update($document, $documentWorkflowTransition)) {
-                            $successful[] = $documentIdentifier;
+                    $slub->setValidation($validated);
+                    $document->setSlubInfoData($slub->getSlubXml());
 
-                            $this->bookmarkRepository->removeBookmark(
-                                $document, $this->security->getUser()->getUid()
-                            );
+                    if ($this->documentManager->update($document, $documentWorkflowTransition)) {
+                        $successful[] = $documentIdentifier;
 
-                            //$notifier = $this->objectManager->get(Notifier::class);
-                            //$notifier->sendRegisterNotification($document);
-                        }
-                    //}
+                        $this->bookmarkRepository->removeBookmark(
+                            $document, $this->security->getUser()->getUid()
+                        );
+
+                        //$notifier = $this->objectManager->get(Notifier::class);
+                        //$notifier->sendRegisterNotification($document);
+                    }
                 }
             }
 
@@ -633,11 +639,11 @@ class WorkspaceController  extends AbstractController
                                 'lang' => 'painless',
                                 'source' =>
                                     "for (int i = 0; i < doc['collections'].length; ++i) {".
-                                    "    if(doc['collections'][i] =='epflicht') {".
+                                    "    if(doc['collections'][i] =='".$this->settings['universityCollection']."') {".
                                     "        return 'true';".
                                     "    }".
                                     "}".
-                                    "return 'false'"
+                                    "return 'false';"
                                 ]
                         ]
                     ],
@@ -651,19 +657,20 @@ class WorkspaceController  extends AbstractController
                             'script' => [
                                 'lang' => 'painless',
                                 'source' =>
-                                    "if(".
+                                    //"if (doc['creator'].size() == 0) { return 'unknown'; }".
+                                    "if (".
                                     "    doc['creatorRole'].value == '".Security::ROLE_LIBRARIAN."' &&".
                                     "    doc['creator'].value != '".$this->security->getUser()->getUid()."'".
                                     ") {".
                                     "    return 'librarian';".
                                     "}".
-                                    "if(doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
+                                    "if (doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
                                     "    return 'self';".
                                     "}".
-                                    "if(doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {".
+                                    "if (doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {".
                                     "    return 'user';".
                                     "}".
-                                    "return 'unknown'"
+                                    "return 'unknown';"
                             ]
                         ]
                     ]
@@ -701,14 +708,14 @@ class WorkspaceController  extends AbstractController
                     if ($key == 'universityCollection') {
                         if ($filterValues && is_array($filterValues)) {
                             if (in_array("true", $filterValues)) {
-                                $filterValue = 'epflicht';
+                                $filterValue = $this->settings['universityCollection'];
                                 $queryFilterPart['bool']['should'][] = [
                                     'term' => [
                                         'collections' => $filterValue
                                     ]
                                 ];
                             } else {
-                                $filterValue = 'epflicht';
+                                $filterValue = $this->settings['universityCollection'];
                                 $queryFilterPart['bool']['should'][] = [
                                     'bool' => [
                                         'must_not' => [
@@ -866,7 +873,7 @@ class WorkspaceController  extends AbstractController
         if ($sortField == "simpleState") {
             $script = $this->getSortScriptState();
         } elseif ($sortField == "universityCollection") {
-            $script = $this->getSortScriptUniversityCollection("epflicht");
+            $script = $this->getSortScriptUniversityCollection($this->settings['universityCollection']);
         } elseif ($sortField == "hasFiles") {
             $script = $this->getSortScriptHasFiles();
         } elseif ($sortField == "creatorRole") {

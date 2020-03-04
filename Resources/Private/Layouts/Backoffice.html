@@ -61,6 +61,16 @@
 
                                 </f:link.action>
                             </li>
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                            <li class="nav-item">
+                                <f:link.action action="listSuggestions" controller="Document"
+                                               class="nav-link workspace-nav-link
+                                               {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listSuggestions'})}">
+                                    <i class="fas fa-question-circle"></i>
+                                    {f:translate(key: 'manager.document.suggestions')}
+                                </f:link.action>
+                            </li>
+                            </f:if>
                             <li class="nav-item">
                                 <f:link.action action="list" controller="Search"
                                                class="nav-link {dpf:activeManagerMenu(controllerName:'Search')}">

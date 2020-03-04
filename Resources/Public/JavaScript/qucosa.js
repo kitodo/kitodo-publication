@@ -158,6 +158,8 @@ var removeBookmarkHandler = {
             jQuery("#confirmWorkspaceRemoveBookmark").on('hidden.bs.modal', function(){
                 jQuery("tr[data-id='"+identifier+"']").removeClass("table-danger");
             });
+
+            e.preventDefault();
         });
     }
 }
