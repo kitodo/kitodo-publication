@@ -89,7 +89,7 @@ class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
                     // use urn link
                     $conf = array(
                         'useCacheHash'     => 0,
-                        'parameter'        => 'http://nbn-resolving.de/' . $value['docId'],
+                        'parameter'        => 'https://nbn-resolving.de/' . $value['docId'],
                         'forceAbsoluteUrl' => true,
                     );
                 } else {
