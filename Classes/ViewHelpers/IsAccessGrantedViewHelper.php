@@ -54,6 +54,7 @@ class IsAccessGrantedViewHelper extends AbstractViewHelper
         }
 
         $repositoryClass = str_replace("Model", "Repository", $class)."Repository";
+
         $repository = $objectManager->get($repositoryClass);
 
         if ($repository) {

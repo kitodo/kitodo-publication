@@ -789,6 +789,18 @@
             <source>User</source>
             <target>Nutzer_in</target>
         </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.self" approved="yes">
+            <source>Record created by myself.</source>
+            <target>Von mir selbst erstellter Datensatz.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.librarian" approved="yes">
+            <source>Von der Bibliothek erstellter Datensatz.</source>
+            <target>Record created by the library.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.user" approved="yes">
+            <source>Record created by other users.</source>
+            <target>Von anderen Nutzer*innen erstellter Datensatz.</target>
+        </trans-unit>
         <trans-unit id="manager.workspace.creator.unknown" approved="yes">
             <source>Unknown</source>
             <target>Unbekannt</target>
@@ -796,6 +808,10 @@
         <trans-unit id="manager.workspace.universityPublication" approved="yes">
             <source>UL publication</source>
             <target>UL-Publikation</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
+            <source>Originated from scientific work at the UL</source>
+            <target>Hervorgegangen aus wissenschaftlicher Tätigkeit an der UL</target>
         </trans-unit>
         <trans-unit id="manager.workspace.fulltextMedia" approved="yes">
             <source>Fulltext/Media</source>

@@ -79,10 +79,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'releaseActivate, cancelListTask, uploadFiles, '
+            . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
@@ -94,10 +94,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     // non-cacheable actions
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'releaseActivate, cancelListTask, uploadFiles, '
+            . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',

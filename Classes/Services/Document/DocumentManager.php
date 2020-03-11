@@ -130,25 +130,7 @@ class DocumentManager
 
         /** @var \Symfony\Component\Workflow\Workflow $workflow */
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
-/*
-        switch ($workflowTransition) {
-            case DocumentWorkflow::TRANSITION_POSTPONE:
-                $transferState = DocumentTransferManager::INACTIVATE;
-                break;
 
-            case DocumentWorkflow::TRANSITION_DISCARD:
-                $transferState = DocumentTransferManager::DELETE;
-                break;
-
-            case DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE:
-                $transferState = DocumentTransferManager::REVERT;
-                break;
-
-            default:
-                $transferState = null;
-                break;
-        }
-*/
         if ($workflowTransition) {
             if (!$workflow->can($document, $workflowTransition)) {
                 return false;
@@ -164,7 +146,7 @@ class DocumentManager
         } elseif ($document->isTemporaryCopy()) {
 
             // if temporary working copy
-            $updateResult = $this->updateRemotely($document, $workflowTransition);
+            $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
 
         } elseif (
             $document->isWorkingCopy() &&
@@ -176,7 +158,7 @@ class DocumentManager
         ) {
 
             // if local working copy with state change
-            $updateResult = $this->updateRemotely($document, $workflowTransition);
+            $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
 
         } elseif ($document->isWorkingCopy()) {
 
@@ -297,11 +279,13 @@ class DocumentManager
     /**
      * @param Document $document
      * @param string $workflowTransition
+     * @param array $deletedFiles
+     * @param array $newFiles
      * @return string
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    protected function updateRemotely($document, $workflowTransition = null)
+    protected function updateRemotely($document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
     {
         $lastModDate = $this->getDocumentTransferManager()->getLastModDate($document->getObjectIdentifier());
         if ($lastModDate !== $document->getRemoteLastModDate()) {
@@ -309,32 +293,31 @@ class DocumentManager
             return false;
         }
 
+        $this->updateFiles($document, $deletedFiles, $newFiles);
+        $this->documentRepository->update($document);
+
         switch ($workflowTransition) {
             case DocumentWorkflow::TRANSITION_POSTPONE:
-                $transferDelete = $this->getDocumentTransferManager()->delete(
-                    $document, DocumentTransferManager::INACTIVATE
-                );
+                $transferState = DocumentTransferManager::INACTIVATE;
                 break;
 
             case DocumentWorkflow::TRANSITION_DISCARD:
-                $transferDelete = $this->getDocumentTransferManager()->delete(
-                    $document, DocumentTransferManager::DELETE
-                );
+                $transferState = DocumentTransferManager::DELETE;
                 break;
 
             case DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE:
-                $transferDelete = $this->getDocumentTransferManager()->delete(
-                    $document, DocumentTransferManager::REVERT
-                );
+                $transferState = DocumentTransferManager::REVERT;
                 break;
 
             default:
-                $transferDelete = false;
+                $transferState = null;
                 break;
         }
 
-        if (!$transferDelete) {
-            return false;
+        if ($transferState) {
+            if (!$this->getDocumentTransferManager()->delete($document, $transferState)) {
+                return false;
+            }
         }
 
         if ($this->getDocumentTransferManager()->update($document)) {

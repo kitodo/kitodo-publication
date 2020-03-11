@@ -20,7 +20,7 @@ use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
 {
-    const DELETE = "";
+    const DELETE = "delete";
     const REVERT = "revert";
     const INACTIVATE = "inactivate";
 
@@ -255,7 +255,11 @@ class DocumentTransferManager
                 $file->setDocument($document);
 
                 $this->fileRepository->add($file);
+                $document->addFile($file);
             }
+
+            $this->documentRepository->update($document);
+            $this->persistenceManager->persistAll();
 
             return $document;
 
@@ -279,7 +283,11 @@ class DocumentTransferManager
             return $this->remoteRepository->delete($document, $state);
         }
 
-        return $this->remoteRepository->delete($document, $state);
+        if ($state == self::DELETE) {
+            return $this->remoteRepository->delete($document, $state);
+        }
+
+        return false;
     }
 
     public function getNextDocumentId()

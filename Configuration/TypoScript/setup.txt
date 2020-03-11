@@ -198,3 +198,7 @@ lib.feUsername {
 	insertData = 1
 	value = {TSFE:fe_user|user|username}
 }
+
+
+#plugin.tx_dpf_backoffice._LOCAL_LANG.de.manager.workspace.universityPublication.tooltip =
+#plugin.tx_dpf_backoffice._LOCAL_LANG.en.manager.workspace.universityPublication.tooltip =

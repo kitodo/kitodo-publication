@@ -107,10 +107,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $suggestMod
+     * @param bool activeFileTab
      * @ignorevalidation $documentForm
      * @return void
      */
-    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, bool $suggestMod = false)
+    public function editAction(
+        \EWW\Dpf\Domain\Model\DocumentForm $documentForm, bool $suggestMod = false, $activeFileTab = false
+    )
     {
         /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
@@ -150,8 +153,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->security->getUser()->getUid()
         );
 
-        $this->documentRepository->update($document);
-        $this->persistenceManager->persistAll();
+        $this->view->assign('activeFileTab', $activeFileTab);
         parent::editAction($documentForm);
     }
 
@@ -462,20 +464,24 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * action cancel edit
      *
      * @param integer $documentUid
+     * @param bool $documentList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      *
      * @return void
      */
-    public function cancelEditAction($documentUid = 0)
+    public function cancelEditAction($documentUid = 0, $documentList = false)
     {
+        if ($documentList) {
+            $this->redirectToDocumentList();
+        }
+
         if ($documentUid) {
             /** @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->documentRepository->findByUid($documentUid);
 
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
-
     }
 
     public function initializeAction()
@@ -495,8 +501,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     protected function redirectToDocumentList($message = null)
     {
-        list($redirectAction, $redirectController) = $this->session->getListAction();
-        $this->redirect($redirectAction, $redirectController, null, array('message' => $message));
+        list($action, $controller, $redirectUri) = $this->session->getListAction();
+
+        if ($redirectUri) {
+            $this->redirectToUri($redirectUri);
+        } else {
+            $this->redirect($action, $controller, null, array('message' => $message));;
+        }
     }
 
 

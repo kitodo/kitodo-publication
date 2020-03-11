@@ -251,11 +251,10 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         if (array_key_exists('document', $requestArguments)) {
 
-            if ($this->request->getArgument('document') instanceof Document) {
-                $document = $this->request->getArgument('document');
-            } elseif (is_numeric($this->request->getArgument('document'))) {
-                $document = $this->documentRepository->findByUid($this->request->getArgument('document'));
-            }
+            $document = $this->documentManager->read(
+                $this->request->getArgument('document'),
+                $this->security->getUser()->getUID()
+            );
 
             if ($document) {
                 $mapper = $this->objectManager->get(DocumentMapper::class);

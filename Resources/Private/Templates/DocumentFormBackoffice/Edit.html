@@ -29,15 +29,30 @@
             </f:else>
          </f:if>
 
-        <f:link.action
-                id="cancel"
-                action="cancelEdit"
-                controller="DocumentFormBackoffice"
-                class="btn btn-sm btn-outline-secondary"
-                arguments="{documentUid:documentForm.documentUid}">
-            <i class="fas fa-times"></i>
-            {f:translate(key: 'form_button.cancel')}
-        </f:link.action>
+        <f:if condition="{activeFileTab}">
+            <f:then>
+                <f:link.action
+                        id="cancel"
+                        action="cancelEdit"
+                        controller="DocumentFormBackoffice"
+                        class="btn btn-sm btn-outline-secondary"
+                        arguments="{documentUid:documentForm.documentUid, documentList:1}">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.cancel')}
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <f:link.action
+                        id="cancel"
+                        action="cancelEdit"
+                        controller="DocumentFormBackoffice"
+                        class="btn btn-sm btn-outline-secondary"
+                        arguments="{documentUid:documentForm.documentUid}">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.cancel')}
+                </f:link.action>
+            </f:else>
+        </f:if>
     </div>
 
     <f:flashMessages />
@@ -141,7 +156,8 @@
 
         <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
 
-        <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod}"/>
+        <f:render partial="DocumentForm/FormBody"
+                  arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod, activeFileTab:activeFileTab}" />
     </f:form>
 
 </f:section>

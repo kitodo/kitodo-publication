@@ -16,7 +16,7 @@ namespace EWW\Dpf\ViewHelpers;
 
 use \EWW\Dpf\Security\Security;
 
-class ShowCreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * frontendUserHelper
@@ -43,28 +43,19 @@ class ShowCreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     public function render($feUserId)
     {
         if ($this->security->getUser()->getUid() == $feUserId) {
-            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.workspace.creator.self",
-                'dpf',
-                $arguments = null);
+            return "self";
         }
 
         $userRole = $this->frontendUserHelper->getUserRole($feUserId);
 
         if ($userRole === Security::ROLE_LIBRARIAN) {
-            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.workspace.creator.librarian",
-                'dpf',
-                $arguments = null);
+            return "librarian";
         }
 
         if ($userRole == Security::ROLE_RESEARCHER) {
-            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.workspace.creator.user",
-                'dpf',
-                $arguments = null);
+            return "user";
         }
 
-        return "-";
+        return null;
     }
 }

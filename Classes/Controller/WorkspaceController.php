@@ -679,8 +679,6 @@ class WorkspaceController  extends AbstractController
             ]
         ];
 
-        //echo "<pre>"; print_r($query); echo "</pre>"; die();
-
         return $query;
     }
 
@@ -1038,6 +1036,68 @@ class WorkspaceController  extends AbstractController
             }
         }
     }
+
+
+    /**
+     * action uploadFiles
+     *
+     * @param string $documentIdentifier
+     * @return void
+     */
+    public function uploadFilesAction($documentIdentifier)
+    {
+        $document = $this->documentManager->read(
+            $documentIdentifier,
+            $this->security->getUser()->getUID()
+        );
+
+        if ($document instanceof Document) {
+            if ($this->authorizationChecker->isGranted(DocumentVoter::EDIT, $document)) {
+                $this->redirect(
+                    'edit',
+                    'DocumentFormBackoffice',
+                    null,
+                    ['document' => $document, 'activeFileTab' => true]);
+            } elseif ($this->authorizationChecker->isGranted(DocumentVoter::SUGGEST_MODIFICATION, $document)) {
+                $this->redirect(
+                    'edit',
+                    'DocumentFormBackoffice',
+                    null,
+                    ['document' => $document, 'suggestMod' => true, 'activeFileTab' => true]);
+            } else {
+                if ($document->getOwner() !== $this->security->getUser()->getUid()) {
+                    $message = LocalizationUtility::translate(
+                        'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.accessDenied',
+                        'dpf',
+                        array($document->getTitle())
+                    );
+                } else {
+                    $message = LocalizationUtility::translate(
+                        'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.failureBlocked',
+                        'dpf',
+                        array($document->getTitle())
+                    );
+                }
+            }
+        } else {
+            $message = LocalizationUtility::translate(
+                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected',
+                'dpf'
+            );
+        }
+
+        $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+
+        list($action, $controller, $redirectUri) = $this->session->getListAction();
+
+        if ($redirectUri) {
+            $this->redirectToUri($redirectUri);
+        } else {
+            $this->redirect($action, $controller, null, array('message' => $message));;
+        }
+
+    }
+
 
     /**
      * Returns the number of items to be shown per page.

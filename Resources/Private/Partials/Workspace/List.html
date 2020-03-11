@@ -133,11 +133,18 @@
             <td data-simpleState="{document._source.simpleState}">
                 {dpf:showStatus(status:'{document._source.state}')}
             </td>
-            <td><dpf:showCreatorRole feUserId="{document._source.creator}" /></td>
+            <td>
+                <f:render partial="Workspace/Creator" arguments="{creator:document._source.creator}" />
+            </td>
             <td>
                 <f:if condition="{document._source.collections}">
                     <f:then>
-                        <i class="fas fa-check"></i>
+                        <span
+                           data-toggle="tooltip"
+                           title="{f:translate(key: 'manager.workspace.universityPublication.tooltip')}">
+
+                            <i class="fas fa-check"></i>
+                        </span>
                     </f:then>
                     <f:else>
                         -
@@ -150,15 +157,15 @@
                         <i class="fas fa-check"></i>
                     </f:then>
                     <f:else>
-                        <f:link.action
-                                action="uploadFiles"
-                                arguments="{document : document}"
-                                class="btn btn-sm btn-outline-secondary
-                                    {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
-                                title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
-                                additionalAttributes="{data-toggle: 'tooltip' }">
-                            <i class="fas fa-upload"></i>
-                        </f:link.action>
+                            <f:link.action
+                                    action="uploadFiles"
+                                    controller="Workspace"
+                                    arguments="{documentIdentifier : document._id, activeFileTab:1}"
+                                    class="btn btn-sm btn-outline-secondary"
+                                    title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
+                                    additionalAttributes="{data-toggle: 'tooltip' }">
+                                <i class="fas fa-upload"></i>
+                            </f:link.action>
                     </f:else>
                 </f:if>
             </td>

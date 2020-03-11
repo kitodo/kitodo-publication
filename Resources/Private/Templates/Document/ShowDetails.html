@@ -89,6 +89,7 @@
                     <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.workingcopy} == 0">
                         <f:link.action
                                 action="discard"
+                                action="discard"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-warning

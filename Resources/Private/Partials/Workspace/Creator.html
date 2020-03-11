@@ -1,0 +1,31 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:alias map="{creatorRole:'{dpf:creatorRole(feUserId:\'{creator}\')}'}">
+
+    <f:if condition="{creatorRole}">
+        <f:then>
+            <span data-toggle="tooltip"
+                  title="{f:translate(key: 'manager.workspace.creator.tooltip.{creatorRole}')}">
+                {f:translate(key: 'manager.workspace.creator.{creatorRole}')}
+            </span>
+        </f:then>
+        <f:else>
+            -
+        </f:else>
+    </f:if>
+
+</f:alias>

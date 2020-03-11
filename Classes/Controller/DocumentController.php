@@ -659,8 +659,9 @@ class DocumentController extends AbstractController
         $this->documentRepository->update($document);
 
 
-        $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
-
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
+        }
 
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
@@ -710,18 +711,7 @@ class DocumentController extends AbstractController
     {
         $this->redirectToDocumentList();
     }
-
-    /**
-     * action uploadFiles
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
-     */
-    public function uploadFilesAction(\EWW\Dpf\Domain\Model\Document $document)
-    {
-        $this->view->assign('document', $document);
-    }
-
+    
     /**
      * action suggest restore
      *

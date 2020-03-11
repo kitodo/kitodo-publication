@@ -596,8 +596,20 @@
         <trans-unit id="manager.workspace.creator.unknown">
             <source>Unknown</source>
         </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.self">
+            <source>Record created by myself.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.librarian">
+            <source>Von der Bibliothek erstellter Datensatz.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.user">
+            <source>Record created by other users.</source>
+        </trans-unit>
         <trans-unit id="manager.workspace.universityPublication">
             <source>UL</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.tooltip">
+            <source>Originated from scientific work at the UL</source>
         </trans-unit>
         <trans-unit id="manager.workspace.fulltextMedia">
             <source>Fulltext/Media</source>
