@@ -1106,7 +1106,9 @@ class WorkspaceController  extends AbstractController
      */
     protected function itemsPerPage()
     {
-        return ($this->settings['workspaceItemsPerPage'])? $this->settings['workspaceItemsPerPage'] : 10;
+        $itemsPerPage = $this->session->getWorkspaceItemsPerPage();
+        $default = ($this->settings['workspaceItemsPerPage'])? $this->settings['workspaceItemsPerPage'] : 10;
+        return ($itemsPerPage)? $itemsPerPage : $default;
     }
 
 }

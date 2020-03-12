@@ -87,7 +87,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
-            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly',
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
@@ -102,7 +102,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSortAction, '
-            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly',
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     )

@@ -183,6 +183,14 @@ class ElasticSearch
 
             $data->year = $document->getPublicationYear();
 
+            $notes = $document->getNotes();
+
+            if ($notes && is_array($notes)) {
+                $data->notes = $notes;
+            } else {
+                $data->notes = array();
+            }
+
             $files = $document->getFile();
             if ($files->count() > 0) {
                 $data->hasFiles = true;

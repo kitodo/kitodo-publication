@@ -84,7 +84,7 @@
         <th class="xcol-md-2"><!-- ACTIONS --></th>
     </tr>
     </thead>
-    <f:for each="{documents}" as="document">
+    <f:for each="{documents}" as="document" iteration="iterator">
         <tr data-id="{document._id}">
             <td data-simple-state="{document._source.simpleState}"
                 data-bookmark="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}"
@@ -131,7 +131,19 @@
                 {document._source.year}
             </td>
             <td data-simpleState="{document._source.simpleState}">
+
                 {dpf:showStatus(status:'{document._source.state}')}
+
+                <f:if condition="{document._source.simpleState} == 'postponed' || {document._source.simpleState} == 'discarded' ">
+                    <f:if condition="{document._source.notes}">
+                        <span data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.notes.tooltip')}">
+                            <i class="fas fa-info-circle" data-toggle="modal" data-target="#state-info-{iterator.cycle}">
+                            </i>
+                        </span>
+                        <f:render partial="Workspace/Notes" arguments="{notes: document._source.notes, infoId: 'state-info-{iterator.cycle}'}" />
+
+                    </f:if>
+                </f:if>
             </td>
             <td>
                 <f:render partial="Workspace/Creator" arguments="{creator:document._source.creator}" />

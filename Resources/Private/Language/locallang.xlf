@@ -491,6 +491,18 @@
 		<trans-unit id="manager.document.type">
 			<source>Type</source>
 		</trans-unit>
+		<trans-unit id="manager.document.discard.note">
+			<source>
+                <![CDATA[The document has been discarded: %s
+                Reason: %s]]>
+            </source>
+		</trans-unit>
+		<trans-unit id="manager.document.postpone.note">
+			<source>
+                <![CDATA[The document has been postponed: %s
+                Reason: %s]]>
+            </source>
+		</trans-unit>
         <trans-unit id="manager.documentList.state.new">
             <source>New</source>
         </trans-unit>
@@ -661,6 +673,18 @@
 		</trans-unit>
 		<trans-unit id="manager.workspace.of">
 			<source>of</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.header">
+			<source>Administrative notes</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.close">
+			<source>Close</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.tooltip">
+			<source>Show administrative notes</source>
+		</trans-unit>
+		<trans-unit id="manager.workspace.itemsPerPage">
+			<source>Documents per page</source>
 		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:

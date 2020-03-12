@@ -129,5 +129,16 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         return;
     }
 
+    /**
+     * Sets the items per page for the workspace list.
+     *
+     * @param int $itemsPerPage
+     */
+    public function setWorkspaceItemsPerPageAction($itemsPerPage)
+    {
+        $this->session->setWorkspaceItemsPerPage($itemsPerPage);
+        return;
+    }
+
 
 }

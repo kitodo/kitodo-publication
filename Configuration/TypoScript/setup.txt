@@ -90,6 +90,8 @@ plugin.tx_dpf {
 			workspaceItemsPerPage = {$plugin.tx_dpf.settings.workspaceItemsPerPage}
 
 			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
+
+			timezone = Europe/Berlin
         }
 }
 

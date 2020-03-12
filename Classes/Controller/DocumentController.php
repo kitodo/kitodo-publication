@@ -408,7 +408,7 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_DISCARD, $tstamp, $reason);
+        $this->updateDocument($document, DocumentWorkflow::TRANSITION_DISCARD, $reason);
     }
 
     /**
@@ -437,7 +437,7 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_POSTPONE, $tstamp, $reason);
+        $this->updateDocument($document, DocumentWorkflow::TRANSITION_POSTPONE, $reason);
 
     }
 
@@ -610,7 +610,7 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, $tstamp, null);
+        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
     }
 
@@ -631,7 +631,7 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, $tstamp, null);
+        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
 
     }
 
@@ -830,12 +830,11 @@ class DocumentController extends AbstractController
      *
      * @param Document $document
      * @param $workflowTransition
-     * @param int $tstamp
      * @param string $reason
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    protected function updateDocument(\EWW\Dpf\Domain\Model\Document $document, $workflowTransition, $tstamp, $reason)
+    protected function updateDocument(\EWW\Dpf\Domain\Model\Document $document, $workflowTransition, $reason)
     {
         switch ($workflowTransition) {
             case DocumentWorkflow::TRANSITION_DISCARD:
@@ -857,8 +856,19 @@ class DocumentController extends AbstractController
 
         try {
             if ($reason) {
-                $timeStamp = (new \DateTime)->format("d.m.Y H:i:s");
-                $note = "Das Dokument wurde verworfen: ".$timeStamp."\n"."Kommentar: ".$reason;
+                $timezone = new \DateTimeZone($this->settings['timezone']);
+                $timeStamp = (new \DateTime('now', $timezone))->format("d.m.Y H:i:s");
+
+                if ($workflowTransition == DocumentWorkflow::TRANSITION_DISCARD) {
+                    $note = LocalizationUtility::translate(
+                        "manager.document.discard.note", "dpf", [$timeStamp, $reason]
+                    );
+                } elseif ($workflowTransition == DocumentWorkflow::TRANSITION_POSTPONE) {
+                    $note = LocalizationUtility::translate(
+                        "manager.document.postpone.note", "dpf", [$timeStamp, $reason]
+                    );
+                }
+
                 $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
                 $slub->addNote($note);
                 $document->setSlubInfoData($slub->getSlubXml());

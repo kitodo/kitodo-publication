@@ -653,6 +653,26 @@
 			<source>Type</source>
 			<target>Typ</target>
 		</trans-unit>
+		<trans-unit id="manager.document.discard.note" approved="yes">
+			<source>
+                <![CDATA[The document has been discarded: %s
+                Reason: %s]]>
+            </source>
+			<target>
+                <![CDATA[Das Dokument wurde verworfen: %s
+                Grund: %s]]>
+            </target>
+		</trans-unit>
+		<trans-unit id="manager.document.postpone.note" approved="yes">
+			<source>
+                <![CDATA[The document has been postponed: %s
+                Reason: %s]]>
+            </source>
+			<target>
+                <![CDATA[Das Dokument wurde zurückgestellt: %s
+                Grund: %s]]>
+            </target>
+		</trans-unit>
         <trans-unit id="manager.documentList.state.new" approved="yes">
             <source>New</source>
             <target>Eingestellt</target>
@@ -880,6 +900,22 @@
 		<trans-unit id="manager.workspace.of" approved="yes">
 			<source>of</source>
 			<target>von</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.header" approved="yes">
+			<source>Administrative notes</source>
+			<target>Bearbeitungsnotizen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.close" approved="yes">
+			<source>Close</source>
+			<target>Schließen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.tooltip" approved="yes">
+			<source>Show administrative notes</source>
+			<target>Bearbeitungsnotizen anzeigen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.itemsPerPage" approved="yes">
+			<source>Documents per page</source>
+			<target>Dokumente pro Seite</target>
 		</trans-unit>
         <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:

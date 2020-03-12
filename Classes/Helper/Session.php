@@ -23,6 +23,8 @@ class Session
     const LIST_ACTION_KEY = "list_action";
     const WORKSPACE_FILTER_KEY = "workspace_filter";
     const WORKSPACE_EXCLUDE_FILTER_KEY = "workspace_exclude_filter";
+    const WORKSPACE_ITEMS_PER_PAGE = "workspace_items_per_page";
+
 
     /**
      * Stores the sort field and order.
@@ -167,6 +169,35 @@ class Session
         $this->setData($sessionData);
     }
 
+
+    /**
+     * Set the items per page for the workspace list.
+     *
+     * @param int $itemsPerPage
+     */
+    public function setWorkspaceItemsPerPage($itemsPerPage)
+    {
+        $sessionData = $this->getData();
+        $sessionData[self::WORKSPACE_ITEMS_PER_PAGE] = $itemsPerPage;
+        $this->setData($sessionData);
+    }
+
+    /**
+     * Get the items per page for the workspace list.
+     *
+     * @return int
+     */
+    public function getWorkspaceItemsPerPage()
+    {
+        $sessionData = $this->getData();
+
+        if (is_array($sessionData) && array_key_exists(self::WORKSPACE_ITEMS_PER_PAGE, $sessionData)) {
+            $itemsPerPage = $sessionData[self::WORKSPACE_ITEMS_PER_PAGE];
+            return $itemsPerPage;
+        }
+
+        return 0;
+    }
 
 
     /**

@@ -11,7 +11,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-
 var selectFilter = function(selectFilterId, searchInput = false) {
     selectFilterId = '#'+selectFilterId;
 
@@ -238,7 +237,61 @@ var batchSelectHandler = {
     }
 }
 
+var itemsPerPageHandler = {
+    init: function() {
 
+        jQuery("#items-up").on("click", function(e) {
+            var itemsPerPage = jQuery("#items-per-page").val();
+            var items = parseInt(itemsPerPage, 10);
+
+            if (itemsPerPage == items) {
+                items += 10;
+            } else {
+                items = 10;
+            }
+            jQuery("#items-per-page").val(items);
+        });
+
+        jQuery("#items-down").on("click", function(e) {
+            var itemsPerPage = jQuery("#items-per-page").val();
+            var items = parseInt(itemsPerPage, 10);
+
+            if (itemsPerPage == items) {
+                items = (items <= 10)? items : items-10;
+            } else {
+                items = 10;
+            }
+            jQuery("#items-per-page").val(items);
+        });
+
+        jQuery("#items-per-page-save").on("click", function(e) {
+
+            var button = jQuery(this);
+            var ajaxURL = jQuery(this).data('ajax');
+            var itemsPerPage = jQuery("#items-per-page").val();
+            var items = parseInt(itemsPerPage, 10);
+
+            if (itemsPerPage != items || items < 1) {
+                items = 10;
+            }
+            
+            var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+            var params = {};
+            var indexParam = {};
+            if (res && res[1]) {
+                indexParam['itemsPerPage'] = items;
+                params[res[1]] = indexParam;
+            }
+
+            jQuery.post(ajaxURL, params, function(data) {
+                var url = jQuery(".workspace-nav-link").attr("href");
+                window.location.href = url;
+            });
+
+        });
+
+    }
+}
 
 var validateFormAndSave = function() {
     jQuery("#validDocument").val("0");
@@ -964,6 +1017,8 @@ $(document).ready(function() {
     removeBookmarkHandler.init();
     addBookmarkHandler.init();
     batchSelectHandler.init();
+
+    itemsPerPageHandler.init();
 
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();

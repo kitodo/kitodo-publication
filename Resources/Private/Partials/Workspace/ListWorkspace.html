@@ -106,9 +106,6 @@
 
     </f:form>
 
-    <p class="text-center">
-        <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
-    </p>
 
     <f:if condition="{pages.{itemsPerPage}}">
         <f:render partial="Workspace/Pagination" arguments="{
@@ -118,6 +115,30 @@
             maximumNumberOfLinks:maximumNumberOfLinks}"
         />
     </f:if>
+
+    <p class="text-center">
+        <div class="form-inline justify-content-center">
+            <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+            , {f:translate(key: 'manager.workspace.itemsPerPage')}
+            <div class="input-group mx-sm-2" style="width:100px;">
+                <div class="input-group-prepend">
+                    <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                </div>
+                <input id="items-per-page" type="text" class="form-control form-control-sm" value="{itemsPerPage}" aria-label="Items per page">
+                <div class="input-group-append">
+                    <button id="items-up" class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <button id="items-per-page-save"
+                        class="btn btn-outline-secondary btn-sm"
+                        type="button"
+                        data-ajax="{f:uri.action(action:'setWorkspaceItemsPerPage',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    OK
+                </button>
+            </div>
+        </div>
+    </p>
 
 </f:if>
 
