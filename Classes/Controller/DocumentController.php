@@ -483,7 +483,7 @@ class DocumentController extends AbstractController
                 if ($document->isWorkingCopy()) {
                     $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
                     $this->addFlashMessage(
-                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"), '',
+                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
                         AbstractMessage::INFO
                     );
                 }
@@ -885,7 +885,7 @@ class DocumentController extends AbstractController
                             );
 
                             $this->addFlashMessage(
-                                LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"), '',
+                                LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
                                 AbstractMessage::INFO
                             );
 

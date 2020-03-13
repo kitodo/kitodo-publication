@@ -448,7 +448,7 @@ class WorkspaceController  extends AbstractController
 
             if (sizeof($successful) === 1 ) {
                 $this->addFlashMessage(
-                    "1 ".LocalizationUtility::translate("manager.workspace.bookmarkRemoved", "dpf"),
+                    "1 ".LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"),
                     '',
                     AbstractMessage::INFO
                 );
@@ -457,7 +457,7 @@ class WorkspaceController  extends AbstractController
             if (sizeof($successful) > 1 ) {
                 $this->addFlashMessage(
                     LocalizationUtility::translate(
-                        "manager.workspace.bookmarksRemoved", "dpf", [sizeof($successful)]
+                        "manager.workspace.bookmarkRemoved.plural", "dpf", [sizeof($successful)]
                     ),
                     '',
                     AbstractMessage::INFO
