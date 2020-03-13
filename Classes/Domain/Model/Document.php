@@ -117,11 +117,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $suggestion = false;
 
     /**
-     * owner
+     * creator
      *
-     * @var integer
+     * @var int
      */
-    protected $owner = 0;
+    protected $creator = 0;
 
     /**
      * state
@@ -702,24 +702,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the owner uid
+     * Returns the creator feuser uid
      *
-     * @return integer
+     * @return int
      */
-    public function getOwner()
+    public function getCreator()
     {
-        return $this->owner? $this->owner : 0;
+        return $this->creator? $this->creator : 0;
     }
 
     /**
-     * Sets the owner uid
+     * Sets the creator feuser uid
      *
-     * @param integer $owner
+     * @param int $creator
      * @return void
      */
-    public function setOwner($owner)
+    public function setCreator($creator)
     {
-        $this->owner = $owner;
+        $this->creator = $creator;
     }
 
     public function getState()
@@ -854,7 +854,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         foreach ($availableProperties as $propertyName) {
             if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newDocument, $propertyName)
-                && !in_array($propertyName, array('uid','pid', 'file', 'comment', 'linkedUid', 'suggestion', 'owner'))) {
+                && !in_array($propertyName, array('uid','pid', 'file', 'comment', 'linkedUid', 'suggestion', 'creator'))) {
 
                 $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($documentToCopy, $propertyName);
                 \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newDocument, $propertyName, $propertyValue);

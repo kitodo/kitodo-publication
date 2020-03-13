@@ -206,8 +206,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 
         if ($this->request->getPluginName() === "Backoffice") {
-            $ownerUid = $this->security->getUser()->getUid();
-            $newDocument->setOwner($ownerUid);
+            $newDocument->setCreator($this->security->getUser()->getUid());
             $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE);
         } else {
             $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE_REGISTER);

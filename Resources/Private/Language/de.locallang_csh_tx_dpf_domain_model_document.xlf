@@ -61,9 +61,9 @@
             <source>file</source>
             <target>Datei</target>
         </trans-unit>
-        <trans-unit id="owner.description" approved="yes">
-            <source>owner</source>
-            <target>Besitzer</target>
+        <trans-unit id="creator.description" approved="yes">
+            <source>Creator</source>
+            <target>Ersteller</target>
         </trans-unit>
         <trans-unit id="temporary.description" approved="yes">
             <source>temporary</source>

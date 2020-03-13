@@ -181,9 +181,9 @@
 			<source>Valid</source>
             <target>Gültig</target>
 		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_document.owner" approved="yes">
-			<source>Owner</source>
-			<target>Besitzer</target>
+        <trans-unit id="tx_dpf_domain_model_document.creator" approved="yes">
+			<source>Creator</source>
+			<target>Ersteller</target>
 		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
 			<source>Temporary</source>

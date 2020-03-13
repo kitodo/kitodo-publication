@@ -137,8 +137,8 @@
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.owner">
-			<source>Owner</source>
+		<trans-unit id="tx_dpf_domain_model_document.creator">
+			<source>Creator</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.temporary">
 			<source>Temporary</source>

@@ -653,16 +653,28 @@
         <trans-unit id="manager.workspace.showBookmarksOnly">
             <source>Show bookmarks only</source>
         </trans-unit>
-        <trans-unit id="manager.workspace.batchRegister.success">
-            <source>%s documents out of %s registered</source>
+        <trans-unit id="manager.workspace.batchAction.register.success.singular">
+            <source>%s record out of %s successfully registered.</source>
         </trans-unit>
-        <trans-unit id="manager.workspace.batchRegister.failure">
-            <source>No documents could be regeisterd</source>
+        <trans-unit id="manager.workspace.batchAction.register.success.plural">
+            <source>%s records out of %s successfully registered.</source>
         </trans-unit>
-		<trans-unit id="manager.workspace.bookmarkRemoved">
+        <trans-unit id="manager.workspace.batchAction.remove.success.singular">
+            <source>%s record out of %s successfully removed.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.remove.success.plural">
+            <source>%s records out of %s successfully removed.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.singular">
+            <source>%s record out of %s successfully released.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.plural">
+            <source>%s records out of %s successfully released.</source>
+        </trans-unit>
+		<trans-unit id="manager.workspace.bookmarkRemoved.singular">
 			<source>Record has been removed from workspace.</source>
 		</trans-unit>
-		<trans-unit id="manager.workspace.bookmarksRemoved">
+		<trans-unit id="manager.workspace.bookmarkRemoved.plural">
 			<source>%s Records have been removed from workspace.</source>
 		</trans-unit>
 		<trans-unit id="manager.workspace.bookmarkAdded">

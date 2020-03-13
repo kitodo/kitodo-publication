@@ -262,7 +262,7 @@ class DocumentVoter extends Voter
             return (
                 $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
                 (
-                    $document->getOwner() === $this->security->getUser()->getUid() &&
+                    $document->getCreator() === $this->security->getUser()->getUid() &&
                     $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
                 )
             );
@@ -281,13 +281,13 @@ class DocumentVoter extends Voter
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
-                $document->getOwner() === $this->security->getUser()->getUid()
+                $document->getCreator() === $this->security->getUser()->getUid()
             );
         }
 
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
-                $document->getOwner() === $this->security->getUser()->getUid() ||
+                $document->getCreator() === $this->security->getUser()->getUid() ||
                 (
                     $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
                     $document->getState() !== DocumentWorkflow::STATE_DISCARDED_NONE &&
@@ -307,7 +307,7 @@ class DocumentVoter extends Voter
     {
         if (
             $this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_REGISTER) &&
-            $document->getOwner() === $this->security->getUser()->getUid()
+            $document->getCreator() === $this->security->getUser()->getUid()
         ) {
            return TRUE;
         }
@@ -368,7 +368,7 @@ class DocumentVoter extends Voter
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_LOCALLY)) {
-            return $document->getOwner() === $this->security->getUser()->getUid();
+            return $document->getCreator() === $this->security->getUser()->getUid();
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_DISCARDED)) {
@@ -410,11 +410,11 @@ class DocumentVoter extends Voter
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
-                $document->getOwner() === $this->security->getUser()->getUid()
+                $document->getCreator() === $this->security->getUser()->getUid()
             );
         }
 
-        if ($document->getOwner() === $this->security->getUser()->getUid()) {
+        if ($document->getCreator() === $this->security->getUser()->getUid()) {
             return (
                 $document->getState() === DocumentWorkflow::STATE_NEW_NONE ||
                 $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
@@ -438,11 +438,12 @@ class DocumentVoter extends Voter
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
-                $document->getOwner() === $this->security->getUser()->getUid()
+                $document->getCreator() === $this->security->getUser()->getUid()
             );
         }
 
-        if ($document->getOwner() === $this->security->getUser()->getUid()) {
+
+        if ($document->getCreator() === $this->security->getUser()->getUid()) {
             return (
                 $document->getState() === DocumentWorkflow::STATE_NEW_NONE ||
                 $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
@@ -495,7 +496,7 @@ class DocumentVoter extends Voter
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 (
-                    $document->getOwner() !== $this->security->getUser()->getUid() &&
+                    $document->getCreator() !== $this->security->getUser()->getUid() &&
                     $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
                 ) ||
                 (

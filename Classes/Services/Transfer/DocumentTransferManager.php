@@ -109,7 +109,7 @@ class DocumentTransferManager
 
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getOwner());
+        $slub->setDocumentCreator($document->getCreator());
         $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
@@ -152,7 +152,7 @@ class DocumentTransferManager
 
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getOwner());
+        $slub->setDocumentCreator($document->getCreator());
         $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
@@ -229,7 +229,7 @@ class DocumentTransferManager
 
             $document->setProcessNumber($slub->getProcessNumber());
 
-            $document->setOwner($slub->getDocumentCreator());
+            $document->setCreator($slub->getDocumentCreator());
 
             $document->setTemporary(TRUE);
 

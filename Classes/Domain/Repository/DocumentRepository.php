@@ -24,13 +24,13 @@ use \EWW\Dpf\Security\Security;
 class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
     /**
-     * Finds all suggestion documents of the given user role filtered by owner uid
+     * Finds all suggestion documents of the given user role filtered by creator feuser uid
      *
      * @param string $role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
-     * @param int $ownerUid
+     * @param int $creatorUid
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function findAllDocumentSuggestions($role, $ownerUid) {
+    public function findAllDocumentSuggestions($role, $creatorUid) {
         $query = $this->createQuery();
 
         switch ($role) {
@@ -46,7 +46,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
                     $query->logicalAnd(
                         array(
                             $query->equals('suggestion', true),
-                            $query->equals('owner', $ownerUid)
+                            $query->equals('creator', $creatorUid)
                         )
                     )
                 );
@@ -268,5 +268,16 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         }
 
         parent::update($document);
+    }
+
+
+
+    public function updateCreator()
+    {
+
+        $query = $this->createQuery();
+        $query->statement( "update tx_dpf_domain_model_document set creator = owner");
+        $query->execute();
+
     }
 }

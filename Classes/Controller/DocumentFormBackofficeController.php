@@ -126,7 +126,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if (!$this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
-            if ($document->getOwner() !== $this->security->getUser()->getUid()) {
+            if ($document->getCreator() !== $this->security->getUser()->getUid()) {
                 $message = LocalizationUtility::translate(
                     'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.accessDenied',
                     'dpf',
@@ -221,7 +221,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
 
         try {
-            $newDocument->setOwner($this->security->getUser()->getUid());
+            $newDocument->setCreator($this->security->getUser()->getUid());
             $this->documentRepository->add($newDocument);
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::SUCCESS;
             $this->addFlashMessage("Success", '', $severity,false);
@@ -276,7 +276,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             if (
                 !$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document) ||
-                $saveMode == 'saveWorkingCopy' && $this->security->getUserRole() !== Security::ROLE_LIBRARIAN
+                ($saveMode == 'saveWorkingCopy' && $this->security->getUserRole() !== Security::ROLE_LIBRARIAN)
             ) {
                 $message = LocalizationUtility::translate(
                     'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied',

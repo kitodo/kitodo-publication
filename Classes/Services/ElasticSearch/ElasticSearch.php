@@ -177,9 +177,9 @@ class ElasticSearch
             $data->simpleState = DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$document->getState()];
             $data->objectIdentifier = $document->getObjectIdentifier();
 
-            $data->creator = $document->getOwner();
+            $data->creator = $document->getCreator();
 
-            $data->creatorRole = $this->frontendUserHelper->getUserRole($document->getOwner());
+            $data->creatorRole = $this->frontendUserHelper->getUserRole($document->getCreator());
 
             $data->year = $document->getPublicationYear();
 

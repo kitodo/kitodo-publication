@@ -265,11 +265,19 @@ class WorkspaceController  extends AbstractController
             }
 
 
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.register.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.register.success.plural';
+            }
+
             $message = LocalizationUtility::translate(
-                'manager.workspace.batchAction.success',
+                $locallangKey,
                 'dpf',
                 [sizeof($successful), sizeof($listData['documentIdentifiers'])]
             );
+
+
             $this->addFlashMessage(
                 $message, '',
                 (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
@@ -308,8 +316,15 @@ class WorkspaceController  extends AbstractController
                 }
             }
 
+
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.remove.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.remove.success.plural';
+            }
+
             $message = LocalizationUtility::translate(
-                'manager.workspace.batchAction.success',
+                $locallangKey,
                 'dpf',
                 [sizeof($successful), sizeof($listData['documentIdentifiers'])]
             );
@@ -414,8 +429,15 @@ class WorkspaceController  extends AbstractController
                 }
             }
 
+
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.release.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.release.success.plural';
+            }
+
             $message = LocalizationUtility::translate(
-                'manager.workspace.batchAction.success',
+                $locallangKey,
                 'dpf',
                 [sizeof($successful), sizeof($listData['documentIdentifiers'])]
             );
@@ -1065,7 +1087,7 @@ class WorkspaceController  extends AbstractController
                     null,
                     ['document' => $document, 'suggestMod' => true, 'activeFileTab' => true]);
             } else {
-                if ($document->getOwner() !== $this->security->getUser()->getUid()) {
+                if ($document->getCreator() !== $this->security->getUser()->getUid()) {
                     $message = LocalizationUtility::translate(
                         'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_edit.accessDenied',
                         'dpf',

@@ -873,19 +873,39 @@
             <source>Show bookmarks only</source>
             <target>Nur Gemerkte anzeigen</target>
         </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.success" approved="yes">
-            <source>%s out of %s successful.</source>
-            <target>%s von %s erfolgreich</target>
+        <trans-unit id="manager.workspace.batchAction.register.success.singular" approved="yes">
+            <source>%s record out of %s successfully registered.</source>
+            <target>%s Datensatz von %s wurde erfolgreich gemeldet.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.register.success.plural" approved="yes">
+            <source>%s records out of %s successfully registered.</source>
+            <target>%s Datensätze von %s wurden erfolgreich gemeldet.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.remove.success.singular" approved="yes">
+            <source>%s record out of %s successfully removed.</source>
+            <target>%s Datensatz von %s wurde erfolgreich entfernt.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.remove.success.plural" approved="yes">
+            <source>%s records out of %s successfully removed.</source>
+            <target>%s Datensätze von %s wurden erfolgreich entfernt.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.singular" approved="yes">
+            <source>%s record out of %s successfully released.</source>
+            <target>%s Datensatz von %s wurde erfolgreich freigegeben.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.plural" approved="yes">
+            <source>%s records out of %s successfully released.</source>
+            <target>%s Datensätze von %s wurden erfolgreich freigegeben.</target>
         </trans-unit>
         <trans-unit id="manager.workspace.batchAction.failure" approved="yes">
             <source>The desired action is not possible for your selection.</source>
             <target>Die gewünschte Aktion ist für Ihre Auswahl nicht möglich.</target>
         </trans-unit>
-		<trans-unit id="manager.workspace.bookmarkRemoved" approved="yes">
+		<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
 			<source>Record has been removed from workspace.</source>
 			<target>Datensatz aus Arbeitsbereich entfernt.</target>
 		</trans-unit>
-		<trans-unit id="manager.workspace.bookmarksRemoved" approved="yes">
+		<trans-unit id="manager.workspace.bookmarkRemoved.plural" approved="yes">
 			<source>%s Records have been removed from workspace.</source>
 			<target>%s Datensätze aus Arbeitsbereich entfernt.</target>
 		</trans-unit>

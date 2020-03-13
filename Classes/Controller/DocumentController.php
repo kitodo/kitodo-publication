@@ -272,13 +272,13 @@ class DocumentController extends AbstractController
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
         //$usernameString = $this->security->getUser()->getUsername();
-        $user = $this->frontendUserRepository->findOneByUid($document->getOwner());
+        $user = $this->frontendUserRepository->findOneByUid($document->getCreator());
 
         if ($user) {
             $usernameString = $user->getUsername();
         }
 
-        $this->view->assign('documentOwner', $usernameString);
+        $this->view->assign('documentCreator', $usernameString);
         $this->view->assign('diff', $diff);
         $this->view->assign('document', $document);
 
@@ -544,7 +544,7 @@ class DocumentController extends AbstractController
             $newDocument->setTitle($document->getTitle());
             $newDocument->setAuthors($document->getAuthors());
 
-            $newDocument->setOwner($this->security->getUser()->getUid());
+            $newDocument->setCreator($this->security->getUser()->getUid());
 
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $mods->clearAllUrn();
@@ -559,13 +559,6 @@ class DocumentController extends AbstractController
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $slub->setProcessNumber($processNumber);
             $newDocument->setSlubInfoData($slub->getSlubXml());
-
-            // send document to index
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-
-            //$elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-            //$json = $elasticsearchMapper->getElasticsearchJson($newDocument);
-            //$elasticsearchRepository->add($newDocument, $json);
 
             $this->documentRepository->add($newDocument);
             $this->persistenceManager->persistAll();

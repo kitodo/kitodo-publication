@@ -26,7 +26,7 @@ use EWW\Dpf\Security\Security;
 class ext_update {
 
     // Ideally the version corresponds with the extension version
-    const VERSION = "v3.0.0";
+    const VERSION = "v4.0.0";
 
     public function access() {
         $registry = GeneralUtility::makeInstance(Registry::class);
@@ -51,6 +51,8 @@ class ext_update {
             // The necessary updates.
             (new UpdateState)->execute();
             (new UpdateAccessRestrictions)->execute();
+
+            $GLOBALS['TYPO3_DB']->sql_query("update tx_dpf_domain_model_document set creator = owner");
 
             $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
         }

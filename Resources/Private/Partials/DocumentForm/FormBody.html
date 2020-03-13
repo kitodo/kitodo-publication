@@ -134,10 +134,10 @@
                             </f:form.button>
                         </f:then>
                         <f:else>
-                            <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                            <f:form.button name="saveLocalDocument" id="saveLocalDocument"
                                            class="btn btn-lg btn-success"
                                            disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
-                                           value="workingCopy">
+                                           value="localDocument">
                                 <i class="fas fa-check"></i>
                                 {f:translate(key: 'form_button.save')}
                             </f:form.button>
