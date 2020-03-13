@@ -74,20 +74,20 @@ class Slub
     }
 
     /**
-     * Gets the creator of the document, the person who added and registered the document.
+     * Gets the creator uid of the document, the person who added and registered the document.
      *
-     * @return string
+     * @return int
      */
     public function getDocumentCreator()
     {
         $node = $this->getSlubXpath()->query("/slub:info/slub:documentCreator");
-        return $node->item(0)->nodeValue;
+        return intval($node->item(0)->nodeValue);
     }
 
     /**
-     * Sets the creator of the document, the person who added and registered the document.
+     * Sets the creator uid of the document, the person who added and registered the document.
      *
-     * @param string $docCreator
+     * @param int $docCreator
      * @throws \Exception
      */
     public function setDocumentCreator($docCreator)
