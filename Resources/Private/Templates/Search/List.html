@@ -28,7 +28,7 @@
                 <label for="query">{f:translate(key: 'search.form.label.query')}</label>
                 <f:form.textfield property="fulltext" class="form-control"
                                   placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
-                                  value="{query.fulltext}"/>
+                                  value="{simpleSearch}"/>
             </div>
             <f:form.button class="btn btn-secondary" type="submit">
                 <i class="fas fa-search"></i>
@@ -36,9 +36,7 @@
             </f:form.button>
         </f:form>
     </div>
-    <f:render partial="Search/ResultList" arguments="{searchList: searchList, workingCopies: workingCopies, bookmarks: bookmarks, feUserUid: feUserUid}"/>
-    <center>
-        <f:link.action id="next" controller="Search" action="nextResults" additionalAttributes="{data-result-count: resultCount}">{f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </center>
+
+    <f:render partial="Search/ListSearchResults" arguments="{_all}" />
+
 </f:section>

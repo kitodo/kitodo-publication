@@ -565,6 +565,14 @@
 			<source>The selected documents will be released but not validated.</source>
 			<target>Die ausgwählten Dokumente werden freigegeben aber nicht validiert.</target>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.messageHeader" approved="yes">
+			<source>Do you really want to bookmark the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich übernehmen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.message" approved="yes">
+			<source>The selected documents will be bookmarked.</source>
+			<target>Die ausgwählten Dokumente werden übernommen.</target>
+		</trans-unit>
 		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
 			<source>Do you really want to remove the document from the list?</source>
 			<target>Möchten Sie das Dokument wirklich aus der Liste entfernen?</target>
@@ -933,6 +941,14 @@
 			<source>%s Records have been removed from workspace.</source>
 			<target>%s Datensätze aus Arbeitsbereich entfernt.</target>
 		</trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.singular" approved="yes">
+            <source>%s record out of %s successfully bookmarked.</source>
+            <target>%s Datensatz von %s wurde erfolgreich übernommen.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.plural" approved="yes">
+            <source>%s records out of %s successfully bookmarked.</source>
+            <target>%s Datensätze von %s wurden erfolgreich übernommen.</target>
+        </trans-unit>
 		<trans-unit id="manager.workspace.bookmarkAdded" approved="yes">
 			<source>Record has been added to the workspace.</source>
 			<target>Datensatz wurde dem Arbeitsbereich hinzugefügt.</target>

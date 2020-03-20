@@ -14,19 +14,19 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
-use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Security\DocumentVoter;
+use EWW\Dpf\Security\Security;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use EWW\Dpf\Session\SearchSessionData;
 
 /**
  * SearchController
  */
-class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
+class SearchController extends \EWW\Dpf\Controller\AbstractController // extends \EWW\Dpf\Controller\AbstractSearchController
 {
 
     /**
@@ -56,6 +56,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
 
     /**
+     * queryBuilder
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
+     * @inject
+     */
+    protected $queryBuilder = null;
+
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
@@ -76,6 +85,64 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     const RESULT_COUNT      = 500;
     const NEXT_RESULT_COUNT = 500;
 
+
+
+    /**
+     * list
+     *
+     * @param int $from
+     * @param int $queryString
+     *
+     * @return void
+     */
+    protected function list($from = 0, $queryString = '')
+    {
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $filters = $workspaceSessionData->getFilters();
+        $excludeFilters = $workspaceSessionData->getExcludeFilters();
+        $sortField = $workspaceSessionData->getSortField();
+        $sortOrder = $workspaceSessionData->getSortOrder();
+
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
+            $query = $this->getSearchQuery($from, [],
+                $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
+        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
+            $query = $this->getSearchQuery($from, [],
+                $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
+        }
+
+        $results = $this->elasticSearch->search($query, 'object');
+        try {
+            $results = $this->elasticSearch->search($query, 'object');
+        } catch (\Exception $e) {
+            $this->session->clearWorkspaceSort();
+            $this->addFlashMessage(
+                "Error while building the list!", '', AbstractMessage::ERROR
+            );
+        }
+
+        if ($this->request->hasArgument('message')) {
+            $this->view->assign('message', $this->request->getArgument('message'));
+        }
+
+        if ($this->request->hasArgument('errorFiles')) {
+            $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
+        }
+
+
+        $this->view->assign('documentCount', $results['hits']['total']['value']);
+        $this->view->assign('documents', $results['hits']['hits']);
+        $this->view->assign('pages', range(1, $results['hits']['total']['value']));
+        $this->view->assign('itemsPerPage', $this->itemsPerPage());
+        $this->view->assign('aggregations', $results['aggregations']);
+        $this->view->assign('filters', $filters);
+        $this->view->assign('isHideDiscarded', array_key_exists('simpleState', $excludeFilters));
+        $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
+        $this->view->assign('bookmarkIdentifiers', []);
+    }
+
+
     /**
      * action list
      *
@@ -83,76 +150,170 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function listAction()
     {
-        $workingCopies['noneTemporary'] = $this->documentRepository->getObjectIdentifiers(FALSE);
-        $workingCopies['temporary'] = $this->documentRepository->getObjectIdentifiers(TRUE);
-        $this->view->assign('workingCopies', $workingCopies);
-
-        // assign result list from elastic search
         $args = $this->request->getArguments();
 
-        $bookmarkIdentifiers = [];
-        foreach ($this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid()) as $bookmark) {
-            $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
+        $workspaceSessionData = $this->session->getWorkspaceData();
+
+        if ($args['refresh']) {
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
         }
+        $this->session->setWorkspaceData($workspaceSessionData);
 
-        $this->view->assign('bookmarks', $bookmarkIdentifiers);
-        $this->view->assign('feUserUid', $this->security->getUser()->getUid());
+        $simpleSearch = $workspaceSessionData->getSimpleQuery();
 
-        $this->view->assign('searchList', $args['results']);
-        $this->view->assign('resultCount', self::RESULT_COUNT);
-        $this->view->assign('query', $args['query']);
-    }
 
-    /**
-     * get next search results
-     * @return array ElasticSearch results
-     */
-    public function nextResultsAction()
-    {
-        try {
-            $sessionVars = $GLOBALS["TSFE"]->getSessionData("tx_dpf");
-            if (!$sessionVars['resultCount']) {
-                // set number of results in session
-                $sessionVars['resultCount'] = self::NEXT_RESULT_COUNT;
-            } else {
-                $resultCount                = $sessionVars['resultCount'];
-                $sessionVars['resultCount'] = $resultCount + self::NEXT_RESULT_COUNT;
-            }
-            $GLOBALS['TSFE']->setAndSaveSessionData('tx_dpf', $sessionVars);
+//      $this->view->assign('bookmarks', $bookmarkIdentifiers);
 
-            $query = $sessionVars['query'];
 
-            $type = 'object';
-
-            $query['body']['from'] = $sessionVars['resultCount'];
-            $query['body']['size'] = self::NEXT_RESULT_COUNT;
-
-            $results = $this->getResultList($query, $type);
-
-            $this->view->assign('resultList', $results);
-            $this->view->assign('alreadyImported', array());
-        } catch (\Exception $exception) {
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
-
-            $this->addFlashMessage(
-                $message,
-                '',
-                $severity,
-                true
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            $this->view->assign('isWorkspace', true);
+        } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER){
+            $this->view->assign('isWorkspace', false);
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.accessDenied', 'dpf'
             );
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
+
+        $currentPage = null;
+        $checkedDocumentIdentifiers = [];
+        $pagination = $this->getParametersSafely('@widget_0');
+        if ($pagination) {
+            $checkedDocumentIdentifiers = [];
+            $currentPage = $pagination['currentPage'];
+        } else {
+            $currentPage = 1;
+        }
+
+        $this->list((empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $simpleSearch);
+
+        $this->view->assign('simpleSearch', $simpleSearch);
+        $this->view->assign('currentPage', $currentPage);
+        $this->view->assign('workspaceListAction', $this->getCurrentAction());
+        $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
     }
 
+
     /**
+     * get list view data for the workspace
+     *
+     * @param int $from
+     * @param array $bookmarkIdentifiers
+     * @param array $filters
+     * @param array $excludeFilters
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param string $queryString
+     *
+     * @return array
+     */
+    protected function getSearchQuery(
+        $from = 0, $bookmarkIdentifiers = [], $filters= [], $excludeFilters = [],
+        $sortField = null, $sortOrder = null, $queryString = null
+    )
+    {
+        $workspaceFilter = [
+            'bool' => [
+                'must' => [
+                    [
+                        'bool' => [
+                            'should' => [
+                                [
+                                    'term' => [
+                                        'creator' => $this->security->getUser()->getUid()
+                                    ]
+                                ],
+                                [
+                                    'bool' => [
+                                        'must_not' => [
+                                            [
+                                                'term' => [
+                                                    'state' => DocumentWorkflow::STATE_NEW_NONE
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        return $this->queryBuilder->buildQuery(
+            $this->itemsPerPage(), $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
+            $excludeFilters, $sortField, $sortOrder, $queryString
+        );
+    }
+
+
+    /**
+     * Batch operations action.
+     * @param array $listData
+     */
+    public function batchAction($listData)
+    {
+        if (array_key_exists('action', $listData)) {
+            $this->forward($listData['action'], null, null, ['listData' => $listData]);
+        }
+    }
+
+
+    /**
+     * Batch operation, bookmark documents.
+     * @param array $listData
+     */
+    public function batchBookmarkAction($listData)
+    {
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+                if ($this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $documentIdentifier)) {
+                    $successful[] = $documentIdentifier;
+                }
+            }
+
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.bookmark.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.bookmark.success.plural';
+            }
+
+            $message = LocalizationUtility::translate(
+                $locallangKey,
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getListAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
+    }
+
+        /**
      * extended search action
      */
     public function extendedSearchAction()
@@ -214,196 +375,29 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
     {
         $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
 
-        try {
-            // perform search action
-            $args = $this->request->getArguments();
+        $args = $this->request->getArguments();
 
-            // reset session pagination
-            $sessionVars = $this->getSessionData('tx_dpf');
-            $sessionVars['resultCount'] = self::RESULT_COUNT;
-            $this->setSessionData('tx_dpf', $sessionVars);
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
 
-            $extSearch = ($args['query']['extSearch']) ? true : false;
-
-            // set sorting
-            if ($extSearch) {
-                unset($args['query']['extSearch']);
-                // extended search
-                $query = $this->extendedSearch($args['query']);
-
-            } else {
-                $query = $this->searchFulltext($args['query']['fulltext']);
-            }
-
-            // save search query
-            if ($query) {
-                $query['body']['from'] = '0';
-                $query['body']['size'] = '' . self::RESULT_COUNT . '';
-                $sessionVars = $this->getSessionData("tx_dpf");
-                $sessionVars['query'] = $query;
-                $this->setSessionData('tx_dpf', $sessionVars);
-            } else {
-                $sessionVars = $this->getSessionData('tx_dpf');
-                $query = $sessionVars['query'];
-            }
-
-            // set type local vs object
-            $type = 'object';
-
-            $results = $this->getResultList($query, $type);
-
-        } catch (\Exception $exception) {
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-
-            $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
-
-            $this->addFlashMessage(
-                $message,
-                '',
-                $severity,
-                true
-            );
+        if ($args['query'] && array_key_exists('fulltext', $args['query'])) {
+            $queryString = $args['query']['fulltext'];
+            $workspaceSessionData->setSimpleQuery($queryString);
         }
+
+        $workspaceSessionData->clearSort();
+        $workspaceSessionData->clearFilters();
+        $this->session->setWorkspaceData($workspaceSessionData);
 
         if ($extSearch) {
             // redirect to extended search view
             $this->forward("extendedSearch", null, null, array('results' => $results, 'query' => $args['query']));
         } else {
             // redirect to list view
-            $this->forward("list", null, null, array('results' => $results, 'query' => $args['query']));
+            $this->forward("list", null, null);
         }
     }
 
-    /**
-     * action importForEditingAction
-     *
-     * @param  string $documentObjectIdentifier
-     * @return void
-     */
-    public function importForEditingAction($documentObjectIdentifier)
-    {
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
-
-        /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
-        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-
-        /** @var  \EWW\Dpf\Services\Transfer\FedoraRepository $remoteRepository */
-        $remoteRepository = $this->objectManager->get(FedoraRepository::class);
-
-        $documentTransferManager->setRemoteRepository($remoteRepository);
-
-        /** @var \EWW\Dpf\Domain\Model\Document $document */
-        $document = NULL;
-
-        if ($documentObjectIdentifier) {
-            $existingDocument = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
-
-            if ($existingDocument) {
-                $this->redirect('search');
-            }
-
-            $document = $documentTransferManager->retrieve($documentObjectIdentifier, $this->security->getUser()->getUid());
-
-            if ($document) {
-                $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            }
-        }
-
-        $this->redirect('search');
-    }
-
-
-    /**
-     * action showDetailsAction
-     *
-     * @param  string $documentObjectIdentifier
-     * @return void
-     */
-    public function showDetailsAction($documentObjectIdentifier)
-    {
-        if ($documentObjectIdentifier) {
-            /** @var  \EWW\Dpf\Domain\Model\Document $document */
-            $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
-
-            if ($document) {
-                $this->redirect('showDetails', 'Document', null, ['document'=>$document]);
-            }
-        }
-
-        $this->redirect('search');
-    }
-
-
-    /**
-     * action import
-     *
-     * @param  string $documentObjectIdentifier
-     * @return void
-     */
-    public function importAction($documentObjectIdentifier)
-    {
-        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
-        $documentTransferManager->setRemoteRepository($remoteRepository);
-
-        $args = array();
-
-        try {
-            if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
-                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
-                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-                $document = $this->documentRepository->findWorkingCopyByObjectIdentifier($documentObjectIdentifier);
-                $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
-            }
-        } catch (\Exception $exception) {
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
-
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
-            }
-        }
-
-        // Show success or failure of the action in a flash message
-
-        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
-
-        $this->addFlashMessage(
-            $message,
-            '',
-            $severity,
-            true
-        );
-
-        $this->forward('updateIndex', null, null, array('documentObjectIdentifier' => $documentObjectIdentifier));
-    }
-
-    /**
-     *
-     * @param  string $documentObjectIdentifier
-     * @return void
-     */
-    public function updateIndexAction($documentObjectIdentifier)
-    {
-        $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
-
-        if (is_a($document, Document::class)) {
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-            $elasticsearchMapper     = $this->objectManager->get(ElasticsearchMapper::class);
-            $json                    = $elasticsearchMapper->getElasticsearchJson($document);
-            // send document to index
-            $elasticsearchRepository->add($document, $json);
-        }
-
-        $this->redirect('search');
-    }
 
     /**
      * action doubletCheck
@@ -515,4 +509,21 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         return $query;
     }
+
+
+    /**
+     * Returns the number of items to be shown per page.
+     *
+     * @return int
+     */
+    protected function itemsPerPage()
+    {
+        /** @var SearchSessionData $workspaceData */
+        $workspaceData = $this->session->getWorkspaceData();
+        $itemsPerPage = $workspaceData->getItemsPerPage();
+
+        $default = ($this->settings['workspaceItemsPerPage'])? $this->settings['workspaceItemsPerPage'] : 10;
+        return ($itemsPerPage)? $itemsPerPage : $default;
+    }
+
 }

@@ -14,7 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Session\SearchSessionData;
 
 /**
  * AjaxBackofficeController
@@ -74,27 +74,15 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      *
      * @param string $name
      * @param array $values
+     * @return bool
      */
     public function addWorkspaceFilterAction($name, $values = [])
     {
-        if ($name && $values && is_array($values)) {
-            $workspaceFilters = $this->getSessionData('workspaceFilters');
-            if ($workspaceFilters && is_array($workspaceFilters)) {
-                $workspaceFilters[$name] = $values;
-                $this->setSessionData('workspaceFilters', $workspaceFilters);
-            } else {
-                $this->setSessionData('workspaceFilters', [$name => $values]);
-            }
-        } else {
-            $workspaceFilters = $this->getSessionData('workspaceFilters');
-            if ($name && is_array($workspaceFilters) && array_key_exists($name, $workspaceFilters)) {
-                unset($workspaceFilters[$name]);
-                $this->setSessionData('workspaceFilters', $workspaceFilters);
-            }
-        }
-
-        return;
-
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $workspaceSessionData->setFilter($name, $values);
+        $this->session->setWorkspaceData($workspaceSessionData);
+        return true;
     }
 
     /**
@@ -102,43 +90,58 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      *
      * @param string $field
      * @param string $order
+     * @return bool
      */
     public function addWorkspaceSortAction($field, $order)
     {
-        $this->session->setWorkspaceSort($field, $order);
-        return;
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $workspaceSessionData->setSortField($field);
+        $workspaceSessionData->setSortOrder($order);
+        $this->session->setWorkspaceData($workspaceSessionData);
+        return true;
     }
 
     /**
      * Toggles the filter to exclude discarded documents.
      *
+     * @return bool
      */
     public function toggleWorkspaceExcludeDiscardedAction()
     {
-        $this->session->toggleWorkspaceExcludeDiscardedFilter();
-        return;
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $workspaceSessionData->toggleExcludeDiscardedFilter();
+        $this->session->setWorkspaceData($workspaceSessionData);
+        return true;
     }
 
     /**
      * Toggles the filter to hide bookmarked documents.
      *
+     * @return bool
      */
     public function toggleWorkspaceBookmarksOnlyAction()
     {
-        $this->session->toggleWorkspaceBookmarksOnlyFilter();
-        return;
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $workspaceSessionData->toggleBookmarksOnlyFilter();
+        $this->session->setWorkspaceData($workspaceSessionData);
+        return true;
     }
 
     /**
      * Sets the items per page for the workspace list.
      *
      * @param int $itemsPerPage
+     * @return bool
      */
     public function setWorkspaceItemsPerPageAction($itemsPerPage)
     {
-        $this->session->setWorkspaceItemsPerPage($itemsPerPage);
-        return;
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $workspaceSessionData->setItemsPerPage($itemsPerPage);
+        $this->session->setWorkspaceData($workspaceSessionData);
+        return true;
     }
-
-
 }

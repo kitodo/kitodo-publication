@@ -11,6 +11,12 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+
+function getWorkspaceListAction() {
+    return jQuery("#batchForm").attr("data-workspace-list-action");
+}
+
+
 var selectFilter = function(selectFilterId, searchInput = false) {
     selectFilterId = '#'+selectFilterId;
 
@@ -42,8 +48,7 @@ var selectFilter = function(selectFilterId, searchInput = false) {
         }
 
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -55,8 +60,7 @@ var toggleDiscardedFilter = function() {
         var ajaxURL = jQuery(this).data('ajax');
         var params = {};
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -67,8 +71,7 @@ var toggleBookmarksOnly = function() {
         var ajaxURL = jQuery(this).data('ajax');
         var params = {};
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -92,8 +95,7 @@ var selectSort = function() {
         }
 
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
     })
 }
@@ -101,14 +103,14 @@ var selectSort = function() {
 
 var batchConfirmDialog = function(actionName) {
 
-    jQuery("#workspaceButton"+actionName).on("click", function(e) {
-        jQuery("#workspaceAction"+actionName).removeAttr("disabled");
+    jQuery("#batchButton"+actionName).on("click", function(e) {
+        jQuery("#batchAction"+actionName).removeAttr("disabled")
         jQuery("#confirmWorkspace"+actionName).modal('show');
         e.preventDefault();
     });
 
     jQuery("#confirmWorkspace"+actionName).on('hidden.bs.modal', function(){
-        jQuery(".workspaceAction").attr("disabled","disabled");
+        jQuery(".batchAction").attr("disabled","disabled")
     });
 }
 
@@ -198,6 +200,7 @@ var batchSelectHandler = {
         this.toggleRegisterButton();
         this.toggleBatchRemoveButton();
         this.toggleBatchReleaseButton();
+        this.toggleBatchBookmarkButton();
     },
     toggleSelectButton() {
         if (jQuery(".batch-checkbox:checked").length > 0) {
@@ -210,16 +213,23 @@ var batchSelectHandler = {
     },
     toggleRegisterButton() {
         if (jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length > 0) {
-            jQuery("#workspaceButtonBatchRegister").removeClass("disabled");
+            jQuery("#batchButtonBatchRegister").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchRegister").addClass("disabled");
+            jQuery("#batchButtonBatchRegister").addClass("disabled");
         }
     },
     toggleBatchRemoveButton() {
         if (jQuery('#workspace-list [data-bookmark="1"] .batch-checkbox:checked').length > 0) {
-            jQuery("#workspaceButtonBatchRemove").removeClass("disabled");
+            jQuery("#batchButtonBatchRemove").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchRemove").addClass("disabled");
+            jQuery("#batchButtonBatchRemove").addClass("disabled");
+        }
+    },
+    toggleBatchBookmarkButton() {
+        if (jQuery(".batch-checkbox:checked").length > 0) {
+            jQuery("#batchButtonBatchBookmark").removeClass("disabled");
+        } else {
+            jQuery("#batchButtonBatchBookmark").addClass("disabled");
         }
     },
     toggleBatchReleaseButton() {
@@ -228,11 +238,11 @@ var batchSelectHandler = {
         var countCheckedReleased = jQuery('#workspace-list [data-alias-state="released"] .batch-checkbox:checked').length;
 
         if (countChecked - (countCheckedNew + countCheckedReleased) > 0) {
-            jQuery("#workspaceButtonBatchReleaseUnvalidated").removeClass("disabled");
-            jQuery("#workspaceButtonBatchReleaseValidated").removeClass("disabled");
+            jQuery("#batchButtonBatchReleaseUnvalidated").removeClass("disabled");
+            jQuery("#batchButtonBatchReleaseValidated").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchReleaseUnvalidated").addClass("disabled");
-            jQuery("#workspaceButtonBatchReleaseValidated").addClass("disabled");
+            jQuery("#batchButtonBatchReleaseUnvalidated").addClass("disabled");
+            jQuery("#batchButtonBatchReleaseValidated").addClass("disabled");
         }
     }
 }
@@ -265,7 +275,6 @@ var itemsPerPageHandler = {
         });
 
         jQuery("#items-per-page-save").on("click", function(e) {
-
             var button = jQuery(this);
             var ajaxURL = jQuery(this).data('ajax');
             var itemsPerPage = jQuery("#items-per-page").val();
@@ -284,8 +293,7 @@ var itemsPerPageHandler = {
             }
 
             jQuery.post(ajaxURL, params, function(data) {
-                var url = jQuery(".workspace-nav-link").attr("href");
-                window.location.href = url;
+                window.location.href = getWorkspaceListAction();
             });
 
         });
@@ -1013,6 +1021,7 @@ $(document).ready(function() {
     batchConfirmDialog("BatchRemove");
     batchConfirmDialog("BatchReleaseValidated");
     batchConfirmDialog("BatchReleaseUnvalidated");
+    batchConfirmDialog("BatchBookmark");
 
     removeBookmarkHandler.init();
     addBookmarkHandler.init();

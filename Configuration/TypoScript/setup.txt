@@ -92,7 +92,12 @@ plugin.tx_dpf {
 			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
 
 			timezone = Europe/Berlin
-        }
+
+			# Settings for the fluid pagination view helper
+			pagination {
+				maximumNumberOfLinks = 5
+			}
+		}
 }
 
 

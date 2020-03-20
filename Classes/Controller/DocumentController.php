@@ -17,7 +17,6 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;

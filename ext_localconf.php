@@ -88,7 +88,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
-        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+        'Search'           => 'list, search, doubletCheck, '
+            .'nextResults, extendedSearch, latest, batch, batchBookmark',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
@@ -103,7 +104,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSortAction, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
-        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+        'Search'           => 'list, search, doubletCheck, '
+            .'nextResults, extendedSearch, latest, batch, batchBookmark',
         'Gnd'              => 'search',
     )
 );

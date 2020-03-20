@@ -16,7 +16,6 @@ namespace EWW\Dpf\Services\ElasticSearch;
 
 use Elasticsearch\ClientBuilder;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\ElasticsearchMapper;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
@@ -179,7 +178,13 @@ class ElasticSearch
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
             $data->objectIdentifier = $document->getObjectIdentifier();
 
-            $data->creator = $document->getCreator();
+            if ($document->getCreator()) {
+                $data->creator = $document->getCreator();
+            } else {
+                $data->creator = null;
+            }
+
+
 
             if ($document->getCreator()) {
                 /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */

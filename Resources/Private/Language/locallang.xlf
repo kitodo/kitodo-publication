@@ -425,6 +425,12 @@
 		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" xml:space="preserve">
 			<source>The selected documents will be released but not validated.</source>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.messageHeader">
+			<source>Do you really want to bookmark the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.message">
+			<source>The selected documents will be bookmarked.</source>
+		</trans-unit>
 		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
 			<source>Do you really want to remove the document from the list?</source>
 		</trans-unit>
@@ -695,6 +701,12 @@
 		<trans-unit id="manager.workspace.bookmarkRemoved.plural">
 			<source>%s Records have been removed from workspace.</source>
 		</trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.singular">
+            <source>%s record out of %s successfully bookmarked.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.plural">
+            <source>%s records out of %s successfully bookmarked.</source>
+        </trans-unit>
 		<trans-unit id="manager.workspace.bookmarkAdded">
 			<source>Record has been added to the workspace.</source>
 		</trans-unit>
