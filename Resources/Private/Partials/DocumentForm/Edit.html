@@ -17,5 +17,5 @@
     <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
     <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
     <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
-    <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, suggestMod:suggestMod}"/>
+    <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, suggestMod:suggestMod, automaticEmbargo:automaticEmbargo}"/>
 </f:form>

@@ -89,6 +89,12 @@ class DocumentForm extends AbstractFormElement
 
     /**
      *
+     * @var bool
+     */
+    protected $automaticEmbargo = false;
+
+    /**
+     *
      * @return integer
      */
     public function getDocumentUid()
@@ -261,6 +267,22 @@ class DocumentForm extends AbstractFormElement
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAutomaticEmbargo(): bool
+    {
+        return $this->automaticEmbargo;
+    }
+
+    /**
+     * @param bool $automaticEmbargo
+     */
+    public function setAutomaticEmbargo(bool $automaticEmbargo)
+    {
+        $this->automaticEmbargo = $automaticEmbargo;
     }
 
 

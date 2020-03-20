@@ -333,6 +333,10 @@ class FormDataReader
             $documentForm->setComment($this->formData['comment']);
         }
 
+        if ($this->formData['automatic_embargo']) {
+            $documentForm->setAutomaticEmbargo(true);
+        }
+
         $documentData = array();
 
         foreach ($fields as $field) {
@@ -389,6 +393,8 @@ class FormDataReader
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
+
+                            $documentFormField->setEmbargo($metadataObject->getEmbargo());
 
                             $documentFormGroup->addItem($documentFormField);
                         }

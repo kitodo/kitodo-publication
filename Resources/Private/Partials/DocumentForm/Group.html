@@ -35,7 +35,7 @@
                         <f:if condition="{eww:IsElementAllowed(condition:'{fieldItem.accessRestrictionRoles}')}">
                             <f:then>
                                 <f:render partial="DocumentForm/Field"
-                                          arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries}"/>
+                                          arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries, automaticEmbargo: automaticEmbargo}"/>
                                 <f:if condition="{fieldItem.maxIteration} == 0">
                                     <f:if condition="{fieldItemIterator.isLast}">
                                         <button type="submit"

@@ -1221,6 +1221,26 @@ URN: ###URN###
 Date: ###DATE###
 				</target>
 		</trans-unit>
+		<trans-unit id="notification.document.embargo.admin.subject" approved="yes">
+			<source>Embargo expired</source>
+			<target>Embargo ist abgelaufen</target>
+		</trans-unit>
+		<trans-unit id="notification.document.embargo.admin.body" approved="yes" xml:space="preserve">
+		<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+			</source>
+			<target>Das Embargo ist abgelaufen:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+			</target>
+		</trans-unit>
 		<trans-unit id="notification.registerDocument.admin.subject" approved="yes">
 			<source>Document registered</source>
 			<target>Ein Dokument wurde angemeldet</target>
@@ -1396,6 +1416,14 @@ Date: ###DATE###
 		<trans-unit id="search.resultList.title" approved="yes">
 			<source>Title</source>
 			<target>Titel</target>
+		</trans-unit>
+		<trans-unit id="task.embargo.title" approved="yes">
+			<source>Embargo</source>
+			<target>Embargo</target>
+		</trans-unit>
+		<trans-unit id="task.embargo.description" approved="yes">
+			<source>Embargo task for sending information to admins or publish files automatically if the embargo date is expired.</source>
+			<target>Die Embargo Aufgabe versendet Benachrichtigungen an Admins und veröffentlicht Dateien automatisch, wenn das Embargo abgelaufen ist.</target>
 		</trans-unit>
 		<trans-unit id="tt_content.dpf_downloadtool" approved="yes">
 			<source>DPF: DownloadTool</source>

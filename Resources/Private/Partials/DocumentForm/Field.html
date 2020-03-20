@@ -15,6 +15,26 @@
 {namespace s=SJBR\StaticInfoTables\ViewHelpers}
 {namespace eww=EWW\Dpf\ViewHelpers}
 
+<f:if condition="{fieldItem.inputField}==0">
+    <f:if condition="{fieldItem.dataType}=='DATE'">
+        <f:then>
+            <f:if condition="{fieldItem.embargo}">
+                <div class="form-group">
+                    <label>Automatisches Freigeben von Dateien ab dem unten angegebenen Datum</label>
+                    <f:if condition="{automaticEmbargo}">
+                        <f:then>
+                            <f:form.checkbox name="documentData[automatic_embargo]" value="1" checked="checked"/>
+                        </f:then>
+                        <f:else>
+                            <f:form.checkbox name="documentData[automatic_embargo]" value="1" />
+                        </f:else>
+                    </f:if>
+                </div>
+            </f:if>
+        </f:then>
+    </f:if>
+</f:if>
+
 <div class="form-group">
     <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
         <f:if condition="{fieldItem.mandatory}">

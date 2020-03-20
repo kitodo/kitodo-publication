@@ -191,6 +191,8 @@ class DocumentMapper
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
 
+                            $documentFormField->setEmbargo($metadataObject->getEmbargo());
+
                             $objectMapping = "";
 
                             preg_match_all('/([A-Za-z0-9]+:[A-Za-z0-9]+(\[.*\])*|[A-Za-z0-9:@\.]+)/', $metadataObject->getRelativeMapping(), $objectMappingPath);
@@ -256,32 +258,32 @@ class DocumentMapper
                         $documentFormPage->addItem($documentFormGroupItem);
                     }
                 } else {
-                    if ($generateEmptyFields) {
-                        foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
-                            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
-                            $documentFormField->setUid($metadataObject->getUid());
-                            $documentFormField->setDisplayName($metadataObject->getDisplayName());
-                            $documentFormField->setName($metadataObject->getName());
-                            $documentFormField->setMandatory($metadataObject->getMandatory());
+                    foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
+                        $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                        $documentFormField->setUid($metadataObject->getUid());
+                        $documentFormField->setDisplayName($metadataObject->getDisplayName());
+                        $documentFormField->setName($metadataObject->getName());
+                        $documentFormField->setMandatory($metadataObject->getMandatory());
 
-                            $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
+                        $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
 
-                            $documentFormField->setConsent($metadataObject->getConsent());
-                            $documentFormField->setValidation($metadataObject->getValidation());
-                            $documentFormField->setDataType($metadataObject->getDataType());
-                            $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
-                            $documentFormField->setInputField($metadataObject->getInputField());
-                            $documentFormField->setInputOptions($metadataObject->getInputOptionList());
-                            $documentFormField->setFillOutService($metadataObject->getFillOutService());
-                            $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
-                            $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
-                            $documentFormField->setValue("", $metadataObject->getDefaultValue());
+                        $documentFormField->setConsent($metadataObject->getConsent());
+                        $documentFormField->setValidation($metadataObject->getValidation());
+                        $documentFormField->setDataType($metadataObject->getDataType());
+                        $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
+                        $documentFormField->setInputField($metadataObject->getInputField());
+                        $documentFormField->setInputOptions($metadataObject->getInputOptionList());
+                        $documentFormField->setFillOutService($metadataObject->getFillOutService());
+                        $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
+                        $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
+                        $documentFormField->setValue("", $metadataObject->getDefaultValue());
 
-                            $documentFormGroup->addItem($documentFormField);
-                        }
+                        $documentFormField->setEmbargo($metadataObject->getEmbargo());
 
-                        $documentFormPage->addItem($documentFormGroup);
+                        $documentFormGroup->addItem($documentFormField);
                     }
+
+                    $documentFormPage->addItem($documentFormGroup);
                 }
             }
 
@@ -321,6 +323,8 @@ class DocumentMapper
         $document->setReservedObjectIdentifier($documentForm->getQucosaId());
 
         $document->setValid($documentForm->getValid());
+
+        $document->setAutomaticEmbargo($documentForm->getAutomaticEmbargo());
         
         if ($documentForm->getComment()) {
             $document->setComment($documentForm->getComment());
@@ -344,6 +348,7 @@ class DocumentMapper
         $document->setTitle($mods->getTitle());
         $document->setAuthors($mods->getAuthors());
         $document->setDateIssued($mods->getDateIssued());
+        $document->setEmbargoDate($formMetaData['embargo']);
 
         // slub:info
         $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
@@ -397,6 +402,12 @@ class DocumentMapper
                                 $date = date_create_from_format('d.m.Y', trim($value));
                                 if ($date) {
                                     $value = date_format($date, 'Y-m-d');
+                                }
+                            }
+
+                            if ($metadataObject->getEmbargo()) {
+                                if ($fieldItem->getEmbargo()) {
+                                    $form['embargo'] = new \DateTime($value);
                                 }
                             }
 
