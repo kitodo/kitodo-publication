@@ -97,6 +97,8 @@ class DocumentTransferManager
 
         $fileData = $document->getFileData();
 
+        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
+
         $exporter->setFileData($fileData);
 
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
@@ -133,6 +135,32 @@ class DocumentTransferManager
     }
 
     /**
+     * If embargo date is set, file path must not be published
+     *
+     * @param $document
+     * @param $fileData
+     * @return mixed
+     * @throws \Exception
+     */
+    public function overrideFilePathIfEmbargo($document, $fileData) {
+        $currentDate = new \DateTime('now');
+
+        if ($currentDate < $document->getEmbargoDate()) {
+            foreach ($fileData as $fileSection => $files) {
+                foreach ($files as $fileId => $fileProperties) {
+                    foreach ($fileProperties as $key => $value) {
+                        if ($key == 'path') {
+                            $fileData[$fileSection][$fileId][$key] = '#';
+                        }
+                    }
+                }
+            }
+        }
+
+        return $fileData;
+    }
+
+    /**
      * Updates an existing document in the remote repository
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -143,6 +171,8 @@ class DocumentTransferManager
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
         $fileData = $document->getFileData();
+
+        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
 
         $exporter->setFileData($fileData);
 

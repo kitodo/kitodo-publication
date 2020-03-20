@@ -182,7 +182,10 @@ class DocumentManager
                     throw \Exception("Logical exception while updating bookmarks.");
                 }
 
-                $this->removeDocument($document);
+                // remove document only if embargo is not set
+                if(!$document->getEmbargoDate()){
+                    $this->removeDocument($document);
+                }
                 $updateResult = $document->getDocumentIdentifier();
             } else {
                 $updateResult = false;

@@ -28,6 +28,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\T
     'description' => '',
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\EmbargoTask'] = array(
+    'extension' => $_EXTKEY,
+    'title' => 'LLL:EXT:Dpf/Resources/Private/Language/localconf.xlf:task.embargo.title',
+    'description' => 'LLL:EXT:Dpf/Resources/Private/Language/localconf.xlf:task.embargo.description',
+);
+
+
 if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers']) == false) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'] = array();
 }
@@ -175,4 +182,3 @@ $signalSlotDispatcher->connect(
     'delete',
     false
 );
-
