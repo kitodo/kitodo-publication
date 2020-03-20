@@ -100,6 +100,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
+        'User'             => 'settings',
     ),
     // non-cacheable actions
     array(
@@ -116,6 +117,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
+        'User'             => 'settings',
     )
 );
 
