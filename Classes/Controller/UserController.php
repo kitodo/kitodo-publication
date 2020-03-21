@@ -20,6 +20,13 @@ namespace EWW\Dpf\Controller;
  */
 class UserController  extends AbstractController
 {
+    /**
+     * benutzerRepository
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository;
 
     public function settingsAction() {
 

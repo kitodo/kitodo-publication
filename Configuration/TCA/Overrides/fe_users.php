@@ -16,38 +16,65 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$temporaryColumns = [
-
-/*    'stored_searches' => [
-        'exclude' => true,
-        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
-        'config' => [
-            'type' => 'inline',
-            'foreign_table' => 'tx_dpf_domain_model_storedsearch',
-            'foreign_field' => 'fe_user'
-        ],
-
-    ],
-*/
+$temporaryColumns = array (
     'stored_searches' => [
         'exclude' => true,
         'label' => 'stored_searches',
         'config' => [
-            'type' => 'inline',
-            'foreign_table' => 'tx_dpf_domain_model_storedsearch',
-            'foreign_field' => 'fe_user',
-            'maxitems' => 9999,
-            'appearance' => [
-                'collapseAll' => 0,
-                'levelLinksPosition' => 'top',
-                'showSynchronizationLink' => 1,
-                'showPossibleLocalizationRecords' => 1,
-                'showAllLocalizationLink' => 1
-            ],
+        'type' => 'inline',
+        'foreign_table' => 'tx_dpf_domain_model_storedsearch',
+        'foreign_field' => 'fe_user',
+        'maxitems' => 9999,
+        'appearance' => [
+            'collapseAll' => 0,
+            'levelLinksPosition' => 'top',
+            'showSynchronizationLink' => 1,
+            'showPossibleLocalizationRecords' => 1,
+            'showAllLocalizationLink' => 1
         ],
-
     ],
-];
+
+    'notify_personal_link' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify personal', ''],
+            ),
+        )
+    ),
+    'notify_status_change' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify status change', ''],
+            ),
+        )
+    ),
+    'notify_fulltext_published' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify fulltext published', ''],
+            ),
+        )
+    ),
+    'notify_new_publication_mypublication' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify new publication in mypublication', ''],
+            ),
+        )
+    ),
+);
 
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
@@ -57,7 +84,7 @@ $temporaryColumns = [
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    'stored_searches',
+    'stored_searches,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication',
     '',
-    ''
+    'after:title'
 );
