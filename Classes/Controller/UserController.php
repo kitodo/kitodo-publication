@@ -14,6 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\FrontendUser;
 
 /**
  * Controller for the "workspace"/"my publications" area.
@@ -23,13 +24,25 @@ class UserController  extends AbstractController
     /**
      * benutzerRepository
      *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+     * @var EWW\Dpf\Domain\Repository\FrontendUserRepository
      * @inject
      */
     protected $frontendUserRepository;
 
     public function settingsAction() {
 
+        $currentUser = $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+
+        $this->view->assign('frontendUser', $currentUser);
+    }
+
+    public function saveSettingsAction(FrontendUser $frontendUser) {
+
+        $this->frontendUserRepository->update($frontendUser);
+        $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+        $this->addFlashMessage("Success", '', $severity,false);
+
+        $this->forward('settings');
     }
 
 }

@@ -14,7 +14,41 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 <f:layout name="Backoffice"/>
-
+<f:flashMessages />
 <f:section name="main">
-    
+    <h1>Benutzereinstellungen</h1>
+    <f:form action="saveSettings" object="{frontendUser}" objectName="frontendUser">
+        <div>
+            <label>Mailadresse</label>
+            <f:form.textfield property="email"/>
+        </div>
+        <h2>Benachrichtigungseinstellungen</h2>
+        <h3>Änderungen innerhalb von "meine Publikationen"</h3>
+        <div>
+            <label>Persönlich zugeordnet (Autor/Herausgeber)</label>
+            <f:form.checkbox property="notifyPersonalLink" value="1"/>
+        </div>
+        <div>
+            <label>Bei Statusänderungen</label>
+            <f:form.checkbox property="notifyStatusChange" value="1"/>
+        </div>
+        <div>
+            <label>Wenn Volltext/Medium auf Qucosa veröffentlicht wird</label>
+            <f:form.checkbox property="notifyFulltextPublished" value="1"/>
+        </div>
+        <h3>Neue Publikationen</h3>
+        <div>
+            <label>Wenn eine Publikation zu "meine Publikationen" hinzukommt</label>
+            <f:form.checkbox property="notifyNewPublicationMypublication" value="1"/>
+        </div>
+        <div>
+            <f:form.submit value="Speichern"/>
+        </div>
+    </f:form>
 </f:section>
+
+Eine Publikation in „Meine Publikationen“ geändert wird.
+Nur Publikationen, denen ich persönlich zugeordnet bin (als Autor_in/Hrsg.)
+Nur wenn eine Publikation dabei ihren Status ändert (z. B. von gemeldet zu freigegeben).
+Nur wenn mein Volltext/Medium auf Qucosa veröffentlicht wird.
+Eine neue Publikation zu „Meine Publikationen“ hinzukommt.
