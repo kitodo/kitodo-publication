@@ -847,4 +847,134 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->adminRegisterDocumentNotificationBody = $adminRegisterDocumentNotificationBody;
     }
 
+    /**
+     * @return string
+     */
+    public function getAdminNewSuggestionSubject(): string
+    {
+        return $this->adminNewSuggestionSubject;
+    }
+
+    /**
+     * @param string $adminNewSuggestionSubject
+     */
+    public function setAdminNewSuggestionSubject(string $adminNewSuggestionSubject)
+    {
+        $this->adminNewSuggestionSubject = $adminNewSuggestionSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminNewSuggestionBody(): string
+    {
+        return $this->adminNewSuggestionBody;
+    }
+
+    /**
+     * @param string $adminNewSuggestionBody
+     */
+    public function setAdminNewSuggestionBody(string $adminNewSuggestionBody)
+    {
+        $this->adminNewSuggestionBody = $adminNewSuggestionBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminFilesAddedSubject(): string
+    {
+        return $this->adminFilesAddedSubject;
+    }
+
+    /**
+     * @param string $adminFilesAddedSubject
+     */
+    public function setAdminFilesAddedSubject(string $adminFilesAddedSubject)
+    {
+        $this->adminFilesAddedSubject = $adminFilesAddedSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminFilesAddedBody(): string
+    {
+        return $this->adminFilesAddedBody;
+    }
+
+    /**
+     * @param string $adminFilesAddedBody
+     */
+    public function setAdminFilesAddedBody(string $adminFilesAddedBody)
+    {
+        $this->adminFilesAddedBody = $adminFilesAddedBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoAutomaticSubject(): string
+    {
+        return $this->adminEmbargoAutomaticSubject;
+    }
+
+    /**
+     * @param string $adminEmbargoAutomaticSubject
+     */
+    public function setAdminEmbargoAutomaticSubject(string $adminEmbargoAutomaticSubject)
+    {
+        $this->adminEmbargoAutomaticSubject = $adminEmbargoAutomaticSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoAutomaticBody(): string
+    {
+        return $this->adminEmbargoAutomaticBody;
+    }
+
+    /**
+     * @param string $adminEmbargoAutomaticBody
+     */
+    public function setAdminEmbargoAutomaticBody(string $adminEmbargoAutomaticBody)
+    {
+        $this->adminEmbargoAutomaticBody = $adminEmbargoAutomaticBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoSubject(): string
+    {
+        return $this->adminEmbargoSubject;
+    }
+
+    /**
+     * @param string $adminEmbargoSubject
+     */
+    public function setAdminEmbargoSubject(string $adminEmbargoSubject)
+    {
+        $this->adminEmbargoSubject = $adminEmbargoSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoBody(): string
+    {
+        return $this->adminEmbargoBody;
+    }
+
+    /**
+     * @param string $adminEmbargoBody
+     */
+    public function setAdminEmbargoBody(string $adminEmbargoBody)
+    {
+        $this->adminEmbargoBody = $adminEmbargoBody;
+    }
+
+
+
 }
