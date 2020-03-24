@@ -39,7 +39,9 @@ return array(
             admin_new_document_notification_subject, admin_new_document_notification_body, 
             submitter_new_document_notification_subject, submitter_new_document_notification_body, 
             submitter_ingest_notification_subject, submitter_ingest_notification_body,
-            admin_register_document_notification_subject, admin_register_document_notification_body',
+            admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
+            admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,
+            admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -51,7 +53,9 @@ return array(
         admin_new_document_notification_subject, admin_new_document_notification_body,
         submitter_new_document_notification_subject, submitter_new_document_notification_body,
         submitter_ingest_notification_subject, submitter_ingest_notification_body,
-        admin_register_document_notification_subject, admin_register_document_notification_body'
+        admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
+        admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,
+        admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -60,7 +64,7 @@ return array(
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
         --div--;Upload, upload_directory, upload_domain,
-        --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,
+        --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -440,5 +444,88 @@ return array(
                 'enableRichtext' => true,
             ),
         ),
+        'admin_new_suggestion_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_new_suggestion_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_new_suggestion_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_new_suggestion_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+        'admin_files_added_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_files_added_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_files_added_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_files_added_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+        'admin_embargo_automatic_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_embargo_automatic_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_embargo_automatic_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_embargo_automatic_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+        'admin_embargo_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_embargo_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_embargo_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_embargo_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+
+
+
     ),
 );

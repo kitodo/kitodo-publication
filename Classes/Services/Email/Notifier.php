@@ -39,6 +39,23 @@ class Notifier
     protected $documentTypeRepository = null;
 
 
+    public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+    }
+
+    public function sendAdminFilesAddedNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+    }
+
+    public function sendAdminEmbargoAutomaticNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+    }
+
+    public function sendAdminEmbargoExpiredNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+    }
+
+
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
 

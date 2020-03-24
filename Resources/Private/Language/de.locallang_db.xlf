@@ -97,6 +97,46 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body" approved="yes">
+			<source>New suggestion body
+			</source>
+			<target>Neuer Änderungsvorschlag Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_subject" approved="yes">
+			<source>New suggestion</source>
+			<target>Neuer Änderungsvorschlag</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_files_added_body" approved="yes">
+			<source>Files added body
+			</source>
+			<target>Dateien hinzugefügt Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_files_added_subject" approved="yes">
+			<source>New files added</source>
+			<target>Neue Dateien hochgeladen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_automatic_body" approved="yes">
+			<source>Automatic embargo body
+			</source>
+			<target>Automatisches Embargo Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_automatic_subject" approved="yes">
+			<source>Embargo automatic published</source>
+			<target>Embargo automatisch publiziert</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_body" approved="yes">
+			<source>Embargo expired body
+			</source>
+			<target>Embargo abgelaufen Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject" approved="yes">
+			<source>Embargo expired</source>
+			<target>Embargo abgelaufen</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.sword_collection_namespace" approved="yes">
 			<source>Collection namespace</source>
 			<target>Kollektionsnamensraum</target>

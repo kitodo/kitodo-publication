@@ -220,6 +220,46 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminRegisterDocumentNotificationBody = '';
 
     /**
+     * @var string
+     */
+    protected $adminNewSuggestionSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminNewSuggestionBody = '';
+
+    /**
+     * @var string
+     */
+    protected $adminFilesAddedSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminFilesAddedBody = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoAutomaticSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoAutomaticBody = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoBody = '';
+
+    /**
      * Returns the project
      *
      * @return string $project

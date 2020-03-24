@@ -74,6 +74,30 @@
 		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_subject">
 			<source>New document subject</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body">
+			<source>New suggestion body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_subject">
+			<source>New suggestion</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_files_added_body">
+			<source>Files added body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_files_added_subject">
+			<source>New files added</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_automatic_body">
+			<source>Automatic embargo body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_automatic_subject">
+			<source>Embargo automatic published</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_body">
+			<source>Embargo expired body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject">
+			<source>Embargo expired</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.sword_collection_namespace">
 			<source>Collection namespace</source>
 		</trans-unit>
