@@ -223,7 +223,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setCreator($this->security->getUser()->getUid());
             $this->documentRepository->add($newDocument);
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::SUCCESS;
-            $this->addFlashMessage("Success", '', $severity,false);
+            $this->addFlashMessage(
+                LocalizationUtility::translate(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:message.suggestion_flashmessage',
+                    'dpf',
+                    ''
+                ), '', $severity,false);
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             $this->addFlashMessage("Failed", '', $severity,false);

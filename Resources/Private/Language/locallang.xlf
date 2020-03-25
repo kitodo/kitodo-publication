@@ -956,6 +956,9 @@ Date: ###DATE###
 		<trans-unit id="notification.embargoExpired.admin.subject">
 			<source>Embargo expired (automatic)</source>
 		</trans-unit>
+		<trans-unit id="message.suggestion_flashmessage">
+			<source>Suggestion successfully saved</source>
+		</trans-unit>
 		<trans-unit id="search.control.extendedSearch">
 			<source>Extended search</source>
 		</trans-unit>

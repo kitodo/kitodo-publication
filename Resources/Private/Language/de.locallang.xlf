@@ -1325,6 +1325,10 @@ Date: ###DATE###
 			<source>Embargo expired (automatic)</source>
 			<target>Embargo abgelaufen (automatisch)</target>
 		</trans-unit>
+		<trans-unit id="message.suggestion_flashmessage" approved="yes">
+			<source>Suggestion successfully saved</source>
+			<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
+		</trans-unit>
 		<trans-unit id="search.control.extendedSearch" approved="yes">
 			<source>Extended search</source>
 			<target>Erweiterte Suche</target>

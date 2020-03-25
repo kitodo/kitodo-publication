@@ -137,6 +137,20 @@
 			<source>Embargo expired</source>
 			<target>Embargo abgelaufen</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_body" approved="yes">
+			<source>OA Publicationfond body
+			</source>
+			<target>OA Publikationsfond Body
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject" approved="yes">
+			<source>OA Publicationfond subject</source>
+			<target>OA Publicationfond Subject</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.suggestion_flashmessage">
+			<source>Suggestion flashmessage</source>
+			<target>Änderungs-/Wiederherstellungsvorschlag Flashmessage</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.sword_collection_namespace" approved="yes">
 			<source>Collection namespace</source>
 			<target>Kollektionsnamensraum</target>

@@ -41,7 +41,8 @@ return array(
             submitter_ingest_notification_subject, submitter_ingest_notification_body,
             admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
             admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,
-            admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body',
+            admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+            suggestion_flashmessage',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -55,7 +56,8 @@ return array(
         submitter_ingest_notification_subject, submitter_ingest_notification_body,
         admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
         admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,
-        admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body'
+        admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+        suggestion_flashmessage'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -64,8 +66,9 @@ return array(
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
         --div--;Upload, upload_directory, upload_domain,
-        --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body,
+        --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_files_added_subject,admin_files_added_body,admin_embargo_automatic_subject,admin_embargo_automatic_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
+        --div--;Messages, suggestion_flashmessage,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -524,8 +527,35 @@ return array(
                 'enableRichtext' => true,
             ),
         ),
-
-
+        'admin_oa_fond_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_oa_fond_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'admin_oa_fond_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_oa_fond_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+        'suggestion_flashmessage' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.suggestion_flashmessage',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
 
     ),
 );
