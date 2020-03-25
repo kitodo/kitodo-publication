@@ -57,11 +57,11 @@ class Notifier
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newSuggestion.admin.subject', 'dpf');
                 }
 
                 if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newSuggestion.admin.body', 'dpf');
                     $mailType = 'text/plain';
                 }
 
@@ -74,7 +74,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                LogLevel::ERROR, "sendAdminNewSuggestionNotification failed",
                 array(
                     'document' => $document
                 )
@@ -100,11 +100,11 @@ class Notifier
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.filesAdded.admin.subject', 'dpf');
                 }
 
                 if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.filesAdded.admin.body', 'dpf');
                     $mailType = 'text/plain';
                 }
 
@@ -117,7 +117,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                LogLevel::ERROR, "sendAdminFilesAddedNotification failed",
                 array(
                     'document' => $document
                 )
@@ -143,11 +143,11 @@ class Notifier
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoAutomatic.admin.subject', 'dpf');
                 }
 
                 if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoAutomatic.admin.body', 'dpf');
                     $mailType = 'text/plain';
                 }
 
@@ -160,7 +160,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                LogLevel::ERROR, "sendAdminEmbargoAutomaticNotification failed",
                 array(
                     'document' => $document
                 )
@@ -186,11 +186,11 @@ class Notifier
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoExpired.admin.subject', 'dpf');
                 }
 
                 if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoExpired.admin.body', 'dpf');
                     $mailType = 'text/plain';
                 }
 
@@ -203,7 +203,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                LogLevel::ERROR, "sendAdminEmbargoExpiredNotification failed",
                 array(
                     'document' => $document
                 )
