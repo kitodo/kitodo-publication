@@ -679,17 +679,21 @@ class WorkspaceController  extends AbstractController
                             'script' => [
                                 'lang' => 'painless',
                                 'source' =>
-                                    //"if (doc['creator'].size() == 0) { return 'unknown'; }".
                                     "if (".
-                                    "    doc['creatorRole'].value == '".Security::ROLE_LIBRARIAN."' &&".
-                                    "    doc['creator'].value != '".$this->security->getUser()->getUid()."'".
+                                    "    doc['creator'].size() > 0 &&".
+                                    "    doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
+                                    "    return 'self';".
+                                    "}".
+                                    "if (".
+                                    "    doc['creatorRole'].size() > 0 &&".
+                                    "    doc['creatorRole'].value == '".Security::ROLE_LIBRARIAN."'".
                                     ") {".
                                     "    return 'librarian';".
                                     "}".
-                                    "if (doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
-                                    "    return 'self';".
-                                    "}".
-                                    "if (doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {".
+                                    "if (".
+                                    "    doc['creatorRole'].size() > 0 &&".
+                                    "    doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."'".
+                                    ") {".
                                     "    return 'user';".
                                     "}".
                                     "return 'unknown';"
