@@ -120,11 +120,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
         }
 
-        $results = $this->elasticSearch->search($query, 'object');
         try {
             $results = $this->elasticSearch->search($query, 'object');
         } catch (\Exception $e) {
-            $this->session->clearWorkspaceSort();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
+
             $this->addFlashMessage(
                 "Error while building the list!", '', AbstractMessage::ERROR
             );
@@ -170,19 +172,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
         $this->session->setWorkspaceData($workspaceSessionData);
 
         $simpleSearch = $workspaceSessionData->getSimpleQuery();
-
-        /*
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-            $this->view->assign('isWorkspace', true);
-        } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER){
-            $this->view->assign('isWorkspace', false);
-        } else {
-            $message = LocalizationUtility::translate(
-                'manager.workspace.accessDenied', 'dpf'
-            );
-            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
-        }
-        */
 
         $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()

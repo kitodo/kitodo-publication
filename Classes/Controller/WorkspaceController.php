@@ -134,7 +134,9 @@ class WorkspaceController extends AbstractController
         try {
             $results = $this->elasticSearch->search($query, 'object');
         } catch (\Exception $e) {
-            $this->session->clearWorkspaceSort();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
             $this->addFlashMessage(
                 "Error while buildig the list!", '', AbstractMessage::ERROR
             );
