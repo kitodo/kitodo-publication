@@ -567,7 +567,7 @@
 			<source>Show document preview</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.uploadFiles">
-			<source>Upload Full texts / media</source>
+			<source>Upload fulltext</source>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.datacite">
 			<source>Download DataCite XML</source>
@@ -624,7 +624,7 @@
             <source>Originated from scientific work at the UL</source>
         </trans-unit>
         <trans-unit id="manager.workspace.fulltextMedia">
-            <source>Fulltext/Media</source>
+            <source>Fulltext</source>
         </trans-unit>
         <trans-unit id="manager.workspace.noTitle">
             <source>No title</source>

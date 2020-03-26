@@ -539,7 +539,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchRegister.message" approved="yes" xml:space="preserve">
 			<source>The selected documents will be registered for publication.</source>
-			<target>Die ausgwählten Dokumente werden zur Veröffentlichung angemeldet. </target>
+			<target>Die ausgewählten Dokumente werden zur Veröffentlichung angemeldet. </target>
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
 			<source>Do you really want to remove the selected documents?</source>
@@ -762,8 +762,8 @@
 			<target>DataCite XML herunterladen</target>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.uploadFiles" approved="yes">
-			<source>Upload Full texts / media</source>
-			<target>Volltexte / Medien hochladen</target>
+			<source>Upload fulltext</source>
+			<target>Volltext hochladen</target>
 		</trans-unit>
 		<trans-unit id="manager.chooseClientMessage" approved="yes">
 			<source>Please select a client in the page tree.</source>
@@ -834,8 +834,8 @@
             <target>Hervorgegangen aus wissenschaftlicher Tätigkeit an der UL</target>
         </trans-unit>
         <trans-unit id="manager.workspace.fulltextMedia" approved="yes">
-            <source>Fulltext/Media</source>
-            <target>Volltext/Med.</target>
+            <source>Fulltext</source>
+            <target>Volltext</target>
         </trans-unit>
         <trans-unit id="manager.workspace.noTitle" approved="yes">
             <source>No title</source>
@@ -863,7 +863,7 @@
         </trans-unit>
         <trans-unit id="manager.workspace.hideDiscarded" approved="yes">
             <source>Hide own discarded</source>
-            <target>Eigene verworfene ausblenden</target>
+            <target>Eigene Verworfene ausblenden</target>
         </trans-unit>
         <trans-unit id="manager.workspace.showDiscarded" approved="yes">
             <source>Show own discarded</source>

@@ -20,14 +20,7 @@
                {f:if(condition:'{isHideDiscarded}', then:'checked="checked"', else:'')}
                data-ajax="{f:uri.action(action:'toggleWorkspaceExcludeDiscarded',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
         <label class="custom-control-label" for="hideDiscarded">
-            <f:if condition="{isHideDiscarded}">
-                <f:then>
-                    {f:translate(key: 'manager.workspace.showDiscarded')}
-                </f:then>
-                <f:else>
-                    {f:translate(key: 'manager.workspace.hideDiscarded')}
-                </f:else>
-            </f:if>
+            {f:translate(key: 'manager.workspace.hideDiscarded')}
         </label>
     </div>
 </f:if>
