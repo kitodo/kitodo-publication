@@ -114,6 +114,21 @@ body {
 }
 
 
+#tx-dpf-backoffice #extended-search-query-group {
+    width: 100%;
+}
+
+#tx-dpf-backoffice #extended-search-query-group textarea {
+    min-height: 70px;
+    border-radius: .25rem;
+}
+
+#tx-dpf-backoffice .scrollable-menu {
+    height: auto;
+    max-height: 345px;
+    overflow-x: hidden;
+}
+
 /* -- upload error message --------------------------------------------------------------- */
 
 #tx-dpf-backoffice.document-manager ul.error-files-backbutton {
@@ -132,5 +147,12 @@ body {
     color: gray;
 }
 
+
+
+@media only screen and (max-width: 1200px) {
+    #tx-dpf-backoffice #extended-search-query-group textarea {
+        min-height: 100px;
+    }
+}
 
 /* EOF */

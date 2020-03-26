@@ -1,0 +1,105 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<div class="modal" id="add-searchfield-dialog" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suchfeld hinzufügen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <select class="custom-select" id="search-field-operator-binary">
+                                <option value="AND">und</option>
+                                <option value="OR">oder</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <select class="custom-select" id="search-field-operator-unary">
+                                <option value="">ist</option>
+                                <option value="NOT">ist nicht</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2 d-none search-field search-field-language">
+                        <f:render partial="Search/LanguageSelect" />
+                    </div>
+
+                    <div class="form-group mb-2 d-none search-field search-field-state">
+                        <label for="search-field-state-value" class="col-form-label modal-field-name">Status</label>
+                        <select class="custom-select search-field-value" id="search-field-state-value">
+                            <option value=""></option>
+                            <f:for each="{states}" as="stateName" key="state">
+                                <option value="{state}">{stateName}</option>
+                            </f:for>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2 d-none search-field search-field-bool">
+                        <label for="search-field-bool-value" class="col-form-label modal-field-name">Field</label>
+                        <select class="custom-select search-field-value" id="search-field-bool-value">
+                            <option value=""></option>
+                            <option value="true">Ja</option>
+                            <option value="false">Nein</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2 d-none search-field search-field-doctype">
+                        <label for="search-field-doctype-value" class="col-form-label modal-field-name">Dokumenttyp</label>
+                        <select class="custom-select search-field-value" id="search-field-doctype-value">
+                            <option value=""></option>
+                            <f:for each="{documentTypes}" key="doctypeValue" as="doctypeName">
+                                <option value="{doctypeValue}">{doctypeName}</option>
+                            </f:for>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group mb-2 d-none search-field search-field-date-range">
+                        <p class="col-form-label modal-field-name">Feld</p>
+
+                        <label for="search-field-date-range-from" class="col-form-label">Von</label>
+                        <input type="text" class="form-control datetimepicker search-field-value search-field-from" id="search-field-date-range-from">
+
+                        <label for="search-field-date-range-to" class="col-form-label">Bis</label>
+                        <input type="text" class="form-control datetimepicker search-field-value search-field-to" id="search-field-date-range-to">
+                    </div>
+
+                    <div class="form-group mb-2 d-none search-field search-field-default">
+                        <label for="search-field-default-value" class="col-form-label modal-field-name">Feld</label>
+                        <input type="text" class="form-control search-field-value" id="search-field-default-value">
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary modal-submit-button"
+                        data-field=""
+                        data-form-group=""
+                        data-type="">
+                    Hinzufügen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

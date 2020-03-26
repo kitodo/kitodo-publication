@@ -636,8 +636,8 @@ CREATE TABLE tx_dpf_domain_model_storedsearch (
   pid int(11) DEFAULT '0' NOT NULL,
 
   fe_user int(11) DEFAULT '0' NOT NULL,
-  title varchar(1024) DEFAULT '' NOT NULL,
-
+  name varchar(1024) DEFAULT '' NOT NULL,
+  query text DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

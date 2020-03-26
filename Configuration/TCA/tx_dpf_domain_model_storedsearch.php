@@ -19,7 +19,7 @@ if (!defined('TYPO3_MODE')) {
 return array(
     'ctrl' => array(
         'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_storedsearch',
-        'label'                    => 'title',
+        'label'                    => 'name',
         'tstamp'                   => 'tstamp',
         'crdate'                   => 'crdate',
         'cruser_id'                => 'cruser_id',
@@ -37,11 +37,11 @@ return array(
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_editinglock.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'title',
+        'showRecordFieldList' => 'name, query',
     ),
     'types'     => array(
         '1' => array('showitem' => ',--palette--;;1, 
-        title,      
+        name, query,      
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access'),
     ),
     'palettes'  => array(
@@ -132,27 +132,32 @@ return array(
             ),
         ),
 
-       /* 'fe_user' => array(
-            'config' => array(
-                'type' => 'select',
-                'foreign_table' => 'fe_users',
-            ),
-        ),
-*/
         'fe_user' => [
             'config' => [
                 'type' => 'passthrough',
             ],
         ],
 
-        'title'                      => array(
+        'name'                      => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.title',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_storedsearch.name',
             'config'  => array(
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
             ),
         ),
+
+        'query'                      => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_storedsearch.query',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
+
     ),
 );

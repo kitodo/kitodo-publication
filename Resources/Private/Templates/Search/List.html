@@ -22,20 +22,21 @@
 
     <f:flashMessages />
 
-    <div class="searchForm">
-        <f:form action="search" name="query" class="form-inline">
-            <div class="form-group">
-                <label for="query">{f:translate(key: 'search.form.label.query')}</label>
-                <f:form.textfield property="fulltext" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
-                                  value="{simpleSearch}"/>
+    <f:form action="search" name="query" class="">
+        <div class="input-group mb-3">
+            <f:form.textfield property="fulltext" class="form-control"
+                              placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
+                              value="{simpleSearch}"/>
+        </div>
+        <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    {f:translate(key: 'search.form.button.search')}
+                </button>
             </div>
-            <f:form.button class="btn btn-secondary" type="submit">
-                <i class="fas fa-search"></i>
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
-        </f:form>
-    </div>
+        </div>
+    </f:form>
 
     <f:render partial="Search/ListSearchResults" arguments="{_all}" />
 

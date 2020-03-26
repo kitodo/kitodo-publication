@@ -925,4 +925,34 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $title? $title : "";
     }
 
+
+    /**
+     * Gets the source information out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getSourceDetails()
+    {
+        $mods = new Mods($this->getXmlData());
+        $data = $mods->getSourceDetails();
+        return $data? $data : "";
+    }
+
+
+    /**
+     * Gets the translated state name.
+     *
+     * @return NULL|string
+     */
+    public function getStateName_()
+    {
+        if (array_key_exists($this->getState(), DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
+            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                "manager.documentList.state.".DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$this->getState()],
+                'dpf',
+                $arguments = null
+            );
+        }
+    }
+
 }

@@ -28,7 +28,7 @@
                     {f:translate(key: 'form_button.remove_file', arguments: {0: ''})}
                 </button>
             </div>
-            <f:if condition="{eww:getTypo3Mode()} == 'BE'">
+            <f:if condition="{eww:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
                 <f:then>
                     <div class="form-group">
                         <label for="inp_primFile_label_{file.uid}" data-index="{groupIndex}">Display name</label>

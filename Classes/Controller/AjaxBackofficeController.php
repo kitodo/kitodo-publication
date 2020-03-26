@@ -14,6 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Session\SearchSessionData;
 
 /**
@@ -28,6 +29,14 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @inject
      */
     protected $bookmarkRepository = null;
+
+    /**
+     * frontendUserRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository = null;
 
 
     /**
@@ -144,4 +153,70 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         $this->session->setWorkspaceData($workspaceSessionData);
         return true;
     }
+
+
+    /**
+     * Save an extended seaerch query.
+     *
+     * @param string $name
+     * @param string $query
+     * @return bool
+     */
+    public function saveExtendedSearchAction($name, $query)
+    {
+        $search = new \EWW\Dpf\Domain\Model\StoredSearch();
+        $search->setName($name);
+        $search->setQuery($query);
+
+        /** @var FrontendUser $feUser */
+        $feUser = $this->security->getUser();
+        $feUser->addStoredSearch($search);
+        $this->frontendUserRepository->update($feUser);
+
+        return true;
+    }
+
+    /**
+     * Loads a stored extended seaerch query.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function loadExtendedSearchAction($id)
+    {
+        /** @var FrontendUser $feUser */
+        $feUser = $this->security->getUser();
+        $searches = $feUser->getStoredSearches();
+
+        foreach ($searches as $search) {
+            if ($search->getUid() == $id) {
+                return $search->getQuery();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Loads a list of all stored extended search queries.
+     *
+     * @return string
+     */
+    public function loadExtendedSearchListAction()
+    {
+        /** @var FrontendUser $feUser */
+        $feUser = $this->security->getUser();
+
+        $searches = [];
+        foreach ($feUser->getStoredSearches() as $search) {
+            $searches[] = [
+                'uid' => $search->getUid(),
+                'name' => $search->getName(),
+                'query' => $search->getQuery()
+            ];
+        }
+
+        return json_encode($searches);
+    }
+
 }

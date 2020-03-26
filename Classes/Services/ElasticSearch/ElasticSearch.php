@@ -26,6 +26,13 @@ use TYPO3\CMS\Core\Log\LogManager;
 class ElasticSearch
 {
     /**
+     *
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
+    /**
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
@@ -75,6 +82,20 @@ class ElasticSearch
         $this->initializeIndex($this->indexName);
 
     }
+
+    /**
+     * Get typoscript settings
+     *
+     * @return mixed
+     */
+    public function getSettings()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+        return $frameworkConfiguration['settings'];
+    }
+
 
     /**
      * Creates an index named by $indexName if it doesn't exist.
@@ -178,12 +199,19 @@ class ElasticSearch
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
             $data->objectIdentifier = $document->getObjectIdentifier();
 
+
+            if ($data->identifier && is_array($data->identifier)) {
+                $data->identifier[] = $document->getObjectIdentifier();
+            } else {
+                $data->identifier = [$document->getObjectIdentifier()];
+            }
+
+
             if ($document->getCreator()) {
                 $data->creator = $document->getCreator();
             } else {
                 $data->creator = null;
             }
-
 
 
             if ($document->getCreator()) {
@@ -219,6 +247,20 @@ class ElasticSearch
             $publishers = $mods->getPublishers();
 
             $data->authorAndPublisher = array_merge($authors, $publishers);
+
+            $data->source = $document->getSourceDetails();
+
+            $data->universityCollection = false;
+            if ($data->collections && is_array($data->collections)) {
+                foreach ($data->collections as $collection) {
+                    if ($collection == $this->getSettings()['universityCollection']) {
+                        $data->universityCollection = true;
+                        break;
+                    }
+                }
+            }
+
+            $data->embargoDate = "2020-03-01";
 
             $data->originalSourceTitle = $mods->getOriginalSourceTitle();
 

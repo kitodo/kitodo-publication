@@ -21,33 +21,64 @@ class StoredSearch extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * title
+     * name
      *
      * @var string
      * @validate NotEmpty
      */
-    protected $title = '';
+    protected $name = '';
+
+    /**
+     * query
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $query = '';
 
 
     /**
-     * Returns the title
+     * Returns the name
      *
-     * @return string $title
+     * @return string $name
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
-     * Sets the title
+     * Sets the name
      *
-     * @param string $title
+     * @param string $name
      * @return void
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
+    }
+
+
+    /**
+     * Returns the query
+     *
+     * @return string $query
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+
+    /**
+     * Sets the query
+     *
+     * @param string $query
+     * @return void
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
     }
 
 }

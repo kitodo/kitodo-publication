@@ -38,6 +38,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
     protected $documentRepository = null;
 
     /**
+     * documenTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @inject
+     */
+    protected $documentTypeRepository;
+
+    /**
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
@@ -157,15 +165,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
         if ($args['refresh']) {
             $workspaceSessionData->clearSort();
             $workspaceSessionData->clearFilters();
+            $workspaceSessionData->setSimpleQuery("");
         }
         $this->session->setWorkspaceData($workspaceSessionData);
 
         $simpleSearch = $workspaceSessionData->getSimpleQuery();
 
-
-//      $this->view->assign('bookmarks', $bookmarkIdentifiers);
-
-
+        /*
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
         } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER){
@@ -176,6 +182,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
             );
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
+        */
 
         $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
@@ -318,18 +325,75 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
      */
     public function extendedSearchAction()
     {
-        // show extended search template
-        $objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+        /** @var FrontendUser $feUser */
+        $feUser = $this->security->getUser();
 
-        $args          = $this->request->getArguments();
+        $args = $this->request->getArguments();
+
+        $workspaceSessionData = $this->session->getWorkspaceData();
+
+        if ($args['refresh']) {
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $workspaceSessionData->setSimpleQuery("");
+        }
+        $this->session->setWorkspaceData($workspaceSessionData);
+
+        $simpleSearch = $workspaceSessionData->getSimpleQuery();
+
+        $documentTypes = $this->documentTypeRepository->findAll();
+
+        $docTypes = [];
+        foreach ($documentTypes as $documentType) {
+            $docTypes[$documentType->getName()] = $documentType->getDisplayName();
+        }
+        asort($docTypes, SORT_LOCALE_STRING);
+        $this->view->assign('documentTypes', $docTypes);
+
+
+        $states = [];
+        foreach (DocumentWorkflow::SIMPLE_STATES as $state) {
+            $states[$state] = LocalizationUtility::translate(
+                 "manager.documentList.state.".$state, 'dpf'
+            );
+        }
+        asort($states, SORT_LOCALE_STRING);
+        $this->view->assign('states', $states);
+
+
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
+
+        $currentPage = null;
+        $checkedDocumentIdentifiers = [];
+        $pagination = $this->getParametersSafely('@widget_0');
+        if ($pagination) {
+            $checkedDocumentIdentifiers = [];
+            $currentPage = $pagination['currentPage'];
+        } else {
+            $currentPage = 1;
+        }
+
+        $this->list((empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $simpleSearch);
+
+        $this->view->assign('simpleSearch', $simpleSearch);
+        $this->view->assign('currentPage', $currentPage);
+        $this->view->assign('workspaceListAction', $this->getCurrentAction());
+        $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
+
+
+        // show extended search template
+        //$objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
+
+        //$args          = $this->request->getArguments();
 
         // assign result list from elastic search
-        $this->view->assign('searchList', $args['results']);
-        $this->view->assign('alreadyImported', $objectIdentifiers);
-        $this->view->assign('resultCount', self::RESULT_COUNT);
+        //$this->view->assign('searchList', $args['results']);
+        //$this->view->assign('alreadyImported', $objectIdentifiers);
+        //$this->view->assign('resultCount', self::RESULT_COUNT);
 
-        $this->view->assign('query', $args['query']);
-
+        //$this->view->assign('query', $args['query']);
     }
 
     /**
@@ -380,6 +444,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
         /** @var SearchSessionData $workspaceSessionData */
         $workspaceSessionData = $this->session->getWorkspaceData();
 
+
         if ($args['query'] && array_key_exists('fulltext', $args['query'])) {
             $queryString = $args['query']['fulltext'];
             $workspaceSessionData->setSimpleQuery($queryString);
@@ -389,9 +454,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
         $workspaceSessionData->clearFilters();
         $this->session->setWorkspaceData($workspaceSessionData);
 
-        if ($extSearch) {
+        if ($args['query'] && array_key_exists('extsearch', $args['query'])) {
             // redirect to extended search view
-            $this->forward("extendedSearch", null, null, array('results' => $results, 'query' => $args['query']));
+            $this->forward("extendedSearch", null, null);
         } else {
             // redirect to list view
             $this->forward("list", null, null);

@@ -86,7 +86,6 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     public function addStoredSearch(\EWW\Dpf\Domain\Model\StoredSearch $storedSearch)
     {
         $this->storedSearches->attach($storedSearch);
-       // var_dump($this->storedSearches); die();
     }
 
     /**

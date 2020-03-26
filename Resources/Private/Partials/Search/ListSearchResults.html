@@ -19,6 +19,18 @@
 
     <f:flashMessages />
 
+    <p class="text-center">
+        <f:if condition="{documentCount} == 1">
+            <f:then>
+                Es wurde {documentCount} Datensatz gefunden.
+            </f:then>
+            <f:else>
+                Es wurden {documentCount} Datensätze gefunden.
+            </f:else>
+        </f:if>
+    </p>
+
+
     <f:if condition="{documentCount}">
         <f:then>
             <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data"
@@ -68,9 +80,6 @@
             </p>
         </f:then>
         <f:else>
-            <br />
-            <br />
-            Keine Treffer gefunden.
         </f:else>
     </f:if>
 
