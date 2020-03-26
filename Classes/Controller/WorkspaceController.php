@@ -669,9 +669,9 @@ class WorkspaceController  extends AbstractController
                                 ]
                         ]
                     ],
-                    'author' => [
+                    'authorAndPublisher' => [
                         'terms' => [
-                            'field' => 'author'
+                            'field' => 'authorAndPublisher'
                         ]
                     ],
                     'creatorRole' => [
@@ -723,7 +723,7 @@ class WorkspaceController  extends AbstractController
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'simpleState', 'author', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'simpleState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
             ];
 
             foreach ($filters as $key => $filterValues) {

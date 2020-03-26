@@ -30,10 +30,10 @@
         <th class="xcol-md-2">
             {f:translate(key: 'manager.workspace.persons')}
             <f:render partial="Workspace/SortColumn"
-                      arguments="{workspaceListAction: workspaceListAction, sortField: 'author'}"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'authorAndPublisher'}"
             />
             <f:render partial="Workspace/Filter"
-                      arguments="{aggregation: aggregations.author, filterName: 'author', filterValues: filters.author}"
+                      arguments="{aggregation: aggregations.authorAndPublisher, filterName: 'authorAndPublisher', filterValues: filters.authorAndPublisher}"
             />
         </th>
         <th class="xcol-md-2">
@@ -119,8 +119,8 @@
                 <dpf:showDocumentType docType="{document._source.doctype}" />
             </td>
             <td>
-                <f:for each="{document._source.author}" as="author" iteration="itemIterator">
-                    <span>{author}</span>
+                <f:for each="{document._source.authorAndPublisher}" as="person" iteration="itemIterator">
+                    <span>{person}</span>
                     <f:if condition="{itemIterator.isLast}">
                         <f:then></f:then>
                         <f:else><br /></f:else>

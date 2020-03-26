@@ -58,9 +58,25 @@ class Mods
 
     public function getAuthors()
     {
+        return $this->getPersons("aut");
+    }
+
+    public function getPublishers()
+    {
+        return $this->getPersons("edt");
+    }
+
+    /**
+     * Get persons of the given role
+     *
+     * @param $role
+     * @return array
+     */
+    protected function getPersons($role)
+    {
         $xpath = $this->getModsXpath();
 
-        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="aut"]');
+        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="'.$role.'"]');
 
         $authors = array();
 

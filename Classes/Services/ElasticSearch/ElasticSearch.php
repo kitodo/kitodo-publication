@@ -20,6 +20,7 @@ use EWW\Dpf\Helper\ElasticsearchMapper;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Helper\Mods;
 
 class ElasticSearch
 {
@@ -132,7 +133,7 @@ class ElasticSearch
                         'year' => [
                             'type' => 'integer'
                         ],
-                        'author' => [
+                        'authorAndPublisher' => [
                             'type' => 'keyword'
                         ],
                         'doctype' => [
@@ -197,6 +198,15 @@ class ElasticSearch
             } else {
                 $data->hasFiles = false;
             }
+
+
+            /** @var @var Mods $mods */
+            $mods = new Mods($document->getXmlData());
+
+            $authors = $mods->getAuthors();
+            $publishers = $mods->getPublishers();
+
+            $data->authorAndPublisher = array_merge($authors, $publishers);
 
             $this->client->index([
                 'refresh' => 'wait_for',

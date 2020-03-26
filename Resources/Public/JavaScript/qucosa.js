@@ -1105,7 +1105,7 @@ $(document).ready(function() {
     }
 
     selectFilter('doctype-filter');
-    selectFilter('author-filter', true);
+    selectFilter('authorAndPublisher-filter', true);
     selectFilter('simpleState-filter');
     selectFilter('year-filter', true);
     selectFilter('hasFiles-filter');
