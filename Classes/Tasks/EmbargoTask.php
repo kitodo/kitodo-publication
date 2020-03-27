@@ -2,6 +2,7 @@
 
 namespace EWW\Dpf\Tasks;
 
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -28,11 +29,16 @@ class EmbargoTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask
         foreach ($embargoDocuments as $document) {
             if ($currentDate > $document->getEmbargoDate()) {
                 if ($document->getAutomaticEmbargo()) {
-                    // update file restriction
-                    $documentTransferManager->setRemoteRepository($fedoraRepository);
-                    $documentTransferManager->update($document);
-
-
+                    switch ($document->getState()) {
+                        case DocumentWorkflow::STATE_IN_PROGRESS_NONE:
+                        case DocumentWorkflow::STATE_DISCARDED_NONE:
+                        case DocumentWorkflow::STATE_NONE_INACTIVE:
+                        case DocumentWorkflow::STATE_NONE_ACTIVE:
+                        case DocumentWorkflow::STATE_NONE_DELETED:
+                            // update file restriction
+                            $documentTransferManager->setRemoteRepository($fedoraRepository);
+                            $documentTransferManager->update($document);
+                    }
                 } else {
                     // send message
                     $notifier = $objectManager->get(Notifier::class);
