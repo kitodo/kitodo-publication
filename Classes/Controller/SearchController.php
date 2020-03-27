@@ -26,7 +26,7 @@ use EWW\Dpf\Session\SearchSessionData;
 /**
  * SearchController
  */
-class SearchController extends \EWW\Dpf\Controller\AbstractController // extends \EWW\Dpf\Controller\AbstractSearchController
+class SearchController extends \EWW\Dpf\Controller\AbstractController
 {
 
     /**

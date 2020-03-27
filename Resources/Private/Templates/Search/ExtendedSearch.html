@@ -41,11 +41,14 @@
                 <a class="dropdown-item" data-field="year" data-form-group="default" data-type="value" href="#">Jahr</a>
                 <a class="dropdown-item" data-field="publisher" data-form-group="default" data-type="value" href="#">Verlag</a>
                 <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">Sprache</a>
-                <a class="dropdown-item" data-field="simpleState" data-form-group="state" data-type="value" href="#">Status</a>
-                <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">UL-Publikation</a>
-                <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">Mit Datei (Volltext/Medium auf Qucosa vorh.)</a>
-                <a class="dropdown-item" data-field="embargoDate" data-form-group="date-range" data-type="date-range" href="#">Embargoende</a>
-                <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">Kommentar</a>
+
+                <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                    <a class="dropdown-item" data-field="simpleState" data-form-group="state" data-type="value" href="#">Status</a>
+                    <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">UL-Publikation</a>
+                    <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">Mit Datei (Volltext/Medium auf Qucosa vorh.)</a>
+                    <a class="dropdown-item" data-field="embargoDate" data-form-group="date-range" data-type="date-range" href="#">Embargoende</a>
+                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">Kommentar</a>
+                </f:if>
             </div>
         </div>
         </div>
