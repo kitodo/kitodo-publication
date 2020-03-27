@@ -187,7 +187,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
             $currentPage = 1;
         }
 
-        $this->list((empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()), $simpleSearch);
+        $this->list(
+            (empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage()),
+            $this->escapeQuery(trim($simpleSearch))
+        );
 
         $this->view->assign('simpleSearch', $simpleSearch);
         $this->view->assign('currentPage', $currentPage);
@@ -578,6 +581,28 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController // extends
 
         $default = ($this->settings['workspaceItemsPerPage'])? $this->settings['workspaceItemsPerPage'] : 10;
         return ($itemsPerPage)? $itemsPerPage : $default;
+    }
+
+
+    /**
+     * escapes lucene reserved characters from string
+     * @param $string
+     * @return mixed
+     */
+    private function escapeQuery($string)
+    {
+        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
+        $string                   = preg_replace_callback(
+            '/([' . $luceneReservedCharacters . '])/',
+            function ($matches) {
+                return '\\' . $matches[0];
+            },
+            $string
+        );
+
+        $string = str_replace("/", "\/", $string);
+
+        return $string;
     }
 
 }
