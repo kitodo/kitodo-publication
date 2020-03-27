@@ -186,9 +186,9 @@ class QueryBuilder
                             ]
                         ]
                     ],
-                    'author' => [
+                    'authorAndPublisher' => [
                         'terms' => [
-                            'field' => 'author'
+                            'field' => 'authorAndPublisher'
                         ]
                     ],
                     'creatorRole' => [
@@ -244,7 +244,7 @@ class QueryBuilder
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'simpleState', 'author', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'simpleState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
             ];
 
             foreach ($filters as $key => $filterValues) {
