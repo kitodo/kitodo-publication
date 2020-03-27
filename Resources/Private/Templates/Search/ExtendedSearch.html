@@ -57,7 +57,8 @@
             <button type="button"
                     class="btn btn-sm btn-outline-dark dropdown-toggle"
 
-                    data-toggle="dropdown" id="load-extended-search">
+                    data-toggle="dropdown" id="load-extended-search"
+                    disabled="disabled">
                 <i class="far fa-arrow-alt-circle-down"></i>
                 Suche laden
             </button>
@@ -65,13 +66,6 @@
                  data-boundary="viewport"
                  data-ajax="{f:uri.action(action:'loadExtendedSearchList',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
                  data-ajax-load="{f:uri.action(action:'loadExtendedSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-
-                <f:comment>
-                    {f:if(condition:'{extendedSearches}', then:'', else:'disabled')}
-                    <for each="{extendedSearches}" as="{extendedSearch}">
-                        <a class="dropdown-item" data-search-id="{{extendedSearch.uid}" href="#">{extendedSearch.name}</a>
-                    </for>
-                </f:comment>
             </div>
         </div>
 

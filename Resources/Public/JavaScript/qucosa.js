@@ -22,7 +22,7 @@ var saveExtendedSearch = {
         jQuery("button").on("click", function () {
             jQuery(".alert-save-extended-search-success").hide();
         });
-
+        
     },
 
     show: function() {
@@ -92,6 +92,12 @@ var openExtendedSearch = {
                         ).appendTo("#load-extended-search-select");
                     }
                 });
+
+                if (data.length) {
+                    jQuery("#load-extended-search").removeAttr("disabled");
+                } else {
+                    jQuery("#load-extended-search").attr("disabled","disabled");
+                }
 
                 _this.onLoadSearch();
 
