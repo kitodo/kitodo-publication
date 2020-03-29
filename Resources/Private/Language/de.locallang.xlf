@@ -793,6 +793,10 @@
             <source>Title</source>
             <target>Titel</target>
         </trans-unit>
+        <trans-unit id="manager.workspace.title.copy" approved="yes">
+            <source>[Copy]</source>
+            <target>[Kopie]</target>
+        </trans-unit>
         <trans-unit id="manager.workspace.publicationType" approved="yes">
             <source>publication type</source>
             <target>Publikationstyp</target>

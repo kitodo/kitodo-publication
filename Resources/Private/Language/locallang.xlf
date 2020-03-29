@@ -593,6 +593,9 @@
         <trans-unit id="manager.workspace.title">
             <source>Title</source>
         </trans-unit>
+        <trans-unit id="manager.workspace.title.copy">
+            <source>[Copy]</source>
+        </trans-unit>
         <trans-unit id="manager.workspace.publicationType">
             <source>publication type</source>
         </trans-unit>

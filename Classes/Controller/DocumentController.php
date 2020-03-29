@@ -539,7 +539,10 @@ class DocumentController extends AbstractController
 
         $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
 
-        $newDocument->setTitle($document->getTitle());
+        $copyTitle = LocalizationUtility::translate("manager.workspace.title.copy", "dpf").$document->getTitle();
+
+        $newDocument->setTitle($copyTitle);
+
         $newDocument->setAuthors($document->getAuthors());
 
         $newDocument->setCreator($this->security->getUser()->getUid());
@@ -547,6 +550,7 @@ class DocumentController extends AbstractController
         $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
         $mods->clearAllUrn();
         $mods->setDateIssued('');
+        $mods->setTitle($copyTitle);
 
         $newDocument->setXmlData($mods->getModsXml());
 
