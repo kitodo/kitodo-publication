@@ -63,9 +63,11 @@ class DocumentCleaner
                 'postponeAction',
                 'discardAction',
                 'releaseActivateAction',
-                'suggestModificationAction'
+                'suggestModificationAction',
+                'duplicateAction'
             ],
             \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
+                'newAction',
                 'editAction',
                 'cancelEditAction',
                 'updateAction',
@@ -117,12 +119,14 @@ class DocumentCleaner
     /**
      * Unlocks all editing locks of the current user.
      */
-    protected function cleanUpEditingLocks($controllerClass, $actionMethodName)
+    protected function cleanUpEditingLocks($actionMethodName, $controllerClass)
     {
         $excludeActions = [
             \EWW\Dpf\Controller\DocumentController::class => [
+                'duplicateAction'
             ],
             \EWW\Dpf\Controller\DocumentFormBackofficeController::class => [
+                'newAction'
             ]
         ];
 

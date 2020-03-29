@@ -137,6 +137,17 @@
                 </f:if>
 
                 <f:link.action
+                        action="duplicate"
+                        controller="Document"
+                        arguments="{document:document}"
+                        class="btn btn-sm btn-secondary">
+                    <i class="far fa-copy"></i>
+
+                    Duplizieren
+                </f:link.action>
+
+
+                <f:link.action
                         action="cancelListTask"
                         controller="Document"
                         class="btn btn-sm btn-outline-secondary">
