@@ -208,6 +208,8 @@ class ElasticSearch
 
             $data->authorAndPublisher = array_merge($authors, $publishers);
 
+            $data->originalSourceTitle = $mods->getOriginalSourceTitle();
+
             $this->client->index([
                 'refresh' => 'wait_for',
                 'index' => $this->indexName,

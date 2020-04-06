@@ -119,6 +119,10 @@
                         </f:else>
                     </f:if>
                 </f:link.action>
+                <f:if condition="{document._source.originalSourceTitle}">
+                    <br />
+                    <em>in: {document._source.originalSourceTitle}</em>
+                </f:if>
                 <br />
                 <dpf:showDocumentType docType="{document._source.doctype}" />
             </td>

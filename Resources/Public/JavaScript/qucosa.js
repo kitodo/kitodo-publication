@@ -1116,7 +1116,7 @@ $(document).ready(function() {
     jQuery(".select2-selection__rendered").each(function(){
         jQuery(this).removeAttr("title");
     });
-    
+
     selectSort();
 
     toggleDiscardedFilter();

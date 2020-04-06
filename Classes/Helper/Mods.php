@@ -153,6 +153,15 @@ class Mods
         return null;
     }
 
+    public function getOriginalSourceTitle()
+    {
+        $node= $this->getModsXpath()->query('/mods:mods/mods:relatedItem[@type="original"]/mods:titleInfo/mods:title');
+        if ($node->length > 0) {
+            return $node->item(0)->nodeValue;
+        }
+
+        return null;
+    }
 
     public function getDateIssued()
     {
