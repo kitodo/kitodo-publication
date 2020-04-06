@@ -680,11 +680,8 @@
 		<trans-unit id="manager.workspace.bookmarkAdded">
 			<source>Record has been added to the workspace.</source>
 		</trans-unit>
-		<trans-unit id="manager.workspace.to">
-			<source>to</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.of">
-			<source>of</source>
+		<trans-unit id="manager.workspace.documentCounter">
+			<source>%s from %s to %s.</source>
 		</trans-unit>
 		<trans-unit id="manager.workspace.notes.header">
 			<source>Administrative notes</source>

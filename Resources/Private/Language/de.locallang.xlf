@@ -913,13 +913,9 @@
 			<source>Record has been added to the workspace.</source>
 			<target>Datensatz wurde dem Arbeitsbereich hinzugefügt.</target>
 		</trans-unit>
-		<trans-unit id="manager.workspace.to" approved="yes">
-			<source>to</source>
-			<target>bis</target>
-		</trans-unit>
-		<trans-unit id="manager.workspace.of" approved="yes">
-			<source>of</source>
-			<target>von</target>
+		<trans-unit id="manager.workspace.documentCounter" approved="yes">
+			<source>%s from %s to %s.</source>
+			<target>%s bis %s von %s.</target>
 		</trans-unit>
 		<trans-unit id="manager.workspace.notes.header" approved="yes">
 			<source>Administrative notes</source>

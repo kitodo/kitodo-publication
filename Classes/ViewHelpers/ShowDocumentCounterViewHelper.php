@@ -36,8 +36,11 @@ class ShowDocumentCounterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abs
             $to = $documentCount;
         }
 
-        return $from." ".\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.workspace.to', 'dpf')." "
-            .$to." ".\TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.workspace.of', 'dpf')." "
-            .$documentCount;
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+            'manager.workspace.documentCounter',
+            'dpf',
+            [$from, $to, $documentCount]
+        );
+
     }
 }
