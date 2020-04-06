@@ -63,15 +63,19 @@
                       arguments="{aggregation: aggregations.creatorRole, filterName: 'creatorRole', filterValues: filters.creatorRole}"
             />
         </th>
-        <th class="xcol-md-2">
-            {f:translate(key: 'manager.workspace.universityPublication')}
-            <f:render partial="Workspace/SortColumn"
-                      arguments="{workspaceListAction: workspaceListAction, sortField: 'universityCollection'}"
-            />
-            <f:render partial="Workspace/Filter"
-                      arguments="{aggregation: aggregations.universityCollection, filterName: 'universityCollection', filterValues: filters.universityCollection}"
-            />
-        </th>
+
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+            <th class="xcol-md-2">
+                {f:translate(key: 'manager.workspace.universityPublication')}
+                <f:render partial="Workspace/SortColumn"
+                          arguments="{workspaceListAction: workspaceListAction, sortField: 'universityCollection'}"
+                />
+                <f:render partial="Workspace/Filter"
+                          arguments="{aggregation: aggregations.universityCollection, filterName: 'universityCollection', filterValues: filters.universityCollection}"
+                />
+            </th>
+        </f:if>
+
         <th class="xcol-md-2">
             {f:translate(key: 'manager.workspace.fulltextMedia')}
             <f:render partial="Workspace/SortColumn"
@@ -148,21 +152,25 @@
             <td>
                 <f:render partial="Workspace/Creator" arguments="{creator:document._source.creator}" />
             </td>
-            <td>
-                <f:if condition="{document._source.collections}">
-                    <f:then>
-                        <span
-                           data-toggle="tooltip"
-                           title="{f:translate(key: 'manager.workspace.universityPublication.tooltip')}">
 
-                            <i class="fas fa-check"></i>
-                        </span>
-                    </f:then>
-                    <f:else>
-                        -
-                    </f:else>
-                </f:if>
-            </td>
+            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                <td>
+                    <f:if condition="{document._source.collections}">
+                        <f:then>
+                            <span
+                               data-toggle="tooltip"
+                               title="{f:translate(key: 'manager.workspace.universityPublication.tooltip')}">
+
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </f:then>
+                        <f:else>
+                            -
+                        </f:else>
+                    </f:if>
+                </td>
+            </f:if>
+
             <td>
                 <f:if condition="{document._source.hasFiles}">
                     <f:then>
