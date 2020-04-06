@@ -1112,6 +1112,11 @@ $(document).ready(function() {
     selectFilter('universityCollection-filter');
     selectFilter('creatorRole-filter');
 
+    // Remove the title hover for the filter elements.
+    jQuery(".select2-selection__rendered").each(function(){
+        jQuery(this).removeAttr("title");
+    });
+    
     selectSort();
 
     toggleDiscardedFilter();

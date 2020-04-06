@@ -873,6 +873,10 @@
             <source>Show bookmarks only</source>
             <target>Nur Gemerkte anzeigen</target>
         </trans-unit>
+        <trans-unit id="manager.workspace.filter.all" approved="yes">
+            <source>(all)</source>
+            <target>(alle)</target>
+        </trans-unit>
         <trans-unit id="manager.workspace.batchAction.register.success.singular" approved="yes">
             <source>%s record out of %s successfully registered.</source>
             <target>%s Datensatz von %s wurde erfolgreich gemeldet.</target>

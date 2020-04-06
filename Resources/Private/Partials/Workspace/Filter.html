@@ -16,7 +16,9 @@
 <div class="workspace-filter"
      data-ajax="{f:uri.action(action:'addWorkspaceFilter',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
     <select id="{filterName}-filter" class="workspace-filter-select" name="{filterName}">
-        <option value="">&nbsp</option>
+        <option value="">
+            <f:translate key="manager.workspace.filter.all" />
+        </option>
         <f:for each="{aggregation.buckets}" as="filterItem">
             <f:if condition="{filterValues}">
                 <f:then>
