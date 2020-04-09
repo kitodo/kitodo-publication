@@ -107,6 +107,8 @@
                                          value="{document._id}"/>
                     </f:else>
                 </f:if>
+
+                <f:form.hidden name="listData[documentSimpleState][{document._id}]" value="{document._source.simpleState}"/>
             </td>
             <td>
                 <f:link.action action="showDetails" controller="Document" arguments="{document:document._id}">

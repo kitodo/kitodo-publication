@@ -470,12 +470,17 @@ var batchSelectHandler = {
             jQuery("#batchButtonBatchRemove").addClass("disabled");
         }
     },
-    toggleBatchBookmarkButton() {
-        if (jQuery(".batch-checkbox:checked").length > 0) {
-            jQuery("#batchButtonBatchBookmark").removeClass("disabled");
-        } else {
+    toggleBatchBookmarkButton: function() {
+
+        if (jQuery('#workspace-list .batch-checkbox:checked').length < 1) {
             jQuery("#batchButtonBatchBookmark").addClass("disabled");
         }
+
+        jQuery('#workspace-list .batch-checkbox:checked').each(function(){
+            if (jQuery(this).parent().data("alias-state") != "new") {
+                jQuery("#batchButtonBatchBookmark").removeClass("disabled");
+            }
+        });
     },
     toggleBatchReleaseButton() {
         var countChecked = jQuery('#workspace-list .batch-checkbox:checked').length;

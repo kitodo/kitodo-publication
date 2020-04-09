@@ -579,7 +579,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
 			<source>The selected documents will be removed from the list.</source>
-			<target>Das ausgwählte Dokument wird aus der Liste entfernt.</target>
+			<target>Das ausgewählte Dokument wird aus der Liste entfernt.</target>
 		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>

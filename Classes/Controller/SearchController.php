@@ -278,8 +278,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
 
             foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
-                if ($this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $documentIdentifier)) {
-                    $successful[] = $documentIdentifier;
+
+                if ( $listData['documentSimpleState'][$documentIdentifier] != DocumentWorkflow::SIMPLE_STATE_NEW) {
+                    if (
+                        $this->bookmarkRepository->addBookmark(
+                            $this->security->getUser()->getUid(),
+                            $documentIdentifier
+                        )
+                    ) {
+                        $successful[] = $documentIdentifier;
+                    }
                 }
             }
 
