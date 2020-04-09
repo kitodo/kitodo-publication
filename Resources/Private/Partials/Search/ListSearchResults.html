@@ -22,10 +22,10 @@
     <p class="text-center">
         <f:if condition="{documentCount} == 1">
             <f:then>
-                Es wurde {documentCount} Datensatz gefunden.
+                {f:translate(key: 'manager.search.showNumberOfResults.singular', arguments:{0:documentCount})}
             </f:then>
             <f:else>
-                Es wurden {documentCount} Datensätze gefunden.
+                {f:translate(key: 'manager.search.showNumberOfResults.plural', arguments:{0:documentCount})}
             </f:else>
         </f:if>
     </p>
@@ -58,7 +58,7 @@
             <p class="text-center">
             <div class="form-inline justify-content-center">
                 <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
-                , {f:translate(key: 'manager.workspace.itemsPerPage')}
+                {f:translate(key: 'manager.workspace.itemsPerPage')}
                 <div class="input-group mx-sm-2" style="width:100px;">
                     <div class="input-group-prepend">
                         <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
@@ -73,7 +73,7 @@
                             class="btn btn-outline-secondary btn-sm"
                             type="button"
                             data-ajax="{f:uri.action(action:'setWorkspaceItemsPerPage',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                        OK
+                        {f:translate(key: 'manager.workspace.itemsPerPage.applyButton')}
                     </button>
                 </div>
             </div>

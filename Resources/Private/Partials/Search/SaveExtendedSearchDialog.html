@@ -25,7 +25,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger fade show alert-save-extended-search" role="alert" style="display:none;">
-                    Name oder Suchanfrage fehlt.
+                    {f:translate(key: 'manager.search.addSearchField.missingQuery')}
                 </div>
                 <form>
                     <div class="form-group">
@@ -39,7 +39,7 @@
                 <button type="button"
                         class="btn btn-primary modal-submit-button"
                         data-ajax="{f:uri.action(action:'saveExtendedSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    Speichern
+                    {f:translate(key: 'manager.search.addSearchField.save')}
                 </button>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
 
     <div class="alert alert-success fade show alert-save-extended-search-success" role="alert" style="display:none;">
-        Die Suche wurde gespeichert.
+        {f:translate(key: 'manager.search.saveQuery.successfully')}
     </div>
 
     <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
@@ -29,7 +29,7 @@
         <div class="dropdown" id="extended-search-add-field">
             <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Suchfeld hinzufügen
+                {f:translate(key: 'manager.search.addSearchField')}
             </button>
             <div class="dropdown-menu scrollable-menu" id="search-field-selection" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" data-field="persons" data-form-group="default" data-type="value" href="#">Personen</a>
@@ -59,8 +59,8 @@
 
                     data-toggle="dropdown" id="load-extended-search"
                     disabled="disabled">
-                <i class="far fa-arrow-alt-circle-down"></i>
-                Suche laden
+                <i class="far fa-folder-open"></i>
+                {f:translate(key: 'manager.search.loadQuery')}
             </button>
             <div class="dropdown-menu scrollable-menu" id="load-extended-search-select" aria-labelledby="dropdownMenuButton"
                  data-boundary="viewport"
@@ -72,7 +72,7 @@
         <div class="btn-group mr-2" role="group">
             <button type="button" class="btn btn-sm btn-outline-dark" id="save-extended-search">
                 <i class="far fa-save"></i>
-                Suche speichern
+                {f:translate(key: 'manager.search.saveQuery')}
             </button>
         </div>
     </div>

@@ -547,7 +547,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchRemove.message" approved="yes" xml:space="preserve">
 			<source>The selected documents will be removed from your workspace.</source>
-			<target>Die ausgwählten Dokumente werden aus Ihrem Arbeitsbereich entfernt. </target>
+			<target>Die ausgewählten Dokumente werden aus Ihrem Arbeitsbereich entfernt. </target>
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader" approved="yes">
 			<source>Do you really want to release and validate the selected documents?</source>
@@ -555,7 +555,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchReleaseValidated.message" approved="yes" xml:space="preserve">
 			<source>The selected documents will be released and validated.</source>
-			<target>Die ausgwählten Dokumente werden freigegeben und validiert.</target>
+			<target>Die ausgewählten Dokumente werden freigegeben und validiert.</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader" approved="yes">
 			<source>Do you really want to release but not validate the selected documents?</source>
@@ -563,7 +563,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" approved="yes" xml:space="preserve">
 			<source>The selected documents will be released but not validated.</source>
-			<target>Die ausgwählten Dokumente werden freigegeben aber nicht validiert.</target>
+			<target>Die ausgewählten Dokumente werden freigegeben aber nicht validiert.</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchBookmark.messageHeader" approved="yes">
 			<source>Do you really want to bookmark the selected documents?</source>
@@ -571,7 +571,7 @@
 		</trans-unit>
 		<trans-unit id="manager.confirmBatchBookmark.message" approved="yes">
 			<source>The selected documents will be bookmarked.</source>
-			<target>Die ausgwählten Dokumente werden übernommen.</target>
+			<target>Die ausgewählten Dokumente werden übernommen.</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
 			<source>Do you really want to remove the document from the list?</source>
@@ -970,8 +970,44 @@
 			<target>Bearbeitungsnotizen anzeigen</target>
 		</trans-unit>
 		<trans-unit id="manager.workspace.itemsPerPage" approved="yes">
-			<source>Documents per page</source>
-			<target>Dokumente pro Seite</target>
+			<source>Documents per page:</source>
+			<target>Dokumente pro Seite:</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.itemsPerPage.applyButton" approved="yes">
+			<source>OK</source>
+			<target>OK</target>
+		</trans-unit>
+		<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
+			<source>Search query has been saved.</source>
+			<target>Die Suche wurde gespeichert.</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField" approved="yes">
+			<source>Add search field</source>
+			<target>Suchfeld hinzufügen</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.missingQuery" approved="yes">
+			<source>Missing name or search query.</source>
+			<target>Name oder Suchanfrage fehlt</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.save" approved="yes">
+			<source>Save</source>
+			<target>Speichern</target>
+		</trans-unit>
+		<trans-unit id="manager.search.loadQuery" approved="yes">
+			<source>Load search</source>
+			<target>Suche laden</target>
+		</trans-unit>
+		<trans-unit id="manager.search.saveQuery" approved="yes">
+			<source>Save search</source>
+			<target>Suche speichern</target>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.singular" approved="yes">
+			<source>%s record was found.</source>
+			<target>Es wurde %s Datensatz gefunden.</target>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.plural" approved="yes">
+			<source>%s records were found.</source>
+			<target>Es wurden %s Datensätze gefunden.</target>
 		</trans-unit>
         <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:
@@ -1357,6 +1393,94 @@ Date: ###DATE###
 			<source>previous</source>
 			<target>Vorherige</target>
 		</trans-unit>
+        <trans-unit id="manager.locallang.bul" approved="yes">
+            <source>Bulgarian</source>
+            <target>Bulgarisch</target>
+        </trans-unit>
+		<trans-unit id="manager.locallang.chi" approved="yes">
+		    <source>Chinese</source>
+            <target>Chinesisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dan" approved="yes">
+            <source>Danish</source>
+            <target>Dänisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ger" approved="yes">
+            <source>German</source>
+            <target>Deutsch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.eng" approved="yes">
+            <source>English</source>
+            <target>Englisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fin" approved="yes">
+            <source>Finnish</source>
+            <target>Finnisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fre" approved="yes">
+            <source>French</source>
+            <target>Französisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.gre" approved="yes">
+            <source>Greek; Modern Greek</source>
+            <target>Griechisch; Neugriechisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ita" approved="yes">
+            <source>Italian</source>
+            <target>Italienisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.lat" approved="yes">
+            <source>Latin</source>
+            <target>Latein</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dut" approved="yes">
+            <source>Dutch; Flemish</source>
+            <target>Niederländisch; Flämisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dsb" approved="yes">
+            <source>Lower Sorbian</source>
+            <target>Niedersorbisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.hsb" approved="yes">
+            <source>Upper Sorbian</source>
+            <target>Obersorbisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.pol" approved="yes">
+            <source>Polish</source>
+            <target>Polnisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.por" approved="yes">
+            <source>Portuguese</source>
+            <target>Portugiesisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.rus" approved="yes">
+            <source>Russian</source>
+            <target>Russisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swe" approved="yes">
+            <source>Swedish</source>
+            <target>Schwedisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.slo" approved="yes">
+            <source>Slovak</source>
+            <target>Slowakisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.spa" approved="yes">
+            <source>Spanish; Castilian</source>
+            <target>Spanisch; Kastilisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swa" approved="yes">
+            <source>Swahili</source>
+            <target>Swahili</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.cze" approved="yes">
+            <source>Czech</source>
+            <target>Tschechisch</target>
+        </trans-unit>
+        <trans-unit id="manager.locallang.vie" approved="yes">
+            <source>Vietnamese</source>
+            <target>Vietnamesisch</target>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

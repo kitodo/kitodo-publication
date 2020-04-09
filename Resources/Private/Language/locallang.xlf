@@ -723,7 +723,34 @@
 			<source>Show administrative notes</source>
 		</trans-unit>
 		<trans-unit id="manager.workspace.itemsPerPage">
-			<source>Documents per page</source>
+			<source>Documents per page:</source>
+		</trans-unit>
+        <trans-unit id="manager.workspace.itemsPerPage.applyButton">
+            <source>OK</source>
+        </trans-unit>
+		<trans-unit id="manager.search.saveQuery.successfully">
+			<source>Search query has been saved.</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField">
+			<source>Add search field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.missingQuery">
+			<source>Missing name or search query.</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.save">
+			<source>Save</source>
+		</trans-unit>
+		<trans-unit id="manager.search.loadQuery">
+			<source>Load search</source>
+		</trans-unit>
+		<trans-unit id="manager.search.saveQuery">
+			<source>Save search</source>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.singular">
+			<source>%s record was found.</source>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.plural">
+			<source>%s records were found.</source>
 		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:
@@ -995,6 +1022,72 @@ Date: ###DATE###
 		<trans-unit id="widget.pagination.previous">
 			<source>previous</source>
 		</trans-unit>
+        <trans-unit id="manager.locallang.bul">
+            <source>Bulgarian</source>
+        </trans-unit>
+		<trans-unit id="manager.locallang.chi">
+		    <source>Chinese</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dan">
+            <source>Danish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ger">
+            <source>German</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.eng">
+            <source>English</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fin">
+            <source>Finnish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fre">
+            <source>French</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.gre">
+            <source>Greek; Modern Greek</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ita">
+            <source>Italian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.lat">
+            <source>Latin</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dut">
+            <source>Dutch; Flemish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dsb">
+            <source>Lower Sorbian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.hsb">
+            <source>Upper Sorbian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.pol">
+            <source>Polish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.por">
+            <source>Portuguese</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.rus">
+            <source>Russian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swe">
+            <source>Swedish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.slo">
+            <source>Slovak</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.spa">
+            <source>Spanish; Castilian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swa">
+            <source>Swahili</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.cze">
+            <source>Czech</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.vie">
+            <source>Vietnamese</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

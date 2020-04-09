@@ -17,26 +17,9 @@
 <label for="search-field-language-value" class="col-form-label">Sprache</label>
 <select class="custom-select search-field-value" id="search-field-language-value">
     <option value="">
-    <option value="bul">Bulgarisch</option>
-    <option value="chi">Chinesisch</option>
-    <option value="dan">Dänisch</option>
-    <option value="ger">Deutsch</option>
-    <option value="eng">Englisch</option>
-    <option value="fin">Finnisch</option>
-    <option value="fre">Französisch</option>
-    <option value="gre">Griechisch; Neugriechisch</option>
-    <option value="ita">Italienisch</option>
-    <option value="lat">Latein</option>
-    <option value="dut">Niederländisch; Flämisch</option>
-    <option value="dsb">Niedersorbisch</option>
-    <option value="hsb">Obersorbisch</option>
-    <option value="pol">Polnisch</option>
-    <option value="por">Portugiesisch</option>
-    <option value="rus">Russisch</option>
-    <option value="swe">Schwedisch</option>
-    <option value="slo">Slowakisch</option>
-    <option value="spa">Spanisch; Kastilisch</option>
-    <option value="swa">Swahili</option>
-    <option value="cze">Tschechisch</option>
-    <option value="vie">Vietnamesisch</option>
+    <f:for each="{0:'bul', 1:'chi', 2:'dan', 3:'ger', 4:'eng', 5:'fin', 6:'fre', 7:'gre', 8:'ita'
+        9:'lat', 10:'dut', 11:'dsb', 12:'hsb', 13:'pol', 14:'por', 15:'rus' , 16:'swe', 17:'slo'
+        18:'spa', 19:'swa', 20:'cze', 21:'vie'}" as="language">
+        <option value="{language}">{f:translate(key: 'manager.locallang.{language}')}</option>
+    </f:for>
 </select>
