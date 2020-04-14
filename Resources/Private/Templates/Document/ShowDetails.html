@@ -101,6 +101,17 @@
                     </f:if>
                 </f:if>
 
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
+                    <f:link.action
+                            action="edit"
+                            controller="DocumentFormBackoffice"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i>
+                        {f:translate(key: 'form_button.edit')}
+                    </f:link.action>
+                </f:if>
+
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
                     <f:link.action
                             action="deleteLocally"
@@ -125,17 +136,6 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
-                    <f:link.action
-                            action="edit"
-                            controller="DocumentFormBackoffice"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-primary">
-                        <i class="fas fa-edit"></i>
-                        {f:translate(key: 'form_button.edit')}
-                    </f:link.action>
-                </f:if>
-
                 <f:link.action
                         action="duplicate"
                         controller="Document"
@@ -152,7 +152,7 @@
                         controller="Document"
                         class="btn btn-sm btn-outline-secondary">
                     <i class="fas fa-times"></i>
-                    {f:translate(key: 'form_button.cancel')}
+                    {f:translate(key: 'manager.documentDetails.cancel')}
                 </f:link.action>
 
             </div>

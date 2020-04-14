@@ -713,6 +713,10 @@
             <source>In progress</source>
             <target>In Bearbeitung</target>
         </trans-unit>
+        <trans-unit id="manager.documentDetails.cancel" approved="yes">
+            <source>Back</source>
+            <target>Zurück</target>
+        </trans-unit>
 		<trans-unit id="manager.doublet" approved="yes">
 			<source>Doublet Check</source>
 			<target>Doubletten-Check</target>

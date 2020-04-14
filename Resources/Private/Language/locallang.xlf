@@ -533,6 +533,9 @@
         <trans-unit id="manager.documentList.state.in_progress">
             <source>In progress</source>
         </trans-unit>
+        <trans-unit id="manager.documentDetails.cancel">
+            <source>Back</source>
+        </trans-unit>
 		<trans-unit id="manager.doublet">
 			<source>Doublet Check</source>
 		</trans-unit>
