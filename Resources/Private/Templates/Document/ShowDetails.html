@@ -23,12 +23,11 @@
         <h1 class="h2">Details</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
-
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:ACTIVE' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:ACTIVE' || {document.workingCopy} == 1">
                         <f:link.action action="releaseActivate" arguments="{document : document, tstamp : document.tstamp}"
                                        class="btn
-                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}
+                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}
                                             {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
                                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
                             <i class="fas fa-check"></i>
@@ -72,13 +71,13 @@
                 </f:if>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:INACTIVE' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:INACTIVE' || {document.workingCopy} == 1">
                         <f:link.action
                                 action="postpone"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-info
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPostpone'}">
                             <i class="fas fa-pause-circle"></i>
                             {f:translate(key: 'manager.postpone')}
@@ -86,14 +85,13 @@
                     </f:if>
                 </f:if>
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:DELETED' || {document.workingCopy} == 1">
                         <f:link.action
-                                action="discard"
                                 action="discard"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-warning
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
                             <i class="fas fa-ban"></i>
                             {f:translate(key: 'manager.discard')}
