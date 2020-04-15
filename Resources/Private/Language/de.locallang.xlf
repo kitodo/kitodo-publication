@@ -691,7 +691,7 @@
         </trans-unit>
 		<trans-unit id="manager.documentList.state.released" approved="yes">
 			<source>Released</source>
-			<target>Veröffentlicht</target>
+			<target>Freigegeben</target>
 		</trans-unit>
 		<trans-unit id="manager.documentList.state.postponed" approved="yes">
 			<source>Postponed</source>

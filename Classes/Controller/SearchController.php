@@ -350,16 +350,26 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         asort($docTypes, SORT_LOCALE_STRING);
         $this->view->assign('documentTypes', $docTypes);
 
+        $states[DocumentWorkflow::SIMPLE_STATE_NEW] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_NEW, 'dpf'
+        );
+        $states[DocumentWorkflow::SIMPLE_STATE_REGISTERED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_REGISTERED, 'dpf'
+        );
+        $states[DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS, 'dpf'
+        );
+        $states[DocumentWorkflow::SIMPLE_STATE_RELEASED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_RELEASED, 'dpf'
+        );
+        $states[DocumentWorkflow::SIMPLE_STATE_POSTPONED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_POSTPONED, 'dpf'
+        );
+        $states[DocumentWorkflow::SIMPLE_STATE_DISCARDED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_DISCARDED, 'dpf'
+        );
 
-        $states = [];
-        foreach (DocumentWorkflow::SIMPLE_STATES as $state) {
-            $states[$state] = LocalizationUtility::translate(
-                 "manager.documentList.state.".$state, 'dpf'
-            );
-        }
-        asort($states, SORT_LOCALE_STRING);
         $this->view->assign('states', $states);
-
 
         $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
@@ -381,19 +391,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('currentPage', $currentPage);
         $this->view->assign('workspaceListAction', $this->getCurrentAction());
         $this->view->assign('checkedDocumentIdentifiers', $checkedDocumentIdentifiers);
-
-
-        // show extended search template
-        //$objectIdentifiers = $this->documentRepository->getObjectIdentifiers();
-
-        //$args          = $this->request->getArguments();
-
-        // assign result list from elastic search
-        //$this->view->assign('searchList', $args['results']);
-        //$this->view->assign('alreadyImported', $objectIdentifiers);
-        //$this->view->assign('resultCount', self::RESULT_COUNT);
-
-        //$this->view->assign('query', $args['query']);
     }
 
     /**
@@ -599,7 +596,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     private function escapeQuery($string)
     {
-        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^"~?:\\');
+        $luceneReservedCharacters = preg_quote('+-&|!(){}[]^~?:\\');
         $string                   = preg_replace_callback(
             '/([' . $luceneReservedCharacters . '])/',
             function ($matches) {
