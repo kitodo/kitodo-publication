@@ -248,7 +248,7 @@ class ElasticSearch
 
             $data->authorAndPublisher = array_merge($authors, $publishers);
 
-            $data->source = $document->getSourceDetails();
+            $data->source = implode(",",$document->getSourceDetails());
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {
