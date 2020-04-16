@@ -481,11 +481,12 @@ class DocumentController extends AbstractController
             if ($document->isWorkingCopy() || $document->isTemporaryCopy()) {
 
                 if ($document->isWorkingCopy()) {
-                    $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
-                        AbstractMessage::INFO
-                    );
+                    if ($this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid())) {
+                        $this->addFlashMessage(
+                            LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
+                            AbstractMessage::INFO
+                        );
+                    }
                 }
 
                 $this->persistenceManager->persistAll();
@@ -879,15 +880,18 @@ class DocumentController extends AbstractController
                         case DocumentWorkflow::STATE_NONE_INACTIVE:
                         case DocumentWorkflow::STATE_NONE_ACTIVE:
                         case DocumentWorkflow::STATE_NONE_DELETED:
-                            $this->bookmarkRepository->removeBookmark(
-                                $document,
-                                $this->security->getUser()->getUid()
-                            );
 
-                            $this->addFlashMessage(
-                                LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
-                                AbstractMessage::INFO
-                            );
+                            if (
+                                $this->bookmarkRepository->removeBookmark(
+                                    $document,
+                                    $this->security->getUser()->getUid()
+                                )
+                            ) {
+                                $this->addFlashMessage(
+                                    LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"), '',
+                                    AbstractMessage::INFO
+                                );
+                            }
 
                             break;
                     }

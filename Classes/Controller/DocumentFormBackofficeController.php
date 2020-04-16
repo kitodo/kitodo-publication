@@ -347,15 +347,17 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                             case DocumentWorkflow::STATE_NONE_ACTIVE:
                             case DocumentWorkflow::STATE_NONE_DELETED:
 
-                                $this->bookmarkRepository->removeBookmark(
-                                    $updateDocument,
-                                    $this->security->getUser()->getUid()
-                                );
-
-                                $this->addFlashMessage(
-                                    LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular","dpf"), '',
-                                    AbstractMessage::INFO
-                                );
+                                if (
+                                    $this->bookmarkRepository->removeBookmark(
+                                        $updateDocument,
+                                        $this->security->getUser()->getUid()
+                                    )
+                                ) {
+                                    $this->addFlashMessage(
+                                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular","dpf"), '',
+                                        AbstractMessage::INFO
+                                    );
+                                }
 
                                 $this->redirectToDocumentList();
 

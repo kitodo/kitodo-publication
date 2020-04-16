@@ -46,6 +46,7 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     /**
      * @param mixed $document
      * @param int|null $feUserUid
+     * @return bool
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function removeBookmark($document, $feUserUid)
@@ -65,10 +66,14 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
         $query->matching($query->logicalAnd($constraintsAnd));
 
+        $queryResult = $query->execute();
+
         /** @var Bookmark @$bookmark */
-        foreach ($query->execute() as $bookmark) {
+        foreach ($queryResult as $bookmark) {
             $this->remove($bookmark);
         }
+
+        return $queryResult->count() > 0;
     }
 
     /**
