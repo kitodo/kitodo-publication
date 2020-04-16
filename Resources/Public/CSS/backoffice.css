@@ -93,6 +93,7 @@ body {
 #tx-dpf-backoffice .workspace-filter {
     margin-top: .25rem;
     margin-bottom: .25rem;
+    font-weight: normal;
 }
 
 #tx-dpf-backoffice .table-manager .select2 {
