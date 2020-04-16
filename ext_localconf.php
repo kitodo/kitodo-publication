@@ -30,8 +30,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\T
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\EmbargoTask'] = array(
     'extension' => $_EXTKEY,
-    'title' => 'LLL:EXT:Dpf/Resources/Private/Language/localconf.xlf:task.embargo.title',
-    'description' => 'LLL:EXT:Dpf/Resources/Private/Language/localconf.xlf:task.embargo.description',
+    'title' => 'Kitodo.Publication Embargo Task',
+    'description' => 'Embargo task for sending information to admins or publish files automatically if the embargo date is expired',
 );
 
 
