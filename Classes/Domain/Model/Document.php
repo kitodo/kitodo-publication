@@ -935,7 +935,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $mods = new Mods($this->getXmlData());
         $data = $mods->getSourceDetails();
-        return $data? $data : "";
+        return $data;
     }
 
 

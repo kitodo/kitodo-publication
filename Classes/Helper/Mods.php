@@ -257,32 +257,35 @@ class Mods
         }
     }
 
-
+    /**
+     * @return string
+     */
     public function getSourceDetails()
     {
-        $data = "";
-        $dataNode = $this->getModsXpath()->query('/mods:mods/mods:relatedItem[@type="original"]');
+        $data = [];
 
-        foreach ($dataNode as $node) {
-            $data .= preg_replace('/\s+/', ' ', $node->nodeValue);
-        }
+        $dataNodes[] = $this->getModsXpath()->query('/mods:mods/mods:relatedItem[@type="original"]');
 
-        $dataNode = $this->getModsXpath()->query(
+        $dataNodes[] = $this->getModsXpath()->query(
             '/mods:mods/mods:part[@type="article"]/mods:detail/mods:number'
         );
 
-        foreach ($dataNode as $node) {
-            $data .= preg_replace('/\s+/', ' ', $node->nodeValue);
+        $dataNodes[] = $this->getModsXpath()->query('/mods:mods/mods:part[@type="section"]');
+
+        foreach ($dataNodes as $dataNode) {
+            foreach ($dataNode as $node) {
+                if ($node->hasChildNodes()) {
+                    foreach ($node->childNodes as $n) {
+                        $data[] = preg_replace('/\s+/', ' ', $n->textContent);
+                    }
+                } else {
+                    $data[] = preg_replace('/\s+/', ' ', $node->textContent);
+                }
+            }
         }
 
-        $dataNode = $this->getModsXpath()->query('/mods:mods/mods:part[@type="section"]');
-
-        foreach ($dataNode as $node) {
-            $data .= preg_replace('/\s+/', ' ', $node->nodeValue);
-        }
-
-        $output = explode(" ", trim(preg_replace('/\s+/', ' ', $data)));
-
+        $output = trim(implode(' ', $data));
+        $output = preg_replace('/\s+/ ', ' ', $output);
         return $output;
     }
 }

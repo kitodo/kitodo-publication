@@ -21,6 +21,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  */
 class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 {
+    // obsolete class
 
     /**
      * action

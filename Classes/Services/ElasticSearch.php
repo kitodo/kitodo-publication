@@ -24,6 +24,8 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
  */
 class ElasticSearch
 {
+    // obsolete class
+
     protected $es;
 
     protected $server = ''; //127.0.0.1';

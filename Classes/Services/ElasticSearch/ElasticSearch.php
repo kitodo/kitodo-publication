@@ -171,8 +171,10 @@ class ElasticSearch
                         ],
                         'creatorRole' => [
                             'type' => 'keyword'
+                        ],
+                        'source' => [
+                            'type' => 'text'
                         ]
-
                     ]
                 ]
             ]
@@ -248,7 +250,12 @@ class ElasticSearch
 
             $data->authorAndPublisher = array_merge($authors, $publishers);
 
-            $data->source = implode(",",$document->getSourceDetails());
+            $data->source = $document->getSourceDetails();
+
+            //var_dump($data->source);
+            //die();
+           // print_r($document->getXmlData()); die();
+
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {

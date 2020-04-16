@@ -24,6 +24,7 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
 
 class ElasticsearchRepository implements Repository
 {
+    // obsolete class
 
     /**
      * clientRepository
