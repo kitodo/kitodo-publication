@@ -158,11 +158,17 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      *
      * @return void
      */
-    public function listAction()
+    public function searchAction()
     {
         $args = $this->request->getArguments();
 
+        /** @var SearchSessionData $workspaceSessionData */
         $workspaceSessionData = $this->session->getWorkspaceData();
+
+        if ($args['query'] && array_key_exists('fulltext', $args['query'])) {
+            $queryString = $args['query']['fulltext'];
+            $workspaceSessionData->setSimpleQuery($queryString);
+        }
 
         if ($args['refresh']) {
             $workspaceSessionData->clearSort();
@@ -330,7 +336,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
 
+        /** @var SearchSessionData $workspaceSessionData */
         $workspaceSessionData = $this->session->getWorkspaceData();
+
+        if ($args['query'] && array_key_exists('fulltext', $args['query'])) {
+            $queryString = $args['query']['fulltext'];
+            $workspaceSessionData->setSimpleQuery($queryString);
+        }
 
         if ($args['refresh']) {
             $workspaceSessionData->clearSort();
@@ -426,38 +438,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         }
 
         $this->forward("list", null, null, array('results' => $results));
-    }
-
-    /**
-     * action search
-     * @return void
-     */
-    public function searchAction()
-    {
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
-
-        $args = $this->request->getArguments();
-
-        /** @var SearchSessionData $workspaceSessionData */
-        $workspaceSessionData = $this->session->getWorkspaceData();
-
-
-        if ($args['query'] && array_key_exists('fulltext', $args['query'])) {
-            $queryString = $args['query']['fulltext'];
-            $workspaceSessionData->setSimpleQuery($queryString);
-        }
-
-        $workspaceSessionData->clearSort();
-        $workspaceSessionData->clearFilters();
-        $this->session->setWorkspaceData($workspaceSessionData);
-
-        if ($args['query'] && array_key_exists('extsearch', $args['query'])) {
-            // redirect to extended search view
-            $this->forward("extendedSearch", null, null);
-        } else {
-            // redirect to list view
-            $this->forward("list", null, null);
-        }
     }
 
 
