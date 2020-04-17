@@ -179,6 +179,9 @@ var extendedSearch = {
                 case "date-range":
                     fieldPart = _this.dateRangeField(formGroup, field);
                     break;
+                case "phrase":
+                    fieldPart = _this.valueField(formGroup, field, true);
+                    break;
                 default:
                     fieldPart = _this.valueField(formGroup, field);
                     break;
@@ -206,9 +209,13 @@ var extendedSearch = {
         });
     },
 
-    valueField: function(group, field) {
+    valueField: function(group, field, phrase = false) {
 
         var value = jQuery(".search-field-"+group+" .search-field-value").val();
+
+        if (phrase) {
+            value = '"'+value+'"';
+        }
 
         var fieldPart = "";
 
