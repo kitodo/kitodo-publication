@@ -246,7 +246,7 @@ var extendedSearch = {
 
             from = (from.length > 0)? from : "*";
             to = (to.length > 0)? to : "*";
-            fieldPart = field+":{"+from+" TO "+to+"}";
+            fieldPart = field+":["+from+" TO "+to+"]";
         }
 
         return fieldPart;
@@ -283,7 +283,7 @@ var extendedSearch = {
 
             from = (from.length > 0)? from : "*";
             to = (to.length > 0)? to : "*";
-            fieldPart = field+":{"+from+" TO "+to+"}";
+            fieldPart = field+":["+from+" TO "+to+"]";
         }
 
         return fieldPart;

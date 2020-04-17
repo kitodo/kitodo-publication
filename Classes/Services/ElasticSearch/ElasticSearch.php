@@ -252,10 +252,6 @@ class ElasticSearch
 
             $data->source = $document->getSourceDetails();
 
-            //var_dump($data->source);
-            //die();
-           // print_r($document->getXmlData()); die();
-
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {
@@ -267,7 +263,12 @@ class ElasticSearch
                 }
             }
 
-            $data->embargoDate = "2020-03-01";
+            $embargoDate = $document->getEmbargoDate();
+            if ($embargoDate instanceof \DateTime) {
+                $data->embargoDate = $embargoDate->format("Y-m-d");
+            } else {
+                $data->embargoDate = null;
+            }
 
             $data->originalSourceTitle = $mods->getOriginalSourceTitle();
 
