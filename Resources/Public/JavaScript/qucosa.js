@@ -179,6 +179,9 @@ var extendedSearch = {
                 case "date-range":
                     fieldPart = _this.dateRangeField(formGroup, field);
                     break;
+                case "year-range":
+                    fieldPart = _this.yearRangeField(formGroup, field);
+                    break;
                 case "phrase":
                     fieldPart = _this.valueField(formGroup, field, true);
                     break;
@@ -226,6 +229,29 @@ var extendedSearch = {
 
         return fieldPart;
     },
+
+    yearRangeField: function(group, field) {
+
+        var from = jQuery(".search-field-"+group+" .search-field-from").val();
+        var to =   jQuery(".search-field-"+group+" .search-field-to").val();
+
+        var fieldPart = "";
+
+        if (from.length > 0 && to.length > 0) {
+            fieldPart = field+":["+from+" TO "+to+"]";
+        } else {
+            if (from.length == 0 && to.length == 0) {
+                return "";
+            }
+
+            from = (from.length > 0)? from : "*";
+            to = (to.length > 0)? to : "*";
+            fieldPart = field+":{"+from+" TO "+to+"}";
+        }
+
+        return fieldPart;
+    },
+
 
     dateRangeField: function(group, field) {
 
