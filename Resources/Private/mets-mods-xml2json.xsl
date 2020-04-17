@@ -168,14 +168,6 @@
     <template name="publisher">
         <param name="modsElement"></param>
         <text>&quot;publisher&quot;:[</text>
-        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
-            <call-template name="quote">
-                <with-param name="s" select="mods:publisher"></with-param>
-            </call-template>
-            <choose>
-                <when test="position() != last()">,</when>
-            </choose>
-        </for-each>
         <for-each select="$modsElement/mods:relatedItem[@type=&apos;original&apos;]">
             <call-template name="quote">
                 <with-param name="s" select="mods:originInfo/mods:publisher"></with-param>
