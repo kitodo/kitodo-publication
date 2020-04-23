@@ -54,54 +54,55 @@ plugin.tx_dpf {
 		requireCHashArgumentForActionArguments = 0
 	}
 
-        settings {
-			# --------------
-			#  List
-			# --------------
-			list {
-				# Paginate configuration.
-				paginate {
-					itemsPerPage = 20
-					insertAbove = TRUE
-					insertBelow = TRUE
-					lessPages = TRUE
-					forcedNumberOfLinks = 5
-					pagesBefore = 3
-					pagesAfter = 3
-				}
-			}
-
-			defaultValue {
-                fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
+    settings {
+        # --------------
+        #  List
+        # --------------
+        list {
+            # Paginate configuration.
+            paginate {
+                itemsPerPage = 20
+                insertAbove = TRUE
+                insertBelow = TRUE
+                lessPages = TRUE
+                forcedNumberOfLinks = 5
+                pagesBefore = 3
+                pagesAfter = 3
             }
-			apiPid = {$plugin.tx_dpf.settings.apiPid}
-			landingPage = {$plugin.tx_dpf.settings.landingPage}
-			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
-
-			loginPage = {$plugin.tx_dpf.settings.loginPage}
-
-			afterDocSavedRedirectPage =
-
-			previewPage = {$plugin.tx_dpf.settings.previewPid}
-
-			postponeOptionListName = postponeOptions
-			discardOptionListName = discardOptions
-
-			workspaceItemsPerPage = {$plugin.tx_dpf.settings.workspaceItemsPerPage}
-
-			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
-
-			timezone = Europe/Berlin
-
-			# Settings for the pagination of the list views workspace, my publications and search results.
-			documentListPagination {
-				maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
-			}
-
-			development {
-				docker = {$plugin.tx_dpf.settings.development.docker};
-			}
         }
+
+        defaultValue {
+            fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
+        }
+        apiPid = {$plugin.tx_dpf.settings.apiPid}
+        landingPage = {$plugin.tx_dpf.settings.landingPage}
+        searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
+
+        loginPage = {$plugin.tx_dpf.settings.loginPage}
+
+        backofficePluginPage = {$plugin.tx_dpf.settings.backofficePluginPage}
+
+        afterDocSavedRedirectPage =
+
+        previewPage = {$plugin.tx_dpf.settings.previewPid}
+
+        postponeOptionListName = postponeOptions
+        discardOptionListName = discardOptions
+
+        workspaceItemsPerPage = {$plugin.tx_dpf.settings.workspaceItemsPerPage}
+
+        universityCollection = {$plugin.tx_dpf.settings.universityCollection}
+
+        timezone = Europe/Berlin
+
+		# Settings for the pagination of the list views workspace, my publications and search results.
+		documentListPagination {
+			maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
+		}
+		development {
+			docker = {$plugin.tx_dpf.settings.development.docker};
+		}
+    }
 }
 
 

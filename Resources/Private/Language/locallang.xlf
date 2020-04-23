@@ -915,6 +915,7 @@ Title: ###TITLE###
 Author: ###AUTHOR###
 URN: ###URN###
 Date: ###DATE###
+URL: ###DETAIL_URL###
 			</source>
 		</trans-unit>
 		<trans-unit id="notification.newSuggestion.admin.subject">

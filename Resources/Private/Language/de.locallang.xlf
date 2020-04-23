@@ -1252,6 +1252,7 @@ Title: ###TITLE###
 Author: ###AUTHOR###
 URN: ###URN###
 Date: ###DATE###
+URL: ###DETAIL_URL###
 			</source>
 			<target>Ein Änderungsvorschlag wurde erstellt:
 Submitter: ###SUBMITTER_NAME###
@@ -1259,6 +1260,7 @@ Title: ###TITLE###
 Author: ###AUTHOR###
 URN: ###URN###
 Date: ###DATE###
+URL: ###DETAIL_URL###
 			</target>
 		</trans-unit>
 		<trans-unit id="notification.newSuggestion.admin.subject" approved="yes">

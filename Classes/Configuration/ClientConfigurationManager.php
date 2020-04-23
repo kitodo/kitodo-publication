@@ -181,4 +181,9 @@ class ClientConfigurationManager
     	return $this->getSetting("uploadDomain","uploadDomain");
     }
 
+    public function getSuggestionFlashMessage()
+    {
+        return $this->getSetting("suggestionFlashmessage", "suggestionFlashmessage");
+    }
+
 }

@@ -425,7 +425,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   admin_oa_fond_subject varchar(1024) DEFAULT '' NOT NULL,
   admin_oa_fond_body text NOT NULL,
 
-  suggestion_flashmessage varchar(1024) DEFAULT '' NOT NULL,
+  suggestion_flashmessage varchar(255) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

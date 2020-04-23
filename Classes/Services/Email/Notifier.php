@@ -125,49 +125,6 @@ class Notifier
         }
     }
 
-    public function sendAdminEmbargoAutomaticNotification(\EWW\Dpf\Domain\Model\Document $document) {
-        try {
-            /** @var $client \EWW\Dpf\Domain\Model\Client */
-            $client = $this->clientRepository->findAll()->current();
-            $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
-
-            // Notify client admin
-            if ($clientAdminEmail) {
-                $subject = $client->getAdminEmbargoAutomaticSubject();
-                $body = $client->getAdminEmbargoAutomaticBody();
-                $mailType = 'text/html';
-
-                if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoAutomatic.admin.subject', 'dpf');
-                }
-
-                if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.embargoAutomatic.admin.body', 'dpf');
-                    $mailType = 'text/plain';
-                }
-
-                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
-
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendAdminEmbargoAutomaticNotification failed",
-                array(
-                    'document' => $document
-                )
-            );
-        }
-    }
-
     public function sendAdminEmbargoExpiredNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
             /** @var $client \EWW\Dpf\Domain\Model\Client */
@@ -212,9 +169,26 @@ class Notifier
     }
 
     public function getMailMarkerArray($document, $client, $documentType, $slub, $mods) {
+
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+
+        /** @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager */
+        $configurationManager = $objectManager->get('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
+        $settings = $configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT,
+            'dpf',
+            'backoffice'
+        );
+
         $args['###CLIENT###'] = $client->getClient();
         $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-        $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+
+        if ($documentType) {
+            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+        } else {
+            $args['###DOCUMENT_TYPE###'] = '';
+        }
+
         $args['###TITLE###'] = $document->getTitle();
         $args['###AUTHOR###'] = array_shift($document->getAuthors());
 
@@ -226,9 +200,18 @@ class Notifier
         $args['###URN###'] = $mods->getQucosaUrn();
         $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
 
+        $host = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+        $backofficePageId = $settings['plugin.']['tx_dpf.']['settings.']['backofficePluginPage'];
+
+        $detailUrl = $host . '/index.php?id=' . $backofficePageId;
+        $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
+        $detailUrl .= '&tx_dpf_backoffice[action]=showDetails';
+        $detailUrl .= '&tx_dpf_backoffice[controller]=Document';
+
+        $args['###DETAIL_URL###'] = $detailUrl;
+
         return $args;
     }
-
 
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
@@ -242,19 +225,7 @@ class Notifier
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -318,21 +289,8 @@ class Notifier
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Notify submitter
             if ($submitterEmail) {
@@ -372,6 +330,7 @@ class Notifier
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
+<<<<<<< HEAD
 //            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
 
@@ -393,6 +352,16 @@ class Notifier
             // Notify client admin
             if ($clientAdminEmail) {
 
+=======
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Notify client admin
+            if ($clientAdminEmail) {
+                $subject = $client->getAdminEmbargoSubject();
+                $body = $client->getAdminEmbargoBody();
+>>>>>>> add suggestions flashmessage and mail notification
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
@@ -431,22 +400,8 @@ class Notifier
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
-
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Notify client admin
             if ($clientAdminEmail) {
