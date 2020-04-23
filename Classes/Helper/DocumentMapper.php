@@ -323,8 +323,6 @@ class DocumentMapper
         $document->setReservedObjectIdentifier($documentForm->getQucosaId());
 
         $document->setValid($documentForm->getValid());
-
-        $document->setAutomaticEmbargo($documentForm->getAutomaticEmbargo());
         
         if ($documentForm->getComment()) {
             $document->setComment($documentForm->getComment());

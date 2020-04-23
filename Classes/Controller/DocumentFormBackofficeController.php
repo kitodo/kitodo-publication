@@ -147,7 +147,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         $this->view->assign('document', $document);
         $this->view->assign('suggestMod', $suggestMod);
-        $this->view->assign('automaticEmbargo', $documentForm->getAutomaticEmbargo());
 
         $this->editingLockService->lock(
             ($document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid()),

@@ -962,22 +962,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return bool
-     */
-    public function getAutomaticEmbargo(): bool
-    {
-        return $this->automaticEmbargo;
-    }
-
-    /**
-     * @param bool $automaticEmbargo
-     */
-    public function setAutomaticEmbargo(bool $automaticEmbargo)
-    {
-        $this->automaticEmbargo = $automaticEmbargo;
-    }
-
-    /**
      * @return \DateTime|null
      */
     public function getEmbargoDate(): ?\DateTime
