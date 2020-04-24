@@ -23,7 +23,10 @@ class EmbargoTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask
         foreach ($embargoDocuments as $document) {
             if ($currentDate > $document->getEmbargoDate()) {
 
-                if ($document->getState() != DocumentWorkflow::SIMPLE_STATE_REGISTERED) {
+                if ($document->getState() == DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS OR
+                    $document->getState() == DocumentWorkflow::SIMPLE_STATE_RELEASED OR
+                    $document->getState() == DocumentWorkflow::SIMPLE_STATE_POSTPONED OR
+                    $document->getState() == DocumentWorkflow::SIMPLE_STATE_DISCARDED) {
                     // send message
                     $notifier = $objectManager->get(Notifier::class);
                     $notifier->sendEmbargoNotification($document);
