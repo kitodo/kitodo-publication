@@ -211,7 +211,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setTransferStatus("RESTORE");
         }
 
-        if (!$hasFilesFlag) {
+        if ($hasFilesFlag) {
             // Add or update files
             foreach ($documentForm->getNewFiles() as $newFile) {
                 if ($newFile->getUID()) {
@@ -221,6 +221,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $this->fileRepository->add($newFile);
                 }
 
+                $newDocument->addFile($newFile);
             }
         } else {
             // remove files for suggest object
@@ -241,10 +242,9 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 );
             }
             $this->addFlashMessage($flashMessage, '', AbstractMessage::OK, true);
-            
-            $notifier = $this->objectManager->get(Notifier::class);
-            $notifier->sendAdminNewSuggestionNotification($document);
 
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendAdminNewSuggestionNotification($newDocument);
 
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;

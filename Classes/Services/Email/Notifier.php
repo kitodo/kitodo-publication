@@ -14,6 +14,7 @@ namespace EWW\Dpf\Services\Email;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -168,7 +169,8 @@ class Notifier
         }
     }
 
-    public function getMailMarkerArray($document, $client, $documentType, $slub, $mods) {
+
+    public function getMailMarkerArray(Document $document, $client, $documentType, $slub, $mods) {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
@@ -209,6 +211,17 @@ class Notifier
         $detailUrl .= '&tx_dpf_backoffice[controller]=Document';
 
         $args['###DETAIL_URL###'] = $detailUrl;
+
+        $args['###HAS_FILES###'] = 'Metadata only';
+
+        if ($document->getFileData()) {
+            $args['###HAS_FILES###'] = 'Attachement';
+            foreach ($document->getFileData() as $fileSection) {
+                foreach ($fileSection as $file) {
+                    $args['###FILE_LIST###'] .= $file['title'];
+                }
+            }
+        }
 
         return $args;
     }
