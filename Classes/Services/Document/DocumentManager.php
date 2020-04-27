@@ -186,6 +186,8 @@ class DocumentManager
                 // remove document only if embargo is not set
                 if($currentDate > $document->getEmbargoDate()){
                     $this->removeDocument($document);
+                } else {
+                    $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
                 }
                 $updateResult = $document->getDocumentIdentifier();
             } else {
