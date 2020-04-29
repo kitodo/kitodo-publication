@@ -234,6 +234,8 @@ abstract class AbstractDocumentFormController extends AbstractController
                 } else {
                     $newFile->setDocument($newDocument);
                     $this->fileRepository->add($newFile);
+                    $newDocument->addFile($newFile);
+                    $this->documentRepository->update($newDocument);
                 }
             }
         }
