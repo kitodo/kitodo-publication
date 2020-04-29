@@ -643,7 +643,7 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         }
 
-        if (!$this->documentValidator->validate($document)) {
+        if (!$this->documentValidator->validate($document, false)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.missingValues';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);

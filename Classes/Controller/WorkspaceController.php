@@ -236,7 +236,7 @@ class WorkspaceController  extends AbstractController
 
                     if ($this->authorizationChecker->isGranted(DocumentVoter::REGISTER, $document)) {
 
-                        if ($this->documentValidator->validate($document)) {
+                        if ($this->documentValidator->validate($document, false)) {
 
                             if (
                                 $this->documentManager->update(
