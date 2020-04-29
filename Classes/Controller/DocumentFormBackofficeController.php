@@ -211,7 +211,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setTransferStatus("RESTORE");
         }
 
-        if ($hasFilesFlag) {
+        if (!$hasFilesFlag) {
             // Add or update files
             foreach ($documentForm->getNewFiles() as $newFile) {
                 if ($newFile->getUID()) {
