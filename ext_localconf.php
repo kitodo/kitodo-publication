@@ -86,7 +86,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
@@ -102,7 +102,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
