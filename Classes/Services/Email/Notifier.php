@@ -205,17 +205,24 @@ class Notifier
         $host = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $backofficePageId = $settings['plugin.']['tx_dpf.']['settings.']['backofficePluginPage'];
 
-        $detailUrl = $host . '/index.php?id=' . $backofficePageId;
-        $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
-        $detailUrl .= '&tx_dpf_backoffice[action]=showDetails';
-        $detailUrl .= '&tx_dpf_backoffice[controller]=Document';
+        if ($document->isSuggestion()) {
+            $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
+            $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
+            $detailUrl .= '&tx_dpf_backoffice[action]=showSuggestionDetails';
+            $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Änderungsvorschlag</a>';
+        } else {
+            $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
+            $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
+            $detailUrl .= '&tx_dpf_backoffice[action]=showDetails';
+            $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Dokument</a>';
+        }
 
         $args['###DETAIL_URL###'] = $detailUrl;
 
         $args['###HAS_FILES###'] = 'Metadata only';
 
         if ($document->getFileData()) {
-            $args['###HAS_FILES###'] = 'Attachement';
+            $args['###HAS_FILES###'] = 'Attachment';
             foreach ($document->getFileData() as $fileSection) {
                 foreach ($fileSection as $file) {
                     $args['###FILE_LIST###'] .= $file['title'];
