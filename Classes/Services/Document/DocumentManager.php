@@ -296,7 +296,8 @@ class DocumentManager
     protected function updateRemotely($document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
     {
         $lastModDate = $this->getDocumentTransferManager()->getLastModDate($document->getObjectIdentifier());
-        if ($lastModDate !== $document->getRemoteLastModDate()) {
+        $docLastModDate = $document->getRemoteLastModDate();
+        if ($lastModDate !== $docLastModDate && !empty($docLastModDate)) {
             // There is a newer version in the fedora repository.
             return false;
         }

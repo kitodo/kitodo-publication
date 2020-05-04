@@ -153,6 +153,7 @@ class DocumentTransferManager
                             $fileData[$fileSection][$fileId][$key] = '#';
                         }
                     }
+                    unset($fileData[$fileSection][$fileId]);
                 }
             }
         }
