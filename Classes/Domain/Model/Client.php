@@ -232,26 +232,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $adminFilesAddedSubject = '';
-
-    /**
-     * @var string
-     */
-    protected $adminFilesAddedBody = '';
-
-    /**
-     * @var string
-     */
-    protected $adminEmbargoAutomaticSubject = '';
-
-    /**
-     * @var string
-     */
-    protected $adminEmbargoAutomaticBody = '';
-
-    /**
-     * @var string
-     */
     protected $adminEmbargoSubject = '';
 
     /**
@@ -892,70 +872,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setAdminNewSuggestionBody(string $adminNewSuggestionBody)
     {
         $this->adminNewSuggestionBody = $adminNewSuggestionBody;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminFilesAddedSubject(): string
-    {
-        return $this->adminFilesAddedSubject;
-    }
-
-    /**
-     * @param string $adminFilesAddedSubject
-     */
-    public function setAdminFilesAddedSubject(string $adminFilesAddedSubject)
-    {
-        $this->adminFilesAddedSubject = $adminFilesAddedSubject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminFilesAddedBody(): string
-    {
-        return $this->adminFilesAddedBody;
-    }
-
-    /**
-     * @param string $adminFilesAddedBody
-     */
-    public function setAdminFilesAddedBody(string $adminFilesAddedBody)
-    {
-        $this->adminFilesAddedBody = $adminFilesAddedBody;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminEmbargoAutomaticSubject(): string
-    {
-        return $this->adminEmbargoAutomaticSubject;
-    }
-
-    /**
-     * @param string $adminEmbargoAutomaticSubject
-     */
-    public function setAdminEmbargoAutomaticSubject(string $adminEmbargoAutomaticSubject)
-    {
-        $this->adminEmbargoAutomaticSubject = $adminEmbargoAutomaticSubject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminEmbargoAutomaticBody(): string
-    {
-        return $this->adminEmbargoAutomaticBody;
-    }
-
-    /**
-     * @param string $adminEmbargoAutomaticBody
-     */
-    public function setAdminEmbargoAutomaticBody(string $adminEmbargoAutomaticBody)
-    {
-        $this->adminEmbargoAutomaticBody = $adminEmbargoAutomaticBody;
     }
 
     /**

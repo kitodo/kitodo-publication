@@ -83,48 +83,6 @@ class Notifier
         }
     }
 
-    public function sendAdminFilesAddedNotification(\EWW\Dpf\Domain\Model\Document $document) {
-        try {
-            /** @var $client \EWW\Dpf\Domain\Model\Client */
-            $client = $this->clientRepository->findAll()->current();
-            $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
-
-            // Notify client admin
-            if ($clientAdminEmail) {
-                $subject = $client->getAdminFilesAddedSubject();
-                $body = $client->getAdminFilesAddedBody();
-                $mailType = 'text/html';
-
-                if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.filesAdded.admin.subject', 'dpf');
-                }
-
-                if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.filesAdded.admin.body', 'dpf');
-                    $mailType = 'text/plain';
-                }
-
-                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
-
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendAdminFilesAddedNotification failed",
-                array(
-                    'document' => $document
-                )
-            );
-        }
-    }
 
     public function sendAdminEmbargoExpiredNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {

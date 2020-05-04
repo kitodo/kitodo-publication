@@ -921,30 +921,6 @@ URL: ###DETAIL_URL###
 		<trans-unit id="notification.newSuggestion.admin.subject">
 				<source>New suggestion</source>
 			</trans-unit>
-			<trans-unit id="notification.filesAdded.admin.body" xml:space="preserve">
-			<source>New files have been added:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-		</trans-unit>
-		<trans-unit id="notification.filesAdded.admin.subject">
-			<source>New files added</source>
-		</trans-unit>
-		<trans-unit id="notification.embargoAutomatic.admin.body" xml:space="preserve">
-			<source>Embargo is expired and Document has been published automatically:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-		</trans-unit>
-		<trans-unit id="notification.embargoAutomatic.admin.subject">
-			<source>Embargo expired (automatic)</source>
-		</trans-unit>
 		<trans-unit id="notification.embargoExpired.admin.body">
 			<source>Embargo is expired:
 Submitter: ###SUBMITTER_NAME###

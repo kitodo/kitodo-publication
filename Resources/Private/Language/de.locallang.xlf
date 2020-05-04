@@ -1267,46 +1267,6 @@ URL: ###DETAIL_URL###
 			<source>New suggestion</source>
 			<target>Ein Änderungsvorschlag wurde erstellt</target>
 		</trans-unit>
-		<trans-unit id="notification.filesAdded.admin.body" approved="yes" xml:space="preserve">
-			<source>New files have been added:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-				<target>Neue Dateien wurden hinzugefügt:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</target>
-		</trans-unit>
-		<trans-unit id="notification.filesAdded.admin.subject" approved="yes">
-			<source>New files added</source>
-			<target>Neue Dateien wurden hinzugefügt</target>
-		</trans-unit>
-		<trans-unit id="notification.embargoAutomatic.admin.body" approved="yes" xml:space="preserve">
-			<source>Embargo is expired and Document has been published automatically:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-				<target>Embargo ist abgelaufen, Dokument wurde publiziert:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</target>
-		</trans-unit>
-		<trans-unit id="notification.embargoAutomatic.admin.subject" approved="yes">
-			<source>Embargo expired (automatic)</source>
-			<target>Embargo abgelaufen (automatisch)</target>
-		</trans-unit>
 		<trans-unit id="notification.embargoExpired.admin.body" approved="yes" xml:space="preserve">
 			<source>Embargo is expired:
 Submitter: ###SUBMITTER_NAME###
