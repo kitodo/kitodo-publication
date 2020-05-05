@@ -182,9 +182,8 @@ class DocumentManager
                     throw \Exception("Logical exception while updating bookmarks.");
                 }
 
-                $currentDate = new \DateTime('now');
-                // remove document only if embargo is not set
-                if($currentDate > $document->getEmbargoDate()){
+                // check embargo
+                if(!$this->checkEmbargoDate($document)){
                     $this->removeDocument($document);
                 } else {
                     $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
@@ -330,11 +329,33 @@ class DocumentManager
         }
 
         if ($this->getDocumentTransferManager()->update($document)) {
-            $this->removeDocument($document);
+
+            if(!$this->checkEmbargoDate($document)){
+                $this->removeDocument($document);
+            } else {
+                $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+            }
             return $document->getDocumentIdentifier();
         }
 
         return false;
+    }
+
+    /**
+     * @param $document
+     * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
+     * @throws \Exception
+     */
+    protected function checkEmbargoDate($document)
+    {
+        $currentDate = new \DateTime('now');
+        if($currentDate > $document->getEmbargoDate()){
+            // embargo is expired
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
 }
