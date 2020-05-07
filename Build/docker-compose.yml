@@ -35,12 +35,35 @@ services:
             - frontend
             - backend
 
+    elasticsearch-kitodo-75:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.5.0
+        container_name: elasticsearch-kitodo-75
+        environment:
+            - xpack.ml.enabled: false
+            - node.name=elasticsearch-kitodo-75
+            - cluster.name=es-docker-cluster
+            - cluster.initial_master_nodes=elasticsearch-kitodo-75
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        volumes:
+            - elasticsearch-kitodo-75:/elasticsearch/data
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        ports:
+            - "4713:9200"
+        networks:
+            - backend
+            - kitodopublication_frontend
+
 volumes:
     db:
     fileadmin:
     typo3temp:
     typo3conf:
     uploads:
+    elasticsearch-kitodo-75:
 
 networks:
     frontend:
