@@ -118,9 +118,12 @@
 
     <p class="text-center">
         <div class="form-inline justify-content-center">
-            <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+            <f:if condition="{documentCount}">
+                <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+            </f:if>
                 {f:translate(key: 'manager.workspace.itemsPerPage')}
-            <div class="input-group mx-sm-2" style="width:100px;">
+
+        <div class="input-group mx-sm-2" style="width:100px;">
                 <div class="input-group-prepend">
                     <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
                 </div>
