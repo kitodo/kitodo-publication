@@ -674,6 +674,21 @@
         <trans-unit id="manager.workspace.batchAction.release.success.plural">
             <source>%s records out of %s successfully released.</source>
         </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
+            <source>Register</source>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
+            <source>Export</source>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
+            <source>Remove from "Workspace"</source>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseValidated" approved="yes">
+            <source>Release and validate</source>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
+            <source>Release and not validate</source>
+        </trans-unit>
 		<trans-unit id="manager.workspace.bookmarkRemoved.singular">
 			<source>Record has been removed from workspace.</source>
 		</trans-unit>

@@ -905,6 +905,26 @@
             <source>The desired action is not possible for your selection.</source>
             <target>Die gewünschte Aktion ist für Ihre Auswahl nicht möglich.</target>
         </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
+            <source>Register</source>
+            <target>Eingestellte melden</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
+            <source>Export</source>
+            <target>Exportieren</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
+            <source>Remove from "Workspace"</source>
+            <target>Aus "Arbeitsbereich" entfernen</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseValidated" approved="yes">
+            <source>Release and validate</source>
+            <target>Freigeben und validieren</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
+            <source>Release and not validate</source>
+            <target>Freigeben und nicht validieren</target>
+        </trans-unit>
 		<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
 			<source>Record has been removed from workspace.</source>
 			<target>Datensatz aus Arbeitsbereich entfernt.</target>
