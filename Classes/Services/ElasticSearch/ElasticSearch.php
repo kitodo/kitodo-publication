@@ -21,6 +21,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Helper\Mods;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Log\LogManager;
 
 class ElasticSearch
 {
@@ -223,7 +225,7 @@ class ElasticSearch
 
 
     /**
-     * Deletes a document fron the index
+     * Deletes a document from the index
      *
      * @param string $identifier
      */
@@ -240,7 +242,13 @@ class ElasticSearch
             $this->client->delete($params);
 
         } catch (\Exception $e) {
-            // Nothing to be done.
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger->warning('Document could not be deleted from the index.',
+                [
+                    'Document identifier' => $identifier
+                ]
+            );
         }
     }
 
