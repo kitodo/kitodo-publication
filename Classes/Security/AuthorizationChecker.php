@@ -38,8 +38,8 @@ class AuthorizationChecker
         $security = $this->objectManager->get(\EWW\Dpf\Security\Security::class);
 
         if (
-            $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
-            $this->security->getUserRole() === Security::ROLE_RESEARCHER
+            $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN ||
+            $this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER
         ) {
             return;
         } else {

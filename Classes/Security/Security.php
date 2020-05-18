@@ -24,15 +24,6 @@ class Security
      */
     protected $frontendUserRepository = null;
 
-    /**
-     * frontendUserHelper
-     *
-     * @var \EWW\Dpf\Helper\FrontendUserHelper
-     * @inject
-     */
-    protected $frontendUserHelper = null;
-
-
     const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
     const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
@@ -52,15 +43,5 @@ class Security
             return NULL;
         }
     }
-
-    /**
-     * Get the role the user has in the current client
-     *
-     * @return string
-     */
-    public function getUserRole() {
-        return $this->frontendUserHelper->getUserRole($this->getUser()->getUid());
-    }
-
 
 }

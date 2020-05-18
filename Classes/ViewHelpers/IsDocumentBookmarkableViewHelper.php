@@ -43,11 +43,11 @@ class IsDocumentBookmarkableViewHelper extends AbstractViewHelper
             return false;
         }
 
-        if ($security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return $state !== DocumentWorkflow::STATE_NEW_NONE;
         }
 
-        if ($security->getUserRole() === Security::ROLE_RESEARCHER) {
+        if ($security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 $security->getUser()->getUid() !== $creator &&
                 $state !== DocumentWorkflow::STATE_DISCARDED_NONE &&

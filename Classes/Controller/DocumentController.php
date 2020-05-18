@@ -168,13 +168,13 @@ class DocumentController extends AbstractController
         $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
-        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        $isWorkspace = $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
 
         if (
-            $this->security->getUserRole() == Security::ROLE_LIBRARIAN
+            $this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN
         ) {
                 $documents = $this->documentRepository->findAllDocumentSuggestions(
-                    $this->security->getUserRole(),
+                    $this->security->getUser()->getUserRole(),
                     $this->security->getUser()->getUid()
                 );
         }
@@ -653,7 +653,7 @@ class DocumentController extends AbstractController
         $this->documentRepository->update($document);
 
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
         }
 
@@ -873,7 +873,7 @@ class DocumentController extends AbstractController
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.success';
                 $this->flashMessage($document, $key, AbstractMessage::OK);
 
-                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
                     switch ($document->getState()) {
                         case DocumentWorkflow::STATE_POSTPONED_NONE:
                         case DocumentWorkflow::STATE_DISCARDED_NONE:

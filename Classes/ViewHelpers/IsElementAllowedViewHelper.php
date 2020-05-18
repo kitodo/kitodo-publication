@@ -39,8 +39,9 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
         }
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var Security $security */
         $security = $objectManager->get(Security::class);
-        $clientUserRole = $security->getUserRole();
+        $clientUserRole = $security->getUser()->getUserRole();
 
         //if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
         //    return TRUE;

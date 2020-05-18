@@ -27,13 +27,12 @@ use TYPO3\CMS\Core\Log\LogManager;
 class ElasticSearch
 {
     /**
-     * frontendUserHelper
+     * frontendUserRepository
      *
-     * @var \EWW\Dpf\Helper\FrontendUserHelper
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
      * @inject
      */
-    protected $frontendUserHelper = null;
-
+    protected $frontendUserRepository = null;
 
     protected $client;
 
@@ -182,7 +181,13 @@ class ElasticSearch
 
             $data->creator = $document->getCreator();
 
-            $data->creatorRole = $this->frontendUserHelper->getUserRole($document->getCreator());
+            if ($document->getCreator()) {
+                /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */
+                $creatorFeUser = $this->frontendUserRepository->findByUid($document->getCreator());
+                $data->creatorRole = $creatorFeUser->getUserRole();
+            } else {
+                $data->creatorRole = '';
+            }
 
             $data->year = $document->getPublicationYear();
 

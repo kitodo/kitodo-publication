@@ -88,7 +88,7 @@ class DocumentValidator
 
                 $isFieldVisible = !(
                     $field->getAccessRestrictionRoles() &&
-                    !in_array($this->security->getUserRole(), $group->getAccessRestrictionRoles())
+                    !in_array($this->security->getUser()->getUserRole(), $group->getAccessRestrictionRoles())
                 );
 
                     switch ($field->getMandatory()) {
@@ -122,7 +122,7 @@ class DocumentValidator
     {
         $isGroupVisible = !(
             $group->getAccessRestrictionRoles() &&
-            !in_array($this->security->getUserRole(), $group->getAccessRestrictionRoles())
+            !in_array($this->security->getUser()->getUserRole(), $group->getAccessRestrictionRoles())
         );
 
         if (!$validateInvisableFields && !$isGroupVisible) {

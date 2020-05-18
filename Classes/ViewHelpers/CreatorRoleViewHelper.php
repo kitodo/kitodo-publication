@@ -15,16 +15,17 @@ namespace EWW\Dpf\ViewHelpers;
  */
 
 use \EWW\Dpf\Security\Security;
+use \EWW\Dpf\Domain\Model\FrontendUser;
 
 class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * frontendUserHelper
+     * frontendUserRepository
      *
-     * @var \EWW\Dpf\Helper\FrontendUserHelper
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
      * @inject
      */
-    protected $frontendUserHelper = null;
+    protected $frontendUserRepository = null;
 
     /**
      * security
@@ -46,7 +47,11 @@ class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
             return "self";
         }
 
-        $userRole = $this->frontendUserHelper->getUserRole($feUserId);
+        $userRole = '';
+        $feUser = $this->frontendUserRepository->findByUid($feUserId);
+        if ($feUser instanceof FrontendUser) {
+            $userRole = $feUserId->getUserRole();
+        }
 
         if ($userRole === Security::ROLE_LIBRARIAN) {
             return "librarian";

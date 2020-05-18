@@ -276,7 +276,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             if (
                 !$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document) ||
-                ($saveMode == 'saveWorkingCopy' && $this->security->getUserRole() !== Security::ROLE_LIBRARIAN)
+                (
+                    $saveMode == 'saveWorkingCopy' &&
+                    $this->security->getUser()->getUserRole() !== Security::ROLE_LIBRARIAN
+                )
             ) {
                 $message = LocalizationUtility::translate(
                     'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied',
@@ -307,7 +310,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             } elseif ($updateDocument->isTemporaryCopy() && $saveMode == 'saveAndUpdate') {
                 $workflowTransition = DocumentWorkflow::TRANSITION_REMOTE_UPDATE;
             } elseif (
-                $this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
+                $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN &&
                 $updateDocument->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
             ) {
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
@@ -327,7 +330,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 );
                 $this->addFlashMessage($message, '', AbstractMessage::OK);
 
-                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
                     if ($saveWorkingCopy) {
                         if(
                             $this->bookmarkRepository->addBookmark(

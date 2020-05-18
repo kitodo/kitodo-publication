@@ -235,8 +235,8 @@ class DocumentVoter extends Voter
     protected function defaultAccess()
     {
         return (
-            $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
-            $this->security->getUserRole() === Security::ROLE_RESEARCHER
+            $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN ||
+            $this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER
         );
     }
 
@@ -245,7 +245,7 @@ class DocumentVoter extends Voter
      */
     protected function librarianOnly()
     {
-        return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+        return $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
     }
 
     /**
@@ -260,7 +260,7 @@ class DocumentVoter extends Voter
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DISCARD)) {
             return (
-                $this->security->getUserRole() === Security::ROLE_LIBRARIAN ||
+                $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN ||
                 (
                     $document->getCreator() === $this->security->getUser()->getUid() &&
                     $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
@@ -278,14 +278,14 @@ class DocumentVoter extends Voter
      */
     protected function canShowDetails($document)
     {
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
                 $document->getCreator() === $this->security->getUser()->getUid()
             );
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 $document->getCreator() === $this->security->getUser()->getUid() ||
                 (
@@ -326,7 +326,7 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return $this->workflow->can($document,
                 \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_RELEASE_PUBLISH);
         }
@@ -345,7 +345,7 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return $this->workflow->can($document,
                 \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE);
         }
@@ -364,7 +364,7 @@ class DocumentVoter extends Voter
         }
 
         if ($document->isSuggestion()) {
-            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+            return $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_LOCALLY)) {
@@ -372,7 +372,7 @@ class DocumentVoter extends Voter
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_DISCARDED)) {
-            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+            return $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
         }
 
         return FALSE;
@@ -390,7 +390,7 @@ class DocumentVoter extends Voter
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_DELETE_WORKING_COPY)) {
-            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+            return $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
         }
 
         return FALSE;
@@ -407,7 +407,7 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
                 $document->getCreator() === $this->security->getUser()->getUid()
@@ -435,7 +435,7 @@ class DocumentVoter extends Voter
             return FALSE;
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             return (
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
                 $document->getCreator() === $this->security->getUser()->getUid()
@@ -459,7 +459,7 @@ class DocumentVoter extends Voter
      */
     protected function canSuggestRestore($document)
     {
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
 
             $objectManager =GeneralUtility::makeInstance(ObjectManager::class);
             $documentRepository = $objectManager->get(DocumentRepository::class);
@@ -493,7 +493,7 @@ class DocumentVoter extends Voter
             $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
         }
 
-        if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
                 (
                     $document->getCreator() !== $this->security->getUser()->getUid() &&
@@ -531,7 +531,7 @@ class DocumentVoter extends Voter
         }
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_POSTPONE)) {
-            return $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
+            return $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
         }
 
         return FALSE;
@@ -544,7 +544,7 @@ class DocumentVoter extends Voter
      */
     protected function canCreateRegister($document)
     {
-        if ($this->security->getUserRole()) {
+        if ($this->security->getUser()->getUserRole()) {
             return FALSE;
         }
 
