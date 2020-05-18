@@ -78,10 +78,10 @@ class DocumentValidator
     /**
      * @param DocumentFormGroup $group
      * @param bool $hasFiles
-     * @param bool $strict : If false, invisible form fields are not validated.
+     * @param bool $validateInvisableFields : If false, invisible form fields are not validated.
      * @return bool
      */
-    protected function hasAllMandatoryFieldValues(DocumentFormGroup $group, $hasFiles, $strict)
+    protected function hasAllMandatoryFieldValues(DocumentFormGroup $group, $hasFiles, $validateInvisableFields)
     {
         foreach ($group->getItems() as $fields) {
             foreach ($fields as $field) {
@@ -93,12 +93,12 @@ class DocumentValidator
 
                     switch ($field->getMandatory()) {
                         case MetadataMandatoryInterface::MANDATORY:
-                            if ($strict || $isFieldVisible) {
+                            if ($validateInvisableFields || $isFieldVisible) {
                                 if (!$field->getValue()) return FALSE;
                             }
                             break;
                         case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
-                            if ($strict || $isFieldVisible) {
+                            if ($validateInvisableFields || $isFieldVisible) {
                                 if ($hasFiles && !$field->getValue()) {
                                     return false;
                                 }
@@ -115,31 +115,31 @@ class DocumentValidator
     /**
      * @param DocumentFormGroup $group
      * @param bool $hasFiles
-     * @param bool $strict : If false, invisible form groups and fields are not validated.
+     * @param bool $validateInvisableFields : If false, invisible form groups and fields are not validated.
      * @return bool
      */
-    protected function hasAllMandatoryGroupValues(DocumentFormGroup $group, $hasFiles, $strict)
+    protected function hasAllMandatoryGroupValues(DocumentFormGroup $group, $hasFiles, $validateInvisableFields)
     {
         $isGroupVisible = !(
             $group->getAccessRestrictionRoles() &&
             !in_array($this->security->getUserRole(), $group->getAccessRestrictionRoles())
         );
 
-        if (!$strict && !$isGroupVisible) {
+        if (!$validateInvisableFields && !$isGroupVisible) {
             return true;
         }
 
         switch ($group->getMandatory()) {
             case MetadataMandatoryInterface::MANDATORY:
-                return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles, $strict);
+                return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles, $validateInvisableFields);
             case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
                 if ($hasFiles) {
-                    return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles, $strict);
+                    return $this->hasFieldWithValue($group) && $this->hasAllMandatoryFieldValues($group, $hasFiles, $validateInvisableFields);
                 }
                 break;
             default:
                 if ($this->hasFieldWithValue($group)) {
-                    return $this->hasAllMandatoryFieldValues($group, $hasFiles, $strict);
+                    return $this->hasAllMandatoryFieldValues($group, $hasFiles, $validateInvisableFields);
                 }
                 break;
         }
@@ -159,11 +159,11 @@ class DocumentValidator
 
     /**
      * @param Document $document
-     * @param bool $strict : If false, invisible form fields and groups are not validated.
+     * @param bool $validateInvisableFields : If false, invisible form fields and groups are not validated.
      * @param bool $checkPrimaryFile
      * @return bool
      */
-    public function validate(Document $document, $strict = true, $checkPrimaryFile = false) {
+    public function validate(Document $document, $validateInvisableFields = true, $checkPrimaryFile = false) {
 
         /** @var  \EWW\Dpf\Domain\Model\DocumentForm $docForm */
         $docForm = $this->documentMapper->getDocumentForm($document);
@@ -178,7 +178,7 @@ class DocumentValidator
                 /** @var  \EWW\Dpf\Domain\Model\DocumentFormGroup $groupItem */
 
                 foreach ($groups as $groupItem) {
-                    if (!$this->hasAllMandatoryGroupValues($groupItem, $hasFiles, $strict)) {
+                    if (!$this->hasAllMandatoryGroupValues($groupItem, $hasFiles, $validateInvisableFields)) {
                         //die();
                         return FALSE;
                     }
