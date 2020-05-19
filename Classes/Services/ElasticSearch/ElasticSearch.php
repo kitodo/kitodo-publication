@@ -315,10 +315,4 @@ class ElasticSearch
         // return results from the last search request
         return $this->results;
     }
-
-
-    
-
-
 }
-

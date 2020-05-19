@@ -139,7 +139,6 @@ class WorkspaceController  extends AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
-
         if ($filters && $results['hits']['total']['value'] < 1) {
             $this->session->clearFilter();
             list($redirectAction, $redirectController) = $this->session->getListAction();
@@ -490,7 +489,7 @@ class WorkspaceController  extends AbstractController
      * @return array
      */
     protected function getWorkspaceQuery(
-        $from = 0, $bookmarkIdentifiers = [], $filters= [], $excludeFilters = [], $sortField = null, $sortOrder = null
+        $from = 0, $bookmarkIdentifiers = [], $filters = [], $excludeFilters = [], $sortField = null, $sortOrder = null
     )
     {
         $workspaceFilter = [
@@ -1024,7 +1023,7 @@ class WorkspaceController  extends AbstractController
         $fedoraRepository = $this->objectManager->get(\EWW\Dpf\Services\Transfer\FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($fedoraRepository);
 
-        for($i = $start; $i < $stop; $i++) {
+        for ($i = $start; $i < $stop; $i++) {
             try {
                 $document = $documentTransferManager->retrieve('qucosa:' . $i);
 

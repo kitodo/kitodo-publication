@@ -331,13 +331,16 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
                 if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
                     if ($saveWorkingCopy) {
-                        if(
+                        if (
                             $this->bookmarkRepository->addBookmark(
                                 $this->security->getUser()->getUid(), $updateDocument
                             )
                         ) {
                             $this->addFlashMessage(
-                                LocalizationUtility::translate("manager.workspace.bookmarkAdded","dpf"), '',
+                                LocalizationUtility::translate(
+                                    "manager.workspace.bookmarkAdded", "dpf"
+                                ),
+                                '',
                                 AbstractMessage::INFO
                             );
                         }
@@ -356,7 +359,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                                     )
                                 ) {
                                     $this->addFlashMessage(
-                                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular","dpf"), '',
+                                        LocalizationUtility::translate(
+                                            "manager.workspace.bookmarkRemoved.singular", "dpf"
+                                        ),
+                                        '',
                                         AbstractMessage::INFO
                                     );
                                 }
@@ -403,7 +409,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $exceptionMsg[] = LocalizationUtility::translate($key, 'dpf');
 
-            $this->addFlashMessage(implode(" ", $exceptionMsg), '', $severity,true);
+            $this->addFlashMessage(implode(" ", $exceptionMsg), '', $severity, true);
             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
         }
     }
@@ -511,7 +517,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);
         } else {
-            $this->redirect($action, $controller, null, array('message' => $message));;
+            $this->redirect($action, $controller, null, array('message' => $message));
         }
     }
 
