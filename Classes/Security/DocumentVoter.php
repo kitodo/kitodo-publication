@@ -19,6 +19,8 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
+use TYPO3\CMS\Core\Log\LogManager;
+
 
 class DocumentVoter extends Voter
 {
@@ -226,7 +228,15 @@ class DocumentVoter extends Voter
                 break;
         }
 
-        throw new \Exception("This code should not be reached!");
+        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+        $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        $logger->warning('DocumentVoter::voteOnAttribute(): Unknown attribute. This code should not be reached!',
+            [
+                'attribute' => $attribute
+            ]
+        );
+
+        return false;
     }
 
     /**
