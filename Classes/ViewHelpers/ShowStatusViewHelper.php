@@ -47,14 +47,14 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 
 
         if (array_key_exists($status, $statusMapping)) {
-            $simpleState = $statusMapping[$status];
+            $aliasState = $statusMapping[$status];
         } else {
-            $simpleState = $status;
+            $aliasState = $status;
         }
 
-        if ($simpleState) {
+        if ($aliasState) {
             return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.documentList.state.".$simpleState,
+                "manager.documentList.state.".$aliasState,
                 'dpf',
                 $arguments = null
             );

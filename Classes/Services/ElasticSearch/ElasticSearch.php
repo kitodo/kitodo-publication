@@ -128,7 +128,7 @@ class ElasticSearch
                         'state' => [
                             'type' => 'keyword'
                         ],
-                        'simpleState' => [
+                        'aliasState' => [
                             'type' => 'keyword'
                         ],
                         'year' => [
@@ -176,7 +176,7 @@ class ElasticSearch
         if ($data) {
 
             $data->state = $document->getState();
-            $data->simpleState = DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$document->getState()];
+            $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
             $data->objectIdentifier = $document->getObjectIdentifier();
 
             $data->creator = $document->getCreator();

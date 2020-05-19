@@ -72,54 +72,54 @@ class DocumentWorkflow
     const TRANSITION_DELETE_WORKING_COPY = "DELETE_WORKING_COPY_TRANSITION";
     const TRANSITION_DELETE_DISCARDED    = "DELETE_DISCARDED_TRANSITION";
 
-    const SIMPLE_STATE_NEW = "new";
-    const SIMPLE_STATE_REGISTERED = "registered";
-    const SIMPLE_STATE_POSTPONED = "postponed";
-    const SIMPLE_STATE_DISCARDED = "discarded";
-    const SIMPLE_STATE_IN_PROGRESS = "in_progress";
-    const SIMPLE_STATE_RELEASED = "released";
+    const ALIAS_STATE_NEW = "new";
+    const ALIAS_STATE_REGISTERED = "registered";
+    const ALIAS_STATE_POSTPONED = "postponed";
+    const ALIAS_STATE_DISCARDED = "discarded";
+    const ALIAS_STATE_IN_PROGRESS = "in_progress";
+    const ALIAS_STATE_RELEASED = "released";
 
-    const SIMPLE_STATES = [
-        self::SIMPLE_STATE_NEW,
-        self::SIMPLE_STATE_REGISTERED,
-        self::SIMPLE_STATE_POSTPONED,
-        self::SIMPLE_STATE_DISCARDED,
-        self::SIMPLE_STATE_IN_PROGRESS,
-        self::SIMPLE_STATE_RELEASED
+    const ALIAS_STATES = [
+        self::ALIAS_STATE_NEW,
+        self::ALIAS_STATE_REGISTERED,
+        self::ALIAS_STATE_POSTPONED,
+        self::ALIAS_STATE_DISCARDED,
+        self::ALIAS_STATE_IN_PROGRESS,
+        self::ALIAS_STATE_RELEASED
     ];
 
-    const STATE_TO_SIMPLESTATE_MAPPING = [
-        DocumentWorkflow::STATE_NEW_NONE => DocumentWorkflow::SIMPLE_STATE_NEW,
-        DocumentWorkflow::STATE_REGISTERED_NONE => DocumentWorkflow::SIMPLE_STATE_REGISTERED,
-        DocumentWorkflow::STATE_POSTPONED_NONE => DocumentWorkflow::SIMPLE_STATE_POSTPONED,
-        DocumentWorkflow::STATE_DISCARDED_NONE => DocumentWorkflow::SIMPLE_STATE_DISCARDED,
-        DocumentWorkflow::STATE_IN_PROGRESS_NONE =>DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
-        DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
-        DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
-        DocumentWorkflow::STATE_IN_PROGRESS_DELETED => DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS,
-        DocumentWorkflow::STATE_NONE_ACTIVE => DocumentWorkflow::SIMPLE_STATE_RELEASED,
-        DocumentWorkflow::STATE_NONE_INACTIVE => DocumentWorkflow::SIMPLE_STATE_POSTPONED,
-        DocumentWorkflow::STATE_NONE_DELETED => DocumentWorkflow::SIMPLE_STATE_DISCARDED
+    const STATE_TO_ALIASSTATE_MAPPING = [
+        DocumentWorkflow::STATE_NEW_NONE => DocumentWorkflow::ALIAS_STATE_NEW,
+        DocumentWorkflow::STATE_REGISTERED_NONE => DocumentWorkflow::ALIAS_STATE_REGISTERED,
+        DocumentWorkflow::STATE_POSTPONED_NONE => DocumentWorkflow::ALIAS_STATE_POSTPONED,
+        DocumentWorkflow::STATE_DISCARDED_NONE => DocumentWorkflow::ALIAS_STATE_DISCARDED,
+        DocumentWorkflow::STATE_IN_PROGRESS_NONE =>DocumentWorkflow::ALIAS_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => DocumentWorkflow::ALIAS_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => DocumentWorkflow::ALIAS_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_IN_PROGRESS_DELETED => DocumentWorkflow::ALIAS_STATE_IN_PROGRESS,
+        DocumentWorkflow::STATE_NONE_ACTIVE => DocumentWorkflow::ALIAS_STATE_RELEASED,
+        DocumentWorkflow::STATE_NONE_INACTIVE => DocumentWorkflow::ALIAS_STATE_POSTPONED,
+        DocumentWorkflow::STATE_NONE_DELETED => DocumentWorkflow::ALIAS_STATE_DISCARDED
     ];
 
-    const SIMPLESTATE_TO_STATE_MAPPING = [
-        DocumentWorkflow::SIMPLE_STATE_NEW => [DocumentWorkflow::STATE_NEW_NONE],
-        DocumentWorkflow::SIMPLE_STATE_REGISTERED => [DocumentWorkflow::STATE_REGISTERED_NONE],
-        DocumentWorkflow::SIMPLE_STATE_POSTPONED => [
+    const ALIASSTATE_TO_STATE_MAPPING = [
+        DocumentWorkflow::ALIAS_STATE_NEW => [DocumentWorkflow::STATE_NEW_NONE],
+        DocumentWorkflow::ALIAS_STATE_REGISTERED => [DocumentWorkflow::STATE_REGISTERED_NONE],
+        DocumentWorkflow::ALIAS_STATE_POSTPONED => [
             DocumentWorkflow::STATE_POSTPONED_NONE,
             DocumentWorkflow::STATE_NONE_INACTIVE
         ],
-        DocumentWorkflow::SIMPLE_STATE_DISCARDED => [
+        DocumentWorkflow::ALIAS_STATE_DISCARDED => [
             DocumentWorkflow::STATE_DISCARDED_NONE,
             DocumentWorkflow::STATE_NONE_DELETED
         ],
-        DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS => [
+        DocumentWorkflow::ALIAS_STATE_IN_PROGRESS => [
             DocumentWorkflow::STATE_IN_PROGRESS_NONE,
             DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE,
             DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE,
             DocumentWorkflow::STATE_IN_PROGRESS_DELETED
         ],
-        DocumentWorkflow::SIMPLE_STATE_RELEASED => [DocumentWorkflow::STATE_NONE_ACTIVE]
+        DocumentWorkflow::ALIAS_STATE_RELEASED => [DocumentWorkflow::STATE_NONE_ACTIVE]
     ];
 
     const PLACES = [

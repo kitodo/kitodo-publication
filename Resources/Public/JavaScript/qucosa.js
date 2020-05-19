@@ -209,7 +209,7 @@ var batchSelectHandler = {
         }
     },
     toggleRegisterButton: function() {
-        if (jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length > 0) {
+        if (jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length > 0) {
             jQuery("#workspaceButtonBatchRegister").removeClass("disabled");
         } else {
             jQuery("#workspaceButtonBatchRegister").addClass("disabled");
@@ -224,8 +224,8 @@ var batchSelectHandler = {
     },
     toggleBatchReleaseButton: function() {
         var countChecked = jQuery('#workspace-list .batch-checkbox:checked').length;
-        var countCheckedNew = jQuery('#workspace-list [data-simple-state="new"] .batch-checkbox:checked').length;
-        var countCheckedReleased = jQuery('#workspace-list [data-simple-state="released"] .batch-checkbox:checked').length;
+        var countCheckedNew = jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length;
+        var countCheckedReleased = jQuery('#workspace-list [data-alias-state="released"] .batch-checkbox:checked').length;
 
         if (countChecked - (countCheckedNew + countCheckedReleased) > 0) {
             jQuery("#workspaceButtonBatchReleaseUnvalidated").removeClass("disabled");
@@ -1106,7 +1106,7 @@ $(document).ready(function() {
 
     selectFilter('doctype-filter');
     selectFilter('authorAndPublisher-filter', true);
-    selectFilter('simpleState-filter');
+    selectFilter('aliasState-filter');
     selectFilter('year-filter', true);
     selectFilter('hasFiles-filter');
     selectFilter('universityCollection-filter');

@@ -15,7 +15,7 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
 <f:switch expression="{filterName}">
-    <f:case value="simpleState">
+    <f:case value="aliasState">
         <dpf:showStatus status="{filterItem.key}" /> ({filterItem.doc_count})
     </f:case>
     <f:case value="doctype">

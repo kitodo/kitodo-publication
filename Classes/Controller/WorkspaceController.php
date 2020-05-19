@@ -156,7 +156,7 @@ class WorkspaceController  extends AbstractController
         $this->view->assign('maximumNumberOfLinks', self::MAXIMUM_NUMBER_OF_LINKS);
         $this->view->assign('aggregations', $results['aggregations']);
         $this->view->assign('filters', $filters);
-        $this->view->assign('isHideDiscarded', array_key_exists('simpleState', $excludeFilters));
+        $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
     }
@@ -635,9 +635,9 @@ class WorkspaceController  extends AbstractController
                 ],
                 'sort' => $this->buildSortQueryPart($sortField, $sortOrder),
                 'aggs' => [
-                    'simpleState' => [
+                    'aliasState' => [
                         'terms' => [
-                            'field' => 'simpleState'
+                            'field' => 'aliasState'
                         ]
                     ],
                     'year' => [
@@ -723,7 +723,7 @@ class WorkspaceController  extends AbstractController
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'simpleState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
             ];
 
             foreach ($filters as $key => $filterValues) {
@@ -853,9 +853,9 @@ class WorkspaceController  extends AbstractController
             }
         }
 
-        if ($excludeFilters && array_key_exists('simpleState', $excludeFilters)) {
-            if ($excludeFilters['simpleState']) {
-                foreach ($excludeFilters['simpleState'] as $simpleStateExclude) {
+        if ($excludeFilters && array_key_exists('aliasState', $excludeFilters)) {
+            if ($excludeFilters['aliasState']) {
+                foreach ($excludeFilters['aliasState'] as $aliasStateExclude) {
                     $queryFilter['bool']['must'][] = [
                         'bool' => [
                             'must_not' => [
@@ -863,7 +863,7 @@ class WorkspaceController  extends AbstractController
                                     'must' => [
                                         [
                                             'term' => [
-                                                'simpleState' => $simpleStateExclude
+                                                'aliasState' => $aliasStateExclude
                                             ]
                                         ],
                                         [
@@ -894,7 +894,7 @@ class WorkspaceController  extends AbstractController
     protected function buildSortQueryPart($sortField, $sortOrder) {
         // Build the sorting part.
         $script = "";
-        if ($sortField == "simpleState") {
+        if ($sortField == "aliasState") {
             $script = $this->getSortScriptState();
         } elseif ($sortField == "universityCollection") {
             $script = $this->getSortScriptUniversityCollection($this->settings['universityCollection']);
@@ -977,9 +977,9 @@ class WorkspaceController  extends AbstractController
     {
         $sortStates = [];
         foreach (DocumentWorkflow::PLACES as $state) {
-            if (array_key_exists($state, DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
-                $simpleState = DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$state];
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$simpleState;
+            if (array_key_exists($state, DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING)) {
+                $aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$state];
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$aliasState;
                 $stateName = LocalizationUtility::translate($key, 'dpf');
                 $sortStates[] = "if (doc['state'].value == '".$state."') return '".$stateName."';";
             }

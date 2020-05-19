@@ -48,10 +48,10 @@
         <th class="xcol-md-2">
             {f:translate(key: 'manager.workspace.state')}
             <f:render partial="Workspace/SortColumn"
-                      arguments="{workspaceListAction: workspaceListAction, sortField: 'simpleState'}"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'aliasState'}"
             />
             <f:render partial="Workspace/Filter"
-                      arguments="{aggregation: aggregations.simpleState, filterName: 'simpleState', filterValues: filters.simpleState}"
+                      arguments="{aggregation: aggregations.aliasState, filterName: 'aliasState', filterValues: filters.aliasState}"
             />
         </th>
         <th class="xcol-md-2">
@@ -90,9 +90,9 @@
     </thead>
     <f:for each="{documents}" as="document" iteration="iterator">
         <tr data-id="{document._id}">
-            <td data-simple-state="{document._source.simpleState}"
+            <td data-alias-state="{document._source.aliasState}"
                 data-bookmark="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}"
-                data-release="{f:if(condition:'{document._source.simpleState} == \'new\'', then:'0', else:'1')}">
+                data-release="{f:if(condition:'{document._source.aliasState} == \'new\'', then:'0', else:'1')}">
 
                 <f:if condition="{dpf:inArray(needle:'{document._id}', array:'{checkedDocumentIdentifiers}')}">
                     <f:then>
@@ -138,11 +138,11 @@
             <td>
                 {document._source.year}
             </td>
-            <td data-simpleState="{document._source.simpleState}">
+            <td data-aliasState="{document._source.aliasState}">
 
                 {dpf:showStatus(status:'{document._source.state}')}
 
-                <f:if condition="{document._source.simpleState} == 'postponed' || {document._source.simpleState} == 'discarded' ">
+                <f:if condition="{document._source.aliasState} == 'postponed' || {document._source.aliasState} == 'discarded' ">
                     <f:if condition="{document._source.notes}">
                         <span data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.notes.tooltip')}">
                             <i class="fas fa-info-circle" data-toggle="modal" data-target="#state-info-{iterator.cycle}">

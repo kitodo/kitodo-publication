@@ -136,10 +136,10 @@ class Session
             $filters = $sessionData[self::WORKSPACE_EXCLUDE_FILTER_KEY];
         }
 
-        if (array_key_exists('simpleState', $filters)) {
-            unset($filters['simpleState']);
+        if (array_key_exists('aliasState', $filters)) {
+            unset($filters['aliasState']);
         } else {
-            $filters['simpleState'] = [DocumentWorkflow::SIMPLE_STATE_DISCARDED];
+            $filters['aliasState'] = [DocumentWorkflow::ALIAS_STATE_DISCARDED];
         }
 
         $sessionData[self::WORKSPACE_EXCLUDE_FILTER_KEY] = $filters;
