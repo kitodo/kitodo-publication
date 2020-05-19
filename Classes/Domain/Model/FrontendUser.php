@@ -62,8 +62,13 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
             }
         }
 
-        if (in_array(Security::ROLE_LIBRARIAN, $roles)) return Security::ROLE_LIBRARIAN;
-        if (in_array(Security::ROLE_RESEARCHER, $roles)) return Security::ROLE_RESEARCHER;
+        if (in_array(Security::ROLE_LIBRARIAN, $roles)) {
+            return Security::ROLE_LIBRARIAN;
+        }
+
+        if (in_array(Security::ROLE_RESEARCHER, $roles)) {
+            return Security::ROLE_RESEARCHER;
+        }
 
         return "";
     }

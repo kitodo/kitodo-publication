@@ -102,18 +102,18 @@ var selectSort = function() {
 var batchConfirmDialog = function(actionName) {
 
     jQuery("#workspaceButton"+actionName).on("click", function(e) {
-        jQuery("#workspaceAction"+actionName).removeAttr("disabled")
+        jQuery("#workspaceAction"+actionName).removeAttr("disabled");
         jQuery("#confirmWorkspace"+actionName).modal('show');
         e.preventDefault();
     });
 
     jQuery("#confirmWorkspace"+actionName).on('hidden.bs.modal', function(){
-        jQuery(".workspaceAction").attr("disabled","disabled")
+        jQuery(".workspaceAction").attr("disabled","disabled");
     });
 }
 
 var addBookmarkHandler = {
-    init: function() {
+    init() {
         jQuery(".add-bookmark").on("click", function(e) {
             var button = jQuery(this);
             var ajaxURL = jQuery(this).data('ajax');
@@ -145,10 +145,10 @@ var addBookmarkHandler = {
 }
 
 var removeBookmarkHandler = {
-    init: function() {
+    init() {
         jQuery(".remove-bookmark").on("click", function(e) {
 
-            var identifier = jQuery(this).attr("data-id")
+            var identifier = jQuery(this).attr("data-id");
 
             jQuery("#confirmWorkspaceRemoveBookmark .documentIdentifier").val(identifier);
             jQuery("tr[data-id='"+identifier+"']").addClass("table-danger");
@@ -165,7 +165,7 @@ var removeBookmarkHandler = {
 
 var batchSelectHandler = {
 
-    init: function() {
+    init() {
         var _this = this;
 
         this.refreshToggleButtons();
@@ -193,13 +193,13 @@ var batchSelectHandler = {
             _this.refreshToggleButtons();
         });
     },
-    refreshToggleButtons: function() {
+    refreshToggleButtons() {
         this.toggleSelectButton();
         this.toggleRegisterButton();
         this.toggleBatchRemoveButton();
         this.toggleBatchReleaseButton();
     },
-    toggleSelectButton: function() {
+    toggleSelectButton() {
         if (jQuery(".batch-checkbox:checked").length > 0) {
             jQuery(".workspace-select-all").show();
             jQuery(".workspace-unselect-all").hide();
@@ -208,21 +208,21 @@ var batchSelectHandler = {
             jQuery(".workspace-unselect-all").show();
         }
     },
-    toggleRegisterButton: function() {
+    toggleRegisterButton() {
         if (jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length > 0) {
             jQuery("#workspaceButtonBatchRegister").removeClass("disabled");
         } else {
             jQuery("#workspaceButtonBatchRegister").addClass("disabled");
         }
     },
-    toggleBatchRemoveButton: function() {
+    toggleBatchRemoveButton() {
         if (jQuery('#workspace-list [data-bookmark="1"] .batch-checkbox:checked').length > 0) {
             jQuery("#workspaceButtonBatchRemove").removeClass("disabled");
         } else {
             jQuery("#workspaceButtonBatchRemove").addClass("disabled");
         }
     },
-    toggleBatchReleaseButton: function() {
+    toggleBatchReleaseButton() {
         var countChecked = jQuery('#workspace-list .batch-checkbox:checked').length;
         var countCheckedNew = jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length;
         var countCheckedReleased = jQuery('#workspace-list [data-alias-state="released"] .batch-checkbox:checked').length;
@@ -238,7 +238,7 @@ var batchSelectHandler = {
 }
 
 var itemsPerPageHandler = {
-    init: function() {
+    init() {
 
         jQuery("#items-up").on("click", function(e) {
             var itemsPerPage = jQuery("#items-per-page").val();
@@ -256,7 +256,7 @@ var itemsPerPageHandler = {
             var itemsPerPage = jQuery("#items-per-page").val();
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage == items) {
+            if (itemsPerPage === items) {
                 items = (items <= 10)? items : items-10;
             } else {
                 items = 10;
@@ -271,7 +271,7 @@ var itemsPerPageHandler = {
             var itemsPerPage = jQuery("#items-per-page").val();
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage != items || items < 1) {
+            if (itemsPerPage !== items || items < 1) {
                 items = 10;
             }
             
@@ -941,7 +941,7 @@ var updatePrevNextButtons = function(activePage) {
 var inputWithOptions = function() {
 
     $.widget( "custom.dropdownoptions", {
-        _create: function() {
+        _create() {
 
             var availableTags = [];
             var test = this.element
@@ -962,7 +962,7 @@ var inputWithOptions = function() {
 
             this._createShowAllButton();
         },
-        _createShowAllButton: function() {
+        _createShowAllButton() {
 
             var input = this.element;
 

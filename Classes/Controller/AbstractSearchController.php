@@ -180,7 +180,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         // document must be active
         if($showDeleted == false) {
 
-          //  $queryFilter['body']['query']['bool']['must'][]['term']['STATE'] = 'A';
+            //  $queryFilter['body']['query']['bool']['must'][]['term']['STATE'] = 'A';
 
         };
 
@@ -189,7 +189,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         if ($clients) {
             $client = $clients->getFirst();
             if ($client) {
-            //    $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
+                //    $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
             }
         }
 

@@ -91,20 +91,20 @@ class DocumentValidator
                     !in_array($this->security->getUser()->getUserRole(), $group->getAccessRestrictionRoles())
                 );
 
-                    switch ($field->getMandatory()) {
-                        case MetadataMandatoryInterface::MANDATORY:
-                            if ($validateInvisableFields || $isFieldVisible) {
-                                if (!$field->getValue()) return FALSE;
+                switch ($field->getMandatory()) {
+                    case MetadataMandatoryInterface::MANDATORY:
+                        if ($validateInvisableFields || $isFieldVisible) {
+                            if (!$field->getValue()) return FALSE;
+                        }
+                        break;
+                    case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
+                        if ($validateInvisableFields || $isFieldVisible) {
+                            if ($hasFiles && !$field->getValue()) {
+                                return false;
                             }
-                            break;
-                        case MetadataMandatoryInterface::MANDATORY_FILE_ONLY:
-                            if ($validateInvisableFields || $isFieldVisible) {
-                                if ($hasFiles && !$field->getValue()) {
-                                    return false;
-                                }
-                            }
-                            break;
-                    }
+                        }
+                        break;
+                }
             }
         }
 

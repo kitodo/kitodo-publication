@@ -172,7 +172,7 @@ class WorkspaceController  extends AbstractController
     {
         if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
-        } elseif ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER){
+        } elseif ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
             $this->view->assign('isWorkspace', false);
         } else {
             $message = LocalizationUtility::translate(
@@ -429,7 +429,6 @@ class WorkspaceController  extends AbstractController
                 }
             }
 
-
             if (sizeof($successful) == 1) {
                 $locallangKey = 'manager.workspace.batchAction.release.success.singular';
             } else {
@@ -543,7 +542,7 @@ class WorkspaceController  extends AbstractController
      * @return array
      */
     protected function getMyPublicationsQuery(
-        $from = 0, $bookmarkIdentifiers = [], $filters= [], $excludeFilters = [], $sortField = null, $sortOrder = null
+        $from = 0, $bookmarkIdentifiers = [], $filters = [], $excludeFilters = [], $sortField = null, $sortOrder = null
     )
     {
         $workspaceFilter = [
@@ -1014,7 +1013,7 @@ class WorkspaceController  extends AbstractController
      * @param int $stop
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function initIndexAction($start=1, $stop=100)
+    public function initIndexAction($start = 1, $stop = 100)
     {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = $this->objectManager->get(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
@@ -1025,7 +1024,7 @@ class WorkspaceController  extends AbstractController
         $fedoraRepository = $this->objectManager->get(\EWW\Dpf\Services\Transfer\FedoraRepository::class);
         $documentTransferManager->setRemoteRepository($fedoraRepository);
 
-        for($i=$start; $i<$stop; $i++) {
+        for($i = $start; $i < $stop; $i++) {
             try {
                 $document = $documentTransferManager->retrieve('qucosa:' . $i);
 
@@ -1119,7 +1118,7 @@ class WorkspaceController  extends AbstractController
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);
         } else {
-            $this->redirect($action, $controller, null, array('message' => $message));;
+            $this->redirect($action, $controller, null, array('message' => $message));
         }
 
     }
