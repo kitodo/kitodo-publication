@@ -814,8 +814,8 @@
             <target>Von mir selbst erstellter Datensatz.</target>
         </trans-unit>
         <trans-unit id="manager.workspace.creator.tooltip.librarian" approved="yes">
-            <source>Von der Bibliothek erstellter Datensatz.</source>
-            <target>Record created by the library.</target>
+            <source>Record created by the library.</source>
+            <target>Von der Bibliothek erstellter Datensatz.</target>
         </trans-unit>
         <trans-unit id="manager.workspace.creator.tooltip.user" approved="yes">
             <source>Record created by other users.</source>
