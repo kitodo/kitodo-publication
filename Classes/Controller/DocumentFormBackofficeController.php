@@ -171,7 +171,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         if ($workingCopy->isTemporary()) {
             $workingCopy->setTemporary(false);
-            // +++delete+++ $workingCopy->setEditorUid(0);
         }
 
         if (empty($workingCopy->getFileData())) {
