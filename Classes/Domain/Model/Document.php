@@ -162,6 +162,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $comment = '';
 
     /**
+     * date
+     *
+     * @var \DateTime
+     */
+    protected $embargoDate = null;
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -938,21 +945,20 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $data;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getEmbargoDate(): ?\DateTime
+    {
+        return $this->embargoDate;
+    }
 
     /**
-     * Gets the translated state name.
-     *
-     * @return NULL|string
+     * @param \DateTime|null $embargoDate
      */
-    public function getStateName_()
+    public function setEmbargoDate(?\DateTime $embargoDate)
     {
-        if (array_key_exists($this->getState(), DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
-            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.documentList.state.".DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$this->getState()],
-                'dpf',
-                $arguments = null
-            );
-        }
+        $this->embargoDate = $embargoDate;
     }
 
 }
