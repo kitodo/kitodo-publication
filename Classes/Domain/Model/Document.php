@@ -15,6 +15,7 @@ namespace EWW\Dpf\Domain\Model;
  */
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Helper\Mods;
 
 /**
  * Document
@@ -61,7 +62,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $objectIdentifier;
+    protected $objectIdentifier = null;
 
     /**
      * reservedObjectIdentifier
@@ -116,11 +117,11 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $suggestion = false;
 
     /**
-     * owner
+     * creator
      *
-     * @var integer
+     * @var int
      */
-    protected $owner = 0;
+    protected $creator = 0;
 
     /**
      * state
@@ -128,13 +129,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $state = DocumentWorkflow::STATE_NONE_NONE;
-
-    /**
-     * editorUid
-     *
-     * @var integer
-     */
-    protected $editorUid = 0;
 
     /**
      * temporary
@@ -322,7 +316,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setObjectIdentifier($objectIdentifier)
     {
-        $this->objectIdentifier = $objectIdentifier;
+        // Due to uniqe key uc_object_identifier, which should ignore empty object identifiers.
+        $this->objectIdentifier = empty($objectIdentifier)? null : $objectIdentifier;
     }
 
     /**
@@ -707,24 +702,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the owner uid
+     * Returns the creator feuser uid
      *
-     * @return integer
+     * @return int
      */
-    public function getOwner()
+    public function getCreator()
     {
-        return $this->owner;
+        return $this->creator? $this->creator : 0;
     }
 
     /**
-     * Sets the owner uid
+     * Sets the creator feuser uid
      *
-     * @param integer $owner
+     * @param int $creator
      * @return void
      */
-    public function setOwner($owner)
+    public function setCreator($creator)
     {
-        $this->owner = $owner;
+        $this->creator = $creator;
     }
 
     public function getState()
@@ -771,23 +766,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setTemporary($temporary) {
         $this->temporary = $temporary;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getEditorUid()
-    {
-        return $this->editorUid;
-    }
-
-    /**
-     * @param integer $editorUid
-     * @return void
-     */
-    public function setEditorUid($editorUid)
-    {
-        $this->editorUid = $editorUid;
     }
 
     /**
@@ -876,7 +854,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         foreach ($availableProperties as $propertyName) {
             if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newDocument, $propertyName)
-                && !in_array($propertyName, array('uid','pid', 'file', 'comment', 'linkedUid', 'suggestion', 'owner'))) {
+                && !in_array($propertyName, array('uid','pid', 'file', 'comment', 'linkedUid', 'suggestion', 'creator'))) {
 
                 $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($documentToCopy, $propertyName);
                 \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newDocument, $propertyName, $propertyValue);
@@ -891,5 +869,60 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $slub->getNotes();
     }
 
+    /**
+     * Gets the document Identifier
+     *
+     * @return string|int
+     */
+    public function getDocumentIdentifier()
+    {
+        return $this->getObjectIdentifier()? $this->getObjectIdentifier() : $this->getUid();
+    }
+
+    /**
+     * Returns if a document is a working copy of a published document.
+     *
+     * @return bool
+     */
+    public function isWorkingCopy()
+    {
+        return $this->getObjectIdentifier() && !$this->isTemporary() && !$this->isSuggestion();
+    }
+
+
+    /**
+     * Returns if a document is a temporary copy of a published document.
+     *
+     * @return bool
+     */
+    public function isTemporaryCopy()
+    {
+        return $this->getObjectIdentifier() && $this->isTemporary() && !$this->isSuggestion();
+    }
+
+
+    /**
+     * Gets the publication year out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getPublicationYear()
+    {
+        $mods = new Mods($this->getXmlData());
+        $year =  $mods->getPublishingYear();
+        return $year? $year : "";
+    }
+
+    /**
+     * Gets the main title out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getMainTitle()
+    {
+        $mods = new Mods($this->getXmlData());
+        $title = $mods->getTitle();
+        return $title? $title : "";
+    }
 
 }

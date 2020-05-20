@@ -22,11 +22,12 @@
             <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
                 <f:then>
                     <li class="nav-item">
-                        <a class="nav-link {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}" href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a></li>
+                        <a class="nav-link {f:if(condition: '{activeFileTab} != 1 && {pageIterator.isFirst}', then: 'active', else:'')}" href="#tab-{pageIterator.cycle}" data-toggle="tab">{formPage.0.displayName}</a>
+                    </li>
                 </f:then>
             </f:if>
         </f:for>
-        <li class="nav-item"><a class="nav-link" href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
+        <li class="nav-item"><a class="nav-link {f:if(condition: '{activeFileTab}', then: 'active', else:'')}" href="#tab-file-upload" data-toggle="tab">Dateien</a></li>
     </ul>
 </div>
 
@@ -35,7 +36,7 @@
         <f:if condition="{dpf:IsElementAllowed(condition:'{formPage.0.accessRestrictionRoles}')}">
             <f:then>
                 <div id="tab-{pageIterator.cycle}"
-                     class="fs_page tab-pane {f:if(condition: '{pageIterator.index}==0', then: 'active', else:'')}"
+                     class="fs_page tab-pane {f:if(condition: '{activeFileTab} != 1 && {pageIterator.isFirst}', then: 'active', else:'')}"
                      data-page="{formPage.0.uid}">
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
                         <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
@@ -65,7 +66,7 @@
         </f:if>
     </f:for>
 
-    <div id="tab-file-upload" class="fs_page tab-pane">
+    <div id="tab-file-upload" class="fs_page tab-pane {f:if(condition: '{activeFileTab}', then: 'active', else:'')}">
         <f:render partial="DocumentForm/PrimaryFileGroup"
                   arguments="{file:documentForm.primaryFile,primaryFileMandatory:documentForm.primaryFileMandatory}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
@@ -133,10 +134,10 @@
                             </f:form.button>
                         </f:then>
                         <f:else>
-                            <f:form.button name="saveWorkingCopy" id="saveWorkingCopy"
+                            <f:form.button name="saveLocalDocument" id="saveLocalDocument"
                                            class="btn btn-lg btn-success"
                                            disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')}', then: '', else: '')}"
-                                           value="workingCopy">
+                                           value="localDocument">
                                 <i class="fas fa-check"></i>
                                 {f:translate(key: 'form_button.save')}
                             </f:form.button>

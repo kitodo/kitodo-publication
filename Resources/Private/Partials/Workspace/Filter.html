@@ -1,0 +1,46 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+<div class="workspace-filter"
+     data-ajax="{f:uri.action(action:'addWorkspaceFilter',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+    <select id="{filterName}-filter" class="workspace-filter-select" name="{filterName}">
+        <option value="">
+            <f:translate key="manager.workspace.filter.all" />
+        </option>
+        <f:for each="{aggregation.buckets}" as="filterItem">
+            <f:if condition="{filterValues}">
+                <f:then>
+                    <option value="{filterItem.key}"
+                            {f:if(condition: '{dpf:inArray(needle:\'{filterItem.key}\', array:\'{filterValues}\')}', then: 'selected="selected"')}
+                            data-filter-count="{filterItem.doc_count}">
+
+                        <f:render partial="Workspace/FilterOptionLabel"
+                                  arguments="{filterName: filterName, filterItem: filterItem}"
+                        />
+                    </option>
+                </f:then>
+                <f:else>
+                    <option value="{filterItem.key}">
+                        <f:render partial="Workspace/FilterOptionLabel"
+                                  arguments="{filterName: filterName, filterItem: filterItem}"
+                        />
+                    </option>
+                </f:else>
+            </f:if>
+        </f:for>
+    </select>
+
+</div>
+

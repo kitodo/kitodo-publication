@@ -18,7 +18,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
-use EWW\Dpf\Services\ElasticSearch;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Security\DocumentVoter;
@@ -45,6 +45,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     protected $clientRepository = null;
 
+
+    /**
+     * elasticSearch
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
+     * @inject
+     */
+    protected $elasticSearch = null;
+
+
     /**
      * persistence manager
      *
@@ -53,8 +63,18 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     protected $persistenceManager;
 
-    const RESULT_COUNT      = 50;
-    const NEXT_RESULT_COUNT = 50;
+
+    /**
+     * bookmarkRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
+     * @inject
+     */
+    protected $bookmarkRepository = null;
+
+
+    const RESULT_COUNT      = 500;
+    const NEXT_RESULT_COUNT = 500;
 
     /**
      * action list
@@ -69,6 +89,15 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         // assign result list from elastic search
         $args = $this->request->getArguments();
+
+        $bookmarkIdentifiers = [];
+        foreach ($this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid()) as $bookmark) {
+            $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
+        }
+
+        $this->view->assign('bookmarks', $bookmarkIdentifiers);
+        $this->view->assign('feUserUid', $this->security->getUser()->getUid());
+
         $this->view->assign('searchList', $args['results']);
         $this->view->assign('resultCount', self::RESULT_COUNT);
         $this->view->assign('query', $args['query']);
@@ -183,6 +212,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function searchAction()
     {
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
+
         try {
             // perform search action
             $args = $this->request->getArguments();
@@ -220,6 +251,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
             $type = 'object';
 
             $results = $this->getResultList($query, $type);
+
         } catch (\Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
@@ -256,8 +288,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
      */
     public function importForEditingAction($documentObjectIdentifier)
     {
-        $this->setSessionData('redirectToDocumentListAction', 'search');
-        $this->setSessionData('redirectToDocumentListController', 'Search');
+        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
 
         /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
         $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
@@ -479,7 +510,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+        // child_type is invalid in elasticsearch 7.5
+        $query['body']['query']['bool']['should'][1]['has_child']['type'] = "datastream"; // 1
 
         return $query;
     }

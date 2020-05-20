@@ -137,11 +137,8 @@
 		<trans-unit id="tx_dpf_domain_model_document.valid">
 			<source>Valid</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.owner">
-			<source>Owner</source>
-		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_document.editor_uid">
-			<source>Editor uid</source>
+		<trans-unit id="tx_dpf_domain_model_document.creator">
+			<source>Creator</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.temporary">
 			<source>Temporary</source>
@@ -430,6 +427,24 @@
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_viewer.fe_user_uid">
             <source>FeUser Uid</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock">
+            <source>Editing Lock</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.document_identifier">
+            <source>Document Identifier</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_editinglock.editor_uid">
+            <source>Editor UID</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark">
+            <source>Bookmark</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.document_identifier">
+            <source>Document Identifier</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_bookmark.feuser">
+            <source>FE user</source>
         </trans-unit>
 		</body>
 	</file>

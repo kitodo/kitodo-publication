@@ -66,7 +66,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   xml_data text NOT NULL,
   slub_info_data text NOT NULL,
   document_type int(11) unsigned default '0',
-  object_identifier varchar(255) DEFAULT '' NOT NULL,
+  object_identifier varchar(255) DEFAULT NULL,
   reserved_object_identifier varchar(255) DEFAULT '' NOT NULL,
   process_number varchar(255) DEFAULT '' NOT NULL,
   state varchar(255) DEFAULT '' NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE tx_dpf_domain_model_document (
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
   owner int(11) unsigned default '0' NOT NULL,
-  editor_uid int(11) unsigned default '0' NOT NULL,
+  creator int(11) unsigned default '0' NOT NULL,
   temporary tinyint(1) unsigned DEFAULT '0' NOT NULL,
   suggestion tinyint(1) unsigned DEFAULT '0' NOT NULL,
   linked_uid varchar(255) DEFAULT '' NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-  KEY language (l10n_parent,sys_language_uid)
+  KEY language (l10n_parent,sys_language_uid),
 
 );
 
@@ -530,8 +530,93 @@ CREATE TABLE tx_dpf_domain_model_processnumber (
 ) ENGINE=InnoDB;
 
 #
+# Table structure for table 'tx_dpf_domain_model_editinglock'
+#
+CREATE TABLE tx_dpf_domain_model_editinglock (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  document_identifier varchar(255) DEFAULT '' NOT NULL,
+  editor_uid int(11) unsigned default '0' NOT NULL,
+
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  starttime int(11) unsigned DEFAULT '0' NOT NULL,
+  endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+  t3ver_oid int(11) DEFAULT '0' NOT NULL,
+  t3ver_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+  t3ver_label varchar(255) DEFAULT '' NOT NULL,
+  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+  t3ver_stage int(11) DEFAULT '0' NOT NULL,
+  t3ver_count int(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+  l10n_parent int(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource mediumblob,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+  KEY language (l10n_parent,sys_language_uid),
+
+  UNIQUE KEY uc_editinglock_document_identifier (document_identifier)
+
+);
+
+#
 # Table extension structure for table 'fe_groups'
 #
 CREATE TABLE fe_groups (
   kitodo_role varchar(255) DEFAULT '' NOT NULL,
+);
+
+
+#
+# Table structure for table 'tx_dpf_domain_model_bookmark'
+#
+CREATE TABLE tx_dpf_domain_model_bookmark (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  document_identifier varchar(255) DEFAULT '' NOT NULL,
+  fe_user_uid int(11) unsigned default '0' NOT NULL,
+
+#  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+#  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+#  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+#  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+#  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+#  starttime int(11) unsigned DEFAULT '0' NOT NULL,
+#  endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+#  t3ver_oid int(11) DEFAULT '0' NOT NULL,
+#  t3ver_id int(11) DEFAULT '0' NOT NULL,
+#  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+#  t3ver_label varchar(255) DEFAULT '' NOT NULL,
+#  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+#  t3ver_stage int(11) DEFAULT '0' NOT NULL,
+#  t3ver_count int(11) DEFAULT '0' NOT NULL,
+#  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+#  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+#  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+#  l10n_parent int(11) DEFAULT '0' NOT NULL,
+#  l10n_diffsource mediumblob,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+#  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+#  KEY language (l10n_parent,sys_language_uid),
+
+  UNIQUE KEY uc_bookmark (fe_user_uid,document_identifier)
+
 );

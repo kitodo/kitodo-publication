@@ -1,0 +1,208 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<table id="workspace-list" class="tx_dpf table table-striped table-manager table-condensed">
+    <thead>
+    <tr>
+        <th class="xcol-md-1"></th>
+        <th class="xcol-md-4">
+            {f:translate(key: 'manager.workspace.title')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'title'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.doctype, filterName: 'doctype', filterValues: filters.doctype}"
+            />
+        </th>
+        <th class="xcol-md-2">
+            {f:translate(key: 'manager.workspace.persons')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'authorAndPublisher'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.authorAndPublisher, filterName: 'authorAndPublisher', filterValues: filters.authorAndPublisher}"
+            />
+        </th>
+        <th class="xcol-md-2">
+            {f:translate(key: 'manager.workspace.publicationYear')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'year'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.year, filterName: 'year', filterValues: filters.year}"
+            />
+        </th>
+        <th class="xcol-md-2">
+            {f:translate(key: 'manager.workspace.state')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'aliasState'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.aliasState, filterName: 'aliasState', filterValues: filters.aliasState}"
+            />
+        </th>
+        <th class="xcol-md-2">
+            {f:translate(key: 'manager.workspace.creator')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'creatorRole'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.creatorRole, filterName: 'creatorRole', filterValues: filters.creatorRole}"
+            />
+        </th>
+
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+            <th class="xcol-md-2">
+                {f:translate(key: 'manager.workspace.universityPublication')}
+                <f:render partial="Workspace/SortColumn"
+                          arguments="{workspaceListAction: workspaceListAction, sortField: 'universityCollection'}"
+                />
+                <f:render partial="Workspace/Filter"
+                          arguments="{aggregation: aggregations.universityCollection, filterName: 'universityCollection', filterValues: filters.universityCollection}"
+                />
+            </th>
+        </f:if>
+
+        <th class="xcol-md-2">
+            {f:translate(key: 'manager.workspace.fulltextMedia')}
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'hasFiles'}"
+            />
+            <f:render partial="Workspace/Filter"
+                      arguments="{aggregation: aggregations.hasFiles, filterName: 'hasFiles', filterValues: filters.hasFiles}"
+            />
+        </th>
+        <th class="xcol-md-2"><!-- ACTIONS --></th>
+    </tr>
+    </thead>
+    <f:for each="{documents}" as="document" iteration="iterator">
+        <tr data-id="{document._id}">
+            <td data-alias-state="{document._source.aliasState}"
+                data-bookmark="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}"
+                data-release="{f:if(condition:'{document._source.aliasState} == \'new\'', then:'0', else:'1')}">
+
+                <f:if condition="{dpf:inArray(needle:'{document._id}', array:'{checkedDocumentIdentifiers}')}">
+                    <f:then>
+                        <f:form.checkbox class="batch-checkbox"
+                                         name="listData[documentIdentifiers][]"
+                                         value="{document._id}"
+                                         checked="1"/>
+                    </f:then>
+                    <f:else>
+                        <f:form.checkbox class="batch-checkbox"
+                                         name="listData[documentIdentifiers][]"
+                                         value="{document._id}"/>
+                    </f:else>
+                </f:if>
+            </td>
+            <td>
+                <f:link.action action="showDetails" controller="Document" arguments="{document:document._id}">
+                    <f:if condition="!{document._source.title.0}">
+                        <f:then>
+                            [{f:translate(key: 'manager.workspace.noTitle')}]
+                        </f:then>
+                        <f:else>
+                            {document._source.title.0}
+                        </f:else>
+                    </f:if>
+                </f:link.action>
+                <f:if condition="{document._source.originalSourceTitle}">
+                    <br />
+                    in: <em>{document._source.originalSourceTitle}</em>
+                </f:if>
+                <br />
+                <dpf:showDocumentType docType="{document._source.doctype}" />
+            </td>
+            <td>
+                <f:for each="{document._source.authorAndPublisher}" as="person" iteration="itemIterator">
+                    <span>{person}</span>
+                    <f:if condition="{itemIterator.isLast}">
+                        <f:then></f:then>
+                        <f:else><br /></f:else>
+                    </f:if>
+                </f:for>
+            </td>
+            <td>
+                {document._source.year}
+            </td>
+            <td data-aliasState="{document._source.aliasState}">
+
+                {dpf:showStatus(status:'{document._source.state}')}
+
+                <f:if condition="{document._source.aliasState} == 'postponed' || {document._source.aliasState} == 'discarded' ">
+                    <f:if condition="{document._source.notes}">
+                        <span data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.notes.tooltip')}">
+                            <i class="fas fa-info-circle" data-toggle="modal" data-target="#state-info-{iterator.cycle}">
+                            </i>
+                        </span>
+                        <f:render partial="Workspace/Notes" arguments="{notes: document._source.notes, infoId: 'state-info-{iterator.cycle}'}" />
+
+                    </f:if>
+                </f:if>
+            </td>
+            <td>
+                <f:render partial="Workspace/Creator" arguments="{creator:document._source.creator}" />
+            </td>
+
+            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                <td>
+                    <f:if condition="{document._source.collections}">
+                        <f:then>
+                            <span
+                               data-toggle="tooltip"
+                               title="{f:translate(key: 'manager.workspace.universityPublication.tooltip')}">
+
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </f:then>
+                        <f:else>
+                            -
+                        </f:else>
+                    </f:if>
+                </td>
+            </f:if>
+
+            <td>
+                <f:if condition="{document._source.hasFiles}">
+                    <f:then>
+                        <i class="fas fa-check"></i>
+                    </f:then>
+                    <f:else>
+                            <f:link.action
+                                    action="uploadFiles"
+                                    controller="Workspace"
+                                    arguments="{documentIdentifier : document._id, activeFileTab:1}"
+                                    class="btn btn-sm btn-outline-secondary"
+                                    title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
+                                    additionalAttributes="{data-toggle: 'tooltip' }">
+                                <i class="fas fa-upload"></i>
+                            </f:link.action>
+                    </f:else>
+                </f:if>
+            </td>
+
+            <td class="table_col_function">
+                <f:render partial="Workspace/ListItemActions"
+                          arguments="{
+                            document:document,
+                            bookmarkIdentifiers:bookmarkIdentifiers
+                            }"
+                />
+            </td>
+
+        </tr>
+    </f:for>
+</table>

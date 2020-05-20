@@ -58,9 +58,25 @@ class Mods
 
     public function getAuthors()
     {
+        return $this->getPersons("aut");
+    }
+
+    public function getPublishers()
+    {
+        return $this->getPersons("edt");
+    }
+
+    /**
+     * Get persons of the given role
+     *
+     * @param $role
+     * @return array
+     */
+    protected function getPersons($role)
+    {
         $xpath = $this->getModsXpath();
 
-        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="aut"]');
+        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="'.$role.'"]');
 
         $authors = array();
 
@@ -124,6 +140,27 @@ class Mods
 
         }
 
+    }
+
+
+    public function getPublishingYear()
+    {
+        $year = $this->getModsXpath()->query('/mods:mods/mods:originInfo[@eventType="publication"]/mods:dateIssued[@encoding="iso8601"]');
+        if ($year->length > 0) {
+            return $year->item(0)->nodeValue;
+        }
+
+        return null;
+    }
+
+    public function getOriginalSourceTitle()
+    {
+        $node= $this->getModsXpath()->query('/mods:mods/mods:relatedItem[@type="original"]/mods:titleInfo/mods:title');
+        if ($node->length > 0) {
+            return $node->item(0)->nodeValue;
+        }
+
+        return null;
     }
 
     public function getDateIssued()

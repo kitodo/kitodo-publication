@@ -20,7 +20,7 @@
                        class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
         </f:link.action>
     </f:if>
-</f:comment>
+
 
 <dpf:link.preview
         arguments="{document : document}"
@@ -39,19 +39,22 @@
 </dpf:link.dataCite>
 
 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
-    <f:link.action action="duplicate" arguments="{document : document}" class="btn btn-sm btn-outline-secondary"
+    <f:link.action action="duplicate"
+                   controller="Document"
+                   arguments="{document : document._id}"
+                   class="btn btn-sm btn-outline-secondary"
                    title="{f:translate(key: 'manager.tooltip.duplicate')}"
                    additionalAttributes="{data-toggle: 'tooltip' }">
         <i class="fas fa-copy"></i>
     </f:link.action>
 </f:if>
+</f:comment>
 
-<f:link.action
-        action="uploadFiles"
-        arguments="{document : document}"
-        class="btn btn-sm btn-outline-secondary
-            {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_UPLOAD_FILES\')}', then: '', else: 'disabled')}"
-        title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
-        additionalAttributes="{data-toggle: 'tooltip' }">
-    <i class="fas fa-file-upload"></i>
-</f:link.action>
+<f:if condition="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}">
+    <a href="#" class="remove-bookmark"
+       title="Bookmark entfernen" data-toggle="tooltip"
+       data-id="{document._id}"
+       data-ajaxURL="{}">
+        <i class="fas fa-backspace"></i>
+    </a>
+</f:if>

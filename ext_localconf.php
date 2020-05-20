@@ -78,23 +78,31 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
-        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
-            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
+        'Workspace'        => 'listWorkspace, initIndex, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
-        'Document'         => 'list, logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
-            . 'releaseUpdate, duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
-            . 'listRegistered, listInProgress, releaseActivate, cancelListTask, uploadFiles, '
+        'Workspace'        => 'listWorkspace, initIndex, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
+            . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateLocally, updateRemote, cancelEdit, cancel, createSuggestionDocument',
+        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSortAction, '
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
         'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
         'Gnd'              => 'search',
     )
@@ -116,6 +124,8 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
 
 $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+
+// Documents
 $signalSlotDispatcher->connect(
     \EWW\Dpf\Controller\DocumentController::class,
     'actionChange',
@@ -137,3 +147,28 @@ $signalSlotDispatcher->connect(
     'cleanUpDocuments',
     false
 );
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\WorkspaceController::class,
+    'actionChange',
+    \EWW\Dpf\Services\Document\DocumentCleaner::class,
+    'cleanUpDocuments',
+    false
+);
+
+// ElasticSearch
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\AbstractController::class,
+    'indexDocument',
+    \EWW\Dpf\Services\ElasticSearch\ElasticSearch::class,
+    'index',
+    false
+);
+
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\AbstractController::class,
+    'deleteDocumentFromIndex',
+    \EWW\Dpf\Services\ElasticSearch\ElasticSearch::class,
+    'delete',
+    false
+);
+

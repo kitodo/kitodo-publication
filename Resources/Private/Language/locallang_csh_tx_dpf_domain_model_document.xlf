@@ -47,11 +47,8 @@
         <trans-unit id="file.description">
             <source>file</source>
         </trans-unit>
-        <trans-unit id="owner.description">
-            <source>owner</source>
-        </trans-unit>
-        <trans-unit id="editor_uid.description">
-            <source>editor uid</source>
+        <trans-unit id="creator.description">
+            <source>creator</source>
         </trans-unit>
         <trans-unit id="temporary.description">
             <source>temporary</source>

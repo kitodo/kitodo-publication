@@ -50,5 +50,11 @@ plugin.tx_dpf {
 
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page (Backend Preview)
 			previewPid =
+
+		    # cat=plugin.tx_dpf/link; type=int+; label=Workspace items per page (Backoffice)
+            workspaceItemsPerPage = 30
+
+		    # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
+            universityCollection = epflicht
         }
 }

@@ -1,0 +1,59 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+
+    <f:if condition="{isWorkspace}">
+        <f:then>
+            <h1 class="h2">{f:translate(key: 'manager.control.documents')}</h1>
+
+            <div>
+                <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                    isBookmarksOnly: isBookmarksOnly,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+            </div>
+
+            <f:comment>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                    <f:link.action action="listWorkspace" controller="Workspace"
+                                   class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Workspace', actionNames:{0:'listWorkspace'})}">
+                        {f:translate(key: 'manager.workspace.listDocuments')}
+                    </f:link.action>
+                    <f:link.action action="listSuggestions" controller="Document"
+                                   class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Document', actionNames:{0:'listSuggestions'})}">
+                        {f:translate(key: 'manager.document.suggestions')}
+                    </f:link.action>
+                </div>
+            </div>
+            </f:comment>
+        </f:then>
+        <f:else>
+            <h1 class="h2">{f:translate(key: 'manager.control.myPublications')}</h1>
+            <div>
+                <f:render partial="Workspace/ShowBookmarksOnly" arguments="{
+                    isBookmarksOnly: isBookmarksOnly,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+                <f:render partial="Workspace/HideDiscarded" arguments="{
+                    isHideDiscarded: isHideDiscarded,
+                    workspace: workspace,
+                    isSuggestions: isSuggestions}" />
+            </div>
+        </f:else>
+    </f:if>
+</div>

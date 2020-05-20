@@ -86,8 +86,22 @@ plugin.tx_dpf {
 
 			postponeOptionListName = postponeOptions
 			discardOptionListName = discardOptions
+
+			workspaceItemsPerPage = {$plugin.tx_dpf.settings.workspaceItemsPerPage}
+
+			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
+
+			timezone = Europe/Berlin
         }
 }
+
+
+plugin.tx_dpf_backoffice {
+	view {
+		widget.TYPO3\CMS\Fluid\ViewHelpers\Widget\PaginateViewHelper.templateRootPath = EXT:dpf/Resources/Private/Templates/Overrides
+	}
+}
+
 
 // pi1 = GndAjax
 // PAGE object for Ajax call:
@@ -129,6 +143,7 @@ page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
 page.includeCSS.tx_dpf_backoffice = EXT:dpf/Resources/Public/CSS/backoffice.css
 page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css
 page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jquery-ui.structure.css
+page.includeCSS.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.css
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js
 page.includeJS.tx_dpf_jquery_ui = EXT:dpf/Resources/Public/JavaScript/jquery-ui.min.js
 page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
@@ -137,6 +152,7 @@ page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/boot
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
+page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js
 
 
 #Define ajax page type
@@ -176,10 +192,6 @@ plugin.tx_dpf_backoffice {
 	settings {
 		ajaxTypeNum = 110125
 
-		yamlConfigurations {
-			10 = EXT:dpf/Configuration/Yaml/Workflow.yaml
-		}
-
 	}
 }
 
@@ -188,3 +200,7 @@ lib.feUsername {
 	insertData = 1
 	value = {TSFE:fe_user|user|username}
 }
+
+
+#plugin.tx_dpf_backoffice._LOCAL_LANG.de.manager.workspace.universityPublication.tooltip =
+#plugin.tx_dpf_backoffice._LOCAL_LANG.en.manager.workspace.universityPublication.tooltip =

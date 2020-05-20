@@ -1,0 +1,50 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:switch expression="{filterName}">
+    <f:case value="aliasState">
+        <dpf:showStatus status="{filterItem.key}" /> ({filterItem.doc_count})
+    </f:case>
+    <f:case value="doctype">
+        <dpf:showDocumentType docType="{filterItem.key}" /> ({filterItem.doc_count})
+    </f:case>
+    <f:case value="hasFiles">
+        <f:if condition="{filterItem.key} == 'true'">
+            <f:then>
+                <f:translate key="manager.workspace.hasFiles.aggregations.true" /> ({filterItem.doc_count})
+            </f:then>
+            <f:else>
+                <f:translate key="manager.workspace.hasFiles.aggregations.false" /> ({filterItem.doc_count})
+            </f:else>
+        </f:if>
+    </f:case>
+    <f:case value="universityCollection">
+        <f:if condition="{filterItem.key} == 'true'">
+            <f:then>
+                <f:translate key="manager.workspace.universityPublication.aggregations.true" /> ({filterItem.doc_count})
+            </f:then>
+            <f:else>
+                <f:translate key="manager.workspace.universityPublication.aggregations.false" /> ({filterItem.doc_count})
+            </f:else>
+        </f:if>
+    </f:case>
+    <f:case value="creatorRole">
+        <f:translate key="manager.workspace.creator.{filterItem.key}" /> ({filterItem.doc_count})
+    </f:case>
+    <f:case default="TRUE">
+        {filterItem.key} ({filterItem.doc_count})
+    </f:case>
+</f:switch>

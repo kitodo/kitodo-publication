@@ -73,6 +73,81 @@ class Slub
         }
     }
 
+    /**
+     * Gets the creator uid of the document, the person who added and registered the document.
+     *
+     * @return int
+     */
+    public function getDocumentCreator()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:documentCreator");
+        return intval($node->item(0)->nodeValue);
+    }
+
+    /**
+     * Sets the creator uid of the document, the person who added and registered the document.
+     *
+     * @param int $docCreator
+     * @throws \Exception
+     */
+    public function setDocumentCreator($docCreator)
+    {
+        $creatorNode = $this->getSlubXpath()->query("/slub:info/slub:documentCreator");
+        if ($creatorNode->length == 1) {
+            $creatorNode->item(0)->nodeValue = $docCreator;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $creator = $this->slubDom->createElement('slub:documentCreator');
+                $creator->nodeValue = $docCreator;
+                $slubInfoNode->item(0)->appendChild($creator);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
+    /**
+     * Gets the validation state of the document.
+     *
+     * @return bool
+     */
+    public function getValidation()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:validation/slub:validated");
+        $value = $node->item(0)->nodeValue;
+        return ($value === 'true')? true : false;
+    }
+
+    /**
+     * Sets the validation state of the document.
+     *
+     * @param bool $validated
+     * @throws \Exception
+     */
+    public function setValidation($validated)
+    {
+        $validationNode = $this->getSlubXpath()->query("/slub:info/slub:validation/slub:validated");
+        if ($validationNode->length == 1) {
+            $validationNode->item(0)->nodeValue = $validated;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+
+                $validation = $this->slubDom->createElement('slub:validation');
+
+                $validated = $this->slubDom->createElement('slub:validated');
+                $validated->nodeValue = ($validated)? 'true' : 'false';
+
+                $validation->appendChild($validated);
+
+                $slubInfoNode->item(0)->appendChild($validation);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
     public function getSubmitterEmail()
     {
         $emailNode = $this->getSlubXpath()->query("/slub:info/slub:submitter/foaf:Person/foaf:mbox");

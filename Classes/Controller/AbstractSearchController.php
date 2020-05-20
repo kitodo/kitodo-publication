@@ -15,7 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use EWW\Dpf\Services\ElasticSearch;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 
 abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractController
 {
@@ -55,9 +55,11 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         $searchString = $this->escapeQuery(trim($searchString));
 
         $query['body']['query']['bool']['should'][0]['query_string']['query']                       = $searchString;
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchString;
+        //$query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchString;
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+
+        // child_type is invalid in elasticsearch 7.5
+        //$query['body']['query']['bool']['should'][1]['has_child']['type'] = "datastream"; // 1
 
         $query = $this->resultsFilter($query, false);
 
@@ -178,7 +180,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         // document must be active
         if($showDeleted == false) {
 
-            $queryFilter['body']['query']['bool']['must'][]['term']['STATE'] = 'A';
+            //  $queryFilter['body']['query']['bool']['must'][]['term']['STATE'] = 'A';
 
         };
 
@@ -187,7 +189,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
         if ($clients) {
             $client = $clients->getFirst();
             if ($client) {
-                $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
+                //    $queryFilter['body']['query']['bool']['must'][]['term']['OWNER_ID'] = $client->getOwnerId();
             }
         }
 

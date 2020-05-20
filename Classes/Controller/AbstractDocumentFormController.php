@@ -15,16 +15,17 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Domain\Model\DocumentForm;
+use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+
 
 /**
  * DocumentFormController
  */
-abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\AbstractController
+abstract class AbstractDocumentFormController extends AbstractController
 {
 
     /**
@@ -155,7 +156,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      * @ignorevalidation $newDocumentForm
      * @return void
      */
-    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
+    public function newAction(DocumentForm $newDocumentForm = null)
     {
         $this->view->assign('documentForm', $newDocumentForm);
     }
@@ -195,7 +196,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
      * @return void
      */
-    public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
+    public function createAction(DocumentForm $newDocumentForm)
     {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
@@ -205,11 +206,10 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 
         if ($this->request->getPluginName() === "Backoffice") {
-            $ownerUid = $this->security->getUser()->getUid();
-            $newDocument->setOwner($ownerUid);
-            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE);
+            $newDocument->setCreator($this->security->getUser()->getUid());
+            $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE);
         } else {
-            $workflow->apply($newDocument, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER);
+            $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE_REGISTER);
         }
 
         // xml data fields are limited to 64 KB
@@ -234,9 +234,16 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
                 } else {
                     $newFile->setDocument($newDocument);
                     $this->fileRepository->add($newFile);
+                    $newDocument->addFile($newFile);
+                    $this->documentRepository->update($newDocument);
                 }
             }
         }
+        $this->persistenceManager->persistAll();
+
+        // index the document
+        $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$newDocument]);
+
     }
 
     public function initializeEditAction()
@@ -245,11 +252,10 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
 
         if (array_key_exists('document', $requestArguments)) {
 
-            if ($this->request->getArgument('document') instanceof \EWW\Dpf\Domain\Model\Document) {
-                $document = $this->request->getArgument('document');
-            } elseif (is_numeric($this->request->getArgument('document'))) {
-                $document = $this->documentRepository->findByUid($this->request->getArgument('document'));
-            }
+            $document = $this->documentManager->read(
+                $this->request->getArgument('document'),
+                $this->security->getUser()->getUID()
+            );
 
             if ($document) {
                 $mapper = $this->objectManager->get(DocumentMapper::class);
@@ -271,7 +277,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      * @ignorevalidation $documentForm
      * @return void
      */
-    public function editAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    public function editAction(DocumentForm $documentForm)
     {
         $this->view->assign('documentForm', $documentForm);
     }
@@ -310,7 +316,7 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @return void
      */
-    public function updateAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
+    public function updateAction(DocumentForm $documentForm)
     {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
@@ -322,21 +328,13 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
-        // add document to local es index
-        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
-
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        // send document to index
-        $elasticsearchRepository->add($updateDocument, $json);
-
         $updateDocument->setChanged(true);
-
         $this->documentRepository->update($updateDocument);
+
 
         // Delete files
         foreach ($documentForm->getDeletedFiles() as $deleteFile) {
-            $deleteFile->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_DELETED);
+            $deleteFile->setStatus(File::STATUS_DELETED);
             $this->fileRepository->update($deleteFile);
         }
 
@@ -350,6 +348,9 @@ abstract class AbstractDocumentFormController extends \EWW\Dpf\Controller\Abstra
             }
 
         }
+
+        // index the document
+        $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$updateDocument]);
     }
 
     /**

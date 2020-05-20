@@ -16,11 +16,13 @@ namespace EWW\Dpf\Services\Transfer;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
 {
+    const DELETE = "delete";
+    const REVERT = "revert";
+    const INACTIVATE = "inactivate";
 
     /**
      * documenRepository
@@ -85,12 +87,10 @@ class DocumentTransferManager
      * Stores a document into the remote repository
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return boolean
+     * @return \EWW\Dpf\Domain\Model\Document|bool
      */
     public function ingest($document)
     {
-
-        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
         $this->documentRepository->update($document);
 
         $exporter = new \EWW\Dpf\Services\MetsExporter();
@@ -107,7 +107,10 @@ class DocumentTransferManager
 
         $exporter->setMods($mods->getModsXml());
 
-        $exporter->setSlubInfo($document->getSlubInfoData());
+        // Set the document creator
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setDocumentCreator($document->getCreator());
+        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
@@ -115,25 +118,14 @@ class DocumentTransferManager
 
         $metsXml = $exporter->getMetsData();
 
-        // remove document from local index
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        $elasticsearchRepository->delete($document, "");
-
         $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
 
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
             $document->setObjectIdentifier($remoteDocumentId);
-            //$document->setTransferStatus(Document::TRANSFER_SENT);
-
-            $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
-
             $this->documentRepository->update($document);
-            $this->documentRepository->remove($document);
-
-            return true;
+            return $document;
         } else {
-            //$document->setTransferStatus(Document::TRANSFER_ERROR);
             $this->documentRepository->update($document);
             return false;
         }
@@ -148,13 +140,6 @@ class DocumentTransferManager
      */
     public function update($document)
     {
-        // remove document from local index
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        $elasticsearchRepository->delete($document, "");
-
-        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
-        //$this->documentRepository->update($document);
-
         $exporter = new \EWW\Dpf\Services\MetsExporter();
 
         $fileData = $document->getFileData();
@@ -165,7 +150,10 @@ class DocumentTransferManager
 
         $exporter->setMods($mods->getModsXml());
 
-        $exporter->setSlubInfo($document->getSlubInfoData());
+        // Set the document creator
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setDocumentCreator($document->getCreator());
+        $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
 
@@ -174,14 +162,8 @@ class DocumentTransferManager
         $metsXml = $exporter->getMetsData();
 
         if ($this->remoteRepository->update($document, $metsXml)) {
-            //$document->setTransferStatus(Document::TRANSFER_SENT);
-            //$this->documentRepository->update($document);
-            //$this->documentRepository->remove($document);
-
             return true;
         } else {
-            //$document->setTransferStatus(Document::TRANSFER_ERROR);
-            //$this->documentRepository->update($document);
             return false;
         }
 
@@ -191,14 +173,12 @@ class DocumentTransferManager
      * Gets an existing document from the Fedora repository
      *
      * @param string $remoteId
-     * @param integer editorFeUserUid
      *
      * @return \EWW\Dpf\Domain\Model\Document|null
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function retrieve($remoteId, $editorFeUserUid = 0)
+    public function retrieve($remoteId)
     {
-
         $metsXml = $this->remoteRepository->retrieve($remoteId);
 
         if ($metsXml) {
@@ -223,13 +203,13 @@ class DocumentTransferManager
 
             switch ($state) {
                 case "ACTIVE":
-                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
+                    $document->setState(DocumentWorkflow::STATE_NONE_ACTIVE);
                     break;
                 case "INACTIVE":
-                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE);
+                    $document->setState(DocumentWorkflow::STATE_NONE_INACTIVE);
                     break;
                 case "DELETED":
-                    $document->setState(DocumentWorkflow::STATE_IN_PROGRESS_DELETED);
+                    $document->setState(DocumentWorkflow::STATE_NONE_DELETED);
                     break;
                 default:
                     throw new \Exception("Unknown object state: " . $state);
@@ -249,8 +229,9 @@ class DocumentTransferManager
 
             $document->setProcessNumber($slub->getProcessNumber());
 
+            $document->setCreator($slub->getDocumentCreator());
+
             $document->setTemporary(TRUE);
-            $document->setEditorUid($editorFeUserUid);
 
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
@@ -274,7 +255,11 @@ class DocumentTransferManager
                 $file->setDocument($document);
 
                 $this->fileRepository->add($file);
+                $document->addFile($file);
             }
+
+            $this->documentRepository->update($document);
+            $this->persistenceManager->persistAll();
 
             return $document;
 
@@ -294,15 +279,15 @@ class DocumentTransferManager
      */
     public function delete($document, $state)
     {
-        if ($state == "revert" || $state == "inactivate") {
+        if ($state == self::REVERT || $state == self::INACTIVATE) {
             return $this->remoteRepository->delete($document, $state);
         }
 
-        // remove document from local index
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        $elasticsearchRepository->delete($document, $state);
+        if ($state == self::DELETE) {
+            return $this->remoteRepository->delete($document, $state);
+        }
 
-        return $this->remoteRepository->delete($document, $state);
+        return false;
     }
 
     public function getNextDocumentId()

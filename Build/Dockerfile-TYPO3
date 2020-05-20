@@ -51,9 +51,9 @@ WORKDIR /var/www/html
 RUN composer config repositories.kitodo-publication '{"type": "path", "url": "/app", "options": {"symlink": true}}' && \
     composer config minimum-stability dev && \
     composer config prefer-stable true
+COPY . /app
 RUN composer require devlog/devlog:~3.0.4 && \
     composer require kitodo/presentation
-COPY . /app
 RUN composer require nimut/testing-framework && \
     composer require kitodo/publication:@dev && \
     chown -R www-data .

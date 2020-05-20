@@ -12,8 +12,10 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
-    <f:render partial="Document/WorkspaceList" arguments="{documents:documents}"/>
+    <f:render partial="Workspace/ListWorkspace" arguments="{_all}" />
 </f:section>

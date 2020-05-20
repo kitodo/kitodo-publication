@@ -12,8 +12,10 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Backoffice"/>
+{namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:section name="main">
-    <f:render partial="Document/WorkspaceList" arguments="{documents:documents}"/>
-</f:section>
+<f:widget.paginate
+        objects="{pages}"
+        as="page"
+        configuration="{itemsPerPage:itemsPerPage, insertAbove: 1, insertBelow: 0, maximumNumberOfLinks:maximumNumberOfLinks}">
+</f:widget.paginate>

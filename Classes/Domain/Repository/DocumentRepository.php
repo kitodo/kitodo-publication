@@ -14,6 +14,7 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use \EWW\Dpf\Security\Security;
 
@@ -22,81 +23,14 @@ use \EWW\Dpf\Security\Security;
  */
 class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
-
     /**
-     * Finds all documents of the given user role filtered by owner uid
-     *
-     * @param string role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
-     * @param int $ownerUid
-     * @param array $stateFilters
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
-     */
-    public function findAllByRole($role, $ownerUid, $stateFilters = array())
-    {
-        $query = $this->createQuery();
-        $constraintsOr = array();
-        $constraintsAnd = array();
-
-        switch ($role) {
-
-            case Security::ROLE_LIBRARIAN:
-
-                $constraintsOr[] = $query->logicalAnd(
-                array(
-                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE),
-                $query->equals('owner', $ownerUid)
-                )
-                );
-
-                $constraintsOr[] = $query->logicalAnd(
-                $query->logicalNot(
-                $query->equals('state', DocumentWorkflow::STATE_NEW_NONE)
-                )
-                );
-
-                $constraintsAnd[] = $query->logicalOr($constraintsOr);
-
-                if ($stateFilters) {
-                $constraintsAnd[] = $query->in('state', $stateFilters);
-                }
-
-                $constraintsAnd[] = $query->equals('suggestion', false);
-
-                break;
-
-            case Security::ROLE_RESEARCHER:
-
-                $constraintsAnd = array(
-                    $query->equals('owner', $ownerUid),
-                    $query->equals('suggestion', 0)
-                );
-
-                if ($stateFilters) {
-                    $constraintsAnd[] = $query->in('state', $stateFilters);
-                }
-
-                break;
-        }
-
-        $constraintsAnd[] = $query->equals('temporary', false);
-        $query->matching($query->logicalAnd($constraintsAnd));
-
-        $query->setOrderings(
-            array('transfer_date' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
-        );
-
-        return $query->execute();
-    }
-
-    /**
-     * Finds all suggestion documents of the given user role filtered by owner uid
+     * Finds all suggestion documents of the given user role filtered by creator feuser uid
      *
      * @param string $role : The kitodo user role (Security::ROLE_LIBRARIAN, Security::ROLE_RESEARCHER)
-     * @param int $ownerUid
+     * @param int $creatorUid
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function findAllDocumentSuggestions($role, $ownerUid) {
+    public function findAllDocumentSuggestions($role, $creatorUid) {
         $query = $this->createQuery();
 
         switch ($role) {
@@ -112,7 +46,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
                     $query->logicalAnd(
                         array(
                             $query->equals('suggestion', true),
-                            $query->equals('owner', $ownerUid)
+                            $query->equals('creator', $creatorUid)
                         )
                     )
                 );
@@ -257,9 +191,9 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
     /**
      * @param string $identifier
-     * @return array
+     * @return Document
      */
-    public function findWorkingCopy($identifier)
+    public function findByIdentifier($identifier)
     {
         $query = $this->createQuery();
 
@@ -273,12 +207,77 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             ];
         }
 
-        $constraints[] = $query->logicalNot($query->equals('temporary', TRUE));
-        $constraints[] = $query->logicalNot($query->equals('suggestion', TRUE));
+        $query->matching($query->logicalAnd($constraints));
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
+     * @param string $identifier
+     * @param bool $includeTemporary
+     * @param bool $includeSuggestion
+     * @return Document
+     */
+    public function findWorkingCopy($identifier, $includeTemporary = false, $includeSuggestion = false)
+    {
+        $query = $this->createQuery();
+
+        if (is_numeric($identifier)) {
+            $constraints = [
+                $query->equals('uid', $identifier)
+            ];
+        } else {
+            $constraints = [
+                $query->equals('object_identifier', $identifier)
+            ];
+        }
+
+        $constraints[] = $query->equals('temporary', $includeTemporary);
+        $constraints[] = $query->equals('suggestion', $includeSuggestion);
 
         $query->matching($query->logicalAnd($constraints));
 
         return $query->execute()->getFirst();
     }
 
+
+    /**
+     * @param object $modifiedObject The modified object
+     * @throws \Exception
+     */
+    public function update($modifiedObject)
+    {
+        /** @var Document $document */
+        $document = $modifiedObject;
+
+        if (trim($document->getObjectIdentifier()) && !$document->isTemporary() && !$document->isSuggestion()) {
+            $query = $this->createQuery();
+            $constraints[] = $query->equals('object_identifier', trim($document->getObjectIdentifier()));
+            $constraints[] = $query->equals('temporary', false);
+            $constraints[] = $query->equals('suggestion', false);
+            $query->matching($query->logicalAnd($constraints));
+
+            /** @var Document $workingCopy */
+            foreach ($query->execute() as $workingCopy) {
+                if ($workingCopy->getUid() !== $document->getUid()) {
+                    throw new \Exception(
+                        "Working copy for " . $document->getObjectIdentifier() . " already exists."
+                    );
+                }
+            }
+        }
+
+        parent::update($document);
+    }
+
+
+
+    public function updateCreator()
+    {
+
+        $query = $this->createQuery();
+        $query->statement( "update tx_dpf_domain_model_document set creator = owner");
+        $query->execute();
+
+    }
 }

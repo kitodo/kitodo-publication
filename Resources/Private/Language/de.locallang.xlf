@@ -153,22 +153,6 @@
 			<source>%s successfully deleted.</source>
 		    <target>%s erfolgreich gelöscht.</target>
 		</trans-unit>
-		<trans-unit id="document_updateLocally.accessDenied" approved="yes">
-			<source>Saving %s failed, access denied.</source>
-			<target>Speicherung von %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureCreateWorkingCopy" approved="yes">
-			<source>Saving %s failed, there is already a working copy.</source>
-			<target>Speicherung von %s fehlgeschlagen, es existiert bereits Arbeitspopie.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.failureNewVersion" approved="yes">
-			<source>Saving %s failed. There is a newer Version.</source>
-			<target>Speicherung von %s fehlgeschlagen. Es gibt eine neuere Version.</target>
-		</trans-unit>
-		<trans-unit id="document_updateLocally.success" approved="yes">
-			<source>%s successfully saved.</source>
-			<target>%s erfolgreich gespeichert.</target>
-		</trans-unit>
 		<trans-unit id="document_edit.failureBlocked" approved="yes">
 			<source>%s is already being edited.</source>
 		    <target>%s wird bereits bearbeitet.</target>
@@ -549,6 +533,46 @@
 			<source>Do you really want to register the document?</source>
 			<target>Möchten Sie das Dokument wirklich melden?</target>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.messageHeader" approved="yes">
+			<source>Do you really want to register the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich melden?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRegister.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be registered for publication.</source>
+			<target>Die ausgewählten Dokumente werden zur Veröffentlichung angemeldet. </target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
+			<source>Do you really want to remove the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich entfernen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchRemove.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be removed from your workspace.</source>
+			<target>Die ausgwählten Dokumente werden aus Ihrem Arbeitsbereich entfernt. </target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader" approved="yes">
+			<source>Do you really want to release and validate the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben und validieren?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseValidated.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be released and validated.</source>
+			<target>Die ausgwählten Dokumente werden freigegeben und validiert.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader" approved="yes">
+			<source>Do you really want to release but not validate the selected documents?</source>
+			<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben aber nicht validieren?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be released but not validated.</source>
+			<target>Die ausgwählten Dokumente werden freigegeben aber nicht validiert.</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
+			<source>Do you really want to remove the document from the list?</source>
+			<target>Möchten Sie das Dokument wirklich aus der Liste entfernen?</target>
+		</trans-unit>
+		<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
+			<source>The selected documents will be removed from the list.</source>
+			<target>Das ausgwählte Dokument wird aus der Liste entfernt.</target>
+		</trans-unit>
 		<trans-unit id="manager.discard" approved="yes">
 			<source>discard</source>
 			<target>Verwerfen</target>
@@ -589,10 +613,6 @@
 			<source>State</source>
 			<target>Status</target>
 		</trans-unit>
-		<trans-unit id="manager.document.state.all" approved="yes">
-			<source>All</source>
-			<target>Alle</target>
-		</trans-unit>
         <trans-unit id="manager.document.suggestions" approved="yes">
             <source>Suggestions</source>
             <target>Änderungsvorschläge</target>
@@ -632,6 +652,26 @@
 		<trans-unit id="manager.document.type" approved="yes">
 			<source>Type</source>
 			<target>Typ</target>
+		</trans-unit>
+		<trans-unit id="manager.document.discard.note" approved="yes">
+			<source>
+                <![CDATA[The document has been discarded: %s
+                Reason: %s]]>
+            </source>
+			<target>
+                <![CDATA[Das Dokument wurde verworfen: %s
+                Grund: %s]]>
+            </target>
+		</trans-unit>
+		<trans-unit id="manager.document.postpone.note" approved="yes">
+			<source>
+                <![CDATA[The document has been postponed: %s
+                Reason: %s]]>
+            </source>
+			<target>
+                <![CDATA[Das Dokument wurde zurückgestellt: %s
+                Grund: %s]]>
+            </target>
 		</trans-unit>
         <trans-unit id="manager.documentList.state.new" approved="yes">
             <source>New</source>
@@ -689,17 +729,9 @@
 			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
 			<target>Das Dokument &quot;%s&quot; wird an das Repository gesendet und das lokale Dokument verworfen.</target>
 		</trans-unit>
-		<trans-unit id="manager.confirmReleaseUpdate.message" approved="yes">
-			<source>All document changes of &quot;%s&quot; will be sent to the repository and the working copy will be removed.</source>
-			<target>Alle Änderungen am Dokument &quot;%s&quot; werden an das Repository gesendet und die Arbeitskopie entfernt.</target>
-		</trans-unit>
 		<trans-unit id="manager.confirmReleasePublish.messageHeader" approved="yes">
 			<source>Do you really want to publish the document?</source>
 			<target>Wollen Sie das Dokument wirklich veröffentlichen?</target>
-		</trans-unit>
-		<trans-unit id="manager.confirmReleaseUpdate.messageHeader" approved="yes">
-			<source>Do you really want to update the document?</source>
-			<target>Wollen Sie das Dokument wirklich aktualisieren?</target>
 		</trans-unit>
 		<trans-unit id="manager.confirmRestore.message" approved="yes">
 			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
@@ -730,18 +762,202 @@
 			<target>DataCite XML herunterladen</target>
 		</trans-unit>
 		<trans-unit id="manager.tooltip.uploadFiles" approved="yes">
-			<source>Upload Full texts / media</source>
-			<target>Volltexte / Medien hochladen</target>
-		</trans-unit>
-		<trans-unit id="manager.releaseUpdate" approved="yes">
-			<source>update</source>
-			<target>Aktualisieren</target>
+			<source>Upload fulltext</source>
+			<target>Volltext hochladen</target>
 		</trans-unit>
 		<trans-unit id="manager.chooseClientMessage" approved="yes">
 			<source>Please select a client in the page tree.</source>
 			<target>Bitte Mandanten im Seitenbaum auswählen.</target>
 		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
+        <trans-unit id="manager.workspace.accessDenied" approved="yes">
+            <source>Access denied.</source>
+            <target>Der Zugriff wurde verweigert.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.publicationType" approved="yes">
+            <source>publication type</source>
+            <target>Publikationstyp</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.persons" approved="yes">
+            <source>Persons</source>
+            <target>Personen</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.publicationYear" approved="yes">
+            <source>Year</source>
+            <target>Jahr</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.state" approved="yes">
+            <source>State</source>
+            <target>Status</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator" approved="yes">
+            <source>Creator</source>
+            <target>Ersteller_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.self" approved="yes">
+            <source>Self</source>
+            <target>Sie selbst</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.librarian" approved="yes">
+            <source>Librarian</source>
+            <target>Bibliothekar_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.user" approved="yes">
+            <source>User</source>
+            <target>Nutzer_in</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.self" approved="yes">
+            <source>Record created by myself.</source>
+            <target>Von mir selbst erstellter Datensatz.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.librarian" approved="yes">
+            <source>Record created by the library.</source>
+            <target>Von der Bibliothek erstellter Datensatz.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.tooltip.user" approved="yes">
+            <source>Record created by other users.</source>
+            <target>Von anderen Nutzer*innen erstellter Datensatz.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.creator.unknown" approved="yes">
+            <source>Unknown</source>
+            <target>Unbekannt</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication" approved="yes">
+            <source>UL publication</source>
+            <target>UL-Publikation</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
+            <source>Originated from scientific work at the UL</source>
+            <target>Hervorgegangen aus wissenschaftlicher Tätigkeit an der UL</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.fulltextMedia" approved="yes">
+            <source>Fulltext</source>
+            <target>Volltext</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.noTitle" approved="yes">
+            <source>No title</source>
+            <target>kein Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hasFiles.aggregations.true" approved="yes">
+            <source>Yes</source>
+            <target>Ja</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hasFiles.aggregations.false" approved="yes">
+            <source>No</source>
+            <target>Nein</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.aggregations.true" approved="yes">
+            <source>Yes</source>
+            <target>Ja</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.universityPublication.aggregations.false" approved="yes">
+            <source>No</source>
+            <target>Nein</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.listDocuments" approved="yes">
+            <source>Documents</source>
+            <target>Dokumente</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.hideDiscarded" approved="yes">
+            <source>Hide own discarded</source>
+            <target>Eigene Verworfene ausblenden</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.showDiscarded" approved="yes">
+            <source>Show own discarded</source>
+            <target>Eigene verworfene anzeigen</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.showBookmarksOnly" approved="yes">
+            <source>Show bookmarks only</source>
+            <target>Nur Gemerkte anzeigen</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.filter.all" approved="yes">
+            <source>(all)</source>
+            <target>(alle)</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.register.success.singular" approved="yes">
+            <source>%s record out of %s successfully registered.</source>
+            <target>%s Datensatz von %s wurde erfolgreich gemeldet.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.register.success.plural" approved="yes">
+            <source>%s records out of %s successfully registered.</source>
+            <target>%s Datensätze von %s wurden erfolgreich gemeldet.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.remove.success.singular" approved="yes">
+            <source>%s record out of %s successfully removed.</source>
+            <target>%s Datensatz von %s wurde erfolgreich entfernt.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.remove.success.plural" approved="yes">
+            <source>%s records out of %s successfully removed.</source>
+            <target>%s Datensätze von %s wurden erfolgreich entfernt.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.singular" approved="yes">
+            <source>%s record out of %s successfully released.</source>
+            <target>%s Datensatz von %s wurde erfolgreich freigegeben.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.release.success.plural" approved="yes">
+            <source>%s records out of %s successfully released.</source>
+            <target>%s Datensätze von %s wurden erfolgreich freigegeben.</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.failure" approved="yes">
+            <source>The desired action is not possible for your selection.</source>
+            <target>Die gewünschte Aktion ist für Ihre Auswahl nicht möglich.</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
+            <source>Register</source>
+            <target>Eingestellte melden</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
+            <source>Export</source>
+            <target>Exportieren</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
+            <source>Remove from "Workspace"</source>
+            <target>Aus "Arbeitsbereich" entfernen</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseValidated" approved="yes">
+            <source>Release and validate</source>
+            <target>Freigeben und validieren</target>
+        </trans-unit>
+        <trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
+            <source>Release and not validate</source>
+            <target>Freigeben und nicht validieren</target>
+        </trans-unit>
+		<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
+			<source>Record has been removed from workspace.</source>
+			<target>Datensatz aus Arbeitsbereich entfernt.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarkRemoved.plural" approved="yes">
+			<source>%s Records have been removed from workspace.</source>
+			<target>%s Datensätze aus Arbeitsbereich entfernt.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.bookmarkAdded" approved="yes">
+			<source>Record has been added to the workspace.</source>
+			<target>Datensatz wurde dem Arbeitsbereich hinzugefügt.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.documentCounter" approved="yes">
+			<source>%s from %s to %s.</source>
+			<target>%s bis %s von %s.</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.header" approved="yes">
+			<source>Administrative notes</source>
+			<target>Bearbeitungsnotizen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.close" approved="yes">
+			<source>Close</source>
+			<target>Schließen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.notes.tooltip" approved="yes">
+			<source>Show administrative notes</source>
+			<target>Bearbeitungsnotizen anzeigen</target>
+		</trans-unit>
+		<trans-unit id="manager.workspace.itemsPerPage" approved="yes">
+			<source>Documents per page</source>
+			<target>Dokumente pro Seite</target>
+		</trans-unit>
+        <trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 			<source>Your document has been published:
 Submitter: ###SUBMITTER_NAME###
 Title: ###TITLE###

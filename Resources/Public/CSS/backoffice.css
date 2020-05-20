@@ -80,6 +80,25 @@ body {
     border-top: none;
 }
 
+#tx-dpf-backoffice .workspace-batch-operations {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#tx-dpf-backoffice .workspace-batch-operations .btn {
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+
+#tx-dpf-backoffice .workspace-filter {
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    font-weight: normal;
+}
+
+#tx-dpf-backoffice .table-manager .select2 {
+    min-width: 100%;
+}
 
 #tx-dpf-backoffice.document-manager .searchForm {
     margin: 0 20px 20px 0;
@@ -107,6 +126,11 @@ body {
     margin-left: 13px;
 }
 
+
+/* -- batch buttons ---------------------------------------------------------------------- */
+.dpf-fa-check-color {
+    color: gray;
+}
 
 
 /* EOF */
