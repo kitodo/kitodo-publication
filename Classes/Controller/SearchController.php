@@ -112,10 +112,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
 
-        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
-        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUser()->getUserRole() == Security::ROLE_RESEARCHER) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
         }
@@ -147,7 +147,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('itemsPerPage', $this->itemsPerPage());
         $this->view->assign('aggregations', $results['aggregations']);
         $this->view->assign('filters', $filters);
-        $this->view->assign('isHideDiscarded', array_key_exists('simpleState', $excludeFilters));
+        $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', []);
     }
@@ -285,7 +285,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
             foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
 
-                if ( $listData['documentSimpleState'][$documentIdentifier] != DocumentWorkflow::SIMPLE_STATE_NEW) {
+                if ( $listData['documentAliasState'][$documentIdentifier] != DocumentWorkflow::ALIAS_STATE_NEW) {
                     if (
                         $this->bookmarkRepository->addBookmark(
                             $this->security->getUser()->getUid(),
@@ -362,23 +362,23 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         asort($docTypes, SORT_LOCALE_STRING);
         $this->view->assign('documentTypes', $docTypes);
 
-        $states[DocumentWorkflow::SIMPLE_STATE_NEW] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_NEW, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_NEW] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_NEW, 'dpf'
         );
-        $states[DocumentWorkflow::SIMPLE_STATE_REGISTERED] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_REGISTERED, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_REGISTERED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_REGISTERED, 'dpf'
         );
-        $states[DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_IN_PROGRESS, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_IN_PROGRESS] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_IN_PROGRESS, 'dpf'
         );
-        $states[DocumentWorkflow::SIMPLE_STATE_RELEASED] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_RELEASED, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_RELEASED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_RELEASED, 'dpf'
         );
-        $states[DocumentWorkflow::SIMPLE_STATE_POSTPONED] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_POSTPONED, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_POSTPONED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_POSTPONED, 'dpf'
         );
-        $states[DocumentWorkflow::SIMPLE_STATE_DISCARDED] = LocalizationUtility::translate(
-            "manager.documentList.state.".DocumentWorkflow::SIMPLE_STATE_DISCARDED, 'dpf'
+        $states[DocumentWorkflow::ALIAS_STATE_DISCARDED] = LocalizationUtility::translate(
+            "manager.documentList.state.".DocumentWorkflow::ALIAS_STATE_DISCARDED, 'dpf'
         );
 
         $this->view->assign('states', $states);

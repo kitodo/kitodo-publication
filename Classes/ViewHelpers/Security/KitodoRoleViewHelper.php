@@ -31,6 +31,6 @@ class KitodoRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     public function render()
     {
-        return $this->security->getUserRole();
+        return $this->security->getUser()->getUserRole();
     }
 }

@@ -66,10 +66,10 @@ class SearchSessionData
      */
     public function toggleExcludeDiscardedFilter()
     {
-        if (array_key_exists('simpleState', $this->excludeFilters)) {
-            unset($this->excludeFilters['simpleState']);
+        if (array_key_exists('aliasState', $this->excludeFilters)) {
+            unset($this->excludeFilters['aliasState']);
         } else {
-            $this->excludeFilters['simpleState'] = [DocumentWorkflow::SIMPLE_STATE_DISCARDED];
+            $this->excludeFilters['aliasState'] = [DocumentWorkflow::ALIAS_STATE_DISCARDED];
         }
     }
 

@@ -152,9 +152,9 @@ class QueryBuilder
                 'query' => $query,
                 'sort' => $this->buildSortQueryPart($sortField, $sortOrder),
                 'aggs' => [
-                    'simpleState' => [
+                    'aliasState' => [
                         'terms' => [
-                            'field' => 'simpleState'
+                            'field' => 'aliasState'
                         ]
                     ],
                     'year' => [
@@ -244,7 +244,7 @@ class QueryBuilder
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'simpleState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
             ];
 
             foreach ($filters as $key => $filterValues) {
@@ -374,9 +374,9 @@ class QueryBuilder
             }
         }
 
-        if ($excludeFilters && array_key_exists('simpleState', $excludeFilters)) {
-            if ($excludeFilters['simpleState']) {
-                foreach ($excludeFilters['simpleState'] as $simpleStateExclude) {
+        if ($excludeFilters && array_key_exists('aliasState', $excludeFilters)) {
+            if ($excludeFilters['aliasState']) {
+                foreach ($excludeFilters['aliasState'] as $aliasStateExclude) {
                     $queryFilter['bool']['must'][] = [
                         'bool' => [
                             'must_not' => [
@@ -384,7 +384,7 @@ class QueryBuilder
                                     'must' => [
                                         [
                                             'term' => [
-                                                'simpleState' => $simpleStateExclude
+                                                'aliasState' => $aliasStateExclude
                                             ]
                                         ],
                                         [
@@ -419,7 +419,7 @@ class QueryBuilder
 
         // Build the sorting part.
         $script = "";
-        if ($sortField == "simpleState") {
+        if ($sortField == "aliasState") {
             $script = $this->getSortScriptState();
         } elseif ($sortField == "universityCollection") {
             $script = $this->getSortScriptUniversityCollection($this->getSettings()['universityCollection']);
@@ -502,9 +502,9 @@ class QueryBuilder
     {
         $sortStates = [];
         foreach (DocumentWorkflow::PLACES as $state) {
-            if (array_key_exists($state, DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING)) {
-                $simpleState = DocumentWorkflow::STATE_TO_SIMPLESTATE_MAPPING[$state];
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$simpleState;
+            if (array_key_exists($state, DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING)) {
+                $aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$state];
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$aliasState;
                 $stateName = LocalizationUtility::translate($key, 'dpf');
                 $sortStates[] = "if (doc['state'].value == '".$state."') return '".$stateName."';";
             }
