@@ -126,6 +126,16 @@ class ElasticSearch
                                 'tokenizer' => 'keyword',
                                 'filter' => ['lowercase']
                             ]
+                        ],
+                        'normalizer' => [
+                            'lowercase_normalizer' => [
+                                'type' => 'custom',
+                                'char_filter' => [],
+                                'filter' => [
+                                    'lowercase',
+                                    'asciifolding'
+                                ]
+                            ]
                         ]
                     ]
                 ],
@@ -139,9 +149,8 @@ class ElasticSearch
                             'type' => 'text',
                             'fields' => [
                                 'keyword' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'keyword_lowercase',
-                                    'fielddata' => true
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
                                 ]
                             ]
                         ],
