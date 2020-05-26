@@ -235,7 +235,7 @@ var validateForm = function() {
 }
 var showFormError = function() {
     jQuery('.tx-dpf div.alert-danger').remove();
-    jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg + '</div>').insertBefore(jQuery('.tx-dpf form').first());
+    jQuery('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg + '</div>').insertAfter(jQuery('.tx-dpf form .tx-dpf-tab-container').first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
