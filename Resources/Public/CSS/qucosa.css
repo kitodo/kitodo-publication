@@ -395,6 +395,11 @@ ul.error-files-backbutton li {
     list-style: none;
 }
 
+.tx-dpf form .alert {
+    position: relative;
+    top: 60px;
+}
+
     /* -- extended search form--------------------------------------------------- */
 
 .tx-dpf div.searchExtForm div.container {
