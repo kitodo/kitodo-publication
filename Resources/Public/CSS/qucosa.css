@@ -171,11 +171,6 @@
     box-shadow: none;
 }
 
-.tx-dpf .form-group .form-control.has-select {
-    border-color: #eee #eee #eee #ccc;
-    box-shadow: none;
-}
-
 .tx-dpf .form-group .form-control select {
     width: 100%;
     height: 100%;
