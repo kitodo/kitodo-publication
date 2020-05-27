@@ -85,7 +85,7 @@
                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
         </f:case>
         <f:case value="2">
-            <div class="form-control has-select">
+            <div class="form-control has-select {f:if(condition: '{fieldItem.maxIteration} == 0', then: 'has-button', else: '')}">
                 <f:form.select id="inp_{fieldItem.uid}"
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
