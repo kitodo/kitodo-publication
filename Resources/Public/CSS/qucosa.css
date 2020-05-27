@@ -171,11 +171,26 @@
     box-shadow: none;
 }
 
+.tx-dpf .form-group .form-control.has-select {
+    border-color: #eee #eee #eee #ccc;
+    box-shadow: none;
+}
+
 .tx-dpf .form-group .form-control select {
     width: 100%;
     height: 100%;
     padding: 0 6px;
     border: none;
+}
+
+.tx-dpf .form-container .form-group:first-child .form-control.has-button,
+.tx-dpf .form-container .form-group:first-child .form-control.has-button select {
+   width: calc(100% - 32px);
+}
+
+.tx-dpf .form-group .form-control.has-button,
+.tx-dpf .form-group .form-control.has-button select {
+   width: calc(100% - 62px);
 }
 
 .tx-dpf .form-group .form-control {
