@@ -178,6 +178,16 @@
     border: none;
 }
 
+.tx-dpf .form-container .form-group:first-child .form-control.has-button,
+.tx-dpf .form-container .form-group:first-child .form-control.has-button select {
+   width: calc(100% - 32px);
+}
+
+.tx-dpf .form-group .form-control.has-button,
+.tx-dpf .form-group .form-control.has-button select {
+   width: calc(100% - 62px);
+}
+
 .tx-dpf .form-group .form-control {
     position: relative;
     z-index: 2;
@@ -287,6 +297,11 @@
 .tx-dpf button .glyphicon {
     top: 0;
     left: 1px;
+}
+
+.tx-dpf button .glyphicon-remove {
+    top: 1.5px;
+    left: 0;
 }
 
 .tx-dpf ol li {
