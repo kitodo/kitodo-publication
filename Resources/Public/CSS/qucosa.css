@@ -299,9 +299,9 @@
     left: 1px;
 }
 
-.tx-dpf .glyphicon-remove {
-    top: 1.5px !important;
-    left: 0 !important;
+.tx-dpf button .glyphicon-remove {
+    top: 1.5px;
+    left: 0;
 }
 
 .tx-dpf ol li {
