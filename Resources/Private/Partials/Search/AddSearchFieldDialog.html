@@ -17,7 +17,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Suchfeld hinzufügen</h5>
+                <h5 class="modal-title">
+                    {f:translate(key: 'manager.search.addSearchFieldDialog.title')}
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,14 +29,14 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <select class="custom-select" id="search-field-operator-binary">
-                                <option value="AND">und</option>
-                                <option value="OR">oder</option>
+                                <option value="AND">{f:translate(key: 'manager.search.addSearchFieldDialog.and')}</option>
+                                <option value="OR">{f:translate(key: 'manager.search.addSearchFieldDialog.or')}</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
                             <select class="custom-select" id="search-field-operator-unary">
-                                <option value="">ist</option>
-                                <option value="NOT">ist nicht</option>
+                                <option value="">{f:translate(key: 'manager.search.addSearchFieldDialog.is')}</option>
+                                <option value="NOT">{f:translate(key: 'manager.search.addSearchFieldDialog.isNot')}</option>
                             </select>
                         </div>
                     </div>
@@ -44,7 +46,9 @@
                     </div>
 
                     <div class="form-group mb-2 d-none search-field search-field-state">
-                        <label for="search-field-state-value" class="col-form-label modal-field-name">Status</label>
+                        <label for="search-field-state-value" class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.state')}
+                        </label>
                         <select class="custom-select search-field-value" id="search-field-state-value">
                             <option value=""></option>
                             <f:for each="{states}" as="stateName" key="state">
@@ -54,16 +58,20 @@
                     </div>
 
                     <div class="form-group mb-2 d-none search-field search-field-bool">
-                        <label for="search-field-bool-value" class="col-form-label modal-field-name">Field</label>
+                        <label for="search-field-bool-value" class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.field')}
+                        </label>
                         <select class="custom-select search-field-value" id="search-field-bool-value">
                             <option value=""></option>
-                            <option value="true">Ja</option>
-                            <option value="false">Nein</option>
+                            <option value="true">{f:translate(key: 'manager.search.addSearchFieldDialog.yes')}</option>
+                            <option value="false">{f:translate(key: 'manager.search.addSearchFieldDialog.no')}</option>
                         </select>
                     </div>
 
                     <div class="form-group mb-2 d-none search-field search-field-doctype">
-                        <label for="search-field-doctype-value" class="col-form-label modal-field-name">Dokumenttyp</label>
+                        <label for="search-field-doctype-value" class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.dokumentType')}
+                        </label>
                         <select class="custom-select search-field-value" id="search-field-doctype-value">
                             <option value=""></option>
                             <f:for each="{documentTypes}" key="doctypeValue" as="doctypeName">
@@ -74,27 +82,41 @@
 
 
                     <div class="form-group mb-2 d-none search-field search-field-date-range">
-                        <p class="col-form-label modal-field-name">Feld</p>
+                        <p class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.field')}
+                        </p>
 
-                        <label for="search-field-date-range-from" class="col-form-label">Von</label>
+                        <label for="search-field-date-range-from" class="col-form-label">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.from')}
+                        </label>
                         <input type="text" class="form-control datetimepicker search-field-value search-field-from" id="search-field-date-range-from">
 
-                        <label for="search-field-date-range-to" class="col-form-label">Bis</label>
+                        <label for="search-field-date-range-to" class="col-form-label">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.to')}
+                        </label>
                         <input type="text" class="form-control datetimepicker search-field-value search-field-to" id="search-field-date-range-to">
                     </div>
 
                     <div class="form-group mb-2 d-none search-field search-field-year-range">
-                        <p class="col-form-label modal-field-name">Feld</p>
+                        <p class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.field')}
+                        </p>
 
-                        <label for="search-field-year-range-from" class="col-form-label">Von</label>
+                        <label for="search-field-year-range-from" class="col-form-label">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.from')}
+                        </label>
                         <input type="text" class="form-control search-field-value search-field-from" id="search-field-year-range-from">
 
-                        <label for="search-field-year-range-to" class="col-form-label">Bis</label>
+                        <label for="search-field-year-range-to" class="col-form-label">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.to')}
+                        </label>
                         <input type="text" class="form-control search-field-value search-field-to" id="search-field-year-range-to">
                     </div>
 
                     <div class="form-group mb-2 d-none search-field search-field-default">
-                        <label for="search-field-default-value" class="col-form-label modal-field-name">Feld</label>
+                        <label for="search-field-default-value" class="col-form-label modal-field-name">
+                            {f:translate(key: 'manager.search.addSearchFieldDialog.field')}
+                        </label>
                         <input type="text" class="form-control search-field-value" id="search-field-default-value">
                     </div>
 
@@ -102,12 +124,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    {f:translate(key: 'manager.search.addSearchFieldDialog.cancel')}
+                </button>
                 <button type="button" class="btn btn-primary modal-submit-button"
                         data-field=""
                         data-form-group=""
                         data-type="">
-                    Hinzufügen
+                    {f:translate(key: 'manager.search.addSearchFieldDialog.add')}
                 </button>
             </div>
         </div>

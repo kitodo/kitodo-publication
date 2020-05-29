@@ -731,6 +731,48 @@
 		<trans-unit id="manager.search.saveQuery.successfully">
 			<source>Search query has been saved.</source>
 		</trans-unit>
+        <trans-unit id="manager.search.searchField.persons" approved="yes">
+            <source>Persons</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.organisation" approved="yes">
+            <source>Organisation</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.title" approved="yes">
+            <source>Title</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.identifier" approved="yes">
+            <source>Identifier</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publicationType" approved="yes">
+            <source>Publication type</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.source" approved="yes">
+            <source>Source</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.year" approved="yes">
+            <source>Year</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publisher" approved="yes">
+            <source>Publisher</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.language" approved="yes">
+            <source>Language</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.state" approved="yes">
+            <source>State</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.universityPublication" approved="yes">
+            <source>University publication</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.withFile" approved="yes">
+            <source>With file (Fulltext)</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
+            <source>Embargo end</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.comment" approved="yes">
+            <source>Comment</source>
+        </trans-unit>
 		<trans-unit id="manager.search.addSearchField">
 			<source>Add search field</source>
 		</trans-unit>
@@ -740,6 +782,48 @@
 		<trans-unit id="manager.search.addSearchField.save">
 			<source>Save</source>
 		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.title" approved="yes">
+			<source>Add search field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.and" approved="yes">
+			<source>and</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.or" approved="yes">
+			<source>or</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.is" approved="yes">
+			<source>is</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.isNot" approved="yes">
+			<source>is not</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.state" approved="yes">
+			<source>State</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.field" approved="yes">
+			<source>Field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.yes" approved="yes">
+			<source>Yes</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
+			<source>No</source>
+		</trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
+            <source>Document type</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+            <source>From</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+            <source>To</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">
+            <source>Cancel</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.add" approved="yes">
+            <source>Add</source>
+        </trans-unit>
 		<trans-unit id="manager.search.loadQuery">
 			<source>Load search</source>
 		</trans-unit>

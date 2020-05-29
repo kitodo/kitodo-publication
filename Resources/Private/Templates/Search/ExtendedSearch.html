@@ -32,22 +32,50 @@
                 {f:translate(key: 'manager.search.addSearchField')}
             </button>
             <div class="dropdown-menu scrollable-menu" id="search-field-selection" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" data-field="persons" data-form-group="default" data-type="value" href="#">Personen</a>
-                <a class="dropdown-item" data-field="corporation" data-form-group="default" data-type="value" href="#">Organisation</a>
-                <a class="dropdown-item" data-field="title" data-form-group="default" data-type="value" href="#">Titel</a>
-                <a class="dropdown-item" data-field="identifier" data-form-group="default" data-type="phrase" href="#">Identifikator</a>
-                <a class="dropdown-item" data-field="doctype" data-form-group="doctype" data-type="value" href="#">Publikationstyp</a>
-                <a class="dropdown-item" data-field="source" data-form-group="default" data-type="value" href="#">Quelle</a>
-                <a class="dropdown-item" data-field="year" data-form-group="year-range" data-type="year-range" href="#">Jahr</a>
-                <a class="dropdown-item" data-field="publisher" data-form-group="default" data-type="value" href="#">Verlag</a>
-                <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">Sprache</a>
+                <a class="dropdown-item" data-field="persons" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.persons')}
+                </a>
+                <a class="dropdown-item" data-field="corporation" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.organisation')}
+                </a>
+                <a class="dropdown-item" data-field="title" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.title')}
+                </a>
+                <a class="dropdown-item" data-field="identifier" data-form-group="default" data-type="phrase" href="#">
+                    {f:translate(key: 'manager.search.searchField.identifier')}
+                </a>
+                <a class="dropdown-item" data-field="doctype" data-form-group="doctype" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.publicationType')}
+                </a>
+                <a class="dropdown-item" data-field="source" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.source')}
+                </a>
+                <a class="dropdown-item" data-field="year" data-form-group="year-range" data-type="year-range" href="#">
+                    {f:translate(key: 'manager.search.searchField.year')}
+                </a>
+                <a class="dropdown-item" data-field="publisher" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.publisher')}
+                </a>
+                <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.language')}
+                </a>
 
                 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
-                    <a class="dropdown-item" data-field="aliasState" data-form-group="state" data-type="value" href="#">Status</a>
-                    <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">UL-Publikation</a>
-                    <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">Mit Datei (Volltext)</a>
-                    <a class="dropdown-item" data-field="embargoDate" data-form-group="date-range" data-type="date-range" href="#">Embargoende</a>
-                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">Kommentar</a>
+                    <a class="dropdown-item" data-field="aliasState" data-form-group="state" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.state')}
+                    </a>
+                    <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.universityPublication')}
+                    </a>
+                    <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.withFile')}
+                    </a>
+                    <a class="dropdown-item" data-field="embargoDate" data-form-group="date-range" data-type="date-range" href="#">
+                        {f:translate(key: 'manager.search.searchField.embargoEnd')}
+                    </a>
+                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.comment')}
+                    </a>
                 </f:if>
             </div>
         </div>

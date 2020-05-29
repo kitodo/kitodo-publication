@@ -981,6 +981,62 @@
 			<source>Search query has been saved.</source>
 			<target>Die Suche wurde gespeichert.</target>
 		</trans-unit>
+        <trans-unit id="manager.search.searchField.persons" approved="yes">
+            <source>Persons</source>
+            <target>Personen</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.organisation" approved="yes">
+            <source>Organisation</source>
+            <target>Organisation</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.identifier" approved="yes">
+            <source>Identifier</source>
+            <target>Identifikator</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publicationType" approved="yes">
+            <source>Publication type</source>
+            <target>Publikationstyp</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.source" approved="yes">
+            <source>Source</source>
+            <target>Quelle</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.year" approved="yes">
+            <source>Year</source>
+            <target>Jahr</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publisher" approved="yes">
+            <source>Publisher</source>
+            <target>Verlag</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.language" approved="yes">
+            <source>Language</source>
+            <target>Sprache</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.state" approved="yes">
+            <source>State</source>
+            <target>Status</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.universityPublication" approved="yes">
+            <source>University publication</source>
+            <target>UL-Publikation</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.withFile" approved="yes">
+            <source>With file (Fulltext)</source>
+            <target>Mit Datei (Volltext)</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
+            <source>Embargo end</source>
+            <target>Embargoende</target>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.comment" approved="yes">
+            <source>Comment</source>
+            <target>Kommentar</target>
+        </trans-unit>
 		<trans-unit id="manager.search.addSearchField" approved="yes">
 			<source>Add search field</source>
 			<target>Suchfeld hinzufügen</target>
@@ -993,6 +1049,62 @@
 			<source>Save</source>
 			<target>Speichern</target>
 		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.title" approved="yes">
+			<source>Add search field</source>
+			<target>Suchfeld hinzufügen</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.and" approved="yes">
+			<source>and</source>
+			<target>und</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.or" approved="yes">
+			<source>or</source>
+			<target>oder</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.is" approved="yes">
+			<source>is</source>
+			<target>ist</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.isNot" approved="yes">
+			<source>is not</source>
+			<target>ist nicht</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.state" approved="yes">
+			<source>State</source>
+			<target>Status</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.field" approved="yes">
+			<source>Field</source>
+			<target>Feld</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.yes" approved="yes">
+			<source>Yes</source>
+			<target>Ja</target>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
+			<source>No</source>
+			<target>Nein</target>
+		</trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
+            <source>Document type</source>
+            <target>Dokumenttyp</target>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+            <source>From</source>
+            <target>Von</target>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+            <source>To</source>
+            <target>Bis</target>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">
+            <source>Cancel</source>
+            <target>Abbrechen</target>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.add" approved="yes">
+            <source>Add</source>
+            <target>Hinzufügen</target>
+        </trans-unit>
 		<trans-unit id="manager.search.loadQuery" approved="yes">
 			<source>Load search</source>
 			<target>Suche laden</target>
