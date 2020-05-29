@@ -333,7 +333,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     if ($saveWorkingCopy) {
                         if (
                             $this->bookmarkRepository->addBookmark(
-                                $this->security->getUser()->getUid(), $updateDocument
+                                $updateDocument,
+                                $this->security->getUser()->getUid()
                             )
                         ) {
                             $this->addFlashMessage(

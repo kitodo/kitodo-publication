@@ -263,7 +263,8 @@ class WorkspaceController extends AbstractController
                                 )
                             ) {
                                 $this->bookmarkRepository->addBookmark(
-                                    $this->security->getUser()->getUid(), $document
+                                    $document,
+                                    $this->security->getUser()->getUid()
                                 );
 
                                 $successful[] = $documentIdentifier;

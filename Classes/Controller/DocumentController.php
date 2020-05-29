@@ -653,7 +653,7 @@ class DocumentController extends AbstractController
 
 
         if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
-            $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
+            $this->bookmarkRepository->addBookmark($document, $this->security->getUser()->getUid());
         }
 
         $notifier = $this->objectManager->get(Notifier::class);

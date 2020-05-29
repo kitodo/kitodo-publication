@@ -288,8 +288,8 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 if ( $listData['documentAliasState'][$documentIdentifier] != DocumentWorkflow::ALIAS_STATE_NEW) {
                     if (
                         $this->bookmarkRepository->addBookmark(
-                            $this->security->getUser()->getUid(),
-                            $documentIdentifier
+                            $documentIdentifier,
+                            $this->security->getUser()->getUid()
                         )
                     ) {
                         $successful[] = $documentIdentifier;

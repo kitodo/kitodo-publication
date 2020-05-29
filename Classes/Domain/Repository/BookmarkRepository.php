@@ -44,7 +44,7 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     }
 
     /**
-     * @param mixed $document
+     * @param Document|string $document
      * @param int|null $feUserUid
      * @return bool
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
@@ -77,12 +77,12 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     }
 
     /**
-     * @param int $feUserUid
      * @param Document|string $document
+     * @param int $feUserUid
      * @return bool
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
-    public function addBookmark($feUserUid, $document)
+    public function addBookmark($document, $feUserUid)
     {
         if ($document instanceof Document) {
             $identifier = $document->getDocumentIdentifier();
