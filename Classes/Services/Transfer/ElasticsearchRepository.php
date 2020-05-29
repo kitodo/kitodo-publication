@@ -22,9 +22,13 @@ use \Httpful\Request;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 
+/**
+ * Class ElasticsearchRepository
+ * @package EWW\Dpf\Services\Transfer
+ * @deprecated since version 4.0
+ */
 class ElasticsearchRepository implements Repository
 {
-
     /**
      * clientRepository
      *

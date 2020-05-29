@@ -13,35 +13,34 @@
     -->
 </f:comment>
 
-    <div class="modal fade confirmBatchAction" id="confirmWorkspaceRemoveBookmark" tabindex="-1" aria-hidden="true" role="dialog">
+<f:alias map="{actionName: '{f:format.case(value: \'{action}\', mode: \'capital\')}'}">
+    <div class="modal fade confirmBatchAction" id="confirmWorkspace{f:format.case(value: '{actionName}', mode: 'capital')}" tabindex="-1" aria-hidden="true" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{f:translate(key: 'manager.confirmRemoveBookmark.messageHeader')}</h5>
+                    <h5 class="modal-title">{f:translate(key: 'manager.confirm{actionName}.messageHeader')}</h5>
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="{f:translate(key: 'manager.confirm.no')}"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <p>{f:translate(key: 'manager.confirmRemoveBookmark.message', arguments: {0: '%s'})}</p>
+                    <p>{f:translate(key: 'manager.confirm{actionName}.message', arguments: {0: '%s'})}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
                         'manager.confirm.no')}
                     </button>
 
-                    <f:form id="batchFormRemove" action="batch" controller="Workspace" method="post" name="listData" object="{listData}" enctype="multipart/form-data">
-                        <f:form.hidden class="batchAction" name="listData[action]" value="batchRemove"/>
-                        <f:form.hidden class="documentIdentifier" name="listData[documentIdentifiers][]" value="qucosa:1018"/>
+                    <f:form.button form="batchForm"
+                                   type="submit"
+                                   class="btn btn-danger confirm-ok"
+                                   additionalAttributes="{data-documenttitle: document.title}"
+                                   formmethod="post">
 
-                        <button type="submit"
-                                form="batchFormRemove"
-                                class="btn btn-danger"
-                                data-ajax="{f:uri.action(action:'batch',controller:'Workspace', pageType:settings.ajaxTypeNum)}">
-                            {f:translate(key: 'manager.confirm.yes')}
-                        </button>
-                    </f:form>
+                        {f:translate(key: 'manager.confirm.yes')}
+                    </f:form.button>
                 </div>
             </div>
         </div>
     </div>
+</f:alias>

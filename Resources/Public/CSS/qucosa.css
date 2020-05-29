@@ -142,7 +142,7 @@
     margin: 0 0 10px 0;
 }
 
-.tx-dpf .form-group {
+.tx-dpf .document-form-main .form-group {
     position: relative;
     display: table;
 }
@@ -152,11 +152,11 @@
     display: inline-block;
 }
 
-.tx-dpf .form-group label, .tx-dpf .form-group .form-control {
+.tx-dpf .document-form-main .form-group label, .tx-dpf .form-group .form-control {
     display: table-cell;
 }
 
-.tx-dpf .form-group label {
+.tx-dpf .document-form-main .form-group label {
     width: 1%;
     background: #eee;
     border: 1px solid #ccc;
@@ -169,19 +169,19 @@
     line-height: 1;
 }
 
-.tx-dpf .form-group .form-control.has-select {
+.tx-dpf .document-form-main .form-group .form-control.has-select {
     border-color: #eee #eee #eee #ccc;
     box-shadow: none;
 }
 
-.tx-dpf .form-group .form-control select {
+.tx-dpf .document-form-main .form-group .form-control select {
     width: 30%;
     height: 20px;
     font-size: .9em;
     padding: 0;
 }
 
-.tx-dpf .form-group .form-control {
+.tx-dpf .document-form-main .form-group .form-control {
     position: relative;
     z-index: 2;
     float: left;
@@ -190,7 +190,7 @@
     border-radius: 0 4px 4px 0;
 }
 
-.tx-dpf .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {
+.tx-dpf .document-form-main .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {
     position: absolute;
     bottom: 4px;
     right: 33px;
@@ -215,6 +215,9 @@
 .hasDatepicker button.rem_field {
     right: 73px !important;
 }
+
+
+
 
 .tx-dpf .form-container button:active {
     bottom: 3px;

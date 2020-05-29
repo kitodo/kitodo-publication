@@ -16,7 +16,6 @@ namespace EWW\Dpf\Services\ElasticSearch;
 
 use Elasticsearch\ClientBuilder;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\ElasticsearchMapper;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
@@ -26,6 +25,13 @@ use TYPO3\CMS\Core\Log\LogManager;
 
 class ElasticSearch
 {
+    /**
+     *
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
     /**
      * frontendUserRepository
      *
@@ -78,6 +84,20 @@ class ElasticSearch
     }
 
     /**
+     * Get typoscript settings
+     *
+     * @return mixed
+     */
+    public function getSettings()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+        return $frameworkConfiguration['settings'];
+    }
+
+
+    /**
      * Creates an index named by $indexName if it doesn't exist.
      *
      * @param $indexName
@@ -106,6 +126,16 @@ class ElasticSearch
                                 'tokenizer' => 'keyword',
                                 'filter' => ['lowercase']
                             ]
+                        ],
+                        'normalizer' => [
+                            'lowercase_normalizer' => [
+                                'type' => 'custom',
+                                'char_filter' => [],
+                                'filter' => [
+                                    'lowercase',
+                                    'asciifolding'
+                                ]
+                            ]
                         ]
                     ]
                 ],
@@ -119,9 +149,8 @@ class ElasticSearch
                             'type' => 'text',
                             'fields' => [
                                 'keyword' => [
-                                    'type' => 'text',
-                                    'analyzer' => 'keyword_lowercase',
-                                    'fielddata' => true
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
                                 ]
                             ]
                         ],
@@ -151,8 +180,10 @@ class ElasticSearch
                         ],
                         'creatorRole' => [
                             'type' => 'keyword'
+                        ],
+                        'source' => [
+                            'type' => 'text'
                         ]
-
                     ]
                 ]
             ]
@@ -179,7 +210,20 @@ class ElasticSearch
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
             $data->objectIdentifier = $document->getObjectIdentifier();
 
-            $data->creator = $document->getCreator();
+
+            if ($data->identifier && is_array($data->identifier)) {
+                $data->identifier[] = $document->getObjectIdentifier();
+            } else {
+                $data->identifier = [$document->getObjectIdentifier()];
+            }
+
+
+            if ($document->getCreator()) {
+                $data->creator = $document->getCreator();
+            } else {
+                $data->creator = null;
+            }
+
 
             if ($document->getCreator()) {
                 /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */
@@ -214,6 +258,26 @@ class ElasticSearch
             $publishers = $mods->getPublishers();
 
             $data->authorAndPublisher = array_merge($authors, $publishers);
+
+            $data->source = $document->getSourceDetails();
+
+
+            $data->universityCollection = false;
+            if ($data->collections && is_array($data->collections)) {
+                foreach ($data->collections as $collection) {
+                    if ($collection == $this->getSettings()['universityCollection']) {
+                        $data->universityCollection = true;
+                        break;
+                    }
+                }
+            }
+
+            $embargoDate = $document->getEmbargoDate();
+            if ($embargoDate instanceof \DateTime) {
+                $data->embargoDate = $embargoDate->format("Y-m-d");
+            } else {
+                $data->embargoDate = null;
+            }
 
             $data->originalSourceTitle = $mods->getOriginalSourceTitle();
 

@@ -194,6 +194,8 @@ class DocumentManager
             $updateResult = $document->getDocumentIdentifier();
         }
 
+     //   $this->persistenceManager->persistAll();
+
         if ($updateResult) {
 
             if (DocumentWorkflow::TRANSITION_RELEASE_PUBLISH) {

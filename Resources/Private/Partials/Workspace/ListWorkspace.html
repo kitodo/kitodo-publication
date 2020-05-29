@@ -14,7 +14,6 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-
 <f:render partial="Workspace/UploadError" arguments="{message:message}"/>
 
 <f:if condition="{client}">
@@ -25,7 +24,8 @@
 
     <f:flashMessages />
 
-    <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data">
+    <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data"
+            additionalAttributes="{data-workspace-list-action:'{f:uri.action(action:\'listWorkspace\', controller:\'Workspace\')}'}">
 
     <f:render partial="Workspace/List" arguments="{
             documents:documents,
@@ -37,111 +37,45 @@
         }"
     />
 
-    <div class="workspace-batch-operations">
-
-        <button class="btn btn-sm btn-light workspace-select-toggle workspace-select-all" style="display:none;"
-           title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Auswahl aufheben')}" data-toggle="tooltip"
-        >
-            <i class="far fa-check-square dpf-fa-check-color"></i>
-        </button>
-        <button class="btn btn-sm btn-light workspace-select-toggle workspace-unselect-all" style="display:none;"
-           title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Alle auswählen')}" data-toggle="tooltip"
-        >
-            <i class="far fa-square dpf-fa-check-color"></i>
-        </button>
-
-
-        <a href="#" id="workspaceButtonBatchRegister" class="btn btn-sm btn-secondary disabled">
-            {f:translate(key: 'manger.workspace.batch.buttonRegister')}
-        </a>
-        <f:form.hidden
-                id="workspaceActionBatchRegister"
-                class="workspaceAction"
-                name="listData[action]"
-                value="batchRegister"
-                additionalAttributes="{disabled:'disabled'}"
-        />
-
-        <a href="#" id="workspaceButtonBatchExport" class="btn btn-sm btn-secondary disabled">
-            {f:translate(key: 'manger.workspace.batch.buttonExport')}
-        </a>
-
-        <f:if condition="{isWorkspace}">
-            <f:then>
-                <a href="#" id="workspaceButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
-                    {f:translate(key: 'manger.workspace.batch.buttonRemove')}
-                </a>
-                <f:form.hidden
-                        id="workspaceActionBatchRemove"
-                        class="workspaceAction"
-                        name="listData[action]"
-                        value="batchRemove"
-                        additionalAttributes="{disabled:'disabled'}"
-                />
-
-                <a href="#" id="workspaceButtonBatchReleaseValidated" class="btn btn-sm btn-secondary disabled">
-                    {f:translate(key: 'manger.workspace.batch.buttonReleaseValidated')}
-                </a>
-                <f:form.hidden
-                        id="workspaceActionBatchReleaseValidated"
-                        class="workspaceAction"
-                        name="listData[action]"
-                        value="batchReleaseValidated"
-                        additionalAttributes="{disabled:'disabled'}"
-                />
-
-                <a href="#" id="workspaceButtonBatchReleaseUnvalidated" class="btn btn-sm btn-secondary disabled">
-                    {f:translate(key: 'manger.workspace.batch.buttonReleaseUnvalidated')}
-                </a>
-                <f:form.hidden
-                        id="workspaceActionBatchReleaseUnvalidated"
-                        class="workspaceAction"
-                        name="listData[action]"
-                        value="batchReleaseUnvalidated"
-                        additionalAttributes="{disabled:'disabled'}"
-                />
-            </f:then>
-        </f:if>
-    </div>
+        <f:render partial="Workspace/BatchActions" />
 
     </f:form>
 
-
-    <f:if condition="{pages.{itemsPerPage}}">
-        <f:render partial="Workspace/Pagination" arguments="{
-            workspaceListAction:workspaceListAction,
-            pages:pages,
-            itemsPerPage:itemsPerPage,
-            maximumNumberOfLinks:maximumNumberOfLinks}"
-        />
-    </f:if>
-
-    <p class="text-center">
-        <div class="form-inline justify-content-center">
-            <f:if condition="{documentCount}">
-                <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+    <f:if condition="{documentCount}">
+        <f:then>
+            <f:if condition="{pages.{itemsPerPage}}">
+                <f:render partial="Workspace/Pagination" arguments="{
+                    workspaceListAction:workspaceListAction,
+                    pages:pages,
+                    itemsPerPage:itemsPerPage}"
+                />
             </f:if>
-                {f:translate(key: 'manager.workspace.itemsPerPage')}
 
-        <div class="input-group mx-sm-2" style="width:100px;">
-                <div class="input-group-prepend">
-                    <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
+            <p class="text-center">
+                <div class="form-inline justify-content-center">
+                    <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+                    , {f:translate(key: 'manager.workspace.itemsPerPage')}
+                    <div class="input-group mx-sm-2" style="width:100px;">
+                        <div class="input-group-prepend">
+                            <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                        </div>
+                        <input id="items-per-page" type="text" class="form-control form-control-sm" value="{itemsPerPage}" aria-label="Items per page">
+                        <div class="input-group-append">
+                            <button id="items-up" class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <button id="items-per-page-save"
+                                class="btn btn-outline-secondary btn-sm"
+                                type="button"
+                                data-ajax="{f:uri.action(action:'setWorkspaceItemsPerPage',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            OK
+                        </button>
+                    </div>
                 </div>
-                <input id="items-per-page" type="text" class="form-control form-control-sm" value="{itemsPerPage}" aria-label="Items per page">
-                <div class="input-group-append">
-                    <button id="items-up" class="btn btn-outline-secondary btn-sm" type="button">+</button>
-                </div>
-            </div>
-            <div class="input-group">
-                <button id="items-per-page-save"
-                        class="btn btn-outline-secondary btn-sm"
-                        type="button"
-                        data-ajax="{f:uri.action(action:'setWorkspaceItemsPerPage',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    OK
-                </button>
-            </div>
-        </div>
-    </p>
+            </p>
+        </f:then>
+    </f:if>
 
 </f:if>
 

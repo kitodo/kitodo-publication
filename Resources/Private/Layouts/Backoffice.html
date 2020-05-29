@@ -72,8 +72,8 @@
                             </li>
                             </f:if>
                             <li class="nav-item">
-                                <f:link.action action="list" controller="Search"
-                                               class="nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
+                                <f:link.action action="list" controller="Search" arguments="{refresh:1}"
+                                               class="nav-link workspace-nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
                                     <i class="fas fa-search"></i>
                                     {f:translate(key: 'manager.control.search')}
                                 </f:link.action>

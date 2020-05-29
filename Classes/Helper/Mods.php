@@ -14,8 +14,25 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+
 class Mods
 {
+    /**
+     * metadataObjectRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+     * @inject
+     */
+    protected $metadataObjectRepository = null;
+
+    /**
+     * metadatGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository = null;
+
 
     protected $modsDom;
 
@@ -240,4 +257,35 @@ class Mods
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getSourceDetails()
+    {
+        $data = [];
+
+        $dataNodes[] = $this->getModsXpath()->query('/mods:mods/mods:relatedItem[@type="original"]');
+
+        $dataNodes[] = $this->getModsXpath()->query(
+            '/mods:mods/mods:part[@type="article"]/mods:detail/mods:number'
+        );
+
+        $dataNodes[] = $this->getModsXpath()->query('/mods:mods/mods:part[@type="section"]');
+
+        foreach ($dataNodes as $dataNode) {
+            foreach ($dataNode as $node) {
+                if ($node->hasChildNodes()) {
+                    foreach ($node->childNodes as $n) {
+                        $data[] = preg_replace('/\s+/', ' ', $n->textContent);
+                    }
+                } else {
+                    $data[] = preg_replace('/\s+/', ' ', $node->textContent);
+                }
+            }
+        }
+
+        $output = trim(implode(' ', $data));
+        $output = preg_replace('/\s+/ ', ' ', $output);
+        return $output;
+    }
 }

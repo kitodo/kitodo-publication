@@ -20,68 +20,112 @@
 
     <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
 
-    <div class="searchForm">
-        <f:form action="search" name="query" class="form-inline">
-            <div class="form-group form-group-show-deleted">
-                <label for="showDeleted" class="show-label">{f:translate(key:
-                    'search.form.label.inactiveDeleted')}</label>
-                <f:form.checkbox property="showDeleted" class="form-control" id="showDeleted" value="true"
-                                 checked="{query.showDeleted}"/>
-            </div>&nbsp;
-            <div class="main-search-fields">
-            <div class="form-group">
-                <label for="id">{f:translate(key: 'search.form.label.datasetIdentifier')}</label>
-                <f:form.textfield property="_id" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.datasetIdentifier')}" id="id"
-                                  value="{query._id}"/>
-            </div>
-            <div class="form-group">
-                <label for="title">{f:translate(key: 'search.form.label.title')}</label>
-                <f:form.textfield property="title" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.title')}" id="title"
-                                  value="{query.title}"/>
-            </div>
-            <div class="form-group">
-                <label for="author">{f:translate(key: 'search.form.label.author')}</label>
-                <f:form.textfield property="author" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.author')}" id="author"
-                                  value="{query.author}"/>
-            </div>
-            <div class="form-group">
-                <label for="corporation">{f:translate(key: 'search.form.label.corporation')}</label>
-                <f:form.textfield property="corporation" class="form-control"
-                                  placeholder="{f:translate(key: 'search.form.label.corporation')}" id="corporation"
-                                  value="{query.corporation}"/>
-            </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6" style="padding:0px;">
-                        <div class="form-group">
-                            <label for="from">{f:translate(key: 'search.form.label.date')}</label>
-                            <f:form.textfield property="from" class="form-control datetimepicker"
-                                              placeholder="{f:translate(key: 'search.form.label.from')}" id="from"
-                                              value="{query.from}"/>
-                            <label for="till">{f:translate(key: 'search.form.label.to')}</label>
-                            <f:form.textfield property="till" class="form-control datetimepicker"
-                                              placeholder="{f:translate(key: 'search.form.label.to')}" id="till"
-                                              value="{query.till}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <f:form.hidden property="extSearch" value="true"/>
-            <f:form.button class="btn btn-secondary" type="submit">
-                <i class="fas fa-search"></i>
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
-        </f:form>
+    <div class="alert alert-success fade show alert-save-extended-search-success" role="alert" style="display:none;">
+        {f:translate(key: 'manager.search.saveQuery.successfully')}
     </div>
 
-    <f:render partial="Search/ResultList" arguments="{searchList: searchList, alreadyImported: alreadyImported}"/>
-    <center>
-        <f:link.action id="next" controller="Search" action="nextResults" additionalAttributes="{data-result-count: resultCount}">{f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </center>
+    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group">
+        <div class="dropdown" id="extended-search-add-field">
+            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {f:translate(key: 'manager.search.addSearchField')}
+            </button>
+            <div class="dropdown-menu scrollable-menu" id="search-field-selection" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" data-field="persons" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.persons')}
+                </a>
+                <a class="dropdown-item" data-field="corporation" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.organisation')}
+                </a>
+                <a class="dropdown-item" data-field="title" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.title')}
+                </a>
+                <a class="dropdown-item" data-field="identifier" data-form-group="default" data-type="phrase" href="#">
+                    {f:translate(key: 'manager.search.searchField.identifier')}
+                </a>
+                <a class="dropdown-item" data-field="doctype" data-form-group="doctype" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.publicationType')}
+                </a>
+                <a class="dropdown-item" data-field="source" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.source')}
+                </a>
+                <a class="dropdown-item" data-field="year" data-form-group="year-range" data-type="year-range" href="#">
+                    {f:translate(key: 'manager.search.searchField.year')}
+                </a>
+                <a class="dropdown-item" data-field="publisher" data-form-group="default" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.publisher')}
+                </a>
+                <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.language')}
+                </a>
+
+                <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                    <a class="dropdown-item" data-field="aliasState" data-form-group="state" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.state')}
+                    </a>
+                    <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.universityPublication')}
+                    </a>
+                    <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.withFile')}
+                    </a>
+                    <a class="dropdown-item" data-field="embargoDate" data-form-group="date-range" data-type="date-range" href="#">
+                        {f:translate(key: 'manager.search.searchField.embargoEnd')}
+                    </a>
+                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.comment')}
+                    </a>
+                </f:if>
+            </div>
+        </div>
+        </div>
+
+        <div class="btn-group mr-2" role="group">
+            <button type="button"
+                    class="btn btn-sm btn-outline-dark dropdown-toggle"
+
+                    data-toggle="dropdown" id="load-extended-search"
+                    disabled="disabled">
+                <i class="far fa-folder-open"></i>
+                {f:translate(key: 'manager.search.loadQuery')}
+            </button>
+            <div class="dropdown-menu scrollable-menu" id="load-extended-search-select" aria-labelledby="dropdownMenuButton"
+                 data-boundary="viewport"
+                 data-ajax="{f:uri.action(action:'loadExtendedSearchList',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                 data-ajax-load="{f:uri.action(action:'loadExtendedSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+            </div>
+        </div>
+
+        <div class="btn-group mr-2" role="group">
+            <button type="button" class="btn btn-sm btn-outline-dark" id="save-extended-search">
+                <i class="far fa-save"></i>
+                {f:translate(key: 'manager.search.saveQuery')}
+            </button>
+        </div>
+    </div>
+
+    <f:form action="extendedSearch" name="query" class="">
+        <div class="input-group mb-3" id="extended-search-query-group">
+            <f:form.hidden property="extsearch" value="1"/>
+            <f:form.textarea property="fulltext" class="form-control"
+                              placeholder="" id="extended-search-query"
+                              value="{simpleSearch}"/>
+        </div>
+
+        <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    {f:translate(key: 'search.form.button.search')}
+                </button>
+            </div>
+        </div>
+    </f:form>
+
+    <f:render partial="Search/ListSearchResults" arguments="{_all}" />
+
+    <f:render partial="Search/AddSearchFieldDialog" arguments="{_all}" />
+    <f:render partial="Search/SaveExtendedSearchDialog" arguments="{_all}" />
+
 </f:section>

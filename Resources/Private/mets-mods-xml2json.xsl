@@ -27,6 +27,10 @@
             <with-param name="modsElement" select="."></with-param>
         </call-template>
         <text>,</text>
+        <call-template name="persons">
+            <with-param name="modsElement" select="."></with-param>
+        </call-template>
+        <text>,</text>
         <call-template name="language">
             <with-param name="modsElement" select="."></with-param>
         </call-template>
@@ -135,6 +139,19 @@
         </for-each>
         <text>]</text>
     </template>
+    <template name="persons">
+        <param name="modsElement"></param>
+        <text>&quot;persons&quot;:[</text>
+        <for-each select="$modsElement/mods:name[@type=&apos;personal&apos;]">
+            <call-template name="quote">
+                <with-param name="s" select="concat(mods:namePart[@type=&apos;given&apos;], &apos; &apos;, mods:namePart[@type=&apos;family&apos;])"></with-param>
+            </call-template>
+            <choose>
+                <when test="position() != last()">,</when>
+            </choose>
+        </for-each>
+        <text>]</text>
+    </template>
     <template name="language">
         <param name="modsElement"></param>
         <text>&quot;language&quot;:[</text>
@@ -151,9 +168,9 @@
     <template name="publisher">
         <param name="modsElement"></param>
         <text>&quot;publisher&quot;:[</text>
-        <for-each select="$modsElement/mods:originInfo[@eventType=&apos;publication&apos;]">
+        <for-each select="$modsElement/mods:relatedItem[@type=&apos;original&apos;]">
             <call-template name="quote">
-                <with-param name="s" select="mods:publisher"></with-param>
+                <with-param name="s" select="mods:originInfo/mods:publisher"></with-param>
             </call-template>
             <choose>
                 <when test="position() != last()">,</when>

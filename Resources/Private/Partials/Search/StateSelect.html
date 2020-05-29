@@ -14,12 +14,10 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:layout name="Backoffice"/>
-
-<f:section name="main">
-    <f:render partial="Search/ResultList" arguments="{searchList: resultList, alreadyImported: alreadyImported}"/>
-    <center>
-        <f:link.action id="next" controller="Search" action="nextResults" additionalAttributes="{data-result-count: resultCount}">{f:translate(key: 'search.resultList.more')}
-        </f:link.action>
-    </center>
-</f:section>
+<label for="search-field-state-value" class="col-form-label">Status</label>
+<select class="custom-select search-field-value" id="search-field-state-value">
+    <option value=""></option>
+    <for each="{states}" as="stateName" key="state">
+        <option value="{state}">{stateName}</option>
+    </for>
+</select>

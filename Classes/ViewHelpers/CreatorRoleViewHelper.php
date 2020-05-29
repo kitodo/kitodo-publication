@@ -50,7 +50,7 @@ class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
         $userRole = '';
         $feUser = $this->frontendUserRepository->findByUid($feUserId);
         if ($feUser instanceof FrontendUser) {
-            $userRole = $feUserId->getUserRole();
+            $userRole = $feUser->getUserRole();
         }
 
         if ($userRole === Security::ROLE_LIBRARIAN) {

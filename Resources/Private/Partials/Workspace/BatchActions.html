@@ -1,0 +1,82 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<div class="workspace-batch-operations">
+
+    <button class="btn btn-sm btn-light workspace-select-toggle workspace-select-all" style="display:none;"
+            title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Auswahl aufheben')}" data-toggle="tooltip">
+        <i class="far fa-check-square dpf-fa-check-color"></i>
+    </button>
+    <button class="btn btn-sm btn-light workspace-select-toggle workspace-unselect-all" style="display:none;"
+            title="{f:translate(key: 'manger.workspace.batch.selectToggleAll', default: 'Alle auswählen')}" data-toggle="tooltip">
+        <i class="far fa-square dpf-fa-check-color"></i>
+    </button>
+
+    <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_RESEARCHER' || {dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
+        <f:then>
+            <a href="#" id="batchButtonBatchRegister" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonRegister', default: 'Eingestellte melden')}
+            </a>
+            <f:form.hidden
+                    id="batchActionBatchRegister"
+                    class="batchAction"
+                    name="listData[action]"
+                    value="batchRegister"
+                    additionalAttributes="{disabled:'disabled'}"
+            />
+
+            <a href="#" id="batchButtonBatchExport" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonExport', default: 'Exportieren')}
+            </a>
+        </f:then>
+    </f:if>
+
+    <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
+        <f:then>
+            <a href="#" id="batchButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonRemove', default: 'Aus "Arbeitsbereich" entfernen')}
+            </a>
+            <f:form.hidden
+                    id="batchActionBatchRemove"
+                    class="batchAction"
+                    name="listData[action]"
+                    value="batchRemove"
+                    additionalAttributes="{disabled:'disabled'}"
+            />
+
+            <a href="#" id="batchButtonBatchReleaseValidated" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonReleaseValidated', default: ' Freigeben und validieren')}
+            </a>
+            <f:form.hidden
+                    id="batchActionBatchReleaseValidated"
+                    class="batchAction"
+                    name="listData[action]"
+                    value="batchReleaseValidated"
+                    additionalAttributes="{disabled:'disabled'}"
+            />
+
+            <a href="#" id="batchButtonBatchReleaseUnvalidated" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonReleaseUnvalidated', default: 'Freigeben und nicht validieren')}
+            </a>
+            <f:form.hidden
+                    id="batchActionBatchReleaseUnvalidated"
+                    class="batchAction"
+                    name="listData[action]"
+                    value="batchReleaseUnvalidated"
+                    additionalAttributes="{disabled:'disabled'}"
+            />
+        </f:then>
+    </f:if>
+</div>

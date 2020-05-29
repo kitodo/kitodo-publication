@@ -1,0 +1,93 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+
+<f:if condition="{client}">
+
+    <f:flashMessages />
+
+    <p class="text-center">
+        <f:if condition="{documentCount} == 1">
+            <f:then>
+                {f:translate(key: 'manager.search.showNumberOfResults.singular', arguments:{0:documentCount})}
+            </f:then>
+            <f:else>
+                {f:translate(key: 'manager.search.showNumberOfResults.plural', arguments:{0:documentCount})}
+            </f:else>
+        </f:if>
+    </p>
+
+
+    <f:if condition="{documentCount}">
+        <f:then>
+            <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data"
+                    additionalAttributes="{data-workspace-list-action:'{f:uri.action(action:\'list\', controller:\'Search\')}'}">
+                <f:render partial="Workspace/List" arguments="{
+                        documents:documents,
+                        workspaceListAction:workspaceListAction,
+                        aggregations:aggregations,
+                        filters:filters,
+                        checkedDocumentIdentifiers: checkedDocumentIdentifiers,
+                        bookmarkIdentifiers: bookmarkIdentifiers
+                    }"
+                />
+                <f:render partial="Search/BatchActions" />
+            </f:form>
+
+            <f:if condition="{pages.{itemsPerPage}}">
+                <f:render partial="Workspace/Pagination" arguments="{
+                    workspaceListAction:workspaceListAction,
+                    pages:pages,
+                    itemsPerPage:itemsPerPage}"
+                />
+            </f:if>
+
+            <p class="text-center">
+            <div class="form-inline justify-content-center">
+                <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
+                {f:translate(key: 'manager.workspace.itemsPerPage')}
+                <div class="input-group mx-sm-2" style="width:100px;">
+                    <div class="input-group-prepend">
+                        <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                    </div>
+                    <input id="items-per-page" type="text" class="form-control form-control-sm" value="{itemsPerPage}" aria-label="Items per page">
+                    <div class="input-group-append">
+                        <button id="items-up" class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <button id="items-per-page-save"
+                            class="btn btn-outline-secondary btn-sm"
+                            type="button"
+                            data-ajax="{f:uri.action(action:'setWorkspaceItemsPerPage',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                        {f:translate(key: 'manager.workspace.itemsPerPage.applyButton')}
+                    </button>
+                </div>
+            </div>
+            </p>
+        </f:then>
+        <f:else>
+        </f:else>
+    </f:if>
+
+
+</f:if>
+
+<f:render partial="Search/ConfirmBatchAction" arguments="{action: 'batchBookmark'}" />
+
+
+
+

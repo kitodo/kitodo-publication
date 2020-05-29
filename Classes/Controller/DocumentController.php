@@ -17,7 +17,6 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
@@ -165,7 +164,7 @@ class DocumentController extends AbstractController
     }
 
     public function listSuggestionsAction() {
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
         $isWorkspace = $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
@@ -654,7 +653,7 @@ class DocumentController extends AbstractController
 
 
         if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
-            $this->bookmarkRepository->addBookmark($this->security->getUser()->getUid(), $document);
+            $this->bookmarkRepository->addBookmark($document, $this->security->getUser()->getUid());
         }
 
         $notifier = $this->objectManager->get(Notifier::class);
@@ -774,7 +773,7 @@ class DocumentController extends AbstractController
      */
     protected function redirectToDocumentList($message = null)
     {
-        list($action, $controller, $redirectUri) = $this->session->getListAction();
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
 
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);

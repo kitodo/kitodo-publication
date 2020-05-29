@@ -92,7 +92,12 @@ plugin.tx_dpf {
 			universityCollection = {$plugin.tx_dpf.settings.universityCollection}
 
 			timezone = Europe/Berlin
-        }
+
+			# Settings for the pagination of the list views workspace, my publications and search results.
+			documentListPagination {
+				maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
+			}
+		}
 }
 
 

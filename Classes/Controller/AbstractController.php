@@ -54,7 +54,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     /**
      * session
      *
-     * @var \EWW\Dpf\Helper\Session
+     * @var \EWW\Dpf\Session\Session
      * @inject
      */
     protected $session = null;

@@ -1,0 +1,47 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+
+<div class="modal fade" id="save-extended-search-dialog" tabindex="-1" role="dialog" aria-labelledby="save-extended-search-dialog-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="save-extended-search-dialog-label">Suche speichern unter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger fade show alert-save-extended-search" role="alert" style="display:none;">
+                    {f:translate(key: 'manager.search.addSearchField.missingQuery')}
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="extended-search-name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="extended-search-name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                <button type="button"
+                        class="btn btn-primary modal-submit-button"
+                        data-ajax="{f:uri.action(action:'saveExtendedSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    {f:translate(key: 'manager.search.addSearchField.save')}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

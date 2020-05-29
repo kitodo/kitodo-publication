@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Helper;
+namespace EWW\Dpf\Services\ElasticSearch;
 
 /*
  * This file is part of the TYPO3 CMS project.

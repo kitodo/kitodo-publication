@@ -17,20 +17,15 @@
     <h1 class="h2">{f:translate(key: 'manager.control.search')}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <f:link.action action="list" controller="Search"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'list'})}">
+            <f:link.action action="list" controller="Search" arguments="{refresh:1}"
+                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'search'})}">
                 <i class="fas fa-search"></i>
                 <f:translate key="search.control.simpleSearch"/>
             </f:link.action>
-            <f:link.action action="extendedSearch" controller="Search"
+            <f:link.action action="extendedSearch" controller="Search" arguments="{refresh:1}"
                            class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'extendedSearch'})}">
                 <i class="fas fa-search"></i>
                 <f:translate key="search.control.extendedSearch"/>
-            </f:link.action>
-            <f:link.action action="latest" controller="Search"
-                           class="btn btn-sm btn-outline-secondary {dpf:activeManagerMenu(controllerName:'Search', actionNames:{0:'latest'})}">
-                <i class="fas fa-search"></i>
-                <f:translate key="search.control.new"/>
             </f:link.action>
         </div>
     </div>

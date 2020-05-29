@@ -22,15 +22,20 @@ use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use EWW\Dpf\Session\SearchSessionData;
 
 /**
  * Controller for the "workspace"/"my publications" area.
  */
-class WorkspaceController  extends AbstractController
+class WorkspaceController extends AbstractController
 {
-    const MAXIMUM_NUMBER_OF_LINKS = 5;
-    const DEFAULT_SORT_FIELD = 'title';
-    const DEFAULT_SORT_ORDER = 'asc';
+    /**
+     * FrontendUserRepository
+     *
+     * @var  TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository;
 
     /**
      * documentRepository
@@ -63,6 +68,15 @@ class WorkspaceController  extends AbstractController
      * @inject
      */
     protected $elasticSearch = null;
+
+
+    /**
+     * queryBuilder
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
+     * @inject
+     */
+    protected $queryBuilder = null;
 
     /**
      * documentManager
@@ -97,22 +111,17 @@ class WorkspaceController  extends AbstractController
      */
     protected function list($from = 0)
     {
-        $bookmarkIdentifiers = array();
-        $bookmarks = $this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid());
-        foreach ($bookmarks as $bookmark) {
+        $bookmarkIdentifiers = [];
+        foreach ($this->bookmarkRepository->findByFeUserUid($this->security->getUser()->getUid()) as $bookmark) {
             $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
         }
 
-        $filters = $this->getSessionData('workspaceFilters');
-        if (!$filters) {
-            $filters = [];
-        }
-        $excludeFilters = $this->session->getWorkspaceExcludeFilters();
-        if (!$excludeFilters) {
-            $excludeFilters = [];
-        }
-
-        list($sortField, $sortOrder) = $this->session->getWorkspaceSort();
+        /** @var SearchSessionData $workspaceSessionData */
+        $workspaceSessionData = $this->session->getWorkspaceData();
+        $filters = $workspaceSessionData->getFilters();
+        $excludeFilters = $workspaceSessionData->getExcludeFilters();
+        $sortField = $workspaceSessionData->getSortField();
+        $sortOrder = $workspaceSessionData->getSortOrder();
 
         if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getWorkspaceQuery($from, $bookmarkIdentifiers,
@@ -125,7 +134,9 @@ class WorkspaceController  extends AbstractController
         try {
             $results = $this->elasticSearch->search($query, 'object');
         } catch (\Exception $e) {
-            $this->session->clearWorkspaceSort();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
             $this->addFlashMessage(
                 "Error while buildig the list!", '', AbstractMessage::ERROR
             );
@@ -141,7 +152,7 @@ class WorkspaceController  extends AbstractController
 
         if ($filters && $results['hits']['total']['value'] < 1) {
             $this->session->clearFilter();
-            list($redirectAction, $redirectController) = $this->session->getListAction();
+            list($redirectAction, $redirectController) = $this->session->getStoredAction();
             $this->redirect(
                 $redirectAction, $redirectController, null,
                 array('message' => [], 'checkedDocumentIdentifiers' => [])
@@ -152,7 +163,6 @@ class WorkspaceController  extends AbstractController
         $this->view->assign('documents', $results['hits']['hits']);
         $this->view->assign('pages', range(1, $results['hits']['total']['value']));
         $this->view->assign('itemsPerPage', $this->itemsPerPage());
-        $this->view->assign('maximumNumberOfLinks', self::MAXIMUM_NUMBER_OF_LINKS);
         $this->view->assign('aggregations', $results['aggregations']);
         $this->view->assign('filters', $filters);
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
@@ -169,6 +179,15 @@ class WorkspaceController  extends AbstractController
      */
     protected function listWorkspaceAction($checkedDocumentIdentifiers = [])
     {
+        $args = $this->request->getArguments();
+        if ($args['refresh']) {
+            $workspaceSessionData = $this->session->getWorkspaceData();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+
+            $this->session->setWorkspaceData($workspaceSessionData);
+        }
+
         if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
         } elseif ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
@@ -180,7 +199,7 @@ class WorkspaceController  extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
         );
 
@@ -235,7 +254,7 @@ class WorkspaceController  extends AbstractController
 
                     if ($this->authorizationChecker->isGranted(DocumentVoter::REGISTER, $document)) {
 
-                        if ($this->documentValidator->validate($document, false)) {
+                        if ($this->documentValidator->validate($document)) {
 
                             if (
                                 $this->documentManager->update(
@@ -244,7 +263,8 @@ class WorkspaceController  extends AbstractController
                                 )
                             ) {
                                 $this->bookmarkRepository->addBookmark(
-                                    $this->security->getUser()->getUid(), $document
+                                    $document,
+                                    $this->security->getUser()->getUid()
                                 );
 
                                 $successful[] = $documentIdentifier;
@@ -289,7 +309,7 @@ class WorkspaceController  extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -338,7 +358,7 @@ class WorkspaceController  extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -469,7 +489,7 @@ class WorkspaceController  extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -521,8 +541,8 @@ class WorkspaceController  extends AbstractController
             ]
         ];
 
-        return $this->buildQuery(
-            $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
+        return $this->queryBuilder->buildQuery(
+            $this->itemsPerPage(), $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
             $excludeFilters, $sortField, $sortOrder
         );
     }
@@ -556,452 +576,10 @@ class WorkspaceController  extends AbstractController
             ]
         ];
 
-        return $this->buildQuery(
-            $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
+        return $this->queryBuilder->buildQuery(
+            $this->itemsPerPage(), $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
             $excludeFilters, $sortField, $sortOrder
         );
-    }
-
-    /**
-     * Builds the document list query.
-     *
-     * @param array $workspaceFilter
-     * @param int $from
-     * @param array $bookmarkIdentifiers
-     * @param array $filters
-     * @param array $excludeFilters
-     * @param string $sortField
-     * @param string $sortOrder
-     *
-     * @return array
-     */
-    protected function buildQuery(
-        $workspaceFilter, $from = 0, $bookmarkIdentifiers = [], $filters = [], $excludeFilters = [], $sortField = null, $sortOrder = null
-    )
-    {
-        // The base filter.
-        $queryFilter = [
-            'bool' => [
-                'must' => [
-                    [
-                        'bool' => [
-                            'should' => [
-                                0 => $workspaceFilter
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        if (!($excludeFilters && array_key_exists('bookmarks', $excludeFilters))) {
-            // Add user document bookmarks.
-            if ($bookmarkIdentifiers) {
-                $queryFilter['bool']['must'][0]['bool']['should'][] = [
-                    'terms' => [
-                        '_id' => $bookmarkIdentifiers
-                    ]
-                ];
-            }
-        } else {
-            // Show only user document bookmarks.
-            $queryFilter['bool']['must'][0] = [
-                'terms' => [
-                    '_id' => $bookmarkIdentifiers
-                ]
-            ];
-        }
-
-        $filterPart = $this->buildFilterQueryPart($filters, $excludeFilters);
-
-        if ($filterPart) {
-            $queryFilter['bool']['must'][] = $filterPart;
-        }
-
-        // Put together the complete query.
-        $query = [
-            'body' => [
-                'size' => $this->itemsPerPage(),
-                'from' => $from,
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            'match_all' => (object)[]
-                        ],
-                        'filter' => $queryFilter
-                    ]
-                ],
-                'sort' => $this->buildSortQueryPart($sortField, $sortOrder),
-                'aggs' => [
-                    'aliasState' => [
-                        'terms' => [
-                            'field' => 'aliasState'
-                        ]
-                    ],
-                    'year' => [
-                        'terms' => [
-                            'field' => 'year'
-                        ]
-                    ],
-                    'doctype' => [
-                        'terms' => [
-                            'field' => 'doctype'
-                        ]
-                    ],
-                    'hasFiles' => [
-                        'terms' => [
-                            'field' => 'hasFiles'
-                        ]
-                    ],
-                    'universityCollection' => [
-                        'terms' => [
-                            'script' => [
-                                'lang' => 'painless',
-                                'source' =>
-                                    "for (int i = 0; i < doc['collections'].length; ++i) {".
-                                    "    if(doc['collections'][i] =='".$this->settings['universityCollection']."') {".
-                                    "        return 'true';".
-                                    "    }".
-                                    "}".
-                                    "return 'false';"
-                                ]
-                        ]
-                    ],
-                    'authorAndPublisher' => [
-                        'terms' => [
-                            'field' => 'authorAndPublisher'
-                        ]
-                    ],
-                    'creatorRole' => [
-                        'terms' => [
-                            'script' => [
-                                'lang' => 'painless',
-                                'source' =>
-                                    "if (".
-                                    "    doc['creator'].size() > 0 &&".
-                                    "    doc['creator'].value == '".$this->security->getUser()->getUid()."') {".
-                                    "    return 'self';".
-                                    "}".
-                                    "if (".
-                                    "    doc['creatorRole'].size() > 0 &&".
-                                    "    doc['creatorRole'].value == '".Security::ROLE_LIBRARIAN."'".
-                                    ") {".
-                                    "    return 'librarian';".
-                                    "}".
-                                    "if (".
-                                    "    doc['creatorRole'].size() > 0 &&".
-                                    "    doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."'".
-                                    ") {".
-                                    "    return 'user';".
-                                    "}".
-                                    "return 'unknown';"
-                            ]
-                        ]
-                    ]
-
-                ]
-            ]
-        ];
-
-        return $query;
-    }
-
-    /**
-     * Composes the filter part based on the given filters.
-     *
-     * @param array $filters
-     * @param array $excludeFilters
-     * @return array
-     */
-    protected function buildFilterQueryPart($filters, $excludeFilters = []) {
-
-        $queryFilter = [];
-
-        // Build the column filter part.
-        if ($filters && is_array($filters)) {
-
-            $validKeys = [
-                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
-            ];
-
-            foreach ($filters as $key => $filterValues) {
-                $queryFilterPart = [];
-                if (in_array($key, $validKeys, true)) {
-                    if ($key == 'universityCollection') {
-                        if ($filterValues && is_array($filterValues)) {
-                            if (in_array("true", $filterValues)) {
-                                $filterValue = $this->settings['universityCollection'];
-                                $queryFilterPart['bool']['should'][] = [
-                                    'term' => [
-                                        'collections' => $filterValue
-                                    ]
-                                ];
-                            } else {
-                                $filterValue = $this->settings['universityCollection'];
-                                $queryFilterPart['bool']['should'][] = [
-                                    'bool' => [
-                                        'must_not' => [
-                                            'term' => [
-                                                'collections' => $filterValue
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                            }
-                            $queryFilter['bool']['must'][] = $queryFilterPart;
-                        }
-                    } elseif ($key == 'creatorRole') {
-                        $queryFilterPart = [];
-                        if ($filterValues && is_array($filterValues)) {
-                            if (in_array("librarian", $filterValues)) {
-                                $creatorRolePart['bool']['must'] = [
-                                    [
-                                        'term' => [
-                                            'creatorRole' => Security::ROLE_LIBRARIAN
-                                        ]
-                                    ],
-                                    [
-                                        'bool' => [
-                                            'must_not' => [
-                                                'term' => [
-                                                    'creator' => $this->security->getUser()->getUid()
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                                $queryFilterPart['bool']['should'][] = $creatorRolePart;
-                            } elseif (in_array("user", $filterValues)) {
-                                $creatorRolePart['bool']['must'] = [
-                                    [
-                                        'term' => [
-                                            'creatorRole' => Security::ROLE_RESEARCHER
-                                        ]
-                                    ],
-                                    [
-                                        'bool' => [
-                                            'must_not' => [
-                                                'term' => [
-                                                    'creator' => $this->security->getUser()->getUid()
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                                $queryFilterPart['bool']['should'][] = $creatorRolePart;
-                            } elseif (in_array("self", $filterValues)) {
-                                $creatorRolePart['bool']['must'] = [
-                                    [
-                                        'term' => [
-                                            'creator' =>  $this->security->getUser()->getUid()
-                                        ]
-                                    ]
-                                ];
-                                $queryFilterPart['bool']['should'][] = $creatorRolePart;
-                            } else {
-                                $creatorRolePart['bool']['must'] = [
-                                    [
-                                        'bool' => [
-                                            'must_not' => [
-                                                'term' => [
-                                                    'creator' => $this->security->getUser()->getUid()
-                                                ]
-                                            ]
-                                        ]
-                                    ],
-                                    [
-                                        'bool' => [
-                                            'must_not' => [
-                                                'term' => [
-                                                    'creatorRole' => Security::ROLE_LIBRARIAN
-                                                ]
-                                            ]
-                                        ]
-                                    ],
-                                    [
-                                        'bool' => [
-                                            'must_not' => [
-                                                'term' => [
-                                                    'creatorRole' => Security::ROLE_RESEARCHER
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                                $queryFilterPart['bool']['should'][] = $creatorRolePart;
-                            }
-
-                            if ($queryFilterPart) {
-                                $queryFilter['bool']['must'][] = $queryFilterPart;
-                            }
-                        }
-                    } else {
-                        if ($filterValues && is_array($filterValues)) {
-                            foreach ($filterValues as $filterValue) {
-                                $queryFilterPart['bool']['should'][] = [
-                                    'term' => [
-                                        $key => $filterValue
-                                    ]
-                                ];
-                            }
-                            $queryFilter['bool']['must'][] = $queryFilterPart;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($excludeFilters && array_key_exists('aliasState', $excludeFilters)) {
-            if ($excludeFilters['aliasState']) {
-                foreach ($excludeFilters['aliasState'] as $aliasStateExclude) {
-                    $queryFilter['bool']['must'][] = [
-                        'bool' => [
-                            'must_not' => [
-                                'bool' => [
-                                    'must' => [
-                                        [
-                                            'term' => [
-                                                'aliasState' => $aliasStateExclude
-                                            ]
-                                        ],
-                                        [
-                                            'term' => [
-                                                'creator' => $this->security->getUser()->getUid()
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ];
-                }
-            }
-        }
-
-        return $queryFilter;
-    }
-
-
-    /**
-     * Composes the sort query part based on the given sort field and order.
-     *
-     * @param string $sortField
-     * @param string $sortOrder
-     * @return array
-     */
-    protected function buildSortQueryPart($sortField, $sortOrder) {
-        // Build the sorting part.
-        $script = "";
-        if ($sortField == "aliasState") {
-            $script = $this->getSortScriptState();
-        } elseif ($sortField == "universityCollection") {
-            $script = $this->getSortScriptUniversityCollection($this->settings['universityCollection']);
-        } elseif ($sortField == "hasFiles") {
-            $script = $this->getSortScriptHasFiles();
-        } elseif ($sortField == "creatorRole") {
-            $script = $this->getSortScriptCreatorRole($this->security->getUser()->getUid());
-        }
-
-        if ($script) {
-            $sort = [
-                "_script" => [
-                    "type" => "string",
-                    "order" => $sortOrder,
-                    "script" => [
-                        "lang" => "painless",
-                        "source" => $script
-                    ]
-                ],
-                "title.keyword" => [
-                    "order" => "asc"
-                ]
-            ];
-        } else {
-            if ($sortField == 'title') {
-                $sortField.= ".keyword";
-            }
-
-            $sort = [
-                (($sortField)? $sortField : self::DEFAULT_SORT_FIELD.".keyword") => [
-                    'order' => (($sortOrder)? $sortOrder : self::DEFAULT_SORT_ORDER)
-                ]
-            ];
-        }
-
-        return $sort;
-    }
-
-
-    protected function getSortScriptUniversityCollection($collection)
-    {
-        $script  = "for (int i = 0; i < doc['collections'].length; ++i) {";
-        $script .= "    if (doc['collections'][i] == '".$collection."') {";
-        $script .= "        return '1';";
-        $script .= "    }";
-        $script .= "}";
-        $script .= "return '2'";
-
-        return $script;
-    }
-
-    protected function getSortScriptHasFiles()
-    {
-        $script = "if (doc['hasFiles'].value == 'true') {";
-        $script .= "    return '1';";
-        $script .= "}";
-        $script .= "return '2'";
-
-        return $script;
-    }
-
-    protected function getSortScriptCreatorRole($feUserUid)
-    {
-        $script = "if (doc['creator'].value == '".$feUserUid."') {";
-        $script .= "    return '1';";
-        $script .= "}";
-        $script .= "if (doc['creatorRole'].value == '".Security::ROLE_LIBRARIAN."') {";
-        $script .= "return '2';";
-        $script .= "}";
-        $script .= "if (doc['creatorRole'].value == '".Security::ROLE_RESEARCHER."') {";
-        $script .= "    return '3';";
-        $script .= "}";
-        $script .= "return '4';";
-
-        return $script;
-    }
-
-
-    protected function getSortScriptState()
-    {
-        $sortStates = [];
-        foreach (DocumentWorkflow::PLACES as $state) {
-            if (array_key_exists($state, DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING)) {
-                $aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$state];
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:manager.documentList.state.'.$aliasState;
-                $stateName = LocalizationUtility::translate($key, 'dpf');
-                $sortStates[] = "if (doc['state'].value == '".$state."') return '".$stateName."';";
-            }
-        }
-
-        $sortStates = implode(" ", $sortStates);
-
-        return $sortStates." return '';";
-    }
-
-
-    protected function getSortScriptDoctype()
-    {
-        $sortDoctypes = [];
-        foreach ($this->documentTypeRepository->findAll() as $documentType) {
-            if ($documentType->getName() && $documentType->getDisplayname()) {
-                $sortDoctypes[] = "if (doc['doctype'].value == '".$documentType->getName()."')"
-                    ." return '".$documentType->getDisplayname()."';";
-            }
-        }
-
-        $sortDoctypes = implode(" ", $sortDoctypes);
-
-        return $sortDoctypes." return '';";
     }
 
 
@@ -1112,7 +690,7 @@ class WorkspaceController  extends AbstractController
 
         $this->addFlashMessage($message, '', AbstractMessage::ERROR);
 
-        list($action, $controller, $redirectUri) = $this->session->getListAction();
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
 
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);
@@ -1130,7 +708,10 @@ class WorkspaceController  extends AbstractController
      */
     protected function itemsPerPage()
     {
-        $itemsPerPage = $this->session->getWorkspaceItemsPerPage();
+        /** @var SearchSessionData $workspaceData */
+        $workspaceData = $this->session->getWorkspaceData();
+        $itemsPerPage = $workspaceData->getItemsPerPage();
+
         $default = ($this->settings['workspaceItemsPerPage'])? $this->settings['workspaceItemsPerPage'] : 10;
         return ($itemsPerPage)? $itemsPerPage : $default;
     }

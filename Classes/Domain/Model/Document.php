@@ -162,6 +162,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $comment = '';
 
     /**
+     * date
+     *
+     * @var \DateTime
+     */
+    protected $embargoDate = null;
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -923,6 +930,35 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $mods = new Mods($this->getXmlData());
         $title = $mods->getTitle();
         return $title? $title : "";
+    }
+
+
+    /**
+     * Gets the source information out of the mods-xml data.
+     *
+     * @return string|null
+     */
+    public function getSourceDetails()
+    {
+        $mods = new Mods($this->getXmlData());
+        $data = $mods->getSourceDetails();
+        return $data;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEmbargoDate(): ?\DateTime
+    {
+        return $this->embargoDate;
+    }
+
+    /**
+     * @param \DateTime|null $embargoDate
+     */
+    public function setEmbargoDate(?\DateTime $embargoDate)
+    {
+        $this->embargoDate = $embargoDate;
     }
 
 }

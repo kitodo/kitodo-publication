@@ -425,6 +425,12 @@
 		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" xml:space="preserve">
 			<source>The selected documents will be released but not validated.</source>
 		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.messageHeader">
+			<source>Do you really want to bookmark the selected documents?</source>
+		</trans-unit>
+		<trans-unit id="manager.confirmBatchBookmark.message">
+			<source>The selected documents will be bookmarked.</source>
+		</trans-unit>
 		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
 			<source>Do you really want to remove the document from the list?</source>
 		</trans-unit>
@@ -695,6 +701,12 @@
 		<trans-unit id="manager.workspace.bookmarkRemoved.plural">
 			<source>%s Records have been removed from workspace.</source>
 		</trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.singular">
+            <source>%s record out of %s successfully bookmarked.</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.batchAction.bookmark.success.plural">
+            <source>%s records out of %s successfully bookmarked.</source>
+        </trans-unit>
 		<trans-unit id="manager.workspace.bookmarkAdded">
 			<source>Record has been added to the workspace.</source>
 		</trans-unit>
@@ -711,7 +723,118 @@
 			<source>Show administrative notes</source>
 		</trans-unit>
 		<trans-unit id="manager.workspace.itemsPerPage">
-			<source>Documents per page</source>
+			<source>Documents per page:</source>
+		</trans-unit>
+        <trans-unit id="manager.workspace.itemsPerPage.applyButton">
+            <source>OK</source>
+        </trans-unit>
+		<trans-unit id="manager.search.saveQuery.successfully">
+			<source>Search query has been saved.</source>
+		</trans-unit>
+        <trans-unit id="manager.search.searchField.persons" approved="yes">
+            <source>Persons</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.organisation" approved="yes">
+            <source>Organisation</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.title" approved="yes">
+            <source>Title</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.identifier" approved="yes">
+            <source>Identifier</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publicationType" approved="yes">
+            <source>Publication type</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.source" approved="yes">
+            <source>Source</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.year" approved="yes">
+            <source>Year</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.publisher" approved="yes">
+            <source>Publisher</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.language" approved="yes">
+            <source>Language</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.state" approved="yes">
+            <source>State</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.universityPublication" approved="yes">
+            <source>University publication</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.withFile" approved="yes">
+            <source>With file (Fulltext)</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
+            <source>Embargo end</source>
+        </trans-unit>
+        <trans-unit id="manager.search.searchField.comment" approved="yes">
+            <source>Comment</source>
+        </trans-unit>
+		<trans-unit id="manager.search.addSearchField">
+			<source>Add search field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.missingQuery">
+			<source>Missing name or search query.</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchField.save">
+			<source>Save</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.title" approved="yes">
+			<source>Add search field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.and" approved="yes">
+			<source>and</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.or" approved="yes">
+			<source>or</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.is" approved="yes">
+			<source>is</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.isNot" approved="yes">
+			<source>is not</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.state" approved="yes">
+			<source>State</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.field" approved="yes">
+			<source>Field</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.yes" approved="yes">
+			<source>Yes</source>
+		</trans-unit>
+		<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
+			<source>No</source>
+		</trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
+            <source>Document type</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+            <source>From</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+            <source>To</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">
+            <source>Cancel</source>
+        </trans-unit>
+        <trans-unit id="manager.search.addSearchFieldDialog.add" approved="yes">
+            <source>Add</source>
+        </trans-unit>
+		<trans-unit id="manager.search.loadQuery">
+			<source>Load search</source>
+		</trans-unit>
+		<trans-unit id="manager.search.saveQuery">
+			<source>Save search</source>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.singular">
+			<source>%s record was found.</source>
+		</trans-unit>
+		<trans-unit id="manager.search.showNumberOfResults.plural">
+			<source>%s records were found.</source>
 		</trans-unit>
 		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 			<source>Your document has been published:
@@ -983,6 +1106,72 @@ Date: ###DATE###
 		<trans-unit id="widget.pagination.previous">
 			<source>previous</source>
 		</trans-unit>
+        <trans-unit id="manager.locallang.bul">
+            <source>Bulgarian</source>
+        </trans-unit>
+		<trans-unit id="manager.locallang.chi">
+		    <source>Chinese</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dan">
+            <source>Danish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ger">
+            <source>German</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.eng">
+            <source>English</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fin">
+            <source>Finnish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.fre">
+            <source>French</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.gre">
+            <source>Greek; Modern Greek</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.ita">
+            <source>Italian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.lat">
+            <source>Latin</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dut">
+            <source>Dutch; Flemish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.dsb">
+            <source>Lower Sorbian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.hsb">
+            <source>Upper Sorbian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.pol">
+            <source>Polish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.por">
+            <source>Portuguese</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.rus">
+            <source>Russian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swe">
+            <source>Swedish</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.slo">
+            <source>Slovak</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.spa">
+            <source>Spanish; Castilian</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.swa">
+            <source>Swahili</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.cze">
+            <source>Czech</source>
+        </trans-unit>
+        <trans-unit id="manager.locallang.vie">
+            <source>Vietnamese</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

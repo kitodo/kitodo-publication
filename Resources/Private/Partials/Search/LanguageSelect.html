@@ -1,0 +1,25 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<label for="search-field-language-value" class="col-form-label">Sprache</label>
+<select class="custom-select search-field-value" id="search-field-language-value">
+    <option value="">
+    <f:for each="{0:'bul', 1:'chi', 2:'dan', 3:'ger', 4:'eng', 5:'fin', 6:'fre', 7:'gre', 8:'ita'
+        9:'lat', 10:'dut', 11:'dsb', 12:'hsb', 13:'pol', 14:'por', 15:'rus' , 16:'swe', 17:'slo'
+        18:'spa', 19:'swa', 20:'cze', 21:'vie'}" as="language">
+        <option value="{language}">{f:translate(key: 'manager.locallang.{language}')}</option>
+    </f:for>
+</select>

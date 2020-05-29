@@ -49,6 +49,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     )
 );
 
+
+// obsolete plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
     'Frontendsearch',
@@ -87,8 +89,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
-            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
-        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+        'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
@@ -101,9 +104,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
-        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSortAction, '
-            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, setWorkspaceItemsPerPage',
-        'Search'           => 'list, search, import, importForEditing, showDetails, doubletCheck, nextResults, extendedSearch, latest',
+        'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
+            .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+        'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
     )
 );

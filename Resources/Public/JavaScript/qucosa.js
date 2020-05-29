@@ -11,6 +11,290 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+
+
+var saveExtendedSearch = {
+
+    init: function () {
+        this.show();
+        this.save();
+
+        jQuery("button").on("click", function () {
+            jQuery(".alert-save-extended-search-success").hide();
+        });
+        
+    },
+
+    show: function() {
+        jQuery("#save-extended-search").on("click", function (e) {
+            jQuery('.alert-save-extended-search').hide();
+            jQuery("#save-extended-search-dialog #extended-search-name").val("");
+            jQuery("#save-extended-search-dialog").modal('show');
+            e.preventDefault();
+        });
+    },
+
+    save: function() {
+        jQuery("#save-extended-search-dialog .modal-submit-button").on("click", function (e) {
+            var name = jQuery("#save-extended-search-dialog #extended-search-name").val();
+            var query = jQuery("#extended-search-query").val();
+            var ajaxURL = jQuery(this).data('ajax');
+
+            if (query.length < 1 || name.length < 1) {
+                jQuery('.alert-save-extended-search').show();
+                return;
+            }
+
+            var res = ajaxURL.match(/(tx\w+?)%/); // get param name
+            var params = {};
+            var indexParam = {};
+            if (res && res[1]) {
+                indexParam['name'] = name;
+                indexParam['query'] = query;
+                params[res[1]] = indexParam;
+            }
+
+            jQuery.post(ajaxURL, params, function(data) {
+                jQuery("#save-extended-search-dialog").modal('hide');
+                jQuery(".alert-save-extended-search-success").show();
+                openExtendedSearch.loadList();
+            }).fail(function() {
+
+            })
+        });
+    }
+}
+
+
+var openExtendedSearch = {
+
+    init: function () {
+        this.loadList();
+    },
+
+    loadList: function() {
+        var _this = this;
+
+        if (jQuery("#load-extended-search").length) {
+            var ajaxURL = jQuery("#load-extended-search-select").data('ajax');
+            var params = {};
+            jQuery.post(ajaxURL, params, function(data) {
+                jQuery("#load-extended-search-select").length
+
+                jQuery("#load-extended-search-select .dropdown-item").remove();
+
+                data.forEach(function(item){
+                    if (item.name.length) {
+                        jQuery(
+                            '<a class="dropdown-item" ' +
+                            'data-search-id="' + item.uid + '" ' +
+                            'href="#">' + item.name + '</a>'
+                        ).appendTo("#load-extended-search-select");
+                    }
+                });
+
+                if (data.length) {
+                    jQuery("#load-extended-search").removeAttr("disabled");
+                } else {
+                    jQuery("#load-extended-search").attr("disabled","disabled");
+                }
+
+                _this.onLoadSearch();
+
+            }, "json");
+        }
+    },
+
+    onLoadSearch: function() {
+        jQuery("#load-extended-search-select .dropdown-item").on("click", function (e) {
+            var ajaxURL = jQuery("#load-extended-search-select").data('ajax-load');
+            var res = ajaxURL.match(/(tx\w+?)%/);
+            var params = {};
+            var indexParam = {};
+            if (res && res[1]) {
+                indexParam['id'] = jQuery(this).data("search-id");
+                params[res[1]] = indexParam;
+            }
+
+            jQuery.post(ajaxURL, params, function(data) {
+                jQuery("#extended-search-query").val(data);
+            });
+
+            e.preventDefault();
+        });
+    }
+}
+
+
+var extendedSearch = {
+
+    init: function () {
+        this.showAddFieldDialog();
+        this.addField();
+    },
+
+    showAddFieldDialog: function () {
+        jQuery("#extended-search-add-field .dropdown-item").on("click", function (e) {
+            var field = jQuery(this).data("field");
+            var formGroup = jQuery(this).data("form-group");
+            var fieldType = jQuery(this).data("type");
+            var fieldName = jQuery(this).text();
+
+            jQuery("#add-searchfield-dialog .modal-field-name").text(fieldName);
+            jQuery("#add-searchfield-dialog .modal-submit-button").data("field", field);
+            jQuery("#add-searchfield-dialog .modal-submit-button").data("form-group", formGroup);
+            jQuery("#add-searchfield-dialog .modal-submit-button").data("type", fieldType);
+
+            jQuery("#add-searchfield-dialog").find(".search-field").addClass("d-none");
+            jQuery("#add-searchfield-dialog").find(".search-field-" + formGroup).removeClass("d-none");
+
+            // Reset operators
+            jQuery("#add-searchfield-dialog #search-field-operator-binary option[value='AND']").prop('selected', true);
+            jQuery("#add-searchfield-dialog #search-field-operator-unary option[value='']").prop('selected', true);
+
+            // Reset field values
+            jQuery("#add-searchfield-dialog .search-field-value").val("");
+
+            jQuery("#add-searchfield-dialog").modal('show');
+
+            e.preventDefault();
+        });
+    },
+
+    addField: function () {
+
+        var _this = this;
+
+        jQuery("#add-searchfield-dialog .modal-submit-button").on("click", function (e) {
+            var field = jQuery(this).data("field");
+            var fieldType = jQuery(this).data("type");
+            var formGroup = jQuery(this).data("form-group");
+
+            var operatorBinary = jQuery("#search-field-operator-binary").val();
+            var operatorUnary = jQuery("#search-field-operator-unary").val();
+
+            var fieldPart = "";
+
+            switch(fieldType) {
+                case "date-range":
+                    fieldPart = _this.dateRangeField(formGroup, field);
+                    break;
+                case "year-range":
+                    fieldPart = _this.yearRangeField(formGroup, field);
+                    break;
+                case "phrase":
+                    fieldPart = _this.valueField(formGroup, field, true);
+                    break;
+                default:
+                    fieldPart = _this.valueField(formGroup, field);
+                    break;
+            }
+
+            if (fieldPart.length > 0) {
+
+                var query = jQuery("#extended-search-query").val();
+
+                if (query.length > 0) {
+                    query += (operatorBinary) ? " " + operatorBinary + " " : " AND ";
+                }
+
+                if (operatorUnary == "NOT") {
+                    fieldPart = "NOT(" + fieldPart + ")";
+                }
+
+                query += fieldPart;
+
+                jQuery("#extended-search-query").val(query);
+            }
+
+            jQuery("#add-searchfield-dialog").modal('hide');
+            e.preventDefault();
+        });
+    },
+
+    valueField: function(group, field, phrase = false) {
+
+        var value = jQuery(".search-field-"+group+" .search-field-value").val();
+
+        if (phrase) {
+            value = '"'+value+'"';
+        }
+
+        var fieldPart = "";
+
+        if (value.length > 0) {
+
+            fieldPart += field + ":" + value;
+        }
+
+        return fieldPart;
+    },
+
+    yearRangeField: function(group, field) {
+
+        var from = jQuery(".search-field-"+group+" .search-field-from").val();
+        var to =   jQuery(".search-field-"+group+" .search-field-to").val();
+
+        var fieldPart = "";
+
+        if (from.length > 0 && to.length > 0) {
+            fieldPart = field+":["+from+" TO "+to+"]";
+        } else {
+            if (from.length == 0 && to.length == 0) {
+                return "";
+            }
+
+            from = (from.length > 0)? from : "*";
+            to = (to.length > 0)? to : "*";
+            fieldPart = field+":["+from+" TO "+to+"]";
+        }
+
+        return fieldPart;
+    },
+
+
+    dateRangeField: function(group, field) {
+
+        var from = jQuery(".search-field-"+group+" .search-field-from").val();
+        var to =   jQuery(".search-field-"+group+" .search-field-to").val();
+
+        var fieldPart = "";
+
+        var fromDate = moment(from, "DD.MM.YYYY");
+        if (fromDate.format("DD.MM.YYYY") == from) {
+            from = fromDate.format("YYYY-MM-DD");
+        } else {
+            from = "";
+        }
+
+        var toDate = moment(to, "DD.MM.YYYY");
+        if (toDate.format("DD.MM.YYYY") == to) {
+            to = toDate.format("YYYY-MM-DD");
+        } else {
+            to = "";
+        }
+
+        if (from.length > 0 && to.length > 0) {
+            fieldPart = field+":["+from+" TO "+to+"]";
+        } else {
+            if (from.length == 0 && to.length == 0) {
+                return "";
+            }
+
+            from = (from.length > 0)? from : "*";
+            to = (to.length > 0)? to : "*";
+            fieldPart = field+":["+from+" TO "+to+"]";
+        }
+
+        return fieldPart;
+    }
+}
+
+function getWorkspaceListAction() {
+    return jQuery("#batchForm").attr("data-workspace-list-action");
+}
+
+
 var selectFilter = function(selectFilterId, searchInput = false) {
     selectFilterId = '#'+selectFilterId;
 
@@ -42,8 +326,7 @@ var selectFilter = function(selectFilterId, searchInput = false) {
         }
 
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -55,8 +338,7 @@ var toggleDiscardedFilter = function() {
         var ajaxURL = jQuery(this).data('ajax');
         var params = {};
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -67,8 +349,7 @@ var toggleBookmarksOnly = function() {
         var ajaxURL = jQuery(this).data('ajax');
         var params = {};
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
 
     });
@@ -92,8 +373,7 @@ var selectSort = function() {
         }
 
         jQuery.post(ajaxURL, params, function(data) {
-            var url = jQuery(".workspace-nav-link").attr("href");
-            window.location.href = url;
+            window.location.href = getWorkspaceListAction();
         });
     })
 }
@@ -101,14 +381,14 @@ var selectSort = function() {
 
 var batchConfirmDialog = function(actionName) {
 
-    jQuery("#workspaceButton"+actionName).on("click", function(e) {
-        jQuery("#workspaceAction"+actionName).removeAttr("disabled");
+    jQuery("#batchButton"+actionName).on("click", function(e) {
+        jQuery("#batchAction"+actionName).removeAttr("disabled")
         jQuery("#confirmWorkspace"+actionName).modal('show');
         e.preventDefault();
     });
 
     jQuery("#confirmWorkspace"+actionName).on('hidden.bs.modal', function(){
-        jQuery(".workspaceAction").attr("disabled","disabled");
+        jQuery(".batchAction").attr("disabled","disabled")
     });
 }
 
@@ -198,6 +478,7 @@ var batchSelectHandler = {
         this.toggleRegisterButton();
         this.toggleBatchRemoveButton();
         this.toggleBatchReleaseButton();
+        this.toggleBatchBookmarkButton();
     },
     toggleSelectButton() {
         if (jQuery(".batch-checkbox:checked").length > 0) {
@@ -210,17 +491,29 @@ var batchSelectHandler = {
     },
     toggleRegisterButton() {
         if (jQuery('#workspace-list [data-alias-state="new"] .batch-checkbox:checked').length > 0) {
-            jQuery("#workspaceButtonBatchRegister").removeClass("disabled");
+            jQuery("#batchButtonBatchRegister").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchRegister").addClass("disabled");
+            jQuery("#batchButtonBatchRegister").addClass("disabled");
         }
     },
     toggleBatchRemoveButton() {
         if (jQuery('#workspace-list [data-bookmark="1"] .batch-checkbox:checked').length > 0) {
-            jQuery("#workspaceButtonBatchRemove").removeClass("disabled");
+            jQuery("#batchButtonBatchRemove").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchRemove").addClass("disabled");
+            jQuery("#batchButtonBatchRemove").addClass("disabled");
         }
+    },
+    toggleBatchBookmarkButton: function() {
+
+        if (jQuery('#workspace-list .batch-checkbox:checked').length < 1) {
+            jQuery("#batchButtonBatchBookmark").addClass("disabled");
+        }
+
+        jQuery('#workspace-list .batch-checkbox:checked').each(function(){
+            if (jQuery(this).parent().data("alias-state") != "new") {
+                jQuery("#batchButtonBatchBookmark").removeClass("disabled");
+            }
+        });
     },
     toggleBatchReleaseButton() {
         var countChecked = jQuery('#workspace-list .batch-checkbox:checked').length;
@@ -228,11 +521,11 @@ var batchSelectHandler = {
         var countCheckedReleased = jQuery('#workspace-list [data-alias-state="released"] .batch-checkbox:checked').length;
 
         if (countChecked - (countCheckedNew + countCheckedReleased) > 0) {
-            jQuery("#workspaceButtonBatchReleaseUnvalidated").removeClass("disabled");
-            jQuery("#workspaceButtonBatchReleaseValidated").removeClass("disabled");
+            jQuery("#batchButtonBatchReleaseUnvalidated").removeClass("disabled");
+            jQuery("#batchButtonBatchReleaseValidated").removeClass("disabled");
         } else {
-            jQuery("#workspaceButtonBatchReleaseUnvalidated").addClass("disabled");
-            jQuery("#workspaceButtonBatchReleaseValidated").addClass("disabled");
+            jQuery("#batchButtonBatchReleaseUnvalidated").addClass("disabled");
+            jQuery("#batchButtonBatchReleaseValidated").addClass("disabled");
         }
     }
 }
@@ -265,7 +558,6 @@ var itemsPerPageHandler = {
         });
 
         jQuery("#items-per-page-save").on("click", function(e) {
-
             var button = jQuery(this);
             var ajaxURL = jQuery(this).data('ajax');
             var itemsPerPage = jQuery("#items-per-page").val();
@@ -284,8 +576,7 @@ var itemsPerPageHandler = {
             }
 
             jQuery.post(ajaxURL, params, function(data) {
-                var url = jQuery(".workspace-nav-link").attr("href");
-                window.location.href = url;
+                window.location.href = getWorkspaceListAction();
             });
 
         });
@@ -701,14 +992,27 @@ $(window).scroll(function() {
         $(".tx-dpf-tab-container").removeClass("sticky");
     }
 });
+
+
 var datepicker = function() {
     var language = jQuery("div.tx-dpf[data-language]").first().attr("data-language");
     if (!language) language = "en";
     jQuery(".datetimepicker").datetimepicker({
+        icons: {
+            time: 'far fa-clock',
+            date: 'fas fa-calendar-alt',
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'glyphicon glyphicon-screenshot',
+            clear: 'far fa-trash-alt',
+            close: 'fas fa-times'
+        },
         useCurrent: false,
         format: "DD.MM.YYYY",
         locale: language,
-        keepInvalid: true
+        keepInvalid: true,
     }).on("keydown", function(e){
         if (e.which == 13) {
             $(".datetimepicker").closest("form").submit();
@@ -1013,12 +1317,17 @@ $(document).ready(function() {
     batchConfirmDialog("BatchRemove");
     batchConfirmDialog("BatchReleaseValidated");
     batchConfirmDialog("BatchReleaseUnvalidated");
+    batchConfirmDialog("BatchBookmark");
 
     removeBookmarkHandler.init();
     addBookmarkHandler.init();
     batchSelectHandler.init();
 
     itemsPerPageHandler.init();
+
+    extendedSearch.init();
+    saveExtendedSearch.init();
+    openExtendedSearch.init();
 
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
