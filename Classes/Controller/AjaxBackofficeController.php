@@ -156,7 +156,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
 
     /**
-     * Save an extended seaerch query.
+     * Save an extended search query.
      *
      * @param string $name
      * @param string $query
@@ -177,7 +177,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * Loads a stored extended seaerch query.
+     * Loads a stored extended search query.
      *
      * @param int $id
      * @return bool
