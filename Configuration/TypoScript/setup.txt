@@ -93,9 +93,9 @@ plugin.tx_dpf {
 
 			timezone = Europe/Berlin
 
-			# Settings for the fluid pagination view helper
-			pagination {
-				maximumNumberOfLinks = 5
+			# Settings for the pagination of the list views workspace, my publications and search results.
+			documentListPagination {
+				maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
 			}
 		}
 }

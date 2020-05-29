@@ -56,5 +56,10 @@ plugin.tx_dpf {
 
 		    # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
             universityCollection = epflicht
+
+			documentListPagination {
+				# cat=plugin.tx_dpf/api; type=string; label=Number of links to be shown for the pagination of the list views workspace, my publications and search results.
+				maximumNumberOfLinks = 5
+			}
         }
 }
