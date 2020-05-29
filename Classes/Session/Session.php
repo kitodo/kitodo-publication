@@ -50,7 +50,7 @@ class Session
      * @param $action
      * @param $controller
      */
-    public function setListAction($action, $controller, $uri = null)
+    public function setStoredAction($action, $controller, $uri = null)
     {
         $sessionData = $this->getData(self::ROOT_KEY);
         $sessionData[self::LIST_ACTION_KEY] = [$action, $controller, $uri];
@@ -63,7 +63,7 @@ class Session
      *
      * @return array|mixed
      */
-    public function getListAction()
+    public function getStoredAction()
     {
         $sessionData = $this->getData();
         if (is_array($sessionData) && array_key_exists(self::LIST_ACTION_KEY, $sessionData)) {

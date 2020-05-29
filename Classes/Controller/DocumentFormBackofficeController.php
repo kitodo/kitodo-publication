@@ -512,7 +512,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     protected function redirectToDocumentList($message = null)
     {
-        list($action, $controller, $redirectUri) = $this->session->getListAction();
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
 
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);

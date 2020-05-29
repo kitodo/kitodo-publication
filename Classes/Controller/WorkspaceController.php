@@ -152,7 +152,7 @@ class WorkspaceController extends AbstractController
 
         if ($filters && $results['hits']['total']['value'] < 1) {
             $this->session->clearFilter();
-            list($redirectAction, $redirectController) = $this->session->getListAction();
+            list($redirectAction, $redirectController) = $this->session->getStoredAction();
             $this->redirect(
                 $redirectAction, $redirectController, null,
                 array('message' => [], 'checkedDocumentIdentifiers' => [])
@@ -199,7 +199,7 @@ class WorkspaceController extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
         );
 
@@ -308,7 +308,7 @@ class WorkspaceController extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -357,7 +357,7 @@ class WorkspaceController extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -488,7 +488,7 @@ class WorkspaceController extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -689,7 +689,7 @@ class WorkspaceController extends AbstractController
 
         $this->addFlashMessage($message, '', AbstractMessage::ERROR);
 
-        list($action, $controller, $redirectUri) = $this->session->getListAction();
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
 
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);

@@ -179,7 +179,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $simpleSearch = $workspaceSessionData->getSimpleQuery();
 
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
         );
 
@@ -320,7 +320,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        list($redirectAction, $redirectController) = $this->session->getListAction();
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
         $this->redirect(
             $redirectAction, $redirectController, null,
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
@@ -383,7 +383,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $this->view->assign('states', $states);
 
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController(),
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
         );
 

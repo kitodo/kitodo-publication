@@ -164,7 +164,7 @@ class DocumentController extends AbstractController
     }
 
     public function listSuggestionsAction() {
-        $this->session->setListAction($this->getCurrentAction(), $this->getCurrentController());
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
         $isWorkspace = $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
@@ -773,7 +773,7 @@ class DocumentController extends AbstractController
      */
     protected function redirectToDocumentList($message = null)
     {
-        list($action, $controller, $redirectUri) = $this->session->getListAction();
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
 
         if ($redirectUri) {
             $this->redirectToUri($redirectUri);
