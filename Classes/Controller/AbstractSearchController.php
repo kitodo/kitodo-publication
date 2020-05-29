@@ -17,10 +17,13 @@ namespace EWW\Dpf\Controller;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 
+/**
+ * Class AbstractSearchController
+ * @package EWW\Dpf\Controller
+ * @deprecated since version 4.0
+ */
 abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractController
 {
-    // obsolete class
-
     // search terms
     private static $terms   = ['_id', 'OWNER_ID', 'submitter', 'project'];
 

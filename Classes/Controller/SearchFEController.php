@@ -17,12 +17,12 @@ namespace EWW\Dpf\Controller;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
- * SearchFEController
+ * Class SearchFEController
+ * @package EWW\Dpf\Controller
+ * @deprecated since version 4.0
  */
 class SearchFEController extends \EWW\Dpf\Controller\AbstractSearchController
 {
-    // obsolete class
-
     /**
      * action
      * @var string

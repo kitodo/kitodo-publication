@@ -20,12 +20,12 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 
 /**
- * ElasticSearch
+ * Class ElasticSearch
+ * @package EWW\Dpf\Services
+ * @deprecated since version 4.0
  */
 class ElasticSearch
 {
-    // obsolete class
-
     protected $es;
 
     protected $server = ''; //127.0.0.1';
