@@ -54,11 +54,15 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         if ($document instanceof Document) {
+            // A document can be identified (documentIdentifier) by its Fedora PID (the qucosa id) or the document UID in case it hasn't been
+            // published (that means it exits only locally in the TYPO3  db).
+            // In order to find a bookmark that belongs to a document, it is essential to search for both identifiers.
             $constraintsAnd[] = $query->logicalOr(
                 $query->equals('document_identifier', $document->getObjectIdentifier()),
                 $query->equals('document_identifier', $document->getUid())
             );
         } else {
+            // In case $document already contains a plain identifier the above distinction is not necessary.
             $constraintsAnd[] = $query->equals('document_identifier', $document);
         }
 
@@ -85,8 +89,11 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     public function addBookmark($document, $feUserUid)
     {
         if ($document instanceof Document) {
+            // The returned documentIdentifier is either a PID (qucosa id) or the document UID (TYPO3 db), see also
+            // the above method removeBookmark().
             $identifier = $document->getDocumentIdentifier();
         } else {
+            // In case $document already contains a plain identifier we can use it directly.
             $identifier = $document;
         }
 
