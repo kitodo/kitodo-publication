@@ -993,6 +993,62 @@
 				<source>OK</source>
 				<target>OK</target>
 			</trans-unit>
+            <trans-unit id="manager.importMetadata.header.single" approved="yes">
+                <source>Import publication</source>
+                <target>Publikation importieren</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits bei „Arbeitsbereich“. Es wurde nichts importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInMyPublications" approved="yes">
+                <source>A publication with this identifier is already in "My Publications". Nothing was imported.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits bei „Meine Publikationen“. Es wurde nichts importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zu „Arbeitsbereich“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemMyPublications" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zu „Meine Publikationen“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
+                <source>Publication has been imported and added to „My Publications”. Please check/edit the entry there.</source>
+                <target>Die Publikation wurde importiert und „Meine Publikationen“ hinzugefügt. Bitte prüfen bzw. bearbeiten Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
+                <source>Publication has been imported and added to „Workspace”. Please check/edit the entry there.</source>
+                <target>Die Publikation wurde importiert und „Arbeitsbereich“ hinzugefügt. Bitte prüfen bzw. bearbeiten Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
+                <source>Could not import the publication.</source>
+                <target>Die Publikation konnte nicht importiert werden.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.searchError" approved="yes">
+                <source>Error while searching.</source>
+                <target>Bei der Suche trat ein Fehler auf.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.nothingFound" approved="yes">
+                <source>The search was unsuccessful. Please use the manual entry.</source>
+                <target>Die Suche brachte kein Ergebnis. Bitte benutzen Sie die manuelle Eingabe.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.inputLabel" approved="yes">
+                <source>Identifier (DOI, PMID, ISBN)</source>
+                <target>Identifikator (DOI, PMID, ISBN)</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.lookupIdentifier" approved="yes">
+                <source>Look up</source>
+                <target>Nachschlagen</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.identifierLabel" approved="yes">
+                <source>Identifier</source>
+                <target>Identifikator</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
+                <source>Import</source>
+                <target>Importieren</target>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>

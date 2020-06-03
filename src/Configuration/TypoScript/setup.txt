@@ -30,6 +30,43 @@ config.tx_extbase {
 					tstamp.mapOnProperty = tstamp
 				}
 			}
+
+            EWW\Dpf\Domain\Model\ExternalMetadata {
+                subclasses {
+                    EWW\Dpf\Domain\Model\CrossRefMetadata = EWW\Dpf\Domain\Model\CrossRefMetadata
+                    EWW\Dpf\Domain\Model\DataCiteMetadata = EWW\Dpf\Domain\Model\DataCiteMetadata
+                    EWW\Dpf\Domain\Model\K10plusMetadata = EWW\Dpf\Domain\Model\K10plusMetadata
+                    EWW\Dpf\Domain\Model\PubMedMetadata = EWW\Dpf\Domain\Model\PubMedMetadata
+                }
+            }
+
+            EWW\Dpf\Domain\Model\CrossRefMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\CrossRefMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\DataCiteMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\DataCiteMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\K10plusMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\K10plusMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\PubMedMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\PubMedMetadata
+				}
+			}
 		}
 	}
 }
@@ -102,6 +139,14 @@ plugin.tx_dpf {
 		development {
 			docker = {$plugin.tx_dpf.settings.development.docker};
 		}
+
+        # The uid of the destination document type for imported metadata
+        defaultImportDocumentType {
+            crossref = {$plugin.tx_dpf.settings.defaultImportDocumentType.crossref}
+            datacite = {$plugin.tx_dpf.settings.defaultImportDocumentType.datacite}
+            pubmed = {$plugin.tx_dpf.settings.defaultImportDocumentType.pubmed}
+            k10plus = {$plugin.tx_dpf.settings.defaultImportDocumentType.k10plus}
+        }
     }
 }
 

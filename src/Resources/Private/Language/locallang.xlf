@@ -740,6 +740,48 @@
 			<trans-unit id="manager.workspace.itemsPerPage.applyButton">
 				<source>OK</source>
 			</trans-unit>
+            <trans-unit id="manager.importMetadata.header.single" approved="yes">
+                <source>Import publication</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInMyPublications" approved="yes">
+                <source>A publication with this identifier is already in "My Publications". Nothing was imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemMyPublications" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
+                <source>Publication has been imported and added to „My Publications”. Please check/edit the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
+                <source>Publication has been imported and added to „Workspace”. Please check/edit the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
+                <source>Could not import the publication.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.searchError" approved="yes">
+                <source>Error while searching.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.nothingFound" approved="yes">
+                <source>The search was unsuccessful. Please use the manual entry.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.inputLabel" approved="yes">
+                <source>Identifier (DOI, PMID, ISBN)</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.lookupIdentifier" approved="yes">
+                <source>Look up</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.identifierLabel" approved="yes">
+                <source>Identifier</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
+                <source>Import</source>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>
 			</trans-unit>

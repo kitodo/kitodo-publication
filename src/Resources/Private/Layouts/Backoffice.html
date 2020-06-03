@@ -85,6 +85,13 @@
                                     {f:translate(key: 'manager.control.createNewDocument')}
                                 </f:link.action>
                             </li>
+                            <li class="nav-item">
+                                <f:link.action action="find" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport')}">
+                                    <i class="fas fa-plus"></i>
+                                    {f:translate(key: 'manager.importMetadata.header.single')}
+                                </f:link.action>
+                            </li>
                         </ul>
 
                     </div>

@@ -45,6 +45,20 @@ class Mods
     {
         $modsDom = new \DOMDocument();
         if (!empty($modsXml)) {
+
+            $modsXml = preg_replace(
+                "/<mods:mods.*?>/",
+                '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                .'xmlns:mods="http://www.loc.gov/mods/v3" '
+                .'xmlns:slub="http://slub-dresden.de/" '
+                .'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '
+                .'xmlns:foaf="http://xmlns.com/foaf/0.1/" '
+                .'xmlns:person="http://www.w3.org/ns/person#" '
+                .'xsi:schemaLocation="http://www.loc.gov/mods/v3 '
+                .'http://www.loc.gov/standards/mods/v3/mods-3-7.xsd" version="3.7">',
+                $modsXml
+            );
+
             if (is_null(@$modsDom->loadXML($modsXml))) {
                 throw new \Exception("Couldn't load MODS data!");
             }

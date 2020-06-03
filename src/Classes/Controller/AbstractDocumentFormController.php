@@ -84,31 +84,7 @@ abstract class AbstractDocumentFormController extends AbstractController
     public function listAction()
     {
         $documents = $this->documentRepository->findAll();
-
-        $documentTypes = $this->documentTypeRepository->findAll();
-
-        $data = array();
-        $docTypes = array();
-        $name = array();
-        $type = array();
-
-        foreach ($documentTypes as $docType) {
-            $data[] = array(
-                "name" => $docType->getDisplayName(),
-                "type" => $docType,
-            );
-        }
-
-        foreach ($data as $key => $row) {
-            $name[$key] = $row['name'];
-            $type[$key] = $row['type'];
-        }
-
-        array_multisort($name, SORT_ASC, SORT_LOCALE_STRING, $type, SORT_ASC, $data);
-
-        foreach ($data as $item) {
-            $docTypes[] = $item['type'];
-        }
+        $docTypes = $this->documentTypeRepository->getDocumentTypesAlphabetically();
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));

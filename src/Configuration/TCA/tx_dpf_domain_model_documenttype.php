@@ -33,14 +33,23 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, virtual, metadata_page',
+        'searchFields'             => 'name, display_name, virtual, crossref_transformation, crossref_types,
+            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            pubmed_transformation, pubmed_types, metadata_page',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, virtual, metadata_page',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
+            name, display_name, virtual, crossref_transformation, crossref_types,
+            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            pubmed_transformation, pubmed_types, metadata_page',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, virtual, metadata_page, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
+            name, display_name, virtual, crossref_transformation, crossref_types,
+            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            pubmed_transformation, pubmed_types, metadata_page,
+            --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -180,8 +189,120 @@ return array(
                     'showAllLocalizationLink'         => 1,
                 ),
             ),
-
         ),
-
+        'crossref_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.crossref_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'crossref_types'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_crossreftype',
+            'config'    => array(
+                'type' => 'select',
+                'size' => 10,
+                'maxitems' => 100,
+                'items' => \EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter::typeItems(
+                    \EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter::types()
+                ),
+            ),
+        ),
+        'datacite_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.datacite_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'datacite_types'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.datacite_types',
+            'config'    => array(
+                'type' => 'select',
+                'size' => 10,
+                'maxitems' => 100,
+                'items' => array(
+                ),
+                'items' => \EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter::typeItems(
+                    \EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter::types()
+                ),
+            ),
+        ),
+        'k10plus_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.k10plus_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'k10plus_types'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.k10plus_types',
+            'config'    => array(
+                'type' => 'select',
+                'size' => 10,
+                'maxitems' => 100,
+                'items' => array(
+                ),
+                'items' => \EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter::typeItems(
+                    \EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter::types()
+                ),
+            ),
+        ),
+        'pubmed_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.pubmed_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'pubmed_types'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.pubmed_types',
+            'config'    => array(
+                'type' => 'select',
+                'size' => 10,
+                'maxitems' => 100,
+                'items' => array(
+                ),
+                'items' => \EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter::typeItems(
+                    \EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter::types()
+                ),
+            ),
+        ),
     ),
 );

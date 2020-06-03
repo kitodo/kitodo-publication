@@ -80,15 +80,18 @@ class QueryBuilder
         $excludeFilters = [], $sortField = null, $sortOrder = null, $queryString = null
     )
     {
+
+        if ($workspaceFilter) {
+            $workspaceFilter = [0 => $workspaceFilter];
+        }
+
         // The base filter.
         $queryFilter = [
             'bool' => [
                 'must' => [
                     [
                         'bool' => [
-                            'should' => [
-                                0 => $workspaceFilter
-                            ]
+                            'should' => $workspaceFilter
                         ]
                     ]
                 ]

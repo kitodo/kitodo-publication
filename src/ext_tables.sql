@@ -23,6 +23,14 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
   display_name varchar(255) DEFAULT '' NOT NULL,
   virtual tinyint(1) unsigned DEFAULT '0' NOT NULL,
   metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
+  crossref_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  crossref_types varchar(1024) DEFAULT '' NOT NULL,
+  datacite_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  datacite_types varchar(1024) DEFAULT '' NOT NULL,
+  k10plus_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  k10plus_types varchar(1024) DEFAULT '' NOT NULL,
+  pubmed_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  pubmed_types varchar(1024) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -423,6 +431,11 @@ CREATE TABLE tx_dpf_domain_model_client (
 
   suggestion_flashmessage varchar(255) DEFAULT '' NOT NULL,
 
+  crossref_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  datacite_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  k10plus_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  pubmed_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
   cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
@@ -497,6 +510,49 @@ CREATE TABLE tx_dpf_domain_model_inputoptionlist (
   KEY language (l10n_parent,sys_language_uid)
 
 );
+
+
+#
+# Table structure for table 'tx_dpf_domain_model_transformationfile'
+#
+CREATE TABLE tx_dpf_domain_model_transformationfile (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  title varchar(255) DEFAULT '' NOT NULL,
+  label varchar(255) DEFAULT '' NOT NULL,
+  file int(11) unsigned NOT NULL default '0',
+
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  starttime int(11) unsigned DEFAULT '0' NOT NULL,
+  endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+  t3ver_oid int(11) DEFAULT '0' NOT NULL,
+  t3ver_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+  t3ver_label varchar(255) DEFAULT '' NOT NULL,
+  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+  t3ver_stage int(11) DEFAULT '0' NOT NULL,
+  t3ver_count int(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+  l10n_parent int(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource mediumblob,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+  KEY language (l10n_parent,sys_language_uid)
+
+);
+
 
 #
 # Table structure for table 'tx_dpf_domain_model_processnumber'
@@ -679,4 +735,27 @@ CREATE TABLE tx_dpf_domain_model_storedsearch (
   KEY parent (pid),
   KEY t3ver_oid (t3ver_oid,t3ver_wsid),
   KEY language (l10n_parent,sys_language_uid)
+);
+
+#
+# Table structure for table 'tx_dpf_domain_model_externalmetadata'
+#
+CREATE TABLE tx_dpf_domain_model_externalmetadata (
+
+  uid bigint NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  fe_user int(11) unsigned default '0' NOT NULL,
+  publication_identifier varchar(255) NOT NULL,
+  data text NOT NULL,
+  source varchar(255) NOT NULL,
+  record_type varchar(255) DEFAULT '' NOT NULL,
+
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
 );

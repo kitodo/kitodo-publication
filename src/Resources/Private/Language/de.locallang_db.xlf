@@ -155,6 +155,26 @@
 			<source>Domain</source>
 			<target>Domain</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
+			<source>--- Please choose ---</source>
+			<target>--- Bitte wählen ---</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.crossref_transformation" approved="yes">
+			<source>CrossRef transformation</source>
+			<target>CrossRef-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.datacite_transformation" approved="yes">
+			<source>DataCite transformation</source>
+			<target>DataCite-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.k10plus_transformation" approved="yes">
+			<source>K10plus transformation</source>
+			<target>K10plus-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.pubmed_transformation" approved="yes">
+			<source>PubMed transformation</source>
+			<target>PubMed-Transformation</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
 			<source>Document</source>
 			<target>Dokument</target>
@@ -286,6 +306,42 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.virtual" approved="yes">
 			<source>Virtual</source>
 			<target>Virtuell</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation" approved="yes">
+			<source>--- Please choose ---</source>
+			<target>--- Bitte wählen ---</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_transformation" approved="yes">
+			<source>CrossRef transformation</source>
+			<target>CrossRef-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_types" approved="yes">
+			<source>CrossRef types</source>
+			<target>CrossRef-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_transformation" approved="yes">
+			<source>DataCite transformation</source>
+			<target>DataCite-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_types" approved="yes">
+			<source>DataCite types</source>
+			<target>DataCite-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_transformation" approved="yes">
+			<source>K10plus transformation</source>
+			<target>K10plus-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_types" approved="yes">
+			<source>K10plus types</source>
+			<target>K10plus-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_transformation" approved="yes">
+			<source>PubMed transformation</source>
+			<target>PubMed-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_types" approved="yes">
+			<source>PubMed types</source>
+			<target>PubMed-Typen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
 			<source>File</source>
@@ -603,6 +659,22 @@
 			<source>Librarian</source>
 			<target>Bibliothekar</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile" approved="yes">
+            <source>Transformation file</source>
+            <target>Transformations Datei</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.title" approved="yes">
+            <source>title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.label" approved="yes">
+            <source>label</source>
+            <target>Label</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
+            <source>New relation</source>
+            <target>Datei auswählen</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_editinglock" approved="yes">
             <source>Editing Lock</source>
             <target>Bearbeitungssperre</target>
@@ -624,6 +696,30 @@
             <target>Dokument-Bezeichner</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser" approved="yes">
+            <source>FE user</source>
+            <target>FE-User</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata" approved="yes">
+            <source>External metadata</source>
+            <target>Externe Metadaten</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.authors" approved="yes">
+            <source>Authors</source>
+            <target>Autoren</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.data" approved="yes">
+            <source>Data</source>
+            <target>Daten</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.source" approved="yes">
+            <source>Source</source>
+            <target>Quelle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.fe_user" approved="yes">
             <source>FE user</source>
             <target>FE-User</target>
         </trans-unit>

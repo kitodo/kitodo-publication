@@ -18,7 +18,7 @@ if (!defined('TYPO3_MODE')) {
 
 return array(
     'ctrl' => array(
-        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark'.'-bookmark',
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark',
         'label'                    => 'document_identifier',
         //'tstamp'                   => 'tstamp',
         //'crdate'                   => 'crdate',

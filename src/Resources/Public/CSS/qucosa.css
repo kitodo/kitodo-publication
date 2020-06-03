@@ -169,6 +169,12 @@
     line-height: 1;
 }
 
+.tx-dpf .form-metadata-import .form-group label {
+    border: none;
+    padding: 0;
+    display: inline-block;
+}
+
 .tx-dpf .document-form-main .form-group .form-control.has-select {
     border-color: #eee #eee #eee #ccc;
     box-shadow: none;
@@ -188,6 +194,10 @@
     width: 100%;
     margin-bottom: 0;
     border-radius: 0 4px 4px 0;
+}
+
+.tx-dpf .form-metadata-import .form-group .form-control {
+    border-radius: 4px;
 }
 
 .tx-dpf .document-form-main .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {

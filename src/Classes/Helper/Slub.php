@@ -28,6 +28,13 @@ class Slub
     {
         $slubDom = new \DOMDocument();
         if (!empty($slubXml)) {
+
+            $slubXml = preg_replace(
+                "/<slub:info.*?>/",
+                '<slub:info xmlns:slub="http://slub-dresden.de/" xmlns:foaf="http://xmlns.com/foaf/0.1/">',
+                $slubXml
+            );
+
             $slubDom->loadXML($slubXml);
         }
         $this->slubDom = $slubDom;

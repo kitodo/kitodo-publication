@@ -63,7 +63,23 @@ plugin.tx_dpf {
         development {
             # cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
             docker = 0
+        }
 
+        documentListPagination {
+            # cat=plugin.tx_dpf/api; type=string; label=Number of links to be shown for the pagination of the list views workspace, my publications and search results.
+            maximumNumberOfLinks = 5
+        }
+
+        # The uid of the destination document type for imported metadata
+        defaultImportDocumentType {
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported CrossRef metadata
+            crossref =
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported DataCite metadata
+            datacite =
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported PubMed metadata
+            pubmed =
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported K10plus metadata
+            k10plus =
         }
     }
 }

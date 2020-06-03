@@ -92,8 +92,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
-            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'importListDocTypes, importSearchForm, import',
+        'DocumentFormBackoffice' => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
@@ -109,7 +110,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
-            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'importListDocTypes, importSearchForm, import, preview',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '

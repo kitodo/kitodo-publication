@@ -272,7 +272,7 @@ class ElasticSearch
                 }
             }
 
-            $embargoDate = $document->getEmbargoDate();
+            //$embargoDate = $document->getEmbargoDate();
             if ($embargoDate instanceof \DateTime) {
                 $data->embargoDate = $embargoDate->format("Y-m-d");
             } else {
