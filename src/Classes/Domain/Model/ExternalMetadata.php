@@ -46,17 +46,22 @@ abstract class ExternalMetadata extends \TYPO3\CMS\Extbase\DomainObject\Abstract
     /**
      * @return string
      */
+
     public abstract function getTitle(): string;
     /**
-     * @return string
+     * @return array
      */
-    public abstract function getPersons(): string;
+    public abstract function getPersons(): array;
 
     /**
      * @return string
      */
     public abstract function getPublicationType(): string;
 
+    /**
+     * @return string
+     */
+    public abstract function getYear(): string;
 
     /**
      * @return int

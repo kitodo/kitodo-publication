@@ -38,7 +38,7 @@ class PubMedMetadata extends ExternalMetadata
         return '';
     }
 
-    public function getPersons(): string
+    public function getPersons(): array
     {
         $xpath = $this->getDataXpath();
 
@@ -48,14 +48,33 @@ class PubMedMetadata extends ExternalMetadata
 
         foreach ($nodes as $person) {
 
+            $name = ['family' => '', 'given' => ''];
+
             $namePartNodes =  $xpath->query('Name', $person);
 
             if ($namePartNodes->length > 0) {
-                $personList[] = $namePartNodes->item(0)->nodeValue;
+                $name['family'] = $namePartNodes->item(0)->nodeValue;
             }
+
+            $personList[] = $name;
         }
 
-        return implode('; ', $personList);
+        return $personList;
+    }
+
+    public function getYear(): string
+    {
+        $xpath = $this->getDataXpath();
+
+        $node = $xpath->query('/eSummaryResult/DocumentSummarySet/DocumentSummary/PubDate');
+
+        if ($node->length > 0) {
+            $year = $node->item(0)->nodeValue;
+
+            return substr($year, 0, 4);
+        }
+
+        return '';
     }
 
     /**

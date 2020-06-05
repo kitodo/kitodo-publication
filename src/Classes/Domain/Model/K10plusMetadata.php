@@ -38,7 +38,7 @@ class K10plusMetadata extends ExternalMetadata
         return $title;
     }
 
-    public function getPersons(): string
+    public function getPersons(): array
     {
         $xpath = $this->getDataXpath();
 
@@ -48,14 +48,32 @@ class K10plusMetadata extends ExternalMetadata
 
         foreach ($nodes as $person) {
 
+            $name = ['family' => '', 'given' => ''];
+
             $namePartNodes =  $xpath->query('mods:namePart', $person);
 
             if ($namePartNodes->length > 0) {
-                $personList[] = $namePartNodes->item(0)->nodeValue;
+
+                list($name['family'], $name['given']) = explode(',', $namePartNodes->item(0)->nodeValue);
+
+                $personList[] = $name;
             }
         }
 
-        return implode('; ', $personList);
+        return $personList;
+    }
+
+    public function getYear(): string
+    {
+        $xpath = $this->getDataXpath();
+
+        $node = $xpath->query('/mods:mods/mods:originInfo/mods:dateIssued');
+
+        if ($node->length > 0) {
+            return $node->item(0)->nodeValue;
+        }
+
+        return '';
     }
 
     public function getPublicationType(): string

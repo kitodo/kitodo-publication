@@ -28,9 +28,18 @@
             <b>{externalMetadata.title}</b>
             <f:if condition="{externalMetadata.persons}">
                 <br />
-                {externalMetadata.persons}
+                <f:for each="{externalMetadata.persons}" as="person" iteration="iterator"><f:if condition="{iterator.isFirst} == 0">, </f:if>{person.given} {person.family}</f:for>
+            </f:if>
+            <f:if condition="{externalMetadata.publicationType}">
+                <br />
+                {externalMetadata.publicationType}
+            </f:if>
+            <f:if condition="{externalMetadata.year}">
+                <br />
+                {externalMetadata.year}
             </f:if>
         </p>
+        <f:comment>
         <f:if condition="{externalMetadata.publicationIdentifier}">
             <p>
             <f:if condition="{identifierType}">
@@ -41,9 +50,10 @@
                     {f:translate(key: 'manager.importMetadata.identifierLabel')}:
                 </f:else>
             </f:if>
-            {externalMetadata.publicationIdentifier}
+                {externalMetadata.publicationIdentifier}
             </p>
         </f:if>
+        </f:comment>
 
         <f:link.action action="createDocument" arguments="{externalMetadata:externalMetadata.uid}" class="btn btn-xm btn-success">
             <i class="fas fa-check"></i>

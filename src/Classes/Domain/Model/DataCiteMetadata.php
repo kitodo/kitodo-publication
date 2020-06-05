@@ -30,7 +30,7 @@ class DataCiteMetadata extends ExternalMetadata
         return '';
     }
 
-    public function getPersons(): string
+    public function getPersons(): array
     {
         $xpath = $this->getDataXpath();
 
@@ -40,14 +40,36 @@ class DataCiteMetadata extends ExternalMetadata
 
         foreach ($nodes as $person) {
 
-            $namePartNodes =  $xpath->query('name', $person);
+            $name = ['family' => '', 'given' => ''];
 
-            if ($namePartNodes->length > 0) {
-                $personList[] = $namePartNodes->item(0)->nodeValue;
+            $family = $xpath->query('familyName', $person);
+            if ($family->length > 0) {
+                $name['family'] = $family->item(0)->nodeValue;
             }
+
+            $given =  $xpath->query('givenName', $person);
+            if ($given->length > 0) {
+                $name['given'] = $given->item(0)->nodeValue;
+            }
+
+            $personList[] = $name;
         }
 
-        return implode('; ', $personList);
+        return $personList;
+
+    }
+
+    public function getYear(): string
+    {
+        $xpath = $this->getDataXpath();
+
+        $node = $xpath->query('/response/data/attributes/publicationYear');
+
+        if ($node->length == 1) {
+            return $node->item(0)->nodeValue;
+        }
+
+        return '';
     }
 
     public function getPublicationType(): string

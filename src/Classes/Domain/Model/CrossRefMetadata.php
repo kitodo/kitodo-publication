@@ -36,9 +36,9 @@ class CrossRefMetadata extends ExternalMetadata
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getPersons(): string
+    public function getPersons(): array
     {
         $xpath = $this->getDataXpath();
 
@@ -48,24 +48,39 @@ class CrossRefMetadata extends ExternalMetadata
 
         foreach ($nodes as $person) {
 
-            $author = [];
+            $name = ['family' => '', 'given' => ''];
 
             $family =  $xpath->query('family', $person);
             if ($family->length > 0) {
-                $author[] = $family->item(0)->nodeValue;
+                $name['family'] = $family->item(0)->nodeValue;
             }
 
             $given =  $xpath->query('given', $person);
             if ($given->length > 0) {
-                $author[] = $given->item(0)->nodeValue;
+                $name['given'] = $given->item(0)->nodeValue;
             }
 
-            $personList[] = implode(', ', $author);
+            $personList[] = $name;
         }
 
-        return implode('; ', $personList);
+        return $personList;
     }
 
+    /**
+     * @return string
+     */
+    public function getYear(): string
+    {
+        $xpath = $this->getDataXpath();
+
+        $node = $xpath->query('/response/message/created/date-parts/item[@key="0"]');
+
+        if ($node->length == 1) {
+            return $node->item(0)->nodeValue;
+        }
+
+        return '';
+    }
 
     /**
      * @return string
