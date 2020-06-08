@@ -377,6 +377,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $url = $this->getLink();
 
+        // FIXME: Checking for "datastreams" in the URL is Fedora 3 specific, for Fedora 4 we need a better solution.
         if (strpos(strtolower($url), "datastreams") === false) {
             // File is a locally uploaded file, therefor we need to
             // determine the path
