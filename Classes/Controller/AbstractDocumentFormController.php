@@ -153,11 +153,13 @@ abstract class AbstractDocumentFormController extends AbstractController
      * action new
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @param int $returnDocumentId
      * @ignorevalidation $newDocumentForm
      * @return void
      */
-    public function newAction(DocumentForm $newDocumentForm = null)
+    public function newAction(DocumentForm $newDocumentForm = null, $returnDocumentId = 0)
     {
+        $this->view->assign('returnDocumentId', $returnDocumentId);
         $this->view->assign('documentForm', $newDocumentForm);
     }
 

@@ -514,7 +514,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 if (!$file->isFileGroupDeleted()) {
 
                     $tmpFile = array(
-                        'path' => $file->getLink(),
+                        'path' => $file->getUrl(),
                         'type' => $file->getContentType(),
                         'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
                         'download' => $file->getDownload(),
@@ -563,7 +563,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             foreach ($this->getFile() as $file) {
 
                 $tmpFile = array(
-                    'path' => $file->getLink(),
+                    'path' => $file->getUrl(),
                     'type' => $file->getContentType(),
                     'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
                     'download' => $file->getDownload(),

@@ -23,12 +23,11 @@
         <h1 class="h2">Details</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
-
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:ACTIVE' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:ACTIVE' || {document.workingCopy} == 1">
                         <f:link.action action="releaseActivate" arguments="{document : document, tstamp : document.tstamp}"
                                        class="btn
-                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}
+                                            {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}
                                             {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
                                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
                             <i class="fas fa-check"></i>
@@ -72,13 +71,13 @@
                 </f:if>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:INACTIVE' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:INACTIVE' || {document.workingCopy} == 1">
                         <f:link.action
                                 action="postpone"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-info
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPostpone'}">
                             <i class="fas fa-pause-circle"></i>
                             {f:translate(key: 'manager.postpone')}
@@ -86,19 +85,29 @@
                     </f:if>
                 </f:if>
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
-                    <f:if condition="{document.state} != 'IN_PROGRESS:DELETED' || {document.workingcopy} == 0">
+                    <f:if condition="{document.state} != 'NONE:DELETED' || {document.workingCopy} == 1">
                         <f:link.action
-                                action="discard"
                                 action="discard"
                                 controller="Document"
                                 arguments="{document:document, tstamp:document.tstamp}"
                                 class="btn btn-warning
-                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingcopy} == 0', then: 'btn-m', else: 'btn-sm')}"
+                                    {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
                                 additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
                             <i class="fas fa-ban"></i>
                             {f:translate(key: 'manager.discard')}
                         </f:link.action>
                     </f:if>
+                </f:if>
+
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
+                    <f:link.action
+                            action="edit"
+                            controller="DocumentFormBackoffice"
+                            arguments="{document:document}"
+                            class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i>
+                        {f:translate(key: 'form_button.edit')}
+                    </f:link.action>
                 </f:if>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
@@ -125,23 +134,23 @@
                     </f:link.action>
                 </f:if>
 
-                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
-                    <f:link.action
-                            action="edit"
-                            controller="DocumentFormBackoffice"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-primary">
-                        <i class="fas fa-edit"></i>
-                        {f:translate(key: 'form_button.edit')}
-                    </f:link.action>
-                </f:if>
+                <f:link.action
+                        action="duplicate"
+                        controller="Document"
+                        arguments="{document:document}"
+                        class="btn btn-sm btn-secondary">
+                    <i class="far fa-copy"></i>
+
+                    Duplizieren
+                </f:link.action>
+
 
                 <f:link.action
                         action="cancelListTask"
                         controller="Document"
                         class="btn btn-sm btn-outline-secondary">
                     <i class="fas fa-times"></i>
-                    {f:translate(key: 'form_button.cancel')}
+                    {f:translate(key: 'manager.documentDetails.cancel')}
                 </f:link.action>
 
             </div>
@@ -150,30 +159,53 @@
 
     <f:flashMessages />
 
-    <ul>
-        <li>{document.title}</li>
-        <li>
-            <f:for each="{document.authors}" as="author" iteration="itemIterator">
-                {author}
-                <f:if condition="{itemIterator.isLast}">
-                    <f:then></f:then>
-                    <f:else>;</f:else>
-                </f:if>
+    <div id="details-view">
+        <ul>
+            <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
+                <li>
+                    <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
+                        <li>
+                            <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
+                                <ul>
+                                    <li class="details-group">
+                                        <span class="details-group-name">{groupItem.displayName}</span>
+                                        <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+                                            <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+                                                <f:if condition="{fieldItem.value}">
+                                                    <f:if condition="{fieldItem.displayName}">
+                                                        <span class="details-field-name">
+                                                            {fieldItem.displayName}:
+                                                        </span>
+                                                    </f:if>
+                                                    <f:render partial="ShowDetails/FieldValue" arguments="{fieldItem:fieldItem}" />
+                                                    <br />
+                                                </f:if>
+                                            </f:for>
+                                        </f:for>
+                                    </li>
+                                </ul>
+                            </f:for>
+                        <li>
+                    </f:for>
+                </li>
             </f:for>
-        </li>
-        <li>{document.objectIdentifier}</li>
-        <li>{document.documentType.displayName}</li>
-
-        <f:if condition="{document.notes}">
             <li>
-                <b>Bearbeitungsnotizen:</b><br />
-                <f:for each="{document.notes}" as="note">
-                    <f:format.nl2br>{note}</f:format.nl2br>
-                    <br /><br />
-                </f:for>
+                <f:if condition="{documentForm.primaryFile} || {documentForm.secondaryFiles}">
+                    <span class="details-group-name">{f:translate(key: 'form_page.files')}</span>
+                    <ul>
+                        <li>
+                            <f:render partial="ShowDetails/File" arguments="{file: documentForm.primaryFile}"/>
+                        </li>
+                        <f:for each="{documentForm.secondaryFiles}" as="secondaryFile" iteration="secondaryFileIterator">
+                            <li>
+                                <f:render partial="ShowDetails/File" arguments="{file: secondaryFile}"/>
+                            </li>
+                        </f:for>
+                    </ul>
+                </f:if>
             </li>
-        </f:if>
-    </ul>
+        </ul>
+    </div>
 
     <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions}" />

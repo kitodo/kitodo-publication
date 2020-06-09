@@ -70,22 +70,22 @@ class DocumentMapper
      */
     protected $fileRepository = null;
 
-    public function getDocumentForm($document)
+    /**
+     * Gets the document form representation of the document data
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param bool $generateEmptyFields
+     * @return \EWW\Dpf\Domain\Model\DocumentForm
+     */
+    public function getDocumentForm(Document $document, $generateEmptyFields = true)
     {
-
         $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();
         $documentForm->setUid($document->getDocumentType()->getUid());
         $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
 
-
-        $documentForm->setPrimaryFileMandatory(
-            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NONE_NONE &&
-            //$document->getState() != \Eww\Dpf\Domain\Workflow\DocumentWorkflow::STATE_NEW_NONE &&
-            //!$document->getDocumentType()->getVirtual()
-            FALSE
-        );
+        $documentForm->setPrimaryFileMandatory(FALSE);
 
         $documentForm->setProcessNumber($document->getProcessNumber());
         $documentForm->setTemporary($document->isTemporary());
@@ -256,30 +256,32 @@ class DocumentMapper
                         $documentFormPage->addItem($documentFormGroupItem);
                     }
                 } else {
-                    foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
-                        $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
-                        $documentFormField->setUid($metadataObject->getUid());
-                        $documentFormField->setDisplayName($metadataObject->getDisplayName());
-                        $documentFormField->setName($metadataObject->getName());
-                        $documentFormField->setMandatory($metadataObject->getMandatory());
+                    if ($generateEmptyFields) {
+                        foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
+                            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                            $documentFormField->setUid($metadataObject->getUid());
+                            $documentFormField->setDisplayName($metadataObject->getDisplayName());
+                            $documentFormField->setName($metadataObject->getName());
+                            $documentFormField->setMandatory($metadataObject->getMandatory());
 
-                        $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
+                            $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
 
-                        $documentFormField->setConsent($metadataObject->getConsent());
-                        $documentFormField->setValidation($metadataObject->getValidation());
-                        $documentFormField->setDataType($metadataObject->getDataType());
-                        $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
-                        $documentFormField->setInputField($metadataObject->getInputField());
-                        $documentFormField->setInputOptions($metadataObject->getInputOptionList());
-                        $documentFormField->setFillOutService($metadataObject->getFillOutService());
-                        $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
-                        $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
-                        $documentFormField->setValue("", $metadataObject->getDefaultValue());
+                            $documentFormField->setConsent($metadataObject->getConsent());
+                            $documentFormField->setValidation($metadataObject->getValidation());
+                            $documentFormField->setDataType($metadataObject->getDataType());
+                            $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
+                            $documentFormField->setInputField($metadataObject->getInputField());
+                            $documentFormField->setInputOptions($metadataObject->getInputOptionList());
+                            $documentFormField->setFillOutService($metadataObject->getFillOutService());
+                            $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
+                            $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
+                            $documentFormField->setValue("", $metadataObject->getDefaultValue());
 
-                        $documentFormGroup->addItem($documentFormField);
+                            $documentFormGroup->addItem($documentFormField);
+                        }
+
+                        $documentFormPage->addItem($documentFormGroup);
                     }
-
-                    $documentFormPage->addItem($documentFormGroup);
                 }
             }
 

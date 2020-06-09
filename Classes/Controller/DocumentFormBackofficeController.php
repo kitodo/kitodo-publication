@@ -476,25 +476,36 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * action cancel edit
      *
      * @param integer $documentUid
-     * @param bool $documentList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      *
      * @return void
      */
-    public function cancelEditAction($documentUid = 0, $documentList = false)
+    public function cancelEditAction($documentUid = 0)
     {
-        if ($documentList) {
-            $this->redirectToDocumentList();
-        }
-
         if ($documentUid) {
             /** @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->documentRepository->findByUid($documentUid);
 
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        } else {
+            $this->redirectToDocumentList();
         }
     }
+
+    /**
+     * action cancel new
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     *
+     * @return void
+     */
+    public function cancelNewAction()
+    {
+        $this->redirect('list');
+    }
+
 
     public function initializeAction()
     {

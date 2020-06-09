@@ -299,6 +299,12 @@
 		<trans-unit id="form_button.prevPage">
 			<source>previous</source>
 		</trans-unit>
+        <trans-unit id="form_page.files">
+            <source>Files</source>
+        </trans-unit>
+        <trans-unit id="form_value.yes">
+            <source>yes</source>
+        </trans-unit>
 		<trans-unit id="form_error_msg.all">
 			<source>The form contains errors.</source>
 		</trans-unit>
@@ -527,6 +533,9 @@
         <trans-unit id="manager.documentList.state.in_progress">
             <source>In progress</source>
         </trans-unit>
+        <trans-unit id="manager.documentDetails.cancel">
+            <source>Back</source>
+        </trans-unit>
 		<trans-unit id="manager.doublet">
 			<source>Doublet Check</source>
 		</trans-unit>
@@ -586,6 +595,9 @@
         </trans-unit>
         <trans-unit id="manager.workspace.title">
             <source>Title</source>
+        </trans-unit>
+        <trans-unit id="manager.workspace.title.copy">
+            <source>[Copy]</source>
         </trans-unit>
         <trans-unit id="manager.workspace.publicationType">
             <source>publication type</source>

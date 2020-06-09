@@ -73,6 +73,21 @@ class Mods
         return $titleNode->item(0)->nodeValue;
     }
 
+
+    public function setTitle($title)
+    {
+        $titleNode = $this->getModsXpath()->query('/mods:mods/mods:titleInfo[@usage="primary"]/mods:title');
+
+        if ($titleNode->length == 0) {
+            $titleNode = $this->getModsXpath()->query("/mods:mods/mods:titleInfo/mods:title");
+        }
+
+        if ($titleNode->length > 0) {
+            $titleNode->item(0)->nodeValue = $title;
+        }
+    }
+
+
     public function getAuthors()
     {
         return $this->getPersons("aut");

@@ -301,7 +301,7 @@ class FormDataReader
         $file->setLabel($tmpFile['label']);
         $file->setDownload(!empty($tmpFile['download']));
         $file->setArchive(!empty($tmpFile['archive']));
-        $file->setLink($this->uploadBaseUrl . $fileName);
+        $file->setLink($fileName);
         $file->setPrimaryFile($primary);
 
         if ($primary) {

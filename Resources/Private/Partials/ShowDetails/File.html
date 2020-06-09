@@ -1,0 +1,25 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace eww=EWW\Dpf\ViewHelpers}
+
+<f:if condition="{file.label}">
+    <f:then>
+        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.label, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
+    </f:then>
+    <f:else>
+        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.title, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
+    </f:else>
+</f:if>

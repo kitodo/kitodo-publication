@@ -397,6 +397,14 @@
             <source>previous</source>
             <target>Vorherige</target>
         </trans-unit>
+        <trans-unit id="form_page.files">
+            <source>Files</source>
+            <target>Dateien</target>
+        </trans-unit>
+        <trans-unit id="form_value.yes">
+            <source>yes</source>
+            <target>ja</target>
+        </trans-unit>
 		<trans-unit id="form_error_msg.all" approved="yes">
 			<source>The form contains errors.</source>
 			<target>Das Formular enthält Fehler.</target>
@@ -705,6 +713,10 @@
             <source>In progress</source>
             <target>In Bearbeitung</target>
         </trans-unit>
+        <trans-unit id="manager.documentDetails.cancel" approved="yes">
+            <source>Back</source>
+            <target>Zurück</target>
+        </trans-unit>
 		<trans-unit id="manager.doublet" approved="yes">
 			<source>Doublet Check</source>
 			<target>Doubletten-Check</target>
@@ -784,6 +796,10 @@
         <trans-unit id="manager.workspace.title" approved="yes">
             <source>Title</source>
             <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="manager.workspace.title.copy" approved="yes">
+            <source>[Copy]</source>
+            <target>[Kopie]</target>
         </trans-unit>
         <trans-unit id="manager.workspace.publicationType" approved="yes">
             <source>publication type</source>

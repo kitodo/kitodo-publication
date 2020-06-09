@@ -520,11 +520,10 @@ class DocumentController extends AbstractController
         }
     }
 
+
     /**
-     * action duplicate
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @return void
+     * @param Document $document
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     public function duplicateAction(\EWW\Dpf\Domain\Model\Document $document)
     {
@@ -535,55 +534,49 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        try {
-            /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
-            $newDocument = $this->objectManager->get(Document::class);
+        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        $newDocument = $this->objectManager->get(Document::class);
 
-            $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
+        $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
 
-            $newDocument->setTitle($document->getTitle());
-            $newDocument->setAuthors($document->getAuthors());
+        $copyTitle = LocalizationUtility::translate("manager.workspace.title.copy", "dpf").$document->getTitle();
 
-            $newDocument->setCreator($this->security->getUser()->getUid());
+        $newDocument->setTitle($copyTitle);
 
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $mods->clearAllUrn();
-            $newDocument->setXmlData($mods->getModsXml());
+        $newDocument->setAuthors($document->getAuthors());
 
-            $newDocument->setDocumentType($document->getDocumentType());
+        $newDocument->setCreator($this->security->getUser()->getUid());
 
-            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-            $processNumber = $processNumberGenerator->getProcessNumber();
-            $newDocument->setProcessNumber($processNumber);
+        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+        $mods->clearAllUrn();
+        $mods->setDateIssued('');
+        $mods->setTitle($copyTitle);
 
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $slub->setProcessNumber($processNumber);
-            $newDocument->setSlubInfoData($slub->getSlubXml());
+        $newDocument->setXmlData($mods->getModsXml());
 
-            $this->documentRepository->add($newDocument);
-            $this->persistenceManager->persistAll();
+        $newDocument->setDocumentType($document->getDocumentType());
 
-            // index the document
-            $this->signalSlotDispatcher->dispatch(
-                \EWW\Dpf\Controller\AbstractController::class,
-                'indexDocument', [$newDocument]
-            );
+        $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+        $processNumber = $processNumberGenerator->getProcessNumber();
+        $newDocument->setProcessNumber($processNumber);
 
-            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.success';
-            $this->flashMessage($document, $key, AbstractMessage::OK);
-            $this->redirect('listWorkspace', 'Workspace');
-        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
-            // A redirect always throws this exception, but in this case, however,
-            // redirection is desired and should not lead to an exception handling
-        } catch (\Exception $exception) {
-            if ($exception instanceof DPFExceptionInterface) {
-                $key = $exception->messageLanguageKey();
-            } else {
-                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_duplicate.failure';
-            }
-            $this->flashMessage($document, $key, AbstractMessage::ERROR);
-            $this->redirect('list');
-        }
+        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $slub->setProcessNumber($processNumber);
+        $newDocument->setSlubInfoData($slub->getSlubXml());
+
+
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+
+        /** @var $documentForm \EWW\Dpf\Domain\Model\DocumentForm */
+        $newDocumentForm = $documentMapper->getDocumentForm($newDocument);
+
+        $this->forward(
+            'new',
+            'DocumentFormBackoffice',
+            NULL,
+            ['newDocumentForm' => $newDocumentForm, 'returnDocumentId' => $document->getUid()]
+        );
+
     }
 
 
@@ -695,6 +688,11 @@ class DocumentController extends AbstractController
         if ($discardOptions) {
             $this->view->assign('discardOptions', $discardOptions->getInputOptions());
         }
+
+        $mapper = $this->objectManager->get(DocumentMapper::class);
+        $documentForm = $mapper->getDocumentForm($document, false);
+
+        $this->view->assign('documentForm', $documentForm);
 
         $this->view->assign('document', $document);
     }

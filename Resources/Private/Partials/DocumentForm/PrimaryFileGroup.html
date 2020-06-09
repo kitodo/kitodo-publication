@@ -20,7 +20,7 @@
             <legend>{f:translate(key: 'form_legend.primaryFile')}</legend>
 
             <div class="form-control-static">
-                <f:link.external uri="{eww:fileUrl(uri:'{file.link}')}" target="_blank" class="file_link">{file.title}
+                <f:link.external uri="{eww:fileUrl(uri:'{file.url}')}" target="_blank" class="file_link">{file.title}
                 </f:link.external>
                 <button type="submit" name="rem_file_group" class="rem_file_group btn btn-sm btn-secondary"
                         data-ajax="{f:uri.action(action:'deleteFile',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{fileUid: file.uid,isPrimary: 1})}">
