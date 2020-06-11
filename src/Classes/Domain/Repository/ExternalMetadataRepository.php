@@ -38,4 +38,19 @@ class ExternalMetadataRepository extends \EWW\Dpf\Domain\Repository\AbstractRepo
         return $query->execute()->getFirst();
     }
 
+    /**
+     * Deletes all stored external metadata of the given feUser.
+     *
+     * @param $feUserUid
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function clearExternalMetadataByFeUserUid($feUserUid)
+    {
+        $metadata = $this->findByFeUser($feUserUid);
+
+        foreach ($metadata as $metadataItem) {
+            $this->remove($metadataItem);
+        }
+    }
+
 }

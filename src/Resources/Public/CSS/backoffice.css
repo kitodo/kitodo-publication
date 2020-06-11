@@ -80,11 +80,13 @@ body {
     border-top: none;
 }
 
+#tx-dpf-backoffice .bulkimport-actions,
 #tx-dpf-backoffice .workspace-batch-operations {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
+#tx-dpf-backoffice .bulkimport-actions .btn,
 #tx-dpf-backoffice .workspace-batch-operations .btn {
     margin-top: .25rem;
     margin-bottom: .25rem;

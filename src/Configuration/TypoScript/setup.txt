@@ -147,6 +147,12 @@ plugin.tx_dpf {
             pubmed = {$plugin.tx_dpf.settings.defaultImportDocumentType.pubmed}
             k10plus = {$plugin.tx_dpf.settings.defaultImportDocumentType.k10plus}
         }
+
+        # Configuration of the pagination for the document bulk import.
+        bulkImportPagination {
+            maximumNumberOfLinks = {$plugin.tx_dpf.settings.bulkImportPagination.maximumNumberOfLinks}
+            itemsPerPage = {$plugin.tx_dpf.settings.bulkImportPagination.itemsPerPage}
+        }
     }
 }
 

@@ -26,6 +26,8 @@ use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
+use EWW\Dpf\Session\BulkImportSessionData;
+
 
 /**
  * ExternalDataImportController
@@ -104,20 +106,215 @@ class ExternalMetadataImportController extends AbstractController
     }
 
     /**
+     * @param string $query
+     */
+    public function bulkStartAction($query = '')
+    {
+        /** @var BulkImportSessionData $bulkImportSessionData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+
+        $crossRefAuthorSearch = $bulkImportSessionData->getCrossRefSearchField() === 'author';
+        $pubMedAuthorSearch = true;
+
+        $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
+        $this->view->assign('crossRefAuthorSearch', $crossRefAuthorSearch);
+        $this->view->assign('pubMedAuthorSearch', $pubMedAuthorSearch);
+        $this->view->assign('query', $query);
+    }
+
+    /**
+     * @param string $query
+     */
+    public function bulkSearchCrossRefAction($query = '')
+    {
+        /** @var BulkImportSessionData $bulkImportSessionData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+
+        $currentPage = null;
+        $pagination = $this->getParametersSafely('@widget_0');
+        if ($pagination) {
+            $currentPage = $pagination['currentPage'];
+            $query = $bulkImportSessionData->getCrossRefQuery();
+        } else {
+            if (empty($query)) {
+                $this->redirect('bulkStart');
+            }
+
+            $bulkImportSessionData->setCrossRefQuery($query);
+            $currentPage = 1;
+        }
+
+        $offset = empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage();
+
+        /** @var Importer $importer */
+        $importer = $this->objectManager->get(CrossRefImporter::class);
+        $results = $importer->search(
+            $query,
+            $this->itemsPerPage(),
+            $offset,
+            $bulkImportSessionData->getCrossRefSearchField()
+        );
+
+        $bulkImportSessionData->setCurrentMetadataItems(($results? $results['items'] : []));
+        $this->session->setBulkImportData($bulkImportSessionData);
+
+        $this->forward(
+            'bulkResults',
+            null,
+            null,
+            [
+                'results' => $results,
+                'query' => $query,
+                'currentPage' => $currentPage
+            ]
+        );
+    }
+
+    /**
+     * @param string $query
+     */
+    public function bulkSearchPubMedAction($query = '')
+    {
+        if (empty($query)) {
+            $this->redirect('bulkStart');
+        }
+
+        /** @var Importer $importer */
+        $importer = $this->objectManager->get(PubMedImporter::class);
+        $results = $importer->search($query);
+
+        $this->forward(
+            'bulkResults',
+            null,
+            null,
+            [
+                'results' => $results,
+                'query' => $query,
+                'pagination' => $pagination = $this->getParametersSafely('@widget_0')
+            ]
+        );
+    }
+
+    /**
+     * @param string $query
+     * @param array $results
+     * @param int $currentPage
+     */
+    public function bulkResultsAction($query, $results = null, $currentPage = 1)
+    {
+        $externalMetadata = $this->externalMetadataRepository->findByFeUser($this->security->getUser()->getUid());
+        $checkedPublicationIdentifiers = [];
+        /** @var ExternalMetadata $data */
+        foreach ($externalMetadata as $data) {
+            $checkedPublicationIdentifiers[] = $data->getPublicationIdentifier();
+        }
+
+        $this->view->assign('totalResults', $results['total-results']);
+        $this->view->assign('itemsPerPage', $this->itemsPerPage());
+        $this->view->assign('currentPage', $currentPage);
+        $this->view->assign('query', $query);
+        $this->view->assign('checkedPublicationIdentifiers', $checkedPublicationIdentifiers);
+        $this->view->assign('results', $results);
+    }
+
+    /**
+     *
+     */
+    function bulkImportAction()
+    {
+        $importCounter = ['imported' => 0, 'bookmarked' => 0, 'total' => 0];
+
+        try {
+            $externalMetadata = $this->externalMetadataRepository->findByFeUser($this->security->getUser()->getUid());
+
+            $importedDocuments = [];
+            $importedDocumentIdentifiers = [];
+
+            /** @var ExternalMetadata $externalMetadataItem */
+            foreach ($externalMetadata as $externalMetadataItem) {
+
+                /** @var  Importer $importer */
+                $importer = $this->objectManager->get($externalMetadataItem->getSource());
+
+                /*
+                if (!$document_in_kitodo) {
+                    if ($document_in_workspace) {
+                        // bookmark
+                        $importCounter['bookmarked'] += 1;
+                    } else {
+                        // create
+                        $importCounter['imported'] += 1;
+                    }
+                } else {
+
+                }
+                */
+                /** @var Document $newDocument */
+                $newDocument = $importer->import($externalMetadataItem);
+
+                if ($newDocument instanceof Document) {
+                    $this->documentRepository->add($newDocument);
+                    $this->externalMetadataRepository->remove($externalMetadataItem);
+                    $importedDocuments[] = $newDocument;
+                    $importCounter['imported'] += 1;
+                }
+
+            }
+
+            $this->persistenceManager->persistAll();
+
+            // Documents can only be indexed after they have been persisted as we need a valid UID.
+            /** @var Document $importedDocument */
+            foreach ($importedDocuments as $importedDocument) {
+                // index the document
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'indexDocument', [$importedDocument]
+                );
+                $importedDocumentIdentifiers[] = $importedDocument->getDocumentIdentifier();
+            }
+
+            /** @var BulkImportSessionData $bulkImportSessionData */
+            $bulkImportSessionData = $this->session->getBulkImportData();
+            $bulkImportSessionData->setLatestImportIdentifiers($importedDocumentIdentifiers);
+            $this->session->setBulkImportData($bulkImportSessionData);
+
+        } catch(\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
+
+            $message = LocalizationUtility::translate(
+                'manager.importMetadata.publicationNotImported', 'dpf'
+            );
+
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        $this->redirect(
+            'bulkImportedDocuments',
+            null,
+            null,
+            ['from' => 0]);
+    }
+
+    /**
+     * Cancels the bulk import result list view.
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    function cancelBulkImportAction()
+    {
+        $this->redirect('bulkStart');
+    }
+
+
+    /**
      * Shows the form to find a publication by an identifier
      * @param string $identifier
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function findAction($identifier = '')
     {
-        $metadata = $this->externalMetadataRepository->findByFeUser(
-            $this->security->getUser()->getUid()
-        );
-
-        foreach ($metadata as $metadataItem) {
-            $this->externalMetadataRepository->remove($metadataItem);
-        }
-
+        $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
         $this->view->assign('identifier', $identifier);
     }
 
@@ -412,5 +609,85 @@ class ExternalMetadataImportController extends AbstractController
         }
 
         return [];
+    }
+
+    /**
+     * @param int $from
+     */
+    protected function bulkImportedDocumentsAction()
+    {
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
+
+        $currentPage = null;
+        $pagination = $this->getParametersSafely('@widget_0');
+        if ($pagination) {
+            $currentPage = $pagination['currentPage'];
+        } else {
+            $currentPage = 1;
+        }
+
+        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($test);
+
+        /** @var BulkImportSessionData $bulkImportSessionData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+        $importedIdentifiers = $bulkImportSessionData->getLatestImportIdentifiers();
+
+        $workspaceFilter = [
+            'bool' => [
+                'must' => [
+                    [
+                        'terms' => [
+                            '_id' => array_values(array_filter($importedIdentifiers))
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $query = $this->queryBuilder->buildQuery(
+            $this->itemsPerPage(),
+            $workspaceFilter,
+            (empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage())
+        );
+
+        try {
+            $results = $this->elasticSearch->search($query, 'object');
+            $this->view->assign('currentPage', $currentPage);
+            $this->view->assign('documentCount', $results['hits']['total']['value']);
+            $this->view->assign('documents', $results['hits']['hits']);
+            $this->view->assign('itemsPerPage', $this->itemsPerPage());
+        } catch (\Throwable $e) {
+
+            $message = LocalizationUtility::translate(
+                'manager.importMetadata.searchError', 'dpf'
+            );
+
+            $this->addFlashMessage(
+                $message, '', AbstractMessage::ERROR
+            );
+        }
+    }
+
+    /**
+     * Returns the number of items to be shown per page.
+     *
+     * @return int
+     */
+    protected function itemsPerPage()
+    {
+        /** @var BulkImportSessionData $bulkImportSessionData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+
+        if ($bulkImportSessionData->getItemsPerPage()) {
+            return $bulkImportSessionData->getItemsPerPage();
+        }
+
+        if ($this->settings['bulkImportPagination']['itemsPerPage']) {
+            return $this->settings['bulkImportPagination']['itemsPerPage'];
+        }
+
+        return 10;
     }
 }

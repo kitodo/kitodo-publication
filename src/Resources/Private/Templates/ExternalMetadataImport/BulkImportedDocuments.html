@@ -1,0 +1,96 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.bulkImport.headerImported', default: 'Importierte Publikationen')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+        <p>
+            Es wurden 2 Publikationen importiert und 1 vorhandene Publikation zu "Meine Publikationen" hinzugefügt.
+            Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende der UL.
+            Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.
+        </p>
+
+        <table id="workspace-list" class="tx_dpf table table-striped table-manager table-condensed">
+            <thead>
+            <tr>
+                <th class="xcol-md-4">
+                    {f:translate(key: 'manager.workspace.title')}
+                </th>
+                <th class="xcol-md-2">
+                    {f:translate(key: 'manager.workspace.publicationYear')}
+                </th>
+                <th class="xcol-md-2">
+                    {f:translate(key: 'manager.workspace.persons')}
+                </th>
+            </tr>
+            </thead>
+            <f:for each="{documents}" as="document" iteration="iterator">
+                <tr data-id="{document._id}">
+                    <td>
+                        <f:link.action action="showDetails" controller="Document" arguments="{document:document._id}">
+                            <f:if condition="!{document._source.title.0}">
+                                <f:then>
+                                    [{f:translate(key: 'manager.workspace.noTitle')}]
+                                </f:then>
+                                <f:else>
+                                    {document._source.title.0}
+                                </f:else>
+                            </f:if>
+                        </f:link.action>
+                        <f:if condition="{document._source.originalSourceTitle}">
+                            <br />
+                            in: <em>{document._source.originalSourceTitle}</em>
+                        </f:if>
+                        <br />
+                        <dpf:showDocumentType docType="{document._source.doctype}" />
+                    </td>
+                    <td>
+                        {document._source.year}
+                    </td>
+                    <td>
+                        <f:for each="{document._source.authorAndPublisher}" as="person" iteration="itemIterator">
+                            <span>{person}</span>
+                            <f:if condition="{itemIterator.isLast}">
+                                <f:then></f:then>
+                                <f:else><br /></f:else>
+                            </f:if>
+                        </f:for>
+                    </td>
+                </tr>
+            </f:for>
+        </table>
+
+    <dpf:widget.paginate
+            objects="{documents}"
+            total="{documentCount}"
+            as="page"
+            currentPage="{currentPage}"
+            configuration="{itemsPerPage:itemsPerPage, insertAbove: 1, insertBelow: 0, maximumNumberOfLinks:settings.bulkImportPagination.maximumNumberOfLinks}">
+    </dpf:widget.paginate>
+
+    <f:link.action action="bulkStart" controller="ExternalMetadataImport"
+                   class="btn btn-sm btn-secondary">
+        {f:translate(key: 'manger.bulkImport.complete', default: 'Import abschließen')}
+    </f:link.action>
+
+</f:section>

@@ -26,8 +26,6 @@ use EWW\Dpf\Domain\Model\ExternalMetadata;
 
 class PubMedImporter extends AbstractImporter implements Importer
 {
-    // https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=32250582&version=2.0
-
     /**
      * @var string
      */

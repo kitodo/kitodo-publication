@@ -72,7 +72,7 @@
                             </li>
                             </f:if>
                             <li class="nav-item">
-                                <f:link.action action="list" controller="Search" arguments="{refresh:1}"
+                                <f:link.action action="search" controller="Search" arguments="{refresh:1}"
                                                class="nav-link workspace-nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
                                     <i class="fas fa-search"></i>
                                     {f:translate(key: 'manager.control.search')}
@@ -87,16 +87,21 @@
                             </li>
                             <li class="nav-item">
                                 <f:link.action action="find" controller="ExternalMetadataImport"
-                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport')}">
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'find', 1:'import'})}">
                                     <i class="fas fa-plus"></i>
                                     {f:translate(key: 'manager.importMetadata.header.single')}
                                 </f:link.action>
                             </li>
+                            <li class="nav-item">
+                                <f:link.action action="bulkStart" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'bulkStart', 1:'bulkResults'})}">
+                                    <i class="fas fa-plus"></i>
+                                    {f:translate(key: 'manager.bulkImport.header')}
+                                </f:link.action>
+                            </li>
                         </ul>
-
                     </div>
                 </nav>
-
                 <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-0 px-4">
 
                     <f:render section="main"/>

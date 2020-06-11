@@ -279,4 +279,49 @@ abstract class AbstractImporter
         return $documentType;
     }
 
+
+    /**
+     * Determines whether the identifier is a DOI, ISBN or PMID.
+     *
+     * @param $identifier
+     * @return null|string
+     */
+    static function determineIdentifierType($identifier)
+    {
+        // DOI
+        if (strpos($identifier,'10.') === 0) {
+            return 'DOI';
+        }
+
+        // ISBN
+        $length = strlen(str_replace(['-',' '], '', $identifier));
+
+        if ($length === 13) {
+            if (strpos($identifier, '978') === 0 ||  strpos($identifier, '979') === 0) {
+                return 'ISBN';
+            }
+        }
+
+        if ($length === 10) {
+            return 'ISBN';
+        }
+
+        $length = strlen(trim($identifier));
+        if ($length === 9) {
+            if (strpos($identifier, '-') === 4) {
+                return 'ISSN';
+            }
+        }
+
+        // PMID
+        if (is_numeric($identifier) && intval($identifier) == $identifier) {
+            if (strlen($identifier) < 10) {
+                return 'PMID';
+            }
+        }
+
+        return null;
+    }
+
+
 }

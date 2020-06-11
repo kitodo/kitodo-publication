@@ -1049,6 +1049,10 @@
                 <source>Import</source>
                 <target>Importieren</target>
             </trans-unit>
+            <trans-unit id="manager.bulkImport.header" approved="yes">
+                <source>Import multiple publications</source>
+                <target>Mehrere Publikationen importieren</target>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>

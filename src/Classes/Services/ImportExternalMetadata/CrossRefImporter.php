@@ -113,10 +113,90 @@ class CrossRefImporter extends AbstractImporter implements Importer
 
     /**
      * @param string $query
-     * @return mixed
+     * @param int $rows
+     * @param int $offset
+     * @param string $searchField
+     * @return array|mixed
+     * @throws \Throwable
      */
-    public function search($query)
+    public function search($query, $rows = 10, $offset = 0, $searchField = 'author')
     {
+        $requestUri = $this->apiUrl . $this->resource . '?rows='.$rows;
+
+        if ($offset > 0) $requestUri .= '&offset=' . $offset;
+
+        if ($searchField) {
+           $requestUri .= '&query.'.$searchField.'='.urlencode($query);
+        } else {
+            switch (self::determineIdentifierType(trim($query))) {
+                case 'DOI':
+                    $requestUri .= "&filter=doi:".urlencode(trim($query));
+                    break;
+                case 'ISBN':
+                    $isbn = str_replace(['-',' '], '', $query);
+                    $requestUri .= "&filter=isbn:".$isbn;
+                    break;
+                case 'ISSN':
+                    $requestUri .= "&filter=issn:".trim($query);
+                    break;
+                default:
+                    $requestUri .= "&query=".urlencode($query);
+                    break;
+            }
+        }
+
+        //die($requestUri);
+
+        try {
+            $response = Request::get($requestUri)->send();
+
+            if (!$response->hasErrors() && $response->code == 200) {
+
+                $jsonString = $response->__toString();
+                if ($jsonString) {
+
+                    $data = json_decode($response->__toString(),true);
+                    $encoder = new XmlEncoder();
+
+                    if ($data['message']['total-results'] < 1) {
+                        return [];
+                    }
+
+                    foreach ($data['message']['items'] as $item) {
+
+                        /** @var CrossRefMetadata $crossRefMetadata */
+                        $crossRefMetadata = $this->objectManager->get(CrossRefMetadata::class);
+
+                        $crossRefMetadata->setSource(get_class($this));
+                        $crossRefMetadata->setFeUser($this->security->getUser()->getUid());
+                        $crossRefMetadata->setData($encoder->encode(['message' => $item], 'xml'));
+                        $crossRefMetadata->setPublicationIdentifier($item['DOI']);
+
+                        $results['items'][$crossRefMetadata->getPublicationIdentifier()] = $crossRefMetadata;
+                    }
+
+                    $results['total-results'] = $data['message']['total-results'];
+                    $results['items-per-page'] = $data['message']['items-per-page'];
+
+                    // Because the CrossRef api does not allow an offset more than 10000 we need to limit the result total
+                    $maxPages = ceil(10000 / $results['items-per-page']);
+                    $pages = ceil($results['total-results'] / $results['items-per-page']);
+                    if ($pages > $maxPages) {
+                        $results['total-results'] = $maxPages *  $results['items-per-page'];
+                    }
+
+                    return $results;
+                }
+
+            } else {
+                return [];
+            }
+
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
+            throw $throwable;
+        }
+
         return [];
     }
 

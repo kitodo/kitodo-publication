@@ -782,6 +782,9 @@
             <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
                 <source>Import</source>
             </trans-unit>
+            <trans-unit id="manager.bulkImport.header" approved="yes">
+                <source>Import multiple publications</source>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>
 			</trans-unit>

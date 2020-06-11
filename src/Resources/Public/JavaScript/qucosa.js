@@ -12,6 +12,23 @@
  */
 
 
+var toggleBulkImportRecord = function() {
+    jQuery(".bulk-import-checkbox").on("click", function() {
+        var ajaxURL = jQuery(this).closest("tr").data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
+}
+
+var toggleBulkImportAuthorSearch = function() {
+    jQuery(".bulkImportAuthorSearch").on("click", function() {
+        var ajaxURL = jQuery(this).data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
+}
 
 var saveExtendedSearch = {
 
@@ -1428,6 +1445,8 @@ $(document).ready(function() {
 
     selectSort();
 
+    toggleBulkImportRecord();
+    toggleBulkImportAuthorSearch();
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();

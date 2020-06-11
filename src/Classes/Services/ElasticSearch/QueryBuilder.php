@@ -225,8 +225,7 @@ class QueryBuilder
             ]
         ];
 
-
-        //echo "<pre>"; print_r($fullQuery); echo "</pre>"; die();
+        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fullQuery, null, 20);
 
         return $fullQuery;
 

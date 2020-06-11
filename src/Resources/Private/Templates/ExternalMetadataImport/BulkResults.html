@@ -1,0 +1,102 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.bulkImport.header')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+    <f:if condition="{results}">
+        <f:then>
+            Suchergebnisse für "{query}" in CrossRef:
+            <table id="bulk-import-list" class="tx_dpf table table-striped table-manager table-condensed">
+                <thead>
+                <tr>
+                    <th class="xcol-md-1"></th>
+                    <th class="xcol-md-4"></th>
+                </tr>
+                </thead>
+                <f:for each="{results.items}" as="item">
+                    <tr data-id="{item.publicationIdentifier}"
+                        data-ajax="{f:uri.action(action:'toggleBulkImportRecord',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum, arguments:'{identifier:item.publicationIdentifier}')}
+                    ">
+                        <td>
+                            <f:if condition="{dpf:inArray(needle:'{item.publicationIdentifier}', array:'{checkedPublicationIdentifiers}')}">
+                                <f:then>
+                                    <f:form.checkbox class="bulk-import-checkbox"
+                                                     name="bulkImportList[identifiers][]"
+                                                     value="{item.publicationIdentifier}"
+                                                     checked="1"/>
+                                </f:then>
+                                <f:else>
+                                    <f:form.checkbox class="bulk-import-checkbox"
+                                                     name="bulkImportList[identifiers][]"
+                                                     value="{item.publicationIdentifier}"/>
+                                </f:else>
+                            </f:if>
+                        </td>
+                        <td>
+                            <b>
+                                <f:if condition="{item.title}">
+                                    <f:then>
+                                        <f:format.stripTags>{item.title}</f:format.stripTags>
+                                    </f:then>
+                                    <f:else>
+                                        [Kein Titel]
+                                    </f:else>
+                                </f:if>
+                            </b>
+                            <f:if condition="{item.persons}">
+                                <br />
+                                <f:for each="{item.persons}" as="person" iteration="iterator"><f:if condition="{iterator.isFirst} != 1">, </f:if>{person.given} {person.family}</f:for>
+                            </f:if>
+                            <f:if condition="{item.publicationType}"><br />{item.publicationType}</f:if>
+                            <f:if condition="{item.year}"><br />{item.year}</f:if>
+                        </td>
+                    </tr>
+                </f:for>
+            </table>
+
+            <dpf:widget.paginate
+                    objects="{results.items}"
+                    total="{totalResults}"
+                    as="page"
+                    currentPage="{currentPage}"
+                    configuration="{itemsPerPage:itemsPerPage, insertAbove: 1, insertBelow: 0, maximumNumberOfLinks:settings.bulkImportPagination.maximumNumberOfLinks}">
+            </dpf:widget.paginate>
+
+            <div class="bulkimport-actions">
+                <f:link.action action="bulkImport" controller="ExternalMetadataImport"
+                               class="btn btn-sm btn-secondary">
+                    {f:translate(key: 'manger.bulkImport.import', default: 'Markierte importieren')}
+                </f:link.action>
+
+                <f:link.action action="cancelBulkImport" controller="ExternalMetadataImport"
+                               class="btn btn-sm btn-outline-secondary">
+                    {f:translate(key: 'manger.bulkImport.cancel', default: 'Abbrechen')}
+                </f:link.action>
+            </div>
+        </f:then>
+        <f:else>
+            {f:translate(key: 'manger.bulkImport.nothingFound', default: 'Nichts gefunden')}
+        </f:else>
+    </f:if>
+</f:section>

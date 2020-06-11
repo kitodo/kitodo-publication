@@ -78,6 +78,7 @@ class WorkspaceController extends AbstractController
      */
     protected $queryBuilder = null;
 
+
     /**
      * documentManager
      *
