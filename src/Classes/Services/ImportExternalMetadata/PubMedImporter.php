@@ -29,13 +29,17 @@ class PubMedImporter extends AbstractImporter implements Importer
     /**
      * @var string
      */
-    protected $apiUrl = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?version=2.0&db=pubmed";
+    protected $apiUrl = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
 
     /**
      * @var string
      */
-    protected $resource = "&id=";
+    protected $resource = "/esummary.fcgi?version=2.0&db=pubmed&id=";
 
+    /**
+     * @var string
+     */
+    protected $searchPath = "/esearch.fcgi?version=2.0&db=pubmed";
 
     /**
      * Returns the list of all publication types
@@ -74,7 +78,7 @@ class PubMedImporter extends AbstractImporter implements Importer
 
                 $xmlDataXpath = $pubMedMetadata->getDataXpath();
 
-                $node = $xmlDataXpath->query('/eSummaryResult/DocumentSummarySet/DocumentSummary/error');
+                $node = $xmlDataXpath->query('/eSummaryResult/ERROR');
                 if ($node->length > 0) {
                     return null;
                 }
@@ -95,13 +99,68 @@ class PubMedImporter extends AbstractImporter implements Importer
 
     /**
      * @param string $query
-     * @return mixed
+     * @param int $rows
+     * @param int $offset
+     * @param string $searchField
+     * @return array|mixed
+     * @throws \Throwable
      */
-    public function search($query)
+    public function search($query, $rows = 10, $offset = 0, $searchField = 'author')
     {
+        $requestUri = $this->apiUrl . $this->searchPath . '&retmax='.$rows;
+
+        if ($offset > 0) $requestUri .= '&retstart=' . $offset;
+
+        $requestUri .= "&term=" . urlencode($query);
+
+        $results = [];
+
+        try {
+            $response = Request::get($requestUri)->send();
+
+            if (!$response->hasErrors() && $response->code == 200) {
+
+                $dom = new \DOMDocument();
+                if (is_null(@$dom->loadXML($response))) {
+                    throw new \Exception("Invalid XML: " . get_class($this));
+                }
+                $xmlDataXpath = \EWW\Dpf\Helper\XPath::create($dom);
+
+                $node = $xmlDataXpath->query('/eSearchResult/ERROR');
+                if ($node->length > 0) {
+                    return null;
+                }
+
+                $node = $xmlDataXpath->query('/eSearchResult/Count');
+                if ($node->length > 0) {
+                    $results['total-results'] = $node->item(0)->nodeValue;
+                }
+
+                $node = $xmlDataXpath->query('/eSearchResult/RetMax');
+                if ($node->length > 0) {
+                    $results['items-per-page'] = $node->item(0)->nodeValue;
+                }
+
+                $nodes = $xmlDataXpath->query('/eSearchResult/IdList/Id');
+                if ($nodes->length > 0) {
+
+                    $identifierList = [];
+                    foreach ($nodes as $node) {
+                        $identifierList[] = $node->nodeValue;
+                    }
+
+                    $results['items'] = $this->findByIdentifierList($identifierList);
+
+                    return $results;
+                }
+            }
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
+            throw $throwable;
+        }
+
         return null;
     }
-
 
     /**
      * @return \EWW\Dpf\Domain\Model\TransformationFile
@@ -133,4 +192,72 @@ class PubMedImporter extends AbstractImporter implements Importer
         return 'pubmed';
     }
 
+    /**
+     * @param array $identifierList
+     * @return array
+     */
+    protected function findByIdentifierList($identifierList)
+    {
+        try {
+            $identifiers = implode(',', $identifierList);
+            $response = Request::get($this->apiUrl . $this->resource . $identifiers)->send();
+
+            if (!$response->hasErrors() && $response->code == 200) {
+
+                $dom = new \DOMDocument();
+                if (is_null(@$dom->loadXML($response))) {
+                    throw new \Exception("Invalid XML: " . get_class($this));
+                }
+                $xmlDataXpath = \EWW\Dpf\Helper\XPath::create($dom);
+
+                $node = $xmlDataXpath->query('/eSummaryResult/ERROR');
+                if ($node->length > 0) {
+                    return [];
+                }
+
+                $nodes = $xmlDataXpath->query('/eSummaryResult/DocumentSummarySet/DocumentSummary');
+                if ($nodes->length > 0) {
+
+                    $results = [];
+
+                    foreach ($nodes as $nodeItem) {
+
+                        $xml = '<eSummaryResult><DocumentSummarySet>';
+                        $xml .= $dom->saveXML($nodeItem);
+                        $xml .= '</DocumentSummarySet></eSummaryResult>';
+
+                        $idNode = $xmlDataXpath->query('@uid', $nodeItem);
+                        if ($idNode->length > 0) {
+                            $identifier = $idNode->item(0)->nodeValue;
+
+                            if ($identifier) {
+                                $itemDom = new \DOMDocument();
+
+                                if (is_null(@$itemDom->loadXML($xml))) {
+                                    throw new \Exception("Invalid XML: " . get_class($this));
+                                }
+
+                                /** @var PubMedMetadata $pubMedMetadata */
+                                $pubMedMetadata = $this->objectManager->get(PubMedMetadata::class);
+
+                                $pubMedMetadata->setSource(get_class($this));
+                                $pubMedMetadata->setFeUser($this->security->getUser()->getUid());
+                                $pubMedMetadata->setData($xml);
+                                $pubMedMetadata->setPublicationIdentifier($identifier);
+
+                                $results[$identifier] = $pubMedMetadata;
+                            }
+                        }
+                    }
+
+                    return $results;
+                }
+            }
+        } catch (\Throwable $throwable) {
+            $this->logger->error($throwable->getMessage());
+            throw $throwable;
+        }
+
+        return [];
+    }
 }

@@ -91,7 +91,7 @@ class PubMedMetadata extends ExternalMetadata
             $types[] = $node->item(0)->nodeValue;
         } elseif ($node->length > 1) {
             foreach ($node as $typeNode) {
-                $types[] = $typeNode->item(0)->nodeValue;
+                $types[] = $typeNode->nodeValue;
             }
         }
 

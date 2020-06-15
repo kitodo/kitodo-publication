@@ -145,8 +145,6 @@ class CrossRefImporter extends AbstractImporter implements Importer
             }
         }
 
-        //die($requestUri);
-
         try {
             $response = Request::get($requestUri)->send();
 

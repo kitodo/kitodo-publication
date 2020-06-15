@@ -28,6 +28,12 @@
                 <f:form.textfield id="bulkImportSearchCrossRef" name="query" value="{query}" class="form-control"/>
             </div>
 
+            <div class="col-auto mb-2">
+            <f:form.button name="bulkImportSearchCrossRefSubmit" id="bulkImportSearchCrossRefSubmit" class="btn btn-xm btn-primary">
+                Nachschlagen in CrossRef
+            </f:form.button>
+            </div>
+
             <div class="custom-control custom-switch mx-sm-2 mb-2">
                 <input id="crossRefAuthorSearch" class="custom-control-input bulkImportAuthorSearch"
                        type="checkbox" aria-label="Checkbox to search for authors"
@@ -37,12 +43,6 @@
                     {f:translate(key: 'manager.bulkImport.authorSearch')} Nur nach AutorIn suchen.
                 </label>
             </div>
-
-            <div class="col-auto mb-2">
-            <f:form.button name="bulkImportSearchCrossRefSubmit" id="bulkImportSearchCrossRefSubmit" class="btn btn-xm btn-primary">
-                Nachschlagen in CrossRef
-            </f:form.button>
-            </div>
         </div>
     </f:form>
 
@@ -50,16 +50,6 @@
         <div class="form-row align-items-center">
             <div class="col-auto mb-2">
                 <f:form.textfield id="bulkImportSearchPubMed" name="query" value="{query}" class="form-control"/>
-            </div>
-
-            <div class="custom-control custom-switch mx-sm-2 mb-2">
-                <input id="pubMedAuthorSearch" class="custom-control-input bulkImportAuthorSearch"
-                       type="checkbox" aria-label="Checkbox to search for authors"
-                       data-ajax="{f:uri.action(action:'toggleBulkImportAuthorSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum, arguments:'{apiName:\'PubMed\'}')}"
-                       {f:if(condition:'{pubMedAuthorSearch}', then:'checked="checked"', else:'')}>
-                <label class="custom-control-label" for="pubMedAuthorSearch">
-                    {f:translate(key: 'manager.bulkImport.authorSearch')} Nur nach AutorIn suchen.
-                </label>
             </div>
 
             <div class="col-auto mb-2">

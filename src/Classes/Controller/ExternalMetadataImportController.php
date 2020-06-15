@@ -175,13 +175,36 @@ class ExternalMetadataImportController extends AbstractController
      */
     public function bulkSearchPubMedAction($query = '')
     {
-        if (empty($query)) {
-            $this->redirect('bulkStart');
+        /** @var BulkImportSessionData $bulkImportSessionData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+
+        $currentPage = null;
+        $pagination = $this->getParametersSafely('@widget_0');
+        if ($pagination) {
+            $currentPage = $pagination['currentPage'];
+            $query = $bulkImportSessionData->getPubMedQuery();
+        } else {
+            if (empty($query)) {
+                $this->redirect('bulkStart');
+            }
+
+            $bulkImportSessionData->setPubMedQuery($query);
+            $currentPage = 1;
         }
+
+        $offset = empty($currentPage)? 0 : ($currentPage-1) * $this->itemsPerPage();
 
         /** @var Importer $importer */
         $importer = $this->objectManager->get(PubMedImporter::class);
-        $results = $importer->search($query);
+        $results = $importer->search(
+            $query,
+            $this->itemsPerPage(),
+            $offset,
+            ''
+        );
+
+        $bulkImportSessionData->setCurrentMetadataItems(($results? $results['items'] : []));
+        $this->session->setBulkImportData($bulkImportSessionData);
 
         $this->forward(
             'bulkResults',
@@ -190,7 +213,7 @@ class ExternalMetadataImportController extends AbstractController
             [
                 'results' => $results,
                 'query' => $query,
-                'pagination' => $pagination = $this->getParametersSafely('@widget_0')
+                'currentPage' => $currentPage
             ]
         );
     }
