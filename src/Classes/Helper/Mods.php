@@ -134,6 +134,33 @@ class Mods
         return $authors;
     }
 
+
+    /**
+     * Get all related FOB-IDs
+     *
+     * @return array
+     */
+    public function getFobIdentifiers(): array
+    {
+        $xpath = $this->getModsXpath();
+
+        $nodes = $xpath->query('/mods:mods/mods:name[@type="personal"]');
+
+        $identifiers = [];
+
+        foreach ($nodes as $key => $node) {
+
+            $identifierNode = $xpath->query('mods:nameIdentifier[@type="FOBID"]', $node);
+
+            if ($identifierNode->length > 0) {
+                $identifiers[] = $identifierNode->item(0)->nodeValue;
+            }
+        }
+
+        return $identifiers;
+    }
+
+
     public function setDateIssued($date)
     {
 

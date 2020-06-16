@@ -183,6 +183,9 @@ class ElasticSearch
                         ],
                         'source' => [
                             'type' => 'text'
+                        ],
+                        'fobIdentifiers' => [
+                            'type' => 'keyword'
                         ]
                     ]
                 ]
@@ -280,6 +283,8 @@ class ElasticSearch
             }
 
             $data->originalSourceTitle = $mods->getOriginalSourceTitle();
+
+            $data->fobIdentifiers = $mods->getFobIdentifiers();
 
             $this->client->index([
                 'refresh' => 'wait_for',
