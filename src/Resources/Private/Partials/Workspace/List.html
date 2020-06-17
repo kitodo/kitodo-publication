@@ -129,8 +129,30 @@
                 <dpf:showDocumentType docType="{document._source.doctype}" />
             </td>
             <td>
-                <f:for each="{document._source.authorAndPublisher}" as="person" iteration="itemIterator">
-                    <span>{person}</span>
+                <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
+                    <f:if condition="{person.fobId} == {currentFobIdentifier}">
+                        <f:then>
+                            <span class="person current-fobid-person">
+                                {person.name}
+                                <i class="fas fa-user-circle"></i>
+                            </span>
+                        </f:then>
+                        <f:else>
+                            <f:if condition="{person.fobId}">
+                                <f:then>
+                                    <span class="person fobid-person">
+                                        {person.name}
+                                        <i class="fas fa-user-circle"></i>
+                                    </span>
+                                </f:then>
+                                <f:else>
+                                    <span class="person">
+                                        {person.name}
+                                    </span>
+                                </f:else>
+                            </f:if>
+                        </f:else>
+                    </f:if>
                     <f:if condition="{itemIterator.isLast}">
                         <f:then></f:then>
                         <f:else><br /></f:else>

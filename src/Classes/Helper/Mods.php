@@ -101,37 +101,63 @@ class Mods
     /**
      * Get persons of the given role
      *
-     * @param $role
+     * @param string $role
      * @return array
      */
-    protected function getPersons($role)
+    public function getPersons($role = '')
     {
         $xpath = $this->getModsXpath();
+        $personNodes = $xpath->query('/mods:mods/mods:name[@type="personal"]');
 
-        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="'.$role.'"]');
+        $persons = [];
 
-        $authors = array();
+        foreach ($personNodes as $key => $personNode) {
 
-        foreach ($authorNode as $key => $author) {
+            $familyNode = $xpath->query('mods:namePart[@type="family"]', $personNode);
 
-            $familyNodes = $xpath->query('mods:namePart[@type="family"]', $author);
+            $givenNode = $xpath->query('mods:namePart[@type="given"]', $personNode);
 
-            $givenNodes = $xpath->query('mods:namePart[@type="given"]', $author);
+            $roleNode = $xpath->query('mods:role/mods:roleTerm[@type="code"]', $personNode);
 
-            $name = array();
+            $identifierNode = $xpath->query('mods:nameIdentifier[@type="FOBID"]', $personNode);
 
-            if ($givenNodes->length > 0) {
-                $name[] = $givenNodes->item(0)->nodeValue;
+            $name = [];
+
+            if ($givenNode->length > 0) {
+                $name[] = $givenNode->item(0)->nodeValue;
             }
 
-            if ($familyNodes->length > 0) {
-                $name[] = $familyNodes->item(0)->nodeValue;
+            if ($familyNode->length > 0) {
+                $name[] = $familyNode->item(0)->nodeValue;
             }
 
-            $authors[$key] = implode(" ", $name);
+            $person['name'] = implode(' ', $name);
+
+            $person['role'] = '';
+            if ($roleNode->length > 0) {
+                $person['role'] = $roleNode->item(0)->nodeValue;
+            }
+
+            $person['fobId'] = '';
+            if ($identifierNode->length > 0) {
+                $person['fobId'] = $identifierNode->item(0)->nodeValue;
+            }
+
+            $person['index'] = $key;
+
+            $persons[] = $person;
         }
 
-        return $authors;
+        if ($role) {
+            $result = [];
+            foreach ($persons as $person) {
+                if ($person['role'] == $role)
+                $result[] = $person;
+            }
+            return $result;
+        } else {
+            return $persons;
+        }
     }
 
     public function setDateIssued($date)

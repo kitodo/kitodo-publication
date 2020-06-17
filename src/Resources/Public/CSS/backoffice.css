@@ -80,6 +80,21 @@ body {
     border-top: none;
 }
 
+#tx-dpf-backoffice .person {
+    padding: 2px 3px 2px 3px;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+#tx-dpf-backoffice .fobid-person {
+    text-decoration: underline;
+}
+
+#tx-dpf-backoffice .current-fobid-person {
+    background-color: #007bff;
+    color: white;
+}
+
 #tx-dpf-backoffice .workspace-batch-operations {
     margin-top: 1rem;
     margin-bottom: 1rem;

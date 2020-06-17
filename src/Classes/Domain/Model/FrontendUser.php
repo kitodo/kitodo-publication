@@ -216,4 +216,10 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
 
+    public function getFobIdentifier()
+    {
+        return '1234567890';
+    }
+
+
 }

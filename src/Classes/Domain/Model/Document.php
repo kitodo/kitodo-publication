@@ -228,7 +228,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAuthors()
     {
-        return array_map('trim', explode(";", $this->authors));
+        return unserialize($this->authors);
     }
 
     /**
@@ -239,8 +239,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setAuthors($authors)
     {
-        $authors = implode("; ", $authors);
-        $this->authors = $authors;
+        $this->authors = serialize($authors);
     }
 
     /**

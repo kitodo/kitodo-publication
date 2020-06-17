@@ -183,7 +183,25 @@ class ElasticSearch
                         ],
                         'source' => [
                             'type' => 'text'
+                        ],
+                        'fobIdentifiers' => [
+                            'type' => 'keyword'
+                        ],
+                        'personData' => [
+                            'enabled' => false,
+                            'properties' => [
+                                'name' => [
+                                    'type' => 'keyword'
+                                ],
+                                'fobId' => [
+                                    'type' => 'keyword'
+                                ],
+                                'index' => [
+                                    'type' => 'integer'
+                                ]
+                            ]
                         ]
+
                     ]
                 ]
             ]
@@ -254,13 +272,20 @@ class ElasticSearch
             /** @var @var Mods $mods */
             $mods = new Mods($document->getXmlData());
 
-            $authors = $mods->getAuthors();
-            $publishers = $mods->getPublishers();
-
-            $data->authorAndPublisher = array_merge($authors, $publishers);
+            $persons = array_merge($mods->getAuthors(), $mods->getPublishers());
+            $authorAndPublisher = [];
+            $fobIdentifiers = [];
+            $personData = [];
+            foreach ($persons as $person) {
+                $authorAndPublisher[] = $person['name'];
+                $fobIdentifiers[] = $person['fobId'];
+                $personData[] = $person;
+            }
+            $data->authorAndPublisher = $authorAndPublisher;
+            $data->fobIdentifiers = $fobIdentifiers;
+            $data->personData = $personData;
 
             $data->source = $document->getSourceDetails();
-
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {
