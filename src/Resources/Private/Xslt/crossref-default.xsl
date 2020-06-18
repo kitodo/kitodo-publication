@@ -60,6 +60,8 @@
                         <mods:mods version="3.7">
                             <xsl:apply-templates select="response/message/title"/>
                             <xsl:apply-templates select="response/message/DOI"/>
+                            <xsl:apply-templates select="response/message/author"/>
+                            <xsl:apply-templates select="response/message/created/date-parts/item[@key='0']"/>
                         </mods:mods>
                     </mets:xmlData>
                 </mets:mdWrap>
@@ -79,6 +81,30 @@
         <mods:identifier type="doi">
                 <xsl:value-of select="." />
         </mods:identifier>
+    </xsl:template>
+
+    <xsl:template match="author">
+        <xsl:for-each select=".">
+            <mods:name type="personal">
+                <mods:namePart type="family">
+                    <xsl:value-of select="family" />
+                </mods:namePart>
+                <mods:namePart type="given">
+                    <xsl:value-of select="given" />
+                </mods:namePart>
+                <mods:role>
+                    <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+                </mods:role>
+            </mods:name>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="item[@key='0']">
+        <mods:originInfo eventType="publication">
+            <mods:dateIssued encoding="iso8601">
+                <xsl:value-of select="." />
+            </mods:dateIssued>
+        </mods:originInfo>
     </xsl:template>
 
 </xsl:stylesheet>

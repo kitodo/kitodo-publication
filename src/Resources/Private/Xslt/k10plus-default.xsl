@@ -61,6 +61,7 @@
                             <xsl:apply-templates select="mods:mods/mods:titleInfo/mods:title"/>
                             <xsl:apply-templates select="mods:mods/mods:identifier[@type='isbn']"/>
                             <xsl:apply-templates select="mods:mods/mods:name"/>
+                            <xsl:apply-templates select="mods:mods/mods:originInfo[@eventType='publication']/mods:dateIssued"/>
                         </mods:mods>
                     </mets:xmlData>
                 </mets:mdWrap>
@@ -97,6 +98,14 @@
                 </mods:name>
             </xsl:if>
         </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="mods:dateIssued">
+        <mods:originInfo eventType="publication">
+            <mods:dateIssued encoding="iso8601">
+                <xsl:value-of select="." />
+            </mods:dateIssued>
+        </mods:originInfo>
     </xsl:template>
 
 </xsl:stylesheet>

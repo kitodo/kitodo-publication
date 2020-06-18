@@ -61,7 +61,9 @@
                             <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/Title" />
                             <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/BookTitle" />
                             <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/ISSN" />
+                            <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/Authors/Author" />
                             <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/@uid" />
+                            <xsl:apply-templates select="/eSummaryResult/DocumentSummarySet/DocumentSummary/PubDate" />
                         </mods:mods>
                     </mets:xmlData>
                 </mets:mdWrap>
@@ -79,10 +81,38 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:template match="Author">
+        <xsl:for-each select=".">
+            <mods:name type="personal">
+                <mods:namePart type="family">
+                    <xsl:value-of select="Name" />
+                </mods:namePart>
+                <mods:role>
+                    <mods:roleTerm type="code" authority="marcrelator">
+                        <xsl:if test="AuthType='Author'">
+                            <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+                        </xsl:if>
+                        <xsl:if test="AuthType!='Author'">
+                            <mods:roleTerm type="code" authority="marcrelator">oth</mods:roleTerm>
+                        </xsl:if>
+                    </mods:roleTerm>
+                </mods:role>
+            </mods:name>
+        </xsl:for-each>
+    </xsl:template>
+
     <xsl:template match="@uid">
         <mods:identifier type="pmid">
             <xsl:value-of select="." />
         </mods:identifier>
+    </xsl:template>
+
+    <xsl:template match="PubDate">
+        <mods:originInfo eventType="publication">
+            <mods:dateIssued encoding="iso8601">
+                <xsl:value-of select="substring(., 1, 4)" />
+            </mods:dateIssued>
+        </mods:originInfo>
     </xsl:template>
 
 </xsl:stylesheet>
