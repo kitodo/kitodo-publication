@@ -169,7 +169,8 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
         $this->view->assign('currentFobIdentifier', $this->security->getUser()->getFobIdentifier());
-
+        $this->view->assign('personGroup', 32);
+        $this->view->assign('personGroupIndex', 3);
     }
 
     /**
@@ -643,12 +644,14 @@ class WorkspaceController extends AbstractController
 
 
     /**
-     * action uploadFiles
+     * Action editDocument
      *
      * @param string $documentIdentifier
+     * @param string $activeGroup
+     * @param int $activeGroupIndex
      * @return void
      */
-    public function uploadFilesAction($documentIdentifier)
+    public function editDocumentAction($documentIdentifier, $activeGroup = '', $activeGroupIndex = 0)
     {
         $document = $this->documentManager->read(
             $documentIdentifier,
@@ -661,13 +664,24 @@ class WorkspaceController extends AbstractController
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } elseif ($this->authorizationChecker->isGranted(DocumentVoter::SUGGEST_MODIFICATION, $document)) {
                 $this->redirect(
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'suggestMod' => true, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'suggestMod' => true,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } else {
                 if ($document->getCreator() !== $this->security->getUser()->getUid()) {
                     $message = LocalizationUtility::translate(

@@ -146,18 +146,31 @@
                                     </span>
                                 </f:then>
                                 <f:else>
-                                    <span class="person">
+                                    <f:link.action
+                                            action="editDocument"
+                                            controller="Workspace"
+                                            arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: person.index}"
+                                            class="person fobid-identify"
+                                            title="{f:translate(key: 'manager.workspace.identifyPerson', default: 'Person identifizieren')}"
+                                            additionalAttributes="{data-toggle: 'tooltip' }">
                                         {person.name}
-                                    </span>
+                                    </f:link.action>
                                 </f:else>
                             </f:if>
                         </f:else>
                     </f:if>
-                    <f:if condition="{itemIterator.isLast}">
-                        <f:then></f:then>
-                        <f:else><br /></f:else>
-                    </f:if>
                 </f:for>
+                <f:if condition="{dpf:inArray(needle:'{currentFobIdentifier}', array:'{document._source.fobIdentifiers}')} == 0">
+                    <f:link.action
+                            action="editDocument"
+                            controller="Workspace"
+                            arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: '-1'}"
+                            class="person fobid-add"
+                            title="{f:translate(key: 'manager.workspace.addPerson', default: 'Mich als Autor_in hinzufügen')}"
+                            additionalAttributes="{data-toggle: 'tooltip' }">
+                        [+]
+                    </f:link.action>
+                </f:if>
             </td>
             <td>
                 {document._source.year}
@@ -206,9 +219,9 @@
                     </f:then>
                     <f:else>
                             <f:link.action
-                                    action="uploadFiles"
+                                    action="editDocument"
                                     controller="Workspace"
-                                    arguments="{documentIdentifier : document._id, activeFileTab:1}"
+                                    arguments="{documentIdentifier : document._id, activeGroup: 'file-upload', activeGroupIndex: 0}"
                                     class="btn btn-sm btn-outline-secondary"
                                     title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
                                     additionalAttributes="{data-toggle: 'tooltip' }">

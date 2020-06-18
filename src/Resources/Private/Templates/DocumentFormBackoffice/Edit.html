@@ -64,7 +64,10 @@
     </f:if>
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
+            additionalAttributes="{
+                data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\",
+                data-activegroup: '{activeGroup}',
+                data-activegroupindex: '{activeGroupIndex}'}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>

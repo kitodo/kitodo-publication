@@ -88,7 +88,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
@@ -105,7 +105,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     // non-cacheable actions
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '

@@ -285,6 +285,8 @@ class ElasticSearch
             $data->fobIdentifiers = $fobIdentifiers;
             $data->personData = $personData;
 
+            $data->authorAndPublisherIndex = array_keys($authorAndPublisher);
+
             $data->source = $document->getSourceDetails();
 
             $data->universityCollection = false;

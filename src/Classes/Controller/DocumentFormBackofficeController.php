@@ -116,12 +116,16 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $suggestMod
-     * @param bool activeFileTab
+     * @param string activeGroup
+     * @param int activeGroupIndex
      * @ignorevalidation $documentForm
      * @return void
      */
     public function editAction(
-        \EWW\Dpf\Domain\Model\DocumentForm $documentForm, bool $suggestMod = false, $activeFileTab = false
+        \EWW\Dpf\Domain\Model\DocumentForm $documentForm,
+        bool $suggestMod = false,
+        $activeGroup = '',
+        $activeGroupIndex = 0
     )
     {
         /** @var \EWW\Dpf\Domain\Model\Document $document */
@@ -162,7 +166,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->security->getUser()->getUid()
         );
 
-        $this->view->assign('activeFileTab', $activeFileTab);
+        $this->view->assign('activeGroup', $activeGroup);
+        $this->view->assign('activeGroupIndex', $activeGroupIndex);
         parent::editAction($documentForm);
     }
 

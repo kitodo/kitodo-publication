@@ -12,6 +12,34 @@
  */
 
 
+var documentFormGroupSelector = {
+    init() {
+        var form = jQuery(".document-form-main");
+        if (typeof form !== "undefined" && form.length > 0) {
+
+            var activeGroup = form.data("activegroup");
+            var activeGroupIndex = form.data("activegroupindex");
+
+            var tab = jQuery('fieldset[data-group="' + activeGroup + '"]').parent().attr("id");
+
+            if (typeof tab !== "undefined" && tab.length > 0) {
+                jQuery('.nav-link').removeClass("active");
+                jQuery('.tab-pane').removeClass("active");
+                jQuery('.nav-link[href="#' + tab + '"]').addClass("active");
+                jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
+
+                if (activeGroupIndex >= 0) {
+                    group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(group).offset().top - 150
+                    }, 0);
+                } else {
+                    addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                }
+            }
+        }
+    }
+}
 
 var saveExtendedSearch = {
 
@@ -820,15 +848,17 @@ var checkFilledInputs = function(fieldset) {
     });
     return filledInputs < 1;
 }
-var addGroup = function() {
-    var element = jQuery(this);
-    // Get the group uid
-    var dataGroup = jQuery(this).attr("data-group");
-    // Number of the next group item
-    var groupIndex = parseInt(jQuery(this).attr("data-index")) + 1;
+var addGroup = function(target) {
 
-    jQuery(this).attr("data-index", groupIndex);
-    var ajaxURL = jQuery(this).attr("data-ajax");
+    var element = jQuery(target);
+
+    var dataGroup = jQuery(target).attr("data-group");
+
+    // Number of the next group item
+    var groupIndex = parseInt(jQuery(target).attr("data-index")) + 1;
+
+    jQuery(target).attr("data-index", groupIndex);
+    var ajaxURL = jQuery(target).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(group) {
@@ -838,11 +868,13 @@ var addGroup = function() {
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
         var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true);
+
+        jQuery(group).fadeIn();
+
         jQuery("html, body").animate({
-            scrollTop: element.offset().top - height
-        }, 400, function() {
-            jQuery(group).fadeIn();
-        });
+            scrollTop: jQuery(group).offset().top - 150
+        }, 100);
+
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
@@ -1329,6 +1361,8 @@ $(document).ready(function() {
     saveExtendedSearch.init();
     openExtendedSearch.init();
 
+    documentFormGroupSelector.init();
+
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
     var $disableForm = jQuery("form[data-disabled]").attr("data-disabled");
@@ -1385,7 +1419,10 @@ $(document).ready(function() {
         return false;
     });
     // Add metadata group
-    jQuery(".tx-dpf").on("click", ".add_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
     jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
