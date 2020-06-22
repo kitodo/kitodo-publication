@@ -1,58 +1,26 @@
-# TYPO3 CMS Base Distribution
+# kitodo-publication
 
-Get going quickly with TYPO3 CMS.
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kitodo/kitodo-publication/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kitodo/kitodo-publication/?branch=master)
 
-## Prerequisites
+Kitodo.Publication is free software, an extension for [TYPO3](https://typo3.org/) and part of the [Kitodo Digital Library Suite](https://en.wikipedia.org/wiki/Kitodo).
+It implements the user and administrator interfaces for a [document and publication server](https://en.wikipedia.org/wiki/Institutional_repository).
 
-* PHP 7.0
-* [Composer](https://getcomposer.org/download/)
+## DDEV Development Environment
 
-## Quickstart
+This extension provides a [DDEV](https://ddev.readthedocs.io/en/stable/) TYPO3 environment. On initial checkout TYPO3 needs to be installed and configured via composer. Prior to running TYPO3 import inital database dump.
 
-* `composer create-project typo3/cms-base-distribution project-name ^8`
-* `cd project-name`
+### Start and Configuration
+1. `ddev start` to start all containers
+2. `ddev composer install` to install TYPO3 and all extensions
+3. `ddev import-db -f db.sql.gz` to import the prepared database
+4. `ddev launch typo3` to go to the backoffice login page
 
-**Setup:**
+### TYPO3 backend credentails
+* Username: `admin`
+* Password: `adminadmin`
 
-To start an interactive installation, you can do so by executing the following
-command and then follow the wizard:
+## More information
 
-```
-php vendor/bin/typo3cms install:setup
-```
-
-**Setup unattended (optional):**
-
-If you're a more advanced user, you might want to leverage the unattended installation.
-To do this, you need to execute the following command and substite the arguments
-with your own environment configuration.
-
-```
-php vendor/bin/typo3cms install:setup \
-    --non-interactive \
-    --database-user-name=typo3 \
-    --database-user-password=typo3 \
-    --database-host-name=127.0.0.1 \
-    --database-port=3306 \
-    --database-name=typo3 \
-    --use-existing-database \
-    --admin-user-name=admin \
-    --admin-password=password \
-    --site-setup-type=site
-```
-
-**Development server:**
-
-While it's advised to use a more sophisticated web server such as
-Apache 2 or nginx, you can instantly run the project by using PHPs` built-in
-[web server](http://php.net/manual/en/features.commandline.webserver.php).
-
-* `TYPO3_CONTEXT=Development php -S localhost:8000 -t public`
-* open your browser at "http://localhost:8000"
-
-Please be aware that the built-in web server is single threaded. Which is ultimately
-a performance killer and may result in deadlocks if you execute too many requests at once.
-
-# License
-
-GPL-2.0 or later
+* https://ddev.readthedocs.io/en/stable/
+* https://www.kitodo.org/
+* http://www.b-i-t-online.de/sponsored/Kitodo
