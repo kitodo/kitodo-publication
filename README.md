@@ -19,6 +19,10 @@ This extension provides a [DDEV](https://ddev.readthedocs.io/en/stable/) TYPO3 e
 * Username: `admin`
 * Password: `adminadmin`
 
+### Running Unit Tests
+
+Run all the extensions unit tests simply by executing `ddev test`.
+
 ## More information
 
 * https://ddev.readthedocs.io/en/stable/
