@@ -105,6 +105,14 @@ $(document).ready(function() {
 
     inputWithOptions();
 
+    // Fetch VG Wort Zählpixel (if available) on download
+    $('.piwik_download').click(function(e) {
+        var vgwpixel = $(this).siblings(".div_vgwpixel").first();
+        if(vgwpixel.length > 0) {
+            vgwpixel.html("<img src='" + vgwpixel.attr('data-url') + "'  width='1' height='1' alt=''>");
+        }
+    });
+
 });
 
 var validateFormAndSave = function() {
