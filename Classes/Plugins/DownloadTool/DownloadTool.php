@@ -79,18 +79,12 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
                     'forceAbsoluteUrl' => true,
                 );
                 $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
-                // Create a-tag without VG-Wort Redirect
-                if ($vgwort === FALSE) {
-                    // replace uid with URI to dpf API
-                    $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
-                    // Create a-tag with VG-Wort Redirect
-                } elseif(!empty($vgwort)) {
-                    $qucosaUrl = urlencode($this->cObj->typoLink_URL($conf));
-                    $confVgwort = array(
-                        'useCacheHash'     => 0,
-                        'parameter'        => $vgwort . $qucosaUrl . ' - piwik_download',
-                    );
-                    $markerArray['###FILE###'] = $this->cObj->typoLink($title, $confVgwort);
+                $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
+
+                if(!empty($vgwort)) {
+                    $markerArray['###VGWORT###'] = "<div class='div_vgwpixel' data-url='" . $vgwort . "'></div>";
+                } else {
+                    $markerArray['###VGWORT###'] = "";
                 }
                 $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
             }
@@ -140,7 +134,7 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
             } else {
                 $vgwortserver = 'http://vg08.met.vgwort.de/na/';
             }
-            return $vgworturl = $vgwortserver . $vgwortOpenKey . '?l=';
+            return $vgworturl = $vgwortserver . $vgwortOpenKey;
         }
         return FALSE;
     }
