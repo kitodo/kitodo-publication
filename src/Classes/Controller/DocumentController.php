@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -44,6 +45,14 @@ class DocumentController extends AbstractController
      * @inject
      */
     protected $documentRepository = null;
+
+    /**
+     * documentTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @inject
+     */
+    protected $documentTypeRepository = null;
 
     /**
      * inputOptionListRepository
@@ -442,6 +451,47 @@ class DocumentController extends AbstractController
 
 
     /**
+     * action change document type
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param int $documentTypeUid
+     * @return void
+     */
+    public function changeDocumentTypeAction(\EWW\Dpf\Domain\Model\Document $document, $documentTypeUid = 0)
+    {
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+            if (
+            $this->editingLockService->isLocked(
+                $document->getDocumentIdentifier(),
+                $this->security->getUser()->getUid()
+            )
+            ) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failureBlocked';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied';
+            }
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+
+
+        $documentType = $this->documentTypeRepository->findByUid($documentTypeUid);
+
+        if ($documentType instanceof DocumentType) {
+            $document->setDocumentType($documentType);
+            $this->updateDocument($document, '', null);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        } else {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+    }
+
+
+    /**
      * action deleteLocallyAction
      *
      * @param Document $document
@@ -692,6 +742,13 @@ class DocumentController extends AbstractController
         $mapper = $this->objectManager->get(DocumentMapper::class);
         $documentForm = $mapper->getDocumentForm($document, false);
 
+        $documentTypes = [0 => ''];
+        foreach ($this->documentTypeRepository->getDocumentTypesAlphabetically() as $documentType) {
+            $documentTypes[$documentType->getUid()] = $documentType->getDisplayName();
+        }
+
+        $this->view->assign('documentTypes', $documentTypes);
+
         $this->view->assign('documentForm', $documentForm);
 
         $this->view->assign('document', $document);
@@ -752,6 +809,11 @@ class DocumentController extends AbstractController
 
         if ($this->request->hasArgument('document')) {
             $document = $this->request->getArgument('document');
+
+            if (is_array($document) && key_exists("__identity", $document)) {
+                $document = $document["__identity"];
+            }
+
             $document = $this->documentManager->read($document, $this->security->getUser()->getUID());
 
             if (!$document) {

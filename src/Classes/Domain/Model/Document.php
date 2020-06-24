@@ -303,6 +303,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setDocumentType(\EWW\Dpf\Domain\Model\DocumentType $documentType)
     {
         $this->documentType = $documentType;
+        $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
+        $slub->setDocumentType($documentType->getName());
+        $this->setSlubInfoData($slub->getSlubXml());
     }
 
     /**

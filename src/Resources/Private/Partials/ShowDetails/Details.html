@@ -1,0 +1,52 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<ul>
+    <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
+        <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
+            <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
+                <li class="details-group">
+                    <p class="details-group-name">{groupItem.displayName}</p>
+                    <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+                        <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+                            <f:if condition="{fieldItem.value}">
+                                <f:if condition="{fieldItem.displayName}">
+                                                        <span class="details-field-name">
+                                                            {fieldItem.displayName}:
+                                                        </span>
+                                </f:if>
+                                <f:render partial="ShowDetails/FieldValue" arguments="{fieldItem:fieldItem}" />
+                                <br />
+                            </f:if>
+                        </f:for>
+                    </f:for>
+                </li>
+            </f:for>
+        </f:for>
+        </li>
+    </f:for>
+
+    <f:if condition="{documentForm.primaryFile} || {documentForm.secondaryFiles}">
+        <li class="details-group">
+            <p class="details-group-name">{f:translate(key: 'form_page.files')}</p>
+            <f:render partial="ShowDetails/File" arguments="{file: documentForm.primaryFile}"/><br />
+            <f:for each="{documentForm.secondaryFiles}" as="secondaryFile" iteration="secondaryFileIterator">
+                <f:render partial="ShowDetails/File" arguments="{file: secondaryFile}"/><br />
+            </f:for>
+        </li>
+    </f:if>
+</ul>

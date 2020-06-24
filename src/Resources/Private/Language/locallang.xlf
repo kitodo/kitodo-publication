@@ -263,6 +263,12 @@
 			<trans-unit id="form_button.deleteLocally">
 				<source>delete</source>
 			</trans-unit>
+            <trans-unit id="form_button.duplicate" approved="yes">
+                <source>Duplicate</source>
+            </trans-unit>
+            <trans-unit id="form_button.changeDocumentType" approved="yes">
+                <source>Change publication type</source>
+            </trans-unit>
 			<trans-unit id="form_button.deleteWorkingCopy">
 				<source>delete working copy</source>
 			</trans-unit>
@@ -848,6 +854,18 @@
 			<trans-unit id="manager.search.showNumberOfResults.plural">
 				<source>%s records were found.</source>
 			</trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.header" approved="yes">
+                <source>Change the publication type</source>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.newDocumentType" approved="yes">
+                <source>New publication type</source>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.message" approved="yes">
+                <source>By changing the publication type, content from fields that are not available in the new publication type may be lost. This cannot be undone. To keep the current data for later review, copy it out of this summary:</source>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.saveSummary" approved="yes">
+                <source>Zusammenfassung speichern</source>
+            </trans-unit>
 			<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 				<source>Your document has been published:
 	Submitter: ###SUBMITTER_NAME###

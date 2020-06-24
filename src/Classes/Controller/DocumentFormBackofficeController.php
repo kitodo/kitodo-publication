@@ -556,4 +556,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     }
 
 
+    public function changeDocumentType() {
+
+    }
+
 }

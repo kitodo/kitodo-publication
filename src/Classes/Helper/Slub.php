@@ -50,6 +50,23 @@ class Slub
         return $documentTypeNode->item(0)->nodeValue;
     }
 
+    public function setDocumentType($documentTypeUid)
+    {
+        $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
+        if ($documentTypeNode->length == 1) {
+            $documentTypeNode->item(0)->nodeValue = $documentTypeUid;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $pNum = $this->slubDom->createElement('slub:documentType');
+                $pNum->nodeValue = $documentTypeUid;
+                $slubInfoNode->item(0)->appendChild($pNum);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
     public function getProcessNumber()
     {
         $processNumberNode = $this->getSlubXpath()->query("/slub:info/slub:processNumber");

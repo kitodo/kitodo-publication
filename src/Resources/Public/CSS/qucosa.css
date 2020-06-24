@@ -356,21 +356,21 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
 
 /* -- details page ---------------------------------------------------------------------- */
 
-#details-view ul,
-#details-view li {
+.details-view ul,
+.details-view li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-#details-view .details-group {
+.details-view .details-group {
     margin: 20px 0;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 5px;
 }
 
 
-#details-view .details-group-name {
+.details-view .details-group-name {
     font-size: 18px;
     font-weight: 700;
     color: #666;
@@ -378,7 +378,7 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
     display: block;
 }
 
-#details-view .details-field-name {
+.details-view .details-field-name {
     padding: 0 0px;
     color: #666;
     white-space: nowrap;

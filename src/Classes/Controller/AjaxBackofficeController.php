@@ -219,4 +219,12 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         return json_encode($searches);
     }
 
+    public function initializeAction()
+    {
+        $this->authorizationChecker->denyAccessUnlessLoggedIn();
+
+        parent::initializeAction();
+
+    }
+
 }

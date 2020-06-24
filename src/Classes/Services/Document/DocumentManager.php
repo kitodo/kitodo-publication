@@ -193,7 +193,6 @@ class DocumentManager
                 $updateResult = false;
             }
         } else {
-
             $this->updateFiles($document, $deletedFiles, $newFiles);
             $this->documentRepository->update($document);
             $updateResult = $document->getDocumentIdentifier();
@@ -209,6 +208,7 @@ class DocumentManager
                     AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]
                 );
             }
+
             // index the document
             $this->signalSlotDispatcher->dispatch(
                 AbstractController::class, 'indexDocument', [$document]
