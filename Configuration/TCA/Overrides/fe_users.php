@@ -21,16 +21,17 @@ $temporaryColumns = array (
         'exclude' => true,
         'label' => 'stored_searches',
         'config' => [
-        'type' => 'inline',
-        'foreign_table' => 'tx_dpf_domain_model_storedsearch',
-        'foreign_field' => 'fe_user',
-        'maxitems' => 9999,
-        'appearance' => [
-            'collapseAll' => 0,
-            'levelLinksPosition' => 'top',
-            'showSynchronizationLink' => 1,
-            'showPossibleLocalizationRecords' => 1,
-            'showAllLocalizationLink' => 1
+            'type' => 'inline',
+            'foreign_table' => 'tx_dpf_domain_model_storedsearch',
+            'foreign_field' => 'fe_user',
+            'maxitems' => 9999,
+            'appearance' => [
+                'collapseAll' => 0,
+                'levelLinksPosition' => 'top',
+                'showSynchronizationLink' => 1,
+                'showPossibleLocalizationRecords' => 1,
+                'showAllLocalizationLink' => 1
+            ],
         ],
     ],
 
@@ -73,7 +74,7 @@ $temporaryColumns = array (
                 ['notify new publication in mypublication', ''],
             ),
         )
-    ),
+    )
 );
 
 
