@@ -16,39 +16,33 @@
 <f:layout name="Backoffice"/>
 <f:flashMessages />
 <f:section name="main">
-    <h1>Benutzereinstellungen</h1>
+    <h1><f:translate key="manager.locallang.user.settings"/></h1>
     <f:form action="saveSettings" object="{frontendUser}" objectName="frontendUser">
         <div>
-            <label>Mailadresse</label>
+            <label><f:translate key="manager.locallang.user.mail"/></label>
             <f:form.textfield property="email"/>
         </div>
-        <h2>Benachrichtigungseinstellungen</h2>
-        <h3>Änderungen innerhalb von "meine Publikationen"</h3>
+        <h2><f:translate key="manager.locallang.user.notify_settings"/></h2>
+        <h3><f:translate key="manager.locallang.user.changes_mypublications"/></h3>
         <div>
-            <label>Persönlich zugeordnet (Autor/Herausgeber)</label>
+            <label><f:translate key="manager.locallang.user.assigned_myself"/></label>
             <f:form.checkbox property="notifyPersonalLink" value="1"/>
         </div>
         <div>
-            <label>Bei Statusänderungen</label>
+            <label><f:translate key="manager.locallang.user.on_status_change"/></label>
             <f:form.checkbox property="notifyStatusChange" value="1"/>
         </div>
         <div>
-            <label>Wenn Volltext/Medium auf Qucosa veröffentlicht wird</label>
+            <label><f:translate key="manager.locallang.user.fulltext_media_published"/></label>
             <f:form.checkbox property="notifyFulltextPublished" value="1"/>
         </div>
-        <h3>Neue Publikationen</h3>
+        <h3><f:translate key="manager.locallang.user.new_publications"/></h3>
         <div>
-            <label>Wenn eine Publikation zu "meine Publikationen" hinzukommt</label>
+            <label><f:translate key="manager.locallang.user.new_in_mypublications"/></label>
             <f:form.checkbox property="notifyNewPublicationMypublication" value="1"/>
         </div>
         <div>
-            <f:form.submit value="Speichern"/>
+            <f:form.submit value="Speichern {f:translate(key: 'form_button.save')}"/>
         </div>
     </f:form>
 </f:section>
-
-Eine Publikation in „Meine Publikationen“ geändert wird.
-Nur Publikationen, denen ich persönlich zugeordnet bin (als Autor_in/Hrsg.)
-Nur wenn eine Publikation dabei ihren Status ändert (z. B. von gemeldet zu freigegeben).
-Nur wenn mein Volltext/Medium auf Qucosa veröffentlicht wird.
-Eine neue Publikation zu „Meine Publikationen“ hinzukommt.

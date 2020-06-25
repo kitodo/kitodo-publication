@@ -5,1231 +5,1212 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
-		<trans-unit id="config.elasticSearchHost">
-			<source>Host address</source>
-		</trans-unit>
-		<trans-unit id="config.elasticSearchPort">
-			<source>Port</source>
-		</trans-unit>
-		<trans-unit id="config.fedoraHost">
-			<source>Host address</source>
-		</trans-unit>
-		<trans-unit id="config.fedoraPassword">
-			<source>Password</source>
-		</trans-unit>
-		<trans-unit id="config.fedoraUser">
-			<source>Username</source>
-		</trans-unit>
-		<trans-unit id="config.swordCollectionNamespace">
-			<source>Collection namespace</source>
-		</trans-unit>
-		<trans-unit id="config.swordHost">
-			<source>Host address</source>
-		</trans-unit>
-		<trans-unit id="config.swordPassword">
-			<source>Password</source>
-		</trans-unit>
-		<trans-unit id="config.swordUser">
-			<source>Username</source>
-		</trans-unit>
-		<trans-unit id="config.uploadDirectory">
-			<source>Directory path</source>
-		</trans-unit>
-		<trans-unit id="config.uploadDomain">
-			<source>Domain</source>
-		</trans-unit>
-		<trans-unit id="documentForm.create.ok">
-			<source>Document successfully created.</source>
-		</trans-unit>
-		<trans-unit id="documentForm.create.accessDenied">
-			<source>Could not create document, access denied.</source>
-		</trans-unit>
-		<trans-unit id="documentForm.edit.header">
-			<source>Edit %s</source>
-		</trans-unit>
-		<trans-unit id="documentForm.goBack">
-			<source>go back</source>
-		</trans-unit>
-		<trans-unit id="documentForm.new.header">
-			<source>New %s</source>
-		</trans-unit>
-		<trans-unit id="documentForm.processNumber">
-			<source>Process Number</source>
-		</trans-unit>
-        <trans-unit id="documentForm.suggestRestore">
-            <source>Suggest restore</source>
-        </trans-unit>
-        <trans-unit id="documentForm.suggestComment">
-            <source>Comment</source>
-        </trans-unit>
-        <trans-unit id="documentForm.suggestCommentPlaceHolder">
-            <source>Please enter a comment.</source>
-        </trans-unit>
-		<trans-unit id="documentForm.uploadError">
-			<source>Document couldn't be saved. File size limit exceeded:</source>
-		</trans-unit>
-		<trans-unit id="documentForm.uploadPostError">
-			<source>Document couldn't be saved. Error while uploading files.</source>
-		</trans-unit>
-        <trans-unit id="documentForm.newFiles">
-            <source>New files</source>
-        </trans-unit>
-		<trans-unit id="document_activate.failure">
-			<source>Activating %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_activate.accessDenied">
-			<source>%s could not be released, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_activate.failureNewVersion">
-			<source>Releasing %s failed. There is a newer Version.</source>
-		</trans-unit>
-		<trans-unit id="document_activate.success">
-			<source>%s successfully activated.</source>
-		</trans-unit>
-		<trans-unit id="document_inactivate.failure">
-			<source>Inactivating %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_inactivate.success">
-			<source>%s successfully inactivated.</source>
-		</trans-unit>
-		<trans-unit id="document_delete.failure">
-			<source>Deleting %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_delete.success">
-			<source>%s successfully deleted.</source>
-		</trans-unit>
-		<trans-unit id="document_deleteLocally.failure">
-			<source>Removing %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_deleteLocally.failureNewVersion">
-			<source>Removing %s failed. There is a newer Version.</source>
-		</trans-unit>
-		<trans-unit id="document_deleteLocally.failureBlocked">
-			<source>%s could not be removed, because it is currently being edited.</source>
-		</trans-unit>
-		<trans-unit id="document_deleteLocally.accessDenied">
-			<source>%s could not be removed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_deleteLocally.success">
-			<source>%s successfully removed.</source>
-		</trans-unit>
-		<trans-unit id="document_edit.failureBlocked">
-			<source>%s is already being edited.</source>
-		</trans-unit>
-		<trans-unit id="document_edit.accessDenied">
-			<source>Can not edit %s, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_discard.success">
-			<source>Document successfully discarded.</source>
-		</trans-unit>
-		<trans-unit id="document_discard.failure">
-			<source>Document could not be discarded.</source>
-		</trans-unit>
-		<trans-unit id="document_discard.failureNewVersion">
-			<source>%s could not be discarded. There is a newer version.</source>
-		</trans-unit>
-		<trans-unit id="document_discard.failureBlocked">
-			<source>%s could not be discarded, because it is currently being edited.</source>
-		</trans-unit>
-		<trans-unit id="document_discard.accessDenied">
-			<source>%s could not be discarded, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_postpone.success">
-			<source>%s successfully postponed.</source>
-		</trans-unit>
-		<trans-unit id="document_postpone.failure">
-			<source>%s could not be postponed.</source>
-		</trans-unit>
-		<trans-unit id="document_postpone.failureNewVersion">
-		    <source>%s could not be postponed. There is a newer Version.</source>
-		</trans-unit>
-		<trans-unit id="document_postpone.failureBlocked">
-			<source>%s could not be postponed, because it is currently being edited.</source>
-		</trans-unit>
-		<trans-unit id="document_postpone.accessDenied">
-			<source>%s could not be postponed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_duplicate.success">
-			<source>The document has been duplicated.</source>
-		</trans-unit>
-		<trans-unit id="document_duplicate.failure">
-			<source>The document could not be duplicated.</source>
-		</trans-unit>
-		<trans-unit id="document_duplicate.accessDenied">
-			<source>%s could not be duplicated, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_inactivate.failure">
-			<source>Inactivating %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_inactivate.success">
-			<source>%s successfully inactivated.</source>
-		</trans-unit>
-		<trans-unit id="document_ingest.failure">
-			<source>Releasing %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_ingest.accessDenied">
-			<source>Releasing %s failed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_ingest.success">
-			<source>%s successfully released.</source>
-		</trans-unit>
-		<trans-unit id="document_restore.failure">
-			<source>Restoring %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_restore.success">
-			<source>%s successfully restored.</source>
-		</trans-unit>
-		<trans-unit id="document_retrieve.failure">
-			<source>Importing dataset %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_retrieve.success">
-			<source>Dataset %s successfully imported.</source>
-		</trans-unit>
-		<trans-unit id="document_update.failure">
-			<source>Updating %s failed.</source>
-		</trans-unit>
-		<trans-unit id="document_update.failureNewVersion">
-			<source>Updating %s failed. There is a newer version.</source>
-		</trans-unit>
-		<trans-unit id="document_update.accessDenied">
-			<source>Updating %s failed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_update.success">
-			<source>%s successfully updated.</source>
-		</trans-unit>
-		<trans-unit id="document_register.success" approved="yes">
-			<source>Document successfully registered.</source>
-		</trans-unit>
-		<trans-unit id="document_register.accessDenied">
-			<source>Registering %s failed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_register.missingValues">
-			<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
-		</trans-unit>
-		<trans-unit id="document_showDetails.accessDenied">
-			<source>Can not show %s, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_suggestChange.accessDenied">
-			<source>Suggesting changes for %s failed, access denied.</source>
-		</trans-unit>
-		<trans-unit id="document_suggestRestore.accessDenied">
-			<source>Suggesting restore of %s failed, access denied.</source>
-		</trans-unit>
-        <trans-unit id="document_save.max_size_error">
-            <source>Maximum document size exceeded.</source>
-        </trans-unit>
-		<trans-unit id="document_transfer.next_id_failure">
-			<source>Couldn't get a valid Document id from the repository.</source>
-		</trans-unit>
-        <trans-unit id="document_transfer.repository_connection_error">
-            <source>The connection to the repository server failed.</source>
-        </trans-unit>
-        <trans-unit id="document_transfer.elasticsearch_connection_error">
-            <source>The connection to the search server failed.</source>
-        </trans-unit>
-        <trans-unit id="error.unexpected">
-            <source>Failed, an unexpected error occurred.</source>
-        </trans-unit>
-        <trans-unit id="error.access_denied" approved="yes">
-            <source>Access denied!</source>
-        </trans-unit>
-		<trans-unit id="form_button.addFile">
-			<source>add file</source>
-		</trans-unit>
-		<trans-unit id="form_button.add_item">
-			<source>add %s</source>
-		</trans-unit>
-		<trans-unit id="form_button.cancel">
-			<source>cancel</source>
-		</trans-unit>
-		<trans-unit id="form_button.edit">
-			<source>edit</source>
-		</trans-unit>
-		<trans-unit id="form_button.register">
-			<source>register</source>
-		</trans-unit>
-        <trans-unit id="form_button.suggestion">
-            <source>suggestion</source>
-        </trans-unit>
-		<trans-unit id="form_button.create_value">
-			<source>create</source>
-		</trans-unit>
-		<trans-unit id="form_button.delete">
-			<source>delete</source>
-		</trans-unit>
-		<trans-unit id="form_button.delete_item">
-			<source>delete %s</source>
-		</trans-unit>
-        <trans-unit id="form_button.deleteLocally">
-            <source>delete</source>
-        </trans-unit>
-        <trans-unit id="form_button.deleteWorkingCopy">
-            <source>delete working copy</source>
-        </trans-unit>
-		<trans-unit id="form_button.suggestRestore">
-			<source>suggest restore</source>
-		</trans-unit>
-        <trans-unit id="documentForm.restoreDocument">
-            <source>Restore document</source>
-        </trans-unit>
-        <trans-unit id="form_button.acceptSuggest">
-            <source>accept suggestion</source>
-        </trans-unit>
-		<trans-unit id="form_button.remove_file">
-			<source>remove</source>
-		</trans-unit>
-		<trans-unit id="form_button.save">
-			<source>save</source>
-		</trans-unit>
-		<trans-unit id="form_button.saveSuggestion">
-			<source>save suggestion</source>
-		</trans-unit>
-		<trans-unit id="form_button.saveWorkingCopy">
-			<source>save working copy</source>
-		</trans-unit>
-		<trans-unit id="form_button.saveAndUpdate">
-			<source>save and update</source>
-		</trans-unit>
-		<trans-unit id="form_button.validate">
-			<source>validate</source>
-		</trans-unit>
-		<trans-unit id="form_button.nextPage">
-			<source>next</source>
-		</trans-unit>
-		<trans-unit id="form_button.prevPage">
-			<source>previous</source>
-		</trans-unit>
-        <trans-unit id="form_page.files">
-            <source>Files</source>
-        </trans-unit>
-        <trans-unit id="form_value.yes">
-            <source>yes</source>
-        </trans-unit>
-		<trans-unit id="form_error_msg.all">
-			<source>The form contains errors.</source>
-		</trans-unit>
-		<trans-unit id="form_error_msg.field_invalid">
-			<source>Invalid input</source>
-		</trans-unit>
-		<trans-unit id="form_error_msg.field_max_length">
-			<source>The maximum number of %s characters has been exceeded.</source>
-		</trans-unit>
-		<trans-unit id="form_error_msg.group_mandatory">
-			<source>Please fill in the required fields.</source>
-		</trans-unit>
-		<trans-unit id="form_error_msg.group_one_required">
-			<source>Please fill out at least one of the fields.</source>
-		</trans-unit>
-        <trans-unit id="form_error_msg.nothing_found">
-        	<source>Nothing found.</source>
-        </trans-unit>
-        <trans-unit id="form_error_msg.filloutservice_urn">
-        	<source>URN service unavailable.</source>
-        </trans-unit>
-		<trans-unit id="form_legend.primaryFile">
-			<source>Primary File* (Format: PDF / PDF/A)</source>
-		</trans-unit>
-		<trans-unit id="form_legend.secondaryFile">
-			<source>Secondary File (Format: PDF / PDF/A et al.)</source>
-		</trans-unit>
-		<trans-unit id="form_success_msg.all">
-			<source>Form successfully validated.</source>
-		</trans-unit>
-		<trans-unit id="manager.activate">
-			<source>activate</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmActivate.message">
-			<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmActivate.messageHeader">
-			<source>Do you really want to activate the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.client">
-			<source>Client</source>
-		</trans-unit>
-		<trans-unit id="manager.control.documents">
-			<source>Workspace</source>
-		</trans-unit>
-        <trans-unit id="manager.control.suggestions">
-            <source>Suggestions</source>
-        </trans-unit>
-		<trans-unit id="manager.control.editDocument">
-			<source>Edit Publication</source>
-		</trans-unit>
-        <trans-unit id="manager.control.editSuggestion">
-    		<source>Suggestion</source>
-    	</trans-unit>
-        <trans-unit id="manager.control.suggestionDescription">
-    		<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
-    	</trans-unit>
-		<trans-unit id="manager.control.createNewDocument">
-			<source>Create new publication</source>
-		</trans-unit>
-		<trans-unit id="manager.control.myPublications">
-			<source>My publications</source>
-		</trans-unit>
-		<trans-unit id="manager.control.search">
-			<source>Search</source>
-		</trans-unit>
-        <trans-unit id="manager.confirm.no">
-            <source>cancel</source>
-        </trans-unit>
-        <trans-unit id="manager.confirm.yes">
-            <source>continue</source>
-        </trans-unit>
-		<trans-unit id="manager.delete">
-			<source>delete</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDelete.message">
-            <source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDelete.messageHeader">
-			<source>Do you really want to delete the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRegister.message">
-			<source>The document &quot;%s&quot; will be registered for publication.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchRegister.messageHeader">
-			<source>Do you really want to register the selected documents?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchRegister.message" xml:space="preserve">
-			<source>The selected documents will be registered for publication.</source>
-		</trans-unit>
-		<trans-unit id="manager.deleteLocally">
-			<source>delete</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
-			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
-			<source>Do you really want to delete the document completely?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
-			<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader">
-			<source>Do you really want to delete the working copy completely?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
-			<source>Do you really want to register the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
-			<source>Do you really want to remove the selected documents?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchRemove.message" xml:space="preserve">
-			<source>The selected documents will be removed from your workspace.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader">
-			<source>Do you really want to release and validate the selected documents?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchReleaseValidated.message" xml:space="preserve">
-			<source>The selected documents will be released and validated.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader">
-			<source>Do you really want to release but not validate the selected documents?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" xml:space="preserve">
-			<source>The selected documents will be released but not validated.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchBookmark.messageHeader">
-			<source>Do you really want to bookmark the selected documents?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmBatchBookmark.message">
-			<source>The selected documents will be bookmarked.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
-			<source>Do you really want to remove the document from the list?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
-			<source>The selected documents will be removed from the list.</source>
-		</trans-unit>
-		<trans-unit id="manager.discard">
-			<source>discard</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDiscard.message">
-			<source>The document &quot;%s&quot; will be marked as discarded.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmDiscard.messageHeader">
-			<source>Do you really want to discard the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.postpone">
-			<source>postpone</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmPostpone.message">
-			<source>The document &quot;%s&quot; will be marked as postponed.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmPostpone.messageHeader">
-			<source>Do you really want to postpone the document processing?</source>
-		</trans-unit>
-		<trans-unit id="manager.document.authors">
-			<source>Authors</source>
-		</trans-unit>
-		<trans-unit id="manager.document.datasetIdentifier">
-			<source>Dateset Identifier</source>
-		</trans-unit>
-		<trans-unit id="manager.document.publishedDate">
-			<source>Published Date</source>
-		</trans-unit>
-		<trans-unit id="manager.document.state">
-			<source>State</source>
-		</trans-unit>
-        <trans-unit id="manager.document.suggestions">
-            <source>Suggestions</source>
-        </trans-unit>
-        <trans-unit id="manager.document.suggestionDetails">
-            <source>Suggestion details.</source>
-        </trans-unit>
-		<trans-unit id="manager.document.localStatus.new">
-			<source>New</source>
-		</trans-unit>
-		<trans-unit id="manager.document.localStatus.registered">
-			<source>Registered</source>
-		</trans-unit>
-		<trans-unit id="manager.document.localStatus.in_progress">
-			<source>In progress</source>
-		</trans-unit>
-		<trans-unit id="manager.document.localStatus.discarded">
-			<source>Discarded</source>
-		</trans-unit>
-		<trans-unit id="manager.document.localStatus.postponed">
-			<source>Postponed</source>
-		</trans-unit>
-		<trans-unit id="manager.document.localStatus.deleted">
-			<source>Deleted</source>
-		</trans-unit>
-		<trans-unit id="manager.document.title">
-			<source>Title</source>
-		</trans-unit>
-		<trans-unit id="manager.document.type">
-			<source>Type</source>
-		</trans-unit>
-		<trans-unit id="manager.document.discard.note">
-			<source>
-                <![CDATA[The document has been discarded: %s
-                Reason: %s]]>
-            </source>
-		</trans-unit>
-		<trans-unit id="manager.document.postpone.note">
-			<source>
-                <![CDATA[The document has been postponed: %s
-                Reason: %s]]>
-            </source>
-		</trans-unit>
-        <trans-unit id="manager.documentList.state.new">
-            <source>New</source>
-        </trans-unit>
-        <trans-unit id="manager.documentList.state.registered">
-            <source>Registered</source>
-        </trans-unit>
-		<trans-unit id="manager.documentList.state.released">
-			<source>Released</source>
-		</trans-unit>
-		<trans-unit id="manager.documentList.state.postponed">
-			<source>Postponed</source>
-		</trans-unit>
-		<trans-unit id="manager.documentList.state.discarded">
-			<source>Discarded</source>
-		</trans-unit>
-        <trans-unit id="manager.documentList.state.in_progress">
-            <source>In progress</source>
-        </trans-unit>
-        <trans-unit id="manager.documentDetails.cancel">
-            <source>Back</source>
-        </trans-unit>
-		<trans-unit id="manager.doublet">
-			<source>Doublet Check</source>
-		</trans-unit>
-		<trans-unit id="manager.show">
-			<source>Show</source>
-		</trans-unit>
-		<trans-unit id="manager.showWorkingCopy" approved="yes">
-			<source>Show working copy</source>
-		</trans-unit>
-		<trans-unit id="manager.inactivate">
-			<source>inactivate</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmInactivate.message">
-			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmInactivate.messageHeader">
-			<source>Do you really want to inactivate the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.releasePublish">
-			<source>release</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmReleasePublish.message">
-			<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmReleasePublish.messageHeader">
-			<source>Do you really want to publish the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRestore.message">
-			<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
-		</trans-unit>
-		<trans-unit id="manager.confirmRestore.messageHeader">
-			<source>Do you really want to restore the document?</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.activate">
-			<source>Activate document</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.duplicate">
-			<source>Duplicate document</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.inactivate">
-			<source>Inactivate document</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.preview">
-			<source>Show document preview</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.uploadFiles">
-			<source>Upload fulltext</source>
-		</trans-unit>
-		<trans-unit id="manager.tooltip.datacite">
-			<source>Download DataCite XML</source>
-		</trans-unit>
-		<trans-unit id="manager.chooseClientMessage">
-			<source>Please select a client in the page tree.</source>
-		</trans-unit>
-        <trans-unit id="manager.workspace.accessDenied">
-            <source>Access denied.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.title">
-            <source>Title</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.title.copy">
-            <source>[Copy]</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.publicationType">
-            <source>publication type</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.persons">
-            <source>Persons</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.publicationYear">
-            <source>Year</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.state">
-            <source>State</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator">
-            <source>Creator</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.self">
-            <source>Self</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.librarian">
-            <source>Librarian</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.user">
-            <source>User</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.unknown">
-            <source>Unknown</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.tooltip.self">
-            <source>Record created by myself.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.tooltip.librarian">
-            <source>Record created by the library.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.creator.tooltip.user">
-            <source>Record created by other users.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.universityPublication">
-            <source>UL</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.universityPublication.tooltip">
-            <source>Originated from scientific work at the UL</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.fulltextMedia">
-            <source>Fulltext</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.noTitle">
-            <source>No title</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.hasFiles.aggregations.true">
-            <source>Yes</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.hasFiles.aggregations.false">
-            <source>No</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.universityPublication.aggregations.true">
-            <source>Yes</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.universityPublication.aggregations.false">
-            <source>No</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.listDocuments">
-            <source>Documents</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.hideDiscarded">
-            <source>Hide discarded</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.showDiscarded">
-            <source>Show discarded</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.showBookmarksOnly">
-            <source>Show bookmarks only</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.filter.all">
-            <source>(all)</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.register.success.singular">
-            <source>%s record out of %s successfully registered.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.register.success.plural">
-            <source>%s records out of %s successfully registered.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.remove.success.singular">
-            <source>%s record out of %s successfully removed.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.remove.success.plural">
-            <source>%s records out of %s successfully removed.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.release.success.singular">
-            <source>%s record out of %s successfully released.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.release.success.plural">
-            <source>%s records out of %s successfully released.</source>
-        </trans-unit>
-        <trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
-            <source>Register</source>
-        </trans-unit>
-        <trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
-            <source>Export</source>
-        </trans-unit>
-        <trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
-            <source>Remove from "Workspace"</source>
-        </trans-unit>
-        <trans-unit id="manger.workspace.batch.buttonReleaseValidated" approved="yes">
-            <source>Release and validate</source>
-        </trans-unit>
-        <trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
-            <source>Release and not validate</source>
-        </trans-unit>
-		<trans-unit id="manager.workspace.bookmarkRemoved.singular">
-			<source>Record has been removed from workspace.</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.bookmarkRemoved.plural">
-			<source>%s Records have been removed from workspace.</source>
-		</trans-unit>
-        <trans-unit id="manager.workspace.batchAction.bookmark.success.singular">
-            <source>%s record out of %s successfully bookmarked.</source>
-        </trans-unit>
-        <trans-unit id="manager.workspace.batchAction.bookmark.success.plural">
-            <source>%s records out of %s successfully bookmarked.</source>
-        </trans-unit>
-		<trans-unit id="manager.workspace.bookmarkAdded">
-			<source>Record has been added to the workspace.</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.documentCounter">
-			<source>%s from %s to %s.</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.notes.header">
-			<source>Administrative notes</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.notes.close">
-			<source>Close</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.notes.tooltip">
-			<source>Show administrative notes</source>
-		</trans-unit>
-		<trans-unit id="manager.workspace.itemsPerPage">
-			<source>Documents per page:</source>
-		</trans-unit>
-        <trans-unit id="manager.workspace.itemsPerPage.applyButton">
-            <source>OK</source>
-        </trans-unit>
-		<trans-unit id="manager.search.saveQuery.successfully">
-			<source>Search query has been saved.</source>
-		</trans-unit>
-        <trans-unit id="manager.search.searchField.persons" approved="yes">
-            <source>Persons</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.organisation" approved="yes">
-            <source>Organisation</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.title" approved="yes">
-            <source>Title</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.identifier" approved="yes">
-            <source>Identifier</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.publicationType" approved="yes">
-            <source>Publication type</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.source" approved="yes">
-            <source>Source</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.year" approved="yes">
-            <source>Year</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.publisher" approved="yes">
-            <source>Publisher</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.language" approved="yes">
-            <source>Language</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.state" approved="yes">
-            <source>State</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.universityPublication" approved="yes">
-            <source>University publication</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.withFile" approved="yes">
-            <source>With file (Fulltext)</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
-            <source>Embargo end</source>
-        </trans-unit>
-        <trans-unit id="manager.search.searchField.comment" approved="yes">
-            <source>Comment</source>
-        </trans-unit>
-		<trans-unit id="manager.search.addSearchField">
-			<source>Add search field</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchField.missingQuery">
-			<source>Missing name or search query.</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchField.save">
-			<source>Save</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.title" approved="yes">
-			<source>Add search field</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.and" approved="yes">
-			<source>and</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.or" approved="yes">
-			<source>or</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.is" approved="yes">
-			<source>is</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.isNot" approved="yes">
-			<source>is not</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.state" approved="yes">
-			<source>State</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.field" approved="yes">
-			<source>Field</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.yes" approved="yes">
-			<source>Yes</source>
-		</trans-unit>
-		<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
-			<source>No</source>
-		</trans-unit>
-        <trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
-            <source>Document type</source>
-        </trans-unit>
-        <trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
-            <source>From</source>
-        </trans-unit>
-        <trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
-            <source>To</source>
-        </trans-unit>
-        <trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">
-            <source>Cancel</source>
-        </trans-unit>
-        <trans-unit id="manager.search.addSearchFieldDialog.add" approved="yes">
-            <source>Add</source>
-        </trans-unit>
-		<trans-unit id="manager.search.loadQuery">
-			<source>Load search</source>
-		</trans-unit>
-		<trans-unit id="manager.search.saveQuery">
-			<source>Save search</source>
-		</trans-unit>
-		<trans-unit id="manager.search.showNumberOfResults.singular">
-			<source>%s record was found.</source>
-		</trans-unit>
-		<trans-unit id="manager.search.showNumberOfResults.plural">
-			<source>%s records were found.</source>
-		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
-			<source>Your document has been published:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URL: ###URL###
-Date: ###DATE###
-				</source>
-		</trans-unit>
-		<trans-unit id="notification.ingestDocument.submitter.subject">
-			<source>Document published</source>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.admin.body" xml:space="preserve">
-			<source>A new document has been registered:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-				</source>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.admin.subject">
-			<source>New document registered</source>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.submitter.body" xml:space="preserve">
-			<source>You have registered the following document:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-				</source>
-		</trans-unit>
-		<trans-unit id="notification.newDocument.submitter.subject">
-			<source>You have registered a document</source>
-		</trans-unit>
-		<trans-unit id="notification.registerDocument.admin.body" xml:space="preserve">
-			<source>A document has been registered:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-				</source>
-		</trans-unit>
-		<trans-unit id="notification.document.embargo.admin.subject">
-			<source>Embargo expired</source>
-		</trans-unit>
-		<trans-unit id="notification.document.embargo.admin.body" xml:space="preserve">
-			<source>Embargo is expired:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-		</trans-unit>
-		<trans-unit id="notification.registerDocument.admin.subject">
-			<source>Document registered</source>
-		</trans-unit>
-		<trans-unit id="notification.newSuggestion.admin.body">
-			<source>A new suggestion has been added:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-URL: ###DETAIL_URL###
-			</source>
-		</trans-unit>
-		<trans-unit id="notification.newSuggestion.admin.subject">
-				<source>New suggestion</source>
+			<trans-unit id="config.elasticSearchHost">
+				<source>Host address</source>
 			</trans-unit>
-		<trans-unit id="notification.embargoExpired.admin.body">
-			<source>Embargo is expired:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
-URN: ###URN###
-Date: ###DATE###
-			</source>
-		</trans-unit>
-		<trans-unit id="notification.embargoExpired.admin.subject">
-			<source>Embargo expired (automatic)</source>
-		</trans-unit>
-		<trans-unit id="message.suggestion_flashmessage">
-			<source>Suggestion successfully saved</source>
-		</trans-unit>
-		<trans-unit id="search.control.extendedSearch">
-			<source>Extended search</source>
-		</trans-unit>
-		<trans-unit id="search.control.new">
-			<source>New</source>
-		</trans-unit>
-		<trans-unit id="search.control.simpleSearch">
-			<source>Simple search</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.author">
-			<source>Author</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.datasetIdentifier">
-			<source>Dataset Identifier</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.foundMessage">
-			<source>The following possible duplicates were found:</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.identifier">
-			<source>URN</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.nothingFoundMessage">
-			<source>There were no potential duplicates found.</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.publicationDate">
-			<source>Publication Date</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.submitter" approved="yes">
-			<source>Submitter</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.publishedDate" approved="yes">
-			<source>Published date</source>
-		</trans-unit>
-		<trans-unit id="search.doubletCheck.title">
-			<source>Title</source>
-		</trans-unit>
-		<trans-unit id="search.form.button.search">
-			<source>Search</source>
-		</trans-unit>
-		<trans-unit id="search.form.header.extendedSearch">
-			<source>Advanced search</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.abstract">
-			<source>Abstract</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.author">
-			<source>Author</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.corporation">
-			<source>Corporation</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.datasetIdentifier">
-			<source>ID</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.date">
-			<source>Date</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.from">
-			<source>From</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.inactiveDeleted">
-			<source>Inactive/Deleted</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.institution">
-			<source>Institution</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.query">
-			<source>Search String</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.tag">
-			<source>Tag</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.title">
-			<source>Title</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.to">
-			<source>To</source>
-		</trans-unit>
-		<trans-unit id="search.form.label.type">
-			<source>Type</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.author">
-			<source>Author</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.corporation">
-			<source>Corporation</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.datasetIdentifier">
-			<source>ID</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.documentFound">
-			<source>document found.</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.documentsFound">
-			<source>documents found.</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.identifier">
-			<source>Identifier</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.more">
-			<source>More results</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.nothingFound">
-			<source>No results for your search.</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.publicationDate">
-			<source>Publication date</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.publisher">
-			<source>Publisher</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.state">
-			<source>State</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.new">
-			<source>NEW</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.active">
-			<source>ACTIVE</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.deleted">
-			<source>DELETED</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.state.inactive">
-			<source>INACTIVE</source>
-		</trans-unit>
-		<trans-unit id="search.resultList.title">
-			<source>Title</source>
-		</trans-unit>
-		<trans-unit id="task.embargo.title">
-			<source>Embargo</source>
-		</trans-unit>
-		<trans-unit id="task.embargo.description">
-			<source>Embargo task for sending information to admins or publish files automatically if the embargo date is expired.</source>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_downloadtool">
-			<source>DPF: DownloadTool</source>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_metatags">
-			<source>DPF: Metatags</source>
-		</trans-unit>
-		<trans-unit id="tt_content.dpf_relatedlisttool">
-			<source>DPF: RelatedListTool</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.apiPid">
-			<source>API Pid</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.landingPage">
-			<source>Landing Page</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchAndResults">
-			<source>Show Search and Result List</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsPid">
-			<source>Search Results on Page</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.select_function">
-			<source>Select Function of Plugin</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.sheet_general">
-			<source>Options</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.showSearchForm">
-			<source>Show Search Form only</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.options">
-			<source>Filter Options</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.description">
-			<source>Use these settings to filter search results. Multiple filters use AND as conjunction operator.</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections">
-			<source>Filter Search Results by Collections (comma-separated Values)</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title">
-			<source>Filter Search Results by Title</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.author">
-			<source>Filter Search Results by Author</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.abstract">
-			<source>Filter Search Results by Abstract</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag">
-			<source>Filter Search Results by Tags (comma-separated Values)</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype">
-			<source>Filter Search Results by Document types</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.corporation">
-			<source>Filter Search Results by Corporation</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.from">
-			<source>Filter Search Results by Date (from)</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.till">
-			<source>Filter Search Results by Date (till)</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language">
-			<source>Filter Search Results by Languages (comma-separated ISO 639-2 codes)</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification">
-			<source>Filter Search Results by Classification</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.project">
-			<source>Filter Search Results by Project</source>
-		</trans-unit>
-		<trans-unit id="tt_content.pi_flexform.searchResultsFilter.submitter">
-			<source>Filter Search Results by Submitter</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.xml_data">
-			<source>Xml Data</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
-			<source>Display Name</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.name">
-			<source>Name</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_qucosaform.options">
-			<source>Options</source>
-		</trans-unit>
-		<trans-unit id="widget.pagination.next">
-			<source>next</source>
-		</trans-unit>
-		<trans-unit id="widget.pagination.previous">
-			<source>previous</source>
-		</trans-unit>
-        <trans-unit id="manager.locallang.bul">
-            <source>Bulgarian</source>
-        </trans-unit>
-		<trans-unit id="manager.locallang.chi">
-		    <source>Chinese</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.dan">
-            <source>Danish</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.ger">
-            <source>German</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.eng">
-            <source>English</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.fin">
-            <source>Finnish</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.fre">
-            <source>French</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.gre">
-            <source>Greek; Modern Greek</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.ita">
-            <source>Italian</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.lat">
-            <source>Latin</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.dut">
-            <source>Dutch; Flemish</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.dsb">
-            <source>Lower Sorbian</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.hsb">
-            <source>Upper Sorbian</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.pol">
-            <source>Polish</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.por">
-            <source>Portuguese</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.rus">
-            <source>Russian</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.swe">
-            <source>Swedish</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.slo">
-            <source>Slovak</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.spa">
-            <source>Spanish; Castilian</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.swa">
-            <source>Swahili</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.cze">
-            <source>Czech</source>
-        </trans-unit>
-        <trans-unit id="manager.locallang.vie">
-            <source>Vietnamese</source>
-        </trans-unit>
+			<trans-unit id="config.elasticSearchPort">
+				<source>Port</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraHost">
+				<source>Host address</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraPassword">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraUser">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="config.swordCollectionNamespace">
+				<source>Collection namespace</source>
+			</trans-unit>
+			<trans-unit id="config.swordHost">
+				<source>Host address</source>
+			</trans-unit>
+			<trans-unit id="config.swordPassword">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="config.swordUser">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="config.uploadDirectory">
+				<source>Directory path</source>
+			</trans-unit>
+			<trans-unit id="config.uploadDomain">
+				<source>Domain</source>
+			</trans-unit>
+			<trans-unit id="documentForm.create.ok">
+				<source>Document successfully created.</source>
+			</trans-unit>
+			<trans-unit id="documentForm.create.accessDenied">
+				<source>Could not create document, access denied.</source>
+			</trans-unit>
+			<trans-unit id="documentForm.edit.header">
+				<source>Edit %s</source>
+			</trans-unit>
+			<trans-unit id="documentForm.goBack">
+				<source>go back</source>
+			</trans-unit>
+			<trans-unit id="documentForm.new.header">
+				<source>New %s</source>
+			</trans-unit>
+			<trans-unit id="documentForm.processNumber">
+				<source>Process Number</source>
+			</trans-unit>
+			<trans-unit id="documentForm.suggestRestore">
+				<source>Suggest restore</source>
+			</trans-unit>
+			<trans-unit id="documentForm.suggestComment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="documentForm.suggestCommentPlaceHolder">
+				<source>Please enter a comment.</source>
+			</trans-unit>
+			<trans-unit id="documentForm.uploadError">
+				<source>Document couldn't be saved. File size limit exceeded:</source>
+			</trans-unit>
+			<trans-unit id="documentForm.uploadPostError">
+				<source>Document couldn't be saved. Error while uploading files.</source>
+			</trans-unit>
+			<trans-unit id="documentForm.newFiles">
+				<source>New files</source>
+			</trans-unit>
+			<trans-unit id="document_activate.failure">
+				<source>Activating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_activate.accessDenied">
+				<source>%s could not be released, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_activate.failureNewVersion">
+				<source>Releasing %s failed. There is a newer Version.</source>
+			</trans-unit>
+			<trans-unit id="document_activate.success">
+				<source>%s successfully activated.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.failure">
+				<source>Inactivating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.success">
+				<source>%s successfully inactivated.</source>
+			</trans-unit>
+			<trans-unit id="document_delete.failure">
+				<source>Deleting %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_delete.success">
+				<source>%s successfully deleted.</source>
+			</trans-unit>
+			<trans-unit id="document_deleteLocally.failure">
+				<source>Removing %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_deleteLocally.failureNewVersion">
+				<source>Removing %s failed. There is a newer Version.</source>
+			</trans-unit>
+			<trans-unit id="document_deleteLocally.failureBlocked">
+				<source>%s could not be removed, because it is currently being edited.</source>
+			</trans-unit>
+			<trans-unit id="document_deleteLocally.accessDenied">
+				<source>%s could not be removed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_deleteLocally.success">
+				<source>%s successfully removed.</source>
+			</trans-unit>
+			<trans-unit id="document_edit.failureBlocked">
+				<source>%s is already being edited.</source>
+			</trans-unit>
+			<trans-unit id="document_edit.accessDenied">
+				<source>Can not edit %s, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_discard.success">
+				<source>Document successfully discarded.</source>
+			</trans-unit>
+			<trans-unit id="document_discard.failure">
+				<source>Document could not be discarded.</source>
+			</trans-unit>
+			<trans-unit id="document_discard.failureNewVersion">
+				<source>%s could not be discarded. There is a newer version.</source>
+			</trans-unit>
+			<trans-unit id="document_discard.failureBlocked">
+				<source>%s could not be discarded, because it is currently being edited.</source>
+			</trans-unit>
+			<trans-unit id="document_discard.accessDenied">
+				<source>%s could not be discarded, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_postpone.success">
+				<source>%s successfully postponed.</source>
+			</trans-unit>
+			<trans-unit id="document_postpone.failure">
+				<source>%s could not be postponed.</source>
+			</trans-unit>
+			<trans-unit id="document_postpone.failureNewVersion">
+				<source>%s could not be postponed. There is a newer Version.</source>
+			</trans-unit>
+			<trans-unit id="document_postpone.failureBlocked">
+				<source>%s could not be postponed, because it is currently being edited.</source>
+			</trans-unit>
+			<trans-unit id="document_postpone.accessDenied">
+				<source>%s could not be postponed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_duplicate.success">
+				<source>The document has been duplicated.</source>
+			</trans-unit>
+			<trans-unit id="document_duplicate.failure">
+				<source>The document could not be duplicated.</source>
+			</trans-unit>
+			<trans-unit id="document_duplicate.accessDenied">
+				<source>%s could not be duplicated, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.failure">
+				<source>Inactivating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_inactivate.success">
+				<source>%s successfully inactivated.</source>
+			</trans-unit>
+			<trans-unit id="document_ingest.failure">
+				<source>Releasing %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_ingest.accessDenied">
+				<source>Releasing %s failed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_ingest.success">
+				<source>%s successfully released.</source>
+			</trans-unit>
+			<trans-unit id="document_restore.failure">
+				<source>Restoring %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_restore.success">
+				<source>%s successfully restored.</source>
+			</trans-unit>
+			<trans-unit id="document_retrieve.failure">
+				<source>Importing dataset %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_retrieve.success">
+				<source>Dataset %s successfully imported.</source>
+			</trans-unit>
+			<trans-unit id="document_update.failure">
+				<source>Updating %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_update.failureNewVersion">
+				<source>Updating %s failed. There is a newer version.</source>
+			</trans-unit>
+			<trans-unit id="document_update.accessDenied">
+				<source>Updating %s failed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_update.success">
+				<source>%s successfully updated.</source>
+			</trans-unit>
+			<trans-unit id="document_register.success" approved="yes">
+				<source>Document successfully registered.</source>
+			</trans-unit>
+			<trans-unit id="document_register.accessDenied">
+				<source>Registering %s failed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_register.missingValues">
+				<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
+			</trans-unit>
+			<trans-unit id="document_showDetails.accessDenied">
+				<source>Can not show %s, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_suggestChange.accessDenied">
+				<source>Suggesting changes for %s failed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_suggestRestore.accessDenied">
+				<source>Suggesting restore of %s failed, access denied.</source>
+			</trans-unit>
+			<trans-unit id="document_save.max_size_error">
+				<source>Maximum document size exceeded.</source>
+			</trans-unit>
+			<trans-unit id="document_transfer.next_id_failure">
+				<source>Couldn't get a valid Document id from the repository.</source>
+			</trans-unit>
+			<trans-unit id="document_transfer.repository_connection_error">
+				<source>The connection to the repository server failed.</source>
+			</trans-unit>
+			<trans-unit id="document_transfer.elasticsearch_connection_error">
+				<source>The connection to the search server failed.</source>
+			</trans-unit>
+			<trans-unit id="error.unexpected">
+				<source>Failed, an unexpected error occurred.</source>
+			</trans-unit>
+			<trans-unit id="error.access_denied" approved="yes">
+				<source>Access denied!</source>
+			</trans-unit>
+			<trans-unit id="form_button.addFile">
+				<source>add file</source>
+			</trans-unit>
+			<trans-unit id="form_button.add_item">
+				<source>add %s</source>
+			</trans-unit>
+			<trans-unit id="form_button.cancel">
+				<source>cancel</source>
+			</trans-unit>
+			<trans-unit id="form_button.edit">
+				<source>edit</source>
+			</trans-unit>
+			<trans-unit id="form_button.register">
+				<source>register</source>
+			</trans-unit>
+			<trans-unit id="form_button.suggestion">
+				<source>suggestion</source>
+			</trans-unit>
+			<trans-unit id="form_button.create_value">
+				<source>create</source>
+			</trans-unit>
+			<trans-unit id="form_button.delete">
+				<source>delete</source>
+			</trans-unit>
+			<trans-unit id="form_button.delete_item">
+				<source>delete %s</source>
+			</trans-unit>
+			<trans-unit id="form_button.deleteLocally">
+				<source>delete</source>
+			</trans-unit>
+			<trans-unit id="form_button.deleteWorkingCopy">
+				<source>delete working copy</source>
+			</trans-unit>
+			<trans-unit id="form_button.suggestRestore">
+				<source>suggest restore</source>
+			</trans-unit>
+			<trans-unit id="documentForm.restoreDocument">
+				<source>Restore document</source>
+			</trans-unit>
+			<trans-unit id="form_button.acceptSuggest">
+				<source>accept suggestion</source>
+			</trans-unit>
+			<trans-unit id="form_button.remove_file">
+				<source>remove</source>
+			</trans-unit>
+			<trans-unit id="form_button.save">
+				<source>save</source>
+			</trans-unit>
+			<trans-unit id="form_button.saveSuggestion">
+				<source>save suggestion</source>
+			</trans-unit>
+			<trans-unit id="form_button.saveWorkingCopy">
+				<source>save working copy</source>
+			</trans-unit>
+			<trans-unit id="form_button.saveAndUpdate">
+				<source>save and update</source>
+			</trans-unit>
+			<trans-unit id="form_button.validate">
+				<source>validate</source>
+			</trans-unit>
+			<trans-unit id="form_button.nextPage">
+				<source>next</source>
+			</trans-unit>
+			<trans-unit id="form_button.prevPage">
+				<source>previous</source>
+			</trans-unit>
+			<trans-unit id="form_page.files">
+				<source>Files</source>
+			</trans-unit>
+			<trans-unit id="form_value.yes">
+				<source>yes</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.all">
+				<source>The form contains errors.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.field_invalid">
+				<source>Invalid input</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.field_max_length">
+				<source>The maximum number of %s characters has been exceeded.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.group_mandatory">
+				<source>Please fill in the required fields.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.group_one_required">
+				<source>Please fill out at least one of the fields.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.nothing_found">
+				<source>Nothing found.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.filloutservice_urn">
+				<source>URN service unavailable.</source>
+			</trans-unit>
+			<trans-unit id="form_legend.primaryFile">
+				<source>Primary File* (Format: PDF / PDF/A)</source>
+			</trans-unit>
+			<trans-unit id="form_legend.secondaryFile">
+				<source>Secondary File (Format: PDF / PDF/A et al.)</source>
+			</trans-unit>
+			<trans-unit id="form_success_msg.all">
+				<source>Form successfully validated.</source>
+			</trans-unit>
+			<trans-unit id="manager.activate">
+				<source>activate</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmActivate.message">
+				<source>The document &quot;%s&quot; will be marked as active in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmActivate.messageHeader">
+				<source>Do you really want to activate the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.client">
+				<source>Client</source>
+			</trans-unit>
+			<trans-unit id="manager.control.documents">
+				<source>Workspace</source>
+			</trans-unit>
+			<trans-unit id="manager.control.suggestions">
+				<source>Suggestions</source>
+			</trans-unit>
+			<trans-unit id="manager.control.editDocument">
+				<source>Edit Publication</source>
+			</trans-unit>
+			<trans-unit id="manager.control.editSuggestion">
+				<source>Suggestion</source>
+			</trans-unit>
+			<trans-unit id="manager.control.suggestionDescription">
+				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
+			</trans-unit>
+			<trans-unit id="manager.control.createNewDocument">
+				<source>Create new publication</source>
+			</trans-unit>
+			<trans-unit id="manager.control.myPublications">
+				<source>My publications</source>
+			</trans-unit>
+			<trans-unit id="manager.control.search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="manager.confirm.no">
+				<source>cancel</source>
+			</trans-unit>
+			<trans-unit id="manager.confirm.yes">
+				<source>continue</source>
+			</trans-unit>
+			<trans-unit id="manager.delete">
+				<source>delete</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDelete.message">
+				<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDelete.messageHeader">
+				<source>Do you really want to delete the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRegister.message">
+				<source>The document &quot;%s&quot; will be registered for publication.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchRegister.messageHeader">
+				<source>Do you really want to register the selected documents?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchRegister.message" xml:space="preserve">
+				<source>The selected documents will be registered for publication.</source>
+			</trans-unit>
+			<trans-unit id="manager.deleteLocally">
+				<source>delete</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocally.message" approved="yes" xml:space="preserve">
+				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
+				<source>Do you really want to delete the document completely?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
+				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader">
+				<source>Do you really want to delete the working copy completely?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
+				<source>Do you really want to register the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
+				<source>Do you really want to remove the selected documents?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchRemove.message" xml:space="preserve">
+				<source>The selected documents will be removed from your workspace.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader">
+				<source>Do you really want to release and validate the selected documents?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchReleaseValidated.message" xml:space="preserve">
+				<source>The selected documents will be released and validated.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader">
+				<source>Do you really want to release but not validate the selected documents?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" xml:space="preserve">
+				<source>The selected documents will be released but not validated.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchBookmark.messageHeader">
+				<source>Do you really want to bookmark the selected documents?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchBookmark.message">
+				<source>The selected documents will be bookmarked.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRemoveBookmark.messageHeader" approved="yes">
+				<source>Do you really want to remove the document from the list?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRemoveBookmark.message" approved="yes" xml:space="preserve">
+				<source>The selected documents will be removed from the list.</source>
+			</trans-unit>
+			<trans-unit id="manager.discard">
+				<source>discard</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDiscard.message">
+				<source>The document &quot;%s&quot; will be marked as discarded.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDiscard.messageHeader">
+				<source>Do you really want to discard the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.postpone">
+				<source>postpone</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmPostpone.message">
+				<source>The document &quot;%s&quot; will be marked as postponed.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmPostpone.messageHeader">
+				<source>Do you really want to postpone the document processing?</source>
+			</trans-unit>
+			<trans-unit id="manager.document.authors">
+				<source>Authors</source>
+			</trans-unit>
+			<trans-unit id="manager.document.datasetIdentifier">
+				<source>Dateset Identifier</source>
+			</trans-unit>
+			<trans-unit id="manager.document.publishedDate">
+				<source>Published Date</source>
+			</trans-unit>
+			<trans-unit id="manager.document.state">
+				<source>State</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestions">
+				<source>Suggestions</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails">
+				<source>Suggestion details.</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.new">
+				<source>New</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.registered">
+				<source>Registered</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.in_progress">
+				<source>In progress</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.discarded">
+				<source>Discarded</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.postponed">
+				<source>Postponed</source>
+			</trans-unit>
+			<trans-unit id="manager.document.localStatus.deleted">
+				<source>Deleted</source>
+			</trans-unit>
+			<trans-unit id="manager.document.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="manager.document.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="manager.document.discard.note">
+				<source>
+					<![CDATA[The document has been discarded: %s
+					Reason: %s]]>
+				</source>
+			</trans-unit>
+			<trans-unit id="manager.document.postpone.note">
+				<source>
+					<![CDATA[The document has been postponed: %s
+					Reason: %s]]>
+				</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.new">
+				<source>New</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.registered">
+				<source>Registered</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.released">
+				<source>Released</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.postponed">
+				<source>Postponed</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.discarded">
+				<source>Discarded</source>
+			</trans-unit>
+			<trans-unit id="manager.documentList.state.in_progress">
+				<source>In progress</source>
+			</trans-unit>
+			<trans-unit id="manager.documentDetails.cancel">
+				<source>Back</source>
+			</trans-unit>
+			<trans-unit id="manager.doublet">
+				<source>Doublet Check</source>
+			</trans-unit>
+			<trans-unit id="manager.show">
+				<source>Show</source>
+			</trans-unit>
+			<trans-unit id="manager.showWorkingCopy" approved="yes">
+				<source>Show working copy</source>
+			</trans-unit>
+			<trans-unit id="manager.inactivate">
+				<source>inactivate</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmInactivate.message">
+				<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmInactivate.messageHeader">
+				<source>Do you really want to inactivate the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.releasePublish">
+				<source>release</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmReleasePublish.message">
+				<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmReleasePublish.messageHeader">
+				<source>Do you really want to publish the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRestore.message">
+				<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRestore.messageHeader">
+				<source>Do you really want to restore the document?</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.activate">
+				<source>Activate document</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.duplicate">
+				<source>Duplicate document</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.inactivate">
+				<source>Inactivate document</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.preview">
+				<source>Show document preview</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.uploadFiles">
+				<source>Upload fulltext</source>
+			</trans-unit>
+			<trans-unit id="manager.tooltip.datacite">
+				<source>Download DataCite XML</source>
+			</trans-unit>
+			<trans-unit id="manager.chooseClientMessage">
+				<source>Please select a client in the page tree.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.accessDenied">
+				<source>Access denied.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.title.copy">
+				<source>[Copy]</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.publicationType">
+				<source>publication type</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.persons">
+				<source>Persons</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.publicationYear">
+				<source>Year</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.state">
+				<source>State</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator">
+				<source>Creator</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.self">
+				<source>Self</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.librarian">
+				<source>Librarian</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.user">
+				<source>User</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.unknown">
+				<source>Unknown</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.tooltip.self">
+				<source>Record created by myself.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.tooltip.librarian">
+				<source>Record created by the library.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.creator.tooltip.user">
+				<source>Record created by other users.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.universityPublication">
+				<source>UL</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.universityPublication.tooltip">
+				<source>Originated from scientific work at the UL</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.fulltextMedia">
+				<source>Fulltext</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.noTitle">
+				<source>No title</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.hasFiles.aggregations.true">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.hasFiles.aggregations.false">
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.universityPublication.aggregations.true">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.universityPublication.aggregations.false">
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.listDocuments">
+				<source>Documents</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.hideDiscarded">
+				<source>Hide discarded</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.showDiscarded">
+				<source>Show discarded</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.showBookmarksOnly">
+				<source>Show bookmarks only</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.filter.all">
+				<source>(all)</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.register.success.singular">
+				<source>%s record out of %s successfully registered.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.register.success.plural">
+				<source>%s records out of %s successfully registered.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.remove.success.singular">
+				<source>%s record out of %s successfully removed.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.remove.success.plural">
+				<source>%s records out of %s successfully removed.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.release.success.singular">
+				<source>%s record out of %s successfully released.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.release.success.plural">
+				<source>%s records out of %s successfully released.</source>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
+				<source>Register</source>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
+				<source>Export</source>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
+				<source>Remove from "Workspace"</source>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonReleaseValidated" approved="yes">
+				<source>Release and validate</source>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
+				<source>Release and not validate</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.bookmarkRemoved.singular">
+				<source>Record has been removed from workspace.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.bookmarkRemoved.plural">
+				<source>%s Records have been removed from workspace.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.bookmark.success.singular">
+				<source>%s record out of %s successfully bookmarked.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.bookmark.success.plural">
+				<source>%s records out of %s successfully bookmarked.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.bookmarkAdded">
+				<source>Record has been added to the workspace.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.documentCounter">
+				<source>%s from %s to %s.</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.notes.header">
+				<source>Administrative notes</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.notes.close">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.notes.tooltip">
+				<source>Show administrative notes</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.itemsPerPage">
+				<source>Documents per page:</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.itemsPerPage.applyButton">
+				<source>OK</source>
+			</trans-unit>
+			<trans-unit id="manager.search.saveQuery.successfully">
+				<source>Search query has been saved.</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.persons" approved="yes">
+				<source>Persons</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.organisation" approved="yes">
+				<source>Organisation</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.title" approved="yes">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.identifier" approved="yes">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.publicationType" approved="yes">
+				<source>Publication type</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.source" approved="yes">
+				<source>Source</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.year" approved="yes">
+				<source>Year</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.publisher" approved="yes">
+				<source>Publisher</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.language" approved="yes">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.state" approved="yes">
+				<source>State</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.universityPublication" approved="yes">
+				<source>University publication</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.withFile" approved="yes">
+				<source>With file (Fulltext)</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
+				<source>Embargo end</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.comment" approved="yes">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchField">
+				<source>Add search field</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchField.missingQuery">
+				<source>Missing name or search query.</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchField.save">
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.title" approved="yes">
+				<source>Add search field</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.and" approved="yes">
+				<source>and</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.or" approved="yes">
+				<source>or</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.is" approved="yes">
+				<source>is</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.isNot" approved="yes">
+				<source>is not</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.state" approved="yes">
+				<source>State</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.field" approved="yes">
+				<source>Field</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.yes" approved="yes">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
+				<source>Document type</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+				<source>From</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.add" approved="yes">
+				<source>Add</source>
+			</trans-unit>
+			<trans-unit id="manager.search.loadQuery">
+				<source>Load search</source>
+			</trans-unit>
+			<trans-unit id="manager.search.saveQuery">
+				<source>Save search</source>
+			</trans-unit>
+			<trans-unit id="manager.search.showNumberOfResults.singular">
+				<source>%s record was found.</source>
+			</trans-unit>
+			<trans-unit id="manager.search.showNumberOfResults.plural">
+				<source>%s records were found.</source>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
+				<source>Your document has been published:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URL: ###URL###
+	Date: ###DATE###
+					</source>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.subject">
+				<source>Document published</source>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.body" xml:space="preserve">
+				<source>A new document has been registered:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+					</source>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.subject">
+				<source>New document registered</source>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.body" xml:space="preserve">
+				<source>You have registered the following document:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+					</source>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.subject">
+				<source>You have registered a document</source>
+			</trans-unit>
+			<trans-unit id="notification.registerDocument.admin.body" xml:space="preserve">
+				<source>A document has been registered:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+					</source>
+			</trans-unit>
+			<trans-unit id="notification.registerDocument.admin.subject">
+				<source>Document registered</source>
+			</trans-unit>
+			<trans-unit id="search.control.extendedSearch">
+				<source>Extended search</source>
+			</trans-unit>
+			<trans-unit id="search.control.new">
+				<source>New</source>
+			</trans-unit>
+			<trans-unit id="search.control.simpleSearch">
+				<source>Simple search</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.datasetIdentifier">
+				<source>Dataset Identifier</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.foundMessage">
+				<source>The following possible duplicates were found:</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.identifier">
+				<source>URN</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.nothingFoundMessage">
+				<source>There were no potential duplicates found.</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.publicationDate">
+				<source>Publication Date</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.submitter" approved="yes">
+				<source>Submitter</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.publishedDate" approved="yes">
+				<source>Published date</source>
+			</trans-unit>
+			<trans-unit id="search.doubletCheck.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="search.form.button.search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="search.form.header.extendedSearch">
+				<source>Advanced search</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.abstract">
+				<source>Abstract</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.corporation">
+				<source>Corporation</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.datasetIdentifier">
+				<source>ID</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.from">
+				<source>From</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.inactiveDeleted">
+				<source>Inactive/Deleted</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.institution">
+				<source>Institution</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.query">
+				<source>Search String</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.tag">
+				<source>Tag</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.to">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="search.form.label.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.corporation">
+				<source>Corporation</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.datasetIdentifier">
+				<source>ID</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.documentFound">
+				<source>document found.</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.documentsFound">
+				<source>documents found.</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.identifier">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.more">
+				<source>More results</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.nothingFound">
+				<source>No results for your search.</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.publicationDate">
+				<source>Publication date</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.publisher">
+				<source>Publisher</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.state">
+				<source>State</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.state.new">
+				<source>NEW</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.state.active">
+				<source>ACTIVE</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.state.deleted">
+				<source>DELETED</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.state.inactive">
+				<source>INACTIVE</source>
+			</trans-unit>
+			<trans-unit id="search.resultList.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tt_content.dpf_downloadtool">
+				<source>DPF: DownloadTool</source>
+			</trans-unit>
+			<trans-unit id="tt_content.dpf_metatags">
+				<source>DPF: Metatags</source>
+			</trans-unit>
+			<trans-unit id="tt_content.dpf_relatedlisttool">
+				<source>DPF: RelatedListTool</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.apiPid">
+				<source>API Pid</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.landingPage">
+				<source>Landing Page</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchAndResults">
+				<source>Show Search and Result List</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsPid">
+				<source>Search Results on Page</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.select_function">
+				<source>Select Function of Plugin</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_general">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.showSearchForm">
+				<source>Show Search Form only</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.options">
+				<source>Filter Options</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.description">
+				<source>Use these settings to filter search results. Multiple filters use AND as conjunction operator.</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.collections">
+				<source>Filter Search Results by Collections (comma-separated Values)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.title">
+				<source>Filter Search Results by Title</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.author">
+				<source>Filter Search Results by Author</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.abstract">
+				<source>Filter Search Results by Abstract</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.tag">
+				<source>Filter Search Results by Tags (comma-separated Values)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.doctype">
+				<source>Filter Search Results by Document types</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.corporation">
+				<source>Filter Search Results by Corporation</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.from">
+				<source>Filter Search Results by Date (from)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.till">
+				<source>Filter Search Results by Date (till)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.language">
+				<source>Filter Search Results by Languages (comma-separated ISO 639-2 codes)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.classification">
+				<source>Filter Search Results by Classification</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.project">
+				<source>Filter Search Results by Project</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.searchResultsFilter.submitter">
+				<source>Filter Search Results by Submitter</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_document.xml_data">
+				<source>Xml Data</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.display_name">
+				<source>Display Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_domain_model_documenttype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dpf_qucosaform.options">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="widget.pagination.next">
+				<source>next</source>
+			</trans-unit>
+			<trans-unit id="widget.pagination.previous">
+				<source>previous</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.bul">
+				<source>Bulgarian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.chi">
+				<source>Chinese</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.dan">
+				<source>Danish</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.ger">
+				<source>German</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.eng">
+				<source>English</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.fin">
+				<source>Finnish</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.fre">
+				<source>French</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.gre">
+				<source>Greek; Modern Greek</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.ita">
+				<source>Italian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.lat">
+				<source>Latin</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.dut">
+				<source>Dutch; Flemish</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.dsb">
+				<source>Lower Sorbian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.hsb">
+				<source>Upper Sorbian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.pol">
+				<source>Polish</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.por">
+				<source>Portuguese</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.rus">
+				<source>Russian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.swe">
+				<source>Swedish</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.slo">
+				<source>Slovak</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.spa">
+				<source>Spanish; Castilian</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.swa">
+				<source>Swahili</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.cze">
+				<source>Czech</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.vie">
+				<source>Vietnamese</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings" approved="yes">
+				<source>User settings</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.mail" approved="yes">
+				<source>mail</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.notify_settings" approved="yes">
+				<source>Notify settings</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.changes_mypublications" approved="yes">
+				<source>Changes in "my publications"</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.assigned_myself" approved="yes">
+				<source>Assigned to myself (author)</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.on_status_change" approved="yes">
+				<source>On status change</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.fulltext_media_published" approved="yes">
+				<source>If fulltext/media is published</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.new_publications" approved="yes">
+				<source>New publications</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.new_in_mypublications" approved="yes">
+				<source>If a publication is new in "my publications"</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
