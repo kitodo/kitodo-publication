@@ -1170,11 +1170,11 @@ URN: ###URN###
 Date: ###DATE###
 				</source>
 			<target>Ein neues Dokument wurde angemeldet:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 				</target>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.admin.subject" approved="yes">
