@@ -55,13 +55,6 @@ class DocumentFormField extends AbstractFormElement
      */
     protected $maxInputLength;
 
-    /**
-     * Embargo field option
-     *
-     * @var bool
-     */
-    protected $embargo = false;
-
     public function getValue()
     {
         return $this->value;
@@ -254,23 +247,5 @@ class DocumentFormField extends AbstractFormElement
     public function setMaxInputLength($maxInputLength) {
         $this->maxInputLength = $maxInputLength;
     }
-
-    /**
-     * @return bool
-     */
-    public function getEmbargo(): bool
-    {
-        return $this->embargo;
-    }
-
-    /**
-     * @param bool $embargo
-     */
-    public function setEmbargo(bool $embargo)
-    {
-        $this->embargo = $embargo;
-    }
-
-
 
 }
