@@ -34,26 +34,4 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute($returnRawQueryResult);
     }
 
-    /**
-     * Finds all records with embargo date
-     * @return mixed
-     */
-    public function crossClientEmbargoFindAll() {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-        $querySettings->setRespectStoragePage(false);
-        $this->setDefaultQuerySettings($querySettings);
-        $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd(
-                array(
-                    $query->logicalNot(
-                        $query->equals('embargo_date', 0)
-                    )
-                )
-            )
-        );
-        return $query->execute();
-    }
-
 }
