@@ -183,7 +183,7 @@ class DocumentManager
                 }
 
                 // check embargo
-                if(!$this->checkEmbargoDate($document)){
+                if(!$this->hasActiveEmbargo($document)){
                     $this->removeDocument($document);
                 } else {
                     $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
@@ -330,7 +330,7 @@ class DocumentManager
 
         if ($this->getDocumentTransferManager()->update($document)) {
 
-            if(!$this->checkEmbargoDate($document)){
+            if(!$this->hasActiveEmbargo($document)){
                 $this->removeDocument($document);
             } else {
                 $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
@@ -346,7 +346,7 @@ class DocumentManager
      * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
      * @throws \Exception
      */
-    protected function checkEmbargoDate($document)
+    protected function hasActiveEmbargo($document)
     {
         $currentDate = new \DateTime('now');
         if($currentDate > $document->getEmbargoDate()){
