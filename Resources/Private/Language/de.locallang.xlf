@@ -1214,11 +1214,11 @@ URN: ###URN###
 Date: ###DATE###
 				</source>
 			<target>Ein Dokument wurde angemeldet:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 				</target>
 		</trans-unit>
 		<trans-unit id="notification.document.embargo.admin.subject" approved="yes">
@@ -1255,11 +1255,11 @@ Date: ###DATE###
 URL: ###DETAIL_URL###
 			</source>
 			<target>Ein Änderungsvorschlag wurde erstellt:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 URL: ###DETAIL_URL###
 			</target>
 		</trans-unit>
@@ -1276,11 +1276,11 @@ URN: ###URN###
 Date: ###DATE###
 			</source>
 				<target>Embargo ist abgelaufen:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 			</target>
 		</trans-unit>
 		<trans-unit id="notification.embargoExpired.admin.subject" approved="yes">
