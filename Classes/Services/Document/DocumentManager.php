@@ -186,7 +186,7 @@ class DocumentManager
                 if(!$this->hasActiveEmbargo($document)){
                     $this->removeDocument($document);
                 } else {
-                    $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+                    $document->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
                 }
                 $updateResult = $document->getDocumentIdentifier();
             } else {

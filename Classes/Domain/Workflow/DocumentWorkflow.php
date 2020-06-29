@@ -293,4 +293,8 @@ class DocumentWorkflow
         return new Workflow($definition, $marking);
     }
 
+    public static function constructState($localState, $remoteState) {
+        return $localState . ':' . $remoteState;
+    }
+
 }
