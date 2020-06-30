@@ -1170,11 +1170,11 @@ URN: ###URN###
 Date: ###DATE###
 				</source>
 			<target>Ein neues Dokument wurde angemeldet:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 				</target>
 		</trans-unit>
 		<trans-unit id="notification.newDocument.admin.subject" approved="yes">
@@ -1214,11 +1214,11 @@ URN: ###URN###
 Date: ###DATE###
 				</source>
 			<target>Ein Dokument wurde angemeldet:
-Submitter: ###SUBMITTER_NAME###
-Title: ###TITLE###
-Author: ###AUTHOR###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
 URN: ###URN###
-Date: ###DATE###
+Datum: ###DATE###
 				</target>
 		</trans-unit>
 		<trans-unit id="notification.document.embargo.admin.subject" approved="yes">
@@ -1244,6 +1244,52 @@ Date: ###DATE###
 		<trans-unit id="notification.registerDocument.admin.subject" approved="yes">
 			<source>Document registered</source>
 			<target>Ein Dokument wurde angemeldet</target>
+		</trans-unit>
+		<trans-unit id="notification.newSuggestion.admin.body" approved="yes" xml:space="preserve">
+			<source>A new suggestion has been added:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+URL: ###DETAIL_URL###
+			</source>
+			<target>Ein Änderungsvorschlag wurde erstellt:
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+URL: ###DETAIL_URL###
+			</target>
+		</trans-unit>
+		<trans-unit id="notification.newSuggestion.admin.subject" approved="yes">
+			<source>New suggestion</source>
+			<target>Ein Änderungsvorschlag wurde erstellt</target>
+		</trans-unit>
+		<trans-unit id="notification.embargoExpired.admin.body" approved="yes" xml:space="preserve">
+			<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+			</source>
+				<target>Embargo ist abgelaufen:
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+			</target>
+		</trans-unit>
+		<trans-unit id="notification.embargoExpired.admin.subject" approved="yes">
+			<source>Embargo expired (automatic)</source>
+			<target>Embargo abgelaufen (automatisch)</target>
+		</trans-unit>
+		<trans-unit id="message.suggestion_flashmessage" approved="yes">
+			<source>Suggestion successfully saved</source>
+			<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
 		</trans-unit>
 		<trans-unit id="search.control.extendedSearch" approved="yes">
 			<source>Extended search</source>

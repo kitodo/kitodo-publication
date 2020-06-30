@@ -26,45 +26,44 @@ plugin.tx_dpf {
 		storagePid =
 	}
 
-        settings {
-			api {
-				# cat=plugin.tx_dpf/api; type=string; label=Comma separated list of hosts allowed to access internal actions
-				allowedHosts = localhost
-			}
-
-            defaultValue {
-                fullTextLabel = Volltext (PDF)
-            }
-
-			# cat=plugin.tx_dpf/link; type=int+; label=Api PID
-			apiPid =
-
-			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
-			landingPage =
-
-			# cat=plugin.tx_dpf/link; type=int+; label=PID of the login page
-			loginPage =
-
-			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
-			searchResultsPid =
-
-			# cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page (Backend Preview)
-			previewPid =
-
-		    # cat=plugin.tx_dpf/link; type=int+; label=Workspace items per page (Backoffice)
-            workspaceItemsPerPage = 30
-
-		    # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
-            universityCollection = epflicht
-
-			documentListPagination {
-				# cat=plugin.tx_dpf/api; type=string; label=Number of links to be shown for the pagination of the list views workspace, my publications and search results.
-				maximumNumberOfLinks = 5
-			}
-
-			development {
-				# cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
-				docker = 0
-			}
+    settings {
+        api {
+            # cat=plugin.tx_dpf/api; type=string; label=Comma separated list of hosts allowed to access internal actions
+            allowedHosts = localhost
         }
+
+        defaultValue {
+            fullTextLabel = Volltext (PDF)
+        }
+
+        # cat=plugin.tx_dpf/link; type=int+; label=Api PID
+        apiPid =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
+        landingPage =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=PID of the login page
+        loginPage =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=PID of the backoffice plugin page
+        backofficePluginPage =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
+        searchResultsPid =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page (Backend Preview)
+        previewPid =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=Workspace items per page (Backoffice)
+        workspaceItemsPerPage = 30
+
+        # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
+        universityCollection = epflicht
+
+        development {
+            # cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
+            docker = 0
+
+        }
+    }
 }

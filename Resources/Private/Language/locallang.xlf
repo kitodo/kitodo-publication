@@ -908,6 +908,34 @@ Date: ###DATE###
 		<trans-unit id="notification.registerDocument.admin.subject">
 			<source>Document registered</source>
 		</trans-unit>
+		<trans-unit id="notification.newSuggestion.admin.body">
+			<source>A new suggestion has been added:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+URL: ###DETAIL_URL###
+			</source>
+		</trans-unit>
+		<trans-unit id="notification.newSuggestion.admin.subject">
+				<source>New suggestion</source>
+			</trans-unit>
+		<trans-unit id="notification.embargoExpired.admin.body">
+			<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+			</source>
+		</trans-unit>
+		<trans-unit id="notification.embargoExpired.admin.subject">
+			<source>Embargo expired (automatic)</source>
+		</trans-unit>
+		<trans-unit id="message.suggestion_flashmessage">
+			<source>Suggestion successfully saved</source>
+		</trans-unit>
 		<trans-unit id="search.control.extendedSearch">
 			<source>Extended search</source>
 		</trans-unit>

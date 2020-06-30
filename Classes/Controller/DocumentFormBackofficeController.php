@@ -21,6 +21,7 @@ use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -67,6 +68,14 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @inject
      */
     protected $bookmarkRepository = null;
+
+    /**
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @inject
+     */
+    protected $clientConfigurationManager;
 
     /**
      * DocumentController constructor.
@@ -212,6 +221,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $this->fileRepository->add($newFile);
                 }
 
+                $newDocument->addFile($newFile);
             }
         } else {
             // remove files for suggest object
@@ -222,8 +232,20 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         try {
             $newDocument->setCreator($this->security->getUser()->getUid());
             $this->documentRepository->add($newDocument);
-            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::SUCCESS;
-            $this->addFlashMessage("Success", '', $severity,false);
+
+            $flashMessage = $this->clientConfigurationManager->getSuggestionFlashMessage();
+            if (!$flashMessage) {
+                $flashMessage = LocalizationUtility::translate(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:message.suggestion_flashmessage',
+                    'dpf',
+                    ''
+                );
+            }
+            $this->addFlashMessage($flashMessage, '', AbstractMessage::OK, true);
+
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendAdminNewSuggestionNotification($newDocument);
+
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             $this->addFlashMessage("Failed", '', $severity,false);

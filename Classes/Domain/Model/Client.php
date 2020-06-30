@@ -220,6 +220,41 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminRegisterDocumentNotificationBody = '';
 
     /**
+     * @var string
+     */
+    protected $adminNewSuggestionSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminNewSuggestionBody = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminEmbargoBody = '';
+
+    /**
+     * @var string
+     */
+    protected $adminOaFondSubject = '';
+
+    /**
+     * @var string
+     */
+    protected $adminOaFondBody = '';
+
+    /**
+     * @var string
+     */
+    protected $suggestionFlashmessage = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -806,5 +841,118 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->adminRegisterDocumentNotificationBody = $adminRegisterDocumentNotificationBody;
     }
+
+    /**
+     * @return string
+     */
+    public function getAdminNewSuggestionSubject(): string
+    {
+        return $this->adminNewSuggestionSubject;
+    }
+
+    /**
+     * @param string $adminNewSuggestionSubject
+     */
+    public function setAdminNewSuggestionSubject(string $adminNewSuggestionSubject)
+    {
+        $this->adminNewSuggestionSubject = $adminNewSuggestionSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminNewSuggestionBody(): string
+    {
+        return $this->adminNewSuggestionBody;
+    }
+
+    /**
+     * @param string $adminNewSuggestionBody
+     */
+    public function setAdminNewSuggestionBody(string $adminNewSuggestionBody)
+    {
+        $this->adminNewSuggestionBody = $adminNewSuggestionBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoSubject(): string
+    {
+        return $this->adminEmbargoSubject;
+    }
+
+    /**
+     * @param string $adminEmbargoSubject
+     */
+    public function setAdminEmbargoSubject(string $adminEmbargoSubject)
+    {
+        $this->adminEmbargoSubject = $adminEmbargoSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminEmbargoBody(): string
+    {
+        return $this->adminEmbargoBody;
+    }
+
+    /**
+     * @param string $adminEmbargoBody
+     */
+    public function setAdminEmbargoBody(string $adminEmbargoBody)
+    {
+        $this->adminEmbargoBody = $adminEmbargoBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminOaFondSubject(): string
+    {
+        return $this->adminOaFondSubject;
+    }
+
+    /**
+     * @param string $adminOaFondSubject
+     */
+    public function setAdminOaFondSubject(string $adminOaFondSubject)
+    {
+        $this->adminOaFondSubject = $adminOaFondSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminOaFondBody(): string
+    {
+        return $this->adminOaFondBody;
+    }
+
+    /**
+     * @param string $adminOaFondBody
+     */
+    public function setAdminOaFondBody(string $adminOaFondBody)
+    {
+        $this->adminOaFondBody = $adminOaFondBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSuggestionFlashmessage(): string
+    {
+        return $this->suggestionFlashmessage;
+    }
+
+    /**
+     * @param string $suggestionFlashmessage
+     */
+    public function setSuggestionFlashmessage(string $suggestionFlashmessage)
+    {
+        $this->suggestionFlashmessage = $suggestionFlashmessage;
+    }
+
 
 }

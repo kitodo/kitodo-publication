@@ -97,6 +97,40 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body" approved="yes">
+			<source>New suggestion body
+			</source>
+			<target>Neuer Änderungsvorschlag Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_subject" approved="yes">
+			<source>New suggestion</source>
+			<target>Neuer Änderungsvorschlag</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_body" approved="yes">
+			<source>Embargo expired body
+			</source>
+			<target>Embargo abgelaufen Mailtext
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject" approved="yes">
+			<source>Embargo expired</source>
+			<target>Embargo abgelaufen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_body" approved="yes">
+			<source>OA Publicationfond body
+			</source>
+			<target>OA Publikationsfond Body
+			</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject" approved="yes">
+			<source>OA Publicationfond subject</source>
+			<target>OA Publicationfond Subject</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.suggestion_flashmessage">
+			<source>Suggestion flashmessage</source>
+			<target>Änderungs-/Wiederherstellungsvorschlag Flashmessage</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.sword_collection_namespace" approved="yes">
 			<source>Collection namespace</source>
 			<target>Kollektionsnamensraum</target>
