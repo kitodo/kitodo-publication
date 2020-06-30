@@ -174,6 +174,62 @@ class Notifier
 
     }
 
+    public function sendEmbargoNotification(\EWW\Dpf\Domain\Model\Document $document) {
+        try {
+            $client = $this->clientRepository->findAllByPid($document->getPid())->current();
+            $clientAdminEmail = $client->getAdminEmail();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $submitterEmail = $slub->getSubmitterEmail();
+//            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $authors = $document->getAuthors();
+
+            $args['###CLIENT###'] = $client->getClient();
+            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
+//            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+            $args['###TITLE###'] = $document->getTitle();
+            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
+            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
+            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+
+            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
+            $args['###URN###'] = $mods->getQucosaUrn();
+            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+
+
+            // Notify client admin
+            if ($clientAdminEmail) {
+
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.document.embargo.admin.subject', 'dpf');
+                }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.document.embargo.admin.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
+
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
     public function sendRegisterNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
 

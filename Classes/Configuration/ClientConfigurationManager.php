@@ -92,6 +92,13 @@ class ClientConfigurationManager
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
     }
 
+    public function setConfigurationPid($pid) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientRepository = $objectManager->get(ClientRepository::class);
+
+        $this->client = $clientRepository->findAllByPid($pid)->current();
+    }
+
 
     /**
      * Get setting from client or extension configuration.

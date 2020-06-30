@@ -145,6 +145,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $maxInputLength = 0;
 
+    /**
+     * Embargo field option
+     *
+     * @var boolean
+     */
+    protected $embargo;
+
 
     /**
      * Returns the name
@@ -515,5 +522,23 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     {
         $this->maxInputLength = $maxInputLength;
     }
+
+    /**
+     * @return bool
+     */
+    public function getEmbargo(): bool
+    {
+        return $this->embargo;
+    }
+
+    /**
+     * @param bool $embargo
+     */
+    public function setEmbargo(bool $embargo)
+    {
+        $this->embargo = $embargo;
+    }
+
+
 
 }

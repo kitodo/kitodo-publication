@@ -893,6 +893,18 @@ URN: ###URN###
 Date: ###DATE###
 				</source>
 		</trans-unit>
+		<trans-unit id="notification.document.embargo.admin.subject">
+			<source>Embargo expired</source>
+		</trans-unit>
+		<trans-unit id="notification.document.embargo.admin.body" xml:space="preserve">
+			<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+			</source>
+		</trans-unit>
 		<trans-unit id="notification.registerDocument.admin.subject">
 			<source>Document registered</source>
 		</trans-unit>
@@ -1024,6 +1036,12 @@ Date: ###DATE###
 		</trans-unit>
 		<trans-unit id="search.resultList.title">
 			<source>Title</source>
+		</trans-unit>
+		<trans-unit id="task.embargo.title">
+			<source>Embargo</source>
+		</trans-unit>
+		<trans-unit id="task.embargo.description">
+			<source>Embargo task for sending information to admins or publish files automatically if the embargo date is expired.</source>
 		</trans-unit>
 		<trans-unit id="tt_content.dpf_downloadtool">
 			<source>DPF: DownloadTool</source>

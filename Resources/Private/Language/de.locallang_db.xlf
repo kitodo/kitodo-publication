@@ -429,6 +429,10 @@
 			<source>Display Name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.embargo" approved="yes">
+			<source>Embargo</source>
+			<target>Embargo</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service" approved="yes">
 			<source>Fill out service</source>
 			<target>Fillout Service</target>

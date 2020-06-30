@@ -263,6 +263,4 @@ class DocumentForm extends AbstractFormElement
         $this->comment = $comment;
     }
 
-
-
 }

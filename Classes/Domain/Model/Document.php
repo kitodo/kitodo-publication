@@ -961,4 +961,24 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->embargoDate = $embargoDate;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getEmbargoDate(): ?\DateTime
+    {
+        return $this->embargoDate;
+    }
+
+    /**
+     * @param \DateTime|null $embargoDate
+     */
+    public function setEmbargoDate(?\DateTime $embargoDate)
+    {
+        $this->embargoDate = $embargoDate;
+    }
+
+
+
+
+
 }

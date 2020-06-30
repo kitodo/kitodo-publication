@@ -118,7 +118,7 @@ class FedoraRepository implements Repository
                 ->body($metsXml)
                 ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
                 ->sendsType(FedoraRepository::QUCOSA_TYPE)
-                ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
+                ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId($document->getPid()))
                 ->send();
 
             // if transfer successful
@@ -292,8 +292,12 @@ class FedoraRepository implements Repository
         return null;
     }
 
-    protected function getOwnerId()
+    protected function getOwnerId($pid = NULL)
     {
+        if ($pid) {
+            $this->clientConfigurationManager->setConfigurationPid($pid);
+        }
+
         $ownerId = $this->clientConfigurationManager->getOwnerId();
         if (empty($ownerId)) {
             throw new \Exception('Owner id can not be empty or null!');

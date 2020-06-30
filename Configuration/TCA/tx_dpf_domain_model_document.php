@@ -35,20 +35,20 @@ return array(
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
         process_number, valid, changed, state, reserved_object_identifier, 
-        object_identifier, transfer_status, file, creator, temporary, remote_last_mod_date',
+        object_identifier, transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, creator, temporary, remote_last_mod_date',
+        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, creator, temporary, remote_last_mod_date,
+        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -380,7 +380,28 @@ return array(
             ),
         ),
 
+        'automatic_embargo'    => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.embargo',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
 
+        'embargo_date'    => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.embargo_date',
+            'config'  => array(
+                'type'     => 'input',
+                'renderType' => 'inputDateTime',
+                'size'     => 10,
+                'eval'     => 'datetime',
+                'checkbox' => 1,
+                'default'  => time(),
+            ),
+        ),
 
 
     ),

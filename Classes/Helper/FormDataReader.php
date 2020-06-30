@@ -390,6 +390,8 @@ class FormDataReader
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
 
+                            $documentFormField->setEmbargo($metadataObject->getEmbargo());
+
                             $documentFormGroup->addItem($documentFormField);
                         }
                     }

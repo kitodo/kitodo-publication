@@ -33,4 +33,5 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         return $query->execute($returnRawQueryResult);
     }
+
 }

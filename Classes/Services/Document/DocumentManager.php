@@ -182,7 +182,12 @@ class DocumentManager
                     throw \Exception("Logical exception while updating bookmarks.");
                 }
 
-                $this->removeDocument($document);
+                // check embargo
+                if(!$this->hasActiveEmbargo($document)){
+                    $this->removeDocument($document);
+                } else {
+                    $document->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
+                }
                 $updateResult = $document->getDocumentIdentifier();
             } else {
                 $updateResult = false;
@@ -290,7 +295,8 @@ class DocumentManager
     protected function updateRemotely($document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
     {
         $lastModDate = $this->getDocumentTransferManager()->getLastModDate($document->getObjectIdentifier());
-        if ($lastModDate !== $document->getRemoteLastModDate()) {
+        $docLastModDate = $document->getRemoteLastModDate();
+        if ($lastModDate !== $docLastModDate && !empty($docLastModDate)) {
             // There is a newer version in the fedora repository.
             return false;
         }
@@ -323,11 +329,33 @@ class DocumentManager
         }
 
         if ($this->getDocumentTransferManager()->update($document)) {
-            $this->removeDocument($document);
+
+            if(!$this->hasActiveEmbargo($document)){
+                $this->removeDocument($document);
+            } else {
+                $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+            }
             return $document->getDocumentIdentifier();
         }
 
         return false;
+    }
+
+    /**
+     * @param $document
+     * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
+     * @throws \Exception
+     */
+    protected function hasActiveEmbargo($document)
+    {
+        $currentDate = new \DateTime('now');
+        if($currentDate > $document->getEmbargoDate()){
+            // embargo is expired
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
 }

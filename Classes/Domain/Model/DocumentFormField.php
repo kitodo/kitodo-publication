@@ -55,7 +55,6 @@ class DocumentFormField extends AbstractFormElement
      */
     protected $maxInputLength;
 
-
     public function getValue()
     {
         return $this->value;

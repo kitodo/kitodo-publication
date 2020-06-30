@@ -76,6 +76,7 @@ CREATE TABLE tx_dpf_domain_model_document (
   date_issued varchar(255) DEFAULT '' NOT NULL,
   changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
   valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  embargo_date int(11) unsigned DEFAULT '0' NOT NULL,
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
   owner int(11) unsigned default '0' NOT NULL,
@@ -191,6 +192,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   consent tinyint(1) unsigned DEFAULT '0' NOT NULL,
   gnd_field_uid varchar(255) DEFAULT '' NOT NULL,
   max_input_length int(11) DEFAULT '0' NOT NULL,
+  embargo tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

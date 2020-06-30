@@ -28,6 +28,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\T
     'description' => '',
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\EmbargoTask'] = array(
+    'extension' => $_EXTKEY,
+    'title' => 'Kitodo.Publication Embargo Task',
+    'description' => 'Embargo task for sending information to admins or publish files automatically if the embargo date is expired',
+);
+
+
 if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers']) == false) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'] = array();
 }
@@ -175,4 +182,3 @@ $signalSlotDispatcher->connect(
     'delete',
     false
 );
-
