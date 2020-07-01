@@ -36,6 +36,26 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @inject
      */
     protected $frontendUserGroupRepository = null;
+    
+    /**
+     * @var boolean
+     */
+    protected $notifyPersonalLink = 0;
+    
+    /**
+     * @var boolean
+     */
+    protected $notifyStatusChange = 0;
+    
+    /**
+     * @var boolean
+     */
+    protected $notifyFulltextPublished = 0;
+    
+    /**
+     * @var boolean
+     */
+    protected $notifyNewPublicationMypublication = 0;
 
     /**
      * __construct
@@ -130,5 +150,70 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 
         return "";
     }
+
+    /**
+     * @return bool
+     */
+    public function isNotifyPersonalLink(): bool
+    {
+        return $this->notifyPersonalLink;
+    }
+
+    /**
+     * @param bool $notifyPersonalLink
+     */
+    public function setNotifyPersonalLink(bool $notifyPersonalLink)
+    {
+        $this->notifyPersonalLink = $notifyPersonalLink;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotifyStatusChange(): bool
+    {
+        return $this->notifyStatusChange;
+    }
+
+    /**
+     * @param bool $notifyStatusChange
+     */
+    public function setNotifyStatusChange(bool $notifyStatusChange)
+    {
+        $this->notifyStatusChange = $notifyStatusChange;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotifyFulltextPublished(): bool
+    {
+        return $this->notifyFulltextPublished;
+    }
+
+    /**
+     * @param bool $notifyFulltextPublished
+     */
+    public function setNotifyFulltextPublished(bool $notifyFulltextPublished)
+    {
+        $this->notifyFulltextPublished = $notifyFulltextPublished;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotifyNewPublicationMypublication(): bool
+    {
+        return $this->notifyNewPublicationMypublication;
+    }
+
+    /**
+     * @param bool $notifyNewPublicationMypublication
+     */
+    public function setNotifyNewPublicationMypublication(bool $notifyNewPublicationMypublication)
+    {
+        $this->notifyNewPublicationMypublication = $notifyNewPublicationMypublication;
+    }
+
 
 }

@@ -1,0 +1,48 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+<f:layout name="Backoffice"/>
+<f:flashMessages />
+<f:section name="main">
+    <h1><f:translate key="manager.locallang.user.settings"/></h1>
+    <f:form action="saveSettings" object="{frontendUser}" objectName="frontendUser">
+        <div>
+            <label><f:translate key="manager.locallang.user.mail"/></label>
+            <f:form.textfield property="email"/>
+        </div>
+        <h2><f:translate key="manager.locallang.user.notify_settings"/></h2>
+        <h3><f:translate key="manager.locallang.user.changes_mypublications"/></h3>
+        <div>
+            <label><f:translate key="manager.locallang.user.assigned_myself"/></label>
+            <f:form.checkbox property="notifyPersonalLink" value="1"/>
+        </div>
+        <div>
+            <label><f:translate key="manager.locallang.user.on_status_change"/></label>
+            <f:form.checkbox property="notifyStatusChange" value="1"/>
+        </div>
+        <div>
+            <label><f:translate key="manager.locallang.user.fulltext_media_published"/></label>
+            <f:form.checkbox property="notifyFulltextPublished" value="1"/>
+        </div>
+        <h3><f:translate key="manager.locallang.user.new_publications"/></h3>
+        <div>
+            <label><f:translate key="manager.locallang.user.new_in_mypublications"/></label>
+            <f:form.checkbox property="notifyNewPublicationMypublication" value="1"/>
+        </div>
+        <div>
+            <f:form.submit value="Speichern {f:translate(key: 'form_button.save')}"/>
+        </div>
+    </f:form>
+</f:section>

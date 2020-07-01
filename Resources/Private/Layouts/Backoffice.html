@@ -26,10 +26,10 @@
 
             <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex pr-4">
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">
+                    <f:link.action class="nav-link" action="settings" controller="User">
                         <i class="fas fa-user"></i>
                         <f:cObject typoscriptObjectPath="lib.feUsername"></f:cObject>
-                    </a>
+                    </f:link.action>
                 </li>
                 <li class="nav-item pr-2">
                     <f:link.action class="nav-link" action="logout" controller="Document">

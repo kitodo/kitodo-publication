@@ -592,7 +592,11 @@ CREATE TABLE fe_groups (
 # Table extension structure for table 'fe_users'
 #
 CREATE TABLE fe_users (
-  stored_searches int(11) DEFAULT '0' NOT NULL
+  stored_searches int(11) DEFAULT '0' NOT NULL,
+  notify_personal_link tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  notify_status_change tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  notify_fulltext_published tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  notify_new_publication_mypublication tinyint(4) unsigned DEFAULT '0' NOT NULL,
 );
 
 #
