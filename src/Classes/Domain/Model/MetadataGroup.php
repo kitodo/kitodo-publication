@@ -99,6 +99,12 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     protected $infoText;
 
     /**
+     * group type
+     * @var string
+     */
+    protected $groupType = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -492,6 +498,22 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     public function setInfoText($infoText)
     {
         $this->infoText = $infoText;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupType(): string
+    {
+        return $this->groupType;
+    }
+
+    /**
+     * @param string $groupType
+     */
+    public function setGroupType(string $groupType)
+    {
+        $this->groupType = $groupType;
     }
 
 }

@@ -77,6 +77,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $groupItem->addItem($field);
         }
 
+        $groupItem->setGroupType($group->getGroupType());
+
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);
         $this->view->assign('formGroupDisplayName', $group->getDisplayName());

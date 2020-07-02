@@ -25,6 +25,11 @@ class DocumentFormGroup extends AbstractFormElement
     protected $infoText;
 
     /**
+     * @var string
+     */
+    protected $groupType;
+
+    /**
      * Returns the infoText
      *
      * @return string $infoText
@@ -43,6 +48,22 @@ class DocumentFormGroup extends AbstractFormElement
     public function setInfoText($infoText)
     {
         $this->infoText = $infoText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupType()
+    {
+        return $this->groupType;
+    }
+
+    /**
+     * @param mixed $groupType
+     */
+    public function setGroupType($groupType)
+    {
+        $this->groupType = $groupType;
     }
 
 }

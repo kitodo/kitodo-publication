@@ -37,6 +37,16 @@ class UserController  extends AbstractController
     }
 
     public function saveSettingsAction(FrontendUser $frontendUser) {
+        if ($frontendUser->getFisPersId()) {
+            $fisUserService = new \EWW\Dpf\Services\FeUser\FisUserData();
+            $fisUserData = $fisUserService->getFisUserData($frontendUser->getFisPersId());
+            if ($fisUserData == NULL) {
+                $frontendUser->setFisPersId("");
+
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING;
+                $this->addFlashMessage("FIS User nicht gefunden", '', $severity,false);
+            }
+        }
 
         $this->frontendUserRepository->update($frontendUser);
         $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;

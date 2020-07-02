@@ -135,6 +135,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
   info_text text NOT NULL,
   metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
+  group_type varchar(20) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -193,6 +194,9 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   gnd_field_uid varchar(255) DEFAULT '' NOT NULL,
   max_input_length int(11) DEFAULT '0' NOT NULL,
   embargo tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  fis_mapping varchar(50) DEFAULT '' NOT NULL,
+  gnd_mapping varchar(50) DEFAULT '' NOT NULL,
+  ror_mapping varchar(50) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -597,6 +601,7 @@ CREATE TABLE fe_users (
   notify_status_change tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_fulltext_published tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_new_publication_mypublication tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  fis_pers_id varchar(255) DEFAULT '' NOT NULL,
 );
 
 #

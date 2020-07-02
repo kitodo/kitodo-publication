@@ -46,7 +46,12 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var boolean
      */
     protected $notifyStatusChange = 0;
-    
+
+    /**
+     * @var string FIS ID
+     */
+    protected $fisPersId = '';
+
     /**
      * @var boolean
      */
@@ -214,6 +219,23 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     {
         $this->notifyNewPublicationMypublication = $notifyNewPublicationMypublication;
     }
+
+    /**
+     * @return string
+     */
+    public function getFisPersId(): string
+    {
+        return $this->fisPersId;
+    }
+
+    /**
+     * @param string $fisPersId
+     */
+    public function setFisPersId(string $fisPersId)
+    {
+        $this->fisPersId = $fisPersId;
+    }
+
 
 
 }

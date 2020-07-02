@@ -122,6 +122,7 @@ class DocumentMapper
                 $documentFormGroup->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
 
                 $documentFormGroup->setInfoText($metadataGroup->getInfoText());
+                $documentFormGroup->setGroupType($metadataGroup->getGroupType());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
                 if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {

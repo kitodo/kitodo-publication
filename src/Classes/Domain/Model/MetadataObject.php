@@ -137,7 +137,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $validation = '';
 
-
     /**
      * max input length
      *
@@ -152,6 +151,26 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $embargo;
 
+    /**
+     * fis mapping
+     *
+     * @var string
+     */
+    protected $fisMapping = '';
+
+    /**
+     * gnd mapping
+     *
+     * @var string
+     */
+    protected $gndMapping = '';
+
+    /**
+     * ror mapping
+     *
+     * @var string
+     */
+    protected $rorMapping = '';
 
     /**
      * Returns the name
@@ -539,6 +558,52 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
         $this->embargo = $embargo;
     }
 
+    /**
+     * @return string
+     */
+    public function getFisMapping(): string
+    {
+        return $this->fisMapping;
+    }
 
+    /**
+     * @param string $fisMapping
+     */
+    public function setFisMapping(string $fisMapping)
+    {
+        $this->fisMapping = $fisMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGndMapping(): string
+    {
+        return $this->gndMapping;
+    }
+
+    /**
+     * @param string $gndMapping
+     */
+    public function setGndMapping(string $gndMapping)
+    {
+        $this->gndMapping = $gndMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRorMapping(): string
+    {
+        return $this->rorMapping;
+    }
+
+    /**
+     * @param string $rorMapping
+     */
+    public function setRorMapping(string $rorMapping)
+    {
+        $this->rorMapping = $rorMapping;
+    }
 
 }
