@@ -97,7 +97,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, searchFisUser, getFisUserData, searchGndData, getGndData, searchRorData, getRorData',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
@@ -114,7 +114,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, searchFisUser, getFisUserData, searchGndData, getGndData, searchRorData, getRorData',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',

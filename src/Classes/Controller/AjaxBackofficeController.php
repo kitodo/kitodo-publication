@@ -15,6 +15,11 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Services\FeUser\FisUserData;
+use EWW\Dpf\Services\FeUser\GndUserData;
+
+use EWW\Dpf\Services\FeUser\RorUserData;
 use EWW\Dpf\Session\SearchSessionData;
 
 /**
@@ -37,6 +42,14 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @inject
      */
     protected $frontendUserRepository = null;
+
+    /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository = null;
 
 
     /**
@@ -218,5 +231,140 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
         return json_encode($searches);
     }
+
+    /**
+     * @param string $searchTerm
+     * @return false|string
+     */
+    public function searchFisUserAction($searchTerm) {
+        $fisUserDataService = new FisUserData();
+        $result = $fisUserDataService->searchPersonRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     * @return false|string
+     */
+    public function getFisUserDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
+        $fisUserDataService = new FisUserData();
+        $fisUserData = $fisUserDataService->getFisUserData($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $fisUserData, $groupIndex, $fieldIndex, $pageId, 'getFisMapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return false|string
+     */
+    public function searchGndDataAction($searchTerm) {
+        $gndUserDataService = new GndUserData();
+        $result = $gndUserDataService->searchRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     */
+    public function getGndDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
+        $gndUserDataService = new GndUserData();
+        $gndData = $gndUserDataService->getData($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $gndData, $groupIndex, $fieldIndex, $pageId, 'getGndMapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return false|string
+     */
+    public function searchRorDataAction($searchTerm) {
+        $rorUserDataService = new RorUserData();
+        $result = $rorUserDataService->searchRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     */
+    public function getRorDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
+        $rorUserDataService = new RorUserData();
+        $rorData = $rorUserDataService->getDataRequest($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $rorData, $groupIndex, $fieldIndex, $pageId, 'getRorMapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * Preparing data from api and returning an array to identify specific field in frontend
+     * @param $groupId
+     * @param $data
+     * @param $groupIndex
+     * @param $fieldIndex
+     * @param $pageId
+     * @param $methodMappingName
+     * @return mixed
+     */
+    public function getApiMappingArray($groupId, $data, $groupIndex, $fieldIndex, $pageId, $methodMappingName) {
+        // get mapping
+        /** @var MetadataGroup $group */
+        $group = $this->metadataGroupRepository->findByUid($groupId);
+
+        foreach ($group->getChildren() as $key => $value) {
+            if (!empty($value->{$methodMappingName}())) {
+//            if (!empty($value->getFisMapping())) {
+                $mappingPart = explode('->', $value->{$methodMappingName}());
+                $apiData = '';
+                $i = 0;
+                foreach ($mappingPart as $mapping) {
+                    if ($i == 0) {
+                        $apiData = $data->{$mapping};
+                    } else {
+                        if (is_array($apiData)) {
+                            foreach ($apiData as $fisArrayValue) {
+                                $apiDataArray[] = $fisArrayValue->{$mapping};
+                            }
+                        } else {
+                            $apiData = $apiData->{$mapping};
+                        }
+                    }
+                    $i++;
+                }
+
+                if (!empty($apiData) || !empty($apiDataArray)) {
+                    if (!empty($apiDataArray)) {
+                        foreach ($apiDataArray as $key => $apiDataValue) {
+                            $result[$pageId . '-' . $groupId . '-' . $groupIndex . '-' . $value->getUid() . '-' . $key] = $apiDataValue;
+                        }
+                        $apiDataArray = [];
+                    } else {
+                        $result[$pageId . '-' . $groupId . '-' . $groupIndex . '-' . $value->getUid() . '-' . $fieldIndex] = $apiData;
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
 
 }

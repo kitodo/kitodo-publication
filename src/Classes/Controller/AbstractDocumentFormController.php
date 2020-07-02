@@ -161,6 +161,11 @@ abstract class AbstractDocumentFormController extends AbstractController
     {
         $this->view->assign('returnDocumentId', $returnDocumentId);
         $this->view->assign('documentForm', $newDocumentForm);
+
+        if ($this->security->getUser()->getFisPersId()) {
+            $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
+        }
+
     }
 
     public function initializeCreateAction()
