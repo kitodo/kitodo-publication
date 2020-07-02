@@ -846,6 +846,7 @@ var addGroup = function() {
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
+        userSearch(group);
 
         // gnd autocomplete for new groups
         var gndField = jQuery(group).find(".gnd");
@@ -1296,6 +1297,144 @@ var inputWithOptions = function() {
     $( ".dropdown-options-input" ).dropdownoptions();
 }
 
+var userSearch = function(group) {
+    if (group) {
+        $(group.find('.fis-user-search-input')).on('keyup', searchInputKeyupHandler);
+        $(group.find('.gnd-user-search-input')).on('keyup', searchInputKeyupHandler);
+        $(group.find('.ror-user-search-input')).on('keyup', searchInputKeyupHandler);
+    } else {
+        $('.fis-user-search-input').on('keyup', searchInputKeyupHandler);
+        $('.gnd-user-search-input').on('keyup', searchInputKeyupHandler);
+        $('.ror-user-search-input').on('keyup', searchInputKeyupHandler);
+    }
+}
+
+var searchInputKeyupHandler = function() {
+    var searchValue = $(this).val();
+    var groupIndex = $(this).data("groupindex");
+    if (searchValue.length >= 3) {
+        let url = $(this).data("ajax");
+        let params = {};
+        params['tx_dpf_backoffice[searchTerm]'] = searchValue;
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: params,
+            context: this,
+            success: function (data) {
+                var that = this;
+                var dataObject = JSON.parse(data);
+                var groupIndex = $(this).data("groupindex");
+                console.log($(this));
+                var hitListElement = $(this).parent().find('.user-search-list-' + groupIndex + ' ul').html('');
+
+                $.each(dataObject.entries, function (key, value) {
+                    if ($(that).attr('class') === 'fis-user-search-input') {
+                        hitListElement.append(listHtml(value.fullName, value.fisPersid));
+                    } else if ($(that).attr('class') === 'gnd-user-search-input') {
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
+                    } else if ($(that).attr('class') === 'ror-user-search-input') {
+                        hitListElement.append(listHtml(value.name, value.id));
+                    }
+
+                });
+                addFoundUserData();
+            }
+        });
+    }
+}
+
+var listHtml = function (name, id) {
+    return '<li style="margin-bottom:1rem;">' +
+        '<button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
+        'Übernehmen' +
+        '</button>' +
+        name + ' (' + id + ')' +
+        '</li>';
+}
+
+var addFoundUserData = function () {
+    $('.found-user-add').on('click', function () {
+        var input = $(this).closest('.modal-body').find('input');
+
+        // console.log(input.attr('class'));
+        // if (input.attr('class') === 'fis-user-search-input') {
+        //
+        // } else if (input.attr('class') === 'gnd-user-search-input') {
+        //
+        // } else if (input.attr('class') === 'ror-user-search-input') {
+        //
+        // }
+        setDataRequest(input.data('buttonajax'), $(this).data('id'), input);
+
+    });
+}
+
+var setDataRequest = function(url, dataId, context) {
+
+    let params = {};
+    params['tx_dpf_backoffice[dataId]'] = dataId;
+    params['tx_dpf_backoffice[groupId]'] = context.data('group');
+    params['tx_dpf_backoffice[groupIndex]'] = context.data('groupindex');
+    params['tx_dpf_backoffice[fieldIndex]'] = 0;
+    params['tx_dpf_backoffice[pageId]'] = context.data('page');
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: params,
+        dataType: 'json',
+        success: function (data) {
+            for (var key in data) {
+                if($('.' + key).length != 0) {
+                    $('.' + key).val(data[key]);
+                } else {
+                    // if key does not exist check if field is repeatable
+                    splittedIds = key.split("-");
+                    if (splittedIds[4] > 0) {
+                        $('.' + splittedIds[0] + '-' + splittedIds[1] + '-' + splittedIds[2] + '-' + splittedIds[3] + '-' + '0').parent().parent().find('.add_field').click();
+
+                        isElementLoaded('.' + key, key, function (element, fieldKey) {
+                            $(element).val(data[fieldKey]);
+                        });
+
+                    }
+                }
+            }
+        }
+    });
+    context.closest('.modal').modal('hide');
+}
+
+var isElementLoaded = function (element, fieldKey, callback, counter = 0) {
+    if ($(element).length) {
+        callback($(element), fieldKey);
+    } else {
+        if (counter < 5) {
+            setTimeout(function () {
+                isElementLoaded(element, fieldKey, callback, counter++)
+            }, 500);
+        } else {
+            console.error("Field not repeatable or doesnt exist");
+        }
+    }
+}
+
+var addMyUserData = function() {
+    $('#addMyData').on('click', function () {
+        fisAjaxRequest($(this).data('ajax'), $(this).data('personid'), $(this));
+    });
+}
+
+let userSearchModal = function() {
+    $('#testbutton').on("click", function () {
+        console.log("TEST");
+        this.preventDefault();
+    })
+}
+
+
 // -------------------------------------------------------
 // Document ready
 // -------------------------------------------------------
@@ -1431,4 +1570,7 @@ $(document).ready(function() {
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();
+
+    userSearch();
+    addMyUserData();
 });

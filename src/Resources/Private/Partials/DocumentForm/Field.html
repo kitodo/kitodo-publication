@@ -71,7 +71,7 @@
                         <f:else>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
+                                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
                         </f:else>
                     </f:if>

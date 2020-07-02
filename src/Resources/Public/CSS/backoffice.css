@@ -147,7 +147,9 @@ body {
     color: gray;
 }
 
-
+.user-search-div {
+    margin-bottom: 1rem;
+}
 
 @media only screen and (max-width: 1200px) {
     #tx-dpf-backoffice #extended-search-query-group textarea {

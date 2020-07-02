@@ -43,7 +43,8 @@
                             <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
                                     <f:render partial="DocumentForm/Group"
-                                              arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index}"/>
+                                              arguments="{formPageUid:formPage.0.uid,formGroupUid:groupItem.uid,formGroupDisplayName:groupItem.displayName,groupItem:groupItem,groupIndex:groupItemIterator.index,fisPersId:fisPersId}"/>
+
                                     <f:if condition="{groupItem.maxIteration} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
                                             <button type="submit" name="add_group"

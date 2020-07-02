@@ -27,6 +27,123 @@
     <div class="group-info-text">
         <f:format.raw>{groupItem.infoText}</f:format.raw>
     </div>
+
+
+    <f:if condition="{groupItem.groupType} == 'person'">
+        <f:then>
+            <div class="user-search-div">
+                <f:if condition="{fisPersId}">
+                    <f:then>
+                        <button type="button" class="btn btn-s btn-info" id="addMyData" data-personid="{fisPersId}"
+                                data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                data-ajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            Das bin ich
+                        </button>
+                    </f:then>
+                    <f:else>
+                        <button type="button" class="btn btn-s btn-info" id="" data-group="{formGroupUid}" disabled>Das bin ich</button>
+                    </f:else>
+                </f:if>
+                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">Person suchen</button>
+
+                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#gndSearchModal-{groupIndex}"
+                        data-buttonajax="{f:uri.action(action:'getGndPersonData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    GND Suche
+                </button>
+
+                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#rorSearchModal-{groupIndex}"
+                        data-buttonajax="{f:uri.action(action:'getGndPersonData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    ROR Suche
+                </button>
+
+            </div>
+            <f:comment> MODAL SEARCH FIS USER </f:comment>
+            <div class="modal fade" id="userSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userSearchModalTitle-{groupIndex}">FIS Suche</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input style="margin-bottom: 1rem;" class="fis-user-search-input" type="text" data-personid="{fisPersId}"
+                                   data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                   data-ajax="{f:uri.action(action:'searchFisUser',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                                   data-buttonajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            <div class="user-search-list-{groupIndex}">
+                                <ul style="list-style-type: none;padding:0;">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <f:comment> MODAL SEARCH GND USER </f:comment>
+            <div class="modal fade" id="gndSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gndSearchModalTitle-{groupIndex}">GND Suche</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input style="margin-bottom: 1rem;" class="gnd-user-search-input" type="text" data-group="{formGroupUid}"
+                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                   data-ajax="{f:uri.action(action:'searchGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                                   data-buttonajax="{f:uri.action(action:'getGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            <div class="user-search-list-{groupIndex}">
+                                <ul style="list-style-type: none;padding:0;">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <f:comment> MODAL SEARCH ROR </f:comment>
+            <div class="modal fade" id="rorSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rorSearchModalTitle-{groupIndex}">ROR Suche</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input style="margin-bottom: 1rem;" class="ror-user-search-input" type="text" data-group="{formGroupUid}"
+                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                   data-ajax="{f:uri.action(action:'searchRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                                   data-buttonajax="{f:uri.action(action:'getRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            <div class="user-search-list-{groupIndex}">
+                                <ul style="list-style-type: none;padding:0;">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </f:then>
+    </f:if>
+
+
+
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
             <f:if condition="{fieldItem.inputField}!=4">
