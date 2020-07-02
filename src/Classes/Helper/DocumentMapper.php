@@ -191,8 +191,6 @@ class DocumentMapper
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
 
-                            $documentFormField->setEmbargo($metadataObject->getEmbargo());
-
                             $objectMapping = "";
 
                             preg_match_all('/([A-Za-z0-9]+:[A-Za-z0-9]+(\[.*\])*|[A-Za-z0-9:@\.]+)/', $metadataObject->getRelativeMapping(), $objectMappingPath);
@@ -277,8 +275,6 @@ class DocumentMapper
                         $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                         $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                         $documentFormField->setValue("", $metadataObject->getDefaultValue());
-
-                        $documentFormField->setEmbargo($metadataObject->getEmbargo());
 
                         $documentFormGroup->addItem($documentFormField);
                     }
