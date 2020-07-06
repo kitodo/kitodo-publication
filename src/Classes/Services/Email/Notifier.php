@@ -308,29 +308,7 @@ class Notifier
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
-<<<<<<< HEAD
-//            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-//            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
-
-
-            // Notify client admin
-            if ($clientAdminEmail) {
-
-=======
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
@@ -339,7 +317,6 @@ class Notifier
             if ($clientAdminEmail) {
                 $subject = $client->getAdminEmbargoSubject();
                 $body = $client->getAdminEmbargoBody();
->>>>>>> add suggestions flashmessage and mail notification
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
