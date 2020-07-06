@@ -580,7 +580,7 @@ class WorkspaceController extends AbstractController
                                         'must' => [
                                             [
                                                 'term' => [
-                                                    'fobIdentifiers' => $this->security->getUser()->getFobIdentifier()
+                                                    'fobIdentifiers' => $this->security->getUser()->getFisPersId()
                                                 ]
                                             ],
                                             [

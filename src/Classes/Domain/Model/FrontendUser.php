@@ -58,6 +58,11 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected $notifyNewPublicationMypublication = 0;
 
     /**
+     * @var string
+     */
+    protected $fisPersId = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -223,5 +228,12 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $this->notifyNewPublicationMypublication = $notifyNewPublicationMypublication;
     }
 
+    /**
+     * @return string
+     */
+    public function getFisPersId(): string
+    {
+        return $this->fisPersId;
+    }
 
 }
