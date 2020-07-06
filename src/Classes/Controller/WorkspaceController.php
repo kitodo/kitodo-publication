@@ -104,6 +104,15 @@ class WorkspaceController extends AbstractController
 
 
     /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
+
+
+    /**
      * list
      *
      * @param int $from
@@ -168,9 +177,10 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
-        $this->view->assign('currentFobIdentifier', $this->security->getUser()->getFobIdentifier());
-        $this->view->assign('personGroup', 32);
-        $this->view->assign('personGroupIndex', 3);
+        $this->view->assign('currentFobIdentifier', $this->security->getUser()->getFisPersId());
+
+        $personGroup = $this->metadataGroupRepository->findOneByGroupType('person');
+        $this->view->assign('personGroup', $personGroup->getUid());
     }
 
     /**

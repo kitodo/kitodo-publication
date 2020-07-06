@@ -130,7 +130,7 @@
             </td>
             <td>
                 <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
-                    <f:if condition="{person.fobId} == {currentFobIdentifier}">
+                    <f:if condition="{currentFobIdentifier} && {person.fobId} == {currentFobIdentifier}">
                         <f:then>
                             <span class="person current-fobid-person">
                                 {person.name}
