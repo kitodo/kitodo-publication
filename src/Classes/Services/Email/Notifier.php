@@ -18,6 +18,8 @@ use EWW\Dpf\Domain\Model\Document;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\Client;
 
 class Notifier
 {
@@ -308,29 +310,7 @@ class Notifier
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
-<<<<<<< HEAD
-//            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-//            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
-
-
-            // Notify client admin
-            if ($clientAdminEmail) {
-
-=======
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
@@ -339,7 +319,7 @@ class Notifier
             if ($clientAdminEmail) {
                 $subject = $client->getAdminEmbargoSubject();
                 $body = $client->getAdminEmbargoBody();
->>>>>>> add suggestions flashmessage and mail notification
+
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
@@ -398,6 +378,145 @@ class Notifier
 
                 $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
 
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param array $recipients
+     */
+    public function sendMyPublicationUpdateNotification(\EWW\Dpf\Domain\Model\Document $document, $recipients)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $submitterEmail = $slub->getSubmitterEmail();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $authors = $document->getAuthors();
+
+            $args['###CLIENT###'] = $client->getClient();
+            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
+            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+            $args['###TITLE###'] = $document->getTitle();
+            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
+            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
+            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+
+            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
+            $args['###URN###'] = $mods->getQucosaUrn();
+            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+
+            // Notify client admin
+            /** @var FrontendUser $recipient */
+            foreach ($recipients as $recipient) {
+
+                if ($recipient->getEmail()) {
+
+                    $subject = $client->getMypublicationsUpdateNotificationSubject();
+                    $body = $client->getMypublicationsUpdateNotificationBody();
+                    $mailType = 'text/html';
+
+                    if (empty($subject)) {
+                        $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.updatePublication.mypublications.subject',
+                            'dpf');
+                    }
+
+                    if (empty($body)) {
+                        $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.updatePublication.mypublications.body',
+                            'dpf');
+                        $mailType = 'text/plain';
+                    }
+
+                    $this->sendMail($recipient->getEmail(), $subject, $body, $args, $mailType);
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param array $recipients
+     */
+    public function sendMyPublicationNewNotification(\EWW\Dpf\Domain\Model\Document $document, $recipients)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $submitterEmail = $slub->getSubmitterEmail();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $authors = $document->getAuthors();
+
+            $args['###CLIENT###'] = $client->getClient();
+            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
+            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
+            $args['###TITLE###'] = $document->getTitle();
+            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
+            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
+            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+
+            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
+            $args['###URN###'] = $mods->getQucosaUrn();
+            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+
+            // Notify client admin
+            /** @var FrontendUser $recipient */
+            foreach ($recipients as $recipient) {
+
+                if ($recipient->getEmail()) {
+
+                    $subject = $client->getMypublicationsNewNotificationSubject();
+                    $body = $client->getMypublicationsNewNotificationBody();
+                    $mailType = 'text/html';
+
+                    if (empty($subject)) {
+                        $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newPublication.mypublications.subject',
+                            'dpf');
+                    }
+
+                    if (empty($body)) {
+                        $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newPublication.mypublications.body',
+                            'dpf');
+                        $mailType = 'text/plain';
+                    }
+
+                    $this->sendMail($recipient->getEmail(), $subject, $body, $args, $mailType);
+                }
             }
 
         } catch (\Exception $e) {

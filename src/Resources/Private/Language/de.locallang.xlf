@@ -1243,6 +1243,50 @@
 				<source>Embargo expired (automatic)</source>
 				<target>Embargo abgelaufen (automatisch)</target>
 			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been updated:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+				<target>Eine Publikation wurde aktualisiert:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+	URL: ###DETAIL_URL###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.subject" approved="yes">
+				<source>One of your publications has been updated</source>
+				<target>Eine Ihrer Publikationen wurde aktualisiert</target>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been added:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+				<target>Eine Publikation wurde hinzugefügt:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+	URL: ###DETAIL_URL###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.subject" approved="yes">
+				<source>A publication has been added to your publications</source>
+				<target>Eine Publikationen wurde Ihren Publikationen hinzugefügt</target>
+			</trans-unit>
 			<trans-unit id="message.suggestion_flashmessage" approved="yes">
 				<source>Suggestion successfully saved</source>
 				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>

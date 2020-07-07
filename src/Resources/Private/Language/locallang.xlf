@@ -896,6 +896,32 @@
 			<trans-unit id="notification.registerDocument.admin.subject">
 				<source>Document registered</source>
 			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been updated:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.subject" approved="yes">
+				<source>One of your publications has been updated</source>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been added:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.subject" approved="yes">
+				<source>A publication has been added to your publications</source>
+			</trans-unit>
 			<trans-unit id="search.control.extendedSearch">
 				<source>Extended search</source>
 			</trans-unit>

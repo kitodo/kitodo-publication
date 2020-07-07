@@ -74,6 +74,18 @@
 		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_subject">
 			<source>New document subject</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_subject" approved="yes">
+			<source>Update publication subject</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_body" approved="yes">
+			<source>Update publication body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_subject" approved="yes">
+			<source>New publication subject</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_body" approved="yes">
+			<source>New publication body</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body">
 			<source>New suggestion body</source>
 		</trans-unit>

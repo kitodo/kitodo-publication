@@ -42,6 +42,8 @@ return array(
             admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+            mypublications_update_notification_subject, mypublications_update_notification_body,
+            mypublications_new_notification_subject, mypublications_new_notification_body,            
             suggestion_flashmessage',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
@@ -57,6 +59,8 @@ return array(
         admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+        mypublications_update_notification_subject, mypublications_update_notification_body,
+        mypublications_new_notification_subject, mypublications_new_notification_body,            
         suggestion_flashmessage'
     ),
     'types'     => array(
@@ -68,6 +72,7 @@ return array(
         --div--;Upload, upload_directory, upload_domain,
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
+        --div--;My Publications Notification, mypublications_update_notification_subject, mypublications_update_notification_body, mypublications_new_notification_subject, mypublications_new_notification_body,            
         --div--;Messages, suggestion_flashmessage,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -516,6 +521,45 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-
+        'mypublications_update_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.mypublications_update_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'mypublications_update_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.mypublications_update_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+        'mypublications_new_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.mypublications_new_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'mypublications_new_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.mypublications_new_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
     ),
 );
