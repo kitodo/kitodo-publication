@@ -261,7 +261,7 @@ var hasMandatoryInputs = function(fieldset) {
 }
 var markPage = function(fieldset, error) {
     var pageId = fieldset.parent().attr('id');
-    var page = jQuery('.tx-dpf-tabs li a[href=#' + pageId + ']');
+    var page = jQuery('.tx-dpf-tabs li a[href="#' + pageId + '"]');
     if (error) {
         page.addClass('mandatory-error');
     } else {
