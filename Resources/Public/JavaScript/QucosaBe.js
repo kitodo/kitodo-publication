@@ -216,7 +216,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
 
     var markPage = function(fieldset, error) {
         var pageId = fieldset.parent().attr('id');
-        var page = $('.tx-dpf-tabs li a[href=#' + pageId + ']');
+        var page = $('.tx-dpf-tabs li a[href="#' + pageId + '"]');
         if (error) {
             page.addClass('mandatory-error');
         } else {
