@@ -114,6 +114,9 @@ body {
     display: table;
 }
 
+.tx-dpf .datepicker {
+    color: #444;
+}
 
 ul[id^='ui-id-'].ui-autocomplete  {
     max-height: 200px;
