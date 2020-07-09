@@ -474,8 +474,8 @@
 				<target>Publikation bearbeiten</target>
 			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
-				<source>Create new publication</source>
-				<target>Neue Publikation anlegen</target>
+				<source>Add manually</source>
+				<target>Manuelle Eingabe</target>
 			</trans-unit>
 			<trans-unit id="manager.control.editSuggestion">
 				<source>Suggestion</source>
@@ -994,8 +994,8 @@
 				<target>OK</target>
 			</trans-unit>
             <trans-unit id="manager.importMetadata.header.single" approved="yes">
-                <source>Import publication</source>
-                <target>Publikation importieren</target>
+                <source>Import via ID</source>
+                <target>Import via ID</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
                 <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
@@ -1053,9 +1053,13 @@
                 <source>Cancel</source>
                 <target>Abbrechen</target>
             </trans-unit>
+            <trans-unit id="manager.uploadMetadata.header" approved="yes">
+                <source>Upload</source>
+                <target>Upload</target>
+            </trans-unit>
             <trans-unit id="manager.bulkImport.header" approved="yes">
-                <source>Import multiple publications</source>
-                <target>Mehrere Publikationen importieren</target>
+                <source>Import from Crossref/PubMed</source>
+                <target>Import aus Crossref/PubMed</target>
             </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>

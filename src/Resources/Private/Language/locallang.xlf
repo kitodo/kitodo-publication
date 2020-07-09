@@ -363,7 +363,7 @@
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
-				<source>Create new publication</source>
+				<source>Add manually</source>
 			</trans-unit>
 			<trans-unit id="manager.control.myPublications">
 				<source>My publications</source>
@@ -741,7 +741,7 @@
 				<source>OK</source>
 			</trans-unit>
             <trans-unit id="manager.importMetadata.header.single" approved="yes">
-                <source>Import publication</source>
+                <source>Import via ID</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
                 <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
@@ -785,8 +785,11 @@
             <trans-unit id="manager.importMetadata.cancel" approved="yes">
                 <source>Cancel</source>
             </trans-unit>
+            <trans-unit id="manager.uploadMetadata.header" approved="yes">
+                <source>Upload</source>
+            </trans-unit>
             <trans-unit id="manager.bulkImport.header" approved="yes">
-                <source>Import multiple publications</source>
+                <source>Import from Crossref/PubMed</source>
             </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>
