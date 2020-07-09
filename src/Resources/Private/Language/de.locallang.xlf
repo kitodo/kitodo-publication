@@ -1007,7 +1007,7 @@
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
                 <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
-                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zu „Arbeitsbereich“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zum „Arbeitsbereich“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInSystemMyPublications" approved="yes">
                 <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
