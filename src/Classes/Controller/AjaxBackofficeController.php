@@ -20,6 +20,7 @@ use EWW\Dpf\Services\FeUser\FisDataService;
 use EWW\Dpf\Services\FeUser\GndDataService;
 
 use EWW\Dpf\Services\FeUser\RorDataService;
+use EWW\Dpf\Services\FeUser\ZdbDataService;
 use EWW\Dpf\Session\SearchSessionData;
 
 /**
@@ -310,6 +311,34 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         $rorData = $rorUserDataService->getDataRequest($dataId);
 
         $result = $this->getApiMappingArray($groupId, $rorData, $groupIndex, $fieldIndex, $pageId, 'getRorMapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param $searchTerm
+     * @return false|string
+     */
+    public function searchZdbDataAction($searchTerm) {
+        $zdbUserDataService = new RorDataService();
+        $result = $zdbUserDataService->searchRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param $dataId
+     * @param $groupId
+     * @param $groupIndex
+     * @param $fieldIndex
+     * @param $pageId
+     * @return false|string
+     */
+    public function getZdbDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
+        $zdbDataService = new ZdbDataService();
+        $zdbData = $zdbDataService->getDataRequest($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $zdbData, $groupIndex, $fieldIndex, $pageId, 'getZdbMapping');
 
         return json_encode($result);
     }

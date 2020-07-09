@@ -173,6 +173,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $rorMapping = '';
 
     /**
+     * zdb mapping
+     *
+     * @var string
+     */
+    protected $zdbMapping = '';
+
+    /**
      * Returns the name
      *
      * @return string $name
@@ -605,5 +612,22 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     {
         $this->rorMapping = $rorMapping;
     }
+
+    /**
+     * @return string
+     */
+    public function getZdbMapping(): string
+    {
+        return $this->zdbMapping;
+    }
+
+    /**
+     * @param string $zdbMapping
+     */
+    public function setZdbMapping(string $zdbMapping): void
+    {
+        $this->zdbMapping = $zdbMapping;
+    }
+
 
 }

@@ -197,6 +197,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   fis_mapping varchar(50) DEFAULT '' NOT NULL,
   gnd_mapping varchar(50) DEFAULT '' NOT NULL,
   ror_mapping varchar(50) DEFAULT '' NOT NULL,
+  zdb_mapping varchar(50) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

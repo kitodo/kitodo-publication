@@ -273,6 +273,7 @@ return array(
                 'items' => [
                     ['---', ''],
                     ['Person', 'person'],
+                    ['Title', 'title'],
                 ],
             ],
         ],

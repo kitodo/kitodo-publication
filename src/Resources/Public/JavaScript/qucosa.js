@@ -1336,6 +1336,8 @@ var searchInputKeyupHandler = function() {
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
                         hitListElement.append(listHtml(value.name, value.id));
+                    } else if ($(that).attr('class') === 'zdb-user-search-input') {
+                        hitListElement.append(listHtml(value.title, value.identifier));
                     }
 
                 });

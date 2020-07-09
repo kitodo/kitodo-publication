@@ -370,6 +370,14 @@ return array(
                 'eval' => 'trim',
             ],
         ],
+        'zdb_mapping' => [
+            'label' => 'ZDB Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
 
     ),
 );
