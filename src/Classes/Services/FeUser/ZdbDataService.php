@@ -16,13 +16,13 @@ class ZdbDataService
         $response = Request::get($this->apiUrl . '?q=' . $searchTerm)
             ->send();
 
-        return ['entries' => $response->body->items];
+        return ['entries' => $response->body->member];
     }
 
     public function getDataRequest($zdbId) {
-        $response = Request::get($this->apiUrl . 'resource/' . $zdbId)
+        $response = Request::get($this->apiUrl . 'resource/' . $zdbId .'/')
             ->send();
-
+        
         return $response->body;
     }
 

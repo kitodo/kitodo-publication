@@ -1302,10 +1302,12 @@ var userSearch = function(group) {
         $(group.find('.fis-user-search-input')).on('keyup', searchInputKeyupHandler);
         $(group.find('.gnd-user-search-input')).on('keyup', searchInputKeyupHandler);
         $(group.find('.ror-user-search-input')).on('keyup', searchInputKeyupHandler);
+        $(group.find('.zdb-user-search-input')).on('keyup', searchInputKeyupHandler);
     } else {
         $('.fis-user-search-input').on('keyup', searchInputKeyupHandler);
         $('.gnd-user-search-input').on('keyup', searchInputKeyupHandler);
         $('.ror-user-search-input').on('keyup', searchInputKeyupHandler);
+        $('.zdb-user-search-input').on('keyup', searchInputKeyupHandler);
     }
 }
 

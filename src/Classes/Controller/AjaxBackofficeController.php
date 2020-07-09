@@ -316,22 +316,22 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * @param $searchTerm
+     * @param string $searchTerm
      * @return false|string
      */
     public function searchZdbDataAction($searchTerm) {
-        $zdbUserDataService = new RorDataService();
+        $zdbUserDataService = new ZdbDataService();
         $result = $zdbUserDataService->searchRequest($searchTerm);
 
         return json_encode($result);
     }
 
     /**
-     * @param $dataId
-     * @param $groupId
-     * @param $groupIndex
-     * @param $fieldIndex
-     * @param $pageId
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
      * @return false|string
      */
     public function getZdbDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {

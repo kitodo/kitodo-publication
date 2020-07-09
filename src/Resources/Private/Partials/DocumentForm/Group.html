@@ -144,10 +144,12 @@
 
     <f:if condition="{groupItem.groupType} == 'title'">
         <f:then>
-            <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#gndSearchModal-{groupIndex}"
-                    data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                ZDB Suche
-            </button>
+            <div class="user-search-div">
+                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#zdbSearchModal-{groupIndex}"
+                        data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    ZDB Suche
+                </button>
+            </div>
 
             <div class="modal fade" id="zdbSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
