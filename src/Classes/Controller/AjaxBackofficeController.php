@@ -16,10 +16,10 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\MetadataGroup;
-use EWW\Dpf\Services\FeUser\FisUserData;
-use EWW\Dpf\Services\FeUser\GndUserData;
+use EWW\Dpf\Services\FeUser\FisDataService;
+use EWW\Dpf\Services\FeUser\GndDataService;
 
-use EWW\Dpf\Services\FeUser\RorUserData;
+use EWW\Dpf\Services\FeUser\RorDataService;
 use EWW\Dpf\Session\SearchSessionData;
 
 /**
@@ -237,7 +237,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @return false|string
      */
     public function searchFisUserAction($searchTerm) {
-        $fisUserDataService = new FisUserData();
+        $fisUserDataService = new FisDataService();
         $result = $fisUserDataService->searchPersonRequest($searchTerm);
 
         return json_encode($result);
@@ -252,7 +252,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @return false|string
      */
     public function getFisUserDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
-        $fisUserDataService = new FisUserData();
+        $fisUserDataService = new FisDataService();
         $fisUserData = $fisUserDataService->getFisUserData($dataId);
 
         $result = $this->getApiMappingArray($groupId, $fisUserData, $groupIndex, $fieldIndex, $pageId, 'getFisMapping');
@@ -265,7 +265,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @return false|string
      */
     public function searchGndDataAction($searchTerm) {
-        $gndUserDataService = new GndUserData();
+        $gndUserDataService = new GndDataService();
         $result = $gndUserDataService->searchRequest($searchTerm);
 
         return json_encode($result);
@@ -279,7 +279,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param int $pageId
      */
     public function getGndDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
-        $gndUserDataService = new GndUserData();
+        $gndUserDataService = new GndDataService();
         $gndData = $gndUserDataService->getData($dataId);
 
         $result = $this->getApiMappingArray($groupId, $gndData, $groupIndex, $fieldIndex, $pageId, 'getGndMapping');
@@ -292,7 +292,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @return false|string
      */
     public function searchRorDataAction($searchTerm) {
-        $rorUserDataService = new RorUserData();
+        $rorUserDataService = new RorDataService();
         $result = $rorUserDataService->searchRequest($searchTerm);
 
         return json_encode($result);
@@ -306,7 +306,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param int $pageId
      */
     public function getRorDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
-        $rorUserDataService = new RorUserData();
+        $rorUserDataService = new RorDataService();
         $rorData = $rorUserDataService->getDataRequest($dataId);
 
         $result = $this->getApiMappingArray($groupId, $rorData, $groupIndex, $fieldIndex, $pageId, 'getRorMapping');
@@ -331,7 +331,6 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
         foreach ($group->getChildren() as $key => $value) {
             if (!empty($value->{$methodMappingName}())) {
-//            if (!empty($value->getFisMapping())) {
                 $mappingPart = explode('->', $value->{$methodMappingName}());
                 $apiData = '';
                 $i = 0;

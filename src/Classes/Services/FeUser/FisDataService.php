@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use \Httpful\Request;
 
-class FisUserData
+class FisDataService
 {
 
     protected $apiUrl = 'https://fob.uni-leipzig.de/anchorwheel/api';

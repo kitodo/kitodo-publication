@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use \Httpful\Request;
 
-class RorUserData
+class RorDataService
 {
 
     protected $apiUrl = 'https://api.ror.org/organizations';

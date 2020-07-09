@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use \Httpful\Request;
 
-class GndUserData
+class GndDataService
 {
 
     protected $apiUrl = 'http://lobid.org/gnd/';
