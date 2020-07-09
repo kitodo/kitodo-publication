@@ -26,7 +26,7 @@ class DataCiteImporter extends AbstractImporter implements Importer
     /**
      * @var string
      */
-    protected $apiUrl = "https://api.test.datacite.org";
+    protected $apiUrl = "https://api.datacite.org";
 
     /**
      * @var string
