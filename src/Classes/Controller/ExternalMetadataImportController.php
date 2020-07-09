@@ -496,14 +496,21 @@ class ExternalMetadataImportController extends AbstractController
                     );
                 }
                 $this->addFlashMessage($message, '', AbstractMessage::OK);
+
+                $this->redirect('showDetails', 'Document', null, ['document' => $newDocument]);
+
             } else {
                 $message = LocalizationUtility::translate(
                     'manager.importMetadata.publicationNotImported', 'dpf'
                 );
 
                 $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                $this->redirect('find');
             }
 
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
         } catch(\Throwable $throwable) {
 
             $this->logger->error($throwable->getMessage());
@@ -513,9 +520,8 @@ class ExternalMetadataImportController extends AbstractController
             );
 
            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+           $this->redirect('find');
         }
-
-        $this->redirect('find');
     }
 
     /**

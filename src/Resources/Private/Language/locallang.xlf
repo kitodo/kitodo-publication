@@ -756,10 +756,10 @@
                 <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
-                <source>Publication has been imported and added to „My Publications”. Please check/edit the entry there.</source>
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
-                <source>Publication has been imported and added to „Workspace”. Please check/edit the entry there.</source>
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
                 <source>Could not import the publication.</source>
@@ -781,6 +781,9 @@
             </trans-unit>
             <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
                 <source>Import</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.cancel" approved="yes">
+                <source>Cancel</source>
             </trans-unit>
             <trans-unit id="manager.bulkImport.header" approved="yes">
                 <source>Import multiple publications</source>
