@@ -381,8 +381,8 @@ class ExternalMetadataImportController extends AbstractController
         if (is_array($results) && $results['hits']['total']['value'] > 0) {
 
             $this->bookmarkRepository->addBookmark(
-                $this->security->getUser()->getUid(),
-                $results['hits']['hits'][0]['_id']
+                $results['hits']['hits'][0]['_id'],
+                $this->security->getUser()->getUid()
             );
 
             if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
