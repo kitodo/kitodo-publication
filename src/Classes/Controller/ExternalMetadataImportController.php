@@ -98,6 +98,15 @@ class ExternalMetadataImportController extends AbstractController
     protected $workflow;
 
     /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
+
+
+    /**
      * DocumentController constructor.
      */
     public function __construct()
@@ -687,6 +696,10 @@ class ExternalMetadataImportController extends AbstractController
             $this->view->assign('documentCount', $results['hits']['total']['value']);
             $this->view->assign('documents', $results['hits']['hits']);
             $this->view->assign('itemsPerPage', $this->itemsPerPage());
+            $this->view->assign('currentFobIdentifier', $this->security->getUser()->getFisPersId());
+
+            $personGroup = $this->metadataGroupRepository->findOneByGroupType('person');
+            $this->view->assign('personGroup', $personGroup->getUid());
         } catch (\Throwable $e) {
 
             $message = LocalizationUtility::translate(
