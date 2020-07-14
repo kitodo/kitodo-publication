@@ -1081,6 +1081,10 @@
                 <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
                 <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
+            <trans-unit id="manager.bulkImport.complete" approved="yes">
+                <source>Finish</source>
+                <target>Fertig</target>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>

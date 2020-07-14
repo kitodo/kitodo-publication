@@ -115,9 +115,10 @@ class ExternalMetadataImportController extends AbstractController
     }
 
     /**
-     * @param string $query
+     * @param string $crossRefQuery
+     * @param string $pubMedQuery
      */
-    public function bulkStartAction($query = '')
+    public function bulkStartAction($crossRefQuery = '', $pubMedQuery = '')
     {
         /** @var BulkImportSessionData $bulkImportSessionData */
         $bulkImportSessionData = $this->session->getBulkImportData();
@@ -128,7 +129,8 @@ class ExternalMetadataImportController extends AbstractController
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
         $this->view->assign('crossRefAuthorSearch', $crossRefAuthorSearch);
         $this->view->assign('pubMedAuthorSearch', $pubMedAuthorSearch);
-        $this->view->assign('query', $query);
+        $this->view->assign('crossRefQuery', $crossRefQuery);
+        $this->view->assign('pubMedQuery', $pubMedQuery);
     }
 
     /**
@@ -167,16 +169,34 @@ class ExternalMetadataImportController extends AbstractController
         $bulkImportSessionData->setCurrentMetadataItems(($results? $results['items'] : []));
         $this->session->setBulkImportData($bulkImportSessionData);
 
-        $this->forward(
-            'bulkResults',
-            null,
-            null,
-            [
-                'results' => $results,
-                'query' => $query,
-                'currentPage' => $currentPage
-            ]
-        );
+        if ($results) {
+            $this->forward(
+                'bulkResults',
+                null,
+                null,
+                [
+                    'results' => $results,
+                    'query' => $query,
+                    'currentPage' => $currentPage
+                ]
+            );
+        } else {
+
+            $message = LocalizationUtility::translate(
+                'manager.importMetadata.nothingFound', 'dpf'
+            );
+
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+
+            $this->forward(
+                'bulkStart',
+                null,
+                null,
+                [
+                    'crossRefQuery' => $bulkImportSessionData->getCrossRefQuery()
+                ]
+            );
+        }
     }
 
     /**
@@ -215,16 +235,34 @@ class ExternalMetadataImportController extends AbstractController
         $bulkImportSessionData->setCurrentMetadataItems(($results? $results['items'] : []));
         $this->session->setBulkImportData($bulkImportSessionData);
 
-        $this->forward(
-            'bulkResults',
-            null,
-            null,
-            [
-                'results' => $results,
-                'query' => $query,
-                'currentPage' => $currentPage
-            ]
-        );
+        if ($results) {
+            $this->forward(
+                'bulkResults',
+                null,
+                null,
+                [
+                    'results' => $results,
+                    'query' => $query,
+                    'currentPage' => $currentPage
+                ]
+            );
+        } else {
+
+            $message = LocalizationUtility::translate(
+                'manager.importMetadata.nothingFound', 'dpf'
+            );
+
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+
+            $this->forward(
+                'bulkStart',
+                null,
+                null,
+                [
+                    'pubMedQuery' => $bulkImportSessionData->getPubMedQuery()
+                ]
+            );
+        }
     }
 
     /**
