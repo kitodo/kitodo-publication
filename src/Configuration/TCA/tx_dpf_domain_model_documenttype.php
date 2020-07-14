@@ -34,20 +34,20 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'name, display_name, virtual, crossref_transformation, crossref_types,
-            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, metadata_page',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
             name, display_name, virtual, crossref_transformation, crossref_types,
-            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, metadata_page',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
             name, display_name, virtual, crossref_transformation, crossref_types,
-            datacite_transformation, datacite_types, k10plus_transformation, k10plus_types,
+            datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, metadata_page,
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -207,7 +207,7 @@ return array(
         'crossref_types'         => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_crossreftype',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.crossref_types',
             'config'    => array(
                 'type' => 'select',
                 'size' => 10,
