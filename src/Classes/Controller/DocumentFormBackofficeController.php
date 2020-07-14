@@ -554,10 +554,4 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->redirect($action, $controller, null, array('message' => $message));
         }
     }
-
-
-    public function changeDocumentType() {
-
-    }
-
 }
