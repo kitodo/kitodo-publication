@@ -791,6 +791,21 @@
             <trans-unit id="manager.bulkImport.header" approved="yes">
                 <source>Import from Crossref/PubMed</source>
             </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.singular" approved="yes">
+                <source>Publication</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.plural" approved="yes">
+                <source>Publications</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.libarian" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "Workspace".</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.researcher" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "My Publications".</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importNote" approved="yes">
+                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>
 			</trans-unit>

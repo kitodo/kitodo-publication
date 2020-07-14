@@ -268,29 +268,33 @@ class ExternalMetadataImportController extends AbstractController
                 /** @var  Importer $importer */
                 $importer = $this->objectManager->get($externalMetadataItem->getSource());
 
-                /*
-                if (!$document_in_kitodo) {
-                    if ($document_in_workspace) {
-                        // bookmark
+                // Check if the publication already exists in kitodo
+                if ($this->findDocumentInKitodo($externalMetadataItem->getPublicationIdentifier())) {
+                    $existingWorkspaceDocument = $this->findDocumentInWorkspace(
+                        $externalMetadataItem->getPublicationIdentifier()
+                    );
+                    if (empty($existingWorkspaceDocument)) {
+                        $this->bookmarkRepository->addBookmark(
+                            $existingWorkspaceDocument['_id'],
+                            $this->security->getUser()->getUid()
+                        );
                         $importCounter['bookmarked'] += 1;
-                    } else {
-                        // create
-                        $importCounter['imported'] += 1;
                     }
+
                 } else {
 
-                }
-                */
-                /** @var Document $newDocument */
-                $newDocument = $importer->import($externalMetadataItem);
+                    if (!$this->findDocumentInWorkspace($externalMetadataItem->getPublicationIdentifier())) {
+                        /** @var Document $newDocument */
+                        $newDocument = $importer->import($externalMetadataItem);
 
-                if ($newDocument instanceof Document) {
-                    $this->documentRepository->add($newDocument);
-                    $this->externalMetadataRepository->remove($externalMetadataItem);
-                    $importedDocuments[] = $newDocument;
-                    $importCounter['imported'] += 1;
+                        if ($newDocument instanceof Document) {
+                            $this->documentRepository->add($newDocument);
+                            $this->externalMetadataRepository->remove($externalMetadataItem);
+                            $importedDocuments[] = $newDocument;
+                            $importCounter['imported'] += 1;
+                        }
+                    }
                 }
-
             }
 
             $this->persistenceManager->persistAll();
@@ -324,7 +328,7 @@ class ExternalMetadataImportController extends AbstractController
             'bulkImportedDocuments',
             null,
             null,
-            ['from' => 0]);
+            ['from' => 0, 'importCounter' => $importCounter]);
     }
 
     /**
@@ -363,10 +367,8 @@ class ExternalMetadataImportController extends AbstractController
             $this->redirect('find');
         }
 
-        // Search if the document alreday exists in the workspace or my publications
-        $results = $this->findDocumentInWorkspace($identifier);
-        if (is_array($results) && $results['hits']['total']['value'] > 0) {
-
+        // Check if the document alreday exists in the workspace or my publications
+        if ($this->findDocumentInWorkspace($identifier)) {
             if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
                 $message = LocalizationUtility::translate(
                     'manager.importMetadata.alreadyInWorkspace', 'dpf'
@@ -381,16 +383,12 @@ class ExternalMetadataImportController extends AbstractController
             $this->redirect('find', null, null, ['identifier' => $identifier]);
         }
 
-        // Search if the document already exists in kitodo.
-        $query = $this->queryBuilder->buildQuery(
-            1, [] , 0, [], [], [], null, null, 'identifier:"'.$identifier.'"'
-        );
-        $results = $this->elasticSearch->search($query, 'object');
-
-        if (is_array($results) && $results['hits']['total']['value'] > 0) {
+        // Check if the document already exists in kitodo.
+        /** @var array $existingDocument */
+        if ($existingDocument = $this->findDocumentInKitodo($identifier)) {
 
             $this->bookmarkRepository->addBookmark(
-                $results['hits']['hits'][0]['_id'],
+                $existingDocument['_id'],
                 $this->security->getUser()->getUid()
             );
 
@@ -634,7 +632,12 @@ class ExternalMetadataImportController extends AbstractController
         );
 
         try {
-            return $this->elasticSearch->search($query, 'object');
+
+            $results =  $this->elasticSearch->search($query, 'object');
+            if (is_array($results) && $results['hits']['total']['value'] > 0) {
+                return $results['hits']['hits'][0];
+            }
+
         } catch (\Exception $e) {
 
             $message = LocalizationUtility::translate(
@@ -650,9 +653,42 @@ class ExternalMetadataImportController extends AbstractController
     }
 
     /**
-     * @param int $from
+     * Finds a document with the given $identifier in the kitodo index
+     *
+     * @param $identifier
+     * @return array
      */
-    protected function bulkImportedDocumentsAction()
+    protected function findDocumentInKitodo($identifier) {
+
+        $workspaceFilter = [
+            'bool' => [
+                'must_not' => [
+                    [
+                        'term' => [
+                            'state' => DocumentWorkflow::STATE_NEW_NONE
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // Search if the document already exists in kitodo.
+        $query = $this->queryBuilder->buildQuery(
+            1, $workspaceFilter , 0, [], [], [], null, null, 'identifier:"'.$identifier.'"'
+        );
+        $results = $this->elasticSearch->search($query, 'object');
+
+        if (is_array($results) && $results['hits']['total']['value'] > 0) {
+            return $results['hits']['hits'][0];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param array $importCounter
+     */
+    protected function bulkImportedDocumentsAction($importCounter = ['imported' => 0, 'bookmarked' => 0, 'total' => 0])
     {
         $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
@@ -700,6 +736,45 @@ class ExternalMetadataImportController extends AbstractController
 
             $personGroup = $this->metadataGroupRepository->findOneByGroupType('person');
             $this->view->assign('personGroup', $personGroup->getUid());
+
+
+            $publicationSingular = LocalizationUtility::translate('manager.bulkImport.publication.singular', 'dpf');
+            $publicationPlural = LocalizationUtility::translate('manager.bulkImport.publication.plural', 'dpf');
+
+            if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+                $messageKey = 'manager.bulkImport.importMessage.libarian';
+            } else {
+                $messageKey = 'manager.bulkImport.importMessage.researcher';
+            }
+
+            $message = LocalizationUtility::translate(
+                $messageKey,
+                'dpf',
+                [
+                    0 => $importCounter['imported'],
+                    1 => ($importCounter['imported'] == 1? $publicationSingular : $publicationPlural),
+                    2 => $importCounter['bookmarked'],
+                    3 => ($importCounter['bookmarked'] == 1? $publicationSingular : $publicationPlural)
+                ]
+            );
+
+            if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
+                $severity = AbstractMessage::INFO;
+            } else {
+                $severity = AbstractMessage::WARNING;
+            }
+
+            $this->addFlashMessage(
+                $message, '', $severity
+            );
+
+            if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
+                $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
+                $this->addFlashMessage(
+                    $importNoteMessage, '', AbstractMessage::INFO
+                );
+            }
+
         } catch (\Throwable $e) {
 
             $message = LocalizationUtility::translate(

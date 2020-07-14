@@ -999,11 +999,11 @@
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
                 <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
-                <target>Eine Publikation mit diesem Identifikator ist bereits bei „Arbeitsbereich“. Es wurde nichts importiert.</target>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im „Arbeitsbereich“. Es wurde nichts importiert.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInMyPublications" approved="yes">
                 <source>A publication with this identifier is already in "My Publications". Nothing was imported.</source>
-                <target>Eine Publikation mit diesem Identifikator ist bereits bei „Meine Publikationen“. Es wurde nichts importiert.</target>
+                <target>Eine Publikation mit diesem Identifikator ist bereits in „Meine Publikationen“. Es wurde nichts importiert.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
                 <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
@@ -1060,6 +1060,26 @@
             <trans-unit id="manager.bulkImport.header" approved="yes">
                 <source>Import from Crossref/PubMed</source>
                 <target>Import aus Crossref/PubMed</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.singular" approved="yes">
+                <source>Publication</source>
+                <target>Publikation</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.plural" approved="yes">
+                <source>Publications</source>
+                <target>Publikationen</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.libarian" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "Workspace".</source>
+                <target>Es wurden %s %s importiert und %s vorhandene %s zum "Arbeitsbreich" hinzugefügt.</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.researcher" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "My Publications".</source>
+                <target>Es wurden %s %s importiert und %s vorhandene %s zu "Meine Publikationen" hinzugefügt.</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importNote" approved="yes">
+                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+                <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
