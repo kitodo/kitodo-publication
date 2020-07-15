@@ -20,6 +20,7 @@ $(document).ready(function() {
     documentListConfirmDialog('#confirmRestore');
     documentListConfirmDialog('#confirmDelete');
     datepicker();
+    initTextareaLimit();
     jQuery('[data-toggle="tooltip"]').tooltip();
     var $disableForm = jQuery('form[data-disabled]').attr('data-disabled');
     if ($disableForm) {
@@ -487,6 +488,37 @@ var datepicker = function() {
         }
     });
 }
+
+var initTextareaLimit = function(){
+
+    $(".tx-dpf textarea").each(function(){
+
+        $(this).bind("focus change keyup paste", function() {
+            var limit = $(this).attr('data-maxlength');
+            var difference = limit - $(this).val().length;
+
+            var count = $(this).siblings("div.countwrapper").find(".count");
+
+            count.html($(this).val().length);
+            count.removeClass("limit limitbreak");
+
+            if(difference >= 100) {
+                 return;
+            }
+
+            if (difference < 100 && difference >= 0) {
+                 count.addClass("limit");
+                 return;
+            }
+
+            if (difference < 0){
+                count.addClass("limitbreak");
+                return;
+            }
+        });
+    });
+}
+
 var isDate = function(value) {
     if (value == '') return false;
     var rxDatePattern = /^(\d{1,2})(\.)(\d{1,2})(\.)(\d{4})$/; //Declare Regex
