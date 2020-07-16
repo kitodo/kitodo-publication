@@ -203,4 +203,40 @@ class Mods
         }
     }
 
+    public function getDOI()
+    {
+        $doiNode = $this->getModsXpath()->query('./mods:identifier[@type="doi"]');
+
+        if ($doiNode->length > 0) {
+            return $doiNode->item(0)->nodeValue;
+        }
+        return null;
+    }
+
+    public function removeDOI()
+    {
+        $doiNode = $this->getModsXpath()->query('./mods:identifier[@type="doi"]');
+        if ($doiNode->length > 0) {
+            $doiNode->item(0)->parentNode->removeChild($doiNode->item(0));
+        }
+    }
+
+    public function getPPN()
+    {
+        $ppnNode = $this->getModsXpath()->query('./mods:identifier[@type="swb-ppn"]');
+
+        if ($ppnNode->length > 0) {
+            return $ppnNode->item(0)->nodeValue;
+        }
+        return null;
+    }
+
+    public function removePPN()
+    {
+        $ppnNode = $this->getModsXpath()->query('./mods:identifier[@type="swb-ppn"]');
+        if ($ppnNode->length > 0) {
+            $ppnNode->item(0)->parentNode->removeChild($ppnNode->item(0));
+        }
+    }
+
 }
