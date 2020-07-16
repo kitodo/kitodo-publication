@@ -142,6 +142,7 @@
 .tx-dpf .form-group {
     position: relative;
     display: table;
+    background: #eee;
 }
 
 .tx-dpf .fe-form-group {
@@ -256,6 +257,28 @@
 .tx-dpf textarea {
     resize: vertical;
     min-height: 220px;
+}
+
+.tx-dpf .countwrapper {
+  border: solid #ccc;
+  border-width: 0px 1px 1px 0px;
+  text-align: right;
+  padding: 5px 8px;
+  margin-top: -7px;
+}
+
+.tx-dpf .countwrapper .count {
+  color: green;
+}
+
+.tx-dpf .countwrapper .count.limit {
+  color: darkorange;
+  font-weight: bold;
+}
+
+.tx-dpf .countwrapper .count.limitbreak {
+  color: red;
+  font-weight: bold;
 }
 
 .tx-dpf .fs_file_group .form-control-static {
