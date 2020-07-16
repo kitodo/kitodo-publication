@@ -491,7 +491,10 @@ var datepicker = function() {
 
 var initTextareaLimit = function(){
 
-    $(".tx-dpf textarea").each(function(){
+    $(".tx-dpf textarea").each(function() {
+
+        var count = $(this).siblings("div.countwrapper").find(".count");
+        count.html($(this).val().length);
 
         $(this).bind("focus change keyup paste", function() {
             var limit = $(this).attr('data-maxlength');

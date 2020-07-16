@@ -38,6 +38,36 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         });
     }
 
+    var initTextareaLimit = function(){
+
+        $(".tx-dpf textarea").each(function(){
+            var count = $(this).siblings("div.countwrapper").find(".count");
+            count.html($(this).val().length);
+
+            $(this).bind("focus change keyup paste", function() {
+                var limit = $(this).attr('data-maxlength');
+                var difference = limit - $(this).val().length;
+
+                count.html($(this).val().length);
+                count.removeClass("limit limitbreak");
+
+                if(difference >= 100) {
+                    return;
+                }
+
+                if (difference < 100 && difference >= 0) {
+                    count.addClass("limit");
+                    return;
+                }
+
+                if (difference < 0){
+                    count.addClass("limitbreak");
+                    return;
+                }
+            });
+        });
+    }
+
     var buttonFillOutServiceUrn = function() {
         $('input.urn').each(function() {
             var fieldUid = $(this).attr('data-field');
@@ -661,6 +691,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
         documentListConfirmDialog('#confirmTemplate');
 
         datepicker();
+        initTextareaLimit();
 
         $('[data-toggle="tooltip"]').tooltip();
         var $disableForm = $('form[data-disabled]').attr('data-disabled');
