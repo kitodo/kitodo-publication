@@ -326,6 +326,8 @@ var addGroup = function() {
             jQuery('html, body').animate({scrollTop: element.position().top - height}, 400);
         })
 
+        group.find('input, textarea').first().focus();
+
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();

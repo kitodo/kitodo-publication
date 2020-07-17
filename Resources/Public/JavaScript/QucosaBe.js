@@ -315,6 +315,8 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 $('html, body').animate({scrollTop: element.position().top - height}, 400);
             })
 
+            group.find('input, textarea').first().focus();
+
             buttonFillOutServiceUrn();
             datepicker();
             addRemoveFileButton();
