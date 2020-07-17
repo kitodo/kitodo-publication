@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping, unpaywall_mapping',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping, unpaywall_mapping',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_mapping, gnd_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -372,6 +372,14 @@ return array(
         ],
         'zdb_mapping' => [
             'label' => 'ZDB Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'unpaywall_mapping' => [
+            'label' => 'Unpaywall Mapping',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

@@ -86,7 +86,7 @@
 
             <f:comment> MODAL SEARCH GND USER </f:comment>
             <div class="modal fade" id="gndSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" role="document" style="max-width: 50%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="gndSearchModalTitle-{groupIndex}">GND Suche</h5>
@@ -113,7 +113,7 @@
 
             <f:comment> MODAL SEARCH ROR </f:comment>
             <div class="modal fade" id="rorSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" role="document" style="max-width: 50%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="rorSearchModalTitle-{groupIndex}">ROR Suche</h5>
@@ -152,7 +152,7 @@
             </div>
 
             <div class="modal fade" id="zdbSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" role="document" style="max-width: 50%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="zdbSearchModalTitle-{groupIndex}">ZDB Suche</h5>
@@ -179,6 +179,42 @@
         </f:then>
     </f:if>
 
+    <f:if condition="{groupItem.groupType} == 'unpaywall'">
+        <f:then>
+            <div class="user-search-div">
+                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#unpaywallSearchModal-{groupIndex}"
+                        data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                    Unpaywall Suche
+                </button>
+            </div>
+
+            <div class="modal fade" id="unpaywallSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="unpaywallSearchModal-{groupIndex}" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 50%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="unpaywallSearchModalTitle-{groupIndex}">Unpaywall Suche</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input style="margin-bottom: 1rem;" class="unpaywall-user-search-input" type="text" data-group="{formGroupUid}"
+                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                   data-ajax="{f:uri.action(action:'searchUnpaywallData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                                   data-buttonajax="{f:uri.action(action:'getUnpaywallData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                            <div class="user-search-list-{groupIndex}">
+                                <ul style="list-style-type: none;padding:0;">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </f:then>
+    </f:if>
 
 
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">

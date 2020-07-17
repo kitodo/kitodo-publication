@@ -1303,11 +1303,13 @@ var userSearch = function(group) {
         $(group.find('.gnd-user-search-input')).on('keyup', searchInputKeyupHandler);
         $(group.find('.ror-user-search-input')).on('keyup', searchInputKeyupHandler);
         $(group.find('.zdb-user-search-input')).on('keyup', searchInputKeyupHandler);
+        $(group.find('.unpaywall-user-search-input')).on('keyup', searchInputKeyupHandler);
     } else {
         $('.fis-user-search-input').on('keyup', searchInputKeyupHandler);
         $('.gnd-user-search-input').on('keyup', searchInputKeyupHandler);
         $('.ror-user-search-input').on('keyup', searchInputKeyupHandler);
         $('.zdb-user-search-input').on('keyup', searchInputKeyupHandler);
+        $('.unpaywall-user-search-input').on('keyup', searchInputKeyupHandler);
     }
 }
 
@@ -1340,6 +1342,8 @@ var searchInputKeyupHandler = function() {
                         hitListElement.append(listHtml(value.name, value.id));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.identifier));
+                    } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
+                        hitListElement.append(listHtml(value.title, value.doi, value.color));
                     }
 
                 });
@@ -1349,12 +1353,17 @@ var searchInputKeyupHandler = function() {
     }
 }
 
-var listHtml = function (name, id) {
+var listHtml = function (name, id, color = '') {
+    if (color) {
+        colorHtml = '<span class="fa fa-circle" style="color: ' + color + ' "></span>';
+    } else {
+        colorHtml = '';
+    }
     return '<li style="margin-bottom:1rem;">' +
         '<button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
         'Übernehmen' +
         '</button>' +
-        name + ' (' + id + ')' +
+        name + ' (' + id + ') ' + colorHtml
         '</li>';
 }
 

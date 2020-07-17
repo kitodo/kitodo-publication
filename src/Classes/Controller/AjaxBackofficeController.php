@@ -20,6 +20,7 @@ use EWW\Dpf\Services\FeUser\FisDataService;
 use EWW\Dpf\Services\FeUser\GndDataService;
 
 use EWW\Dpf\Services\FeUser\RorDataService;
+use EWW\Dpf\Services\FeUser\UnpaywallDataService;
 use EWW\Dpf\Services\FeUser\ZdbDataService;
 use EWW\Dpf\Session\SearchSessionData;
 
@@ -339,6 +340,33 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         $zdbData = $zdbDataService->getDataRequest($dataId);
 
         $result = $this->getApiMappingArray($groupId, $zdbData, $groupIndex, $fieldIndex, $pageId, 'getZdbMapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $searchTerm
+     */
+    public function searchUnpaywallDataAction($searchTerm) {
+        $unpaywallUserDataService = new UnpaywallDataService();
+        $result = $unpaywallUserDataService->searchRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     * @return false|string
+     */
+    public function getUnpaywallDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
+        $unpaywallDataService = new UnpaywallDataService();
+        $unpaywallData = $unpaywallDataService->getDataRequest($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $unpaywallData, $groupIndex, $fieldIndex, $pageId, 'getUnpaywallMapping');
 
         return json_encode($result);
     }

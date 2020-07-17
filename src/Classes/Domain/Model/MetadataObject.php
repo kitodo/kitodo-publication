@@ -180,6 +180,12 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $zdbMapping = '';
 
     /**
+     * unpaywall mapping
+     * @var string
+     */
+    protected $unpaywallMapping = '';
+
+    /**
      * Returns the name
      *
      * @return string $name
@@ -627,6 +633,22 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     public function setZdbMapping(string $zdbMapping): void
     {
         $this->zdbMapping = $zdbMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnpaywallMapping(): string
+    {
+        return $this->unpaywallMapping;
+    }
+
+    /**
+     * @param string $unpaywallMapping
+     */
+    public function setUnpaywallMapping(string $unpaywallMapping): void
+    {
+        $this->unpaywallMapping = $unpaywallMapping;
     }
 
 

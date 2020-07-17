@@ -274,6 +274,7 @@ return array(
                     ['---', ''],
                     ['Person', 'person'],
                     ['Title', 'title'],
+                    ['Unpaywall', 'unpaywall'],
                 ],
             ],
         ],
