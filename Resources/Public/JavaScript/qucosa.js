@@ -320,10 +320,9 @@ var addGroup = function() {
         jQuery(group).css({
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
-        var height = jQuery(group).outerHeight(true) + 50;
 
         jQuery(group).fadeIn(200, function(){
-            jQuery('html, body').animate({scrollTop: element.position().top - height}, 400);
+            jQuery('html, body').animate({scrollTop: group.position().top}, 400);
         })
 
         group.find('input, textarea').first().focus();

@@ -309,10 +309,8 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 .css({'display': 'none'})
                 .insertAfter($('fieldset[data-group="' + dataGroup + '"]').last());
 
-            var height = $(group).outerHeight(true) + 50;
-
             $(group).fadeIn(200, function(){
-                $('html, body').animate({scrollTop: element.position().top - height}, 400);
+                $('html, body').animate({scrollTop: group.position().top}, 400);
             })
 
             group.find('input, textarea').first().focus();
