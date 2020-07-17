@@ -309,12 +309,11 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 .css({'display': 'none'})
                 .insertAfter($('fieldset[data-group="' + dataGroup + '"]').last());
 
-            var height = $('fieldset[data-group="' + dataGroup + '"]')
-                .last()
-                .outerHeight(true)
+            $(group).fadeIn(200, function(){
+                $('html, body').animate({scrollTop: group.position().top}, 400);
+            })
 
-            $('html, body')
-                .animate({scrollTop: element.offset().top - height}, 400, function() {$(group).fadeIn();});
+            group.find('input, textarea').first().focus();
 
             buttonFillOutServiceUrn();
             datepicker();
@@ -404,7 +403,7 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
             if (element.error) {
                 var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg_filloutservice + '</div>');
                 errorMsg.insertAfter(group.find('legend'));
-                $("html, body").animate({scrollTop: group.offset().top}, 200);
+                $("html, body").animate({scrollTop: group.position().top}, 200);
             } else {
                 $('#qucosaid').val(element.qucosaId);
                 $('#qucosaUrn').val(element.value);
@@ -587,8 +586,8 @@ define(['jquery', 'TYPO3/CMS/Dpf/jquery-ui','twbs/bootstrap-datetimepicker'], fu
                 updatePrevNextButtons(newActivePage);
 
                 $('html, body').animate({
-                    scrollTop:$('.tx-dpf').offset().top
-                },'fast');
+                    scrollTop:$('.tx-dpf').position().top
+                }, 200);
             }
 
             e.preventDefault();
