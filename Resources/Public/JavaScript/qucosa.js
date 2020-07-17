@@ -320,12 +320,12 @@ var addGroup = function() {
         jQuery(group).css({
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
-        var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true)
-        jQuery('html, body').animate({
-            scrollTop: element.offset().top - height
-        }, 400, function() {
-            jQuery(group).fadeIn();
-        });
+        var height = jQuery(group).outerHeight(true) + 50;
+
+        jQuery(group).fadeIn(200, function(){
+            jQuery('html, body').animate({scrollTop: element.position().top - height}, 400);
+        })
+
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
@@ -411,7 +411,7 @@ var fillOutServiceUrn = function() {
         if (element.error) {
             var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><span class="glyphicon glyphicon glyphicon-fire pull-right"></span>' + form_error_msg_filloutservice + '</div>');
             errorMsg.insertAfter(group.find('legend'));
-            $("html, body").animate({scrollTop: group.offset().top}, 200);
+            $("html, body").animate({scrollTop: group.position().top}, 200);
         } else {
             jQuery('#qucosaid').val(element.qucosaId);
             jQuery('#qucosaUrn').val(element.value);
@@ -687,8 +687,8 @@ var previousNextFormPage = function() {
             updatePrevNextButtons(newActivePage);
 
             $('html, body').animate({
-                scrollTop:$('.tx-dpf').offset().top
-            },'fast');
+                scrollTop:$('.tx-dpf').position().top
+            },200);
         }
 
         e.preventDefault();
