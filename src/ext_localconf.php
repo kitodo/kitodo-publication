@@ -82,6 +82,40 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     )
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
+    'rest_api',
+    [
+        'Api' => 'list, show, create',
+    ],
+    []
+);
+
+// Add RealURL for api configuration
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
+//    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT']['fixedPostVars']['api'] = [
+//        [
+//            'GETvar'   => 'type',
+//            'valueMap' => [
+//                'tag' => 1452982642
+//            ],
+//        ],
+//        [
+//            'cond'        => [
+//                'prevValueInList' => '1452982642'
+//            ],
+//            'GETvar'      => 'tx_dpf_rest_api[document]',
+//            'lookUpTable' => [
+//                'table'       => 'tx_dpf_document',
+//                'id_field'    => 'uid',
+//                'alias_field' => 'uid'
+//            ],
+//            'optional'    => true,
+//        ]
+//    ];
+//    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT']['fixedPostVars'][1] = 'api';
+}
+
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
