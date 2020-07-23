@@ -313,6 +313,10 @@
 				<source>Access denied!</source>
 				<target>Zugriff verweigert!</target>
 			</trans-unit>
+			<trans-unit id="error.retrieve_failed" approved="yes">
+				<source>Retrieve failed. Title or document type wasn't found.</source>
+				<target>Laden des Dokuments fehlgeschlagen. Titel oder Dokumenttyp nicht gefunden</target>
+			</trans-unit>
 			<trans-unit id="form_button.addFile" approved="yes">
 				<source>add file</source>
 				<target>Weitere Datei hinzufügen</target>
@@ -728,6 +732,10 @@
 			<trans-unit id="manager.document.localStatus.deleted" approved="yes">
 				<source>Deleted</source>
 				<target>Gelöscht</target>
+			</trans-unit>
+			<trans-unit id="manager.document.noTitle" approved="yes">
+				<source>No title</source>
+				<target>Kein Titel</target>
 			</trans-unit>
 			<trans-unit id="manager.document.title" approved="yes">
 				<source>Title</source>
@@ -1412,7 +1420,7 @@
 	Author: ###AUTHOR###
 	URL: ###URL###
 	Date: ###DATE###
-					</source>
+				</source>
 				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
 	die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
@@ -1423,7 +1431,51 @@
 
 	Mit freundlichen Grüßen
 	Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
-					</target>
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.subject" approved="yes">
+				<source>Document published</source>
+				<target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
+				<source>A new document has been registered:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+				</source>
+				<target>Ein neues Dokument wurde angemeldet:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.subject" approved="yes">
+				<source>New document registered</source>
+				<target>Ein neues Dokument wurde angemeldet</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.body" approved="yes" xml:space="preserve">
+				<source>You have registered the following document:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
+				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
+
+wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
+
+Titel: ###TITLE###
+Erste/r AutorIn: ###AUTHOR###
+Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - falls noch nicht geschehen - die unterschriebene Einverständniserklärung. Sobald Ihr Dokument online verfügbar ist, benachrichtigen wir Sie per E-Mail.
+
+Mit freundlichen Grüßen
+Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+				</target>
 			</trans-unit>
 			<trans-unit id="notification.newDocument.submitter.subject" approved="yes">
 				<source>You have registered a document</source>
@@ -1431,38 +1483,38 @@
 			</trans-unit>
 			<trans-unit id="notification.registerDocument.admin.body" approved="yes" xml:space="preserve">
 				<source>A document has been registered:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
-					</source>
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
 				<target>Ein Dokument wurde angemeldet:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
-					</target>
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+				</target>
 			</trans-unit>
 			<trans-unit id="notification.document.embargo.admin.subject" approved="yes">
 				<source>Embargo expired</source>
 				<target>Embargo ist abgelaufen</target>
 			</trans-unit>
 			<trans-unit id="notification.document.embargo.admin.body" approved="yes" xml:space="preserve">
-			<source>Embargo is expired:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+				<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
 				<target>Das Embargo ist abgelaufen:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.registerDocument.admin.subject" approved="yes">
@@ -1471,20 +1523,20 @@
 			</trans-unit>
 			<trans-unit id="notification.newSuggestion.admin.body" approved="yes" xml:space="preserve">
 				<source>A new suggestion has been added:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
-	URL: ###DETAIL_URL###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+URL: ###DETAIL_URL###
 				</source>
 				<target>Ein Änderungsvorschlag wurde erstellt:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
-	URL: ###DETAIL_URL###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+URL: ###DETAIL_URL###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.newSuggestion.admin.subject" approved="yes">
@@ -1493,18 +1545,18 @@
 			</trans-unit>
 			<trans-unit id="notification.embargoExpired.admin.body" approved="yes" xml:space="preserve">
 				<source>Embargo is expired:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
-					<target>Embargo ist abgelaufen:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
+				<target>Embargo ist abgelaufen:
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.embargoExpired.admin.subject" approved="yes">
