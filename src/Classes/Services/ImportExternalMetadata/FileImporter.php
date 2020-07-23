@@ -18,7 +18,7 @@ use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
 
-interface Importer
+interface FileImporter
 {
     /**
      * Returns the list of all publication types
@@ -26,29 +26,6 @@ interface Importer
      * @return array
      */
     public static function types();
-
-
-    /**
-     * Returns the list of publication types: ( ['type','"type"'] ).
-     * @param array $types
-     * @return array
-     */
-    public static function typeItems($types);
-
-
-    /**
-     * @param string $identifier
-     * @return ExternalMetadata|null
-     */
-    public function findByIdentifier($identifier);
-
-
-    /**
-     * @param string $query
-     * @return mixed
-     */
-    public function search($query);
-
 
     /**
      * @param string $xml
@@ -58,6 +35,22 @@ interface Importer
     */
     public function transformToMetsXml($xml, $documentType);
 
+    /**
+     * @return bool
+     */
+    public function hasMandatoryErrors();
+
+    /**
+     * @return array
+     */
+    public function getMandatoryErrors();
+
+    /**
+     * @param string $filePath
+     * @param array $mandatoryFields
+     * @return array
+     */
+    public function loadFile($filePath, $mandatoryFields);
 
     /**
      * @param ExternalMetadata $metadata

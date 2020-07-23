@@ -175,6 +175,10 @@
 			<source>PubMed transformation</source>
 			<target>PubMed-Transformation</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.bibtex_transformation" approved="yes">
+    		<source>BibTex transformation</source>
+    		<target>BibTex-Transformation</target>
+    	</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
 			<source>Document</source>
 			<target>Dokument</target>
@@ -342,6 +346,14 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_types" approved="yes">
 			<source>PubMed types</source>
 			<target>PubMed-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_transformation" approved="yes">
+			<source>BibTex transformation</source>
+			<target>BibTex-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_types" approved="yes">
+			<source>BibTex types</source>
+			<target>BibTex-Typen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
 			<source>File</source>

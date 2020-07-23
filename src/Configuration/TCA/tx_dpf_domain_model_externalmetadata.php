@@ -47,7 +47,8 @@ return array(
                     ['CrossRefMetadata', 'EWW\Dpf\Domain\Model\CrossRefMetadata'],
                     ['DataCiteMetadata', 'EWW\Dpf\Domain\Model\DataCiteMetadata'],
                     ['K10plusMetadata', 'EWW\Dpf\Domain\Model\K10plusMetadata'],
-                    ['PubMedMetadata', 'EWW\Dpf\Domain\Model\PubMedMetadata']
+                    ['PubMedMetadata', 'EWW\Dpf\Domain\Model\PubMedMetadata'],
+                    ['BibTexMetadata', 'EWW\Dpf\Domain\Model\BibTexMetadata']
                 ),
                 'default' => '0'
             ),

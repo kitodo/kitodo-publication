@@ -128,6 +128,9 @@
 		<trans-unit id="tx_dpf_domain_model_client.pubmed_transformation" approved="yes">
 			<source>PubMed transformation</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.bibtex_transformation" approved="yes">
+    		<source>BibTex transformation</source>
+    	</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document">
 			<source>Document</source>
 		</trans-unit>
@@ -253,6 +256,12 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_types">
 			<source>PubMed types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_transformation">
+			<source>BibTex transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_types">
+			<source>BibTex types</source>
 		</trans-unit>
 	    <trans-unit id="tx_dpf_domain_model_file">
 			<source>File</source>

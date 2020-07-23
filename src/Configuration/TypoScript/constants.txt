@@ -80,6 +80,10 @@ plugin.tx_dpf {
             pubmed =
             # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported K10plus metadata
             k10plus =
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported BibTex metadata
+            bibtex =
+            # cat=plugin.tx_dpf/link; type=int+; label=Default document type uid for imported RIS/Web of science metadata
+            riswos =
         }
 
         bulkImportPagination {
@@ -88,5 +92,8 @@ plugin.tx_dpf {
             # cat=plugin.tx_dpf/link; type=int+; label=Bulk import items per page.
             itemsPerPage = 30
         }
+
+        # cat=plugin.tx_dpf/api; type=string; label=BibTex-File mandatory fields (comma separated).
+        bibTexMandatoryFields = title,author
     }
 }

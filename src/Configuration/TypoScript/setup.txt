@@ -37,6 +37,7 @@ config.tx_extbase {
                     EWW\Dpf\Domain\Model\DataCiteMetadata = EWW\Dpf\Domain\Model\DataCiteMetadata
                     EWW\Dpf\Domain\Model\K10plusMetadata = EWW\Dpf\Domain\Model\K10plusMetadata
                     EWW\Dpf\Domain\Model\PubMedMetadata = EWW\Dpf\Domain\Model\PubMedMetadata
+					EWW\Dpf\Domain\Model\BibTexMetadata = EWW\Dpf\Domain\Model\BibTexMetadata
                 }
             }
 
@@ -65,6 +66,13 @@ config.tx_extbase {
 				mapping {
 					tableName = tx_dpf_domain_model_externalmetadata
 					recordType = EWW\Dpf\Domain\Model\PubMedMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\BibTexMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\BibTexMetadata
 				}
 			}
 		}
@@ -146,6 +154,8 @@ plugin.tx_dpf {
             datacite = {$plugin.tx_dpf.settings.defaultImportDocumentType.datacite}
             pubmed = {$plugin.tx_dpf.settings.defaultImportDocumentType.pubmed}
             k10plus = {$plugin.tx_dpf.settings.defaultImportDocumentType.k10plus}
+			bibtex = {$plugin.tx_dpf.settings.defaultImportDocumentType.bibTex}
+			riswos = {$plugin.tx_dpf.settings.defaultImportDocumentType.risWos}
         }
 
         # Configuration of the pagination for the document bulk import.
@@ -153,6 +163,9 @@ plugin.tx_dpf {
             maximumNumberOfLinks = {$plugin.tx_dpf.settings.bulkImportPagination.maximumNumberOfLinks}
             itemsPerPage = {$plugin.tx_dpf.settings.bulkImportPagination.itemsPerPage}
         }
+
+		bibTexMandatoryFields = {$plugin.tx_dpf.settings.bibTexMandatoryFields}
+
     }
 }
 
@@ -211,6 +224,7 @@ page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-
 page.includeJSFooter.tx_dpf_pooper = https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker.min.js
+page.includeJSFooter.tx_dpf_custom_file_input = EXT:dpf/Resources/Public/JavaScript/bs-custom-file-input.min.js
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js

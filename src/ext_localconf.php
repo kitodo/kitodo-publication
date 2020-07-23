@@ -96,7 +96,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'importListDocTypes, importSearchForm, import',
         'DocumentFormBackoffice' => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '
-            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments',
+            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments, '
+            .'uploadStart, uploadImportFile, importUploadedData, uploadedDocuments',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
@@ -117,7 +118,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'importListDocTypes, importSearchForm, import, preview',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '
-            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments',
+            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments, '
+            .'uploadStart, uploadImportFile, importUploadedData, uploadedDocuments',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '

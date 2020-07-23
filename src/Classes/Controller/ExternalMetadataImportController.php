@@ -16,18 +16,18 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\ImportExternalMetadata\Importer;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
+use EWW\Dpf\Services\ImportExternalMetadata\Importer;
+use EWW\Dpf\Services\ImportExternalMetadata\FileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
 use EWW\Dpf\Session\BulkImportSessionData;
-
 
 /**
  * ExternalDataImportController
@@ -726,7 +726,53 @@ class ExternalMetadataImportController extends AbstractController
     /**
      * @param array $importCounter
      */
-    protected function bulkImportedDocumentsAction($importCounter = ['imported' => 0, 'bookmarked' => 0, 'total' => 0])
+    public function bulkImportedDocumentsAction($importCounter = ['imported' => 0, 'bookmarked' => 0, 'total' => 0])
+    {
+
+        $publicationSingular = LocalizationUtility::translate('manager.importMetadata.publication.singular', 'dpf');
+        $publicationPlural = LocalizationUtility::translate('manager.importMetadata.publication.plural', 'dpf');
+
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+            $messageKey = 'manager.bulkImport.importMessage.libarian';
+        } else {
+            $messageKey = 'manager.bulkImport.importMessage.researcher';
+        }
+
+        $message = LocalizationUtility::translate(
+            $messageKey,
+            'dpf',
+            [
+                0 => $importCounter['imported'],
+                1 => ($importCounter['imported'] == 1? $publicationSingular : $publicationPlural),
+                2 => $importCounter['bookmarked'],
+                3 => ($importCounter['bookmarked'] == 1? $publicationSingular : $publicationPlural)
+            ]
+        );
+
+        if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
+            $severity = AbstractMessage::INFO;
+        } else {
+            $severity = AbstractMessage::WARNING;
+        }
+
+        $this->addFlashMessage(
+            $message, '', $severity
+        );
+
+        if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
+            $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
+            $this->addFlashMessage(
+                $importNoteMessage, '', AbstractMessage::INFO
+            );
+        }
+
+        $this->showImportedDocuments($importCounter);
+    }
+
+    /**
+     *
+     */
+    protected function showImportedDocuments()
     {
         $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
             $this->uriBuilder->getRequest()->getRequestUri()
@@ -775,44 +821,6 @@ class ExternalMetadataImportController extends AbstractController
             $personGroup = $this->metadataGroupRepository->findOneByGroupType('person');
             $this->view->assign('personGroup', $personGroup->getUid());
 
-
-            $publicationSingular = LocalizationUtility::translate('manager.bulkImport.publication.singular', 'dpf');
-            $publicationPlural = LocalizationUtility::translate('manager.bulkImport.publication.plural', 'dpf');
-
-            if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
-                $messageKey = 'manager.bulkImport.importMessage.libarian';
-            } else {
-                $messageKey = 'manager.bulkImport.importMessage.researcher';
-            }
-
-            $message = LocalizationUtility::translate(
-                $messageKey,
-                'dpf',
-                [
-                    0 => $importCounter['imported'],
-                    1 => ($importCounter['imported'] == 1? $publicationSingular : $publicationPlural),
-                    2 => $importCounter['bookmarked'],
-                    3 => ($importCounter['bookmarked'] == 1? $publicationSingular : $publicationPlural)
-                ]
-            );
-
-            if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
-                $severity = AbstractMessage::INFO;
-            } else {
-                $severity = AbstractMessage::WARNING;
-            }
-
-            $this->addFlashMessage(
-                $message, '', $severity
-            );
-
-            if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
-                $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
-                $this->addFlashMessage(
-                    $importNoteMessage, '', AbstractMessage::INFO
-                );
-            }
-
         } catch (\Throwable $e) {
 
             $message = LocalizationUtility::translate(
@@ -845,4 +853,189 @@ class ExternalMetadataImportController extends AbstractController
 
         return 10;
     }
+
+
+    public function uploadStartAction()
+    {
+        $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
+    }
+
+    /**
+     * @param array $uploadFile
+     */
+    public function uploadImportFileAction($uploadFile = [])
+    {
+        $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
+
+        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
+        $uploadFilePath = PATH_site . $uploadFileUrl->getDirectory() . "/importFile.".md5($this->security->getUser()->getUid());
+
+        if ($uploadFile['error'] === UPLOAD_ERR_OK) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($uploadFile['tmp_name'], $uploadFilePath);
+            //$finfo       = finfo_open(FILEINFO_MIME_TYPE);
+            //$contentType = finfo_file($finfo, $uploadFilePath);
+            //finfo_close($finfo);
+        } elseif ($uploadFile['error'] == UPLOAD_ERR_NO_FILE) {
+            $this->redirect('uploadStart');
+        } else {
+            $this->addFlashMessage("Error while uploading File", '', AbstractMessage::ERROR);
+            $this->redirect('uploadStart');
+        }
+
+        try {
+            /** @var FileImporter $fileImporter */
+            $fileImporter = $this->objectManager->get(BibTexFileImporter::class);
+            $bibTextMandatoryFields = array_map(
+                'trim',
+                explode(',', $this->settings['bibTexMandatoryFields'])
+            );
+
+            $results = $fileImporter->loadFile($uploadFilePath, $bibTextMandatoryFields);
+
+            if ($results) {
+
+                foreach ($results as $externalMetadata) {
+                    $this->externalMetadataRepository->add($externalMetadata);
+                }
+
+                if ($fileImporter->hasMandatoryErrors($uploadFilePath, $bibTextMandatoryFields)) {
+                    foreach (
+                        $fileImporter->getMandatoryErrors($uploadFilePath, $bibTextMandatoryFields) as $mandatoryError
+                    ) {
+                        $message = 'Konnte die Publikation Nr. '.$mandatoryError['index'].' nicht importieren';
+                        $message .= $mandatoryError['title']? ' ('.$mandatoryError['title'].')' : '';
+                        $message .= ', da die folgenden Felder leer sind: '.implode(',', $mandatoryError['fields']);
+                        $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                    }
+                    //$this->view->assign('mandatoryErrors', $mandatoryErrors);
+                    //$this->view->assign('uploadFilePath', $uploadFilePath);
+                } else {
+                    $this->redirect(
+                        'importUploadedData',
+                        null,
+                        null,
+                        ['uploadFilePath' => $uploadFilePath]
+                    );
+                }
+            } else {
+                $this->addFlashMessage("No BibTex data found", '', AbstractMessage::ERROR);
+                $this->redirect('uploadStart');
+            }
+        } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $exception) {
+            // A redirect always throws this exception, but in this case, however,
+            // redirection is desired and should not lead to an exception handling
+        } catch (\RenanBr\BibTexParser\Exception\ParserException $exception) {
+            $this->addFlashMessage("Error while reading BibTex", '', AbstractMessage::ERROR);
+            $this->redirect('uploadStart');
+        }
+
+    }
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function importUploadedDataAction()
+    {
+        try {
+            $externalMetadata = $this->externalMetadataRepository->findByFeUser($this->security->getUser()->getUid());
+
+            $importedDocuments = [];
+            $importedDocumentIdentifiers = [];
+
+            /** @var ExternalMetadata $externalMetadataItem */
+            foreach ($externalMetadata as $externalMetadataItem) {
+
+                /** @var  Importer $importer */
+                $importer = $this->objectManager->get($externalMetadataItem->getSource());
+
+                /** @var Document $newDocument */
+                $newDocument = $importer->import($externalMetadataItem);
+
+                if ($newDocument instanceof Document) {
+                    $this->documentRepository->add($newDocument);
+                    $this->externalMetadataRepository->remove($externalMetadataItem);
+                    $importedDocuments[] = $newDocument;
+                }
+            }
+
+            $this->persistenceManager->persistAll();
+
+            // Documents can only be indexed after they have been persisted as we need a valid UID.
+            /** @var Document $importedDocument */
+            foreach ($importedDocuments as $importedDocument) {
+                // index the document
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'indexDocument', [$importedDocument]
+                );
+                $importedDocumentIdentifiers[] = $importedDocument->getDocumentIdentifier();
+            }
+
+            /** @var BulkImportSessionData $bulkImportSessionData */
+            $bulkImportSessionData = $this->session->getBulkImportData();
+            $bulkImportSessionData->setLatestImportIdentifiers($importedDocumentIdentifiers);
+            $this->session->setBulkImportData($bulkImportSessionData);
+
+        } catch(\Throwable $throwable) {
+
+            $this->logger->error($throwable->getMessage());
+
+            $message = LocalizationUtility::translate(
+                'manager.importMetadata.publicationNotImported', 'dpf'
+            );
+
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        $this->redirect(
+            'uploadedDocuments',
+            null,
+            null,
+            ['from' => 0, 'importCounter' => sizeof($importedDocumentIdentifiers)]);
+    }
+
+
+    /**
+     * @param int $importCounter
+     */
+    public function uploadedDocumentsAction($importCounter = 0)
+    {
+        $publicationSingular = LocalizationUtility::translate('manager.importMetadata.publication.singular', 'dpf');
+        $publicationPlural = LocalizationUtility::translate('manager.importMetadata.publication.plural', 'dpf');
+
+        if ($importCounter != 1) {
+            $messageKey = 'manager.uploadImport.importMessage.plural';
+        } else {
+            $messageKey = 'manager.uploadImport.importMessage.singular';
+        }
+
+        $message = LocalizationUtility::translate(
+            $messageKey,
+            'dpf',
+            [
+                0 => $importCounter,
+                1 => ($importCounter == 1? $publicationSingular : $publicationPlural)
+            ]
+        );
+
+        if ($importCounter > 0) {
+            $severity = AbstractMessage::INFO;
+        } else {
+            $severity = AbstractMessage::WARNING;
+        }
+
+        $this->addFlashMessage(
+            $message, '', $severity
+        );
+
+        if ($importCounter > 0) {
+            $importNoteMessage = LocalizationUtility::translate('manager.uploadImport.importNote', 'dpf');
+            $this->addFlashMessage(
+                $importNoteMessage, '', AbstractMessage::INFO
+            );
+        }
+
+        $this->showImportedDocuments($importCounter);
+    }
+
 }

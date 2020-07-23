@@ -785,17 +785,17 @@
             <trans-unit id="manager.importMetadata.cancel" approved="yes">
                 <source>Cancel</source>
             </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.singular" approved="yes">
+                <source>Publication</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.plural" approved="yes">
+                <source>Publications</source>
+            </trans-unit>
             <trans-unit id="manager.uploadMetadata.header" approved="yes">
                 <source>Upload</source>
             </trans-unit>
             <trans-unit id="manager.bulkImport.header" approved="yes">
                 <source>Import from Crossref/PubMed</source>
-            </trans-unit>
-            <trans-unit id="manager.bulkImport.publication.singular" approved="yes">
-                <source>Publication</source>
-            </trans-unit>
-            <trans-unit id="manager.bulkImport.publication.plural" approved="yes">
-                <source>Publications</source>
             </trans-unit>
             <trans-unit id="manager.bulkImport.importMessage.libarian" approved="yes">
                 <source>%s %s were imported and %s existing %s added to "Workspace".</source>

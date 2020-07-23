@@ -1317,6 +1317,9 @@ var inputWithOptions = function() {
 // Document ready
 // -------------------------------------------------------
 $(document).ready(function() {
+
+    bsCustomFileInput.init();
+
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
     documentListConfirmDialog("#confirmReleasePublish");

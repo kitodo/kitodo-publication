@@ -278,6 +278,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $pubmedTransformation = null;
 
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $bibtexTransformation = null;
 
     /**
      * Returns the project
@@ -1011,4 +1016,13 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->pubmedTransformation;
     }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getBibtexTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->bibtexTransformation;
+    }
+
 }

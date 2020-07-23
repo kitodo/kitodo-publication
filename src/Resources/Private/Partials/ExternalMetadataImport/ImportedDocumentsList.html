@@ -1,0 +1,108 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+        <table id="workspace-list" class="tx_dpf table table-striped table-manager table-condensed">
+            <thead>
+            <tr>
+                <th class="xcol-md-4">
+                    {f:translate(key: 'manager.workspace.title')}
+                </th>
+                <th class="xcol-md-2">
+                    {f:translate(key: 'manager.workspace.publicationYear')}
+                </th>
+                <th class="xcol-md-2">
+                    {f:translate(key: 'manager.workspace.persons')}
+                </th>
+            </tr>
+            </thead>
+            <f:for each="{documents}" as="document" iteration="iterator">
+                <tr data-id="{document._id}">
+                    <td>
+                        <f:link.action action="showDetails" controller="Document" arguments="{document:document._id}">
+                            <f:if condition="!{document._source.title.0}">
+                                <f:then>
+                                    [{f:translate(key: 'manager.workspace.noTitle')}]
+                                </f:then>
+                                <f:else>
+                                    {document._source.title.0}
+                                </f:else>
+                            </f:if>
+                        </f:link.action>
+                        <f:if condition="{document._source.originalSourceTitle}">
+                            <br />
+                            in: <em>{document._source.originalSourceTitle}</em>
+                        </f:if>
+                        <br />
+                        <dpf:showDocumentType docType="{document._source.doctype}" />
+                    </td>
+                    <td>
+                        {document._source.year}
+                    </td>
+                    <td>
+                        <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
+                            <f:if condition="{currentFobIdentifier} && {person.fobId} == {currentFobIdentifier}">
+                                <f:then>
+                            <span class="person current-fobid-person">
+                                {person.name}
+                                <i class="fas fa-user-circle"></i>
+                            </span>
+                                </f:then>
+                                <f:else>
+                                    <f:if condition="{person.fobId}">
+                                        <f:then>
+                                    <span class="person fobid-person">
+                                        {person.name}
+                                        <i class="fas fa-user-circle"></i>
+                                    </span>
+                                        </f:then>
+                                        <f:else>
+                                            <f:link.action
+                                                    action="editDocument"
+                                                    controller="Workspace"
+                                                    arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: person.index}"
+                                                    class="person fobid-identify"
+                                                    title="{f:translate(key: 'manager.workspace.identifyPerson', default: 'Person identifizieren')}"
+                                                    additionalAttributes="{data-toggle: 'tooltip' }">
+                                                {person.name}
+                                            </f:link.action>
+                                        </f:else>
+                                    </f:if>
+                                </f:else>
+                            </f:if>
+                        </f:for>
+                        <f:if condition="{dpf:inArray(needle:'{currentFobIdentifier}', array:'{document._source.fobIdentifiers}')} == 0">
+                            <f:link.action
+                                    action="editDocument"
+                                    controller="Workspace"
+                                    arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: '-1'}"
+                                    class="person fobid-add"
+                                    title="{f:translate(key: 'manager.workspace.addPerson', default: 'Mich als Autor_in hinzufügen')}"
+                                    additionalAttributes="{data-toggle: 'tooltip' }">
+                                [+]
+                            </f:link.action>
+                        </f:if>
+                    </td>
+                </tr>
+            </f:for>
+        </table>
+
+    <dpf:widget.paginate
+            objects="{documents}"
+            total="{documentCount}"
+            as="page"
+            currentPage="{currentPage}"
+            configuration="{itemsPerPage:itemsPerPage, insertAbove: 1, insertBelow: 0, maximumNumberOfLinks:settings.bulkImportPagination.maximumNumberOfLinks}">
+    </dpf:widget.paginate>

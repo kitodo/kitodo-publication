@@ -100,10 +100,11 @@
                                 </f:link.action>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'uploadStart'})}">
+                                <f:link.action action="uploadStart" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'uploadStart'})}">
                                     <i class="fas fa-plus"></i>
                                     {f:translate(key: 'manager.uploadMetadata.header')}
-                                </a>
+                                </f:link.action>
                             </li>
                         </ul>
                     </div>

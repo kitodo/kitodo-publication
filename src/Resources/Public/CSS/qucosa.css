@@ -363,6 +363,11 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
     color: #ffffff;
 }
 
+/* -- form-upload-import-file ---------------------------------------------------------------------- */
+
+.custom-file-input ~ .custom-file-label:lang(de)::after {
+    content: "Durchsuchen";
+}
 
 /* -- details page ---------------------------------------------------------------------- */
 

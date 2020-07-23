@@ -39,7 +39,8 @@
         "nategood/httpful": "^0.2.20",
         "elasticsearch/elasticsearch": "^7.5",
         "symfony/workflow": "4.3.*",
-        "symfony/serializer": "^5.0"
+        "symfony/serializer": "^5.0",
+        "renanbr/bibtex-parser": "*"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"

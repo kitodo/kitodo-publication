@@ -1053,6 +1053,14 @@
                 <source>Cancel</source>
                 <target>Abbrechen</target>
             </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.singular" approved="yes">
+                <source>Publication</source>
+                <target>Publikation</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.plural" approved="yes">
+                <source>Publications</source>
+                <target>Publikationen</target>
+            </trans-unit>
             <trans-unit id="manager.uploadMetadata.header" approved="yes">
                 <source>Upload</source>
                 <target>Upload</target>
@@ -1085,6 +1093,42 @@
                 <source>Finish</source>
                 <target>Fertig</target>
             </trans-unit>
+
+
+            <trans-unit id="manager.uploadImport.header" approved="yes">
+                <source>Upload</source>
+                <target>Upload</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.chooseFile" approved="yes">
+                <source>Choose file</source>
+                <target>Datei auswählen</target>
+            </trans-unit>
+
+            <trans-unit id="manager.uploadImport.importMessage.singular" approved="yes">
+                <source>%s %s was imported.</source>
+                <target>Es wurde %s %s importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importMessage.plural" approved="yes">
+                <source>%s %s were imported.</source>
+                <target>Es wurden %s %s importiert.</target>
+            </trans-unit>
+
+
+            <trans-unit id="manager.uploadImport.importNote" approved="yes">
+                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+                <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
+            </trans-unit>
+
+            <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
+                <source>Import BibTex</source>
+                <target>BibTex importieren</target>
+            </trans-unit>
+
+
+
+
+
+
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>
