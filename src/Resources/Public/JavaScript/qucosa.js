@@ -1346,7 +1346,11 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        hitListElement.append(listHtml(value.fullName, value.fisPersid, value.organisationalUnits[0].titleDe +', '+ value.organisationalUnits[1].titleDe));
+                        var optionalText = value.organisationalUnits[0].titleDe;
+                        if (value.organisationalUnits[1]) {
+                            optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                        }
+                        hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
@@ -1387,16 +1391,13 @@ var listHtml = function (name, id, optionalText = '', color = '') {
 var addFoundUserData = function () {
     $('.found-user-add').on('click', function () {
         var input = $(this).closest('.modal-body').find('input');
-
-        // console.log(input.attr('class'));
-        // if (input.attr('class') === 'fis-user-search-input') {
-        //
-        // } else if (input.attr('class') === 'gnd-user-search-input') {
-        //
-        // } else if (input.attr('class') === 'ror-user-search-input') {
-        //
-        // }
-        setDataRequest(input.data('buttonajax'), $(this).data('id'), input);
+        
+        if (input.data('usersettings') == '1') {
+            $('#fisPersId').val($(this).data('id'));
+            $(this).closest('.modal').modal('hide');
+        } else {
+            setDataRequest(input.data('buttonajax'), $(this).data('id'), input);
+        }
 
     });
 }

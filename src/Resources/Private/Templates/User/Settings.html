@@ -44,7 +44,10 @@
         <h3>FIS</h3>
         <div>
             <label>ID</label>
-            <f:form.textfield property="fisPersId"/>
+            <f:form.textfield id="fisPersId" property="fisPersId"/> <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">Person suchen</button>
+            <f:alias map="{usersetting: '1'}">
+                <f:render partial="Api/FisModal" arguments="{_all}" />
+            </f:alias>
         </div>
         <div>
             <f:form.submit value="Speichern {f:translate(key: 'form_button.save')}"/>
