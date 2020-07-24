@@ -1346,7 +1346,7 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        hitListElement.append(listHtml(value.fullName, value.organisationalUnits[0].titleDe));
+                        hitListElement.append(listHtml(value.fullName, value.fisPersid, value.organisationalUnits[0].titleDe +', '+ value.organisationalUnits[1].titleDe));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
@@ -1354,7 +1354,7 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.identifier));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.doi, value.color));
+                        hitListElement.append(listHtml(value.title, value.doi, value.doi, value.color));
                     }
 
                 });
@@ -1364,17 +1364,23 @@ var searchInputKeyupHandler = function() {
     }
 }
 
-var listHtml = function (name, id, color = '') {
+var listHtml = function (name, id, optionalText = '', color = '') {
     if (color) {
         colorHtml = '<span class="fa fa-circle" style="color: ' + color + ' "></span>';
     } else {
         colorHtml = '';
     }
+
+    var text = '';
+    if (optionalText) {
+        var text = ' (' + optionalText + ') ';
+    }
+
     return '<li style="margin-bottom:1rem;">' +
         '<button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
         'Übernehmen' +
         '</button>' +
-        name + ' (' + id + ') ' + colorHtml
+        name + text + colorHtml
         '</li>';
 }
 
