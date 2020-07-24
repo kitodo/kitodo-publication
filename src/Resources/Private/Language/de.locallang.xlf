@@ -1093,8 +1093,6 @@
                 <source>Finish</source>
                 <target>Fertig</target>
             </trans-unit>
-
-
             <trans-unit id="manager.uploadImport.header" approved="yes">
                 <source>Upload</source>
                 <target>Upload</target>
@@ -1103,7 +1101,6 @@
                 <source>Choose file</source>
                 <target>Datei auswählen</target>
             </trans-unit>
-
             <trans-unit id="manager.uploadImport.importMessage.singular" approved="yes">
                 <source>%s %s was imported.</source>
                 <target>Es wurde %s %s importiert.</target>
@@ -1112,23 +1109,22 @@
                 <source>%s %s were imported.</source>
                 <target>Es wurden %s %s importiert.</target>
             </trans-unit>
-
-
             <trans-unit id="manager.uploadImport.importNote" approved="yes">
                 <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
                 <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
-
             <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
                 <source>Import BibTex</source>
                 <target>BibTex importieren</target>
             </trans-unit>
-
-
-
-
-
-
+            <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
+                <source>Import RIS (Web of Science)</source>
+                <target>RIS (Web of Science) importieren</target>
+            </trans-unit>
+			<trans-unit id="risReader.parseFailure" approved="yes">
+				<source>Error while reading ris data</source>
+				<target>Fehler beim Einlesen der RIS-Daten</target>
+			</trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>

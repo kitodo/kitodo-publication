@@ -273,7 +273,7 @@ abstract class AbstractImporter
                 );
             }
         }
-
+        
         return $documentType;
     }
 

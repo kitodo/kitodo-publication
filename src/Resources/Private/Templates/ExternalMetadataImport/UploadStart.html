@@ -22,19 +22,39 @@
 
     <f:flashMessages />
 
-    <f:form action="uploadImportFile" name="uploadImportFile" class="form-upload-import-file" method="post" enctype="multipart/form-data" id="uploadImportFile">
+    <f:form action="uploadImportFile" name="uploadImportFile" class="form-upload-import-file" method="post" enctype="multipart/form-data" id="uploadBibTexFile">
         <div class="form-row align-items-center">
             <div class="col-auto mb-2">
                 <div class="custom-file">
-                    <f:form.upload name="uploadFile" class="custom-file-input" id="inputFile" />
-                    <label class="custom-file-label" for="inputFile">
+                    <f:form.upload name="uploadFile" class="custom-file-input" id="bibTexFile" />
+                    <f:form.hidden name="fileType" value="bibtex" />
+                    <label class="custom-file-label" for="bibTexFile">
                         {f:translate(key: 'manager.uploadImport.chooseFile')}
                     </label>
                 </div>
             </div>
             <div class="col-auto mb-2">
-                <f:form.button type="submit" name="uploadImportFileSubmit" id="uploadImportFileSubmit" class="btn btn-xm btn-primary">
+                <f:form.button type="submit" name="uploadBibTexFileSubmit" id="uploadImportFileSubmit" class="btn btn-xm btn-primary">
                     {f:translate(key: 'manager.uploadImport.bibTex.submitUpload')}
+                </f:form.button>
+            </div>
+        </div>
+    </f:form>
+
+    <f:form action="uploadImportFile" name="uploadImportFile" class="form-upload-import-file" method="post" enctype="multipart/form-data" id="uploadRisWosFile">
+        <div class="form-row align-items-center">
+            <div class="col-auto mb-2">
+                <div class="custom-file">
+                    <f:form.upload name="uploadFile" class="custom-file-input" id="risWosFile" />
+                    <f:form.hidden name="fileType" value="riswos" />
+                    <label class="custom-file-label" for="risWosFile">
+                        {f:translate(key: 'manager.uploadImport.chooseFile')}
+                    </label>
+                </div>
+            </div>
+            <div class="col-auto mb-2">
+                <f:form.button type="submit" name="uploadRisWoSFileSubmit" id="uploadRisWoSFileSubmit" class="btn btn-xm btn-primary">
+                    {f:translate(key: 'manager.uploadImport.risWos.submitUpload')}
                 </f:form.button>
             </div>
         </div>

@@ -38,6 +38,7 @@ config.tx_extbase {
                     EWW\Dpf\Domain\Model\K10plusMetadata = EWW\Dpf\Domain\Model\K10plusMetadata
                     EWW\Dpf\Domain\Model\PubMedMetadata = EWW\Dpf\Domain\Model\PubMedMetadata
 					EWW\Dpf\Domain\Model\BibTexMetadata = EWW\Dpf\Domain\Model\BibTexMetadata
+					EWW\Dpf\Domain\Model\RisWosMetadata = EWW\Dpf\Domain\Model\RisWosMetadata
                 }
             }
 
@@ -75,6 +76,14 @@ config.tx_extbase {
 					recordType = EWW\Dpf\Domain\Model\BibTexMetadata
 				}
 			}
+
+			EWW\Dpf\Domain\Model\RisWosMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\RisWosMetadata
+				}
+			}
+
 		}
 	}
 }
@@ -154,8 +163,8 @@ plugin.tx_dpf {
             datacite = {$plugin.tx_dpf.settings.defaultImportDocumentType.datacite}
             pubmed = {$plugin.tx_dpf.settings.defaultImportDocumentType.pubmed}
             k10plus = {$plugin.tx_dpf.settings.defaultImportDocumentType.k10plus}
-			bibtex = {$plugin.tx_dpf.settings.defaultImportDocumentType.bibTex}
-			riswos = {$plugin.tx_dpf.settings.defaultImportDocumentType.risWos}
+			bibtex = {$plugin.tx_dpf.settings.defaultImportDocumentType.bibtex}
+			riswos = {$plugin.tx_dpf.settings.defaultImportDocumentType.riswos}
         }
 
         # Configuration of the pagination for the document bulk import.
@@ -165,6 +174,7 @@ plugin.tx_dpf {
         }
 
 		bibTexMandatoryFields = {$plugin.tx_dpf.settings.bibTexMandatoryFields}
+		riswosMandatoryFields = {$plugin.tx_dpf.settings.riswosMandatoryFields}
 
     }
 }

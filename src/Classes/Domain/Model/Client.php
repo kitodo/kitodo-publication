@@ -285,6 +285,12 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $bibtexTransformation = null;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $riswosTransformation = null;
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -1023,6 +1029,14 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getBibtexTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->bibtexTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getRiswosTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->riswosTransformation;
     }
 
 }

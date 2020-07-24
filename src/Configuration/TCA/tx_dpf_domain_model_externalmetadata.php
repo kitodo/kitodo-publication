@@ -48,7 +48,8 @@ return array(
                     ['DataCiteMetadata', 'EWW\Dpf\Domain\Model\DataCiteMetadata'],
                     ['K10plusMetadata', 'EWW\Dpf\Domain\Model\K10plusMetadata'],
                     ['PubMedMetadata', 'EWW\Dpf\Domain\Model\PubMedMetadata'],
-                    ['BibTexMetadata', 'EWW\Dpf\Domain\Model\BibTexMetadata']
+                    ['BibTexMetadata', 'EWW\Dpf\Domain\Model\BibTexMetadata'],
+                    ['RisWosMetadata', 'EWW\Dpf\Domain\Model\RisWosMetadata']
                 ),
                 'default' => '0'
             ),

@@ -26,8 +26,11 @@ use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
 use EWW\Dpf\Session\BulkImportSessionData;
+use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\RisReader;
+
 
 /**
  * ExternalDataImportController
@@ -858,12 +861,25 @@ class ExternalMetadataImportController extends AbstractController
     public function uploadStartAction()
     {
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
+
+        /*
+
+        $risDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/ris.txt');
+
+        $risReader = new RisReader();
+
+        $risReader->parseFile($risDoc);
+
+        die();
+        */
+
     }
 
     /**
+     * @param string $fileType (bibtex or riswos)
      * @param array $uploadFile
      */
-    public function uploadImportFileAction($uploadFile = [])
+    public function uploadImportFileAction($fileType, $uploadFile = [])
     {
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
 
@@ -883,42 +899,49 @@ class ExternalMetadataImportController extends AbstractController
         }
 
         try {
-            /** @var FileImporter $fileImporter */
-            $fileImporter = $this->objectManager->get(BibTexFileImporter::class);
-            $bibTextMandatoryFields = array_map(
-                'trim',
-                explode(',', $this->settings['bibTexMandatoryFields'])
-            );
 
-            $results = $fileImporter->loadFile($uploadFilePath, $bibTextMandatoryFields);
+            if ($fileType == 'bibtex') {
+                /** @var FileImporter $fileImporter */
+                $fileImporter = $this->objectManager->get(BibTexFileImporter::class);
+                $mandatoryFields = array_map(
+                    'trim',
+                    explode(',', $this->settings['bibTexMandatoryFields'])
+                );
+                $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
+            } elseif ($fileType == 'riswos') {
+                /** @var FileImporter $fileImporter */
+                $fileImporter = $this->objectManager->get(RisWosFileImporter::class);
+                $mandatoryFields = array_map(
+                    'trim',
+                    explode(',', $this->settings['riswosMandatoryFields'])
+                );
+                $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
+            } else {
+                $results = [];
+            }
 
-            if ($results) {
+            foreach ($results as $externalMetadata) {
+                $this->externalMetadataRepository->add($externalMetadata);
+            }
 
-                foreach ($results as $externalMetadata) {
-                    $this->externalMetadataRepository->add($externalMetadata);
+            if ($mandatoryErrors = $fileImporter->getMandatoryErrors($uploadFilePath, $mandatoryFields)) {
+                foreach (
+                    $mandatoryErrors as $mandatoryError
+                ) {
+                    $message = 'Konnte die Publikation Nr. ' . $mandatoryError['index'] . ' nicht importieren';
+                    $message .= $mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : '';
+                    $message .= ', da die folgenden Felder leer sind: ' . implode(',', $mandatoryError['fields']);
+                    $this->addFlashMessage($message, '', AbstractMessage::ERROR);
                 }
-
-                if ($fileImporter->hasMandatoryErrors($uploadFilePath, $bibTextMandatoryFields)) {
-                    foreach (
-                        $fileImporter->getMandatoryErrors($uploadFilePath, $bibTextMandatoryFields) as $mandatoryError
-                    ) {
-                        $message = 'Konnte die Publikation Nr. '.$mandatoryError['index'].' nicht importieren';
-                        $message .= $mandatoryError['title']? ' ('.$mandatoryError['title'].')' : '';
-                        $message .= ', da die folgenden Felder leer sind: '.implode(',', $mandatoryError['fields']);
-                        $this->addFlashMessage($message, '', AbstractMessage::ERROR);
-                    }
-                    //$this->view->assign('mandatoryErrors', $mandatoryErrors);
-                    //$this->view->assign('uploadFilePath', $uploadFilePath);
-                } else {
+            } elseif ($results) {
                     $this->redirect(
                         'importUploadedData',
                         null,
                         null,
                         ['uploadFilePath' => $uploadFilePath]
                     );
-                }
             } else {
-                $this->addFlashMessage("No BibTex data found", '', AbstractMessage::ERROR);
+                $this->addFlashMessage("No data found", '', AbstractMessage::ERROR);
                 $this->redirect('uploadStart');
             }
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $exception) {
@@ -977,6 +1000,8 @@ class ExternalMetadataImportController extends AbstractController
             $this->session->setBulkImportData($bulkImportSessionData);
 
         } catch(\Throwable $throwable) {
+
+            throw $throwable;
 
             $this->logger->error($throwable->getMessage());
 

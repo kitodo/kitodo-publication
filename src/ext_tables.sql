@@ -31,6 +31,10 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
   k10plus_types varchar(1024) DEFAULT '' NOT NULL,
   pubmed_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   pubmed_types varchar(1024) DEFAULT '' NOT NULL,
+  bibtex_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  bibtex_types varchar(1024) DEFAULT '' NOT NULL,
+  riswos_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  riswos_types varchar(1024) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -436,6 +440,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   k10plus_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   pubmed_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   bibtex_transformation int(11) unsigned DEFAULT '0' NOT NULL,
+  riswos_transformation int(11) unsigned DEFAULT '0' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

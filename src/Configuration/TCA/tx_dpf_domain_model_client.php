@@ -43,7 +43,7 @@ return array(
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
             suggestion_flashmessage,
-            crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation',
+            crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -59,7 +59,7 @@ return array(
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         suggestion_flashmessage,
-        crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation'
+        crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -71,7 +71,7 @@ return array(
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
         --div--;Messages, suggestion_flashmessage,
-        --div--;Default Import-XSLT, crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation,        
+        --div--;Default Import-XSLT, crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,       
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -580,6 +580,20 @@ return array(
             'exclude' => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.bibtex_transformation',
+            'config'    => array(
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ),
+        ),
+        'riswos_transformation' => array(
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.riswos_transformation',
             'config'    => array(
                 'items' => array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)

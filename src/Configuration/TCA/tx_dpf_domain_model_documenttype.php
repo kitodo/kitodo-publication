@@ -35,20 +35,20 @@ return array(
         ),
         'searchFields'             => 'name, display_name, virtual, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
-            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, metadata_page',
+            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
             name, display_name, virtual, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
-            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, metadata_page',
+            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
             name, display_name, virtual, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
-            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, metadata_page,
+            pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page,
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -330,6 +330,35 @@ return array(
                 ),
                 'items' => \EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter::typeItems(
                     \EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter::types()
+                ),
+            ),
+        ),
+        'riswos_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.riswos_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'riswos_types'         => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.ris_types',
+            'config'    => array(
+                'type' => 'select',
+                'size' => 10,
+                'maxitems' => 100,
+                'items' => array(
+                ),
+                'items' => \EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter::typeItems(
+                    \EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter::types()
                 ),
             ),
         ),

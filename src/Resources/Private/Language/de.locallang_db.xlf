@@ -179,6 +179,14 @@
     		<source>BibTex transformation</source>
     		<target>BibTex-Transformation</target>
     	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
+    		<source>RisWos transformation</source>
+    		<target>RisWos-Transformation</target>
+    	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
+    		<source>RisWos transformation</source>
+    		<target>RisWos-Transformation</target>
+    	</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
 			<source>Document</source>
 			<target>Dokument</target>
@@ -354,6 +362,14 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_types" approved="yes">
 			<source>BibTex types</source>
 			<target>BibTex-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_transformation" approved="yes">
+			<source>RisWos transformation</source>
+			<target>RisWos-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_types" approved="yes">
+			<source>RisWos types</source>
+			<target>RisWos-Typen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
 			<source>File</source>
