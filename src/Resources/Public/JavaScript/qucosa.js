@@ -1299,18 +1299,29 @@ var inputWithOptions = function() {
 
 var userSearch = function(group) {
     if (group) {
-        $(group.find('.fis-user-search-input')).on('keyup', searchInputKeyupHandler);
-        $(group.find('.gnd-user-search-input')).on('keyup', searchInputKeyupHandler);
-        $(group.find('.ror-user-search-input')).on('keyup', searchInputKeyupHandler);
-        $(group.find('.zdb-user-search-input')).on('keyup', searchInputKeyupHandler);
-        $(group.find('.unpaywall-user-search-input')).on('keyup', searchInputKeyupHandler);
+        $(group.find('.fis-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.gnd-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.ror-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.zdb-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.unpaywall-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
     } else {
-        $('.fis-user-search-input').on('keyup', searchInputKeyupHandler);
-        $('.gnd-user-search-input').on('keyup', searchInputKeyupHandler);
-        $('.ror-user-search-input').on('keyup', searchInputKeyupHandler);
-        $('.zdb-user-search-input').on('keyup', searchInputKeyupHandler);
-        $('.unpaywall-user-search-input').on('keyup', searchInputKeyupHandler);
+        $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.gnd-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.ror-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.zdb-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.unpaywall-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
     }
+}
+
+function delay(callback, ms) {
+    var timer = 0;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
 }
 
 var searchInputKeyupHandler = function() {
@@ -1335,7 +1346,7 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        hitListElement.append(listHtml(value.fullName, value.fisPersid));
+                        hitListElement.append(listHtml(value.fullName, value.organisationalUnits[0].titleDe));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
@@ -1438,13 +1449,6 @@ var addMyUserData = function() {
     $('#addMyData').on('click', function () {
         fisAjaxRequest($(this).data('ajax'), $(this).data('personid'), $(this));
     });
-}
-
-let userSearchModal = function() {
-    $('#testbutton').on("click", function () {
-        console.log("TEST");
-        this.preventDefault();
-    })
 }
 
 
@@ -1586,4 +1590,7 @@ $(document).ready(function() {
 
     userSearch();
     addMyUserData();
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+    });
 });

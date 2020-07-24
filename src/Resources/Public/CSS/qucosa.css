@@ -492,6 +492,12 @@ ul.error-files-backbutton li {
     margin-bottom: 20px;
 }
 
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px !important;
+    }
+}
+
 @media only screen and (min-width: 23em) {
     #tx-dpf-backoffice.document-manager div.searchForm div.container .col-md-6 {
     padding: 0px;

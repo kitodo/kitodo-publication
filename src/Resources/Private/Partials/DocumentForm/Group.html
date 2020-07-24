@@ -62,7 +62,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="userSearchModalTitle-{groupIndex}">FIS Suche</h5>
+                            <h5 class="modal-title" id="userSearchModalTitle-{groupIndex}">FIS-Suche</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -71,7 +71,7 @@
                             <input style="margin-bottom: 1rem;" class="fis-user-search-input" type="text" data-personid="{fisPersId}"
                                    data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
                                    data-ajax="{f:uri.action(action:'searchFisUser',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                                   data-buttonajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
                             <div class="user-search-list-{groupIndex}">
                                 <ul style="list-style-type: none;padding:0;">
                                 </ul>
@@ -98,7 +98,7 @@
                             <input style="margin-bottom: 1rem;" class="gnd-user-search-input" type="text" data-group="{formGroupUid}"
                                    data-page="{formPageUid}" data-groupindex="{groupIndex}"
                                    data-ajax="{f:uri.action(action:'searchGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                                   data-buttonajax="{f:uri.action(action:'getGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
                             <div class="user-search-list-{groupIndex}">
                                 <ul style="list-style-type: none;padding:0;">
                                 </ul>
@@ -125,7 +125,7 @@
                             <input style="margin-bottom: 1rem;" class="ror-user-search-input" type="text" data-group="{formGroupUid}"
                                    data-page="{formPageUid}" data-groupindex="{groupIndex}"
                                    data-ajax="{f:uri.action(action:'searchRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                                   data-buttonajax="{f:uri.action(action:'getRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
                             <div class="user-search-list-{groupIndex}">
                                 <ul style="list-style-type: none;padding:0;">
                                 </ul>
