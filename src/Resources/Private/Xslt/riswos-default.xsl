@@ -92,7 +92,7 @@
     </xsl:template>
 
     <xsl:template match="issn">
-        <mods:identifier type="isbn">
+        <mods:identifier type="issn">
             <xsl:value-of select="." />
         </mods:identifier>
     </xsl:template>
@@ -113,7 +113,7 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="year">
+    <xsl:template match="year-publication">
         <mods:originInfo eventType="publication">
             <mods:dateIssued encoding="iso8601">
                 <xsl:value-of select="." />
