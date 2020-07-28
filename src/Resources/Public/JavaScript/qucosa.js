@@ -1341,14 +1341,15 @@ var searchInputKeyupHandler = function() {
                 var that = this;
                 var dataObject = JSON.parse(data);
                 var groupIndex = $(this).data("groupindex");
-                console.log($(this));
                 var hitListElement = $(this).parent().find('.user-search-list-' + groupIndex + ' ul').html('');
 
                 $.each(dataObject.entries, function (key, value) {
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        var optionalText = value.organisationalUnits[0].titleDe;
-                        if (value.organisationalUnits[1]) {
-                            optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                        if (value.organisationalUnits) {
+                            var optionalText = value.organisationalUnits[0].titleDe;
+                            if (value.organisationalUnits[1]) {
+                                optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                            }
                         }
                         hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
