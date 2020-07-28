@@ -1455,7 +1455,7 @@ var isElementLoaded = function (element, fieldKey, callback, counter = 0) {
 
 var addMyUserData = function() {
     $('#addMyData').on('click', function () {
-        fisAjaxRequest($(this).data('ajax'), $(this).data('personid'), $(this));
+        setDataRequest($(this).data('ajax'), $(this).data('personid'), $(this));
     });
 }
 
