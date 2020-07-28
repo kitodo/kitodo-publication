@@ -44,13 +44,13 @@
         <h3>FIS</h3>
         <div>
             <label>ID</label>
-            <f:form.textfield id="fisPersId" property="fisPersId"/> <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">Person suchen</button>
+            <f:form.textfield id="fisPersId" property="fisPersId"/> <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">ID suchen</button>
             <f:alias map="{usersetting: '1'}">
                 <f:render partial="Api/FisModal" arguments="{_all}" />
             </f:alias>
         </div>
         <div>
-            <f:form.submit value="Speichern {f:translate(key: 'form_button.save')}"/>
+            <f:form.submit value="{f:translate(key: 'form_button.save', default: 'Speichern')}"/>
         </div>
     </f:form>
 </f:section>
