@@ -246,6 +246,17 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
+     * @param string $searchTerm
+     * @return false|string
+     */
+    public function searchFisOrgaAction($searchTerm) {
+        $fisDataService = new FisDataService();
+        $result = $fisDataService->searchOrgaRequest($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
      * @param string $dataId
      * @param int $groupId
      * @param int $groupIndex

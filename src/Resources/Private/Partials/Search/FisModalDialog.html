@@ -1,0 +1,46 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">FIS Personen</button>
+<f:alias map="{usersetting: 'extSearch'}">
+    <f:render partial="Api/FisModal" arguments="{_all}" />
+</f:alias>
+<button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#orgaSearchModal-{groupIndex}">FIS Organisationen</button>
+
+<f:comment> MODAL SEARCH FIS ORGANIZATIONS </f:comment>
+<div class="modal fade" id="orgaSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="orgaSearchModal-{groupIndex}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userSearchModalTitle-{groupIndex}">FIS-Suche Organisationen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input style="margin-bottom: 1rem;" class="fis-orga-search-input" type="text" data-usersettings="extSearch" data-personid="{fisPersId}"
+                       data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                       data-ajax="{f:uri.action(action:'searchFisOrga',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                       autofocus>
+                <div class="user-search-list-{groupIndex}">
+                    <ul style="list-style-type: none;padding:0;">
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

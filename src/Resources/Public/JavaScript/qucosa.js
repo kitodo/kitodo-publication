@@ -1300,12 +1300,14 @@ var inputWithOptions = function() {
 var userSearch = function(group) {
     if (group) {
         $(group.find('.fis-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.fis-orga-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.gnd-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.ror-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.zdb-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.unpaywall-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
     } else {
         $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.fis-orga-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.gnd-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.ror-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.zdb-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1352,6 +1354,8 @@ var searchInputKeyupHandler = function() {
                             }
                         }
                         hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
+                    } else if ($(that).attr('class') === 'fis-orga-search-input') {
+                        hitListElement.append(listHtml(value.titleDe, value.id));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
@@ -1395,6 +1399,9 @@ var addFoundUserData = function () {
         
         if (input.data('usersettings') == '1') {
             $('#fisPersId').val($(this).data('id'));
+            $(this).closest('.modal').modal('hide');
+        } else if (input.data('usersettings') == 'extSearch') {
+            $('#search-field-default-value').val($(this).data('id'));
             $(this).closest('.modal').modal('hide');
         } else {
             setDataRequest(input.data('buttonajax'), $(this).data('id'), input);

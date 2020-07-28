@@ -28,6 +28,14 @@ class FisDataService
         return $response->body->data->staff;
     }
 
+    public function searchOrgaRequest($searchTerm) {
+        $response = Request::post($this->apiUrl)
+            ->body($this->getSearchOrgaBody($searchTerm))
+            ->send();
+
+        return $response->body->data->organisationalUnits;
+    }
+
     protected function getPersonRequestBody($id) {
         $graphQl = '{
             person (id:"'.$id.'") 
@@ -68,6 +76,24 @@ class FisDataService
                         }
                         fullName
                         fisPersid
+                    }     
+                }   
+            } 
+        }';
+
+        return $graphQl;
+    }
+
+    protected function getSearchOrgaBody($searchTerm) {
+        $graphQl = '{   
+            organisationalUnits(filter: {text: "'.$searchTerm.'"}) 
+            {     
+                entries 
+                {
+                ... on OrganisationalUnit 
+                    {         
+                        titleDe
+                        id
                     }     
                 }   
             } 
