@@ -41,6 +41,14 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
     protected $metadataObjectRepository = null;
 
     /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
+
+    /**
      *
      * @param integer $pageUid
      * @param integer $groupUid
@@ -84,7 +92,10 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('formGroupDisplayName', $group->getDisplayName());
         $this->view->assign('groupIndex', $groupIndex);
         $this->view->assign('groupItem', $groupItem);
-        $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
+
+        if ($this->fisDataService->getFisUserData($this->security->getUser()->getFisPersId())) {
+            $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
+        }
     }
 
     /**
