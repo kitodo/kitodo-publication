@@ -34,14 +34,14 @@
             <div class="user-search-div">
                 <f:if condition="{fisPersId}">
                     <f:then>
-                        <button type="button" class="btn btn-s btn-info" id="addMyData" data-personid="{fisPersId}"
+                        <button type="button" class="btn btn-s btn-info addMyData" id="addMyData" data-personid="{fisPersId}"
                                 data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
                                 data-ajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
                             Das bin ich
                         </button>
                     </f:then>
                     <f:else>
-                        <button type="button" class="btn btn-s btn-info" id="" data-group="{formGroupUid}" disabled>Das bin ich</button>
+                        <button type="button" class="btn btn-s btn-info addMyData" id="" data-group="{formGroupUid}" disabled>Das bin ich</button>
                     </f:else>
                 </f:if>
                 <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">Person suchen</button>
