@@ -62,6 +62,10 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $inputField = 0;
 
+    /**
+     * @var string
+     */
+    protected $objectType = '';
 
     const input    = 0;
     const textarea = 1;
@@ -651,5 +655,20 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
         $this->unpaywallMapping = $unpaywallMapping;
     }
 
+    /**
+     * @return string
+     */
+    public function getObjectType(): string
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * @param string $objectType
+     */
+    public function setObjectType(string $objectType): void
+    {
+        $this->objectType = $objectType;
+    }
 
 }

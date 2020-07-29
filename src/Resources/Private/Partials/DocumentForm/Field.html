@@ -57,7 +57,8 @@
                                         data-default:fieldItem.hasDefaultValue,
                                         data-regexp:fieldItem.validation,
                                         data-label:fieldItem.displayName,
-                                        data-maxlength:fieldItem.maxInputLength
+                                        data-maxlength:fieldItem.maxInputLength,
+                                        data-objecttype:fieldItem.objecttype
                     }"/>
                 </f:then>
                 <f:else>
@@ -66,13 +67,13 @@
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
+                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
                         </f:then>
                         <f:else>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
+                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
                         </f:else>
                     </f:if>
                 </f:else>
@@ -82,14 +83,14 @@
             <f:form.textarea id="inp_{fieldItem.uid}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
         </f:case>
         <f:case value="2">
             <div class="form-control has-select">
                 <f:form.select id="inp_{fieldItem.uid}"
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
-                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
+                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                options="{fieldItem.inputOptions}"/>
             </div>
         </f:case>
@@ -99,7 +100,7 @@
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                      value="yes" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
+                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{fieldItem.value}" disabled="true"/>
                     <f:form.hidden
                             property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
@@ -109,7 +110,7 @@
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                      value="yes" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"
+                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{fieldItem.value}"/>
                 </f:else>
             </f:if>
@@ -119,7 +120,7 @@
                 <f:form.textfield id="inp_{fieldItem.uid}"
                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                               value="{fieldItem.value}" class="input-field form-control dropdown-options-input {fieldItem.fillOutService}"
-                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength}"/>
+                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
 
                 <span class="input-group-btn">
                     <button class="btn dropdown-options-toggle" type="button">

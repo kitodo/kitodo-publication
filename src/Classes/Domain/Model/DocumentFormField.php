@@ -55,6 +55,11 @@ class DocumentFormField extends AbstractFormElement
      */
     protected $maxInputLength;
 
+    /**
+     * @var string
+     */
+    protected $objectType = '';
+
     public function getValue()
     {
         return $this->value;
@@ -246,6 +251,22 @@ class DocumentFormField extends AbstractFormElement
      */
     public function setMaxInputLength($maxInputLength) {
         $this->maxInputLength = $maxInputLength;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObjectType(): string
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * @param string $objectType
+     */
+    public function setObjectType(string $objectType): void
+    {
+        $this->objectType = $objectType;
     }
 
 }

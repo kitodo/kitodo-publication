@@ -14,7 +14,7 @@
 </f:comment>
 
 <f:comment> MODAL SEARCH FIS USER </f:comment>
-<div class="modal fade" id="userSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
+<div class="modal fade userSearchModal" id="userSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,7 +29,7 @@
                        data-ajax="{f:uri.action(action:'searchFisUser',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
                        data-buttonajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
                 <div class="user-search-list-{groupIndex}">
-                    <ul style="list-style-type: none;padding:0;">
+                    <ul style="list-style-type: none;padding:0;" class="user-search-results">
                     </ul>
                 </div>
             </div>

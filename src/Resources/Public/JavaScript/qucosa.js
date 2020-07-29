@@ -1299,6 +1299,7 @@ var inputWithOptions = function() {
 
 var userSearch = function(group) {
     if (group) {
+        $(group.find('.fis-user-search-input')).on('focus', delay(searchInputKeyupHandler, 500));
         $(group.find('.fis-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.fis-orga-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.gnd-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1306,6 +1307,7 @@ var userSearch = function(group) {
         $(group.find('.zdb-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.unpaywall-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
     } else {
+        $('.fis-user-search-input').on('focus', delay(searchInputKeyupHandler, 500));
         $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.fis-orga-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.gnd-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1466,6 +1468,20 @@ var addMyUserData = function() {
     });
 }
 
+var userSearchModalFillout = function() {
+
+    $('.userSearchModal').on('hidden.bs.modal', function() {
+        jQuery(this).find('.fis-user-search-input').val('');
+        jQuery(this).find('.user-search-results').html('');
+    });
+
+    $('.userSearchModal').on('shown.bs.modal', function () {
+        var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
+        if (surname.length > 0) {
+            jQuery(this).find('.fis-user-search-input').val(surname);
+        }
+    })
+}
 
 // -------------------------------------------------------
 // Document ready
@@ -1605,6 +1621,7 @@ $(document).ready(function() {
 
     userSearch();
     addMyUserData();
+    userSearchModalFillout();
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('[autofocus]').focus();
     });
