@@ -287,6 +287,7 @@ abstract class AbstractDocumentFormController extends AbstractController
     public function editAction(DocumentForm $documentForm)
     {
         $this->view->assign('documentForm', $documentForm);
+        $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
     }
 
     public function initializeUpdateAction()
