@@ -1347,7 +1347,7 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        if (value.organisationalUnits) {
+                        if (value.organisationalUnits && value.organisationalUnits.length > 0) {
                             var optionalText = value.organisationalUnits[0].titleDe;
                             if (value.organisationalUnits[1]) {
                                 optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
