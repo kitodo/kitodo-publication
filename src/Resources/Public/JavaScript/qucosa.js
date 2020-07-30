@@ -29,14 +29,41 @@ var documentFormGroupSelector = {
                 jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
 
                 if (activeGroupIndex >= 0) {
-                    group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    var group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
                     jQuery('html, body').animate({
                         scrollTop: jQuery(group).offset().top - 150
                     }, 0);
                 } else {
+                    activeGroupIndex = jQuery('fieldset[data-group="' + activeGroup + '"]').size();
                     addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+
+                    if (form.data("addcurrentfeuser")) {
+                        isGroupLoaded(
+                            'fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]',
+                            function () {
+                                jQuery('.addMyData').attr("disabled", "disabled");
+                                // var activeGroupElement = jQuery('form').find('fieldset[data-group="' + activeGroup + '"]').last();
+                                var activeGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]');
+                                var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
+                                context.data('groupindex', activeGroupIndex);
+                                setDataRequest(context.data('buttonajax'), jQuery('form').data('fispersid'), context);
+                                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
+                            });
+                    }
                 }
             }
+        }
+    }
+}
+
+var isGroupLoaded = function (element, callback, counter = 0) {
+    if (jQuery(element).length) {
+        callback(jQuery(element));
+    } else {
+        if (counter < 10) {
+            setTimeout(function () {
+                isGroupLoaded(element, callback, counter++)
+            }, 500);
         }
     }
 }

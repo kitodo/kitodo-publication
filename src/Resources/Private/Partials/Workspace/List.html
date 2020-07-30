@@ -130,7 +130,7 @@
             </td>
             <td>
                 <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
-                    <f:if condition="{currentFobIdentifier} && {person.fobId} == {currentFobIdentifier}">
+                    <f:if condition="{currentFisPersId} && {person.fobId} == {currentFisPersId}">
                         <f:then>
                             <span class="person current-fobid-person">
                                 {person.name}
@@ -160,7 +160,7 @@
                         </f:else>
                     </f:if>
                 </f:for>
-                <f:if condition="{dpf:inArray(needle:'{currentFobIdentifier}', array:'{document._source.fobIdentifiers}')} == 0">
+                <f:if condition="{dpf:inArray(needle:'{currentFisPersId}', array:'{document._source.fobIdentifiers}')} == 0 && {currentFisPersId}">
                     <f:link.action
                             action="editDocument"
                             controller="Workspace"

@@ -326,6 +326,9 @@
 			<trans-unit id="form_error_msg.filloutservice_urn">
 				<source>URN service unavailable.</source>
 			</trans-unit>
+			<trans-unit id="form_info_msg.personid_added" approved="yes">
+				<source>We have added you as the author of this publication. Please check the information and confirm the change.</source>
+			</trans-unit>
 			<trans-unit id="form_legend.primaryFile">
 				<source>Primary File* (Format: PDF / PDF/A)</source>
 			</trans-unit>

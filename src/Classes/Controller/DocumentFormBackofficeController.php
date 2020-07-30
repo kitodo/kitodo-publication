@@ -118,6 +118,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @param bool $suggestMod
      * @param string activeGroup
      * @param int activeGroupIndex
+     * @param bool $addCurrentFeUser
      * @ignorevalidation $documentForm
      * @return void
      */
@@ -125,7 +126,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         \EWW\Dpf\Domain\Model\DocumentForm $documentForm,
         bool $suggestMod = false,
         $activeGroup = '',
-        $activeGroupIndex = 0
+        $activeGroupIndex = 0,
+        $addCurrentFeUser = true
     )
     {
         /** @var \EWW\Dpf\Domain\Model\Document $document */
@@ -168,6 +170,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
         $this->view->assign('activeGroup', $activeGroup);
         $this->view->assign('activeGroupIndex', $activeGroupIndex);
+        $this->view->assign('addCurrentFeUser', $addCurrentFeUser);
         parent::editAction($documentForm);
     }
 
