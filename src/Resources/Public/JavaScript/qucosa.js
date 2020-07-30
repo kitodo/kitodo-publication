@@ -1465,7 +1465,37 @@ var isElementLoaded = function (element, fieldKey, callback, counter = 0) {
 var addMyUserData = function() {
     $('#addMyData').on('click', function () {
         setDataRequest($(this).data('ajax'), $(this).data('personid'), $(this));
+        jQuery('button.addMyData').attr('disabled','disabled');
     });
+
+    var fisPersonIdentifiers = getFisPersonIdentifiers();
+    toggleAddMyUserDataButton(fisPersonIdentifiers);
+
+    jQuery("[data-objecttype='fispersonid']").on('keyup', function() {
+        var fisPersonIdentifiers = getFisPersonIdentifiers();
+        toggleAddMyUserDataButton(fisPersonIdentifiers);
+    });
+}
+
+var getFisPersonIdentifiers = function() {
+    fisPersonIdentifiers = [];
+    var fisPersonId = jQuery('.addMyData').data('personid');
+    jQuery("[data-objecttype='fispersonid']").each(function() {
+        if (fisPersonId == jQuery(this).val()) {
+            fisPersonIdentifiers.push(jQuery(this).val());
+        }
+    });
+
+    return fisPersonIdentifiers;
+}
+
+var toggleAddMyUserDataButton = function(fisPersonIdentifiers) {
+    var fisPersonId = jQuery('.addMyData').data('personid');
+    if (fisPersonIdentifiers.includes(fisPersonId)) {
+        jQuery('button.addMyData').attr('disabled','disabled');
+    } else {
+        jQuery('button.addMyData').removeAttr('disabled');
+    }
 }
 
 var userSearchModalFillout = function() {
