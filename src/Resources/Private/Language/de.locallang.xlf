@@ -1093,6 +1093,26 @@
                 <source>Finish</source>
                 <target>Fertig</target>
             </trans-unit>
+            <trans-unit id="manager.bulkImport.crossrefSearchButton" approved="yes">
+                <source>Search in Crossref</source>
+                <target>Nachschlagen in Crossref</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.pubMedSearchButton" approved="yes">
+                <source>Search in PubMed</source>
+                <target>Nachschlagen in PubMed</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.resultsInfo" approved="yes">
+                <source>Searchresults for "%s" in %s:</source>
+                <target>Suchergebnisse für "%s" in %s:</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.import" approved="yes">
+                <source>Import selected ones</source>
+                <target>Markierte importieren</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.cancel" approved="yes">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
             <trans-unit id="manager.uploadImport.header" approved="yes">
                 <source>Upload</source>
                 <target>Upload</target>

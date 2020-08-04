@@ -14,7 +14,9 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\CrossRefMetadata;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\PubMedMetadata;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -180,6 +182,7 @@ class ExternalMetadataImportController extends AbstractController
                 [
                     'results' => $results,
                     'query' => $query,
+                    'importSourceName' => 'Crossref',
                     'currentPage' => $currentPage
                 ]
             );
@@ -246,6 +249,7 @@ class ExternalMetadataImportController extends AbstractController
                 [
                     'results' => $results,
                     'query' => $query,
+                    'importSourceName' => 'PubMed',
                     'currentPage' => $currentPage
                 ]
             );
@@ -269,19 +273,22 @@ class ExternalMetadataImportController extends AbstractController
     }
 
     /**
+     * @param string $importSourceName
      * @param string $query
      * @param array $results
      * @param int $currentPage
      */
-    public function bulkResultsAction($query, $results = null, $currentPage = 1)
+    public function bulkResultsAction($importSourceName, $query, $results = null, $currentPage = 1)
     {
         $externalMetadata = $this->externalMetadataRepository->findByFeUser($this->security->getUser()->getUid());
         $checkedPublicationIdentifiers = [];
+
         /** @var ExternalMetadata $data */
         foreach ($externalMetadata as $data) {
             $checkedPublicationIdentifiers[] = $data->getPublicationIdentifier();
         }
 
+        $this->view->assign('importSourceName', $importSourceName);
         $this->view->assign('totalResults', $results['total-results']);
         $this->view->assign('itemsPerPage', $this->itemsPerPage());
         $this->view->assign('currentPage', $currentPage);

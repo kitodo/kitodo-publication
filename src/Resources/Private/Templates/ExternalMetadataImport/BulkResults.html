@@ -26,7 +26,7 @@
 
     <f:if condition="{results}">
         <f:then>
-            Suchergebnisse für "{query}" in CrossRef:
+            {f:translate(key: 'manager.bulkImport.resultsInfo', arguments: { 0: '{query}', 1: '{importSourceName}'})}
             <table id="bulk-import-list" class="tx_dpf table table-striped table-manager table-condensed">
                 <thead>
                 <tr>
@@ -86,7 +86,7 @@
             <div class="bulkimport-actions">
                 <f:link.action action="bulkImport" controller="ExternalMetadataImport"
                                class="btn btn-sm btn-secondary">
-                    {f:translate(key: 'manger.bulkImport.import', default: 'Markierte importieren')}
+                    {f:translate(key: 'manager.bulkImport.import', default: 'Markierte importieren')}
                 </f:link.action>
 
                 <f:link.action action="cancelBulkImport" controller="ExternalMetadataImport"
