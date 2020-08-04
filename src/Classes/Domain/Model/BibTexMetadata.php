@@ -26,7 +26,7 @@ class BibTexMetadata extends ExternalMetadata
      */
     public function getTitle(): string
     {
-        $node = $this->getDataXpath()->query('/response/message/title');
+        $node = $this->getDataXpath()->query('/response/title');
 
         if ($node->length == 1) {
             return $node->item(0)->nodeValue;
@@ -44,7 +44,7 @@ class BibTexMetadata extends ExternalMetadata
 
         $personList = [];
 
-        $nodes = $xpath->query('/response/message/author');
+        $nodes = $xpath->query('/response/author');
 
         foreach ($nodes as $person) {
 
@@ -73,7 +73,7 @@ class BibTexMetadata extends ExternalMetadata
     {
         $xpath = $this->getDataXpath();
 
-        $node = $xpath->query('/response/message/created/date-parts/item[@key="0"]');
+        $node = $xpath->query('/response/year');
 
         if ($node->length == 1) {
             return $node->item(0)->nodeValue;
@@ -88,7 +88,7 @@ class BibTexMetadata extends ExternalMetadata
      */
     public function getPublicationType(): string
     {
-        $node = $this->getDataXpath()->query('/response/message/type');
+        $node = $this->getDataXpath()->query('/response/_type');
 
         if ($node->length == 1) {
             return $node->item(0)->nodeValue;
