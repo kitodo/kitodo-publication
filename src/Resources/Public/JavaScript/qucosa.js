@@ -1355,6 +1355,8 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     var type = $(that).data("api").toLowerCase();
+                    var allData = JSON.stringify(value).replace(/"/g, '');
+
                     if ($(that).attr('class') === 'fis-user-search-input') {
                         if (radioType == 'person') {
                             if (value.organisationalUnits && value.organisationalUnits.length > 0) {
@@ -1363,22 +1365,22 @@ var searchInputKeyupHandler = function() {
                                     optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
                                 }
                             }
-                            hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
+                            hitListElement.append(listHtml(value.fullName, value.fisPersid, allData, optionalText));
                         } else if (radioType == 'organisation'){
-                            hitListElement.append(listHtml(value.titleDe, value.id));
+                            hitListElement.append(listHtml(value.titleDe, value.id, allData));
                         }
                     } else if ($(that).attr('class') === 'fis-orga-search-input') {
-                        hitListElement.append(listHtml(value.titleDe, value.id));
+                        hitListElement.append(listHtml(value.titleDe, value.id, allData));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
-                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, value.id));
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, value.id));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
-                        hitListElement.append(listHtml(value.name, value.id));
+                        hitListElement.append(listHtml(value.name, value.id, allData));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.identifier, value.publisher));
+                        hitListElement.append(listHtml(value.title, value.identifier, allData, value.publisher));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.doi, value.doi, value.color));
+                        hitListElement.append(listHtml(value.title, value.doi, allData, value.doi, value.color));
                     } else if ($(that).attr('class') === 'orcid-user-search-input') {
-                        hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], value["orcid-id"]));
+                        hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], allData, value["orcid-id"]));
                     }
 
                 });
@@ -1388,7 +1390,7 @@ var searchInputKeyupHandler = function() {
     }
 }
 
-var listHtml = function (name, id, optionalText = '', color = '') {
+var listHtml = function (name, id, all = '', optionalText = '', color = '') {
     if (color) {
         colorHtml = '<span class="fa fa-circle" style="color: ' + color + ' "></span>';
     } else {
@@ -1400,11 +1402,16 @@ var listHtml = function (name, id, optionalText = '', color = '') {
         var text = ' (' + optionalText + ') ';
     }
 
-    return '<li style="margin-bottom:1rem;">' +
-        '<button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
+    return '<li style="margin-bottom:1rem;" class="container">' +
+        '<div class="row">' +
+        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
         'Übernehmen' +
-        '</button>' +
-        colorHtml + name + text
+        '</button></div>' +
+        '<div class="col-6">' +
+        colorHtml + name + text +
+        '</div>' +
+        '<div class="col"><button type="button" class="btn btn-s btn-info" data-toggle="tooltip" title="'+all+'"><i class="fas fa-info"></i></button></div>' +
+        '</div>' +
         '</li>';
 }
 
