@@ -135,6 +135,7 @@ class RisReader
         $recordIndex = 0;
 
         foreach($lines as $line) {
+
             if (mb_detect_encoding($line) == 'UTF-8') {
                 $line = utf8_decode($line);
                 if (strpos($line, '?') === 0) {
@@ -143,7 +144,6 @@ class RisReader
             }
 
             $tempTag = trim(substr($line, 0, 2));
-
             if ($tempTag == 'EF') {
                 // End of file
                 break;
@@ -153,15 +153,17 @@ class RisReader
                 $risRecords[$recordIndex] = $risRecord;
                 $risRecord = [];
                 $recordIndex += 1;
-            } elseif ($tempTag) {
-                $currentTag = $tempTag;
+            } else {
+                if ($tempTag) {
+                    $currentTag = $tempTag;
+                }
+
                 $line = substr($line, 2);
 
                 if ($currentTag && array_key_exists($currentTag, self::$tagMap)) {
                     $risRecord[$currentTag][] = trim($line);
                 }
             }
-
         }
 
         return $risRecords;
@@ -181,7 +183,6 @@ class RisReader
                 if (in_array($tag, ['AU','BA','CA','GP','BE'])) {
                     // Authors
                     foreach ($risFieldValues as $fieldValue) {
-
                         list($family, $given, $suffix) = array_map('trim', explode(',', $fieldValue));
 
                         $risEntry[$tag][] = [
