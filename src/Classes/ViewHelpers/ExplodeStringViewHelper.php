@@ -30,6 +30,6 @@ class ExplodeStringViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
             return explode($glue, $string);
         }
 
-        return "";
+        return [];
     }
 }
