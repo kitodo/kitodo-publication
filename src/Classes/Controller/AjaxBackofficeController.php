@@ -383,6 +383,37 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
+     * @param string $searchTerm
+     * @param string $type
+     */
+    public function searchOrcidAction($searchTerm, $type = 'person') {
+        $orcidUserDataService = new OrcidDataService();
+        $methodName = 'search'.ucfirst($type).'Request';
+        $result = $orcidUserDataService->{$methodName}($searchTerm);
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     * @param string $type
+     * @return false|string
+     */
+    public function getOrcidDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person') {
+        $orcidDataService = new OrcidDataService();
+        $methodName = 'get'.ucfirst($type).'Data';
+        $orcidData = $orcidDataService->{$methodName}($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $orcidData, $groupIndex, $fieldIndex, $pageId, 'getOrcid'.ucfirst($type).'Mapping');
+
+        return json_encode($result);
+    }
+
+    /**
      * Preparing data from api and returning an array to identify specific field in frontend
      * @param $groupId
      * @param $data
