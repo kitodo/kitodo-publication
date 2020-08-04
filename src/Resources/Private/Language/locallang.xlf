@@ -825,7 +825,7 @@
                 <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
             </trans-unit>
             <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
-                <source>Import BibTex</source>
+                <source>Import BibTeX</source>
             </trans-unit>
             <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
                 <source>Import RIS (Web of Science)</source>

@@ -1114,8 +1114,8 @@
                 <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
-                <source>Import BibTex</source>
-                <target>BibTex importieren</target>
+                <source>Import BibTeX</source>
+                <target>BibTeX importieren</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
                 <source>Import RIS (Web of Science)</source>
