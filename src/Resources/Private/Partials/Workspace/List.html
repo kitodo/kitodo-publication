@@ -160,16 +160,18 @@
                         </f:else>
                     </f:if>
                 </f:for>
-                <f:if condition="{dpf:inArray(needle:'{currentFisPersId}', array:'{document._source.fobIdentifiers}')} == 0 && {currentFisPersId}">
-                    <f:link.action
-                            action="editDocument"
-                            controller="Workspace"
-                            arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: '-1'}"
-                            class="person fobid-add"
-                            title="{f:translate(key: 'manager.workspace.addPerson', default: 'Mich als Autor_in hinzufügen')}"
-                            additionalAttributes="{data-toggle: 'tooltip' }">
-                        [+]
-                    </f:link.action>
+                <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+                    <f:if condition="{dpf:inArray(needle:'{currentFisPersId}', array:'{document._source.fobIdentifiers}')} == 0 && {currentFisPersId}">
+                        <f:link.action
+                                action="editDocument"
+                                controller="Workspace"
+                                arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: '-1'}"
+                                class="person fobid-add"
+                                title="{f:translate(key: 'manager.workspace.addPerson', default: 'Mich als Autor_in hinzufügen')}"
+                                additionalAttributes="{data-toggle: 'tooltip' }">
+                            [+]
+                        </f:link.action>
+                    </f:if>
                 </f:if>
             </td>
             <td>
