@@ -160,14 +160,28 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      *
      * @var string
      */
-    protected $fisMapping = '';
+    protected $fisPersonMapping = '';
+
+    /**
+     * fis mapping
+     *
+     * @var string
+     */
+    protected $fisOrganisationMapping = '';
 
     /**
      * gnd mapping
      *
      * @var string
      */
-    protected $gndMapping = '';
+    protected $gndPersonMapping = '';
+
+    /**
+     * gnd mapping
+     *
+     * @var string
+     */
+    protected $gndOrganisationMapping = '';
 
     /**
      * ror mapping
@@ -188,6 +202,18 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      * @var string
      */
     protected $unpaywallMapping = '';
+
+    /**
+     * orcid person mapping
+     * @var string
+     */
+    protected $orcidPersonMapping = '';
+
+    /**
+     * orcid person mapping
+     * @var string
+     */
+    protected $orcidOrganisationMapping = '';
 
     /**
      * Returns the name
@@ -578,33 +604,33 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     /**
      * @return string
      */
-    public function getFisMapping(): string
+    public function getFisPersonMapping(): string
     {
-        return $this->fisMapping;
+        return $this->fisPersonMapping;
     }
 
     /**
-     * @param string $fisMapping
+     * @param string $fisPersonMapping
      */
-    public function setFisMapping(string $fisMapping)
+    public function setFisPersonMapping(string $fisPersonMapping): void
     {
-        $this->fisMapping = $fisMapping;
+        $this->fisPersonMapping = $fisPersonMapping;
     }
 
     /**
      * @return string
      */
-    public function getGndMapping(): string
+    public function getFisOrganisationMapping(): string
     {
-        return $this->gndMapping;
+        return $this->fisOrganisationMapping;
     }
 
     /**
-     * @param string $gndMapping
+     * @param string $fisOrganisationMapping
      */
-    public function setGndMapping(string $gndMapping)
+    public function setFisOrganisationMapping(string $fisOrganisationMapping): void
     {
-        $this->gndMapping = $gndMapping;
+        $this->fisOrganisationMapping = $fisOrganisationMapping;
     }
 
     /**
@@ -670,5 +696,73 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     {
         $this->objectType = $objectType;
     }
+
+    /**
+     * @return string
+     */
+    public function getGndPersonMapping(): string
+    {
+        return $this->gndPersonMapping;
+    }
+
+    /**
+     * @param string $gndPersonMapping
+     */
+    public function setGndPersonMapping(string $gndPersonMapping): void
+    {
+        $this->gndPersonMapping = $gndPersonMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGndOrganisationMapping(): string
+    {
+        return $this->gndOrganisationMapping;
+    }
+
+    /**
+     * @param string $gndOrganisationMapping
+     */
+    public function setGndOrganisationMapping(string $gndOrganisationMapping): void
+    {
+        $this->gndOrganisationMapping = $gndOrganisationMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrcidPersonMapping(): string
+    {
+        return $this->orcidPersonMapping;
+    }
+
+    /**
+     * @param string $orcidPersonMapping
+     */
+    public function setOrcidPersonMapping(string $orcidPersonMapping): void
+    {
+        $this->orcidPersonMapping = $orcidPersonMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrcidOrganisationMapping(): string
+    {
+        return $this->orcidOrganisationMapping;
+    }
+
+    /**
+     * @param string $orcidOrganisationMapping
+     */
+    public function setOrcidOrganisationMapping(string $orcidOrganisationMapping): void
+    {
+        $this->orcidOrganisationMapping = $orcidOrganisationMapping;
+    }
+
+
+
+
 
 }
