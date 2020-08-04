@@ -129,7 +129,7 @@ class ExternalMetadataImportController extends AbstractController
         $bulkImportSessionData = $this->session->getBulkImportData();
 
         $crossRefAuthorSearch = $bulkImportSessionData->getCrossRefSearchField() === 'author';
-        $pubMedAuthorSearch = true;
+        $pubMedAuthorSearch = $bulkImportSessionData->getPubMedSearchField() === 'author';
 
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
         $this->view->assign('crossRefAuthorSearch', $crossRefAuthorSearch);
@@ -235,7 +235,7 @@ class ExternalMetadataImportController extends AbstractController
             $query,
             $this->itemsPerPage(),
             $offset,
-            ''
+            $bulkImportSessionData->getPubMedSearchField()
         );
 
         $bulkImportSessionData->setCurrentMetadataItems(($results? $results['items'] : []));
@@ -868,18 +868,6 @@ class ExternalMetadataImportController extends AbstractController
     public function uploadStartAction()
     {
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
-
-        /*
-
-        $risDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/ris.txt');
-
-        $risReader = new RisReader();
-
-        $risReader->parseFile($risDoc);
-
-        die();
-        */
-
     }
 
     /**

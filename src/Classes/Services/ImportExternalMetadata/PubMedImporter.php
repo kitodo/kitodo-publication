@@ -111,8 +111,11 @@ class PubMedImporter extends AbstractImporter implements Importer
 
         if ($offset > 0) $requestUri .= '&retstart=' . $offset;
 
-        $requestUri .= "&term=" . urlencode($query);
+        if ($searchField) {
+            $query .= '['.ucfirst(strtolower($searchField)).']';
+        }
 
+        $requestUri .= "&term=" . urlencode($query);
         $results = [];
 
         try {

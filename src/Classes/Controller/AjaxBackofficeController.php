@@ -274,6 +274,14 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
                 $bulkImportSessionData->setCrossRefSearchField($searchField);
                 break;
             case 'PubMed':
+                $searchField = $bulkImportSessionData->getPubMedSearchField();
+                if ($searchField === 'author') {
+                    $searchField = '';
+                } else {
+                    $searchField = 'author';
+                }
+                $bulkImportSessionData->setPubMedSearchField($searchField);
+                break;
             default:
                 return false;
         }

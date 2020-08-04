@@ -57,6 +57,17 @@
                     {f:translate(key: 'manager.bulkImport.pubMedSearchButton')}
                 </f:form.button>
             </div>
+
+            <div class="custom-control custom-switch mx-sm-2 mb-2">
+                <input id="pubMedAuthorSearch" class="custom-control-input bulkImportAuthorSearch"
+                       type="checkbox" aria-label="Checkbox to search for authors"
+                       data-ajax="{f:uri.action(action:'toggleBulkImportAuthorSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum, arguments:'{apiName:\'PubMed\'}')}"
+                       {f:if(condition:'{pubMedAuthorSearch}', then:'checked="checked"', else:'')}>
+                <label class="custom-control-label" for="pubMedAuthorSearch">
+                    {f:translate(key: 'manager.bulkImport.authorSearch')} Nur nach AutorIn suchen.
+                </label>
+            </div>
+
         </div>
     </f:form>
 

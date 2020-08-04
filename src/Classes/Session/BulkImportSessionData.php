@@ -25,6 +25,11 @@ class BulkImportSessionData
     /**
      * @var string
      */
+    protected $pubMedSearchField = 'author';
+
+    /**
+     * @var string
+     */
     protected $crossRefQuery = '';
 
     /**
@@ -67,6 +72,22 @@ class BulkImportSessionData
         $this->crossRefSearchField = $searchField;
     }
 
+    /**
+     * @return string
+     */
+    public function getPubMedSearchField(): string
+    {
+        return $this->pubMedSearchField;
+    }
+
+    /**
+     * @param string $pubMedSearchField
+     */
+    public function setPubMedSearchField(string $pubMedSearchField): void
+    {
+        $this->pubMedSearchField = $pubMedSearchField;
+    }
+    
     /**
      * @return string
      */
