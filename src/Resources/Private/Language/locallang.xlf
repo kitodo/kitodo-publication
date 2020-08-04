@@ -804,7 +804,7 @@
                 <source>%s %s were imported and %s existing %s added to "My Publications".</source>
             </trans-unit>
             <trans-unit id="manager.bulkImport.importNote" approved="yes">
-                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+                <source>Please identify yourself and other researchers if necessary. To do this, click on names that have not yet been marked with the [Person] symbol. If your own name is missing, click on the [+] symbol.</source>
             </trans-unit>
             <trans-unit id="manager.bulkImport.complete" approved="yes">
                 <source>Finish</source>
