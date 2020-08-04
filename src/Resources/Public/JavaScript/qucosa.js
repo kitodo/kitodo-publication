@@ -1306,6 +1306,7 @@ var userSearch = function(group) {
         $(group.find('.ror-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.zdb-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.unpaywall-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.orcid-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
     } else {
         $('.fis-user-search-input').on('focus', delay(searchInputKeyupHandler, 500));
         $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1314,6 +1315,7 @@ var userSearch = function(group) {
         $('.ror-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.zdb-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.unpaywall-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.orcid-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
     }
 }
 
@@ -1332,9 +1334,13 @@ var searchInputKeyupHandler = function() {
     var searchValue = $(this).val();
     var groupIndex = $(this).data("groupindex");
     if (searchValue.length >= 3) {
-        let url = $(this).data("ajax");
+        let url = $(this).data("searchrequest");
         let params = {};
         params['tx_dpf_backoffice[searchTerm]'] = searchValue;
+        // type person or organisation
+        params['tx_dpf_backoffice[type]'] = $("input[name='searchTypeRadio']:checked").val();
+
+        var radioType = $("input[name='searchTypeRadio']:checked").val();
 
         $.ajax({
             type: "POST",
@@ -1344,28 +1350,35 @@ var searchInputKeyupHandler = function() {
             success: function (data) {
                 var that = this;
                 var dataObject = JSON.parse(data);
-                var groupIndex = $(this).data("groupindex");
-                var hitListElement = $(this).parent().find('.user-search-list-' + groupIndex + ' ul').html('');
+                var groupIndex = $(this).data("groupindex")
+                var hitListElement = $(this).parent().parent().find('.'+$(this).data("api").toLowerCase()+'-search-list-' + groupIndex + ' ul').html('');
 
                 $.each(dataObject.entries, function (key, value) {
+                    var type = $(that).data("api").toLowerCase();
                     if ($(that).attr('class') === 'fis-user-search-input') {
-                        if (value.organisationalUnits && value.organisationalUnits.length > 0) {
-                            var optionalText = value.organisationalUnits[0].titleDe;
-                            if (value.organisationalUnits[1]) {
-                                optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                        if (radioType == 'person') {
+                            if (value.organisationalUnits && value.organisationalUnits.length > 0) {
+                                var optionalText = value.organisationalUnits[0].titleDe;
+                                if (value.organisationalUnits[1]) {
+                                    optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                                }
                             }
+                            hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
+                        } else if (radioType == 'organisation'){
+                            hitListElement.append(listHtml(value.titleDe, value.id));
                         }
-                        hitListElement.append(listHtml(value.fullName, value.fisPersid, optionalText));
                     } else if ($(that).attr('class') === 'fis-orga-search-input') {
                         hitListElement.append(listHtml(value.titleDe, value.id));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
-                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier));
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, value.id));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
                         hitListElement.append(listHtml(value.name, value.id));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.identifier));
+                        hitListElement.append(listHtml(value.title, value.identifier, value.publisher));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.doi, value.doi, value.color));
+                    } else if ($(that).attr('class') === 'orcid-user-search-input') {
+                        hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], value["orcid-id"]));
                     }
 
                 });
@@ -1391,14 +1404,14 @@ var listHtml = function (name, id, optionalText = '', color = '') {
         '<button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
         'Übernehmen' +
         '</button>' +
-        name + text + colorHtml
+        colorHtml + name + text
         '</li>';
 }
 
 var addFoundUserData = function () {
     $('.found-user-add').on('click', function () {
         var input = $(this).closest('.modal-body').find('input');
-        
+
         if (input.data('usersettings') == '1') {
             $('#fisPersId').val($(this).data('id'));
             $(this).closest('.modal').modal('hide');
@@ -1406,7 +1419,7 @@ var addFoundUserData = function () {
             $('#search-field-default-value').val($(this).data('id'));
             $(this).closest('.modal').modal('hide');
         } else {
-            setDataRequest(input.data('buttonajax'), $(this).data('id'), input);
+            setDataRequest(input.data('datarequest'), $(this).data('id'), input);
         }
 
     });
@@ -1420,6 +1433,7 @@ var setDataRequest = function(url, dataId, context) {
     params['tx_dpf_backoffice[groupIndex]'] = context.data('groupindex');
     params['tx_dpf_backoffice[fieldIndex]'] = 0;
     params['tx_dpf_backoffice[pageId]'] = context.data('page');
+    params['tx_dpf_backoffice[type]'] = $("input[name='searchTypeRadio']:checked").val();
 
     $.ajax({
         type: "POST",
@@ -1427,19 +1441,57 @@ var setDataRequest = function(url, dataId, context) {
         data: params,
         dataType: 'json',
         success: function (data) {
+            var newKeyMapping = new Map();
+            // fill out data for each key
             for (var key in data) {
-                if($('.' + key).length != 0) {
+                var splitId = key.split("-");
+                // key without the last index (field index)
+                var keyWithoutFieldIndex = splitId[0] + '-' + splitId[1] + '-' + splitId[2] + '-' + splitId[3];
+                var isFieldRepeatable = $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').length;
+
+                if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
+                    console.log(data);
+                    // form field is empty and exists or form field is not empty and not repeatable, overwrite!
                     $('.' + key).val(data[key]);
+                } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
+                    // form field exists and is not empty
+                    // add new form input
+                    $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+
+                    // count repeated fields if not counted already
+                    var k = newKeyMapping.get(keyWithoutFieldIndex);
+                    if (typeof k == 'undefined') {
+                        var i = 0;
+                        while ($('.' + keyWithoutFieldIndex + '-' + i).length) {
+                            i++;
+                        }
+                    } else {
+                        i = k + 1;
+                    }
+
+                    var newKey = keyWithoutFieldIndex + '-' + i;
+                    newKeyMapping.set(keyWithoutFieldIndex, i);
+
+                    isElementLoaded('.' + newKey, key, function (element, fieldKey) {
+                        $(element).val(data[fieldKey]);
+                    });
+
                 } else {
                     // if key does not exist check if field is repeatable
-                    splittedIds = key.split("-");
-                    if (splittedIds[4] > 0) {
-                        $('.' + splittedIds[0] + '-' + splittedIds[1] + '-' + splittedIds[2] + '-' + splittedIds[3] + '-' + '0').parent().parent().find('.add_field').click();
-
-                        isElementLoaded('.' + key, key, function (element, fieldKey) {
+                    splitId = key.split("-");
+                    var datakey = key;
+                    if (splitId[4] > 0) {
+                        var k = newKeyMapping.get(keyWithoutFieldIndex);
+                        if (typeof k != 'undefined') {
+                            datakey = key;
+                            key = keyWithoutFieldIndex + '-' + (k + 1);
+                            newKeyMapping.set(keyWithoutFieldIndex, (k + 1));
+                        }
+                        // add new form input
+                        $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+                        isElementLoaded('.' + key, datakey, function (element, fieldKey) {
                             $(element).val(data[fieldKey]);
                         });
-
                     }
                 }
             }

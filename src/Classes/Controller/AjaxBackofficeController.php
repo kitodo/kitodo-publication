@@ -19,6 +19,7 @@ use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\FeUser\FisDataService;
 use EWW\Dpf\Services\FeUser\GndDataService;
 
+use EWW\Dpf\Services\FeUser\OrcidDataService;
 use EWW\Dpf\Services\FeUser\RorDataService;
 use EWW\Dpf\Services\FeUser\UnpaywallDataService;
 use EWW\Dpf\Services\FeUser\ZdbDataService;
@@ -236,22 +237,45 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      * @param string $searchTerm
+     * @param string $type
      * @return false|string
      */
-    public function searchFisUserAction($searchTerm) {
+    public function searchFisAction($searchTerm, $type = 'person') {
         $fisUserDataService = new FisDataService();
-        $result = $fisUserDataService->searchPersonRequest($searchTerm);
+        $methodName = 'search'.ucfirst($type).'Request';
+        $result = $fisUserDataService->{$methodName}($searchTerm);
 
         return json_encode($result);
     }
 
     /**
-     * @param string $searchTerm
+     * @param string $dataId
+     * @param int $groupId
+     * @param int $groupIndex
+     * @param int $fieldIndex
+     * @param int $pageId
+     * @param string $type
      * @return false|string
      */
-    public function searchFisOrgaAction($searchTerm) {
+    public function getFisDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person') {
         $fisDataService = new FisDataService();
-        $result = $fisDataService->searchOrgaRequest($searchTerm);
+        $methodName = 'get'.ucfirst($type).'Data';
+        $fisData = $fisDataService->{$methodName}($dataId);
+
+        $result = $this->getApiMappingArray($groupId, $fisData, $groupIndex, $fieldIndex, $pageId, 'getFis'.ucfirst($type).'Mapping');
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param string $searchTerm
+     * @param string $type
+     * @return false|string
+     */
+    public function searchGndAction($searchTerm, $type = 'person') {
+        $gndUserDataService = new GndDataService();
+        $methodName = 'search'.ucfirst($type).'Request';
+        $result = $gndUserDataService->{$methodName}($searchTerm);
 
         return json_encode($result);
     }
@@ -262,51 +286,27 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param int $groupIndex
      * @param int $fieldIndex
      * @param int $pageId
-     * @return false|string
+     * @param string $type
      */
-    public function getFisUserDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
-        $fisUserDataService = new FisDataService();
-        $fisUserData = $fisUserDataService->getFisUserData($dataId);
+    public function getGndDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person') {
+        $gndUserDataService = new GndDataService();
+        $methodName = 'get'.ucfirst($type).'Data';
+        $gndData = $gndUserDataService->{$methodName}($dataId);
 
-        $result = $this->getApiMappingArray($groupId, $fisUserData, $groupIndex, $fieldIndex, $pageId, 'getFisMapping');
+        $result = $this->getApiMappingArray($groupId, $gndData, $groupIndex, $fieldIndex, $pageId, 'getGnd'.ucfirst($type).'Mapping');
 
         return json_encode($result);
     }
 
     /**
+     * search ROR API
+     * API is organisation only!
      * @param string $searchTerm
      * @return false|string
      */
-    public function searchGndDataAction($searchTerm) {
-        $gndUserDataService = new GndDataService();
-        $result = $gndUserDataService->searchRequest($searchTerm);
-
-        return json_encode($result);
-    }
-
-    /**
-     * @param string $dataId
-     * @param int $groupId
-     * @param int $groupIndex
-     * @param int $fieldIndex
-     * @param int $pageId
-     */
-    public function getGndDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
-        $gndUserDataService = new GndDataService();
-        $gndData = $gndUserDataService->getData($dataId);
-
-        $result = $this->getApiMappingArray($groupId, $gndData, $groupIndex, $fieldIndex, $pageId, 'getGndMapping');
-
-        return json_encode($result);
-    }
-
-    /**
-     * @param string $searchTerm
-     * @return false|string
-     */
-    public function searchRorDataAction($searchTerm) {
+    public function searchRorAction($searchTerm) {
         $rorUserDataService = new RorDataService();
-        $result = $rorUserDataService->searchRequest($searchTerm);
+        $result = $rorUserDataService->searchOrganisationRequest($searchTerm);
 
         return json_encode($result);
     }
@@ -320,7 +320,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      */
     public function getRorDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId) {
         $rorUserDataService = new RorDataService();
-        $rorData = $rorUserDataService->getDataRequest($dataId);
+        $rorData = $rorUserDataService->getOrganisationData($dataId);
 
         $result = $this->getApiMappingArray($groupId, $rorData, $groupIndex, $fieldIndex, $pageId, 'getRorMapping');
 
@@ -331,7 +331,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param string $searchTerm
      * @return false|string
      */
-    public function searchZdbDataAction($searchTerm) {
+    public function searchZdbAction($searchTerm) {
         $zdbUserDataService = new ZdbDataService();
         $result = $zdbUserDataService->searchRequest($searchTerm);
 
@@ -358,7 +358,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     /**
      * @param string $searchTerm
      */
-    public function searchUnpaywallDataAction($searchTerm) {
+    public function searchUnpaywallAction($searchTerm) {
         $unpaywallUserDataService = new UnpaywallDataService();
         $result = $unpaywallUserDataService->searchRequest($searchTerm);
 
@@ -399,6 +399,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
 
         foreach ($group->getChildren() as $key => $value) {
             if (!empty($value->{$methodMappingName}())) {
+                // for configuration field1->field1a
                 $mappingPart = explode('->', $value->{$methodMappingName}());
                 $apiData = '';
                 $i = 0;

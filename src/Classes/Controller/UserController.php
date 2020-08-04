@@ -39,7 +39,7 @@ class UserController  extends AbstractController
     public function saveSettingsAction(FrontendUser $frontendUser) {
         if ($frontendUser->getFisPersId()) {
             $fisUserService = new \EWW\Dpf\Services\FeUser\FisDataService();
-            $fisUserData = $fisUserService->getFisUserData($frontendUser->getFisPersId());
+            $fisUserData = $fisUserService->getPersonData($frontendUser->getFisPersId());
             if ($fisUserData == NULL) {
                 $frontendUser->setFisPersId("");
 

@@ -12,14 +12,28 @@ class GndDataService
 
     }
 
-    public function searchRequest($searchTerm) {
-        $response = Request::get($this->apiUrl . 'search?filter=type:Person&format=json&q=preferredName:' . $searchTerm)
+    public function searchPersonRequest($searchTerm) {
+        $response = Request::get($this->apiUrl . 'search?filter=type:Person&format=json&q=' . $searchTerm)
             ->send();
 
         return ['entries' => $response->body->member];
     }
 
-    public function getData($gndId) {
+    public function getPersonData($gndId) {
+        $response = Request::get($this->apiUrl . $gndId . '.json')
+            ->send();
+
+        return $response->body;
+    }
+
+    public function searchOrganisationRequest($searchTerm) {
+        $response = Request::get($this->apiUrl . 'search?filter=type:CorporateBody&format=json&q=' . $searchTerm)
+            ->send();
+
+        return ['entries' => $response->body->member];
+    }
+
+    public function getOrganisationData($gndId) {
         $response = Request::get($this->apiUrl . $gndId . '.json')
             ->send();
 

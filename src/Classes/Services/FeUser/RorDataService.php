@@ -12,14 +12,14 @@ class RorDataService
 
     }
 
-    public function searchRequest($searchTerm) {
+    public function searchOrganisationRequest($searchTerm) {
         $response = Request::get($this->apiUrl . '?query=' . $searchTerm)
             ->send();
 
         return ['entries' => $response->body->items];
     }
 
-    public function getDataRequest($rorId) {
+    public function getOrganisationData($rorId) {
         $response = Request::get($this->apiUrl . '/' . $rorId)
             ->send();
 

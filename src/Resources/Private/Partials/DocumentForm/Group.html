@@ -28,170 +28,20 @@
         <f:format.raw>{groupItem.infoText}</f:format.raw>
     </div>
 
-
-    <f:if condition="{groupItem.groupType} == 'person'">
-        <f:then>
-            <div class="user-search-div">
-                <f:if condition="{fisPersId}">
+    <f:for each="{eww:explodeString(string:'{groupItem.groupType}', glue:',')}" as="api" iteration="iterator">
+        <f:if condition="{api}">
+            <f:then>
+                <f:if condition="{api} == 'Zdb' || {api} == 'Unpaywall'">
                     <f:then>
-                        <button type="button" class="btn btn-s btn-info addMyData" id="addMyData" data-personid="{fisPersId}"
-                                data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                                data-ajax="{f:uri.action(action:'getFisUserData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                            Das bin ich
-                        </button>
+                        <f:render partial="Api/{api}Modal" arguments="{_all}"/>
                     </f:then>
                     <f:else>
-                        <button type="button" class="btn btn-s btn-info addMyData" id="" data-group="{formGroupUid}" disabled>Das bin ich</button>
+                        <f:render partial="Api/ApiModal" arguments="{_all}"/>
                     </f:else>
                 </f:if>
-                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">Person suchen</button>
-
-                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#gndSearchModal-{groupIndex}"
-                        data-buttonajax="{f:uri.action(action:'getGndPersonData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    GND Suche
-                </button>
-
-                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#rorSearchModal-{groupIndex}"
-                        data-buttonajax="{f:uri.action(action:'getGndPersonData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    ROR Suche
-                </button>
-
-            </div>
-
-            <f:render partial="Api/FisModal" arguments="{_all}"/>
-
-            <f:comment> MODAL SEARCH GND USER </f:comment>
-            <div class="modal fade" id="gndSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="max-width: 50%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="gndSearchModalTitle-{groupIndex}">GND Suche</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input style="margin-bottom: 1rem;" class="gnd-user-search-input" type="text" data-group="{formGroupUid}"
-                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                                   data-ajax="{f:uri.action(action:'searchGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getGndData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
-                            <div class="user-search-list-{groupIndex}">
-                                <ul style="list-style-type: none;padding:0;">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <f:comment> MODAL SEARCH ROR </f:comment>
-            <div class="modal fade" id="rorSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="max-width: 50%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="rorSearchModalTitle-{groupIndex}">ROR Suche</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input style="margin-bottom: 1rem;" class="ror-user-search-input" type="text" data-group="{formGroupUid}"
-                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                                   data-ajax="{f:uri.action(action:'searchRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getRorData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
-                            <div class="user-search-list-{groupIndex}">
-                                <ul style="list-style-type: none;padding:0;">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </f:then>
-    </f:if>
-
-    <f:if condition="{groupItem.groupType} == 'title'">
-        <f:then>
-            <div class="user-search-div">
-                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#zdbSearchModal-{groupIndex}"
-                        data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    ZDB Suche
-                </button>
-            </div>
-
-            <div class="modal fade" id="zdbSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="userSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="max-width: 50%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="zdbSearchModalTitle-{groupIndex}">ZDB Suche</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input style="margin-bottom: 1rem;" class="zdb-user-search-input" type="text" data-group="{formGroupUid}"
-                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                                   data-ajax="{f:uri.action(action:'searchZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                            <div class="user-search-list-{groupIndex}">
-                                <ul style="list-style-type: none;padding:0;">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </f:then>
-    </f:if>
-
-    <f:if condition="{groupItem.groupType} == 'unpaywall'">
-        <f:then>
-            <div class="user-search-div">
-                <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#unpaywallSearchModal-{groupIndex}"
-                        data-buttonajax="{f:uri.action(action:'getZdbData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                    Unpaywall Suche
-                </button>
-            </div>
-
-            <div class="modal fade" id="unpaywallSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="unpaywallSearchModal-{groupIndex}" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="max-width: 50%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="unpaywallSearchModalTitle-{groupIndex}">Unpaywall Suche</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input style="margin-bottom: 1rem;" class="unpaywall-user-search-input" type="text" data-group="{formGroupUid}"
-                                   data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                                   data-ajax="{f:uri.action(action:'searchUnpaywallData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                                   data-buttonajax="{f:uri.action(action:'getUnpaywallData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
-                            <div class="user-search-list-{groupIndex}">
-                                <ul style="list-style-type: none;padding:0;">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </f:then>
-    </f:if>
-
+            </f:then>
+        </f:if>
+    </f:for>
 
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">

@@ -170,7 +170,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         $this->view->assign('returnDocumentId', $returnDocumentId);
         $this->view->assign('documentForm', $newDocumentForm);
 
-        if ($this->fisDataService->getFisUserData($this->security->getUser()->getFisPersId())) {
+        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
             $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
         }
     }
@@ -295,7 +295,7 @@ abstract class AbstractDocumentFormController extends AbstractController
     {
         $this->view->assign('documentForm', $documentForm);
 
-        if ($this->fisDataService->getFisUserData($this->security->getUser()->getFisPersId())) {
+        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
             $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
         }
     }

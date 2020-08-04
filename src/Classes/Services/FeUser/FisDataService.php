@@ -12,7 +12,7 @@ class FisDataService
 
     }
 
-    public function getFisUserData($id) {
+    public function getPersonData($id) {
         $response = Request::post($this->apiUrl)
             ->body($this->getPersonRequestBody($id))
             ->send();
@@ -28,7 +28,15 @@ class FisDataService
         return $response->body->data->staff;
     }
 
-    public function searchOrgaRequest($searchTerm) {
+    public function getOrganisationData($id) {
+        $response = Request::post($this->apiUrl)
+            ->body($this->getOrgaRequestBody($id))
+            ->send();
+
+        return $response->body->data->organisationalUnit;
+    }
+
+    public function searchOrganisationRequest($searchTerm) {
         $response = Request::post($this->apiUrl)
             ->body($this->getSearchOrgaBody($searchTerm))
             ->send();
@@ -79,6 +87,17 @@ class FisDataService
                     }     
                 }   
             } 
+        }';
+
+        return $graphQl;
+    }
+
+    protected function getOrgaRequestBody($id) {
+        $graphQl = '{   
+            organisationalUnit(id:'.$id.') {
+                titleDe
+                id
+            }
         }';
 
         return $graphQl;
