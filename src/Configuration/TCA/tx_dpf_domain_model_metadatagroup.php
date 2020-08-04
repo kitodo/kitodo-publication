@@ -272,6 +272,7 @@ return array(
                 'renderType' => 'selectCheckBox',
                 'items' => [
                     ['---', ''],
+                    ['FIS add myself', 'Person'],
                     ['FIS', 'Fis'],
                     ['Gnd', 'Gnd'],
                     ['Ror', 'Ror'],
