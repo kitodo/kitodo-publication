@@ -15,8 +15,8 @@
 
 <f:comment> MODAL SEARCH API </f:comment>
 
-<div class="user-search-div">
-    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">{api} suchen</button>
+<div class="user-search-div" style="float: left;margin-right: 1rem;">
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">{api -> f:format.case(mode: 'upper')} Suche</button>
 </div>
 
 <div class="modal fade {api}SearchModal" id="{api}SearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{groupIndex}" aria-hidden="true">
