@@ -34,19 +34,27 @@ var documentFormGroupSelector = {
                         scrollTop: jQuery(group).offset().top - 150
                     }, 0);
                 } else {
-                    activeGroupIndex = jQuery('fieldset[data-group="' + activeGroup + '"]').size();
-                    addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                    var emptyGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-emptygroup="1"]').first();
+
+                    if (emptyGroupElement.length > 0) {
+                        activeGroupIndex = emptyGroupElement.data('groupindex');
+                    } else {
+                        activeGroupIndex = jQuery('fieldset[data-group="' + activeGroup + '"]').size();
+                    }
+
+                    if (activeGroupIndex > 0) {
+                        addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                    }
 
                     if (form.data("addcurrentfeuser")) {
                         isGroupLoaded(
                             'fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]',
                             function () {
                                 jQuery('.addMyData').attr("disabled", "disabled");
-                                // var activeGroupElement = jQuery('form').find('fieldset[data-group="' + activeGroup + '"]').last();
                                 var activeGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]');
-                                var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
-                                context.data('groupindex', activeGroupIndex);
-                                setDataRequest(context.data('buttonajax'), jQuery('form').data('fispersid'), context);
+                                //var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
+                                var context = activeGroupElement.find('.addMyData').first();
+                                setDataRequest(context.data('ajax'), jQuery('form').data('fispersid'), context);
                                 jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
                             });
                     }

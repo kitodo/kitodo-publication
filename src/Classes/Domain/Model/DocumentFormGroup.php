@@ -25,6 +25,11 @@ class DocumentFormGroup extends AbstractFormElement
     protected $infoText;
 
     /**
+     * @var bool
+     */
+    protected $emptyGroup = false;
+
+    /**
      * Returns the infoText
      *
      * @return string $infoText
@@ -43,6 +48,22 @@ class DocumentFormGroup extends AbstractFormElement
     public function setInfoText($infoText)
     {
         $this->infoText = $infoText;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmptyGroup(): bool
+    {
+        return $this->emptyGroup;
+    }
+
+    /**
+     * @param bool $emptyGroup
+     */
+    public function setEmptyGroup(bool $emptyGroup): void
+    {
+        $this->emptyGroup = $emptyGroup;
     }
 
 }

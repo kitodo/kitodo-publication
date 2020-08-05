@@ -14,7 +14,7 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<fieldset class="fs_group" data-group="{formGroupUid}" data-groupindex="{groupIndex}" data-mandatory="{groupItem.mandatory}">
+<fieldset class="fs_group" data-group="{formGroupUid}" data-groupindex="{groupIndex}" data-mandatory="{groupItem.mandatory}" data-emptygroup="{groupItem.emptyGroup}">
     <legend>
         <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
         {formGroupDisplayName}
