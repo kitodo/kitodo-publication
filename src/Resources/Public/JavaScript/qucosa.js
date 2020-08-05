@@ -1355,7 +1355,7 @@ var searchInputKeyupHandler = function() {
 
                 $.each(dataObject.entries, function (key, value) {
                     var type = $(that).data("api").toLowerCase();
-                    var allData = JSON.stringify(value).replace(/"/g, '');
+                    var allData = value;
 
                     if ($(that).attr('class') === 'fis-user-search-input') {
                         if (radioType == 'person') {
@@ -1391,6 +1391,8 @@ var searchInputKeyupHandler = function() {
 }
 
 var listHtml = function (name, id, all = '', optionalText = '', color = '') {
+    JSON.stringify(all).replace(/"/g, '');
+
     if (color) {
         colorHtml = '<span class="fa fa-circle" style="color: ' + color + ' "></span>';
     } else {
@@ -1404,7 +1406,7 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
 
     return '<li style="margin-bottom:1rem;" class="container">' +
         '<div class="row">' +
-        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '">' +
+        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '" data-surname="'+all.surname+'" data-givenname="'+all.givenName+'">' +
         'Übernehmen' +
         '</button></div>' +
         '<div class="col-6">' +
@@ -1419,8 +1421,11 @@ var addFoundUserData = function () {
     $('.found-user-add').on('click', function () {
         var input = $(this).closest('.modal-body').find('input');
 
+        // user setting modal
         if (input.data('usersettings') == '1') {
             $('#fisPersId').val($(this).data('id'));
+            $('#firstName').val($(this).data('givenname'));
+            $('#lastName').val($(this).data('surname'));
             $(this).closest('.modal').modal('hide');
         } else if (input.data('usersettings') == 'extSearch') {
             $('#search-field-default-value').val($(this).data('id'));

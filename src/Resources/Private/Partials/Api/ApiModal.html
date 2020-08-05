@@ -30,13 +30,6 @@
             </div>
             <div class="modal-body">
                 <div class="form-check form-check-inline">
-                    <f:comment>
-                    <input style="margin-bottom: 1rem;" class="{api -> f:format.case(mode: 'lower')}-user-search-input form-control" type="text"
-                        data-usersettings="{usersetting}" data-personid="{fisPersId}"
-                        data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                        data-ajax="{f:uri.action(action:'search{api}User',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                        data-buttonajax="{f:uri.action(action:'get{api}PersonData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
-                    </f:comment>
                     <input style="margin-bottom: 1rem;" class="{api -> f:format.case(mode: 'lower')}-user-search-input" type="text"
                            data-usersettings="{usersetting}" data-personid="{fisPersId}"
                            data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
@@ -48,10 +41,15 @@
                     <input class="form-check-input" type="radio" name="searchTypeRadio" id="personRadio" value="person" checked>
                     <label class="form-check-label" for="personRadio">Personen</label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="searchTypeRadio" id="orgaRadio" value="organisation">
-                    <label class="form-check-label" for="orgaRadio">Organisationen</label>
-                </div>
+                <f:if condition="!{usersetting}">
+                    <f:then>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="searchTypeRadio" id="orgaRadio" value="organisation">
+                            <label class="form-check-label" for="orgaRadio">Organisationen</label>
+                        </div>
+                    </f:then>
+                </f:if>
+
                 <div class="{api -> f:format.case(mode: 'lower')}-search-list-{groupIndex}">
                     <ul style="list-style-type: none;padding:0;" class="{api -> f:format.case(mode: 'lower')}-search-results">
                     </ul>

@@ -19,6 +19,14 @@
     <h1><f:translate key="manager.locallang.user.settings"/></h1>
     <f:form action="saveSettings" object="{frontendUser}" objectName="frontendUser">
         <div>
+            <label><f:translate key="manager.locallang.user.firstName"/></label>
+            <f:form.textfield id="firstName" property="firstName"/>
+        </div>
+        <div>
+            <label><f:translate key="manager.locallang.user.lastName"/></label>
+            <f:form.textfield id="lastName" property="lastName"/>
+        </div>
+        <div>
             <label><f:translate key="manager.locallang.user.mail"/></label>
             <f:form.textfield property="email"/>
         </div>
@@ -44,9 +52,9 @@
         <h3>FIS</h3>
         <div>
             <label>ID</label>
-            <f:form.textfield id="fisPersId" property="fisPersId"/> <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">ID suchen</button>
-            <f:alias map="{usersetting: '1'}">
-                <f:render partial="Api/FisModal" arguments="{_all}" />
+            <f:form.textfield id="fisPersId" property="fisPersId"/>
+            <f:alias map="{usersetting: '1', api: 'Fis'}">
+                <f:render partial="Api/ApiModal" arguments="{_all}" />
             </f:alias>
         </div>
         <div>

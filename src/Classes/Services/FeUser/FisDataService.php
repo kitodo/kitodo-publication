@@ -82,8 +82,11 @@ class FisDataService
                         {
                             titleDe
                         }
-                        fullName
                         fisPersid
+                        fullName
+                        givenName
+                        surname
+                        title
                     }     
                 }   
             } 
