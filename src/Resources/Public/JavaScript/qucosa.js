@@ -1372,7 +1372,19 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'fis-orga-search-input') {
                         hitListElement.append(listHtml(value.titleDe, value.id, allData));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
-                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, value.id));
+                        var professions = '';
+                        var date = '';
+                        $.each(value.professionOrOccupation, function(key, value) {
+                            professions += value.label + ' ';
+                        });
+                        if (value.dateOfBirth) {
+                            date = value.dateOfBirth;
+                        }
+                        if (value.dateOfDeath) {
+                            date += ' - ' + value.dateOfDeath;
+                        }
+
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, date + ' ' + professions));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
                         hitListElement.append(listHtml(value.name, value.id, allData));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
@@ -1412,7 +1424,6 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
         '<div class="col-6">' +
         colorHtml + name + text +
         '</div>' +
-        '<div class="col"><button type="button" class="btn btn-s btn-info" data-toggle="tooltip" title="'+all+'"><i class="fas fa-info"></i></button></div>' +
         '</div>' +
         '</li>';
 }
