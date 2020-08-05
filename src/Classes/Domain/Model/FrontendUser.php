@@ -157,14 +157,6 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
     /**
-     * @return string
-     */
-    public function getFobIdentifier(): string
-    {
-        return '1234567890';
-    }
-
-    /**
      * @return bool
      */
     public function isNotifyPersonalLink(): bool
