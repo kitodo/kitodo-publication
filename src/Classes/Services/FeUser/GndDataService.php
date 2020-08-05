@@ -12,8 +12,18 @@ class GndDataService
 
     }
 
+    public function searchTermReplacement($searchTerm) {
+        $searchTerm = str_replace('ä', 'ae', $searchTerm);
+        $searchTerm = str_replace('Ä', 'Ae', $searchTerm);
+        $searchTerm = str_replace('ö', 'oe', $searchTerm);
+        $searchTerm = str_replace('Ö', 'Oe', $searchTerm);
+        $searchTerm = str_replace('ü', 'ue', $searchTerm);
+        $searchTerm = str_replace('Ü', 'Ue', $searchTerm);
+        return str_replace(' ', '+', $searchTerm);
+    }
+
     public function searchPersonRequest($searchTerm) {
-        $response = Request::get($this->apiUrl . 'search?filter=type:Person&format=json&q=' . $searchTerm)
+        $response = Request::get($this->apiUrl . 'search?filter=type:Person&format=json&q=' . $this->searchTermReplacement($searchTerm))
             ->send();
 
         return ['entries' => $response->body->member];
@@ -27,7 +37,7 @@ class GndDataService
     }
 
     public function searchOrganisationRequest($searchTerm) {
-        $response = Request::get($this->apiUrl . 'search?filter=type:CorporateBody&format=json&q=' . $searchTerm)
+        $response = Request::get($this->apiUrl . 'search?filter=type:CorporateBody&format=json&q=' . $this->searchTermReplacement($searchTerm))
             ->send();
 
         return ['entries' => $response->body->member];
