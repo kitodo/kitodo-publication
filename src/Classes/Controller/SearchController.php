@@ -156,7 +156,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', []);
 
-        if ($this->fisDataService->getFisUserData($this->security->getUser()->getFisPersId())) {
+        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
             $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
         }
     }
