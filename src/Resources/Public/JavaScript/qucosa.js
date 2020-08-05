@@ -1575,12 +1575,14 @@ var toggleAddMyUserDataButton = function(fisPersonIdentifiers) {
 
 var userSearchModalFillout = function() {
 
-    $('.userSearchModal').on('hidden.bs.modal', function() {
-        jQuery(this).find('.fis-user-search-input').val('');
-        jQuery(this).find('.user-search-results').html('');
+    $('.FisSearchModal').on('hidden.bs.modal', function() {
+            jQuery(this).find('.fis-user-search-input').val('');
+            jQuery(this).find('.fis-search-results').html('');
     });
 
-    $('.userSearchModal').on('shown.bs.modal', function () {
+    $('.FisSearchModal').on('shown.bs.modal', function () {
+        jQuery(this).find("#orgaRadio").prop('checked', false);
+        jQuery(this).find("#personRadio").prop('checked', true);
         var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
         if (surname.length > 0) {
             jQuery(this).find('.fis-user-search-input').val(surname);
