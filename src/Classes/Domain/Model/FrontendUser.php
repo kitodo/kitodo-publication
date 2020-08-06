@@ -224,8 +224,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @return string
      */
     public function getFisPersId(): string
-    {return $this->getFirstName();
-
+    {
         return $this->fisPersId;
     }
 
