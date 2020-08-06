@@ -480,6 +480,9 @@ class DocumentController extends AbstractController
 
         if ($documentType instanceof DocumentType) {
             $document->setDocumentType($documentType);
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $slub->setDocumentType($documentType->getName());
+            $document->setSlubInfoData($slub->getSlubXml());
             $this->updateDocument($document, '', null);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         } else {
