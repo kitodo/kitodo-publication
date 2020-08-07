@@ -1185,32 +1185,47 @@
 				<source>Vietnamese</source>
 			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings" approved="yes">
-				<source>User settings</source>
+				<source>Account settings</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.mail" approved="yes">
-				<source>mail</source>
+			<trans-unit id="manager.locallang.user.settings.firstName" approved="yes">
+				<source>First name</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.notify_settings" approved="yes">
-				<source>Notify settings</source>
+			<trans-unit id="manager.locallang.user.settings.lastName" approved="yes">
+				<source>Last name</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.changes_mypublications" approved="yes">
-				<source>Changes in "my publications"</source>
+			<trans-unit id="manager.locallang.user.settings.identifier" approved="yes">
+				<source>Identifier</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.assigned_myself" approved="yes">
-				<source>Assigned to myself (author)</source>
+			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
+				<source>To receive notifications, you can enter your email address here.</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.on_status_change" approved="yes">
-				<source>On status change</source>
+			<trans-unit id="manager.locallang.user.settings.email" approved="yes">
+				<source>Email</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.fulltext_media_published" approved="yes">
-				<source>If fulltext/media is published</source>
+			<trans-unit id="manager.locallang.user.settings.notifications" approved="yes">
+				<source>Send notifications when ...</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.new_publications" approved="yes">
-				<source>New publications</source>
+			<trans-unit id="manager.locallang.user.settings.changes_mypublications" approved="yes">
+				<source>... a publication in "My Publications" has been changed.</source>
 			</trans-unit>
-			<trans-unit id="manager.locallang.user.new_in_mypublications" approved="yes">
-				<source>If a publication is new in "my publications"</source>
+			<trans-unit id="manager.locallang.user.settings.assigned_myself" approved="yes">
+				<source>Only if I am personally assigned to this publication (e.g. as an author).</source>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.on_status_change" approved="yes">
+				<source>Only if the status changes (e.g. from reported to released).</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.fulltext_media_published" approved="yes">
+				<source>Only if a full text is published.</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.new_in_mypublications" approved="yes">
+				<source>... a new publication is added to "My Publications".</source>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.save" approved="yes">
+				<source>Save</source>
+			</trans-unit>
+			<trans-unit id="manager.apimodal.close" approved="yes">
+                <source>Close</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

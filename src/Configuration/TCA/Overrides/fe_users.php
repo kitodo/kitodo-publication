@@ -35,6 +35,17 @@ $temporaryColumns = array (
         ],
     ],
 
+    'notify_on_changes' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify on changes', ''],
+            ),
+        )
+    ),
+
     'notify_personal_link' => array (
         'exclude' => 0,
         'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
@@ -95,7 +106,7 @@ $temporaryColumns = array (
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    'stored_searches,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication,fis_pers_id',
+    'stored_searches,notify_on_changes,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication,fis_pers_id',
     '',
     'after:title'
 );

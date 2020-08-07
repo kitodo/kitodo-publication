@@ -48,6 +48,11 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected $notifyStatusChange = 0;
 
     /**
+     * @var boolean
+     */
+    protected $notifyOnChanges = 0;
+
+    /**
      * @var string FIS ID
      */
     protected $fisPersId = '';
@@ -197,6 +202,22 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
     /**
+     * @return bool
+     */
+    public function isNotifyOnChanges(): bool
+    {
+        return $this->notifyOnChanges;
+    }
+
+    /**
+     * @param bool $notifyOnChanges
+     */
+    public function setNotifyOnChanges(bool $notifyOnChanges): void
+    {
+        $this->notifyOnChanges = $notifyOnChanges;
+    }
+
+    /**
      * @param bool $notifyFulltextPublished
      */
     public function setNotifyFulltextPublished(bool $notifyFulltextPublished)
@@ -235,7 +256,5 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     {
         $this->fisPersId = $fisPersId;
     }
-
-
 
 }

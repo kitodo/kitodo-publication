@@ -1639,6 +1639,62 @@
 				<source>Vietnamese</source>
 				<target>Vietnamesisch</target>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings" approved="yes">
+				<source>Account settings</source>
+				<target>Konto-Einstellungen</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.firstName" approved="yes">
+				<source>First name</source>
+				<target>Vorname</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.lastName" approved="yes">
+				<source>Last name</source>
+				<target>Nachname</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.identifier" approved="yes">
+				<source>Identifier</source>
+				<target>Identifikator</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
+				<source>To receive notifications, you can enter your email address here.</source>
+				<target>Um Benachrichtigungen zu erhalten, können Sie hier Ihre E-Mail-Adresse eintragen.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.email" approved="yes">
+				<source>Email</source>
+				<target>E-Mail</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.notifications" approved="yes">
+				<source>Send notifications when ...</source>
+				<target>Benachrichtigungen senden, wenn ...</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.changes_mypublications" approved="yes">
+				<source>... a publication in "My Publications" has been changed.</source>
+				<target>... eine Publikation in "Meine Publikationen" geändert wird.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.assigned_myself" approved="yes">
+				<source>Only if I am personally assigned to this publication (e.g. as an author).</source>
+				<target>Nur, wenn ich dieser Publikation persönlich zugeordnet bin (z. B. als Autor*in).</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.on_status_change" approved="yes">
+				<source>Only if the status changes (e.g. from reported to released).</source>
+				<target>Nur, wenn sich dabei der Status ändert (z. B. von gemeldet zu freigegeben).</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.fulltext_media_published" approved="yes">
+				<source>Only if a full text is published.</source>
+				<target>Nur, wenn dabei ein Volltext veröffentlicht wird.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.new_in_mypublications" approved="yes">
+				<source>... a new publication is added to "My Publications".</source>
+				<target>... eine neue Publikation zu "Meine Publikationen" hinzukommt.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.save" approved="yes">
+				<source>Save</source>
+				<target>Speichern</target>
+			</trans-unit>
+			<trans-unit id="manager.apimodal.close" approved="yes">
+                <source>Close</source>
+                <target>Schließen</target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
