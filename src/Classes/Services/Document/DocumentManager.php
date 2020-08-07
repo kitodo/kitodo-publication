@@ -466,40 +466,49 @@ class DocumentManager
         /** @var FrontendUser $recipient */
         foreach ($users as $recipient) {
 
+
             if (
                 $recipient->getUid() !== $this->security->getUser()->getUid() &&
-                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
-                (
-                    $recipient->isNotifyPersonalLink() ||
-                    $recipient->isNotifyStatusChange() ||
-                    $recipient->isNotifyFulltextPublished()
-                )
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE
             ) {
-                if (
-                    $recipient->isNotifyPersonalLink() &&
-                    in_array(
-                        $recipient->getFisPersId(), $document->getAssignedFobIdentifiers()
-                    ) &&
-                    !(
-                        $recipient->isNotifyNewPublicationMyPublication() &&
-                        (
+
+                if ($recipient->isNotifyOnChanges()) {
+
+                    if (
+                        $recipient->isNotifyPersonalLink() ||
+                        $recipient->isNotifyStatusChange() ||
+                        $recipient->isNotifyFulltextPublished()
+                    ) {
+                        if (
+                            $recipient->isNotifyPersonalLink() &&
                             in_array(
-                                $recipient->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
-                            ) ||
-                            $document->isStateChange() &&
-                            $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
-                        )
-                    )
-                ) {
-                    $recipients[$recipient->getUid()] = $recipient;
-                }
+                                $recipient->getFisPersId(), $document->getAssignedFobIdentifiers()
+                            ) &&
+                            !(
+                                $recipient->isNotifyNewPublicationMyPublication() &&
+                                (
+                                    in_array(
+                                        $recipient->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
+                                    ) ||
+                                    $document->isStateChange() &&
+                                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                                )
+                            )
+                        ) {
+                            $recipients[$recipient->getUid()] = $recipient;
+                        }
 
-                if ($recipient->isNotifyStatusChange() && $document->isStatusChange()) {
-                    $recipients[$recipient->getUid()] = $recipient;
-                }
+                        if ($recipient->isNotifyStatusChange() && $document->isStateChange()) {
+                           $recipients[$recipient->getUid()] = $recipient;
+                        }
 
-                if ($recipient->isNotifyFulltextPublished()) {
-                    //TODO: can only be implemented together with the embargo
+                        if ($recipient->isNotifyFulltextPublished()) {
+                            //TODO: can only be implemented together with the embargo
+                        }
+
+                    } else {
+                       $recipients[$recipient->getUid()] = $recipient;
+                    }
                 }
             }
         }
@@ -519,7 +528,8 @@ class DocumentManager
         foreach ($this->getAssignedUsers($document) as $user) {
             if (
                 $user->getUid() !== $this->security->getUser()->getUid() &&
-                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
+                $user->getUid() !== $document->getCreator()
             ) {
                 if (
                     $user->isNotifyNewPublicationMyPublication() &&
