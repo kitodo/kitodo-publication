@@ -407,6 +407,10 @@
 			<source>Mapping</source>
 			<target>Zuordnung</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.json_mapping" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading" approved="yes">
 			<source>Mapping for reading</source>
 			<target>Zuordnung zum Lesen</target>
@@ -534,6 +538,10 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
 			<source>Mapping</source>
 			<target>Zuordnung</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.json_mapping" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration" approved="yes">
 			<source>Max Iteration</source>

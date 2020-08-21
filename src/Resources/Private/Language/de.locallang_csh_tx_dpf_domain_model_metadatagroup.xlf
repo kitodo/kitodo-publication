@@ -25,6 +25,10 @@
 			<source>Mapping</source>
 			<target>Zuordnung</target>
 		</trans-unit>
+		<trans-unit id="json_mapping.description" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
+		</trans-unit>
 		<trans-unit id="mapping_for_reading.description" approved="yes">
 			<source>Mapping for reading</source>
 			<target>Zuordnung für Lesen</target>

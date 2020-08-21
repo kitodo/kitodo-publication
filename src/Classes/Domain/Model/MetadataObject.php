@@ -62,6 +62,12 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $inputField = 0;
 
+    /**
+     * JSON mapping
+     *
+     * @var string
+     */
+    protected $jsonMapping = '';
 
     const input    = 0;
     const textarea = 1;
@@ -539,6 +545,24 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
         $this->embargo = $embargo;
     }
 
+    /**
+     * Gets the jsonMapping
+     *
+     * @return string
+     */
+    public function getJsonMapping(): string
+    {
+        return $this->jsonMapping;
+    }
 
+    /**
+     * Sets the jsonMapping
+     *
+     * @param string $jsonMapping
+     */
+    public function setJsonMapping(string $jsonMapping): void
+    {
+        $this->jsonMapping = $jsonMapping;
+    }
 
 }

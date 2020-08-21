@@ -36,6 +36,15 @@ class ApiController extends ActionController
      */
     protected $defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
 
+
+    /**
+     * security
+     *
+     * @var \EWW\Dpf\Security\Security
+     * @inject
+     */
+    protected $security = null;
+
     /**
      * documentRepository
      *
@@ -43,6 +52,14 @@ class ApiController extends ActionController
      * @inject
      */
     protected $documentRepository = null;
+
+    /**
+     * persistence manager
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+     * @inject
+     */
+    protected $persistenceManager;
 
 
     protected $jsonMapping = <<<EOD
@@ -104,10 +121,35 @@ EOD;
     }
 
     /**
-     * @param string $document
+     *
      */
-    public function createAction($document) {
+    public function createAction() {
 
+        if ($this->request->hasArgument('document')) {
+            $args = $this->request->getArguments();
+            $jsonData = $args['document'];
+        }
+
+        if (empty($jsonData)) {
+            return '{"error": "invalid data"}';
+        }
+
+        $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
+
+        /** @var Document $document */
+        $document = $mapper->getDocument($jsonData);
+
+        //$document->setCreator($this->security->getUser()->getUid());
+
+        // xml data fields are limited to 64 KB
+        if (strlen($document->getXmlData()) >= 64 * 1024 || strlen($document->getSlubInfoData() >= 64 * 1024)) {
+            return '{"error": "Maximum document size exceeded"}';
+        }
+
+        $this->documentRepository->add($document);
+        $this->persistenceManager->persistAll();
+
+        return '{"success": "Document created", "id": ".'.$document->getDocumentIdentifier().'."}';
     }
 
     public function addFisIdAction($id) {
@@ -149,12 +191,15 @@ EOD;
                 $actionName = ($this->request->hasArgument('document')) ? 'show' : 'list';
                 break;
             case 'POST':
+                $actionName = 'create';
+                break;
             case 'PUT':
             case 'DELETE':
                 $this->throwStatus(400, null, 'Bad Request.');
             default:
                 $this->throwStatus(400, null, 'Bad Request.');
         }
+
         return $actionName . 'Action';
     }
 }

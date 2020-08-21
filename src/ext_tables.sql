@@ -133,6 +133,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   mapping varchar(1024) DEFAULT '' NOT NULL,
   mods_extension_mapping varchar(1024) DEFAULT '' NOT NULL,
   mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
+  json_mapping varchar(1024) DEFAULT '' NOT NULL,
   info_text text NOT NULL,
   metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
 
@@ -183,6 +184,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   validation varchar(255) DEFAULT '' NOT NULL,
   mapping varchar(255) DEFAULT '' NOT NULL,
   mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  json_mapping varchar(1024) DEFAULT '' NOT NULL,
   input_field int(11) DEFAULT '0' NOT NULL,
   input_option_list int(11) unsigned default '0',
   default_value text NOT NULL,
