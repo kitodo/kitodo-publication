@@ -44,6 +44,41 @@ class ApiController extends ActionController
      */
     protected $documentRepository = null;
 
+
+    protected $jsonMapping = <<<EOD
+{
+  "title": {
+    "_mapping": "/mods:mods/mods:titleInfo/mods:title"
+  },
+  "persons": [             
+        {
+          "_mapping": "/mods:mods/mods:name[@type=\"personal\"]",                 
+          "given": {
+            "_mapping": "mods:namePart[@type=\"given\"]"           
+          },
+          "family": {
+            "_mapping": "mods:namePart[@type=\"family\"]"           
+          }
+        }        
+  ],
+  "institution": {
+     "_mapping": "/mods:mods/mods:institution",    
+     "name": {
+       "_mapping": "mods:institutionName"  
+     },
+     "title": {
+       "_mapping": "mods:institutionTitle",
+       "titleTest": {
+          "_mapping": "mods:institutionTitleTest"
+       }  
+     }               
+  },
+   "documentType": {
+        "_mapping": "/slub:info/slub:documentType"
+  }    
+}
+EOD;
+
     /**
      *
      */
@@ -52,43 +87,26 @@ class ApiController extends ActionController
     }
 
     /**
-     * @param Document $document
+     * @param string $document
      */
-    public function showAction(Document $document) {
-        // define which properties are displayed
-//        $this->view->setConfiguration([
-//            'customVariable' => [
-//                '_only' => [
-//                    'key1',
-//                    'key3',
-//                ],
-//            ],
-//            'customVariable2' => [
-//                '_exclude' => [
-//                    'key1',
-//                    'key3',
-//                ],
-//            ],
-//        ]);
-//
-//        $this->view->setVariablesToRender(['customVariable']);
-//
-//        $this->view->assignMultiple([
-//            'anotherVariable' => 'value',
-//            'customVariable' => [
-//                'key1' => 'value1',
-//                'key2' => 'value2',
-//                'key3' => [
-//                    'key3.1' => 'value3.1',
-//                    'key3.2' => 'value3.2',
-//                ],
-//            ],
-//        ]);
-        var_dump($document->getTitle());exit;
-        $this->view->assign('document', $document);
+    public function showAction($document) {
+
+        $doc = $this->documentRepository->findByIdentifier($document);
+
+        if ($doc) {
+            $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
+            $mapper->setMapping($this->jsonMapping);
+            $jsonData = $mapper->getJson($doc);
+            return $jsonData;
+        }
+
+        return '{"error": "No data found"}';
     }
 
-    public function createAction() {
+    /**
+     * @param string $document
+     */
+    public function createAction($document) {
 
     }
 
