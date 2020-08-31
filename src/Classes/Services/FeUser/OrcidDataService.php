@@ -13,8 +13,18 @@ class OrcidDataService
 
     }
 
+    public function searchTermReplacement($searchTerm) {
+        $searchTerm = str_replace('ä', 'ae', $searchTerm);
+        $searchTerm = str_replace('Ä', 'Ae', $searchTerm);
+        $searchTerm = str_replace('ö', 'oe', $searchTerm);
+        $searchTerm = str_replace('Ö', 'Oe', $searchTerm);
+        $searchTerm = str_replace('ü', 'ue', $searchTerm);
+        $searchTerm = str_replace('Ü', 'Ue', $searchTerm);
+        return str_replace(' ', '+', $searchTerm);
+    }
+
     public function searchPersonRequest($searchTerm) {
-        $response = Request::get($this->apiUrl . '/expanded-search/?q=' . $searchTerm)
+        $response = Request::get($this->apiUrl . '/expanded-search/?q=' . $this->searchTermReplacement($searchTerm))
             ->expectsJson()
             ->addHeader('Accept','*/*')
             ->addHeader('Content-Type', 'application/vnd.orcid+json')
@@ -29,27 +39,7 @@ class OrcidDataService
             ->addHeader('Accept','*/*')
             ->addHeader('Content-Type', 'application/vnd.orcid+json')
             ->send();
-
-        return $response->body->{'expanded-result'}[0];
-    }
-
-    public function searchOrganisationRequest($searchTerm) {
-        $response = Request::get($this->apiUrl . '/expanded-search/?q=affiliation-org-name:' . $searchTerm)
-            ->expectsJson()
-            ->addHeader('Accept','*/*')
-            ->addHeader('Content-Type', 'application/vnd.orcid+json')
-            ->send();
-
-        return ['entries' => $response->body->{'expanded-result'}];
-    }
-
-    public function getOrganisationData($orcidId) {
-        $response = Request::get($this->apiUrl . '/expanded-search/?q=orcid:' . $orcidId)
-            ->expectsJson()
-            ->addHeader('Accept','*/*')
-            ->addHeader('Content-Type', 'application/vnd.orcid+json')
-            ->send();
-
+var_dump($response->body->{'expanded-result'}[0]);
         return $response->body->{'expanded-result'}[0];
     }
 
