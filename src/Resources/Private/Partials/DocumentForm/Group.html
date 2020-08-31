@@ -56,9 +56,19 @@
                                 </f:alias>
                             </f:then>
                             <f:else>
-                                <f:alias map="{showOrgaSwitch:1}">
-                                    <f:render partial="Api/ApiModal" arguments="{_all}"/>
-                                </f:alias>
+                                <f:if condition="{api} == 'Ror'">
+                                    <f:then>
+                                        <f:alias map="{showOrgaSwitch:1, removePersonSwitch:1}">
+                                            <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                        </f:alias>
+                                    </f:then>
+                                    <f:else>
+                                        <f:alias map="{showOrgaSwitch:1}">
+                                            <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                        </f:alias>
+                                    </f:else>
+                                </f:if>
+
                             </f:else>
                         </f:if>
                     </f:else>

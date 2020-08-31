@@ -39,7 +39,7 @@ class OrcidDataService
             ->addHeader('Accept','*/*')
             ->addHeader('Content-Type', 'application/vnd.orcid+json')
             ->send();
-var_dump($response->body->{'expanded-result'}[0]);
+
         return $response->body->{'expanded-result'}[0];
     }
 

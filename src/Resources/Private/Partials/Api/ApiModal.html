@@ -37,10 +37,15 @@
                            data-searchrequest="{f:uri.action(action:'search{api}',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
                            data-datarequest="{f:uri.action(action:'get{api}Data',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="searchTypeRadio" id="personRadio" value="person" checked>
-                    <label class="form-check-label" for="personRadio">Personen</label>
-                </div>
+                <f:if condition="!{removePersonSwitch}">
+                    <f:then>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="searchTypeRadio" id="personRadio" value="person" checked>
+                            <label class="form-check-label" for="personRadio">Personen</label>
+                        </div>
+                    </f:then>
+                </f:if>
+
                 <f:if condition="!{usersetting} && {showOrgaSwitch}">
                     <f:then>
                         <div class="form-check form-check-inline">
