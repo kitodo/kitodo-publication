@@ -210,12 +210,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $orcidPersonMapping = '';
 
     /**
-     * orcid person mapping
-     * @var string
-     */
-    protected $orcidOrganisationMapping = '';
-
-    /**
      * Returns the name
      *
      * @return string $name
@@ -744,23 +738,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     {
         $this->orcidPersonMapping = $orcidPersonMapping;
     }
-
-    /**
-     * @return string
-     */
-    public function getOrcidOrganisationMapping(): string
-    {
-        return $this->orcidOrganisationMapping;
-    }
-
-    /**
-     * @param string $orcidOrganisationMapping
-     */
-    public function setOrcidOrganisationMapping(string $orcidOrganisationMapping): void
-    {
-        $this->orcidOrganisationMapping = $orcidOrganisationMapping;
-    }
-
 
 
 

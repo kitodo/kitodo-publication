@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, orcid_organisation_mapping, object_type',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, orcid_organisation_mapping, object_type',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, orcid_organisation_mapping, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -403,15 +403,7 @@ return array(
             ],
         ],
         'orcid_person_mapping' => [
-            'label' => 'ORCID Person Mapping',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ],
-        ],
-        'orcid_organisation_mapping' => [
-            'label' => 'ORCID Organisation Mapping',
+            'label' => 'ORCID Mapping',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
