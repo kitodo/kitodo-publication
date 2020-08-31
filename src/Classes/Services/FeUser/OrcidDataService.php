@@ -5,8 +5,7 @@ use \Httpful\Request;
 
 class OrcidDataService
 {
-    // prod https://pub.orcid.org
-    protected $apiUrl = 'https://pub.sandbox.orcid.org/v3.0';
+    protected $apiUrl = 'https://pub.orcid.org/v3.0';
 
     protected $params = '&start=0&rows=20';
 
