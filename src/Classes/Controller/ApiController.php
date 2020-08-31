@@ -54,6 +54,14 @@ class ApiController extends ActionController
     protected $documentRepository = null;
 
     /**
+     * documentManager
+     *
+     * @var \EWW\Dpf\Services\Document\DocumentManager
+     * @inject
+     */
+    protected $documentManager = null;
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
@@ -150,15 +158,41 @@ EOD;
         $this->persistenceManager->persistAll();
 
         return '{"success": "Document created", "id": ".'.$document->getDocumentIdentifier().'."}';
-    }
-
-    public function addFisIdAction($id) {
 
     }
 
-    public function addSuggestion() {
+    public function addFisIdAction($document, $id) {
+
+    }
+
+    /**
+     * @param Document $document
+     * @return string
+     */
+    public function suggestionAction(Document $document) {
         // Wiederherstellungsvorschlag und Dateien
 
+        if ($this->request->hasArgument('json')) {
+            $args = $this->request->getArguments();
+            $jsonData = $args['json'];
+        }
+
+        if (empty($jsonData)) {
+            return '{"error": "invalid data"}';
+        }
+
+        $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
+
+        /** @var Document $editOrigDocument */
+        $editOrigDocument = $mapper->editDocument($document, $jsonData);
+
+        $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument);
+
+        if ($suggestionDocument) {
+            return '{"success": "Suggestion created", "id": ".'.$suggestionDocument->getDocumentIdentifier().'."}';
+        } else {
+            return '{"failed": "Suggestion not created"}';
+        }
     }
 
     public function importDoiWithoutSavingAction($doi) {
@@ -178,28 +212,28 @@ EOD;
 
     }
 
-    /**
-     * Resolves and checks the current action method name
-     *
-     * @return string Method name of the current action
-     */
-    protected function resolveActionMethodName()
-    {
-        switch ($this->request->getMethod()) {
-            case 'HEAD':
-            case 'GET':
-                $actionName = ($this->request->hasArgument('document')) ? 'show' : 'list';
-                break;
-            case 'POST':
-                $actionName = 'create';
-                break;
-            case 'PUT':
-            case 'DELETE':
-                $this->throwStatus(400, null, 'Bad Request.');
-            default:
-                $this->throwStatus(400, null, 'Bad Request.');
-        }
-
-        return $actionName . 'Action';
-    }
+//    /**
+//     * Resolves and checks the current action method name
+//     *
+//     * @return string Method name of the current action
+//     */
+//    protected function resolveActionMethodName()
+//    {
+//        switch ($this->request->getMethod()) {
+//            case 'HEAD':
+//            case 'GET':
+//                $actionName = ($this->request->hasArgument('document')) ? 'show' : 'list';
+//                break;
+//            case 'POST':
+//                $actionName = 'create';
+//                break;
+//            case 'PUT':
+//            case 'DELETE':
+//                $this->throwStatus(400, null, 'Bad Request.');
+//            default:
+//                $this->throwStatus(400, null, 'Bad Request.');
+//        }
+//
+//        return $actionName . 'Action';
+//    }
 }

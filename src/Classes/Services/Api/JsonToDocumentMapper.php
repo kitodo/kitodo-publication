@@ -45,6 +45,38 @@ class JsonToDocumentMapper
     protected $documentRepository = null;
 
     /**
+     * Replaces the data from the document with the data from the json
+     * @param Document $document
+     * @param $jsonData
+     * @return Document
+     */
+    public function editDocument(Document $document, $jsonData) {
+
+        $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
+        $xmlData = $document->getXmlData();
+
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML($xmlData);
+
+        $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+
+        foreach ($metaData['mods'] as $groupKey => $group) {
+            $groupMapping = $group['mapping'];
+            if ($group['values']) {
+                foreach ($group['values'] as $fieldKey => $field) {
+                    $nodes = $xpath->query($groupMapping .'/'. $field['mapping']);
+                    $nodes->item(0)->nodeValue = $field['value'];
+                }
+            }
+        }
+
+        $xmlData = $domDocument->saveXML();
+        $document->setXmlData($xmlData);
+
+        return $document;
+    }
+
+    /**
      * Creates a document from the given json data
      *
      * @param string $jsonData
@@ -108,18 +140,24 @@ class JsonToDocumentMapper
     }
 
 
-    public function getMetadataFromJson($jsonData)
+    public function getMetadataFromJson($jsonData, $documentType = null)
     {
         $jsonObject = new JsonObject($jsonData);
-        $publicationType = $jsonObject->get('$.publicationType');
-        if ($publicationType && is_array($publicationType)) {
-            $publicationType = $publicationType[0];
+
+        if ($documentType) {
+            $publicationType = $documentType;
+        } else {
+            $publicationType = $jsonObject->get('$.publicationType');
+            if ($publicationType && is_array($publicationType)) {
+                $publicationType = $publicationType[0];
+            }
+
+            /** @var \EWW\Dpf\Domain\Model\DocumentType $documentType */
+            $documentType = $this->documentTypeRepository->findOneByName($publicationType);
         }
 
         $resultData = [];
 
-        /** @var \EWW\Dpf\Domain\Model\DocumentType $documentType */
-        $documentType = $this->documentTypeRepository->findOneByName($publicationType);
         if (empty($documentType)) {
             // default type
             $documentType = $this->documentTypeRepository->findOneByName('article');

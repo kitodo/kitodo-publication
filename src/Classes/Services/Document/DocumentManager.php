@@ -341,6 +341,69 @@ class DocumentManager
         return false;
     }
 
+    public function addSuggestion($editDocument, $restore = false, $comment = '') {
+
+        // add new document
+        /** @var Document $suggestionDocument */
+        $suggestionDocument = $this->objectManager->get(Document::class);
+        $this->documentRepository->add($suggestionDocument);
+        $this->persistenceManager->persistAll();
+
+        // copy properties from origin
+        $suggestionDocument = $suggestionDocument->copy($editDocument);
+
+        if ($suggestionDocument->isTemporary()) {
+            $suggestionDocument->setTemporary(false);
+        }
+
+        if (empty($suggestionDocument->getFileData())) {
+            // no files are linked to the document
+            $hasFilesFlag = false;
+        }
+
+        if ($editDocument->getObjectIdentifier()) {
+            $suggestionDocument->setLinkedUid($editDocument->getObjectIdentifier());
+        } else {
+            $suggestionDocument->setLinkedUid($editDocument->getUid());
+        }
+
+        $suggestionDocument->setSuggestion(true);
+        if ($comment) {
+            $suggestionDocument->setComment($comment);
+        }
+
+        if ($restore) {
+            $suggestionDocument->setTransferStatus("RESTORE");
+        }
+
+//        if (!$hasFilesFlag) {
+//            // Add or update files
+//            foreach ($documentForm->getNewFiles() as $newFile) {
+//                if ($newFile->getUID()) {
+//                    $this->fileRepository->update($newFile);
+//                } else {
+//                    $newFile->setDocument($suggestionDocument);
+//                    $this->fileRepository->add($newFile);
+//                }
+//
+//                $suggestionDocument->addFile($newFile);
+//            }
+//        } else {
+//            // remove files for suggest object
+//            $suggestionDocument->setFile($this->objectManager->get(ObjectStorage::class));
+//        }
+
+        try {
+//            $suggestionDocument->setCreator($this->security->getUser()->getUid());
+            $this->documentRepository->add($suggestionDocument);
+        } catch (\Throwable $t) {
+            return null;
+        }
+
+        return $suggestionDocument;
+
+    }
+
     /**
      * @param $document
      * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
