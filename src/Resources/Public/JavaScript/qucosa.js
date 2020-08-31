@@ -1374,9 +1374,13 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
                         var professions = '';
                         var date = '';
-                        $.each(value.professionOrOccupation, function(key, value) {
-                            professions += value.label + ' ';
-                        });
+
+                        if (value.professionOrOccupation !== undefined) {
+                            $.each(value.professionOrOccupation, function(key, value) {
+                                professions += value.label + ' ';
+                            });
+                        }
+
                         if (value.dateOfBirth) {
                             date = value.dateOfBirth;
                         }
@@ -1473,7 +1477,6 @@ var setDataRequest = function(url, dataId, context) {
                 var isFieldRepeatable = $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').length;
 
                 if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
-                    console.log(data);
                     // form field is empty and exists or form field is not empty and not repeatable, overwrite!
                     $('.' + key).val(data[key]);
                 } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
