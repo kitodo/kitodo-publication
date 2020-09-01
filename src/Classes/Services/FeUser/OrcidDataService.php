@@ -14,7 +14,7 @@ class OrcidDataService
     }
 
     public function searchTermReplacement($searchTerm) {
-        return str_replace(' ', '+', $searchTerm);
+        return urlencode($searchTerm);
     }
 
     public function searchPersonRequest($searchTerm) {
