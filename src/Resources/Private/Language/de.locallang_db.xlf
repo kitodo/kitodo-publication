@@ -499,7 +499,7 @@
 			<source>Input Field</source>
 			<target>Eingabefeld</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.deposit_license approved="yes">
+		<trans-unit id="tx_dpf_domain_model_metadataobject.deposit_license" approved="yes">
 			<source>Checkbox value</source>
 			<target>Checkbox-Wert</target>
 		</trans-unit>
