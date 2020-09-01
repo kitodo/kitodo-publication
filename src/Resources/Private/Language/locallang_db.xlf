@@ -92,6 +92,15 @@
 		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject">
 			<source>OA Publicationfond subject</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject">
+			<source>Deposit license subject</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_body">
+			<source>Deposit license body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.send_admin_deposit_license_notification">
+			<source>Send deposit license notification emails</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.suggestion_flashmessage">
 			<source>Suggestion flashmessage</source>
 		</trans-unit>
@@ -359,6 +368,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 			<source>Input Field</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.deposit_license">
+			<source>Checkbox value</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_option_list">
 			<source>Input option list</source>
 		</trans-unit>
@@ -469,6 +481,42 @@
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser">
             <source>FE user</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense">
+            <source>Deposit license</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.uri">
+            <source>Uri</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.title">
+            <source>Title</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.text">
+            <source>Text</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog">
+            <source>Deposit license log</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.username">
+            <source>Username</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.licence_uri">
+            <source>License uri</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.title">
+            <source>Title</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.object_identifier">
+            <source>Object identifier</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.process_number">
+            <source>Process number</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.urn">
+            <source>URN</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.file_names">
+            <source>File names</source>
         </trans-unit>
 		</body>
 	</file>

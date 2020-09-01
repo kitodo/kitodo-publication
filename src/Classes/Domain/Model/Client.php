@@ -250,6 +250,25 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminOaFondBody = '';
 
     /**
+     * adminDepositLicenseNotificationSubject
+     *
+     * @var string
+     */
+    protected $adminDepositLicenseNotificationSubject = '';
+
+    /**
+     * adminDepositLicenseNotificationBody
+     *
+     * @var string
+     */
+    protected $adminDepositLicenseNotificationBody = '';
+
+    /**
+     * @var bool
+     */
+    protected $sendAdminDepositLicenseNotification = false;
+
+    /**
      * @var string
      */
     protected $suggestionFlashmessage = '';
@@ -954,5 +973,52 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->suggestionFlashmessage = $suggestionFlashmessage;
     }
 
+    /**
+     * @return string
+     */
+    public function getAdminDepositLicenseNotificationSubject(): string
+    {
+        return $this->adminDepositLicenseNotificationSubject;
+    }
+
+    /**
+     * @param string $adminDepositLicenseNotificationSubject
+     */
+    public function setAdminDepositLicenseNotificationSubject(string $adminDepositLicenseNotificationSubject): void
+    {
+        $this->adminDepositLicenseNotificationSubject = $adminDepositLicenseNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminDepositLicenseNotificationBody(): string
+    {
+        return $this->adminDepositLicenseNotificationBody;
+    }
+
+    /**
+     * @param string $adminDepositLicenseNotificationBody
+     */
+    public function setAdminDepositLicenseNotificationBody(string $adminDepositLicenseNotificationBody): void
+    {
+        $this->adminDepositLicenseNotificationBody = $adminDepositLicenseNotificationBody;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendAdminDepositLicenseNotification(): bool
+    {
+        return $this->sendAdminDepositLicenseNotification;
+    }
+
+    /**
+     * @param bool $sendAdminDepositLicenseNotification
+     */
+    public function setSendAdminDepositLicenseNotification(bool $sendAdminDepositLicenseNotification): void
+    {
+        $this->sendAdminDepositLicenseNotification = $sendAdminDepositLicenseNotification;
+    }
 
 }

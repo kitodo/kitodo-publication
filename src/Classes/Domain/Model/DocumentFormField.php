@@ -33,6 +33,8 @@ class DocumentFormField extends AbstractFormElement
 
     protected $validation;
 
+    protected $depositLicense = null;
+
     /**
      * @var string
      */
@@ -246,6 +248,22 @@ class DocumentFormField extends AbstractFormElement
      */
     public function setMaxInputLength($maxInputLength) {
         $this->maxInputLength = $maxInputLength;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        return $this->depositLicense;
+    }
+
+    /**
+     * @param mixed $depositLicense
+     */
+    public function setDepositLicense($depositLicense): void
+    {
+        $this->depositLicense = $depositLicense;
     }
 
 }

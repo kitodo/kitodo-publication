@@ -184,6 +184,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   mapping varchar(255) DEFAULT '' NOT NULL,
   mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
   input_field int(11) DEFAULT '0' NOT NULL,
+  deposit_license int(11) DEFAULT '0' NOT NULL,
   input_option_list int(11) unsigned default '0',
   default_value text NOT NULL,
   fill_out_service varchar(255) DEFAULT '' NOT NULL,
@@ -420,6 +421,9 @@ CREATE TABLE tx_dpf_domain_model_client (
   admin_embargo_body text NOT NULL,
   admin_oa_fond_subject varchar(1024) DEFAULT '' NOT NULL,
   admin_oa_fond_body text NOT NULL,
+  admin_deposit_license_notification_subject varchar(1024) DEFAULT '' NOT NULL,
+  admin_deposit_license_notification_body text NOT NULL,
+  send_admin_deposit_license_notification tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   suggestion_flashmessage varchar(255) DEFAULT '' NOT NULL,
 
@@ -679,4 +683,92 @@ CREATE TABLE tx_dpf_domain_model_storedsearch (
   KEY parent (pid),
   KEY t3ver_oid (t3ver_oid,t3ver_wsid),
   KEY language (l10n_parent,sys_language_uid)
+);
+
+#
+# Table structure for table 'tx_dpf_domain_model_depositlicense'
+#
+CREATE TABLE tx_dpf_domain_model_depositlicense (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  uri varchar(1024) DEFAULT '' NOT NULL,
+  title varchar(1024) DEFAULT '' NOT NULL,
+  text text DEFAULT '' NOT NULL,
+
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  starttime int(11) unsigned DEFAULT '0' NOT NULL,
+  endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+  t3ver_oid int(11) DEFAULT '0' NOT NULL,
+  t3ver_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+  t3ver_label varchar(255) DEFAULT '' NOT NULL,
+  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+  t3ver_stage int(11) DEFAULT '0' NOT NULL,
+  t3ver_count int(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+  l10n_parent int(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource mediumblob,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+  KEY language (l10n_parent,sys_language_uid),
+
+  UNIQUE KEY uc_deposit_license_uri (uri,pid)
+
+);
+
+#
+# Table structure for table 'tx_dpf_domain_model_depositlicenselog'
+#
+CREATE TABLE tx_dpf_domain_model_depositlicenselog (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+
+  username varchar(1024) DEFAULT '' NOT NULL,
+  licence_uri varchar(1024) DEFAULT '' NOT NULL,
+  title  varchar(1024) DEFAULT '' NOT NULL,
+  object_identifier varchar(255) DEFAULT NULL,
+  process_number varchar(255) DEFAULT '' NOT NULL,
+  urn varchar(1024) DEFAULT '' NOT NULL,
+  file_names text NOT NULL,
+
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+  deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  starttime int(11) unsigned DEFAULT '0' NOT NULL,
+  endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+  t3ver_oid int(11) DEFAULT '0' NOT NULL,
+  t3ver_id int(11) DEFAULT '0' NOT NULL,
+  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
+  t3ver_label varchar(255) DEFAULT '' NOT NULL,
+  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
+  t3ver_stage int(11) DEFAULT '0' NOT NULL,
+  t3ver_count int(11) DEFAULT '0' NOT NULL,
+  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
+  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
+
+  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+  l10n_parent int(11) DEFAULT '0' NOT NULL,
+  l10n_diffsource mediumblob,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+  KEY language (l10n_parent,sys_language_uid),
+
 );

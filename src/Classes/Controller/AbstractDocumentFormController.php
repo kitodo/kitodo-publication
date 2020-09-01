@@ -20,6 +20,8 @@ use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 
 
 /**
@@ -67,6 +69,14 @@ abstract class AbstractDocumentFormController extends AbstractController
      * @inject
      */
     protected $metadataObjectRepository = null;
+
+    /**
+     * depositLicenseLogRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
+     * @inject
+     */
+    protected $depositLicenseLogRepository = null;
 
     /**
      * persistence manager
@@ -224,6 +234,37 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         $newDocument = $this->documentRepository->findByUid($newDocument->getUid());
         $this->persistenceManager->persistAll();
+
+        $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($newDocument->getProcessNumber());
+        if (empty($depositLicenseLog) && $newDocument->getDepositLicense()) {
+            // Only if there was no deposit license a notification may be sent
+
+            /** @var DepositLicenseLog $depositLicenseLog */
+            $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+            $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+            $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
+            $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
+            $depositLicenseLog->setTitle($newDocument->getTitle());
+            $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+            $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
+
+            if ($newDocument->getFileData()) {
+
+                $fileList = [];
+                foreach ($newDocument->getFile() as $file) {
+                    if (!$file->isFileGroupDeleted()) {
+                        $fileList[] = $file->getTitle();
+                    }
+                }
+                $depositLicenseLog->setFileNames(implode(", ", $fileList));
+            }
+
+            $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendDepositLicenseNotification($newDocument);
+        }
 
         // Add or update files
         $newFiles = $newDocumentForm->getNewFiles();

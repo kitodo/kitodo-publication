@@ -1243,6 +1243,36 @@
 				<source>Embargo expired (automatic)</source>
 				<target>Embargo abgelaufen (automatisch)</target>
 			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.body" approved="yes" xml:space="preserve">
+				<source>A deposit license has been given:
+	Username: ###LICENSE_USERNAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Processnumber: ###PROCESS_NUMBER###
+	Document-ID: ###DOCUMENT_IDENTIFIER###
+	Date: ###DATE###
+	Files: ###FILE_LIST###
+    License URI: ###LICENSE_URI###
+    License: ###LICENSE_TEXT###
+					</source>
+				<target>Eine Einverständiserklärung wurde abgegeben:
+	Benutzername: ###LICENSE_USERNAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Vorgangsnummer: ###PROCESS_NUMBER###
+	Dokument-ID: ###DOCUMENT_IDENTIFIER###
+	Datum: ###DATE###
+	Dateien: ###FILE_LIST###
+    Lizenz-URI: ###LICENSE_URI###
+    Lizenz: ###LICENSE_TEXT###
+					</target>
+			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.subject" approved="yes">
+				<source>Deposit license</source>
+				<target>Einverständniserklärung</target>
+			</trans-unit>
 			<trans-unit id="message.suggestion_flashmessage" approved="yes">
 				<source>Suggestion successfully saved</source>
 				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>

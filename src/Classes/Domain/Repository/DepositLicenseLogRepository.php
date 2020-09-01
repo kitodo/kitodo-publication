@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Domain\Repository;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,20 +14,10 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsConsentFieldViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+/**
+ * The repository for DepositLicenseLog
+ */
+class DepositLicenseLogRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
-
-    /**
-     *
-     * @param boolean $condition
-     * @return string
-     */
-    public function render($condition)
-    {
-        if ((TYPO3_MODE === 'BE') && $condition) {
-            return TRUE;
-        }
-        return FALSE;
-    }
 
 }

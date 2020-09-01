@@ -42,6 +42,7 @@ return array(
             admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+            admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
             suggestion_flashmessage',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
@@ -57,6 +58,7 @@ return array(
         admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
+        admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
         suggestion_flashmessage'
     ),
     'types'     => array(
@@ -68,6 +70,7 @@ return array(
         --div--;Upload, upload_directory, upload_domain,
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
+        --div--;Deposit License Notification, send_admin_deposit_license_notification, admin_deposit_license_notification_subject, admin_deposit_license_notification_body,
         --div--;Messages, suggestion_flashmessage,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
@@ -517,5 +520,36 @@ return array(
             ),
         ),
 
+        'admin_deposit_license_notification_subject' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_deposit_license_notification_subject',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+
+        'admin_deposit_license_notification_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.admin_deposit_license_notification_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+                'enableRichtext' => true,
+            ),
+        ),
+
+        'send_admin_deposit_license_notification'  => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.send_admin_deposit_license_notification',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
     ),
 );

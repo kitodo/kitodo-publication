@@ -16,6 +16,7 @@ namespace EWW\Dpf\Domain\Model;
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\Mods;
+use EWW\Dpf\Helper\Slub;
 
 /**
  * Document
@@ -62,7 +63,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $objectIdentifier = null;
+    protected $objectIdentifier = '';
 
     /**
      * reservedObjectIdentifier
@@ -109,7 +110,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string $processNumber
      */
-    protected $processNumber;
+    protected $processNumber = '';
 
     /**
      * @var bool $suggestion
@@ -959,6 +960,16 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEmbargoDate(?\DateTime $embargoDate)
     {
         $this->embargoDate = $embargoDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        $slub = new Slub($this->getSlubInfoData());
+        $data = $slub->getDepositLicense();
+        return $data;
     }
 
 }

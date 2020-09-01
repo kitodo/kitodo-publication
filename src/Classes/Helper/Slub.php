@@ -194,4 +194,13 @@ class Slub
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getDepositLicense()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:rights/slub:agreement/@given");
+        return $node->item(0)->nodeValue;
+    }
+
 }

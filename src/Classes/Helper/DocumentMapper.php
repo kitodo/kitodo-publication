@@ -71,6 +71,15 @@ class DocumentMapper
     protected $fileRepository = null;
 
     /**
+     * depositLicenseRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
+     * @inject
+     */
+    protected $depositLicenseRepository = null;
+
+
+    /**
      * Gets the document form representation of the document data
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -191,6 +200,9 @@ class DocumentMapper
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
 
+                            $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
+                            $documentFormField->setDepositLicense($depositLicense);
+
                             $objectMapping = "";
 
                             preg_match_all('/([A-Za-z0-9]+:[A-Za-z0-9]+(\[.*\])*|[A-Za-z0-9:@\.]+)/', $metadataObject->getRelativeMapping(), $objectMappingPath);
@@ -275,6 +287,9 @@ class DocumentMapper
                         $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                         $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                         $documentFormField->setValue("", $metadataObject->getDefaultValue());
+
+                        $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
+                        $documentFormField->setDepositLicense($depositLicense);
 
                         $documentFormGroup->addItem($documentFormField);
                     }

@@ -127,6 +127,18 @@
 			<source>OA Publicationfond subject</source>
 			<target>OA Publicationfond Subject</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject" approved="yes">
+			<source>Deposit license subject</source>
+			<target>Einverständniserklärung Thema</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_body" approved="yes">
+			<source>Deposit license body</source>
+			<target>Einverständniserklärung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.send_admin_deposit_license_notification" approved="yes">
+			<source>Send deposit license notification emails</source>
+			<target>Einverständniserklärungen per E-Mail versenden</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.suggestion_flashmessage">
 			<source>Suggestion flashmessage</source>
 			<target>Änderungs-/Wiederherstellungsvorschlag Flashmessage</target>
@@ -487,6 +499,10 @@
 			<source>Input Field</source>
 			<target>Eingabefeld</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.deposit_license approved="yes">
+			<source>Checkbox value</source>
+			<target>Checkbox-Wert</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_input_length" approved="yes">
 			<source>Max input length</source>
 			<target>Maximale Eingabelänge</target>
@@ -626,6 +642,54 @@
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser" approved="yes">
             <source>FE user</source>
             <target>FE-User</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense">
+            <source>Deposit license</source>
+            <target>Einverständniserklärung</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.uri">
+            <source>Uri</source>
+            <target>Uri</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.title">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.text">
+            <source>Text</source>
+            <target>Text</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog">
+            <source>Deposit license log</source>
+            <target>Einverständniserklärungs-Protokoll</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.username">
+            <source>Username</source>
+            <target>Benutzername</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.licence_uri">
+            <source>License uri</source>
+            <target>Lizenz-Uri</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.title">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.object_identifier">
+            <source>Object identifier</source>
+            <target>Objekt-Id</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.process_number">
+            <source>Process number</source>
+            <target>Vorgangsnummer</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.urn">
+            <source>URN</source>
+            <target>URN</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.file_names">
+            <source>File names</source>
+            <target>Dateinamen</target>
         </trans-unit>
 		</body>
 	</file>
