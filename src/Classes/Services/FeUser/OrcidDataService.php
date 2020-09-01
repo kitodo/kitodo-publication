@@ -14,12 +14,6 @@ class OrcidDataService
     }
 
     public function searchTermReplacement($searchTerm) {
-        $searchTerm = str_replace('ä', 'ae', $searchTerm);
-        $searchTerm = str_replace('Ä', 'Ae', $searchTerm);
-        $searchTerm = str_replace('ö', 'oe', $searchTerm);
-        $searchTerm = str_replace('Ö', 'Oe', $searchTerm);
-        $searchTerm = str_replace('ü', 'ue', $searchTerm);
-        $searchTerm = str_replace('Ü', 'Ue', $searchTerm);
         return str_replace(' ', '+', $searchTerm);
     }
 
