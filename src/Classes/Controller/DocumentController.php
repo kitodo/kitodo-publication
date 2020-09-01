@@ -197,7 +197,7 @@ class DocumentController extends AbstractController
 
         $this->view->assign('currentUser', $this->security->getUser());
         $this->view->assign('isWorkspace', $isWorkspace);
-        $this->view->assign('documents', ($documents? $documents : []));
+        $this->view->assign('documents', $documents);
     }
 
     /**

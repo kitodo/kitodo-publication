@@ -229,7 +229,22 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAuthors()
     {
-        return array_map('trim', explode(";", $this->authors));
+        $authors = @unserialize($this->authors);
+        if (is_array($authors)) {
+            return $authors;
+        } else {
+            $authors = [];
+            $items = array_map('trim', explode(";", $this->authors));
+            foreach ($items as $key => $value) {
+                $authors[] = [
+                    'name' => trim($value),
+                    'role' => 'aut',
+                    'fobId' => '',
+                    'index' => $key
+                ];
+            }
+            return $authors;
+        }
     }
 
     /**
