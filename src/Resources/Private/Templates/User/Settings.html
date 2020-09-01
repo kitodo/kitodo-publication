@@ -14,9 +14,11 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 <f:layout name="Backoffice"/>
-<f:flashMessages />
 <f:section name="main">
     <h1><f:translate key="manager.locallang.user.settings"/></h1>
+
+    <f:flashMessages />
+
     <f:form id="userSettings" action="saveSettings" object="{frontendUser}" objectName="frontendUser">
         <div class="form-row col-md-4">
             <f:alias map="{usersetting: '1', api: 'Fis'}">

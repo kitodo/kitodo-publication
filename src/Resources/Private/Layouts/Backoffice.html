@@ -29,6 +29,12 @@
                     <f:link.action class="nav-link" action="settings" controller="User">
                         <i class="fas fa-user"></i>
                         <f:cObject typoscriptObjectPath="lib.feUsername"></f:cObject>
+                        <f:if condition="{dpf:isFisIdMissing()}">
+                            <span data-toggle="tooltip" title="{f:translate(key:'manager.locallang.user.settings.fisid_warning')}"/>
+                                <i class="fas fa-exclamation-triangle {f:if(condition:'{dpf:isFisIdMissing()}', then:'text-danger', else:'')}"></i>
+                            </span>
+                        </f:if>
+
                     </f:link.action>
                 </li>
                 <li class="nav-item pr-2">

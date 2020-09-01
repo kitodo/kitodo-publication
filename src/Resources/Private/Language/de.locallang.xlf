@@ -1691,6 +1691,10 @@
 				<source>Save</source>
 				<target>Speichern</target>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.fisid_warning" approved="yes">
+				<source>In order to improve the view of your own publications and to activate personalized functions, you can link your FIS-ID. To do this, go to "Search in FIS" in the user area, search for yourself and save the ID found.</source>
+				<target>Um die Sicht auf Ihre eigenen Publikationen zu verbessern und personalisierte Funktionen zuzuschalten, können Sie Ihre FIS-ID verknüpfen. Gehen Sie dazu im Benutzerbereich auf "Suche in FIS", suchen Sie nach sich selbst und speichern Sie die gefundene ID.</target>
+			</trans-unit>
 			<trans-unit id="manager.apimodal.close" approved="yes">
                 <source>Close</source>
                 <target>Schließen</target>

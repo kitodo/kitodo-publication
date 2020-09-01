@@ -44,13 +44,13 @@ class UserController  extends AbstractController
                 $frontendUser->setFisPersId("");
 
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING;
-                $this->addFlashMessage("FIS User nicht gefunden", '', $severity,false);
+                $this->addFlashMessage("FIS-Identifikator war ungültig und wurde nicht gespeichert.", '', $severity,false);
             }
         }
 
         $this->frontendUserRepository->update($frontendUser);
         $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        $this->addFlashMessage("Success", '', $severity,false);
+        $this->addFlashMessage("Änderungen wurden gespeichert.", '', $severity,false);
 
         $this->forward('settings');
     }
