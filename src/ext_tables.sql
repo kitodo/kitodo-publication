@@ -693,7 +693,7 @@ CREATE TABLE tx_dpf_domain_model_depositlicense (
   uid int(11) NOT NULL auto_increment,
   pid int(11) DEFAULT '0' NOT NULL,
 
-  uri varchar(1024) DEFAULT '' NOT NULL,
+  uri varchar(255) DEFAULT '' NOT NULL,
   title varchar(1024) DEFAULT '' NOT NULL,
   text text DEFAULT '' NOT NULL,
 
