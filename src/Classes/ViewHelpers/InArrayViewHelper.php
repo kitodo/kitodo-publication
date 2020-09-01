@@ -23,7 +23,10 @@ class InArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
      */
     public function render($needle, $array)
     {
-        return in_array($needle, $array);
+        if (is_array($array)) {
+            return in_array($needle, $array);
+        }
+        return false;
     }
 
 }

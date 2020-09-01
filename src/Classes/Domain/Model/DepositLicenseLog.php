@@ -113,7 +113,7 @@ class DepositLicenseLog extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @param string $objectIdentifier
      */
-    public function setObjectIdentifier(string $objectIdentifier): void
+    public function setObjectIdentifier($objectIdentifier): void
     {
         $this->objectIdentifier = $objectIdentifier;
     }
