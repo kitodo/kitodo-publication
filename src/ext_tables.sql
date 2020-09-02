@@ -609,6 +609,7 @@ CREATE TABLE fe_users (
   notify_fulltext_published tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_new_publication_mypublication tinyint(4) unsigned DEFAULT '0' NOT NULL,
   fis_pers_id varchar(255) DEFAULT '' NOT NULL,
+  orga_name varchar(255) DEFAULT '' NOT NULL,
 );
 
 #

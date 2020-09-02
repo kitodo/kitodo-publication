@@ -1419,10 +1419,16 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
     if (optionalText) {
         var text = ' (' + optionalText + ') ';
     }
+    var orgaName = '';
+    if (all.organisationalUnits !== undefined) {
+        $.each(all.organisationalUnits, function(key, value) {
+            orgaName += value.titleDe + ',';
+        });
+    }
 
     return '<li style="margin-bottom:1rem;" class="container">' +
         '<div class="row">' +
-        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '" data-surname="'+all.surname+'" data-givenname="'+all.givenName+'">' +
+        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '" data-surname="'+all.surname+'" data-givenname="'+all.givenName+'" data-organame="'+orgaName+'">' +
         'Übernehmen' +
         '</button></div>' +
         '<div class="col-6">' +
@@ -1441,6 +1447,7 @@ var addFoundUserData = function () {
             $('#fisPersId').val($(this).data('id'));
             $('#firstName').val($(this).data('givenname'));
             $('#lastName').val($(this).data('surname'));
+            $('#orgaName').val($(this).data('organame'));
             $(this).closest('.modal').modal('hide');
         } else if (input.data('usersettings') == 'extSearch') {
             $('#search-field-default-value').val($(this).data('id'));

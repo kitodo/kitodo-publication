@@ -58,6 +58,11 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected $fisPersId = '';
 
     /**
+     * @var string organisation names
+     */
+    protected $orgaName = '';
+
+    /**
      * @var boolean
      */
     protected $notifyFulltextPublished = 0;
@@ -256,5 +261,23 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     {
         $this->fisPersId = $fisPersId;
     }
+
+    /**
+     * @return string
+     */
+    public function getOrgaName(): string
+    {
+        return $this->orgaName;
+    }
+
+    /**
+     * @param string $orgaName
+     */
+    public function setOrgaName(string $orgaName): void
+    {
+        $this->orgaName = $orgaName;
+    }
+
+
 
 }

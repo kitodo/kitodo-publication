@@ -95,6 +95,15 @@ $temporaryColumns = array (
             'eval' => 'trim',
         ),
     ),
+    'orga_name' => array(
+        'exclude' => 0,
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.orga_name',
+        'config'  => array(
+            'type' => 'input',
+            'size' => '30',
+            'eval' => 'trim',
+        ),
+    ),
 
 );
 
@@ -106,7 +115,7 @@ $temporaryColumns = array (
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    'stored_searches,notify_on_changes,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication,fis_pers_id',
+    'stored_searches,notify_on_changes,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication,fis_pers_id,orga_name',
     '',
     'after:title'
 );
