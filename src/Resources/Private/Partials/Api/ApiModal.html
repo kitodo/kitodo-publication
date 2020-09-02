@@ -39,7 +39,7 @@
                 </div>
                 <f:if condition="!{removePersonSwitch}">
                     <f:then>
-                        <div class="form-check form-check-inline">
+                        <div class="form-check form-check-inline" style="{f:if(condition:'{hidePersonSwitch}', then:'display:none;', else:'')}">
                             <input class="form-check-input" type="radio" name="searchTypeRadio" id="personRadio" value="person" checked>
                             <label class="form-check-label" for="personRadio">Personen</label>
                         </div>
