@@ -1380,15 +1380,24 @@ var searchInputKeyupHandler = function() {
                                 professions += value.label + ' ';
                             });
                         }
-
                         if (value.dateOfBirth) {
                             date = value.dateOfBirth;
                         }
                         if (value.dateOfDeath) {
                             date += ' - ' + value.dateOfDeath;
                         }
+                        var optionalText = '';
+                        if (date) {
+                            optionalText = date;
+                        }
+                        if (professions) {
+                            if (date) {
+                                optionalText += ', ';
+                            }
+                            optionalText += professions.trim();
+                        }
 
-                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, date + ' ' + professions));
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, optionalText));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
                         hitListElement.append(listHtml(value.name, value.id, allData));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
