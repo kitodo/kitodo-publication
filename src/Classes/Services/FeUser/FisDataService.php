@@ -116,6 +116,7 @@ class FisDataService
                     {         
                         titleDe
                         id
+                        parentOrgaName
                     }     
                 }   
             } 

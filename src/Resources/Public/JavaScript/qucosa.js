@@ -1367,7 +1367,7 @@ var searchInputKeyupHandler = function() {
                             }
                             hitListElement.append(listHtml(value.fullName, value.fisPersid, allData, optionalText));
                         } else if (radioType == 'organisation'){
-                            hitListElement.append(listHtml(value.titleDe, value.id, allData));
+                            hitListElement.append(listHtml(value.titleDe + ' (' + value.parentOrgaName + ')', value.id, allData));
                         }
                     } else if ($(that).attr('class') === 'fis-orga-search-input') {
                         hitListElement.append(listHtml(value.titleDe, value.id, allData));
