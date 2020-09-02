@@ -1372,29 +1372,31 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'fis-orga-search-input') {
                         hitListElement.append(listHtml(value.titleDe, value.id, allData));
                     } else if ($(that).attr('class') === 'gnd-user-search-input') {
-                        var professions = '';
-                        var date = '';
+                        if (radioType == 'person') {
+                            var professions = '';
+                            var date = '';
 
-                        if (value.professionOrOccupation !== undefined) {
-                            $.each(value.professionOrOccupation, function(key, value) {
-                                professions += value.label + ' ';
-                            });
-                        }
-                        if (value.dateOfBirth) {
-                            date = value.dateOfBirth;
-                        }
-                        if (value.dateOfDeath) {
-                            date += ' - ' + value.dateOfDeath;
-                        }
-                        var optionalText = '';
-                        if (date) {
-                            optionalText = date;
-                        }
-                        if (professions) {
-                            if (date) {
-                                optionalText += ', ';
+                            if (value.professionOrOccupation !== undefined) {
+                                $.each(value.professionOrOccupation, function (key, value) {
+                                    professions += value.label + ' ';
+                                });
                             }
-                            optionalText += professions.trim();
+                            if (value.dateOfBirth) {
+                                date = value.dateOfBirth;
+                            }
+                            if (value.dateOfDeath) {
+                                date += ' - ' + value.dateOfDeath;
+                            }
+                            var optionalText = '';
+                            if (date) {
+                                optionalText = date;
+                            }
+                            if (professions) {
+                                if (date) {
+                                    optionalText += ', ';
+                                }
+                                optionalText += professions.trim();
+                            }
                         }
 
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, optionalText));
