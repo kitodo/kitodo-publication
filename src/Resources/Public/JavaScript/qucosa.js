@@ -1403,7 +1403,16 @@ var searchInputKeyupHandler = function() {
 
                         hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, optionalText));
                     } else if ($(that).attr('class') === 'ror-user-search-input') {
-                        hitListElement.append(listHtml(value.name, value.id, allData));
+                        var optionalText = '';
+
+                        if (allData.type) {
+                            optionalText += allData.type;
+                        }
+                        if (allData.aliases) {
+                            optionalText += allData.aliases;
+                        }
+
+                        hitListElement.append(listHtml(value.name, value.id, allData, optionalText));
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.identifier, allData, value.publisher));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
