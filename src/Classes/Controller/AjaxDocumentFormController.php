@@ -81,7 +81,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setGndFieldUid($object->getGndFieldUid());
             $field->setMaxInputLength($object->getMaxInputLength());
             $field->setValue("", $object->getDefaultValue());
-            $field->setObjectType("", $object->getObjectType());
+            $field->setObjectType($object->getObjectType());
 
             $groupItem->addItem($field);
         }
@@ -132,7 +132,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setGndFieldUid($field->getGndFieldUid());
         $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());
-        $fieldItem->setObjectType("", $field->getObjectType());
+        $fieldItem->setObjectType($field->getObjectType());
 
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);

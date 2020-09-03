@@ -847,6 +847,8 @@ var addGroup = function() {
         datepicker();
         addRemoveFileButton();
         userSearch(group);
+        userSearchModalFillout();
+        addMyUserData();
 
         // gnd autocomplete for new groups
         var gndField = jQuery(group).find(".gnd");
@@ -1497,7 +1499,7 @@ var setDataRequest = function(url, dataId, context) {
 
                 if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
                     // form field is empty and exists or form field is not empty and not repeatable, overwrite!
-                    $('.' + key).val(data[key]);
+                    $('.' + key).val(data[key]).change();
                 } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
                     // form field exists and is not empty
                     // add new form input
@@ -1518,7 +1520,7 @@ var setDataRequest = function(url, dataId, context) {
                     newKeyMapping.set(keyWithoutFieldIndex, i);
 
                     isElementLoaded('.' + newKey, key, function (element, fieldKey) {
-                        $(element).val(data[fieldKey]);
+                        $(element).val(data[fieldKey]).change();
                     });
 
                 } else {
@@ -1535,7 +1537,7 @@ var setDataRequest = function(url, dataId, context) {
                         // add new form input
                         $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
                         isElementLoaded('.' + key, datakey, function (element, fieldKey) {
-                            $(element).val(data[fieldKey]);
+                            $(element).val(data[fieldKey]).change();
                         });
                     }
                 }
@@ -1560,9 +1562,13 @@ var isElementLoaded = function (element, fieldKey, callback, counter = 0) {
 }
 
 var addMyUserData = function() {
-    $('#addMyData').on('click', function () {
+    $('.addMyData').on('click', function () {
         setDataRequest($(this).data('ajax'), $(this).data('personid'), $(this));
-        jQuery('button.addMyData').attr('disabled','disabled');
+    });
+
+    jQuery("[data-objecttype='fispersonid']").on('change', function() {
+        var fisPersonIdentifiers = getFisPersonIdentifiers();
+        toggleAddMyUserDataButton(fisPersonIdentifiers);
     });
 
     var fisPersonIdentifiers = getFisPersonIdentifiers();
@@ -1576,11 +1582,8 @@ var addMyUserData = function() {
 
 var getFisPersonIdentifiers = function() {
     fisPersonIdentifiers = [];
-    var fisPersonId = jQuery('.addMyData').data('personid');
     jQuery("[data-objecttype='fispersonid']").each(function() {
-        if (fisPersonId == jQuery(this).val()) {
-            fisPersonIdentifiers.push(jQuery(this).val());
-        }
+        fisPersonIdentifiers.push(jQuery(this).val());
     });
 
     return fisPersonIdentifiers;
@@ -1589,9 +1592,9 @@ var getFisPersonIdentifiers = function() {
 var toggleAddMyUserDataButton = function(fisPersonIdentifiers) {
     var fisPersonId = jQuery('.addMyData').data('personid');
     if (fisPersonIdentifiers.includes(fisPersonId)) {
-        jQuery('button.addMyData').attr('disabled','disabled');
+        jQuery('button.addMyData').hide();
     } else {
-        jQuery('button.addMyData').removeAttr('disabled');
+        jQuery('button.addMyData').show();
     }
 }
 
@@ -1683,6 +1686,8 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".rem_group", function() {
         jQuery(this).parents("fieldset").fadeOut(300, function() {
             jQuery(this).remove();
+            var fisPersonIdentifiers = getFisPersonIdentifiers();
+            toggleAddMyUserDataButton(fisPersonIdentifiers);
         });
         return false;
     });
