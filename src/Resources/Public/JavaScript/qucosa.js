@@ -50,12 +50,15 @@ var documentFormGroupSelector = {
                         isGroupLoaded(
                             'fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]',
                             function () {
-                                jQuery('.addMyData').attr("disabled", "disabled");
+                                jQuery('.addMyData').hide();
                                 var activeGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]');
                                 //var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
                                 var context = activeGroupElement.find('.addMyData').first();
                                 setDataRequest(context.data('ajax'), jQuery('form').data('fispersid'), context);
                                 jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
+                                jQuery('html, body').animate({
+                                    scrollTop: jQuery(activeGroupElement).offset().top - 150
+                                }, 0);
                             });
                     }
                 }
