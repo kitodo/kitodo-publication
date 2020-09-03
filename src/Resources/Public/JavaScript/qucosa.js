@@ -1606,7 +1606,7 @@ var userSearchModalFillout = function() {
         jQuery(this).find("#personRadio").prop('checked', true);
         var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
         if (surname.length > 0) {
-            jQuery(this).find('.fis-user-search-input').val(surname);
+            jQuery(this).find('.fis-user-search-input').val('surname');
         }
     })
 }
