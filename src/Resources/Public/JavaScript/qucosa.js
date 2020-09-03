@@ -155,6 +155,17 @@ var extendedSearch = {
             // Reset field values
             jQuery("#add-searchfield-dialog .search-field-value").val("");
 
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").hide();
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").hide();
+
+            if (field == 'persons') {
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").show();
+            }
+
+            if (field == 'affiliation') {
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").show();
+            }
+
             jQuery("#add-searchfield-dialog").modal('show');
 
             e.preventDefault();
@@ -1340,9 +1351,9 @@ var searchInputKeyupHandler = function() {
         let params = {};
         params['tx_dpf_backoffice[searchTerm]'] = searchValue;
         // type person or organisation
-        params['tx_dpf_backoffice[type]'] = $("input[name='searchTypeRadio']:checked").val();
+        params['tx_dpf_backoffice[type]'] = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
 
-        var radioType = $("input[name='searchTypeRadio']:checked").val();
+        var radioType = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
 
         $.ajax({
             type: "POST",
@@ -1490,7 +1501,7 @@ var setDataRequest = function(url, dataId, context) {
     params['tx_dpf_backoffice[groupIndex]'] = context.data('groupindex');
     params['tx_dpf_backoffice[fieldIndex]'] = 0;
     params['tx_dpf_backoffice[pageId]'] = context.data('page');
-    params['tx_dpf_backoffice[type]'] = $("input[name='searchTypeRadio']:checked").val();
+    params['tx_dpf_backoffice[type]'] = context.closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
 
     $.ajax({
         type: "POST",
@@ -1615,8 +1626,8 @@ var userSearchModalFillout = function() {
     });
 
     $('.FisSearchModal').on('shown.bs.modal', function () {
-        jQuery(this).find("#orgaRadio").prop('checked', false);
-        jQuery(this).find("#personRadio").prop('checked', true);
+        //jQuery(this).find("#orgaRadio").prop('checked', false);
+        //jQuery(this).find("#personRadio").prop('checked', true);
         var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
         if (typeof surname !== 'undefined') {
             if (surname.length > 0) {

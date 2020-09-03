@@ -12,46 +12,9 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#userSearchModal-{groupIndex}">FIS Personen</button>
 <f:alias map="{usersetting: 'extSearch'}">
-    <f:render partial="Api/FisModal" arguments="{_all}" />
+    <f:alias map="{showOrgaSwitch:0, removePersonSwitch:0, api:'Fis', usersettings:'extSearch'}">
+        <f:render partial="Api/ApiModal" arguments="{_all}"/>
+    </f:alias>
 </f:alias>
-<button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#orgaSearchModal-{groupIndex}">FIS Organisationen</button>
 
-<f:comment> MODAL SEARCH FIS ORGANIZATIONS </f:comment>
-<div class="modal fade" id="orgaSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="orgaSearchModal-{groupIndex}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userSearchModalTitle-{groupIndex}">FIS-Suche Organisationen</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-check form-check-inline">
-                    <input style="margin-bottom: 1rem;" class="fis-orga-search-input" type="text" data-usersettings="extSearch" data-personid="{fisPersId}"
-                        data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
-                        data-ajax="{f:uri.action(action:'searchFisOrga',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
-                        autofocus>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-
-                <div class="user-search-list-{groupIndex}">
-                    <ul style="list-style-type: none;padding:0;">
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>

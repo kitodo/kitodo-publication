@@ -40,16 +40,16 @@
                 <f:if condition="!{removePersonSwitch}">
                     <f:then>
                         <div class="form-check form-check-inline" style="{f:if(condition:'{hidePersonSwitch}', then:'display:none;', else:'')}">
-                            <input class="form-check-input" type="radio" name="searchTypeRadio" id="personRadio" value="person" checked>
+                            <input class="form-check-input" type="radio" name="searchTypeRadio-{groupIndex}" id="personRadio" value="person" checked>
                             <label class="form-check-label" for="personRadio">Personen</label>
                         </div>
                     </f:then>
                 </f:if>
 
-                <f:if condition="!{usersetting} && {showOrgaSwitch}">
+                <f:if condition="!{usersetting} || {usersetting} == 'extSearch' && {showOrgaSwitch}">
                     <f:then>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="searchTypeRadio" id="orgaRadio" value="organisation">
+                            <input class="form-check-input" type="radio" name="searchTypeRadio-{groupIndex}" id="orgaRadio" value="organisation" {f:if(condition:'{removePersonSwitch}', then: 'checked', else:'')}>
                             <label class="form-check-label" for="orgaRadio">Organisationen</label>
                         </div>
                     </f:then>

@@ -151,6 +151,10 @@ body {
     margin-bottom: 1rem;
 }
 
+#add-searchfield-dialog .user-search-div {
+    margin: .25rem !important;
+}
+
 @media only screen and (max-width: 1200px) {
     #tx-dpf-backoffice #extended-search-query-group textarea {
         min-height: 100px;
