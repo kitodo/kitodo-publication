@@ -1433,8 +1433,9 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
     var orgaName = '';
     if (all.organisationalUnits !== undefined) {
         $.each(all.organisationalUnits, function(key, value) {
-            orgaName += value.titleDe + ',';
+            orgaName += value.titleDe + ', ';
         });
+        orgaName = orgaName.slice(0, -2);
     }
 
     return '<li style="margin-bottom:1rem;" class="container">' +
