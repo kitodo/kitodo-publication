@@ -1391,8 +1391,9 @@ var searchInputKeyupHandler = function() {
 
                             if (value.professionOrOccupation !== undefined) {
                                 $.each(value.professionOrOccupation, function (key, value) {
-                                    professions += value.label + ' ';
+                                    professions += value.label + ', ';
                                 });
+                                professions = professions.slice(0, -2);
                             }
                             if (value.dateOfBirth) {
                                 date = value.dateOfBirth;
