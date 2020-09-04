@@ -88,7 +88,7 @@ $temporaryColumns = array (
     ),
     'fis_pers_id' => array(
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.fis_pers_id',
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feuser.fis_pers_id',
         'config'  => array(
             'type' => 'input',
             'size' => '30',
@@ -97,7 +97,7 @@ $temporaryColumns = array (
     ),
     'orga_name' => array(
         'exclude' => 0,
-        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.orga_name',
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feuser.orga_name',
         'config'  => array(
             'type' => 'input',
             'size' => '30',
