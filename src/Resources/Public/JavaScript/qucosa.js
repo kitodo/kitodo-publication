@@ -1461,7 +1461,11 @@ $(document).ready(function() {
         addGroup(e.target);
         return false;
     });
-    jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_file_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
+
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
