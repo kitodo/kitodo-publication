@@ -247,6 +247,35 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendAdminNewSuggestionNotification($newDocument);
 
+            $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($newDocument->getProcessNumber());
+            if (empty($depositLicenseLog) && $newDocument->getDepositLicense()) {
+                // Only if there was no deposit license a notification may be sent
+
+                /** @var DepositLicenseLog $depositLicenseLog */
+                $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+                $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
+                $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
+                $depositLicenseLog->setTitle($newDocument->getTitle());
+                $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+                $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
+
+                if ($newDocument->getFileData()) {
+                    $fileList = [];
+                    foreach ($newDocument->getFile() as $file) {
+                        $fileList[] = $file->getTitle();
+                    }
+                    $depositLicenseLog->setFileNames(implode(", ", $fileList));
+                }
+
+
+                $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+                /** @var Notifier $notifier */
+                $notifier = $this->objectManager->get(Notifier::class);
+                $notifier->sendDepositLicenseNotification($newDocument);
+            }
+
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             $this->addFlashMessage("Failed", '', $severity,false);

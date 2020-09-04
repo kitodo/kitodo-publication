@@ -249,39 +249,7 @@ class DocumentController extends AbstractController
 
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
-
-            $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($originDocument->getProcessNumber());
-            if (empty($depositLicenseLog) && $originDocument->getDepositLicense()) {
-                // Only if there was no deposit license a notification may be sent
-
-                /** @var DepositLicenseLog $depositLicenseLog */
-                $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
-                $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
-                $depositLicenseLog->setObjectIdentifier($originDocument->getObjectIdentifier());
-                $depositLicenseLog->setProcessNumber($originDocument->getProcessNumber());
-                $depositLicenseLog->setTitle($originDocument->getTitle());
-                $depositLicenseLog->setUrn($originDocument->getQucosaUrn());
-                $depositLicenseLog->setLicenceUri($originDocument->getDepositLicense());
-
-                if ($originDocument->getFileData()) {
-
-                    $fileList = [];
-                    foreach ($originDocument->getFile() as $file) {
-                        if (!$file->isFileGroupDeleted()) {
-                            $fileList[] = $file->getTitle();
-                        }
-                    }
-                    $depositLicenseLog->setFileNames(implode(", ", $fileList));
-                }
-
-                $this->depositLicenseLogRepository->add($depositLicenseLog);
-
-                /** @var Notifier $notifier */
-                $notifier = $this->objectManager->get(Notifier::class);
-                $notifier->sendDepositLicenseNotification($originDocument);
-            }
-
-
+            
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }
