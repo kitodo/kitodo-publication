@@ -1196,6 +1196,9 @@
 			<trans-unit id="manager.locallang.user.settings.identifier" approved="yes">
 				<source>Identifier</source>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.orgaName" approved="yes">
+				<source>Organisational Unit</source>
+			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
 				<source>To receive notifications, you can enter your email address here.</source>
 			</trans-unit>

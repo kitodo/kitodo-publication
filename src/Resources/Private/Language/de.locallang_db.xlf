@@ -627,6 +627,14 @@
             <source>FE user</source>
             <target>FE-User</target>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.fis_pers_id">
+			<source>Identifier</source>
+			<target>Identifier</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.orga_name">
+			<source>Organisational Unit</source>
+			<target>Organisational Unit</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

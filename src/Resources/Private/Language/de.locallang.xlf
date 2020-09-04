@@ -1655,6 +1655,10 @@
 				<source>Identifier</source>
 				<target>Identifikator</target>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.orgaName" approved="yes">
+				<source>Organisational Unit</source>
+				<target>Organisationseinheit</target>
+			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
 				<source>To receive notifications, you can enter your email address here.</source>
 				<target>Um Benachrichtigungen zu erhalten, können Sie hier Ihre E-Mail-Adresse eintragen.</target>
