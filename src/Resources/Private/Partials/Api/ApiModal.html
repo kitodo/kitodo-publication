@@ -16,7 +16,16 @@
 <f:comment> MODAL SEARCH API </f:comment>
 
 <div class="user-search-div" style="float: left;margin-right: 1rem;">
-    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">Suche in {api -> f:format.case(mode: 'upper')}</button>
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">
+        <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
+            <f:then>
+                Suche in {api -> f:format.case(mode: 'capital')}
+            </f:then>
+            <f:else>
+                Suche in {api -> f:format.case(mode: 'upper')}
+            </f:else>
+        </f:if>
+    </button>
 </div>
 
 <div class="modal fade {api}SearchModal" id="{api}SearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{groupIndex}" aria-hidden="true">
