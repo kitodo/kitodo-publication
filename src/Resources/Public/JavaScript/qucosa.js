@@ -1428,7 +1428,7 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.identifier, allData, value.publisher));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.doi, allData, value.doi, value.color));
+                        hitListElement.append(listHtml(value.title, value.doi, allData, value.best_oa_location.url_for_landing_page, value.oa_status));
                     } else if ($(that).attr('class') === 'orcid-user-search-input') {
                         hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], allData, value["orcid-id"]));
                     }
