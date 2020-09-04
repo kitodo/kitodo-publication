@@ -1639,7 +1639,13 @@ var userSearchModalFillout = function() {
                 jQuery(this).find('.fis-user-search-input').val(surname);
             }
         }
-    })
+    });
+
+    $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
+        var doiValue = $(this).closest('fieldset').find('*[data-objecttype="unpaywallDoi"]').val();
+        $(this).find('.unpaywall-user-search-input').val(doiValue);
+        searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+    });
 }
 
 // -------------------------------------------------------

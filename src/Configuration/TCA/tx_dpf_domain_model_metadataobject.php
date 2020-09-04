@@ -419,6 +419,7 @@ return array(
                     ['---', ''],
                     ['Surname', 'surname'],
                     ['FIS-Person-ID', 'fispersonid'],
+                    ['UnpaywallDoi', 'unpaywallDoi'],
                 ],
             ],
         ],
