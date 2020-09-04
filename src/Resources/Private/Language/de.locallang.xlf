@@ -1657,7 +1657,7 @@
 			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings.orgaName" approved="yes">
 				<source>Organisational Unit</source>
-				<target>Organisationseinheit</target>
+				<target>Organisationseinheit(en)</target>
 			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
 				<source>To receive notifications, you can enter your email address here.</source>
