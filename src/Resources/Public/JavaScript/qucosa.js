@@ -1443,7 +1443,7 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
     JSON.stringify(all).replace(/"/g, '');
 
     if (color) {
-        colorHtml = '<span class="fa fa-circle" style="color: ' + color + ' "></span>';
+        colorHtml = '('+color+')';
     } else {
         colorHtml = '';
     }
@@ -1466,7 +1466,7 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
         'Übernehmen' +
         '</button></div>' +
         '<div class="col-6">' +
-        colorHtml + name + text +
+        name + text + colorHtml +
         '</div>' +
         '</div>' +
         '</li>';
