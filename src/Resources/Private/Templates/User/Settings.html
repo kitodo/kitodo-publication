@@ -62,15 +62,15 @@
                     <f:form.checkbox id="notifyOnChanges" property="notifyOnChanges" value="1" class="form-check-input" />
                     <label for="notifyOnChanges" class="form-check-label"><f:translate key="manager.locallang.user.settings.changes_mypublications"/></label>
                     <div class="form-check">
-                        <f:form.checkbox property="notifyPersonalLink" value="1" class="form-check-input" />
+                        <f:form.checkbox property="notifyPersonalLink" value="1" class="form-check-input notifyOnChanges-child" />
                         <label class="form-check-label"><f:translate key="manager.locallang.user.settings.assigned_myself"/></label>
                     </div>
                     <div class="form-check">
-                        <f:form.checkbox property="notifyStatusChange" value="1" class="form-check-input" />
+                        <f:form.checkbox property="notifyStatusChange" value="1" class="form-check-input notifyOnChanges-child" />
                         <label class="form-check-label"><f:translate key="manager.locallang.user.settings.on_status_change"/></label>
                     </div>
                     <div class="form-check">
-                        <f:form.checkbox property="notifyFulltextPublished" value="1" class="form-check-input" />
+                        <f:form.checkbox property="notifyFulltextPublished" value="1" class="form-check-input notifyOnChanges-child" />
                         <label class="form-check-label"><f:translate key="manager.locallang.user.settings.fulltext_media_published"/></label>
                     </div>
                 </div>

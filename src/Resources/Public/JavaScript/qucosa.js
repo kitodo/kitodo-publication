@@ -12,6 +12,22 @@
  */
 
 
+var userNotifcationSettings = {
+    init: function() {
+
+        if (!jQuery("#notifyOnChanges").prop("checked")) {
+            jQuery(".notifyOnChanges-child").prop("disabled","true");
+        }
+
+        jQuery("#notifyOnChanges").on("click", function(){
+            if (jQuery(this).prop("checked")) {
+                jQuery(this).parent().find(".notifyOnChanges-child").prop("disabled",false);
+            } else {
+                jQuery(this).parent().find(".notifyOnChanges-child").prop("disabled",true);
+            }
+        });
+    }
+}
 
 var saveExtendedSearch = {
 
@@ -1680,6 +1696,8 @@ $(document).ready(function() {
     extendedSearch.init();
     saveExtendedSearch.init();
     openExtendedSearch.init();
+
+    userNotifcationSettings.init();
 
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
