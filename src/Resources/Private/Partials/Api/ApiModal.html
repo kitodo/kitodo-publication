@@ -32,7 +32,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="{api}SearchModalTitle-{groupIndex}">{api -> f:format.case(mode: 'upper')}-Suche</h5>
+                <h5 class="modal-title" id="{api}SearchModalTitle-{groupIndex}">
+                    <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
+                        <f:then>
+                            {api -> f:format.case(mode: 'capital')}-Suche
+                        </f:then>
+                        <f:else>
+                            {api -> f:format.case(mode: 'upper')}-Suche
+                        </f:else>
+                    </f:if>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
