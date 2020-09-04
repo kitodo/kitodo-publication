@@ -200,8 +200,10 @@ class ElasticSearch
                                     'type' => 'integer'
                                 ]
                             ]
-                        ]
-
+                        ],
+                        'affiliation' => [
+                            'type' => 'keyword'
+                        ],
                     ]
                 ]
             ]
@@ -272,7 +274,9 @@ class ElasticSearch
             /** @var @var Mods $mods */
             $mods = new Mods($document->getXmlData());
 
-            $persons = array_merge($mods->getAuthors(), $mods->getPublishers());
+            //$persons = array_merge($mods->getAuthors(), $mods->getPublishers());
+            $persons = $mods->getPersons();
+
             $authorAndPublisher = [];
             $fobIdentifiers = [];
             $personData = [];
@@ -280,7 +284,18 @@ class ElasticSearch
                 $authorAndPublisher[] = $person['name'];
                 $fobIdentifiers[] = $person['fobId'];
                 $personData[] = $person;
+                //$data->persons[] = $person['name'];
+                $data->persons[] = $person['fobId'];
+
+                foreach ($person['affiliations'] as $affiliation) {
+                    $data->affiliation[] = $affiliation;
+                }
+
+                foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
+                    $data->affiliation[] = $affiliationIdentifier;
+                }
             }
+
             $data->authorAndPublisher = $authorAndPublisher;
             $data->fobIdentifiers = $fobIdentifiers;
             $data->personData = $personData;

@@ -121,6 +121,22 @@ class Mods
 
             $identifierNode = $xpath->query('mods:nameIdentifier[@type="FOBID"]', $personNode);
 
+            $affiliationNodes  = $xpath->query('mods:affiliation', $personNode);
+            $affiliationIdentifierNodes  = $xpath->query(
+                'mods:nameIdentifier[@type="ScopusAuthorID"][@typeURI="http://www.scopus.com/authid"]',
+                $personNode
+            );
+
+            $person['affiliations'] = [];
+            foreach ($affiliationNodes as $key => $affiliationNode) {
+                $person['affiliations'][] = $affiliationNode->nodeValue;
+            }
+
+            $person['affiliationIdentifiers'] = [];
+            foreach ($affiliationIdentifierNodes as $key => $affiliationIdentifierNode) {
+                $person['affiliationIdentifiers'][] = $affiliationIdentifierNode->nodeValue;
+            }
+
             $name = [];
 
             if ($givenNode->length > 0) {
