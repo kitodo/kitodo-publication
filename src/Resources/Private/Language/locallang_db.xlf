@@ -470,10 +470,10 @@
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser">
             <source>FE user</source>
         </trans-unit>
-		<trans-unit id="tx_dpf_domain_model_feusergroup.fis_pers_id">
+		<trans-unit id="tx_dpf_domain_model_feuser.fis_pers_id">
 			<source>Identifier</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_feusergroup.orga_name">
+		<trans-unit id="tx_dpf_domain_model_feuser.orga_name">
 			<source>Organisational Unit</source>
 		</trans-unit>
 		</body>
