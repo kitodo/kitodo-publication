@@ -5,11 +5,13 @@ use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Controller\AbstractController;
 use EWW\Dpf\Services\Email\Notifier;
+use Symfony\Component\Workflow\Workflow;
 
 class DocumentManager
 {
@@ -401,6 +403,7 @@ class DocumentManager
         foreach ($document->getAssignedFobIdentifiers() as $fobId) {
             $feUsers = $this->frontendUserRepository->findByFisPersId($fobId);
             foreach ($feUsers as $feUser) {
+
                 $assignedUsers[$feUser->getUid()] = $feUser;
             }
         }
@@ -465,11 +468,16 @@ class DocumentManager
 
         /** @var FrontendUser $recipient */
         foreach ($users as $recipient) {
-
-
             if (
                 $recipient->getUid() !== $this->security->getUser()->getUid() &&
-                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
+                !(
+                    in_array(
+                        $recipient->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
+                    ) ||
+                    $document->isStateChange() &&
+                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                )
             ) {
 
                 if ($recipient->isNotifyOnChanges()) {
@@ -499,11 +507,34 @@ class DocumentManager
                         }
 
                         if ($recipient->isNotifyStatusChange() && $document->isStateChange()) {
-                           $recipients[$recipient->getUid()] = $recipient;
+                            $recipients[$recipient->getUid()] = $recipient;
                         }
 
                         if ($recipient->isNotifyFulltextPublished()) {
-                            //TODO: can only be implemented together with the embargo
+
+                            $embargoDate = $document->getEmbargoDate();
+                            $currentDate = new \DateTime('now');
+
+                            $fulltextPublished = false;
+                            foreach ($document->getFile() as $file) {
+                                if ($file->getStatus() != 'added') {
+                                    $fulltextPublished = false;
+                                    break;
+                                } else {
+                                    $fulltextPublished = true;
+                                }
+                            }
+
+                            if (
+                                $document->getState() === DocumentWorkflow::STATE_NONE_ACTIVE &&
+                                $fulltextPublished &&
+                                (
+                                   empty($embargoDate) ||
+                                   $embargoDate < $currentDate
+                                )
+                            ) {
+                                $recipients[$recipient->getUid()] = $recipient;
+                            }
                         }
 
                     } else {
@@ -512,7 +543,6 @@ class DocumentManager
                 }
             }
         }
-
         return $recipients;
     }
 
