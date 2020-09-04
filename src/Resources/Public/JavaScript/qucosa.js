@@ -1618,6 +1618,10 @@ var toggleAddMyUserDataButton = function(fisPersonIdentifiers) {
     }
 }
 
+var searchAgain = function (context) {
+    searchInputKeyupHandler.call(context);
+}
+
 var userSearchModalFillout = function() {
 
     $('.FisSearchModal').on('hidden.bs.modal', function() {
@@ -1780,5 +1784,12 @@ $(document).ready(function() {
     userSearchModalFillout();
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('[autofocus]').focus();
+        // new search if checkbox has changed
+        $(this).find("#orgaRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
+        $(this).find("#personRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
     });
 });
