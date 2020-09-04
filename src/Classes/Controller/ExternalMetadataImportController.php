@@ -770,10 +770,12 @@ class ExternalMetadataImportController extends AbstractController
         );
 
         if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
-            $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
-            $this->addFlashMessage(
-                $importNoteMessage, '', AbstractMessage::INFO
-            );
+            if ($this->security->getUser()->getUserRole() != Security::ROLE_LIBRARIAN) {
+                $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
+                $this->addFlashMessage(
+                    $importNoteMessage, '', AbstractMessage::INFO
+                );
+            }
         }
 
         $this->showImportedDocuments($importCounter);
