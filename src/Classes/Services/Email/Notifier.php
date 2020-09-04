@@ -152,7 +152,9 @@ class Notifier
         }
 
         $args['###TITLE###'] = $document->getTitle();
-        $args['###AUTHOR###'] = array_shift($document->getAuthors());
+
+        $author = array_shift($document->getAuthors());
+        $args['###AUTHOR###'] = $author['name'];
 
         $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
         $args['###SUBMITTER_EMAIL###'] = $slub->getSubmitterEmail();
@@ -408,13 +410,14 @@ class Notifier
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
+            $author = array_shift($document->getAuthors());
 
             $args['###CLIENT###'] = $client->getClient();
             $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
             $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###AUTHOR###'] = $author['name'];
 
             $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
             $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
@@ -478,13 +481,15 @@ class Notifier
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
+            $author = array_shift($document->getAuthors());
+
 
             $args['###CLIENT###'] = $client->getClient();
             $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
             $args['###TITLE###'] = $document->getTitle();
-            $args['###AUTHOR###'] = array_shift($authors);
+
+            $args['###AUTHOR###'] = $author['name'];
 
             $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
             $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
