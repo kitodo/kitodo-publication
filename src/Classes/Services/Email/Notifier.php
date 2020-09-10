@@ -412,20 +412,7 @@ class Notifier
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $author = array_shift($document->getAuthors());
 
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-
-            $args['###AUTHOR###'] = $author['name'];
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Notify client admin
             /** @var FrontendUser $recipient */
@@ -483,21 +470,7 @@ class Notifier
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $author = array_shift($document->getAuthors());
 
-
-            $args['###CLIENT###'] = $client->getClient();
-            $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
-            $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
-            $args['###TITLE###'] = $document->getTitle();
-
-            $args['###AUTHOR###'] = $author['name'];
-
-            $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-            $args['###SUBMITTER_EMAIL###'] = $submitterEmail; //
-            $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
-
-            $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-            $args['###URN###'] = $mods->getQucosaUrn();
-            $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Notify client admin
             /** @var FrontendUser $recipient */
