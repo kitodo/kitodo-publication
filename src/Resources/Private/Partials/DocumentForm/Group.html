@@ -46,16 +46,16 @@
                         </div>
                     </f:then>
                     <f:else>
-                        <f:if condition="{api} == 'Zdb' || {api} == 'Unpaywall' || {api} == 'Orcid'">
+                        <f:if condition="{api} == 'Zdb' || {api} == 'Unpaywall' || {api} == 'Ror'">
                             <f:then>
                                 <f:alias map="{showOrgaSwitch:0,removePersonSwitch:1}">
                                     <f:render partial="Api/ApiModal" arguments="{_all}"/>
                                 </f:alias>
                             </f:then>
                             <f:else>
-                                <f:if condition="{api} == 'Ror'">
+                                <f:if condition="{api} == 'Orcid'">
                                     <f:then>
-                                        <f:alias map="{showOrgaSwitch:0, removePersonSwitch:1}">
+                                        <f:alias map="{showOrgaSwitch:0}">
                                             <f:render partial="Api/ApiModal" arguments="{_all}"/>
                                         </f:alias>
                                     </f:then>
