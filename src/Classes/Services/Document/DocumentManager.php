@@ -198,6 +198,7 @@ class DocumentManager
                         $bookmark->setDocumentIdentifier($ingestedDocument->getDocumentIdentifier());
                         $this->bookmarkRepository->update($bookmark);
                     }
+                    $this->persistenceManager->persistAll();
                 } else {
                     throw \Exception("Logical exception while updating bookmarks.");
                 }
