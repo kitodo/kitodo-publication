@@ -33,23 +33,28 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
      * @param array $mandatoryFields
      * @return array
      */
-    public function loadFile($filePath, $mandatoryFields)
+    public function loadFile($filePath, $mandatoryFields, $contentOnly = false)
     {
         $results = [];
         $mandatoryErrors = [];
         $mandatoryFieldErrors = [];
 
         $risWosReader = new RisReader();
-        $risWosEntries = $risWosReader->parseFile($filePath);
+
+        if ($contentOnly) {
+            $risWosEntries = $risWosReader->parseFile($filePath, $contentOnly);
+        } else {
+            $risWosEntries = $risWosReader->parseFile($filePath);
+        }
 
         foreach ($risWosEntries as $index => $risWosItem) {
 
             foreach ($mandatoryFields as $mandatoryField) {
                 if (
-                    !(
-                        array_key_exists($mandatoryField, $risWosItem)
-                        && $risWosItem[$mandatoryField]
-                    )
+                !(
+                    array_key_exists($mandatoryField, $risWosItem)
+                    && $risWosItem[$mandatoryField]
+                )
                 ) {
                     $mandatoryFieldErrors[$mandatoryField] = $mandatoryField;
                     $mandatoryErrors[$index] = [

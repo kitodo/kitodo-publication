@@ -43,12 +43,13 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
     }
 
     /**
-     * @param string $filePath
+     * @param string $file Can be a path to a file or a string with the file content
+     * @param bool $contentOnly Determines if $file is a path or content as a string
      * @return array
      * @throws \ErrorException
      * @throws \RenanBr\BibTexParser\Exception\ParserException
      */
-    protected function parseFile($filePath)
+    protected function parseFile($file, $contentOnly = false)
     {
         //$data = json_decode($response->__toString(),true);
         //$encoder = new XmlEncoder();
@@ -56,7 +57,13 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
         $listener->addProcessor(new Processor\TagNameCaseProcessor(CASE_LOWER));
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile($filePath);
+
+        if ($contentOnly) {
+            $parser->parseString($file);
+        } else {
+            $parser->parseFile($file);
+        }
+
         $entries = $listener->export();
 
         foreach ($entries as $index => $fields) {
@@ -73,25 +80,30 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
     /**
      * @param string $filePath
      * @param array $mandatoryFields
+     * @param bool $contentOnly Determines if $file is a path or content as a string
      * @return array
      */
-    public function loadFile($filePath, $mandatoryFields)
+    public function loadFile($file, $mandatoryFields, $contentOnly = false)
     {
         $results = [];
         $mandatoryErrors = [];
         $mandatoryFieldErrors = [];
 
-        $bibTexEntries = $this->parseFile($filePath);
+        if ($contentOnly) {
+            $bibTexEntries = $this->parseFile($file, $contentOnly);
+        } else {
+            $bibTexEntries = $this->parseFile($file);
+        }
 
         $encoder = new XmlEncoder();
 
         foreach ($bibTexEntries as $index => $bibTexItem) {
             foreach ($mandatoryFields as $mandatoryField) {
                 if (
-                    !(
-                        array_key_exists($mandatoryField, $bibTexItem)
-                        && trim($bibTexItem[$mandatoryField])
-                    )
+                !(
+                    array_key_exists($mandatoryField, $bibTexItem)
+                    && trim($bibTexItem[$mandatoryField])
+                )
                 ) {
                     $mandatoryFieldErrors[$mandatoryField] = $mandatoryField;
                     $mandatoryErrors[$index] = [

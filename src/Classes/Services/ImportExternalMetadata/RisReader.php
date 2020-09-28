@@ -124,44 +124,86 @@ class RisReader
      * @param string $filePath
      * @return array
      */
-    protected function readFile($filePath)
+    protected function readFile($filePath, $contentOnly = false)
     {
-        $flags = FILE_SKIP_EMPTY_LINES | FILE_TEXT;
-        $lines = file($filePath, $flags);
+        $separator = "\r\n";
+
+        if ($contentOnly) {
+            $line = strtok($filePath, $separator);
+        } else {
+            $flags = FILE_SKIP_EMPTY_LINES | FILE_TEXT;
+            $lines = file($filePath, $flags);
+        }
 
         $currentTag = '';
         $risRecords = [];
         $risRecord = [];
         $recordIndex = 0;
 
-        foreach($lines as $line) {
+        if ($contentOnly) {
 
-            if (mb_detect_encoding($line) == 'UTF-8') {
-                $line = utf8_decode($line);
-                if (strpos($line, '?') === 0) {
-                    $line = substr($line, 1);
-                }
-            }
-
-            $tempTag = trim(substr($line, 0, 2));
-            if ($tempTag == 'EF') {
-                // End of file
-                break;
-            }
-
-            if ($tempTag == 'ER') {
-                $risRecords[$recordIndex] = $risRecord;
-                $risRecord = [];
-                $recordIndex += 1;
-            } else {
-                if ($tempTag) {
-                    $currentTag = $tempTag;
+            while ($line !== false) {
+                if (mb_detect_encoding($line) == 'UTF-8') {
+                    $line = utf8_decode($line);
+                    if (strpos($line, '?') === 0) {
+                        $line = substr($line, 1);
+                    }
                 }
 
-                $line = substr($line, 2);
+                $tempTag = trim(substr($line, 0, 2));
+                if ($tempTag == 'EF') {
+                    // End of file
+                    break;
+                }
 
-                if ($currentTag && array_key_exists($currentTag, self::$tagMap)) {
-                    $risRecord[$currentTag][] = trim($line);
+                if ($tempTag == 'ER') {
+                    $risRecords[$recordIndex] = $risRecord;
+                    $risRecord = [];
+                    $recordIndex += 1;
+                } else {
+                    if ($tempTag) {
+                        $currentTag = $tempTag;
+                    }
+
+                    $line = substr($line, 2);
+
+                    if ($currentTag && array_key_exists($currentTag, self::$tagMap)) {
+                        $risRecord[$currentTag][] = trim($line);
+                    }
+                }
+                $line = strtok($separator);
+            }
+
+        } else {
+            foreach($lines as $line) {
+
+                if (mb_detect_encoding($line) == 'UTF-8') {
+                    $line = utf8_decode($line);
+                    if (strpos($line, '?') === 0) {
+                        $line = substr($line, 1);
+                    }
+                }
+
+                $tempTag = trim(substr($line, 0, 2));
+                if ($tempTag == 'EF') {
+                    // End of file
+                    break;
+                }
+
+                if ($tempTag == 'ER') {
+                    $risRecords[$recordIndex] = $risRecord;
+                    $risRecord = [];
+                    $recordIndex += 1;
+                } else {
+                    if ($tempTag) {
+                        $currentTag = $tempTag;
+                    }
+
+                    $line = substr($line, 2);
+
+                    if ($currentTag && array_key_exists($currentTag, self::$tagMap)) {
+                        $risRecord[$currentTag][] = trim($line);
+                    }
                 }
             }
         }
@@ -169,9 +211,13 @@ class RisReader
         return $risRecords;
     }
 
-    public function parseFile($filePath)
+    public function createRisRecords() {
+
+    }
+
+    public function parseFile($filePath, $contentOnly = false)
     {
-        $risRecords = $this->readFile($filePath);
+        $risRecords = $this->readFile($filePath, $contentOnly);
         $risEntries = [];
 
         foreach ($risRecords as $risRecord) {
@@ -201,7 +247,7 @@ class RisReader
 
                     if ($tag == 'PT') {
                         if (array_key_exists($value, self::$publicationTypes)) {
-                           $value = strtolower(self::$publicationTypes[$value]);
+                            $value = strtolower(self::$publicationTypes[$value]);
                         } else {
                             $value = 'unknown';
                         }
