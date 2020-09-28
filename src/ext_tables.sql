@@ -425,6 +425,16 @@ CREATE TABLE tx_dpf_domain_model_client (
 
   suggestion_flashmessage varchar(255) DEFAULT '' NOT NULL,
 
+  active_messaging_suggestion_accept_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_suggestion_decline_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_new_document_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_changed_document_url varchar(255) DEFAULT '' NOT NULL,
+
+  active_messaging_suggestion_accept_url_body text NOT NULL,
+  active_messaging_suggestion_decline_url_body text NOT NULL,
+  active_messaging_new_document_url_body text NOT NULL,
+  active_messaging_changed_document_url_body text NOT NULL,
+
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
   cruser_id int(11) unsigned DEFAULT '0' NOT NULL,

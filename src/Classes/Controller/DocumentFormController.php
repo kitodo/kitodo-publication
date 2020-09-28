@@ -16,6 +16,7 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Services\Email\Notifier;
 
 class DocumentFormController extends AbstractDocumentFormController
 {
@@ -64,6 +65,7 @@ class DocumentFormController extends AbstractDocumentFormController
             /** @var \EWW\Dpf\Domain\Model\Document $newDocument */
             $newDocument = $documentMapper->getDocument($newDocumentForm);
 
+            /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendNewDocumentNotification($newDocument);
 

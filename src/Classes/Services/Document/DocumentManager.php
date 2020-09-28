@@ -4,10 +4,12 @@ namespace EWW\Dpf\Services\Document;
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Controller\AbstractController;
+use Httpful\Request;
 
 class DocumentManager
 {
@@ -213,6 +215,10 @@ class DocumentManager
             $this->signalSlotDispatcher->dispatch(
                 AbstractController::class, 'indexDocument', [$document]
             );
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendChangedDocumentNotification($document);
         }
 
         return $updateResult;

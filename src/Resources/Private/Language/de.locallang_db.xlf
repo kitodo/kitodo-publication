@@ -639,6 +639,38 @@
 			<source>API Token</source>
 			<target>API Token</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url" approved="yes">
+			<source>Active messaging suggestion accept url</source>
+			<target>Aktive Benachrichtigung Vorschlag akzeptieren URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url" approved="yes">
+			<source>Active messaging suggestion decline url</source>
+			<target>Aktive Benachrichtigung Vorschlag abgelehnt URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
+			<source>Active messaging new document url</source>
+			<target>Aktive Benachrichtigung neues Dokument URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url" approved="yes">
+			<source>Active messaging changed document url</source>
+			<target>Aktive Benachrichtigung Dokument wurde geändert URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url_body" approved="yes">
+			<source>Active messaging suggestion accept url body</source>
+			<target>Aktive Benachrichtigung Vorschlag akzeptieren URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
+			<source>Active messaging suggestion decline url body</source>
+			<target>Aktive Benachrichtigung Vorschlag abgelehnt URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
+			<source>Active messaging new document url body</source>
+			<target>Aktive Benachrichtigung neues Dokument URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url_body" approved="yes">
+			<source>Active messaging changed document url</source>
+			<target>Aktive Benachrichtigung Dokument wurde geändert URL</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

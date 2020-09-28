@@ -255,6 +255,46 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $suggestionFlashmessage = '';
 
     /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionAcceptUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionDeclineUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingNewDocumentUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingChangedDocumentUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionAcceptUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionDeclineUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingNewDocumentUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingChangedDocumentUrlBody = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -953,6 +993,136 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->suggestionFlashmessage = $suggestionFlashmessage;
     }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionAcceptUrl(): string
+    {
+        return $this->activeMessagingSuggestionAcceptUrl;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionAcceptUrl
+     */
+    public function setActiveMessagingSuggestionAcceptUrl(string $activeMessagingSuggestionAcceptUrl): void
+    {
+        $this->activeMessagingSuggestionAcceptUrl = $activeMessagingSuggestionAcceptUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionDeclineUrl(): string
+    {
+        return $this->activeMessagingSuggestionDeclineUrl;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionDeclineUrl
+     */
+    public function setActiveMessagingSuggestionDeclineUrl(string $activeMessagingSuggestionDeclineUrl): void
+    {
+        $this->activeMessagingSuggestionDeclineUrl = $activeMessagingSuggestionDeclineUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingNewDocumentUrl(): string
+    {
+        return $this->activeMessagingNewDocumentUrl;
+    }
+
+    /**
+     * @param string $activeMessagingNewDocumentUrl
+     */
+    public function setActiveMessagingNewDocumentUrl(string $activeMessagingNewDocumentUrl): void
+    {
+        $this->activeMessagingNewDocumentUrl = $activeMessagingNewDocumentUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingChangedDocumentUrl(): string
+    {
+        return $this->activeMessagingChangedDocumentUrl;
+    }
+
+    /**
+     * @param string $activeMessagingChangedDocumentUrl
+     */
+    public function setActiveMessagingChangedDocumentUrl(string $activeMessagingChangedDocumentUrl): void
+    {
+        $this->activeMessagingChangedDocumentUrl = $activeMessagingChangedDocumentUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionAcceptUrlBody(): string
+    {
+        return $this->activeMessagingSuggestionAcceptUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionAcceptUrlBody
+     */
+    public function setActiveMessagingSuggestionAcceptUrlBody(string $activeMessagingSuggestionAcceptUrlBody): void
+    {
+        $this->activeMessagingSuggestionAcceptUrlBody = $activeMessagingSuggestionAcceptUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionDeclineUrlBody(): string
+    {
+        return $this->activeMessagingSuggestionDeclineUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionDeclineUrlBody
+     */
+    public function setActiveMessagingSuggestionDeclineUrlBody(string $activeMessagingSuggestionDeclineUrlBody): void
+    {
+        $this->activeMessagingSuggestionDeclineUrlBody = $activeMessagingSuggestionDeclineUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingNewDocumentUrlBody(): string
+    {
+        return $this->activeMessagingNewDocumentUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingNewDocumentUrlBody
+     */
+    public function setActiveMessagingNewDocumentUrlBody(string $activeMessagingNewDocumentUrlBody): void
+    {
+        $this->activeMessagingNewDocumentUrlBody = $activeMessagingNewDocumentUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingChangedDocumentUrlBody(): string
+    {
+        return $this->activeMessagingChangedDocumentUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingChangedDocumentUrlBody
+     */
+    public function setActiveMessagingChangedDocumentUrlBody(string $activeMessagingChangedDocumentUrlBody): void
+    {
+        $this->activeMessagingChangedDocumentUrlBody = $activeMessagingChangedDocumentUrlBody;
+    }
+
+
 
 
 }

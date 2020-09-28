@@ -42,7 +42,8 @@ return array(
             admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
-            suggestion_flashmessage',
+            suggestion_flashmessage,
+            active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -57,7 +58,8 @@ return array(
         admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
-        suggestion_flashmessage'
+        suggestion_flashmessage,
+        active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -69,6 +71,7 @@ return array(
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_embargo_subject,admin_embargo_body,admin_oa_fond_subject,admin_oa_fond_body,
         --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
         --div--;Messages, suggestion_flashmessage,
+        --div--;Active Messaging, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -516,6 +519,81 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-
+        'active_messaging_suggestion_accept_url' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_suggestion_accept_url',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_suggestion_decline_url' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_suggestion_decline_url',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_new_document_url' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_new_document_url',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_changed_document_url' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_changed_document_url',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_suggestion_accept_url_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_suggestion_accept_url_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_suggestion_decline_url_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_new_document_url_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_new_document_url_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_changed_document_url_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_changed_document_url_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
     ),
 );
