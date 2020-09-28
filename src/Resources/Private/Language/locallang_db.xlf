@@ -476,6 +476,9 @@
         <trans-unit id="tx_dpf_domain_model_bookmark.feuser">
             <source>FE user</source>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.api_token">
+			<source>API Token</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

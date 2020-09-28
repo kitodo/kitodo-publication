@@ -599,6 +599,7 @@ CREATE TABLE fe_users (
   notify_status_change tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_fulltext_published tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_new_publication_mypublication tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  api_token varchar(64) DEFAULT '' NOT NULL,
 );
 
 #

@@ -219,4 +219,40 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         return json_encode($searches);
     }
 
+    /**
+     * @param int $feUser
+     * @return false|string
+     */
+    public function generateApiTokenAction($feUser) {
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getUid() === $feUser) {
+            $string = md5(substr(md5(time()), 0, 14)).date("Y-m-dH:i:s");
+            $hash = hash('sha256', $string);
+
+            $currentUser->setApiToken($hash);
+            $this->frontendUserRepository->update($currentUser);
+
+            return json_encode(['apiToken' => $hash]);
+        } else {
+            return json_encode(['failed' => 'wrong user id']);
+        }
+    }
+
+    /**
+     * @param int $feUser
+     * @return bool
+     */
+    public function removeApiTokenAction($feUser) {
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getUid() === $feUser) {
+            $currentUser->setApiToken('');
+            $this->frontendUserRepository->update($currentUser);
+
+            return json_encode(['success' => '1']);
+        } else {
+            return json_encode(['failed' => 'wrong user id']);
+        }
+
+    }
+
 }

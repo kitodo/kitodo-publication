@@ -635,6 +635,10 @@
             <source>FE user</source>
             <target>FE-User</target>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.api_token">
+			<source>API Token</source>
+			<target>API Token</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

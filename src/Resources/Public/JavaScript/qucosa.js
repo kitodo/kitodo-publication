@@ -1296,6 +1296,35 @@ var inputWithOptions = function() {
     $( ".dropdown-options-input" ).dropdownoptions();
 }
 
+// Call methods for API Token generation
+var apiTokenEvents = function() {
+    $('#apiTokenGenerate').on('click', function () {
+        var url = $(this).data('generatetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                $('#showApiToken').text(data.apiToken);
+            }
+        });
+    });
+
+    $('#apiTokenRemove').on('click', function () {
+        var url = $(this).data('removetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    $('#apiTokenRemove').hide();
+                }
+            }
+        });
+    });
+}
+
 // -------------------------------------------------------
 // Document ready
 // -------------------------------------------------------
@@ -1431,4 +1460,20 @@ $(document).ready(function() {
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();
+
+    apiTokenEvents();
+
+    userSearch();
+    addMyUserData();
+    userSearchModalFillout();
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+        // new search if checkbox has changed
+        $(this).find("#orgaRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
+        $(this).find("#personRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
+    });
 });

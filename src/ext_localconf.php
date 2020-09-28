@@ -86,7 +86,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'rest_api',
     [
-        'Api' => 'list, show, create, suggestion',
+        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving',
     ],
     []
 );
@@ -131,7 +131,8 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
+            .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
@@ -148,7 +149,8 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
+            .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
