@@ -98,14 +98,22 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
         $encoder = new XmlEncoder();
 
         foreach ($bibTexEntries as $index => $bibTexItem) {
-            foreach ($mandatoryFields as $mandatoryField) {
-                if (
-                !(
-                    array_key_exists($mandatoryField, $bibTexItem)
-                    && trim($bibTexItem[$mandatoryField])
-                )
-                ) {
-                    $mandatoryFieldErrors[$mandatoryField] = $mandatoryField;
+
+            foreach ($mandatoryFields as $combinedMandatoryField) {
+
+                $mandatoryOk = false;
+                foreach ($combinedMandatoryField as $key => $value) {
+                    $mandatoryOk = $mandatoryOk || (
+                            array_key_exists($value, $bibTexItem)
+                            && $bibTexItem[$value]
+                        );
+                }
+
+                if (!$mandatoryOk) {
+                    $mandatoryFieldErrors[implode('|', $combinedMandatoryField)] = implode(
+                        '|',
+                        $combinedMandatoryField
+                    );
                     $mandatoryErrors[$index] = [
                         'index' => $index + 1,
                         'title' => $bibTexItem['title'],

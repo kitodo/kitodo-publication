@@ -94,9 +94,9 @@ plugin.tx_dpf {
         }
 
         # cat=plugin.tx_dpf/api; type=string; label=BibTex-File mandatory fields (comma separated).
-        bibTexMandatoryFields = title,author
+        bibTexMandatoryFields = title,author|editor
 
         # cat=plugin.tx_dpf/api; type=string; label=RisWos-File mandatory fields (comma separated).
-        riswosMandatoryFields = TI,AU
+        riswosMandatoryFields = TI,AU|AF
     }
 }

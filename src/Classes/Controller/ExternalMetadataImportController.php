@@ -904,6 +904,15 @@ class ExternalMetadataImportController extends AbstractController
                     'trim',
                     explode(',', $this->settings['bibTexMandatoryFields'])
                 );
+
+                foreach ($mandatoryFields as $key => $value) {
+                    $orFields = array_map(
+                        'trim',
+                        explode('|', $value)
+                    );
+                    $mandatoryFields[$key] = $orFields;
+                }
+
                 $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
             } elseif ($fileType == 'riswos') {
                 /** @var FileImporter $fileImporter */
@@ -912,6 +921,15 @@ class ExternalMetadataImportController extends AbstractController
                     'trim',
                     explode(',', $this->settings['riswosMandatoryFields'])
                 );
+
+                foreach ($mandatoryFields as $key => $value) {
+                    $orFields = array_map(
+                        'trim',
+                        explode('|', $value)
+                    );
+                    $mandatoryFields[$key] = $orFields;
+                }
+
                 $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
             } else {
                 $results = [];

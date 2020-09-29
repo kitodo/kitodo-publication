@@ -49,14 +49,21 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
 
         foreach ($risWosEntries as $index => $risWosItem) {
 
-            foreach ($mandatoryFields as $mandatoryField) {
-                if (
-                !(
-                    array_key_exists($mandatoryField, $risWosItem)
-                    && $risWosItem[$mandatoryField]
-                )
-                ) {
-                    $mandatoryFieldErrors[$mandatoryField] = $mandatoryField;
+            foreach ($mandatoryFields as $combinedMandatoryField) {
+
+                $mandatoryOk = false;
+                foreach ($combinedMandatoryField as $key => $value) {
+                    $mandatoryOk = $mandatoryOk || (
+                        array_key_exists($value, $risWosItem)
+                        && $risWosItem[$value]
+                    );
+                }
+
+                if (!$mandatoryOk) {
+                    $mandatoryFieldErrors[implode('|', $combinedMandatoryField)] = implode(
+                        '|',
+                        $combinedMandatoryField
+                    );
                     $mandatoryErrors[$index] = [
                         'index' => $index + 1,
                         'title' => $risWosItem['TI'],

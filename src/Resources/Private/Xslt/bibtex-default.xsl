@@ -62,6 +62,7 @@
                             <xsl:apply-templates select="response/doi"/>
                             <xsl:apply-templates select="response/isbn"/>
                             <xsl:apply-templates select="response/author"/>
+                            <xsl:apply-templates select="response/editor"/>
                             <xsl:apply-templates select="response/year"/>
                         </mods:mods>
                     </mets:xmlData>
@@ -101,6 +102,22 @@
                 </mods:namePart>
                 <mods:role>
                     <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+                </mods:role>
+            </mods:name>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="editor">
+        <xsl:for-each select=".">
+            <mods:name type="personal">
+                <mods:namePart type="family">
+                    <xsl:value-of select="family" />
+                </mods:namePart>
+                <mods:namePart type="given">
+                    <xsl:value-of select="given" />
+                </mods:namePart>
+                <mods:role>
+                    <mods:roleTerm type="code" authority="marcrelator">edt</mods:roleTerm>
                 </mods:role>
             </mods:name>
         </xsl:for-each>
