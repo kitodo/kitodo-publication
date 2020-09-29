@@ -78,47 +78,20 @@ class ApiController extends ActionController
     protected $documentManager = null;
 
     /**
+     * clientRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\ClientRepository
+     * @inject
+     */
+    protected $clientRepository;
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
      * @inject
      */
     protected $persistenceManager;
-
-
-    protected $jsonMapping = <<<EOD
-{
-  "title": {
-    "_mapping": "/mods:mods/mods:titleInfo/mods:title"
-  },
-  "persons": [             
-        {
-          "_mapping": "/mods:mods/mods:name[@type=\"personal\"]",                 
-          "given": {
-            "_mapping": "mods:namePart[@type=\"given\"]"           
-          },
-          "family": {
-            "_mapping": "mods:namePart[@type=\"family\"]"           
-          }
-        }        
-  ],
-  "institution": {
-     "_mapping": "/mods:mods/mods:institution",    
-     "name": {
-       "_mapping": "mods:institutionName"  
-     },
-     "title": {
-       "_mapping": "mods:institutionTitle",
-       "titleTest": {
-          "_mapping": "mods:institutionTitleTest"
-       }  
-     }               
-  },
-   "documentType": {
-        "_mapping": "/slub:info/slub:documentType"
-  }    
-}
-EOD;
 
     /**
      * logger
@@ -127,7 +100,7 @@ EOD;
      */
     protected $logger = null;
 
-    protected $tokenUserId = '';
+    protected $frontendUser = null;
 
 
     public function __construct()
@@ -141,7 +114,7 @@ EOD;
         $frontendUser = $this->frontendUserRepository->findOneByApiToken($token);
 
         if ($frontendUser) {
-            $this->tokenUserId = $frontendUser->getUid();
+            $this->frontendUser = $frontendUser;
             return true;
         } else {
             return false;
@@ -158,8 +131,12 @@ EOD;
 
             if ($doc) {
                 $this->security->getUser()->getUid();
+
+                /** @var $client \EWW\Dpf\Domain\Model\Client */
+                $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                 $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                $mapper->setMapping($this->jsonMapping);
+                $mapper->setMapping($client->getFisMapping());
                 $jsonData = $mapper->getJson($doc);
                 return $jsonData;
             }
@@ -266,8 +243,11 @@ EOD;
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
+                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($this->jsonMapping);
+                        $mapper->setMapping($client->getFisMapping());
                         $jsonData = $mapper->getJson($newDocument);
                         return $jsonData;
                     } else {
@@ -304,8 +284,11 @@ EOD;
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
+                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($this->jsonMapping);
+                        $mapper->setMapping($client->getFisMapping());
                         $jsonData = $mapper->getJson($newDocument);
                         return $jsonData;
                     } else {
@@ -342,8 +325,11 @@ EOD;
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
+                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($this->jsonMapping);
+                        $mapper->setMapping($client->getFisMapping());
                         $jsonData = $mapper->getJson($newDocument);
                         return $jsonData;
                     } else {
@@ -384,8 +370,11 @@ EOD;
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata[0]);
                     if ($newDocument) {
+                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($this->jsonMapping);
+                        $mapper->setMapping($client->getFisMapping());
                         $jsonData = $mapper->getJson($newDocument);
                         return $jsonData;
                     } else {
@@ -434,8 +423,11 @@ EOD;
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata[0]);
                     if ($newDocument) {
+                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($this->jsonMapping);
+                        $mapper->setMapping($client->getFisMapping());
                         $jsonData = $mapper->getJson($newDocument);
                         return $jsonData;
                     } else {

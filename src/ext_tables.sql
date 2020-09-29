@@ -435,6 +435,8 @@ CREATE TABLE tx_dpf_domain_model_client (
   active_messaging_new_document_url_body text NOT NULL,
   active_messaging_changed_document_url_body text NOT NULL,
 
+  fis_mapping text NOT NULL,
+
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
   cruser_id int(11) unsigned DEFAULT '0' NOT NULL,

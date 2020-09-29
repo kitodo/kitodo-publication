@@ -503,6 +503,9 @@
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url_body" approved="yes">
 			<source>Active messaging changed document url</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
+			<source>FIS Mapping (json)</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

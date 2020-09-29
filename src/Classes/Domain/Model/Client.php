@@ -295,6 +295,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $activeMessagingChangedDocumentUrlBody = '';
 
     /**
+     * @var string
+     */
+    protected $fisMapping = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -1122,7 +1127,20 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->activeMessagingChangedDocumentUrlBody = $activeMessagingChangedDocumentUrlBody;
     }
 
+    /**
+     * @return string
+     */
+    public function getFisMapping(): string
+    {
+        return $this->fisMapping;
+    }
 
-
+    /**
+     * @param string $fisMapping
+     */
+    public function setFisMapping(string $fisMapping): void
+    {
+        $this->fisMapping = $fisMapping;
+    }
 
 }
