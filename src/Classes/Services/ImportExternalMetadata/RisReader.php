@@ -232,10 +232,28 @@ class RisReader
 
                         list($family, $given, $suffix) = array_map('trim', explode(',', $fieldValue));
 
+                        $affiliations = [];
+                        if ($tag == 'AF') {
+                            if (array_key_exists('C1', $risRecord)) {
+                                $c1 = $risRecord['C1'];
+                                foreach ($c1 as $affiliation) {
+                                    if (
+                                        preg_match(
+                                            "/^\[.*?(".$fieldValue.").*?\](.*)/u", trim($affiliation),
+                                            $matches
+                                        )
+                                    ) {
+                                        $affiliations[] = $matches[2];
+                                    }
+                                }
+                            }
+                        }
+
                         $risEntry[$tag][] = [
                             'family' => $family,
                             'given' => $given,
-                            'suffix' => $suffix
+                            'suffix' => $suffix,
+                            'affiliation' => $affiliations
                         ];
                     }
                 } else {
@@ -256,7 +274,7 @@ class RisReader
 
             $risEntries[] = $risEntry;
         }
-
+        //die("dfds");
         return $risEntries;
     }
 

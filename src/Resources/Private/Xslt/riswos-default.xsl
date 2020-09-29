@@ -109,6 +109,11 @@
                 <mods:role>
                     <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
                 </mods:role>
+                <xsl:for-each select="affiliation">
+                    <mods:affiliation>
+                        <xsl:value-of select="." />
+                    </mods:affiliation>
+                </xsl:for-each>
             </mods:name>
         </xsl:for-each>
     </xsl:template>
