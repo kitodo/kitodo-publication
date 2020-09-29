@@ -226,9 +226,10 @@ class RisReader
 
             foreach ($risRecord as $tag => $risFieldValues) {
 
-                if (in_array($tag, ['AU','BA','CA','GP','BE'])) {
+                if (in_array($tag, ['AF','AU','BA','BF','CA','GP','BE'])) {
                     // Authors
                     foreach ($risFieldValues as $fieldValue) {
+
                         list($family, $given, $suffix) = array_map('trim', explode(',', $fieldValue));
 
                         $risEntry[$tag][] = [
@@ -236,11 +237,6 @@ class RisReader
                             'given' => $given,
                             'suffix' => $suffix
                         ];
-                    }
-                } elseif (in_array($tag, ['AF','BF'])) {
-                    // Authors full name
-                    foreach ($risFieldValues as $fieldValue) {
-                        $risEntry[$tag][] = $fieldValue;
                     }
                 } else {
                     $value = implode(" ", $risFieldValues);
@@ -272,8 +268,29 @@ class RisReader
         $encoder = new XmlEncoder();
         $record = [];
         foreach ($risRecord as $tag => $fieldValues) {
-            $record[self::tagToTagName($tag)] = $fieldValues;
+            switch ($tag) {
+                case 'AF':
+                    $record[self::tagToTagName('AU')] = $fieldValues;
+                    break;
+                case 'BF':
+                    $record[self::tagToTagName('BA')] = $fieldValues;
+                    break;
+                case 'AU':
+                    if (!array_key_exists('AF', $risRecord) || empty($risRecord['AF'])) {
+                        $record[self::tagToTagName($tag)] = $fieldValues;
+                    }
+                    break;
+                case 'BA':
+                    if (!array_key_exists('BF', $risRecord) || empty($risRecord['BF'])) {
+                        $record[self::tagToTagName($tag)] = $fieldValues;
+                    }
+                    break;
+                default:
+                    $record[self::tagToTagName($tag)] = $fieldValues;
+                    break;
+            }
         }
+
         return $encoder->encode($record, 'xml');
     }
 
