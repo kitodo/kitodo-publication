@@ -47,10 +47,11 @@ interface FileImporter
 
     /**
      * @param string $filePath
-     * @param array $mandatoryFields
+     * @param string $mandatoryFieldSettings
+     * @param bool $contentOnly Determines if $file is a path or content as a string
      * @return array
      */
-    public function loadFile($filePath, $mandatoryFields);
+    public function loadFile($filePath, $mandatoryFieldSettings, $contentOnly = false);
 
     /**
      * @param ExternalMetadata $metadata
