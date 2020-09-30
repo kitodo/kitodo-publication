@@ -375,11 +375,7 @@ class ApiController extends ActionController
     public function importBibtexWithoutSavingAction($bibtex, $token) {
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(BibTexFileImporter::class);
-            $mandatoryFields = array_map(
-                'trim',
-                explode(',', $this->settings['bibTexMandatoryFields'])
-            );
-            $externalMetadata = $importer->loadFile($bibtex, $mandatoryFields, true);
+            $externalMetadata = $importer->loadFile($bibtex, $this->settings['bibTexMandatoryFields'], true);
 
             if ($externalMetadata) {
                 // create document
@@ -428,11 +424,7 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
             /** @var FileImporter $fileImporter */
             $importer = $this->objectManager->get(RisWosFileImporter::class);
-            $mandatoryFields = array_map(
-                'trim',
-                explode(',', $this->settings['riswosMandatoryFields'])
-            );
-            $externalMetadata = $importer->loadFile($ris, $mandatoryFields, true);
+            $externalMetadata = $importer->loadFile($ris, $this->settings['riswosMandatoryFields'], true);
 
             if ($externalMetadata) {
                 // create document
