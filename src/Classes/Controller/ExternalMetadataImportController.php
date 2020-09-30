@@ -900,37 +900,11 @@ class ExternalMetadataImportController extends AbstractController
             if ($fileType == 'bibtex') {
                 /** @var FileImporter $fileImporter */
                 $fileImporter = $this->objectManager->get(BibTexFileImporter::class);
-                $mandatoryFields = array_map(
-                    'trim',
-                    explode(',', $this->settings['bibTexMandatoryFields'])
-                );
-
-                foreach ($mandatoryFields as $key => $value) {
-                    $orFields = array_map(
-                        'trim',
-                        explode('|', $value)
-                    );
-                    $mandatoryFields[$key] = $orFields;
-                }
-
-                $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
+                $results = $fileImporter->loadFile($uploadFilePath, $this->settings['bibTexMandatoryFields']);
             } elseif ($fileType == 'riswos') {
                 /** @var FileImporter $fileImporter */
                 $fileImporter = $this->objectManager->get(RisWosFileImporter::class);
-                $mandatoryFields = array_map(
-                    'trim',
-                    explode(',', $this->settings['riswosMandatoryFields'])
-                );
-
-                foreach ($mandatoryFields as $key => $value) {
-                    $orFields = array_map(
-                        'trim',
-                        explode('|', $value)
-                    );
-                    $mandatoryFields[$key] = $orFields;
-                }
-
-                $results = $fileImporter->loadFile($uploadFilePath, $mandatoryFields);
+                $results = $fileImporter->loadFile($uploadFilePath, $this->settings['riswosMandatoryFields']);
             } else {
                 $results = [];
             }
@@ -939,7 +913,7 @@ class ExternalMetadataImportController extends AbstractController
                 $this->externalMetadataRepository->add($externalMetadata);
             }
 
-            if ($mandatoryErrors = $fileImporter->getMandatoryErrors($uploadFilePath, $mandatoryFields)) {
+            if ($mandatoryErrors = $fileImporter->getMandatoryErrors()) {
                 foreach (
                     $mandatoryErrors as $mandatoryError
                 ) {

@@ -30,14 +30,28 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
 
     /**
      * @param string $filePath
-     * @param array $mandatoryFields
+     * @param string $mandatoryFieldSettings
+     * @param bool $contentOnly Determines if $file is a path or content as a string
      * @return array
      */
-    public function loadFile($filePath, $mandatoryFields, $contentOnly = false)
+    public function loadFile($filePath, $mandatoryFieldSettings, $contentOnly = false)
     {
         $results = [];
         $mandatoryErrors = [];
         $mandatoryFieldErrors = [];
+
+        $mandatoryFields = array_map(
+            'trim',
+            explode(',', $mandatoryFieldSettings)
+        );
+
+        foreach ($mandatoryFields as $key => $value) {
+            $orFields = array_map(
+                'trim',
+                explode('|', $value)
+            );
+            $mandatoryFields[$key] = $orFields;
+        }
 
         $risWosReader = new RisReader();
 

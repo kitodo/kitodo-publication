@@ -79,20 +79,33 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
 
     /**
      * @param string $filePath
-     * @param array $mandatoryFields
+     * @param string $mandatoryFieldSettings
      * @param bool $contentOnly Determines if $file is a path or content as a string
      * @return array
      */
-    public function loadFile($file, $mandatoryFields, $contentOnly = false)
+    public function loadFile($filePath, $mandatoryFieldSettings, $contentOnly = false)
     {
         $results = [];
         $mandatoryErrors = [];
         $mandatoryFieldErrors = [];
 
+        $mandatoryFields = array_map(
+            'trim',
+            explode(',', $mandatoryFieldSettings)
+        );
+
+        foreach ($mandatoryFields as $key => $value) {
+            $orFields = array_map(
+                'trim',
+                explode('|', $value)
+            );
+            $mandatoryFields[$key] = $orFields;
+        }
+
         if ($contentOnly) {
-            $bibTexEntries = $this->parseFile($file, $contentOnly);
+            $bibTexEntries = $this->parseFile($filePath, $contentOnly);
         } else {
-            $bibTexEntries = $this->parseFile($file);
+            $bibTexEntries = $this->parseFile($filePath);
         }
 
         $encoder = new XmlEncoder();
