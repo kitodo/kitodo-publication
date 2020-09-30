@@ -86,9 +86,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     'EWW.' . $_EXTKEY,
     'rest_api',
     [
-        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving',
+        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving, addFisId',
     ],
-    []
+    [
+        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving, addFisId',
+    ]
 );
 
 // Add RealURL for api configuration
