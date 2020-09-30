@@ -183,7 +183,24 @@ class ApiController extends ActionController
 
     }
 
-    public function addFisIdAction($document, $id) {
+    /**
+     * @param Document $document
+     * @param string $id
+     * @param string $token
+     * @throws \Exception
+     */
+    public function addFisIdAction(Document $document, $id, $token) {
+        if ($this->checkToken($token)) {
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $slub->setFisId($id);
+
+            $document->setSlubInfoData($slub->getSlubXml());
+
+            $this->documentRepository->update($document);
+
+            return '{"success": "Document '.$document->getUid().' added '.$id.'"}';
+        }
+        return '{"error": "Token failed"}';
 
     }
 
