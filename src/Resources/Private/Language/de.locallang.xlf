@@ -353,6 +353,14 @@
 				<source>delete</source>
 				<target>Löschen</target>
 			</trans-unit>
+            <trans-unit id="form_button.duplicate" approved="yes">
+                <source>Duplicate</source>
+                <target>Duplizieren</target>
+            </trans-unit>
+            <trans-unit id="form_button.changeDocumentType" approved="yes">
+                <source>Change publication type</source>
+                <target>Publikationstyp ändern</target>
+            </trans-unit>
 			<trans-unit id="form_button.deleteWorkingCopy" approved="yes">
 				<source>delete working copy</source>
 				<target>Arbeitskopie löschen</target>
@@ -1293,6 +1301,26 @@
 				<source>%s records were found.</source>
 				<target>Es wurden %s Datensätze gefunden.</target>
 			</trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.header" approved="yes">
+                <source>Change the publication type</source>
+                <target>Publikationstyp ändern</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.newDocumentType" approved="yes">
+                <source>New publication type</source>
+                <target>Neuer Publikationstyp</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.message" approved="yes">
+                <source>By changing the publication type, content from fields that are not available in the new publication type may be lost. This cannot be undone. To keep the current data for later review, copy it out of this summary:</source>
+                <target>Durch die Änderung des Publikationstyps gehen evtl. Inhalte aus Feldern verloren, die im neuen Publikationstyp nicht vorhanden sind. Das kann nicht rückgängig gemacht werden. Um die aktuellen Daten für eine spätere Überprüfung zu behalten, kopieren Sie sie aus dieser Zusammenfassung heraus:</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.cancel" approved="yes">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.submit" approved="yes">
+                <source>Change now</source>
+                <target>Jetzt ändern</target>
+            </trans-unit>
 			<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 				<source>Your document has been published:
 	Submitter: ###SUBMITTER_NAME###

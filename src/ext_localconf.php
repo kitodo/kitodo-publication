@@ -93,6 +93,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'changeDocumentType, '
             . 'importListDocTypes, importSearchForm, import',
         'DocumentFormBackoffice' => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '
@@ -116,6 +117,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'changeDocumentType, '
             . 'importListDocTypes, importSearchForm, import, preview',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
         'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '

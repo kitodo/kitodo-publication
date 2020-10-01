@@ -168,7 +168,9 @@ class WorkspaceController extends AbstractController
         }
 
         if ($filters && $results['hits']['total']['value'] < 1) {
-            $this->session->clearFilter();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
             list($redirectAction, $redirectController) = $this->session->getStoredAction();
             $this->redirect(
                 $redirectAction, $redirectController, null,

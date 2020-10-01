@@ -141,9 +141,20 @@
                         class="btn btn-sm btn-secondary">
                     <i class="far fa-copy"></i>
 
-                    Duplizieren
+                    {f:translate(key: 'form_button.duplicate')}
                 </f:link.action>
 
+                <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
+                    <f:link.action
+                        action="changeDocumentType"
+                        controller="Document"
+                        arguments="{document:document}"
+                        class="btn btn-sm btn-secondary"
+                        additionalAttributes="{data-toggle: 'modal', data-target:'#confirmDoctypeChange'}">
+                        <i class="fas fa-exchange-alt"></i>
+                        {f:translate(key: 'form_button.changeDocumentType')}
+                    </f:link.action>
+                </f:if>
 
                 <f:link.action
                         action="cancelListTask"
@@ -152,59 +163,14 @@
                     <i class="fas fa-times"></i>
                     {f:translate(key: 'manager.documentDetails.cancel')}
                 </f:link.action>
-
             </div>
         </div>
     </div>
 
     <f:flashMessages />
 
-    <div id="details-view">
-        <ul>
-            <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
-                <li>
-                    <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
-                        <li>
-                            <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
-                                <ul>
-                                    <li class="details-group">
-                                        <span class="details-group-name">{groupItem.displayName}</span>
-                                        <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
-                                            <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
-                                                <f:if condition="{fieldItem.value}">
-                                                    <f:if condition="{fieldItem.displayName}">
-                                                        <span class="details-field-name">
-                                                            {fieldItem.displayName}:
-                                                        </span>
-                                                    </f:if>
-                                                    <f:render partial="ShowDetails/FieldValue" arguments="{fieldItem:fieldItem}" />
-                                                    <br />
-                                                </f:if>
-                                            </f:for>
-                                        </f:for>
-                                    </li>
-                                </ul>
-                            </f:for>
-                        <li>
-                    </f:for>
-                </li>
-            </f:for>
-            <li>
-                <f:if condition="{documentForm.primaryFile} || {documentForm.secondaryFiles}">
-                    <span class="details-group-name">{f:translate(key: 'form_page.files')}</span>
-                    <ul>
-                        <li>
-                            <f:render partial="ShowDetails/File" arguments="{file: documentForm.primaryFile}"/>
-                        </li>
-                        <f:for each="{documentForm.secondaryFiles}" as="secondaryFile" iteration="secondaryFileIterator">
-                            <li>
-                                <f:render partial="ShowDetails/File" arguments="{file: secondaryFile}"/>
-                            </li>
-                        </f:for>
-                    </ul>
-                </f:if>
-            </li>
-        </ul>
+    <div class="details-view">
+        <f:render partial="ShowDetails/Details" arguments="{documentForm: documentForm}"/>
     </div>
 
     <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
@@ -214,5 +180,43 @@
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="confirmDoctypeChange">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {f:translate(key: 'manager.confirmDoctypeChange.header')}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <f:form id="changeDocumentTypeForm" action="changeDocumentType" method="post" name="document" object="{document}" enctype="multipart/form-data">
+                        <label for="documentTypeUid">{f:translate(key: 'manager.confirmDoctypeChange.newDocumentType')}</label>
+                        <f:form.select name="documentTypeUid" class="custom-select form-control" options="{documentTypes}" value="" additionalAttributes="{required: 1}"/>
+                        <br /><br />
+                    </f:form>
+
+                    {f:translate(key: 'manager.confirmDoctypeChange.message')}
+
+                    <div class="details-view">
+                        <f:render partial="ShowDetails/Details" arguments="{documentForm: documentForm}"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary saveDocumentSummary">{f:translate(key: 'manager.confirmDoctypeChange.saveSummary')}</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key: 'manager.confirmDoctypeChange.cancel')}</button>
+                    <button type="submit" form="changeDocumentTypeForm" class="btn btn-danger submitChangeDocumentType">{f:translate(key: 'manager.confirmDoctypeChange.submit')}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 </f:section>

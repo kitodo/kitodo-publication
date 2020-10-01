@@ -112,6 +112,94 @@ var toggleBulkImportAuthorSearch = function() {
     });
 }
 
+var doctypeChange = {
+
+    init() {
+        var _this = this;
+
+        jQuery("#confirmDoctypeChange .saveDocumentSummary").on("click", function (e) {
+
+            var copyText = jQuery("#confirmDoctypeChange .modal-body .details-view").html();
+
+            copyText = "<!DOCTYPE html>" +
+                "<html lang=\"de\" dir=\"ltr\" class=\"no-js\">"+
+                "<head>" +
+                "<style>" +
+                    ".details-group-name, .details-field-name {font-weight: bold;} " +
+                    ".details-group-name {margin: 20px 0 5px 0; font-size: 18px} " +
+                    ".details-field-name {font-size: 16px;} " +
+                    ".details-group {list-style: none;}" +
+                "</style>" +
+                "</head>" +
+                "<body>" + copyText + "</body>" +
+                "</html>";
+
+            var publication = new Blob([copyText], {type: "text/html;charset=utf-8"});
+            saveAs(publication, "publication.html");
+
+            e.preventDefault();
+        });
+
+        jQuery("#confirmDoctypeChange .submitChangeDocumentType").on("click", function (e) {
+            var documentType = jQuery('#changeDocumentTypeForm').find('select').val();
+            if (documentType <= 0) {
+                jQuery('#changeDocumentTypeForm').find('select').addClass('mandatory-error');
+
+                jQuery('.modal-body').animate({
+                    scrollTop:jQuery(jQuery('#changeDocumentTypeForm').find('select')).offset()
+                }, 100);
+
+                e.preventDefault();
+            }
+        });
+
+        jQuery("#changeDocumentTypeForm select").on("change", function (e) {
+            var documentType = jQuery('#changeDocumentTypeForm').find('select').val();
+            if (documentType > 0) {
+                jQuery('#changeDocumentTypeForm').find('select').removeClass('mandatory-error');
+                e.preventDefault();
+            }
+        });
+
+        jQuery("#confirmDoctypeChange").on("show.bs.modal", function(e) {
+            jQuery(this).find("#changeDocumentTypeForm").attr("action", jQuery(e.relatedTarget).attr("href"));
+        });
+
+        jQuery("#confirmDoctypeChange").on("hidden.bs.modal", function(e) {
+            jQuery('#changeDocumentTypeForm').find('select').removeClass('mandatory-error');
+        });
+    }
+}
+
+var documentFormGroupSelector = {
+    init() {
+        var form = jQuery(".document-form-main");
+        if (typeof form !== "undefined" && form.length > 0) {
+
+            var activeGroup = form.data("activegroup");
+            var activeGroupIndex = form.data("activegroupindex");
+
+            var tab = jQuery('fieldset[data-group="' + activeGroup + '"]').parent().attr("id");
+
+            if (typeof tab !== "undefined" && tab.length > 0) {
+                jQuery('.nav-link').removeClass("active");
+                jQuery('.tab-pane').removeClass("active");
+                jQuery('.nav-link[href="#' + tab + '"]').addClass("active");
+                jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
+
+                if (activeGroupIndex >= 0) {
+                    group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(group).offset().top - 150
+                    }, 0);
+                } else {
+                    addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                }
+            }
+        }
+    }
+}
+
 var saveExtendedSearch = {
 
     init: function () {
@@ -1790,6 +1878,8 @@ $(document).ready(function() {
     userNotifcationSettings.init();
 
     documentFormGroupSelector.init();
+
+    doctypeChange.init();
 
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();

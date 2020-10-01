@@ -538,4 +538,11 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         return true;
     }
 
+    public function initializeAction()
+    {
+        $this->authorizationChecker->denyAccessUnlessLoggedIn();
+
+        parent::initializeAction();
+    }
+
 }
