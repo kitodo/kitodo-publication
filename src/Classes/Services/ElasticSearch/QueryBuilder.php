@@ -188,7 +188,8 @@ class QueryBuilder
                     ],
                     'authorAndPublisher' => [
                         'terms' => [
-                            'field' => 'authorAndPublisher'
+                            'field' => 'authorAndPublisher',
+                            'size'=> 1000
                         ]
                     ],
                     'creatorRole' => [

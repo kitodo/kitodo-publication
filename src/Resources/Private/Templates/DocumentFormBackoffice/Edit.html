@@ -29,14 +29,14 @@
             </f:else>
          </f:if>
 
-        <f:if condition="{activeFileTab}">
+        <f:if condition="{activeGroup}">
             <f:then>
                 <f:link.action
                         id="cancel"
                         action="cancelEdit"
                         controller="DocumentFormBackoffice"
                         class="btn btn-sm btn-outline-secondary"
-                        arguments="{documentUid:documentForm.documentUid, documentList:1}">
+                        arguments="{documentUid: 0}">
                     <i class="fas fa-times"></i>
                     {f:translate(key: 'form_button.cancel')}
                 </f:link.action>
@@ -64,13 +64,22 @@
     </f:if>
 
     <f:form class="document-form-main" action="update" name="documentData" object="{documentData}" enctype="multipart/form-data"
-            additionalAttributes="{data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\"}">
+            additionalAttributes="{
+                data-disabled: \"{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_UPDATE\')} || {suggestMod}', then: '', else: 'disabled')}\",
+                data-activegroup: '{activeGroup}',
+                data-activegroupindex: '{activeGroupIndex}',
+                data-addcurrentfeuser: '{addCurrentFeUser}',
+                data-fispersid: '{fisPersId}'}">
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
         <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
         <f:form.hidden id="validDocument" property="validDocument" value="0"/>
         <f:form.hidden id="suggestMod" property="suggestMod" value="{suggestMod}"/>
+
+        <f:if condition="{activeGroup}">
+            <f:form.hidden id="backToList" property="backToList" value="1"/>
+        </f:if>
 
         <f:if condition="{suggestMod}">
             <div class="container">

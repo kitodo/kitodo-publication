@@ -183,7 +183,27 @@ class ElasticSearch
                         ],
                         'source' => [
                             'type' => 'text'
-                        ]
+                        ],
+                        'fobIdentifiers' => [
+                            'type' => 'keyword'
+                        ],
+                        'personData' => [
+                            'enabled' => false,
+                            'properties' => [
+                                'name' => [
+                                    'type' => 'keyword'
+                                ],
+                                'fobId' => [
+                                    'type' => 'keyword'
+                                ],
+                                'index' => [
+                                    'type' => 'integer'
+                                ]
+                            ]
+                        ],
+                        'affiliation' => [
+                            'type' => 'keyword'
+                        ],
                     ]
                 ]
             ]
@@ -254,13 +274,35 @@ class ElasticSearch
             /** @var @var Mods $mods */
             $mods = new Mods($document->getXmlData());
 
-            $authors = $mods->getAuthors();
-            $publishers = $mods->getPublishers();
+            //$persons = array_merge($mods->getAuthors(), $mods->getPublishers());
+            $persons = $mods->getPersons();
 
-            $data->authorAndPublisher = array_merge($authors, $publishers);
+            $authorAndPublisher = [];
+            $fobIdentifiers = [];
+            $personData = [];
+            foreach ($persons as $person) {
+                $authorAndPublisher[] = $person['name'];
+                $fobIdentifiers[] = $person['fobId'];
+                $personData[] = $person;
+                //$data->persons[] = $person['name'];
+                $data->persons[] = $person['fobId'];
+
+                foreach ($person['affiliations'] as $affiliation) {
+                    $data->affiliation[] = $affiliation;
+                }
+
+                foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
+                    $data->affiliation[] = $affiliationIdentifier;
+                }
+            }
+
+            $data->authorAndPublisher = $authorAndPublisher;
+            $data->fobIdentifiers = $fobIdentifiers;
+            $data->personData = $personData;
+
+            $data->authorAndPublisherIndex = array_keys($authorAndPublisher);
 
             $data->source = $document->getSourceDetails();
-
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {

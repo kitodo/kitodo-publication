@@ -28,6 +28,72 @@ var userNotifcationSettings = {
         });
     }
 }
+var documentFormGroupSelector = {
+    init() {
+        var form = jQuery(".document-form-main");
+        if (typeof form !== "undefined" && form.length > 0) {
+
+            var activeGroup = form.data("activegroup");
+            var activeGroupIndex = form.data("activegroupindex");
+
+            var tab = jQuery('fieldset[data-group="' + activeGroup + '"]').parent().attr("id");
+
+            if (typeof tab !== "undefined" && tab.length > 0) {
+                jQuery('.nav-link').removeClass("active");
+                jQuery('.tab-pane').removeClass("active");
+                jQuery('.nav-link[href="#' + tab + '"]').addClass("active");
+                jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
+
+                if (activeGroupIndex >= 0) {
+                    var group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(group).offset().top - 150
+                    }, 0);
+                } else {
+                    var emptyGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-emptygroup="1"]').first();
+
+                    if (emptyGroupElement.length > 0) {
+                        activeGroupIndex = emptyGroupElement.data('groupindex');
+                    } else {
+                        activeGroupIndex = jQuery('fieldset[data-group="' + activeGroup + '"]').size();
+                    }
+
+                    if (activeGroupIndex > 0) {
+                        addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                    }
+
+                    if (form.data("addcurrentfeuser")) {
+                        isGroupLoaded(
+                            'fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]',
+                            function () {
+                                jQuery('.addMyData').hide();
+                                var activeGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]');
+                                //var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
+                                var context = activeGroupElement.find('.addMyData').first();
+                                setDataRequest(context.data('ajax'), jQuery('form').data('fispersid'), context);
+                                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
+                                jQuery('html, body').animate({
+                                    scrollTop: jQuery(activeGroupElement).offset().top - 150
+                                }, 0);
+                            });
+                    }
+                }
+            }
+        }
+    }
+}
+
+var isGroupLoaded = function (element, callback, counter = 0) {
+    if (jQuery(element).length) {
+        callback(jQuery(element));
+    } else {
+        if (counter < 10) {
+            setTimeout(function () {
+                isGroupLoaded(element, callback, counter++)
+            }, 500);
+        }
+    }
+}
 
 var saveExtendedSearch = {
 
@@ -794,7 +860,7 @@ var hasMandatoryInputs = function(fieldset) {
 }
 var markPage = function(fieldset, error) {
     var pageId = fieldset.parent().attr("id");
-    var page = jQuery(".tx-dpf-tabs li a[href=#" + pageId + "]");
+    var page = jQuery('.tx-dpf-tabs li a[href="#' + pageId + '"]');
     if (error) {
         page.addClass("mandatory-error");
     } else {
@@ -847,15 +913,17 @@ var checkFilledInputs = function(fieldset) {
     });
     return filledInputs < 1;
 }
-var addGroup = function() {
-    var element = jQuery(this);
-    // Get the group uid
-    var dataGroup = jQuery(this).attr("data-group");
-    // Number of the next group item
-    var groupIndex = parseInt(jQuery(this).attr("data-index")) + 1;
+var addGroup = function(target) {
 
-    jQuery(this).attr("data-index", groupIndex);
-    var ajaxURL = jQuery(this).attr("data-ajax");
+    var element = jQuery(target);
+
+    var dataGroup = jQuery(target).attr("data-group");
+
+    // Number of the next group item
+    var groupIndex = parseInt(jQuery(target).attr("data-index")) + 1;
+
+    jQuery(target).attr("data-index", groupIndex);
+    var ajaxURL = jQuery(target).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(group) {
@@ -865,11 +933,13 @@ var addGroup = function() {
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
         var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true);
+
+        jQuery(group).fadeIn();
+
         jQuery("html, body").animate({
-            scrollTop: element.offset().top - height
-        }, 400, function() {
-            jQuery(group).fadeIn();
-        });
+            scrollTop: jQuery(group).offset().top - 150
+        }, 100);
+
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
@@ -1699,6 +1769,8 @@ $(document).ready(function() {
 
     userNotifcationSettings.init();
 
+    documentFormGroupSelector.init();
+
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
     var $disableForm = jQuery("form[data-disabled]").attr("data-disabled");
@@ -1757,8 +1829,15 @@ $(document).ready(function() {
         return false;
     });
     // Add metadata group
-    jQuery(".tx-dpf").on("click", ".add_group", addGroup);
-    jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
+    jQuery(".tx-dpf").on("click", ".add_file_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
+
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);

@@ -129,13 +129,50 @@
                 <dpf:showDocumentType docType="{document._source.doctype}" />
             </td>
             <td>
-                <f:for each="{document._source.authorAndPublisher}" as="person" iteration="itemIterator">
-                    <span>{person}</span>
-                    <f:if condition="{itemIterator.isLast}">
-                        <f:then></f:then>
-                        <f:else><br /></f:else>
+                <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
+                    <f:if condition="{currentFisPersId} && {person.fobId} == {currentFisPersId}">
+                        <f:then>
+                            <span class="person current-fobid-person">
+                                {person.name}
+                                <i class="fas fa-user-circle"></i>
+                            </span>
+                        </f:then>
+                        <f:else>
+                            <f:if condition="{person.fobId}">
+                                <f:then>
+                                    <span class="person fobid-person">
+                                        {person.name}
+                                        <i class="fas fa-user-circle"></i>
+                                    </span>
+                                </f:then>
+                                <f:else>
+                                    <f:link.action
+                                            action="editDocument"
+                                            controller="Workspace"
+                                            arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: person.index}"
+                                            class="person fobid-identify"
+                                            title="{f:translate(key: 'manager.workspace.identifyPerson', default: 'Person identifizieren')}"
+                                            additionalAttributes="{data-toggle: 'tooltip' }">
+                                        {person.name}
+                                    </f:link.action>
+                                </f:else>
+                            </f:if>
+                        </f:else>
                     </f:if>
                 </f:for>
+                <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+                    <f:if condition="{dpf:inArray(needle:'{currentFisPersId}', array:'{document._source.fobIdentifiers}')} == 0 && {currentFisPersId}">
+                        <f:link.action
+                                action="editDocument"
+                                controller="Workspace"
+                                arguments="{documentIdentifier : document._id, activeGroup: personGroup, activeGroupIndex: '-1'}"
+                                class="person fobid-add"
+                                title="{f:translate(key: 'manager.workspace.addPerson', default: 'Mich als Autor_in hinzufügen')}"
+                                additionalAttributes="{data-toggle: 'tooltip' }">
+                            [+]
+                        </f:link.action>
+                    </f:if>
+                </f:if>
             </td>
             <td>
                 {document._source.year}
@@ -184,9 +221,9 @@
                     </f:then>
                     <f:else>
                             <f:link.action
-                                    action="uploadFiles"
+                                    action="editDocument"
                                     controller="Workspace"
-                                    arguments="{documentIdentifier : document._id, activeFileTab:1}"
+                                    arguments="{documentIdentifier : document._id, activeGroup: 'file-upload', activeGroupIndex: 0}"
                                     class="btn btn-sm btn-outline-secondary"
                                     title="{f:translate(key: 'manager.tooltip.uploadFiles')}"
                                     additionalAttributes="{data-toggle: 'tooltip' }">

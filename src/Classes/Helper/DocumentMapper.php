@@ -258,6 +258,9 @@ class DocumentMapper
                         $documentFormPage->addItem($documentFormGroupItem);
                     }
                 } else {
+
+                    $documentFormGroup->setEmptyGroup(true);
+
                     foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
                         $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
                         $documentFormField->setUid($metadataObject->getUid());

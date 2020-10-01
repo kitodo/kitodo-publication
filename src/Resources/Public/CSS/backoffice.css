@@ -80,6 +80,34 @@ body {
     border-top: none;
 }
 
+#tx-dpf-backoffice .person {
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-bottom: 2px;
+    /* line-height: 1.7; */
+    border-radius: .2rem;
+    display: block;
+    float: left;
+    clear: both;
+}
+
+#tx-dpf-backoffice .fobid-person {
+    /* text-decoration: underline; */
+}
+
+#tx-dpf-backoffice .fobid-add:hover,
+#tx-dpf-backoffice .fobid-identify:hover {
+    /* background-color: #6c757d;
+    color: white;
+    text-decoration: none; */
+}
+
+#tx-dpf-backoffice .current-fobid-person {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
 #tx-dpf-backoffice .workspace-batch-operations {
     margin-top: 1rem;
     margin-bottom: 1rem;

@@ -104,6 +104,22 @@ class WorkspaceController extends AbstractController
 
 
     /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
+
+    /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
+
+    /**
      * list
      *
      * @param int $from
@@ -168,6 +184,13 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
+
+        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
+          $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
+        }
+
+        $personGroup = $this->metadataGroupRepository->findPersonGroup();
+        $this->view->assign('personGroup', $personGroup->getUid());
     }
 
     /**
@@ -641,12 +664,14 @@ class WorkspaceController extends AbstractController
 
 
     /**
-     * action uploadFiles
+     * Action editDocument
      *
      * @param string $documentIdentifier
+     * @param string $activeGroup
+     * @param int $activeGroupIndex
      * @return void
      */
-    public function uploadFilesAction($documentIdentifier)
+    public function editDocumentAction($documentIdentifier, $activeGroup = '', $activeGroupIndex = 0)
     {
         $document = $this->documentManager->read(
             $documentIdentifier,
@@ -659,13 +684,24 @@ class WorkspaceController extends AbstractController
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } elseif ($this->authorizationChecker->isGranted(DocumentVoter::SUGGEST_MODIFICATION, $document)) {
                 $this->redirect(
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'suggestMod' => true, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'suggestMod' => true,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } else {
                 if ($document->getCreator() !== $this->security->getUser()->getUid()) {
                     $message = LocalizationUtility::translate(

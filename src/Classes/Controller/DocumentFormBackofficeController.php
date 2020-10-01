@@ -116,12 +116,18 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $suggestMod
-     * @param bool activeFileTab
+     * @param string activeGroup
+     * @param int activeGroupIndex
+     * @param bool $addCurrentFeUser
      * @ignorevalidation $documentForm
      * @return void
      */
     public function editAction(
-        \EWW\Dpf\Domain\Model\DocumentForm $documentForm, bool $suggestMod = false, $activeFileTab = false
+        \EWW\Dpf\Domain\Model\DocumentForm $documentForm,
+        bool $suggestMod = false,
+        $activeGroup = '',
+        $activeGroupIndex = 0,
+        $addCurrentFeUser = true
     )
     {
         /** @var \EWW\Dpf\Domain\Model\Document $document */
@@ -162,7 +168,9 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->security->getUser()->getUid()
         );
 
-        $this->view->assign('activeFileTab', $activeFileTab);
+        $this->view->assign('activeGroup', $activeGroup);
+        $this->view->assign('activeGroupIndex', $activeGroupIndex);
+        $this->view->assign('addCurrentFeUser', $addCurrentFeUser);
         parent::editAction($documentForm);
     }
 
@@ -262,6 +270,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->forward('createSuggestionDocument', null, null, ['documentForm' => $documentForm, 'restore' => $restore]);
         }
 
+        $backToList = $this->request->getArgument('documentData')['backToList'];
+        
         if ($this->request->hasArgument('saveAndUpdate')) {
             $saveMode = 'saveAndUpdate';
         } elseif ($this->request->hasArgument('saveWorkingCopy')) {
@@ -277,7 +287,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             NULL,
                 [
                     'documentForm' => $documentForm,
-                    'saveMode' => $saveMode
+                    'saveMode' => $saveMode,
+                    'backToList' => $backToList
                 ]
         );
     }
@@ -286,10 +297,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     /**
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param string $saveMode
+     * @param bool $backToList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function updateDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $saveMode = null)
+    public function updateDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $saveMode = null, $backToList = false)
     {
         try {
             /** @var \EWW\Dpf\Domain\Model\Document $document */
@@ -308,10 +320,19 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     array($document->getTitle())
                 );
                 $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+
+                $this->redirect('cancelEdit',
+                    null,
+                    null,
+                    ['documentUid' => $document->getUid(), 'backToList' => $backToList]
+                );
+                /*
                 $this->redirect(
                     'showDetails', 'Document',
                     null, ['document' => $document]
                 );
+                */
+
             }
 
             /** @var  \EWW\Dpf\Helper\DocumentMapper $documentMapper */
@@ -409,7 +430,12 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ($workflowTransition && $workflowTransition === DocumentWorkflow::TRANSITION_REMOTE_UPDATE) {
                 $this->redirectToDocumentList();
             } else {
-                $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
+                $this->redirect('cancelEdit',
+                    null,
+                    null,
+                    ['documentUid' => $updateDocument->getUid(), 'backToList' => $backToList]
+                );
+                // $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
             }
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
             // A redirect always throws this exception, but in this case, however,
@@ -433,6 +459,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $exceptionMsg[] = LocalizationUtility::translate($key, 'dpf');
 
             $this->addFlashMessage(implode(" ", $exceptionMsg), '', $severity, true);
+            $this->redirect('cancelEdit',
+                null,
+                null,
+                ['documentUid' => $updateDocument->getUid(), 'backToList' => $backToList]
+            );
             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
         }
     }
@@ -498,21 +529,21 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * action cancel edit
      *
      * @param integer $documentUid
+     * @param bool $backToList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      *
      * @return void
      */
-    public function cancelEditAction($documentUid = 0)
+    public function cancelEditAction($documentUid = 0, $backToList = false)
     {
-        if ($documentUid) {
-            /** @var $document \EWW\Dpf\Domain\Model\Document */
-            $document = $this->documentRepository->findByUid($documentUid);
-
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-        } else {
+        if (empty($documentUid) || $backToList) {
             $this->redirectToDocumentList();
         }
+
+        /** @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $this->documentRepository->findByUid($documentUid);
+        $this->redirect('showDetails', 'Document', null, ['document' => $document]);
     }
 
     /**
