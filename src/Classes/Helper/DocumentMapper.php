@@ -304,11 +304,15 @@ class DocumentMapper
 
     public function getDocument($documentForm)
     {
+        /** @var Document $document */
 
         if ($documentForm->getDocumentUid()) {
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+            $tempMods = new Mods($document->getXmlData());
+            $fobIdentifiers = $tempMods->getFobIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
+            $fobIdentifiers = [];
         }
 
         $processNumber = $document->getProcessNumber();
@@ -343,7 +347,9 @@ class DocumentMapper
         $modsXml = $exporter->getModsData();
         $document->setXmlData($modsXml);
 
-        $mods = new \EWW\Dpf\Helper\Mods($modsXml);
+        /** @var Mods $mods */
+        $mods = new Mods($modsXml);
+        $document->setNewlyAssignedFobIdentifiers(array_diff($mods->getFobIdentifiers(), $fobIdentifiers));
 
         $document->setTitle($mods->getTitle());
         $document->setAuthors($mods->getAuthors());

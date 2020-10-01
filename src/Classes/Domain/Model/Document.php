@@ -169,6 +169,18 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $embargoDate = null;
 
     /**
+     * newlyAssignedFobIdentifiers
+     *
+     * @var array
+     */
+    protected $newlyAssignedFobIdentifiers = [];
+
+    /**
+     * @var bool
+     */
+    protected $stateChange = false;
+
+    /**
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
@@ -735,6 +747,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function setState($state)
     {
+        $this->stateChange = $this->state != $state;
         $this->state = $state;
     }
 
@@ -958,6 +971,49 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEmbargoDate(?\DateTime $embargoDate)
     {
         $this->embargoDate = $embargoDate;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNewlyAssignedFobIdentifiers(): array
+    {
+        return $this->newlyAssignedFobIdentifiers;
+    }
+
+    /**
+     * @param array newlyAssignedFobIdentifiers
+     */
+    public function setNewlyAssignedFobIdentifiers(array $newlyAssignedFobIdentifiers): void
+    {
+        $this->newlyAssignedFobIdentifiers = $newlyAssignedFobIdentifiers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPreviouslyAssignedFobIdentifiers()
+    {
+        return array_diff(
+            $this->getAssignedFobIdentifiers(), $this->getNewlyAssignedFobIdentifiers()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getAssignedFobIdentifiers(): array
+    {
+        $mods = new Mods($this->getXmlData());
+        return $mods->getFobIdentifiers();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStateChange(): bool
+    {
+        return $this->stateChange;
     }
 
 }

@@ -591,8 +591,34 @@ class WorkspaceController extends AbstractController
             'bool' => [
                 'must' => [
                     [
-                        'term' => [
-                            'creator' => $this->security->getUser()->getUid()
+                        'bool' => [
+                            'should' => [
+                                [
+                                    'term' => [
+                                        'creator' => $this->security->getUser()->getUid()
+                                    ]
+                                ],
+                                [
+                                    'bool' => [
+                                        'must' => [
+                                            [
+                                                'term' => [
+                                                    'fobIdentifiers' => $this->security->getUser()->getFisPersId()
+                                                ]
+                                            ],
+                                            [
+                                                'bool' => [
+                                                    'must_not' => [
+                                                        'term' => [
+                                                            'state' => DocumentWorkflow::STATE_NEW_NONE
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ],
+                                ]
+                            ]
                         ]
                     ]
                 ]

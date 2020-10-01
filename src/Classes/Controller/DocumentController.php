@@ -649,11 +649,19 @@ class DocumentController extends AbstractController
             $this->bookmarkRepository->addBookmark($document, $this->security->getUser()->getUid());
         }
 
+        // admin register notification
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
 
         // index the document
         $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);
+
+        // document updated notification
+        $recipients = $this->documentManager->getUpdateNotificationRecipients($document);
+        $notifier->sendMyPublicationUpdateNotification($document, $recipients);
+
+        $recipients = $this->documentManager->getNewPublicationNotificationRecipients($document);
+        $notifier->sendMyPublicationNewNotification($document, $recipients);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
         $this->flashMessage($document, $key, AbstractMessage::OK);

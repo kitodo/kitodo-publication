@@ -323,6 +323,8 @@ class ElasticSearch
 
             $data->originalSourceTitle = $mods->getOriginalSourceTitle();
 
+            $data->fobIdentifiers = $mods->getFobIdentifiers();
+
             $this->client->index([
                 'refresh' => 'wait_for',
                 'index' => $this->indexName,

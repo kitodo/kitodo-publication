@@ -255,6 +255,34 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $suggestionFlashmessage = '';
 
     /**
+     * $mypublicationsUpdateNotificationSubject
+     *
+     * @var string
+     */
+    protected $mypublicationsUpdateNotificationSubject = '';
+
+    /**
+     * $mypublicationsUpdateNotificationBody
+     *
+     * @var string
+     */
+    protected $mypublicationsUpdateNotificationBody = '';
+
+    /**
+     * $mypublicationsNewNotificationSubject
+     *
+     * @var string
+     */
+    protected $mypublicationsNewNotificationSubject = '';
+
+    /**
+     * $mypublicationsNewNotificationBody
+     *
+     * @var string
+     */
+    protected $mypublicationsNewNotificationBody = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -954,5 +982,68 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->suggestionFlashmessage = $suggestionFlashmessage;
     }
 
+    /**
+     * @return string
+     */
+    public function getMypublicationsUpdateNotificationSubject(): string
+    {
+        return $this->mypublicationsUpdateNotificationSubject;
+    }
+
+    /**
+     * @param string $mypublicationsUpdateNotificationSubject
+     */
+    public function setMypublicationsUpdateNotificationSubject(string $mypublicationsUpdateNotificationSubject): void
+    {
+        $this->mypublicationsUpdateNotificationSubject = $mypublicationsUpdateNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsUpdateNotificationBody(): string
+    {
+        return $this->mypublicationsUpdateNotificationBody;
+    }
+
+    /**
+     * @param string $mypublicationsUpdateNotificationBody
+     */
+    public function setMypublicationsUpdateNotificationBody(string $mypublicationsUpdateNotificationBody): void
+    {
+        $this->mypublicationsUpdateNotificationBody = $mypublicationsUpdateNotificationBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsNewNotificationSubject(): string
+    {
+        return $this->mypublicationsNewNotificationSubject;
+    }
+
+    /**
+     * @param string $mypublicationsNewNotificationSubject
+     */
+    public function setMypublicationsNewNotificationSubject(string $mypublicationsNewNotificationSubject): void
+    {
+        $this->mypublicationsNewNotificationSubject = $mypublicationsNewNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsNewNotificationBody(): string
+    {
+        return $this->mypublicationsNewNotificationBody;
+    }
+
+    /**
+     * @param string $mypublicationsNewNotificationBody
+     */
+    public function setMypublicationsNewNotificationBody(string $mypublicationsNewNotificationBody): void
+    {
+        $this->mypublicationsNewNotificationBody = $mypublicationsNewNotificationBody;
+    }
 
 }

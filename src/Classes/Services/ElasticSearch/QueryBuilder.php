@@ -389,8 +389,19 @@ class QueryBuilder
                                             ]
                                         ],
                                         [
-                                            'term' => [
-                                                'creator' => $this->security->getUser()->getUid()
+                                            'bool' => [
+                                                'should' => [
+                                                    [
+                                                        'term' => [
+                                                            'creator' => $this->security->getUser()->getUid()
+                                                        ]
+                                                    ],
+                                                    [
+                                                        'term' => [
+                                                            'fobIdentifiers' => $this->security->getUser()->getFisPersId()
+                                                        ]
+                                                    ]
+                                                ]
                                             ]
                                         ]
                                     ]

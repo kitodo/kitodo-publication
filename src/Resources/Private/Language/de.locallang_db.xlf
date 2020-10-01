@@ -97,6 +97,22 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_subject" approved="yes">
+			<source>Update publication subject</source>
+			<target>Publikationsaktualisierung Thema</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_body" approved="yes">
+			<source>Update publication body</source>
+			<target>Publikationsaktualisierung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_subject" approved="yes">
+			<source>New publication subject</source>
+			<target>Neue Publikation Thema</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_body" approved="yes">
+			<source>New publication body</source>
+			<target>Neue Publikation Body</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body" approved="yes">
 			<source>New suggestion body
 			</source>
