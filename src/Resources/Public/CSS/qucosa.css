@@ -142,6 +142,10 @@
     margin: 0 0 10px 0;
 }
 
+.tx-dpf fieldset .field-info-text {
+    margin: 0 0 10px 0;
+}
+
 .tx-dpf .document-form-main .form-group {
     position: relative;
     display: table;

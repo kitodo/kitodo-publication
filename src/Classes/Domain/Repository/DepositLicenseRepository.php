@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\ViewHelpers;
+namespace EWW\Dpf\Domain\Repository;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,19 +14,10 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class InArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+/**
+ * The repository for DepositLicense
+ */
+class DepositLicenseRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
-
-    /**
-     * @param mixed $needle The searched value
-     * @param mixed $array The array
-     */
-    public function render($needle, $array)
-    {
-        if (is_array($array)) {
-            return in_array($needle, $array);
-        }
-        return false;
-    }
 
 }

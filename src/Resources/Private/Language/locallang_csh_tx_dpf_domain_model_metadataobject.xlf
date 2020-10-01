@@ -26,6 +26,9 @@
 		<trans-unit id="input_field.description">
 			<source>Input field</source>
 		</trans-unit>
+		<trans-unit id="deposit_license.description">
+			<source>Checkbox value</source>
+		</trans-unit>
 		<trans-unit id="gnd_field_uid.description">
 			<source>UID of the metadata object record which configures the GND No. field</source>
 		</trans-unit>

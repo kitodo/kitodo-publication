@@ -15,6 +15,19 @@
 {namespace s=SJBR\StaticInfoTables\ViewHelpers}
 {namespace eww=EWW\Dpf\ViewHelpers}
 
+<f:if condition="{fieldItem.consent}">
+    <div class="field-info-text">
+        <f:if condition="{eww:isValidDepositLicense(uri:'{fieldItem.value}')}">
+            <f:then>
+                <eww:getDepositLicenseText uri="{fieldItem.value}" />
+            </f:then>
+            <f:else>
+                <eww:getDepositLicenseText uri="{fieldItem.depositLicense.uri}" />
+            </f:else>
+        </f:if>
+    </div>
+</f:if>
+
 <div class="form-group">
     <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
         <f:if condition="{fieldItem.mandatory}">
@@ -95,23 +108,28 @@
             </div>
         </f:case>
         <f:case value="3">
-            <f:if condition="{eww:IsConsentField(condition:'{fieldItem.consent}')}">
+            <f:if condition="{fieldItem.consent}">
                 <f:then>
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                     value="yes" class="input-field form-control input-field-checkbox"
+                                     value="{fieldItem.depositLicense.uri}" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
-                                     checked="{fieldItem.value}" disabled="true"/>
-                    <f:form.hidden
-                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                            value="{fieldItem.value}"/>
+                                     checked="{eww:isValidDepositLicense(uri:'{fieldItem.value}')}" disabled="{f:if(condition:'{eww:isValidDepositLicense(uri:\'{fieldItem.value}\')}', then: 'true', else:'')}"/>
+                    <f:if condition="{eww:isValidDepositLicense(uri: '{fieldItem.value}')}">
+                        <f:form.hidden
+                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                value="{fieldItem.value}"/>
+                    </f:if>
                 </f:then>
                 <f:else>
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                      value="yes" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
-                                     checked="{fieldItem.value}"/>
+                                     checked="{f:if(condition: '{fieldItem.value}', then: 'true')}"/>
+                    <f:form.hidden
+                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                            value="{fieldItem.value}"/>
                 </f:else>
             </f:if>
         </f:case>

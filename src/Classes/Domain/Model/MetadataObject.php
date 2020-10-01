@@ -66,6 +66,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      * @var string
      */
     protected $objectType = '';
+    /**
+     * depositLicense
+     *
+     * @var int
+     */
+    protected $depositLicense = '';
+
 
     const input    = 0;
     const textarea = 1;
@@ -740,6 +747,19 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     }
 
 
+    /**
+     * @return int
+     */
+    public function getDepositLicense(): int
+    {
+        return $this->depositLicense;
+    }
 
-
+    /**
+     * @param int $depositLicense
+     */
+    public function setDepositLicense($depositLicense): void
+    {
+        $this->depositLicense = $depositLicense;
+    }
 }

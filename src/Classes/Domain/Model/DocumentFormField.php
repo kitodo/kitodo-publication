@@ -33,6 +33,8 @@ class DocumentFormField extends AbstractFormElement
 
     protected $validation;
 
+    protected $depositLicense = null;
+
     /**
      * @var string
      */
@@ -267,6 +269,22 @@ class DocumentFormField extends AbstractFormElement
     public function setObjectType(string $objectType): void
     {
         $this->objectType = $objectType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        return $this->depositLicense;
+    }
+
+    /**
+     * @param mixed $depositLicense
+     */
+    public function setDepositLicense($depositLicense): void
+    {
+        $this->depositLicense = $depositLicense;
     }
 
 }

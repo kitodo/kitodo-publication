@@ -1051,6 +1051,23 @@
 			<trans-unit id="notification.newPublication.mypublications.subject" approved="yes">
 				<source>A publication has been added to your publications</source>
 			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.body" xml:space="preserve">
+				<source>A deposit license has been given:
+	Username: ###LICENSE_USERNAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Processnumber: ###PROCESS_NUMBER###
+	Document-ID: ###DOCUMENT_IDENTIFIER###
+	Date: ###DATE###
+	Files: ###FILE_LIST###
+    License URI: ###LICENSE_URI###
+    License: ###LICENSE_TEXT###
+					</source>
+			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.subject" approved="yes">
+				<source>Deposit license</source>
+			</trans-unit>
 			<trans-unit id="search.control.extendedSearch">
 				<source>Extended search</source>
 			</trans-unit>

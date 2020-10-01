@@ -30,6 +30,7 @@ use EWW\Dpf\Domain\Model\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 
 
 /**
@@ -85,6 +86,14 @@ class DocumentController extends AbstractController
      * @inject
      */
     protected $documentValidator;
+
+    /**
+     * depositLicenseLogRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
+     * @inject
+     */
+    protected $depositLicenseLogRepository = null;
 
     /**
      * workflow
@@ -249,7 +258,7 @@ class DocumentController extends AbstractController
 
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
-
+            
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }

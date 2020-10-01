@@ -32,7 +32,6 @@ class Notifier
      */
     protected $clientRepository = null;
 
-
     /**
      * documentTypeRepository
      *
@@ -40,6 +39,22 @@ class Notifier
      * @inject
      */
     protected $documentTypeRepository = null;
+
+    /**
+     * depositLicenseRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
+     * @inject
+     */
+    protected $depositLicenseRepository = null;
+
+    /**
+     * security
+     *
+     * @var \EWW\Dpf\Security\Security
+     * @inject
+     */
+    protected $security = null;
 
 
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
@@ -145,6 +160,8 @@ class Notifier
         $args['###CLIENT###'] = $client->getClient();
         $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
 
+        $args['###DOCUMENT_IDENTIFIER###'] = $document->getObjectIdentifier();
+
         if ($documentType) {
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
         } else {
@@ -167,6 +184,15 @@ class Notifier
         $host = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $backofficePageId = $settings['plugin.']['tx_dpf.']['settings.']['backofficePluginPage'];
 
+        /** @var \EWW\Dpf\Domain\Model\DepositLicense $depositLicense */
+        $depositLicense = $this->depositLicenseRepository->findOneByUri($document->getDepositLicense());
+        if ($depositLicense instanceof \EWW\Dpf\Domain\Model\DepositLicense) {
+            $args['###LICENSE_URI###'] = $depositLicense->getUri();
+            $args['###LICENSE_TEXT###'] = $depositLicense->getText();
+        }
+
+        $args['###LICENSE_USERNAME###'] = $this->security->getUser()->getUsername();
+
         if ($document->isSuggestion()) {
             $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
             $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
@@ -185,11 +211,13 @@ class Notifier
 
         if ($document->getFileData()) {
             $args['###HAS_FILES###'] = 'Attachment';
-            foreach ($document->getFileData() as $fileSection) {
-                foreach ($fileSection as $file) {
-                    $args['###FILE_LIST###'] .= $file['title'];
+            $fileList = [];
+            foreach ($document->getFile() as $file) {
+                if (!$file->isFileGroupDeleted()) {
+                    $fileList[] = $file->getTitle();
                 }
             }
+            $args['###FILE_LIST###'] .= implode(", ", $fileList);
         }
 
         return $args;
@@ -529,6 +557,52 @@ class Notifier
 
             $logger->log(
                 LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+    public function sendDepositLicenseNotification(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $clientAdminEmail = $client->getAdminEmail();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Notify client admin
+            if ($clientAdminEmail && $client->isSendAdminDepositLicenseNotification()) {
+
+                $subject = $client->getAdminDepositLicenseNotificationSubject();
+                $body = $client->getAdminDepositLicenseNotificationBody();
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.depositLicense.admin.subject', 'dpf');
+                }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.depositLicense.admin.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendDepositLicenseNotification failed",
                 array(
                     'document' => $document
                 )

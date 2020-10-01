@@ -16,6 +16,7 @@ namespace EWW\Dpf\Domain\Model;
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\Mods;
+use EWW\Dpf\Helper\Slub;
 
 /**
  * Document
@@ -109,7 +110,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string $processNumber
      */
-    protected $processNumber;
+    protected $processNumber = '';
 
     /**
      * @var bool $suggestion
@@ -240,7 +241,22 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAuthors()
     {
-        return unserialize($this->authors);
+        $authors = @unserialize($this->authors);
+        if (is_array($authors)) {
+            return $authors;
+        } else {
+            $authors = [];
+            $items = array_map('trim', explode(";", $this->authors));
+            foreach ($items as $key => $value) {
+                $authors[] = [
+                    'name' => trim($value),
+                    'role' => 'aut',
+                    'fobId' => '',
+                    'index' => $key
+                ];
+            }
+            return $authors;
+        }
     }
 
     /**
@@ -1014,6 +1030,16 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isStateChange(): bool
     {
         return $this->stateChange;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        $slub = new Slub($this->getSlubInfoData());
+        $data = $slub->getDepositLicense();
+        return $data;
     }
 
 }

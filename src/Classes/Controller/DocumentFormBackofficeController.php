@@ -24,6 +24,7 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -254,6 +255,35 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendAdminNewSuggestionNotification($newDocument);
 
+            $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($newDocument->getProcessNumber());
+            if (empty($depositLicenseLog) && $newDocument->getDepositLicense()) {
+                // Only if there was no deposit license a notification may be sent
+
+                /** @var DepositLicenseLog $depositLicenseLog */
+                $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+                $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
+                $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
+                $depositLicenseLog->setTitle($newDocument->getTitle());
+                $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+                $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
+
+                if ($newDocument->getFileData()) {
+                    $fileList = [];
+                    foreach ($newDocument->getFile() as $file) {
+                        $fileList[] = $file->getTitle();
+                    }
+                    $depositLicenseLog->setFileNames(implode(", ", $fileList));
+                }
+
+
+                $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+                /** @var Notifier $notifier */
+                $notifier = $this->objectManager->get(Notifier::class);
+                $notifier->sendDepositLicenseNotification($newDocument);
+            }
+
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             $this->addFlashMessage("Failed", '', $severity,false);
@@ -306,6 +336,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         try {
             /** @var \EWW\Dpf\Domain\Model\Document $document */
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+            $depositLicense = $document->getDepositLicense();
 
             if (
                 !$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document) ||
@@ -364,6 +395,35 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $documentForm->getDeletedFiles(), $documentForm->getNewFiles()
                 )
             ) {
+
+                $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($document->getProcessNumber());
+                if (empty($depositLicenseLog) && $updateDocument->getDepositLicense()) {
+                    // Only if there was no deposit license a notification may be sent
+
+                    /** @var DepositLicenseLog $depositLicenseLog */
+                    $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                    $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+                    $depositLicenseLog->setObjectIdentifier($document->getObjectIdentifier());
+                    $depositLicenseLog->setProcessNumber($document->getProcessNumber());
+                    $depositLicenseLog->setTitle($document->getTitle());
+                    $depositLicenseLog->setUrn($document->getQucosaUrn());
+                    $depositLicenseLog->setLicenceUri($document->getDepositLicense());
+
+                    if ($document->getFileData()) {
+                        $fileList = [];
+                        foreach ($document->getFile() as $file) {
+                            $fileList[] = $file->getTitle();
+                        }
+                        $depositLicenseLog->setFileNames(implode(", ", $fileList));
+                    }
+
+
+                    $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+                    /** @var Notifier $notifier */
+                    $notifier = $this->objectManager->get(Notifier::class);
+                    $notifier->sendDepositLicenseNotification($updateDocument);
+                }
 
                 $message = LocalizationUtility::translate(
                     'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success',
