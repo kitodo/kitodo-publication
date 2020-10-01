@@ -283,6 +283,42 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $mypublicationsNewNotificationBody = '';
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $crossrefTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $dataciteTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $k10plusTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $pubmedTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $bibtexTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $riswosTransformation = null;
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -1044,6 +1080,54 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setMypublicationsNewNotificationBody(string $mypublicationsNewNotificationBody): void
     {
         $this->mypublicationsNewNotificationBody = $mypublicationsNewNotificationBody;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getCrossrefTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->crossrefTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getDataciteTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->dataciteTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getK10plusTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->k10plusTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getPubmedTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->pubmedTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getBibtexTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->bibtexTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getRiswosTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->riswosTransformation;
     }
 
 }

@@ -23,6 +23,7 @@ use EWW\Dpf\Services\FeUser\OrcidDataService;
 use EWW\Dpf\Services\FeUser\RorDataService;
 use EWW\Dpf\Services\FeUser\UnpaywallDataService;
 use EWW\Dpf\Services\FeUser\ZdbDataService;
+use EWW\Dpf\Session\BulkImportSessionData;
 use EWW\Dpf\Session\SearchSessionData;
 
 /**
@@ -54,6 +55,13 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $metadataGroupRepository = null;
 
+    /**
+     * externalMetadataRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\ExternalMetadataRepository
+     * @inject
+     */
+    protected $externalMetadataRepository = null;
 
     /**
      * Adds a the given document identifier to the bookmark list of the current fe user.
@@ -465,5 +473,69 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
         return $result;
     }
 
+
+    /**
+     * Selects or unselects an external metadata record to be imported later as a document.
+     *
+     * @param string $identifier
+     * @return bool
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function toggleBulkImportRecordAction($identifier)
+    {
+        $externalMetaData = $this->externalMetadataRepository->findOneByPublicationIdentifier($identifier);
+
+        if ($externalMetaData) {
+            $this->externalMetadataRepository->remove($externalMetaData);
+        } else {
+            /** @var BulkImportSessionData $bulkImportSessionData */
+            $bulkImportSessionData = $this->session->getBulkImportData();
+            $currentResults = $bulkImportSessionData->getCurrentMetadataItems();
+            if ($currentResults && is_array($currentResults)) {
+                $this->externalMetadataRepository->add($currentResults[$identifier]);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Activates/deactivates the author search for the bulk import.
+     *
+     * @param string $apiName
+     * @return bool
+     */
+    public function toggleBulkImportAuthorSearchAction($apiName)
+    {
+        /** @var BulkImportSessionData $bulkImportData */
+        $bulkImportSessionData = $this->session->getBulkImportData();
+
+        switch ($apiName) {
+            case 'CrossRef':
+                $searchField = $bulkImportSessionData->getCrossRefSearchField();
+                if ($searchField === 'author') {
+                    $searchField = '';
+                } else {
+                    $searchField = 'author';
+                }
+                $bulkImportSessionData->setCrossRefSearchField($searchField);
+                break;
+            case 'PubMed':
+                $searchField = $bulkImportSessionData->getPubMedSearchField();
+                if ($searchField === 'author') {
+                    $searchField = '';
+                } else {
+                    $searchField = 'author';
+                }
+                $bulkImportSessionData->setPubMedSearchField($searchField);
+                break;
+            default:
+                return false;
+        }
+
+        $this->session->setBulkImportData($bulkImportSessionData);
+
+        return true;
+    }
 
 }

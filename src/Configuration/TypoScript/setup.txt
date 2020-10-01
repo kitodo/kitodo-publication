@@ -30,6 +30,60 @@ config.tx_extbase {
 					tstamp.mapOnProperty = tstamp
 				}
 			}
+
+            EWW\Dpf\Domain\Model\ExternalMetadata {
+                subclasses {
+                    EWW\Dpf\Domain\Model\CrossRefMetadata = EWW\Dpf\Domain\Model\CrossRefMetadata
+                    EWW\Dpf\Domain\Model\DataCiteMetadata = EWW\Dpf\Domain\Model\DataCiteMetadata
+                    EWW\Dpf\Domain\Model\K10plusMetadata = EWW\Dpf\Domain\Model\K10plusMetadata
+                    EWW\Dpf\Domain\Model\PubMedMetadata = EWW\Dpf\Domain\Model\PubMedMetadata
+					EWW\Dpf\Domain\Model\BibTexMetadata = EWW\Dpf\Domain\Model\BibTexMetadata
+					EWW\Dpf\Domain\Model\RisWosMetadata = EWW\Dpf\Domain\Model\RisWosMetadata
+                }
+            }
+
+            EWW\Dpf\Domain\Model\CrossRefMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\CrossRefMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\DataCiteMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\DataCiteMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\K10plusMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\K10plusMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\PubMedMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\PubMedMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\BibTexMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\BibTexMetadata
+				}
+			}
+
+			EWW\Dpf\Domain\Model\RisWosMetadata {
+				mapping {
+					tableName = tx_dpf_domain_model_externalmetadata
+					recordType = EWW\Dpf\Domain\Model\RisWosMetadata
+				}
+			}
+
 		}
 	}
 }
@@ -102,6 +156,26 @@ plugin.tx_dpf {
 		development {
 			docker = {$plugin.tx_dpf.settings.development.docker};
 		}
+
+        # The uid of the destination document type for imported metadata
+        defaultImportDocumentType {
+            crossref = {$plugin.tx_dpf.settings.defaultImportDocumentType.crossref}
+            datacite = {$plugin.tx_dpf.settings.defaultImportDocumentType.datacite}
+            pubmed = {$plugin.tx_dpf.settings.defaultImportDocumentType.pubmed}
+            k10plus = {$plugin.tx_dpf.settings.defaultImportDocumentType.k10plus}
+			bibtex = {$plugin.tx_dpf.settings.defaultImportDocumentType.bibtex}
+			riswos = {$plugin.tx_dpf.settings.defaultImportDocumentType.riswos}
+        }
+
+        # Configuration of the pagination for the document bulk import.
+        bulkImportPagination {
+            maximumNumberOfLinks = {$plugin.tx_dpf.settings.bulkImportPagination.maximumNumberOfLinks}
+            itemsPerPage = {$plugin.tx_dpf.settings.bulkImportPagination.itemsPerPage}
+        }
+
+		bibTexMandatoryFields = {$plugin.tx_dpf.settings.bibTexMandatoryFields}
+		riswosMandatoryFields = {$plugin.tx_dpf.settings.riswosMandatoryFields}
+
     }
 }
 
@@ -160,6 +234,7 @@ page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-
 page.includeJSFooter.tx_dpf_pooper = https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker-4_17_47.min.js
+page.includeJSFooter.tx_dpf_custom_file_input = EXT:dpf/Resources/Public/JavaScript/bs-custom-file-input.min.js
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js

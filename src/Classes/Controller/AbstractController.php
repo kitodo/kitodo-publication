@@ -16,6 +16,8 @@ namespace EWW\Dpf\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Core\Log\LogManager;
+
 
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -59,6 +61,19 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      */
     protected $session = null;
 
+    /**
+     * logger
+     *
+     * @var \TYPO3\CMS\Core\Log\Logger
+     */
+    protected $logger = null;
+
+
+    public function __construct()
+    {
+        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+    }
 
     protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {

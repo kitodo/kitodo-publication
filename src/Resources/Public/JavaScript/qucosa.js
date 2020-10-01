@@ -11,7 +11,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-
 var userNotifcationSettings = {
     init: function() {
 
@@ -93,6 +92,24 @@ var isGroupLoaded = function (element, callback, counter = 0) {
             }, 500);
         }
     }
+}
+
+var toggleBulkImportRecord = function() {
+    jQuery(".bulk-import-checkbox").on("click", function() {
+        var ajaxURL = jQuery(this).closest("tr").data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
+}
+
+var toggleBulkImportAuthorSearch = function() {
+    jQuery(".bulkImportAuthorSearch").on("click", function() {
+        var ajaxURL = jQuery(this).data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
 }
 
 var saveExtendedSearch = {
@@ -1738,6 +1755,9 @@ var userSearchModalFillout = function() {
 // Document ready
 // -------------------------------------------------------
 $(document).ready(function() {
+
+    bsCustomFileInput.init();
+
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
     documentListConfirmDialog("#confirmReleasePublish");
@@ -1879,6 +1899,8 @@ $(document).ready(function() {
 
     selectSort();
 
+    toggleBulkImportRecord();
+    toggleBulkImportAuthorSearch();
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();

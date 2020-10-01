@@ -46,7 +46,7 @@ class ElasticsearchMapper
         // load xslt from fedora
         //$xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
 
-        $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/mets-mods-xml2json.xsl');
+        $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/mets-mods-xml2json.xsl');
 
         // xslt
         $xsl = new \DOMDocument;

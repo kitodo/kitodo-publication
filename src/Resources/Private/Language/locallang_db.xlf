@@ -125,6 +125,27 @@
 		<trans-unit id="tx_dpf_domain_model_client.upload_domain">
 			<source>Domain</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
+			<source>--- Please choose ---</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.crossref_transformation" approved="yes">
+			<source>CrossRef transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.datacite_transformation" approved="yes">
+			<source>DataCite transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.k10plus_transformation" approved="yes">
+			<source>K10plus transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.pubmed_transformation" approved="yes">
+			<source>PubMed transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.bibtex_transformation" approved="yes">
+    		<source>BibTex transformation</source>
+    	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
+    		<source>RisWos transformation</source>
+    	</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document">
 			<source>Document</source>
 		</trans-unit>
@@ -224,7 +245,46 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.virtual">
 			<source>Virtual</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_file">
+		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation">
+			<source>--- Please choose ---</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_transformation">
+			<source>CrossRef transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_types">
+			<source>CrossRef types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_transformation">
+			<source>DataCite transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_types">
+			<source>DataCite types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_transformation">
+			<source>K10plus transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_types">
+			<source>K10plus types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_transformation">
+			<source>PubMed transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_types">
+			<source>PubMed types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_transformation">
+			<source>BibTex transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_types">
+			<source>BibTex types</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_transformation">
+			<source>RisWos transformation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_types">
+			<source>RisWos types</source>
+		</trans-unit>
+	    <trans-unit id="tx_dpf_domain_model_file">
 			<source>File</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file.archive">
@@ -458,6 +518,18 @@
 		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_librarian">
 			<source>Librarian</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile" approved="yes">
+            <source>Transformation file</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.title" approved="yes">
+            <source>title</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.label" approved="yes">
+            <source>label</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
+            <source>New relation</source>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_viewer">
             <source>Viewer</source>
         </trans-unit>

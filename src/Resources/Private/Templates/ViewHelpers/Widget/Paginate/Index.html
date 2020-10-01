@@ -23,20 +23,25 @@
 </f:if>
 
 <f:section name="paginator">
-    <ul class="f3-widget-paginator">
+    <ul class="pagination justify-content-center">
         <f:if condition="{pagination.previousPage}">
-            <li class="previous">
-                <f:widget.link arguments="{currentPage: pagination.previousPage}" addQueryStringMethod="{configuration.addQueryStringMethod}">
-                    <button class="btn btn-secondary btn-sm">
+            <li class="page-item">
+                <f:widget.link arguments="{currentPage: pagination.previousPage}"
+                               addQueryStringMethod="{configuration.addQueryStringMethod}"
+                               class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">
                         <f:translate key="widget.pagination.previous"/>
-                    </button>
+                    </span>
                 </f:widget.link>
             </li>
         </f:if>
         <f:if condition="{pagination.displayRangeStart} > 1">
-            <li class="first">
-                <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}" arguments="{currentPage: 1}">
-                    <button class="btn btn-secondary btn-sm">1</button>
+            <li class="page-item">
+                <f:widget.link addQueryStringMethod="{configuration.addQueryStringMethod}"
+                               arguments="{currentPage: 1}"
+                               class="page-link">
+                    1
                 </f:widget.link>
             </li>
         </f:if>
@@ -46,24 +51,25 @@
         <f:for each="{pagination.pages}" as="page">
             <f:if condition="{page.isCurrent}">
                 <f:then>
-                    <li class="current">
-                        <button class="btn btn-secondary active  btn-sm">
-                            {page.number}
-                        </button>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{page.number}</a>
                     </li>
                 </f:then>
                 <f:else>
-                    <li>
+                    <li class="page-item">
                         <f:if condition="{page.number} > 1">
                             <f:then>
                                 <f:widget.link arguments="{currentPage: page.number}"
-                                               addQueryStringMethod="{configuration.addQueryStringMethod}">
-                                    <button class="btn btn-secondary btn-sm">{page.number}</button>
+                                               addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                               class="page-link">
+                                    {page.number}
                                 </f:widget.link>
                             </f:then>
                             <f:else>
-                                <f:widget.link  arguments="{currentPage: 1}" addQueryStringMethod="{configuration.addQueryStringMethod}">
-                                    <button class="btn btn-secondary btn-sm">{page.number}</button>
+                                <f:widget.link  arguments="{currentPage: 1}"
+                                                addQueryStringMethod="{configuration.addQueryStringMethod}"
+                                                class="page-link">
+                                    {page.number}
                                 </f:widget.link>
                             </f:else>
                         </f:if>
@@ -75,20 +81,23 @@
             <li>...</li>
         </f:if>
         <f:if condition="{pagination.displayRangeEnd} < {pagination.numberOfPages}">
-            <li class="last">
+            <li class="page-item">
                 <f:widget.link arguments="{currentPage: pagination.numberOfPages}"
-                               addQueryStringMethod="{configuration.addQueryStringMethod}">
-                    <button class="btn btn-secondary btn-sm">{pagination.numberOfPages}</button>
+                               addQueryStringMethod="{configuration.addQueryStringMethod}"
+                               class="page-link">
+                    {pagination.numberOfPages}
                 </f:widget.link>
             </li>
         </f:if>
         <f:if condition="{pagination.nextPage}">
-            <li class="next">
+            <li class="page-item">
                 <f:widget.link arguments="{currentPage: pagination.nextPage}"
-                               addQueryStringMethod="{configuration.addQueryStringMethod}">
-                    <button class="btn btn-secondary btn-sm">
+                               addQueryStringMethod="{configuration.addQueryStringMethod}"
+                               class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">
                         <f:translate key="widget.pagination.next"/>
-                    </button>
+                    </span>
                 </f:widget.link>
             </li>
         </f:if>

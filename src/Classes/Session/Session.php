@@ -19,6 +19,7 @@ class Session
     const ROOT_KEY = "tx_dpf";
     const LIST_ACTION_KEY = "list_action";
     const WORKSPACE = "workspace";
+    const BULKIMPORT = "bulkimport";
 
 
     /**
@@ -26,7 +27,7 @@ class Session
      */
     public function getWorkspaceData()
     {
-        $sessionData = $this->getData(self::ROOT_KEY);
+        $sessionData = $this->getData();
         if (array_key_exists(self::WORKSPACE, $sessionData)) {
             return unserialize($sessionData[self::WORKSPACE]);
         }
@@ -43,6 +44,28 @@ class Session
         $this->setData($sessionData);
     }
 
+    /**
+     * @return BulkImportSessionData
+     */
+    public function getBulkImportData()
+    {
+        $sessionData = $this->getData();
+        if (array_key_exists(self::BULKIMPORT, $sessionData)) {
+            return unserialize($sessionData[self::BULKIMPORT]);
+        }
+
+        return new BulkImportSessionData();
+    }
+
+    /**
+     * @param BulkImportSessionData $data
+     */
+    public function setBulkImportData(BulkImportSessionData $data)
+    {
+        $sessionData = $this->getData();
+        $sessionData[self::BULKIMPORT] = serialize($data);
+        $this->setData($sessionData);
+    }
 
     /**
      * Stores the given action name, controller name and uri.
@@ -52,7 +75,7 @@ class Session
      */
     public function setStoredAction($action, $controller, $uri = null)
     {
-        $sessionData = $this->getData(self::ROOT_KEY);
+        $sessionData = $this->getData();
         $sessionData[self::LIST_ACTION_KEY] = [$action, $controller, $uri];
         $this->setData($sessionData);
     }

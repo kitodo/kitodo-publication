@@ -366,7 +366,7 @@
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
-				<source>Create new publication</source>
+				<source>Add manually</source>
 			</trans-unit>
 			<trans-unit id="manager.control.myPublications">
 				<source>My publications</source>
@@ -742,6 +742,114 @@
 			</trans-unit>
 			<trans-unit id="manager.workspace.itemsPerPage.applyButton">
 				<source>OK</source>
+			</trans-unit>
+            <trans-unit id="manager.importMetadata.header.single" approved="yes">
+                <source>Import via ID</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInMyPublications" approved="yes">
+                <source>A publication with this identifier is already in "My Publications". Nothing was imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemMyPublications" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
+                <source>Could not import the publication.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.searchError" approved="yes">
+                <source>Error while searching.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.nothingFound" approved="yes">
+                <source>The search was unsuccessful. Please use the manual entry.</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.inputLabel" approved="yes">
+                <source>Identifier (DOI, PMID, ISBN)</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.lookupIdentifier" approved="yes">
+                <source>Look up</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.identifierLabel" approved="yes">
+                <source>Identifier</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
+                <source>Import</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.cancel" approved="yes">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.singular" approved="yes">
+                <source>Publication</source>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.plural" approved="yes">
+                <source>Publications</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadMetadata.header" approved="yes">
+                <source>Upload</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.header" approved="yes">
+                <source>Import from Crossref/PubMed</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.libarian" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "Workspace".</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.researcher" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "My Publications".</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importNote" approved="yes">
+                <source>Please identify yourself and other researchers if necessary. To do this, click on names that have not yet been marked with the [Person] symbol. If your own name is missing, click on the [+] symbol.</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.complete" approved="yes">
+                <source>Finish</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.crossrefSearchButton" approved="yes">
+                <source>Search in Crossref</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.pubMedSearchButton" approved="yes">
+                <source>Search in PubMed</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.resultsInfo" approved="yes">
+                <source>Searchresults for "%s" in %s:</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.import" approved="yes">
+                <source>Import selected ones</source>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.cancel" approved="yes">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.header" approved="yes">
+                <source>Upload</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.chooseFile" approved="yes">
+                <source>Choose file</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importMessage.singular" approved="yes">
+                <source>%s %s was imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importMessage.plural" approved="yes">
+                <source>%s %s were imported.</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importNote" approved="yes">
+                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
+                <source>Import BibTeX</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
+                <source>Import RIS (Web of Science)</source>
+            </trans-unit>
+			<trans-unit id="risReader.parseFailure" approved="yes">
+				<source>Error while reading ris data</source>
 			</trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>

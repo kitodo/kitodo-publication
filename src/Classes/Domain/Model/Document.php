@@ -62,7 +62,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $objectIdentifier = null;
+    protected $objectIdentifier = '';
 
     /**
      * reservedObjectIdentifier
