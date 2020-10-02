@@ -258,7 +258,11 @@ class DocumentController extends AbstractController
 
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
-            
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendSuggestionAcceptNotification($originDocument);
+
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }
@@ -560,6 +564,7 @@ class DocumentController extends AbstractController
                 );
 
                 $this->documentRepository->remove($document);
+
             } else {
                 $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
                 // delete document from index
@@ -573,6 +578,10 @@ class DocumentController extends AbstractController
             foreach ($suggestions as $suggestion) {
                 $this->documentRepository->remove($suggestion);
             }
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendSuggestionDeclineNotification($document);
 
             $this->redirectToDocumentList();
         } else {

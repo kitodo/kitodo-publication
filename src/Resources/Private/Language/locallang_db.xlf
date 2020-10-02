@@ -374,6 +374,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping">
 			<source>Mapping</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_metadatagroup.json_mapping">
+            <source>JSON Mapping</source>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mandatory_yes">
 			<source>Yes</source>
 		</trans-unit>
@@ -475,6 +478,9 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping">
 			<source>Mapping</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.json_mapping">
+			<source>JSON Mapping</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration">
 			<source>Max Iteration</source>
@@ -607,6 +613,36 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_feuser.orga_name">
 			<source>Organisational Unit</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.api_token">
+			<source>API Token</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url" approved="yes">
+			<source>Active messaging suggestion accept url</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url" approved="yes">
+			<source>Active messaging suggestion decline url</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
+			<source>Active messaging new document url</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url" approved="yes">
+			<source>Active messaging changed document url</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url_body" approved="yes">
+			<source>Active messaging suggestion accept url body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
+			<source>Active messaging suggestion decline url body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
+			<source>Active messaging new document url body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url_body" approved="yes">
+			<source>Active messaging changed document url</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
+			<source>FIS Mapping (json)</source>
 		</trans-unit>
 		</body>
 	</file>

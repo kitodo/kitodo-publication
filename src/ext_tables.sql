@@ -145,6 +145,7 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   mapping varchar(1024) DEFAULT '' NOT NULL,
   mods_extension_mapping varchar(1024) DEFAULT '' NOT NULL,
   mods_extension_reference varchar(1024) DEFAULT '' NOT NULL,
+  json_mapping varchar(1024) DEFAULT '' NOT NULL,
   info_text text NOT NULL,
   metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
   group_type varchar(50) DEFAULT '' NOT NULL,
@@ -196,6 +197,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   validation varchar(255) DEFAULT '' NOT NULL,
   mapping varchar(255) DEFAULT '' NOT NULL,
   mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  json_mapping varchar(1024) DEFAULT '' NOT NULL,
   input_field int(11) DEFAULT '0' NOT NULL,
   deposit_license int(11) DEFAULT '0' NOT NULL,
   input_option_list int(11) unsigned default '0',
@@ -453,6 +455,18 @@ CREATE TABLE tx_dpf_domain_model_client (
 
   suggestion_flashmessage varchar(255) DEFAULT '' NOT NULL,
 
+  active_messaging_suggestion_accept_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_suggestion_decline_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_new_document_url varchar(255) DEFAULT '' NOT NULL,
+  active_messaging_changed_document_url varchar(255) DEFAULT '' NOT NULL,
+
+  active_messaging_suggestion_accept_url_body text NOT NULL,
+  active_messaging_suggestion_decline_url_body text NOT NULL,
+  active_messaging_new_document_url_body text NOT NULL,
+  active_messaging_changed_document_url_body text NOT NULL,
+
+  fis_mapping text NOT NULL,
+
   crossref_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   datacite_transformation int(11) unsigned DEFAULT '0' NOT NULL,
   k10plus_transformation int(11) unsigned DEFAULT '0' NOT NULL,
@@ -678,6 +692,7 @@ CREATE TABLE fe_users (
   notify_status_change tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_fulltext_published tinyint(4) unsigned DEFAULT '0' NOT NULL,
   notify_new_publication_mypublication tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  api_token varchar(64) DEFAULT '' NOT NULL,
   fis_pers_id varchar(255) DEFAULT '' NOT NULL,
   orga_name varchar(255) DEFAULT '' NOT NULL,
 );

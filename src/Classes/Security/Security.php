@@ -36,9 +36,14 @@ class Security
      */
     public function getUser()
     {
+        $token = $GLOBALS['_GET']['tx_dpf_rest_api']['token'];
         $user = $GLOBALS['TSFE']->fe_user->user;
         if (!empty($user) && is_array($user) && array_key_exists('uid', $user)) {
             return $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        } else if ($token) {
+            $token = htmlentities($token);
+            $token = addslashes($token);
+            return $this->frontendUserRepository->findOneByApiToken($token);
         } else {
             return NULL;
         }

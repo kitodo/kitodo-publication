@@ -97,6 +97,23 @@ class Slub
         }
     }
 
+    public function setFisId($fisId)
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:fisId");
+        if ($fisIdNode->length == 1) {
+            $fisIdNode->item(0)->nodeValue = $fisId;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $fisIdentifier = $this->slubDom->createElement('slub:fisId');
+                $fisIdentifier->nodeValue = $fisId;
+                $slubInfoNode->item(0)->appendChild($fisIdentifier);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
     /**
      * Gets the creator uid of the document, the person who added and registered the document.
      *

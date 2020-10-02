@@ -85,8 +85,22 @@
         </f:if>
 
         <div class="form-group col-md-4">
-            <f:form.submit value="{f:translate(key: 'manager.locallang.user.settings.save')}" class="btn btn-primary" />
+            <f:if condition="{frontendUser.apiToken}">
+                <button type="button" id="apiTokenRemove" class="btn btn-danger"
+                        data-removetoken="{f:uri.action(action:'removeApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">API Token löschen</button>
+            </f:if>
+        </div>
+        <div class="form-group col-md-4">
+            <div id="showApiToken"></div>
+            <button type="button" id="apiTokenGenerate" class="btn btn-secondary"
+                    data-generatetoken="{f:uri.action(action:'generateApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">
+                API Token generieren
+            </button>
         </div>
 
+        <div class="form-group col-md-4">
+            <f:form.submit value="{f:translate(key: 'manager.locallang.user.settings.save')}" class="btn btn-primary" />
+        </div>
     </f:form>
+
 </f:section>

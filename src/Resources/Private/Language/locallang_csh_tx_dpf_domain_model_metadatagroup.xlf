@@ -20,6 +20,9 @@
 		<trans-unit id="mapping.description">
 			<source>Mapping</source>
 		</trans-unit>
+		<trans-unit id="json_mapping.description">
+			<source>JSON Mapping</source>
+		</trans-unit>
 		<trans-unit id="mapping_for_reading.description">
 			<source>Mapping for reading</source>
 		</trans-unit>

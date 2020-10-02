@@ -281,6 +281,23 @@ plugin.tx_dpf_backoffice {
 	}
 }
 
+rest_api = PAGE
+rest_api {
+  config {
+    disableAllHeaderCode = 1
+    debug = 0
+    no_cache = 1
+    additionalHeaders {
+      10 {
+        header = Content-Type: application/json
+        replace = 1
+      }
+    }
+  }
+  typeNum = 1452982642
+  10 < tt_content.list.20.dpf_rest_api
+}
+
 lib.feUsername = TEXT
 lib.feUsername {
 	insertData = 1

@@ -73,6 +73,11 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     protected $notifyNewPublicationMypublication = 0;
 
     /**
+     * @var string
+     */
+    protected $apiToken = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -278,6 +283,21 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
         $this->orgaName = $orgaName;
     }
 
+    /**
+     * @return string
+     */
+    public function getApiToken(): string
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * @param string $apiToken
+     */
+    public function setApiToken(string $apiToken): void
+    {
+        $this->apiToken = $apiToken;
+    }
 
 
 }

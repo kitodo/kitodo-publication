@@ -105,6 +105,13 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     protected $groupType = '';
 
     /**
+     * JSON mapping
+     *
+     * @var string
+     */
+    protected $jsonMapping = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -516,4 +523,23 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
         $this->groupType = $groupType;
     }
 
+    /**
+     * Gets the jsonMapping
+     *
+     * @return string
+     */
+    public function getJsonMapping(): string
+    {
+        return $this->jsonMapping;
+    }
+
+    /**
+     * Sets the jsonMapping
+     *
+     * @param string $jsonMapping
+     */
+    public function setJsonMapping(string $jsonMapping): void
+    {
+        $this->jsonMapping = $jsonMapping;
+    }
 }

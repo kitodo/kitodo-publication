@@ -41,6 +41,9 @@
 		<trans-unit id="mapping.description">
 			<source>Mapping</source>
 		</trans-unit>
+		<trans-unit id="json_mapping.description">
+			<source>JSON Mapping</source>
+		</trans-unit>
 		<trans-unit id="max_iteration.description">
 			<source>Max iteration</source>
 		</trans-unit>

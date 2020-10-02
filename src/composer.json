@@ -40,7 +40,8 @@
         "elasticsearch/elasticsearch": "^7.5",
         "symfony/workflow": "4.3.*",
         "symfony/serializer": "^5.0",
-        "renanbr/bibtex-parser": "*"
+        "renanbr/bibtex-parser": "*",
+        "galbar/jsonpath": "dev-master"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"

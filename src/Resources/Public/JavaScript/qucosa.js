@@ -1839,6 +1839,35 @@ var userSearchModalFillout = function() {
     });
 }
 
+// Call methods for API Token generation
+var apiTokenEvents = function() {
+    $('#apiTokenGenerate').on('click', function () {
+        var url = $(this).data('generatetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                $('#showApiToken').text(data.apiToken);
+            }
+        });
+    });
+
+    $('#apiTokenRemove').on('click', function () {
+        var url = $(this).data('removetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    $('#apiTokenRemove').hide();
+                }
+            }
+        });
+    });
+}
+
 // -------------------------------------------------------
 // Document ready
 // -------------------------------------------------------
@@ -1994,6 +2023,8 @@ $(document).ready(function() {
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();
+
+    apiTokenEvents();
 
     userSearch();
     addMyUserData();

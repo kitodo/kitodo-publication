@@ -20,6 +20,7 @@ use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\Client;
+use \Httpful\Request;
 
 class Notifier
 {
@@ -223,10 +224,110 @@ class Notifier
         return $args;
     }
 
+    public function sendSuggestionAcceptNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Active messaging: Suggestion accept
+            if ($client->getActiveMessagingSuggestionAcceptUrl()) {
+                $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
+                if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
+                    $request->body($this->replaceMarkers($body,$args));
+                }
+                $request->send();
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendSuggestionAcceptNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Active messaging: Suggestion accept
+            if ($client->getActiveMessagingSuggestionDeclineUrl()) {
+                $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
+                if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
+                    $request->body($this->replaceMarkers($body,$args));
+                }
+                $request->send();
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendSuggestionDeclineNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Active messaging: Suggestion accept
+            if ($client->getActiveMessagingChangedDocumentUrl()) {
+                $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
+                if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
+                    $request->body($this->replaceMarkers($body,$args));
+                }
+                $request->send();
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendChangedDocumentNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         try {
+            /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
@@ -274,6 +375,16 @@ class Notifier
 
                 $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
+
+            // Active messaging: New document
+            if ($client->getActiveMessagingNewDocumentUrl()) {
+                $request = Request::post($client->getActiveMessagingNewDocumentUrl());
+                if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
+                    $request->body($this->replaceMarkers($body,$args));
+                }
+                $request->send();
+            }
+
 
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
