@@ -1157,6 +1157,14 @@
 				<source>Error while reading ris data</source>
 				<target>Fehler beim Einlesen der RIS-Daten</target>
 			</trans-unit>
+            <trans-unit id="manager.uploadImport.invalidFormat" approved="yes">
+                <source>Import failed. Invalid file format</source>
+                <target>Import fehlgeschlagen. Die Datei entspricht nicht dem erwarteten Format.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.uploadError" approved="yes">
+                <source>Import failed. An error occurred while uploading the file.</source>
+                <target>Import fehlgeschlagen. Die Datei konnte nicht hochgeladen wercden.</target>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>

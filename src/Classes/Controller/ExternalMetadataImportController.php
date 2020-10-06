@@ -866,9 +866,26 @@ class ExternalMetadataImportController extends AbstractController
         return 10;
     }
 
-
-    public function uploadStartAction()
+    /**
+     * @param string $error
+     */
+    public function uploadStartAction($error = '')
     {
+        switch ($error) {
+            case 'INVALID_FORMAT':
+                $message = LocalizationUtility::translate(
+                    'manager.uploadImport.invalidFormat', 'dpf'
+                );
+                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                break;
+            case 'UPLOAD_ERROR':
+                $message = LocalizationUtility::translate(
+                    'manager.uploadImport.uploadError', 'dpf'
+                );
+                $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                break;
+        }
+
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
     }
 
@@ -891,8 +908,7 @@ class ExternalMetadataImportController extends AbstractController
         } elseif ($uploadFile['error'] == UPLOAD_ERR_NO_FILE) {
             $this->redirect('uploadStart');
         } else {
-            $this->addFlashMessage("Error while uploading File", '', AbstractMessage::ERROR);
-            $this->redirect('uploadStart');
+            $this->redirect('uploadStart', null, null, ['error' => 'UPLOAD_ERROR']);
         }
 
         try {
@@ -930,15 +946,13 @@ class ExternalMetadataImportController extends AbstractController
                         ['uploadFilePath' => $uploadFilePath]
                     );
             } else {
-                $this->addFlashMessage("No data found", '', AbstractMessage::ERROR);
-                $this->redirect('uploadStart');
+                $this->redirect('uploadStart', null, null, ['error' => 'INVALID_FORMAT']);
             }
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $exception) {
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\RenanBr\BibTexParser\Exception\ParserException $exception) {
-            $this->addFlashMessage("Error while reading BibTex", '', AbstractMessage::ERROR);
-            $this->redirect('uploadStart');
+            $this->redirect('uploadStart', null, null, ['error' => 'INVALID_FORMAT']);
         }
 
     }

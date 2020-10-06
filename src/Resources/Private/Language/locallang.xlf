@@ -854,6 +854,12 @@
             <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
                 <source>Import RIS (Web of Science)</source>
             </trans-unit>
+            <trans-unit id="manager.uploadImport.invalidFormat" approved="yes">
+                <source>Import failed. Invalid file format</source>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.uploadError" approved="yes">
+                <source>Import failed. An error occurred while uploading the file.</source>
+            </trans-unit>
 			<trans-unit id="risReader.parseFailure" approved="yes">
 				<source>Error while reading ris data</source>
 			</trans-unit>
