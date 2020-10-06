@@ -217,7 +217,7 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
     {
         $results = [];
 
-        $persons = array_map('trim', explode('and', $persons));
+        $persons = array_map('trim', explode(' and ', $persons));
 
         foreach ($persons as $person) {
             list($family, $given) = array_map('trim', explode(',', $person));
