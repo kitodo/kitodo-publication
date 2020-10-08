@@ -747,7 +747,7 @@ var itemsPerPageHandler = {
             var itemsPerPage = jQuery("#items-per-page").val();
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage === items) {
+            if (itemsPerPage === items.toString()) {
                 items = (items <= 10)? items : items-10;
             } else {
                 items = 10;
@@ -759,9 +759,10 @@ var itemsPerPageHandler = {
             var button = jQuery(this);
             var ajaxURL = jQuery(this).data('ajax');
             var itemsPerPage = jQuery("#items-per-page").val();
+
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage !== items || items < 1) {
+            if (itemsPerPage !== items.toString() || items < 1) {
                 items = 10;
             }
             
