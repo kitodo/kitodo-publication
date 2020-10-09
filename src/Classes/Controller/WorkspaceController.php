@@ -600,26 +600,6 @@ class WorkspaceController extends AbstractController
                                     'term' => [
                                         'creator' => $this->security->getUser()->getUid()
                                     ]
-                                ],
-                                [
-                                    'bool' => [
-                                        'must' => [
-                                            [
-                                                'term' => [
-                                                    'fobIdentifiers' => $this->security->getUser()->getFisPersId()
-                                                ]
-                                            ],
-                                            [
-                                                'bool' => [
-                                                    'must_not' => [
-                                                        'term' => [
-                                                            'state' => DocumentWorkflow::STATE_NEW_NONE
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ],
                                 ]
                             ]
                         ]
@@ -627,6 +607,31 @@ class WorkspaceController extends AbstractController
                 ]
             ]
         ];
+
+        $fisPersIdFilter =  [
+            'bool' => [
+                'must' => [
+                    [
+                        'term' => [
+                            'fobIdentifiers' => $this->security->getUser()->getFisPersId()
+                        ]
+                    ],
+                    [
+                        'bool' => [
+                            'must_not' => [
+                                'term' => [
+                                    'state' => DocumentWorkflow::STATE_NEW_NONE
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ];
+
+        if ($this->security->getUser()->getFisPersId()) {
+            $workspaceFilter['bool']['must'][0]['bool']['should'][1] = $fisPersIdFilter;
+        }
 
         return $this->queryBuilder->buildQuery(
             $this->itemsPerPage(), $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
