@@ -114,10 +114,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $workspaceSessionData = $this->session->getWorkspaceData();
         $filters = $workspaceSessionData->getFilters();
         $excludeFilters = $workspaceSessionData->getExcludeFilters();
+
+        if (array_key_exists('bookmarks', $excludeFilters)) {
+            unset($excludeFilters['bookmarks']);
+        }
+
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
-
-        $filters = [];
 
         if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getSearchQuery($from, [],
