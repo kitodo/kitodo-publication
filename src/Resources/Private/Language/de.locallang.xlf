@@ -1513,6 +1513,10 @@
 				<source>Suggestion successfully saved</source>
 				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
 			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.info" approved="yes">
+				<source>Status changed to 'In progress'. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+				<target>Status geändert auf 'In Bearbeitung'. Wenn Sie die Bearbeitung abschließen möchten, wählen Sie jetzt einen Status ('Freigeben', 'Zurückstellen' oder 'Verwerfen').</target>
+			</trans-unit>
 			<trans-unit id="search.control.extendedSearch" approved="yes">
 				<source>Extended search</source>
 				<target>Erweiterte Suche</target>

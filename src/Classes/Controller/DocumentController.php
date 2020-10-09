@@ -237,6 +237,7 @@ class DocumentController extends AbstractController
             // all changes are confirmed
             // copy suggest to origin document
             $originDocument->copy($document, true);
+            $originDocument->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
 
             if ($originDocument->getTransferStatus() == 'RESTORE') {
                 if ($originDocument->getObjectIdentifier()) {
@@ -263,6 +264,17 @@ class DocumentController extends AbstractController
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendSuggestionAcceptNotification($originDocument);
 
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$originDocument]
+            );
+
+            $this->addFlashMessage(
+                LocalizationUtility::translate("message.suggestion_accepted.info", "dpf"),
+                '',
+                AbstractMessage::INFO
+            );
+            
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }

@@ -1074,6 +1074,12 @@
 			<trans-unit id="notification.depositLicense.admin.subject" approved="yes">
 				<source>Deposit license</source>
 			</trans-unit>
+			<trans-unit id="message.suggestion_flashmessage">
+				<source>Suggestion successfully saved</source>
+			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.info">
+				<source>Status changed to 'In progress'. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+			</trans-unit>
 			<trans-unit id="search.control.extendedSearch">
 				<source>Extended search</source>
 			</trans-unit>
