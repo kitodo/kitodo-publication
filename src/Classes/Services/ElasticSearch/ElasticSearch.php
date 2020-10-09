@@ -166,6 +166,15 @@ class ElasticSearch
                         'authorAndPublisher' => [
                             'type' => 'keyword'
                         ],
+                        'personsSort' => [
+                            'type' => 'text',
+                            'fields' => [
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
+                                ]
+                            ]
+                        ],
                         'doctype' => [
                             'type' => 'keyword'
                         ],
@@ -299,6 +308,12 @@ class ElasticSearch
             $data->authorAndPublisher = $authorAndPublisher;
             $data->fobIdentifiers = $fobIdentifiers;
             $data->personData = $personData;
+
+            if (sizeof($persons) > 0) {
+                if (array_key_exists('family', $persons[0])) {
+                    $data->personsSort = $persons[0]['family'];
+                }
+            }
 
             $data->authorAndPublisherIndex = array_keys($authorAndPublisher);
 

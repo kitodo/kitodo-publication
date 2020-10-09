@@ -462,6 +462,10 @@ class QueryBuilder
                 $sortField.= ".keyword";
             }
 
+            if ($sortField == 'personsSort') {
+                $sortField.= ".keyword";
+            }
+
             $sort = [
                 $sortField => [
                     'order' => $sortOrder

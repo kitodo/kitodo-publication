@@ -30,7 +30,7 @@
         <th class="xcol-md-2">
             {f:translate(key: 'manager.workspace.persons')}
             <f:render partial="Workspace/SortColumn"
-                      arguments="{workspaceListAction: workspaceListAction, sortField: 'authorAndPublisher'}"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'personsSort'}"
             />
             <f:render partial="Workspace/Filter"
                       arguments="{aggregation: aggregations.authorAndPublisher, filterName: 'authorAndPublisher', filterValues: filters.authorAndPublisher}"
@@ -129,6 +129,7 @@
                 <dpf:showDocumentType docType="{document._source.doctype}" />
             </td>
             <td>
+                <span style="display:none;">{document._source.personsSort}</span>
                 <f:for each="{document._source.personData}" as="person" iteration="itemIterator">
                     <f:if condition="{currentFisPersId} && {person.fobId} == {currentFisPersId}">
                         <f:then>

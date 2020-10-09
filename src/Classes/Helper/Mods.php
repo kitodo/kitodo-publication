@@ -151,18 +151,21 @@ class Mods
                 $person['affiliationIdentifiers'][] = $affiliationIdentifierNode->nodeValue;
             }
 
-            $name = [];
+            $given = '';
+            $family = '';
 
             if ($givenNode->length > 0) {
-                $name[] = $givenNode->item(0)->nodeValue;
+                $given = $givenNode->item(0)->nodeValue;
             }
 
             if ($familyNode->length > 0) {
-                $name[] = $familyNode->item(0)->nodeValue;
+                $family = $familyNode->item(0)->nodeValue;
             }
 
-            $person['name'] = implode(' ', $name);
-
+            $person['given'] = $given;
+            $person['family'] = $family;
+            $person['name'] = $given.' '.$family;
+            
             $person['role'] = '';
             if ($roleNode->length > 0) {
                 $person['role'] = $roleNode->item(0)->nodeValue;
