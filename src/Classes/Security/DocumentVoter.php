@@ -176,7 +176,7 @@ class DocumentVoter extends Voter
                 break;
 
             case self::DUPLICATE:
-                return $this->librarianOnly();
+                return $this->canDuplicate($subject);
                 break;
 
             case self::RELEASE_PUBLISH:
@@ -560,6 +560,29 @@ class DocumentVoter extends Voter
 
         if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER)) {
             return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canDuplicate($document)
+    {
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+            return (
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE ||
+                $document->getCreator() === $this->security->getUser()->getUid()
+            );
+        }
+
+        if ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
+            return (
+                $document->getCreator() === $this->security->getUser()->getUid() ||
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE
+            );
         }
 
         return FALSE;
