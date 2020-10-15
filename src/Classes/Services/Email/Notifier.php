@@ -201,7 +201,7 @@ class Notifier
             $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Änderungsvorschlag</a>';
         } else {
             $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
-            $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
+            $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getDocumentIdentifier();
             $detailUrl .= '&tx_dpf_backoffice[action]=showDetails';
             $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Dokument</a>';
         }
