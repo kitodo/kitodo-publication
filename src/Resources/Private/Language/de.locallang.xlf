@@ -1513,7 +1513,11 @@
 				<source>Suggestion successfully saved</source>
 				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
 			</trans-unit>
-			<trans-unit id="message.suggestion_accepted.info" approved="yes">
+			<trans-unit id="message.suggestion_accepted.workingcopy_info" approved="yes">
+				<source>Status not changed. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+				<target>Status nicht geändert. Wenn Sie die Bearbeitung abschließen möchten, wählen Sie jetzt einen Status ('Freigeben', 'Zurückstellen' oder 'Verwerfen').</target>
+			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.new_workingcopy_info" approved="yes">
 				<source>Status changed to 'In progress'. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
 				<target>Status geändert auf 'In Bearbeitung'. Wenn Sie die Bearbeitung abschließen möchten, wählen Sie jetzt einen Status ('Freigeben', 'Zurückstellen' oder 'Verwerfen').</target>
 			</trans-unit>

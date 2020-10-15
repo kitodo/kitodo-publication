@@ -1077,7 +1077,10 @@
 			<trans-unit id="message.suggestion_flashmessage">
 				<source>Suggestion successfully saved</source>
 			</trans-unit>
-			<trans-unit id="message.suggestion_accepted.info">
+			<trans-unit id="message.suggestion_accepted.workingcopy_info">
+				<source>Status not changed. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.new_workingcopy_info">
 				<source>Status changed to 'In progress'. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
 			</trans-unit>
 			<trans-unit id="search.control.extendedSearch">

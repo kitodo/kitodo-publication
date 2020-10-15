@@ -203,10 +203,14 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             ];
         } else {
             $constraints = [
-                $query->equals('object_identifier', $identifier)
+                $query->logicalAnd(
+                    $query->equals('object_identifier', $identifier),
+                    $query->equals('suggestion', false)
+                )
             ];
         }
 
+        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
         $query->matching($query->logicalAnd($constraints));
 
         return $query->execute()->getFirst();

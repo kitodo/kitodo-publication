@@ -237,7 +237,24 @@ class DocumentController extends AbstractController
             // all changes are confirmed
             // copy suggest to origin document
             $originDocument->copy($document, true);
-            $originDocument->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
+
+            if ($document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
+                if ($document->getLocalState() == DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+                    $this->addFlashMessage(
+                        LocalizationUtility::translate("message.suggestion_accepted.workingcopy_info", "dpf"),
+                        '',
+                        AbstractMessage::INFO
+                    );
+                } else {
+                    $originDocument->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
+
+                    $this->addFlashMessage(
+                        LocalizationUtility::translate("message.suggestion_accepted.new_workingcopy_info", "dpf"),
+                        '',
+                        AbstractMessage::INFO
+                    );
+                }
+            }
 
             if ($originDocument->getTransferStatus() == 'RESTORE') {
                 if ($originDocument->getObjectIdentifier()) {
@@ -269,12 +286,6 @@ class DocumentController extends AbstractController
                 AbstractController::class, 'indexDocument', [$originDocument]
             );
 
-            $this->addFlashMessage(
-                LocalizationUtility::translate("message.suggestion_accepted.info", "dpf"),
-                '',
-                AbstractMessage::INFO
-            );
-            
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
         }
@@ -528,10 +539,10 @@ class DocumentController extends AbstractController
      */
     public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
     {
-        if ($document->getObjectIdentifier()) {
-            $voterAttribute = DocumentVoter::DELETE_WORKING_COPY;
-        } else {
+        if (empty($document->getObjectIdentifier()) || $document->isSuggestion()) {
             $voterAttribute = DocumentVoter::DELETE_LOCALLY;
+        } else {
+            $voterAttribute = DocumentVoter::DELETE_WORKING_COPY;
         }
 
         if (!$this->authorizationChecker->isGranted($voterAttribute, $document)) {
@@ -577,7 +588,7 @@ class DocumentController extends AbstractController
 
                 $this->documentRepository->remove($document);
 
-            } else {
+            } elseif (!$document->isSuggestion()) {
                 $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
                 // delete document from index
                 $this->signalSlotDispatcher->dispatch(
