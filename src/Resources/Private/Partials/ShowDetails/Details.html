@@ -19,6 +19,7 @@
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
         <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
             <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
+                <f:if condition="{groupItem.emptyGroup} != 1">
                 <li class="details-group">
                     <p class="details-group-name">{groupItem.displayName}</p>
                     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
@@ -35,6 +36,7 @@
                         </f:for>
                     </f:for>
                 </li>
+                </f:if>
             </f:for>
         </f:for>
         </li>
