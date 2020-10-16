@@ -239,15 +239,11 @@ class DocumentController extends AbstractController
             $originDocument->copy($document, true);
 
             if ($document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
-                if ($document->getLocalState() == DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
-                    $this->addFlashMessage(
-                        LocalizationUtility::translate("message.suggestion_accepted.workingcopy_info", "dpf"),
-                        '',
-                        AbstractMessage::INFO
+                if ($document->getLocalState() != DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+                    $originDocument->setState(
+                        DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS,
+                        $document->getRemoteState())
                     );
-                } else {
-                    $originDocument->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
-
                     $this->addFlashMessage(
                         LocalizationUtility::translate("message.suggestion_accepted.new_workingcopy_info", "dpf"),
                         '',
