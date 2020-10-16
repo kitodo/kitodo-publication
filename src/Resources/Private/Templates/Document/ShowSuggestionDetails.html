@@ -42,7 +42,7 @@
                             class="btn btn-sm btn-danger"
                             additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
                         <i class="fas fa-trash-alt"></i>
-                        {f:translate(key: 'form_button.deleteLocally')}
+                        {f:translate(key: 'form_button.deleteLocallySuggestion')}
                     </f:link.action>
                 </f:if>
 
@@ -75,7 +75,7 @@
 
     <div class="card" style="margin-bottom:10px;">
         <div class="card-body">
-            {f:translate(key: 'documentForm.suggestComment')} :<br/>
+            {f:translate(key: 'documentForm.suggestComment')}:<br/>
             <f:format.nl2br>
                 {document.comment}
             </f:format.nl2br>
@@ -96,13 +96,13 @@
         <table class="table">
             <tr>
                 <th>
-                    Field
+                    {f:translate(key: 'manager.document.suggestionDetails.field')}
                 </th>
                 <th>
-                    Before
+                    {f:translate(key: 'manager.document.suggestionDetails.before')}
                 </th>
                 <th>
-                    After
+                    {f:translate(key: 'manager.document.suggestionDetails.after')}
                 </th>
             </tr>
             <f:for each="{diff.changed.old}" as="changedOld" iteration="iteratorChanged">
@@ -171,6 +171,6 @@
 
     </f:form>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally', suffix: 'suggestion'}" />
 
 </f:section>

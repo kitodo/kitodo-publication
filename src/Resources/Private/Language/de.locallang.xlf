@@ -353,6 +353,10 @@
 				<source>delete</source>
 				<target>Löschen</target>
 			</trans-unit>
+			<trans-unit id="form_button.deleteLocallySuggestion" approved="yes">
+				<source>decline</source>
+				<target>Ablehnen</target>
+			</trans-unit>
             <trans-unit id="form_button.duplicate" approved="yes">
                 <source>Duplicate</source>
                 <target>Duplizieren</target>
@@ -541,6 +545,14 @@
 				<source>Do you really want to delete the document completely?</source>
 				<target>Möchten Sie das Dokument wirklich vollständig löschen?</target>
 			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.message" approved="yes" xml:space="preserve">
+				<source>The suggestion and any attached files are completely deleted. This cannot be reversed.</source>
+				<target>Der Vorschlag und eventuell angehängte Dateien werden vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.messageHeader" approved="yes">
+				<source>Do you really want to delete the suggestion?</source>
+				<target>Möchten Sie den Vorschlag ablehnen?</target>
+			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" approved="yes" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
 				<target>Das Dokument &quot;%s&quot; wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
@@ -652,6 +664,18 @@
 			<trans-unit id="manager.document.suggestionDetails" approved="yes">
 				<source>Suggestion details.</source>
 				<target>Details zum Änderungsvorschlag</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.field" approved="yes">
+				<source>Field</source>
+				<target>Feld</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.before" approved="yes">
+				<source>Before</source>
+				<target>Bisher</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.after" approved="yes">
+				<source>After</source>
+				<target>Neu</target>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new" approved="yes">
 				<source>New</source>

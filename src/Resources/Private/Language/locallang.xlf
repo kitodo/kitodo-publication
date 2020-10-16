@@ -263,6 +263,9 @@
 			<trans-unit id="form_button.deleteLocally">
 				<source>delete</source>
 			</trans-unit>
+			<trans-unit id="form_button.deleteLocallySuggestion" approved="yes">
+				<source>decline</source>
+			</trans-unit>
             <trans-unit id="form_button.duplicate" approved="yes">
                 <source>Duplicate</source>
             </trans-unit>
@@ -416,6 +419,12 @@
 			<trans-unit id="manager.confirmDeleteLocally.messageHeader" approved="yes">
 				<source>Do you really want to delete the document completely?</source>
 			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.message" approved="yes" xml:space="preserve">
+				<source>The suggestion and any attached files are completely deleted. This cannot be reversed.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.messageHeader" approved="yes">
+				<source>Do you really want to delete the suggestion?</source>
+			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
 			</trans-unit>
@@ -490,6 +499,15 @@
 			</trans-unit>
 			<trans-unit id="manager.document.suggestionDetails">
 				<source>Suggestion details.</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.field" approved="yes">
+				<source>Field</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.before" approved="yes">
+				<source>Before</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.after" approved="yes">
+				<source>After</source>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new">
 				<source>New</source>
