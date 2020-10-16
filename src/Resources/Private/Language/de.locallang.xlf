@@ -405,6 +405,10 @@
 				<source>previous</source>
 				<target>Vorherige</target>
 			</trans-unit>
+			<trans-unit id="form_button.showOriginalDocument">
+				<source>Show original publication</source>
+				<target>Originalpublikation anzeigen</target>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 				<target>Dateien</target>

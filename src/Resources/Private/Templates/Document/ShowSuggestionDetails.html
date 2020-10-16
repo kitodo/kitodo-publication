@@ -53,12 +53,23 @@
                     <i class="fas fa-times"></i>
                     {f:translate(key: 'form_button.cancel')}
                 </f:link.action>
-
             </div>
         </div>
     </div>
 
     <f:flashMessages />
+
+    <p>
+        <f:link.action
+                action="showDetails"
+                controller="Document"
+                arguments="{document:document.linkedUid}"
+                class="btn btn-sm btn-secondary"
+                additionalAttributes="{target: '_blank'}">
+            <i class="far fa-file-alt"></i>
+            {f:translate(key: 'form_button.showOriginalDocument')}
+        </f:link.action>
+    </p>
 
     {documentCreator}: <f:format.date date="{document.tstamp}" format="d.m.Y"/>
 
