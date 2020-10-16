@@ -31,8 +31,8 @@
                             <div class="input-group">
                                 <select id="confirm{actionName}ReasonSelect" name="reasonSelect" class="form-control">
                                     <option></option>
-                                    <f:for each="{reasonOptions}" as="option">
-                                        <option value="{option}">{option}</option>
+                                    <f:for each="{reasonOptions}" key="key" as="option">
+                                        <option value="{key}">{option}</option>
                                     </f:for>
                                 </select>
                             </div>
