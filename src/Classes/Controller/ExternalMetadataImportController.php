@@ -1049,10 +1049,14 @@ class ExternalMetadataImportController extends AbstractController
         if ($importCounter > 0) {
             $severity = AbstractMessage::INFO;
             $this->addFlashMessage($message, '', $severity);
-            $importNoteMessage = LocalizationUtility::translate('manager.uploadImport.importNote', 'dpf');
-            $this->addFlashMessage(
-                $importNoteMessage, '', AbstractMessage::INFO
-            );
+
+            if ($this->security->getUser()->getUserRole() != Security::ROLE_LIBRARIAN) {
+                $importNoteMessage = LocalizationUtility::translate('manager.uploadImport.importNote', 'dpf');
+                $this->addFlashMessage(
+                    $importNoteMessage, '', AbstractMessage::INFO
+                );
+            }
+            
             $this->showImportedDocuments($importCounter);
         } else {
             $severity = AbstractMessage::WARNING;
