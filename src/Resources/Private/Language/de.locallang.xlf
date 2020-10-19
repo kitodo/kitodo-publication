@@ -938,8 +938,12 @@
 				<target>Nur Gemerkte anzeigen</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.filter.all" approved="yes">
-				<source>(all)</source>
+				<source>(all publication types)</source>
 				<target>(alle)</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.filter.allDoctypes">
+				<source>(all publications)</source>
+				<target>(alle Publikationstypen)</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.batchAction.register.success.singular" approved="yes">
 				<source>%s record out of %s successfully registered.</source>

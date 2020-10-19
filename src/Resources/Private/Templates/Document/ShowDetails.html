@@ -170,7 +170,7 @@
     <f:flashMessages />
 
     <div class="details-view">
-        <f:render partial="ShowDetails/Details" arguments="{documentForm: documentForm}"/>
+        <f:render partial="ShowDetails/Details" arguments="{_all}"/>
     </div>
 
     <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
@@ -180,7 +180,6 @@
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />
-
 
     <div class="modal" tabindex="-1" role="dialog" id="confirmDoctypeChange">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -203,7 +202,7 @@
                     {f:translate(key: 'manager.confirmDoctypeChange.message')}
 
                     <div class="details-view">
-                        <f:render partial="ShowDetails/Details" arguments="{documentForm: documentForm}"/>
+                        <f:render partial="ShowDetails/Details" arguments="{_all}"/>
                     </div>
                 </div>
                 <div class="modal-footer">

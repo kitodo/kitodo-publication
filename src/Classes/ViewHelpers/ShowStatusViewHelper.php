@@ -26,40 +26,17 @@ class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
      */
     public function render($status)
     {
-        // A,I and D are the states returned by a repository search.
-        // The other states are the ones used in the document table.
-        $statusMapping = [
-            "A" => 'released',
-            "I" => 'postponed',
-            "D" => 'discarded',
-            DocumentWorkflow::STATE_NEW_NONE => "new",
-            DocumentWorkflow::STATE_REGISTERED_NONE => "registered",
-            DocumentWorkflow::STATE_POSTPONED_NONE => "postponed",
-            DocumentWorkflow::STATE_DISCARDED_NONE => "discarded",
-            DocumentWorkflow::STATE_IN_PROGRESS_NONE => "in_progress",
-            DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE => "in_progress",
-            DocumentWorkflow::STATE_IN_PROGRESS_INACTIVE => "in_progress",
-            DocumentWorkflow::STATE_IN_PROGRESS_DELETED => "in_progress",
-            DocumentWorkflow::STATE_NONE_ACTIVE => "released",
-            DocumentWorkflow::STATE_NONE_INACTIVE => "postponed",
-            DocumentWorkflow::STATE_NONE_DELETED => "discarded",
-        ];
+       $aliasState = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($status);
 
-
-        if (array_key_exists($status, $statusMapping)) {
-            $aliasState = $statusMapping[$status];
-        } else {
+        if (empty($aliasState)) {
+            // The status is likely to be an alias status.
             $aliasState = $status;
         }
 
-        if ($aliasState) {
-            return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                "manager.documentList.state.".$aliasState,
-                'dpf',
-                $arguments = null
-            );
-        }
-
-        return "";
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+            "manager.documentList.state.".$aliasState,
+            'dpf',
+            $arguments = null
+        );
     }
 }

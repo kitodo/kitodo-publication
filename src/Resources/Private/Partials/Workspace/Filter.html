@@ -17,7 +17,15 @@
      data-ajax="{f:uri.action(action:'addWorkspaceFilter',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
     <select id="{filterName}-filter" class="workspace-filter-select" name="{filterName}">
         <option value="">
-            <f:translate key="manager.workspace.filter.all" />
+            <f:if condition="{filterName} == 'doctype'">
+                <f:then>
+                    <f:translate key="manager.workspace.filter.allDoctypes" />
+                </f:then>
+                <f:else>
+                    <f:translate key="manager.workspace.filter.all" />
+                </f:else>
+            </f:if>
+
         </option>
         <f:for each="{aggregation.buckets}" as="filterItem">
             <f:if condition="{filterValues}">

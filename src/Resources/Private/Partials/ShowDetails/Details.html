@@ -15,6 +15,13 @@
 
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
+
+<f:if condition="{dpf:showDocumentType(docType:'{document.documentType.name}')} != '-'">
+    <span class="badge badge-pill badge-dark">{dpf:showDocumentType(docType:'{document.documentType.name}')}</span>
+</f:if>
+
+<span class="badge badge-pill badge-{dpf:getStatusColor(status:'{document.state}')}">{dpf:showStatus(status:'{document.state}')}</span>
+
 <ul>
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
         <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
