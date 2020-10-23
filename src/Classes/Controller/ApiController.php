@@ -28,6 +28,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Log\LogManager;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 
 /**
  * DocumentController
@@ -176,10 +177,17 @@ class ApiController extends ActionController
                 return '{"error": "Maximum document size exceeded"}';
             }
 
+            $processNumber = $document->getProcessNumber();
+            if (empty($processNumber)) {
+                $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+                $processNumber = $processNumberGenerator->getProcessNumber();
+                $document->setProcessNumber($processNumber);
+            }
+
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
 
-            return '{"success": "Document created", "id": "' . $document->getDocumentIdentifier() . '"}';
+            return '{"success": "Document created", "id": "' . $document->getProcessNumber() . '"}';
         }
         return '{"error": "Token failed"}';
 
@@ -200,9 +208,16 @@ class ApiController extends ActionController
 
             $doc->setSlubInfoData($slub->getSlubXml());
 
+            $processNumber = $doc->getProcessNumber();
+            if (empty($processNumber)) {
+                $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+                $processNumber = $processNumberGenerator->getProcessNumber();
+                $doc->setProcessNumber($processNumber);
+            }
+
             $this->documentManager->update($doc);
 
-            return '{"success": "Document '.$doc->getUid().' added '.$id.'"}';
+            return '{"success": "Document '.$document.' added '.$id.'"}';
         }
         return '{"error": "Token failed"}';
 
