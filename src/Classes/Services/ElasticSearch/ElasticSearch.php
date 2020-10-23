@@ -213,6 +213,9 @@ class ElasticSearch
                         'affiliation' => [
                             'type' => 'keyword'
                         ],
+                        'process_number' => [
+                            'type' => 'keyword'
+                        ]
                     ]
                 ]
             ]
@@ -237,15 +240,14 @@ class ElasticSearch
 
             $data->state = $document->getState();
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
+
             $data->objectIdentifier = $document->getObjectIdentifier();
 
-
-            if ($data->identifier && is_array($data->identifier)) {
-                $data->identifier[] = $document->getObjectIdentifier();
-            } else {
-                $data->identifier = [$document->getObjectIdentifier()];
+            if (!$data->identifier || !is_array($data->identifier)) {
+                $data->identifier = [];
             }
-
+            $data->identifier[] = $document->getObjectIdentifier();
+            $data->identifier[] = $document->getProcessNumber();
 
             if ($document->getCreator()) {
                 $data->creator = $document->getCreator();

@@ -17,6 +17,7 @@ namespace EWW\Dpf\Domain\Repository;
 use EWW\Dpf\Domain\Model\Document;
 use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use \EWW\Dpf\Security\Security;
+use \EWW\Dpf\Services\Identifier\Identifier;
 
 /**
  * The repository for Documents
@@ -197,17 +198,26 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     {
         $query = $this->createQuery();
 
-        if (is_numeric($identifier)) {
+        if (Identifier::isUid($identifier)) {
             $constraints = [
                 $query->equals('uid', $identifier)
             ];
-        } else {
+        } elseif (Identifier::isQucosaId($identifier)) {
             $constraints = [
                 $query->logicalAnd(
                     $query->equals('object_identifier', $identifier),
                     $query->equals('suggestion', false)
                 )
             ];
+        } elseif (Identifier::isProcessNumber($identifier)) {
+            $constraints = [
+                $query->logicalAnd(
+                    $query->equals('process_number', $identifier),
+                    $query->equals('suggestion', false)
+                )
+            ];
+        } else {
+            return null;
         }
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));

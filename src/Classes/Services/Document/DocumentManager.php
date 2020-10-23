@@ -6,6 +6,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Security\Security;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -89,12 +90,70 @@ class DocumentManager
     protected $frontendUserRepository = null;
 
     /**
-     * Returns a document specified by repository object identifier or dataset uid.
+     * elasticSearch
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
+     * @inject
+     */
+    protected $elasticSearch = null;
+
+    /**
+     * queryBuilder
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
+     * @inject
+     */
+    protected $queryBuilder = null;
+
+    /**
+     * Returns the localized document identifiers (uid/objectIdentifier).
+     *
+     * @param $identifier
+     * @return array
+     */
+    public function resolveIdentifier($identifier) {
+
+        $localizedIdentifiers = [];
+
+        $document = $this->documentRepository->findByIdentifier($identifier);
+
+        if ($document instanceof Document) {
+
+            if ($document->getObjectIdentifier()) {
+                $localizedIdentifiers['objectIdentifier'] = $document->getObjectIdentifier();
+            }
+
+            if ($document->getUid()) {
+                $localizedIdentifiers['uid'] = $document->getUid();
+            }
+        } else {
+
+            $query = $this->queryBuilder->buildQuery(
+                1, [], 0,
+                [], [], [], null, null,
+                'identifier:"'.$identifier.'"'
+            );
+
+            try {
+                $results =  $this->elasticSearch->search($query, 'object');
+                if (is_array($results) && $results['hits']['total']['value'] > 0) {
+                    $localizedIdentifiers['objectIdentifier'] = $results['hits']['hits'][0]['_id'];
+                }
+            } catch (\Exception $e) {
+                return [];
+            }
+
+        }
+
+        return $localizedIdentifiers;
+    }
+
+
+    /**
+     * Returns a document specified by repository object identifier, a typo3 uid or a process number.
      *
      * @param string $identifier
-     * @param int $user_uid
      * @return Document|null
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function read($identifier)
     {
@@ -102,29 +161,26 @@ class DocumentManager
             return null;
         }
 
-        $document = $this->documentRepository->findByIdentifier($identifier);
+        $localizedIdentifiers = $this->resolveIdentifier($identifier);
 
-        if ($document instanceof Document) {
-            return $document;
+        if (array_key_exists('uid', $localizedIdentifiers)) {
+            return $this->documentRepository->findByUid($localizedIdentifiers['uid']);
         }
 
-        /** @var \EWW\Dpf\Domain\Model\Document $document */
-        $document = NULL;
+        if (array_key_exists('objectIdentifier', $localizedIdentifiers)) {
+            try {
+                /** @var \EWW\Dpf\Domain\Model\Document $document */
+                $document = $this->getDocumentTransferManager()->retrieve($localizedIdentifiers['objectIdentifier']);
 
-        try {
-            $document = $this->getDocumentTransferManager()->retrieve($identifier);
+                // index the document
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'indexDocument', [$document]
+                );
 
-            // index the document
-            $this->signalSlotDispatcher->dispatch(
-                AbstractController::class, 'indexDocument', [$document]
-            );
-
-        } catch (\EWW\Dpf\Exceptions\RetrieveDocumentErrorException $exception) {
-            return null;
-        }
-
-        if ($document instanceof Document) {
-            return $document;
+                return $document;
+            } catch (\Exception $exception) {
+                return null;
+            }
         }
 
         return null;

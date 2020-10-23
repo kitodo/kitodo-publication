@@ -127,7 +127,9 @@ class ApiController extends ActionController
      */
     public function showAction($document, $token) {
         if ($this->checkToken($token)) {
-            $doc = $this->documentRepository->findByIdentifier($document);
+            /** @var Document $doc */
+            $doc = $this->documentManager->read($document);
+            //$doc = $this->documentRepository->findByIdentifier($document);
 
             if ($doc) {
                 $this->security->getUser()->getUid();
@@ -184,35 +186,40 @@ class ApiController extends ActionController
     }
 
     /**
-     * @param Document $document
+     * @param string $document
      * @param string $id
      * @param string $token
      * @throws \Exception
      */
-    public function addFisIdAction(Document $document, $id, $token) {
+    public function addFisIdAction($document, $id, $token) {
         if ($this->checkToken($token)) {
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            /** @var Document $doc */
+            $doc = $this->documentManager->read($document);
+            $slub = new \EWW\Dpf\Helper\Slub($doc->getSlubInfoData());
             $slub->setFisId($id);
 
-            $document->setSlubInfoData($slub->getSlubXml());
+            $doc->setSlubInfoData($slub->getSlubXml());
 
-            $this->documentRepository->update($document);
+            $this->documentManager->update($doc);
 
-            return '{"success": "Document '.$document->getUid().' added '.$id.'"}';
+            return '{"success": "Document '.$doc->getUid().' added '.$id.'"}';
         }
         return '{"error": "Token failed"}';
 
     }
 
     /**
-     * @param Document $document
+     * @param string $document
      * @param string $json
      * @param string $token
      * @param bool $restore
      * @return string
      */
-    public function suggestionAction(Document $document, $json, $token, $restore = false) {
+    public function suggestionAction($document, $json, $token, $restore = false) {
         if ($this->checkToken($token)) {
+            /** @var Document $doc */
+            $doc = $this->documentManager->read($document);
+
             if ($json) {
                 $jsonData = $json;
             }
@@ -224,7 +231,7 @@ class ApiController extends ActionController
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
             /** @var Document $editOrigDocument */
-            $editOrigDocument = $mapper->editDocument($document, $jsonData);
+            $editOrigDocument = $mapper->editDocument($doc, $jsonData);
 
             $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument);
 

@@ -215,8 +215,6 @@ class DocumentController extends AbstractController
      */
     public function acceptSuggestionAction(\EWW\Dpf\Domain\Model\Document $document, bool $acceptAll = true) {
 
-        $args = $this->request->getArguments();
-
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
@@ -273,8 +271,18 @@ class DocumentController extends AbstractController
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
+            // Notify assigned users
             /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
+
+            $recipients = $this->documentManager->getUpdateNotificationRecipients($originDocument);
+            $notifier->sendMyPublicationUpdateNotification($originDocument, $recipients);
+
+            $recipients = $this->documentManager->getNewPublicationNotificationRecipients($originDocument);
+            $notifier->sendMyPublicationNewNotification($originDocument, $recipients);
+
+            $notifier->sendChangedDocumentNotification($originDocument);
+
             $notifier->sendSuggestionAcceptNotification($originDocument);
 
             // index the document
