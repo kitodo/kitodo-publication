@@ -65,6 +65,10 @@
             <source>Creator</source>
             <target>Ersteller</target>
         </trans-unit>
+        <trans-unit id="creation_date.description" approved="yes">
+            <source>Creation date</source>
+            <target>Erstellungsdatum</target>
+        </trans-unit>
         <trans-unit id="temporary.description" approved="yes">
             <source>temporary</source>
             <target>Temporär</target>

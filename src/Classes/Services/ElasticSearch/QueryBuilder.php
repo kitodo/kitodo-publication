@@ -247,7 +247,8 @@ class QueryBuilder
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year',
+                'universityCollection', 'creatorRole', 'creationDate'
             ];
 
             foreach ($filters as $key => $filterValues) {

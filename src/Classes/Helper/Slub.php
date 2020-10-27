@@ -115,6 +115,36 @@ class Slub
     }
 
     /**
+     * @param string $creationDate
+     * @throws \Exception
+     */
+    public function setDocumentCreationDate($creationDate)
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:documentCreationDate");
+        if ($fisIdNode->length == 1) {
+            $fisIdNode->item(0)->nodeValue = $creationDate;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $creationDateElement = $this->slubDom->createElement('slub:documentCreationDate');
+                $creationDateElement->nodeValue = $creationDate;
+                $slubInfoNode->item(0)->appendChild($creationDateElement);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocumentCreationDate()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:documentCreationDate");
+        return $node->item(0)->nodeValue;
+    }
+
+    /**
      * Gets the creator uid of the document, the person who added and registered the document.
      *
      * @return int

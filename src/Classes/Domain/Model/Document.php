@@ -125,6 +125,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $creator = 0;
 
     /**
+     * creation date
+     *
+     * @var string
+     */
+    protected $creationDate = "";
+
+    /**
      * state
      *
      * @var string
@@ -151,6 +158,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var integer
      */
     protected $tstamp;
+
+    /**
+     * crdate
+     *
+     * @var integer
+     */
+    protected $crdate;
 
     /**
      * @var string
@@ -210,6 +224,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->file = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->initCreationDate();
     }
 
     /**
@@ -1032,4 +1047,37 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $data;
     }
 
+    /**
+     * @return string
+     */
+    public function getCreationDate(): string
+    {
+        if (
+            $this->getRemoteState() == DocumentWorkflow::REMOTE_STATE_NONE
+            && empty($this->creationDate)
+        ) {
+            $date = new \DateTime();
+            $date->setTimestamp($this->crdate);
+            return $date->format(\DateTimeInterface::RFC3339_EXTENDED);
+        }
+
+        return $this->creationDate;
+    }
+
+    /**
+     * @param string $creationDate
+     */
+    public function setCreationDate(string $creationDate): void
+    {
+        $this->creationDate = $creationDate;
+    }
+
+    /**
+     * Initializes the creation date with the current date.
+     */
+    public function initCreationDate(): void
+    {
+        $date = new \DateTime();
+        $this->setCreationDate($date->format(\DateTimeInterface::RFC3339_EXTENDED));
+    }
 }

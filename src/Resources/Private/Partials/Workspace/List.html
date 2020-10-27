@@ -85,6 +85,20 @@
                       arguments="{aggregation: aggregations.hasFiles, filterName: 'hasFiles', filterValues: filters.hasFiles}"
             />
         </th>
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+        <th>
+            {f:translate(key: 'manager.workspace.creationDate')}
+
+            <f:comment><div class="btn-toolbar"><div class="btn-group"><span class="btn btn-sm">&nbsp;</span></div></div></f:comment>
+
+            <f:render partial="Workspace/SortColumn"
+                      arguments="{workspaceListAction: workspaceListAction, sortField: 'creationDate'}"
+            />
+
+            <div class="workspace-filter">&nbsp;</div>
+
+        </th>
+        </f:if>
         <th class="xcol-md-2"><!-- ACTIONS --></th>
     </tr>
     </thead>
@@ -233,6 +247,16 @@
                     </f:else>
                 </f:if>
             </td>
+
+            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                <td>
+                   <f:if condition="{document._source.creationDate}">
+                       <f:format.date format="d.m.Y">
+                           {document._source.creationDate}
+                       </f:format.date>
+                   </f:if>
+                </td>
+            </f:if>
 
             <td class="table_col_function">
                 <f:render partial="Workspace/ListItemActions"

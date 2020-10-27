@@ -215,6 +215,9 @@ class ElasticSearch
                         ],
                         'process_number' => [
                             'type' => 'keyword'
+                        ],
+                        'creationDate' => [
+                            'type' => 'keyword'
                         ]
                     ]
                 ]
@@ -263,6 +266,10 @@ class ElasticSearch
             } else {
                 $data->creatorRole = '';
             }
+
+            //$creationDate = new \DateTime($document->getCreationDate());
+
+            $data->creationDate = $document->getCreationDate();
 
             $data->year = $document->getPublicationYear();
 

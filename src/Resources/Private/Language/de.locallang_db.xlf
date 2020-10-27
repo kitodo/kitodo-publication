@@ -279,6 +279,10 @@
 			<source>Creator</source>
 			<target>Ersteller</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.creation_date" approved="yes">
+			<source>Creation date</source>
+			<target>Erstellungsdatum</target>
+		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
 			<source>Temporary</source>
 			<target>Temporär</target>

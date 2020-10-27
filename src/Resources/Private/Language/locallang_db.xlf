@@ -203,6 +203,9 @@
 		<trans-unit id="tx_dpf_domain_model_document.creator">
 			<source>Creator</source>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.creation_date">
+			<source>Creation date</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.temporary">
 			<source>Temporary</source>
 		</trans-unit>

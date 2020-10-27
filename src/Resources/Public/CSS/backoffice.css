@@ -124,6 +124,7 @@ body {
     margin-top: .25rem;
     margin-bottom: .25rem;
     font-weight: normal;
+    min-height: 28px;
 }
 
 #tx-dpf-backoffice .table-manager .select2 {

@@ -686,6 +686,15 @@ class WorkspaceController extends AbstractController
         }
 
         foreach ($this->documentRepository->findAll() as $document) {
+
+            $creationDate = $document->getCreationDate();
+            if (empty($creationDate) && $document->getObjectIdentifier()) {
+                $creationDate = $documentTransferManager->getLastModDate($document->getObjectIdentifier());
+            }
+            $document->setCreationDate($creationDate);
+
+            $this->documentRepository->update($document);
+
             if (!$document->isTemporary() && !$document->isSuggestion()) {
                 // index the document
                 $signalSlotDispatcher->dispatch(
@@ -694,6 +703,7 @@ class WorkspaceController extends AbstractController
                 );
             }
         }
+
     }
 
 

@@ -901,6 +901,10 @@
 				<source>Fulltext</source>
 				<target>Volltext</target>
 			</trans-unit>
+			<trans-unit id="manager.workspace.creationDate" approved="yes">
+				<source>Created</source>
+				<target>Erstellt</target>
+			</trans-unit>
 			<trans-unit id="manager.workspace.noTitle" approved="yes">
 				<source>No title</source>
 				<target>kein Titel</target>
@@ -1252,6 +1256,10 @@
 			<trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
 				<source>Embargo end</source>
 				<target>Embargoende</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.creationDate" approved="yes">
+				<source>Creation date</source>
+				<target>Erstellungsdatum</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.comment" approved="yes">
 				<source>Comment</source>

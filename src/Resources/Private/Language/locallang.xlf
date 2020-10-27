@@ -674,6 +674,9 @@
 			<trans-unit id="manager.workspace.fulltextMedia">
 				<source>Fulltext</source>
 			</trans-unit>
+			<trans-unit id="manager.workspace.creationDate">
+				<source>Created</source>
+			</trans-unit>
 			<trans-unit id="manager.workspace.noTitle">
 				<source>No title</source>
 			</trans-unit>
@@ -928,6 +931,9 @@
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
 				<source>Embargo end</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.creationDate" approved="yes">
+				<source>Creation date</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.comment" approved="yes">
 				<source>Comment</source>

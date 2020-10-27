@@ -112,6 +112,7 @@ class DocumentTransferManager
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
         $slub->setDocumentCreator($document->getCreator());
+        $slub->setDocumentCreationDate($document->getCreationDate());
         $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
@@ -184,6 +185,7 @@ class DocumentTransferManager
         // Set the document creator
         $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
         $slub->setDocumentCreator($document->getCreator());
+        $slub->setDocumentCreationDate($document->getCreationDate());
         $exporter->setSlubInfo($slub->getSlubXml());
 
         $exporter->setObjId($document->getObjectIdentifier());
@@ -257,6 +259,12 @@ class DocumentTransferManager
             $document->setSlubInfoData($slub->getSlubXml());
 
             $document->setDateIssued($mods->getDateIssued());
+
+            $creationDate = $slub->getDocumentCreationDate();
+            if (empty($creationDate)) {
+                $creationDate = $mets->getCreationDate();
+            }
+            $document->setCreationDate($creationDate);
 
             $document->setProcessNumber($slub->getProcessNumber());
 
@@ -351,6 +359,23 @@ class DocumentTransferManager
         if ($metsXml) {
             $mets = new \EWW\Dpf\Helper\Mets($metsXml);
             return $mets->getLastModDate();
+        }
+
+        return NULL;
+    }
+
+    /**
+     * Gets the created date of the remote document (remoteId)
+     *
+     * @param string $remoteId
+     * @return string
+     */
+    public function getCreationDate($remoteId) {
+        $metsXml = $this->remoteRepository->retrieve($remoteId);
+
+        if ($metsXml) {
+            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
+            return $mets->getCreationDate();
         }
 
         return NULL;

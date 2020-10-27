@@ -50,6 +50,9 @@
         <trans-unit id="creator.description">
             <source>creator</source>
         </trans-unit>
+        <trans-unit id="creation_date.description">
+            <source>Creation date</source>
+        </trans-unit>
         <trans-unit id="temporary.description">
             <source>temporary</source>
         </trans-unit>
