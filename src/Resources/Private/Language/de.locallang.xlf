@@ -577,6 +577,22 @@
 				<source>The selected documents will be registered for publication.</source>
 				<target>Die ausgewählten Dokumente werden zur Veröffentlichung angemeldet. </target>
 			</trans-unit>
+			<trans-unit id="manager.confirmSetInProgress.message" approved="yes" xml:space="preserve">
+				<source>The document &quot;%s&quot; will be taken into processing.</source>
+				<target>Das Dokument &quot;%s&quot; wird in Bearbeitung genommen. </target>
+			</trans-unit>
+			<trans-unit id="manager.confirmSetInProgress.messageHeader" approved="yes">
+				<source>Do you really want to take the document into processing?</source>
+				<target>Möchten Sie das Dokument wirklich in Bearbeitung nehmen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchSetInProgress.messageHeader" approved="yes">
+				<source>Do you really want to take the selected documents into processing?</source>
+				<target>Möchten Sie die ausgewählten Dokumente wirklich in Bearbeitung nehmen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchSetInProgress.message" approved="yes" xml:space="preserve">
+				<source>The selected documents will be taken into processing.</source>
+				<target>Die ausgewählten Dokumente werden in Bearbeitung genommen. </target>
+			</trans-unit>
 			<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
 				<source>Do you really want to remove the selected documents?</source>
 				<target>Möchten Sie die ausgewählten Dokumente wirklich entfernen?</target>
@@ -956,6 +972,14 @@
 			<trans-unit id="manager.workspace.batchAction.register.success.plural" approved="yes">
 				<source>%s records out of %s successfully registered.</source>
 				<target>%s Datensätze von %s wurden erfolgreich gemeldet.</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.setInProgress.success.singular" approved="yes">
+				<source>%s record out of %s successfully taken into processing.</source>
+				<target>%s Datensatz von %s wurde erfolgreich in Bearbeitung genommen.</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.setInProgress.success.plural" approved="yes">
+				<source>%s records out of %s successfully taken into processing.</source>
+				<target>%s Datensätze von %s wurden erfolgreich in Bearbeitung genommen.</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.batchAction.remove.success.singular" approved="yes">
 				<source>%s record out of %s successfully removed.</source>

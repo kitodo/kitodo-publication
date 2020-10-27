@@ -674,6 +674,7 @@ var batchSelectHandler = {
     refreshToggleButtons() {
         this.toggleSelectButton();
         this.toggleRegisterButton();
+        this.toggleSetInProgressButton();
         this.toggleBatchRemoveButton();
         this.toggleBatchReleaseButton();
         this.toggleBatchBookmarkButton();
@@ -692,6 +693,17 @@ var batchSelectHandler = {
             jQuery("#batchButtonBatchRegister").removeClass("disabled");
         } else {
             jQuery("#batchButtonBatchRegister").addClass("disabled");
+        }
+    },
+    toggleSetInProgressButton() {
+        var numNew = jQuery('#workspace-list tbody tr td[data-alias-state="new"]:first-child .batch-checkbox:checked').length;
+        var numInProgress = jQuery('#workspace-list tbody tr td[data-alias-state="in_progress"]:first-child .batch-checkbox:checked').length;
+        var numChecked = jQuery(".batch-checkbox:checked").length;
+
+        if (numNew + numInProgress < numChecked) {
+            jQuery("#batchButtonBatchSetInProgress").removeClass("disabled");
+        } else {
+            jQuery("#batchButtonBatchSetInProgress").addClass("disabled");
         }
     },
     toggleBatchRemoveButton() {
@@ -1889,6 +1901,7 @@ $(document).ready(function() {
     documentListConfirmDialog("#confirmRegister");
     documentListConfirmDialog("#confirmPostpone");
 
+    batchConfirmDialog("BatchSetInProgress");
     batchConfirmDialog("BatchRegister");
     batchConfirmDialog("BatchRemove");
     batchConfirmDialog("BatchReleaseValidated");

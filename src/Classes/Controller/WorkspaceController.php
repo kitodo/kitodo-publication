@@ -342,6 +342,76 @@ class WorkspaceController extends AbstractController
     }
 
     /**
+     * Batch operation, set documents to "In progress".
+     * @param array $listData
+     */
+    public function batchSetInProgressAction($listData)
+    {
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+
+                $this->editingLockService->lock(
+                    $documentIdentifier, $this->security->getUser()->getUid()
+                );
+
+                $document = $this->documentManager->read($documentIdentifier);
+
+                    if ($this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+
+                        $document->setTemporary(false);
+
+                            if (
+                                $this->documentManager->update(
+                                    $document,
+                                    DocumentWorkflow::TRANSITION_IN_PROGRESS
+                                )
+                            ) {
+                                $successful[] = $documentIdentifier;
+
+                                // index the document
+                                $this->signalSlotDispatcher->dispatch(
+                                    \EWW\Dpf\Controller\AbstractController::class,
+                                    'indexDocument', [$document]
+                                );
+                            }
+                    }
+            }
+
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.setInProgress.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.setInProgress.success.plural';
+            }
+
+            $message = LocalizationUtility::translate(
+                $locallangKey,
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
+
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
+    }
+
+    /**
      * Batch operation, remove documents.
      * @param array $listData
      */

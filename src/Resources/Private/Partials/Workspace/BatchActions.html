@@ -37,27 +37,24 @@
                     additionalAttributes="{disabled:'disabled'}"
             />
 
-            <a href="#" id="batchButtonBatchExport" class="btn btn-sm btn-secondary disabled">
-                {f:translate(key: 'manger.workspace.batch.buttonExport', default: 'Exportieren')}
-            </a>
         </f:then>
     </f:if>
 
     <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
         <f:then>
-            <a href="#" id="batchButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
-                {f:translate(key: 'manger.workspace.batch.buttonRemove', default: 'Aus "Arbeitsbereich" entfernen')}
+            <a href="#" id="batchButtonBatchSetInProgress" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.batchButtonBatchSetInProgress', default: 'In Bearbeitung nehmen')}
             </a>
             <f:form.hidden
-                    id="batchActionBatchRemove"
+                    id="batchActionBatchSetInProgress"
                     class="batchAction"
                     name="listData[action]"
-                    value="batchRemove"
+                    value="batchSetInProgress"
                     additionalAttributes="{disabled:'disabled'}"
             />
 
             <a href="#" id="batchButtonBatchReleaseValidated" class="btn btn-sm btn-secondary disabled">
-                {f:translate(key: 'manger.workspace.batch.buttonReleaseValidated', default: ' Freigeben und validieren')}
+                {f:translate(key: 'manger.workspace.batch.buttonReleaseValidated', default: 'Freigeben und validieren')}
             </a>
             <f:form.hidden
                     id="batchActionBatchReleaseValidated"
@@ -79,4 +76,28 @@
             />
         </f:then>
     </f:if>
+
+    <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_RESEARCHER' || {dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
+        <f:then>
+            <a href="#" id="batchButtonBatchExport" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonExport', default: 'Exportieren')}
+            </a>
+        </f:then>
+    </f:if>
+
+    <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
+        <f:then>
+            <a href="#" id="batchButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
+                {f:translate(key: 'manger.workspace.batch.buttonRemove', default: 'Aus "Arbeitsbereich" entfernen')}
+            </a>
+            <f:form.hidden
+                    id="batchActionBatchRemove"
+                    class="batchAction"
+                    name="listData[action]"
+                    value="batchRemove"
+                    additionalAttributes="{disabled:'disabled'}"
+            />
+        </f:then>
+    </f:if>
+
 </div>

@@ -124,7 +124,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
@@ -149,7 +149,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     // non-cacheable actions
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument',
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
