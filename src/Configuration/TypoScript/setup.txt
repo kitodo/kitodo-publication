@@ -239,7 +239,7 @@ page.includeJSFooter.tx_dpfFilesaver = EXT:dpf/Resources/Public/JavaScript/FileS
 page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
 page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js
-
+page.includeJSFooter.doubleScroll = EXT:dpf/Resources/Public/JavaScript/jquery.doubleScroll.js
 
 #Define ajax page type
 ajax_page = PAGE

@@ -2040,4 +2040,6 @@ $(document).ready(function() {
             searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
         });
     });
+
+    $('.double-scroll').doubleScroll();
 });
