@@ -309,7 +309,7 @@
 				<source>previous</source>
 			</trans-unit>
 			<trans-unit id="form_button.showOriginalDocument">
-				<source>Show original publication</source>
+				<source>Current version</source>
 			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
