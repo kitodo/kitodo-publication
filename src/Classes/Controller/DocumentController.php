@@ -391,6 +391,7 @@ class DocumentController extends AbstractController
                                     // changed
                                     $returnArray['changed']['old'][] = $itemExisting;
                                     $returnArray['changed']['new'][] = $itemNew;
+                                    $returnArray['changed']['groupDisplayName'] = $valueRepeatGroup->getDisplayName();
                                 }
 
                                 if ($flag == 'group') {

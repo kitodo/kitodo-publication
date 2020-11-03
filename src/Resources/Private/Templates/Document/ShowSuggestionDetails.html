@@ -107,7 +107,16 @@
             </tr>
             <f:for each="{diff.changed.old}" as="changedOld" iteration="iteratorChanged">
                 <tr>
-                    <td>{changedOld.displayName}:</td>
+                    <td>
+                        <f:if condition="{changedOld.displayName}">
+                            <f:then>
+                                {changedOld.displayName}:
+                            </f:then>
+                            <f:else>
+                                {diff.changed.groupDisplayName}:
+                            </f:else>
+                        </f:if>
+                    </td>
                     <td>{changedOld.value}</td>
                     <td>{diff.changed.new.{iteratorChanged.index}.value}</td>
                 </tr>
