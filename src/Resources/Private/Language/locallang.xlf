@@ -995,10 +995,10 @@
 			<trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
 				<source>Document type</source>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.from" approved="yes">
 				<source>From</source>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.to" approved="yes">
 				<source>To</source>
 			</trans-unit>
 			<trans-unit id="manager.search.addSearchFieldDialog.cancel" approved="yes">

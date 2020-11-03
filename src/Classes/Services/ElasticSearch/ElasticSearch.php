@@ -217,7 +217,12 @@ class ElasticSearch
                             'type' => 'keyword'
                         ],
                         'creationDate' => [
-                            'type' => 'keyword'
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
+                        ],
+                        'embargoDate' => [
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
                         ]
                     ]
                 ]
@@ -267,9 +272,9 @@ class ElasticSearch
                 $data->creatorRole = '';
             }
 
-            //$creationDate = new \DateTime($document->getCreationDate());
+            $creationDate = new \DateTime($document->getCreationDate());
 
-            $data->creationDate = $document->getCreationDate();
+            $data->creationDate = $creationDate->format('Y-m-d');
 
             $data->year = $document->getPublicationYear();
 

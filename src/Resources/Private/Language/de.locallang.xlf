@@ -1341,11 +1341,11 @@
 				<source>Document type</source>
 				<target>Dokumenttyp</target>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.from" approved="yes">
 				<source>From</source>
 				<target>Von</target>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.to" approved="yes">
 				<source>To</source>
 				<target>Bis</target>
 			</trans-unit>
