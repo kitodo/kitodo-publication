@@ -15,12 +15,15 @@
 
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-
 <f:if condition="{dpf:showDocumentType(docType:'{document.documentType.name}')} != '-'">
     <span class="badge badge-pill badge-dark">{dpf:showDocumentType(docType:'{document.documentType.name}')}</span>
 </f:if>
 
 <span class="badge badge-pill badge-{dpf:getStatusColor(status:'{document.state}')}">{dpf:showStatus(status:'{document.state}')}</span>
+
+<f:if condition="{document.creationDate}">
+    <span class="badge badge-pill badge-secondary">{f:translate(key: 'manager.workspace.creationDate')}: <f:format.date format="d.m.Y">{document.creationDate}</f:format.date></span>
+</f:if>
 
 <ul>
     <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
@@ -33,9 +36,9 @@
                         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
                             <f:if condition="{fieldItem.value}">
                                 <f:if condition="{fieldItem.displayName}">
-                                                        <span class="details-field-name">
-                                                            {fieldItem.displayName}:
-                                                        </span>
+                                    <span class="details-field-name">
+                                        {fieldItem.displayName}:
+                                    </span>
                                 </f:if>
                                 <f:render partial="ShowDetails/FieldValue" arguments="{fieldItem:fieldItem}" />
                                 <br />
