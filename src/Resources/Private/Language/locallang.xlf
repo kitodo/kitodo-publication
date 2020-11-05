@@ -377,6 +377,9 @@
 			<trans-unit id="manager.control.suggestionDescription">
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 			</trans-unit>
+			<trans-unit id="manager.control.suggestionFileUploadInfo">
+                <source>For data sets for which no file is available yet, you can upload a file for publication here. Please also accept the declaration of consent. It is not possible to exchange or remove existing files here. If you wish so, please contact us.</source>
+			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
 				<source>Add manually</source>
 			</trans-unit>

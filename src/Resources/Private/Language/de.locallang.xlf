@@ -505,6 +505,10 @@
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 				<target>Hier können Sie Vorschläge für Änderungen an bestehenden Datensätzen einreichen. Sie können zugehörige Dateien hochladen und bei verworfenen Datensätzen die Wiederherstellung vorschlagen. Bitte geben Sie Ihre Änderungen direkt in die entsprechenden Felder ein.</target>
 			</trans-unit>
+			<trans-unit id="manager.control.suggestionFileUploadInfo">
+                <source>For data sets for which no file is available yet, you can upload a file for publication here. Please also accept the declaration of consent. It is not possible to exchange or remove existing files here. If you wish so, please contact us.</source>
+                <target>Für Datensätze, zu denen noch keine Datei vorliegt, können Sie hier eine Datei zur Veröffentlichung hochladen. Bitte akzeptieren Sie dafür auch die Einverständniserklärung. Es ist hier nicht möglich bestehende Dateien auszutauschen oder zu entfernen. Sollten Sie das wünschen, kontaktieren Sie uns bitte.</target>
+			</trans-unit>
 			<trans-unit id="manager.control.myPublications" approved="yes">
 				<source>My publications</source>
 				<target>Meine Publikationen</target>

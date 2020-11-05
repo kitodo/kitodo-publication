@@ -367,6 +367,11 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
     color: #ffffff;
 }
 
+
+.suggestion-file-info {
+    margin: 50px 0 -30px 0;
+}
+
 /* -- form-upload-import-file ---------------------------------------------------------------------- */
 
 .custom-file-input ~ .custom-file-label:lang(de)::after {

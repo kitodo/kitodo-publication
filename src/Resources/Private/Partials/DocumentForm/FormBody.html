@@ -68,6 +68,13 @@
     </f:for>
 
     <div id="tab-file-upload" class="fs_page tab-pane {f:if(condition: '{activeFileTab}', then: 'active', else:'')}">
+
+        <f:if condition="{suggestMod}">
+            <p class="suggestion-file-info">
+                {f:translate(key: 'manager.control.suggestionFileUploadInfo')}
+            </p>
+        </f:if>
+
         <f:render partial="DocumentForm/PrimaryFileGroup"
                   arguments="{file:documentForm.primaryFile,primaryFileMandatory:documentForm.primaryFileMandatory}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
