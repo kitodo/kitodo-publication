@@ -162,10 +162,19 @@ class Mods
                 $family = $familyNode->item(0)->nodeValue;
             }
 
-            $person['given'] = $given;
-            $person['family'] = $family;
-            $person['name'] = $given.' '.$family;
-            
+            $person['given'] = trim($given);
+            $person['family'] = trim($family);
+
+            $name = [];
+            if ($person['given']) {
+                $name[] = $person['given'];
+            }
+            if ($person['family']) {
+                $name[] = $person['family'];
+            }
+
+            $person['name'] = implode(' ', $name);
+
             $person['role'] = '';
             if ($roleNode->length > 0) {
                 $person['role'] = $roleNode->item(0)->nodeValue;

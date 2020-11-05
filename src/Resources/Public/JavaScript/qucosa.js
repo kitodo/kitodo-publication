@@ -2018,7 +2018,7 @@ $(document).ready(function() {
     }
 
     selectFilter('doctype-filter');
-    selectFilter('authorAndPublisher-filter', true);
+    selectFilter('persons-filter', true);
     selectFilter('aliasState-filter');
     selectFilter('year-filter', true);
     selectFilter('hasFiles-filter');

@@ -189,9 +189,9 @@ class QueryBuilder
                             ]
                         ]
                     ],
-                    'authorAndPublisher' => [
+                    'persons' => [
                         'terms' => [
-                            'field' => 'authorAndPublisher',
+                            'field' => 'personData.name',
                             'size'=> 1000
                         ]
                     ],
@@ -247,7 +247,7 @@ class QueryBuilder
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year',
+                'aliasState', 'persons', 'doctype', 'hasFiles', 'year',
                 'universityCollection', 'creatorRole', 'creationDate'
             ];
 

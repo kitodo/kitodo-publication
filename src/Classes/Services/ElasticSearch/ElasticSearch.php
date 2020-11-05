@@ -163,7 +163,7 @@ class ElasticSearch
                         'year' => [
                             'type' => 'integer'
                         ],
-                        'authorAndPublisher' => [
+                        'persons' => [
                             'type' => 'keyword'
                         ],
                         'personsSort' => [
@@ -197,16 +197,18 @@ class ElasticSearch
                             'type' => 'keyword'
                         ],
                         'personData' => [
-                            'enabled' => false,
+                            //'enabled' => false,
                             'properties' => [
                                 'name' => [
                                     'type' => 'keyword'
                                 ],
                                 'fobId' => [
-                                    'type' => 'keyword'
+                                    //'type' => 'keyword'
+                                    'enabled' => false
                                 ],
                                 'index' => [
-                                    'type' => 'integer'
+                                    //'type' => 'integer'
+                                    'enabled' => false
                                 ]
                             ]
                         ],
@@ -300,11 +302,9 @@ class ElasticSearch
             //$persons = array_merge($mods->getAuthors(), $mods->getPublishers());
             $persons = $mods->getPersons();
 
-            $authorAndPublisher = [];
             $fobIdentifiers = [];
             $personData = [];
             foreach ($persons as $person) {
-                $authorAndPublisher[] = $person['name'];
                 $fobIdentifiers[] = $person['fobId'];
                 $personData[] = $person;
                 //$data->persons[] = $person['name'];
@@ -319,7 +319,6 @@ class ElasticSearch
                 }
             }
 
-            $data->authorAndPublisher = $authorAndPublisher;
             $data->fobIdentifiers = $fobIdentifiers;
             $data->personData = $personData;
 
@@ -328,8 +327,6 @@ class ElasticSearch
                     $data->personsSort = $persons[0]['family'];
                 }
             }
-
-            $data->authorAndPublisherIndex = array_keys($authorAndPublisher);
 
             $data->source = $document->getSourceDetails();
 
