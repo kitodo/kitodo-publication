@@ -97,6 +97,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $fisDataService = null;
 
+    /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
+
     const RESULT_COUNT      = 500;
     const NEXT_RESULT_COUNT = 500;
 
@@ -164,6 +172,9 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
             $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
         }
+
+        $personGroup = $this->metadataGroupRepository->findPersonGroup();
+        $this->view->assign('personGroup', $personGroup->getUid());
     }
 
     /**
