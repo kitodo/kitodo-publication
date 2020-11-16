@@ -265,7 +265,7 @@ class ApiController extends ActionController
 
     /**
      * @param string $doi
-     * @param $token
+     * @param string $token
      */
     public function importDoiWithoutSavingAction(string $doi, $token) {
         if ($this->checkToken($token)) {
