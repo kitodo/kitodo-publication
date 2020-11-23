@@ -194,11 +194,7 @@ class DocumentTransferManager
     public function retrieve($remoteId)
     {
         $remoteXml = $this->remoteRepository->retrieve($remoteId);
-
-        if ($this->documentRepository->findOneByObjectIdentifier($remoteId)) {
-            throw new \Exception("Document already exist: $remoteId");
-        };
-
+        
         if ($remoteXml) {
 
             $XSLTransformator = new XSLTransformator();
