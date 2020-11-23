@@ -207,8 +207,7 @@ class DocumentTransferManager
             $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
 
             $title = $internalFormat->getTitle();
-            //$authors = $internalFormat->getAuthors();
-            $authors = '';
+            $authors = $internalFormat->getPersons();
 
             $documentTypeName = $internalFormat->getDocumentType();
             $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
