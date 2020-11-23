@@ -162,6 +162,15 @@ class InternalFormat
         return $stateList->item(0)->nodeValue;
     }
 
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $titleXpath = $this->clientConfigurationManager->getTitleXpath();
+        $this->setValue($titleXpath, $title);
+    }
+
     public function getFiles()
     {
         $xpath = $this->getXpath();
@@ -293,7 +302,7 @@ class InternalFormat
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
         $urnXpath = '/mods:mods/mods:identifier[@type="urn"]';
 
-        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
         $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
 
         $urnNodes = $xpath->query(self::rootNode . $urnXpath);
@@ -377,7 +386,7 @@ class InternalFormat
     public function getRepositoryCreationDate()
     {
         //$xpath = $this->clientConfigurationManager->getRepositoryCreationDateXpath();
-        $xpath = "/repositoyCreationDate";
+        $xpath = "/repositoryCreateDate";
         return $this->getValue($xpath);
     }
 
