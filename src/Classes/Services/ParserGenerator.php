@@ -392,14 +392,19 @@ class ParserGenerator
 
                 // merge xml nodes
                 $nodeToBeAppended = $doc1->importNode($domNode2, true);
-
                 $domNode->item(0)->appendChild($nodeToBeAppended);
 
                 // add to modsData (merge not required)
                 // get mods tag
-                $firstChild = $this->xmlData->firstChild;
+                foreach ($this->xmlData->childNodes as $childNode) {
+                    // Skip comments inside the xml.
+                    if ($childNode instanceof \DOMElement) {
+                        $firstChild = $childNode;
+                        break;
+                    }
+                }
+                //$firstChild = $this->xmlData->childNodes->item(0);
                 $firstItem = $doc1->documentElement->firstChild;
-
                 $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
                 $firstChild->appendChild($nodeAppendModsData);
 

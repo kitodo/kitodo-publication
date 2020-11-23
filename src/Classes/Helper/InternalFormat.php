@@ -693,7 +693,7 @@ class InternalFormat
         $nodes = $xpath->query(self::rootNode . $xpathString);
         if ($nodes->length > 0) {
             $nodes->item(0)->nodeValue = $value;
-        } else {
+        } elseif(!empty($value)) {
             $parserGenerator = new ParserGenerator();
             $parserGenerator->setXml($this->xml->saveXML());
             $parserGenerator->customXPath($xpathString,true, $value);
