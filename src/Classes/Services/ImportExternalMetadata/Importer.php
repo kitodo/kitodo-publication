@@ -56,7 +56,7 @@ interface Importer
      * @return array|null $metadataXml
      *
     */
-    public function transformToMetsXml($xml, $documentType);
+    public function transformToInternalXml($xml, $documentType);
 
 
     /**

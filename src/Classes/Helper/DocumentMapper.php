@@ -133,11 +133,7 @@ class DocumentMapper
                 $documentFormGroup->setGroupType($metadataGroup->getGroupType());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
-                if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                    $xpath = $internalFormat->getXpath();
-                } else {
-                    $xpath = $internalFormat->getXpath();
-                }
+                $xpath = $internalFormat->getXpath();
 
                 // get fixed attributes from xpath configuration
                 $fixedGroupAttributes = array();
@@ -322,8 +318,8 @@ class DocumentMapper
 
         if ($documentForm->getDocumentUid()) {
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-            $tempMods = new Mods($document->getXmlData());
-            $fobIdentifiers = $tempMods->getFobIdentifiers();
+            $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $fobIdentifiers = $tempInternalFormat->getFobIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
             $fobIdentifiers = [];
@@ -369,25 +365,12 @@ class DocumentMapper
 
         $document->setXmlData($internalFormat->getXml());
 
-        $document->setSlubInfoData($exporter->getTransformedOutputXML($document));
-
-        /** @var Mods $mods */
-        $mods = new Mods($modsXml);
-        $document->setNewlyAssignedFobIdentifiers(array_diff($mods->getFobIdentifiers(), $fobIdentifiers));
+        $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getFobIdentifiers(), $fobIdentifiers));
 
         $document->setTitle($internalFormat->getTitle());
         $document->setEmbargoDate($formMetaData['embargo']);
         $document->setAuthors($internalFormat->getAuthors());
         $document->setDateIssued($internalFormat->getDateIssued());
-
-        // slub:info
-//        $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
-//        $slubInfoData['metadata']    = $formMetaData['slubInfo'];
-//        $slubInfoData['files']       = array();
-//        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
-//        $slubInfoXml = $exporter->getSlubInfoData();
-
-//        $document->setSlubInfoData($slubInfoXml);
 
         return $document;
     }

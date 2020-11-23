@@ -188,6 +188,12 @@
 		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
     		<source>RisWos transformation</source>
     	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.input_transformation" approved="yes">
+			<source>Transformation file input</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.output_transformation" approved="yes">
+			<source>Transformation file output</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document">
 			<source>Document</source>
 		</trans-unit>

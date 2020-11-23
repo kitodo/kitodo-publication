@@ -17,8 +17,6 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 \Httpful\Bootstrap::init();
 
 use EWW\Dpf\Domain\Model\ExternalMetadata;
-use \Httpful\Request;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Domain\Model\Document;
@@ -109,7 +107,7 @@ abstract class AbstractImporter
     }
 
     /**
-     * @param ExternalMetadata $metaData
+     * @param ExternalMetadata $metadata
      * @param DocumentType $documentType
      * @return Document
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
@@ -122,11 +120,11 @@ abstract class AbstractImporter
             $documentType = $this->determineDocumentType($publicationType);
         }
 
-        $metsXml = $this->transformToMetsXml($metadata->getData(), $documentType);
+        $xml = $this->transformToInternalXml($metadata->getData(), $documentType);
 
-        if ($metsXml) {
+        if ($xml) {
             /** @var Document $document */
-            $document = $this->createDocument($metsXml, $documentType);
+            $document = $this->createDocument($xml, $documentType);
             $document->setDocumentType($documentType);
 
             return $document;
@@ -140,12 +138,12 @@ abstract class AbstractImporter
      * @param DocumentType $documentType
      * @return string|null $metadataXml
      */
-    public function transformToMetsXml($xml, $documentType)
+    public function transformToInternalXml($xml, $documentType)
     {
         /** @var DocumentTransformer $documentTransformer */
         $documentTransformer = new DocumentTransformer();
 
-        $metsXml = '';
+        $internalXml = '';
 
         if ($xml && $documentType instanceof DocumentType) {
 
@@ -163,44 +161,38 @@ abstract class AbstractImporter
             $xsltFilePath = $this->getXsltFilePath($documentType);
 
             if ($xsltFilePath) {
-                $metsXml = $documentTransformer->transform($xsltFilePath, $xml, $transformParams);
+                $internalXml = $documentTransformer->transform($xsltFilePath, $xml, $transformParams);
             }
 
-            return($metsXml);
+            return($internalXml);
         }
 
         return null;
     }
 
     /**
-     * @param string $metsXml
+     * @param string $xmlData
      * @param DocumentType $documentType
      * @return Document
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      */
-    protected function createDocument($metsXml, $documentType)
+    protected function createDocument($xmlData, $documentType)
     {
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    =  $this->objectManager->get(Document::class);
 
-        $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-        $mods = $mets->getMods();
-        $slub = $mets->getSlub();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($xmlData);
 
         // xml data fields are limited to 64 KB
-        if (strlen($mods->getModsXml()) >= 64 * 1024 || strlen($slub->getSlubXml() >= 64 * 1024)) {
+        if (strlen($internalFormat->getXml()) >= 64 * 1024) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
-        $title   = $mods->getTitle();
-        $authors = $mods->getAuthors();
-
-        $newDocument->setTitle($title);
-        $newDocument->setAuthors($authors);
+        $newDocument->setTitle($internalFormat->getTitle());
+        $newDocument->setAuthors($internalFormat->getAuthors());
         $newDocument->setDocumentType($documentType);
 
-        $newDocument->setXmlData($mods->getModsXml());
-        $newDocument->setSlubInfoData($slub->getSlubXml());
+        $newDocument->setXmlData($internalFormat->getXml());
         $newDocument->setCreator($this->security->getUser()->getUid());
 
         $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);

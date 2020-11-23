@@ -14,6 +14,8 @@ namespace EWW\Dpf\Services\ElasticSearch;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Helper\XSLTransformator;
+
 class ElasticsearchMapper
 {
 
@@ -36,35 +38,18 @@ class ElasticsearchMapper
     /**
      * document2json
      * @param  Document $document [description]
-     * @return json           Elasticsearch json format
+     * @return json Elasticsearch json format
      */
     public function getElasticsearchJson($document)
     {
-        // document 2 json
-        //$fedoraHost = $this->clientConfigurationManager->getFedoraHost();
-
-        // load xslt from fedora
-        //$xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
-
         $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/mets-mods-xml2json.xsl');
 
         // xslt
         $xsl = new \DOMDocument;
-
         $xsl->load($xsltDoc);
 
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
-        $fileData = $document->getFileData();
-        $exporter->setFileData($fileData);
-
-        // slub:info
-//        $exporter->setSlubInfo($document->getSlubInfoData());
-
-        $exporter->setXML($document->getXmlData());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $transformedXml = $exporter->getTransformedOutputXML($document);
+        $XSLTransformator = new XSLTransformator();
+        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
         $xml = new \DOMDocument;
         $xml->loadXML($transformedXml);

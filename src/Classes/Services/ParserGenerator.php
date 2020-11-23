@@ -89,12 +89,6 @@ class ParserGenerator
      */
     protected $namespaceString = '';
 
-    /**
-     * objId
-     * @var string
-     */
-    protected $objId = '';
-
 
     /**
      * Constructor
@@ -559,7 +553,7 @@ class ParserGenerator
 //        return $domDocument;
 //    }
 
-//    public function setSlubInfo($value = '')
+//    public function set_SlubInfo($value = '')
 //    {
 //        // build DOMDocument with slub xml
 //        $domDocument = new \DOMDocument();
@@ -567,13 +561,4 @@ class ParserGenerator
 //        $this->slubData = $domDocument;
 //    }
 
-    /**
-     *
-     * @param string $objId
-     * @return void
-     */
-    public function setObjId($objId)
-    {
-        $this->objId = $objId;
-    }
 }

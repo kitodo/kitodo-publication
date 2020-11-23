@@ -257,6 +257,14 @@
     		<source>RisWos transformation</source>
     		<target>RisWos-Transformation</target>
     	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.input_transformation" approved="yes">
+			<source>Transformation file input</source>
+            <target>Transformations-Datei Import</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.output_transformation" approved="yes">
+			<source>Transformation file output</source>
+            <target>Transformations-Datei Export</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
 			<source>Document</source>
 			<target>Dokument</target>

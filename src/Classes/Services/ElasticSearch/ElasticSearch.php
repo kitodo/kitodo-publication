@@ -19,7 +19,6 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Helper\Mods;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
 
@@ -296,11 +295,10 @@ class ElasticSearch
             }
 
 
-            /** @var @var Mods $mods */
-            $mods = new Mods($document->getXmlData());
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
-            //$persons = array_merge($mods->getAuthors(), $mods->getPublishers());
-            $persons = $mods->getPersons();
+            //$persons = array_merge($internalFormat->getAuthors(), $internalFormat->getPublishers());
+            $persons = $internalFormat->getPersons();
 
             $fobIdentifiers = [];
             $personData = [];
@@ -347,9 +345,9 @@ class ElasticSearch
                 $data->embargoDate = null;
             }
 
-            $data->originalSourceTitle = $mods->getOriginalSourceTitle();
+            $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
 
-            $data->fobIdentifiers = $mods->getFobIdentifiers();
+            $data->fobIdentifiers = $internalFormat->getFobIdentifiers();
 
             $this->client->index([
                 'refresh' => 'wait_for',

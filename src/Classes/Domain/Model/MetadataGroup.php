@@ -298,22 +298,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     }
 
     /**
-     * Checks if a mapping defines a slub:info node
-     *
-     * @param string $mapping
-     * @return bool
-     */
-    public function isSlubInfo($mapping)
-    {
-        $modsRegExp = "/^\/?slub:info/";
-        $match      = $mapping;
-        if (preg_match($modsRegExp, $match)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Returns the modsExtensionMapping
      *
      * @return string $modsExtensionMapping

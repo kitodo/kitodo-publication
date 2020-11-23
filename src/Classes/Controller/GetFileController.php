@@ -297,23 +297,18 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function buildMetsXml($document)
     {
-
         $exporter = new \EWW\Dpf\Services\ParserGenerator();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
         $exporter->setXML($document->getXmlData());
-//        $exporter->setSlubInfo($document->getSlubInfoData());
 
         if (empty($document->getObjectIdentifier())) {
-
             $exporter->setObjId($document->getUid());
-
         } else {
-
             $exporter->setObjId($document->getObjectIdentifier());
-
         }
 
+        $document->setXmlData($exporter->getXMLData());
         $transformedXml = $exporter->getTransformedOutputXML($document);
 
         return $transformedXml;

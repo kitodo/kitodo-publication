@@ -419,6 +419,18 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $riswosTransformation = null;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $inputTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $outputTransformation = null;
+
+    /**
      * @var string
      */
     protected $activeMessagingSuggestionAcceptUrl = '';
@@ -1641,7 +1653,36 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->submitterNoticeXpath = $submitterNoticeXpath;
     }
 
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getInputTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->inputTransformation;
+    }
 
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputTransformation
+     */
+    public function setInputTransformation(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputTransformation)
+    {
+        $this->inputTransformation = $inputTransformation;
+    }
 
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getOutputTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->outputTransformation;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $outputTransformation
+     */
+    public function setOutputTransformation(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $outputTransformation)
+    {
+        $this->outputTransformation = $outputTransformation;
+    }
 
 }

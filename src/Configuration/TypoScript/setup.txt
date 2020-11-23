@@ -27,7 +27,9 @@ config.tx_extbase {
 
 			EWW\Dpf\Domain\Model\Document {
 				mapping {
-					tstamp.mapOnProperty = tstamp
+					tableName = tx_dpf_domain_model_document
+					columns.tstamp.mapOnProperty = tstamp
+					columns.crdate.mapOnProperty = crdate
 				}
 			}
 

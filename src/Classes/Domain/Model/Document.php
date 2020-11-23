@@ -15,8 +15,6 @@ namespace EWW\Dpf\Domain\Model;
  */
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\Mods;
-use EWW\Dpf\Helper\Slub;
 
 /**
  * Document
@@ -834,6 +832,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * @return integer
+     */
+    public function getCrdate()
+    {
+        return $this->crdate;
+    }
+
+    /**
      * @return bool
      */
     public function isSuggestion(): bool
@@ -905,8 +911,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     public function getNotes() {
-        $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
-        return $slub->getNotes();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getNotes();
     }
 
     /**
@@ -948,22 +954,23 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getPublicationYear()
     {
-        $mods = new Mods($this->getXmlData());
-        $year =  $mods->getPublishingYear();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $year =  $internalFormat->getPublishingYear();
         return $year? $year : "";
     }
 
-    /**
+    /*
      * Gets the main title out of the mods-xml data.
      *
      * @return string|null
-     */
+     *
     public function getMainTitle()
     {
-        $mods = new Mods($this->getXmlData());
-        $title = $mods->getTitle();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $title = $internalFormat->getTitle();
         return $title? $title : "";
     }
+    */
 
 
     /**
@@ -973,8 +980,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getSourceDetails()
     {
-        $mods = new Mods($this->getXmlData());
-        $data = $mods->getSourceDetails();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $data = $internalFormat->getSourceDetails();
         return $data;
     }
 
@@ -1025,8 +1032,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAssignedFobIdentifiers(): array
     {
-        $mods = new Mods($this->getXmlData());
-        return $mods->getFobIdentifiers();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getFobIdentifiers();
     }
 
     /**
@@ -1042,8 +1049,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getDepositLicense()
     {
-        $slub = new Slub($this->getSlubInfoData());
-        $data = $slub->getDepositLicense();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $data = $internalFormat->getDepositLicense();
         return $data;
     }
 

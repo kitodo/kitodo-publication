@@ -204,7 +204,7 @@ class DocumentManager
     )
     {
         // xml data fields are limited to 64 KB
-        if (strlen($document->getXmlData()) >= 64 * 1024 || strlen($document->getSlubInfoData() >= 64 * 1024)) {
+        if (strlen($document->getXmlData()) >= 64 * 1024) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
@@ -581,7 +581,10 @@ class DocumentManager
     public function getUpdateNotificationRecipients(Document $document)
     {
         $users = [];
-        $users[$this->getCreatorUser($document)->getUid()] = $this->getCreatorUser($document);
+
+        if ($document->getCreator()) {
+            $users[$this->getCreatorUser($document)->getUid()] = $this->getCreatorUser($document);
+        }
 
         foreach ($this->getAssignedUsers($document) as $user) {
             $users[$user->getUid()] = $user;

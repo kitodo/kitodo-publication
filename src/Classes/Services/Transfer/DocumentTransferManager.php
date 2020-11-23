@@ -19,7 +19,6 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Helper\XSLTransformator;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
@@ -95,35 +94,24 @@ class DocumentTransferManager
      */
     public function ingest($document)
     {
-        $this->documentRepository->update($document);
-
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
-
-        $exporter->setFileData($document->getFileData());
-
         $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
         // Set current date as publication date
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
         $internalFormat->setDateIssued($dateIssued);
+        $internalFormat->setCreator($document->getCreator());
+        $internalFormat->setCreationDate($document->getCreationDate());
 
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
         $exporter->setXML($internalFormat->getXml());
-        // Set the document creator
-//        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-//        $slub->setDocumentCreator($document->getCreator());
-//        $slub->setDocumentCreationDate($document->getCreationDate());
-//        $exporter->setSlubInfo($document->getSlubInfoData());
-//        $exporter->setSlubInfo($slub->getSlubXml());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-//        $document->setXmlData($internalFormat->getXml());
+        $fileData = $document->getFileData();
+        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
+        $exporter->setFileData($fileData);
+        $document->setXmlData($exporter->getXMLData());
 
         $XSLTransformator = new XSLTransformator();
         $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
         $remoteDocumentId = $this->remoteRepository->ingest($document, $transformedXml);
-
 
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
@@ -134,7 +122,6 @@ class DocumentTransferManager
             $this->documentRepository->update($document);
             return false;
         }
-
     }
 
     /**
@@ -172,33 +159,16 @@ class DocumentTransferManager
      */
     public function update($document)
     {
-        // remove document from local index
-        //$elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        //$elasticsearchRepository->delete($document, "");
-
-        //$document->setTransferStatus(Document::TRANSFER_QUEUED);
-        //$this->documentRepository->update($document);
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat->setCreator($document->getCreator());
+        $internalFormat->setCreationDate($document->getCreationDate());
 
         $exporter = new \EWW\Dpf\Services\ParserGenerator();
-
-        $fileData = $document->getFileData();
-
-        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
-
-        $exporter->setFileData($fileData);
-
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
         $exporter->setXML($internalFormat->getXml());
-
-          // Set the document creator
-//        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-//        $slub->setDocumentCreator($document->getCreator());
-//        $slub->setDocumentCreationDate($document->getCreationDate());
-//        $exporter->setSlubInfo($document->getSlubInfoData());
-//        $exporter->setSlubInfo($slub->getSlubXml());
-
-        $exporter->setObjId($document->getObjectIdentifier());
+        $fileData = $document->getFileData();
+        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
+        $exporter->setFileData($fileData);
+        $document->setXmlData($exporter->getXMLData());
 
         $transformedXml = $exporter->getTransformedOutputXML($document);
 
@@ -206,7 +176,6 @@ class DocumentTransferManager
             $document->setTransferStatus(Document::TRANSFER_SENT);
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
-
             return true;
         } else {
             return false;
@@ -224,7 +193,6 @@ class DocumentTransferManager
      */
     public function retrieve($remoteId)
     {
-
         $remoteXml = $this->remoteRepository->retrieve($remoteId);
 
         if ($this->documentRepository->findOneByObjectIdentifier($remoteId)) {
@@ -269,26 +237,24 @@ class DocumentTransferManager
                     break;
             }
 
-            $document->setRemoteLastModDate($mets->getLastModDate());
+            $document->setRemoteLastModDate($internalFormat->getRepositoryLastModDate());
             $document->setObjectIdentifier($remoteId);
             $document->setTitle($title);
             $document->setAuthors($authors);
             $document->setDocumentType($documentType);
 
             $document->setXmlData($inputTransformedXML);
-            $document->setSlubInfoData($inputTransformedXML);
 
             $document->setDateIssued($internalFormat->getDateIssued());
 
             $document->setProcessNumber($internalFormat->getProcessNumber());
 
-            $creationDate = $slub->getDocumentCreationDate();
+            $creationDate = $internalFormat->getCreationDate();
             if (empty($creationDate)) {
-                $creationDate = $mets->getCreationDate();
+                $creationDate = $internalFormat->getRepositoryCreationDate();
             }
             $document->setCreationDate($creationDate);
-
-            $document->setCreator($slub->getDocumentCreator());
+            $document->setCreator($internalFormat->getCreator());
 
             $document->setTemporary(TRUE);
 
@@ -374,31 +340,14 @@ class DocumentTransferManager
      * @return string
      */
     public function getLastModDate($remoteId) {
-        $metsXml = $this->remoteRepository->retrieve($remoteId);
-
-        if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            return $mets->getLastModDate();
+        $remoteXml = $this->remoteRepository->retrieve($remoteId);
+        if ($remoteXml) {
+            $XSLTransformator = new XSLTransformator();
+            $inputTransformedXML = $XSLTransformator->transformInputXML($remoteXml);
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
+            return $internalFormat->getRepositoryLastModDate();
         }
 
-        return NULL;
+        return '';
     }
-
-    /**
-     * Gets the created date of the remote document (remoteId)
-     *
-     * @param string $remoteId
-     * @return string
-     */
-    public function getCreationDate($remoteId) {
-        $metsXml = $this->remoteRepository->retrieve($remoteId);
-
-        if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            return $mets->getCreationDate();
-        }
-
-        return NULL;
-    }
-
 }

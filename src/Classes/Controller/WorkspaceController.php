@@ -526,10 +526,9 @@ class WorkspaceController extends AbstractController
 
                 if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
-                    $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-
-                    $slub->setValidation($validated);
-                    $document->setSlubInfoData($slub->getSlubXml());
+                    $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                    $internalFormat->setValidation($validated);
+                    $document->setXmlData($internalFormat->getXml());
 
                     if ($this->documentManager->update($document, $documentWorkflowTransition)) {
                         $successful[] = $documentIdentifier;
@@ -759,10 +758,9 @@ class WorkspaceController extends AbstractController
 
             $creationDate = $document->getCreationDate();
             if (empty($creationDate) && $document->getObjectIdentifier()) {
-                $creationDate = $documentTransferManager->getLastModDate($document->getObjectIdentifier());
+                $creationDate = $document->getCreationDate();
             }
             $document->setCreationDate($creationDate);
-
             $this->documentRepository->update($document);
 
             if (!$document->isTemporary() && !$document->isSuggestion()) {

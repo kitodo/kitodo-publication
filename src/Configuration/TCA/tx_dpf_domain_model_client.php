@@ -43,14 +43,15 @@ return array(
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,
             mypublications_update_notification_subject, mypublications_update_notification_body,
-            mypublications_new_notification_subject, mypublications_new_notification_body,                                    
+            mypublications_new_notification_subject, mypublications_new_notification_body, 
+            input_transformation, output_transformation,                                    
             crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
             admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
             suggestion_flashmessage,
             active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
             fis_mapping,            
             file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath,
-            submitter_name, submitter_email, submitter_notice',
+            submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -66,19 +67,20 @@ return array(
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,
         mypublications_update_notification_subject, mypublications_update_notification_body,
-        mypublications_new_notification_subject, mypublications_new_notification_body,            
+        mypublications_new_notification_subject, mypublications_new_notification_body,    
+        input_transformation, output_transformation,                                                    
         crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
         admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,        
         suggestion_flashmessage,
         active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         fis_mapping,        
         file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath,
-        submitter_name, submitter_email, submitter_notice'
+        submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
-        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath, submitter_name, submitter_email, submitter_notice,
+        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath, submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath,
         --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
@@ -91,6 +93,7 @@ return array(
         --div--;Active Messaging, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         --div--;FIS, fis_mapping,
         --div--;Default Import-XSLT, crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,       
+        --div--;Default internal format XSLT, input_transformation, output_transformation,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -708,6 +711,34 @@ return array(
                 'enableRichtext' => true,
             ),
         ),
+        'output_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.output_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
+        'input_transformation' => [
+            'exclude' => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.input_transformation',
+            'config'    => [
+                'items' => array(
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
+                ),
+                'type'           => 'select',
+                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
+                'maxitems'       => 1,
+                'minitems' => 0,
+            ],
+        ],
         'crossref_transformation' => array(
             'exclude' => 1,
             'l10n_mode' => 'exclude',

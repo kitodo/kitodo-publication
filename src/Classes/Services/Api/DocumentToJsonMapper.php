@@ -26,12 +26,7 @@ class DocumentToJsonMapper
     /**
      * @var \DOMXpath
      */
-    protected $modsXpath;
-
-    /**
-     * @var \DOMXpath
-     */
-    protected $slubXpath;
+    protected $xpath;
 
     /**
      * @return string
@@ -57,12 +52,8 @@ class DocumentToJsonMapper
      */
     public function getJson(Document $document)
     {
-        // $internalFormat = new \EWW\Dpf\Helper\InternalFormat($doc->getXmlData());
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $this->modsXpath = $mods->getModsXpath();
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $this->slubXpath = $slub->getSlubXpath();
-
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $this->xpath = $internalFormat->getXpath();
         $mapping = json_decode($this->getMapping(), true);
         $data = $this->crawl($mapping);
         return json_encode($data);
@@ -96,14 +87,7 @@ class DocumentToJsonMapper
 
                 if (empty($parentNode) || $parentNode instanceof \DOMElement) {
 
-                    list($nameSpace, $rest) = explode(":", trim($mapping, "/"));
-                    if (strtolower($nameSpace) == 'mods') {
-                        $xpath = $this->modsXpath;
-                    } else {
-                        $xpath = $this->slubXpath;
-                    }
-
-                    $nodes = $xpath->query($mapping, $parentNode);
+                    $nodes = $this->xpath->query($mapping, $parentNode);
 
                     if ($nodes->length == 1) {
                         $branch[$index] = $this->crawl($items, $nodes->item(0));
@@ -117,14 +101,7 @@ class DocumentToJsonMapper
             } else {
                 if (empty($parentNode) || $parentNode instanceof \DOMElement) {
 
-                    list($nameSpace, $rest) = explode(":", trim($mapping, "/"));
-                    if (strtolower($nameSpace) == 'mods') {
-                        $xpath = $this->modsXpath;
-                    } else {
-                        $xpath = $this->slubXpath;
-                    }
-
-                    $nodes = $xpath->query($mapping, $parentNode);
+                    $nodes = $this->xpath->query($mapping, $parentNode);
 
                     if ($nodes->length == 1) {
                         $branch[$index] = trim($nodes->item(0)->nodeValue);

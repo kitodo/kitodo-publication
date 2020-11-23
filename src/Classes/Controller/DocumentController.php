@@ -19,7 +19,6 @@ use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Domain\Model\LocalDocumentStatus;
 use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
-use EWW\Dpf\Helper\XSLTransformator;
 use EWW\Dpf\Security\AuthorizationChecker;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -526,9 +525,11 @@ class DocumentController extends AbstractController
 
         if ($documentType instanceof DocumentType) {
             $document->setDocumentType($documentType);
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $slub->setDocumentType($documentType->getName());
-            $document->setSlubInfoData($slub->getSlubXml());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat->setDocumentType($documentType->getName());
+            $document->setXmlData($internalFormat->getXml());
+
             $this->updateDocument($document, '', null);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         } else {
@@ -752,10 +753,6 @@ class DocumentController extends AbstractController
             $documentTransferManager->setRemoteRepository($remoteRepository);
 
             $objectIdentifier = $document->getObjectIdentifier();
-
-            // transform if xslt exists
-            $XSLTransformator = new XSLTransformator();
-            $document->setSlubInfoData($XSLTransformator->getTransformedOutputXML($document));
 
             if (empty($objectIdentifier)) {
 
@@ -1225,9 +1222,9 @@ class DocumentController extends AbstractController
                     );
                 }
 
-                $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-                $slub->addNote($note);
-                $document->setSlubInfoData($slub->getSlubXml());
+                $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                $internalFormat->addNote($note);
+                $document->setXmlData($internalFormat->getXml());
             }
 
             if ($this->documentManager->update($document, $workflowTransition)) {

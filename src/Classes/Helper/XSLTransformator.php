@@ -59,6 +59,10 @@ class XSLTransformator
         $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
 
         $transformationFile = $documentType->getTransformationFileInput()->current();
+        if (!$transformationFile) {
+            $transformationFile = $this->clientConfigurationManager->getInputTransformation();
+        }
+
         if ($transformationFile != NULL) {
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
@@ -83,21 +87,25 @@ class XSLTransformator
 
         $ownerId = $this->clientConfigurationManager->getOwnerId();
         $documentType = $document->getDocumentType();
+
         $transformationFile = $documentType->getTransformationFileOutput()->toArray()[0];
+        if (!$transformationFile) {
+            $transformationFile = $this->clientConfigurationManager->getOutputTransformation();
+        }
 
         if ($transformationFile != NULL) {
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
 
-            if (!$document->getRemoteStatus()) {
+            if ( !$document->getRemoteState() || $document->getRemoteState() == 'NONE' ) {
                 $remoteState = 'ACTIVE';
             } else {
-                $remoteState = $document->getRemoteStatus();
+                $remoteState = $document->getRemoteState();
             }
 
             $transformParams = [
                 'record_state' => $remoteState,
-                'owner_id' => $ownerId,
+                'agent_name' => $ownerId,
                 'document_type' => $document->getDocumentType()->getName(),
                 'process_number' => $document->getProcessNumber()
             ];

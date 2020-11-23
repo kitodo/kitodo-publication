@@ -60,7 +60,7 @@ class JsonToDocumentMapper
 
         $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
 
-        foreach ($metaData['mods'] as $groupKey => $group) {
+        foreach ($metaData as $groupKey => $group) {
             $groupMapping = $group['mapping'];
             $groupNode = $xpath->query($groupMapping);
             if ($group['values']) {
@@ -155,32 +155,28 @@ class JsonToDocumentMapper
 
         $metaData = $this->getMetadataFromJson($jsonData);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
 
-        // mods:mods
-        $modsData['documentUid'] = 0;
-        $modsData['metadata']    = $metaData['mods'];
-        $modsData['files']       = array();
+        $documentData['documentUid'] = 0;
+        $documentData['metadata']    = $metaData;
+        $documentData['files']       = array();
 
-        $exporter->buildModsFromForm($modsData);
-        $modsXml = $exporter->getModsData();
-        $document->setXmlData($modsXml);
+        $exporter->buildXmlFromForm($documentData);
 
-        $mods = new \EWW\Dpf\Helper\Mods($modsXml);
+        $internalXml = $exporter->getXMLData();
+        $document->setXmlData($internalXml);
 
-        $document->setTitle($mods->getTitle());
-        $document->setAuthors($mods->getAuthors());
-        $document->setDateIssued($mods->getDateIssued());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml);
+
+        $document->setTitle($internalFormat->getTitle());
+        $document->setAuthors($internalFormat->getAuthors());
+        $document->setDateIssued($internalFormat->getDateIssued());
         //$document->setEmbargoDate($formMetaData['embargo']);
 
-        // slub:info
-        $slubInfoData['documentUid'] = 0;
-        $slubInfoData['metadata']    = $metaData['slubInfo'];
-        $slubInfoData['files']       = array();
-        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
-        $slubInfoXml = $exporter->getSlubInfoData();
+        $internalFormat->setDocumentType($documentType->getName());
+        $internalFormat->setProcessNumber($document->getProcessNumber());
 
-        $document->setSlubInfoData($slubInfoXml);
+        $document->setXmlData($internalFormat->getXml());
 
         $document->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_REGISTERED_NONE);
 
@@ -287,12 +283,7 @@ class JsonToDocumentMapper
                         }
                     }
 
-                    // ToDo: Does this need a further if condition like in self::getMetadata()
-                    if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                        $resultData['slubInfo'][] = $resultGroup;;
-                    } else {
-                        $resultData['mods'][] = $resultGroup;;
-                    }
+                    $resultData[] = $resultGroup;;
                 }
 
             }

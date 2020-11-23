@@ -193,23 +193,14 @@ return array(
         ),
 
         'crdate'                     => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.creationDate',
             'config'  => array(
-                'type'   => 'none',
-                'format' => 'datetime',
-                'eval'   => 'datetime',
+                'type' => 'passthrough',
             ),
         ),
 
         'tstamp'                     => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.timestamp',
             'config'  => array(
-                'type'   => 'input',
-                'renderType' => 'inputDateTime',
-                'format' => 'datetime',
-                'eval'   => 'datetime',
+                'type' => 'passthrough',
             ),
         ),
 

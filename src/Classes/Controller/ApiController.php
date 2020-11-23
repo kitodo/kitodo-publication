@@ -202,7 +202,7 @@ class ApiController extends ActionController
             }
 
             // xml data fields are limited to 64 KB
-            if (strlen($document->getXmlData()) >= 64 * 1024 || strlen($document->getSlubInfoData() >= 64 * 1024)) {
+            if (strlen($document->getXmlData()) >= 64 * 1024) {
                 return '{"error": "Maximum document size exceeded"}';
             }
 
@@ -246,10 +246,10 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
-            $slub = new \EWW\Dpf\Helper\Slub($doc->getSlubInfoData());
-            $slub->setFisId($id);
 
-            $doc->setSlubInfoData($slub->getSlubXml());
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($doc->getXmlData());
+            $internalFormat->setFisId($id);
+            $doc->setXmlData($internalFormat->getXml());
 
             $processNumber = $doc->getProcessNumber();
             if (empty($processNumber)) {

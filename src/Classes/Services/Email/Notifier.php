@@ -62,11 +62,9 @@ class Notifier
             /** @var $client \EWW\Dpf\Domain\Model\Client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -106,11 +104,9 @@ class Notifier
             /** @var $client \EWW\Dpf\Domain\Model\Client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -144,8 +140,7 @@ class Notifier
         }
     }
 
-
-    public function getMailMarkerArray(Document $document, $client, $documentType, $slub, $mods, $reason = "") {
+    public function getMailMarkerArray(Document $document, $client, $documentType, $reason = "") {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
@@ -173,13 +168,14 @@ class Notifier
         $author = array_shift($document->getAuthors());
         $args['###AUTHOR###'] = $author['name'];
 
-        $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-        $args['###SUBMITTER_EMAIL###'] = $slub->getSubmitterEmail();
-        $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $args['###SUBMITTER_NAME###'] = $internalFormat->getSubmitterName();
+        $args['###SUBMITTER_EMAIL###'] = $internalFormat->getSubmitterEmail();
+        $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
 
         $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-        $args['###URN###'] = $mods->getQucosaUrn();
-        $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+        $args['###URN###'] = $internalFormat->getQucosaUrn();
+        $args['###URL###'] = 'http://nbn-resolving.de/' . $internalFormat->getQucosaUrn();
 
         $args['###REASON###'] = $reason;
 
@@ -234,11 +230,9 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionAcceptUrl()) {
@@ -273,11 +267,9 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods, $reason);
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionDeclineUrl()) {
@@ -308,16 +300,16 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            /**  @var \EWW\Dpf\Helper\Slub $slub */
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Active messaging: Suggestion accept
             if (!$addedFisIdOnly && $client->getActiveMessagingChangedDocumentUrl()) {
-                if ($slub->getFisId()) {
+                if ($internalFormat->getFisId()) {
                     $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
                     if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
                         $request->body($this->replaceMarkers($body,$args));
@@ -390,7 +382,7 @@ class Notifier
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -449,13 +441,11 @@ class Notifier
 
         try {
             $client = $this->clientRepository->findAll()->current();
-            $clientAdminEmail = $client->getAdminEmail();
             $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify submitter
             if ($submitterEmail) {
@@ -492,13 +482,10 @@ class Notifier
         try {
             $client = $this->clientRepository->findAllByPid($document->getPid())->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
 
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -538,12 +525,9 @@ class Notifier
         try {
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -588,13 +572,10 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $author = array_shift($document->getAuthors());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             /** @var FrontendUser $recipient */
@@ -646,13 +627,10 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $author = array_shift($document->getAuthors());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             /** @var FrontendUser $recipient */
@@ -700,11 +678,9 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail && $client->isSendAdminDepositLicenseNotification()) {
