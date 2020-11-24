@@ -67,66 +67,33 @@ class InternalFormat
 
     public function getDocumentType()
     {
-        $xpath = $this->getXpath();
-
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
-        $typeList = $xpath->query(self::rootNode . $typeXpath);
-
-        return $typeList->item(0)->nodeValue;
+        return $this->getValue($typeXpath);
     }
 
     public function setDocumentType($type)
     {
-        $xpath = $this->getXpath();
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
-
-        $dateNodes = $xpath->query(self::rootNode . $typeXpath);
-        if ($dateNodes->length > 0) {
-            $dateNodes->item(0)->nodeValue = $type;
-        } else {
-            $parserGenerator = new ParserGenerator();
-            $parserGenerator->setXml($this->xml->saveXML());
-            $parserGenerator->customXPath($typeXpath,true, $type);
-            $this->xml = new \DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
-        }
+        return $this->setValue($typeXpath, $type);
     }
 
-    public function getState()
+    public function getRepositoryState()
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
-
-        $xpath = $this->getXpath();
-
-        $stateList = $xpath->query(self::rootNode . $stateXpath);
-        return $stateList->item(0)->nodeValue;
+        return $this->getValue($stateXpath);
     }
 
-    public function setState($state)
+    public function setRepositoryState($state)
     {
-        $xpath = $this->getXpath();
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
-
-        $dateNodes = $xpath->query(self::rootNode . $stateXpath);
-        if ($dateNodes->length > 0) {
-            $dateNodes->item(0)->nodeValue = $state;
-        } else {
-            $parserGenerator = new ParserGenerator();
-            $parserGenerator->setXml($this->xml->saveXML());
-            $parserGenerator->customXPath($stateXpath,true, $state);
-            $this->xml = new \DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
-        }
+        $this->setValue($stateXpath,$state);
     }
 
     public function getProcessNumber()
     {
         $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
-        $xpath = $this->getXpath();
-
         if ($processNumberXpath) {
-            $stateList = $xpath->query(self::rootNode . $processNumberXpath);
-            return $stateList->item(0)->nodeValue;
+            return $this->getValue($processNumberXpath);
         } else {
             return "";
         }
@@ -134,19 +101,8 @@ class InternalFormat
 
     public function setProcessNumber($processNumber)
     {
-        $xpath = $this->getXpath();
         $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
-
-        $dateNodes = $xpath->query(self::rootNode . $processNumberXpath);
-        if ($dateNodes->length > 0) {
-            $dateNodes->item(0)->nodeValue = $processNumber;
-        } else {
-            $parserGenerator = new ParserGenerator();
-            $parserGenerator->setXml($this->xml->saveXML());
-            $parserGenerator->customXPath($processNumberXpath,true, $processNumber);
-            $this->xml = new \DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
-        }
+        $this->getValue($processNumberXpath, $processNumber);
     }
 
     public function getTitle()
@@ -193,30 +149,13 @@ class InternalFormat
     }
 
     public function setDateIssued($date) {
-        $xpath = $this->getXpath();
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
-
-        $dateNodes = $xpath->query(self::rootNode . $dateXpath);
-        if ($dateNodes->length > 0) {
-            $dateNodes->item(0)->nodeValue = $date;
-        } else {
-            $parserGenerator = new ParserGenerator();
-            $parserGenerator->setXml($this->xml->saveXML());
-            $parserGenerator->customXPath($dateXpath,true, $date);
-            $this->xml = new \DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
-        }
-
+        $this->setValue($dateXpath, $date);
     }
 
     public function getDateIssued() {
-        $xpath = $this->getXpath();
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
-
-        $dateNodes = $xpath->query(self::rootNode . $dateXpath);
-
-        return $dateNodes->item(0)->nodeValue;
-
+        return $this->getValue($dateXpath);
     }
 
     public function removeDateIssued()
@@ -234,23 +173,24 @@ class InternalFormat
     public function hasQucosaUrn()
     {
         $xpath = $this->getXpath();
-        $urnXpath = $this->clientConfigurationManager->getUrnXpath();
+        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
 
-        $urnNodes = $xpath->query(self::rootNode . $urnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
         if ($urnNodes->length > 0) {
             return true;
         } else {
             return false;
         }
-
     }
 
     public function getQucosaUrn()
     {
         $xpath = $this->getXpath();
-        $urnXpath = $this->clientConfigurationManager->getUrnXpath();
+        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
 
-        $urnNodes = $xpath->query(self::rootNode . $urnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
         if ($urnNodes->length > 0) {
             return $urnNodes->item(0)->nodeValue;
         } else {
@@ -258,42 +198,11 @@ class InternalFormat
         }
     }
 
-    public function addQucosaUrn($urn)
+    public function setQucosaUrn($urn)
     {
-        $xpath = $this->getXpath();
-        $urnXpath = $this->clientConfigurationManager->getUrnXpath();
-
-        $rootNode = $this->getDocument()->documentElement;
-
-        if ($rootNode) {
-
-            $urnNodes = $xpath->query(self::rootNode . $urnXpath);
-            if ($urnNodes->length > 0) {
-                $urnNodes->item(0)->nodeValue = $urn;
-            } else {
-                $document = $this->getDocument();
-                $xpathExplode = array_reverse(explode("/", $urnXpath));
-                $i = 1;
-                $newElement = null;
-                foreach ($xpathExplode as $element) {
-                    if ($i == 1) {
-                        $newElement = $document->createElement($element);
-                        $newElement->nodeValue = $urn;
-                    } else {
-                        $parentElement = $document->createElement($element);
-                        $parentElement->appendChild($newElement);
-                        $newElement = $parentElement;
-                    }
-                    $i++;
-                }
-                $rootNode->appendChild($newElement);
-            }
-
-        } else {
-            throw new \Exception('Invalid xml data.');
-        }
-
-
+        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
+        $this->setValue($qucosaUrnXpath, $urn);
     }
 
     public function clearAllUrn()
@@ -506,28 +415,11 @@ class InternalFormat
         //$notesXpath = $this->clientConfigurationManager->getNotesXpath();
         $notesXpath = '/slub:info/slub:note[@type="private"]';
 
-        $rootNode = $this->getDocument()->documentElement;
-
-        if ($rootNode) {
-            $document = $this->getDocument();
-            $xpathExplode = array_reverse(explode("/", $notesXpath));
-            $i = 1;
-            $newElement = null;
-            foreach ($xpathExplode as $element) {
-                if ($i == 1) {
-                    $newElement = $document->createElement($element);
-                    $newElement->nodeValue = $noteContent;
-                } else {
-                    $parentElement = $document->createElement($element);
-                    $parentElement->appendChild($newElement);
-                    $newElement = $parentElement;
-                }
-                $i++;
-            }
-            $rootNode->appendChild($newElement);
-        } else {
-            throw new \Exception('Invalid xml data.');
-        }
+        $parserGenerator = new ParserGenerator();
+        $parserGenerator->setXml($this->xml->saveXML());
+        $parserGenerator->customXPath($notesXpath,true, $noteContent);
+        $this->xml = new \DOMDocument();
+        $this->xml->loadXML($parserGenerator->getXMLData());
     }
 
     public function getAuthors()

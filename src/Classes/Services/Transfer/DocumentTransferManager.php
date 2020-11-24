@@ -212,7 +212,7 @@ class DocumentTransferManager
                 return false;
             }
 
-            $state = $internalFormat->getState();
+            $state = $internalFormat->getRepositoryState();
 
             /* @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->objectManager->get(Document::class);
