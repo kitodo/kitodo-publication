@@ -5,10 +5,11 @@
                 xmlns:mods="http://www.loc.gov/mods/v3"
                 xmlns:slub="http://slub-dresden.de/"
                 xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:person="http://www.w3.org/ns/person#"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="
-                    http://www.loc.gov/mods/v3 https://www.loc.gov/standards/mods/v3/mods-3-7.xsd
-                    http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd">
+                xmlns:k="http://www.kitodo.org"
+                xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-7.xsd http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd">
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -22,53 +23,27 @@
             Transformed by crossreff2mods stylesheet version 1.0
         </xsl:comment>
 
-        <mets:mets>
+        <data>
+            <slub:info>
+                <slub:documentType>
+                    <xsl:value-of select="$document_type"/>
+                </slub:documentType>
+                <slub:processNumber>
+                    <xsl:value-of select="$process_number"/>
+                </slub:processNumber>
+                <xsl:apply-templates select="data/submitter"/>
+                <xsl:apply-templates select="data/submitter/notice"/>
+            </slub:info>
 
-            <xsl:comment>Record header using XSLT parameters</xsl:comment>
-            <mets:metsHdr RECORDSTATUS="{$record_state}">
-                <mets:agent ROLE="EDITOR" TYPE="ORGANIZATION">
-                    <mets:name>
-                        <xsl:value-of select="$agent_name"/>
-                    </mets:name>
-                </mets:agent>
-            </mets:metsHdr>
-
-            <xsl:comment>Administrative metadata section for submitter infos and stuff</xsl:comment>
-            <mets:amdSec ID="AMD_001">
-                <mets:techMD ID="TECH_001">
-                    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUBINFO" MIMETYPE="application/vnd.slub-info+xml">
-                        <mets:xmlData>
-                            <slub:info>
-                                <slub:documentType>
-                                    <xsl:value-of select="$document_type"/>
-                                </slub:documentType>
-                                <slub:processNumber>
-                                    <xsl:value-of select="$process_number"/>
-                                </slub:processNumber>
-                                <xsl:apply-templates select="data/submitter"/>
-                                <xsl:apply-templates select="data/submitter/notice"/>
-                            </slub:info>
-                        </mets:xmlData>
-                    </mets:mdWrap>
-                </mets:techMD>
-            </mets:amdSec>
-
-            <xsl:comment>MODS metadata section for all bibliographic information</xsl:comment>
-            <mets:dmdSec ID="DMD_001">
-                <mets:mdWrap MDTYPE="MODS">
-                    <mets:xmlData>
-                        <mods:mods version="3.7">
-                            <xsl:apply-templates select="response/title"/>
-                            <xsl:apply-templates select="response/doi"/>
-                            <xsl:apply-templates select="response/isbn"/>
-                            <xsl:apply-templates select="response/author"/>
-                            <xsl:apply-templates select="response/editor"/>
-                            <xsl:apply-templates select="response/year"/>
-                        </mods:mods>
-                    </mets:xmlData>
-                </mets:mdWrap>
-            </mets:dmdSec>
-        </mets:mets>
+            <mods:mods version="3.7">
+                <xsl:apply-templates select="response/title"/>
+                <xsl:apply-templates select="response/doi"/>
+                <xsl:apply-templates select="response/isbn"/>
+                <xsl:apply-templates select="response/author"/>
+                <xsl:apply-templates select="response/editor"/>
+                <xsl:apply-templates select="response/year"/>
+            </mods:mods>
+        </data>
     </xsl:template>
 
     <xsl:template match="title">
