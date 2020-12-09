@@ -95,6 +95,14 @@ class ApiController extends ActionController
     protected $persistenceManager;
 
     /**
+     * signalSlotDispatcher
+     *
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     * @inject
+     */
+    protected $signalSlotDispatcher = null;
+
+    /**
      * logger
      *
      * @var \TYPO3\CMS\Core\Log\Logger
@@ -187,6 +195,11 @@ class ApiController extends ActionController
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
 
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$document]
+            );
+
             return '{"success": "Document created", "id": "' . $document->getProcessNumber() . '"}';
         }
         return '{"error": "Token failed"}';
@@ -216,6 +229,11 @@ class ApiController extends ActionController
             }
 
             $this->documentManager->update($doc);
+
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$doc]
+            );
 
             return '{"success": "Document '.$document.' added '.$id.'"}';
         }
@@ -395,9 +413,15 @@ class ApiController extends ActionController
      * @return string
      */
     public function importBibtexWithoutSavingAction($bibtex, $token) {
+
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(BibTexFileImporter::class);
-            $externalMetadata = $importer->loadFile($bibtex, $this->settings['bibTexMandatoryFields'], true);
+
+            try {
+                $externalMetadata = $importer->loadFile($bibtex, $this->settings['bibTexMandatoryFields'], true);
+            } catch (\Throwable $throwable) {
+                return '{"failed": "' . $throwable->getMessage() . '"}';
+            }
 
             if ($externalMetadata) {
                 // create document
@@ -446,7 +470,12 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
             /** @var FileImporter $fileImporter */
             $importer = $this->objectManager->get(RisWosFileImporter::class);
-            $externalMetadata = $importer->loadFile($ris, $this->settings['riswosMandatoryFields'], true);
+
+            try {
+                $externalMetadata = $importer->loadFile($ris, $this->settings['riswosMandatoryFields'], true);
+            } catch (\Throwable $throwable) {
+                return '{"failed": "' . $throwable->getMessage() . '"}';
+            }
 
             if ($externalMetadata) {
                 // create document
