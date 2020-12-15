@@ -208,9 +208,19 @@ class ClientConfigurationManager
         return $this->getSetting("urnXpath", "urnXpath");
     }
 
+    public function getQucosaUrnXpath()
+    {
+        return $this->getSetting("qucosaUrnXpath", "qucosaUrnXpath");
+    }
+
     public function getDateXpath()
     {
         return $this->getSetting("dateXpath", "dateXpath");
+    }
+
+    public function getPublishingYearXpath()
+    {
+        return $this->getSetting("publishingYearXpath", "publishingYearXpath");
     }
 
     public function getNamespaces()
@@ -223,9 +233,9 @@ class ClientConfigurationManager
         return $this->getSetting("titleXpath", "titleXpath");
     }
 
-    public function getAuthorsXpath()
+    public function getOriginalSourceTitleXpath()
     {
-        return $this->getSetting("authorsXpath", "authorsXpath");
+        return $this->getSetting("originalSourceTitleXpath", "originalSourceTitleXpath");
     }
 
     public function getProcessNumberXpath()
@@ -248,6 +258,41 @@ class ClientConfigurationManager
         return $this->getSetting("submitterNoticeXpath", "submitterNoticeXpath");
     }
 
+    public function getCreatorXpath()
+    {
+        return $this->getSetting("creatorXpath", "creatorXpath");
+    }
+
+    public function getCreationDateXpath()
+    {
+        return $this->getSetting("creationDateXpath", "creationDateXpath");
+    }
+
+    public function getRepositoryCreationDateXpath()
+    {
+        return $this->getSetting("repositoryCreationDateXpath", "repositoryCreationDateXpath");
+    }
+
+    public function getRepositoryLastModDateXpath()
+    {
+        return $this->getSetting("repositoryLastModDateXpath", "repositoryLastModDateXpath");
+    }
+
+    public function getDepositLicenseXpath()
+    {
+        return $this->getSetting("depositLicenseXpath", "depositLicenseXpath");
+    }
+
+    public function getAllNotesXpath()
+    {
+        return $this->getSetting("allNotesXpath", "allNotesXpath");
+    }
+
+    public function getPrivateNotesXpath()
+    {
+        return $this->getSetting("privateNotesXpath", "privateNotesXpath");
+    }
+
     public function getInputTransformation()
     {
         return $this->client->getInputTransformation()->current();
@@ -257,4 +302,65 @@ class ClientConfigurationManager
     {
         return $this->client->getOutputTransformation()->current();
     }
+
+    public function getPersonXpath()
+    {
+        return $this->getSetting("personXpath", "personXpath");
+    }
+
+    public function getPersonFamilyXpath()
+    {
+        return $this->getSetting("personFamilyXpath", "personFamilyXpath");
+    }
+
+    public function getPersonGivenXpath()
+    {
+        return $this->getSetting("personGivenXpath", "personGivenXpath");
+    }
+
+    public function getPersonRoleXpath()
+    {
+        return $this->getSetting("personRoleXpath", "personRoleXpath");
+    }
+
+    public function getPersonFisIdentifierXpath()
+    {
+        return $this->getSetting("personFisIdentifierXpath", "personFisIdentifierXpath");
+    }
+
+    public function getPersonAffiliationXpath()
+    {
+        return $this->getSetting("personAffiliationXpath", "personAffiliationXpath");
+    }
+
+    public function getPersonAffiliationIdentifierXpath()
+    {
+        return $this->getSetting("personAffiliationIdentifierXpath", "personAffiliationIdentifierXpath");
+    }
+
+    public function getPersonAuthorRole()
+    {
+        return $this->getSetting("personAuthorRole", "personAuthorRole");
+    }
+
+    public function getPersonPublisherRole()
+    {
+        return $this->getSetting("personPublisherRole", "personPublisherRole");
+    }
+
+    public function getValidationXpath()
+    {
+        return $this->getSetting("validationXpath", "validationXpath");
+    }
+
+    public function fisIdXpath()
+    {
+        return $this->getSetting("fisIdXpath", "fisIdXpath");
+    }
+
+    public function getSourceDetailsXpaths()
+    {
+        return $this->getSetting("sourceDetailsXpaths", "sourceDetailsXpaths");
+    }
+
 }

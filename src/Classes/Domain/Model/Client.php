@@ -299,11 +299,35 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $dateXpath = '';
 
     /**
+     * publishingYearXpath
+     *
+     * @var string
+     */
+    protected $publishingYearXpath = '';
+
+    /**
      * urnXpath
      *
      * @var string
      */
     protected $urnXpath = '';
+
+    /**
+     * qucosaUrnXpath
+     *
+     * @var string
+     */
+    protected $qucosaUrnXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $validationXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fisIdXpath = '';
 
     /**
      * namespaces
@@ -318,14 +342,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $titleXpath = '';
-
-    /**
-     * authors xpath
-     *
-     * @var string
-     */
-    protected $authorsXpath = '';
-
+    
     /**
      * process number xpath
      *
@@ -353,6 +370,130 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $submitterNoticeXpath = '';
+
+    /**
+     * original source title xpath
+     *
+     * @var string
+     */
+    protected $originalSourceTitleXpath = '';
+
+    /**
+     * creator xpath
+     *
+     * @var string
+     */
+    protected $creatorXpath = '';
+
+    /**
+     * creation date xpath
+     *
+     * @var string
+     */
+    protected $creationDateXpath = '';
+
+    /**
+     * repository creation date xpath
+     * @var string
+     */
+    protected $repositoryCreationDateXpath = '';
+
+    /**
+     * repository last mod date xpath
+     *
+     * @var string
+     */
+    protected $repositoryLastModDateXpath = '';
+
+    /**
+     * deposit license xpath
+     * @var string
+     */
+    protected $depositLicenseXpath = '';
+
+    /**
+     * All notes Xpath
+     *
+     * @var string
+     */
+    protected $allNotesXpath = '';
+
+    /**
+     * Private notes Xpath
+     *
+     * @var string
+     */
+    protected $privateNotesXpath = '';
+
+    /**
+     * Person Xpath
+     *
+     * @var string
+     */
+    protected $personXpath  = '';
+
+    /**
+     * Person family Xpath
+     *
+     * @var string
+     */
+    protected $personFamilyXpath  = '';
+
+    /**
+     * Person given xpath
+     *
+     * @var string
+     */
+    protected $personGivenXpath  = '';
+
+    /**
+     * Person role xpath
+     *
+     * @var string
+     */
+    protected $personRoleXpath  = '';
+
+    /**
+     * Person fis identifier xpath
+     *
+     * @var string
+     */
+    protected $personFisIdentifierXpath  = '';
+
+    /**
+     * Person affiliation xpath
+     *
+     * @var string
+     */
+    protected $personAffiliationXpath  = '';
+
+    /**
+     * Person affiliation identifier xpath
+     *
+     * @var string
+     */
+    protected $personAffiliationIdentifierXpath  = '';
+
+    /**
+     * Source details xpaths (Semicolon separated)
+     *
+     * @var string
+     */
+    protected $sourceDetailsXpaths = '';
+
+    /**
+     * Person author role
+     *
+     * @var string
+     */
+    protected $personAuthorRole = '';
+
+    /**
+     * Person publisher role
+     *
+     * @var string
+     */
+    protected $personPublisherRole = '';
 
     /**
      * $mypublicationsUpdateNotificationSubject
@@ -1576,22 +1717,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getAuthorsXpath(): string
-    {
-        return $this->authorsXpath;
-    }
-
-    /**
-     * @param string $authorsXpath
-     */
-    public function setAuthorsXpath(string $authorsXpath)
-    {
-        $this->authorsXpath = $authorsXpath;
-    }
-
-    /**
-     * @return string
-     */
     public function getProcessNumberXpath(): string
     {
         return $this->processNumberXpath;
@@ -1683,6 +1808,358 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setOutputTransformation(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $outputTransformation)
     {
         $this->outputTransformation = $outputTransformation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQucosaUrnXpath(): string
+    {
+        return $this->qucosaUrnXpath;
+    }
+
+    /**
+     * @param string $qucosaUrnXpath
+     */
+    public function setQucosaUrnXpath(string $qucosaUrnXpath)
+    {
+        $this->qucosaUrnXpath = $qucosaUrnXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublishingYearXpath(): string
+    {
+        return $this->publishingYearXpath;
+    }
+
+    /**
+     * @param string $publishingYearXpath
+     */
+    public function setPublishingYearXpath(string $publishingYearXpath)
+    {
+        $this->publishingYearXpath = $publishingYearXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalSourceTitleXpath(): string
+    {
+        return $this->originalSourceTitleXpath;
+    }
+
+    /**
+     * @param string $originalSourceTitleXpath
+     */
+    public function setOriginalSourceTitleXpath(string $originalSourceTitleXpath)
+    {
+        $this->originalSourceTitleXpath = $originalSourceTitleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatorXpath(): string
+    {
+        return $this->creatorXpath;
+    }
+
+    /**
+     * @param string $creatorXpath
+     */
+    public function setCreatorXpath(string $creatorXpath)
+    {
+        $this->creatorXpath = $creatorXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationDateXpath(): string
+    {
+        return $this->creationDateXpath;
+    }
+
+    /**
+     * @param string $creationDateXpath
+     */
+    public function setCreationDateXpath(string $creationDateXpath)
+    {
+        $this->creationDateXpath = $creationDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepositoryCreationDateXpath(): string
+    {
+        return $this->repositoryCreationDateXpath;
+    }
+
+    /**
+     * @param string $repositoryCreationDateXpath
+     */
+    public function setRepositoryCreationDateXpath(string $repositoryCreationDateXpath)
+    {
+        $this->repositoryCreationDateXpath = $repositoryCreationDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepositoryLastModDateXpath(): string
+    {
+        return $this->repositoryLastModDateXpath;
+    }
+
+    /**
+     * @param string $repositoryLastModDateXpath
+     */
+    public function setRepositoryLastModDateXpath(string $repositoryLastModDateXpath)
+    {
+        $this->repositoryLastModDateXpath = $repositoryLastModDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDepositLicenseXpath(): string
+    {
+        return $this->depositLicenseXpath;
+    }
+
+    /**
+     * @param string $depositLicenseXpath
+     */
+    public function setDepositLicenseXpath(string $depositLicenseXpath)
+    {
+        $this->depositLicenseXpath = $depositLicenseXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAllNotesXpath(): string
+    {
+        return $this->allNotesXpath;
+    }
+
+    /**
+     * @param string $allNotesXpath
+     */
+    public function setAllNotesXpath(string $allNotesXpath)
+    {
+        $this->allNotesXpath = $allNotesXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrivateNotesXpath(): string
+    {
+        return $this->privateNotesXpath;
+    }
+
+    /**
+     * @param string $privateNotesXpath
+     */
+    public function setPrivateNotesXpath(string $privateNotesXpath)
+    {
+        $this->privateNotesXpath = $privateNotesXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonXpath(): string
+    {
+        return $this->personXpath;
+    }
+
+    /**
+     * @param string $personXpath
+     */
+    public function setPersonXpath(string $personXpath)
+    {
+        $this->personXpath = $personXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonFamilyXpath(): string
+    {
+        return $this->personFamilyXpath;
+    }
+
+    /**
+     * @param string $personFamilyXpath
+     */
+    public function setPersonFamilyXpath(string $personFamilyXpath)
+    {
+        $this->personFamilyXpath = $personFamilyXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonGivenXpath(): string
+    {
+        return $this->personGivenXpath;
+    }
+
+    /**
+     * @param string $personGivenXpath
+     */
+    public function setPersonGivenXpath(string $personGivenXpath)
+    {
+        $this->personGivenXpath = $personGivenXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonRoleXpath(): string
+    {
+        return $this->personRoleXpath;
+    }
+
+    /**
+     * @param string $personRoleXpath
+     */
+    public function setPersonRoleXpath(string $personRoleXpath)
+    {
+        $this->personRoleXpath = $personRoleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonFisIdentifierXpath(): string
+    {
+        return $this->personFisIdentifierXpath;
+    }
+
+    /**
+     * @param string $personFisIdentifierXpath
+     */
+    public function setPersonFisIdentifierXpath(string $personFisIdentifierXpath)
+    {
+        $this->personFisIdentifierXpath = $personFisIdentifierXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAffiliationXpath(): string
+    {
+        return $this->personAffiliationXpath;
+    }
+
+    /**
+     * @param string $personAffiliationXpath
+     */
+    public function setPersonAffiliationXpath(string $personAffiliationXpath)
+    {
+        $this->personAffiliationXpath = $personAffiliationXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAffiliationIdentifierXpath(): string
+    {
+        return $this->personAffiliationIdentifierXpath;
+    }
+
+    /**
+     * @param string $personAffiliationIdentifierXpath
+     */
+    public function setPersonAffiliationIdentifierXpath(string $personAffiliationIdentifierXpath)
+    {
+        $this->personAffiliationIdentifierXpath = $personAffiliationIdentifierXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAuthorRole(): string
+    {
+        return $this->personAuthorRole;
+    }
+
+    /**
+     * @param string $personAuthorRole
+     */
+    public function setPersonAuthorRole(string $personAuthorRole)
+    {
+        $this->personAuthorRole = $personAuthorRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonPublisherRole(): string
+    {
+        return $this->personPublisherRole;
+    }
+
+    /**
+     * @param string $personPublisherRole
+     */
+    public function setPersonPublisherRole(string $personPublisherRole)
+    {
+        $this->personPublisherRole = $personPublisherRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationXpath(): string
+    {
+        return $this->validationXpath;
+    }
+
+    /**
+     * @param string $validationXpath
+     */
+    public function setValidationXpath(string $validationXpath)
+    {
+        $this->validationXpath = $validationXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisIdXpath(): string
+    {
+        return $this->fisIdXpath;
+    }
+
+    /**
+     * @param string $fisIdXpath
+     */
+    public function setFisIdXpath(string $fisIdXpath)
+    {
+        $this->fisIdXpath = $fisIdXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceDetailsXpaths(): string
+    {
+        return $this->sourceDetailsXpaths;
+    }
+
+    /**
+     * @param string $sourceDetailsXpaths
+     */
+    public function setSourceDetailsXpaths(string $sourceDetailsXpaths)
+    {
+        $this->sourceDetailsXpaths = $sourceDetailsXpaths;
     }
 
 }

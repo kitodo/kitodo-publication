@@ -347,7 +347,7 @@ class ElasticSearch
 
             $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
 
-            $data->fobIdentifiers = $internalFormat->getFobIdentifiers();
+            $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
 
             $this->client->index([
                 'refresh' => 'wait_for',

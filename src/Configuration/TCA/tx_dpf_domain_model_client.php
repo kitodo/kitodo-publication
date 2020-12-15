@@ -50,8 +50,13 @@ return array(
             suggestion_flashmessage,
             active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
             fis_mapping,            
-            file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath,
-            submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath',
+            file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
+            submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
+            original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
+            repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,        
+            person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
+            person_author_role, person_publisher_role,
+            validation_xpath, fis_id_xpath, source_details_xpaths',
         'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
     ),
@@ -74,13 +79,23 @@ return array(
         suggestion_flashmessage,
         active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         fis_mapping,        
-        file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, authors_xpath, process_number_xpath,
-        submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath'
+        file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
+        submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
+        original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
+        repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,        
+        person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
+        person_author_role, person_publisher_role,
+        validation_xpath, fis_id_xpath, source_details_xpaths'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
-        --div--;Static XML, namespaces, file_xpath, date_xpath, urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, authors_xpath, process_number_xpath, submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath,
+        --div--;Static XML, namespaces, file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, process_number_xpath, submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
+        original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
+        repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,
+        person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
+        person_author_role, person_publisher_role,
+        validation_xpath, fis_id_xpath, source_details_xpaths,
         --div--;SWORD, sword_host, sword_user, sword_password, sword_collection_namespace,
         --div--;Fedora, fedora_host, fedora_user, fedora_password,
         --div--;Elastic search, elastic_search_host, elastic_search_port,
@@ -527,7 +542,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.file_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -537,7 +552,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.state_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -547,7 +562,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.type_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -557,7 +572,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.type_xpath_input',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -567,7 +582,17 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.date_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'publishing_year_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.publishing_year_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -577,7 +602,17 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.urn_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'qucosa_urn_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.qucosa_urn_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -587,7 +622,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.namespaces',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -601,23 +636,13 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'authors_xpath' => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.authors_xpath',
-            'config'    => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
         'process_number_xpath' => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.process_number_xpath',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -627,7 +652,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_name',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -637,7 +662,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_email',
             'config'    => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
@@ -647,7 +672,208 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_notice',
             'config'    => array(
                 'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'original_source_title_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.original_source_title_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'creator_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.creator_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'creation_date_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.creation_date_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+
+        'repository_creation_date_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.repository_creation_date_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'repository_last_mod_date_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.repository_last_mod_date_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'deposit_license_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.deposit_license_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'all_notes_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.all_notes_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'private_notes_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.private_notes_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_family_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_family_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_given_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_given_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_role_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_role_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_fis_identifier_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_fis_identifier_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_affiliation_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_affiliation_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_affiliation_identifier_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_affiliation_identifier_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_author_role' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_author_role',
+            'config'    => array(
+                'type' => 'input',
                 'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'person_publisher_role' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.person_publisher_role',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
+        'validation_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.validation_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'fis_id_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.fis_id_xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'source_details_xpaths' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.source_details_xpaths',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
                 'eval' => 'trim',
             ),
         ),

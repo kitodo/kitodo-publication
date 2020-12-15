@@ -173,8 +173,7 @@ class InternalFormat
     public function hasQucosaUrn()
     {
         $xpath = $this->getXpath();
-        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
-        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
+        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
         if ($urnNodes->length > 0) {
@@ -187,8 +186,7 @@ class InternalFormat
     public function getQucosaUrn()
     {
         $xpath = $this->getXpath();
-        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
-        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
+        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
         if ($urnNodes->length > 0) {
@@ -200,8 +198,7 @@ class InternalFormat
 
     public function setQucosaUrn($urn)
     {
-        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
-        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
+        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
         $this->setValue($qucosaUrnXpath, $urn);
     }
 
@@ -209,10 +206,7 @@ class InternalFormat
     {
         $xpath = $this->getXpath();
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
-        $urnXpath = '/mods:mods/mods:identifier[@type="urn"]';
-
-        //$qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
-        $qucosaUrnXpath = '/mods:mods/mods:identifier[@type="qucosa:urn"]';
+        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $urnXpath);
         foreach ($urnNodes as $urnNode) {
@@ -266,58 +260,50 @@ class InternalFormat
 
     public function getCreator()
     {
-        //$xpath = $this->clientConfigurationManager->getCreatorXpath();
-        $xpath = "/slub:info/slub:creator";
-        return $this->getValue($xpath);
+        $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
+        return $this->getValue($creatorXpath);
     }
 
     public function setCreator($creator)
     {
-        //$xpath = $this->clientConfigurationManager->getCreatorXpath();
-        $xpath = "/slub:info/slub:creator";
-        $this->setValue($xpath, $creator);
+        $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
+        $this->setValue($creatorXpath, $creator);
     }
 
     public function getCreationDate()
     {
-        //$xpath = $this->clientConfigurationManager->getCreationDateXpath();
-        $xpath = "/slub:info/slub:creationDate";
+        $xpath = $this->clientConfigurationManager->getCreationDateXpath();
         return $this->getValue($xpath);
     }
 
     public function setCreationDate($creationDate)
     {
-        //$xpath = $this->clientConfigurationManager->getCreationDateXpath();
-        $xpath = "/slub:info/slub:creationDate";
+        $xpath = $this->clientConfigurationManager->getCreationDateXpath();
         $this->setValue($xpath, $creationDate);
     }
 
     public function getRepositoryCreationDate()
     {
-        //$xpath = $this->clientConfigurationManager->getRepositoryCreationDateXpath();
-        $xpath = "/repositoryCreateDate";
+        $xpath = $this->clientConfigurationManager->getRepositoryCreationDateXpath();
         return $this->getValue($xpath);
     }
 
     public function getRepositoryLastModDate()
     {
-        //$xpath = $this->clientConfigurationManager->getRepositoryLastModDateXpath();
-        $xpath = "/repositoyLastModDate";
+        $xpath = $this->clientConfigurationManager->getRepositoryLastModDateXpath();
         return $this->getValue($xpath);
     }
 
     public function getPublishingYear()
     {
-        //$xpath = $this->clientConfigurationManager->getRepositoryPublishingYearXpath();
-        $xpath = '/mods:mods/mods:originInfo[@eventType="publication"]/mods:dateIssued[@encoding="iso8601"]';
-        return $this->getValue($xpath);
+        $publishingYearXpath = $this->clientConfigurationManager->getPublishingYearXpath();
+        return $this->getValue($publishingYearXpath);
     }
 
     public function getOriginalSourceTitle()
     {
-        //$xpath = $this->clientConfigurationManager->getRepositoryPublishingYearXpath();
-        $xpath = '/mods:mods/mods:relatedItem[@type="original"]/mods:titleInfo/mods:title';
-        return $this->getValue($xpath);
+        $originalSourceTitleXpath = $this->clientConfigurationManager->getOriginalSourceTitleXpath();
+        return $this->getValue($originalSourceTitleXpath);
     }
 
     /**
@@ -325,15 +311,15 @@ class InternalFormat
      */
     public function getSourceDetails()
     {
-        // todo: find a better and confgurable solution, needed for indexing only
-
         $xpath = $this->getXpath();
-
         $data = [];
+        $sourceDetailsXpaths = $this->clientConfigurationManager->getSourceDetailsXpaths();
+        $sourceDetailsXpathList = explode(";", trim($sourceDetailsXpaths," ;"));
+        $dataNodes = [];
 
-        $dataNodes[] = $xpath->query(self::rootNode . '/mods:mods/mods:relatedItem[@type="original"]');
-        $dataNodes[] = $xpath->query(self::rootNode . '/mods:mods/mods:part[@type="article"]/mods:detail/mods:number');
-        $dataNodes[] = $xpath->query(self::rootNode . '/mods:mods/mods:part[@type="section"]');
+        foreach ($sourceDetailsXpathList as $sourceDetailsXpathItem) {
+            $dataNodes[] = $xpath->query(self::rootNode . trim($sourceDetailsXpathItem));
+        }
 
         foreach ($dataNodes as $dataNode) {
             foreach ($dataNode as $node) {
@@ -357,20 +343,15 @@ class InternalFormat
      *
      * @return array
      */
-    public function getFobIdentifiers(): array
+    public function getPersonFisIdentifiers(): array
     {
         $xpath = $this->getXpath();
-
-        //$personXpath = $this->clientConfigurationManager->getPersonXpath();
-        $personXpath = '/mods:mods/mods:name[@type="personal"]';
-
-        //$fobIdentifierXpath =  $this->clientConfigurationManager->getFobIdentifierXpath();
-        $fobIdentifierXpath = 'mods:nameIdentifier[@type="FOBID"]';
-
+        $personXpath = $this->clientConfigurationManager->getPersonXpath();
+        $fisIdentifierXpath =  $this->clientConfigurationManager->getPersonFisIdentifierXpath();
         $personNodes = $xpath->query(self::rootNode . $personXpath);
         $identifiers = [];
         foreach ($personNodes as $key => $node) {
-            $identifierNodes = $xpath->query($fobIdentifierXpath, $node);
+            $identifierNodes = $xpath->query($fisIdentifierXpath, $node);
             if ($identifierNodes->length > 0) {
                 $identifiers[] = $identifierNodes->item(0)->nodeValue;
             }
@@ -384,8 +365,7 @@ class InternalFormat
      */
     public function getDepositLicense()
     {
-        //$depositLicenseXpath = $this->clientConfigurationManager->getDepositLicenseXpath();
-        $depositLicenseXpath = '/slub:info/slub:rights/slub:agreement/@given';
+        $depositLicenseXpath = $this->clientConfigurationManager->getDepositLicenseXpath();
         return $this->getValue($depositLicenseXpath);
     }
 
@@ -394,8 +374,7 @@ class InternalFormat
      */
     public function getNotes()
     {
-        //$notesXpath = $this->clientConfigurationManager->getNotesXpath();
-        $notesXpath = "/slub:info/slub:note";
+        $notesXpath = $this->clientConfigurationManager->getAllNotesXpath();
 
         $xpath = $this->getXpath();
         $notesNodes = $xpath->query(self::rootNode . $notesXpath);
@@ -412,8 +391,7 @@ class InternalFormat
 
     public function addNote($noteContent)
     {
-        //$notesXpath = $this->clientConfigurationManager->getNotesXpath();
-        $notesXpath = '/slub:info/slub:note[@type="private"]';
+        $notesXpath = $this->clientConfigurationManager->getPrivateNotesXpath();
 
         $parserGenerator = new ParserGenerator();
         $parserGenerator->setXml($this->xml->saveXML());
@@ -424,12 +402,12 @@ class InternalFormat
 
     public function getAuthors()
     {
-        return $this->getPersons("aut");
+        return $this->getPersons($this->clientConfigurationManager->getPersonAuthorRole());
     }
 
     public function getPublishers()
     {
-        return $this->getPersons("edt");
+        return $this->getPersons($this->clientConfigurationManager->getPersonPublisherRole());
     }
 
     /**
@@ -440,25 +418,13 @@ class InternalFormat
      */
     public function getPersons($role = '')
     {
-        //$personXpath = $this->clientConfigurationManager->getPersonXpath();
-        //$personXpath = $this->clientConfigurationManager->getAuthorXpath();
-        $personXpath = '/mods:mods/mods:name[@type="personal"]';
-
-        $familyXpath = 'mods:namePart[@type="family"]';
-
-        $givenXpath = 'mods:namePart[@type="given"]';
-
-        $roleXpath = 'mods:role/mods:roleTerm[@type="code"]';
-
-        //$fobIdentifierXpath =  $this->clientConfigurationManager->getFobIdentifierXpath();
-        $fobIdentifierXpath = 'mods:nameIdentifier[@type="FOBID"]';
-
-        //$affiliationXpath =  $this->clientConfigurationManager->getAffiliationIdentifierXpath();
-        $affiliationXpath  = 'mods:affiliation';
-
-        //$affiliationIdentifierXpath =  $this->clientConfigurationManager->getAffiliationIdentifierXpath();
-        $affiliationIdentifierXpath = 'mods:nameIdentifier[@type="ScopusAuthorID"][@typeURI="http://www.scopus.com/authid"]';
-
+        $personXpath = $this->clientConfigurationManager->getPersonXpath();
+        $familyXpath = $this->clientConfigurationManager->getPersonFamilyXpath();
+        $givenXpath = $this->clientConfigurationManager->getPersonGivenXpath();
+        $roleXpath = $this->clientConfigurationManager->getPersonRoleXpath();
+        $fisIdentifierXpath =  $this->clientConfigurationManager->getPersonFisIdentifierXpath();
+        $affiliationXpath =  $this->clientConfigurationManager->getPersonAffiliationXpath();
+        $affiliationIdentifierXpath =  $this->clientConfigurationManager->getPersonAffiliationIdentifierXpath();
 
         $xpath = $this->getXpath();
         $personNodes = $xpath->query(self::rootNode . $personXpath);
@@ -469,7 +435,7 @@ class InternalFormat
             $familyNodes = $xpath->query($familyXpath, $personNode);
             $givenNodes = $xpath->query($givenXpath, $personNode);
             $roleNodes = $xpath->query($roleXpath, $personNode);
-            $identifierNodes = $xpath->query($fobIdentifierXpath, $personNode);
+            $identifierNodes = $xpath->query($fisIdentifierXpath, $personNode);
             $affiliationNodes = $xpath->query($affiliationXpath, $personNode);
             $affiliationIdentifierNodes = $xpath->query($affiliationIdentifierXpath, $personNode);
 
@@ -538,8 +504,7 @@ class InternalFormat
      */
     public function getValidation()
     {
-        //$validationXpath =  $this->clientConfigurationManager->getValidationXpath();
-        $validationXpath = "/slub:info/slub:validation/slub:validated";
+        $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
         $validation = $this->getValue($validationXpath);
         return (strtolower($validation) === 'true')? true : false;
     }
@@ -549,8 +514,7 @@ class InternalFormat
      */
     public function setValidation($validated)
     {
-        //$validationXpath =  $this->clientConfigurationManager->getValidationXpath();
-        $validationXpath = "/slub:info/slub:validation/slub:validated";
+        $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
         $this->setValue($validationXpath, ($validated? 'true' : 'false'));
     }
 
@@ -559,8 +523,7 @@ class InternalFormat
      */
     public function setFisId($fisId)
     {
-        //$fisIdXpath =  $this->clientConfigurationManager->getFisIdXpath();
-        $fisIdXpath = "/slub:info/slub:fisId";
+        $fisIdXpath =  $this->clientConfigurationManager->getFisIdXpath();
         $this->setValue($fisIdXpath, $fisId);
     }
 

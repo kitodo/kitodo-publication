@@ -1033,7 +1033,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getAssignedFobIdentifiers(): array
     {
         $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
-        return $internalFormat->getFobIdentifiers();
+        return $internalFormat->getPersonFisIdentifiers();
     }
 
     /**

@@ -319,7 +319,7 @@ class DocumentMapper
         if ($documentForm->getDocumentUid()) {
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
             $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-            $fobIdentifiers = $tempInternalFormat->getFobIdentifiers();
+            $fobIdentifiers = $tempInternalFormat->getPersonFisIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
             $fobIdentifiers = [];
@@ -365,7 +365,7 @@ class DocumentMapper
 
         $document->setXmlData($internalFormat->getXml());
 
-        $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getFobIdentifiers(), $fobIdentifiers));
+        $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getPersonFisIdentifiers(), $fobIdentifiers));
 
         $document->setTitle($internalFormat->getTitle());
         $document->setEmbargoDate($formMetaData['embargo']);

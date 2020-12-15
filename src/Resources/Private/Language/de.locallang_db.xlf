@@ -175,23 +175,31 @@
 		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.urn_xpath" approved="yes">
             <source>Urn xpath</source>
-            <target>Datei Speicherort XPath</target>
+            <target>URN (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.qucosa_urn_xpath" approved="yes">
+            <source>Qucosa Urn xpath</source>
+            <target>QUCOSA-URN (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.date_xpath" approved="yes">
-            <source>Date xpath</source>
-            <target>Datei Speicherort XPath</target>
+            <source>Distribution date</source>
+            <target>Datum der Veröffentlichung im Repository (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.publishing_year_xpath" approved="yes">
+            <source>Publishing year xpath</source>
+            <target>Publikationsjahr (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.state_xpath" approved="yes">
             <source>State xpath</source>
-            <target>Dokumentszustand Speicherort per XPath</target>
+            <target>Dokumentszustand (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.file_xpath" approved="yes">
             <source>File xpath</source>
-            <target>Datei Speicherort XPath</target>
+            <target>Datei Speicherort (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.type_xpath" approved="yes">
-            <source>Type xpath</source>
-            <target>Documenttype Speicherort XPath</target>
+            <source>Document type xpath</source>
+            <target>Documenttyp (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.namespaces" approved="yes">
             <source>Namespaces ("=" prefix separator, ";" namespace separator)</source>
@@ -199,15 +207,91 @@
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.title_xpath" approved="yes">
             <source>Title xpath</source>
-            <target>Titel XPath</target>
+            <target>Titel (XPath)</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.authors_xpath" approved="yes">
-            <source>Authors xpath</source>
-            <target>Autoren XPath</target>
+        <trans-unit id="tx_dpf_domain_model_client.original_source_title_xpath" approved="yes">
+            <source>Original source title xpath</source>
+            <target>Titel der Originalquelle (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.process_number_xpath" approved="yes">
             <source>Process number xpath</source>
-            <target>Prozessnummer XPath</target>
+            <target>Prozessnummer (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.creator_xpath" approved="yes">
+            <source>Creator xpath</source>
+            <target>Ersteller (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.creation_date_xpath" approved="yes">
+            <source>Creation date xpath</source>
+            <target>Erstellungsdatum (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.repository_creation_date_xpath" approved="yes">
+            <source>Repository creation date xpath</source>
+            <target>Repository-Erstellungsdatum (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.repository_last_mod_date_xpath" approved="yes">
+            <source>Repository last mod date xpath</source>
+            <target>Datum der letzten Änderung imn Repository (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.deposit_license_xpath" approved="yes">
+            <source>Deposit license xpath</source>
+            <target>Lizenz (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.all_notes_xpath" approved="yes">
+            <source>All notes xpath</source>
+            <target>Alle Notizen (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.private_notes_xpath" approved="yes">
+            <source>Private notes xpath</source>
+            <target>Private Notizen (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_xpath" approved="yes">
+            <source>Person xpath</source>
+            <target>Person (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_family_xpath" approved="yes">
+            <source>Person family xpath</source>
+            <target>Person-Nachname (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_given_xpath" approved="yes">
+            <source>Person given xpath</source>
+            <target>Person-Vorname (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_role_xpath" approved="yes">
+            <source>Person role xpath</source>
+            <target>Person-Rolle (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_fis_identifier_xpath" approved="yes">
+            <source>Person fis identifier xpath</source>
+            <target>Person-FisId (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_affiliation_xpath" approved="yes">
+            <source>Person affiliation xpath</source>
+            <target>Person-Zugehörigkeit (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_affiliation_identifier_xpath" approved="yes">
+            <source>Person affiliation identifier xpath</source>
+            <target>Person-Zugehörigkeits-ID (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.validation_xpath" approved="yes">
+            <source>Validation xpath</source>
+            <target>Validation (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
+            <source>Fis id xpath</source>
+            <target>Fis-ID (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.source_details_xpaths" approved="yes">
+            <source>Source details xpaths (Semicolon separated)</source>
+            <target>Quellen-Angaben (XPath, Semikolon separiert)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_author_role" approved="yes">
+            <source>Person author role</source>
+            <target>Person-Autor-Rolle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_publisher_role" approved="yes">
+            <source>Person publisher role</source>
+            <target>Person-Publisher-Rolle</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
             <source>Submitter name</source>
