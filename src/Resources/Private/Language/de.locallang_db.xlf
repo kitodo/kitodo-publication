@@ -133,16 +133,6 @@
 			<source>Embargo expired</source>
 			<target>Embargo abgelaufen</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_body" approved="yes">
-			<source>OA Publicationfond body
-			</source>
-			<target>OA Publikationsfond Body
-			</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject" approved="yes">
-			<source>OA Publicationfond subject</source>
-			<target>OA Publicationfond Subject</target>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject" approved="yes">
 			<source>Deposit license subject</source>
 			<target>Einverständniserklärung Thema</target>

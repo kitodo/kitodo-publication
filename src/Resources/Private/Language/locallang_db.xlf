@@ -98,12 +98,6 @@
 		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject">
 			<source>Embargo expired</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_body">
-			<source>OA Publicationfond body</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject">
-			<source>OA Publicationfond subject</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject">
 			<source>Deposit license subject</source>
 		</trans-unit>

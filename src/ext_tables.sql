@@ -444,8 +444,6 @@ CREATE TABLE tx_dpf_domain_model_client (
   admin_new_suggestion_body text NOT NULL,
   admin_embargo_subject varchar(1024) DEFAULT '' NOT NULL,
   admin_embargo_body text NOT NULL,
-  admin_oa_fond_subject varchar(1024) DEFAULT '' NOT NULL,
-  admin_oa_fond_body text NOT NULL,
   mypublications_update_notification_subject varchar(1024) DEFAULT '' NOT NULL,
   mypublications_update_notification_body text NOT NULL,
   mypublications_new_notification_subject varchar(1024) DEFAULT '' NOT NULL,

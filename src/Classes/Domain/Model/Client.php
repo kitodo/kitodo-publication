@@ -240,16 +240,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminEmbargoBody = '';
 
     /**
-     * @var string
-     */
-    protected $adminOaFondSubject = '';
-
-    /**
-     * @var string
-     */
-    protected $adminOaFondBody = '';
-
-    /**
      * adminDepositLicenseNotificationSubject
      *
      * @var string
@@ -1032,38 +1022,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setAdminEmbargoBody(string $adminEmbargoBody)
     {
         $this->adminEmbargoBody = $adminEmbargoBody;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminOaFondSubject(): string
-    {
-        return $this->adminOaFondSubject;
-    }
-
-    /**
-     * @param string $adminOaFondSubject
-     */
-    public function setAdminOaFondSubject(string $adminOaFondSubject)
-    {
-        $this->adminOaFondSubject = $adminOaFondSubject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminOaFondBody(): string
-    {
-        return $this->adminOaFondBody;
-    }
-
-    /**
-     * @param string $adminOaFondBody
-     */
-    public function setAdminOaFondBody(string $adminOaFondBody)
-    {
-        $this->adminOaFondBody = $adminOaFondBody;
     }
 
     /**
