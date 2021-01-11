@@ -244,11 +244,12 @@ class ApiController extends ActionController
     /**
      * @param string $document
      * @param string $json
+     * @param string $comment
      * @param string $token
      * @param bool $restore
      * @return string
      */
-    public function suggestionAction($document, $json, $token, $restore = false) {
+    public function suggestionAction($document, $json, $comment, $token, $restore = false) {
         if ($this->checkToken($token)) {
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
@@ -266,7 +267,7 @@ class ApiController extends ActionController
             /** @var Document $editOrigDocument */
             $editOrigDocument = $mapper->editDocument($doc, $jsonData);
 
-            $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument);
+            $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument, $restore, $comment);
 
             if ($restore) {
                 $suggestionDocument->setTransferStatus("RESTORE");
