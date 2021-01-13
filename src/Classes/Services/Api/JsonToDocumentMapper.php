@@ -176,6 +176,10 @@ class JsonToDocumentMapper
                     $groupItems = $jsonDataObject->get($jsonGroupMapping);
                 }
 
+                if (empty($groupItems)) {
+                    $groupItems = [];
+                }
+
                 foreach ($groupItems as $groupItem) {
 
                     $resultGroup = [
