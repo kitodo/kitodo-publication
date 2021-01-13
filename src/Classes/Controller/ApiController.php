@@ -273,7 +273,7 @@ class ApiController extends ActionController
             }
 
             if ($linkedDocument) {
-                return '{"failure": "There is already a suggestion for the document"}';
+                return '{"failed": "There is already a suggestion for the document"}';
             }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
