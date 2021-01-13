@@ -267,6 +267,15 @@ class ApiController extends ActionController
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
 
+            $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getUid());
+            if (!$linkedDocument && $doc->getObjectIdentifier()) {
+                $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getObjectIdentifier());
+            }
+
+            if ($linkedDocument) {
+                return '{"failure": "There is already a suggestion for the document"}';
+            }
+
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
             /** @var Document $editOrigDocument */
