@@ -142,6 +142,7 @@ class JsonToDocumentMapper
 
     public function getMetadataFromJson($jsonData, $documentType = null)
     {
+        $jsonData = empty($jsonData)? null: $jsonData;
         $jsonObject = new JsonObject($jsonData);
 
         if ($documentType) {

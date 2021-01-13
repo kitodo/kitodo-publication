@@ -162,19 +162,17 @@ class ApiController extends ActionController
      * @param string $token
      */
     public function createAction($json, $token) {
-        if ($this->checkToken($token)) {
-            if ($json) {
-                $jsonData = $json;
-            }
 
-            if (empty($jsonData)) {
-                return '{"error": "invalid data"}';
+        if ($this->checkToken($token)) {
+
+            if (is_null(json_decode($json))) {
+                return '{"error": "Invalid data in parameter json."}';
             }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
             /** @var Document $document */
-            $document = $mapper->getDocument($jsonData);
+            $document = $mapper->getDocument($json);
 
             if ($this->tokenUserId) {
                 $document->setCreator($this->security->getUser()->getUid());
@@ -250,22 +248,29 @@ class ApiController extends ActionController
      * @return string
      */
     public function suggestionAction($document, $json, $comment, $token, $restore = false) {
+
         if ($this->checkToken($token)) {
+
+            if ($restore) {
+                if (!empty($json) && is_null(json_decode($json))) {
+                    return '{"error": "Invalid data in parameter json."}';
+                }
+            } else {
+                if (empty($json) || json_decode($json,true) === []) {
+                    return '{"error": "Parameter json can not be empty."}';
+                }
+                if (is_null(json_decode($json))) {
+                    return '{"error": "Invalid data in parameter json."}';
+                }
+            }
+
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
-
-            if ($json) {
-                $jsonData = $json;
-            }
-
-            if (empty($jsonData) && $restore == false) {
-                return '{"error": "invalid data"}';
-            }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
             /** @var Document $editOrigDocument */
-            $editOrigDocument = $mapper->editDocument($doc, $jsonData);
+            $editOrigDocument = $mapper->editDocument($doc, $json);
 
             $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument, $restore, $comment);
 
