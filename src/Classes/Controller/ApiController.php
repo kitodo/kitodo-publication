@@ -22,9 +22,7 @@ use EWW\Dpf\Services\ImportExternalMetadata\FileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -111,6 +109,11 @@ class ApiController extends ActionController
 
     protected $frontendUser = null;
 
+    protected $validActions = [
+        'show', 'create', 'suggestion', 'importDoiWithoutSaving',
+        'importPubmedWithoutSaving', 'importIsbnWithoutSaving',
+        'importBibtexWithoutSaving', 'importRisWithoutSaving', 'addFisId'
+    ];
 
     public function __construct()
     {
@@ -131,6 +134,15 @@ class ApiController extends ActionController
     }
 
     /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeShowAction()
+    {
+        $this->checkMandatoryParameters(['document', 'token']);
+    }
+
+    /**
      * @param string $document
      * @param string $token
      */
@@ -138,7 +150,6 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
-            //$doc = $this->documentRepository->findByIdentifier($document);
 
             if ($doc) {
                 $this->security->getUser()->getUid();
@@ -155,6 +166,16 @@ class ApiController extends ActionController
             return '{"error": "No data found"}';
         }
         return '{"error": "Token failed"}';
+    }
+
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeCreateAction()
+    {
+        $this->checkMandatoryParameters(['json', 'token']);
     }
 
     /**
@@ -205,6 +226,15 @@ class ApiController extends ActionController
     }
 
     /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeAddFisIdAction()
+    {
+        $this->checkMandatoryParameters(['document', 'id', 'token']);
+    }
+
+    /**
      * @param string $document
      * @param string $id
      * @param string $token
@@ -237,6 +267,15 @@ class ApiController extends ActionController
         }
         return '{"error": "Token failed"}';
 
+    }
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeSuggestionAction()
+    {
+        $this->checkMandatoryParameters(['document', 'json', 'comment', 'token']);
     }
 
     /**
@@ -296,6 +335,16 @@ class ApiController extends ActionController
         return '{"error": "Token failed"}';
     }
 
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeImportDoiWithoutSavingAction()
+    {
+        $this->checkMandatoryParameters(['doi', 'token']);
+    }
+
     /**
      * @param string $doi
      * @param string $token
@@ -341,6 +390,15 @@ class ApiController extends ActionController
     }
 
     /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeImportPubmedWithoutSavingAction()
+    {
+        $this->checkMandatoryParameters(['pmid', 'token']);
+    }
+
+    /**
      * @param string $pmid
      * @param string $token
      * @return string
@@ -382,6 +440,15 @@ class ApiController extends ActionController
     }
 
     /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeImportIsbnWithoutSavingAction()
+    {
+        $this->checkMandatoryParameters(['isbn', 'token']);
+    }
+
+    /**
      * @param string $isbn
      * @param string $token
      * @return string
@@ -420,6 +487,15 @@ class ApiController extends ActionController
             }
         }
         return '{"error": "Token failed"}';
+    }
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeImportBibtexWithoutSavingAction()
+    {
+        $this->checkMandatoryParameters(['bibtex', 'token']);
     }
 
     /**
@@ -477,6 +553,15 @@ class ApiController extends ActionController
     }
 
     /**
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function initializeImportRisWithoutSavingAction()
+    {
+        $this->checkMandatoryParameters(['ris', 'token']);
+    }
+
+    /**
      * @param string $ris
      * @param string $token
      * @return string
@@ -531,28 +616,58 @@ class ApiController extends ActionController
     }
 
 
-//    /**
-//     * Resolves and checks the current action method name
-//     *
-//     * @return string Method name of the current action
-//     */
-//    protected function resolveActionMethodName()
-//    {
-//        switch ($this->request->getMethod()) {
-//            case 'HEAD':
-//            case 'GET':
-//                $actionName = ($this->request->hasArgument('document')) ? 'show' : 'list';
-//                break;
-//            case 'POST':
-//                $actionName = 'create';
-//                break;
-//            case 'PUT':
-//            case 'DELETE':
-//                $this->throwStatus(400, null, 'Bad Request.');
-//            default:
-//                $this->throwStatus(400, null, 'Bad Request.');
-//        }
-//
-//        return $actionName . 'Action';
-//    }
+    /**
+     * @param $parameterNames array
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    protected function checkMandatoryParameters($parameterNames)
+    {
+        $missingArguments = [];
+        foreach ($parameterNames as $parameterName) {
+            if (!$this->request->hasArgument($parameterName)) {
+                $missingArguments[] =  $parameterName;
+            }
+        }
+
+        if ($missingArguments) {
+            $this->throwStatus(
+                400,
+                null,
+                '{"error": "Missing parameters: '.implode(", ", $missingArguments).'"}'
+            );
+        }
+
+    }
+
+    /**
+     * Resolves and checks the current action method name
+     *
+     * @return string Method name of the current action
+     */
+    protected function resolveActionMethodName()
+    {
+        if ($this->request->hasArgument('action')) {
+            $actionName = $this->request->getArgument('action');
+        }
+
+        if (empty($actionName)) {
+            $this->throwStatus(
+                400,
+                null,
+                '{"error": "No action has been specified"}'
+            );
+
+        }
+
+        if (!in_array($actionName, $this->validActions)) {
+            $this->throwStatus(
+                400,
+                null,
+            '{"error": "An invalid action hes been called: '.$actionName.'"}'
+            );
+        }
+
+        return $actionName . 'Action';
+    }
 }
