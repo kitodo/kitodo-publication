@@ -123,6 +123,7 @@ class ApiController extends ActionController
 
     public function checkToken($token) {
         // check if token exists
+
         $frontendUser = $this->frontendUserRepository->findOneByApiToken($token);
 
         if ($frontendUser) {
@@ -187,7 +188,7 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
 
             if (is_null(json_decode($json))) {
-                return '{"error": "Invalid data in parameter json."}';
+                return '{"error": "Invalid data in parameter json"}';
             }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
@@ -276,6 +277,10 @@ class ApiController extends ActionController
     public function initializeSuggestionAction()
     {
         $this->checkMandatoryParameters(['document', 'json', 'comment', 'token']);
+        if ($this->request->hasArgument('restore')) {
+            $restore = $this->request->getArgument('restore');
+            $this->request->setArgument('restore', ($restore === 'true' || $restore == 1));
+        }
     }
 
     /**
@@ -496,60 +501,76 @@ class ApiController extends ActionController
     public function initializeImportBibtexWithoutSavingAction()
     {
         $this->checkMandatoryParameters(['bibtex', 'token']);
+        if ($this->request->hasArgument('force')) {
+            $force = $this->request->getArgument('force');
+            $this->request->setArgument('force', ($force === 'true' || $force == 1));
+        }
     }
 
     /**
      * @param string $bibtex content of a bibtex file
      * @param string $token
+     * @param bool $force
      * @return string
      */
-    public function importBibtexWithoutSavingAction($bibtex, $token) {
+    public function importBibtexWithoutSavingAction($bibtex, $token, $force = false) {
 
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(BibTexFileImporter::class);
 
             try {
                 $externalMetadata = $importer->loadFile($bibtex, $this->settings['bibTexMandatoryFields'], true);
+                $mandatoryErrors = $importer->getMandatoryErrors();
             } catch (\Throwable $throwable) {
                 return '{"failed": "' . $throwable->getMessage() . '"}';
             }
 
-            if ($externalMetadata) {
+            if ($externalMetadata && (!$mandatoryErrors || $force)) {
                 // create document
                 try {
-                    /** @var Document $newDocument */
-                    $newDocument = $importer->import($externalMetadata[0]);
-                    if ($newDocument) {
-                        /** @var $client \EWW\Dpf\Domain\Model\Client */
-                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
-
-                        $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($client->getFisMapping());
-                        $jsonData = $mapper->getJson($newDocument);
-                        return $jsonData;
-                    } else {
-                        return '{"failed": "Import failed"}';
+                    $jsonDataElements = [];
+                    foreach ($externalMetadata as $externalMetadataItem) {
+                        /** @var Document $newDocument */
+                        $newDocument = $importer->import($externalMetadataItem);
+                        if ($newDocument) {
+                            /** @var $client \EWW\Dpf\Domain\Model\Client */
+                            $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+                            $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
+                            $mapper->setMapping($client->getFisMapping());
+                            $jsonDataElements[] = $mapper->getJson($newDocument);
+                        } else {
+                            return '{"failed": "Import failed"}';
+                        }
                     }
-
+                    return "[" . implode(", ", $jsonDataElements) . "]";
                 } catch (\Throwable $throwable) {
-
                     $this->logger->error($throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
-
             } else {
-                $mandatoryErrors = $importer->getMandatoryErrors();
-                $message = '';
-                foreach ($mandatoryErrors as $mandatoryError) {
-                    $message .= 'Konnte die Publikation Nr. ' . $mandatoryError['index'] . ' nicht importieren';
-                    $message .= $mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : '';
-                    $message .= ', da die folgenden Felder leer sind: ' . implode(',', $mandatoryError['fields']);
+                if ($mandatoryErrors) {
+                    $message = [];
+                    $message['failed'] = "Missing mandatory fields.";
+
+                    foreach ($mandatoryErrors as $mandatoryError) {
+                        $message['mandatoryErrors'][] = [
+                            'index'=> $mandatoryError['index'],
+                            'title' => ($mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : ''),
+                            'fields' => array_values($mandatoryError['fields'])
+                        ];
+                    }
+
+                    return json_encode($message);
+
+                } else {
+                    return '{"failed": "Invalid BibTex-Data"}';
                 }
-                // error
-                return '{"failed": "' . $message . '"}';
             }
+        } else {
+            return '{"error": "Token failed"}';
         }
-        return '{"error": "Token failed"}';
+
+        return '{"error": "Unexpected error"}';
     }
 
     /**
@@ -559,40 +580,50 @@ class ApiController extends ActionController
     public function initializeImportRisWithoutSavingAction()
     {
         $this->checkMandatoryParameters(['ris', 'token']);
+        if ($this->request->hasArgument('force')) {
+            $force = $this->request->getArgument('force');
+            $this->request->setArgument('force', ($force === 'true' || $force == 1));
+        }
     }
 
     /**
      * @param string $ris
      * @param string $token
+     * @param bool $force
      * @return string
      */
-    public function importRisWithoutSavingAction($ris, $token) {
+    public function importRisWithoutSavingAction($ris, $token, $force = false) {
+
         if ($this->checkToken($token)) {
             /** @var FileImporter $fileImporter */
             $importer = $this->objectManager->get(RisWosFileImporter::class);
 
             try {
                 $externalMetadata = $importer->loadFile($ris, $this->settings['riswosMandatoryFields'], true);
+                $mandatoryErrors = $importer->getMandatoryErrors();
             } catch (\Throwable $throwable) {
                 return '{"failed": "' . $throwable->getMessage() . '"}';
             }
 
-            if ($externalMetadata) {
+            if ($externalMetadata && (!$mandatoryErrors || $force)) {
                 // create document
                 try {
-                    /** @var Document $newDocument */
-                    $newDocument = $importer->import($externalMetadata[0]);
-                    if ($newDocument) {
-                        /** @var $client \EWW\Dpf\Domain\Model\Client */
-                        $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
+                    $jsonDataElements = [];
+                    foreach ($externalMetadata as $externalMetadataItem) {
+                        /** @var Document $newDocument */
+                        $newDocument = $importer->import($externalMetadataItem);
+                        if ($newDocument) {
+                            /** @var $client \EWW\Dpf\Domain\Model\Client */
+                            $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
-                        $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
-                        $mapper->setMapping($client->getFisMapping());
-                        $jsonData = $mapper->getJson($newDocument);
-                        return $jsonData;
-                    } else {
-                        return '{"failed": "Import failed"}';
+                            $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
+                            $mapper->setMapping($client->getFisMapping());
+                            $jsonDataElements[] = $mapper->getJson($newDocument);
+                        } else {
+                            return '{"failed": "Import failed"}';
+                        }
                     }
+                    return "[" . implode(", ", $jsonDataElements) . "]";
 
                 } catch (\Throwable $throwable) {
 
@@ -601,18 +632,28 @@ class ApiController extends ActionController
                 }
 
             } else {
-                $mandatoryErrors = $importer->getMandatoryErrors();
-                $message = '';
-                foreach ($mandatoryErrors as $mandatoryError) {
-                    $message .= 'Konnte die Publikation Nr. ' . $mandatoryError['index'] . ' nicht importieren';
-                    $message .= $mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : '';
-                    $message .= ', da die folgenden Felder leer sind: ' . implode(',', $mandatoryError['fields']);
+                if ($mandatoryErrors) {
+                    $message = [];
+                    $message['failed'] = "Missing mandatory fields";
+
+                    foreach ($mandatoryErrors as $mandatoryError) {
+                        $message['mandatoryErrors'][] = [
+                            'index'=> $mandatoryError['index'],
+                            'title' => ($mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : ''),
+                            'fields' => array_values($mandatoryError['fields'])
+                        ];
+                    }
+
+                    return json_encode($message);
+
+                } else {
+                    return '{"failed": "Invalid RIS-Data"}';
                 }
-                // error
-                return '{"failed": "' . $message . '"}';
             }
+        } else {
+            return '{"error": "Token failed"}';
         }
-        return '{"error": "Token failed"}';
+        return '{"error": "Unexpected error"}';
     }
 
 

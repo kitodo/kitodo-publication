@@ -112,6 +112,7 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
 
         foreach ($bibTexEntries as $index => $bibTexItem) {
 
+            $mandatoryFieldErrors = [];
             foreach ($mandatoryFields as $combinedMandatoryField) {
 
                 $mandatoryOk = false;

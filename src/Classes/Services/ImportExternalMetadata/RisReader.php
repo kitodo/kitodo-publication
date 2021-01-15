@@ -249,12 +249,14 @@ class RisReader
                             }
                         }
 
-                        $risEntry[$tag][] = [
-                            'family' => $family,
-                            'given' => $given,
-                            'suffix' => $suffix,
-                            'affiliation' => $affiliations
-                        ];
+                        if ($family || $given || $suffix || $affiliations) {
+                            $risEntry[$tag][] = [
+                                'family' => $family,
+                                'given' => $given,
+                                'suffix' => $suffix,
+                                'affiliation' => $affiliations
+                            ];
+                        }
                     }
                 } else {
                     $value = implode(" ", $risFieldValues);

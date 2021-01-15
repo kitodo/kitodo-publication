@@ -63,6 +63,7 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
 
         foreach ($risWosEntries as $index => $risWosItem) {
 
+            $mandatoryFieldErrors = [];
             foreach ($mandatoryFields as $combinedMandatoryField) {
 
                 $mandatoryOk = false;
