@@ -68,9 +68,20 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
 
         foreach ($entries as $index => $fields) {
             foreach ($fields as $key => $field) {
-                $entries[$index][$key] = preg_replace("/{\s*[\\\]textunderscore\s*}/", '_', $field);
-                $entries[$index][$key] = preg_replace("/{\s*[\\\]textquotedbl\s*}/", '"', $entries[$index][$key]);
-                $entries[$index][$key] = preg_replace("/{\s*[\\\]&\s*}/", '&', $entries[$index][$key]);
+                $field = str_replace("{\\\"o}", "ö", $field);
+                $field = str_replace("{\\\"O}", "Ö", $field);
+                $field = str_replace("{\\\"a}", "ä", $field);
+                $field = str_replace("{\\\"A}", "Ä", $field);
+                $field = str_replace("{\\\"u}", "u", $field);
+                $field = str_replace("{\\\"U}", "U", $field);
+                $field = str_replace("\\textendash", "-", $field);
+                $field = str_replace("\\textemdash", "—", $field);
+                $field = str_replace("\\textquoteright", "'", $field);
+                $field = str_replace("\\textquoteleft", "'", $field);
+                $field = str_replace("{\\ss}", "ß", $field);
+                $field = preg_replace("/{\s*[\\\]textunderscore\s*}/", '_', $field);
+                $field = preg_replace("/{\s*[\\\]textquotedbl\s*}/", '"', $field);
+                $entries[$index][$key] = preg_replace("/{\s*[\\\]&\s*}/", '&', $field);
             }
         }
 
