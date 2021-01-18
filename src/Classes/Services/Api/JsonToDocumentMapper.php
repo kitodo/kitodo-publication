@@ -201,6 +201,9 @@ class JsonToDocumentMapper
 
                         if ($jsonFieldMapping) {
                             $fieldItems = $jsonObject->get($jsonFieldMapping);
+                            if (empty($fieldItems)) {
+                                $fieldItems = [];
+                            }
                         }
 
                         foreach ($fieldItems as $fieldItem) {

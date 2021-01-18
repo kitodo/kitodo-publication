@@ -308,6 +308,10 @@ class ApiController extends ActionController
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
 
+            if (!$doc) {
+                return '{"failed": "Document does not exist: '.$document.'"}';
+            }
+
             $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getUid());
             if (!$linkedDocument && $doc->getObjectIdentifier()) {
                 $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getObjectIdentifier());
