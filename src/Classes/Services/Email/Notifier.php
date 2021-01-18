@@ -21,10 +21,10 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\Client;
 use \Httpful\Request;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 class Notifier
 {
-
     /**
      * clientRepository
      *
@@ -56,7 +56,6 @@ class Notifier
      * @inject
      */
     protected $security = null;
-
 
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
@@ -294,24 +293,27 @@ class Notifier
         }
     }
 
-    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document) {
+    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false) {
 
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            /**  @var \EWW\Dpf\Helper\Slub $slub */
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
 
             // Active messaging: Suggestion accept
-            if ($client->getActiveMessagingChangedDocumentUrl()) {
-                $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
-                if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
-                    $request->body($this->replaceMarkers($body,$args));
+            if (!$addedFisIdOnly && $client->getActiveMessagingChangedDocumentUrl()) {
+                if ($slub->getFisId() && $document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
+                    $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
+                    if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
+                        $request->body($this->replaceMarkers($body,$args));
+                    }
+                    $request->send();
                 }
-                $request->send();
             }
 
         } catch (\Exception $e) {
@@ -326,6 +328,44 @@ class Notifier
             );
         }
     }
+
+
+    public function sendReleasePublishNotification(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            /**  @var \EWW\Dpf\Helper\Slub $slub */
+            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+
+            // Active messaging: New document (Release publish)
+            if ($client->getActiveMessagingNewDocumentUrl()) {
+                if ($slub->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingNewDocumentUrl());
+                    if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendChangedDocumentNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
 
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
@@ -379,16 +419,6 @@ class Notifier
 
                 $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
-
-            // Active messaging: New document
-            if ($client->getActiveMessagingNewDocumentUrl()) {
-                $request = Request::post($client->getActiveMessagingNewDocumentUrl());
-                if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
-                    $request->body($this->replaceMarkers($body,$args));
-                }
-                $request->send();
-            }
-
 
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */

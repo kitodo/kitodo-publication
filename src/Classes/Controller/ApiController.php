@@ -257,14 +257,11 @@ class ApiController extends ActionController
                 $doc->setProcessNumber($processNumber);
             }
 
-            $this->documentManager->update($doc);
-
-            // index the document
-            $this->signalSlotDispatcher->dispatch(
-                AbstractController::class, 'indexDocument', [$doc]
-            );
-
-            return '{"success": "Document '.$document.' added '.$id.'"}';
+            if ($this->documentManager->update($doc, null, [], [], true)) {
+                return '{"success": "Document '.$document.' added '.$id.'"}';
+            } else {
+                return '{"failed": Could not update the Document"}';
+            }
         }
         return '{"error": "Token failed"}';
 

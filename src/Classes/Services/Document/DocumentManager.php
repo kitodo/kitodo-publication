@@ -193,12 +193,15 @@ class DocumentManager
      * @param string $workflowTransition
      * @param array $deletedFiles
      * @param array $newFiles
+     * @param bool $addedFisIdOnly
      * @return string|false
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function update(Document $document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
+    public function update(
+        Document $document, $workflowTransition = null, $deletedFiles = [], $newFiles = [], $addedFisIdOnly = false
+    )
     {
         // xml data fields are limited to 64 KB
         if (strlen($document->getXmlData()) >= 64 * 1024 || strlen($document->getSlubInfoData() >= 64 * 1024)) {
@@ -233,7 +236,6 @@ class DocumentManager
                 $workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE
             )
         ) {
-
             // if local working copy with state change
             $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
 
@@ -299,7 +301,7 @@ class DocumentManager
 
             /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
-            $notifier->sendChangedDocumentNotification($document);
+            $notifier->sendChangedDocumentNotification($document, $addedFisIdOnly);
         }
 
         return $updateResult;

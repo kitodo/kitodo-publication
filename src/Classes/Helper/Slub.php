@@ -114,6 +114,12 @@ class Slub
         }
     }
 
+    public function getFisId()
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:fisId");
+        return $fisIdNode->item(0)->nodeValue;
+    }
+
     /**
      * @param string $creationDate
      * @throws \Exception

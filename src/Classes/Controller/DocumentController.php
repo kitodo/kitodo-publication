@@ -697,6 +697,9 @@ class DocumentController extends AbstractController
 
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
+        /** @var Notifier $notifier */
+        $notifier = $this->objectManager->get(Notifier::class);
+        $notifier->sendReleasePublishNotification($document);
     }
 
 
