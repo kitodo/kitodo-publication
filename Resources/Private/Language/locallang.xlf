@@ -524,6 +524,9 @@ Date: ###DATE###
 		<trans-unit id="tt_content.dpf_relatedlisttool">
 			<source>DPF: RelatedListTool</source>
 		</trans-unit>
+		<trans-unit id="tt_content.dpf_coins">
+			<source>DPF: Coins</source>
+		</trans-unit>
 		<trans-unit id="tt_content.pi_flexform.apiPid">
 			<source>API Pid</source>
 		</trans-unit>

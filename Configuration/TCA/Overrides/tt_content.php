@@ -82,3 +82,15 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dpf_relatedl
     'dpf'
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_relatedlisttool', 'FILE:EXT:dpf/Classes/Plugins/RelatedListTool/flexform.xml');
+
+// Plugin "Coins".
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dpf_coins'] = 'layout,select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dpf_coins'] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    array('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.dpf_coins',
+        'dpf_coins'),
+    'list_type',
+    'dpf'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_coins', 'FILE:EXT:dpf/Classes/Plugins/Coins/flexform.xml');
