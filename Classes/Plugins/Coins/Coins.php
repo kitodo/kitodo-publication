@@ -96,7 +96,7 @@ class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
         // -> https://archive.is/a0Hgs
 
         // Formal specification of COinS
-        $coins .= 'url_ver=Z39.88-2004';
+        $coins = 'url_ver=Z39.88-2004';
         $coins .= '&ctx_ver=Z39.88-2004';
 
         // TODO: Get the document type to differentiate info:ofi/fmt:kev:mtx:[book/journal] and rft.genre=[…]
