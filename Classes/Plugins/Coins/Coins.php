@@ -94,10 +94,14 @@ class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
 
         // The output follows the "Brief guide to Implementing OpenURL 1.0 Context Object for Journal Articles"
         // -> https://archive.is/a0Hgs
-        //
-        // TODO: Get the document type to differentiate info:ofi/fmt:kev:mtx:[book/journal] and rft.genre=[…]
 
-        $coins = 'url_ver=Z39.88-2004&ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.genre=unknown';
+        // Formal specification of COinS
+        $coins .= 'url_ver=Z39.88-2004';
+        $coins .= '&ctx_ver=Z39.88-2004';
+
+        // TODO: Get the document type to differentiate info:ofi/fmt:kev:mtx:[book/journal] and rft.genre=[…]
+        $coins .= '&rft_val_fmt='. urlencode('info:ofi/fmt:kev:mtx:journal');
+        $coins .= '&rft.genre=unknown';
 
         foreach ($metadata as $index_name => $values) {
             if (preg_match("/^author[[:digit:]]+/", $index_name)) {
