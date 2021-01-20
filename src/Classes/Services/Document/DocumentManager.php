@@ -431,7 +431,6 @@ class DocumentManager
     }
 
     public function addSuggestion($editDocument, $restore = false, $comment = '') {
-
         // add new document
         /** @var Document $suggestionDocument */
         $suggestionDocument = $this->objectManager->get(Document::class);
@@ -440,6 +439,7 @@ class DocumentManager
 
         // copy properties from origin
         $suggestionDocument = $suggestionDocument->copy($editDocument);
+        $suggestionDocument->setCreator($editDocument->getCreator());
 
         if ($suggestionDocument->isTemporary()) {
             $suggestionDocument->setTemporary(false);

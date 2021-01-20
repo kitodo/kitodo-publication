@@ -325,7 +325,7 @@ class ApiController extends ActionController
 
             /** @var Document $editOrigDocument */
             $editOrigDocument = $mapper->editDocument($doc, $json);
-
+            $editOrigDocument->setCreator($this->frontendUser->getUid());
             $suggestionDocument = $this->documentManager->addSuggestion($editOrigDocument, $restore, $comment);
 
             if ($restore) {
