@@ -307,7 +307,7 @@ class Notifier
 
             // Active messaging: Suggestion accept
             if (!$addedFisIdOnly && $client->getActiveMessagingChangedDocumentUrl()) {
-                if ($slub->getFisId() && $document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
+                if ($slub->getFisId()) {
                     $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
                     if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
                         $request->body($this->replaceMarkers($body,$args));
@@ -344,7 +344,8 @@ class Notifier
 
             // Active messaging: New document (Release publish)
             if ($client->getActiveMessagingNewDocumentUrl()) {
-                if ($slub->getFisId()) {
+                $fisId = $slub->getFisId();
+                if (empty($fisId)) {
                     $request = Request::post($client->getActiveMessagingNewDocumentUrl());
                     if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
                         $request->body($this->replaceMarkers($body, $args));
@@ -358,7 +359,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendChangedDocumentNotification failed",
+                LogLevel::ERROR, "sendReleasePublishNotification failed",
                 array(
                     'document' => $document
                 )
