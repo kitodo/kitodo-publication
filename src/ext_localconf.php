@@ -190,6 +190,13 @@ $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:
 
 $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
 
+$GLOBALS['TYPO3_CONF_VARS']['LOG']['EWW']['Dpf']['writerConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG] = [
+    \TYPO3\CMS\Core\Log\Writer\DatabaseWriter::class => [
+        'logTable' => 'sys_log'
+    ],
+];
+
+
 // Documents
 $signalSlotDispatcher->connect(
     \EWW\Dpf\Controller\DocumentController::class,
