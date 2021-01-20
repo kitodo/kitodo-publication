@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
@@ -312,13 +313,17 @@ class ApiController extends ActionController
                 return '{"failed": "Document does not exist: '.$document.'"}';
             }
 
+            if ($doc->getState() === DocumentWorkflow::STATE_NEW_NONE) {
+                return '{"failed": "Access denied. The document is private."}';
+            }
+
             $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getUid());
             if (!$linkedDocument && $doc->getObjectIdentifier()) {
                 $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getObjectIdentifier());
             }
 
             if ($linkedDocument) {
-                return '{"failed": "There is already a suggestion for the document"}';
+                return '{"failed": "There is already a suggestion for the document: '.$linkedDocument->getUid().'"}';
             }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
