@@ -50,8 +50,8 @@ class JsonToDocumentMapper
      * @param $jsonData
      * @return Document
      */
-    public function editDocument(Document $document, $jsonData) {
-
+    public function editDocument(Document $document, $jsonData)
+    {
         $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
         $xmlData = $document->getXmlData();
 
@@ -63,9 +63,48 @@ class JsonToDocumentMapper
         foreach ($metaData['mods'] as $groupKey => $group) {
             $groupMapping = $group['mapping'];
             if ($group['values']) {
-                foreach ($group['values'] as $fieldKey => $field) {
-                    $nodes = $xpath->query($groupMapping .'/'. $field['mapping']);
-                    $nodes->item(0)->nodeValue = $field['value'];
+                $groupNode = $xpath->query($groupMapping);
+                if ($groupNode->length > 0) {
+                    foreach ($groupNode as $nodeItem) {
+                        $domDocument->documentElement->removeChild($nodeItem);
+                    }
+                }
+            }
+        }
+
+        foreach ($metaData['mods'] as $groupKey => $group) {
+            $groupMapping = $group['mapping'];
+            $groupChild = null;
+            if ($group['values']) {
+                $parent = $domDocument->childNodes->item(0);
+                $path = $this->parseXpathString($groupMapping);
+                foreach ($path as $pathItem) {
+                    $groupChild = $domDocument->createElement($pathItem['node']);
+                    foreach ($pathItem['attributes'] as $attrName => $attrValue) {
+                        $attributeElement = $domDocument->createAttribute($attrName);
+                        $attributeElement->nodeValue = $attrValue;
+                        $groupChild->appendChild($attributeElement);
+                    }
+                    $parent->appendChild($groupChild);
+                    $parent = $groupChild;
+                }
+
+                if ($groupChild) {
+                    foreach ($group['values'] as $fieldKey => $field) {
+                        $parent = $groupChild;
+                        $path = $this->parseXpathString($field['mapping']);
+                        foreach ($path as $pathItem) {
+                            $child = $domDocument->createElement($pathItem['node']);
+                            foreach ($pathItem['attributes'] as $attrName => $attrValue) {
+                                $attributeElement = $domDocument->createAttribute($attrName);
+                                $attributeElement->nodeValue = $attrValue;
+                                $child->appendChild($attributeElement);
+                            }
+                            $parent->appendChild($child);
+                            $parent = $child;
+                        }
+                        $child->nodeValue = $field['value'];
+                    }
                 }
             }
         }
@@ -250,6 +289,38 @@ class JsonToDocumentMapper
         }
 
         return $resultData;
+    }
+
+    protected function parseXpathString($xpathString)
+    {
+        $result = [];
+
+        $regex = '/[a-zA-Z:]+|[<=>]|[@][a-zA-Z][a-zA-Z0-9_\-\:\.]*|\[|\'.*?\'|".*?"|\]|\//';
+        preg_match_all($regex, $xpathString, $matches);
+        $path = [];
+        $i = 0;
+        foreach ($matches[0] as $item) {
+            if ($item != "/") {
+                $path[$i] .= $item;
+            } else {
+                $i++;
+            }
+        }
+
+        foreach ($path as $key => $pathItem) {
+            $nodeName = explode("[", $pathItem);
+            $result[$key]["node"] = $nodeName[0];
+            if (preg_match_all("/\[@(.*?)\]/", $pathItem, $match)) {
+                foreach ($match[1] as $attr) {
+                    list($attrName, $attrValue) = explode("=", $attr);
+                    $result[$key]["attributes"][$attrName] = trim($attrValue, '"');
+                }
+            } else {
+                $result[$key]["attributes"] = [];
+            }
+        }
+
+        return $result;
     }
 
 }

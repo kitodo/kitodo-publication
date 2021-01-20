@@ -265,9 +265,10 @@ class DocumentController extends AbstractController
                 $newFile->setDocument($originDocument);
                 $this->fileRepository->add($newFile);
                 $originDocument->addFile($newFile);
-
             }
 
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $originDocument->setAuthors($mods->getPersons());
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
