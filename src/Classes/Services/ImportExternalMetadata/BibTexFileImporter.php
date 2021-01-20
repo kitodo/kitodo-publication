@@ -72,8 +72,8 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
                 $field = str_replace("{\\\"O}", "Ö", $field);
                 $field = str_replace("{\\\"a}", "ä", $field);
                 $field = str_replace("{\\\"A}", "Ä", $field);
-                $field = str_replace("{\\\"u}", "u", $field);
-                $field = str_replace("{\\\"U}", "U", $field);
+                $field = str_replace("{\\\"u}", "ü", $field);
+                $field = str_replace("{\\\"U}", "Ü", $field);
                 $field = str_replace("\\textendash", "-", $field);
                 $field = str_replace("\\textemdash", "—", $field);
                 $field = str_replace("\\textquoteright", "'", $field);
