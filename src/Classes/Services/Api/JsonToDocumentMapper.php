@@ -62,12 +62,16 @@ class JsonToDocumentMapper
 
         foreach ($metaData['mods'] as $groupKey => $group) {
             $groupMapping = $group['mapping'];
+            $groupNode = $xpath->query($groupMapping);
             if ($group['values']) {
-                $groupNode = $xpath->query($groupMapping);
                 if ($groupNode->length > 0) {
                     foreach ($groupNode as $nodeItem) {
                         $domDocument->documentElement->removeChild($nodeItem);
                     }
+                }
+            } else {
+                foreach ($groupNode as $nodeItem) {
+                    $domDocument->documentElement->removeChild($nodeItem);
                 }
             }
         }
@@ -75,7 +79,7 @@ class JsonToDocumentMapper
         foreach ($metaData['mods'] as $groupKey => $group) {
             $groupMapping = $group['mapping'];
             $groupChild = null;
-            if ($group['values']) {
+            //if ($group['values']) {
                 $parent = $domDocument->childNodes->item(0);
                 $path = $this->parseXpathString($groupMapping);
                 foreach ($path as $pathItem) {
@@ -90,23 +94,28 @@ class JsonToDocumentMapper
                 }
 
                 if ($groupChild) {
-                    foreach ($group['values'] as $fieldKey => $field) {
-                        $parent = $groupChild;
-                        $path = $this->parseXpathString($field['mapping']);
-                        foreach ($path as $pathItem) {
-                            $child = $domDocument->createElement($pathItem['node']);
-                            foreach ($pathItem['attributes'] as $attrName => $attrValue) {
-                                $attributeElement = $domDocument->createAttribute($attrName);
-                                $attributeElement->nodeValue = $attrValue;
-                                $child->appendChild($attributeElement);
+                    if ($group['values']) {
+                        foreach ($group['values'] as $fieldKey => $field) {
+                            $parent = $groupChild;
+                            $path = $this->parseXpathString($field['mapping']);
+                            foreach ($path as $pathItem) {
+                                $child = $domDocument->createElement($pathItem['node']);
+                                foreach ($pathItem['attributes'] as $attrName => $attrValue) {
+                                    $attributeElement = $domDocument->createAttribute($attrName);
+                                    $attributeElement->nodeValue = $attrValue;
+                                    $child->appendChild($attributeElement);
+                                }
+                                $parent->appendChild($child);
+                                $parent = $child;
                             }
-                            $parent->appendChild($child);
-                            $parent = $child;
+                            if ($field['value']) {
+                                $child->nodeValue = $field['value'];
+                            }
+
                         }
-                        $child->nodeValue = $field['value'];
                     }
                 }
-            }
+            //}
         }
 
         $xmlData = $domDocument->saveXML();
@@ -235,6 +244,7 @@ class JsonToDocumentMapper
                         $json = json_encode($groupItem);
 
                         $jsonObject = new JsonObject($json);
+
                         $fieldItems = [];
                         $jsonFieldMapping = $metadataObject->getJsonMapping();
 
@@ -261,7 +271,7 @@ class JsonToDocumentMapper
                                 }
                             }
 
-                            if ($value) {
+                            //if ($value) {
                                 $value = str_replace('"', "'", $value);
                                 $fieldMapping = $metadataObject->getRelativeMapping();
                                 $resultField['modsExtension'] = $metadataObject->getModsExtension();
@@ -273,7 +283,7 @@ class JsonToDocumentMapper
                                 } else {
                                     $resultGroup['values'][] = $resultField;
                                 }
-                            }
+                            //}
                         }
                     }
 
