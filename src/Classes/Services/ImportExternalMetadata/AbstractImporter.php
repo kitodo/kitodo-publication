@@ -79,6 +79,10 @@ abstract class AbstractImporter
      */
     protected $logger = null;
 
+    /**
+     * @var bool
+     */
+    protected $generateProcessNumber = true;
 
     public function __construct()
     {
@@ -201,9 +205,11 @@ abstract class AbstractImporter
 
         $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
 
-        $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-        $processNumber = $processNumberGenerator->getProcessNumber();
-        $newDocument->setProcessNumber($processNumber);
+        if ($this->generateProcessNumber) {
+            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+            $processNumber = $processNumberGenerator->getProcessNumber();
+            $newDocument->setProcessNumber($processNumber);
+        }
 
         return $newDocument;
     }
@@ -321,5 +327,13 @@ abstract class AbstractImporter
         return null;
     }
 
+    public function activateProcessNumberGeneration()
+    {
+        $this->generateProcessNumber = true;
+    }
 
+    public function deactivateProcessNumberGeneration()
+    {
+        $this->generateProcessNumber = false;
+    }
 }

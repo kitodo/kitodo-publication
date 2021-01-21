@@ -363,6 +363,8 @@ class ApiController extends ActionController
     public function importDoiWithoutSavingAction(string $doi, $token) {
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(CrossRefImporter::class);
+            $importer->deactivateProcessNumberGeneration();
+
             $externalMetadata = $importer->findByIdentifier($doi);
             if (!$externalMetadata) {
                 $importer = $this->objectManager->get(DataCiteImporter::class);
@@ -417,6 +419,8 @@ class ApiController extends ActionController
     public function importPubmedWithoutSavingAction($pmid, $token) {
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(PubMedImporter::class);
+            $importer->deactivateProcessNumberGeneration();
+
             $externalMetadata = $importer->findByIdentifier($pmid);
 
             if ($externalMetadata) {
@@ -467,6 +471,8 @@ class ApiController extends ActionController
     public function importIsbnWithoutSavingAction($isbn, $token) {
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(K10plusImporter::class);
+            $importer->deactivateProcessNumberGeneration();
+
             $externalMetadata = $importer->findByIdentifier(str_replace('- ', '', $isbn));
 
             if ($externalMetadata) {
@@ -523,6 +529,7 @@ class ApiController extends ActionController
 
         if ($this->checkToken($token)) {
             $importer = $this->objectManager->get(BibTexFileImporter::class);
+            $importer->deactivateProcessNumberGeneration();
 
             try {
                 $externalMetadata = $importer->loadFile($bibtex, $this->settings['bibTexMandatoryFields'], true);
@@ -603,6 +610,7 @@ class ApiController extends ActionController
         if ($this->checkToken($token)) {
             /** @var FileImporter $fileImporter */
             $importer = $this->objectManager->get(RisWosFileImporter::class);
+            $importer->deactivateProcessNumberGeneration();
 
             try {
                 $externalMetadata = $importer->loadFile($ris, $this->settings['riswosMandatoryFields'], true);
