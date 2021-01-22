@@ -145,7 +145,7 @@ class Notifier
     }
 
 
-    public function getMailMarkerArray(Document $document, $client, $documentType, $slub, $mods) {
+    public function getMailMarkerArray(Document $document, $client, $documentType, $slub, $mods, $reason = "") {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
@@ -180,6 +180,8 @@ class Notifier
         $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
         $args['###URN###'] = $mods->getQucosaUrn();
         $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+
+        $args['###REASON###'] = $reason;
 
         $host = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $backofficePageId = $settings['plugin.']['tx_dpf.']['settings.']['backofficePluginPage'];
@@ -240,11 +242,13 @@ class Notifier
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionAcceptUrl()) {
-                $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
-                if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
-                    $request->body($this->replaceMarkers($body,$args));
+                if ($slub->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
+                    if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
                 }
-                $request->send();
             }
 
         } catch (\Exception $e) {
@@ -260,7 +264,11 @@ class Notifier
         }
     }
 
-    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document) {
+    /**
+     * @param Document $document
+     * @param string $reason
+     */
+    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document, $reason = "") {
 
         try {
             /** @var Client $client */
@@ -269,15 +277,17 @@ class Notifier
             $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods, $reason);
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionDeclineUrl()) {
-                $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
-                if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
-                    $request->body($this->replaceMarkers($body,$args));
+                if ($slub->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
+                    if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
                 }
-                $request->send();
             }
 
         } catch (\Exception $e) {

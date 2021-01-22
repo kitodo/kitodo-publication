@@ -541,9 +541,10 @@ class DocumentController extends AbstractController
      *
      * @param Document $document
      * @param integer $tstamp
+     * @param string $reason
      * @return void
      */
-    public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
+    public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = "")
     {
         if (empty($document->getObjectIdentifier()) || $document->isSuggestion()) {
             $voterAttribute = DocumentVoter::DELETE_LOCALLY;
@@ -610,7 +611,7 @@ class DocumentController extends AbstractController
 
             /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
-            $notifier->sendSuggestionDeclineNotification($document);
+            $notifier->sendSuggestionDeclineNotification($document, $reason);
 
             $this->redirectToDocumentList();
         } else {
