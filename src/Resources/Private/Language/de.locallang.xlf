@@ -551,11 +551,19 @@
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteLocallySuggestion.message" approved="yes" xml:space="preserve">
 				<source>The suggestion and any attached files are completely deleted. This cannot be reversed.</source>
-				<target>Der Vorschlag und eventuell angehängte Dateien werden vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
+				<target>Der Vorschlag wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteLocallySuggestion.messageHeader" approved="yes">
 				<source>Do you really want to delete the suggestion?</source>
-				<target>Möchten Sie den Vorschlag ablehnen?</target>
+				<target>Möchten Sie den Änderungsvorschlag wirklich ablehnen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmReason" approved="yes">
+				<source>Please give a reason:</source>
+				<target>Bitte geben Sie einen Grund an:</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestionReason" approved="yes">
+				<source>If the suggestion came from the FIS, you can state a reason for the rejection here:</source>
+				<target>Falls der Vorschlag aus dem FIS stammte, können Sie hier einen Grund für die Ablehnung angeben:</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" approved="yes" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>

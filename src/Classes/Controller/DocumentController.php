@@ -535,6 +535,28 @@ class DocumentController extends AbstractController
         }
     }
 
+    /**
+     * action deleteLocallySuggestionAction
+     *
+     * @param Document $document
+     * @param integer $tstamp
+     * @param string $reason
+     * @return void
+     */
+    public function deleteLocallySuggestionAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = "")
+    {
+        $this->redirect(
+            'deleteLocally',
+            'Document',
+            null,
+            [
+                'document' => $document,
+                'tstamp' => $tstamp,
+                'reason' => $reason
+            ]
+        );
+    }
+
 
     /**
      * action deleteLocallyAction

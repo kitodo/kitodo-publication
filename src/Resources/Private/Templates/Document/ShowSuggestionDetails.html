@@ -36,11 +36,11 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
-                            action="deleteLocally"
+                            action="deleteLocallySuggestion"
                             controller="Document"
                             arguments="{document:document, tstamp:document.tstamp}"
                             class="btn btn-sm btn-danger"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocallySuggestion'}">
                         <i class="fas fa-trash-alt"></i>
                         {f:translate(key: 'form_button.deleteLocallySuggestion')}
                     </f:link.action>
@@ -180,6 +180,6 @@
 
     </f:form>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally', reasonRequired: '1', reasonOptions:'{}'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocallySuggestion', reasonRequired: '1', reasonOptions:'{}'}" />
 
 </f:section>

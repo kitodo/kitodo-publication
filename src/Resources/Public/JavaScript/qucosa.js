@@ -1897,6 +1897,7 @@ $(document).ready(function() {
     documentListConfirmDialog("#confirmRestore");
     documentListConfirmDialog("#confirmDelete");
     documentListConfirmDialog("#confirmDeleteLocally");
+    documentListConfirmDialog("#confirmDeleteLocallySuggestion");
     documentListConfirmDialog("#confirmDeleteWorkingCopy");
     documentListConfirmDialog("#confirmRegister");
     documentListConfirmDialog("#confirmPostpone");

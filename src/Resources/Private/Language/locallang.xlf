@@ -440,6 +440,12 @@
 			<trans-unit id="manager.confirmDeleteLocallySuggestion.messageHeader" approved="yes">
 				<source>Do you really want to delete the suggestion?</source>
 			</trans-unit>
+			<trans-unit id="manager.confirmReason" approved="yes">
+				<source>Please give a reason:</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestionReason" approved="yes">
+				<source>If the suggestion came from the FIS, you can state a reason for the rejection here:</source>
+			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
 			</trans-unit>
