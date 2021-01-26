@@ -125,7 +125,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
             .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
-        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
@@ -150,7 +150,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
             .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
-        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
             . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
