@@ -18,6 +18,10 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use \TYPO3\CMS\Core\Utility\GeneralUtility:
+use \TYPO3\CMS\Core\Log\Logger;
+use \TYPO3\CMS\Core\Log\LogLevel;
+use \TYPO3\CMS\Core\Log\LogManager;
 
 class XSLTransformator
 {
@@ -71,6 +75,19 @@ class XSLTransformator
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $xml;
+
+            /** @var $logger Logger */
+            $logger = GeneralUtility::makeInstance(
+                LogManager::class)->getLogger(__CLASS__
+            );
+
+            $logger->log(
+                LogLevel::WARNING,
+                "No transformation file is present. The given xml data was taken over as it is",
+                array(
+                    'documentTypeName' => $documentTypeName
+                )
+            );
         }
 
         return $transformedXml;
