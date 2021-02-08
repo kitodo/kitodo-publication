@@ -83,7 +83,7 @@ class XSLTransformator
 
             $logger->log(
                 LogLevel::WARNING,
-                "No transformation file is present. The given xml data was taken over as it is",
+                "Input XML: No transformation file is present. The given xml data was taken over as it is",
                 array(
                     'documentTypeName' => $documentTypeName
                 )
@@ -136,6 +136,19 @@ class XSLTransformator
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $document->getXmlData();
+
+            /** @var $logger Logger */
+            $logger = GeneralUtility::makeInstance(
+                LogManager::class)->getLogger(__CLASS__
+            );
+
+            $logger->log(
+                LogLevel::WARNING,
+                "Output XML: No transformation file is present. The generated xml data was taken over as it is",
+                array(
+                    'documentTypeName' => $documentTypeName
+                )
+            );
         }
 
         return $transformedXml;
