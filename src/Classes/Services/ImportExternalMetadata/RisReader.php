@@ -276,7 +276,7 @@ class RisReader
 
             $risEntries[] = $risEntry;
         }
-        //die("dfds");
+
         return $risEntries;
     }
 
