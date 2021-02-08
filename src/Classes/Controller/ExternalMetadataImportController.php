@@ -415,7 +415,9 @@ class ExternalMetadataImportController extends AbstractController
             $this->redirect('find');
         }
 
-        // Check if the document alreday exists in the workspace or my publications
+        // Check if the document already exists in the workspace or my publications,
+        // if this is the case, nothing will be imported, the find results will be shown again
+        // and an error message will be displayed.
         if ($this->findDocumentInWorkspace($identifier)) {
             if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
                 $message = LocalizationUtility::translate(
