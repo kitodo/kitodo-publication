@@ -131,6 +131,8 @@ plugin.tx_dpf {
             fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
         }
         apiPid = {$plugin.tx_dpf.settings.apiPid}
+		fisDataServiceUrl = {$plugin.tx_dpf.settings.fisDataServiceUrl}
+
         landingPage = {$plugin.tx_dpf.settings.landingPage}
         searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
 

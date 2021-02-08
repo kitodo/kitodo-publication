@@ -2,14 +2,29 @@
 namespace EWW\Dpf\Services\FeUser;
 
 use \Httpful\Request;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class FisDataService
 {
-
-    protected $apiUrl = 'https://fob.uni-leipzig.de/anchorwheel/api';
+    /**
+     * @var string
+     */
+    protected $apiUrl = '';
 
     public function __construct() {
 
+        $configurationManager = GeneralUtility::makeInstance(
+            'TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager'
+        );
+
+        $settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+        );
+
+        if (isset($settings['plugin.']['tx_dpf.']['settings.']['fisDataServiceUrl'])) {
+            $this->apiUrl = $settings['plugin.']['tx_dpf.']['settings.']['fisDataServiceUrl'];
+        }
     }
 
     public function getPersonData($id) {

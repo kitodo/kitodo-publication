@@ -39,6 +39,9 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=int+; label=Api PID
         apiPid =
 
+        # cat=plugin.tx_dpf/link; type=string; label=Fis data service url (person and organisation search)
+        fisDataServiceUrl =
+
         # cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
         landingPage =
 
