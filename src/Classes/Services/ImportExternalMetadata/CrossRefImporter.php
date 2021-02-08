@@ -128,7 +128,7 @@ class CrossRefImporter extends AbstractImporter implements Importer
         if ($searchField) {
            $requestUri .= '&query.'.$searchField.'='.urlencode($query);
         } else {
-            switch (self::determineIdentifierType(trim($query))) {
+            switch (PublicationIdentifier::determineIdentifierType(trim($query))) {
                 case 'DOI':
                     $requestUri .= "&filter=doi:".urlencode(trim($query));
                     break;

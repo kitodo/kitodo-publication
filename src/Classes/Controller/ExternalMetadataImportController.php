@@ -32,7 +32,7 @@ use EWW\Dpf\Session\BulkImportSessionData;
 use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\RisReader;
-
+use EWW\Dpf\Services\ImportExternalMetadata\PublicationIdentifier;
 
 /**
  * ExternalDataImportController
@@ -460,7 +460,7 @@ class ExternalMetadataImportController extends AbstractController
         $importer = null;
 
         // Choose the right data provider depending on the identifier type and retrieve the metadata.
-        $identifierType = $this->determineIdentifierType($identifier);
+        $identifierType = PublicationIdentifier::determineIdentifierType($identifier);
 
         if ($identifierType === 'DOI') {
             $importer = $this->objectManager->get(CrossRefImporter::class);
@@ -514,7 +514,9 @@ class ExternalMetadataImportController extends AbstractController
      */
     public function importAction(ExternalMetadata $externalMetadata)
     {
-        $this->view->assign('identifierType', $this->determineIdentifierType($externalMetadata->getPublicationIdentifier()));
+        $this->view->assign('identifierType',
+            PublicationIdentifier::determineIdentifierType($externalMetadata->getPublicationIdentifier())
+        );
         $this->view->assign('externalMetadata', $externalMetadata);
     }
 
@@ -579,42 +581,6 @@ class ExternalMetadataImportController extends AbstractController
            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
            $this->redirect('find');
         }
-    }
-
-    /**
-     * Determines whether the identifier is a DOI, ISBN or PMID.
-     *
-     * @param $identifier
-     * @return null|string
-     */
-    protected function determineIdentifierType($identifier)
-    {
-        // DOI
-        if (strpos($identifier,'10.') === 0) {
-            return 'DOI';
-        }
-
-        // ISBN
-        $length = strlen(str_replace(['-',' '], '', $identifier));
-
-        if ($length === 13) {
-            if (strpos($identifier, '978') === 0 ||  strpos($identifier, '979') === 0) {
-                return 'ISBN';
-            }
-        }
-
-        if ($length === 10) {
-            return 'ISBN';
-        }
-
-        // PMID
-        if (is_numeric($identifier) && intval($identifier) == $identifier) {
-            if (strlen($identifier) < 10) {
-                return 'PMID';
-            }
-        }
-
-        return null;
     }
 
     /**
