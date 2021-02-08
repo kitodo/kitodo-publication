@@ -213,7 +213,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         }
 
         // xml data fields are limited to 64 KB
-        if (strlen($newDocument->getXmlData()) >= 64 * 1024) {
+        if (strlen($newDocument->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
@@ -359,7 +359,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         // xml data fields are limited to 64 KB
-        if (strlen($updateDocument->getXmlData()) >= 64 * 1024) {
+        if (strlen($updateDocument->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 

@@ -202,7 +202,7 @@ class ApiController extends ActionController
             }
 
             // xml data fields are limited to 64 KB
-            if (strlen($document->getXmlData()) >= 64 * 1024) {
+            if (strlen($document->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
                 return '{"error": "Maximum document size exceeded"}';
             }
 
