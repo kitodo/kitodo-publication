@@ -232,11 +232,13 @@ class Notifier
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionAcceptUrl()) {
-                if ($slub->getFisId()) {
+                if ($internalFormat->getFisId()) {
                     $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
                     if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
                         $request->body($this->replaceMarkers($body, $args));
@@ -269,11 +271,13 @@ class Notifier
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
             // Active messaging: Suggestion accept
             if ($client->getActiveMessagingSuggestionDeclineUrl()) {
-                if ($slub->getFisId()) {
+                if ($internalFormat->getFisId()) {
                     $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
                     if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
                         $request->body($this->replaceMarkers($body, $args));
@@ -337,16 +341,16 @@ class Notifier
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            /**  @var \EWW\Dpf\Helper\Slub $slub */
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Active messaging: New document (Release publish)
             if ($client->getActiveMessagingNewDocumentUrl()) {
-                $fisId = $slub->getFisId();
+                $fisId = $internalFormat->getFisId();
                 if (empty($fisId)) {
                     $request = Request::post($client->getActiveMessagingNewDocumentUrl());
                     if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
