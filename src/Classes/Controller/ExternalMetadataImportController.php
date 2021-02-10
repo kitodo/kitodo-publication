@@ -901,9 +901,14 @@ class ExternalMetadataImportController extends AbstractController
                 foreach (
                     $mandatoryErrors as $mandatoryError
                 ) {
-                    $message = 'Konnte die Publikation Nr. ' . $mandatoryError['index'] . ' nicht importieren';
-                    $message .= $mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : '';
-                    $message .= ', da die folgenden Felder leer sind: ' . implode(',', $mandatoryError['fields']);
+                    $message = LocalizationUtility::translate(
+                        "manager.uploadImport.incompleteData",
+                        [
+                            $mandatoryError['index'],
+                            ($mandatoryError['title'] ? ' (' . $mandatoryError['title'] . ')' : ''),
+                            implode(',', $mandatoryError['fields'])
+                        ]
+                    );
                     $this->addFlashMessage($message, '', AbstractMessage::ERROR);
                 }
             } elseif ($results) {

@@ -1225,6 +1225,10 @@
                 <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
                 <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
+            <trans-unit id="manager.uploadImport.incompleteData" approved="yes">
+                <source>Could not import publication number %s%s, because the following fields are empty: %s</source>
+                <target>Konnte die Publikation Nr. %s nicht importieren%s, da die folgenden Felder leer sind: %s</target>
+            </trans-unit>
             <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
                 <source>Import BibTeX</source>
                 <target>BibTeX importieren</target>
@@ -2096,6 +2100,14 @@ Datum: ###DATE###
 			<trans-unit id="manager.locallang.user.settings.save" approved="yes">
 				<source>Save</source>
 				<target>Speichern</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.message.invalidFisId" approved="yes">
+				<source>FIS identifier was invalid and was not saved.</source>
+				<target>FIS-Identifikator war ungültig und wurde nicht gespeichert.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.message.successfullySaved" approved="yes">
+				<source>Changes have been saved.</source>
+				<target>Änderungen wurden gespeichert.</target>
 			</trans-unit>
 			<trans-unit id="manager.locallang.user.settings.fisid_warning" approved="yes">
 				<source>In order to improve the view of your own publications and to activate personalized functions, you can link your FIS-ID. To do this, go to "Search in FIS" in the user area, search for yourself and save the ID found.</source>

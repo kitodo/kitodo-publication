@@ -174,7 +174,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.transformation_file_output',
             'config'    => [
                 'items' => array(
-                    array(' --- Bitte wählen --- ',0)
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
@@ -189,7 +189,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.transformation_file_input',
             'config'    => [
                 'items' => array(
-                    array(' --- Bitte wählen --- ',0)
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
