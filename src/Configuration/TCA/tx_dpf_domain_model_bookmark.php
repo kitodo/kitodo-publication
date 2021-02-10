@@ -21,7 +21,7 @@ return array(
         'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark',
         'label'                    => 'document_identifier',
         'searchFields'             => 'document_identifier, fe_user_uid',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_editinglock.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'document_identifier, fe_user_uid',

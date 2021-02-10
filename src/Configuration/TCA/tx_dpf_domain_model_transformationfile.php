@@ -34,7 +34,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, label, link, file',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_file.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, label, file',

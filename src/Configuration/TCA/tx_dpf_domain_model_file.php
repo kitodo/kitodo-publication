@@ -34,7 +34,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, document',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_file.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, document',

@@ -921,6 +921,18 @@
 			<source>Organisational Unit</source>
 			<target>Organisational Unit</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch" approved="yes">
+            <source>Stored search</source>
+            <target>Gespeicherte Suche</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.query" approved="yes">
+            <source>Query</source>
+            <target>Abfrage</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_externalmetadata" approved="yes">
             <source>External metadata</source>
             <target>Externe Metadaten</target>
@@ -940,6 +952,10 @@
         <trans-unit id="tx_dpf_domain_model_externalmetadata.source" approved="yes">
             <source>Source</source>
             <target>Quelle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.publication_identifier" approved="yes">
+            <source>Publication Id</source>
+            <target>Publikations-Id</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_externalmetadata.fe_user" approved="yes">
             <source>FE user</source>

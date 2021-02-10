@@ -34,7 +34,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_editinglock.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'name, query',

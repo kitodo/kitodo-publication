@@ -58,7 +58,7 @@ return array(
             person_author_role, person_publisher_role,
             validation_xpath, fis_id_xpath, source_details_xpaths',
         'requestUpdate'            => 'replace_niss_part',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_client.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, client, owner_id,

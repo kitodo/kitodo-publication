@@ -34,7 +34,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'date, response, curl_error, document_uid, object_identifier, action',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttransferlog.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, date, response, curl_error, document_uid, object_identifier, action',

@@ -26,7 +26,7 @@ return array(
         'cruser_id'                => 'cruser_id',
         'delete'                   => 'deleted',
         'searchFields'             => 'data, fe_user, source, publication_identifier, record_type',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'data, fe_user, source, publication_identifier, record_type',

@@ -36,7 +36,7 @@ return array(
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
         process_number, valid, changed, state, reserved_object_identifier, object_identifier, 
         transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,

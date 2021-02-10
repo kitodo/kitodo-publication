@@ -686,6 +686,36 @@
         <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
             <source>New relation</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch" approved="yes">
+            <source>Stored search</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.name" approved="yes">
+            <source>Name</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.query" approved="yes">
+            <source>Query</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata" approved="yes">
+            <source>External metadata</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.title" approved="yes">
+            <source>Title</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.authors" approved="yes">
+            <source>Authors</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.data" approved="yes">
+            <source>Data</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.source" approved="yes">
+            <source>Source</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.publication_identifier" approved="yes">
+            <source>Publication Id</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.fe_user" approved="yes">
+            <source>FE user</source>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_depositlicense">
             <source>Deposit license</source>
         </trans-unit>

@@ -34,7 +34,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadatagroup.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type',

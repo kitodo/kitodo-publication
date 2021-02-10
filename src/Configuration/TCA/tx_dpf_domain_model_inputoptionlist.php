@@ -35,7 +35,7 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'name, display_name, value_list, value_label_list, default_value',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_inputoptionlist.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, value_list, value_label_list, default_value',

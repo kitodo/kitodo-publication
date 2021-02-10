@@ -36,7 +36,7 @@ return array(
         'searchFields'             => 'name, display_name, virtual, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_documenttype.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
