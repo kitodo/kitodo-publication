@@ -501,10 +501,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
-
-
-            throw $exception;
-
             $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {

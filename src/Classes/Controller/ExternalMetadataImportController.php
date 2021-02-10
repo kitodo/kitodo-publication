@@ -976,9 +976,6 @@ class ExternalMetadataImportController extends AbstractController
             $this->session->setBulkImportData($bulkImportSessionData);
 
         } catch(\Throwable $throwable) {
-
-            throw $throwable;
-
             $this->logger->error($throwable->getMessage());
 
             $message = LocalizationUtility::translate(
