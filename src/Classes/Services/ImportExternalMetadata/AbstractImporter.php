@@ -234,8 +234,6 @@ abstract class AbstractImporter
         } else {
             return $this->getDefaultXsltFilePath();
         }
-
-        return '';
     }
 
     /**
