@@ -68,6 +68,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'      => array(
@@ -179,6 +180,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'transformation_file_input' => [
@@ -193,6 +195,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'metadata_page'    => array(
@@ -230,6 +233,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'crossref_types'         => array(
@@ -257,6 +261,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'datacite_types'         => array(
@@ -286,6 +291,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'k10plus_types'         => array(
@@ -315,6 +321,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'pubmed_types'         => array(
@@ -344,6 +351,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'bibtex_types'         => array(
@@ -373,6 +381,7 @@ return array(
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
+                'default' => 0,
             ],
         ],
         'riswos_types'         => array(

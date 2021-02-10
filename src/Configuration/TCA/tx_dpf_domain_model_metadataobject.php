@@ -59,6 +59,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'       => array(
@@ -293,6 +294,7 @@ return array(
                 'size'     => 1,
                 'maxitems' => 1,
                 'eval'     => '',
+                'default'  => 0,
             ),
         ),
         'max_input_length'       => array(
@@ -310,6 +312,7 @@ return array(
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'trim,number',
+                'default' => 0,
             ),
         ),
         'input_option_list' => array(
@@ -325,6 +328,7 @@ return array(
                 'foreign_table_where' => ' AND (tx_dpf_domain_model_inputoptionlist.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_inputoptionlist.sys_language_uid = 0)',
                 'minitems'            => 0,
                 'maxitems'            => 1,
+                'default'             => 0,
             ),
         ),
         'default_value'     => array(

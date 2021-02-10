@@ -68,6 +68,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'                => array(
@@ -328,6 +329,7 @@ return array(
                 'foreign_table' => 'fe_users',
                 'minitems'      => 0,
                 'maxitems'      => 1,
+                'default'       => 0,
             ),
         ),
 
