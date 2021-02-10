@@ -599,6 +599,10 @@ class DocumentManager
 
         /** @var FrontendUser $recipient */
         foreach ($users as $recipient) {
+            // Fixme:  Refactoring is needed. The whole code inside this foreach is way too confusing.
+            // Give expressions at least a name. Minize the deeply nested structure.
+            // Maybe rethinking of the whole process of notifying could help, e.g. the recipients
+            // could decide if a notification is wanted.
             if (
                 $recipient->getUid() !== $this->security->getUser()->getUid() &&
                 $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
