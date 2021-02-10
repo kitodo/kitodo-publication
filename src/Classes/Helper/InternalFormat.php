@@ -74,7 +74,7 @@ class InternalFormat
     public function setDocumentType($type)
     {
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
-        return $this->setValue($typeXpath, $type);
+        $this->setValue($typeXpath, $type);
     }
 
     public function getRepositoryState()
