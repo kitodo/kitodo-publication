@@ -187,13 +187,19 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
-
+        
         if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
-          $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
+            $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
         }
 
-        $personGroup = $this->metadataGroupRepository->findPersonGroup();
-        $this->view->assign('personGroup', $personGroup->getUid());
+        try {
+            $personGroup = $this->metadataGroupRepository->findPersonGroup();
+            $this->view->assign('personGroup', $personGroup->getUid());
+        } catch (\Throwable $e) {
+            $this->addFlashMessage(
+                "Missing configuration: Person group.", '', AbstractMessage::ERROR
+            );
+        }
     }
 
     /**

@@ -1552,6 +1552,9 @@ Date: ###DATE###
 			<trans-unit id="manager.apimodal.close" approved="yes">
                 <source>Close</source>
             </trans-unit>
+			<trans-unit id="elasticsearch.notRunning" approved="yes">
+                <source>No ElasticSearch server running or missing configuration</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

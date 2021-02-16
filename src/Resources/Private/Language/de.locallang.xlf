@@ -2117,6 +2117,10 @@ Datum: ###DATE###
                 <source>Close</source>
                 <target>Schließen</target>
             </trans-unit>
+            <trans-unit id="elasticsearch.invalidConfiguration" approved="yes">
+                <source>No ElasticSearch server running or missing configuration</source>
+                <target>ElasticSearch-Server wurde nicht gefunden oder die Konfiguration fehlt</target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

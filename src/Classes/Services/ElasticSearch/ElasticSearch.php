@@ -21,6 +21,7 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class ElasticSearch
 {
@@ -78,8 +79,14 @@ class ElasticSearch
         $clientBuilder->setHosts($hosts);
         $this->client = $clientBuilder->build();
 
-        $this->initializeIndex($this->indexName);
-
+        try {
+            $this->initializeIndex($this->indexName);
+        } catch (\Throwable $e) {
+            $message = LocalizationUtility::translate(
+                'elasticsearch.notRunning', 'dpf'
+            );
+            die($message);
+        }
     }
 
     /**
@@ -233,7 +240,6 @@ class ElasticSearch
         if (!$this->client->indices()->exists(['index' => $indexName])) {
             $this->client->indices()->create($paramsIndex);
         }
-
     }
 
     /**

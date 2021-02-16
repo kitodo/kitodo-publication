@@ -173,8 +173,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
         }
 
-        $personGroup = $this->metadataGroupRepository->findPersonGroup();
-        $this->view->assign('personGroup', $personGroup->getUid());
+        try {
+            $personGroup = $this->metadataGroupRepository->findPersonGroup();
+            $this->view->assign('personGroup', $personGroup->getUid());
+        } catch (\Throwable $e) {
+            $this->addFlashMessage(
+                "Missing configuration: Person group.", '', AbstractMessage::ERROR
+            );
+        }
     }
 
     /**

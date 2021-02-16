@@ -28,35 +28,51 @@ class FisDataService
     }
 
     public function getPersonData($id) {
-        $response = Request::post($this->apiUrl)
-            ->body($this->getPersonRequestBody($id))
-            ->send();
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getPersonRequestBody($id))
+                ->send();
 
-        return $response->body->data->person;
+            return $response->body->data->person;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function searchPersonRequest($searchTerm) {
-        $response = Request::post($this->apiUrl)
-            ->body($this->getSearchPersonBody($searchTerm))
-            ->send();
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getSearchPersonBody($searchTerm))
+                ->send();
 
-        return $response->body->data->staff;
+            return $response->body->data->staff;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function getOrganisationData($id) {
-        $response = Request::post($this->apiUrl)
-            ->body($this->getOrgaRequestBody($id))
-            ->send();
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getOrgaRequestBody($id))
+                ->send();
 
-        return $response->body->data->organisationalUnit;
+            return $response->body->data->organisationalUnit;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function searchOrganisationRequest($searchTerm) {
-        $response = Request::post($this->apiUrl)
-            ->body($this->getSearchOrgaBody($searchTerm))
-            ->send();
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getSearchOrgaBody($searchTerm))
+                ->send();
 
-        return $response->body->data->organisationalUnits;
+            return $response->body->data->organisationalUnits;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     protected function getPersonRequestBody($id) {
