@@ -311,16 +311,27 @@ class ParserGenerator
 
                 }
 
+                // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                // since it is about child elements that are then added to the overall XML.
+                libxml_use_internal_errors(true);
                 $docXML = new \DOMDocument();
                 $docXML->loadXML($xml);
+                libxml_use_internal_errors(false);
 
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
                 // second part nested xpath
                 if ($match[2] && $secondMatch[2]) {
+
                     // import node from nested
+                    // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                    // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                    // since it is about child elements that are then added to the overall XML.
+                    libxml_use_internal_errors(true);
                     $docXMLNested = new \DOMDocument();
                     $docXMLNested->loadXML($nestedXml);
+                    libxml_use_internal_errors(false);
 
                     $xPath = \EWW\Dpf\Helper\XPath::create($docXML);
 

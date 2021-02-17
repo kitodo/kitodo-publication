@@ -46,6 +46,10 @@ class InternalFormat
 
     public function setXml($xml)
     {
+        if (empty($xml)) {
+            $xml = "<data></data>";
+        }
+
         $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->xml = $dom;

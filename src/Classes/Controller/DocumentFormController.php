@@ -30,10 +30,11 @@ class DocumentFormController extends AbstractDocumentFormController
      * action new
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @param int $returnDocumentId
      * @ignorevalidation $newDocumentForm
      * @return void
      */
-    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
+    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null, $returnDocumentId = 0)
     {
         $this->view->assign('documentForm', $newDocumentForm);
     }
