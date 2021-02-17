@@ -425,8 +425,13 @@ class ParserGenerator
             // attribute only
             $xml = $this->parseXPath($xPath);
 
+            // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+            // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+            // since it is about child elements that are then added to the overall XML.
+            libxml_use_internal_errors(true);
             $docXML = new \DOMDocument();
             $docXML->loadXML($xml);
+            libxml_use_internal_errors(false);
 
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/data');
