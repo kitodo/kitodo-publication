@@ -18,7 +18,7 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use \TYPO3\CMS\Core\Utility\GeneralUtility:
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Log\Logger;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
