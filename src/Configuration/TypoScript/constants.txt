@@ -63,6 +63,12 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
         universityCollection = epflicht
 
+        # cat=plugin.tx_dpf/deactivatePrimaryFileMandatoryCheck; type=string; label=Deactivate the primary file mandatory check.
+        deactivatePrimaryFileMandatoryCheck =
+
+        # cat=plugin.tx_dpf/deactivateMandatoryCheckOnSave; type=string; label=Deactivate the mandatory check on save locally.
+        deactivateMandatoryCheckOnSaveLocally =
+
         development {
             # cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
             docker = 0

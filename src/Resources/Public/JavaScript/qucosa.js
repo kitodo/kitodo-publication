@@ -1997,6 +1997,15 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
     jQuery(".tx-dpf").on("click", "#next", continuousScroll);
     jQuery(".form-submit").on("click", "#save", validateFormAndSave);
+
+    if (
+        typeof(deactivate_mandatory_check_on_save_locally) == "undefined"
+        || deactivate_mandatory_check_on_save_locally.length == 0
+    ) {
+        jQuery(".form-submit").on("click", "#saveLocalDocument", validateFormAndSave);
+        jQuery(".form-submit").on("click", "#saveCreate", validateFormAndSave);
+    }
+
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
 
     // hide 'more results' link

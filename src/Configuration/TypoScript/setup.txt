@@ -161,6 +161,9 @@ plugin.tx_dpf {
 			docker = {$plugin.tx_dpf.settings.development.docker};
 		}
 
+		deactivatePrimaryFileMandatoryCheck = {$plugin.tx_dpf.settings.deactivatePrimaryFileMandatoryCheck}
+		deactivateMandatoryCheckOnSaveLocally = {$plugin.tx_dpf.settings.deactivateMandatoryCheckOnSaveLocally}
+
         # The uid of the destination document type for imported metadata
         defaultImportDocumentType {
             crossref = {$plugin.tx_dpf.settings.defaultImportDocumentType.crossref}
@@ -179,7 +182,6 @@ plugin.tx_dpf {
 
 		bibTexMandatoryFields = {$plugin.tx_dpf.settings.bibTexMandatoryFields}
 		riswosMandatoryFields = {$plugin.tx_dpf.settings.riswosMandatoryFields}
-
     }
 }
 

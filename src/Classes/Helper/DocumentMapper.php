@@ -31,6 +31,13 @@ class DocumentMapper
     protected $objectManager;
 
     /**
+     *
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
+    /**
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
@@ -78,6 +85,18 @@ class DocumentMapper
      */
     protected $depositLicenseRepository = null;
 
+    /**
+     * Get typoscript settings
+     *
+     * @return mixed
+     */
+    public function getSettings()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+        return $frameworkConfiguration['settings'];
+    }
 
     /**
      * Gets the document form representation of the document data
@@ -94,7 +113,14 @@ class DocumentMapper
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
 
-        $documentForm->setPrimaryFileMandatory(FALSE);
+        $documentForm->setPrimaryFileMandatory(
+            (
+                (
+                    $this->getSettings()['deactivatePrimaryFileMandatoryCheck'] ||
+                    $document->getDocumentType()->getVirtual()
+                )? false : true
+            )
+        );
 
         $documentForm->setProcessNumber($document->getProcessNumber());
         $documentForm->setTemporary($document->isTemporary());
