@@ -140,10 +140,10 @@ class WorkspaceController extends AbstractController
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
 
-        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getWorkspaceQuery($from, $bookmarkIdentifiers,
                 $filters, $excludeFilters, $sortField, $sortOrder);
-        } elseif ($this->security->getUser()->getUserRole() == Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
             $query = $this->getMyPublicationsQuery($from, $bookmarkIdentifiers,
                 $filters, $excludeFilters, $sortField, $sortOrder);
         }
@@ -220,9 +220,9 @@ class WorkspaceController extends AbstractController
             $this->session->setWorkspaceData($workspaceSessionData);
         }
 
-        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
-        } elseif ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             $this->view->assign('isWorkspace', false);
         } else {
             $message = LocalizationUtility::translate(

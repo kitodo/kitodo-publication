@@ -419,7 +419,7 @@ class ExternalMetadataImportController extends AbstractController
         // if this is the case, nothing will be imported, the find results will be shown again
         // and an error message will be displayed.
         if ($this->findDocumentInWorkspace($identifier)) {
-            if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+            if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
                 $message = LocalizationUtility::translate(
                     'manager.importMetadata.alreadyInWorkspace', 'dpf'
                 );
@@ -442,7 +442,7 @@ class ExternalMetadataImportController extends AbstractController
                 $this->security->getUser()->getUid()
             );
 
-            if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+            if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
                 $message = LocalizationUtility::translate(
                     'manager.importMetadata.alreadyInSystemWorkspace', 'dpf'
                 );
@@ -545,7 +545,7 @@ class ExternalMetadataImportController extends AbstractController
 
                 $this->externalMetadataRepository->remove($externalMetadata);
 
-                if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
                     $message = LocalizationUtility::translate(
                         'manager.importMetadata.publicationAddedToWorkspace', 'dpf'
                     );
@@ -596,7 +596,7 @@ class ExternalMetadataImportController extends AbstractController
             $bookmarkIdentifiers[] = $bookmark->getDocumentIdentifier();
         }
 
-        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
             // "Workspace" of a librarian
             $workspaceFilter = [
                 'bool' => [
@@ -710,7 +710,7 @@ class ExternalMetadataImportController extends AbstractController
         $publicationSingular = LocalizationUtility::translate('manager.importMetadata.publication.singular', 'dpf');
         $publicationPlural = LocalizationUtility::translate('manager.importMetadata.publication.plural', 'dpf');
 
-        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $messageKey = 'manager.bulkImport.importMessage.libarian';
         } else {
             $messageKey = 'manager.bulkImport.importMessage.researcher';
@@ -738,7 +738,7 @@ class ExternalMetadataImportController extends AbstractController
         );
 
         if ($importCounter['imported'] > 0 || $importCounter['bookmarked'] > 0) {
-            if ($this->security->getUser()->getUserRole() != Security::ROLE_LIBRARIAN) {
+            if ($this->security->getUserRole() != Security::ROLE_LIBRARIAN) {
                 $importNoteMessage = LocalizationUtility::translate('manager.bulkImport.importNote', 'dpf');
                 $this->addFlashMessage(
                     $importNoteMessage, '', AbstractMessage::INFO
@@ -1020,7 +1020,7 @@ class ExternalMetadataImportController extends AbstractController
             $severity = AbstractMessage::INFO;
             $this->addFlashMessage($message, '', $severity);
 
-            if ($this->security->getUser()->getUserRole() != Security::ROLE_LIBRARIAN) {
+            if ($this->security->getUserRole() != Security::ROLE_LIBRARIAN) {
                 $importNoteMessage = LocalizationUtility::translate('manager.uploadImport.importNote', 'dpf');
                 $this->addFlashMessage(
                     $importNoteMessage, '', AbstractMessage::INFO

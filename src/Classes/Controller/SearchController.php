@@ -130,10 +130,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
 
-        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
-        } elseif ($this->security->getUser()->getUserRole() == Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
         }

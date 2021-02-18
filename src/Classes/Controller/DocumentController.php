@@ -184,13 +184,13 @@ class DocumentController extends AbstractController
         $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
-        $isWorkspace = $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
+        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
 
         if (
-            $this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN
+            $this->security->getUserRole() == Security::ROLE_LIBRARIAN
         ) {
                 $documents = $this->documentRepository->findAllDocumentSuggestions(
-                    $this->security->getUser()->getUserRole(),
+                    $this->security->getUserRole(),
                     $this->security->getUser()->getUid()
                 );
         }
@@ -319,7 +319,7 @@ class DocumentController extends AbstractController
         $newDocumentForm = $documentMapper->getDocumentForm($document);
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
-        //$usernameString = $this->security->getUser()->getUsername();
+        //$usernameString = $this->security->getUsername();
         $user = $this->frontendUserRepository->findOneByUid($document->getCreator());
 
         if ($user) {
@@ -766,7 +766,7 @@ class DocumentController extends AbstractController
         $this->documentRepository->update($document);
 
 
-        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->bookmarkRepository->addBookmark($document, $this->security->getUser()->getUid());
         }
 
@@ -1011,7 +1011,7 @@ class DocumentController extends AbstractController
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.success';
                 $this->flashMessage($document, $key, AbstractMessage::OK);
 
-                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
                     switch ($document->getState()) {
                         case DocumentWorkflow::STATE_POSTPONED_NONE:
                         case DocumentWorkflow::STATE_DISCARDED_NONE:

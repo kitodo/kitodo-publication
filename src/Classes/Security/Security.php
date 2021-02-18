@@ -49,4 +49,27 @@ class Security
         }
     }
 
+    /**
+     * Gets the role of the current frontend user
+     * @return string
+     */
+    public function getUserRole()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getUserRole();
+        }
+        return '';
+    }
+
+    /**
+     * Gets the name of the current frontend user
+     * @return string
+     */
+    public function getUsername()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getUsername();
+        }
+        return '';
+    }
 }

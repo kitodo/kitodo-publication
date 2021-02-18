@@ -30,8 +30,6 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-        //$pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
-
         $roles = array();
         if (key_exists('condition', $arguments)) {
             $roles = $arguments['condition'];
@@ -41,11 +39,7 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var Security $security */
         $security = $objectManager->get(Security::class);
-        $clientUserRole = $security->getUser()->getUserRole();
-
-        //if ($pluginName == "Backoffice" || (key_exists('condition', $arguments) && !$arguments['condition'])) {
-        //    return TRUE;
-        //}
+        $clientUserRole = $security->getUserRole();
 
         if (empty($roles)) {
             return TRUE;

@@ -35,7 +35,7 @@ class IsFisIdMissingViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
     {
         return  !(
             $this->security->getUser()->getFisPersId() ||
-            $this->security->getUser()->getUserRole() != Security::ROLE_RESEARCHER
+            $this->security->getUserRole() != Security::ROLE_RESEARCHER
         );
     }
 

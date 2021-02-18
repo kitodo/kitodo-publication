@@ -189,7 +189,7 @@ class Notifier
             $args['###LICENSE_TEXT###'] = $depositLicense->getText();
         }
 
-        $args['###LICENSE_USERNAME###'] = $this->security->getUser()->getUsername();
+        $args['###LICENSE_USERNAME###'] = $this->security->getUsername();
 
         if ($document->isSuggestion()) {
             $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;

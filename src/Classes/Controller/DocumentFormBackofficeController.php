@@ -261,7 +261,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
                 /** @var DepositLicenseLog $depositLicenseLog */
                 $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
-                $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+                $depositLicenseLog->setUsername($this->security->getUsername());
                 $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
                 $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
                 $depositLicenseLog->setTitle($newDocument->getTitle());
@@ -342,7 +342,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 !$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document) ||
                 (
                     $saveMode == 'saveWorkingCopy' &&
-                    $this->security->getUser()->getUserRole() !== Security::ROLE_LIBRARIAN
+                    $this->security->getUserRole() !== Security::ROLE_LIBRARIAN
                 )
             ) {
                 $message = LocalizationUtility::translate(
@@ -383,7 +383,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             } elseif ($updateDocument->isTemporaryCopy() && $saveMode == 'saveAndUpdate') {
                 $workflowTransition = DocumentWorkflow::TRANSITION_REMOTE_UPDATE;
             } elseif (
-                $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN &&
+                $this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
                 $updateDocument->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
             ) {
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
@@ -402,7 +402,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
                     /** @var DepositLicenseLog $depositLicenseLog */
                     $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
-                    $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+                    $depositLicenseLog->setUsername($this->security->getUsername());
                     $depositLicenseLog->setObjectIdentifier($document->getObjectIdentifier());
                     $depositLicenseLog->setProcessNumber($document->getProcessNumber());
                     $depositLicenseLog->setTitle($document->getTitle());
@@ -432,7 +432,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 );
                 $this->addFlashMessage($message, '', AbstractMessage::OK);
 
-                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
                     if ($saveWorkingCopy) {
                         if (
                             $this->bookmarkRepository->addBookmark(

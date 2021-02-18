@@ -229,7 +229,7 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             /** @var DepositLicenseLog $depositLicenseLog */
             $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
-            $depositLicenseLog->setUsername($this->security->getUser()->getUsername());
+            $depositLicenseLog->setUsername($this->security->getUsername());
             $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
             $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
             $depositLicenseLog->setTitle($newDocument->getTitle());
