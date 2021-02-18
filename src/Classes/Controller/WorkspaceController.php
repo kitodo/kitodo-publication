@@ -120,6 +120,14 @@ class WorkspaceController extends AbstractController
      */
     protected $fisDataService = null;
 
+
+    public function initializeAction()
+    {
+        $this->authorizationChecker->denyAccessUnlessLoggedIn();
+
+        parent::initializeAction();
+    }
+
     /**
      * list
      *
