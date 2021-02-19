@@ -177,9 +177,9 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             $docTypeUid = $documentData['type'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $virtual = $documentType->getVirtual();
+            $virtualType = $documentType->getVirtualType();
 
-            if (!$formDataReader->uploadError() || $virtual === true) {
+            if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
@@ -332,9 +332,9 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             $docTypeUid = $documentData['type'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $virtual = $documentType->getVirtual();
+            $virtualType = $documentType->getVirtualType();
 
-            if (!$formDataReader->uploadError() || $virtual === true) {
+            if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();

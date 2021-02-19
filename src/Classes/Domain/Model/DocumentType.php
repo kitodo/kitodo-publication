@@ -35,11 +35,11 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $displayName = '';
 
     /**
-     * virtual
+     * virtualType
      *
      * @var boolean
      */
-    protected $virtual = false;
+    protected $virtualType = false;
 
     /**
      * metadataPage
@@ -225,24 +225,24 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the virtual
+     * Returns the virtualType
      *
      * @return boolean
      */
-    public function getVirtual()
+    public function getVirtualType()
     {
-        return $this->virtual;
+        return $this->virtualType;
     }
 
     /**
-     * Sets the virtual
+     * Sets the virtualType
      *
-     * @param boolean $virtual
+     * @param boolean $virtualType
      * @return void
      */
-    public function setVirtual($virtual)
+    public function setVirtualType($virtualType)
     {
-        $this->virtual = $virtual;
+        $this->virtualType = $virtualType;
     }
 
     /**

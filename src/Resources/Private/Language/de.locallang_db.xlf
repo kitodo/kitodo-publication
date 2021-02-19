@@ -481,8 +481,8 @@
 			<source>Name</source>
 			<target>Name</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.virtual" approved="yes">
-			<source>Virtual</source>
+		<trans-unit id="tx_dpf_domain_model_documenttype.virtual_type" approved="yes">
+			<source>virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">

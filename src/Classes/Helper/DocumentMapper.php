@@ -117,7 +117,7 @@ class DocumentMapper
             (
                 (
                     $this->getSettings()['deactivatePrimaryFileMandatoryCheck'] ||
-                    $document->getDocumentType()->getVirtual()
+                    $document->getDocumentType()->getVirtualType()
                 )? false : true
             )
         );

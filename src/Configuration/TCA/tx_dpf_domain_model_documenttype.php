@@ -33,20 +33,20 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, virtual, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
+        'searchFields'             => 'name, display_name, virtual_type, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
-            name, display_name, virtual, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
+            name, display_name, virtual_type, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
-            name, display_name, virtual, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
+            name, display_name, virtual_type, transformation_file_output, transformation_file_input, crossref_transformation, crossref_types,
             datacite_transformation, datacite_types, k10plus_transformation,
             pubmed_transformation, pubmed_types, bibtex_transformation, bibtex_types, riswos_transformation, riswos_types, metadata_page,
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
@@ -159,10 +159,10 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'virtual'          => array(
+        'virtual_type'          => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.virtual',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.virtual_type',
             'config'    => array(
                 'type'    => 'check',
                 'default' => 0,
