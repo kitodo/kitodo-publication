@@ -224,7 +224,7 @@ return array(
 
         'document'              => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf2/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',
             'config'  => array(
                 'type'          => 'select',
                 'renderType'    => 'selectSingle',

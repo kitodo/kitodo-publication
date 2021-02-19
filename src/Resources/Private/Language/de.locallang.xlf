@@ -1041,6 +1041,10 @@
 				<source>Release and not validate</source>
 				<target>Freigeben und nicht validieren</target>
 			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonSetInProgress" approved="yes">
+			    <source>Take into processing</source>
+			    <target>In Bearbeitung nehmen</target>
+			</trans-unit>
 			<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
 				<source>Record has been removed from workspace.</source>
 				<target>Datensatz aus Arbeitsbereich entfernt.</target>

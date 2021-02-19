@@ -386,7 +386,7 @@ return array(
         'automatic_embargo'    => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.embargo',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.automatic_embargo',
             'config'    => array(
                 'type'    => 'check',
                 'default' => 0,

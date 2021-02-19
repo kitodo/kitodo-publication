@@ -791,6 +791,9 @@
 			<trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
 				<source>Release and not validate</source>
 			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonSetInProgress" approved="yes">
+			    <source>Take into processing</source>
+			</trans-unit>
 			<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
 				<source>Record has been removed from workspace.</source>
 			</trans-unit>

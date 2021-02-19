@@ -437,6 +437,10 @@
             <source>Linked uid</source>
             <target>Verknüpfte Dokument uid</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.automatic_embargo">
+            <source>Embargo</source>
+            <target>Embargo</target>
+        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
 			<source>Document Transfer Log</source>
 			<target>Dokumentenübertragungsprotokoll</target>
