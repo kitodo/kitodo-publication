@@ -100,13 +100,14 @@ class ParserGenerator
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
-        $namespaceConfiguration = explode(";",$this->clientConfigurationManager->getNamespaces());
-
-
-        foreach ($namespaceConfiguration as $key => $value) {
-            $namespace = explode("=", $value);
-            $this->namespaceString .= ' xmlns:' . $namespace[0] . '="' . $namespace[1] . '"';
-        }
+        $namespaceConfigurationString = $this->clientConfigurationManager->getNamespaces();
+        if (!empty($namespaceConfigurationString)) {
+                        $namespaceConfiguration = explode(";", $namespaceConfigurationString);
+                        foreach ($namespaceConfiguration as $value) {
+                                $namespace = explode("=", $value);
+                                $this->namespaceString .= ' xmlns:' . $namespace[0] . '="' . $namespace[1] . '"';
+                            }
+         }
 
         $this->xmlHeader = '<data' . $this->namespaceString . '></data>';
 
