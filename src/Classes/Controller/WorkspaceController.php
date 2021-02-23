@@ -196,8 +196,8 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
         
-        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
-            $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('currentFisPersId', $this->security->getFisPersId());
         }
 
         try {
@@ -696,7 +696,7 @@ class WorkspaceController extends AbstractController
                 'must' => [
                     [
                         'term' => [
-                            'fobIdentifiers' => $this->security->getUser()->getFisPersId()
+                            'fobIdentifiers' => $this->security->getFisPersId()
                         ]
                     ],
                     [
@@ -712,7 +712,7 @@ class WorkspaceController extends AbstractController
             ],
         ];
 
-        if ($this->security->getUser()->getFisPersId()) {
+        if ($this->security->getFisPersId()) {
             $workspaceFilter['bool']['must'][0]['bool']['should'][1] = $fisPersIdFilter;
         }
 

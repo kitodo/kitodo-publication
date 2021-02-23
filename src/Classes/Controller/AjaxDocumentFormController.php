@@ -88,8 +88,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
 
         $groupItem->setGroupType($group->getGroupType());
 
-        if ($this->security->getUser()->getFisPersId()) {
-            $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
+        if ($this->security->getFisPersId()) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
         }
 
         $this->view->assign('formPageUid', $pageUid);
@@ -98,8 +98,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('groupIndex', $groupIndex);
         $this->view->assign('groupItem', $groupItem);
 
-        if ($this->fisDataService->getPersonData($this->security->getUser()->getFisPersId())) {
-            $this->view->assign('fisPersId', $this->security->getUser()->getFisPersId());
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
         }
     }
 

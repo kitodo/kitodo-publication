@@ -796,7 +796,7 @@ class ExternalMetadataImportController extends AbstractController
             $this->view->assign('documentCount', $results['hits']['total']['value']);
             $this->view->assign('documents', $results['hits']['hits']);
             $this->view->assign('itemsPerPage', $this->itemsPerPage());
-            $this->view->assign('currentFisPersId', $this->security->getUser()->getFisPersId());
+            $this->view->assign('currentFisPersId', $this->security->getFisPersId());
 
             $personGroup = $this->metadataGroupRepository->findPersonGroup();
             $this->view->assign('personGroup', $personGroup->getUid());

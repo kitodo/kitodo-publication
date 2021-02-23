@@ -401,7 +401,7 @@ class QueryBuilder
                                                     ],
                                                     [
                                                         'term' => [
-                                                            'fobIdentifiers' => $this->security->getUser()->getFisPersId()
+                                                            'fobIdentifiers' => $this->security->getFisPersId()
                                                         ]
                                                     ]
                                                 ]

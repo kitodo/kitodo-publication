@@ -72,4 +72,17 @@ class Security
         }
         return '';
     }
+
+    /**
+     * Gets the fis person id of the current frontend user
+     * @return string
+     */
+    public function getFisPersId()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getFisPersId();
+        }
+        return '';
+    }
+
 }
