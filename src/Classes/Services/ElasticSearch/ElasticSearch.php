@@ -251,6 +251,11 @@ class ElasticSearch
     {
         $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
 
+        if (!$data) {
+            $data->title[] = $document->getTitle();
+            $data->doctype = $document->getDocumentType()->getName();
+        }
+
         if ($data) {
 
             $data->state = $document->getState();
