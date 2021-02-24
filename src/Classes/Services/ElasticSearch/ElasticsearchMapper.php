@@ -34,6 +34,13 @@ class ElasticsearchMapper
      */
     protected $clientConfigurationManager;
 
+    /**
+     * clientRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\ClientRepository
+     * @inject
+     */
+    protected $clientRepository = null;
 
     /**
      * document2json
@@ -42,7 +49,17 @@ class ElasticsearchMapper
      */
     public function getElasticsearchJson($document)
     {
-        $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/mets-mods-xml2json.xsl');
+        /** @var \EWW\Dpf\Domain\Model\Client $client */
+        $client = $this->clientRepository->findAll()->current();
+
+        /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
+        $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
+
+        if (empty($xsltTransformationFile)) {
+            $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/mets-mods-xml2json.xsl');
+        } else {
+            $xsltDoc = PATH_site . 'fileadmin' . $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
+        }
 
         // xslt
         $xsl = new \DOMDocument;

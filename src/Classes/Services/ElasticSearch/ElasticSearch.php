@@ -249,7 +249,11 @@ class ElasticSearch
      */
     public function index($document)
     {
-        $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
+        try {
+            $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
+        } catch (\Throwable $throwable) {
+            // Fixme: The solution via json_decode and the XSLT file needs to be replaced.
+        }
 
         if (!$data) {
             $data->title[] = $document->getTitle();
