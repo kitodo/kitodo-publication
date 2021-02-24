@@ -260,7 +260,7 @@ class DocumentManager
                     }
                     $this->persistenceManager->persistAll();
                 } else {
-                    throw \Exception("Logical exception while updating bookmarks.");
+                    throw new \Exception("Logical exception while updating bookmarks.");
                 }
 
                 // check embargo
