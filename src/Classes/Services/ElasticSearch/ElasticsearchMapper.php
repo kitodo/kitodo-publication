@@ -55,10 +55,10 @@ class ElasticsearchMapper
         /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
         $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
 
-        if (empty($xsltTransformationFile)) {
-            $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/Xslt/mets-mods-xml2json.xsl');
-        } else {
+        if ($xsltTransformationFile) {
             $xsltDoc = PATH_site . 'fileadmin' . $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
+        } else {
+            throw new \Exception("Missing XSLT file for ElasticSearch json mapping.");
         }
 
         // xslt
