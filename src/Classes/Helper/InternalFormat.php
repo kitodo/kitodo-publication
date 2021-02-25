@@ -106,7 +106,7 @@ class InternalFormat
     public function setProcessNumber($processNumber)
     {
         $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
-        $this->getValue($processNumberXpath, $processNumber);
+        $this->setValue($processNumberXpath, $processNumber);
     }
 
     public function getTitle()
