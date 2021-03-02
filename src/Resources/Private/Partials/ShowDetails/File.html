@@ -14,12 +14,9 @@
 </f:comment>
 
 {namespace eww=EWW\Dpf\ViewHelpers}
-
-<f:if condition="{file.label}">
-    <f:then>
-        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.label, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
-    </f:then>
-    <f:else>
-        <f:render partial="ShowDetails/FileLink" arguments="{status:file.status, label:file.title, url:'{eww:fileUrl(uri:\'{file.url}\')}'}"/>
-    </f:else>
-</f:if>
+<f:link.external uri="{eww:fileUrl(uri:'{file.url}')}" target="_blank" class="file_link">
+    <f:if condition="{file.label}">
+        <f:then>{file.label}</f:then>
+        <f:else>{file.title}</f:else>
+    </f:if>
+</f:link.external>
