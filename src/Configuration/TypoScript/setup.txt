@@ -158,7 +158,7 @@ plugin.tx_dpf {
 			maximumNumberOfLinks = {$plugin.tx_dpf.settings.documentListPagination.maximumNumberOfLinks}
 		}
 		development {
-			docker = {$plugin.tx_dpf.settings.development.docker};
+			docker = {$plugin.tx_dpf.settings.development.docker}
 		}
 
 		deactivatePrimaryFileMandatoryCheck = {$plugin.tx_dpf.settings.deactivatePrimaryFileMandatoryCheck}
