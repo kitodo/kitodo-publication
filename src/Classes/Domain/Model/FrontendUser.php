@@ -184,7 +184,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyPersonalLink(bool $notifyPersonalLink)
     {
-        $this->notifyPersonalLink = $notifyPersonalLink;
+        $this->notifyPersonalLink = boolval($notifyPersonalLink);
     }
 
     /**
@@ -200,7 +200,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyStatusChange(bool $notifyStatusChange)
     {
-        $this->notifyStatusChange = $notifyStatusChange;
+        $this->notifyStatusChange = boolval($notifyStatusChange);
     }
 
     /**
@@ -224,7 +224,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyOnChanges(bool $notifyOnChanges): void
     {
-        $this->notifyOnChanges = $notifyOnChanges;
+        $this->notifyOnChanges = boolval($notifyOnChanges);
     }
 
     /**
@@ -232,7 +232,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyFulltextPublished(bool $notifyFulltextPublished)
     {
-        $this->notifyFulltextPublished = $notifyFulltextPublished;
+        $this->notifyFulltextPublished = boolval($notifyFulltextPublished);
     }
 
     /**
@@ -248,7 +248,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyNewPublicationMypublication(bool $notifyNewPublicationMypublication)
     {
-        $this->notifyNewPublicationMypublication = $notifyNewPublicationMypublication;
+        $this->notifyNewPublicationMypublication = boolval($notifyNewPublicationMypublication);
     }
 
     /**

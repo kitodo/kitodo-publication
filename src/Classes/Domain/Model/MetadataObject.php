@@ -324,7 +324,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setModsExtension($modsExtension)
     {
-        $this->modsExtension = $modsExtension;
+        $this->modsExtension = boolval($modsExtension);
     }
 
     /**
@@ -484,7 +484,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setConsent($consent)
     {
-        $this->consent = $consent;
+        $this->consent = boolval($consent);
     }
 
     /**
@@ -603,7 +603,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setEmbargo(bool $embargo)
     {
-        $this->embargo = $embargo;
+        $this->embargo = boolval($embargo);
     }
 
     /**

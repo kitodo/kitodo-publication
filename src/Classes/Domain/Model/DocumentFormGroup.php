@@ -84,7 +84,7 @@ class DocumentFormGroup extends AbstractFormElement
      */
     public function setEmptyGroup(bool $emptyGroup): void
     {
-        $this->emptyGroup = $emptyGroup;
+        $this->emptyGroup = boolval($emptyGroup);
     }
 
 }

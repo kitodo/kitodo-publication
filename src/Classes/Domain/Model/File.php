@@ -160,12 +160,12 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the download
      *
-     * @param string $download
+     * @param boolean $download
      * @return void
      */
     public function setDownload($download)
     {
-        $this->download = $download;
+        $this->download = boolval($download);
     }
 
     /**
@@ -186,7 +186,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setArchive($archive)
     {
-        $this->archive = $archive;
+        $this->archive = boolval($archive);
     }
 
     /**
@@ -206,7 +206,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setFileGroupDeleted($fileGroupDeleted)
     {
-        $this->fileGroupDeleted = $fileGroupDeleted;
+        $this->fileGroupDeleted = boolval($fileGroupDeleted);
     }
 
     /**
@@ -311,7 +311,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setPrimaryFile($primaryFile)
     {
-        $this->primaryFile = $primaryFile;
+        $this->primaryFile = boolval($primaryFile);
     }
 
     /**

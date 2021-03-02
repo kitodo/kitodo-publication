@@ -242,7 +242,7 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setVirtualType($virtualType)
     {
-        $this->virtualType = $virtualType;
+        $this->virtualType = boolval($virtualType);
     }
 
     /**

@@ -177,7 +177,7 @@ class DocumentFormField extends AbstractFormElement
      */
     public function setConsent($consent)
     {
-        $this->consent = $consent;
+        $this->consent = boolval($consent);
     }
 
     public function getHasDefaultValue()

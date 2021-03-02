@@ -807,7 +807,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setReplaceNissPart($replaceNissPart)
     {
-        $this->replaceNissPart = $replaceNissPart;
+        $this->replaceNissPart = boolval($replaceNissPart);
     }
 
     /**
@@ -1446,7 +1446,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setSendAdminDepositLicenseNotification(bool $sendAdminDepositLicenseNotification): void
     {
-        $this->sendAdminDepositLicenseNotification = $sendAdminDepositLicenseNotification;
+        $this->sendAdminDepositLicenseNotification = boolval($sendAdminDepositLicenseNotification);
     }
     /**
      * @return string

@@ -647,7 +647,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setChanged($changed)
     {
-        $this->changed = $changed;
+        $this->changed = boolval($changed);
     }
 
     /**
@@ -668,7 +668,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setValid($valid)
     {
-        $this->valid = $valid;
+        $this->valid = boolval($valid);
     }
 
     /**
@@ -806,7 +806,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @return void
      */
     public function setTemporary($temporary) {
-        $this->temporary = $temporary;
+        $this->temporary = boolval($temporary);
     }
 
     /**
@@ -855,7 +855,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setSuggestion(bool $suggestion)
     {
-        $this->suggestion = $suggestion;
+        $this->suggestion = boolval($suggestion);
     }
 
     /**
