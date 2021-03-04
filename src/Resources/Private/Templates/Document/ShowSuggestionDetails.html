@@ -36,13 +36,13 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
-                            action="deleteLocally"
+                            action="deleteLocallySuggestion"
                             controller="Document"
                             arguments="{document:document, tstamp:document.tstamp}"
                             class="btn btn-sm btn-danger"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocallySuggestion'}">
                         <i class="fas fa-trash-alt"></i>
-                        {f:translate(key: 'form_button.deleteLocally')}
+                        {f:translate(key: 'form_button.deleteLocallySuggestion')}
                     </f:link.action>
                 </f:if>
 
@@ -53,18 +53,29 @@
                     <i class="fas fa-times"></i>
                     {f:translate(key: 'form_button.cancel')}
                 </f:link.action>
-
             </div>
         </div>
     </div>
 
     <f:flashMessages />
 
+    <p>
+        <f:link.action
+                action="showDetails"
+                controller="Document"
+                arguments="{document:document.linkedUid}"
+                class="btn btn-sm btn-secondary"
+                additionalAttributes="{target: '_blank'}">
+            <i class="far fa-file-alt"></i>
+            {f:translate(key: 'form_button.showOriginalDocument')}
+        </f:link.action>
+    </p>
+
     {documentCreator}: <f:format.date date="{document.tstamp}" format="d.m.Y"/>
 
     <div class="card" style="margin-bottom:10px;">
         <div class="card-body">
-            {f:translate(key: 'documentForm.suggestComment')} :<br/>
+            {f:translate(key: 'documentForm.suggestComment')}:<br/>
             <f:format.nl2br>
                 {document.comment}
             </f:format.nl2br>
@@ -85,18 +96,27 @@
         <table class="table">
             <tr>
                 <th>
-                    Field
+                    {f:translate(key: 'manager.document.suggestionDetails.field')}
                 </th>
                 <th>
-                    Before
+                    {f:translate(key: 'manager.document.suggestionDetails.before')}
                 </th>
                 <th>
-                    After
+                    {f:translate(key: 'manager.document.suggestionDetails.after')}
                 </th>
             </tr>
             <f:for each="{diff.changed.old}" as="changedOld" iteration="iteratorChanged">
                 <tr>
-                    <td>{changedOld.displayName}:</td>
+                    <td>
+                        <f:if condition="{changedOld.displayName}">
+                            <f:then>
+                                {changedOld.displayName}:
+                            </f:then>
+                            <f:else>
+                                {diff.changed.groupDisplayName}:
+                            </f:else>
+                        </f:if>
+                    </td>
                     <td>{changedOld.value}</td>
                     <td>{diff.changed.new.{iteratorChanged.index}.value}</td>
                 </tr>
@@ -160,6 +180,6 @@
 
     </f:form>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocallySuggestion', reasonRequired: '1', reasonOptions:'{}'}" />
 
 </f:section>

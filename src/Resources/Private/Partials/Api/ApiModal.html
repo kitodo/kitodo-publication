@@ -1,0 +1,86 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:comment> MODAL SEARCH API </f:comment>
+
+<div class="user-search-div" style="float: left;margin-right: 1rem;">
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">
+        <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
+            <f:then>
+                Suche in {api -> f:format.case(mode: 'capital')}
+            </f:then>
+            <f:else>
+                Suche in {api -> f:format.case(mode: 'upper')}
+            </f:else>
+        </f:if>
+    </button>
+</div>
+
+<div class="modal fade {api}SearchModal" id="{api}SearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{groupIndex}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{api}SearchModalTitle-{groupIndex}">
+                    <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
+                        <f:then>
+                            {api -> f:format.case(mode: 'capital')}-Suche
+                        </f:then>
+                        <f:else>
+                            {api -> f:format.case(mode: 'upper')}-Suche
+                        </f:else>
+                    </f:if>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-check form-check-inline">
+                    <input style="margin-bottom: 1rem;" class="{api -> f:format.case(mode: 'lower')}-user-search-input" type="text"
+                           data-usersettings="{usersetting}" data-personid="{fisPersId}"
+                           data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                           data-api="{api -> f:format.case(mode: 'lower')}"
+                           data-searchrequest="{f:uri.action(action:'search{api}',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                           data-datarequest="{f:uri.action(action:'get{api}Data',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
+                </div>
+                <f:if condition="!{removePersonSwitch}">
+                    <f:then>
+                        <div class="form-check form-check-inline" style="{f:if(condition:'{hidePersonSwitch}', then:'display:none;', else:'')}">
+                            <input class="form-check-input" type="radio" name="searchTypeRadio-{groupIndex}-{api -> f:format.case(mode: 'lower')}" id="personRadio" value="person" checked>
+                            <label class="form-check-label" for="personRadio">Personen</label>
+                        </div>
+                    </f:then>
+                </f:if>
+
+                <f:if condition="(!{usersetting} || {usersetting} == 'extSearch') && {showOrgaSwitch}">
+                    <f:then>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="searchTypeRadio-{groupIndex}-{api -> f:format.case(mode: 'lower')}" id="orgaRadio" value="organisation" {f:if(condition:'{removePersonSwitch}', then: 'checked', else:'')}>
+                            <label class="form-check-label" for="orgaRadio">Organisationen</label>
+                        </div>
+                    </f:then>
+                </f:if>
+
+                <div class="{api -> f:format.case(mode: 'lower')}-search-list-{groupIndex}">
+                    <ul style="list-style-type: none;padding:0;" class="{api -> f:format.case(mode: 'lower')}-search-results">
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><f:translate key="manager.apimodal.close"/></button>
+            </div>
+        </div>
+    </div>
+</div>

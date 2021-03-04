@@ -62,6 +62,23 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $inputField = 0;
 
+    /**
+     * @var string
+     */
+    protected $objectType = '';
+    /**
+     * depositLicense
+     *
+     * @var int
+     */
+    protected $depositLicense = '';
+
+    /**
+     * JSON mapping
+     *
+     * @var string
+     */
+    protected $jsonMapping = '';
 
     const input    = 0;
     const textarea = 1;
@@ -137,7 +154,6 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $validation = '';
 
-
     /**
      * max input length
      *
@@ -152,6 +168,59 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     protected $embargo;
 
+    /**
+     * fis mapping
+     *
+     * @var string
+     */
+    protected $fisPersonMapping = '';
+
+    /**
+     * fis mapping
+     *
+     * @var string
+     */
+    protected $fisOrganisationMapping = '';
+
+    /**
+     * gnd mapping
+     *
+     * @var string
+     */
+    protected $gndPersonMapping = '';
+
+    /**
+     * gnd mapping
+     *
+     * @var string
+     */
+    protected $gndOrganisationMapping = '';
+
+    /**
+     * ror mapping
+     *
+     * @var string
+     */
+    protected $rorMapping = '';
+
+    /**
+     * zdb mapping
+     *
+     * @var string
+     */
+    protected $zdbMapping = '';
+
+    /**
+     * unpaywall mapping
+     * @var string
+     */
+    protected $unpaywallMapping = '';
+
+    /**
+     * orcid person mapping
+     * @var string
+     */
+    protected $orcidPersonMapping = '';
 
     /**
      * Returns the name
@@ -255,7 +324,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setModsExtension($modsExtension)
     {
-        $this->modsExtension = $modsExtension;
+        $this->modsExtension = boolval($modsExtension);
     }
 
     /**
@@ -296,9 +365,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function getRelativeMapping()
     {
-        $modsRegExp = "/^.*?mods:mods/i";
-        $mapping    = preg_replace($modsRegExp, "", $this->mapping);
-        return trim($mapping, " /");
+        return trim($this->mapping, " /");
     }
 
     /**
@@ -417,7 +484,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setConsent($consent)
     {
-        $this->consent = $consent;
+        $this->consent = boolval($consent);
     }
 
     /**
@@ -536,9 +603,185 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setEmbargo(bool $embargo)
     {
-        $this->embargo = $embargo;
+        $this->embargo = boolval($embargo);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisPersonMapping(): string
+    {
+        return $this->fisPersonMapping;
+    }
+
+    /**
+     * @param string $fisPersonMapping
+     */
+    public function setFisPersonMapping(string $fisPersonMapping): void
+    {
+        $this->fisPersonMapping = $fisPersonMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisOrganisationMapping(): string
+    {
+        return $this->fisOrganisationMapping;
+    }
+
+    /**
+     * @param string $fisOrganisationMapping
+     */
+    public function setFisOrganisationMapping(string $fisOrganisationMapping): void
+    {
+        $this->fisOrganisationMapping = $fisOrganisationMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRorMapping(): string
+    {
+        return $this->rorMapping;
+    }
+
+    /**
+     * @param string $rorMapping
+     */
+    public function setRorMapping(string $rorMapping)
+    {
+        $this->rorMapping = $rorMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZdbMapping(): string
+    {
+        return $this->zdbMapping;
+    }
+
+    /**
+     * @param string $zdbMapping
+     */
+    public function setZdbMapping(string $zdbMapping): void
+    {
+        $this->zdbMapping = $zdbMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnpaywallMapping(): string
+    {
+        return $this->unpaywallMapping;
+    }
+
+    /**
+     * @param string $unpaywallMapping
+     */
+    public function setUnpaywallMapping(string $unpaywallMapping): void
+    {
+        $this->unpaywallMapping = $unpaywallMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObjectType(): string
+    {
+        return $this->objectType;
+    }
+    /**
+     * Gets the jsonMapping
+     *
+     * @return string
+     */
+    public function getJsonMapping(): string
+    {
+        return $this->jsonMapping;
+    }
+
+    /**
+     * Sets the jsonMapping
+     *
+     * @param string $jsonMapping
+     */
+    public function setJsonMapping(string $jsonMapping): void
+    {
+        $this->jsonMapping = $jsonMapping;
+    }
+    /**
+     * @param string $objectType
+     */
+    public function setObjectType(string $objectType): void
+    {
+        $this->objectType = $objectType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGndPersonMapping(): string
+    {
+        return $this->gndPersonMapping;
+    }
+
+    /**
+     * @param string $gndPersonMapping
+     */
+    public function setGndPersonMapping(string $gndPersonMapping): void
+    {
+        $this->gndPersonMapping = $gndPersonMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGndOrganisationMapping(): string
+    {
+        return $this->gndOrganisationMapping;
+    }
+
+    /**
+     * @param string $gndOrganisationMapping
+     */
+    public function setGndOrganisationMapping(string $gndOrganisationMapping): void
+    {
+        $this->gndOrganisationMapping = $gndOrganisationMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrcidPersonMapping(): string
+    {
+        return $this->orcidPersonMapping;
+    }
+
+    /**
+     * @param string $orcidPersonMapping
+     */
+    public function setOrcidPersonMapping(string $orcidPersonMapping): void
+    {
+        $this->orcidPersonMapping = $orcidPersonMapping;
     }
 
 
+    /**
+     * @return int
+     */
+    public function getDepositLicense(): int
+    {
+        return $this->depositLicense;
+    }
 
+    /**
+     * @param int $depositLicense
+     */
+    public function setDepositLicense($depositLicense): void
+    {
+        $this->depositLicense = $depositLicense;
+    }
 }

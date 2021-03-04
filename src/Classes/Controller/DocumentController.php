@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -44,6 +45,14 @@ class DocumentController extends AbstractController
      * @inject
      */
     protected $documentRepository = null;
+
+    /**
+     * documentTypeRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @inject
+     */
+    protected $documentTypeRepository = null;
 
     /**
      * inputOptionListRepository
@@ -76,6 +85,14 @@ class DocumentController extends AbstractController
      * @inject
      */
     protected $documentValidator;
+
+    /**
+     * depositLicenseLogRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
+     * @inject
+     */
+    protected $depositLicenseLogRepository = null;
 
     /**
      * workflow
@@ -167,13 +184,13 @@ class DocumentController extends AbstractController
         $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController());
 
         $documents = NULL;
-        $isWorkspace = $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN;
+        $isWorkspace = $this->security->getUserRole() === Security::ROLE_LIBRARIAN;
 
         if (
-            $this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN
+            $this->security->getUserRole() == Security::ROLE_LIBRARIAN
         ) {
                 $documents = $this->documentRepository->findAllDocumentSuggestions(
-                    $this->security->getUser()->getUserRole(),
+                    $this->security->getUserRole(),
                     $this->security->getUser()->getUid()
                 );
         }
@@ -197,8 +214,6 @@ class DocumentController extends AbstractController
      */
     public function acceptSuggestionAction(\EWW\Dpf\Domain\Model\Document $document, bool $acceptAll = true) {
 
-        $args = $this->request->getArguments();
-
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
@@ -220,6 +235,20 @@ class DocumentController extends AbstractController
             // copy suggest to origin document
             $originDocument->copy($document, true);
 
+            if ($document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
+                if ($document->getLocalState() != DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+                    $originDocument->setState(
+                        DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS,
+                        $document->getRemoteState())
+                    );
+                    $this->addFlashMessage(
+                        LocalizationUtility::translate("message.suggestion_accepted.new_workingcopy_info", "dpf"),
+                        '',
+                        AbstractMessage::INFO
+                    );
+                }
+            }
+
             if ($originDocument->getTransferStatus() == 'RESTORE') {
                 if ($originDocument->getObjectIdentifier()) {
                     $originDocument->setState(DocumentWorkflow::STATE_IN_PROGRESS_ACTIVE);
@@ -235,11 +264,31 @@ class DocumentController extends AbstractController
                 $newFile->setDocument($originDocument);
                 $this->fileRepository->add($newFile);
                 $originDocument->addFile($newFile);
-
             }
 
+            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+            $originDocument->setAuthors($mods->getPersons());
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
+
+            // Notify assigned users
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+
+            $recipients = $this->documentManager->getUpdateNotificationRecipients($originDocument);
+            $notifier->sendMyPublicationUpdateNotification($originDocument, $recipients);
+
+            $recipients = $this->documentManager->getNewPublicationNotificationRecipients($originDocument);
+            $notifier->sendMyPublicationNewNotification($originDocument, $recipients);
+
+            $notifier->sendChangedDocumentNotification($originDocument);
+
+            $notifier->sendSuggestionAcceptNotification($originDocument);
+
+            // index the document
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$originDocument]
+            );
 
             // redirect to document
             $this->redirect('showDetails', 'Document', null, ['document' => $originDocument]);
@@ -270,7 +319,7 @@ class DocumentController extends AbstractController
         $newDocumentForm = $documentMapper->getDocumentForm($document);
         $diff = $this->documentFormDiff($linkedDocumentForm, $newDocumentForm);
 
-        //$usernameString = $this->security->getUser()->getUsername();
+        //$usernameString = $this->security->getUsername();
         $user = $this->frontendUserRepository->findOneByUid($document->getCreator());
 
         if ($user) {
@@ -342,6 +391,7 @@ class DocumentController extends AbstractController
                                     // changed
                                     $returnArray['changed']['old'][] = $itemExisting;
                                     $returnArray['changed']['new'][] = $itemNew;
+                                    $returnArray['changed']['groupDisplayName'] = $valueRepeatGroup->getDisplayName();
                                 }
 
                                 if ($flag == 'group') {
@@ -442,18 +492,87 @@ class DocumentController extends AbstractController
 
 
     /**
+     * action change document type
+     *
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param int $documentTypeUid
+     * @return void
+     */
+    public function changeDocumentTypeAction(\EWW\Dpf\Domain\Model\Document $document, $documentTypeUid = 0)
+    {
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+            if (
+            $this->editingLockService->isLocked(
+                $document->getDocumentIdentifier(),
+                $this->security->getUser()->getUid()
+            )
+            ) {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failureBlocked';
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.accessDenied';
+            }
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+
+
+        $documentType = $this->documentTypeRepository->findByUid($documentTypeUid);
+
+        if ($documentType instanceof DocumentType) {
+            $document->setDocumentType($documentType);
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat->setDocumentType($documentType->getName());
+            $document->setXmlData($internalFormat->getXml());
+
+            $this->updateDocument($document, '', null);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        } else {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            return FALSE;
+        }
+    }
+
+    /**
+     * action deleteLocallySuggestionAction
+     *
+     * @param Document $document
+     * @param integer $tstamp
+     * @param string $reason
+     * @return void
+     */
+    public function deleteLocallySuggestionAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = "")
+    {
+        $this->redirect(
+            'deleteLocally',
+            'Document',
+            null,
+            [
+                'document' => $document,
+                'tstamp' => $tstamp,
+                'reason' => $reason
+            ]
+        );
+    }
+
+
+    /**
      * action deleteLocallyAction
      *
      * @param Document $document
      * @param integer $tstamp
+     * @param string $reason
      * @return void
      */
-    public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp)
+    public function deleteLocallyAction(\EWW\Dpf\Domain\Model\Document $document, $tstamp, $reason = "")
     {
-        if ($document->getObjectIdentifier()) {
-            $voterAttribute = DocumentVoter::DELETE_WORKING_COPY;
-        } else {
+        if (empty($document->getObjectIdentifier()) || $document->isSuggestion()) {
             $voterAttribute = DocumentVoter::DELETE_LOCALLY;
+        } else {
+            $voterAttribute = DocumentVoter::DELETE_WORKING_COPY;
         }
 
         if (!$this->authorizationChecker->isGranted($voterAttribute, $document)) {
@@ -498,7 +617,8 @@ class DocumentController extends AbstractController
                 );
 
                 $this->documentRepository->remove($document);
-            } else {
+
+            } elseif (!$document->isSuggestion()) {
                 $this->bookmarkRepository->removeBookmark($document, $this->security->getUser()->getUid());
                 // delete document from index
                 $this->signalSlotDispatcher->dispatch(
@@ -511,6 +631,10 @@ class DocumentController extends AbstractController
             foreach ($suggestions as $suggestion) {
                 $this->documentRepository->remove($suggestion);
             }
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendSuggestionDeclineNotification($document, $reason);
 
             $this->redirectToDocumentList();
         } else {
@@ -547,23 +671,19 @@ class DocumentController extends AbstractController
 
         $newDocument->setCreator($this->security->getUser()->getUid());
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $mods->clearAllUrn();
-        $mods->setDateIssued('');
-        $mods->setTitle($copyTitle);
-
-        $newDocument->setXmlData($mods->getModsXml());
-
         $newDocument->setDocumentType($document->getDocumentType());
 
         $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
         $processNumber = $processNumberGenerator->getProcessNumber();
         $newDocument->setProcessNumber($processNumber);
 
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setProcessNumber($processNumber);
-        $newDocument->setSlubInfoData($slub->getSlubXml());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat->clearAllUrn();
+        $internalFormat->setDateIssued('');
+        $internalFormat->setTitle($copyTitle);
+        $internalFormat->setProcessNumber($processNumber);
 
+        $newDocument->setXmlData($internalFormat->getXml());
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
@@ -578,7 +698,6 @@ class DocumentController extends AbstractController
         );
 
     }
-
 
     /**
      * releasePublishAction
@@ -595,12 +714,14 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-
+        
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
+        /** @var Notifier $notifier */
+        $notifier = $this->objectManager->get(Notifier::class);
+        $notifier->sendReleasePublishNotification($document);
     }
-
-
+    
     /**
      * releaseActivateAction
      *
@@ -616,11 +737,11 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-
+        
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
-
+        
     }
-
+    
     /**
      * action register
      *
@@ -645,15 +766,23 @@ class DocumentController extends AbstractController
         $this->documentRepository->update($document);
 
 
-        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->bookmarkRepository->addBookmark($document, $this->security->getUser()->getUid());
         }
 
+        // admin register notification
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
 
         // index the document
         $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);
+
+        // document updated notification
+        $recipients = $this->documentManager->getUpdateNotificationRecipients($document);
+        $notifier->sendMyPublicationUpdateNotification($document, $recipients);
+
+        $recipients = $this->documentManager->getNewPublicationNotificationRecipients($document);
+        $notifier->sendMyPublicationNewNotification($document, $recipients);
 
         $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.success';
         $this->flashMessage($document, $key, AbstractMessage::OK);
@@ -691,6 +820,13 @@ class DocumentController extends AbstractController
 
         $mapper = $this->objectManager->get(DocumentMapper::class);
         $documentForm = $mapper->getDocumentForm($document, false);
+
+        $documentTypes = [0 => ''];
+        foreach ($this->documentTypeRepository->getDocumentTypesAlphabetically() as $documentType) {
+            $documentTypes[$documentType->getUid()] = $documentType->getDisplayName();
+        }
+
+        $this->view->assign('documentTypes', $documentTypes);
 
         $this->view->assign('documentForm', $documentForm);
 
@@ -752,6 +888,11 @@ class DocumentController extends AbstractController
 
         if ($this->request->hasArgument('document')) {
             $document = $this->request->getArgument('document');
+
+            if (is_array($document) && key_exists("__identity", $document)) {
+                $document = $document["__identity"];
+            }
+
             $document = $this->documentManager->read($document, $this->security->getUser()->getUID());
 
             if (!$document) {
@@ -860,9 +1001,9 @@ class DocumentController extends AbstractController
                     );
                 }
 
-                $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-                $slub->addNote($note);
-                $document->setSlubInfoData($slub->getSlubXml());
+                $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                $internalFormat->addNote($note);
+                $document->setXmlData($internalFormat->getXml());
             }
 
             if ($this->documentManager->update($document, $workflowTransition)) {
@@ -870,7 +1011,7 @@ class DocumentController extends AbstractController
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:'.$messageKeyPart.'.success';
                 $this->flashMessage($document, $key, AbstractMessage::OK);
 
-                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
                     switch ($document->getState()) {
                         case DocumentWorkflow::STATE_POSTPONED_NONE:
                         case DocumentWorkflow::STATE_DISCARDED_NONE:

@@ -16,6 +16,7 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Services\Email\Notifier;
 
 class DocumentFormController extends AbstractDocumentFormController
 {
@@ -29,10 +30,11 @@ class DocumentFormController extends AbstractDocumentFormController
      * action new
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
+     * @param int $returnDocumentId
      * @ignorevalidation $newDocumentForm
      * @return void
      */
-    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null)
+    public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null, $returnDocumentId = 0)
     {
         $this->view->assign('documentForm', $newDocumentForm);
     }
@@ -64,6 +66,7 @@ class DocumentFormController extends AbstractDocumentFormController
             /** @var \EWW\Dpf\Domain\Model\Document $newDocument */
             $newDocument = $documentMapper->getDocument($newDocumentForm);
 
+            /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendNewDocumentNotification($newDocument);
 

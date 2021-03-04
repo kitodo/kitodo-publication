@@ -14,6 +14,8 @@ namespace EWW\Dpf\Services\ElasticSearch;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Helper\XSLTransformator;
+
 class ElasticsearchMapper
 {
 
@@ -32,43 +34,42 @@ class ElasticsearchMapper
      */
     protected $clientConfigurationManager;
 
+    /**
+     * clientRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\ClientRepository
+     * @inject
+     */
+    protected $clientRepository = null;
 
     /**
      * document2json
      * @param  Document $document [description]
-     * @return json           Elasticsearch json format
+     * @return json Elasticsearch json format
      */
     public function getElasticsearchJson($document)
     {
-        // document 2 json
-        //$fedoraHost = $this->clientConfigurationManager->getFedoraHost();
+        /** @var \EWW\Dpf\Domain\Model\Client $client */
+        $client = $this->clientRepository->findAll()->current();
 
-        // load xslt from fedora
-        //$xsltDoc = 'http://' . $fedoraHost . '/fedora/objects/qucosa:XSLT/datastreams/METS-MODS-XML2JSON/content';
+        /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
+        $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
 
-        $xsltDoc = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dpf/Resources/Private/mets-mods-xml2json.xsl');
+        if ($xsltTransformationFile) {
+            $xsltDoc = PATH_site . 'fileadmin' . $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
+        } else {
+            throw new \Exception("Missing XSLT file for ElasticSearch json mapping.");
+        }
 
         // xslt
         $xsl = new \DOMDocument;
-
         $xsl->load($xsltDoc);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
-        $fileData = $document->getFileData();
-        $exporter->setFileData($fileData);
-
-        // slub:info
-        $exporter->setSlubInfo($document->getSlubInfoData());
-
-        $exporter->setMods($document->getXmlData());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $exporter->buildMets();
-        $metsXml = $exporter->getMetsData();
+        $XSLTransformator = new XSLTransformator();
+        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
         $xml = new \DOMDocument;
-        $xml->loadXML($metsXml);
+        $xml->loadXML($transformedXml);
 
         // xslt processing
         $proc = new \XSLTProcessor;

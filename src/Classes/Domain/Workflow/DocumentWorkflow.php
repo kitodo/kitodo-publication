@@ -297,4 +297,22 @@ class DocumentWorkflow
         return $localState . ':' . $remoteState;
     }
 
+    public static function getAliasStateByLocalOrRepositoryState($state)
+    {
+        // FIXME: Information hiding. Future note: Fedora 3 implementation knowledge should be hidden in separate class module.
+
+        // A,I and D are the states returned by a repository search.
+        // The other states are the ones used in the document table.
+        $aliasStateMapping = self::STATE_TO_ALIASSTATE_MAPPING;
+        $aliasStateMapping["A"] = 'released';
+        $aliasStateMapping["I"] = 'postponed';
+        $aliasStateMapping["D"] = 'discarded';
+
+        if (array_key_exists($state, $aliasStateMapping)) {
+            return $aliasStateMapping[$state];
+        }
+
+        return '';
+    }
+
 }

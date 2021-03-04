@@ -19,7 +19,7 @@ Document type
 
 Description of document type
 
-* Virtual
+* virtualType
 * MetadataPage
 
 Each document type can have an own configuration but it is also possible to use existent configurations or in this case metadata pages.

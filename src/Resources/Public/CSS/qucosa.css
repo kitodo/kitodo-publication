@@ -142,6 +142,10 @@
     margin: 0 0 10px 0;
 }
 
+.tx-dpf fieldset .field-info-text {
+    margin: 0 0 10px 0;
+}
+
 .tx-dpf .document-form-main .form-group {
     position: relative;
     display: table;
@@ -169,6 +173,12 @@
     line-height: 1;
 }
 
+.tx-dpf .form-metadata-import .form-group label {
+    border: none;
+    padding: 0;
+    display: inline-block;
+}
+
 .tx-dpf .document-form-main .form-group .form-control.has-select {
     border-color: #eee #eee #eee #ccc;
     box-shadow: none;
@@ -188,6 +198,10 @@
     width: 100%;
     margin-bottom: 0;
     border-radius: 0 4px 4px 0;
+}
+
+.tx-dpf .form-metadata-import .form-group .form-control {
+    border-radius: 4px;
 }
 
 .tx-dpf .document-form-main .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {
@@ -354,23 +368,33 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
 }
 
 
+.suggestion-file-info {
+    margin: 50px 0 -30px 0;
+}
+
+/* -- form-upload-import-file ---------------------------------------------------------------------- */
+
+.custom-file-input ~ .custom-file-label:lang(de)::after {
+    content: "Durchsuchen";
+}
+
 /* -- details page ---------------------------------------------------------------------- */
 
-#details-view ul,
-#details-view li {
+.details-view ul,
+.details-view li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-#details-view .details-group {
+.details-view .details-group {
     margin: 20px 0;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 5px;
 }
 
 
-#details-view .details-group-name {
+.details-view .details-group-name {
     font-size: 18px;
     font-weight: 700;
     color: #666;
@@ -378,7 +402,7 @@ ul[id^='ui-id-'] .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
     display: block;
 }
 
-#details-view .details-field-name {
+.details-view .details-field-name {
     padding: 0 0px;
     color: #666;
     white-space: nowrap;
@@ -490,6 +514,12 @@ ul.error-files-backbutton li {
 
 #tx-dpf-backoffice.document-manager div.searchForm .form-inline {
     margin-bottom: 20px;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px !important;
+    }
 }
 
 @media only screen and (min-width: 23em) {

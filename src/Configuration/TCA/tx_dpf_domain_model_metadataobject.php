@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_metadataobject.gif',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, input_field, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, data_type, validation, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -59,6 +59,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'       => array(
@@ -185,6 +186,16 @@ return array(
                 'eval' => 'trim',
             ),
         ),
+        'json_mapping'           => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.json_mapping',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
         'data_type'         => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
@@ -243,6 +254,7 @@ return array(
             ),
         ),
         'input_field'       => array(
+            'onChange' => 'reload',
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_field',
@@ -262,6 +274,29 @@ return array(
                 'eval'     => '',
             ),
         ),
+        'deposit_license'       => array(
+            'displayCond' => array(
+                'OR' => array(
+                    'FIELD:input_field:REQ:false',
+                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::checkbox,
+                ),
+            ),
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'Checkbox Value',
+            'config'    => array(
+                'type'     => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_dpf_domain_model_depositlicense',
+                'items'    => array(
+                    array('', 0),
+                ),
+                'size'     => 1,
+                'maxitems' => 1,
+                'eval'     => '',
+                'default'  => 0,
+            ),
+        ),
         'max_input_length'       => array(
             'displayCond' => array(
                 'OR' => array(
@@ -277,6 +312,7 @@ return array(
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'trim,number',
+                'default' => 0,
             ),
         ),
         'input_option_list' => array(
@@ -292,6 +328,7 @@ return array(
                 'foreign_table_where' => ' AND (tx_dpf_domain_model_inputoptionlist.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_inputoptionlist.sys_language_uid = 0)',
                 'minitems'            => 0,
                 'maxitems'            => 1,
+                'default'             => 0,
             ),
         ),
         'default_value'     => array(
@@ -346,5 +383,82 @@ return array(
                 'default' => 0,
             ),
         ),
+        'fis_person_mapping' => [
+            'label' => 'FIS User Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'fis_organisation_mapping' => [
+            'label' => 'FIS Organisation Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'gnd_person_mapping' => [
+            'label' => 'GND User Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'gnd_organisation_mapping' => [
+            'label' => 'GND Organisation Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'ror_mapping' => [
+            'label' => 'ROR Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'zdb_mapping' => [
+            'label' => 'ZDB Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'unpaywall_mapping' => [
+            'label' => 'Unpaywall Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'orcid_person_mapping' => [
+            'label' => 'ORCID Mapping',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
+        'object_type' => [
+            'label' => 'Field type',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['---', ''],
+                    ['Surname', 'surname'],
+                    ['FIS-Person-ID', 'fispersonid'],
+                    ['UnpaywallDoi', 'unpaywallDoi'],
+                ],
+            ],
+        ],
     ),
 );

@@ -15,13 +15,15 @@ namespace EWW\Dpf\Domain\Model;
  */
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\Mods;
 
 /**
  * Document
  */
 class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    // xml data size ist limited to 64 KB
+    const XML_DATA_SIZE_LIMIT = 64 * 1024;
+
     /**
      * title
      *
@@ -62,7 +64,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $objectIdentifier = null;
+    protected $objectIdentifier = '';
 
     /**
      * reservedObjectIdentifier
@@ -109,7 +111,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string $processNumber
      */
-    protected $processNumber;
+    protected $processNumber = '';
 
     /**
      * @var bool $suggestion
@@ -122,6 +124,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $creator = 0;
+
+    /**
+     * creation date
+     *
+     * @var string
+     */
+    protected $creationDate = "";
 
     /**
      * state
@@ -152,6 +161,13 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $tstamp;
 
     /**
+     * crdate
+     *
+     * @var integer
+     */
+    protected $crdate;
+
+    /**
      * @var string
      */
     protected $linkedUid = '';
@@ -167,6 +183,18 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DateTime
      */
     protected $embargoDate = null;
+
+    /**
+     * newlyAssignedFobIdentifiers
+     *
+     * @var array
+     */
+    protected $newlyAssignedFobIdentifiers = [];
+
+    /**
+     * @var bool
+     */
+    protected $stateChange = false;
 
     /**
      * file
@@ -197,6 +225,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->file = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->initCreationDate();
     }
 
     /**
@@ -228,7 +257,12 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAuthors()
     {
-        return array_map('trim', explode(";", $this->authors));
+        $authors = @unserialize($this->authors);
+        if (is_array($authors)) {
+            return $authors;
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -239,8 +273,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setAuthors($authors)
     {
-        $authors = implode("; ", $authors);
-        $this->authors = $authors;
+        $this->authors = serialize($authors);
     }
 
     /**
@@ -614,7 +647,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setChanged($changed)
     {
-        $this->changed = $changed;
+        $this->changed = boolval($changed);
     }
 
     /**
@@ -635,7 +668,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setValid($valid)
     {
-        $this->valid = $valid;
+        $this->valid = boolval($valid);
     }
 
     /**
@@ -690,8 +723,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getSubmitterName()
     {
         try {
-            $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
-            return $slub->getSubmitterName();
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+            return $internalFormat->getSubmitterName();
         } catch (\Exception $exception) {
             return "";
         }
@@ -704,8 +737,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getQucosaUrn()
     {
-        $mods = new \EWW\Dpf\Helper\Mods($this->getXmlData());
-        return $mods->getQucosaUrn();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getQucosaUrn();
     }
 
     /**
@@ -736,6 +769,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function setState($state)
     {
+        $this->stateChange = $this->state != $state;
         $this->state = $state;
     }
 
@@ -772,7 +806,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @return void
      */
     public function setTemporary($temporary) {
-        $this->temporary = $temporary;
+        $this->temporary = boolval($temporary);
     }
 
     /**
@@ -801,6 +835,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * @return integer
+     */
+    public function getCrdate()
+    {
+        return $this->crdate;
+    }
+
+    /**
      * @return bool
      */
     public function isSuggestion(): bool
@@ -813,7 +855,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setSuggestion(bool $suggestion)
     {
-        $this->suggestion = $suggestion;
+        $this->suggestion = boolval($suggestion);
     }
 
     /**
@@ -872,8 +914,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     public function getNotes() {
-        $slub = new \EWW\Dpf\Helper\Slub($this->getSlubInfoData());
-        return $slub->getNotes();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getNotes();
     }
 
     /**
@@ -915,22 +957,23 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getPublicationYear()
     {
-        $mods = new Mods($this->getXmlData());
-        $year =  $mods->getPublishingYear();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $year =  $internalFormat->getPublishingYear();
         return $year? $year : "";
     }
 
-    /**
+    /*
      * Gets the main title out of the mods-xml data.
      *
      * @return string|null
-     */
+     *
     public function getMainTitle()
     {
-        $mods = new Mods($this->getXmlData());
-        $title = $mods->getTitle();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $title = $internalFormat->getTitle();
         return $title? $title : "";
     }
+    */
 
 
     /**
@@ -940,8 +983,8 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getSourceDetails()
     {
-        $mods = new Mods($this->getXmlData());
-        $data = $mods->getSourceDetails();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $data = $internalFormat->getSourceDetails();
         return $data;
     }
 
@@ -961,4 +1004,90 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->embargoDate = $embargoDate;
     }
 
+    /**
+     * @return array
+     */
+    public function getNewlyAssignedFobIdentifiers(): array
+    {
+        return $this->newlyAssignedFobIdentifiers;
+    }
+
+    /**
+     * @param array newlyAssignedFobIdentifiers
+     */
+    public function setNewlyAssignedFobIdentifiers(array $newlyAssignedFobIdentifiers): void
+    {
+        $this->newlyAssignedFobIdentifiers = $newlyAssignedFobIdentifiers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPreviouslyAssignedFobIdentifiers()
+    {
+        return array_diff(
+            $this->getAssignedFobIdentifiers(), $this->getNewlyAssignedFobIdentifiers()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getAssignedFobIdentifiers(): array
+    {
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        return $internalFormat->getPersonFisIdentifiers();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStateChange(): bool
+    {
+        return $this->stateChange;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $data = $internalFormat->getDepositLicense();
+        return $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationDate(): string
+    {
+        if (
+            $this->getRemoteState() == DocumentWorkflow::REMOTE_STATE_NONE
+            && empty($this->creationDate)
+        ) {
+            $date = new \DateTime();
+            $date->setTimestamp($this->crdate);
+            return $date->format(\DateTimeInterface::RFC3339_EXTENDED);
+        }
+
+        return $this->creationDate;
+    }
+
+    /**
+     * @param string $creationDate
+     */
+    public function setCreationDate(string $creationDate): void
+    {
+        $this->creationDate = $creationDate;
+    }
+
+    /**
+     * Initializes the creation date with the current date.
+     */
+    public function initCreationDate(): void
+    {
+        $date = new \DateTime();
+        $this->setCreationDate($date->format(\DateTimeInterface::RFC3339_EXTENDED));
+    }
 }

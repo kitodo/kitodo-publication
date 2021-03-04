@@ -61,6 +61,7 @@ class FedoraRepository implements Repository
      * Saves a new document into the Fedora repository
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param string $metsXml
      * @return string
      * @throws \Exception
      */

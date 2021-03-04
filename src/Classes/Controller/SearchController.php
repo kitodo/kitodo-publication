@@ -89,11 +89,24 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $bookmarkRepository = null;
 
+    /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
+
+    /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
 
     const RESULT_COUNT      = 500;
     const NEXT_RESULT_COUNT = 500;
-
-
 
     /**
      * list
@@ -109,13 +122,18 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $workspaceSessionData = $this->session->getWorkspaceData();
         $filters = $workspaceSessionData->getFilters();
         $excludeFilters = $workspaceSessionData->getExcludeFilters();
+
+        if (array_key_exists('bookmarks', $excludeFilters)) {
+            unset($excludeFilters['bookmarks']);
+        }
+
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
 
-        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
-        } elseif ($this->security->getUser()->getUserRole() == Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
             $query = $this->getSearchQuery($from, [],
                 $filters, $excludeFilters, $sortField, $sortOrder, $queryString);
         }
@@ -150,8 +168,20 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', []);
-    }
 
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('currentFisPersId', $this->security->getFisPersId());
+        }
+
+        try {
+            $personGroup = $this->metadataGroupRepository->findPersonGroup();
+            $this->view->assign('personGroup', $personGroup->getUid());
+        } catch (\Throwable $e) {
+            $this->addFlashMessage(
+                "Missing configuration: Person group.", '', AbstractMessage::ERROR
+            );
+        }
+    }
 
     /**
      * action list
@@ -434,10 +464,84 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $severity,
                 true
             );
-
         }
 
-        $this->forward("list", null, null, array('results' => $results));
+        if ($extSearch) {
+            // redirect to extended search view
+            $this->forward("extendedSearch", null, null, array('results' => $results, 'query' => $args['query']));
+        } else {
+            // redirect to list view
+            $this->forward("list", null, null, array('results' => $results, 'query' => $args['query']));
+        }
+    }
+
+    /**
+     * action import
+     *
+     * @param  string $documentObjectIdentifier
+     * @param  string $objectState
+     * @return void
+     */
+    public function importAction($documentObjectIdentifier, $objectState)
+    {
+        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
+        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
+        $documentTransferManager->setRemoteRepository($remoteRepository);
+
+        $args = array();
+
+        try {
+            if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
+                $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
+                $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);
+                $args[] = $document->getObjectIdentifier()." (".$document->getTitle().")";
+            } else {
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.retrieve_failed';
+            }
+        } catch (\Exception $exception) {
+            $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
+
+            if ($exception instanceof DPFExceptionInterface) {
+                $key = $exception->messageLanguageKey();
+            } else {
+                $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.unexpected';
+            }
+        }
+
+        // Show success or failure of the action in a flash message
+
+        $message = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf', $args);
+
+        $this->addFlashMessage(
+            $message,
+            '',
+            $severity,
+            true
+        );
+
+        $this->forward('updateIndex', null, null, array('documentObjectIdentifier' => $documentObjectIdentifier));
+    }
+
+    /**
+     *
+     * @param  string $documentObjectIdentifier
+     * @return void
+     */
+    public function updateIndexAction($documentObjectIdentifier)
+    {
+        $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
+
+        if (is_a($document, Document::class)) {
+            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+            $elasticsearchMapper     = $this->objectManager->get(ElasticsearchMapper::class);
+            $json                    = $elasticsearchMapper->getElasticsearchJson($document);
+            // send document to index
+            $elasticsearchRepository->add($document, $json);
+        }
+
+        $this->redirect('search');
     }
 
 

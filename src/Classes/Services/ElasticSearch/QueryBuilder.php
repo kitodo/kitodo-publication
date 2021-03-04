@@ -80,15 +80,18 @@ class QueryBuilder
         $excludeFilters = [], $sortField = null, $sortOrder = null, $queryString = null
     )
     {
+
+        if ($workspaceFilter) {
+            $workspaceFilter = [0 => $workspaceFilter];
+        }
+
         // The base filter.
         $queryFilter = [
             'bool' => [
                 'must' => [
                     [
                         'bool' => [
-                            'should' => [
-                                0 => $workspaceFilter
-                            ]
+                            'should' => $workspaceFilter
                         ]
                     ]
                 ]
@@ -186,9 +189,10 @@ class QueryBuilder
                             ]
                         ]
                     ],
-                    'authorAndPublisher' => [
+                    'persons' => [
                         'terms' => [
-                            'field' => 'authorAndPublisher'
+                            'field' => 'personData.name',
+                            'size'=> 1000
                         ]
                     ],
                     'creatorRole' => [
@@ -222,8 +226,7 @@ class QueryBuilder
             ]
         ];
 
-
-        //echo "<pre>"; print_r($fullQuery); echo "</pre>"; die();
+        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fullQuery, null, 20);
 
         return $fullQuery;
 
@@ -244,7 +247,8 @@ class QueryBuilder
         if ($filters && is_array($filters)) {
 
             $validKeys = [
-                'aliasState', 'authorAndPublisher', 'doctype', 'hasFiles', 'year', 'universityCollection', 'creatorRole'
+                'aliasState', 'persons', 'doctype', 'hasFiles', 'year',
+                'universityCollection', 'creatorRole', 'creationDate'
             ];
 
             foreach ($filters as $key => $filterValues) {
@@ -388,8 +392,19 @@ class QueryBuilder
                                             ]
                                         ],
                                         [
-                                            'term' => [
-                                                'creator' => $this->security->getUser()->getUid()
+                                            'bool' => [
+                                                'should' => [
+                                                    [
+                                                        'term' => [
+                                                            'creator' => $this->security->getUser()->getUid()
+                                                        ]
+                                                    ],
+                                                    [
+                                                        'term' => [
+                                                            'fobIdentifiers' => $this->security->getFisPersId()
+                                                        ]
+                                                    ]
+                                                ]
                                             ]
                                         ]
                                     ]
@@ -445,6 +460,10 @@ class QueryBuilder
             ];
         } else {
             if ($sortField == 'title') {
+                $sortField.= ".keyword";
+            }
+
+            if ($sortField == 'personsSort') {
                 $sortField.= ".keyword";
             }
 

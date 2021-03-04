@@ -51,7 +51,7 @@
                 </td>
                 <td>
                     <f:for each="{document.authors}" as="author" iteration="itemIterator">
-                        {author}
+                        {author.name}
                         <f:if condition="{itemIterator.isLast}">
                             <f:then></f:then>
                             <f:else>;</f:else>

@@ -31,6 +31,13 @@ class DocumentMapper
     protected $objectManager;
 
     /**
+     *
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
+    /**
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
@@ -71,6 +78,27 @@ class DocumentMapper
     protected $fileRepository = null;
 
     /**
+     * depositLicenseRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
+     * @inject
+     */
+    protected $depositLicenseRepository = null;
+
+    /**
+     * Get typoscript settings
+     *
+     * @return mixed
+     */
+    public function getSettings()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+        return $frameworkConfiguration['settings'];
+    }
+
+    /**
      * Gets the document form representation of the document data
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -85,7 +113,14 @@ class DocumentMapper
         $documentForm->setName($document->getDocumentType()->getName());
         $documentForm->setDocumentUid($document->getUid());
 
-        $documentForm->setPrimaryFileMandatory(FALSE);
+        $documentForm->setPrimaryFileMandatory(
+            (
+                (
+                    $this->getSettings()['deactivatePrimaryFileMandatoryCheck'] ||
+                    $document->getDocumentType()->getVirtualType()
+                )? false : true
+            )
+        );
 
         $documentForm->setProcessNumber($document->getProcessNumber());
         $documentForm->setTemporary($document->isTemporary());
@@ -98,8 +133,7 @@ class DocumentMapper
 
         $documentForm->setQucosaId($qucosaId);
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
         $excludeGroupAttributes = array();
 
@@ -122,13 +156,10 @@ class DocumentMapper
                 $documentFormGroup->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
 
                 $documentFormGroup->setInfoText($metadataGroup->getInfoText());
+                $documentFormGroup->setGroupType($metadataGroup->getGroupType());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
-                if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                    $xpath = $slub->getSlubXpath();
-                } else {
-                    $xpath = $mods->getModsXpath();
-                }
+                $xpath = $internalFormat->getXpath();
 
                 // get fixed attributes from xpath configuration
                 $fixedGroupAttributes = array();
@@ -190,6 +221,10 @@ class DocumentMapper
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
+                            $documentFormField->setObjectType($metadataObject->getObjectType());
+
+                            $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
+                            $documentFormField->setDepositLicense($depositLicense);
 
                             $objectMapping = "";
 
@@ -256,6 +291,9 @@ class DocumentMapper
                         $documentFormPage->addItem($documentFormGroupItem);
                     }
                 } else {
+
+                    $documentFormGroup->setEmptyGroup(true);
+
                     foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
                         $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
                         $documentFormField->setUid($metadataObject->getUid());
@@ -275,6 +313,10 @@ class DocumentMapper
                         $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                         $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                         $documentFormField->setValue("", $metadataObject->getDefaultValue());
+                        $documentFormField->setObjectType($metadataObject->getObjectType());
+
+                        $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
+                        $documentFormField->setDepositLicense($depositLicense);
 
                         $documentFormGroup->addItem($documentFormField);
                     }
@@ -298,11 +340,15 @@ class DocumentMapper
 
     public function getDocument($documentForm)
     {
+        /** @var Document $document */
 
         if ($documentForm->getDocumentUid()) {
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+            $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $fobIdentifiers = $tempInternalFormat->getPersonFisIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
+            $fobIdentifiers = [];
         }
 
         $processNumber = $document->getProcessNumber();
@@ -326,32 +372,31 @@ class DocumentMapper
 
         $formMetaData = $this->getMetadata($documentForm);
 
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
 
-        // mods:mods
-        $modsData['documentUid'] = $documentForm->getDocumentUid();
-        $modsData['metadata']    = $formMetaData['mods'];
-        $modsData['files']       = array();
+        $exporter->setFileData($document->getFileData());
 
-        $exporter->buildModsFromForm($modsData);
-        $modsXml = $exporter->getModsData();
-        $document->setXmlData($modsXml);
+        $documentData['documentUid'] = $documentForm->getDocumentUid();
+        $documentData['metadata']    = $formMetaData['mods'];
+        $documentData['files']       = array();
 
-        $mods = new \EWW\Dpf\Helper\Mods($modsXml);
+        $exporter->buildXmlFromForm($documentData);
 
-        $document->setTitle($mods->getTitle());
-        $document->setAuthors($mods->getAuthors());
-        $document->setDateIssued($mods->getDateIssued());
+        $internalXml = $exporter->getXmlData();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml);
+
+        // set static xml
+        $internalFormat->setDocumentType($documentType->getName());
+        $internalFormat->setProcessNumber($processNumber);
+
+        $document->setXmlData($internalFormat->getXml());
+
+        $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getPersonFisIdentifiers(), $fobIdentifiers));
+
+        $document->setTitle($internalFormat->getTitle());
         $document->setEmbargoDate($formMetaData['embargo']);
-
-        // slub:info
-        $slubInfoData['documentUid'] = $documentForm->getDocumentUid();
-        $slubInfoData['metadata']    = $formMetaData['slubInfo'];
-        $slubInfoData['files']       = array();
-        $exporter->buildSlubInfoFromForm($slubInfoData, $documentType, $document->getProcessNumber());
-        $slubInfoXml = $exporter->getSlubInfoData();
-
-        $document->setSlubInfoData($slubInfoXml);
+        $document->setAuthors($internalFormat->getAuthors());
+        $document->setDateIssued($internalFormat->getDateIssued());
 
         return $document;
     }
@@ -400,9 +445,7 @@ class DocumentMapper
                             }
 
                             if ($metadataObject->getEmbargo()) {
-                                if ($fieldItem->getEmbargo()) {
-                                    $form['embargo'] = new \DateTime($value);
-                                }
+                                $form['embargo'] = new \DateTime($value);
                             }
 
                             $fieldCount++;
@@ -439,11 +482,7 @@ class DocumentMapper
                     }
 
                     if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount) {
-                        if ($metadataGroup->isSlubInfo($metadataGroup->getMapping())) {
-                            $form['slubInfo'][] = $item;
-                        } else {
-                            $form['mods'][] = $item;
-                        }
+                        $form['mods'][] = $item;
                     }
 
                 }

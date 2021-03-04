@@ -34,21 +34,21 @@ return array(
             'endtime'   => 'endtime',
         ),
         'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
-        process_number, valid, changed, state, reserved_object_identifier, 
-        object_identifier, transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_document.gif',
+        process_number, valid, changed, state, reserved_object_identifier, object_identifier, 
+        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo',
+        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
         title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
-        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo,
+        transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -68,6 +68,7 @@ return array(
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1),
                     array('LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0),
                 ),
+                'default' => 0,
             ),
         ),
         'l10n_parent'                => array(
@@ -193,23 +194,14 @@ return array(
         ),
 
         'crdate'                     => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.creationDate',
             'config'  => array(
-                'type'   => 'none',
-                'format' => 'datetime',
-                'eval'   => 'datetime',
+                'type' => 'passthrough',
             ),
         ),
 
         'tstamp'                     => array(
-            'exclude' => 0,
-            'label'   => 'LLL:EXT:lang/locallang_general.xlf:LGL.timestamp',
             'config'  => array(
-                'type'   => 'input',
-                'renderType' => 'inputDateTime',
-                'format' => 'datetime',
-                'eval'   => 'datetime',
+                'type' => 'passthrough',
             ),
         ),
 
@@ -337,6 +329,17 @@ return array(
                 'foreign_table' => 'fe_users',
                 'minitems'      => 0,
                 'maxitems'      => 1,
+                'default'       => 0,
+            ),
+        ),
+
+        'creation_date' => array(
+            'exclude'   => 1,
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.creation_date',
+            'config'    => array(
+                'type'  => 'input',
+                'size'  => 30,
+                'eval'  => 'trim',
             ),
         ),
 
@@ -383,7 +386,7 @@ return array(
         'automatic_embargo'    => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.embargo',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.automatic_embargo',
             'config'    => array(
                 'type'    => 'check',
                 'default' => 0,

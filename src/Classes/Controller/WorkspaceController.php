@@ -78,6 +78,7 @@ class WorkspaceController extends AbstractController
      */
     protected $queryBuilder = null;
 
+
     /**
      * documentManager
      *
@@ -104,6 +105,30 @@ class WorkspaceController extends AbstractController
 
 
     /**
+     * metadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository;
+
+    /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
+
+
+    public function initializeAction()
+    {
+        $this->authorizationChecker->denyAccessUnlessLoggedIn();
+
+        parent::initializeAction();
+    }
+
+    /**
      * list
      *
      * @param int $from
@@ -123,10 +148,10 @@ class WorkspaceController extends AbstractController
         $sortField = $workspaceSessionData->getSortField();
         $sortOrder = $workspaceSessionData->getSortOrder();
 
-        if ($this->security->getUser()->getUserRole() == Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() == Security::ROLE_LIBRARIAN) {
             $query = $this->getWorkspaceQuery($from, $bookmarkIdentifiers,
                 $filters, $excludeFilters, $sortField, $sortOrder);
-        } elseif ($this->security->getUser()->getUserRole() == Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() == Security::ROLE_RESEARCHER) {
             $query = $this->getMyPublicationsQuery($from, $bookmarkIdentifiers,
                 $filters, $excludeFilters, $sortField, $sortOrder);
         }
@@ -151,7 +176,9 @@ class WorkspaceController extends AbstractController
         }
 
         if ($filters && $results['hits']['total']['value'] < 1) {
-            $this->session->clearFilter();
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
             list($redirectAction, $redirectController) = $this->session->getStoredAction();
             $this->redirect(
                 $redirectAction, $redirectController, null,
@@ -168,6 +195,19 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
+        
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('currentFisPersId', $this->security->getFisPersId());
+        }
+
+        try {
+            $personGroup = $this->metadataGroupRepository->findPersonGroup();
+            $this->view->assign('personGroup', $personGroup->getUid());
+        } catch (\Throwable $e) {
+            $this->addFlashMessage(
+                "Missing configuration: Person group.", '', AbstractMessage::ERROR
+            );
+        }
     }
 
     /**
@@ -188,9 +228,9 @@ class WorkspaceController extends AbstractController
             $this->session->setWorkspaceData($workspaceSessionData);
         }
 
-        if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
-        } elseif ($this->security->getUser()->getUserRole() === Security::ROLE_RESEARCHER) {
+        } elseif ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             $this->view->assign('isWorkspace', false);
         } else {
             $message = LocalizationUtility::translate(
@@ -296,6 +336,76 @@ class WorkspaceController extends AbstractController
                 [sizeof($successful), sizeof($listData['documentIdentifiers'])]
             );
 
+
+            $this->addFlashMessage(
+                $message, '',
+                (sizeof($successful) > 0 ? AbstractMessage::OK : AbstractMessage::WARNING)
+            );
+
+        } else {
+            $message = LocalizationUtility::translate(
+                'manager.workspace.batchAction.failure',
+                'dpf');
+            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        }
+
+        list($redirectAction, $redirectController) = $this->session->getStoredAction();
+        $this->redirect(
+            $redirectAction, $redirectController, null,
+            array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
+    }
+
+    /**
+     * Batch operation, set documents to "In progress".
+     * @param array $listData
+     */
+    public function batchSetInProgressAction($listData)
+    {
+        $successful = [];
+        $checkedDocumentIdentifiers = [];
+
+        if (array_key_exists('documentIdentifiers', $listData) && is_array($listData['documentIdentifiers']) ) {
+            $checkedDocumentIdentifiers = $listData['documentIdentifiers'];
+            foreach ($listData['documentIdentifiers'] as $documentIdentifier) {
+
+                $this->editingLockService->lock(
+                    $documentIdentifier, $this->security->getUser()->getUid()
+                );
+
+                $document = $this->documentManager->read($documentIdentifier);
+
+                    if ($this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document)) {
+
+                        $document->setTemporary(false);
+
+                            if (
+                                $this->documentManager->update(
+                                    $document,
+                                    DocumentWorkflow::TRANSITION_IN_PROGRESS
+                                )
+                            ) {
+                                $successful[] = $documentIdentifier;
+
+                                // index the document
+                                $this->signalSlotDispatcher->dispatch(
+                                    \EWW\Dpf\Controller\AbstractController::class,
+                                    'indexDocument', [$document]
+                                );
+                            }
+                    }
+            }
+
+            if (sizeof($successful) == 1) {
+                $locallangKey = 'manager.workspace.batchAction.setInProgress.success.singular';
+            } else {
+                $locallangKey = 'manager.workspace.batchAction.setInProgress.success.plural';
+            }
+
+            $message = LocalizationUtility::translate(
+                $locallangKey,
+                'dpf',
+                [sizeof($successful), sizeof($listData['documentIdentifiers'])]
+            );
 
             $this->addFlashMessage(
                 $message, '',
@@ -430,10 +540,9 @@ class WorkspaceController extends AbstractController
 
                 if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
-                    $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-
-                    $slub->setValidation($validated);
-                    $document->setSlubInfoData($slub->getSlubXml());
+                    $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                    $internalFormat->setValidation($validated);
+                    $document->setXmlData($internalFormat->getXml());
 
                     if ($this->documentManager->update($document, $documentWorkflowTransition)) {
                         $successful[] = $documentIdentifier;
@@ -568,13 +677,44 @@ class WorkspaceController extends AbstractController
             'bool' => [
                 'must' => [
                     [
-                        'term' => [
-                            'creator' => $this->security->getUser()->getUid()
+                        'bool' => [
+                            'should' => [
+                                [
+                                    'term' => [
+                                        'creator' => $this->security->getUser()->getUid()
+                                    ]
+                                ]
+                            ]
                         ]
                     ]
                 ]
             ]
         ];
+
+        $fisPersIdFilter =  [
+            'bool' => [
+                'must' => [
+                    [
+                        'term' => [
+                            'fobIdentifiers' => $this->security->getFisPersId()
+                        ]
+                    ],
+                    [
+                        'bool' => [
+                            'must_not' => [
+                                'term' => [
+                                    'state' => DocumentWorkflow::STATE_NEW_NONE
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ];
+
+        if ($this->security->getFisPersId()) {
+            $workspaceFilter['bool']['must'][0]['bool']['should'][1] = $fisPersIdFilter;
+        }
 
         return $this->queryBuilder->buildQuery(
             $this->itemsPerPage(), $workspaceFilter, $from, $bookmarkIdentifiers, $filters,
@@ -629,6 +769,14 @@ class WorkspaceController extends AbstractController
         }
 
         foreach ($this->documentRepository->findAll() as $document) {
+
+            $creationDate = $document->getCreationDate();
+            if (empty($creationDate) && $document->getObjectIdentifier()) {
+                $creationDate = $document->getCreationDate();
+            }
+            $document->setCreationDate($creationDate);
+            $this->documentRepository->update($document);
+
             if (!$document->isTemporary() && !$document->isSuggestion()) {
                 // index the document
                 $signalSlotDispatcher->dispatch(
@@ -637,16 +785,19 @@ class WorkspaceController extends AbstractController
                 );
             }
         }
+
     }
 
 
     /**
-     * action uploadFiles
+     * Action editDocument
      *
      * @param string $documentIdentifier
+     * @param string $activeGroup
+     * @param int $activeGroupIndex
      * @return void
      */
-    public function uploadFilesAction($documentIdentifier)
+    public function editDocumentAction($documentIdentifier, $activeGroup = '', $activeGroupIndex = 0)
     {
         $document = $this->documentManager->read(
             $documentIdentifier,
@@ -659,13 +810,24 @@ class WorkspaceController extends AbstractController
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } elseif ($this->authorizationChecker->isGranted(DocumentVoter::SUGGEST_MODIFICATION, $document)) {
                 $this->redirect(
                     'edit',
                     'DocumentFormBackoffice',
                     null,
-                    ['document' => $document, 'suggestMod' => true, 'activeFileTab' => true]);
+                    [
+                        'document' => $document,
+                        'suggestMod' => true,
+                        'activeGroup' => $activeGroup,
+                        'activeGroupIndex' => $activeGroupIndex
+                    ]
+                );
             } else {
                 if ($document->getCreator() !== $this->security->getUser()->getUid()) {
                     $message = LocalizationUtility::translate(

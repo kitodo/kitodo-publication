@@ -16,6 +16,9 @@ namespace EWW\Dpf\Services\Transfer;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Domain\Model\LocalDocumentStatus;
+use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
+use EWW\Dpf\Helper\XSLTransformator;
 use EWW\Dpf\Domain\Model\File;
 
 class DocumentTransferManager
@@ -91,36 +94,24 @@ class DocumentTransferManager
      */
     public function ingest($document)
     {
-        $this->documentRepository->update($document);
-
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
-
-        $fileData = $document->getFileData();
-
-        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
-
-        $exporter->setFileData($fileData);
-
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
         // Set current date as publication date
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
-        $mods->setDateIssued($dateIssued);
+        $internalFormat->setDateIssued($dateIssued);
+        $internalFormat->setCreator($document->getCreator());
+        $internalFormat->setCreationDate($document->getCreationDate());
 
-        $exporter->setMods($mods->getModsXml());
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
+        $exporter->setXML($internalFormat->getXml());
+        $fileData = $document->getFileData();
+        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
+        $exporter->setFileData($fileData);
+        $document->setXmlData($exporter->getXMLData());
 
-        // Set the document creator
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getCreator());
-        $exporter->setSlubInfo($slub->getSlubXml());
+        $XSLTransformator = new XSLTransformator();
+        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $exporter->buildMets();
-
-        $metsXml = $exporter->getMetsData();
-
-        $remoteDocumentId = $this->remoteRepository->ingest($document, $metsXml);
+        $remoteDocumentId = $this->remoteRepository->ingest($document, $transformedXml);
 
         if ($remoteDocumentId) {
             $document->setDateIssued($dateIssued);
@@ -131,7 +122,6 @@ class DocumentTransferManager
             $this->documentRepository->update($document);
             return false;
         }
-
     }
 
     /**
@@ -169,30 +159,23 @@ class DocumentTransferManager
      */
     public function update($document)
     {
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat->setCreator($document->getCreator());
+        $internalFormat->setCreationDate($document->getCreationDate());
 
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
+        $exporter->setXML($internalFormat->getXml());
         $fileData = $document->getFileData();
-
         $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
-
         $exporter->setFileData($fileData);
+        $document->setXmlData($exporter->getXMLData());
 
-        $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
-        $exporter->setMods($mods->getModsXml());
-
-        // Set the document creator
-        $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-        $slub->setDocumentCreator($document->getCreator());
-        $exporter->setSlubInfo($slub->getSlubXml());
-
-        $exporter->setObjId($document->getObjectIdentifier());
-
-        $exporter->buildMets();
-
-        $metsXml = $exporter->getMetsData();
-
-        if ($this->remoteRepository->update($document, $metsXml)) {
+        if ($this->remoteRepository->update($document, $transformedXml)) {
+            $document->setTransferStatus(Document::TRANSFER_SENT);
+            $this->documentRepository->update($document);
+            $this->documentRepository->remove($document);
             return true;
         } else {
             return false;
@@ -210,24 +193,26 @@ class DocumentTransferManager
      */
     public function retrieve($remoteId)
     {
-        $metsXml = $this->remoteRepository->retrieve($remoteId);
+        $remoteXml = $this->remoteRepository->retrieve($remoteId);
+        
+        if ($remoteXml) {
 
-        if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            $mods = $mets->getMods();
-            $slub = $mets->getSlub();
+            $XSLTransformator = new XSLTransformator();
+            $inputTransformedXML = $XSLTransformator->transformInputXML($remoteXml);
 
-            $title   = $mods->getTitle();
-            $authors = $mods->getAuthors();
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
 
-            $documentTypeName = $slub->getDocumentType();
+            $title = $internalFormat->getTitle();
+            $authors = $internalFormat->getPersons();
+
+            $documentTypeName = $internalFormat->getDocumentType();
             $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
 
             if (empty($title) || empty($documentType)) {
                 return false;
             }
 
-            $state = $mets->getState();
+            $state = $internalFormat->getRepositoryState();
 
             /* @var $document \EWW\Dpf\Domain\Model\Document */
             $document = $this->objectManager->get(Document::class);
@@ -247,27 +232,31 @@ class DocumentTransferManager
                     break;
             }
 
-            $document->setRemoteLastModDate($mets->getLastModDate());
+            $document->setRemoteLastModDate($internalFormat->getRepositoryLastModDate());
             $document->setObjectIdentifier($remoteId);
             $document->setTitle($title);
             $document->setAuthors($authors);
             $document->setDocumentType($documentType);
 
-            $document->setXmlData($mods->getModsXml());
-            $document->setSlubInfoData($slub->getSlubXml());
+            $document->setXmlData($inputTransformedXML);
 
-            $document->setDateIssued($mods->getDateIssued());
+            $document->setDateIssued($internalFormat->getDateIssued());
 
-            $document->setProcessNumber($slub->getProcessNumber());
+            $document->setProcessNumber($internalFormat->getProcessNumber());
 
-            $document->setCreator($slub->getDocumentCreator());
+            $creationDate = $internalFormat->getCreationDate();
+            if (empty($creationDate)) {
+                $creationDate = $internalFormat->getRepositoryCreationDate();
+            }
+            $document->setCreationDate($creationDate);
+            $document->setCreator($internalFormat->getCreator());
 
             $document->setTemporary(TRUE);
 
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
 
-            foreach ($mets->getFiles() as $attachment) {
+            foreach ($internalFormat->getFiles() as $attachment) {
 
                 $file = $this->objectManager->get(File::class);
                 $file->setContentType($attachment['mimetype']);
@@ -346,14 +335,14 @@ class DocumentTransferManager
      * @return string
      */
     public function getLastModDate($remoteId) {
-        $metsXml = $this->remoteRepository->retrieve($remoteId);
-
-        if ($metsXml) {
-            $mets = new \EWW\Dpf\Helper\Mets($metsXml);
-            return $mets->getLastModDate();
+        $remoteXml = $this->remoteRepository->retrieve($remoteId);
+        if ($remoteXml) {
+            $XSLTransformator = new XSLTransformator();
+            $inputTransformedXML = $XSLTransformator->transformInputXML($remoteXml);
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($inputTransformedXML);
+            return $internalFormat->getRepositoryLastModDate();
         }
 
-        return NULL;
+        return '';
     }
-
 }

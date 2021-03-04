@@ -4,10 +4,16 @@ namespace EWW\Dpf\Services\Document;
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Security\Security;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Controller\AbstractController;
+use EWW\Dpf\Services\Email\Notifier;
+use Symfony\Component\Workflow\Workflow;
+use Httpful\Request;
 
 class DocumentManager
 {
@@ -60,6 +66,14 @@ class DocumentManager
     protected $signalSlotDispatcher = null;
 
     /**
+     * notifier
+     *
+     * @var \EWW\Dpf\Services\Email\Notifier
+     * @inject
+     */
+    protected $notifier = null;
+
+    /**
      * security
      *
      * @var \EWW\Dpf\Security\Security
@@ -68,12 +82,78 @@ class DocumentManager
     protected $security = null;
 
     /**
-     * Returns a document specified by repository object identifier or dataset uid.
+     * frontendUserRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository = null;
+
+    /**
+     * elasticSearch
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
+     * @inject
+     */
+    protected $elasticSearch = null;
+
+    /**
+     * queryBuilder
+     *
+     * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
+     * @inject
+     */
+    protected $queryBuilder = null;
+
+    /**
+     * Returns the localized document identifiers (uid/objectIdentifier).
+     *
+     * @param $identifier
+     * @return array
+     */
+    public function resolveIdentifier($identifier) {
+
+        $localizedIdentifiers = [];
+
+        $document = $this->documentRepository->findByIdentifier($identifier);
+
+        if ($document instanceof Document) {
+
+            if ($document->getObjectIdentifier()) {
+                $localizedIdentifiers['objectIdentifier'] = $document->getObjectIdentifier();
+            }
+
+            if ($document->getUid()) {
+                $localizedIdentifiers['uid'] = $document->getUid();
+            }
+        } else {
+
+            $query = $this->queryBuilder->buildQuery(
+                1, [], 0,
+                [], [], [], null, null,
+                'identifier:"'.$identifier.'"'
+            );
+
+            try {
+                $results =  $this->elasticSearch->search($query, 'object');
+                if (is_array($results) && $results['hits']['total']['value'] > 0) {
+                    $localizedIdentifiers['objectIdentifier'] = $results['hits']['hits'][0]['_id'];
+                }
+            } catch (\Exception $e) {
+                return [];
+            }
+
+        }
+
+        return $localizedIdentifiers;
+    }
+
+
+    /**
+     * Returns a document specified by repository object identifier, a typo3 uid or a process number.
      *
      * @param string $identifier
-     * @param int $user_uid
      * @return Document|null
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function read($identifier)
     {
@@ -81,29 +161,26 @@ class DocumentManager
             return null;
         }
 
-        $document = $this->documentRepository->findByIdentifier($identifier);
+        $localizedIdentifiers = $this->resolveIdentifier($identifier);
 
-        if ($document instanceof Document) {
-            return $document;
+        if (array_key_exists('uid', $localizedIdentifiers)) {
+            return $this->documentRepository->findByUid($localizedIdentifiers['uid']);
         }
 
-        /** @var \EWW\Dpf\Domain\Model\Document $document */
-        $document = NULL;
+        if (array_key_exists('objectIdentifier', $localizedIdentifiers)) {
+            try {
+                /** @var \EWW\Dpf\Domain\Model\Document $document */
+                $document = $this->getDocumentTransferManager()->retrieve($localizedIdentifiers['objectIdentifier']);
 
-        try {
-            $document = $this->getDocumentTransferManager()->retrieve($identifier);
+                // index the document
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'indexDocument', [$document]
+                );
 
-            // index the document
-            $this->signalSlotDispatcher->dispatch(
-                AbstractController::class, 'indexDocument', [$document]
-            );
-
-        } catch (\EWW\Dpf\Exceptions\RetrieveDocumentErrorException $exception) {
-            return null;
-        }
-
-        if ($document instanceof Document) {
-            return $document;
+                return $document;
+            } catch (\Exception $exception) {
+                return null;
+            }
         }
 
         return null;
@@ -116,15 +193,19 @@ class DocumentManager
      * @param string $workflowTransition
      * @param array $deletedFiles
      * @param array $newFiles
+     * @param bool $addedFisIdOnly
      * @return string|false
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function update(Document $document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
+    public function update(
+        Document $document, $workflowTransition = null, $deletedFiles = [], $newFiles = [], $addedFisIdOnly = false
+    )
     {
         // xml data fields are limited to 64 KB
-        if (strlen($document->getXmlData()) >= 64 * 1024 || strlen($document->getSlubInfoData() >= 64 * 1024)) {
+        // FIXME: Code duplication should be removed and it should be encapsulated or made configurable.
+        if (strlen($document->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
@@ -156,7 +237,6 @@ class DocumentManager
                 $workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE
             )
         ) {
-
             // if local working copy with state change
             $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
 
@@ -178,8 +258,9 @@ class DocumentManager
                         $bookmark->setDocumentIdentifier($ingestedDocument->getDocumentIdentifier());
                         $this->bookmarkRepository->update($bookmark);
                     }
+                    $this->persistenceManager->persistAll();
                 } else {
-                    throw \Exception("Logical exception while updating bookmarks.");
+                    throw new \Exception("Logical exception while updating bookmarks.");
                 }
 
                 // check embargo
@@ -193,13 +274,10 @@ class DocumentManager
                 $updateResult = false;
             }
         } else {
-
             $this->updateFiles($document, $deletedFiles, $newFiles);
             $this->documentRepository->update($document);
             $updateResult = $document->getDocumentIdentifier();
         }
-
-     //   $this->persistenceManager->persistAll();
 
         if ($updateResult) {
 
@@ -209,10 +287,22 @@ class DocumentManager
                     AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]
                 );
             }
+
             // index the document
             $this->signalSlotDispatcher->dispatch(
                 AbstractController::class, 'indexDocument', [$document]
             );
+
+            // Notify assigned users
+            $recipients = $this->getUpdateNotificationRecipients($document);
+            $this->notifier->sendMyPublicationUpdateNotification($document, $recipients);
+
+            $recipients = $this->getNewPublicationNotificationRecipients($document);
+            $this->notifier->sendMyPublicationNewNotification($document, $recipients);
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendChangedDocumentNotification($document, $addedFisIdOnly);
         }
 
         return $updateResult;
@@ -341,6 +431,69 @@ class DocumentManager
         return false;
     }
 
+    public function addSuggestion($editDocument, $restore = false, $comment = '') {
+        // add new document
+        /** @var Document $suggestionDocument */
+        $suggestionDocument = $this->objectManager->get(Document::class);
+        $this->documentRepository->add($suggestionDocument);
+        $this->persistenceManager->persistAll();
+
+        // copy properties from origin
+        $suggestionDocument = $suggestionDocument->copy($editDocument);
+        $suggestionDocument->setCreator($editDocument->getCreator());
+
+        if ($suggestionDocument->isTemporary()) {
+            $suggestionDocument->setTemporary(false);
+        }
+
+        if (empty($suggestionDocument->getFileData())) {
+            // no files are linked to the document
+            $hasFilesFlag = false;
+        }
+
+        if ($editDocument->getObjectIdentifier()) {
+            $suggestionDocument->setLinkedUid($editDocument->getObjectIdentifier());
+        } else {
+            $suggestionDocument->setLinkedUid($editDocument->getUid());
+        }
+
+        $suggestionDocument->setSuggestion(true);
+        if ($comment) {
+            $suggestionDocument->setComment($comment);
+        }
+
+        if ($restore) {
+            $suggestionDocument->setTransferStatus("RESTORE");
+        }
+
+//        if (!$hasFilesFlag) {
+//            // Add or update files
+//            foreach ($documentForm->getNewFiles() as $newFile) {
+//                if ($newFile->getUID()) {
+//                    $this->fileRepository->update($newFile);
+//                } else {
+//                    $newFile->setDocument($suggestionDocument);
+//                    $this->fileRepository->add($newFile);
+//                }
+//
+//                $suggestionDocument->addFile($newFile);
+//            }
+//        } else {
+//            // remove files for suggest object
+//            $suggestionDocument->setFile($this->objectManager->get(ObjectStorage::class));
+//        }
+
+        try {
+//            $suggestionDocument->setCreator($this->security->getUser()->getUid());
+            $this->documentRepository->add($suggestionDocument);
+        } catch (\Throwable $t) {
+            return null;
+        }
+
+        return $suggestionDocument;
+
+    }
+
     /**
      * @param $document
      * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
@@ -358,5 +511,207 @@ class DocumentManager
 
     }
 
+
+    /**
+     * @param Document $document
+     * @return FrontendUser
+     */
+    public function getCreatorUser(Document $document) {
+        return $this->frontendUserRepository->findByUid($document->getCreator());
+    }
+
+    /**
+     * @param Document $document
+     * @return array
+     */
+    public function getAssignedUsers(Document $document)
+    {
+        $assignedUsers = [];
+
+        foreach ($document->getAssignedFobIdentifiers() as $fobId) {
+            $feUsers = $this->frontendUserRepository->findByFisPersId($fobId);
+            foreach ($feUsers as $feUser) {
+
+                $assignedUsers[$feUser->getUid()] = $feUser;
+            }
+        }
+
+        return $assignedUsers;
+    }
+
+    /**
+     * @param Document $document
+     * @return array
+     */
+    public function getNewlyAssignedUsers(Document $document)
+    {
+        $assignedUsers = [];
+
+        foreach ($document->getNewlyAssignedFobIdentifiers() as $fobId) {
+            $feUsers = $this->frontendUserRepository->findByFisPersId($fobId);
+            foreach ($feUsers as $feUser) {
+                $assignedUsers[$feUser->getUid()] = $feUser;
+            }
+        }
+
+        return $assignedUsers;
+    }
+
+    /**
+     * @param Document $document
+     * @return array
+     */
+    public function getDocumentBookmarkUsers(Document $document) {
+
+        $users = [];
+
+        /** @var Bookmark $bookmark */
+        $bookmarks = $this->bookmarkRepository->findByDocumentIdentifier($document->getDocumentIdentifier());
+        foreach ($bookmarks as $bookmark) {
+            $feUser = $this->frontendUserRepository->findByUid($bookmark->getFeUserUid());
+            $users[$feUser->getUid()] = $feUser;
+        }
+
+        return $users;
+    }
+
+    /**
+     * @param Document $document
+     * @return array
+     */
+    public function getUpdateNotificationRecipients(Document $document)
+    {
+        $users = [];
+
+        if ($document->getCreator()) {
+            $users[$this->getCreatorUser($document)->getUid()] = $this->getCreatorUser($document);
+        }
+
+        foreach ($this->getAssignedUsers($document) as $user) {
+            $users[$user->getUid()] = $user;
+        }
+
+        foreach ($this->getDocumentBookmarkUsers($document) as $user) {
+            $users[$user->getUid()] = $user;
+        }
+
+        $recipients = [];
+
+        /** @var FrontendUser $recipient */
+        foreach ($users as $recipient) {
+            // Fixme:  Refactoring is needed. The whole code inside this foreach is way too confusing.
+            // Give expressions at least a name. Minize the deeply nested structure.
+            // Maybe rethinking of the whole process of notifying could help, e.g. the recipients
+            // could decide if a notification is wanted.
+            if (
+                $recipient->getUid() !== $this->security->getUser()->getUid() &&
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
+                !(
+                    in_array(
+                        $recipient->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
+                    ) ||
+                    $document->isStateChange() &&
+                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                )
+            ) {
+
+                if ($recipient->isNotifyOnChanges()) {
+
+                    if (
+                        $recipient->isNotifyPersonalLink() ||
+                        $recipient->isNotifyStatusChange() ||
+                        $recipient->isNotifyFulltextPublished()
+                    ) {
+                        if (
+                            $recipient->isNotifyPersonalLink() &&
+                            in_array(
+                                $recipient->getFisPersId(), $document->getAssignedFobIdentifiers()
+                            ) &&
+                            !(
+                                $recipient->isNotifyNewPublicationMyPublication() &&
+                                (
+                                    in_array(
+                                        $recipient->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
+                                    ) ||
+                                    $document->isStateChange() &&
+                                    $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                                )
+                            )
+                        ) {
+                            $recipients[$recipient->getUid()] = $recipient;
+                        }
+
+                        if ($recipient->isNotifyStatusChange() && $document->isStateChange()) {
+                            $recipients[$recipient->getUid()] = $recipient;
+                        }
+
+                        if ($recipient->isNotifyFulltextPublished()) {
+
+                            $embargoDate = $document->getEmbargoDate();
+                            $currentDate = new \DateTime('now');
+
+                            $fulltextPublished = false;
+                            foreach ($document->getFile() as $file) {
+                                if ($file->getStatus() != 'added') {
+                                    $fulltextPublished = false;
+                                    break;
+                                } else {
+                                    $fulltextPublished = true;
+                                }
+                            }
+
+                            if (
+                                $document->getState() === DocumentWorkflow::STATE_NONE_ACTIVE &&
+                                $fulltextPublished &&
+                                (
+                                   empty($embargoDate) ||
+                                   $embargoDate < $currentDate
+                                )
+                            ) {
+                                $recipients[$recipient->getUid()] = $recipient;
+                            }
+                        }
+
+                    } else {
+                       $recipients[$recipient->getUid()] = $recipient;
+                    }
+                }
+            }
+        }
+        return $recipients;
+    }
+
+    /**
+     * @param Document $document
+     * @return array
+     */
+    public function getNewPublicationNotificationRecipients(Document $document)
+    {
+        $users = [];
+
+        /** @var FrontendUser $user */
+        foreach ($this->getAssignedUsers($document) as $user) {
+            if (
+                $user->getUid() !== $this->security->getUser()->getUid() &&
+                $document->getState() !== DocumentWorkflow::STATE_NEW_NONE &&
+                $user->getUid() !== $document->getCreator()
+            ) {
+                if (
+                    $user->isNotifyNewPublicationMyPublication() &&
+                    (
+                        in_array(
+                            $user->getFisPersId(), $document->getNewlyAssignedFobIdentifiers()
+                        ) ||
+                        $document->isStateChange() &&
+                        $document->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
+                    )
+                ) {
+                    $users[$user->getUid()] = $user;
+                }
+            }
+        }
+
+        return $users;
+    }
 }
 

@@ -93,6 +93,15 @@ class Mets
         return $dmdSec->item(0)->getAttribute("LASTMODDATE");
     }
 
+    public function getCreationDate()
+    {
+        $xpath = $this->getMetsXpath();
+        $xpath->registerNamespace("mets", "http://www.loc.gov/METS/");
+
+        $dmdSec = $xpath->query("/mets:mets/mets:metsHdr");
+        return $dmdSec->item(0)->getAttribute("CREATEDATE");
+    }
+
     public function getFiles()
     {
         $xpath = $this->getMetsXpath();

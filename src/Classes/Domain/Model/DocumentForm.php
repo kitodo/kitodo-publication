@@ -120,7 +120,7 @@ class DocumentForm extends AbstractFormElement
      */
     public function setPrimaryFileMandatory($primaryFileMandatory)
     {
-        $this->primaryFileMandatory = $primaryFileMandatory;
+        $this->primaryFileMandatory = boolval($primaryFileMandatory);
     }
 
     /**
@@ -189,14 +189,20 @@ class DocumentForm extends AbstractFormElement
         $this->newFiles = $newFiles;
     }
 
+    /**
+     * @return bool
+     */
     public function getValid()
     {
         return $this->valid;
     }
 
+    /**
+     * @param bool $valid
+     */
     public function setValid($valid)
     {
-        $this->valid = $valid;
+        $this->valid = boolval($valid);
     }
 
     public function getNewFileNames()
@@ -244,7 +250,7 @@ class DocumentForm extends AbstractFormElement
      */
     public function setTemporary($temporary)
     {
-        $this->temporary = $temporary;
+        $this->temporary = boolval($temporary);
     }
 
     /**

@@ -35,6 +35,17 @@ $temporaryColumns = array (
         ],
     ],
 
+    'notify_on_changes' => array (
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
+        'config' => array (
+            'type' => 'check',
+            'items' => array (
+                ['notify on changes', ''],
+            ),
+        )
+    ),
+
     'notify_personal_link' => array (
         'exclude' => 0,
         'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
@@ -74,7 +85,35 @@ $temporaryColumns = array (
                 ['notify new publication in mypublication', ''],
             ),
         )
-    )
+    ),
+    'fis_pers_id' => array(
+        'exclude' => 0,
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feuser.fis_pers_id',
+        'config'  => array(
+            'type' => 'input',
+            'size' => '30',
+            'eval' => 'trim',
+        ),
+    ),
+    'orga_name' => array(
+        'exclude' => 0,
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feuser.orga_name',
+        'config'  => array(
+            'type' => 'input',
+            'size' => '30',
+            'eval' => 'trim',
+        ),
+    ),
+    'api_token' => array(
+        'exclude' => 0,
+        'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feuser.api_token',
+        'config'  => array(
+            'type' => 'input',
+            'size' => '30',
+            'eval' => 'trim',
+        ),
+    ),
+
 );
 
 
@@ -85,7 +124,7 @@ $temporaryColumns = array (
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_users',
-    'stored_searches,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication',
+    'stored_searches,notify_on_changes,notify_personal_link,notify_status_change,notify_fulltext_published,notify_new_publication_mypublication,fis_pers_id,orga_name,api_token',
     '',
     'after:title'
 );

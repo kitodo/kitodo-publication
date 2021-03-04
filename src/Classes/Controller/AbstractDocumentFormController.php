@@ -20,6 +20,8 @@ use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 
 
 /**
@@ -69,12 +71,28 @@ abstract class AbstractDocumentFormController extends AbstractController
     protected $metadataObjectRepository = null;
 
     /**
+     * depositLicenseLogRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
+     * @inject
+     */
+    protected $depositLicenseLogRepository = null;
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
      * @inject
      */
     protected $persistenceManager;
+
+    /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
 
     /**
      * action list
@@ -84,31 +102,7 @@ abstract class AbstractDocumentFormController extends AbstractController
     public function listAction()
     {
         $documents = $this->documentRepository->findAll();
-
-        $documentTypes = $this->documentTypeRepository->findAll();
-
-        $data = array();
-        $docTypes = array();
-        $name = array();
-        $type = array();
-
-        foreach ($documentTypes as $docType) {
-            $data[] = array(
-                "name" => $docType->getDisplayName(),
-                "type" => $docType,
-            );
-        }
-
-        foreach ($data as $key => $row) {
-            $name[$key] = $row['name'];
-            $type[$key] = $row['type'];
-        }
-
-        array_multisort($name, SORT_ASC, SORT_LOCALE_STRING, $type, SORT_ASC, $data);
-
-        foreach ($data as $item) {
-            $docTypes[] = $item['type'];
-        }
+        $docTypes = $this->documentTypeRepository->getDocumentTypesAlphabetically();
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -161,6 +155,10 @@ abstract class AbstractDocumentFormController extends AbstractController
     {
         $this->view->assign('returnDocumentId', $returnDocumentId);
         $this->view->assign('documentForm', $newDocumentForm);
+
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
+        }
     }
 
     public function initializeCreateAction()
@@ -179,9 +177,9 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             $docTypeUid = $documentData['type'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $virtual = $documentType->getVirtual();
+            $virtualType = $documentType->getVirtualType();
 
-            if (!$formDataReader->uploadError() || $virtual === true) {
+            if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
@@ -215,7 +213,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         }
 
         // xml data fields are limited to 64 KB
-        if (strlen($newDocument->getXmlData()) >= 64 * 1024 || strlen($newDocument->getSlubInfoData() >= 64 * 1024)) {
+        if (strlen($newDocument->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
 
@@ -224,6 +222,37 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         $newDocument = $this->documentRepository->findByUid($newDocument->getUid());
         $this->persistenceManager->persistAll();
+
+        $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($newDocument->getProcessNumber());
+        if (empty($depositLicenseLog) && $newDocument->getDepositLicense()) {
+            // Only if there was no deposit license a notification may be sent
+
+            /** @var DepositLicenseLog $depositLicenseLog */
+            $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+            $depositLicenseLog->setUsername($this->security->getUsername());
+            $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
+            $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
+            $depositLicenseLog->setTitle($newDocument->getTitle());
+            $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+            $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
+
+            if ($newDocument->getFileData()) {
+
+                $fileList = [];
+                foreach ($newDocument->getFile() as $file) {
+                    if (!$file->isFileGroupDeleted()) {
+                        $fileList[] = $file->getTitle();
+                    }
+                }
+                $depositLicenseLog->setFileNames(implode(", ", $fileList));
+            }
+
+            $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+            /** @var Notifier $notifier */
+            $notifier = $this->objectManager->get(Notifier::class);
+            $notifier->sendDepositLicenseNotification($newDocument);
+        }
 
         // Add or update files
         $newFiles = $newDocumentForm->getNewFiles();
@@ -282,6 +311,10 @@ abstract class AbstractDocumentFormController extends AbstractController
     public function editAction(DocumentForm $documentForm)
     {
         $this->view->assign('documentForm', $documentForm);
+
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
+        }
     }
 
     public function initializeUpdateAction()
@@ -299,9 +332,9 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             $docTypeUid = $documentData['type'];
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $virtual = $documentType->getVirtual();
+            $virtualType = $documentType->getVirtualType();
 
-            if (!$formDataReader->uploadError() || $virtual === true) {
+            if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
@@ -326,9 +359,17 @@ abstract class AbstractDocumentFormController extends AbstractController
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         // xml data fields are limited to 64 KB
-        if (strlen($updateDocument->getXmlData()) >= 64 * 1024 || strlen($updateDocument->getSlubInfoData() >= 64 * 1024)) {
+        if (strlen($updateDocument->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
+
+        // add document to local es index
+        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
+        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
+
+        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
+        // send document to index
+        $elasticsearchRepository->add($updateDocument, $json);
 
         $updateDocument->setChanged(true);
         $this->documentRepository->update($updateDocument);

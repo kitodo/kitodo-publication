@@ -41,6 +41,14 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
     protected $metadataObjectRepository = null;
 
     /**
+     * fisDataService
+     *
+     * @var \EWW\Dpf\Services\FeUser\FisDataService
+     * @inject
+     */
+    protected $fisDataService = null;
+
+    /**
      *
      * @param integer $pageUid
      * @param integer $groupUid
@@ -73,8 +81,15 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setGndFieldUid($object->getGndFieldUid());
             $field->setMaxInputLength($object->getMaxInputLength());
             $field->setValue("", $object->getDefaultValue());
+            $field->setObjectType($object->getObjectType());
 
             $groupItem->addItem($field);
+        }
+
+        $groupItem->setGroupType($group->getGroupType());
+
+        if ($this->security->getFisPersId()) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
         }
 
         $this->view->assign('formPageUid', $pageUid);
@@ -82,6 +97,10 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $this->view->assign('formGroupDisplayName', $group->getDisplayName());
         $this->view->assign('groupIndex', $groupIndex);
         $this->view->assign('groupItem', $groupItem);
+
+        if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
+            $this->view->assign('fisPersId', $this->security->getFisPersId());
+        }
     }
 
     /**
@@ -113,6 +132,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setGndFieldUid($field->getGndFieldUid());
         $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());
+        $fieldItem->setObjectType($field->getObjectType());
 
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);

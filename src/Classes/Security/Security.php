@@ -36,12 +36,53 @@ class Security
      */
     public function getUser()
     {
+        $token = $GLOBALS['_GET']['tx_dpf_rest_api']['token'];
         $user = $GLOBALS['TSFE']->fe_user->user;
         if (!empty($user) && is_array($user) && array_key_exists('uid', $user)) {
             return $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        } else if ($token) {
+            $token = htmlentities($token);
+            $token = addslashes($token);
+            return $this->frontendUserRepository->findOneByApiToken($token);
         } else {
             return NULL;
         }
+    }
+
+    /**
+     * Gets the role of the current frontend user
+     * @return string
+     */
+    public function getUserRole()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getUserRole();
+        }
+        return '';
+    }
+
+    /**
+     * Gets the name of the current frontend user
+     * @return string
+     */
+    public function getUsername()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getUsername();
+        }
+        return '';
+    }
+
+    /**
+     * Gets the fis person id of the current frontend user
+     * @return string
+     */
+    public function getFisPersId()
+    {
+        if ($this->getUser()) {
+            return $this->getUser()->getFisPersId();
+        }
+        return '';
     }
 
 }

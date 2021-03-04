@@ -19,9 +19,9 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Helper\Mods;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class ElasticSearch
 {
@@ -79,8 +79,14 @@ class ElasticSearch
         $clientBuilder->setHosts($hosts);
         $this->client = $clientBuilder->build();
 
-        $this->initializeIndex($this->indexName);
-
+        try {
+            $this->initializeIndex($this->indexName);
+        } catch (\Throwable $e) {
+            $message = LocalizationUtility::translate(
+                'elasticsearch.notRunning', 'dpf'
+            );
+            die($message);
+        }
     }
 
     /**
@@ -163,8 +169,17 @@ class ElasticSearch
                         'year' => [
                             'type' => 'integer'
                         ],
-                        'authorAndPublisher' => [
+                        'persons' => [
                             'type' => 'keyword'
+                        ],
+                        'personsSort' => [
+                            'type' => 'text',
+                            'fields' => [
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
+                                ]
+                            ]
                         ],
                         'doctype' => [
                             'type' => 'keyword'
@@ -183,6 +198,39 @@ class ElasticSearch
                         ],
                         'source' => [
                             'type' => 'text'
+                        ],
+                        'fobIdentifiers' => [
+                            'type' => 'keyword'
+                        ],
+                        'personData' => [
+                            //'enabled' => false,
+                            'properties' => [
+                                'name' => [
+                                    'type' => 'keyword'
+                                ],
+                                'fobId' => [
+                                    //'type' => 'keyword'
+                                    'enabled' => false
+                                ],
+                                'index' => [
+                                    //'type' => 'integer'
+                                    'enabled' => false
+                                ]
+                            ]
+                        ],
+                        'affiliation' => [
+                            'type' => 'keyword'
+                        ],
+                        'process_number' => [
+                            'type' => 'keyword'
+                        ],
+                        'creationDate' => [
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
+                        ],
+                        'embargoDate' => [
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
                         ]
                     ]
                 ]
@@ -192,7 +240,6 @@ class ElasticSearch
         if (!$this->client->indices()->exists(['index' => $indexName])) {
             $this->client->indices()->create($paramsIndex);
         }
-
     }
 
     /**
@@ -202,21 +249,29 @@ class ElasticSearch
      */
     public function index($document)
     {
-        $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
+        try {
+            $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
+        } catch (\Throwable $throwable) {
+            // Fixme: The solution via json_decode and the XSLT file needs to be replaced.
+        }
+
+        if (!$data) {
+            $data->title[] = $document->getTitle();
+            $data->doctype = $document->getDocumentType()->getName();
+        }
 
         if ($data) {
 
             $data->state = $document->getState();
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
+
             $data->objectIdentifier = $document->getObjectIdentifier();
 
-
-            if ($data->identifier && is_array($data->identifier)) {
-                $data->identifier[] = $document->getObjectIdentifier();
-            } else {
-                $data->identifier = [$document->getObjectIdentifier()];
+            if (!$data->identifier || !is_array($data->identifier)) {
+                $data->identifier = [];
             }
-
+            $data->identifier[] = $document->getObjectIdentifier();
+            $data->identifier[] = $document->getProcessNumber();
 
             if ($document->getCreator()) {
                 $data->creator = $document->getCreator();
@@ -232,6 +287,10 @@ class ElasticSearch
             } else {
                 $data->creatorRole = '';
             }
+
+            $creationDate = new \DateTime($document->getCreationDate());
+
+            $data->creationDate = $creationDate->format('Y-m-d');
 
             $data->year = $document->getPublicationYear();
 
@@ -251,16 +310,38 @@ class ElasticSearch
             }
 
 
-            /** @var @var Mods $mods */
-            $mods = new Mods($document->getXmlData());
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
-            $authors = $mods->getAuthors();
-            $publishers = $mods->getPublishers();
+            //$persons = array_merge($internalFormat->getAuthors(), $internalFormat->getPublishers());
+            $persons = $internalFormat->getPersons();
 
-            $data->authorAndPublisher = array_merge($authors, $publishers);
+            $fobIdentifiers = [];
+            $personData = [];
+            foreach ($persons as $person) {
+                $fobIdentifiers[] = $person['fobId'];
+                $personData[] = $person;
+                //$data->persons[] = $person['name'];
+                $data->persons[] = $person['fobId'];
+
+                foreach ($person['affiliations'] as $affiliation) {
+                    $data->affiliation[] = $affiliation;
+                }
+
+                foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
+                    $data->affiliation[] = $affiliationIdentifier;
+                }
+            }
+
+            $data->fobIdentifiers = $fobIdentifiers;
+            $data->personData = $personData;
+
+            if (sizeof($persons) > 0) {
+                if (array_key_exists('family', $persons[0])) {
+                    $data->personsSort = $persons[0]['family'];
+                }
+            }
 
             $data->source = $document->getSourceDetails();
-
 
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {
@@ -279,7 +360,9 @@ class ElasticSearch
                 $data->embargoDate = null;
             }
 
-            $data->originalSourceTitle = $mods->getOriginalSourceTitle();
+            $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
+
+            $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
 
             $this->client->index([
                 'refresh' => 'wait_for',

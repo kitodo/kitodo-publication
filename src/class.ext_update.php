@@ -48,11 +48,15 @@ class ext_update {
             return FALSE;
         } else {
 
-            // The necessary updates.
-            (new UpdateState)->execute();
-            (new UpdateAccessRestrictions)->execute();
-
-            $GLOBALS['TYPO3_DB']->sql_query("update tx_dpf_domain_model_document set creator = owner");
+            try {
+                // The necessary updates.
+                (new UpdateState)->execute();
+                (new UpdateAccessRestrictions)->execute();
+                (new UpdateVirtualType)->execute();
+                //$GLOBALS['TYPO3_DB']->sql_query("update tx_dpf_domain_model_document set creator = owner");
+            } catch (\Throwable $throwable) {
+                return "Error while updating the extension: ".($throwable->getMessage());
+            }
 
             $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
         }
@@ -124,5 +128,25 @@ class UpdateAccessRestrictions
                 }
             }
         }
+    }
+}
+
+class UpdateVirtualType
+{
+    public function execute() {
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $repository = $objectManager->get(\EWW\Dpf\Domain\Repository\DocumentTypeRepository::class);
+
+        foreach ($repository->crossClientFindAll() as $record) {
+            if ($record['virtual']) {
+                $recordObject = $repository->findByUid($record['uid']);
+                $recordObject->setVirtualType($record['virtual'] === 1);
+                $repository->update($recordObject);
+            }
+        }
+
+       // $GLOBALS['TYPO3_DB']->sql_query("ALTER TABLE tx_dpf_domain_model_documenttype CHANGE virtual zzz_deleted_virtual SMALLINT UNSIGNED DEFAULT 0 NOT NULL");
+
     }
 }

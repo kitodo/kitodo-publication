@@ -97,6 +97,22 @@
 			<source>New document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_subject" approved="yes">
+			<source>Update publication subject</source>
+			<target>Publikationsaktualisierung Thema</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_body" approved="yes">
+			<source>Update publication body</source>
+			<target>Publikationsaktualisierung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_subject" approved="yes">
+			<source>New publication subject</source>
+			<target>Neue Publikation Thema</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.mypublications_new_notification_body" approved="yes">
+			<source>New publication body</source>
+			<target>Neue Publikation Body</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_body" approved="yes">
 			<source>New suggestion body
 			</source>
@@ -117,15 +133,17 @@
 			<source>Embargo expired</source>
 			<target>Embargo abgelaufen</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_body" approved="yes">
-			<source>OA Publicationfond body
-			</source>
-			<target>OA Publikationsfond Body
-			</target>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject" approved="yes">
+			<source>Deposit license subject</source>
+			<target>Einverständniserklärung Thema</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.admin_oa_fond_subject" approved="yes">
-			<source>OA Publicationfond subject</source>
-			<target>OA Publicationfond Subject</target>
+		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_body" approved="yes">
+			<source>Deposit license body</source>
+			<target>Einverständniserklärung Body</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.send_admin_deposit_license_notification" approved="yes">
+			<source>Send deposit license notification emails</source>
+			<target>Einverständniserklärungen per E-Mail versenden</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.suggestion_flashmessage">
 			<source>Suggestion flashmessage</source>
@@ -154,6 +172,186 @@
 		<trans-unit id="tx_dpf_domain_model_client.upload_domain" approved="yes">
 			<source>Domain</source>
 			<target>Domain</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.urn_xpath" approved="yes">
+            <source>Urn xpath</source>
+            <target>URN (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.qucosa_urn_xpath" approved="yes">
+            <source>Qucosa Urn xpath</source>
+            <target>QUCOSA-URN (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.date_xpath" approved="yes">
+            <source>Distribution date</source>
+            <target>Datum der Veröffentlichung im Repository (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.publishing_year_xpath" approved="yes">
+            <source>Publishing year xpath</source>
+            <target>Publikationsjahr (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.state_xpath" approved="yes">
+            <source>State xpath</source>
+            <target>Dokumentszustand (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_xpath" approved="yes">
+            <source>File xpath</source>
+            <target>Datei Speicherort (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath" approved="yes">
+            <source>Document type xpath</source>
+            <target>Documenttyp (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.namespaces" approved="yes">
+            <source>Namespaces ("=" prefix separator, ";" namespace separator)</source>
+            <target>Namespaces ("=" Prefix Separator, ";" Namespace separator)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.title_xpath" approved="yes">
+            <source>Title xpath</source>
+            <target>Titel (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.original_source_title_xpath" approved="yes">
+            <source>Original source title xpath</source>
+            <target>Titel der Originalquelle (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.process_number_xpath" approved="yes">
+            <source>Process number xpath</source>
+            <target>Prozessnummer (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.creator_xpath" approved="yes">
+            <source>Creator xpath</source>
+            <target>Ersteller (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.creation_date_xpath" approved="yes">
+            <source>Creation date xpath</source>
+            <target>Erstellungsdatum (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.repository_creation_date_xpath" approved="yes">
+            <source>Repository creation date xpath</source>
+            <target>Repository-Erstellungsdatum (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.repository_last_mod_date_xpath" approved="yes">
+            <source>Repository last mod date xpath</source>
+            <target>Datum der letzten Änderung imn Repository (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.deposit_license_xpath" approved="yes">
+            <source>Deposit license xpath</source>
+            <target>Lizenz (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.all_notes_xpath" approved="yes">
+            <source>All notes xpath</source>
+            <target>Alle Notizen (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.private_notes_xpath" approved="yes">
+            <source>Private notes xpath</source>
+            <target>Private Notizen (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_xpath" approved="yes">
+            <source>Person xpath</source>
+            <target>Person (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_family_xpath" approved="yes">
+            <source>Person family xpath</source>
+            <target>Person-Nachname (Xpath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_given_xpath" approved="yes">
+            <source>Person given xpath</source>
+            <target>Person-Vorname (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_role_xpath" approved="yes">
+            <source>Person role xpath</source>
+            <target>Person-Rolle (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_fis_identifier_xpath" approved="yes">
+            <source>Person fis identifier xpath</source>
+            <target>Person-FisId (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_affiliation_xpath" approved="yes">
+            <source>Person affiliation xpath</source>
+            <target>Person-Zugehörigkeit (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_affiliation_identifier_xpath" approved="yes">
+            <source>Person affiliation identifier xpath</source>
+            <target>Person-Zugehörigkeits-ID (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.validation_xpath" approved="yes">
+            <source>Validation xpath</source>
+            <target>Validation (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
+            <source>Fis id xpath</source>
+            <target>Fis-ID (XPath)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.source_details_xpaths" approved="yes">
+            <source>Source details xpaths (Semicolon separated)</source>
+            <target>Quellen-Angaben (XPath, Semikolon separiert)</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_author_role" approved="yes">
+            <source>Person author role</source>
+            <target>Person-Autor-Rolle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.person_publisher_role" approved="yes">
+            <source>Person publisher role</source>
+            <target>Person-Publisher-Rolle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
+            <source>Submitter name</source>
+            <target>Name des Erstellers</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_email" approved="yes">
+            <source>Submitter email</source>
+            <target>Email des Erstellers</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.submitter_notice" approved="yes">
+            <source>Submitter notice</source>
+            <target>Notiz des Erstellers</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.type_xpath_input" approved="yes">
+            <source>Type xpath input</source>
+            <target>Documenttype Speicherort XPath vor Umwandlung in Internformat</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.choose_transformation" approved="yes">
+			<source>--- Please choose ---</source>
+			<target>--- Bitte wählen ---</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.crossref_transformation" approved="yes">
+			<source>CrossRef transformation</source>
+			<target>CrossRef-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.datacite_transformation" approved="yes">
+			<source>DataCite transformation</source>
+			<target>DataCite-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.k10plus_transformation" approved="yes">
+			<source>K10plus transformation</source>
+			<target>K10plus-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.pubmed_transformation" approved="yes">
+			<source>PubMed transformation</source>
+			<target>PubMed-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.bibtex_transformation" approved="yes">
+    		<source>BibTex transformation</source>
+    		<target>BibTex-Transformation</target>
+    	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
+    		<source>RisWos transformation</source>
+    		<target>RisWos-Transformation</target>
+    	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.riswos_transformation" approved="yes">
+    		<source>RisWos transformation</source>
+    		<target>RisWos-Transformation</target>
+    	</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.input_transformation" approved="yes">
+			<source>Transformation file input</source>
+            <target>Transformations-Datei Import</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.output_transformation" approved="yes">
+			<source>Transformation file output</source>
+            <target>Transformations-Datei Export</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.elastic_search_transformation" approved="yes">
+			<source>Transformation file internal format -> ElasticSearch</source>
+            <target>Transformations-Datei internes Format -> ElasticSearch</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document" approved="yes">
 			<source>Document</source>
@@ -219,6 +417,10 @@
 			<source>Creator</source>
 			<target>Ersteller</target>
 		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.creation_date" approved="yes">
+			<source>Creation date</source>
+			<target>Erstellungsdatum</target>
+		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_document.temporary" approved="yes">
 			<source>Temporary</source>
 			<target>Temporär</target>
@@ -238,6 +440,10 @@
         <trans-unit id="tx_dpf_domain_model_document.linked_uid">
             <source>Linked uid</source>
             <target>Verknüpfte Dokument uid</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_document.automatic_embargo">
+            <source>Embargo</source>
+            <target>Embargo</target>
         </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_documenttransferlog" approved="yes">
 			<source>Document Transfer Log</source>
@@ -283,9 +489,69 @@
 			<source>Name</source>
 			<target>Name</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_documenttype.virtual" approved="yes">
-			<source>Virtual</source>
+		<trans-unit id="tx_dpf_domain_model_documenttype.virtual_type" approved="yes">
+			<source>virtual</source>
 			<target>Virtuell</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">
+            <source>Transformation file input</source>
+            <target>Transformations Datei Import</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_output" approved="yes">
+            <source>Transformation file output</source>
+            <target>Transformations Datei Export</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.choose_transformation" approved="yes">
+			<source>--- Please choose ---</source>
+			<target>--- Bitte wählen ---</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_transformation" approved="yes">
+			<source>CrossRef transformation</source>
+			<target>CrossRef-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.crossref_types" approved="yes">
+			<source>CrossRef types</source>
+			<target>CrossRef-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_transformation" approved="yes">
+			<source>DataCite transformation</source>
+			<target>DataCite-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.datacite_types" approved="yes">
+			<source>DataCite types</source>
+			<target>DataCite-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_transformation" approved="yes">
+			<source>K10plus transformation</source>
+			<target>K10plus-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.k10plus_types" approved="yes">
+			<source>K10plus types</source>
+			<target>K10plus-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_transformation" approved="yes">
+			<source>PubMed transformation</source>
+			<target>PubMed-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.pubmed_types" approved="yes">
+			<source>PubMed types</source>
+			<target>PubMed-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_transformation" approved="yes">
+			<source>BibTex transformation</source>
+			<target>BibTex-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.bibtex_types" approved="yes">
+			<source>BibTex types</source>
+			<target>BibTex-Typen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_transformation" approved="yes">
+			<source>RisWos transformation</source>
+			<target>RisWos-Transformation</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.riswos_types" approved="yes">
+			<source>RisWos types</source>
+			<target>RisWos-Typen</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_file" approved="yes">
 			<source>File</source>
@@ -407,6 +673,10 @@
 			<source>Mapping</source>
 			<target>Zuordnung</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.json_mapping" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.mapping_for_reading" approved="yes">
 			<source>Mapping for reading</source>
 			<target>Zuordnung zum Lesen</target>
@@ -487,6 +757,10 @@
 			<source>Input Field</source>
 			<target>Eingabefeld</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.deposit_license" approved="yes">
+			<source>Checkbox value</source>
+			<target>Checkbox-Wert</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_input_length" approved="yes">
 			<source>Max input length</source>
 			<target>Maximale Eingabelänge</target>
@@ -534,6 +808,10 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mapping" approved="yes">
 			<source>Mapping</source>
 			<target>Zuordnung</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.json_mapping" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_iteration" approved="yes">
 			<source>Max Iteration</source>
@@ -627,6 +905,158 @@
             <source>FE user</source>
             <target>FE-User</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile" approved="yes">
+            <source>Transformation file</source>
+            <target>Transformations Datei</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.title" approved="yes">
+            <source>title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.label" approved="yes">
+            <source>label</source>
+            <target>Label</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_transformationfile.newrelation" approved="yes">
+            <source>New relation</source>
+            <target>Datei auswählen</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.fis_pers_id">
+			<source>Identifier</source>
+			<target>Identifier</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.orga_name">
+			<source>Organisational Unit</source>
+			<target>Organisational Unit</target>
+		</trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch" approved="yes">
+            <source>Stored search</source>
+            <target>Gespeicherte Suche</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.name" approved="yes">
+            <source>Name</source>
+            <target>Name</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_storedsearch.query" approved="yes">
+            <source>Query</source>
+            <target>Abfrage</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata" approved="yes">
+            <source>External metadata</source>
+            <target>Externe Metadaten</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.title" approved="yes">
+            <source>Title</source>
+            <target>Titel</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.authors" approved="yes">
+            <source>Authors</source>
+            <target>Autoren</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.data" approved="yes">
+            <source>Data</source>
+            <target>Daten</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.source" approved="yes">
+            <source>Source</source>
+            <target>Quelle</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.publication_identifier" approved="yes">
+            <source>Publication Id</source>
+            <target>Publikations-Id</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_externalmetadata.fe_user" approved="yes">
+            <source>FE user</source>
+            <target>FE-User</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense">
+            <source>Deposit license</source>
+            <target>Einverständniserklärung</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.uri">
+            <source>Uri</source>
+            <target>Uri</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.title">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicense.text">
+            <source>Text</source>
+            <target>Text</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog">
+            <source>Deposit license log</source>
+            <target>Einverständniserklärungs-Protokoll</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.username">
+            <source>Username</source>
+            <target>Benutzername</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.licence_uri">
+            <source>License uri</source>
+            <target>Lizenz-Uri</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.title">
+            <source>Title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.object_identifier">
+            <source>Object identifier</source>
+            <target>Objekt-Id</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.process_number">
+            <source>Process number</source>
+            <target>Vorgangsnummer</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.urn">
+            <source>URN</source>
+            <target>URN</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_depositlicenselog.file_names">
+            <source>File names</source>
+            <target>Dateinamen</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feuser.api_token">
+			<source>API Token</source>
+			<target>API Token</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url" approved="yes">
+			<source>Active messaging suggestion accept url</source>
+			<target>Aktive Benachrichtigung Vorschlag akzeptieren URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url" approved="yes">
+			<source>Active messaging suggestion decline url</source>
+			<target>Aktive Benachrichtigung Vorschlag abgelehnt URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
+			<source>Active messaging new document url</source>
+			<target>Aktive Benachrichtigung neues Dokument URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url" approved="yes">
+			<source>Active messaging changed document url</source>
+			<target>Aktive Benachrichtigung Dokument wurde geändert URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url_body" approved="yes">
+			<source>Active messaging suggestion accept url body</source>
+			<target>Aktive Benachrichtigung Vorschlag akzeptieren URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
+			<source>Active messaging suggestion decline url body</source>
+			<target>Aktive Benachrichtigung Vorschlag abgelehnt URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
+			<source>Active messaging new document url body</source>
+			<target>Aktive Benachrichtigung neues Dokument URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url_body" approved="yes">
+			<source>Active messaging changed document url</source>
+			<target>Aktive Benachrichtigung Dokument wurde geändert URL</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
+			<source>FIS Mapping (json)</source>
+			<target>FIS Mapping (json)</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

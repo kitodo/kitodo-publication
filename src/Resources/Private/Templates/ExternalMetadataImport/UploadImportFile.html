@@ -1,0 +1,41 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.uploadImport.header', default: 'Upload start')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+    <f:form action="importUploadedData" name="importUploadedData" class="form-import-uploaded-data" method="post" enctype="multipart/form-data" id="importUploadedData">
+        <div class="mb-2">
+            <f:form.hidden name="uploadFilePath" value="{uploadFilePath}" />
+            <f:form.button type="submit" name="importUploadedDataSubmit" id="importUploadedDataSubmit" class="btn btn-xm btn-primary">
+                {f:translate(key: 'manager.uploadImport.continue', default: 'Import ohne die unvollständigen Datensätze fortsetzen')}
+            </f:form.button>
+            <f:link.action action="uploadStart" class="btn btn-xm btn-outline-secondary">
+                {f:translate(key: 'manager.uploadImport.abort', default: 'Import abbrechen')}
+            </f:link.action>
+        </div>
+    </f:form>
+
+    <br />
+
+</f:section>

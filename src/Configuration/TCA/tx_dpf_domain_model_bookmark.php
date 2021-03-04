@@ -18,23 +18,10 @@ if (!defined('TYPO3_MODE')) {
 
 return array(
     'ctrl' => array(
-        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark'.'-bookmark',
+        'title'                    => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_bookmark',
         'label'                    => 'document_identifier',
-        //'tstamp'                   => 'tstamp',
-        //'crdate'                   => 'crdate',
-        //'cruser_id'                => 'cruser_id',
-        //'versioningWS'             => true,
-        //'languageField'            => 'sys_language_uid',
-        //'transOrigPointerField'    => 'l10n_parent',
-        //'transOrigDiffSourceField' => 'l10n_diffsource',
-        //'delete'                   => 'deleted',
-        //'enablecolumns'            => array(
-        //    'disabled'  => 'hidden',
-        //    'starttime' => 'starttime',
-        //    'endtime'   => 'endtime',
-        //),
         'searchFields'             => 'document_identifier, fe_user_uid',
-        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/tx_dpf_domain_model_editinglock.gif',
+        'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'document_identifier, fe_user_uid',

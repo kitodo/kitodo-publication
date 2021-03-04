@@ -19,5 +19,20 @@ namespace EWW\Dpf\Domain\Repository;
  */
 class MetadataGroupRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
+    public function findPersonGroup(){
 
+        $query = $this->createQuery();
+
+        $constraints = array();
+        $constraints[] =  $query->like('group_type', '%Person%');
+        $constraints[] =  $query->like('group_type', '%Fis%');
+
+        if (count($constraints)) {
+            $query->matching(
+                $query->logicalOr($constraints)
+            );
+        }
+
+        return $query->execute()->getFirst();
+    }
 }

@@ -38,7 +38,10 @@
         "typo3/cms-core": "^8.7.0",
         "nategood/httpful": "^0.2.20",
         "elasticsearch/elasticsearch": "^7.5",
-        "symfony/workflow": "4.3.*"
+        "symfony/workflow": "4.3.*",
+        "symfony/serializer": "^5.0",
+        "renanbr/bibtex-parser": "*",
+        "galbar/jsonpath": "dev-master"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"

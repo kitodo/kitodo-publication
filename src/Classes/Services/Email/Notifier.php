@@ -18,10 +18,13 @@ use EWW\Dpf\Domain\Model\Document;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\Client;
+use \Httpful\Request;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
 class Notifier
 {
-
     /**
      * clientRepository
      *
@@ -29,7 +32,6 @@ class Notifier
      * @inject
      */
     protected $clientRepository = null;
-
 
     /**
      * documentTypeRepository
@@ -39,17 +41,30 @@ class Notifier
      */
     protected $documentTypeRepository = null;
 
+    /**
+     * depositLicenseRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
+     * @inject
+     */
+    protected $depositLicenseRepository = null;
+
+    /**
+     * security
+     *
+     * @var \EWW\Dpf\Security\Security
+     * @inject
+     */
+    protected $security = null;
 
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
             /** @var $client \EWW\Dpf\Domain\Model\Client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -89,11 +104,9 @@ class Notifier
             /** @var $client \EWW\Dpf\Domain\Model\Client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -127,8 +140,7 @@ class Notifier
         }
     }
 
-
-    public function getMailMarkerArray(Document $document, $client, $documentType, $slub, $mods) {
+    public function getMailMarkerArray(Document $document, $client, $documentType, $reason = "") {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
@@ -143,6 +155,8 @@ class Notifier
         $args['###CLIENT###'] = $client->getClient();
         $args['###PROCESS_NUMBER###'] = $document->getProcessNumber();
 
+        $args['###DOCUMENT_IDENTIFIER###'] = $document->getObjectIdentifier();
+
         if ($documentType) {
             $args['###DOCUMENT_TYPE###'] = $documentType->getDisplayName();
         } else {
@@ -150,18 +164,32 @@ class Notifier
         }
 
         $args['###TITLE###'] = $document->getTitle();
-        $args['###AUTHOR###'] = array_shift($document->getAuthors());
 
-        $args['###SUBMITTER_NAME###'] = $slub->getSubmitterName();
-        $args['###SUBMITTER_EMAIL###'] = $slub->getSubmitterEmail();
-        $args['###SUBMITTER_NOTICE###'] = $slub->getSubmitterNotice();
+        $author = array_shift($document->getAuthors());
+        $args['###AUTHOR###'] = $author['name'];
+
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $args['###SUBMITTER_NAME###'] = $internalFormat->getSubmitterName();
+        $args['###SUBMITTER_EMAIL###'] = $internalFormat->getSubmitterEmail();
+        $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
 
         $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-        $args['###URN###'] = $mods->getQucosaUrn();
-        $args['###URL###'] = 'http://nbn-resolving.de/' . $mods->getQucosaUrn();
+        $args['###URN###'] = $internalFormat->getQucosaUrn();
+        $args['###URL###'] = 'http://nbn-resolving.de/' . $internalFormat->getQucosaUrn();
+
+        $args['###REASON###'] = $reason;
 
         $host = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $backofficePageId = $settings['plugin.']['tx_dpf.']['settings.']['backofficePluginPage'];
+
+        /** @var \EWW\Dpf\Domain\Model\DepositLicense $depositLicense */
+        $depositLicense = $this->depositLicenseRepository->findOneByUri($document->getDepositLicense());
+        if ($depositLicense instanceof \EWW\Dpf\Domain\Model\DepositLicense) {
+            $args['###LICENSE_URI###'] = $depositLicense->getUri();
+            $args['###LICENSE_TEXT###'] = $depositLicense->getText();
+        }
+
+        $args['###LICENSE_USERNAME###'] = $this->security->getUsername();
 
         if ($document->isSuggestion()) {
             $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
@@ -169,8 +197,12 @@ class Notifier
             $detailUrl .= '&tx_dpf_backoffice[action]=showSuggestionDetails';
             $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Änderungsvorschlag</a>';
         } else {
+            $documentIdentifier = $document->getProcessNumber();
+            if (empty($documentIdentifier)) {
+                $documentIdentifier = $document->getDocumentIdentifier();
+            }
             $detailUrl = '<a href="' . $host . '/index.php?id=' . $backofficePageId;
-            $detailUrl .= '&tx_dpf_backoffice[document]=' . $document->getUid();
+            $detailUrl .= '&tx_dpf_backoffice[document]=' . $documentIdentifier;
             $detailUrl .= '&tx_dpf_backoffice[action]=showDetails';
             $detailUrl .= '&tx_dpf_backoffice[controller]=Document">Link zum Dokument</a>';
         }
@@ -181,29 +213,180 @@ class Notifier
 
         if ($document->getFileData()) {
             $args['###HAS_FILES###'] = 'Attachment';
-            foreach ($document->getFileData() as $fileSection) {
-                foreach ($fileSection as $file) {
-                    $args['###FILE_LIST###'] .= $file['title'];
+            $fileList = [];
+            foreach ($document->getFile() as $file) {
+                if (!$file->isFileGroupDeleted()) {
+                    $fileList[] = $file->getTitle();
                 }
             }
+            $args['###FILE_LIST###'] .= implode(", ", $fileList);
         }
 
         return $args;
     }
 
+    public function sendSuggestionAcceptNotification(\EWW\Dpf\Domain\Model\Document $document) {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Active messaging: Suggestion accept
+            if ($client->getActiveMessagingSuggestionAcceptUrl()) {
+                if ($internalFormat->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
+                    if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendSuggestionAcceptNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+    /**
+     * @param Document $document
+     * @param string $reason
+     */
+    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document, $reason = "") {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
+
+            // Active messaging: Suggestion accept
+            if ($client->getActiveMessagingSuggestionDeclineUrl()) {
+                if ($internalFormat->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
+                    if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendSuggestionDeclineNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false) {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Active messaging: Suggestion accept
+            if (!$addedFisIdOnly && $client->getActiveMessagingChangedDocumentUrl()) {
+                if ($internalFormat->getFisId()) {
+                    $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
+                    if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
+                        $request->body($this->replaceMarkers($body,$args));
+                    }
+                    $request->send();
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendChangedDocumentNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+
+    public function sendReleasePublishNotification(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Active messaging: New document (Release publish)
+            if ($client->getActiveMessagingNewDocumentUrl()) {
+                $fisId = $internalFormat->getFisId();
+                if (empty($fisId)) {
+                    $request = Request::post($client->getActiveMessagingNewDocumentUrl());
+                    if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
+                        $request->body($this->replaceMarkers($body, $args));
+                    }
+                    $request->send();
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendReleasePublishNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+    }
+
+
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         try {
+            /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -262,13 +445,11 @@ class Notifier
 
         try {
             $client = $this->clientRepository->findAll()->current();
-            $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify submitter
             if ($submitterEmail) {
@@ -305,13 +486,10 @@ class Notifier
         try {
             $client = $this->clientRepository->findAllByPid($document->getPid())->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
 
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -351,12 +529,9 @@ class Notifier
         try {
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $slub = new \EWW\Dpf\Helper\Slub($document->getSlubInfoData());
-            $submitterEmail = $slub->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $slub, $mods);
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
 
             // Notify client admin
             if ($clientAdminEmail) {
@@ -383,6 +558,159 @@ class Notifier
 
             $logger->log(
                 LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param array $recipients
+     */
+    public function sendMyPublicationUpdateNotification(\EWW\Dpf\Domain\Model\Document $document, $recipients)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $author = array_shift($document->getAuthors());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Notify client admin
+            /** @var FrontendUser $recipient */
+            foreach ($recipients as $recipient) {
+
+                if ($recipient->getEmail()) {
+
+                    $subject = $client->getMypublicationsUpdateNotificationSubject();
+                    $body = $client->getMypublicationsUpdateNotificationBody();
+                    $mailType = 'text/html';
+
+                    if (empty($subject)) {
+                        $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.updatePublication.mypublications.subject',
+                            'dpf');
+                    }
+
+                    if (empty($body)) {
+                        $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.updatePublication.mypublications.body',
+                            'dpf');
+                        $mailType = 'text/plain';
+                    }
+
+                    $this->sendMail($recipient->getEmail(), $subject, $body, $args, $mailType);
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param array $recipients
+     */
+    public function sendMyPublicationNewNotification(\EWW\Dpf\Domain\Model\Document $document, $recipients)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $author = array_shift($document->getAuthors());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Notify client admin
+            /** @var FrontendUser $recipient */
+            foreach ($recipients as $recipient) {
+
+                if ($recipient->getEmail()) {
+
+                    $subject = $client->getMypublicationsNewNotificationSubject();
+                    $body = $client->getMypublicationsNewNotificationBody();
+                    $mailType = 'text/html';
+
+                    if (empty($subject)) {
+                        $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newPublication.mypublications.subject',
+                            'dpf');
+                    }
+
+                    if (empty($body)) {
+                        $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newPublication.mypublications.body',
+                            'dpf');
+                        $mailType = 'text/plain';
+                    }
+
+                    $this->sendMail($recipient->getEmail(), $subject, $body, $args, $mailType);
+                }
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendRegisterNotification failed",
+                array(
+                    'document' => $document
+                )
+            );
+        }
+
+    }
+
+    public function sendDepositLicenseNotification(\EWW\Dpf\Domain\Model\Document $document)
+    {
+
+        try {
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+            $clientAdminEmail = $client->getAdminEmail();
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+
+            $args = $this->getMailMarkerArray($document, $client, $documentType);
+
+            // Notify client admin
+            if ($clientAdminEmail && $client->isSendAdminDepositLicenseNotification()) {
+
+                $subject = $client->getAdminDepositLicenseNotificationSubject();
+                $body = $client->getAdminDepositLicenseNotificationBody();
+                $mailType = 'text/html';
+
+                if (empty($subject)) {
+                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.depositLicense.admin.subject', 'dpf');
+                }
+
+                if (empty($body)) {
+                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.depositLicense.admin.body', 'dpf');
+                    $mailType = 'text/plain';
+                }
+
+                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
+            }
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR, "sendDepositLicenseNotification failed",
                 array(
                     'document' => $document
                 )

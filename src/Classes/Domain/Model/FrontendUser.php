@@ -46,7 +46,22 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var boolean
      */
     protected $notifyStatusChange = 0;
-    
+
+    /**
+     * @var boolean
+     */
+    protected $notifyOnChanges = 0;
+
+    /**
+     * @var string FIS ID
+     */
+    protected $fisPersId = '';
+
+    /**
+     * @var string organisation names
+     */
+    protected $orgaName = '';
+
     /**
      * @var boolean
      */
@@ -56,6 +71,11 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var boolean
      */
     protected $notifyNewPublicationMypublication = 0;
+
+    /**
+     * @var string
+     */
+    protected $apiToken = '';
 
     /**
      * __construct
@@ -164,7 +184,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyPersonalLink(bool $notifyPersonalLink)
     {
-        $this->notifyPersonalLink = $notifyPersonalLink;
+        $this->notifyPersonalLink = boolval($notifyPersonalLink);
     }
 
     /**
@@ -180,7 +200,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyStatusChange(bool $notifyStatusChange)
     {
-        $this->notifyStatusChange = $notifyStatusChange;
+        $this->notifyStatusChange = boolval($notifyStatusChange);
     }
 
     /**
@@ -192,11 +212,27 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
     }
 
     /**
+     * @return bool
+     */
+    public function isNotifyOnChanges(): bool
+    {
+        return $this->notifyOnChanges;
+    }
+
+    /**
+     * @param bool $notifyOnChanges
+     */
+    public function setNotifyOnChanges(bool $notifyOnChanges): void
+    {
+        $this->notifyOnChanges = boolval($notifyOnChanges);
+    }
+
+    /**
      * @param bool $notifyFulltextPublished
      */
     public function setNotifyFulltextPublished(bool $notifyFulltextPublished)
     {
-        $this->notifyFulltextPublished = $notifyFulltextPublished;
+        $this->notifyFulltextPublished = boolval($notifyFulltextPublished);
     }
 
     /**
@@ -212,7 +248,55 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function setNotifyNewPublicationMypublication(bool $notifyNewPublicationMypublication)
     {
-        $this->notifyNewPublicationMypublication = $notifyNewPublicationMypublication;
+        $this->notifyNewPublicationMypublication = boolval($notifyNewPublicationMypublication);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisPersId(): string
+    {
+        return $this->fisPersId;
+    }
+
+    /**
+     * @param string $fisPersId
+     */
+    public function setFisPersId(string $fisPersId)
+    {
+        $this->fisPersId = $fisPersId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrgaName(): string
+    {
+        return $this->orgaName;
+    }
+
+    /**
+     * @param string $orgaName
+     */
+    public function setOrgaName(string $orgaName): void
+    {
+        $this->orgaName = $orgaName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiToken(): string
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * @param string $apiToken
+     */
+    public function setApiToken(string $apiToken): void
+    {
+        $this->apiToken = $apiToken;
     }
 
 

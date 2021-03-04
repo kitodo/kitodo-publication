@@ -24,6 +24,7 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -116,12 +117,18 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param bool $suggestMod
-     * @param bool activeFileTab
+     * @param string activeGroup
+     * @param int activeGroupIndex
+     * @param bool $addCurrentFeUser
      * @ignorevalidation $documentForm
      * @return void
      */
     public function editAction(
-        \EWW\Dpf\Domain\Model\DocumentForm $documentForm, bool $suggestMod = false, $activeFileTab = false
+        \EWW\Dpf\Domain\Model\DocumentForm $documentForm,
+        bool $suggestMod = false,
+        $activeGroup = '',
+        $activeGroupIndex = 0,
+        $addCurrentFeUser = true
     )
     {
         /** @var \EWW\Dpf\Domain\Model\Document $document */
@@ -162,7 +169,9 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->security->getUser()->getUid()
         );
 
-        $this->view->assign('activeFileTab', $activeFileTab);
+        $this->view->assign('activeGroup', $activeGroup);
+        $this->view->assign('activeGroupIndex', $activeGroupIndex);
+        $this->view->assign('addCurrentFeUser', $addCurrentFeUser);
         parent::editAction($documentForm);
     }
 
@@ -246,6 +255,35 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendAdminNewSuggestionNotification($newDocument);
 
+            $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($newDocument->getProcessNumber());
+            if (empty($depositLicenseLog) && $newDocument->getDepositLicense()) {
+                // Only if there was no deposit license a notification may be sent
+
+                /** @var DepositLicenseLog $depositLicenseLog */
+                $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                $depositLicenseLog->setUsername($this->security->getUsername());
+                $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
+                $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
+                $depositLicenseLog->setTitle($newDocument->getTitle());
+                $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+                $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
+
+                if ($newDocument->getFileData()) {
+                    $fileList = [];
+                    foreach ($newDocument->getFile() as $file) {
+                        $fileList[] = $file->getTitle();
+                    }
+                    $depositLicenseLog->setFileNames(implode(", ", $fileList));
+                }
+
+
+                $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+                /** @var Notifier $notifier */
+                $notifier = $this->objectManager->get(Notifier::class);
+                $notifier->sendDepositLicenseNotification($newDocument);
+            }
+
         } catch (\Throwable $t) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
             $this->addFlashMessage("Failed", '', $severity,false);
@@ -262,6 +300,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->forward('createSuggestionDocument', null, null, ['documentForm' => $documentForm, 'restore' => $restore]);
         }
 
+        $backToList = $this->request->getArgument('documentData')['backToList'];
+        
         if ($this->request->hasArgument('saveAndUpdate')) {
             $saveMode = 'saveAndUpdate';
         } elseif ($this->request->hasArgument('saveWorkingCopy')) {
@@ -277,7 +317,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             NULL,
                 [
                     'documentForm' => $documentForm,
-                    'saveMode' => $saveMode
+                    'saveMode' => $saveMode,
+                    'backToList' => $backToList
                 ]
         );
     }
@@ -286,20 +327,22 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     /**
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
      * @param string $saveMode
+     * @param bool $backToList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function updateDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $saveMode = null)
+    public function updateDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $saveMode = null, $backToList = false)
     {
         try {
             /** @var \EWW\Dpf\Domain\Model\Document $document */
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+            $depositLicense = $document->getDepositLicense();
 
             if (
                 !$this->authorizationChecker->isGranted(DocumentVoter::UPDATE, $document) ||
                 (
                     $saveMode == 'saveWorkingCopy' &&
-                    $this->security->getUser()->getUserRole() !== Security::ROLE_LIBRARIAN
+                    $this->security->getUserRole() !== Security::ROLE_LIBRARIAN
                 )
             ) {
                 $message = LocalizationUtility::translate(
@@ -308,10 +351,19 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     array($document->getTitle())
                 );
                 $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+
+                $this->redirect('cancelEdit',
+                    null,
+                    null,
+                    ['documentUid' => $document->getUid(), 'backToList' => $backToList]
+                );
+                /*
                 $this->redirect(
                     'showDetails', 'Document',
                     null, ['document' => $document]
                 );
+                */
+
             }
 
             /** @var  \EWW\Dpf\Helper\DocumentMapper $documentMapper */
@@ -331,7 +383,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             } elseif ($updateDocument->isTemporaryCopy() && $saveMode == 'saveAndUpdate') {
                 $workflowTransition = DocumentWorkflow::TRANSITION_REMOTE_UPDATE;
             } elseif (
-                $this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN &&
+                $this->security->getUserRole() === Security::ROLE_LIBRARIAN &&
                 $updateDocument->getState() === DocumentWorkflow::STATE_REGISTERED_NONE
             ) {
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
@@ -344,6 +396,35 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 )
             ) {
 
+                $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($document->getProcessNumber());
+                if (empty($depositLicenseLog) && $updateDocument->getDepositLicense()) {
+                    // Only if there was no deposit license a notification may be sent
+
+                    /** @var DepositLicenseLog $depositLicenseLog */
+                    $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                    $depositLicenseLog->setUsername($this->security->getUsername());
+                    $depositLicenseLog->setObjectIdentifier($document->getObjectIdentifier());
+                    $depositLicenseLog->setProcessNumber($document->getProcessNumber());
+                    $depositLicenseLog->setTitle($document->getTitle());
+                    $depositLicenseLog->setUrn($document->getQucosaUrn());
+                    $depositLicenseLog->setLicenceUri($document->getDepositLicense());
+
+                    if ($document->getFileData()) {
+                        $fileList = [];
+                        foreach ($document->getFile() as $file) {
+                            $fileList[] = $file->getTitle();
+                        }
+                        $depositLicenseLog->setFileNames(implode(", ", $fileList));
+                    }
+
+
+                    $this->depositLicenseLogRepository->add($depositLicenseLog);
+
+                    /** @var Notifier $notifier */
+                    $notifier = $this->objectManager->get(Notifier::class);
+                    $notifier->sendDepositLicenseNotification($updateDocument);
+                }
+
                 $message = LocalizationUtility::translate(
                     'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.success',
                     'dpf',
@@ -351,7 +432,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 );
                 $this->addFlashMessage($message, '', AbstractMessage::OK);
 
-                if ($this->security->getUser()->getUserRole() === Security::ROLE_LIBRARIAN) {
+                if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
                     if ($saveWorkingCopy) {
                         if (
                             $this->bookmarkRepository->addBookmark(
@@ -409,13 +490,17 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ($workflowTransition && $workflowTransition === DocumentWorkflow::TRANSITION_REMOTE_UPDATE) {
                 $this->redirectToDocumentList();
             } else {
-                $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
+                $this->redirect('cancelEdit',
+                    null,
+                    null,
+                    ['documentUid' => $updateDocument->getUid(), 'backToList' => $backToList]
+                );
+                // $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
             }
         } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
-
             $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -433,6 +518,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $exceptionMsg[] = LocalizationUtility::translate($key, 'dpf');
 
             $this->addFlashMessage(implode(" ", $exceptionMsg), '', $severity, true);
+            $this->redirect('cancelEdit',
+                null,
+                null,
+                ['documentUid' => $updateDocument->getUid(), 'backToList' => $backToList]
+            );
             $this->redirect('showDetails', 'Document', null, ['document' => $updateDocument]);
         }
     }
@@ -498,21 +588,21 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * action cancel edit
      *
      * @param integer $documentUid
+     * @param bool $backToList
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      *
      * @return void
      */
-    public function cancelEditAction($documentUid = 0)
+    public function cancelEditAction($documentUid = 0, $backToList = false)
     {
-        if ($documentUid) {
-            /** @var $document \EWW\Dpf\Domain\Model\Document */
-            $document = $this->documentRepository->findByUid($documentUid);
-
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-        } else {
+        if (empty($documentUid) || $backToList) {
             $this->redirectToDocumentList();
         }
+
+        /** @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $this->documentRepository->findByUid($documentUid);
+        $this->redirect('showDetails', 'Document', null, ['document' => $document]);
     }
 
     /**
@@ -554,6 +644,4 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->redirect($action, $controller, null, array('message' => $message));
         }
     }
-
-
 }

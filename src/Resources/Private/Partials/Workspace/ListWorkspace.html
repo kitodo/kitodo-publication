@@ -33,7 +33,10 @@
             aggregations:aggregations,
             filters:filters,
             checkedDocumentIdentifiers: checkedDocumentIdentifiers,
-            bookmarkIdentifiers: bookmarkIdentifiers
+            bookmarkIdentifiers: bookmarkIdentifiers,
+            currentFisPersId: currentFisPersId,
+            personGroup: personGroup,
+            personGroupIndex: personGroupIndex
         }"
     />
 
@@ -54,7 +57,7 @@
             <p class="text-center">
                 <div class="form-inline justify-content-center">
                     <dpf:showDocumentCounter documentCount="{documentCount}" currentPage="{currentPage}" itemsPerPage="{itemsPerPage}" />
-                    , {f:translate(key: 'manager.workspace.itemsPerPage')}
+                    {f:translate(key: 'manager.workspace.itemsPerPage')}
                     <div class="input-group mx-sm-2" style="width:100px;">
                         <div class="input-group-prepend">
                             <button id="items-down" class="btn btn-outline-secondary btn-sm" type="button">-</button>
@@ -89,6 +92,7 @@
 <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
 
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchSetInProgress'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRegister'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRemove'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchReleaseValidated'}" />

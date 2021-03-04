@@ -14,42 +14,6 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:comment>
-    <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
-        <f:link.action action="doubletCheck" controller="Search" arguments="{document : document}"
-                       class="btn btn-sm btn-outline-secondary">{f:translate(key: 'manager.doublet')}
-        </f:link.action>
-    </f:if>
-
-
-<dpf:link.preview
-        arguments="{document : document}"
-        pageUid="{settings.previewPage}"
-        apiPid="{settings.apiPid}"
-        class="btn btn-sm btn-outline-secondary">
-    <i class="fas fa-eye"></i>
-</dpf:link.preview>
-
-<dpf:link.dataCite
-        arguments="{document : document}"
-        pageUid="{settings.previewPage}"
-        apiPid="{settings.apiPid}"
-        class="btn btn-sm btn-outline-secondary">
-    <i class="fas fa-info-circle"></i>
-</dpf:link.dataCite>
-
-<f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
-    <f:link.action action="duplicate"
-                   controller="Document"
-                   arguments="{document : document._id}"
-                   class="btn btn-sm btn-outline-secondary"
-                   title="{f:translate(key: 'manager.tooltip.duplicate')}"
-                   additionalAttributes="{data-toggle: 'tooltip' }">
-        <i class="fas fa-copy"></i>
-    </f:link.action>
-</f:if>
-</f:comment>
-
 <f:if condition="{dpf:inArray(needle:'{document._id}', array:'{bookmarkIdentifiers}')}">
     <a href="#" class="remove-bookmark"
        title="Bookmark entfernen" data-toggle="tooltip"

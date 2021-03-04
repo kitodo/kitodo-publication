@@ -33,6 +33,8 @@ class DocumentFormField extends AbstractFormElement
 
     protected $validation;
 
+    protected $depositLicense = null;
+
     /**
      * @var string
      */
@@ -54,6 +56,11 @@ class DocumentFormField extends AbstractFormElement
      * @var int
      */
     protected $maxInputLength;
+
+    /**
+     * @var string
+     */
+    protected $objectType = '';
 
     public function getValue()
     {
@@ -170,7 +177,7 @@ class DocumentFormField extends AbstractFormElement
      */
     public function setConsent($consent)
     {
-        $this->consent = $consent;
+        $this->consent = boolval($consent);
     }
 
     public function getHasDefaultValue()
@@ -246,6 +253,38 @@ class DocumentFormField extends AbstractFormElement
      */
     public function setMaxInputLength($maxInputLength) {
         $this->maxInputLength = $maxInputLength;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObjectType(): string
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * @param string $objectType
+     */
+    public function setObjectType(string $objectType): void
+    {
+        $this->objectType = $objectType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepositLicense()
+    {
+        return $this->depositLicense;
+    }
+
+    /**
+     * @param mixed $depositLicense
+     */
+    public function setDepositLicense($depositLicense): void
+    {
+        $this->depositLicense = $depositLicense;
     }
 
 }

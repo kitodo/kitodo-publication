@@ -313,6 +313,10 @@
 				<source>Access denied!</source>
 				<target>Zugriff verweigert!</target>
 			</trans-unit>
+			<trans-unit id="error.retrieve_failed" approved="yes">
+				<source>Retrieve failed. Title or document type wasn't found.</source>
+				<target>Laden des Dokuments fehlgeschlagen. Titel oder Dokumenttyp nicht gefunden</target>
+			</trans-unit>
 			<trans-unit id="form_button.addFile" approved="yes">
 				<source>add file</source>
 				<target>Weitere Datei hinzufügen</target>
@@ -353,6 +357,18 @@
 				<source>delete</source>
 				<target>Löschen</target>
 			</trans-unit>
+			<trans-unit id="form_button.deleteLocallySuggestion" approved="yes">
+				<source>decline</source>
+				<target>Ablehnen</target>
+			</trans-unit>
+            <trans-unit id="form_button.duplicate" approved="yes">
+                <source>Duplicate</source>
+                <target>Duplizieren</target>
+            </trans-unit>
+            <trans-unit id="form_button.changeDocumentType" approved="yes">
+                <source>Change publication type</source>
+                <target>Publikationstyp ändern</target>
+            </trans-unit>
 			<trans-unit id="form_button.deleteWorkingCopy" approved="yes">
 				<source>delete working copy</source>
 				<target>Arbeitskopie löschen</target>
@@ -397,6 +413,10 @@
 				<source>previous</source>
 				<target>Vorherige</target>
 			</trans-unit>
+			<trans-unit id="form_button.showOriginalDocument">
+				<source>Current version</source>
+				<target>Aktuelle Version</target>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 				<target>Dateien</target>
@@ -432,6 +452,10 @@
 			<trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
 				<source>URN service unavailable.</source>
 				<target>URN-Service nicht verfügbar.</target>
+			</trans-unit>
+			<trans-unit id="form_info_msg.personid_added" approved="yes">
+				<source>We have added you as the author of this publication. Please check the information and confirm the change.</source>
+				<target>Wir haben Sie als Autor*in für diese Publikation hinzugefügt. Bitte prüfen Sie die Angaben und bestätigen Sie die Änderung.</target>
 			</trans-unit>
 			<trans-unit id="form_legend.primaryFile" approved="yes">
 				<source>Primary File* (Format: PDF / PDF/A)</source>
@@ -474,8 +498,8 @@
 				<target>Publikation bearbeiten</target>
 			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
-				<source>Create new publication</source>
-				<target>Neue Publikation anlegen</target>
+				<source>Add manually</source>
+				<target>Manuelle Eingabe</target>
 			</trans-unit>
 			<trans-unit id="manager.control.editSuggestion">
 				<source>Suggestion</source>
@@ -484,6 +508,10 @@
 			<trans-unit id="manager.control.suggestionDescription">
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 				<target>Hier können Sie Vorschläge für Änderungen an bestehenden Datensätzen einreichen. Sie können zugehörige Dateien hochladen und bei verworfenen Datensätzen die Wiederherstellung vorschlagen. Bitte geben Sie Ihre Änderungen direkt in die entsprechenden Felder ein.</target>
+			</trans-unit>
+			<trans-unit id="manager.control.suggestionFileUploadInfo">
+                <source>For data sets for which no file is available yet, you can upload a file for publication here. Please also accept the declaration of consent. It is not possible to exchange or remove existing files here. If you wish so, please contact us.</source>
+                <target>Für Datensätze, zu denen noch keine Datei vorliegt, können Sie hier eine Datei zur Veröffentlichung hochladen. Bitte akzeptieren Sie dafür auch die Einverständniserklärung. Es ist hier nicht möglich bestehende Dateien auszutauschen oder zu entfernen. Sollten Sie das wünschen, kontaktieren Sie uns bitte.</target>
 			</trans-unit>
 			<trans-unit id="manager.control.myPublications" approved="yes">
 				<source>My publications</source>
@@ -525,6 +553,22 @@
 				<source>Do you really want to delete the document completely?</source>
 				<target>Möchten Sie das Dokument wirklich vollständig löschen?</target>
 			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.message" approved="yes" xml:space="preserve">
+				<source>The suggestion and any attached files are completely deleted. This cannot be reversed.</source>
+				<target>Der Vorschlag wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestion.messageHeader" approved="yes">
+				<source>Do you really want to delete the suggestion?</source>
+				<target>Möchten Sie den Änderungsvorschlag wirklich ablehnen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmReason" approved="yes">
+				<source>Please give a reason:</source>
+				<target>Bitte geben Sie einen Grund an:</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteLocallySuggestionReason" approved="yes">
+				<source>If the suggestion came from the FIS, you can state a reason for the rejection here:</source>
+				<target>Falls der Vorschlag aus dem FIS stammte, können Sie hier einen Grund für die Ablehnung angeben:</target>
+			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" approved="yes" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
 				<target>Das Dokument &quot;%s&quot; wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
@@ -548,6 +592,22 @@
 			<trans-unit id="manager.confirmBatchRegister.message" approved="yes" xml:space="preserve">
 				<source>The selected documents will be registered for publication.</source>
 				<target>Die ausgewählten Dokumente werden zur Veröffentlichung angemeldet. </target>
+			</trans-unit>
+			<trans-unit id="manager.confirmSetInProgress.message" approved="yes" xml:space="preserve">
+				<source>The document &quot;%s&quot; will be taken into processing.</source>
+				<target>Das Dokument &quot;%s&quot; wird in Bearbeitung genommen. </target>
+			</trans-unit>
+			<trans-unit id="manager.confirmSetInProgress.messageHeader" approved="yes">
+				<source>Do you really want to take the document into processing?</source>
+				<target>Möchten Sie das Dokument wirklich in Bearbeitung nehmen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchSetInProgress.messageHeader" approved="yes">
+				<source>Do you really want to take the selected documents into processing?</source>
+				<target>Möchten Sie die ausgewählten Dokumente wirklich in Bearbeitung nehmen?</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmBatchSetInProgress.message" approved="yes" xml:space="preserve">
+				<source>The selected documents will be taken into processing.</source>
+				<target>Die ausgewählten Dokumente werden in Bearbeitung genommen. </target>
 			</trans-unit>
 			<trans-unit id="manager.confirmBatchRemove.messageHeader" approved="yes">
 				<source>Do you really want to remove the selected documents?</source>
@@ -637,6 +697,18 @@
 				<source>Suggestion details.</source>
 				<target>Details zum Änderungsvorschlag</target>
 			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.field" approved="yes">
+				<source>Field</source>
+				<target>Feld</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.before" approved="yes">
+				<source>Before</source>
+				<target>Bisher</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.after" approved="yes">
+				<source>After</source>
+				<target>Neu</target>
+			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new" approved="yes">
 				<source>New</source>
 				<target>Eingestellt</target>
@@ -660,6 +732,10 @@
 			<trans-unit id="manager.document.localStatus.deleted" approved="yes">
 				<source>Deleted</source>
 				<target>Gelöscht</target>
+			</trans-unit>
+			<trans-unit id="manager.document.noTitle" approved="yes">
+				<source>No title</source>
+				<target>Kein Titel</target>
 			</trans-unit>
 			<trans-unit id="manager.document.title" approved="yes">
 				<source>Title</source>
@@ -861,6 +937,10 @@
 				<source>Fulltext</source>
 				<target>Volltext</target>
 			</trans-unit>
+			<trans-unit id="manager.workspace.creationDate" approved="yes">
+				<source>Created</source>
+				<target>Erstellt</target>
+			</trans-unit>
 			<trans-unit id="manager.workspace.noTitle" approved="yes">
 				<source>No title</source>
 				<target>kein Titel</target>
@@ -898,8 +978,12 @@
 				<target>Nur Gemerkte anzeigen</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.filter.all" approved="yes">
-				<source>(all)</source>
+				<source>(all publication types)</source>
 				<target>(alle)</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.filter.allDoctypes">
+				<source>(all publications)</source>
+				<target>(alle Publikationstypen)</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.batchAction.register.success.singular" approved="yes">
 				<source>%s record out of %s successfully registered.</source>
@@ -908,6 +992,14 @@
 			<trans-unit id="manager.workspace.batchAction.register.success.plural" approved="yes">
 				<source>%s records out of %s successfully registered.</source>
 				<target>%s Datensätze von %s wurden erfolgreich gemeldet.</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.setInProgress.success.singular" approved="yes">
+				<source>%s record out of %s successfully taken into processing.</source>
+				<target>%s Datensatz von %s wurde erfolgreich in Bearbeitung genommen.</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.batchAction.setInProgress.success.plural" approved="yes">
+				<source>%s records out of %s successfully taken into processing.</source>
+				<target>%s Datensätze von %s wurden erfolgreich in Bearbeitung genommen.</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.batchAction.remove.success.singular" approved="yes">
 				<source>%s record out of %s successfully removed.</source>
@@ -948,6 +1040,10 @@
 			<trans-unit id="manger.workspace.batch.buttonReleaseUnvalidated" approved="yes">
 				<source>Release and not validate</source>
 				<target>Freigeben und nicht validieren</target>
+			</trans-unit>
+			<trans-unit id="manger.workspace.batch.buttonSetInProgress" approved="yes">
+			    <source>Take into processing</source>
+			    <target>In Bearbeitung nehmen</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.bookmarkRemoved.singular" approved="yes">
 				<source>Record has been removed from workspace.</source>
@@ -993,6 +1089,170 @@
 				<source>OK</source>
 				<target>OK</target>
 			</trans-unit>
+            <trans-unit id="manager.importMetadata.header.single" approved="yes">
+                <source>Import via ID</source>
+                <target>Import via ID</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the "Workspace". Nothing was imported.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im „Arbeitsbereich“. Es wurde nichts importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInMyPublications" approved="yes">
+                <source>A publication with this identifier is already in "My Publications". Nothing was imported.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits in „Meine Publikationen“. Es wurde nichts importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemWorkspace" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „Workspace”. Please check the entry there.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zum „Arbeitsbereich“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.alreadyInSystemMyPublications" approved="yes">
+                <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
+                <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zu „Meine Publikationen“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+                <target>Die Publikation wurde importiert. Bitte prüfen Sie, ob alle Angaben korrekt sind, und identifizieren Sie Personen, die zur Universität Leipzig gehören.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
+                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+                <target>Die Publikation wurde importiert. Bitte prüfen Sie, ob alle Angaben korrekt sind, und identifizieren Sie Personen, die zur Universität Leipzig gehören.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
+                <source>Could not import the publication.</source>
+                <target>Die Publikation konnte nicht importiert werden.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.searchError" approved="yes">
+                <source>Error while searching.</source>
+                <target>Bei der Suche trat ein Fehler auf.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.nothingFound" approved="yes">
+                <source>The search was unsuccessful. Please use the manual entry.</source>
+                <target>Die Suche brachte kein Ergebnis. Bitte benutzen Sie die manuelle Eingabe.</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.inputLabel" approved="yes">
+                <source>Identifier (DOI, PMID, ISBN)</source>
+                <target>Identifikator (DOI, PMID, ISBN)</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.lookupIdentifier" approved="yes">
+                <source>Look up</source>
+                <target>Nachschlagen</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.identifierLabel" approved="yes">
+                <source>Identifier</source>
+                <target>Identifikator</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.importDocumentSubmit" approved="yes">
+                <source>Import</source>
+                <target>Importieren</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.cancel" approved="yes">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.singular" approved="yes">
+                <source>Publication</source>
+                <target>Publikation</target>
+            </trans-unit>
+            <trans-unit id="manager.importMetadata.publication.plural" approved="yes">
+                <source>Publications</source>
+                <target>Publikationen</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadMetadata.header" approved="yes">
+                <source>Upload</source>
+                <target>Upload</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.header" approved="yes">
+                <source>Import from Crossref/PubMed</source>
+                <target>Import aus Crossref/PubMed</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.singular" approved="yes">
+                <source>Publication</source>
+                <target>Publikation</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.publication.plural" approved="yes">
+                <source>Publications</source>
+                <target>Publikationen</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.libarian" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "Workspace".</source>
+                <target>Es wurden %s %s importiert und %s vorhandene %s zum "Arbeitsbereich" hinzugefügt.</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importMessage.researcher" approved="yes">
+                <source>%s %s were imported and %s existing %s added to "My Publications".</source>
+                <target>Es wurden %s %s importiert und %s vorhandene %s zu "Meine Publikationen" hinzugefügt.</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.importNote" approved="yes">
+                <source>Please identify yourself and other researchers if necessary. To do this, click on names that have not yet been marked with the [Person] symbol. If your own name is missing, click on the [+] symbol.</source>
+                <target>Bitte identifizieren Sie jetzt sich selbst und ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht mit dem Symbol [Person] markiert sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.complete" approved="yes">
+                <source>Finish</source>
+                <target>Fertig</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.crossrefSearchButton" approved="yes">
+                <source>Search in Crossref</source>
+                <target>Nachschlagen in Crossref</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.pubMedSearchButton" approved="yes">
+                <source>Search in PubMed</source>
+                <target>Nachschlagen in PubMed</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.resultsInfo" approved="yes">
+                <source>Searchresults for "%s" in %s:</source>
+                <target>Suchergebnisse für "%s" in %s:</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.import" approved="yes">
+                <source>Import selected ones</source>
+                <target>Markierte importieren</target>
+            </trans-unit>
+            <trans-unit id="manager.bulkImport.cancel" approved="yes">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.header" approved="yes">
+                <source>Upload</source>
+                <target>Upload</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.chooseFile" approved="yes">
+                <source>Choose file</source>
+                <target>Datei auswählen</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importMessage.singular" approved="yes">
+                <source>%s %s was imported.</source>
+                <target>Es wurde %s %s importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importMessage.plural" approved="yes">
+                <source>%s %s were imported.</source>
+                <target>Es wurden %s %s importiert.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.importNote" approved="yes">
+                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
+                <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.incompleteData" approved="yes">
+                <source>Could not import publication number %s%s, because the following fields are empty: %s</source>
+                <target>Konnte die Publikation Nr. %s nicht importieren%s, da die folgenden Felder leer sind: %s</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.bibTex.submitUpload" approved="yes">
+                <source>Import BibTeX</source>
+                <target>BibTeX importieren</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
+                <source>Import RIS (Web of Science)</source>
+                <target>RIS (Web of Science) importieren</target>
+            </trans-unit>
+			<trans-unit id="risReader.parseFailure" approved="yes">
+				<source>Error while reading ris data</source>
+				<target>Fehler beim Einlesen der RIS-Daten</target>
+			</trans-unit>
+            <trans-unit id="manager.uploadImport.invalidFormat" approved="yes">
+                <source>Import failed. Invalid file format</source>
+                <target>Import fehlgeschlagen. Die Datei entspricht nicht dem erwarteten Format.</target>
+            </trans-unit>
+            <trans-unit id="manager.uploadImport.uploadError" approved="yes">
+                <source>Import failed. An error occurred while uploading the file.</source>
+                <target>Import fehlgeschlagen. Die Datei konnte nicht hochgeladen wercden.</target>
+            </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>
@@ -1048,6 +1308,10 @@
 			<trans-unit id="manager.search.searchField.embargoEnd" approved="yes">
 				<source>Embargo end</source>
 				<target>Embargoende</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.creationDate" approved="yes">
+				<source>Creation date</source>
+				<target>Erstellungsdatum</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.comment" approved="yes">
 				<source>Comment</source>
@@ -1105,11 +1369,11 @@
 				<source>Document type</source>
 				<target>Dokumenttyp</target>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.von" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.from" approved="yes">
 				<source>From</source>
 				<target>Von</target>
 			</trans-unit>
-			<trans-unit id="manager.search.addSearchFieldDialog.bis" approved="yes">
+			<trans-unit id="manager.search.addSearchFieldDialog.to" approved="yes">
 				<source>To</source>
 				<target>Bis</target>
 			</trans-unit>
@@ -1137,6 +1401,26 @@
 				<source>%s records were found.</source>
 				<target>Es wurden %s Datensätze gefunden.</target>
 			</trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.header" approved="yes">
+                <source>Change the publication type</source>
+                <target>Publikationstyp ändern</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.newDocumentType" approved="yes">
+                <source>New publication type</source>
+                <target>Neuer Publikationstyp</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.message" approved="yes">
+                <source>By changing the publication type, content from fields that are not available in the new publication type may be lost. This cannot be undone. To keep the current data for later review, copy it out of this summary:</source>
+                <target>Durch die Änderung des Publikationstyps gehen evtl. Inhalte aus Feldern verloren, die im neuen Publikationstyp nicht vorhanden sind. Das kann nicht rückgängig gemacht werden. Um die aktuellen Daten für eine spätere Überprüfung zu behalten, kopieren Sie sie aus dieser Zusammenfassung heraus:</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.cancel" approved="yes">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.submit" approved="yes">
+                <source>Change now</source>
+                <target>Jetzt ändern</target>
+            </trans-unit>
 			<trans-unit id="notification.ingestDocument.submitter.body" approved="yes" xml:space="preserve">
 				<source>Your document has been published:
 	Submitter: ###SUBMITTER_NAME###
@@ -1144,7 +1428,7 @@
 	Author: ###AUTHOR###
 	URL: ###URL###
 	Date: ###DATE###
-					</source>
+				</source>
 				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
 	die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
@@ -1155,7 +1439,51 @@
 
 	Mit freundlichen Grüßen
 	Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
-					</target>
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.ingestDocument.submitter.subject" approved="yes">
+				<source>Document published</source>
+				<target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
+				<source>A new document has been registered:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+				</source>
+				<target>Ein neues Dokument wurde angemeldet:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.admin.subject" approved="yes">
+				<source>New document registered</source>
+				<target>Ein neues Dokument wurde angemeldet</target>
+			</trans-unit>
+			<trans-unit id="notification.newDocument.submitter.body" approved="yes" xml:space="preserve">
+				<source>You have registered the following document:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
+				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
+
+wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
+
+Titel: ###TITLE###
+Erste/r AutorIn: ###AUTHOR###
+Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - falls noch nicht geschehen - die unterschriebene Einverständniserklärung. Sobald Ihr Dokument online verfügbar ist, benachrichtigen wir Sie per E-Mail.
+
+Mit freundlichen Grüßen
+Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+				</target>
 			</trans-unit>
 			<trans-unit id="notification.newDocument.submitter.subject" approved="yes">
 				<source>You have registered a document</source>
@@ -1163,38 +1491,38 @@
 			</trans-unit>
 			<trans-unit id="notification.registerDocument.admin.body" approved="yes" xml:space="preserve">
 				<source>A document has been registered:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
-					</source>
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+				</source>
 				<target>Ein Dokument wurde angemeldet:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
-					</target>
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+				</target>
 			</trans-unit>
 			<trans-unit id="notification.document.embargo.admin.subject" approved="yes">
 				<source>Embargo expired</source>
 				<target>Embargo ist abgelaufen</target>
 			</trans-unit>
 			<trans-unit id="notification.document.embargo.admin.body" approved="yes" xml:space="preserve">
-			<source>Embargo is expired:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+				<source>Embargo is expired:
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
 				<target>Das Embargo ist abgelaufen:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.registerDocument.admin.subject" approved="yes">
@@ -1203,20 +1531,20 @@
 			</trans-unit>
 			<trans-unit id="notification.newSuggestion.admin.body" approved="yes" xml:space="preserve">
 				<source>A new suggestion has been added:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
-	URL: ###DETAIL_URL###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
+URL: ###DETAIL_URL###
 				</source>
 				<target>Ein Änderungsvorschlag wurde erstellt:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
-	URL: ###DETAIL_URL###
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
+URL: ###DETAIL_URL###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.newSuggestion.admin.subject" approved="yes">
@@ -1225,27 +1553,109 @@
 			</trans-unit>
 			<trans-unit id="notification.embargoExpired.admin.body" approved="yes" xml:space="preserve">
 				<source>Embargo is expired:
-	Submitter: ###SUBMITTER_NAME###
-	Title: ###TITLE###
-	Author: ###AUTHOR###
-	URN: ###URN###
-	Date: ###DATE###
+Submitter: ###SUBMITTER_NAME###
+Title: ###TITLE###
+Author: ###AUTHOR###
+URN: ###URN###
+Date: ###DATE###
 				</source>
-					<target>Embargo ist abgelaufen:
-	Ersteller: ###SUBMITTER_NAME###
-	Titel: ###TITLE###
-	Autor: ###AUTHOR###
-	URN: ###URN###
-	Datum: ###DATE###
+				<target>Embargo ist abgelaufen:
+Ersteller: ###SUBMITTER_NAME###
+Titel: ###TITLE###
+Autor: ###AUTHOR###
+URN: ###URN###
+Datum: ###DATE###
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.embargoExpired.admin.subject" approved="yes">
 				<source>Embargo expired (automatic)</source>
 				<target>Embargo abgelaufen (automatisch)</target>
 			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been updated:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+				<target>Eine Publikation wurde aktualisiert:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+	URL: ###DETAIL_URL###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.updatePublication.mypublications.subject" approved="yes">
+				<source>One of your publications has been updated</source>
+				<target>Eine Ihrer Publikationen wurde aktualisiert</target>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.body" approved="yes" xml:space="preserve">
+				<source>A publication has been added:
+	Submitter: ###SUBMITTER_NAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Date: ###DATE###
+	URL: ###DETAIL_URL###
+				</source>
+				<target>Eine Publikation wurde hinzugefügt:
+	Ersteller: ###SUBMITTER_NAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Datum: ###DATE###
+	URL: ###DETAIL_URL###
+				</target>
+			</trans-unit>
+			<trans-unit id="notification.newPublication.mypublications.subject" approved="yes">
+				<source>A publication has been added to your publications</source>
+				<target>Eine Publikationen wurde Ihren Publikationen hinzugefügt</target>
+			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.body" approved="yes" xml:space="preserve">
+				<source>A deposit license has been given:
+	Username: ###LICENSE_USERNAME###
+	Title: ###TITLE###
+	Author: ###AUTHOR###
+	URN: ###URN###
+	Processnumber: ###PROCESS_NUMBER###
+	Document-ID: ###DOCUMENT_IDENTIFIER###
+	Date: ###DATE###
+	Files: ###FILE_LIST###
+    License URI: ###LICENSE_URI###
+    License: ###LICENSE_TEXT###
+					</source>
+				<target>Eine Einverständiserklärung wurde abgegeben:
+	Benutzername: ###LICENSE_USERNAME###
+	Titel: ###TITLE###
+	Autor: ###AUTHOR###
+	URN: ###URN###
+	Vorgangsnummer: ###PROCESS_NUMBER###
+	Dokument-ID: ###DOCUMENT_IDENTIFIER###
+	Datum: ###DATE###
+	Dateien: ###FILE_LIST###
+    Lizenz-URI: ###LICENSE_URI###
+    Lizenz: ###LICENSE_TEXT###
+					</target>
+			</trans-unit>
+			<trans-unit id="notification.depositLicense.admin.subject" approved="yes">
+				<source>Deposit license</source>
+				<target>Einverständniserklärung</target>
+			</trans-unit>
 			<trans-unit id="message.suggestion_flashmessage" approved="yes">
 				<source>Suggestion successfully saved</source>
 				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
+			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.workingcopy_info" approved="yes">
+				<source>Status not changed. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+				<target>Status nicht geändert. Wenn Sie die Bearbeitung abschließen möchten, wählen Sie jetzt einen Status ('Freigeben', 'Zurückstellen' oder 'Verwerfen').</target>
+			</trans-unit>
+			<trans-unit id="message.suggestion_accepted.new_workingcopy_info" approved="yes">
+				<source>Status changed to 'In progress'. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>
+				<target>Status geändert auf 'In Bearbeitung'. Wenn Sie die Bearbeitung abschließen möchten, wählen Sie jetzt einen Status ('Freigeben', 'Zurückstellen' oder 'Verwerfen').</target>
 			</trans-unit>
 			<trans-unit id="search.control.extendedSearch" approved="yes">
 				<source>Extended search</source>
@@ -1639,6 +2049,82 @@
 				<source>Vietnamese</source>
 				<target>Vietnamesisch</target>
 			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings" approved="yes">
+				<source>Account settings</source>
+				<target>Konto-Einstellungen</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.firstName" approved="yes">
+				<source>First name</source>
+				<target>Vorname</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.lastName" approved="yes">
+				<source>Last name</source>
+				<target>Nachname</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.identifier" approved="yes">
+				<source>Identifier</source>
+				<target>Identifikator</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.orgaName" approved="yes">
+				<source>Organisational Unit</source>
+				<target>Organisationseinheit(en)</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.email.info" approved="yes">
+				<source>To receive notifications, you can enter your email address here.</source>
+				<target>Um Benachrichtigungen zu erhalten, können Sie hier Ihre E-Mail-Adresse eintragen.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.email" approved="yes">
+				<source>Email</source>
+				<target>E-Mail</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.notifications" approved="yes">
+				<source>Send notifications when ...</source>
+				<target>Benachrichtigungen senden, wenn ...</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.changes_mypublications" approved="yes">
+				<source>... a publication in "My Publications" has been changed.</source>
+				<target>... eine Publikation in "Meine Publikationen" geändert wird.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.assigned_myself" approved="yes">
+				<source>Only if I am personally assigned to this publication (e.g. as an author).</source>
+				<target>Nur, wenn ich dieser Publikation persönlich zugeordnet bin (z. B. als Autor*in).</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.on_status_change" approved="yes">
+				<source>Only if the status changes (e.g. from reported to released).</source>
+				<target>Nur, wenn sich dabei der Status ändert (z. B. von gemeldet zu freigegeben).</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.fulltext_media_published" approved="yes">
+				<source>Only if a full text is published.</source>
+				<target>Nur, wenn dabei ein Volltext veröffentlicht wird.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.new_in_mypublications" approved="yes">
+				<source>... a new publication is added to "My Publications".</source>
+				<target>... eine neue Publikation zu "Meine Publikationen" hinzukommt.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.save" approved="yes">
+				<source>Save</source>
+				<target>Speichern</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.message.invalidFisId" approved="yes">
+				<source>FIS identifier was invalid and was not saved.</source>
+				<target>FIS-Identifikator war ungültig und wurde nicht gespeichert.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.message.successfullySaved" approved="yes">
+				<source>Changes have been saved.</source>
+				<target>Änderungen wurden gespeichert.</target>
+			</trans-unit>
+			<trans-unit id="manager.locallang.user.settings.fisid_warning" approved="yes">
+				<source>In order to improve the view of your own publications and to activate personalized functions, you can link your FIS-ID. To do this, go to "Search in FIS" in the user area, search for yourself and save the ID found.</source>
+				<target>Um die Sicht auf Ihre eigenen Publikationen zu verbessern und personalisierte Funktionen zuzuschalten, können Sie Ihre FIS-ID verknüpfen. Gehen Sie dazu im Benutzerbereich auf "Suche in FIS", suchen Sie nach sich selbst und speichern Sie die gefundene ID.</target>
+			</trans-unit>
+			<trans-unit id="manager.apimodal.close" approved="yes">
+                <source>Close</source>
+                <target>Schließen</target>
+            </trans-unit>
+            <trans-unit id="elasticsearch.invalidConfiguration" approved="yes">
+                <source>No ElasticSearch server running or missing configuration</source>
+                <target>ElasticSearch-Server wurde nicht gefunden oder die Konfiguration fehlt</target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -1,0 +1,43 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.importMetadata.header.single')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+    <f:form action="retrieve" name="retrieveMetadata" class="form-metadata-import" method="post">
+            <f:form.hidden name="documentType" value="{documentType}" />
+            <div class="form-group">
+                <label for="importMetadataIdentifier">
+                    {f:translate(key: 'manager.importMetadata.inputLabel')}
+                </label>
+                <f:form.textfield id="importMetadataIdentifier" name="identifier" value="{identifier}" class="form-control"/>
+            </div>
+            <f:form.button name="importMetadataSubmit" id="importMetadataSubmit" class="btn btn-xm btn-success">
+                <i class="fas fa-check"></i>
+                {f:translate(key: 'manager.importMetadata.lookupIdentifier')}
+            </f:form.button>
+    </f:form>
+
+    <f:if condition="{externalMetadata}">
+        {externalMetadata.title}
+    </f:if>
+
+</f:section>

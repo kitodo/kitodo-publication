@@ -37,6 +37,10 @@
 			<source>Input field</source>
 			<target>Eingabefeld</target>
 		</trans-unit>
+		<trans-unit id="deposit_license.description" approved="yes">
+			<source>Checkbox value</source>
+			<target>Checkbox-Wert</target>
+		</trans-unit>
 		<trans-unit id="input_option_list.description" approved="yes">
 			<source>Input option list</source>
 			<target>Liste der Eingabeoptionen</target>
@@ -48,6 +52,10 @@
 		<trans-unit id="mapping.description" approved="yes">
 			<source>Mapping</source>
 			<target>Zuordnung</target>
+		</trans-unit>
+		<trans-unit id="json_mapping.description" approved="yes">
+			<source>JSON Mapping</source>
+			<target>JSON-Zuordnung</target>
 		</trans-unit>
 		<trans-unit id="max_iteration.description" approved="yes">
 			<source>Max iteration</source>

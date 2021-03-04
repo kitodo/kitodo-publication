@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:44:11Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="label.description" approved="yes">
+			<source>label</source>
+			<target>Label</target>
+		</trans-unit>
+		<trans-unit id="title.description" approved="yes">
+			<source>title</source>
+			<target>Titel</target>
+		</trans-unit>
+        <trans-unit id="file.description" approved="yes">
+            <source>File</source>
+            <target>Datei</target>
+        </trans-unit>
+		</body>
+	</file>
+</xliff>

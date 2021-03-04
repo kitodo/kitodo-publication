@@ -29,6 +29,12 @@
                     <f:link.action class="nav-link" action="settings" controller="User">
                         <i class="fas fa-user"></i>
                         <f:cObject typoscriptObjectPath="lib.feUsername"></f:cObject>
+                        <f:if condition="{dpf:isFisIdMissing()}">
+                            <span data-toggle="tooltip" title="{f:translate(key:'manager.locallang.user.settings.fisid_warning')}"/>
+                                <i class="fas fa-exclamation-triangle {f:if(condition:'{dpf:isFisIdMissing()}', then:'text-danger', else:'')}"></i>
+                            </span>
+                        </f:if>
+
                     </f:link.action>
                 </li>
                 <li class="nav-item pr-2">
@@ -72,7 +78,7 @@
                             </li>
                             </f:if>
                             <li class="nav-item">
-                                <f:link.action action="list" controller="Search" arguments="{refresh:1}"
+                                <f:link.action action="search" controller="Search" arguments="{refresh:1}"
                                                class="nav-link workspace-nav-link {dpf:activeManagerMenu(controllerName:'Search')}">
                                     <i class="fas fa-search"></i>
                                     {f:translate(key: 'manager.control.search')}
@@ -85,11 +91,30 @@
                                     {f:translate(key: 'manager.control.createNewDocument')}
                                 </f:link.action>
                             </li>
+                            <li class="nav-item">
+                                <f:link.action action="find" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'find', 1:'import'})}">
+                                    <i class="fas fa-plus"></i>
+                                    {f:translate(key: 'manager.importMetadata.header.single')}
+                                </f:link.action>
+                            </li>
+                            <li class="nav-item">
+                                <f:link.action action="bulkStart" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'bulkStart', 1:'bulkResults'})}">
+                                    <i class="fas fa-plus"></i>
+                                    {f:translate(key: 'manager.bulkImport.header')}
+                                </f:link.action>
+                            </li>
+                            <li class="nav-item">
+                                <f:link.action action="uploadStart" controller="ExternalMetadataImport"
+                                               class="nav-link {dpf:activeManagerMenu(controllerName:'ExternalMetadataImport', actionNames:{0:'uploadStart'})}">
+                                    <i class="fas fa-plus"></i>
+                                    {f:translate(key: 'manager.uploadMetadata.header')}
+                                </f:link.action>
+                            </li>
                         </ul>
-
                     </div>
                 </nav>
-
                 <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-0 px-4">
 
                     <f:render section="main"/>

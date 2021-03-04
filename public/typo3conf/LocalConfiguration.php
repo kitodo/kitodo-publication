@@ -21,6 +21,7 @@ return [
     ],
     'EXT' => [
         'extConf' => [
+            'dpf' => 'a:11:{s:9:"swordHost";s:9:"localhost";s:9:"swordUser";s:4:"user";s:13:"swordPassword";s:8:"password";s:24:"swordCollectionNamespace";s:6:"qucosa";s:10:"fedoraHost";s:9:"localhost";s:10:"fedoraUser";s:4:"user";s:14:"fedoraPassword";s:8:"password";s:17:"elasticSearchHost";s:9:"localhost";s:17:"elasticSearchPort";s:4:"9200";s:15:"uploadDirectory";s:14:"uploads/tx_dpf";s:12:"uploadDomain";s:0:"";}',
             'rsaauth' => 'a:1:{s:18:"temporaryDirectory";s:0:"";}',
             'rte_ckeditor' => 'a:1:{s:15:"ckeditorVersion";s:6:"latest";}',
             'saltedpasswords' => 'a:2:{s:3:"BE.";a:4:{s:21:"saltedPWHashingMethod";s:41:"TYPO3\\CMS\\Saltedpasswords\\Salt\\Pbkdf2Salt";s:11:"forceSalted";i:0;s:15:"onlyAuthService";i:0;s:12:"updatePasswd";i:1;}s:3:"FE.";a:5:{s:7:"enabled";i:1;s:21:"saltedPWHashingMethod";s:41:"TYPO3\\CMS\\Saltedpasswords\\Salt\\Pbkdf2Salt";s:11:"forceSalted";i:0;s:15:"onlyAuthService";i:0;s:12:"updatePasswd";i:1;}}',

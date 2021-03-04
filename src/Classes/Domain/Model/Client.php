@@ -240,19 +240,387 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminEmbargoBody = '';
 
     /**
+     * adminDepositLicenseNotificationSubject
+     *
      * @var string
      */
-    protected $adminOaFondSubject = '';
+    protected $adminDepositLicenseNotificationSubject = '';
 
     /**
+     * adminDepositLicenseNotificationBody
+     *
      * @var string
      */
-    protected $adminOaFondBody = '';
+    protected $adminDepositLicenseNotificationBody = '';
+
+    /**
+     * @var bool
+     */
+    protected $sendAdminDepositLicenseNotification = false;
 
     /**
      * @var string
      */
     protected $suggestionFlashmessage = '';
+
+    /**
+     * fileXpath
+     *
+     * @var string
+     */
+    protected $fileXpath = '';
+
+    /**
+     * stateXpath
+     *
+     * @var string
+     */
+    protected $stateXpath = '';
+
+    /**
+     * typeXpath
+     *
+     * @var string
+     */
+    protected $typeXpath = '';
+
+    /**
+     * typeXpathInput
+     *
+     * @var string
+     */
+    protected $typeXpathInput = '';
+
+    /**
+     * dateXpath
+     *
+     * @var string
+     */
+    protected $dateXpath = '';
+
+    /**
+     * publishingYearXpath
+     *
+     * @var string
+     */
+    protected $publishingYearXpath = '';
+
+    /**
+     * urnXpath
+     *
+     * @var string
+     */
+    protected $urnXpath = '';
+
+    /**
+     * qucosaUrnXpath
+     *
+     * @var string
+     */
+    protected $qucosaUrnXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $validationXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fisIdXpath = '';
+
+    /**
+     * namespaces
+     *
+     * @var string
+     */
+    protected $namespaces = '';
+
+    /**
+     * title xpath
+     *
+     * @var string
+     */
+    protected $titleXpath = '';
+    
+    /**
+     * process number xpath
+     *
+     * @var string
+     */
+    protected $processNumberXpath = '';
+
+    /**
+     * submitter name
+     *
+     * @var string
+     */
+    protected $submitterNameXpath = '';
+
+    /**
+     * submitter email
+     *
+     * @var string
+     */
+    protected $submitterEmailXpath = '';
+
+    /**
+     * submitter notice
+     *
+     * @var string
+     */
+    protected $submitterNoticeXpath = '';
+
+    /**
+     * original source title xpath
+     *
+     * @var string
+     */
+    protected $originalSourceTitleXpath = '';
+
+    /**
+     * creator xpath
+     *
+     * @var string
+     */
+    protected $creatorXpath = '';
+
+    /**
+     * creation date xpath
+     *
+     * @var string
+     */
+    protected $creationDateXpath = '';
+
+    /**
+     * repository creation date xpath
+     * @var string
+     */
+    protected $repositoryCreationDateXpath = '';
+
+    /**
+     * repository last mod date xpath
+     *
+     * @var string
+     */
+    protected $repositoryLastModDateXpath = '';
+
+    /**
+     * deposit license xpath
+     * @var string
+     */
+    protected $depositLicenseXpath = '';
+
+    /**
+     * All notes Xpath
+     *
+     * @var string
+     */
+    protected $allNotesXpath = '';
+
+    /**
+     * Private notes Xpath
+     *
+     * @var string
+     */
+    protected $privateNotesXpath = '';
+
+    /**
+     * Person Xpath
+     *
+     * @var string
+     */
+    protected $personXpath  = '';
+
+    /**
+     * Person family Xpath
+     *
+     * @var string
+     */
+    protected $personFamilyXpath  = '';
+
+    /**
+     * Person given xpath
+     *
+     * @var string
+     */
+    protected $personGivenXpath  = '';
+
+    /**
+     * Person role xpath
+     *
+     * @var string
+     */
+    protected $personRoleXpath  = '';
+
+    /**
+     * Person fis identifier xpath
+     *
+     * @var string
+     */
+    protected $personFisIdentifierXpath  = '';
+
+    /**
+     * Person affiliation xpath
+     *
+     * @var string
+     */
+    protected $personAffiliationXpath  = '';
+
+    /**
+     * Person affiliation identifier xpath
+     *
+     * @var string
+     */
+    protected $personAffiliationIdentifierXpath  = '';
+
+    /**
+     * Source details xpaths (Semicolon separated)
+     *
+     * @var string
+     */
+    protected $sourceDetailsXpaths = '';
+
+    /**
+     * Person author role
+     *
+     * @var string
+     */
+    protected $personAuthorRole = '';
+
+    /**
+     * Person publisher role
+     *
+     * @var string
+     */
+    protected $personPublisherRole = '';
+
+    /**
+     * $mypublicationsUpdateNotificationSubject
+     *
+     * @var string
+     */
+    protected $mypublicationsUpdateNotificationSubject = '';
+
+    /**
+     * $mypublicationsUpdateNotificationBody
+     *
+     * @var string
+     */
+    protected $mypublicationsUpdateNotificationBody = '';
+
+    /**
+     * $mypublicationsNewNotificationSubject
+     *
+     * @var string
+     */
+    protected $mypublicationsNewNotificationSubject = '';
+
+    /**
+     * $mypublicationsNewNotificationBody
+     *
+     * @var string
+     */
+    protected $mypublicationsNewNotificationBody = '';
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $crossrefTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $dataciteTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $k10plusTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $pubmedTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $bibtexTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $riswosTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $inputTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $outputTransformation = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $elasticSearchTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionAcceptUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionDeclineUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingNewDocumentUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingChangedDocumentUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionAcceptUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingSuggestionDeclineUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingNewDocumentUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingChangedDocumentUrlBody = '';
+
+    /**
+     * @var string
+     */
+    protected $fisMapping = '';
 
     /**
      * Returns the project
@@ -439,7 +807,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setReplaceNissPart($replaceNissPart)
     {
-        $this->replaceNissPart = $replaceNissPart;
+        $this->replaceNissPart = boolval($replaceNissPart);
     }
 
     /**
@@ -909,38 +1277,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getAdminOaFondSubject(): string
-    {
-        return $this->adminOaFondSubject;
-    }
-
-    /**
-     * @param string $adminOaFondSubject
-     */
-    public function setAdminOaFondSubject(string $adminOaFondSubject)
-    {
-        $this->adminOaFondSubject = $adminOaFondSubject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAdminOaFondBody(): string
-    {
-        return $this->adminOaFondBody;
-    }
-
-    /**
-     * @param string $adminOaFondBody
-     */
-    public function setAdminOaFondBody(string $adminOaFondBody)
-    {
-        $this->adminOaFondBody = $adminOaFondBody;
-    }
-
-    /**
-     * @return string
-     */
     public function getSuggestionFlashmessage(): string
     {
         return $this->suggestionFlashmessage;
@@ -954,5 +1290,899 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->suggestionFlashmessage = $suggestionFlashmessage;
     }
 
+    /**
+     * @return string
+     */
+    public function getMypublicationsUpdateNotificationSubject(): string
+    {
+        return $this->mypublicationsUpdateNotificationSubject;
+    }
+
+    /**
+     * @param string $mypublicationsUpdateNotificationSubject
+     */
+    public function setMypublicationsUpdateNotificationSubject(string $mypublicationsUpdateNotificationSubject): void
+    {
+        $this->mypublicationsUpdateNotificationSubject = $mypublicationsUpdateNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsUpdateNotificationBody(): string
+    {
+        return $this->mypublicationsUpdateNotificationBody;
+    }
+
+    /**
+     * @param string $mypublicationsUpdateNotificationBody
+     */
+    public function setMypublicationsUpdateNotificationBody(string $mypublicationsUpdateNotificationBody): void
+    {
+        $this->mypublicationsUpdateNotificationBody = $mypublicationsUpdateNotificationBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsNewNotificationSubject(): string
+    {
+        return $this->mypublicationsNewNotificationSubject;
+    }
+
+    /**
+     * @param string $mypublicationsNewNotificationSubject
+     */
+    public function setMypublicationsNewNotificationSubject(string $mypublicationsNewNotificationSubject): void
+    {
+        $this->mypublicationsNewNotificationSubject = $mypublicationsNewNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMypublicationsNewNotificationBody(): string
+    {
+        return $this->mypublicationsNewNotificationBody;
+    }
+
+    /**
+     * @param string $mypublicationsNewNotificationBody
+     */
+    public function setMypublicationsNewNotificationBody(string $mypublicationsNewNotificationBody): void
+    {
+        $this->mypublicationsNewNotificationBody = $mypublicationsNewNotificationBody;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getCrossrefTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->crossrefTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getDataciteTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->dataciteTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getK10plusTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->k10plusTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getPubmedTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->pubmedTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getBibtexTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->bibtexTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getRiswosTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->riswosTransformation;
+    }
+    /**
+     * @return string
+     */
+    public function getAdminDepositLicenseNotificationSubject(): string
+    {
+        return $this->adminDepositLicenseNotificationSubject;
+    }
+
+    /**
+     * @param string $adminDepositLicenseNotificationSubject
+     */
+    public function setAdminDepositLicenseNotificationSubject(string $adminDepositLicenseNotificationSubject): void
+    {
+        $this->adminDepositLicenseNotificationSubject = $adminDepositLicenseNotificationSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminDepositLicenseNotificationBody(): string
+    {
+        return $this->adminDepositLicenseNotificationBody;
+    }
+
+    /**
+     * @param string $adminDepositLicenseNotificationBody
+     */
+    public function setAdminDepositLicenseNotificationBody(string $adminDepositLicenseNotificationBody): void
+    {
+        $this->adminDepositLicenseNotificationBody = $adminDepositLicenseNotificationBody;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendAdminDepositLicenseNotification(): bool
+    {
+        return $this->sendAdminDepositLicenseNotification;
+    }
+
+    /**
+     * @param bool $sendAdminDepositLicenseNotification
+     */
+    public function setSendAdminDepositLicenseNotification(bool $sendAdminDepositLicenseNotification): void
+    {
+        $this->sendAdminDepositLicenseNotification = boolval($sendAdminDepositLicenseNotification);
+    }
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionAcceptUrl(): string
+    {
+        return $this->activeMessagingSuggestionAcceptUrl;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionAcceptUrl
+     */
+    public function setActiveMessagingSuggestionAcceptUrl(string $activeMessagingSuggestionAcceptUrl): void
+    {
+        $this->activeMessagingSuggestionAcceptUrl = $activeMessagingSuggestionAcceptUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionDeclineUrl(): string
+    {
+        return $this->activeMessagingSuggestionDeclineUrl;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionDeclineUrl
+     */
+    public function setActiveMessagingSuggestionDeclineUrl(string $activeMessagingSuggestionDeclineUrl): void
+    {
+        $this->activeMessagingSuggestionDeclineUrl = $activeMessagingSuggestionDeclineUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingNewDocumentUrl(): string
+    {
+        return $this->activeMessagingNewDocumentUrl;
+    }
+
+    /**
+     * @param string $activeMessagingNewDocumentUrl
+     */
+    public function setActiveMessagingNewDocumentUrl(string $activeMessagingNewDocumentUrl): void
+    {
+        $this->activeMessagingNewDocumentUrl = $activeMessagingNewDocumentUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingChangedDocumentUrl(): string
+    {
+        return $this->activeMessagingChangedDocumentUrl;
+    }
+
+    /**
+     * @param string $activeMessagingChangedDocumentUrl
+     */
+    public function setActiveMessagingChangedDocumentUrl(string $activeMessagingChangedDocumentUrl): void
+    {
+        $this->activeMessagingChangedDocumentUrl = $activeMessagingChangedDocumentUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionAcceptUrlBody(): string
+    {
+        return $this->activeMessagingSuggestionAcceptUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionAcceptUrlBody
+     */
+    public function setActiveMessagingSuggestionAcceptUrlBody(string $activeMessagingSuggestionAcceptUrlBody): void
+    {
+        $this->activeMessagingSuggestionAcceptUrlBody = $activeMessagingSuggestionAcceptUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingSuggestionDeclineUrlBody(): string
+    {
+        return $this->activeMessagingSuggestionDeclineUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingSuggestionDeclineUrlBody
+     */
+    public function setActiveMessagingSuggestionDeclineUrlBody(string $activeMessagingSuggestionDeclineUrlBody): void
+    {
+        $this->activeMessagingSuggestionDeclineUrlBody = $activeMessagingSuggestionDeclineUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingNewDocumentUrlBody(): string
+    {
+        return $this->activeMessagingNewDocumentUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingNewDocumentUrlBody
+     */
+    public function setActiveMessagingNewDocumentUrlBody(string $activeMessagingNewDocumentUrlBody): void
+    {
+        $this->activeMessagingNewDocumentUrlBody = $activeMessagingNewDocumentUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingChangedDocumentUrlBody(): string
+    {
+        return $this->activeMessagingChangedDocumentUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingChangedDocumentUrlBody
+     */
+    public function setActiveMessagingChangedDocumentUrlBody(string $activeMessagingChangedDocumentUrlBody): void
+    {
+        $this->activeMessagingChangedDocumentUrlBody = $activeMessagingChangedDocumentUrlBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisMapping(): string
+    {
+        return $this->fisMapping;
+    }
+
+    /**
+     * @param string $fisMapping
+     */
+    public function setFisMapping(string $fisMapping): void
+    {
+        $this->fisMapping = $fisMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileXpath(): string
+    {
+        return $this->fileXpath;
+    }
+
+    /**
+     * @param string $fileXpath
+     */
+    public function setFileXpath(string $fileXpath)
+    {
+        $this->fileXpath = $fileXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateXpath(): string
+    {
+        return $this->stateXpath;
+    }
+
+    /**
+     * @param string $stateXpath
+     */
+    public function setStateXpath(string $stateXpath)
+    {
+        $this->stateXpath = $stateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeXpath(): string
+    {
+        return $this->typeXpath;
+    }
+
+    /**
+     * @param string $typeXpath
+     */
+    public function setTypeXpath(string $typeXpath)
+    {
+        $this->typeXpath = $typeXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeXpathInput(): string
+    {
+        return $this->typeXpathInput;
+    }
+
+    /**
+     * @param string $typeXpathInput
+     */
+    public function setTypeXpathInput(string $typeXpathInput)
+    {
+        $this->typeXpathInput = $typeXpathInput;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateXpath(): string
+    {
+        return $this->dateXpath;
+    }
+
+    /**
+     * @param string $dateXpath
+     */
+    public function setDateXpath(string $dateXpath)
+    {
+        $this->dateXpath = $dateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrnXpath(): string
+    {
+        return $this->urnXpath;
+    }
+
+    /**
+     * @param string $urnXpath
+     */
+    public function setUrnXpath(string $urnXpath)
+    {
+        $this->urnXpath = $urnXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespaces(): string
+    {
+        return $this->namespaces;
+    }
+
+    /**
+     * @param string $namespaces
+     */
+    public function setNamespaces(string $namespaces)
+    {
+        $this->namespaces = $namespaces;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleXpath(): string
+    {
+        return $this->titleXpath;
+    }
+
+    /**
+     * @param string $titleXpath
+     */
+    public function setTitleXpath(string $titleXpath)
+    {
+        $this->titleXpath = $titleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcessNumberXpath(): string
+    {
+        return $this->processNumberXpath;
+    }
+
+    /**
+     * @param string $processNumberXpath
+     */
+    public function setProcessNumberXpath(string $processNumberXpath)
+    {
+        $this->processNumberXpath = $processNumberXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterNameXpath(): string
+    {
+        return $this->submitterNameXpath;
+    }
+
+    /**
+     * @param string $submitterNameXpath
+     */
+    public function setSubmitterNameXpath(string $submitterNameXpath)
+    {
+        $this->submitterNameXpath = $submitterNameXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterEmailXpath(): string
+    {
+        return $this->submitterEmailXpath;
+    }
+
+    /**
+     * @param string $submitterEmailXpath
+     */
+    public function setSubmitterEmailXpath(string $submitterEmailXpath)
+    {
+        $this->submitterEmailXpath = $submitterEmailXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubmitterNoticeXpath(): string
+    {
+        return $this->submitterNoticeXpath;
+    }
+
+    /**
+     * @param string $submitterNoticeXpath
+     */
+    public function setSubmitterNoticeXpath(string $submitterNoticeXpath)
+    {
+        $this->submitterNoticeXpath = $submitterNoticeXpath;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getInputTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->inputTransformation;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputTransformation
+     */
+    public function setInputTransformation(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $inputTransformation)
+    {
+        $this->inputTransformation = $inputTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getOutputTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->outputTransformation;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $outputTransformation
+     */
+    public function setOutputTransformation(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $outputTransformation)
+    {
+        $this->outputTransformation = $outputTransformation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQucosaUrnXpath(): string
+    {
+        return $this->qucosaUrnXpath;
+    }
+
+    /**
+     * @param string $qucosaUrnXpath
+     */
+    public function setQucosaUrnXpath(string $qucosaUrnXpath)
+    {
+        $this->qucosaUrnXpath = $qucosaUrnXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublishingYearXpath(): string
+    {
+        return $this->publishingYearXpath;
+    }
+
+    /**
+     * @param string $publishingYearXpath
+     */
+    public function setPublishingYearXpath(string $publishingYearXpath)
+    {
+        $this->publishingYearXpath = $publishingYearXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalSourceTitleXpath(): string
+    {
+        return $this->originalSourceTitleXpath;
+    }
+
+    /**
+     * @param string $originalSourceTitleXpath
+     */
+    public function setOriginalSourceTitleXpath(string $originalSourceTitleXpath)
+    {
+        $this->originalSourceTitleXpath = $originalSourceTitleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatorXpath(): string
+    {
+        return $this->creatorXpath;
+    }
+
+    /**
+     * @param string $creatorXpath
+     */
+    public function setCreatorXpath(string $creatorXpath)
+    {
+        $this->creatorXpath = $creatorXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationDateXpath(): string
+    {
+        return $this->creationDateXpath;
+    }
+
+    /**
+     * @param string $creationDateXpath
+     */
+    public function setCreationDateXpath(string $creationDateXpath)
+    {
+        $this->creationDateXpath = $creationDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepositoryCreationDateXpath(): string
+    {
+        return $this->repositoryCreationDateXpath;
+    }
+
+    /**
+     * @param string $repositoryCreationDateXpath
+     */
+    public function setRepositoryCreationDateXpath(string $repositoryCreationDateXpath)
+    {
+        $this->repositoryCreationDateXpath = $repositoryCreationDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepositoryLastModDateXpath(): string
+    {
+        return $this->repositoryLastModDateXpath;
+    }
+
+    /**
+     * @param string $repositoryLastModDateXpath
+     */
+    public function setRepositoryLastModDateXpath(string $repositoryLastModDateXpath)
+    {
+        $this->repositoryLastModDateXpath = $repositoryLastModDateXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDepositLicenseXpath(): string
+    {
+        return $this->depositLicenseXpath;
+    }
+
+    /**
+     * @param string $depositLicenseXpath
+     */
+    public function setDepositLicenseXpath(string $depositLicenseXpath)
+    {
+        $this->depositLicenseXpath = $depositLicenseXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAllNotesXpath(): string
+    {
+        return $this->allNotesXpath;
+    }
+
+    /**
+     * @param string $allNotesXpath
+     */
+    public function setAllNotesXpath(string $allNotesXpath)
+    {
+        $this->allNotesXpath = $allNotesXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrivateNotesXpath(): string
+    {
+        return $this->privateNotesXpath;
+    }
+
+    /**
+     * @param string $privateNotesXpath
+     */
+    public function setPrivateNotesXpath(string $privateNotesXpath)
+    {
+        $this->privateNotesXpath = $privateNotesXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonXpath(): string
+    {
+        return $this->personXpath;
+    }
+
+    /**
+     * @param string $personXpath
+     */
+    public function setPersonXpath(string $personXpath)
+    {
+        $this->personXpath = $personXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonFamilyXpath(): string
+    {
+        return $this->personFamilyXpath;
+    }
+
+    /**
+     * @param string $personFamilyXpath
+     */
+    public function setPersonFamilyXpath(string $personFamilyXpath)
+    {
+        $this->personFamilyXpath = $personFamilyXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonGivenXpath(): string
+    {
+        return $this->personGivenXpath;
+    }
+
+    /**
+     * @param string $personGivenXpath
+     */
+    public function setPersonGivenXpath(string $personGivenXpath)
+    {
+        $this->personGivenXpath = $personGivenXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonRoleXpath(): string
+    {
+        return $this->personRoleXpath;
+    }
+
+    /**
+     * @param string $personRoleXpath
+     */
+    public function setPersonRoleXpath(string $personRoleXpath)
+    {
+        $this->personRoleXpath = $personRoleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonFisIdentifierXpath(): string
+    {
+        return $this->personFisIdentifierXpath;
+    }
+
+    /**
+     * @param string $personFisIdentifierXpath
+     */
+    public function setPersonFisIdentifierXpath(string $personFisIdentifierXpath)
+    {
+        $this->personFisIdentifierXpath = $personFisIdentifierXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAffiliationXpath(): string
+    {
+        return $this->personAffiliationXpath;
+    }
+
+    /**
+     * @param string $personAffiliationXpath
+     */
+    public function setPersonAffiliationXpath(string $personAffiliationXpath)
+    {
+        $this->personAffiliationXpath = $personAffiliationXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAffiliationIdentifierXpath(): string
+    {
+        return $this->personAffiliationIdentifierXpath;
+    }
+
+    /**
+     * @param string $personAffiliationIdentifierXpath
+     */
+    public function setPersonAffiliationIdentifierXpath(string $personAffiliationIdentifierXpath)
+    {
+        $this->personAffiliationIdentifierXpath = $personAffiliationIdentifierXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonAuthorRole(): string
+    {
+        return $this->personAuthorRole;
+    }
+
+    /**
+     * @param string $personAuthorRole
+     */
+    public function setPersonAuthorRole(string $personAuthorRole)
+    {
+        $this->personAuthorRole = $personAuthorRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonPublisherRole(): string
+    {
+        return $this->personPublisherRole;
+    }
+
+    /**
+     * @param string $personPublisherRole
+     */
+    public function setPersonPublisherRole(string $personPublisherRole)
+    {
+        $this->personPublisherRole = $personPublisherRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationXpath(): string
+    {
+        return $this->validationXpath;
+    }
+
+    /**
+     * @param string $validationXpath
+     */
+    public function setValidationXpath(string $validationXpath)
+    {
+        $this->validationXpath = $validationXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisIdXpath(): string
+    {
+        return $this->fisIdXpath;
+    }
+
+    /**
+     * @param string $fisIdXpath
+     */
+    public function setFisIdXpath(string $fisIdXpath)
+    {
+        $this->fisIdXpath = $fisIdXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceDetailsXpaths(): string
+    {
+        return $this->sourceDetailsXpaths;
+    }
+
+    /**
+     * @param string $sourceDetailsXpaths
+     */
+    public function setSourceDetailsXpaths(string $sourceDetailsXpaths)
+    {
+        $this->sourceDetailsXpaths = $sourceDetailsXpaths;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getElasticSearchTransformation(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->elasticSearchTransformation;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $elasticSearchTransformation
+     */
+    public function setElasticSearchTransformation(
+        ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage $elasticSearchTransformation
+    ): void {
+        $this->elasticSearchTransformation = $elasticSearchTransformation;
+    }
 
 }

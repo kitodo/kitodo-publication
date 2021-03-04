@@ -1,0 +1,81 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.bulkImport.header')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+    <f:form action="bulkSearchCrossRef" name="bulkSearch" class="form-bulk-import" method="post">
+        <div class="form-row align-items-center">
+            <div class="col-auto mb-2">
+                <f:form.textfield id="bulkImportSearchCrossRef" name="query" value="{crossRefQuery}" class="form-control"/>
+            </div>
+
+            <div class="col-auto mb-2">
+            <f:form.button name="bulkImportSearchCrossRefSubmit" id="bulkImportSearchCrossRefSubmit" class="btn btn-xm btn-primary">
+                {f:translate(key: 'manager.bulkImport.crossrefSearchButton')}
+            </f:form.button>
+            </div>
+
+            <div class="custom-control custom-switch mx-sm-2 mb-2">
+                <input id="crossRefAuthorSearch" class="custom-control-input bulkImportAuthorSearch"
+                       type="checkbox" aria-label="Checkbox to search for authors"
+                       data-ajax="{f:uri.action(action:'toggleBulkImportAuthorSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum, arguments:'{apiName:\'CrossRef\'}')}"
+                       {f:if(condition:'{crossRefAuthorSearch}', then:'checked="checked"', else:'')}>
+                <label class="custom-control-label" for="crossRefAuthorSearch">
+                    {f:translate(key: 'manager.bulkImport.authorSearch')} Nur nach AutorIn suchen.
+                </label>
+            </div>
+        </div>
+    </f:form>
+
+    <f:form action="bulkSearchPubMed" name="bulkSearch" class="form-bulk-import" method="post">
+        <div class="form-row align-items-center">
+            <div class="col-auto mb-2">
+                <f:form.textfield id="bulkImportSearchPubMed" name="query" value="{pubMedQuery}" class="form-control"/>
+            </div>
+
+            <div class="col-auto mb-2">
+                <f:form.button name="bulkImportSearchPubMedSubmit" id="bulkImportSearchPubMedSubmit" class="btn btn-xm btn-primary">
+                    {f:translate(key: 'manager.bulkImport.pubMedSearchButton')}
+                </f:form.button>
+            </div>
+
+            <div class="custom-control custom-switch mx-sm-2 mb-2">
+                <input id="pubMedAuthorSearch" class="custom-control-input bulkImportAuthorSearch"
+                       type="checkbox" aria-label="Checkbox to search for authors"
+                       data-ajax="{f:uri.action(action:'toggleBulkImportAuthorSearch',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum, arguments:'{apiName:\'PubMed\'}')}"
+                       {f:if(condition:'{pubMedAuthorSearch}', then:'checked="checked"', else:'')}>
+                <label class="custom-control-label" for="pubMedAuthorSearch">
+                    {f:translate(key: 'manager.bulkImport.authorSearch')} Nur nach AutorIn suchen.
+                </label>
+            </div>
+
+        </div>
+    </f:form>
+
+    <f:comment>
+        <f:link.action action="bulkImportedDocuments" controller="ExternalMetadataImport"
+                       class="btn btn-sm btn-secondary">
+            {f:translate(key: 'manger.bulkImport.import', default: 'Bulk imported')}
+        </f:link.action>
+    </f:comment>
+
+</f:section>

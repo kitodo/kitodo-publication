@@ -124,6 +124,15 @@
                 </form>
             </div>
             <div class="modal-footer">
+
+                <f:alias map="{showOrgaSwitch:0, removePersonSwitch:0, api:'Fis', usersetting:'extSearch', groupIndex: 'persons'}">
+                    <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                </f:alias>
+
+                <f:alias map="{showOrgaSwitch:1, removePersonSwitch:1, api:'Fis', usersetting:'extSearch', groupIndex: 'affiliation'}">
+                    <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                </f:alias>
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     {f:translate(key: 'manager.search.addSearchFieldDialog.cancel')}
                 </button>

@@ -45,6 +45,20 @@ class Mods
     {
         $modsDom = new \DOMDocument();
         if (!empty($modsXml)) {
+
+            $modsXml = preg_replace(
+                "/<mods:mods.*?>/",
+                '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                .'xmlns:mods="http://www.loc.gov/mods/v3" '
+                .'xmlns:slub="http://slub-dresden.de/" '
+                .'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '
+                .'xmlns:foaf="http://xmlns.com/foaf/0.1/" '
+                .'xmlns:person="http://www.w3.org/ns/person#" '
+                .'xsi:schemaLocation="http://www.loc.gov/mods/v3 '
+                .'http://www.loc.gov/standards/mods/v3/mods-3-7.xsd" version="3.7">',
+                $modsXml
+            );
+
             if (is_null(@$modsDom->loadXML($modsXml))) {
                 throw new \Exception("Couldn't load MODS data!");
             }
@@ -65,10 +79,10 @@ class Mods
 
     public function getTitle()
     {
-        $titleNode = $this->getModsXpath()->query('/mods:mods/mods:titleInfo[@usage="primary"]/mods:title');
+        $titleNode = $this->getModsXpath()->query('/data/titleInfo/title');
 
         if ($titleNode->length == 0) {
-            $titleNode = $this->getModsXpath()->query("/mods:mods/mods:titleInfo/mods:title");
+            $titleNode = $this->getModsXpath()->query("/data/titleInfo/title");
         }
         return $titleNode->item(0)->nodeValue;
     }
@@ -101,38 +115,119 @@ class Mods
     /**
      * Get persons of the given role
      *
-     * @param $role
+     * @param string $role
      * @return array
      */
-    protected function getPersons($role)
+    public function getPersons($role = '')
+    {
+        $xpath = $this->getModsXpath();
+        $personNodes = $xpath->query('/mods:mods/mods:name[@type="personal"]');
+
+        $persons = [];
+
+        foreach ($personNodes as $key => $personNode) {
+
+            $familyNode = $xpath->query('mods:namePart[@type="family"]', $personNode);
+
+            $givenNode = $xpath->query('mods:namePart[@type="given"]', $personNode);
+
+            $roleNode = $xpath->query('mods:role/mods:roleTerm[@type="code"]', $personNode);
+
+            $identifierNode = $xpath->query('mods:nameIdentifier[@type="FOBID"]', $personNode);
+
+            $affiliationNodes  = $xpath->query('mods:affiliation', $personNode);
+            $affiliationIdentifierNodes  = $xpath->query(
+                'mods:nameIdentifier[@type="ScopusAuthorID"][@typeURI="http://www.scopus.com/authid"]',
+                $personNode
+            );
+
+            $person['affiliations'] = [];
+            foreach ($affiliationNodes as $key => $affiliationNode) {
+                $person['affiliations'][] = $affiliationNode->nodeValue;
+            }
+
+            $person['affiliationIdentifiers'] = [];
+            foreach ($affiliationIdentifierNodes as $key => $affiliationIdentifierNode) {
+                $person['affiliationIdentifiers'][] = $affiliationIdentifierNode->nodeValue;
+            }
+
+            $given = '';
+            $family = '';
+
+            if ($givenNode->length > 0) {
+                $given = $givenNode->item(0)->nodeValue;
+            }
+
+            if ($familyNode->length > 0) {
+                $family = $familyNode->item(0)->nodeValue;
+            }
+
+            $person['given'] = trim($given);
+            $person['family'] = trim($family);
+
+            $name = [];
+            if ($person['given']) {
+                $name[] = $person['given'];
+            }
+            if ($person['family']) {
+                $name[] = $person['family'];
+            }
+
+            $person['name'] = implode(' ', $name);
+
+            $person['role'] = '';
+            if ($roleNode->length > 0) {
+                $person['role'] = $roleNode->item(0)->nodeValue;
+            }
+
+            $person['fobId'] = '';
+            if ($identifierNode->length > 0) {
+                $person['fobId'] = $identifierNode->item(0)->nodeValue;
+            }
+
+            $person['index'] = $key;
+
+            $persons[] = $person;
+        }
+
+        if ($role) {
+            $result = [];
+            foreach ($persons as $person) {
+                if ($person['role'] == $role)
+                $result[] = $person;
+            }
+            return $result;
+        } else {
+            return $persons;
+        }
+    }
+
+
+    /**
+     * Get all related FOB-IDs
+     *
+     * @return array
+     */
+    public function getFobIdentifiers(): array
     {
         $xpath = $this->getModsXpath();
 
-        $authorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="'.$role.'"]');
+        $nodes = $xpath->query('/mods:mods/mods:name[@type="personal"]');
 
-        $authors = array();
+        $identifiers = [];
 
-        foreach ($authorNode as $key => $author) {
+        foreach ($nodes as $key => $node) {
 
-            $familyNodes = $xpath->query('mods:namePart[@type="family"]', $author);
+            $identifierNode = $xpath->query('mods:nameIdentifier[@type="FOBID"]', $node);
 
-            $givenNodes = $xpath->query('mods:namePart[@type="given"]', $author);
-
-            $name = array();
-
-            if ($givenNodes->length > 0) {
-                $name[] = $givenNodes->item(0)->nodeValue;
+            if ($identifierNode->length > 0) {
+                $identifiers[] = $identifierNode->item(0)->nodeValue;
             }
-
-            if ($familyNodes->length > 0) {
-                $name[] = $familyNodes->item(0)->nodeValue;
-            }
-
-            $authors[$key] = implode(" ", $name);
         }
 
-        return $authors;
+        return $identifiers;
     }
+
 
     public function setDateIssued($date)
     {

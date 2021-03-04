@@ -297,27 +297,21 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function buildMetsXml($document)
     {
-
-        $exporter = new \EWW\Dpf\Services\MetsExporter();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator();
         $fileData = $document->getCurrentFileData();
         $exporter->setFileData($fileData);
-        $exporter->setMods($document->getXmlData());
-        $exporter->setSlubInfo($document->getSlubInfoData());
+        $exporter->setXML($document->getXmlData());
 
         if (empty($document->getObjectIdentifier())) {
-
             $exporter->setObjId($document->getUid());
-
         } else {
-
             $exporter->setObjId($document->getObjectIdentifier());
-
         }
 
-        $exporter->buildMets();
-        $metsXml = $exporter->getMetsData();
+        $document->setXmlData($exporter->getXMLData());
+        $transformedXml = $exporter->getTransformedOutputXML($document);
 
-        return $metsXml;
+        return $transformedXml;
     }
 
     private function isForbidden($action)

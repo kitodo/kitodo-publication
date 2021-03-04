@@ -11,7 +11,194 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+var userNotifcationSettings = {
+    init: function() {
 
+        if (!jQuery("#notifyOnChanges").prop("checked")) {
+            jQuery(".notifyOnChanges-child").prop("disabled","true");
+        }
+
+        jQuery("#notifyOnChanges").on("click", function(){
+            if (jQuery(this).prop("checked")) {
+                jQuery(this).parent().find(".notifyOnChanges-child").prop("disabled",false);
+            } else {
+                jQuery(this).parent().find(".notifyOnChanges-child").prop("disabled",true);
+            }
+        });
+    }
+}
+var documentFormGroupSelector = {
+    init() {
+        var form = jQuery(".document-form-main");
+        if (typeof form !== "undefined" && form.length > 0) {
+
+            var activeGroup = form.data("activegroup");
+            var activeGroupIndex = form.data("activegroupindex");
+
+            var tab = jQuery('fieldset[data-group="' + activeGroup + '"]').parent().attr("id");
+
+            if (typeof tab !== "undefined" && tab.length > 0) {
+                jQuery('.nav-link').removeClass("active");
+                jQuery('.tab-pane').removeClass("active");
+                jQuery('.nav-link[href="#' + tab + '"]').addClass("active");
+                jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
+
+                if (activeGroupIndex >= 0) {
+                    var group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(group).offset().top - 150
+                    }, 0);
+                } else {
+                    var emptyGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-emptygroup="1"]').first();
+
+                    if (emptyGroupElement.length > 0) {
+                        activeGroupIndex = emptyGroupElement.data('groupindex');
+                    } else {
+                        activeGroupIndex = jQuery('fieldset[data-group="' + activeGroup + '"]').size();
+                    }
+
+                    if (activeGroupIndex > 0) {
+                        addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                    }
+
+                    if (form.data("addcurrentfeuser")) {
+                        isGroupLoaded(
+                            'fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]',
+                            function () {
+                                jQuery('.addMyData').hide();
+                                var activeGroupElement = jQuery('fieldset[data-group="' + activeGroup + '"][data-groupindex="' + activeGroupIndex + '"]');
+                                //var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
+                                var context = activeGroupElement.find('.addMyData').first();
+                                setDataRequest(context.data('ajax'), jQuery('form').data('fispersid'), context);
+                                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
+                                jQuery('html, body').animate({
+                                    scrollTop: jQuery(activeGroupElement).offset().top - 150
+                                }, 0);
+                            });
+                    }
+                }
+            }
+        }
+    }
+}
+
+var isGroupLoaded = function (element, callback, counter = 0) {
+    if (jQuery(element).length) {
+        callback(jQuery(element));
+    } else {
+        if (counter < 10) {
+            setTimeout(function () {
+                isGroupLoaded(element, callback, counter++)
+            }, 500);
+        }
+    }
+}
+
+var toggleBulkImportRecord = function() {
+    jQuery(".bulk-import-checkbox").on("click", function() {
+        var ajaxURL = jQuery(this).closest("tr").data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
+}
+
+var toggleBulkImportAuthorSearch = function() {
+    jQuery(".bulkImportAuthorSearch").on("click", function() {
+        var ajaxURL = jQuery(this).data('ajax');
+        var params = {};
+        jQuery.post(ajaxURL, params, function(data) {
+        });
+    });
+}
+
+var doctypeChange = {
+
+    init() {
+        var _this = this;
+
+        jQuery("#confirmDoctypeChange .saveDocumentSummary").on("click", function (e) {
+
+            var copyText = jQuery("#confirmDoctypeChange .modal-body .details-view").html();
+
+            copyText = "<!DOCTYPE html>" +
+                "<html lang=\"de\" dir=\"ltr\" class=\"no-js\">"+
+                "<head>" +
+                "<style>" +
+                    ".details-group-name, .details-field-name {font-weight: bold;} " +
+                    ".details-group-name {margin: 20px 0 5px 0; font-size: 18px} " +
+                    ".details-field-name {font-size: 16px;} " +
+                    ".details-group {list-style: none;}" +
+                "</style>" +
+                "</head>" +
+                "<body>" + copyText + "</body>" +
+                "</html>";
+
+            var publication = new Blob([copyText], {type: "text/html;charset=utf-8"});
+            saveAs(publication, "publication.html");
+
+            e.preventDefault();
+        });
+
+        jQuery("#confirmDoctypeChange .submitChangeDocumentType").on("click", function (e) {
+            var documentType = jQuery('#changeDocumentTypeForm').find('select').val();
+            if (documentType <= 0) {
+                jQuery('#changeDocumentTypeForm').find('select').addClass('mandatory-error');
+
+                jQuery('.modal-body').animate({
+                    scrollTop:jQuery(jQuery('#changeDocumentTypeForm').find('select')).offset()
+                }, 100);
+
+                e.preventDefault();
+            }
+        });
+
+        jQuery("#changeDocumentTypeForm select").on("change", function (e) {
+            var documentType = jQuery('#changeDocumentTypeForm').find('select').val();
+            if (documentType > 0) {
+                jQuery('#changeDocumentTypeForm').find('select').removeClass('mandatory-error');
+                e.preventDefault();
+            }
+        });
+
+        jQuery("#confirmDoctypeChange").on("show.bs.modal", function(e) {
+            jQuery(this).find("#changeDocumentTypeForm").attr("action", jQuery(e.relatedTarget).attr("href"));
+        });
+
+        jQuery("#confirmDoctypeChange").on("hidden.bs.modal", function(e) {
+            jQuery('#changeDocumentTypeForm').find('select').removeClass('mandatory-error');
+        });
+    }
+}
+
+var documentFormGroupSelector = {
+    init() {
+        var form = jQuery(".document-form-main");
+        if (typeof form !== "undefined" && form.length > 0) {
+
+            var activeGroup = form.data("activegroup");
+            var activeGroupIndex = form.data("activegroupindex");
+
+            var tab = jQuery('fieldset[data-group="' + activeGroup + '"]').parent().attr("id");
+
+            if (typeof tab !== "undefined" && tab.length > 0) {
+                jQuery('.nav-link').removeClass("active");
+                jQuery('.tab-pane').removeClass("active");
+                jQuery('.nav-link[href="#' + tab + '"]').addClass("active");
+                jQuery('fieldset[data-group="' + activeGroup + '"]').parent().addClass("active");
+
+                if (activeGroupIndex >= 0) {
+                    group = jQuery('fieldset[data-group="' + activeGroup + '"]:eq(' + activeGroupIndex + ')');
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(group).offset().top - 150
+                    }, 0);
+                } else {
+                    addGroup(jQuery('button.add_group[data-group="' + activeGroup + '"]'));
+                }
+            }
+        }
+    }
+}
 
 var saveExtendedSearch = {
 
@@ -154,6 +341,17 @@ var extendedSearch = {
 
             // Reset field values
             jQuery("#add-searchfield-dialog .search-field-value").val("");
+
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").hide();
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").hide();
+
+            if (field == 'persons') {
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").show();
+            }
+
+            if (field == 'affiliation') {
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").show();
+            }
 
             jQuery("#add-searchfield-dialog").modal('show');
 
@@ -476,6 +674,7 @@ var batchSelectHandler = {
     refreshToggleButtons() {
         this.toggleSelectButton();
         this.toggleRegisterButton();
+        this.toggleSetInProgressButton();
         this.toggleBatchRemoveButton();
         this.toggleBatchReleaseButton();
         this.toggleBatchBookmarkButton();
@@ -494,6 +693,17 @@ var batchSelectHandler = {
             jQuery("#batchButtonBatchRegister").removeClass("disabled");
         } else {
             jQuery("#batchButtonBatchRegister").addClass("disabled");
+        }
+    },
+    toggleSetInProgressButton() {
+        var numNew = jQuery('#workspace-list tbody tr td[data-alias-state="new"]:first-child .batch-checkbox:checked').length;
+        var numInProgress = jQuery('#workspace-list tbody tr td[data-alias-state="in_progress"]:first-child .batch-checkbox:checked').length;
+        var numChecked = jQuery(".batch-checkbox:checked").length;
+
+        if (numNew + numInProgress < numChecked) {
+            jQuery("#batchButtonBatchSetInProgress").removeClass("disabled");
+        } else {
+            jQuery("#batchButtonBatchSetInProgress").addClass("disabled");
         }
     },
     toggleBatchRemoveButton() {
@@ -549,7 +759,7 @@ var itemsPerPageHandler = {
             var itemsPerPage = jQuery("#items-per-page").val();
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage === items) {
+            if (itemsPerPage === items.toString()) {
                 items = (items <= 10)? items : items-10;
             } else {
                 items = 10;
@@ -561,9 +771,10 @@ var itemsPerPageHandler = {
             var button = jQuery(this);
             var ajaxURL = jQuery(this).data('ajax');
             var itemsPerPage = jQuery("#items-per-page").val();
+
             var items = parseInt(itemsPerPage, 10);
 
-            if (itemsPerPage !== items || items < 1) {
+            if (itemsPerPage !== items.toString() || items < 1) {
                 items = 10;
             }
             
@@ -767,7 +978,7 @@ var hasMandatoryInputs = function(fieldset) {
 }
 var markPage = function(fieldset, error) {
     var pageId = fieldset.parent().attr("id");
-    var page = jQuery(".tx-dpf-tabs li a[href=#" + pageId + "]");
+    var page = jQuery('.tx-dpf-tabs li a[href="#' + pageId + '"]');
     if (error) {
         page.addClass("mandatory-error");
     } else {
@@ -820,15 +1031,17 @@ var checkFilledInputs = function(fieldset) {
     });
     return filledInputs < 1;
 }
-var addGroup = function() {
-    var element = jQuery(this);
-    // Get the group uid
-    var dataGroup = jQuery(this).attr("data-group");
-    // Number of the next group item
-    var groupIndex = parseInt(jQuery(this).attr("data-index")) + 1;
+var addGroup = function(target) {
 
-    jQuery(this).attr("data-index", groupIndex);
-    var ajaxURL = jQuery(this).attr("data-ajax");
+    var element = jQuery(target);
+
+    var dataGroup = jQuery(target).attr("data-group");
+
+    // Number of the next group item
+    var groupIndex = parseInt(jQuery(target).attr("data-index")) + 1;
+
+    jQuery(target).attr("data-index", groupIndex);
+    var ajaxURL = jQuery(target).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(group) {
@@ -838,14 +1051,19 @@ var addGroup = function() {
             'display': 'none'
         }).insertAfter(jQuery('fieldset[data-group="' + dataGroup + '"]').last());
         var height = jQuery('fieldset[data-group="' + dataGroup + '"]').last().outerHeight(true);
+
+        jQuery(group).fadeIn();
+
         jQuery("html, body").animate({
-            scrollTop: element.offset().top - height
-        }, 400, function() {
-            jQuery(group).fadeIn();
-        });
+            scrollTop: jQuery(group).offset().top - 150
+        }, 100);
+
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
+        userSearch(group);
+        userSearchModalFillout();
+        addMyUserData();
 
         // gnd autocomplete for new groups
         var gndField = jQuery(group).find(".gnd");
@@ -1296,10 +1514,380 @@ var inputWithOptions = function() {
     $( ".dropdown-options-input" ).dropdownoptions();
 }
 
+var userSearch = function(group) {
+    if (group) {
+        $(group.find('.fis-user-search-input')).on('focus', delay(searchInputKeyupHandler, 500));
+        $(group.find('.fis-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.fis-orga-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.gnd-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.ror-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.zdb-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.unpaywall-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.orcid-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+    } else {
+        $('.fis-user-search-input').on('focus', delay(searchInputKeyupHandler, 500));
+        $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.fis-orga-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.gnd-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.ror-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.zdb-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.unpaywall-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.orcid-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+    }
+}
+
+function delay(callback, ms) {
+    var timer = 0;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
+}
+
+var searchInputKeyupHandler = function() {
+    var searchValue = $(this).val();
+    var groupIndex = $(this).data("groupindex");
+    if (searchValue.length >= 3) {
+        let url = $(this).data("searchrequest");
+        let params = {};
+        params['tx_dpf_backoffice[searchTerm]'] = searchValue;
+        // type person or organisation
+        params['tx_dpf_backoffice[type]'] = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+
+        var radioType = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: params,
+            context: this,
+            success: function (data) {
+                var that = this;
+                var dataObject = JSON.parse(data);
+                var groupIndex = $(this).data("groupindex")
+                var hitListElement = $(this).parent().parent().find('.'+$(this).data("api").toLowerCase()+'-search-list-' + groupIndex + ' ul').html('');
+
+                $.each(dataObject.entries, function (key, value) {
+                    var type = $(that).data("api").toLowerCase();
+                    var allData = value;
+
+                    if ($(that).attr('class') === 'fis-user-search-input') {
+                        if (radioType == 'person') {
+                            if (value.organisationalUnits && value.organisationalUnits.length > 0) {
+                                var optionalText = value.organisationalUnits[0].titleDe;
+                                if (value.organisationalUnits[1]) {
+                                    optionalText = optionalText +', '+ value.organisationalUnits[1].titleDe
+                                }
+                            }
+                            hitListElement.append(listHtml(value.fullName, value.fisPersid, allData, optionalText));
+                        } else if (radioType == 'organisation'){
+                            hitListElement.append(listHtml(value.titleDe + ' (' + value.parentOrgaName + ')', value.id, allData));
+                        }
+                    } else if ($(that).attr('class') === 'fis-orga-search-input') {
+                        hitListElement.append(listHtml(value.titleDe, value.id, allData));
+                    } else if ($(that).attr('class') === 'gnd-user-search-input') {
+                        if (radioType == 'person') {
+                            var professions = '';
+                            var date = '';
+
+                            if (value.professionOrOccupation !== undefined) {
+                                $.each(value.professionOrOccupation, function (key, value) {
+                                    professions += value.label + ', ';
+                                });
+                                professions = professions.slice(0, -2);
+                            }
+                            if (value.dateOfBirth) {
+                                date = value.dateOfBirth;
+                            }
+                            if (value.dateOfDeath) {
+                                date += ' - ' + value.dateOfDeath;
+                            }
+                            var optionalText = '';
+                            if (date) {
+                                optionalText = date;
+                            }
+                            if (professions) {
+                                if (date) {
+                                    optionalText += ', ';
+                                }
+                                optionalText += professions.trim();
+                            }
+                        }
+
+                        hitListElement.append(listHtml(value.preferredName, value.gndIdentifier, allData, optionalText));
+                    } else if ($(that).attr('class') === 'ror-user-search-input') {
+                        var optionalText = '';
+
+                        if (allData.type) {
+                            optionalText += allData.type;
+                        }
+                        if (allData.aliases) {
+                            optionalText += allData.aliases;
+                        }
+
+                        hitListElement.append(listHtml(value.name, value.id, allData, optionalText));
+                    } else if ($(that).attr('class') === 'zdb-user-search-input') {
+                        hitListElement.append(listHtml(value.title, value.identifier, allData, value.publisher));
+                    } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
+                        hitListElement.append(listHtml(value.title, value.doi, allData, value.best_oa_location.url_for_landing_page, value.oa_status));
+                    } else if ($(that).attr('class') === 'orcid-user-search-input') {
+                        hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], allData, value["orcid-id"]));
+                    }
+
+                });
+                addFoundUserData();
+            }
+        });
+    }
+}
+
+var listHtml = function (name, id, all = '', optionalText = '', color = '') {
+    JSON.stringify(all).replace(/"/g, '');
+
+    if (color) {
+        colorHtml = '('+color+')';
+    } else {
+        colorHtml = '';
+    }
+
+    var text = '';
+    if (optionalText) {
+        var text = ' (' + optionalText + ') ';
+    }
+    var orgaName = '';
+    if (all.organisationalUnits !== undefined) {
+        $.each(all.organisationalUnits, function(key, value) {
+            orgaName += value.titleDe + ', ';
+        });
+        orgaName = orgaName.slice(0, -2);
+    }
+
+    return '<li style="margin-bottom:1rem;" class="container">' +
+        '<div class="row">' +
+        '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-user-add" type="button" data-id="' + id + '" data-surname="'+all.surname+'" data-givenname="'+all.givenName+'" data-organame="'+orgaName+'">' +
+        'Übernehmen' +
+        '</button></div>' +
+        '<div class="col-6">' +
+        name + text + colorHtml +
+        '</div>' +
+        '</div>' +
+        '</li>';
+}
+
+var addFoundUserData = function () {
+    $('.found-user-add').on('click', function () {
+        var input = $(this).closest('.modal-body').find('input');
+
+        // user setting modal
+        if (input.data('usersettings') == '1') {
+            $('#fisPersId').val($(this).data('id'));
+            $('#firstName').val($(this).data('givenname'));
+            $('#lastName').val($(this).data('surname'));
+            $('#orgaName').val($(this).data('organame'));
+            $(this).closest('.modal').modal('hide');
+        } else if (input.data('usersettings') == 'extSearch') {
+            $('#search-field-default-value').val($(this).data('id'));
+            $(this).closest('.modal').modal('hide');
+        } else {
+            setDataRequest(input.data('datarequest'), $(this).data('id'), input);
+        }
+
+    });
+}
+
+var setDataRequest = function(url, dataId, context) {
+
+    let params = {};
+    params['tx_dpf_backoffice[dataId]'] = dataId;
+    params['tx_dpf_backoffice[groupId]'] = context.data('group');
+    params['tx_dpf_backoffice[groupIndex]'] = context.data('groupindex');
+    params['tx_dpf_backoffice[fieldIndex]'] = 0;
+    params['tx_dpf_backoffice[pageId]'] = context.data('page');
+    params['tx_dpf_backoffice[type]'] = context.closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: params,
+        dataType: 'json',
+        success: function (data) {
+            var newKeyMapping = new Map();
+            // fill out data for each key
+            for (var key in data) {
+                var splitId = key.split("-");
+                // key without the last index (field index)
+                var keyWithoutFieldIndex = splitId[0] + '-' + splitId[1] + '-' + splitId[2] + '-' + splitId[3];
+                var isFieldRepeatable = $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').length;
+
+                if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
+                    // form field is empty and exists or form field is not empty and not repeatable, overwrite!
+                    $('.' + key).val(data[key]).change();
+                } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
+                    // form field exists and is not empty
+                    // add new form input
+                    $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+
+                    // count repeated fields if not counted already
+                    var k = newKeyMapping.get(keyWithoutFieldIndex);
+                    if (typeof k == 'undefined') {
+                        var i = 0;
+                        while ($('.' + keyWithoutFieldIndex + '-' + i).length) {
+                            i++;
+                        }
+                    } else {
+                        i = k + 1;
+                    }
+
+                    var newKey = keyWithoutFieldIndex + '-' + i;
+                    newKeyMapping.set(keyWithoutFieldIndex, i);
+
+                    isElementLoaded('.' + newKey, key, function (element, fieldKey) {
+                        $(element).val(data[fieldKey]).change();
+                    });
+
+                } else {
+                    // if key does not exist check if field is repeatable
+                    splitId = key.split("-");
+                    var datakey = key;
+                    if (splitId[4] > 0) {
+                        var k = newKeyMapping.get(keyWithoutFieldIndex);
+                        if (typeof k != 'undefined') {
+                            datakey = key;
+                            key = keyWithoutFieldIndex + '-' + (k + 1);
+                            newKeyMapping.set(keyWithoutFieldIndex, (k + 1));
+                        }
+                        // add new form input
+                        $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+                        isElementLoaded('.' + key, datakey, function (element, fieldKey) {
+                            $(element).val(data[fieldKey]).change();
+                        });
+                    }
+                }
+            }
+        }
+    });
+    context.closest('.modal').modal('hide');
+}
+
+var isElementLoaded = function (element, fieldKey, callback, counter = 0) {
+    if ($(element).length) {
+        callback($(element), fieldKey);
+    } else {
+        if (counter < 5) {
+            setTimeout(function () {
+                isElementLoaded(element, fieldKey, callback, counter++)
+            }, 500);
+        } else {
+            console.error("Field not repeatable or doesnt exist");
+        }
+    }
+}
+
+var addMyUserData = function() {
+    $('.addMyData').on('click', function () {
+        setDataRequest($(this).data('ajax'), $(this).data('personid'), $(this));
+    });
+
+    jQuery("[data-objecttype='fispersonid']").on('change', function() {
+        var fisPersonIdentifiers = getFisPersonIdentifiers();
+        toggleAddMyUserDataButton(fisPersonIdentifiers);
+    });
+
+    var fisPersonIdentifiers = getFisPersonIdentifiers();
+    toggleAddMyUserDataButton(fisPersonIdentifiers);
+
+    jQuery("[data-objecttype='fispersonid']").on('keyup', function() {
+        var fisPersonIdentifiers = getFisPersonIdentifiers();
+        toggleAddMyUserDataButton(fisPersonIdentifiers);
+    });
+}
+
+var getFisPersonIdentifiers = function() {
+    fisPersonIdentifiers = [];
+    jQuery("[data-objecttype='fispersonid']").each(function() {
+        fisPersonIdentifiers.push(jQuery(this).val());
+    });
+
+    return fisPersonIdentifiers;
+}
+
+var toggleAddMyUserDataButton = function(fisPersonIdentifiers) {
+    var fisPersonId = jQuery('.addMyData').data('personid');
+    if (fisPersonIdentifiers.includes(fisPersonId)) {
+        jQuery('button.addMyData').hide();
+    } else {
+        jQuery('button.addMyData').show();
+    }
+}
+
+var searchAgain = function (context) {
+    searchInputKeyupHandler.call(context);
+}
+
+var userSearchModalFillout = function() {
+
+    $('.FisSearchModal').on('hidden.bs.modal', function() {
+            jQuery(this).find('.fis-user-search-input').val('');
+            jQuery(this).find('.fis-search-results').html('');
+    });
+
+    $('.FisSearchModal').on('shown.bs.modal', function () {
+        //jQuery(this).find("#orgaRadio").prop('checked', false);
+        //jQuery(this).find("#personRadio").prop('checked', true);
+        var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
+        if (typeof surname !== 'undefined') {
+            if (surname.length > 0) {
+                jQuery(this).find('.fis-user-search-input').val(surname);
+            }
+        }
+    });
+
+    $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
+        var doiValue = $(this).closest('fieldset').find('*[data-objecttype="unpaywallDoi"]').val();
+        $(this).find('.unpaywall-user-search-input').val(doiValue);
+        searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+    });
+}
+
+// Call methods for API Token generation
+var apiTokenEvents = function() {
+    $('#apiTokenGenerate').on('click', function () {
+        var url = $(this).data('generatetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                $('#showApiToken').text(data.apiToken);
+            }
+        });
+    });
+
+    $('#apiTokenRemove').on('click', function () {
+        var url = $(this).data('removetoken');
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    $('#apiTokenRemove').hide();
+                }
+            }
+        });
+    });
+}
+
 // -------------------------------------------------------
 // Document ready
 // -------------------------------------------------------
 $(document).ready(function() {
+
+    bsCustomFileInput.init();
+
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
     documentListConfirmDialog("#confirmReleasePublish");
@@ -1309,10 +1897,12 @@ $(document).ready(function() {
     documentListConfirmDialog("#confirmRestore");
     documentListConfirmDialog("#confirmDelete");
     documentListConfirmDialog("#confirmDeleteLocally");
+    documentListConfirmDialog("#confirmDeleteLocallySuggestion");
     documentListConfirmDialog("#confirmDeleteWorkingCopy");
     documentListConfirmDialog("#confirmRegister");
     documentListConfirmDialog("#confirmPostpone");
 
+    batchConfirmDialog("BatchSetInProgress");
     batchConfirmDialog("BatchRegister");
     batchConfirmDialog("BatchRemove");
     batchConfirmDialog("BatchReleaseValidated");
@@ -1328,6 +1918,12 @@ $(document).ready(function() {
     extendedSearch.init();
     saveExtendedSearch.init();
     openExtendedSearch.init();
+
+    userNotifcationSettings.init();
+
+    documentFormGroupSelector.init();
+
+    doctypeChange.init();
 
     datepicker();
     jQuery('[data-toggle="tooltip"]').tooltip();
@@ -1365,6 +1961,8 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".rem_group", function() {
         jQuery(this).parents("fieldset").fadeOut(300, function() {
             jQuery(this).remove();
+            var fisPersonIdentifiers = getFisPersonIdentifiers();
+            toggleAddMyUserDataButton(fisPersonIdentifiers);
         });
         return false;
     });
@@ -1385,13 +1983,29 @@ $(document).ready(function() {
         return false;
     });
     // Add metadata group
-    jQuery(".tx-dpf").on("click", ".add_group", addGroup);
-    jQuery(".tx-dpf").on("click", ".add_file_group", addGroup);
+    jQuery(".tx-dpf").on("click", ".add_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
+    jQuery(".tx-dpf").on("click", ".add_file_group", function(e) {
+        addGroup(e.target);
+        return false;
+    });
+
     jQuery(".tx-dpf").on("click", ".add_field", addField);
     jQuery(".tx-dpf").on("click", ".fill_out_service_urn", fillOutServiceUrn);
     jQuery(".tx-dpf").on("keyup", "input.urn", buttonFillOutServiceUrn);
     jQuery(".tx-dpf").on("click", "#next", continuousScroll);
     jQuery(".form-submit").on("click", "#save", validateFormAndSave);
+
+    if (
+        typeof(deactivate_mandatory_check_on_save_locally) == "undefined"
+        || deactivate_mandatory_check_on_save_locally.length == 0
+    ) {
+        jQuery(".form-submit").on("click", "#saveLocalDocument", validateFormAndSave);
+        jQuery(".form-submit").on("click", "#saveCreate", validateFormAndSave);
+    }
+
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
 
     // hide 'more results' link
@@ -1414,7 +2028,7 @@ $(document).ready(function() {
     }
 
     selectFilter('doctype-filter');
-    selectFilter('authorAndPublisher-filter', true);
+    selectFilter('persons-filter', true);
     selectFilter('aliasState-filter');
     selectFilter('year-filter', true);
     selectFilter('hasFiles-filter');
@@ -1428,7 +2042,27 @@ $(document).ready(function() {
 
     selectSort();
 
+    toggleBulkImportRecord();
+    toggleBulkImportAuthorSearch();
     toggleDiscardedFilter();
     toggleBookmarksOnly();
     inputWithOptions();
+
+    apiTokenEvents();
+
+    userSearch();
+    addMyUserData();
+    userSearchModalFillout();
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+        // new search if checkbox has changed
+        $(this).find("#orgaRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
+        $(this).find("#personRadio").on('change', function () {
+            searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
+        });
+    });
+
+    $('.double-scroll').doubleScroll();
 });

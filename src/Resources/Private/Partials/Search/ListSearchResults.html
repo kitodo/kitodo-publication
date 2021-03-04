@@ -34,14 +34,17 @@
     <f:if condition="{documentCount}">
         <f:then>
             <f:form id="batchForm" action="batch" name="batch" object="{listData}" enctype="multipart/form-data"
-                    additionalAttributes="{data-workspace-list-action:'{f:uri.action(action:\'list\', controller:\'Search\')}'}">
+                    additionalAttributes="{data-workspace-list-action:'{f:uri.action(action:\'{workspaceListAction}\', controller:\'Search\')}'}">
                 <f:render partial="Workspace/List" arguments="{
                         documents:documents,
                         workspaceListAction:workspaceListAction,
                         aggregations:aggregations,
                         filters:filters,
                         checkedDocumentIdentifiers: checkedDocumentIdentifiers,
-                        bookmarkIdentifiers: bookmarkIdentifiers
+                        bookmarkIdentifiers: bookmarkIdentifiers,
+                        currentFisPersId: currentFisPersId,
+                        personGroup: personGroup,
+                        personGroupIndex: personGroupIndex
                     }"
                 />
                 <f:render partial="Search/BatchActions" />

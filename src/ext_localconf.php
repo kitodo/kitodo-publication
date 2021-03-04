@@ -82,22 +82,40 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     )
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
+    'rest_api',
+    [
+        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving, addFisId',
+    ],
+    [
+        'Api' => 'list, show, create, suggestion, importDoiWithoutSaving, importPubmedWithoutSaving, importIsbnWithoutSaving, importBibtexWithoutSaving, importRisWithoutSaving, addFisId',
+    ]
+);
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
-        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
-            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
-        'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'changeDocumentType, '
+            . 'importListDocTypes, importSearchForm, import',
+        'DocumentFormBackoffice' => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
+        'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '
+            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments, '
+            .'uploadStart, uploadImportFile, importUploadedData, uploadedDocuments',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
+            .'searchFis, getFisData, searchGnd, getGndData, searchRor, getRorData, searchZdb, getZdbData, searchUnpaywall, getUnpaywallData, searchOrcid, getOrcidData, '
+            .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
+            .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
@@ -105,16 +123,24 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = '
     // non-cacheable actions
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, uploadFiles',
-        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, register, releasePublish, '
+            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
+        'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
-            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion',
+            . 'suggestRestore, suggestModification, listSuggestions, showSuggestionDetails, acceptSuggestion, '
+            . 'changeDocumentType, '
+            . 'importListDocTypes, importSearchForm, import, preview',
         'DocumentFormBackoffice'   => 'list, new, create, edit, update, updateDocument, cancelEdit, cancelNew, cancel, createSuggestionDocument',
+        'ExternalMetadataImport' => 'find, retrieve, import, createDocument, bulkStart, '
+            .'bulkSearchCrossRef, bulkSearchPubMed, bulkResults, bulkImport, cancelBulkImport, bulkImportedDocuments, '
+            .'uploadStart, uploadImportFile, importUploadedData, uploadedDocuments',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
         'AjaxBackoffice'   => 'addBookmark, removeBookmark, addWorkspaceFilter, addWorkspaceSort, '
             .'toggleWorkspaceExcludeDiscarded, toggleWorkspaceBookmarksOnly, '
-            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch',
+            .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
+            .'searchFis, getFisData, searchGnd, getGndData, searchRor, getRorData, searchZdb, getZdbData, searchUnpaywall, getUnpaywallData, searchOrcid, getOrcidData, '
+            .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
+            .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
@@ -137,6 +163,13 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
 
 $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\SignalSlot\Dispatcher');
+
+$GLOBALS['TYPO3_CONF_VARS']['LOG']['EWW']['Dpf']['writerConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG] = [
+    \TYPO3\CMS\Core\Log\Writer\DatabaseWriter::class => [
+        'logTable' => 'sys_log'
+    ],
+];
+
 
 // Documents
 $signalSlotDispatcher->connect(

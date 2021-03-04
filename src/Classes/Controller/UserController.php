@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Controller for the "workspace"/"my publications" area.
@@ -36,13 +37,33 @@ class UserController  extends AbstractController
         $this->view->assign('frontendUser', $currentUser);
     }
 
+    /**
+     * @param FrontendUser $frontendUser
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
     public function saveSettingsAction(FrontendUser $frontendUser) {
+        if ($frontendUser->getFisPersId()) {
+            $fisUserService = new \EWW\Dpf\Services\FeUser\FisDataService();
+            $fisUserData = $fisUserService->getPersonData($frontendUser->getFisPersId());
+            if ($fisUserData == NULL) {
+                $frontendUser->setFisPersId("");
+                $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::WARNING;
+                $this->addFlashMessage(
+                    LocalizationUtility::translate("manager.locallang.user.settings.message.invalidFisId", "dpf"),
+                    '',
+                    $severity,false
+                );
+            }
+        }
 
         $this->frontendUserRepository->update($frontendUser);
         $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
-        $this->addFlashMessage("Success", '', $severity,false);
+        $this->addFlashMessage(
+            LocalizationUtility::translate("manager.locallang.user.settings.message.successfullySaved", "dpf"),
+            '',
+            $severity,false
+        );
 
         $this->forward('settings');
     }
-
 }

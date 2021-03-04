@@ -99,6 +99,19 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     protected $infoText;
 
     /**
+     * group type
+     * @var string
+     */
+    protected $groupType = '';
+
+    /**
+     * JSON mapping
+     *
+     * @var string
+     */
+    protected $jsonMapping = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -241,8 +254,6 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     protected function relativeMapping($mapping)
     {
-        $modsRegExp = "/^\/?(mods:mods|slub:info)/";
-        $mapping    = preg_replace($modsRegExp, "", $mapping);
         return trim($mapping, " /");
     }
 
@@ -273,11 +284,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteMapping()
     {
-        if ($this->isSlubInfo($this->getMapping())) {
-            return "/slub:info/" . $this->getRelativeMapping();
-        } else {
-            return "/mods:mods/" . $this->getRelativeMapping();
-        }
+        return "/data/" . $this->getRelativeMapping();
     }
 
     /**
@@ -287,27 +294,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteMappingForReading()
     {
-        if ($this->isSlubInfo($this->getMappingForReading())) {
-            return "/slub:info/" . $this->getRelativeMappingForReading();
-        } else {
-            return "/mods:mods/" . $this->getRelativeMappingForReading();
-        }
-    }
-
-    /**
-     * Checks if a mapping defines a slub:info node
-     *
-     * @param string $mapping
-     * @return bool
-     */
-    public function isSlubInfo($mapping)
-    {
-        $modsRegExp = "/^\/?slub:info/";
-        $match      = $mapping;
-        if (preg_match($modsRegExp, $match)) {
-            return true;
-        }
-        return false;
+        return "/data/" . $this->getRelativeMappingForReading();
     }
 
     /**
@@ -338,9 +325,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getRelativeModsExtensionMapping()
     {
-        $modsRegExp = "/^.*?mods:mods/i";
-        $mapping    = preg_replace($modsRegExp, "", $this->modsExtensionMapping);
-        return trim($mapping, " /");
+//        $modsRegExp = "/^.*?mods:mods/i";
+//        $mapping    = preg_replace($modsRegExp, "", $this->modsExtensionMapping);
+        return trim($this->modsExtensionMapping, " /");
     }
 
     /**
@@ -350,7 +337,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getAbsoluteModsExtensionMapping()
     {
-        return "/mods:mods/" . $this->getRelativeModsExtensionMapping();
+        return "/data/" . $this->getRelativeModsExtensionMapping();
     }
 
     /**
@@ -494,4 +481,39 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
         $this->infoText = $infoText;
     }
 
+    /**
+     * @return string
+     */
+    public function getGroupType(): string
+    {
+        return $this->groupType;
+    }
+
+    /**
+     * @param string $groupType
+     */
+    public function setGroupType(string $groupType)
+    {
+        $this->groupType = $groupType;
+    }
+
+    /**
+     * Gets the jsonMapping
+     *
+     * @return string
+     */
+    public function getJsonMapping(): string
+    {
+        return $this->jsonMapping;
+    }
+
+    /**
+     * Sets the jsonMapping
+     *
+     * @param string $jsonMapping
+     */
+    public function setJsonMapping(string $jsonMapping): void
+    {
+        $this->jsonMapping = $jsonMapping;
+    }
 }

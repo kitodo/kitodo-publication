@@ -8,7 +8,7 @@
 		<trans-unit id="display_name.description">
 			<source>displayName</source>
 		</trans-unit>
-		<trans-unit id="virtual.description">
+		<trans-unit id="virtual_type.description">
 			<source>virtual</source>
 		</trans-unit>
 		<trans-unit id="metadata_page.description">

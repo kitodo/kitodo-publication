@@ -14,7 +14,7 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<fieldset class="fs_group" data-group="{formGroupUid}" data-mandatory="{groupItem.mandatory}">
+<fieldset class="fs_group" data-group="{formGroupUid}" data-groupindex="{groupIndex}" data-mandatory="{groupItem.mandatory}" data-emptygroup="{groupItem.emptyGroup}">
     <legend>
         <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
         {formGroupDisplayName}
@@ -27,6 +27,54 @@
     <div class="group-info-text">
         <f:format.raw>{groupItem.infoText}</f:format.raw>
     </div>
+
+    <f:for each="{eww:explodeString(string:'{groupItem.groupType}', glue:',')}" as="api" iteration="iterator">
+        <f:if condition="{api}">
+            <f:then>
+                <f:if condition="{api} == 'Person'">
+                    <f:then>
+                        <div class="user-search-div">
+                            <f:if condition="{fisPersId}">
+                                <f:then>
+                                    <button type="button" class="btn btn-s btn-info addMyData" id="addMyData" data-personid="{fisPersId}"
+                                            data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                                            data-ajax="{f:uri.action(action:'getFisData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
+                                        Das bin ich
+                                    </button>
+                                </f:then>
+                            </f:if>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <f:if condition="{api} == 'Zdb' || {api} == 'Unpaywall' || {api} == 'Ror'">
+                            <f:then>
+                                <f:alias map="{showOrgaSwitch:0,removePersonSwitch:1}">
+                                    <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                </f:alias>
+                            </f:then>
+                            <f:else>
+                                <f:if condition="{api} == 'Orcid'">
+                                    <f:then>
+                                        <f:alias map="{showOrgaSwitch:0}">
+                                            <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                        </f:alias>
+                                    </f:then>
+                                    <f:else>
+                                        <f:alias map="{showOrgaSwitch:1}">
+                                            <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                        </f:alias>
+                                    </f:else>
+                                </f:if>
+
+                            </f:else>
+                        </f:if>
+                    </f:else>
+                </f:if>
+            </f:then>
+        </f:if>
+    </f:for>
+    <div style="clear: both;"></div>
+
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
             <f:if condition="{fieldItem.inputField}!=4">

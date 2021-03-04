@@ -1,0 +1,70 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.importMetadata.header.single')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+
+    <f:if condition="{externalMetadata}">
+        <p>
+            <b>{externalMetadata.title}</b>
+            <f:if condition="{externalMetadata.persons}">
+                <br />
+                <f:for each="{externalMetadata.persons}" as="person" iteration="iterator"><f:if condition="{iterator.isFirst} == 0">, </f:if>{person.given} {person.family}</f:for>
+            </f:if>
+            <f:if condition="{externalMetadata.publicationType}">
+                <br />
+                {externalMetadata.publicationType}
+            </f:if>
+            <f:if condition="{externalMetadata.year}">
+                <br />
+                {externalMetadata.year}
+            </f:if>
+        </p>
+        <f:comment>
+        <f:if condition="{externalMetadata.publicationIdentifier}">
+            <p>
+            <f:if condition="{identifierType}">
+                <f:then>
+                    {identifierType}:
+                </f:then>
+                <f:else>
+                    {f:translate(key: 'manager.importMetadata.identifierLabel')}:
+                </f:else>
+            </f:if>
+                {externalMetadata.publicationIdentifier}
+            </p>
+        </f:if>
+        </f:comment>
+
+        <f:link.action action="createDocument" arguments="{externalMetadata:externalMetadata.uid}" class="btn btn-xm btn-success">
+            <i class="fas fa-check"></i>
+            {f:translate(key: 'manager.importMetadata.importDocumentSubmit')}
+        </f:link.action>
+
+        <f:link.action action="find" class="btn btn-xm btn-outline-secondary">
+            {f:translate(key: 'manager.importMetadata.cancel')}
+        </f:link.action>
+
+    </f:if>
+
+
+</f:section>

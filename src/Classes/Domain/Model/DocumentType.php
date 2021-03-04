@@ -35,11 +35,11 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $displayName = '';
 
     /**
-     * virtual
+     * virtualType
      *
      * @var boolean
      */
-    protected $virtual = false;
+    protected $virtualType = false;
 
     /**
      * metadataPage
@@ -48,6 +48,65 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $metadataPage = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $transformationFileOutput = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $transformationFileInput = null;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $crossrefTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $crossrefTypes = '';
+
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $dataciteTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $dataciteTypes = '';
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $k10plusTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $k10plusTypes = '';
+
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @cascade remove
+     */
+    protected $pubmedTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $pubmedTypes = '';
+
 
     /**
      * __construct
@@ -66,6 +125,8 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->metadataPage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->transformationFileInput = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->transformationFileOutput = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -164,24 +225,89 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the virtual
+     * Returns the virtualType
      *
      * @return boolean
      */
-    public function getVirtual()
+    public function getVirtualType()
     {
-        return $this->virtual;
+        return $this->virtualType;
     }
 
     /**
-     * Sets the virtual
+     * Sets the virtualType
      *
-     * @param boolean $virtual
+     * @param boolean $virtualType
      * @return void
      */
-    public function setVirtual($virtual)
+    public function setVirtualType($virtualType)
     {
-        $this->virtual = $virtual;
+        $this->virtualType = boolval($virtualType);
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getTransformationFileOutput(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->transformationFileOutput;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileOutput
+     */
+    public function setTransformationFileOutput(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileOutput)
+    {
+        $this->transformationFileOutput = $transformationFileOutput;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getTransformationFileInput(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->transformationFileInput;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileInput
+     */
+    public function setTransformationFileInput(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $transformationFileInput)
+    {
+        $this->transformationFileInput = $transformationFileInput;
+    }
+
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getCrossrefTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->crossrefTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getDataciteTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->dataciteTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getK10plusTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->k10plusTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getPubmedTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->pubmedTransformation;
     }
 
 }

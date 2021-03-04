@@ -28,6 +28,13 @@ class Slub
     {
         $slubDom = new \DOMDocument();
         if (!empty($slubXml)) {
+
+            $slubXml = preg_replace(
+                "/<slub:info.*?>/",
+                '<slub:info xmlns:slub="http://slub-dresden.de/" xmlns:foaf="http://xmlns.com/foaf/0.1/">',
+                $slubXml
+            );
+
             $slubDom->loadXML($slubXml);
         }
         $this->slubDom = $slubDom;
@@ -48,6 +55,23 @@ class Slub
     {
         $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
         return $documentTypeNode->item(0)->nodeValue;
+    }
+
+    public function setDocumentType($documentTypeUid)
+    {
+        $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
+        if ($documentTypeNode->length == 1) {
+            $documentTypeNode->item(0)->nodeValue = $documentTypeUid;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $pNum = $this->slubDom->createElement('slub:documentType');
+                $pNum->nodeValue = $documentTypeUid;
+                $slubInfoNode->item(0)->appendChild($pNum);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
     }
 
     public function getProcessNumber()
@@ -71,6 +95,59 @@ class Slub
                 throw new \Exception('Invalid slubInfo data.');
             }
         }
+    }
+
+    public function setFisId($fisId)
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:fisId");
+        if ($fisIdNode->length == 1) {
+            $fisIdNode->item(0)->nodeValue = $fisId;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $fisIdentifier = $this->slubDom->createElement('slub:fisId');
+                $fisIdentifier->nodeValue = $fisId;
+                $slubInfoNode->item(0)->appendChild($fisIdentifier);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
+    public function getFisId()
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:fisId");
+        return $fisIdNode->item(0)->nodeValue;
+    }
+
+    /**
+     * @param string $creationDate
+     * @throws \Exception
+     */
+    public function setDocumentCreationDate($creationDate)
+    {
+        $fisIdNode = $this->getSlubXpath()->query("/slub:info/slub:documentCreationDate");
+        if ($fisIdNode->length == 1) {
+            $fisIdNode->item(0)->nodeValue = $creationDate;
+        } else {
+            $slubInfoNode = $this->getSlubXpath()->query("/slub:info");
+            if ($slubInfoNode->length == 1) {
+                $creationDateElement = $this->slubDom->createElement('slub:documentCreationDate');
+                $creationDateElement->nodeValue = $creationDate;
+                $slubInfoNode->item(0)->appendChild($creationDateElement);
+            } else {
+                throw new \Exception('Invalid slubInfo data.');
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocumentCreationDate()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:documentCreationDate");
+        return $node->item(0)->nodeValue;
     }
 
     /**
@@ -192,6 +269,15 @@ class Slub
         } else {
             throw new \Exception('Invalid slubInfo data.');
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDepositLicense()
+    {
+        $node = $this->getSlubXpath()->query("/slub:info/slub:rights/slub:agreement/@given");
+        return $node->item(0)->nodeValue;
     }
 
 }
