@@ -1,4 +1,4 @@
-name: ddev-kitodo-publication
+name: ddev-kitodo-publication-typo3-9
 type: php
 docroot: public
 php_version: "7.2"
