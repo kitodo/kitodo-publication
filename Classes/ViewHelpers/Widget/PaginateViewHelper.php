@@ -52,6 +52,19 @@ namespace EWW\Dpf\ViewHelpers\Widget;
  */
 class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('objects', 'mixed', 'Object', true);
+        $this->registerArgument('as', 'string', 'as', true);
+        $this->registerArgument('configuration', 'array',
+            'configuration',
+            false,
+            ['itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99]
+        );
+        $this->registerArgument('total', 'int', 'Object', true);
+        $this->registerArgument('currentPage', 'int', 'as', true);
+    }
 
     /**
      * @var \EWW\Dpf\ViewHelpers\Widget\Controller\PaginateController
@@ -60,16 +73,11 @@ class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
     protected $controller;
 
     /**
-     * @param mixed $objects \TYPO3\CMS\ExtBase\Persistence\QueryResultInterface,
-     *        \TYPO3\CMS\ExtBase\Persistence\ObjectStorage object or array
-     * @param integer $total
-     * @param string $as
-     * @param int $currentPage
-     * @param array $configuration
      * @return string
      */
-    public function render($objects, $total, $as, $currentPage, array $configuration = array('itemsPerPage' => 10, 'insertAbove' => false, 'insertBelow' => true, 'maximumNumberOfLinks' => 99))
+    public function render()
     {
         return $this->initiateSubRequest();
     }
 }
+

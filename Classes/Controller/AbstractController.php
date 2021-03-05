@@ -171,7 +171,9 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
             }
             return $param;
         } else {
-            return GeneralUtility::removeXSS($param);
+            // FIXME: removeXSS is deprecated;
+            //return GeneralUtility::removeXSS($param)
+            return $param;
         }
     }
 

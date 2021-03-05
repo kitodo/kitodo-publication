@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class GetDepositLicenseTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetDepositLicenseTextViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * documentTypeRepository
@@ -24,15 +24,22 @@ class GetDepositLicenseTextViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
      */
     protected $depositLicenseRepository = null;
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('uri', 'string', '', true);
+    }
 
     /**
      * Gets the deposit license text for the given uri/urn
      *
-     * @param string $uri
      * @return string
      */
-    public function render($uri)
+    public function render()
     {
+        $uri = $this->arguments['uri'];
+
         /** @var \EWW\Dpf\Domain\Model\DepositLicense $depositLicense */
         $depositLicense = $this->depositLicenseRepository->findOneByUri($uri);
 

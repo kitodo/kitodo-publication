@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ShowDocumentTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ShowDocumentTypeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * documentTypeRepository
@@ -24,15 +24,21 @@ class ShowDocumentTypeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstra
      */
     protected $documentTypeRepository = null;
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('docType', 'string', 'The document type name', true);
+    }
 
     /**
      * Gets the localized display name of the given document type.
-     *
-     * @param string $docType
      * @return string
      */
-    public function render($docType)
+    public function render()
     {
+        $docType = $this->arguments['docType'];
+
         /** @var \EWW\Dpf\Domain\Model\DocumentType $documentType */
         $documentType = $this->documentTypeRepository->findOneByName($docType);
 

@@ -14,15 +14,24 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class InArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class InArrayViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('needle', 'mixed', 'The searched value.', true);
+        $this->registerArgument('array', 'array', 'The array.', true);
+    }
 
     /**
-     * @param mixed $needle The searched value
-     * @param mixed $array The array
+     * @return bool
      */
-    public function render($needle, $array)
+    public function render()
     {
+        $needle = $this->arguments['needle'];
+        $array = $this->arguments['array'];
+
         if (is_array($array)) {
             return in_array($needle, $array);
         }

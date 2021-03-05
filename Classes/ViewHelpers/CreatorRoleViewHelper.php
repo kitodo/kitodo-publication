@@ -17,7 +17,7 @@ namespace EWW\Dpf\ViewHelpers;
 use \EWW\Dpf\Security\Security;
 use \EWW\Dpf\Domain\Model\FrontendUser;
 
-class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CreatorRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * frontendUserRepository
@@ -35,14 +35,22 @@ class CreatorRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
      */
     protected $security = null;
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('feUserId', 'int', '', true);
+    }
+
     /**
      * Shows the frontend user name of the given frontenduser user id.
      *
-     * @param int $feUserId
      * @return string
      */
-    public function render($feUserId)
+    public function render()
     {
+        $feUserId = $this->arguments['feUserId'];
+
         if ($this->security->getUser()->getUid() == $feUserId) {
             return "self";
         }

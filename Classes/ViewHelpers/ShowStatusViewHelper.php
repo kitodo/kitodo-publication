@@ -16,17 +16,24 @@ namespace EWW\Dpf\ViewHelpers;
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
-class ShowStatusViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ShowStatusViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('status', 'string', 'The document state', true);
+    }
+
     /**
      * Maps the internal states to more user friendly and localized state names.
-     *
-     * @param string $status
      * @return string
      */
-    public function render($status)
+    public function render()
     {
-       $aliasState = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($status);
+        $status = $this->arguments['status'];
+
+        $aliasState = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($status);
 
         if (empty($aliasState)) {
             // The status is likely to be an alias status.

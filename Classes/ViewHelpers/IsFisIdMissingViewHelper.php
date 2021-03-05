@@ -16,7 +16,7 @@ namespace EWW\Dpf\ViewHelpers;
 
 use \EWW\Dpf\Security\Security;
 
-class IsFisIdMissingViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IsFisIdMissingViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * security
@@ -27,8 +27,6 @@ class IsFisIdMissingViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
     protected $security = null;
 
     /**
-     *
-     * @param  $condition
      * @return string
      */
     public function render()

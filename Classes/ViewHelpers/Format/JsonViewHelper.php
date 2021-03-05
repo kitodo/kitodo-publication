@@ -18,7 +18,7 @@ namespace EWW\Dpf\ViewHelpers\Format;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Wrapper for PHPs json_encode function.
@@ -50,6 +50,14 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class JsonViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('value', 'array', '', true);
+        $this->registerArgument('forceObject', 'boolean', '', false, false);
+    }
+
     /**
      * Applies json_encode() on the specified value.
      *
@@ -59,13 +67,14 @@ class JsonViewHelper extends AbstractViewHelper
      * If $forceObject is TRUE a JSON object is outputted even if the value is a non-associative array
      * Example: array('foo', 'bar') as input will not be ["foo","bar"] but {"0":"foo","1":"bar"}
      *
-     * @param array $value
-     * @param boolean $forceObject
      * @see http://www.php.net/manual/en/function.json-encode.php
      * @return string
      */
-    public static function render(array $value, $forceObject = false)
+    public function render()
     {
+        $value = $this->arguments['value'];
+        $forceObject = $this->arguments['forceObject'];
+
         $options = JSON_HEX_TAG;
         if ($forceObject !== false) {
             $options = $options | JSON_FORCE_OBJECT;

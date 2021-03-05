@@ -15,7 +15,7 @@ namespace EWW\Dpf\ViewHelpers\Link;
  */
 
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class PreviewViewHelper extends AbstractViewHelper
@@ -111,18 +111,29 @@ class PreviewViewHelper extends AbstractViewHelper
 
     }
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('arguments', 'array', '', true);
+        $this->registerArgument('pageUid', 'int', '', true);
+        $this->registerArgument('apiPid', 'int', '', true);
+        $this->registerArgument('class', 'string', '', true);
+    }
+
     /**
      * Renders a record list as known from the TYPO3 list module
      * Note: This feature is experimental!
      *
-     * @param array() $arguments
-     * @param  integer $pageUid
-     * @param  integer $apiPid
-     * @param  string $class
      * @return string the rendered record list
      */
-    public function render(array $arguments, $pageUid, $apiPid, $class)
+    public function render()
     {
+        $arguments = $this->arguments['arguments'];
+        $pageUid = $this->arguments['pageUid'];
+        $apiPid = $this->arguments['apiPid'];
+        $class = $this->arguments['class'];
+
         if ($arguments['document']) {
 
             // it's already a document object?
