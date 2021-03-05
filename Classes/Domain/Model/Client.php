@@ -24,7 +24,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * project
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $project = '';
 
@@ -32,7 +32,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * client
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $client = '';
 
@@ -40,7 +40,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * ownerId
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $ownerId = '';
 
@@ -48,7 +48,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * networkInitial
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $networkInitial = '';
 
@@ -56,7 +56,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * libraryIdentifier
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $libraryIdentifier = '';
 
@@ -64,7 +64,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * adminEmail
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $adminEmail = '';
 
@@ -525,55 +525,55 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $crossrefTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $dataciteTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $k10plusTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $pubmedTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $bibtexTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $riswosTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $inputTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $outputTransformation = null;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $elasticSearchTransformation = null;
 

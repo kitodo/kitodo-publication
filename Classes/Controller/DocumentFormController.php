@@ -31,7 +31,7 @@ class DocumentFormController extends AbstractDocumentFormController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
      * @param int $returnDocumentId
-     * @ignorevalidation $newDocumentForm
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("newDocumentForm")
      * @return void
      */
     public function newAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm = null, $returnDocumentId = 0)
