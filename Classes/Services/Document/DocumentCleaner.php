@@ -21,7 +21,7 @@ class DocumentCleaner
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -29,7 +29,7 @@ class DocumentCleaner
      * editingLockService
      *
      * @var \EWW\Dpf\Services\Document\EditingLockService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockService = null;
 
@@ -37,7 +37,7 @@ class DocumentCleaner
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -45,7 +45,7 @@ class DocumentCleaner
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

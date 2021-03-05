@@ -20,7 +20,7 @@ class IsValidDepositLicenseViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $depositLicenseRepository = null;
 

@@ -53,7 +53,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository;
 
@@ -61,7 +61,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 

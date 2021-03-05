@@ -33,7 +33,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -41,7 +41,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * documenTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository;
 
@@ -49,7 +49,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 
@@ -58,7 +58,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * elasticSearch
      *
      * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $elasticSearch = null;
 
@@ -67,7 +67,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * queryBuilder
      *
      * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $queryBuilder = null;
 
@@ -76,7 +76,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -85,7 +85,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
@@ -93,7 +93,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * fisDataService
      *
      * @var \EWW\Dpf\Services\FeUser\FisDataService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fisDataService = null;
 
@@ -101,7 +101,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository;
 

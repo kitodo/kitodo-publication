@@ -21,7 +21,7 @@ class DataCiteViewHelper extends AbstractViewHelper
 {
     /**
      * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $uriBuilder;
 
@@ -29,7 +29,7 @@ class DataCiteViewHelper extends AbstractViewHelper
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository;
 

@@ -34,7 +34,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -42,7 +42,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * fileRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository = null;
 
@@ -50,7 +50,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -58,7 +58,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository = null;
 
@@ -66,7 +66,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * metadataObjectRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataObjectRepository = null;
 
@@ -74,7 +74,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * depositLicenseLogRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $depositLicenseLogRepository = null;
 
@@ -82,7 +82,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -90,7 +90,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * fisDataService
      *
      * @var \EWW\Dpf\Services\FeUser\FisDataService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fisDataService = null;
 

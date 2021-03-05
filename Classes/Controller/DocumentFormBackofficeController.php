@@ -50,7 +50,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * editingLockService
      *
      * @var \EWW\Dpf\Services\Document\EditingLockService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockService = null;
 
@@ -58,7 +58,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * documentManager
      *
      * @var \EWW\Dpf\Services\Document\DocumentManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentManager = null;
 
@@ -66,7 +66,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
@@ -74,7 +74,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 

@@ -26,7 +26,7 @@ class DocumentValidator
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager;
 
@@ -35,7 +35,7 @@ class DocumentValidator
      * documentMapper
      *
      * @var \EWW\Dpf\Helper\DocumentMapper
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentMapper;
 
@@ -43,7 +43,7 @@ class DocumentValidator
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

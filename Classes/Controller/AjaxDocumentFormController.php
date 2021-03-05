@@ -28,7 +28,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository = null;
 
@@ -36,7 +36,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      * metadataObjectRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataObjectRepository = null;
 
@@ -44,7 +44,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      * fisDataService
      *
      * @var \EWW\Dpf\Services\FeUser\FisDataService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fisDataService = null;
 

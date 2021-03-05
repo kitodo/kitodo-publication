@@ -21,7 +21,7 @@ class Mods
      * metadataObjectRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataObjectRepository = null;
 
@@ -29,7 +29,7 @@ class Mods
      * metadatGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository = null;
 

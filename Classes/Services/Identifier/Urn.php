@@ -21,7 +21,7 @@ class Urn
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 

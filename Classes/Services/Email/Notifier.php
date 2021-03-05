@@ -29,7 +29,7 @@ class Notifier
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 
@@ -37,7 +37,7 @@ class Notifier
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -45,7 +45,7 @@ class Notifier
      * depositLicenseRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $depositLicenseRepository = null;
 
@@ -53,7 +53,7 @@ class Notifier
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

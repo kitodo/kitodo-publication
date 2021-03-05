@@ -21,7 +21,7 @@ class DocumentManager
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager = null;
 
@@ -29,7 +29,7 @@ class DocumentManager
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -37,7 +37,7 @@ class DocumentManager
      * fileRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository = null;
 
@@ -45,7 +45,7 @@ class DocumentManager
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
@@ -53,7 +53,7 @@ class DocumentManager
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -61,7 +61,7 @@ class DocumentManager
      * signalSlotDispatcher
      *
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $signalSlotDispatcher = null;
 
@@ -69,7 +69,7 @@ class DocumentManager
      * notifier
      *
      * @var \EWW\Dpf\Services\Email\Notifier
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $notifier = null;
 
@@ -77,7 +77,7 @@ class DocumentManager
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 
@@ -85,7 +85,7 @@ class DocumentManager
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
 
@@ -93,7 +93,7 @@ class DocumentManager
      * elasticSearch
      *
      * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $elasticSearch = null;
 
@@ -101,7 +101,7 @@ class DocumentManager
      * queryBuilder
      *
      * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $queryBuilder = null;
 

@@ -29,7 +29,7 @@ class FedoraRepository implements Repository
      * documentTransferLogRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTransferLogRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTransferLogRepository;
 
@@ -37,7 +37,7 @@ class FedoraRepository implements Repository
     * clientConfigurationManager
     *
     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-    * @inject
+    * @TYPO3\CMS\Extbase\Annotation\Inject
     */
     protected $clientConfigurationManager;
 
@@ -45,7 +45,7 @@ class FedoraRepository implements Repository
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager;
 

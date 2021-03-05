@@ -30,7 +30,7 @@ class MetaTags extends \tx_dlf_plugin
 
     /**
      * @type \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $pageRenderer;
 

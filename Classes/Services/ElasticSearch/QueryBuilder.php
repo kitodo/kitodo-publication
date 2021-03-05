@@ -24,7 +24,7 @@ class QueryBuilder
     /**
      *
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $configurationManager;
 
@@ -33,7 +33,7 @@ class QueryBuilder
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -41,7 +41,7 @@ class QueryBuilder
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

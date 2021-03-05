@@ -24,7 +24,7 @@ class XPath
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 

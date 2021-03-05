@@ -42,7 +42,7 @@ class DocumentController extends AbstractController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -50,7 +50,7 @@ class DocumentController extends AbstractController
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -58,7 +58,7 @@ class DocumentController extends AbstractController
      * inputOptionListRepository
      *
      * @var \EWW\Dpf\Domain\Repository\InputOptionListRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $inputOptionListRepository = null;
 
@@ -66,7 +66,7 @@ class DocumentController extends AbstractController
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -74,7 +74,7 @@ class DocumentController extends AbstractController
      * editingLockService
      *
      * @var \EWW\Dpf\Services\Document\EditingLockService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockService = null;
 
@@ -82,7 +82,7 @@ class DocumentController extends AbstractController
      * documentValidator
      *
      * @var \EWW\Dpf\Helper\DocumentValidator
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentValidator;
 
@@ -90,7 +90,7 @@ class DocumentController extends AbstractController
      * depositLicenseLogRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DepositLicenseLogRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $depositLicenseLogRepository = null;
 
@@ -119,7 +119,7 @@ class DocumentController extends AbstractController
      * fileRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository = null;
 
@@ -128,7 +128,7 @@ class DocumentController extends AbstractController
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
 
@@ -136,7 +136,7 @@ class DocumentController extends AbstractController
      * documentManager
      *
      * @var \EWW\Dpf\Services\Document\DocumentManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentManager = null;
 
@@ -144,7 +144,7 @@ class DocumentController extends AbstractController
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
