@@ -85,7 +85,10 @@ class ClientConfigurationManager
 
         }
 
-        $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+        $this->extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get('dpf');
+
     }
 
     public function setConfigurationPid($pid)
