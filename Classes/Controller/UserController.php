@@ -26,7 +26,7 @@ class UserController  extends AbstractController
      * benutzerRepository
      *
      * @var EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository;
 

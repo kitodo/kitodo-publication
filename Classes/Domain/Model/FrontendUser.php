@@ -33,7 +33,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * frontendUserGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserGroupRepository = null;
     

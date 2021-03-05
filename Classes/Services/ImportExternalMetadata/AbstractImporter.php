@@ -34,7 +34,7 @@ abstract class AbstractImporter
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager = null;
 
@@ -42,7 +42,7 @@ abstract class AbstractImporter
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 
@@ -50,7 +50,7 @@ abstract class AbstractImporter
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -58,7 +58,7 @@ abstract class AbstractImporter
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 
@@ -66,7 +66,7 @@ abstract class AbstractImporter
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

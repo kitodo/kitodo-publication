@@ -22,7 +22,7 @@ class ElasticsearchMapper
     /**
      * [$documentRepository description]
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -30,7 +30,7 @@ class ElasticsearchMapper
      * clientConfigurationManager
      * 
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 
@@ -38,7 +38,7 @@ class ElasticsearchMapper
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 

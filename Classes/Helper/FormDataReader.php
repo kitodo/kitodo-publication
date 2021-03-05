@@ -23,7 +23,7 @@ class FormDataReader
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -31,7 +31,7 @@ class FormDataReader
      * metadataPageRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataPageRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataPageRepository = null;
 
@@ -39,7 +39,7 @@ class FormDataReader
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository = null;
 
@@ -47,7 +47,7 @@ class FormDataReader
      * metadataObjectRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataObjectRepository = null;
 
@@ -55,7 +55,7 @@ class FormDataReader
      * fileRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository = null;
 
@@ -63,7 +63,7 @@ class FormDataReader
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -71,14 +71,14 @@ class FormDataReader
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager;
 
     /**
      *
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $configurationManager;
 

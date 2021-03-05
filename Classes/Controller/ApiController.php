@@ -49,7 +49,7 @@ class ApiController extends ActionController
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 
@@ -57,7 +57,7 @@ class ApiController extends ActionController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -65,7 +65,7 @@ class ApiController extends ActionController
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
 
@@ -73,7 +73,7 @@ class ApiController extends ActionController
      * documentManager
      *
      * @var \EWW\Dpf\Services\Document\DocumentManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentManager = null;
 
@@ -81,7 +81,7 @@ class ApiController extends ActionController
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository;
 
@@ -89,7 +89,7 @@ class ApiController extends ActionController
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
@@ -97,7 +97,7 @@ class ApiController extends ActionController
      * signalSlotDispatcher
      *
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $signalSlotDispatcher = null;
 

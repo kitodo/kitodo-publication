@@ -68,7 +68,7 @@ class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetView
 
     /**
      * @var \EWW\Dpf\ViewHelpers\Widget\Controller\PaginateController
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $controller;
 

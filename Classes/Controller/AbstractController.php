@@ -25,7 +25,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      * authorizationChecker
      *
      * @var \EWW\Dpf\Security\AuthorizationChecker
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $authorizationChecker = null;
 
@@ -33,7 +33,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 
@@ -41,7 +41,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 
@@ -49,7 +49,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      * signalSlotDispatcher
      *
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $signalSlotDispatcher = null;
 
@@ -57,7 +57,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      * session
      *
      * @var \EWW\Dpf\Session\Session
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $session = null;
 

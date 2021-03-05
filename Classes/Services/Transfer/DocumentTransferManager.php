@@ -31,7 +31,7 @@ class DocumentTransferManager
      * documenRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository;
 
@@ -39,7 +39,7 @@ class DocumentTransferManager
      * documenTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository;
 
@@ -47,7 +47,7 @@ class DocumentTransferManager
      * fileRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository;
 
@@ -55,7 +55,7 @@ class DocumentTransferManager
      * objectManager
      *
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $objectManager;
 
@@ -63,7 +63,7 @@ class DocumentTransferManager
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 

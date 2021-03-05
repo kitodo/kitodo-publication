@@ -20,7 +20,7 @@ class KitodoRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVie
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

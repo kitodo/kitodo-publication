@@ -53,7 +53,7 @@ class DocumentVoter extends Voter
      * editingLockService
      *
      * @var \EWW\Dpf\Services\Document\EditingLockService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockService = null;
 

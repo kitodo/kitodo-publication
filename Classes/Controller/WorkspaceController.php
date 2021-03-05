@@ -33,7 +33,7 @@ class WorkspaceController extends AbstractController
      * FrontendUserRepository
      *
      * @var  TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository;
 
@@ -41,7 +41,7 @@ class WorkspaceController extends AbstractController
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository = null;
 
@@ -49,7 +49,7 @@ class WorkspaceController extends AbstractController
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -57,7 +57,7 @@ class WorkspaceController extends AbstractController
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
@@ -65,7 +65,7 @@ class WorkspaceController extends AbstractController
      * elasticSearch
      *
      * @var \EWW\Dpf\Services\ElasticSearch\ElasticSearch
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $elasticSearch = null;
 
@@ -74,7 +74,7 @@ class WorkspaceController extends AbstractController
      * queryBuilder
      *
      * @var \EWW\Dpf\Services\ElasticSearch\QueryBuilder
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $queryBuilder = null;
 
@@ -83,7 +83,7 @@ class WorkspaceController extends AbstractController
      * documentManager
      *
      * @var \EWW\Dpf\Services\Document\DocumentManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentManager = null;
 
@@ -91,7 +91,7 @@ class WorkspaceController extends AbstractController
      * documentValidator
      *
      * @var \EWW\Dpf\Helper\DocumentValidator
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentValidator;
 
@@ -99,7 +99,7 @@ class WorkspaceController extends AbstractController
      * editingLockService
      *
      * @var \EWW\Dpf\Services\Document\EditingLockService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockService = null;
 
@@ -108,7 +108,7 @@ class WorkspaceController extends AbstractController
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository;
 
@@ -116,7 +116,7 @@ class WorkspaceController extends AbstractController
      * fisDataService
      *
      * @var \EWW\Dpf\Services\FeUser\FisDataService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fisDataService = null;
 

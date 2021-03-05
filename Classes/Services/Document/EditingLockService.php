@@ -22,7 +22,7 @@ class EditingLockService
      * editingLockRepository
      *
      * @var \EWW\Dpf\Domain\Repository\EditingLockRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $editingLockRepository = null;
 
@@ -30,7 +30,7 @@ class EditingLockService
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 

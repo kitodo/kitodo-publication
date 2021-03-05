@@ -23,7 +23,7 @@ class CreatorRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
 
@@ -31,7 +31,7 @@ class CreatorRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 

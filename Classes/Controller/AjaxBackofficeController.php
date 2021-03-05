@@ -35,7 +35,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * bookmarkRepository
      *
      * @var \EWW\Dpf\Domain\Repository\BookmarkRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $bookmarkRepository = null;
 
@@ -43,7 +43,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * frontendUserRepository
      *
      * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
 
@@ -51,7 +51,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * metadataGroupRepository
      *
      * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $metadataGroupRepository = null;
 
@@ -59,7 +59,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * externalMetadataRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ExternalMetadataRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $externalMetadataRepository = null;
 

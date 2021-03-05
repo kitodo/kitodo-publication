@@ -20,7 +20,7 @@ class ShowDocumentTypeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstr
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
