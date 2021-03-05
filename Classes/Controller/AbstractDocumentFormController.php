@@ -148,7 +148,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm
      * @param int $returnDocumentId
-     * @ignorevalidation $newDocumentForm
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("newDocumentForm")
      * @return void
      */
     public function newAction(DocumentForm $newDocumentForm = null, $returnDocumentId = 0)
@@ -305,7 +305,7 @@ abstract class AbstractDocumentFormController extends AbstractController
      * action edit
      *
      * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
-     * @ignorevalidation $documentForm
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("documentForm")
      * @return void
      */
     public function editAction(DocumentForm $documentForm)

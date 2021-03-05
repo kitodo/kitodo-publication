@@ -200,7 +200,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * file
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\File>
-     * @cascade remove
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
      */
     protected $file = null;
 

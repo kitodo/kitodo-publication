@@ -120,7 +120,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @param string activeGroup
      * @param int activeGroupIndex
      * @param bool $addCurrentFeUser
-     * @ignorevalidation $documentForm
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("documentForm")
      * @return void
      */
     public function editAction(
