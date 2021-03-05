@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers\Security;
  * The TYPO3 project - inspiring people to share!
  */
 
-class KitodoRoleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class KitodoRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * security

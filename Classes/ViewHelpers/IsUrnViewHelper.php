@@ -14,16 +14,21 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsUrnViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IsUrnViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('value', 'string', '', true);
+    }
 
     /**
-     *
-     * @param string $value
      * @return string
      */
-    public function render($value)
+    public function render()
     {
+        $value = $this->arguments['value'];
 
         if (strpos(strtolower($value), 'urn') === 0) {
             return TRUE;

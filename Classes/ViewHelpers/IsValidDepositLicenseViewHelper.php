@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class IsValidDepositLicenseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class IsValidDepositLicenseViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * documentTypeRepository
@@ -24,13 +24,20 @@ class IsValidDepositLicenseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
      */
     protected $depositLicenseRepository = null;
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('uri', 'string', '', true);
+    }
+
     /**
-     *
-     * @param string $uri
      * @return bool
      */
-    public function render($uri)
+    public function render()
     {
+        $uri = $this->arguments['uri'];
+
         /** @var \EWW\Dpf\Domain\Model\DepositLicense $depositLicense */
         $depositLicense = $this->depositLicenseRepository->findOneByUri($uri);
         return $depositLicense && $depositLicense instanceof \EWW\Dpf\Domain\Model\DepositLicense;

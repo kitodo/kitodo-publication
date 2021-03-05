@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -52,14 +52,20 @@ class IsElementAllowedViewHelper extends AbstractViewHelper
         return FALSE;
     }
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('condition', 'array', 'The controller to be active.', true);
+    }
 
     /**
-     *
-     * @param array $condition
-     *
+     * @return bool
      */
-    public function render($condition)
+    public function render()
     {
+        $condition = $this->arguments['condition'];
+
         return self::renderStatic(
             array('condition' => $condition),
             $this->buildRenderChildrenClosure(),

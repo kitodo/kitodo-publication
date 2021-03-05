@@ -16,7 +16,7 @@ namespace EWW\Dpf\ViewHelpers;
 
 use EWW\Dpf\Domain\Model\MetadataMandatoryInterface;
 
-class JavaScriptConstantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class JavaScriptConstantsViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     protected $escapeOutput = false;
 

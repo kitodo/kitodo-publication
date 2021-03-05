@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper to calc index in search results
@@ -34,21 +34,28 @@ use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class CalcIndexViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('currentIndex', 'int', '', true);
+        $this->registerArgument('currentPage', 'int', '', true);
+        $this->registerArgument('itemsPerPage', 'int', '', true);
+    }
 
     /**
      * Render the supplied DateTime object as a formatted date.
-     *
-     * @param int $currentIndex
-     * @param int $currentPage
-     * @param int itemsPerPage
-     * @param int $index
      *
      * @return int
      * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
      * @api
      */
-    public function render($currentIndex, $currentPage, $itemsPerPage)
+    public function render()
     {
+        $currentIndex = $this->arguments['currentIndex'];
+        $currentPage = $this->arguments['currentPage'];
+        $itemsPerPage = $this->arguments['itemsPerPage'];
+
         return ($currentPage - 1) * $itemsPerPage + $currentIndex;
     }
 }

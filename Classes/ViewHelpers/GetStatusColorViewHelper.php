@@ -16,19 +16,27 @@ namespace EWW\Dpf\ViewHelpers;
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 
-class GetStatusColorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetStatusColorViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('status', 'string', '', true);
+    }
+
     /**
      * Gets the related color for alias states.
      *
-     * @param string $status
      * @return string
      */
-    public function render($status)
+    public function render()
     {
-       $aliasState = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($status);
+        $status = $this->arguments['status'];
 
-       switch ($aliasState) {
+        $aliasState = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($status);
+
+        switch ($aliasState) {
 
            case DocumentWorkflow::ALIAS_STATE_NEW:
                return 'secondary';
@@ -55,6 +63,6 @@ class GetStatusColorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstract
            default:
                return 'light';
                break;
-       }
+        }
     }
 }

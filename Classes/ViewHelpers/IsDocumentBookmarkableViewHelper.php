@@ -14,7 +14,7 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -23,15 +23,24 @@ use \EWW\Dpf\Domain\Repository\BookmarkRepository;
 
 class IsDocumentBookmarkableViewHelper extends AbstractViewHelper
 {
-    /**
-     *
-     * @param string $identifier
-     * @param int $creator
-     * @param string $state
-     *
-     */
-    public function render($identifier, $creator, $state)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+
+        $this->registerArgument('identifier', 'string', '', true);
+        $this->registerArgument('creator', 'int', '', true);
+        $this->registerArgument('state', 'string', '', true);
+    }
+
+    /**
+     * @return bool
+     */
+    public function render()
+    {
+        $identifier = $this->arguments['identifier'];
+        $creator = $this->arguments['creator'];
+        $state = $this->arguments['state'];
+
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var Security $security */
         $security = $objectManager->get(Security::class);

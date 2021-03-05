@@ -14,23 +14,38 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Security\AuthorizationChecker;
 
 class IsAccessGrantedViewHelper extends AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('attribute', 'string', '', true);
+        $this->registerArgument('subject', 'mixed', 'A model object or a UID.', true);
+        $this->registerArgument(
+            'class',
+            'string',
+            'Model class name, in case of parameter 2 is a UID.',
+            false, "EWW\\Dpf\\Domain\\Model\\Document"
+        );
+    }
+
     /**
      * Checks if access can be granted for the given attribute and subject.
      *
-     * @param string $attribute
-     * @param mixed $subject : A model object or a UID.
-     * @param string $class : Model class name, in case of parameter 2 is a UID.
      * @return bool
      */
-    public function render($attribute, $subject, $class="EWW\\Dpf\\Domain\\Model\\Document")
+    public function render()
     {
+        $attribute = $this->arguments['attribute'];
+        $subject = $this->arguments['subject'];
+        $class = $this->arguments['class'];
+
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $authorizationChecker = $objectManager->get(AuthorizationChecker::class);
 

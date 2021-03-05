@@ -17,7 +17,7 @@ namespace EWW\Dpf\ViewHelpers;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
-class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Secret API key for delivering inactive documents.
@@ -39,13 +39,20 @@ class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
         }
     }
 
-    /**
-     *
-     * @param string $uri
-     *
-     */
-    public function render($uri)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+
+        $this->registerArgument('uri', 'string', '', true);
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $uri = $this->arguments['uri'];
+
         $fileUri = $this->buildFileUri($uri);
 
         // pass configured API secret key parameter to enable dissemination for inactive documents
@@ -58,6 +65,8 @@ class FileUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 
     /**
      * Construct file URI
+     * @param $uri
+     * @return string
      */
     protected function buildFileUri($uri)
     {

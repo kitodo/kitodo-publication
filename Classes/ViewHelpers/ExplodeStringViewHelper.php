@@ -14,18 +14,26 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ExplodeStringViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ExplodeStringViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('string', 'string', '', true);
+        $this->registerArgument('glue', 'string', '', true);
+    }
+
     /**
-     * Implodes the given array.
-     *
-     * @param string $string
-     * @param string $glue
+     * Explodes the given string.
      *
      * @return array
      */
-    public function render($glue, $string)
+    public function render()
     {
+        $string = $this->arguments['string'];
+        $glue = $this->arguments['glue'];
+
         if (is_string($string) && !empty($string)) {
             return explode($glue, $string);
         }

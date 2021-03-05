@@ -14,21 +14,36 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ActiveManagerMenuViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ActiveManagerMenuViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
-    /**
-     *
-     * @param string $controllerName The controller to be active.
-     * @param array $actionNames The actions to be active.
-     */
-    public function render($controllerName, $actionNames = array())
+    public function initializeArguments()
     {
-        if ($this->controllerContext->getRequest()->getControllerName() == $controllerName) {
+        parent::initializeArguments();
+
+        $this->registerArgument('controllerName', 'string',
+            'The controller to be active.', true
+        );
+        $this->registerArgument('actionNames', 'array',
+            'The actions to be active.', false, []
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $controllerName = $this->arguments['controllerName'];
+        $actionNames = $this->arguments['actionNames'];
+
+        $controllerContext = $this->renderingContext->getControllerContext();
+
+        if ($controllerContext->getRequest()->getControllerName() == $controllerName) {
 
             if (empty($actionNames)) {
                 return 'active';
-            } elseif (in_array($this->controllerContext->getRequest()->getControllerActionName(), $actionNames)) {
+            } elseif (in_array($controllerContext->getRequest()->getControllerActionName(), $actionNames)) {
                 return 'active';
             } else {
                 return '';

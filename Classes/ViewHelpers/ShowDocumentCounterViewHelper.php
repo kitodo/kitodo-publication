@@ -14,16 +14,33 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ShowDocumentCounterViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ShowDocumentCounterViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-    /**
-     * @param int $documentCount
-     * @param int $currentPage
-     * @param int $itemsPerPage
-     * @return string
-     */
-    public function render($documentCount, $currentPage, $itemsPerPage)
+
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+
+        $this->registerArgument('documentCount', 'array',
+            'The number of documents.', true
+        );
+        $this->registerArgument('currentPage', 'array',
+            'The current page uid.', true
+        );
+        $this->registerArgument('itemsPerPage', 'array',
+            'The number of items per page.', true
+        );
+    }
+
+    /**
+     * @return string|null
+     */
+    public function render()
+    {
+        $documentCount = $this->arguments['documentCount'];
+        $currentPage = $this->arguments['currentPage'];
+        $itemsPerPage = $this->arguments['itemsPerPage'];
+
         $from = ($currentPage > 1)? (($currentPage-1) * $itemsPerPage) + 1 : $currentPage;
 
         if ($currentPage >= 1) {
