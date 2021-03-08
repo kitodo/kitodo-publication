@@ -14,6 +14,9 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
@@ -60,16 +63,41 @@ class ProcessNumberRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return NULL;
     }
 
+    /**
+     * Get the connection for the process number table
+     *
+     * @return Connection
+     */
+    protected function getConnection()
+    {
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(
+            "tx_dpf_domain_model_processnumber"
+        );
+    }
+
+    /**
+     * Start transaction
+     */
     public function startTransaction() {
-        $GLOBALS['TYPO3_DB']->sql_query('START TRANSACTION');
+        $this->getConnection()->beginTransaction();
     }
 
+    /**
+     * Commit transaction
+     *
+     * @throws \Doctrine\DBAL\ConnectionException
+     */
     public function commitTransaction() {
-        $GLOBALS['TYPO3_DB']->sql_query('COMMIT');
+        $this->getConnection()->commit();
     }
 
+    /**
+     * Rollback transaction
+     *
+     * @throws \Doctrine\DBAL\ConnectionException
+     */
     public function rollbackTransaction() {
-        $GLOBALS['TYPO3_DB']->sql_query('ROLLBACK');
+        $this->getConnection()->rollBack();
     }
 
 }
