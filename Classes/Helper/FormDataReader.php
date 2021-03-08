@@ -15,6 +15,7 @@ namespace EWW\Dpf\Helper;
  */
 
 use EWW\Dpf\Domain\Model\File;
+use TYPO3\CMS\Core\Core\Environment;
 
 class FormDataReader
 {
@@ -117,7 +118,7 @@ class FormDataReader
 
         $this->uploadBaseUrl = $uploadFileUrl->getUploadUrl() . "/";
 
-        $this->uploadPath = PATH_site . $uploadFileUrl->getDirectory() . "/";
+        $this->uploadPath = Environment::getPublicPath() . $uploadFileUrl->getDirectory() . "/";
 
     }
 

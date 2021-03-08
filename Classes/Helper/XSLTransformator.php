@@ -17,6 +17,7 @@ namespace EWW\Dpf\Helper;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Log\Logger;
@@ -71,7 +72,9 @@ class XSLTransformator
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
 
-            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $xml);
+            $transformedXml = $documentTransformer->transform(
+                Environment::getPublicPath() . 'fileadmin' . $filePath, $xml
+            );
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $xml;
@@ -128,9 +131,13 @@ class XSLTransformator
             ];
 
             if ($xmlData) {
-                $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $xmlData, $transformParams);
+                $transformedXml = $documentTransformer->transform(
+                    Environment::getPublicPath() . 'fileadmin' . $filePath, $xmlData, $transformParams
+                );
             } else {
-                $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $document->getXmlData(), $transformParams);
+                $transformedXml = $documentTransformer->transform(
+                    Environment::getPublicPath(). 'fileadmin' . $filePath, $document->getXmlData(), $transformParams
+                );
             }
 
         } else {

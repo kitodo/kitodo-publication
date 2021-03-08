@@ -14,6 +14,7 @@ namespace EWW\Dpf\Plugins\MetaTags;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -95,11 +96,13 @@ class MetaTags extends \tx_dlf_plugin
 
         if (empty($metadata)) {
 
-            if (TYPO3_DLOG) {
-
-                GeneralUtility::devLog('[tx_dpf_metatags->main(' . $content . ', [data])] No metadata found for document with UID "' . $this->doc->uid . '"', 'tx_dpf', SYSLOG_SEVERITY_WARNING, $conf);
-
-            }
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger->debug(
+                '[tx_dpf_metatags->main(' . $content .
+                ', [data])] No metadata found for document with UID "' . $this->doc->uid . '"',
+                $conf
+            );
 
             return;
 
