@@ -79,6 +79,7 @@ class CrossRefImporter extends AbstractImporter implements Importer
     public function findByIdentifier($identifier)
     {
         try {
+            /** @var Request $response */
             $response = Request::get($this->apiUrl . $this->resource . "/".$identifier)->send();
 
             if (!$response->hasErrors() && $response->code == 200) {
@@ -103,7 +104,7 @@ class CrossRefImporter extends AbstractImporter implements Importer
             }
 
         } catch (\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
         }
 
@@ -191,7 +192,7 @@ class CrossRefImporter extends AbstractImporter implements Importer
             }
 
         } catch (\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
         }
 

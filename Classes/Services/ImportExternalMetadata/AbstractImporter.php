@@ -22,6 +22,7 @@ use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -230,7 +231,8 @@ abstract class AbstractImporter
         }
 
         if ($xsltTransformationFile) {
-            return PATH_site . 'fileadmin' . $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
+            return Environment::getPublicPath() . 'fileadmin' .
+                $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
         } else {
             return $this->getDefaultXsltFilePath();
         }

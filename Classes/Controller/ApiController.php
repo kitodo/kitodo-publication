@@ -390,7 +390,7 @@ class ApiController extends ActionController
 
                 } catch (\Throwable $throwable) {
 
-                    $this->logger->error($throwable->getMessage());
+                    $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
 
@@ -442,7 +442,7 @@ class ApiController extends ActionController
 
                 } catch (\Throwable $throwable) {
 
-                    $this->logger->error($throwable->getMessage());
+                    $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
 
@@ -494,7 +494,7 @@ class ApiController extends ActionController
 
                 } catch (\Throwable $throwable) {
 
-                    $this->logger->error($throwable->getMessage());
+                    $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
 
@@ -557,7 +557,7 @@ class ApiController extends ActionController
                     }
                     return "[" . implode(", ", $jsonDataElements) . "]";
                 } catch (\Throwable $throwable) {
-                    $this->logger->error($throwable->getMessage());
+                    $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
             } else {
@@ -641,7 +641,7 @@ class ApiController extends ActionController
 
                 } catch (\Throwable $throwable) {
 
-                    $this->logger->error($throwable->getMessage());
+                    $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
                     return '{"failed": "' . $throwable->getMessage() . '"}';
                 }
 

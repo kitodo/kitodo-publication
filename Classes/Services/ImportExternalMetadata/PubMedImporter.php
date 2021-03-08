@@ -90,7 +90,7 @@ class PubMedImporter extends AbstractImporter implements Importer
             }
 
         } catch (\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
         }
 
@@ -158,7 +158,7 @@ class PubMedImporter extends AbstractImporter implements Importer
                 }
             }
         } catch (\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
         }
 
@@ -257,7 +257,7 @@ class PubMedImporter extends AbstractImporter implements Importer
                 }
             }
         } catch (\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
         }
 

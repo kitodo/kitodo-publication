@@ -19,6 +19,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\PubMedMetadata;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
@@ -363,7 +364,7 @@ class ExternalMetadataImportController extends AbstractController
             $this->session->setBulkImportData($bulkImportSessionData);
 
         } catch(\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
 
             $message = LocalizationUtility::translate(
                 'manager.importMetadata.publicationNotImported', 'dpf'
@@ -572,7 +573,7 @@ class ExternalMetadataImportController extends AbstractController
             // redirection is desired and should not lead to an exception handling
         } catch(\Throwable $throwable) {
 
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
 
             $message = LocalizationUtility::translate(
                 'manager.importMetadata.publicationNotImported', 'dpf'
@@ -866,7 +867,8 @@ class ExternalMetadataImportController extends AbstractController
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
 
         $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
-        $uploadFilePath = PATH_site . $uploadFileUrl->getDirectory() . "/importFile.".md5($this->security->getUser()->getUid());
+        $uploadFilePath = Environment::getPublicPath() . $uploadFileUrl->getDirectory() .
+            "/importFile.".md5($this->security->getUser()->getUid());
 
         if ($uploadFile['error'] === UPLOAD_ERR_OK) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($uploadFile['tmp_name'], $uploadFilePath);
@@ -976,7 +978,7 @@ class ExternalMetadataImportController extends AbstractController
             $this->session->setBulkImportData($bulkImportSessionData);
 
         } catch(\Throwable $throwable) {
-            $this->logger->error($throwable->getMessage());
+            $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
 
             $message = LocalizationUtility::translate(
                 'manager.importMetadata.publicationNotImported', 'dpf'

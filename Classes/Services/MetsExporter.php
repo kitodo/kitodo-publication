@@ -16,6 +16,7 @@ namespace EWW\Dpf\Services;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 
@@ -159,7 +160,7 @@ class MetsExporter
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
 
-            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $xml);
+            $transformedXml = $documentTransformer->transform(Environment::getPublicPath() . 'fileadmin' . $filePath, $xml);
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $xml;
@@ -180,7 +181,9 @@ class MetsExporter
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
 
-            $transformedXml = $documentTransformer->transform(PATH_site . 'fileadmin' . $filePath, $this->getXMLData());
+            $transformedXml = $documentTransformer->transform(
+                Environment::getPublicPath() . 'fileadmin' . $filePath, $this->getXMLData()
+            );
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $this->getXMLData();

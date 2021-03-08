@@ -15,6 +15,7 @@ namespace EWW\Dpf\Services\ElasticSearch;
  */
 
 use EWW\Dpf\Helper\XSLTransformator;
+use TYPO3\CMS\Core\Core\Environment;
 
 class ElasticsearchMapper
 {
@@ -56,7 +57,8 @@ class ElasticsearchMapper
         $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
 
         if ($xsltTransformationFile) {
-            $xsltDoc = PATH_site . 'fileadmin' . $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
+            $xsltDoc = Environment::getPublicPath() . 'fileadmin' .
+                $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
         } else {
             throw new \Exception("Missing XSLT file for ElasticSearch json mapping.");
         }
