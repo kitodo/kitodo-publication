@@ -249,7 +249,7 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     /**
      * Returns the relative mapping
      *
-     * @string $mapping
+     * @param $mapping
      * @return string $relativeMapping
      */
     protected function relativeMapping($mapping)
