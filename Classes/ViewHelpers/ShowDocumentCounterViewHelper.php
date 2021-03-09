@@ -21,13 +21,13 @@ class ShowDocumentCounterViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Ab
     {
         parent::initializeArguments();
 
-        $this->registerArgument('documentCount', 'array',
+        $this->registerArgument('documentCount', 'int',
             'The number of documents.', true
         );
-        $this->registerArgument('currentPage', 'array',
+        $this->registerArgument('currentPage', 'int',
             'The current page uid.', true
         );
-        $this->registerArgument('itemsPerPage', 'array',
+        $this->registerArgument('itemsPerPage', 'int',
             'The number of items per page.', true
         );
     }
