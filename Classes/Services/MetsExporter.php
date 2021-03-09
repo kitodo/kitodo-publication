@@ -160,7 +160,7 @@ class MetsExporter
             $filePath = $transformationFile->getFile()->getOriginalResource()->getIdentifier();
             $documentTransformer = new DocumentTransformer();
 
-            $transformedXml = $documentTransformer->transform(Environment::getPublicPath() . 'fileadmin' . $filePath, $xml);
+            $transformedXml = $documentTransformer->transform(Environment::getPublicPath() . '/fileadmin' . $filePath, $xml);
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $xml;
@@ -182,7 +182,7 @@ class MetsExporter
             $documentTransformer = new DocumentTransformer();
 
             $transformedXml = $documentTransformer->transform(
-                Environment::getPublicPath() . 'fileadmin' . $filePath, $this->getXMLData()
+                Environment::getPublicPath() . '/fileadmin' . $filePath, $this->getXMLData()
             );
         } else {
             // return generated xml if no transformation file is present

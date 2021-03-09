@@ -118,7 +118,7 @@ class FormDataReader
 
         $this->uploadBaseUrl = $uploadFileUrl->getUploadUrl() . "/";
 
-        $this->uploadPath = Environment::getPublicPath() . $uploadFileUrl->getDirectory() . "/";
+        $this->uploadPath = Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() . "/";
 
     }
 

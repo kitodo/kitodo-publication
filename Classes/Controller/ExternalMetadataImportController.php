@@ -867,7 +867,7 @@ class ExternalMetadataImportController extends AbstractController
         $this->externalMetadataRepository->clearExternalMetadataByFeUserUid($this->security->getUser()->getUid());
 
         $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
-        $uploadFilePath = Environment::getPublicPath() . $uploadFileUrl->getDirectory() .
+        $uploadFilePath = Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() .
             "/importFile.".md5($this->security->getUser()->getUid());
 
         if ($uploadFile['error'] === UPLOAD_ERR_OK) {
