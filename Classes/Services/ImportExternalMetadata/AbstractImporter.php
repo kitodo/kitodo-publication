@@ -231,7 +231,7 @@ abstract class AbstractImporter
         }
 
         if ($xsltTransformationFile) {
-            return Environment::getPublicPath() . 'fileadmin' .
+            return Environment::getPublicPath() . '/fileadmin' .
                 $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
         } else {
             return $this->getDefaultXsltFilePath();

@@ -57,7 +57,7 @@ class ElasticsearchMapper
         $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
 
         if ($xsltTransformationFile) {
-            $xsltDoc = Environment::getPublicPath() . 'fileadmin' .
+            $xsltDoc = Environment::getPublicPath() . '/fileadmin' .
                 $xsltTransformationFile->getFile()->getOriginalResource()->getIdentifier();
         } else {
             throw new \Exception("Missing XSLT file for ElasticSearch json mapping.");

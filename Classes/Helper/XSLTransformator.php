@@ -73,7 +73,7 @@ class XSLTransformator
             $documentTransformer = new DocumentTransformer();
 
             $transformedXml = $documentTransformer->transform(
-                Environment::getPublicPath() . 'fileadmin' . $filePath, $xml
+                Environment::getPublicPath() . '/fileadmin' . $filePath, $xml
             );
         } else {
             // return generated xml if no transformation file is present
@@ -132,11 +132,11 @@ class XSLTransformator
 
             if ($xmlData) {
                 $transformedXml = $documentTransformer->transform(
-                    Environment::getPublicPath() . 'fileadmin' . $filePath, $xmlData, $transformParams
+                    Environment::getPublicPath() . '/fileadmin' . $filePath, $xmlData, $transformParams
                 );
             } else {
                 $transformedXml = $documentTransformer->transform(
-                    Environment::getPublicPath(). 'fileadmin' . $filePath, $document->getXmlData(), $transformParams
+                    Environment::getPublicPath(). '/fileadmin' . $filePath, $document->getXmlData(), $transformParams
                 );
             }
 
