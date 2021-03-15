@@ -1,11 +1,9 @@
 #!/bin/bash
 
+## Description: Run unit tests inside web container
 ## Usage: test [options]
 
 executable="vendor/phpunit/phpunit/phpunit"
 options="-c vendor/nimut/testing-framework/res/Configuration/UnitTests.xml"
 
-vendor/phpunit/phpunit/phpunit \
-  -c vendor/nimut/testing-framework/res/Configuration/UnitTests.xml \
-  src/Tests \
-  $@ 
+$executable $options ../kitodo-publication/Tests $@

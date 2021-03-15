@@ -11,9 +11,9 @@ This extension provides a TYPO3 environment powered by [DDEV](https://www.ddev.c
 
 ### Start and Configuration
 1. `ddev start` to start all containers
-2. `ddev composer install` to install TYPO3 and all extensions
-3. `ddev import-db -f db.sql.gz` to import the prepared database
-4. `ddev launch typo3` to go to the backoffice login page
+2. `ddev first-install` to install TYPO3 and all extensions
+4. `ddev import-db -f db.sql.gz` to import a prepared database
+5. `ddev launch typo3` to go to the backoffice login page
 
 Steps 1–3 are mandatory after the initial checkout to set up the virtual environment.
 
