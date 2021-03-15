@@ -1,66 +1,60 @@
 {
-    "repositories": {
-        "0": {
-            "type": "composer",
-            "url": "https://composer.typo3.org/"
+    "name": "kitodo/publication",
+    "type": "typo3-cms-extension",
+    "description": "Plugins and modules for publication management with Fedora repositories.",
+    "homepage": "https://github.com/kitodo/kitodo-publication",
+    "readme":"README.md",
+    "license": ["GPL-3.0-or-later"],
+    "keywords": [
+        "TYPO3",
+        "Fedora",
+        "extension",
+        "publishing"
+    ],
+    "authors": [
+        {
+            "name": "Ralf Claußnitzer",
+            "email": "ralf.claussnitzer@slub-dresden.de",
+            "homepage": "https://www.slub-dresden.de",
+            "role": "Maintainer"
         },
-        "kitodo-publication": {
-            "type": "path",
-            "url": "./src",
-            "options": {
-                "symlink": true
-            }
+        {
+            "name": "effective Webwork GmbH",
+            "email": "info@effective-webwork.de",
+            "homepage": "https://effective-webwork.de",
+            "role": "Developer"
         }
+    ],
+    "support": {
+        "issues": "https://github.com/kitodo/kitodo-publication/issues",
+        "source": "https://github.com/kitodo/kitodo-publication"
     },
-    "name": "typo3/cms-base-distribution",
-    "description": "TYPO3 CMS Base Distribution",
-    "license": "GPL-2.0-or-later",
     "require": {
-        "helhum/typo3-console": "^4.9.3 || ^5.2",
-        "typo3/cms-about": "^8.7.10",
-        "typo3/cms-belog": "^8.7.10",
-        "typo3/cms-beuser": "^8.7.10",
-        "typo3/cms-context-help": "^8.7.10",
-        "typo3/cms-documentation": "^8.7.10",
-        "typo3/cms-felogin": "^8.7.10",
-        "typo3/cms-fluid-styled-content": "^8.7.10",
-        "typo3/cms-form": "^8.7.10",
-        "typo3/cms-func": "^8.7.10",
-        "typo3/cms-impexp": "^8.7.10",
-        "typo3/cms-info": "^8.7.10",
-        "typo3/cms-info-pagetsconfig": "^8.7.10",
-        "typo3/cms-rte-ckeditor": "^8.7.10",
-        "typo3/cms-setup": "^8.7.10",
-        "typo3/cms-sys-note": "^8.7.10",
-        "typo3/cms-t3editor": "^8.7.10",
-        "typo3/cms-tstemplate": "^8.7.10",
-        "typo3/cms-viewpage": "^8.7.10",
-        "typo3/cms-wizard-crpages": "^8.7.10",
-        "typo3/cms-wizard-sortpages": "^8.7.10",
-        "kitodo/publication": "@dev"
+        "php": "^7.1",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "typo3/cms-core": "^8.7.0",
+        "nategood/httpful": "^0.2.20",
+        "elasticsearch/elasticsearch": "^7.5",
+        "symfony/workflow": "4.3.*",
+        "symfony/serializer": "^5.0",
+        "renanbr/bibtex-parser": "*",
+        "galbar/jsonpath": "^1.1"
     },
-    "scripts": {
-        "typo3-cms-scripts": [
-            "typo3cms install:fixfolderstructure",
-            "typo3cms install:generatepackagestates"
-        ],
-        "post-autoload-dump": [
-            "@typo3-cms-scripts"
-        ]
+    "replace": {
+        "typo3-ter/dpf": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "EWW\\Dpf\\": "Classes/"
+        }
     },
     "extra": {
         "typo3/cms": {
-            "web-dir": "public"
-        },
-        "helhum/typo3-console": {
-            "comment": "This option is not needed ay more for helhum/typo3-console 5.x",
-            "install-extension-dummy": false
+            "extension-key": "dpf"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require-dev": {
-        "phpunit/phpunit": "^7",
-        "nimut/testing-framework": "^5.0"
     }
 }
+
