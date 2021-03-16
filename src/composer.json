@@ -41,7 +41,7 @@
         "symfony/workflow": "4.3.*",
         "symfony/serializer": "^5.0",
         "renanbr/bibtex-parser": "*",
-        "galbar/jsonpath": "dev-master"
+        "galbar/jsonpath": "^1.1"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"
