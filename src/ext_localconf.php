@@ -34,12 +34,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
     'description' => 'Embargo task for sending information to admins or publish files automatically if the embargo date is expired',
 );
 
-
-if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers']) == false) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'] = array();
-}
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = 'EWW\Dpf\Command\TransferCommandController';
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
     'Qucosaform',
