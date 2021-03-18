@@ -30,7 +30,7 @@
         "source": "https://github.com/kitodo/kitodo-publication"
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-curl": "*",
         "ext-dom": "*",
         "ext-json": "*",
