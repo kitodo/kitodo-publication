@@ -1,4 +1,4 @@
-name: ddev-kitodo-publication
+name: ddev-kitodo-publication-cmr1056
 type: php
 docroot: public
 php_version: "7.2"
@@ -16,5 +16,5 @@ composer_version: ""
 no_project_mount: true
 hooks:
   post-import-db:
-    - exec: "typo3cms cleanup:updatereferenceindex"
-    - exec: "typo3cms database:updateschema"
+    - exec: "vendor/bin/typo3cms cleanup:updatereferenceindex"
+    - exec: "vendor/bin/typo3cms database:updateschema"
