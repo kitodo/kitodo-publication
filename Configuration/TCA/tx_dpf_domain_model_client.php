@@ -57,7 +57,6 @@ return array(
             person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
             person_author_role, person_publisher_role,
             validation_xpath, fis_id_xpath, source_details_xpaths',
-        'requestUpdate'            => 'replace_niss_part',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
@@ -166,9 +165,11 @@ return array(
         ),
         'starttime'          => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -182,9 +183,11 @@ return array(
         ),
         'endtime'            => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -949,6 +952,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -964,6 +968,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -979,6 +984,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -994,6 +1000,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -1009,6 +1016,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -1024,6 +1032,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -1039,6 +1048,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -1054,6 +1064,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -1069,6 +1080,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,

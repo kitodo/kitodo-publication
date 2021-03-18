@@ -110,7 +110,6 @@ return array(
         ),
         'starttime'        => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
                 'type'     => 'input',
@@ -126,9 +125,11 @@ return array(
         ),
         'endtime'          => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -177,6 +178,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -192,6 +194,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -230,6 +233,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -242,6 +246,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.crossref_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => \EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter::typeItems(
@@ -258,6 +263,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -270,6 +276,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.datacite_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => array(
@@ -288,6 +295,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -300,6 +308,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.k10plus_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => array(
@@ -318,6 +327,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -330,6 +340,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.pubmed_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => array(
@@ -348,6 +359,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -360,6 +372,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.bibtex_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => array(
@@ -378,6 +391,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.choose_transformation',0)
                 ),
                 'type'           => 'select',
+                'renderType'     => 'selectSingle',
                 'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
                 'maxitems'       => 1,
                 'minitems' => 0,
@@ -390,6 +404,7 @@ return array(
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_documenttype.ris_types',
             'config'    => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 10,
                 'maxitems' => 100,
                 'items' => array(

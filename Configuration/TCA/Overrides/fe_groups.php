@@ -21,18 +21,19 @@ $temporaryColumns = array (
         'exclude' => 0,
         'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role',
         'config' => array (
-        'type' => 'select',
-        'items' => array (
-            array('', ''),
-            array(
-                'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher',
-                \EWW\Dpf\Security\Security::ROLE_RESEARCHER
+            'type' => 'select',
+            'renderType' => 'selectSingle',
+            'items' => array (
+                array('', ''),
+                array(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_researcher',
+                    \EWW\Dpf\Security\Security::ROLE_RESEARCHER
+                ),
+                array(
+                    'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian',
+                    \EWW\Dpf\Security\Security::ROLE_LIBRARIAN
+                ),
             ),
-            array(
-                'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.kitodo_role_librarian',
-                \EWW\Dpf\Security\Security::ROLE_LIBRARIAN
-            ),
-        ),
             'size' => 1,
             'maxitems' => 1,
         )

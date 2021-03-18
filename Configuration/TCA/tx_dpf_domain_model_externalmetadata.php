@@ -42,6 +42,7 @@ return array(
             'label' => 'Record type',
             'config' => array(
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => array(
                     ['', '0'],
                     ['CrossRefMetadata', 'EWW\Dpf\Domain\Model\CrossRefMetadata'],
@@ -91,6 +92,7 @@ return array(
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_externalmetadata.fe_user',
             'config'  => array(
                 'type'          => 'select',
+                'renderType'     => 'selectSingle',
                 'items' => array (
                     array('', 0),
                 ),
