@@ -98,9 +98,11 @@ return array(
         ),
         'starttime'        => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -114,9 +116,11 @@ return array(
         ),
         'endtime'          => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -161,6 +165,7 @@ return array(
             'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatapage.access_restriction_roles',
             'config' => array(
                 'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'size' => 2,
                 'maxitems' => 2,
                 'items' => array(

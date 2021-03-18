@@ -100,9 +100,11 @@ return array(
         ),
         'starttime'             => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -116,9 +118,11 @@ return array(
         ),
         'endtime'               => array(
             'exclude'   => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label'     => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config'    => array(
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true
+                ),
                 'type'     => 'input',
                 'renderType' => 'inputDateTime',
                 'size'     => 13,
@@ -159,17 +163,19 @@ return array(
                     'appearance' => [
                         'createNewRelationLinkTitle' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_transformationfile.newrelation'
                     ],
-                    'foreign_types' => [
-                        '0' => [
-                            'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                            'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-                        ],
+                    'overrideChildTca' => [
+                        'types' => [
+                            '0' => [
+                                'showitem' => '
+                            --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
+                                'showitem' => '
+                            --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                            ],
+                        ]
                     ],
                     'maxitems' => 1
                 ],
