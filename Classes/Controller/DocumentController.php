@@ -16,6 +16,7 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
+use EWW\Dpf\Helper\InternalFormat;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
@@ -266,8 +267,8 @@ class DocumentController extends AbstractController
                 $originDocument->addFile($newFile);
             }
 
-            $mods = new \EWW\Dpf\Helper\Mods($document->getXmlData());
-            $originDocument->setAuthors($mods->getPersons());
+            $internalFormat = new InternalFormat($document->getXmlData());
+            $originDocument->setAuthors($internalFormat->getPersons());
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
