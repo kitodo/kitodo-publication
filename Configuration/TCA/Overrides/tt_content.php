@@ -18,14 +18,8 @@ if (!defined('TYPO3_MODE')) {
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'EWW.Dpf',
-    'Qucosaform',
-    'DPF: QucosaForm'
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'EWW.Dpf',
-    'Qucosaxml',
-    'DPF: QucosaXml'
+    'KitodoPublicationForm',
+    'DPF: Kitodo.Publication-Form'
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
@@ -48,11 +42,11 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:dpf/Configuration/FlexForms/frontendsearch_plugin.xml');
 // end of frontendsearch plugin configuration
 
-// qucosaform plugin configuration: additional fields
-$pluginSignature = 'dpf_qucosaform';
+// KitodoPublicationForm plugin configuration: additional fields
+$pluginSignature = 'dpf_kitodopublicationform';
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
-// end of qucosaform plugin configuration
+// end of KitodoPublicationForm plugin configuration
 
 // Plugin "MetaTags".
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dpf_metatags'] = 'layout,select_key,pages,recursive';

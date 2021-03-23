@@ -430,7 +430,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   date_xpath tinytext NOT NULL,
   publishing_year_xpath tinytext NOT NULL,
   urn_xpath tinytext NOT NULL,
-  qucosa_urn_xpath tinytext NOT NULL,
+  primary_urn_xpath tinytext NOT NULL,
   namespaces text NOT NULL,
   title_xpath tinytext NOT NULL,
   process_number_xpath tinytext NOT NULL,

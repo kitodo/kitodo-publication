@@ -1426,7 +1426,7 @@ Date: ###DATE###
 			<trans-unit id="tx_dpf_domain_model_documenttype.name" approved="yes">
 				<source>Name</source>
 			</trans-unit>
-			<trans-unit id="tx_dpf_qucosaform.options" approved="yes">
+			<trans-unit id="tx_dpf_kitodopublicationform.options" approved="yes">
 				<source>Options</source>
 			</trans-unit>
 			<trans-unit id="widget.pagination.next" approved="yes">

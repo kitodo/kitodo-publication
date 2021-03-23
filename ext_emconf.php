@@ -17,7 +17,7 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-    'title'            => 'Qucosa Publication',
+    'title'            => 'Kitodo.Publication',
     'description'      => '',
     'category'         => 'plugin',
     'author'           => 'effective WEBWORK GmbH',

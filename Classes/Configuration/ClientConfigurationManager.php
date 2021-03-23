@@ -14,8 +14,10 @@ namespace EWW\Dpf\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Domain\Repository\ClientRepository;
 
@@ -211,9 +213,9 @@ class ClientConfigurationManager
         return $this->getSetting("urnXpath", "urnXpath");
     }
 
-    public function getQucosaUrnXpath()
+    public function getPrimaryUrnXpath()
     {
-        return $this->getSetting("qucosaUrnXpath", "qucosaUrnXpath");
+        return $this->getSetting("primaryUrnXpath", "primaryUrnXpath");
     }
 
     public function getDateXpath()
@@ -364,6 +366,23 @@ class ClientConfigurationManager
     public function getSourceDetailsXpaths()
     {
         return $this->getSetting("sourceDetailsXpaths", "sourceDetailsXpaths");
+    }
+
+    public function getFedoraNamespace()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['fedoraNamespace'];
+    }
+
+    public function getTypoScriptSettings()
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+        $settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
+
+        return $settings;
     }
 
 }

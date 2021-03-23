@@ -731,14 +731,14 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Gets the qucosa urn of the document
+     * Gets the primary urn of the document
      *
      * @return string
      */
-    public function getQucosaUrn()
+    public function getPrimaryUrn()
     {
         $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
-        return $internalFormat->getQucosaUrn();
+        return $internalFormat->getPrimaryUrn();
     }
 
     /**

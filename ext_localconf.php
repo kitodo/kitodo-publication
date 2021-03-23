@@ -24,7 +24,7 @@ if (is_file($composerAutoloadFile)) {
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\TransferTask'] = array(
     'extension'   => $_EXTKEY,
-    'title'       => 'Qucosa-Dokumente ans Repository übertragen.',
+    'title'       => 'Kitodo.Publication-Dokumente ans Repository übertragen.',
     'description' => '',
 );
 
@@ -36,7 +36,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
-    'Qucosaform',
+    'KitodoPublicationForm',
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',

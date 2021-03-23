@@ -105,11 +105,11 @@ class DownloadTool extends \tx_dlf_plugin
                     // Create a-tag with VG-Wort Redirect
                 } elseif(!empty($vgwort)) {
 
-                    $qucosaUrl = urlencode($this->cObj->typoLink_URL($conf));
+                    $url = urlencode($this->cObj->typoLink_URL($conf));
 
                     $confVgwort = array(
                         'useCacheHash'     => 0,
-                        'parameter'        => $vgwort . $qucosaUrl . ' - piwik_download',
+                        'parameter'        => $vgwort . $url . ' - piwik_download',
                     );
 
                     $markerArray['###FILE###'] = $this->cObj->typoLink($title, $confVgwort);

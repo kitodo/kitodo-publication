@@ -155,6 +155,8 @@ class ParserGenerator
      */
     public function buildXmlFromForm($array)
     {
+        $fedoraNamespace = stream_copy_to_stream($this->clientConfigurationManager->getFedoraNamespace());
+
         $this->xmlData = $this->xmlData;
         // Build xml mods from form fields
         // loop each group
@@ -179,7 +181,7 @@ class ParserGenerator
             // mods extension
             if ($group['modsExtensionMapping']) {
                 $counter = sprintf("%'03d", $this->counter);
-                $attributeXPath .= '[@ID="QUCOSA_' . $counter . '"]';
+                $attributeXPath .= '[@ID="'.$fedoraNamespace.'_' . $counter . '"]';
             }
 
             $existsExtensionFlag = false;
@@ -192,7 +194,7 @@ class ParserGenerator
                         $existsExtensionFlag = true;
                         // mods extension
                         $counter            = sprintf("%'03d", $this->counter);
-                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
+                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="'.$fedoraNamespace.'_' . $counter . '"]';
 
                         $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
@@ -219,7 +221,7 @@ class ParserGenerator
                 }
             }
             if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
-                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="QUCOSA_' . $counter . '"]';
+                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="'.$fedoraNamespace.'_' . $counter . '"]';
                 $xml   = $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {

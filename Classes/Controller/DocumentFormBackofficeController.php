@@ -265,7 +265,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
                 $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
                 $depositLicenseLog->setTitle($newDocument->getTitle());
-                $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+                $depositLicenseLog->setUrn($newDocument->getPrimaryUrn());
                 $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
 
                 if ($newDocument->getFileData()) {
@@ -406,7 +406,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $depositLicenseLog->setObjectIdentifier($document->getObjectIdentifier());
                     $depositLicenseLog->setProcessNumber($document->getProcessNumber());
                     $depositLicenseLog->setTitle($document->getTitle());
-                    $depositLicenseLog->setUrn($document->getQucosaUrn());
+                    $depositLicenseLog->setUrn($document->getPrimaryUrn());
                     $depositLicenseLog->setLicenceUri($document->getDepositLicense());
 
                     if ($document->getFileData()) {

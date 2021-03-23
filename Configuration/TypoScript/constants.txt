@@ -107,5 +107,11 @@ plugin.tx_dpf {
 
         # cat=plugin.tx_dpf/api; type=string; label=RisWos-File mandatory fields (comma separated).
         riswosMandatoryFields = TI,AU|AF
+
+        # cat=plugin.tx_dpf/api; type=string; label= Namespace for fedora (e.g. fedora pids)
+        fedoraNamespace = qucosa
+
+        # cat=plugin.tx_dpf/api; type=string; label= no reply email address
+        noReplyAddress = noreply@qucosa.de
     }
 }

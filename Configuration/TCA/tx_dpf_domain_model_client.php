@@ -50,7 +50,7 @@ return array(
             suggestion_flashmessage,
             active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
             fis_mapping,            
-            file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
+            file_xpath, date_xpath, publishing_year_xpath, urn_xpath, primary_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
             submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
             original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
             repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,        
@@ -78,7 +78,7 @@ return array(
         suggestion_flashmessage,
         active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         fis_mapping,        
-        file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
+        file_xpath, date_xpath, publishing_year_xpath, urn_xpath, primary_urn_xpath, state_xpath, type_xpath, type_xpath_input, namespaces, title_xpath, process_number_xpath,
         submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
         original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
         repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,        
@@ -89,7 +89,7 @@ return array(
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
         client, owner_id, network_initial, library_identifier, admin_email, project, replace_niss_part, niss_part_search, niss_part_replace,
-        --div--;Static XML, namespaces, file_xpath, date_xpath, publishing_year_xpath, urn_xpath, qucosa_urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, process_number_xpath, submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
+        --div--;Static XML, namespaces, file_xpath, date_xpath, publishing_year_xpath, urn_xpath, primary_urn_xpath, state_xpath, type_xpath, type_xpath_input, title_xpath, process_number_xpath, submitter_name_xpath, submitter_email_xpath, submitter_notice_xpath, 
         original_source_title_xpath, creator_xpath, creation_date_xpath, repository_creation_date_xpath, 
         repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,
         person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
@@ -612,10 +612,10 @@ return array(
                 'eval' => 'trim',
             ),
         ),
-        'qucosa_urn_xpath' => array(
+        'primary_urn_xpath' => array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.qucosa_urn_xpath',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.primary_urn_xpath',
             'config'    => array(
                 'type' => 'input',
                 'size' => 80,

@@ -79,9 +79,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         $isRepositoryObject = !is_numeric($piVars['qid']);
 
+        $fedoraNamespace = $this->clientConfigurationManager->getFedoraNamespace();
+
         switch ($piVars['action']) {
             case 'mets':
-                $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/'.$fedoraNamespace.':SDef/getMETSDissemination?supplement=yes';
                 break;
 
             case 'preview':
@@ -144,9 +146,9 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
                 $qid = $piVars['qid'];
                 $source = explode(':', $qid);
-                if ($source[0] == 'qucosa') {
+                if ($source[0] == $fedoraNamespace) {
 
-                    $path = rtrim('http://' . $fedoraHost, "/").'/fedora/objects/'.$piVars['qid'].'/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
+                    $path = rtrim('http://' . $fedoraHost, "/").'/fedora/objects/'.$piVars['qid'].'/methods/'.$fedoraNamespace.':SDef/getMETSDissemination?supplement=yes';
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
 

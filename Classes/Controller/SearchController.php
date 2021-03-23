@@ -643,7 +643,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
         $query['body']['sort'] = array('CREATED_DATE' => array('order' => 'desc'));
 
         // add owner id
-        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId(); // qucosa
+        $query['body']['query']['bool']['must']['term']['OWNER_ID'] = $client->getOwnerId();
 
         $query['body']['query']['bool']['should'][0]['query_string']['query']                       = '*';
         $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = '*';

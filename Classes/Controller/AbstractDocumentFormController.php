@@ -233,7 +233,7 @@ abstract class AbstractDocumentFormController extends AbstractController
             $depositLicenseLog->setObjectIdentifier($newDocument->getObjectIdentifier());
             $depositLicenseLog->setProcessNumber($newDocument->getProcessNumber());
             $depositLicenseLog->setTitle($newDocument->getTitle());
-            $depositLicenseLog->setUrn($newDocument->getQucosaUrn());
+            $depositLicenseLog->setUrn($newDocument->getPrimaryUrn());
             $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
 
             if ($newDocument->getFileData()) {
