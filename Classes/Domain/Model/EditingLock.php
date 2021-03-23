@@ -24,7 +24,7 @@ namespace EWW\Dpf\Domain\Model;
 class EditingLock extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * documentIdentifier : A document uid or a qucosa object identifier.
+     * documentIdentifier : A document uid or a fedoraPid object identifier.
      *
      * @var string
      */

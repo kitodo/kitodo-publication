@@ -743,7 +743,9 @@ class WorkspaceController extends AbstractController
 
         for ($i = $start; $i < $stop; $i++) {
             try {
-                $document = $documentTransferManager->retrieve('qucosa:' . $i);
+                $document = $documentTransferManager->retrieve(
+                    $this->settings['fedoraPidNamespace'].':' . $i
+                );
 
                 if ($document instanceof Document) {
                     $state = $document->getState();

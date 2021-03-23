@@ -313,11 +313,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $urnXpath = '';
 
     /**
-     * qucosaUrnXpath
+     * primaryUrnXpath
      *
      * @var string
      */
-    protected $qucosaUrnXpath = '';
+    protected $primaryUrnXpath = '';
 
     /**
      * @var string
@@ -1819,17 +1819,17 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getQucosaUrnXpath(): string
+    public function getPrimaryUrnXpath(): string
     {
-        return $this->qucosaUrnXpath;
+        return $this->primaryUrnXpath;
     }
 
     /**
-     * @param string $qucosaUrnXpath
+     * @param string $primaryUrnXpath
      */
-    public function setQucosaUrnXpath(string $qucosaUrnXpath)
+    public function setPrimaryUrnXpath(string $primaryUrnXpath)
     {
-        $this->qucosaUrnXpath = $qucosaUrnXpath;
+        $this->primaryUrnXpath = $primaryUrnXpath;
     }
 
     /**

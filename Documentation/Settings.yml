@@ -9,7 +9,7 @@
 ---
 conf.py:
   copyright: 2014
-  project: Qucosa Publication
+  project: Kitodo.Publication
   version: 
   release: 
   intersphinx_mapping:
@@ -19,7 +19,7 @@ conf.py:
   latex_documents:
   - - Index
     - dpf.tex
-    - Qucosa Publication
+    - Kitoto.Publication
     - 
     - manual
   latex_elements:

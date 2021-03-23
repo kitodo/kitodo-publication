@@ -174,12 +174,12 @@ class InternalFormat
 
     }
 
-    public function hasQucosaUrn()
+    public function hasPrimaryUrn()
     {
         $xpath = $this->getXpath();
-        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
 
-        $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
         if ($urnNodes->length > 0) {
             return true;
         } else {
@@ -187,12 +187,12 @@ class InternalFormat
         }
     }
 
-    public function getQucosaUrn()
+    public function getPrimaryUrn()
     {
         $xpath = $this->getXpath();
-        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
 
-        $urnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
+        $urnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
         if ($urnNodes->length > 0) {
             return $urnNodes->item(0)->nodeValue;
         } else {
@@ -200,26 +200,26 @@ class InternalFormat
         }
     }
 
-    public function setQucosaUrn($urn)
+    public function setPrimaryUrn($urn)
     {
-        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
-        $this->setValue($qucosaUrnXpath, $urn);
+        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
+        $this->setValue($primaryUrnXpath, $urn);
     }
 
     public function clearAllUrn()
     {
         $xpath = $this->getXpath();
         $urnXpath = $this->clientConfigurationManager->getUrnXpath();
-        $qucosaUrnXpath = $this->clientConfigurationManager->getQucosaUrnXpath();
+        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $urnXpath);
         foreach ($urnNodes as $urnNode) {
             $urnNode->parentNode->removeChild($urnNode);
         }
 
-        $qucosaUrnNodes = $xpath->query(self::rootNode . $qucosaUrnXpath);
-        foreach ($qucosaUrnNodes as $qucosaUrnNode) {
-            $qucosaUrnNode->parentNode->removeChild($qucosaUrnNode);
+        $primaryUrnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
+        foreach ($primaryUrnNodes as $primaryUrnNode) {
+            $primaryUrnNode->parentNode->removeChild($primaryUrnNode);
         }
     }
 

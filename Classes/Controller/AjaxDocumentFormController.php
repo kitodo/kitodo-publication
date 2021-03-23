@@ -176,31 +176,31 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      *
-     * @param string $qucosaId
+     * @param string $fedoraPid
      * @return string
      */
-    public function fillOutAction($qucosaId)
+    public function fillOutAction($fedoraPid)
     {
         try {
             $urnService = $this->objectManager->get(Urn::class);
 
-            if (!empty($qucosaId)) {
-                $urn = $urnService->getUrn($qucosaId);
+            if (!empty($fedoraPid)) {
+                $urn = $urnService->getUrn($fedoraPid);
             } else {
                 $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
                 $remoteRepository = $this->objectManager->get(FedoraRepository::class);
                 $documentTransferManager->setRemoteRepository($remoteRepository);
 
-                $qucosaId = $documentTransferManager->getNextDocumentId();
+                $fedoraPid = $documentTransferManager->getNextDocumentId();
 
-                $urn = $urnService->getUrn($qucosaId);
+                $urn = $urnService->getUrn($fedoraPid);
 
             }
 
             return json_encode(
                 array(
                     'error' => false,
-                    'qucosaId' => $qucosaId,
+                    'fedoraPid' => $fedoraPid,
                     'value'    => $urn,
                 )
             );
@@ -209,7 +209,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             return json_encode(
                 array(
                     'error' =>  true,
-                    'qucosaId' => null,
+                    'fedoraPid' => null,
                     'value'    => null,
                 )
             );

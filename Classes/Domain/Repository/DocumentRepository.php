@@ -202,7 +202,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $constraints = [
                 $query->equals('uid', $identifier)
             ];
-        } elseif (Identifier::isQucosaId($identifier)) {
+        } elseif (Identifier::isFedoraPid($identifier)) {
             $constraints = [
                 $query->logicalAnd(
                     $query->equals('object_identifier', $identifier),

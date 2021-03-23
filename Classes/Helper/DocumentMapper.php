@@ -125,13 +125,13 @@ class DocumentMapper
         $documentForm->setProcessNumber($document->getProcessNumber());
         $documentForm->setTemporary($document->isTemporary());
 
-        $qucosaId = $document->getObjectIdentifier();
+        $fedoraPid = $document->getObjectIdentifier();
 
-        if (empty($qucosaId)) {
-            $qucosaId = $document->getReservedObjectIdentifier();
+        if (empty($fedoraPid)) {
+            $fedoraPid = $document->getReservedObjectIdentifier();
         }
 
-        $documentForm->setQucosaId($qucosaId);
+        $documentForm->setFedoraPid($fedoraPid);
 
         $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
 
@@ -362,7 +362,7 @@ class DocumentMapper
 
         $document->setDocumentType($documentType);
 
-        $document->setReservedObjectIdentifier($documentForm->getQucosaId());
+        $document->setReservedObjectIdentifier($documentForm->getFedoraPid());
 
         $document->setValid($documentForm->getValid());
         

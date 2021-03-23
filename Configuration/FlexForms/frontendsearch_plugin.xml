@@ -18,7 +18,7 @@
         <sDEF>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_qucosaform.options</sheetTitle>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_kitodopublicationform.options</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>

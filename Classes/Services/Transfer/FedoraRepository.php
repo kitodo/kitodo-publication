@@ -54,8 +54,11 @@ class FedoraRepository implements Repository
     protected $errors = array();
 
     const X_ON_BEHALF_OF = 'X-On-Behalf-Of';
-    const QUCOSA_TYPE    = 'application/vnd.qucosa.mets+xml';
 
+    protected function getFedoraType()
+    {
+        return 'application/vnd.'. $this->clientConfigurationManager->getFedoraNamespace().'.mets+xml';
+    }
 
     /**
      * Saves a new document into the Fedora repository
@@ -73,7 +76,7 @@ class FedoraRepository implements Repository
                 ->sendsXml()
                 ->body($metsXml)
                 ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
-                ->sendsType(FedoraRepository::QUCOSA_TYPE)
+                ->sendsType($this->getFedoraType())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->addHeader('Slug', $document->getReservedObjectIdentifier())
                 ->send();
@@ -118,7 +121,7 @@ class FedoraRepository implements Repository
                 ->sendsXml()
                 ->body($metsXml)
                 ->authenticateWith($this->clientConfigurationManager->getSwordUser(), $this->clientConfigurationManager->getSwordPassword())
-                ->sendsType(FedoraRepository::QUCOSA_TYPE)
+                ->sendsType($this->getFedoraType())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId($document->getPid()))
                 ->send();
 
@@ -152,9 +155,15 @@ class FedoraRepository implements Repository
      */
     public function retrieve($remoteId)
     {
-
         try {
-            $response = Request::get($this->clientConfigurationManager->getFedoraHost() . "/fedora/objects/" . $remoteId . "/methods/qucosa:SDef/getMETSDissemination")
+            $response = Request::get(
+                $this->clientConfigurationManager->getFedoraHost()
+                . "/fedora/objects/"
+                . $remoteId
+                . "/methods/"
+                . $this->clientConfigurationManager->getFedoraNamespace()
+                . ":SDef/getMETSDissemination"
+            )
                 ->authenticateWith($this->clientConfigurationManager->getFedoraUser(), $this->clientConfigurationManager->getFedoraPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
                 ->send();
@@ -181,7 +190,7 @@ class FedoraRepository implements Repository
     }
 
     /**
-     * Reserves a new DocumentId (qucosa id)
+     * Reserves a new DocumentId (fedora pid)
      *
      * @param string $remoteId
      * @return string
@@ -190,7 +199,12 @@ class FedoraRepository implements Repository
     public function getNextDocumentId()
     {
         try {
-            $response = Request::get($this->clientConfigurationManager->getFedoraHost() . "/fedora/management/getNextPID?numPIDs=1&namespace=qucosa&xml=true")
+            $response = Request::get(
+                $this->clientConfigurationManager->getFedoraHost()
+                . "/fedora/management/getNextPID?numPIDs=1&namespace="
+                . $this->clientConfigurationManager->getFedoraNamespace()
+                . "&xml=true"
+            )
                 ->authenticateWith($this->clientConfigurationManager->getFedoraUser(), $this->clientConfigurationManager->getFedoraPassword())
                 ->addHeader(FedoraRepository::X_ON_BEHALF_OF, $this->getOwnerId())
             //->addHeader()

@@ -424,7 +424,7 @@ li a.invalid-error, li a.mandatory-error {
 li a.invalid-error:after, li a.mandatory-error:after {
 }
 
-.qucosa-search-form input[type="text"] {
+.frontend-search-form input[type="text"] {
     width: 450px !important;
 }
 

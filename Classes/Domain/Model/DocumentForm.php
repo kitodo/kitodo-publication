@@ -33,7 +33,7 @@ class DocumentForm extends AbstractFormElement
      *
      * @var string
      */
-    protected $qucosaId;
+    protected $fedoraPid;
 
     /**
      *
@@ -127,18 +127,18 @@ class DocumentForm extends AbstractFormElement
      *
      * @return string
      */
-    public function getQucosaId()
+    public function getFedoraPid()
     {
-        return $this->qucosaId;
+        return $this->fedoraPid;
     }
 
     /**
      *
-     * @param string $qucosaId
+     * @param string $fedoraPid
      */
-    public function setQucosaId($qucosaId)
+    public function setFedoraPid($fedoraPid)
     {
-        $this->qucosaId = $qucosaId;
+        $this->fedoraPid = $fedoraPid;
     }
 
     /**

@@ -23,7 +23,7 @@ namespace EWW\Dpf\Domain\Model;
 class Bookmark extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * documentIdentifier : A document uid or a qucosa object identifier.
+     * documentIdentifier : A document uid or a fedoroPid object identifier.
      *
      * @var string
      */

@@ -28,7 +28,7 @@ class Identifier
      * @param mixed $identifier
      * @return bool
      */
-    public static function isQucosaId($identifier) {
+    public static function isFedoraPid($identifier) {
         return preg_match("/^[a-zA-Z]+:\d+$/", $identifier, $matches) > 0;
     }
 

@@ -1949,7 +1949,7 @@ Datum: ###DATE###
 				<source>Name</source>
 				<target>Name</target>
 			</trans-unit>
-			<trans-unit id="tx_dpf_qucosaform.options" approved="yes">
+			<trans-unit id="tx_dpf_kitodopublicationform.options" approved="yes">
 				<source>Options</source>
 				<target>Optionen</target>
 			</trans-unit>

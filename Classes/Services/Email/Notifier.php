@@ -57,6 +57,15 @@ class Notifier
      */
     protected $security = null;
 
+    /**
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $clientConfigurationManager;
+
+
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
             /** @var $client \EWW\Dpf\Domain\Model\Client */
@@ -174,8 +183,8 @@ class Notifier
         $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
 
         $args['###DATE###'] = (new \DateTime)->format("d-m-Y H:i:s");
-        $args['###URN###'] = $internalFormat->getQucosaUrn();
-        $args['###URL###'] = 'http://nbn-resolving.de/' . $internalFormat->getQucosaUrn();
+        $args['###URN###'] = $internalFormat->getPrimaryUrn();
+        $args['###URL###'] = 'http://nbn-resolving.de/' . $internalFormat->getPrimaryUrn();
 
         $args['###REASON###'] = $reason;
 
@@ -732,10 +741,11 @@ class Notifier
 
     protected function sendMail($reveiver, $subject, $body, $args, $mailType)
     {
+        $settings = $this->clientConfigurationManager->getTypoScriptSettings();
         $emailReceiver = array();
         $emailReceiver[$reveiver] = $reveiver;
         $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
-            ->setFrom(array('noreply@qucosa.de' => 'noreply@qucosa.de'))
+            ->setFrom(array($settings['noReplyAddress'] => $settings['noReplyAddress']))
             ->setTo($emailReceiver)
             ->setSubject($this->replaceMarkers($subject,$args))
             ->setBody($this->replaceMarkers($body,$args),$mailType);

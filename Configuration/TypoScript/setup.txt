@@ -182,6 +182,8 @@ plugin.tx_dpf {
 
 		bibTexMandatoryFields = {$plugin.tx_dpf.settings.bibTexMandatoryFields}
 		riswosMandatoryFields = {$plugin.tx_dpf.settings.riswosMandatoryFields}
+		fedoraNamespace = {$plugin.tx_dpf.settings.fedoraNamespace}
+		noReplyAddress = {$plugin.tx_dpf.settings.noReplyAddress}
     }
 }
 
@@ -207,7 +209,7 @@ search_page {
 		admPanel = 0
 	}
 
-	10 < tt_content.list.20.dpf_qucosaform
+	10 < tt_content.list.20.dpf_kitodopublicationform
 }
 
 # Actions, only allowed for developers and configured hosts
@@ -229,7 +231,7 @@ plugin.tx_dpf.settings.allowedActions {
 # !!ChangeThis!! Secret key for delivering inactive documents via API
 plugin.tx_dpf.settings.deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
 
-page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/qucosa.css
+page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/kitodopublication.css
 page.includeCSS.tx_dpf_backoffice = EXT:dpf/Resources/Public/CSS/backoffice.css
 page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css
 page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jquery-ui.structure.css
@@ -242,7 +244,7 @@ page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/boot
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker-4_17_47.min.js
 page.includeJSFooter.tx_dpf_custom_file_input = EXT:dpf/Resources/Public/JavaScript/bs-custom-file-input.min.js
 page.includeJSFooter.tx_dpfFilesaver = EXT:dpf/Resources/Public/JavaScript/FileSaver/FileSaver.min.js
-page.includeJSFooter.tx_dpf_qucosa = EXT:dpf/Resources/Public/JavaScript/qucosa.js
+page.includeJSFooter.tx_dpf_main = EXT:dpf/Resources/Public/JavaScript/kitodopublication.js
 page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js
 page.includeJSFooter.doubleScroll = EXT:dpf/Resources/Public/JavaScript/jquery.doubleScroll.js
@@ -251,7 +253,7 @@ page.includeJSFooter.doubleScroll = EXT:dpf/Resources/Public/JavaScript/jquery.d
 ajax_page = PAGE
 ajax_page {
     typeNum = 110124
-    10 < tt_content.list.20.dpf_qucosaform
+    10 < tt_content.list.20.dpf_kitodopublicationform
     config{
     disableAllHeaderCode = 1
     admPanel = 0

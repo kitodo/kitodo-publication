@@ -1128,12 +1128,12 @@ var fillOutServiceUrn = function() {
     var groupUid = jQuery(this).attr("data-group");
     var groupIndex = jQuery(this).attr("data-groupindex");
     var ajaxURL = jQuery(this).attr("data-ajax");
-    var qucosaId = jQuery("#qucosaid").val();
+    var fedoraPid = jQuery("#fedorapid").val();
     var params = {};
-    if (qucosaId) {
-        params = buildAjaxParams(ajaxURL, "qucosaId", qucosaId);
+    if (fedoraPid) {
+        params = buildAjaxParams(ajaxURL, "fedoraPid", fedoraPid);
     } else {
-        params = buildAjaxParams(ajaxURL, "qucosaId", "");
+        params = buildAjaxParams(ajaxURL, "fedoraPid", "");
     }
 
     var group = $(this).closest(".fs_group");
@@ -1148,8 +1148,8 @@ var fillOutServiceUrn = function() {
             errorMsg.insertAfter(group.find("legend"));
             $("html, body").animate({scrollTop: group.offset().top}, 200);
         } else {
-            jQuery("#qucosaid").val(element.qucosaId);
-            jQuery("#qucosaUrn").val(element.value);
+            jQuery("#fedorapid").val(element.fedoraPid);
+            jQuery("#primaryUrn").val(element.value);
             var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
             inputField.val(element.value);
             buttonFillOutServiceUrn();
@@ -1165,7 +1165,7 @@ var buttonFillOutServiceUrn = function() {
         var groupUid = jQuery(this).attr("data-group");
         var groupIndex = jQuery(this).attr("data-groupindex");
         var fillOutButton = jQuery('.fill_out_service_urn[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"]');
-        if ((jQuery(this).val() && jQuery(this).val().length > 0) || hasQucosaUrn()) {
+        if ((jQuery(this).val() && jQuery(this).val().length > 0) || hasPrimaryUrn()) {
             fillOutButton.hide();
         } else {
             fillOutButton.show();
@@ -1173,12 +1173,12 @@ var buttonFillOutServiceUrn = function() {
     });
     return false;
 }
-var hasQucosaUrn = function() {
+var hasPrimaryUrn = function() {
     var result = false;
-    var qucosaUrn = jQuery("#qucosaUrn").val();
+    var primaryUrn = jQuery("#primaryUrn").val();
     jQuery("input.urn").each(function() {
         var currentUrn = jQuery(this).val();
-        if (currentUrn && qucosaUrn && (currentUrn == qucosaUrn)) {
+        if (currentUrn && primaryUrn && (currentUrn == primaryUrn)) {
             result = result || true;
         }
     });
@@ -1357,7 +1357,7 @@ function setGndAutocomplete(fieldId, groupIndex) {
     // Get the name of the parameter array (tx_dpf_...),
     // the name depends on whether the call is from the frontend or the backend
     var res = ajaxURL.match(/(tx_dpf\w+?)%/);
-    var paramName = "tx_dpf_qucosaform[search]";
+    var paramName = "tx_dpf_kitodopublicationform[search]";
     if (res && res[1]) {
         paramName = res[1]+"[search]";
     }

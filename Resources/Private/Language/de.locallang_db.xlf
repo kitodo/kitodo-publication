@@ -177,9 +177,9 @@
             <source>Urn xpath</source>
             <target>URN (XPath)</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.qucosa_urn_xpath" approved="yes">
-            <source>Qucosa Urn xpath</source>
-            <target>QUCOSA-URN (XPath)</target>
+        <trans-unit id="tx_dpf_domain_model_client.primary_urn_xpath" approved="yes">
+            <source>Primary Urn xpath</source>
+            <target>Primär-URN (XPath)</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.date_xpath" approved="yes">
             <source>Distribution date</source>
