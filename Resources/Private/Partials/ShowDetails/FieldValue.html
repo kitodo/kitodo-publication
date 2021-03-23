@@ -29,6 +29,11 @@
                     </f:else>
                 </f:if>
             </f:then>
+            <f:else if="{fieldItem.inputField} == 10">
+                <div id="markdown_preview_{fieldItemIterator.index}">
+                    <f:form.textarea id="inp_{fieldItem.uid}" value="{fieldItem.value}" name="md-preview"/>
+                </div>
+            </f:else>
             <f:else>
                 {fieldItem.value}
             </f:else>
