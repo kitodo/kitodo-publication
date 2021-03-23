@@ -245,7 +245,6 @@ page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/Java
 page.includeJSFooter.tx_dpf_custom_file_input = EXT:dpf/Resources/Public/JavaScript/bs-custom-file-input.min.js
 page.includeJSFooter.tx_dpfFilesaver = EXT:dpf/Resources/Public/JavaScript/FileSaver/FileSaver.min.js
 page.includeJSFooter.tx_dpf_main = EXT:dpf/Resources/Public/JavaScript/kitodopublication.js
-page.includeJSFooter.fontawesome = EXT:dpf/Resources/Public/JavaScript/fontawesome/all.js
 page.includeJSFooter.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.js
 page.includeJSFooter.doubleScroll = EXT:dpf/Resources/Public/JavaScript/jquery.doubleScroll.js
 
