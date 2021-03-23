@@ -236,6 +236,8 @@ page.includeCSS.tx_dpf_backoffice = EXT:dpf/Resources/Public/CSS/backoffice.css
 page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css
 page.includeCSS.tx_dpf_jquery_ui_css_structure = EXT:dpf/Resources/Public/CSS/jquery-ui.structure.css
 page.includeCSS.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.min.css
+
+page.includeCSS.fontawesome = EXT:dpf/Resources/Public/CSS/fontawesome/css/all.css
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js
 page.includeJS.tx_dpf_jquery_ui = EXT:dpf/Resources/Public/JavaScript/jquery-ui.min.js
 page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
