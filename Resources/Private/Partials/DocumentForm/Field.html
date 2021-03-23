@@ -133,6 +133,15 @@
                 </f:else>
             </f:if>
         </f:case>
+        <f:case value="10">
+
+            <div id="markdown_area_{fieldItem.uid}">
+                <f:form.textarea id="inp_{fieldItem.uid}"
+                             property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                             value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+            </div>
+        </f:case>
         <f:case value="100">
             <div class="dropdown-options input-group">
                 <f:form.textfield id="inp_{fieldItem.uid}"

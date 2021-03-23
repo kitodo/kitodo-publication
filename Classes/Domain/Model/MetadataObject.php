@@ -85,6 +85,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     const select   = 2;
     const checkbox = 3;
     const hidden   = 4;
+    const textareaMarkdown = 10;
     const INPUTDROPDOWN = 100;
 
     const INPUT_DATA_TYPE_REGEXP = "REGEXP";

@@ -793,6 +793,10 @@
 			<source>input with dropdown</source>
 			<source>Eingabefeld mit Dropdownliste</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.markdownTextarea">
+			<source>textarea with markdown</source>
+			<source>Textfeld mit Markdown Editor</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory" approved="yes">
 			<source>Mandatory</source>
 			<target>Pflicht</target>
