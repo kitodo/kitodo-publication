@@ -33,7 +33,7 @@
 
                     <f:form.button form="batchForm"
                                    type="submit"
-                                   class="btn btn-danger confirm-ok"
+                                   class="btn {f:if(condition: destructiveAction, then: 'btn-danger', else: 'btn-success')} confirm-ok"
                                    additionalAttributes="{data-documenttitle: document.title}"
                                    formmethod="post">
 
