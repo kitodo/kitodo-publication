@@ -14,6 +14,9 @@ namespace EWW\Dpf\Security;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\FrontendUserGroup;
+
 class Security
 {
     /**
@@ -23,6 +26,14 @@ class Security
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository = null;
+
+    /**
+     * frontendUserGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserGroupRepository
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $frontendUserGroupRepository = null;
 
     const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
@@ -47,6 +58,25 @@ class Security
         } else {
             return NULL;
         }
+    }
+
+    /**
+     *
+     */
+    public function getUserAccessToGroups() {
+        if ($this->getUser()) {
+            $frontendUser = $this->getUser();
+            $userGroups = $frontendUser->getUsergroup();
+            $accessToIds = [];
+            foreach ($userGroups as $userGroup) {
+                // Because getUsergroup() does not return objects of the class
+                // \EWW\Dpf\Domain\Model\FrontendUserRepository
+                $userGroup = $this->frontendUserGroupRepository->findByUid($userGroup->getUid());
+                $accessToIds = array_merge($accessToIds, explode(',', $userGroup->getAccessToGroups()));
+            }
+            return $accessToIds;
+        }
+        return NULL;
     }
 
     /**

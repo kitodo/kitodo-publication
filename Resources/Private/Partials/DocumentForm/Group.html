@@ -82,8 +82,8 @@
                     <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
                         <f:if condition="{eww:IsElementAllowed(condition:'{fieldItem.accessRestrictionRoles}')}">
                             <f:then>
-                                <f:render partial="DocumentForm/Field"
-                                          arguments="{formPageUid: formPageUid,formGroupUid: formGroupUid,groupIndex: groupIndex,formField: formField,fieldIndex: fieldItemIterator.index,fieldItem: fieldItem,countries: countries}"/>
+                                <f:variable name="fieldIndex">{fieldItemIterator.index}</f:variable>
+                                <f:render partial="DocumentForm/Field" arguments="{_all}"/>
                                 <f:if condition="{fieldItem.maxIteration} == 0">
                                     <f:if condition="{fieldItemIterator.isLast}">
                                         <button type="submit"
