@@ -38,6 +38,16 @@ $temporaryColumns = array (
             'maxitems' => 1,
         )
     ),
+    'access_to_groups' => [
+        'exclude' => 0,
+        'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.access_to_groups',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectMultipleSideBySide',
+            'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
+            'foreign_table_where' => 'ORDER BY uid',
+        ]
+    ]
 );
 
 
@@ -48,7 +58,7 @@ $temporaryColumns = array (
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'fe_groups',
-    'kitodo_role',
+    'kitodo_role,access_to_groups',
     '',
     'after:title'
 );

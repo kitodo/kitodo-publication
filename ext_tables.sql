@@ -717,6 +717,8 @@ CREATE TABLE tx_dpf_domain_model_editinglock (
 #
 CREATE TABLE fe_groups (
   kitodo_role varchar(255) DEFAULT '' NOT NULL,
+  access_to_groups VARCHAR(255) DEFAULT '' NOT NULL
+
 );
 
 #
