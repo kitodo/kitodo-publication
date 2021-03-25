@@ -877,6 +877,10 @@
     		<source>KITODO Role</source>
     		<target>KITODO-Rolle</target>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_feusergroup.access_to_groups">
+			<source>Access to the following groups</source>
+			<target>Zugriff auf folgende Gruppen erlauben</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_feusergroup.kitodo_role_researcher">
 			<source>Researcher</source>
 			<target>Forschende</target>

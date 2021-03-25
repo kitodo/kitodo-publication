@@ -26,6 +26,12 @@ class FrontendUserGroup extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGrou
      */
     protected $kitodoRole = '';
 
+    /**
+     * contains group ids which are allowed to access
+     * @var string
+     */
+    protected $accessToGroups = '';
+
     public function getKitodoRole()
     {
         return $this->kitodoRole;
@@ -40,5 +46,23 @@ class FrontendUserGroup extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUserGrou
     {
         $this->kitodoRole = $kitodoRole;
     }
+
+    /**
+     * @return string
+     */
+    public function getAccessToGroups(): string
+    {
+        return $this->accessToGroups;
+    }
+
+    /**
+     * @param string $accessToGroups
+     */
+    public function setAccessToGroups(string $accessToGroups): void
+    {
+        $this->accessToGroups = $accessToGroups;
+    }
+
+
 
 }
