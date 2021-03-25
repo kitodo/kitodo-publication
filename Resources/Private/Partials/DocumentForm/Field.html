@@ -86,7 +86,9 @@
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                                              readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')}', then: 'readonly')}"
+                            />
                         </f:else>
                     </f:if>
                 </f:else>
@@ -96,7 +98,9 @@
             <f:form.textarea id="inp_{fieldItem.uid}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                             readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')}', then: 'readonly')}"
+            />
         </f:case>
         <f:case value="2">
             <div class="form-control has-select">
@@ -104,7 +108,9 @@
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
                                additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
-                               options="{fieldItem.inputOptions}"/>
+                               options="{fieldItem.inputOptions}"
+                               disabled="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')}', then: 'disabled')}"
+                />
             </div>
         </f:case>
         <f:case value="3">
@@ -139,7 +145,9 @@
                 <f:form.textarea id="inp_{formPageUid}_{formGroupUid}_{groupIndex}_{fieldItem.uid}_{fieldIndex}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                             readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')}', then: 'readonly')}"
+                />
             </div>
         </f:case>
         <f:case value="100">
@@ -147,7 +155,9 @@
                 <f:form.textfield id="inp_{fieldItem.uid}"
                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                               value="{fieldItem.value}" class="input-field form-control dropdown-options-input {fieldItem.fillOutService}"
-                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                              readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')}', then: 'readonly')}"
+                />
 
                 <span class="input-group-btn">
                     <button class="btn dropdown-options-toggle" type="button">
