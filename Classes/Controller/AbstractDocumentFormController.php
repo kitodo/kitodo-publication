@@ -156,7 +156,9 @@ abstract class AbstractDocumentFormController extends AbstractController
         $this->view->assign('returnDocumentId', $returnDocumentId);
         $this->view->assign('documentForm', $newDocumentForm);
 
-        $this->view->assign('currentUserAccessToGroup', $this->security->getUserAccessToGroups());
+        if (!empty($this->security->getUserAccessToGroups())) {
+            $this->view->assign('currentUserAccessToGroup', $this->security->getUserAccessToGroups());
+        }
 
         if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
             $this->view->assign('fisPersId', $this->security->getFisPersId());
