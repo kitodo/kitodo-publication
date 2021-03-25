@@ -173,10 +173,10 @@
         <f:render partial="ShowDetails/Details" arguments="{_all}"/>
     </div>
 
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
-    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteWorkingCopy'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', reasonOptions:discardOptions, destructiveAction: '1'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions, destructiveAction: '1'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally', destructiveAction: '1'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteWorkingCopy', destructiveAction: '1'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />

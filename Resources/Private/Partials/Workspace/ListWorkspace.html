@@ -82,19 +82,19 @@
 
 </f:if>
 
-<f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally'}" />
-<f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally', destructiveAction: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'discard', reasonRequired: '1', destructiveAction: '1'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'activate'}" />
-<f:render partial="Document/ConfirmAction" arguments="{action: 'inactivate'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'inactivate', destructiveAction: '1'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'restore'}" />
-<f:render partial="Document/ConfirmAction" arguments="{action: 'delete'}" />
-<f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'delete', destructiveAction: '1'}" />
+<f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', destructiveAction: '1'}" />
 <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
 
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchSetInProgress'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRegister'}" />
-<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRemove'}" />
+<f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchRemove', destructiveAction: '1'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchReleaseValidated'}" />
 <f:render partial="Workspace/ConfirmBatchAction" arguments="{action: 'batchReleaseUnvalidated'}" />
 <f:render partial="Workspace/ConfirmRemoveBookmark" />

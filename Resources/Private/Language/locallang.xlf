@@ -1064,8 +1064,14 @@
             <trans-unit id="manager.confirmDoctypeChange.message" approved="yes">
                 <source>By changing the publication type, content from fields that are not available in the new publication type may be lost. This cannot be undone. To keep the current data for later review, copy it out of this summary:</source>
             </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.cancel" approved="yes">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="manager.confirmDoctypeChange.submit" approved="yes">
+                <source>Change now</source>
+            </trans-unit>
             <trans-unit id="manager.confirmDoctypeChange.saveSummary" approved="yes">
-                <source>Zusammenfassung speichern</source>
+                <source>Save summary</source>
             </trans-unit>
 			<trans-unit id="notification.ingestDocument.submitter.body" xml:space="preserve">
 				<source>Your document has been published:

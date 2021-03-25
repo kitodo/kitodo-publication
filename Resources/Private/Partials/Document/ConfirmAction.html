@@ -58,7 +58,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
                         'manager.confirm.no')}
                     </button>
-                    <button type="submit" form="confirm{actionName}Document" class="btn btn-danger">{f:translate(key:
+                    <button type="submit" form="confirm{actionName}Document" class="btn {f:if(condition: destructiveAction, then: 'btn-danger', else: 'btn-success')}">{f:translate(key:
                         'manager.confirm.yes')}
                     </button>
                 </div>
