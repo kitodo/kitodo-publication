@@ -74,7 +74,11 @@ class Security
                 $userGroup = $this->frontendUserGroupRepository->findByUid($userGroup->getUid());
                 $accessToIds = array_merge($accessToIds, explode(',', $userGroup->getAccessToGroups()));
             }
-            return $accessToIds;
+            if (empty($accessToIds[0])) {
+                return null;
+            } else {
+                return $accessToIds;
+            }
         }
         return NULL;
     }
