@@ -1853,6 +1853,10 @@ Datum: ###DATE###
 				<source>DPF: RelatedListTool</source>
 				<target>DPF: RelatedList Tool</target>
 			</trans-unit>
+			<trans-unit id="tt_content.dpf_coins" approved="yes">
+				<source>DPF: Coins</source>
+				<target>DPF: Coins</target>
+			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.apiPid" approved="yes">
 				<source>API Pid</source>
 				<target>API Pid</target>
