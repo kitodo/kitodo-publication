@@ -1351,6 +1351,9 @@ Date: ###DATE###
 			<trans-unit id="tt_content.dpf_relatedlisttool" approved="yes">
 				<source>DPF: RelatedListTool</source>
 			</trans-unit>
+			<trans-unit id="tt_content.dpf_coins">
+				<source>DPF: Coins</source>
+			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.apiPid" approved="yes">
 				<source>API Pid</source>
 			</trans-unit>
