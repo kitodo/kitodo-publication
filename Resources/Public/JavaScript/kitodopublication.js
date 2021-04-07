@@ -1070,6 +1070,7 @@ var addGroup = function(target) {
         if (gndField.length != 0) {
             setGndAutocomplete(gndField.data("field"),gndField.data("groupindex"));
         }
+        loadMdEditor();
     });
     return false;
 }
@@ -1096,6 +1097,7 @@ var addField = function() {
         if (gndField.length != 0) {
             setGndAutocomplete(gndField.data("field"),gndField.data("groupindex"));
         }
+        loadMdEditor();
     });
     return false;
 }
