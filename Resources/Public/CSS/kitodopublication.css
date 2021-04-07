@@ -88,6 +88,10 @@
     display: none;
 }
 
+#h2-h2 {
+    display: block;
+}
+
 .tx-dpf .css-panes {
     border-bottom: 1px solid #e5e5e5;
     min-height: 200px;
