@@ -24,8 +24,9 @@ namespace EWW\Dpf\Plugins\RelatedListTool;
  * @subpackage    tx_dpf
  * @access    public
  */
-class RelatedListTool extends \tx_dlf_plugin
+class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
 {
+    public $scriptRelPath = 'Classes/Plugins/RelatedListTool.php';
 
     /**
      * The main method of the PlugIn
@@ -39,47 +40,33 @@ class RelatedListTool extends \tx_dlf_plugin
      */
     public function main($content, $conf)
     {
-
         $this->init($conf);
 
         // get the tx_dpf.settings too
         // Flexform wins over TS
         $dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
-
         if (is_array($dpfTSconfig['settings.'])) {
-
             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
             $this->conf = $dpfTSconfig['settings.'];
-
         }
 
         // Load current document.
         $this->loadDocument();
-
         if ($this->doc === null) {
-
             // Quit without doing anything if required variables are not set.
             return $content;
-
         }
 
         // Load template file.
         if (!empty($this->conf['templateFile'])) {
-
-            $this->template = $this->cObj->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
-
+            $this->template = $this->templateService->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
         } else {
-
-            $this->template = $this->cObj->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/RelatedListTool/template.tmpl'), '###TEMPLATE###');
-
+            $this->template = $this->templateService->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/RelatedListTool/template.tmpl'), '###TEMPLATE###');
         }
-
-        $subpartArray['items'] = $this->cObj->getSubpart($this->template, '###ITEMS###');
+        $subpartArray['items'] = $this->templateService->getSubpart($this->template, '###ITEMS###');
 
         $relatedItems = $this->getRelatedItems();
-
         $content = '';
-
         if (!empty($relatedItems)) {
             foreach ($relatedItems as $key => $value) {
                 // set link
@@ -92,42 +79,32 @@ class RelatedListTool extends \tx_dlf_plugin
                     );
 
                     $metsApiUrl = urlencode($this->cObj->typoLink_URL($confApi));
-
                     $conf = array(
                         'useCacheHash'     => 1,
                         'parameter'        => $GLOBALS['TSFE']->page['uid'],
                         'additionalParams' => '&tx_dlf[id]=' . $metsApiUrl,
                         'forceAbsoluteUrl' => true,
                     );
-
                 } elseif ($value['type'] == 'urn') {
                     // use urn link
                     $conf = array(
                         'useCacheHash'     => 0,
-                        'parameter'        => 'http://nbn-resolving.de/' . $value['docId'],
+                        'parameter'        => 'https://nbn-resolving.de/' . $value['docId'],
                         'forceAbsoluteUrl' => true,
                     );
-
                 } else {
-
                     $conf = array(
                         'useCacheHash'     => 0,
                         'forceAbsoluteUrl' => true,
                     );
-
                 }
-
                 $title = $value['title'] ? $value['title'] : $value['docId'];
-
                 // replace uid with URI to dpf API
                 $markerArray['###ITEM###'] = $this->cObj->typoLink($title, $conf);
-
                 $content .= $this->cObj->substituteMarkerArray($subpartArray['items'], $markerArray);
             }
         }
-
         return $this->cObj->substituteSubpart($this->template, '###ITEMS###', $content, true);
-
     }
 
     private function compareByOrderVolumeTitle($a, $b)
@@ -140,9 +117,7 @@ class RelatedListTool extends \tx_dlf_plugin
     public function getRelatedItems()
     {
         $xPath = '//mods:relatedItem[@type="constituent"]';
-
         $items = $this->doc->mets->xpath($xPath);
-
         $relatedItems = array();
 
         foreach ($items as $index => $relatedItemXmlElement) {
@@ -164,11 +139,8 @@ class RelatedListTool extends \tx_dlf_plugin
 
             $relatedItems[$index] = $element;
         }
-
         usort($relatedItems, array('EWW\Dpf\Plugins\RelatedListTool\RelatedListTool', 'compareByOrderVolumeTitle'));
-
         return $relatedItems;
     }
 
 }
-
