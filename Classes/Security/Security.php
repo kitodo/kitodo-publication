@@ -72,7 +72,20 @@ class Security
                 // Because getUsergroup() does not return objects of the class
                 // \EWW\Dpf\Domain\Model\FrontendUserRepository
                 $userGroup = $this->frontendUserGroupRepository->findByUid($userGroup->getUid());
-                $accessToIds = array_merge($accessToIds, explode(',', $userGroup->getAccessToGroups()));
+                if (!empty($userGroup->getAccessToGroups())) {
+                    $accessToIds = array_merge($accessToIds, explode(',', $userGroup->getAccessToGroups()));
+                }
+
+                // get first subgroups // TODO How deep? Recursion needed?
+                $subGroups = $userGroup->getSubgroup();
+                if ($subGroups) {
+                    foreach ($subGroups as $subGroup) {
+                        $subGroup = $this->frontendUserGroupRepository->findByUid($subGroup->getUid());
+                        if (!empty($subGroup->getAccessToGroups())) {
+                            $accessToIds = array_merge($accessToIds, explode(',', $subGroup->getAccessToGroups()));
+                        }
+                    }
+                }
             }
             if (empty($accessToIds[0])) {
                 return null;
