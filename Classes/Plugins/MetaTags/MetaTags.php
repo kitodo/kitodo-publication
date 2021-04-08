@@ -16,7 +16,6 @@ namespace EWW\Dpf\Plugins\MetaTags;
 
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Plugin 'DPF: MetaTags' for the 'dlf / dpf' extension.
@@ -26,8 +25,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @subpackage    tx_dpf
  * @access    public
  */
-class MetaTags extends \tx_dlf_plugin
+class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
 {
+    public $scriptRelPath = 'Classes/Plugins/MetaTags.php';
 
     /**
      * @type \TYPO3\CMS\Core\Page\PageRenderer
@@ -53,38 +53,25 @@ class MetaTags extends \tx_dlf_plugin
         // get the tx_dpf.settings too
         // Flexform wins over TS
         $dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
-
         if (is_array($dpfTSconfig['settings.'])) {
-
             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
             $this->conf = $dpfTSconfig['settings.'];
-
         }
-
         // Turn cache on.
         $this->setCache(true);
-
         // Load current document.
         $this->loadDocument();
-
         if ($this->doc === null) {
-
             // Quit without doing anything if required variables are not set.
             return $content;
-
         } else {
-
             // Set default values if not set.
             if (!isset($this->conf['rootline'])) {
-
                 $this->conf['rootline'] = 0;
-
             }
-
         }
 
         $metadata = array();
-
         $metadata = $this->doc->getTitleData($this->conf['pages']);
 
         // Collect files from download file group
@@ -93,7 +80,6 @@ class MetaTags extends \tx_dlf_plugin
         }
 
         $metadata['_id'] = $this->doc->toplevelId;
-
         if (empty($metadata)) {
 
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
@@ -105,15 +91,11 @@ class MetaTags extends \tx_dlf_plugin
             );
 
             return;
-
         }
 
         ksort($metadata);
-
         $this->printMetaTags($metadata);
-
         return;
-
     }
 
     /**
@@ -129,10 +111,8 @@ class MetaTags extends \tx_dlf_plugin
     {
 
         $output = '';
-
         // Load all the metadata values into the content object's data array.
         foreach ($metadata as $index_name => $values) {
-
             if (preg_match("/^author[[:digit:]]+/", $index_name)) {
                 if (is_array($values)) {
                     foreach ($values as $id => $value) {
@@ -142,44 +122,29 @@ class MetaTags extends \tx_dlf_plugin
                     }
                 }
             }
-
             switch ($index_name) {
-
                 case 'title':
-
                     if (is_array($values)) {
-
                         $outArray['citation_title'][] = $values[0];
-
                         $GLOBALS['TSFE']->page['title'] =  $values[0];
-
                     }
-
                     break;
 
                 case 'dateissued':
-
                     if (is_array($values)) {
-
                         if ($values[0]) {
                             // Provide full dates in the "2010/5/12" format if available; or a year alone otherwise.
                             $outArray['citation_online_date'][] = $this->safelyFormatDate("Y/m/d", $values[0]);
                         }
-
                     }
-
                     break;
 
                 case 'publication_date':
-
                     if (is_array($values)) {
-
                         if ($values[0]) {
                             $outArray['citation_publication_date'][] = $this->safelyFormatDate("Y", $values[0]);
                         }
-
                     }
-
                     break;
 
                 case 'attachments':
@@ -195,47 +160,30 @@ class MetaTags extends \tx_dlf_plugin
                     break;
 
                 case 'abstract_ger':
-
                     $lang = $GLOBALS['TSFE']->lang;
-
                     if (is_array($values) && $GLOBALS['TSFE']->lang == 'de') {
-
                         $outArray['description'][] = $values[0];
-
                     }
-
                     break;
 
                 case 'abstract_eng':
-
                     if (is_array($values) && $GLOBALS['TSFE']->lang == 'en') {
-
                         $outArray['description'][] = $values[0];
-
                     }
-
                     break;
 
                 default:
-
                     break;
-
             }
-
         }
 
         foreach ($outArray as $tagName => $values) {
-
             foreach ($values as $value) {
                 $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
-                $pageRenderer->addMetaTag('<meta name="' . $tagName . '" content="' . $value . '">');
-
+                $pageRenderer->addMetaTag('<meta name="' . $tagName . '" content="' . htmlspecialchars($value) . '">');
             }
-
         }
-
         return $output;
-
     }
 
     /**
@@ -269,15 +217,12 @@ class MetaTags extends \tx_dlf_plugin
         if (is_array($files)) {
             foreach ($files as $key => $file) {
                 $singleFile = array();
-
                 foreach ($file->attributes('mext', 1) as $attribute => $value) {
                     $singleFile[$attribute] = $value;
                 }
-
                 foreach ($file->attributes() as $attribute => $value) {
                     $singleFile[$attribute] = $value;
                 }
-
                 $attachments[(string) $singleFile['ID']] = $singleFile;
             }
         }
@@ -288,5 +233,4 @@ class MetaTags extends \tx_dlf_plugin
 
         return $attachments;
     }
-
 }
