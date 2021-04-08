@@ -164,9 +164,8 @@
         </f:if>
 
         <h5 class="documentform">{f:translate(key: 'documentForm.processNumber')}: {documentForm.processNumber}</h5>
-
-        <f:render partial="DocumentForm/FormBody"
-                  arguments="{documentForm:documentForm, edit:1, suggestMod:suggestMod, fisPersId:fisPersId}"/>
+        <f:variable name="edit">1</f:variable>
+        <f:render partial="DocumentForm/FormBody" arguments="{_all}"/>
 
     </f:form>
 

@@ -18,5 +18,5 @@
     <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
     <f:form.hidden id="fedorapid" property="fedoraPid" value="{documentForm.fedoraPid}"/>
     <f:form.hidden id="primaryUrn" property="primaryUrn" value="{documentForm.primaryUrn}"/>
-    <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, suggestMod:suggestMod}"/>
+    <f:render partial="DocumentForm/FormBody" arguments="{_all}"/>
 </f:form>
