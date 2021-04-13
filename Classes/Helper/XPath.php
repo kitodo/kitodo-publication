@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Helper;
 
 /*
@@ -21,6 +22,9 @@ class XPath
      * Returns a new XPath object for the given DOMDocument,
      * all required namespaces are already registered.
      *
+     * These namespace prefixes are often used in configuration and code, assuming the given namespace.
+     * Since Kitodo.Publication 4.x namespaces and prefixes are part of the configuration.
+     *
      * @param \DOMDocument $dom
      * @return \DOMXPath
      */
@@ -32,7 +36,7 @@ class XPath
         $xpath->registerNamespace('foaf', "http://xmlns.com/foaf/0.1/");
         $xpath->registerNamespace('person', "http://www.w3.org/ns/person#");
         $xpath->registerNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+        $xpath->registerNamespace('xlink', "http://www.w3.org/1999/xlink");
         return $xpath;
     }
-
 }
