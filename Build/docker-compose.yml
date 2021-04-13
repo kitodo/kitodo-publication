@@ -26,7 +26,8 @@ services:
         extra_hosts:
             - "xdebug.remote.host:${ENV_HOST_IP}"
         environment:
-            XDEBUG_CONFIG: remote_host=xdebug.remote.host remote_port=9000 remote_enable=1
+            XDEBUG_CONFIG: client_host=xdebug.remote.host
+            XDEBUG_TRIGGER: 1
         volumes:
             - ..:/app
             - fileadmin:/var/www/html/fileadmin

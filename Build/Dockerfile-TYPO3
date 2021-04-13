@@ -23,8 +23,10 @@ RUN apt-get update && \
     echo 'post_max_size = 32M' >> /usr/local/etc/php/conf.d/typo3.ini && \
     echo 'xdebug.max_nesting_level = 400' >> /usr/local/etc/php/conf.d/typo3.ini && \
 # Install XDebug
-    pecl install xdebug && \
+    pecl install xdebug-3.0.4 && \
     echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini && \
 # Configure Apache as needed
     a2enmod rewrite && \
 # Remove build libraries
