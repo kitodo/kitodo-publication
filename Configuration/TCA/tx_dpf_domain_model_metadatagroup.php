@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type',
+        'searchFields'             => 'name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type, optional_groups, required_groups',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type, optional_groups, required_groups',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, mandatory, mapping_for_reading, mapping, mods_extension_mapping, mods_extension_reference, json_mapping, max_iteration, metadata_object, access_restriction_roles, info_text, group_type, optional_groups, required_groups, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -296,6 +296,26 @@ return array(
                 ],
             ],
         ],
+        'optional_groups' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.optional_groups',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
+                'foreign_table_where' => 'mandatory = 1 AND {#tx_dpf_domain_model_metadatagroup}.{#uid} != ###THIS_UID### ORDER BY uid',
+            ]
+        ],
+        'required_groups' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.required_groups',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dpf_domain_model_metadatagroup',
+                'foreign_table_where' => 'mandatory = 0 AND {#tx_dpf_domain_model_metadatagroup}.{#uid} != ###THIS_UID### ORDER BY uid',
+            ]
+        ]
 
     ),
 );

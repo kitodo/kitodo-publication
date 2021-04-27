@@ -35,6 +35,16 @@ class DocumentFormGroup extends AbstractFormElement
     protected $emptyGroup = false;
 
     /**
+     * @var string
+     */
+    protected $optionalGroups = '';
+
+    /**
+     * @var string
+     */
+    protected $requiredGroups = '';
+
+    /**
      * Returns the infoText
      *
      * @return string $infoText
@@ -86,5 +96,39 @@ class DocumentFormGroup extends AbstractFormElement
     {
         $this->emptyGroup = boolval($emptyGroup);
     }
+
+    /**
+     * @return string
+     */
+    public function getOptionalGroups(): string
+    {
+        return $this->optionalGroups;
+    }
+
+    /**
+     * @param string $optionalGroups
+     */
+    public function setOptionalGroups(string $optionalGroups): void
+    {
+        $this->optionalGroups = $optionalGroups;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequiredGroups(): string
+    {
+        return $this->requiredGroups;
+    }
+
+    /**
+     * @param string $requiredGroups
+     */
+    public function setRequiredGroups(string $requiredGroups): void
+    {
+        $this->requiredGroups = $requiredGroups;
+    }
+
+
 
 }
