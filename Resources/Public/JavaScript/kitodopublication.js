@@ -814,6 +814,25 @@ var validateFormOnly = function() {
     }
     return false;
 }
+
+var changeMandatory = function (selector, newValue, oldValue) {
+    var groupSelector = 'fieldset:not([data-' + selector + '=""])';
+
+    $(groupSelector).each(function () {
+        var currentFieldset = $(this);
+        var value = '';
+        if (checkFilledInputs(currentFieldset)) {
+            value = newValue;
+        } else {
+            value = oldValue;
+        }
+        var groupIds = String(currentFieldset.data(selector)).split(',');
+        groupIds.forEach(function (entry) {
+            $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', value);
+        });
+    });
+}
+
 var validateForm = function() {
     var error = false;
     jQuery("span.mandatory-error").remove();
@@ -824,6 +843,43 @@ var validateForm = function() {
     jQuery(".input-field[data-mandatory]").each(function() {
         jQuery(this).removeClass("mandatory-error");
     });
+
+    changeMandatory('optionalgroups', 1, 0);
+    changeMandatory('requiredgroups', 0, 1);
+
+    // // change mandatory groups
+    // var optionalGroupSelector = 'fieldset:not([data-optionalgroups=""])';
+    //
+    // $(optionalGroupSelector).each(function () {
+    //     var currentFieldset = $(this);
+    //     if (!checkFilledInputs(currentFieldset)) {
+    //         var optionalGroupIds = String(currentFieldset.data('optionalgroups')).split(',');
+    //         optionalGroupIds.forEach(function (entry) {
+    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 0);
+    //         });
+    //     } else {
+    //         var optionalGroupIds = String(currentFieldset.data('optionalgroups')).split(',');
+    //         optionalGroupIds.forEach(function (entry) {
+    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 1);
+    //         });
+    //     }
+    // });
+    //
+    // var requiredGroupSelector = 'fieldset:not([data-requiredgroups=""])';
+    // $(requiredGroupSelector).each(function () {
+    //     var currentFieldset = $(this);
+    //     if (!checkFilledInputs(currentFieldset)) {
+    //         var requiredGroupIds = String(currentFieldset.data('requiredgroups')).split(',');
+    //         requiredGroupIds.forEach(function (entry) {
+    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 1);
+    //         });
+    //     } else {
+    //         var requiredGroupIds = String(currentFieldset.data('requiredgroups')).split(',');
+    //         requiredGroupIds.forEach(function (entry) {
+    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 0);
+    //         });
+    //     }
+    // });
 
     // check mandatory groups
     var search = 'fieldset[data-mandatory="'+constants['mandatory']+'"]';
