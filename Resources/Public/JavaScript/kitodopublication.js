@@ -844,42 +844,9 @@ var validateForm = function() {
         jQuery(this).removeClass("mandatory-error");
     });
 
+    // change mandatory if configuration is set
     changeMandatory('optionalgroups', 1, 0);
     changeMandatory('requiredgroups', 0, 1);
-
-    // // change mandatory groups
-    // var optionalGroupSelector = 'fieldset:not([data-optionalgroups=""])';
-    //
-    // $(optionalGroupSelector).each(function () {
-    //     var currentFieldset = $(this);
-    //     if (!checkFilledInputs(currentFieldset)) {
-    //         var optionalGroupIds = String(currentFieldset.data('optionalgroups')).split(',');
-    //         optionalGroupIds.forEach(function (entry) {
-    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 0);
-    //         });
-    //     } else {
-    //         var optionalGroupIds = String(currentFieldset.data('optionalgroups')).split(',');
-    //         optionalGroupIds.forEach(function (entry) {
-    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 1);
-    //         });
-    //     }
-    // });
-    //
-    // var requiredGroupSelector = 'fieldset:not([data-requiredgroups=""])';
-    // $(requiredGroupSelector).each(function () {
-    //     var currentFieldset = $(this);
-    //     if (!checkFilledInputs(currentFieldset)) {
-    //         var requiredGroupIds = String(currentFieldset.data('requiredgroups')).split(',');
-    //         requiredGroupIds.forEach(function (entry) {
-    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 1);
-    //         });
-    //     } else {
-    //         var requiredGroupIds = String(currentFieldset.data('requiredgroups')).split(',');
-    //         requiredGroupIds.forEach(function (entry) {
-    //             $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', 0);
-    //         });
-    //     }
-    // });
 
     // check mandatory groups
     var search = 'fieldset[data-mandatory="'+constants['mandatory']+'"]';
