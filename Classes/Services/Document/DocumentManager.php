@@ -300,9 +300,11 @@ class DocumentManager
             $recipients = $this->getNewPublicationNotificationRecipients($document);
             $this->notifier->sendMyPublicationNewNotification($document, $recipients);
 
-            /** @var Notifier $notifier */
-            $notifier = $this->objectManager->get(Notifier::class);
-            $notifier->sendChangedDocumentNotification($document, $addedFisIdOnly);
+          if ($document->getLocalState() !== DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+                /** @var Notifier $notifier */
+                $notifier = $this->objectManager->get(Notifier::class);
+                $notifier->sendChangedDocumentNotification($document, $addedFisIdOnly);
+            }
         }
 
         return $updateResult;
