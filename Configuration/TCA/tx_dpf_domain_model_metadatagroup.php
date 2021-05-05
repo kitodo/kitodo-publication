@@ -298,7 +298,7 @@ return array(
         ],
         'optional_groups' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.optional_groups',
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.optional_groups',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
@@ -308,7 +308,7 @@ return array(
         ],
         'required_groups' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_feusergroup.required_groups',
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.required_groups',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
