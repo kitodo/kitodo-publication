@@ -14,6 +14,7 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -146,6 +147,7 @@ class DocumentMapper
             $documentFormPage->setAccessRestrictionRoles($metadataPage->getAccessRestrictionRoles());
 
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
+                /** @var MetadataGroup $metadataGroup */
 
                 $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
                 $documentFormGroup->setUid($metadataGroup->getUid());
@@ -158,6 +160,9 @@ class DocumentMapper
                 $documentFormGroup->setInfoText($metadataGroup->getInfoText());
                 $documentFormGroup->setGroupType($metadataGroup->getGroupType());
                 $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
+
+                $documentFormGroup->setOptionalGroups($metadataGroup->getOptionalGroups());
+                $documentFormGroup->setRequiredGroups($metadataGroup->getRequiredGroups());
 
                 $xpath = $internalFormat->getXpath();
 

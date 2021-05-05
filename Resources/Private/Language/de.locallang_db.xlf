@@ -701,6 +701,14 @@
 			<source>Name</source>
 			<target>Name</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.optional_groups" approved="yes">
+			<source>Optional groups (shows only groups which are mandatory)</source>
+			<target>Optionale Gruppen (Zeigt nur Gruppen die als Pflichtgruppe konfiguriert sind)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.required_groups" approved="yes">
+			<source>Required groups (shows only groups which are not mandatory)</source>
+			<target>Pflichtgruppen (Zeigt nur Gruppen die nicht als Pflichtgruppe konfiguriert sind)</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject" approved="yes">
 			<source>Metadata Object</source>
 			<target>Metadatenobjekt</target>

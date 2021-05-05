@@ -112,6 +112,16 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     protected $jsonMapping = '';
 
     /**
+     * @var string
+     */
+    protected $optionalGroups = '';
+
+    /**
+     * @var string
+     */
+    protected $requiredGroups = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -516,4 +526,38 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     {
         $this->jsonMapping = $jsonMapping;
     }
+
+    /**
+     * @return string
+     */
+    public function getOptionalGroups(): string
+    {
+        return $this->optionalGroups;
+    }
+
+    /**
+     * @param string $optionalGroups
+     */
+    public function setOptionalGroups(string $optionalGroups): void
+    {
+        $this->optionalGroups = $optionalGroups;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequiredGroups(): string
+    {
+        return $this->requiredGroups;
+    }
+
+    /**
+     * @param string $requiredGroups
+     */
+    public function setRequiredGroups(string $requiredGroups): void
+    {
+        $this->requiredGroups = $requiredGroups;
+    }
+
+
 }

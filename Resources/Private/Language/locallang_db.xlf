@@ -524,6 +524,12 @@
 		<trans-unit id="tx_dpf_domain_model_metadatagroup.name">
 			<source>Name</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.optional_groups" approved="yes">
+			<source>Optional groups (shows only groups which are mandatory)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadatagroup.required_groups" approved="yes">
+			<source>Required groups (shows only groups which are not mandatory)</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject">
 			<source>Metadata Object</source>
 		</trans-unit>

@@ -814,6 +814,25 @@ var validateFormOnly = function() {
     }
     return false;
 }
+
+var changeMandatory = function (selector, newValue, oldValue) {
+    var groupSelector = 'fieldset:not([data-' + selector + '=""])';
+
+    $(groupSelector).each(function () {
+        var currentFieldset = $(this);
+        var value = '';
+        if (checkFilledInputs(currentFieldset)) {
+            value = newValue;
+        } else {
+            value = oldValue;
+        }
+        var groupIds = String(currentFieldset.data(selector)).split(',');
+        groupIds.forEach(function (entry) {
+            $('fieldset[data-group="' + entry + '"]').attr('data-mandatory', value);
+        });
+    });
+}
+
 var validateForm = function() {
     var error = false;
     jQuery("span.mandatory-error").remove();
@@ -824,6 +843,10 @@ var validateForm = function() {
     jQuery(".input-field[data-mandatory]").each(function() {
         jQuery(this).removeClass("mandatory-error");
     });
+
+    // change mandatory if configuration is set
+    changeMandatory('optionalgroups', 1, 0);
+    changeMandatory('requiredgroups', 0, 1);
 
     // check mandatory groups
     var search = 'fieldset[data-mandatory="'+constants['mandatory']+'"]';

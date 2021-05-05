@@ -153,6 +153,8 @@ CREATE TABLE tx_dpf_domain_model_metadatagroup (
   info_text text NOT NULL,
   metadata_object int(11) unsigned DEFAULT '0' NOT NULL,
   group_type varchar(50) DEFAULT '' NOT NULL,
+  optional_groups VARCHAR(255) DEFAULT '' NOT NULL,
+  required_groups VARCHAR(255) DEFAULT '' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
