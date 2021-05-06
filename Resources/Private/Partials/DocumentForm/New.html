@@ -14,8 +14,9 @@
 </f:comment>
 
 <f:form action="create" class="document-form-main" id="new-document-form" name="documentData" object="{documentData}" enctype="multipart/form-data" noCacheHash="TRUE">
+    <f:form.hidden id="csrfToken" property="csrfToken" value="{documentForm.csrfToken}"/>
     <f:form.hidden property="type" value="{documentForm.uid}"/>
     <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
     <f:form.hidden id="qucosaUrn" property="qucosaUrn" value="{documentForm.qucosaUrn}"/>
-    <f:render partial="DocumentForm/FormBody" arguments="{documentForm:documentForm, backoffice:backoffice, fisPersId:fisPersId}"/>
+    <f:render partial="DocumentForm/FormBody" arguments="{_all}"/>
 </f:form>

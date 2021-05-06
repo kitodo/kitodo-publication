@@ -70,6 +70,7 @@
                 data-activegroupindex: '{activeGroupIndex}',
                 data-addcurrentfeuser: '{addCurrentFeUser}',
                 data-fispersid: '{fisPersId}'}">
+        <f:form.hidden id="csrfToken" property="csrfToken" value="{documentForm.csrfToken}"/>
         <f:form.hidden property="type" value="{documentForm.uid}"/>
         <f:form.hidden property="documentUid" value="{documentForm.documentUid}"/>
         <f:form.hidden id="qucosaid" property="qucosaId" value="{documentForm.qucosaId}"/>
