@@ -20,7 +20,7 @@ namespace EWW\Dpf\Domain\Repository;
 class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-    public function getSecondaryFilesByDocument(\EWW\Dpf\Domain\Model\document $document)
+    public function getSecondaryFilesByDocument(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         $query = $this->createQuery();
@@ -34,7 +34,7 @@ class FileRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute();
     }
 
-    public function getPrimaryFileByDocument(\EWW\Dpf\Domain\Model\document $document)
+    public function getPrimaryFileByDocument(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         $query = $this->createQuery();
