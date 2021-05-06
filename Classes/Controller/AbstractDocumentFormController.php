@@ -22,7 +22,7 @@ use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
-
+use Exception;
 
 /**
  * DocumentFormController
@@ -176,7 +176,12 @@ abstract class AbstractDocumentFormController extends AbstractController
             $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
 
-            $docForm                             = $formDataReader->getDocumentForm();
+            $docForm = $formDataReader->getDocumentForm();
+
+            if (!$docForm->hasValidCsrfToken()) {
+                throw new Exception("Invalid CSRF Token");
+            }
+
             $requestArguments['newDocumentForm'] = $docForm;
 
             $docTypeUid = $documentData['type'];
@@ -335,6 +340,10 @@ abstract class AbstractDocumentFormController extends AbstractController
             $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
             $docForm = $formDataReader->getDocumentForm();
+
+            if (!$docForm->hasValidCsrfToken()) {
+                throw new Exception("Invalid CSRF Token");
+            }
 
             $requestArguments['documentForm'] = $docForm;
 
