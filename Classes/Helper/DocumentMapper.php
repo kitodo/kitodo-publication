@@ -73,6 +73,7 @@ class DocumentMapper
     {
 
         $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();
+        $documentForm->generateCsrfToken();
         $documentForm->setUid($document->getDocumentType()->getUid());
         $documentForm->setDisplayName($document->getDocumentType()->getDisplayName());
         $documentForm->setName($document->getDocumentType()->getName());

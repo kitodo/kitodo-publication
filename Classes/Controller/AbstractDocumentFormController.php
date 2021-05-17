@@ -20,6 +20,7 @@ use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Helper\FormDataReader;
+use Exception;
 
 /**
  * DocumentFormController
@@ -184,7 +185,12 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
 
-            $docForm                             = $formDataReader->getDocumentForm();
+            $docForm = $formDataReader->getDocumentForm();
+
+            if (!$docForm->hasValidCsrfToken()) {
+                throw new Exception("Invalid CSRF Token");
+            }
+
             $requestArguments['newDocumentForm'] = $docForm;
 
             $docTypeUid = $documentData['type'];
@@ -301,6 +307,10 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
             $formDataReader = $this->objectManager->get(FormDataReader::class);
             $formDataReader->setFormData($documentData);
             $docForm = $formDataReader->getDocumentForm();
+
+            if (!$docForm->hasValidCsrfToken()) {
+                throw new Exception("Invalid CSRF Token");
+            }
 
             $requestArguments['documentForm'] = $docForm;
 
