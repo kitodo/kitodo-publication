@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, document',
+        'searchFields'             => 'title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, file_identifier, document',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, document',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, file_identifier, document',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, document, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, title, label, download, archive, file_group_deleted, content_type, link, status, datastream_identifier, primary_file, file_identifier, document, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -226,7 +226,15 @@ return array(
                 'default' => 0,
             ),
         ),
-
+        'file_identifier'                  => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.link',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ),
+        ),
         'document'              => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_file.document',

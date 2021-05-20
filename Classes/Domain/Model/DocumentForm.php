@@ -47,27 +47,9 @@ class DocumentForm extends AbstractFormElement
 
     /**
      *
-     * @var \EWW\Dpf\Domain\Model\File
-     */
-    protected $primaryFile;
-
-    /**
-     *
      * @var array
      */
-    protected $secondaryFiles;
-
-    /**
-     *
-     * @var array
-     */
-    protected $deletedFiles;
-
-    /**
-     *
-     * @var array
-     */
-    protected $newFiles;
+    protected $files;
 
     /**
      *
@@ -204,52 +186,19 @@ class DocumentForm extends AbstractFormElement
         $this->fedoraPid = $fedoraPid;
     }
 
-    /**
-     *
-     * @param type \EWW\Dpf\Domain\Model\File $primaryFile
-     */
-    public function setPrimaryFile($primaryFile)
+    public function getFiles()
     {
-        $this->primaryFile = $primaryFile;
+        return $this->files;
     }
 
-    /**
-     *
-     * @return \EWW\Dpf\Domain\Model\File
-     */
-    public function getPrimaryFile()
+    public function setFiles($files)
     {
-        return $this->primaryFile;
+        $this->files = $files;
     }
 
-    public function setSecondaryFiles($secondaryFiles)
+    public function addFile($file)
     {
-        $this->secondaryFiles = $secondaryFiles;
-    }
-
-    public function getSecondaryFiles()
-    {
-        return $this->secondaryFiles;
-    }
-
-    public function getDeletedFiles()
-    {
-        return $this->deletedFiles;
-    }
-
-    public function setDeletedFiles($deletedFiles)
-    {
-        $this->deletedFiles = $deletedFiles;
-    }
-
-    public function getNewFiles()
-    {
-        return $this->newFiles;
-    }
-
-    public function setNewFiles($newFiles)
-    {
-        $this->newFiles = $newFiles;
+        $this->files[] = $file;
     }
 
     /**
@@ -268,10 +217,10 @@ class DocumentForm extends AbstractFormElement
         $this->valid = boolval($valid);
     }
 
-    public function getNewFileNames()
+    public function getFileNames()
     {
         $fileNames = array();
-        foreach ($this->getNewFiles() as $file) {
+        foreach ($this->getFiles() as $file) {
             $fileNames[] = $file->getTitle();
         }
         return $fileNames;

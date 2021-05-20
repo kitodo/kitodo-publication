@@ -15,6 +15,8 @@ namespace EWW\Dpf\Helper;
  */
 
 use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Domain\Model\DocumentForm;
+use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -97,6 +99,14 @@ class DocumentMapper
      * @var bool
      */
     protected $customClientPid = false;
+
+    /**
+     * clientConfigurationManager
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $clientConfigurationManager;
 
     /**
      * Get typoscript settings
@@ -300,6 +310,24 @@ class DocumentMapper
 
                                     $documentFormFieldItem->setValue($objectValue, $metadataObject->getDefaultValue());
 
+                                    if ($metadataGroup->isFileGroup() && $metadataObject->isUploadField()) {
+
+                                        $fileIdentifier = '';
+                                        $fileIdXpath = $this->clientConfigurationManager->getFileIdXpath();
+                                        $fileIdentifierNode = $xpath->query($fileIdXpath, $data);
+                                        if ($fileIdentifierNode->length > 0) {
+                                            $fileIdentifier = $fileIdentifierNode->item(0)->nodeValue;
+                                        }
+
+                                        if ($fileIdentifier) {
+                                            $file = $document->getFileByFileIdentifier($fileIdentifier);
+                                            if ($file) {
+                                                $documentFormFieldItem->setFile($file);
+                                                $documentForm->addFile($file);
+                                            }
+                                        }
+                                    }
+
                                     $documentFormGroupItem->addItem($documentFormFieldItem);
                                 }
                             } else {
@@ -350,13 +378,6 @@ class DocumentMapper
             $documentForm->addItem($documentFormPage);
         }
 
-        // Files
-        $primaryFile = $this->fileRepository->getPrimaryFileByDocument($document);
-        $documentForm->setPrimaryFile($primaryFile);
-
-        $secondaryFiles = $this->fileRepository->getSecondaryFilesByDocument($document)->toArray();
-        $documentForm->setSecondaryFiles($secondaryFiles);
-
         return $documentForm;
     }
 
@@ -399,11 +420,8 @@ class DocumentMapper
 
         $exporter = new \EWW\Dpf\Services\ParserGenerator($this->clientPid);
 
-        $exporter->setFileData($document->getFileData());
-
         $documentData['documentUid'] = $documentForm->getDocumentUid();
         $documentData['metadata']    = $formMetaData['mods'];
-        $documentData['files']       = array();
 
         $exporter->buildXmlFromForm($documentData);
 
@@ -414,6 +432,7 @@ class DocumentMapper
         $internalFormat->setDocumentType($documentType->getName());
         $internalFormat->setProcessNumber($processNumber);
 
+        $document = $this->updateFiles($document, $documentForm->getFiles());
         $document->setXmlData($internalFormat->getXml());
 
         $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getPersonFisIdentifiers(), $fobIdentifiers));
@@ -426,9 +445,13 @@ class DocumentMapper
         return $document;
     }
 
-    public function getMetadata($documentForm)
+    /**
+     * @param DocumentForm $documentForm
+     * @return array
+     * @throws \Exception
+     */
+    public function getMetadata(DocumentForm $documentForm)
     {
-
         foreach ($documentForm->getItems() as $page) {
 
             foreach ($page[0]->getItems() as $group) {
@@ -447,6 +470,8 @@ class DocumentMapper
                     $item['modsExtensionReference'] = trim($metadataGroup->getModsExtensionReference(), " /");
 
                     $item['groupUid'] = $uid;
+
+                    $item['groupType'] = $metadataGroup->getGroupType();
 
                     $fieldValueCount   = 0;
                     $defaultValueCount = 0;
@@ -482,8 +507,9 @@ class DocumentMapper
                                 }
                             }
 
+                            $file = $fieldItem->getFile();
                             $value = str_replace('"', "'", $value);
-                            if ($value) {
+                            if ($value || $file) {
                                 $formField['modsExtension'] = $metadataObject->getModsExtension();
 
                                 $formField['mapping'] = $fieldMapping;
@@ -493,6 +519,14 @@ class DocumentMapper
                                     $item['attributes'][] = $formField;
                                 } else {
                                     $item['values'][] = $formField;
+                                }
+
+                                $fileIdXpath = $this->clientConfigurationManager->getFileIdXpath();
+                                if ($file) {
+                                    $item['values'][] = [
+                                        'mapping' => $fileIdXpath,
+                                        'value'   => $file->getFileIdentifier()
+                                    ];
                                 }
                             }
                         }
@@ -542,6 +576,46 @@ class DocumentMapper
     public function isCustomClientPid(): bool
     {
         return $this->customClientPid;
+    }
+
+    /**
+     * Adds and delete file model objects attached to the document.
+     *
+     * @param Document $document
+     * @param array $files
+     * @return Document
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     */
+    protected function updateFiles(Document $document, $files)
+    {
+        $filesToBeDeleted = [];
+        foreach ($document->getFile() as $docFile) {
+            $filesToBeDeleted[$docFile->getFileIdentifier()] = $docFile;
+        }
+        // Add or update files
+        /** @var File $file */
+        foreach ($files as $file) {
+            if ($file->getUid()) {
+                $this->fileRepository->update($file);
+            } else {
+                $this->fileRepository->add($file);
+                $document->addFile($file);
+            }
+
+            if (array_key_exists($file->getFileIdentifier(), $filesToBeDeleted)) {
+                unset($filesToBeDeleted[$file->getFileIdentifier()]);
+            }
+        }
+
+        // Delete files
+        /** @var File $deleteFile */
+        foreach ($filesToBeDeleted as $fileToBeDeleted) {
+            $fileToBeDeleted->setStatus(File::STATUS_DELETED);
+            $this->fileRepository->update($fileToBeDeleted);
+        }
+
+        return $document;
     }
 
 }

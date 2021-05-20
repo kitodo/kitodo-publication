@@ -52,13 +52,4 @@
         </li>
     </f:for>
 
-    <f:if condition="{documentForm.primaryFile} || {documentForm.secondaryFiles}">
-        <li class="details-group">
-            <p class="details-group-name">{f:translate(key: 'form_page.files')}</p>
-            <f:render partial="ShowDetails/File" arguments="{file: documentForm.primaryFile}"/><br />
-            <f:for each="{documentForm.secondaryFiles}" as="secondaryFile" iteration="secondaryFileIterator">
-                <f:render partial="ShowDetails/File" arguments="{file: secondaryFile}"/><br />
-            </f:for>
-        </li>
-    </f:if>
 </ul>

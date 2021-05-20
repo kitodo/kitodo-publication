@@ -12,11 +12,10 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-
 {namespace eww=EWW\Dpf\ViewHelpers}
-<f:link.external uri="{eww:fileUrl(uri:'{file.url}')}" target="_blank" class="file_link">
-    <f:if condition="{file.label}">
-        <f:then>{file.label}</f:then>
-        <f:else>{file.title}</f:else>
+
+<label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
+    <f:if condition="{fieldItem.mandatory}">
+        <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
     </f:if>
-</f:link.external>
+</label>

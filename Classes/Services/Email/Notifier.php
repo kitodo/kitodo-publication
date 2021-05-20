@@ -220,7 +220,7 @@ class Notifier
 
         $args['###HAS_FILES###'] = 'Metadata only';
 
-        if ($document->getFileData()) {
+        if ($document->hasFiles()) {
             $args['###HAS_FILES###'] = 'Attachment';
             $fileList = [];
             foreach ($document->getFile() as $file) {

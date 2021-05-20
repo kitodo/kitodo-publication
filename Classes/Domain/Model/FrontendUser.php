@@ -36,12 +36,12 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserGroupRepository = null;
-    
+
     /**
      * @var boolean
      */
     protected $notifyPersonalLink = 0;
-    
+
     /**
      * @var boolean
      */
@@ -66,7 +66,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      * @var boolean
      */
     protected $notifyFulltextPublished = 0;
-    
+
     /**
      * @var boolean
      */
@@ -142,7 +142,7 @@ class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
                 $clientFrontendGroups[$clientGroup->getUid()] = $clientGroup;
             }
         }
-
+        
         // Get frontend user groups of the user.
         $frontendUserGroups = array();
         foreach ($this->getUsergroup() as $userGroup) {

@@ -378,6 +378,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function getMaxIteration()
     {
+        if ($this->isPrimaryFileGroup()) {
+            return 1;
+        }
         return $this->maxIteration;
     }
 
@@ -389,6 +392,9 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
      */
     public function setMaxIteration($maxIteration)
     {
+        if ($this->isPrimaryFileGroup()) {
+            $maxIteration = 1;
+        }
         $this->maxIteration = $maxIteration;
     }
 
@@ -505,6 +511,21 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
     public function setGroupType(string $groupType)
     {
         $this->groupType = $groupType;
+    }
+
+    public function isFileGroup()
+    {
+        return $this->isPrimaryFileGroup() || $this->isSecondaryFileGroup();
+    }
+
+    public function isPrimaryFileGroup()
+    {
+        return $this->getGroupType() == 'primary_file';
+    }
+
+    public function isSecondaryFileGroup()
+    {
+        return $this->getGroupType() == 'secondary_file';
     }
 
     /**

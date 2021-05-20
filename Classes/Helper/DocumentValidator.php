@@ -153,7 +153,7 @@ class DocumentValidator
      */
     protected function hasFiles(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
     {
-        return $documentForm->getPrimaryFile() || $documentForm->getSecondaryFiles();
+        return $documentForm->getFiles();
     }
 
 

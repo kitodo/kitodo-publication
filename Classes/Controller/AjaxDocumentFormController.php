@@ -14,6 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -57,7 +58,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      */
     public function groupAction($pageUid, $groupUid, $groupIndex)
     {
-
+        /** @var MetadataGroup $group */
         $group = $this->metadataGroupRepository->findByUid($groupUid);
 
         //$groupItem = array();
@@ -87,6 +88,9 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         }
 
         $groupItem->setGroupType($group->getGroupType());
+        $groupItem->setMandatory($group->getMandatory());
+        $groupItem->setMaxIteration($group->getMaxIteration());
+        $groupItem->setEmptyGroup(true);
 
         if ($this->security->getFisPersId()) {
             $this->view->assign('fisPersId', $this->security->getFisPersId());
@@ -147,7 +151,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      *
      * @return void
      */
-    public function primaryUploadAction($groupIndex)
+    public function uploadAction($groupIndex)
     {
     }
 
@@ -163,13 +167,42 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     *
-     * @param integer $fileUid
-     * @param integer $isPrimary
-     * @return void
+     * @param int $fileUid
+     * @param int $pageUid
+     * @param int $groupUid
+     * @param int $groupIndex
+     * @param int $fieldUid
+     * @param int $fieldIndex
+     * @param int $isPrimary
      */
-    public function deleteFileAction($fileUid, $isPrimary = 0)
+    public function deleteFileAction($fileUid, $pageUid, $groupUid, $groupIndex, $fieldUid, $fieldIndex, $isPrimary = 0)
     {
+        $field = $this->metadataObjectRepository->findByUid($fieldUid);
+
+        $fieldItem = new \EWW\Dpf\Domain\Model\DocumentFormField();
+
+        $fieldItem->setUid($field->getUid());
+        $fieldItem->setDisplayName($field->getDisplayName());
+        $fieldItem->setMandatory($field->getMandatory());
+        $fieldItem->setAccessRestrictionRoles($field->getAccessRestrictionRoles());
+        $fieldItem->setInputField($field->getInputField());
+        $fieldItem->setInputOptions($field->getInputOptionList());
+        $fieldItem->setMaxIteration($field->getMaxIteration());
+        $fieldItem->setFillOutService($field->getFillOutService());
+        $fieldItem->setValidation($field->getValidation());
+        $fieldItem->setDataType($field->getDataType());
+        $fieldItem->setGndFieldUid($field->getGndFieldUid());
+        $fieldItem->setMaxInputLength($field->getMaxInputLength());
+        $fieldItem->setValue("", $field->getDefaultValue());
+        $fieldItem->setObjectType($field->getObjectType());
+
+        $this->view->assign('formPageUid', $pageUid);
+        $this->view->assign('formGroupUid', $groupUid);
+        $this->view->assign('groupIndex', $groupIndex);
+
+        $this->view->assign('fieldIndex', $fieldIndex);
+        $this->view->assign('fieldItem', $fieldItem);
+
         $this->view->assign('fileUid', $fileUid);
         $this->view->assign('isPrimary', $isPrimary);
     }

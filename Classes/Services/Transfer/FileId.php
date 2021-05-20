@@ -14,19 +14,24 @@ namespace EWW\Dpf\Services\Transfer;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 class FileId
 {
 
     protected $id = 0;
 
-    public function __construct($document)
+    /**
+     * FileId constructor.
+     * @param ObjectStorage $documentFiles
+     */
+    public function __construct(ObjectStorage $documentFiles)
     {
-
         $idList   = array();
         $this->id = 0;
 
-        if (is_a($document->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
-            foreach ($document->getFile() as $file) {
+        if (is_a($documentFiles, ObjectStorage::class)) {
+            foreach ($documentFiles as $file) {
                 $dsId = $file->getDatastreamIdentifier();
                 if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
                     $id       = explode("-", $dsId);

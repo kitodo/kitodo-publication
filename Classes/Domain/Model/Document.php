@@ -300,6 +300,24 @@ class Document extends AbstractEntity
     }
 
     /**
+     * Returns the XML taking into account any existing embargo
+     *
+     * @return string
+     */
+    public function publicXml(): string
+    {
+        $internalFormat = new InternalFormat($this->getXmlData());
+        $currentDate = new \DateTime('now');
+        if ($currentDate < $this->getEmbargoDate()) {
+            $internalFormat->removeAllFiles();
+        } else {
+            $internalFormat->completeFileData($this->getFile());
+        }
+
+        return $internalFormat->getXml();
+    }
+
+    /**
      * Returns the slubInfoData
      *
      * @return string $slubInfoData
@@ -532,103 +550,48 @@ class Document extends AbstractEntity
     }
 
     /**
-     * Get File Data
-     *
-     * @return array
+     * @param string $fileIdentifier
+     * @return \EWW\Dpf\Domain\Model\File|null
      */
-    public function getFileData()
+    public function getFileByFileIdentifier(string $fileIdentifier): ?\EWW\Dpf\Domain\Model\File
     {
-
-        $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
-
-        $files = array();
-
-        if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
-            foreach ($this->getFile() as $file) {
-
-                if (!$file->isFileGroupDeleted()) {
-
-                    $tmpFile = array(
-                        'path' => $file->getUrl(),
-                        'type' => $file->getContentType(),
-                        'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                        'download' => $file->getDownload(),
-                        'archive' => $file->getArchive(),
-                        'use' => '',
-                        'id' => null,
-                        'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                            $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
-                    );
-
-                    $grpUSE = ($file->getDownload()) ? 'download' : 'original';
-
-                    if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
-                        $dataStreamIdentifier = $file->getDatastreamIdentifier();
-                        if (!empty($dataStreamIdentifier)) {
-                            $tmpFile['id'] = $file->getDatastreamIdentifier();
-                            $tmpFile['use'] = 'DELETE';
-                            $files[$grpUSE][$file->getUid()] = $tmpFile;
-                        }
-                    } else {
-                        $tmpFile['id'] = $fileId->getId($file);
-                        $tmpFile['use'] = ($file->getArchive()) ? 'ARCHIVE' : '';
-                        $files[$grpUSE][$file->getUid()] = $tmpFile;
-                    }
-                }
-
+        foreach ($this->file as $file) {
+            if ($file->getFileIdentifier() == $fileIdentifier) {
+                return $file;
             }
         }
-
-        return $files;
+        return null;
     }
 
     /**
-     * Get Current File Data
-     *
-     * @return array
+     * @return \EWW\Dpf\Domain\Model\File|null
      */
-    public function getCurrentFileData()
+    public function getPrimaryFile(): ?\EWW\Dpf\Domain\Model\File
     {
+        /** @var File $file */
+        foreach ($this->file as $file) {
+            if ($file->isPrimaryFile()) {
+                return $file;
+            }
+        }
+        return null;
+    }
 
-        $fileId = new \EWW\Dpf\Services\Transfer\FileId($this);
-
-        $files = array();
-
+    /**
+     * Has files
+     */
+    public function hasFiles()
+    {
         if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
             foreach ($this->getFile() as $file) {
-
-                $tmpFile = array(
-                    'path' => $file->getUrl(),
-                    'type' => $file->getContentType(),
-                    'title' => (($file->getLabel()) ? $file->getLabel() : $file->getTitle()),
-                    'download' => $file->getDownload(),
-                    'archive' => $file->getArchive(),
-                    'use' => '',
-                    'id' => null,
-                    'hasFLocat' => ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
-                        $file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED),
-                );
-
-                $grpUSE = ($file->getDownload()) ? 'download' : 'original';
-
-                if ($file->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED) {
-                    $dataStreamIdentifier = $file->getDatastreamIdentifier();
-                    if (!empty($dataStreamIdentifier)) {
-                        $tmpFile['id'] = $file->getDatastreamIdentifier();
-                        $tmpFile['use'] = 'DELETE';
-                        $files[$grpUSE][$file->getUid()] = $tmpFile;
-                    }
-                } else {
-                    $tmpFile['id'] = $fileId->getId($file);
-                    $tmpFile['use'] = ($file->getArchive()) ? 'ARCHIVE' : '';
-                    $files[$grpUSE][$file->getUid()] = $tmpFile;
+                /** @var File $file */
+                if (!$file->isFileGroupDeleted()) {
+                    return true;
                 }
-
             }
         }
 
-        return $files;
-
+        return false;
     }
 
     /**

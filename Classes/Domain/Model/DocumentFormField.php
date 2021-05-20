@@ -16,6 +16,7 @@ namespace EWW\Dpf\Domain\Model;
 
 class DocumentFormField extends AbstractFormElement
 {
+    protected $file;
 
     protected $value;
 
@@ -328,13 +329,29 @@ class DocumentFormField extends AbstractFormElement
     {
         if ($this->helpText) {
             $domDocument = new \DOMDocument();
-            $domDocument->loadXML("<html>".$this->helpText."</html>");
+            $domDocument->loadXML("<html>" . $this->helpText . "</html>");
             $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
             $nodes = $xpath->query("//p");
             if ($nodes->length > 0) {
                 return $nodes->item(0)->nodeValue;
             }
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file): void
+    {
+        $this->file = $file;
     }
 
 }

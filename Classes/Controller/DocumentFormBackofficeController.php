@@ -183,17 +183,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
     {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        $hasFilesFlag = true;
-
         $workingCopy = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if ($workingCopy->isTemporary()) {
             $workingCopy->setTemporary(false);
-        }
-
-        if (empty($workingCopy->getFileData())) {
-            // no files are linked to the document
-            $hasFilesFlag = false;
         }
 
         $newDocument = $this->objectManager->get(Document::class);
@@ -220,17 +213,19 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setTransferStatus("RESTORE");
         }
 
-        if (!$hasFilesFlag) {
+        if ($workingCopy->hasFiles()) {
             // Add or update files
-            foreach ($documentForm->getNewFiles() as $newFile) {
-                if ($newFile->getUID()) {
-                    $this->fileRepository->update($newFile);
+            // TODO: Is this still necessary?
+            foreach ($documentForm->getFiles() as $file) {
+                // TODO: Is this still necessary?
+                if ($file->getUID()) {
+                    $this->fileRepository->update($file);
                 } else {
-                    $newFile->setDocument($newDocument);
-                    $this->fileRepository->add($newFile);
+                    $file->setDocument($newDocument);
+                    $this->fileRepository->add($file);
                 }
 
-                $newDocument->addFile($newFile);
+                $newDocument->addFile($file);
             }
         } else {
             // remove files for suggest object
@@ -268,7 +263,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $depositLicenseLog->setUrn($newDocument->getPrimaryUrn());
                 $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
 
-                if ($newDocument->getFileData()) {
+                if ($newDocument->hasFiles()) {
                     $fileList = [];
                     foreach ($newDocument->getFile() as $file) {
                         $fileList[] = $file->getTitle();
@@ -301,7 +296,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         }
 
         $backToList = $this->request->getArgument('documentData')['backToList'];
-        
+
         if ($this->request->hasArgument('saveAndUpdate')) {
             $saveMode = 'saveAndUpdate';
         } elseif ($this->request->hasArgument('saveWorkingCopy')) {
@@ -389,12 +384,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
             }
 
-            if (
-                $this->documentManager->update(
-                    $updateDocument, $workflowTransition,
-                    $documentForm->getDeletedFiles(), $documentForm->getNewFiles()
-                )
-            ) {
+            if ($this->documentManager->update($updateDocument, $workflowTransition)) {
 
                 $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($document->getProcessNumber());
                 if (empty($depositLicenseLog) && $updateDocument->getDepositLicense()) {
@@ -409,7 +399,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     $depositLicenseLog->setUrn($document->getPrimaryUrn());
                     $depositLicenseLog->setLicenceUri($document->getDepositLicense());
 
-                    if ($document->getFileData()) {
+                    if ($document->hasFiles()) {
                         $fileList = [];
                         foreach ($document->getFile() as $file) {
                             $fileList[] = $file->getTitle();

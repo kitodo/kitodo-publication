@@ -191,7 +191,7 @@ abstract class AbstractDocumentFormController extends AbstractController
             if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
-                $t = $docForm->getNewFileNames();
+                $t = $docForm->getFileNames();
                 $this->redirect('list', 'DocumentForm', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
             }
         } else {
@@ -245,8 +245,7 @@ abstract class AbstractDocumentFormController extends AbstractController
             $depositLicenseLog->setUrn($newDocument->getPrimaryUrn());
             $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
 
-            if ($newDocument->getFileData()) {
-
+            if ($newDocument->getHasFiles()) {
                 $fileList = [];
                 foreach ($newDocument->getFile() as $file) {
                     if (!$file->isFileGroupDeleted()) {
@@ -264,17 +263,17 @@ abstract class AbstractDocumentFormController extends AbstractController
         }
 
         // Add or update files
-        $newFiles = $newDocumentForm->getNewFiles();
-
-        if (is_array($newFiles)) {
-            foreach ($newFiles as $newFile) {
-
-                if ($newFile->getUID()) {
-                    $this->fileRepository->update($newFile);
+        $files = $newDocumentForm->getFiles();
+        // TODO: Is this still necessary?
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                // TODO: Is this still necessary?
+                if ($file->getUID()) {
+                    $this->fileRepository->update($file);
                 } else {
-                    $newFile->setDocument($newDocument);
-                    $this->fileRepository->add($newFile);
-                    $newDocument->addFile($newFile);
+                    $file->setDocument($newDocument);
+                    $this->fileRepository->add($file);
+                    $newDocument->addFile($file);
                     $this->documentRepository->update($newDocument);
                 }
             }
@@ -351,10 +350,11 @@ abstract class AbstractDocumentFormController extends AbstractController
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
             $virtualType = $documentType->getVirtualType();
 
+
             if (!$formDataReader->uploadError() || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
-                $t = $docForm->getNewFileNames();
+                $t = $docForm->getFileNames();
                 $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
             }
         } else {
@@ -390,24 +390,6 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         $updateDocument->setChanged(true);
         $this->documentRepository->update($updateDocument);
-
-
-        // Delete files
-        foreach ($documentForm->getDeletedFiles() as $deleteFile) {
-            $deleteFile->setStatus(File::STATUS_DELETED);
-            $this->fileRepository->update($deleteFile);
-        }
-
-        // Add or update files
-        foreach ($documentForm->getNewFiles() as $newFile) {
-
-            if ($newFile->getUID()) {
-                $this->fileRepository->update($newFile);
-            } else {
-                $updateDocument->addFile($newFile);
-            }
-
-        }
 
         // index the document
         $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$updateDocument]);

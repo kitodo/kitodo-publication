@@ -100,13 +100,7 @@ class DocumentTransferManager
         $internalFormat->setDateIssued($dateIssued);
         $internalFormat->setCreator($document->getCreator());
         $internalFormat->setCreationDate($document->getCreationDate());
-
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
-        $exporter->setXML($internalFormat->getXml());
-        $fileData = $document->getFileData();
-        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
-        $exporter->setFileData($fileData);
-        $document->setXmlData($exporter->getXMLData());
+        $document->setXmlData($internalFormat->getXml());
 
         $XSLTransformator = new XSLTransformator();
         $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
@@ -125,33 +119,6 @@ class DocumentTransferManager
     }
 
     /**
-     * If embargo date is set, file path must not be published
-     *
-     * @param $document
-     * @param $fileData
-     * @return mixed
-     * @throws \Exception
-     */
-    public function overrideFilePathIfEmbargo($document, $fileData) {
-        $currentDate = new \DateTime('now');
-
-        if ($currentDate < $document->getEmbargoDate()) {
-            foreach ($fileData as $fileSection => $files) {
-                foreach ($files as $fileId => $fileProperties) {
-                    foreach ($fileProperties as $key => $value) {
-                        if ($key == 'path') {
-                            $fileData[$fileSection][$fileId][$key] = '#';
-                        }
-                    }
-                    unset($fileData[$fileSection][$fileId]);
-                }
-            }
-        }
-
-        return $fileData;
-    }
-
-    /**
      * Updates an existing document in the remote repository
      *
      * @param \EWW\Dpf\Domain\Model\Document $document
@@ -162,15 +129,10 @@ class DocumentTransferManager
         $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
         $internalFormat->setCreator($document->getCreator());
         $internalFormat->setCreationDate($document->getCreationDate());
+        $document->setXmlData($internalFormat->getXml());
 
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
-        $exporter->setXML($internalFormat->getXml());
-        $fileData = $document->getFileData();
-        $fileData = $this->overrideFilePathIfEmbargo($document, $fileData);
-        $exporter->setFileData($fileData);
-        $document->setXmlData($exporter->getXMLData());
-
-        $transformedXml = $exporter->getTransformedOutputXML($document);
+        $XSLTransformator = new XSLTransformator();
+        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
 
         if ($this->remoteRepository->update($document, $transformedXml)) {
             $document->setTransferStatus(Document::TRANSFER_SENT);
@@ -180,7 +142,6 @@ class DocumentTransferManager
         } else {
             return false;
         }
-
     }
 
     /**
@@ -194,7 +155,7 @@ class DocumentTransferManager
     public function retrieve($remoteId)
     {
         $remoteXml = $this->remoteRepository->retrieve($remoteId);
-        
+
         if ($remoteXml) {
 
             $XSLTransformator = new XSLTransformator();
@@ -258,9 +219,11 @@ class DocumentTransferManager
 
             foreach ($internalFormat->getFiles() as $attachment) {
 
+                /** @var File $file */
                 $file = $this->objectManager->get(File::class);
                 $file->setContentType($attachment['mimetype']);
                 $file->setDatastreamIdentifier($attachment['id']);
+                $file->setFileIdentifier($attachment['id']);
                 $file->setLink($attachment['href']);
                 $file->setTitle($attachment['title']);
                 $file->setLabel($attachment['title']);
