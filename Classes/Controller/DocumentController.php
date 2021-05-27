@@ -715,14 +715,14 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-        
+
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
         /** @var Notifier $notifier */
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendReleasePublishNotification($document);
     }
-    
+
     /**
      * releaseActivateAction
      *
@@ -738,11 +738,11 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-        
+
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
-        
+
     }
-    
+
     /**
      * action register
      *
@@ -824,7 +824,9 @@ class DocumentController extends AbstractController
 
         $documentTypes = [0 => ''];
         foreach ($this->documentTypeRepository->getDocumentTypesAlphabetically() as $documentType) {
-            $documentTypes[$documentType->getUid()] = $documentType->getDisplayName();
+            if (!$documentType->isHiddenInList()) {
+                $documentTypes[$documentType->getUid()] = $documentType->getDisplayName();
+            }
         }
 
         $this->view->assign('documentTypes', $documentTypes);
@@ -839,7 +841,7 @@ class DocumentController extends AbstractController
     {
         $this->redirectToDocumentList();
     }
-    
+
     /**
      * action suggest restore
      *

@@ -493,6 +493,10 @@
 			<source>virtual</source>
 			<target>Virtuell</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.hidden_in_list" approved="yes">
+			<source>hide in list</source>
+			<target>In Liste verbergen</target>
+		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">
             <source>Transformation file input</source>
             <target>Transformations Datei Import</target>

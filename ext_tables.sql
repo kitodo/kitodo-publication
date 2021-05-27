@@ -22,6 +22,7 @@ CREATE TABLE tx_dpf_domain_model_documenttype (
   name varchar(255) DEFAULT '' NOT NULL,
   display_name varchar(255) DEFAULT '' NOT NULL,
   virtual_type tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  hidden_in_list tinyint(1) unsigned DEFAULT '0' NOT NULL,
   metadata_page int(11) unsigned DEFAULT '0' NOT NULL,
   transformation_file_output int(11) unsigned DEFAULT '0' NOT NULL,
   transformation_file_input int(11) unsigned DEFAULT '0' NOT NULL,

@@ -59,10 +59,12 @@
 
     <ol>
         <f:for each="{documentTypes}" as="documentType">
-            <li>
-                <f:link.action action="new" controller="DocumentFormBackoffice" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
-                </f:link.action>
-            </li>
+            <f:if condition="{documentType.hiddenInList} == 0">
+                <li>
+                    <f:link.action action="new" controller="DocumentFormBackoffice" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
+                    </f:link.action>
+                </li>
+            </f:if>
         </f:for>
     </ol>
 </f:section>

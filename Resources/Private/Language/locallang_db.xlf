@@ -365,6 +365,9 @@
 		<trans-unit id="tx_dpf_domain_model_documenttype.virtual_type">
 			<source>virtual</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_documenttype.hidden_in_list" approved="yes">
+			<source>hide in list</source>
+		</trans-unit>
         <trans-unit id="tx_dpf_domain_model_documenttype.transformation_file_input" approved="yes">
             <source>Transformation file input</source>
         </trans-unit>
