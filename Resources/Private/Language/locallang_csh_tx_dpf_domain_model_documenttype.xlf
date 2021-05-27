@@ -11,6 +11,9 @@
 		<trans-unit id="virtual_type.description">
 			<source>virtual</source>
 		</trans-unit>
+		<trans-unit id="hidden_in_list.description" approved="yes">
+			<source>hide in list</source>
+		</trans-unit>
 		<trans-unit id="metadata_page.description">
 			<source>metadataPage</source>
 		</trans-unit>

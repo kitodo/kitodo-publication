@@ -42,6 +42,11 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $virtualType = false;
 
     /**
+     * @var bool
+     */
+    protected $hiddenInList = false;
+
+    /**
      * metadataPage
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataPage>
@@ -308,6 +313,22 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getPubmedTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->pubmedTransformation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHiddenInList(): bool
+    {
+        return $this->hiddenInList;
+    }
+
+    /**
+     * @param bool $hiddenInList
+     */
+    public function setHiddenInList(bool $hiddenInList): void
+    {
+        $this->hiddenInList = $hiddenInList;
     }
 
 }

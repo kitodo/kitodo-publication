@@ -14,6 +14,8 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+
 /**
  * The repository for DocumentTypes
  */
