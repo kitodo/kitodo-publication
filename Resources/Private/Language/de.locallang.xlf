@@ -305,6 +305,10 @@
 				<source>The connection to the search server failed.</source>
 				<target>Die Verbindung zum Such-Server ist fehlgeschlagen.</target>
 			</trans-unit>
+			<trans-unit id="document_transfer.elasticsearch_indexname_error" approved="yes">
+				<source>The search index name is not configured.</source>
+				<target>Der Name des Suchindexes ist nicht konfiguriert.</target>
+			</trans-unit>
 			<trans-unit id="error.unexpected" approved="yes">
 				<source>Failed, an unexpected error occurred.</source>
 				<target>Fehlgeschlagen, ein unerwarteter Fehler ist aufgetreten.</target>

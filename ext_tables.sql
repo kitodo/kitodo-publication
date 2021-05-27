@@ -469,6 +469,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   fedora_password tinytext NOT NULL,
   elastic_search_host tinytext NOT NULL,
   elastic_search_port tinytext NOT NULL,
+  elastic_search_index_name tinytext NOT NULL,
   upload_directory tinytext NOT NULL,
   upload_domain tinytext NOT NULL,
   admin_new_document_notification_subject varchar(1024) DEFAULT '' NOT NULL,

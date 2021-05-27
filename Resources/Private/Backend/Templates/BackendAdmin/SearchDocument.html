@@ -1,0 +1,75 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+{namespace bu = TYPO3\CMS\Beuser\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
+
+<f:layout name="BackendAdmin" />
+
+<f:section name="header">
+    <h1>
+        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.change_document_client" />
+    </h1>
+</f:section>
+
+<f:section name="content">
+    <div>
+        <f:form action="searchDocument" name="searchDocument" class="form-bulk-import" method="post">
+            <p class="form-row align-items-center">
+                <p>
+                    <label for="searchDocument">
+                        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.document_identifier" />
+                    </label>
+                    <f:form.textfield id="searchDocument" name="identifier" value="{identifier}" class="form-control"/>
+                </p>
+                <p>
+                    <f:form.button name="searchDocumentSubmit" id="searchDocumentSubmit" class="btn btn-xm btn-primary">
+                        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.search_document" />
+                    </f:form.button>
+                </p>
+            </div>
+        </f:form>
+
+        <f:if condition="{document}">
+            <div class="panel panel-space panel-default recordlist">
+                <table id="document-list" class="table table-striped table-manager table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="xcol-md-1">
+                            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.title_column" />
+                        </th>
+                        <th class="xcol-md-1">
+                            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.uid_column" />
+                        </th>
+                        <th class="xcol-md-1">
+                            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.process_number_column" />
+                        </th>
+                        <th class="xcol-md-1">
+                            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.object_identifier_column" />
+                        </th>
+                        <th class="xcol-md-1">
+                            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.client_column" />
+                        </th>
+                        <th class="xcol-md-1"></th>
+                    </tr>
+                    </thead>
+                    <tr data-id="{document._id}">
+                        <td>{document.title}</td>
+                        <td>{document.uid}</td>
+                        <td>{document.processNumber}</td>
+                        <td>{document.objectIdentifier}</td>
+                        <td>{clientName}</td>
+                        <td>
+                            <f:form action="chooseNewClient" name="chooseNewClient" class="form-bulk-import" method="post">
+                                <f:form.button name="chooseNewClientSubmit" id="chooseNewClientSubmit" class="btn btn-xm btn-primary">
+                                    <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.change_client_to" />
+                                </f:form.button>
+                                <f:form.hidden name="document" value="{document}" />
+                                <f:form.hidden name="identifier" value="{identifier}" />
+                            </f:form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </f:if>
+    </div>
+
+</f:section>

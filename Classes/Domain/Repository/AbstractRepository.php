@@ -34,4 +34,11 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute($returnRawQueryResult);
     }
 
+    public function crossClient($active = false)
+    {
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(!$active);
+        $this->setDefaultQuerySettings($querySettings);
+    }
 }

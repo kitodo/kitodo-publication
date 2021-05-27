@@ -66,7 +66,9 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $constraintsAnd[] = $query->equals('document_identifier', $document);
         }
 
-        $constraintsAnd[] = $query->equals('fe_user_uid', $feUserUid);
+        if ($feUserUid) {
+            $constraintsAnd[] = $query->equals('fe_user_uid', $feUserUid);
+        }
 
         $query->matching($query->logicalAnd($constraintsAnd));
 
@@ -107,6 +109,23 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         }
 
         return false;
+    }
+
+    /**
+     * @param Document $document
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findDocumentBookmarks(Document $document)
+    {
+        $query = $this->createQuery();
+
+        $constraintsAnd[] = $query->logicalOr(
+            $query->equals('document_identifier', $document->getObjectIdentifier()),
+            $query->equals('document_identifier', $document->getUid())
+        );
+
+        $query->matching($query->logicalAnd($constraintsAnd));
+        return $query->execute();
     }
 
 }

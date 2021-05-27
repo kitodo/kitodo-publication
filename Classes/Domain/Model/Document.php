@@ -14,12 +14,14 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Helper\InternalFormat;
 
 /**
  * Document
  */
-class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Document extends AbstractEntity
 {
     // xml data size ist limited to 64 KB
     const XML_DATA_SIZE_LIMIT = 64 * 1024;
@@ -714,7 +716,6 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->processNumber = trim($processNumber);
     }
 
-
     /**
      * Gets the submitter name of the document
      *
@@ -723,7 +724,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getSubmitterName()
     {
         try {
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+            $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
             return $internalFormat->getSubmitterName();
         } catch (\Exception $exception) {
             return "";
@@ -737,7 +738,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getPrimaryUrn()
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         return $internalFormat->getPrimaryUrn();
     }
 
@@ -837,9 +838,9 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return integer
      */
-    public function getCrdate()
+    public function getPid()
     {
-        return $this->crdate;
+        return $this->pid;
     }
 
     /**
@@ -914,7 +915,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     public function getNotes() {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         return $internalFormat->getNotes();
     }
 
@@ -957,24 +958,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getPublicationYear()
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         $year =  $internalFormat->getPublishingYear();
         return $year? $year : "";
     }
-
-    /*
-     * Gets the main title out of the mods-xml data.
-     *
-     * @return string|null
-     *
-    public function getMainTitle()
-    {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
-        $title = $internalFormat->getTitle();
-        return $title? $title : "";
-    }
-    */
-
 
     /**
      * Gets the source information out of the mods-xml data.
@@ -983,7 +970,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getSourceDetails()
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         $data = $internalFormat->getSourceDetails();
         return $data;
     }
@@ -1035,7 +1022,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getAssignedFobIdentifiers(): array
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         return $internalFormat->getPersonFisIdentifiers();
     }
 
@@ -1052,7 +1039,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getDepositLicense()
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
         $data = $internalFormat->getDepositLicense();
         return $data;
     }

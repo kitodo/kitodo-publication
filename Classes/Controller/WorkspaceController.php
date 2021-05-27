@@ -195,7 +195,7 @@ class WorkspaceController extends AbstractController
         $this->view->assign('isHideDiscarded', array_key_exists('aliasState', $excludeFilters));
         $this->view->assign('isBookmarksOnly', array_key_exists('bookmarks', $excludeFilters));
         $this->view->assign('bookmarkIdentifiers', $bookmarkIdentifiers);
-        
+
         if ($this->fisDataService->getPersonData($this->security->getFisPersId())) {
             $this->view->assign('currentFisPersId', $this->security->getFisPersId());
         }

@@ -47,3 +47,34 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_processnumber');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_storedsearch');
+
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    'EWW.' . $_EXTKEY,
+    'kitodo_admin',
+    '',
+    '',
+    [],
+    [
+        'access' => 'admin',
+        'icon' => 'EXT:dpf/ext_icon.gif',
+        'labels' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.name',
+    ]
+);
+
+
+// Module System > Backend Users
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    'EWW.' . $_EXTKEY,
+    'kitodo_admin',
+    'kitodo_document_move',
+    'top',
+    [
+        'BackendAdmin' => 'searchDocument, chooseNewClient, changeClient',
+    ],
+    [
+        'access' => 'admin',
+        'icon' => 'EXT:core/Resources/Public/Icons/T3Icons/mimetypes/mimetypes-open-document-text.svg',
+        'labels' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.document_client',
+    ]
+);

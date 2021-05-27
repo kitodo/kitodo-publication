@@ -32,6 +32,9 @@
 		<trans-unit id="tx_dpf_domain_model_client.elastic_search_port">
 			<source>Port</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.elastic_search_index_name">
+			<source>Index name</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.fedora_host">
 			<source>Host address</source>
 		</trans-unit>

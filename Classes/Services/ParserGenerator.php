@@ -29,7 +29,7 @@ class ParserGenerator
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     *
      */
     protected $clientConfigurationManager;
 
@@ -89,14 +89,18 @@ class ParserGenerator
      */
     protected $namespaceString = '';
 
-
     /**
-     * Constructor
+     * ParserGenerator constructor.
+     * @param int $clientPid
      */
-    public function __construct()
+    public function __construct($clientPid = 0)
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
+        if ($clientPid) {
+            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+        }
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
@@ -155,7 +159,7 @@ class ParserGenerator
      */
     public function buildXmlFromForm($array)
     {
-        $fedoraNamespace = stream_copy_to_stream($this->clientConfigurationManager->getFedoraNamespace());
+        $fedoraNamespace = $this->clientConfigurationManager->getFedoraNamespace();
 
         $this->xmlData = $this->xmlData;
         // Build xml mods from form fields

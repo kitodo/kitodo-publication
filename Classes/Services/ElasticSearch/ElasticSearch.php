@@ -15,7 +15,12 @@ namespace EWW\Dpf\Services\ElasticSearch;
  */
 
 use Elasticsearch\ClientBuilder;
+use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
+use Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException;
+use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
+use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
@@ -26,20 +31,13 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class ElasticSearch
 {
     /**
-     *
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
      */
-    protected $configurationManager;
+    protected $clientConfigurationManager;
 
     /**
-     * frontendUserRepository
-     *
-     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \Elasticsearch\Client
      */
-    protected $frontendUserRepository = null;
-
     protected $client;
 
     protected $server = 'host.docker.internal'; //127.0.0.1';
@@ -48,28 +46,41 @@ class ElasticSearch
 
     protected $indexName = 'kitodo_publication';
 
-    //protected $mapping = '';
-
-    //protected $hits;
-
     protected $results;
+
 
     protected $elasticsearchMapper;
 
+    /**
+     * @var int
+     */
+    protected $clientPid = 0;
 
     /**
      * elasticsearch client constructor
+     * @param int|null $clientPid
+     * @throws ElasticSearchMissingIndexNameException
      */
-    public function __construct()
+    public function __construct($clientPid = null)
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
         $this->elasticsearchMapper = $objectManager->get(ElasticsearchMapper::class);
 
-        $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
-        $this->server = $clientConfigurationManager->getElasticSearchHost();
-        $this->port = $clientConfigurationManager->getElasticSearchPort();
+        if ($clientPid) {
+            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+            $this->clientPid = $clientPid;
+        }
+
+        $this->server = $this->clientConfigurationManager->getElasticSearchHost();
+        $this->port = $this->clientConfigurationManager->getElasticSearchPort();
+        $this->indexName = $this->clientConfigurationManager->getElasticSearchIndexName();
+
+        if (empty($this->indexName)) {
+            throw new ElasticSearchMissingIndexNameException('Missing search index name.');
+        }
 
         $hosts = array(
             $this->server . ':' . $this->port,
@@ -90,18 +101,12 @@ class ElasticSearch
     }
 
     /**
-     * Get typoscript settings
-     *
-     * @return mixed
+     * @return string|null
      */
-    public function getSettings()
+    protected function getIndexName()
     {
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(
-            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
-        return $frameworkConfiguration['settings'];
+        return $this->indexName;
     }
-
 
     /**
      * Creates an index named by $indexName if it doesn't exist.
@@ -279,11 +284,17 @@ class ElasticSearch
                 $data->creator = null;
             }
 
-
             if ($document->getCreator()) {
+                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+                $frontendUserRepository = $objectManager->get(FrontendUserRepository::class);
+
                 /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */
-                $creatorFeUser = $this->frontendUserRepository->findByUid($document->getCreator());
-                $data->creatorRole = $creatorFeUser->getUserRole();
+                $creatorFeUser = $frontendUserRepository->findByUid($document->getCreator());
+                if ($creatorFeUser) {
+                    $data->creatorRole = $creatorFeUser->getUserRole();
+                } else {
+                    $data->creatorRole = '';
+                }
             } else {
                 $data->creatorRole = '';
             }
@@ -309,8 +320,7 @@ class ElasticSearch
                 $data->hasFiles = false;
             }
 
-
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
 
             //$persons = array_merge($internalFormat->getAuthors(), $internalFormat->getPublishers());
             $persons = $internalFormat->getPersons();
@@ -346,7 +356,7 @@ class ElasticSearch
             $data->universityCollection = false;
             if ($data->collections && is_array($data->collections)) {
                 foreach ($data->collections as $collection) {
-                    if ($collection == $this->getSettings()['universityCollection']) {
+                    if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
                         $data->universityCollection = true;
                         break;
                     }
@@ -366,7 +376,7 @@ class ElasticSearch
 
             $this->client->index([
                 'refresh' => 'wait_for',
-                'index' => $this->indexName,
+                'index' => $this->getIndexName(),
                 'id' => $document->getDocumentIdentifier(),
                 'body' => $data
             ]);
@@ -387,7 +397,7 @@ class ElasticSearch
 
             $params = [
                 'refresh' => 'wait_for',
-                'index' => $this->indexName,
+                'index' => $this->getIndexName(),
                 'id' => $identifier
             ];
 
@@ -411,7 +421,7 @@ class ElasticSearch
     public function getDocument($identifier)
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->getIndexName(),
             'id'    => $identifier
         ];
 
@@ -429,7 +439,7 @@ class ElasticSearch
         try {
             // define type and index
             if (empty($query['index'])) {
-                $query['index'] = $this->indexName;
+                $query['index'] = $this->getIndexName();
             }
             if (!empty($type)) {
                 //$query['type'] = $type;
@@ -446,10 +456,10 @@ class ElasticSearch
             $this->results = $results;
 
             return $this->results;
-        } catch ( \Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost $exception) {
-            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
-        } catch (\Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException $exception) {
-            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
+        } catch (CouldNotConnectToHost $exception) {
+            throw new ElasticSearchConnectionErrorException("Could not connect to repository server.");
+        } catch (CouldNotResolveHostException $exception) {
+            throw new ElasticSearchConnectionErrorException("Could not connect to repository server.");
         }
     }
 

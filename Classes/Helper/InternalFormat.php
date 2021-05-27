@@ -36,10 +36,26 @@ class InternalFormat
      */
     protected $xml;
 
-    public function __construct($xml)
+    /**
+     * @var int
+     */
+    protected $clientPid = 0;
+
+    /**
+     * InternalFormat constructor.
+     * @param string $xml
+     * @param int $clientPid
+     */
+    public function __construct(string $xml, int $clientPid = 0)
     {
+        $this->clientPid = $clientPid;
+
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+
+        if ($clientPid) {
+            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+        }
 
         $this->setXml($xml);
     }
@@ -315,6 +331,10 @@ class InternalFormat
      */
     public function getSourceDetails()
     {
+        if (empty($sourceDetailsXpaths)) {
+            return '';
+        }
+
         $xpath = $this->getXpath();
         $data = [];
         $sourceDetailsXpaths = $this->clientConfigurationManager->getSourceDetailsXpaths();
@@ -326,13 +346,15 @@ class InternalFormat
         }
 
         foreach ($dataNodes as $dataNode) {
-            foreach ($dataNode as $node) {
-                if ($node->hasChildNodes()) {
-                    foreach ($node->childNodes as $n) {
-                        $data[] = preg_replace('/\s+/', ' ', $n->textContent);
+            if (is_iterable($dataNode)) {
+                foreach ($dataNode as $node) {
+                    if ($node->hasChildNodes()) {
+                        foreach ($node->childNodes as $n) {
+                            $data[] = preg_replace('/\s+/', ' ', $n->textContent);
+                        }
+                    } else {
+                        $data[] = preg_replace('/\s+/', ' ', $node->textContent);
                     }
-                } else {
-                    $data[] = preg_replace('/\s+/', ' ', $node->textContent);
                 }
             }
         }
@@ -397,7 +419,7 @@ class InternalFormat
     {
         $notesXpath = $this->clientConfigurationManager->getPrivateNotesXpath();
 
-        $parserGenerator = new ParserGenerator();
+        $parserGenerator = new ParserGenerator($this->clientPid);
         $parserGenerator->setXml($this->xml->saveXML());
         $parserGenerator->customXPath($notesXpath,true, $noteContent);
         $this->xml = new \DOMDocument();
@@ -539,7 +561,10 @@ class InternalFormat
     {
         $xpath = $this->getXpath();
         $nodeList = $xpath->query(self::rootNode . $xpathString);
-        return $nodeList->item(0)->nodeValue;
+        if ($nodeList->length > 0) {
+            return $nodeList->item(0)->nodeValue;
+        }
+        return '';
     }
 
     /**
@@ -553,7 +578,7 @@ class InternalFormat
         if ($nodes->length > 0) {
             $nodes->item(0)->nodeValue = $value;
         } elseif(!empty($value)) {
-            $parserGenerator = new ParserGenerator();
+            $parserGenerator = new ParserGenerator($this->clientPid);
             $parserGenerator->setXml($this->xml->saveXML());
             $parserGenerator->customXPath($xpathString,true, $value);
             $this->xml = new \DOMDocument();

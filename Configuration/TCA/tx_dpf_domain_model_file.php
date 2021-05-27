@@ -237,5 +237,10 @@ return array(
                 'maxitems'      => 1,
             ),
         ),
+        'pid' => array(
+            'config' => array(
+                'type' => 'passthrough',
+            )
+        ),
     ),
 );

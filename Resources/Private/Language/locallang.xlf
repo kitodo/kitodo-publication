@@ -230,6 +230,9 @@
 			<trans-unit id="document_transfer.elasticsearch_connection_error" approved="yes">
 				<source>The connection to the search server failed.</source>
 			</trans-unit>
+			<trans-unit id="document_transfer.elasticsearch_indexname_error" approved="yes">
+				<source>The search index name is not configured.</source>
+			</trans-unit>
 			<trans-unit id="error.unexpected" approved="yes">
 				<source>Failed, an unexpected error occurred.</source>
 			</trans-unit>

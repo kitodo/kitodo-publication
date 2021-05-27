@@ -1,0 +1,21 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+{namespace bu = TYPO3\CMS\Beuser\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
+
+<f:layout name="BackendAdmin" />
+
+<f:section name="header">
+    <h1>
+        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.change_document_client" />
+    </h1>
+</f:section>
+
+<f:section name="content">
+    <f:render partial="Document" arguments="{_all}" />
+    <p>
+        <f:link.action action="searchDocument" arguments="{identifier:''}" class="btn btn-xm btn-default">
+            <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.close_button" />
+        </f:link.action>
+    </p>
+</f:section>
+

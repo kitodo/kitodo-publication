@@ -27,8 +27,8 @@ return array(
         'showRecordFieldList' => 'document_identifier, fe_user_uid',
     ),
     'types'     => array(
-        '1' => array('showitem' => ',--palette--;;1, 
-        document_identifier, fe_user_uid,      
+        '1' => array('showitem' => ',--palette--;;1,
+        document_identifier, fe_user_uid,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access'),
     ),
     'palettes'  => array(
@@ -54,6 +54,11 @@ return array(
                 'size'    => 30,
                 'eval'    => 'trim'
             ),
+        ),
+        'pid' => array(
+            'config' => array(
+                'type' => 'passthrough',
+            )
         ),
     ),
 );

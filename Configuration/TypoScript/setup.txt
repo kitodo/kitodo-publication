@@ -151,6 +151,8 @@ plugin.tx_dpf {
 
         universityCollection = {$plugin.tx_dpf.settings.universityCollection}
 
+        indexName = kitodo_publication
+
         timezone = Europe/Berlin
 
 		# Settings for the pagination of the list views workspace, my publications and search results.
@@ -217,7 +219,7 @@ search_page {
 	plugin.tx_dpf.settings.allowedActions {
 		1 = mets
 		2 = preview
-		
+
 	}
 [end]
 
@@ -323,3 +325,13 @@ lib.feUsername {
 
 #plugin.tx_dpf_backoffice._LOCAL_LANG.de.manager.workspace.universityPublication.tooltip =
 #plugin.tx_dpf_backoffice._LOCAL_LANG.en.manager.workspace.universityPublication.tooltip =
+
+module.tx_dpf {
+    view {
+        templateRootPaths.0 = {$module.tx_dpf.view.templateRootPath}
+        partialRootPaths.0 = {$module.tx_dpf.view.partialRootPath}
+        layoutRootPaths .0 = {$module.tx_dpf.view.layoutRootPath}
+    }
+
+    persistence < plugin.tx_dpf.persistence
+}

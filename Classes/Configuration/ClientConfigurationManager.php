@@ -20,26 +20,10 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Domain\Repository\ClientRepository;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 class ClientConfigurationManager
 {
-
-    /**
-     * objectManager
-     *
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $objectManager;
-
-    /**
-     * clientRepository
-     *
-     * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $clientRepository;
-
     /**
      * settings
      *
@@ -64,11 +48,11 @@ class ClientConfigurationManager
 
     public function __construct()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $clientRepository = $objectManager->get(ClientRepository::class);
 
         if (TYPO3_MODE === 'BE') {
-            $selectedPageId = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+            $selectedPageId = (int)GeneralUtility::_GP('id');
             if ($selectedPageId) {
                 $this->client = $clientRepository->findAll()->current();
 
@@ -82,25 +66,32 @@ class ClientConfigurationManager
 
             $configurationManager = $objectManager->get(ConfigurationManager::class);
             $this->settings = $configurationManager->getConfiguration(
-                \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
             );
 
         }
 
-        $this->extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        $this->extensionConfiguration = GeneralUtility::makeInstance(
+            ExtensionConfiguration::class
         )->get('dpf');
 
     }
 
     public function setConfigurationPid($pid)
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $clientRepository = $objectManager->get(ClientRepository::class);
 
         $this->client = $clientRepository->findAllByPid($pid)->current();
     }
 
+    /**
+     * @return int|null
+     */
+    public function getClientPid()
+    {
+        return $this->client->getPid();
+    }
 
     /**
      * Get setting from client or extension configuration.
@@ -171,6 +162,11 @@ class ClientConfigurationManager
     public function getElasticSearchPort()
     {
         return $this->getSetting("elasticSearchPort", "elasticSearchPort");
+    }
+
+    public function getElasticSearchIndexName()
+    {
+        return $this->getSetting("elasticSearchIndexName", "elasticSearchIndexName");
     }
 
     public function getUploadDirectory()
@@ -372,6 +368,12 @@ class ClientConfigurationManager
     {
         $settings = $this->getTypoScriptSettings();
         return $settings['fedoraNamespace'];
+    }
+
+    public function getUniversityCollection()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['universityCollection'];
     }
 
     public function getTypoScriptSettings()
