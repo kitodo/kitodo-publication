@@ -25,6 +25,10 @@
 			<source>Display name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
+		<trans-unit id="help_text.description">
+			<source>Help text</source>
+			<target>Hilfe-Text</target>
+		</trans-unit>
 		<trans-unit id="fill_out_service.description" approved="yes">
 			<source>Fillout service</source>
 			<target>Fillout Service</target>

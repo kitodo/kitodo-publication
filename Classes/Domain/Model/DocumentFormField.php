@@ -58,6 +58,13 @@ class DocumentFormField extends AbstractFormElement
     protected $maxInputLength;
 
     /**
+     * help text
+     *
+     * @var string
+     */
+    protected $helpText = '';
+
+    /**
      * @var string
      */
     protected $objectType = '';
@@ -285,6 +292,49 @@ class DocumentFormField extends AbstractFormElement
     public function setDepositLicense($depositLicense): void
     {
         $this->depositLicense = $depositLicense;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHelpText(): string
+    {
+        return $this->helpText;
+    }
+
+    /**
+     * @param string $helpText
+     */
+    public function setHelpText(string $helpText): void
+    {
+        $this->helpText = $helpText;
+    }
+
+    public function getHelpTextLong()
+    {
+        if ($this->helpText) {
+            $domDocument = new \DOMDocument();
+            $domDocument->loadXML("<html>".$this->helpText."</html>");
+            $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+            $nodes = $xpath->query("//p");
+            if ($nodes->length > 1) {
+                $domDocument->firstChild->removeChild($nodes->item(0));
+                return str_replace(['<html>','</html>'], '', $domDocument->saveHTML());
+            }
+        }
+    }
+
+    public function getHelpTextShort()
+    {
+        if ($this->helpText) {
+            $domDocument = new \DOMDocument();
+            $domDocument->loadXML("<html>".$this->helpText."</html>");
+            $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+            $nodes = $xpath->query("//p");
+            if ($nodes->length > 0) {
+                return $nodes->item(0)->nodeValue;
+            }
+        }
     }
 
 }

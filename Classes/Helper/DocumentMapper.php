@@ -232,6 +232,8 @@ class DocumentMapper
                             $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                             $documentFormField->setDepositLicense($depositLicense);
 
+                            $documentFormField->setHelpText($metadataObject->getHelpText());
+
                             $objectMapping = "";
 
                             preg_match_all('/([A-Za-z0-9]+:[A-Za-z0-9]+(\[.*\])*|[A-Za-z0-9:@\.]+)/', $metadataObject->getRelativeMapping(), $objectMappingPath);
@@ -323,6 +325,8 @@ class DocumentMapper
 
                         $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                         $documentFormField->setDepositLicense($depositLicense);
+
+                        $documentFormField->setHelpText($metadataObject->getHelpText());
 
                         $documentFormGroup->addItem($documentFormField);
                     }
