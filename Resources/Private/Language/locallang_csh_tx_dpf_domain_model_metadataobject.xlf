@@ -20,6 +20,9 @@
 		<trans-unit id="display_name.description">
 			<source>Display name</source>
 		</trans-unit>
+		<trans-unit id="help_text.description">
+			<source>Help text</source>
+		</trans-unit>
 		<trans-unit id="fill_out_service.description">
 			<source>Fillout service</source>
 		</trans-unit>

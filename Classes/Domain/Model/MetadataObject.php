@@ -224,6 +224,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $orcidPersonMapping = '';
 
     /**
+     * help text
+     *
+     * @var string
+     */
+    protected $helpText = '';
+
+    /**
      * Returns the name
      *
      * @return string $name
@@ -784,5 +791,21 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     public function setDepositLicense($depositLicense): void
     {
         $this->depositLicense = $depositLicense;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHelpText(): string
+    {
+        return $this->helpText;
+    }
+
+    /**
+     * @param string $helpText
+     */
+    public function setHelpText(string $helpText): void
+    {
+        $this->helpText = $helpText;
     }
 }

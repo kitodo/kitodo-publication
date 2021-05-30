@@ -479,6 +479,10 @@ ul.error-files-backbutton li {
     margin: 0;
 }
 
+.alert p:last-child {
+    margin-bottom: 0;
+}
+
     /* -- search form--------------------------------------------------- */
 
 #tx-dpf-backoffice.document-manager .searchForm .form-group {

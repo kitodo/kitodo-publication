@@ -741,6 +741,10 @@
 			<source>Display Name</source>
 			<target>Anzeigename</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.help_text" approved="yes">
+			<source>Help text</source>
+			<target>Hilfe-Text</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.embargo" approved="yes">
 			<source>Embargo</source>
 			<target>Embargo</target>

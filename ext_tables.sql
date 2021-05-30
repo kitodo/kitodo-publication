@@ -209,6 +209,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   input_option_list int(11) unsigned default '0',
   default_value text NOT NULL,
   fill_out_service varchar(255) DEFAULT '' NOT NULL,
+  help_text text NOT NULL,
   backend_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
   access_restriction_roles varchar(255) DEFAULT '' NOT NULL,
   consent tinyint(1) unsigned DEFAULT '0' NOT NULL,

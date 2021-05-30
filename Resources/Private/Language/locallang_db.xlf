@@ -554,6 +554,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.display_name">
 			<source>Display Name</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.help_text">
+			<source>Help text</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.embargo">
 			<source>Embargo</source>
 		</trans-unit>
