@@ -527,6 +527,12 @@ class DocumentController extends AbstractController
             $internalFormat->setDocumentType($documentType->getName());
             $document->setXmlData($internalFormat->getXml());
 
+            /** @var DocumentMapper $documentMapper */
+            $documentMapper = $this->objectManager->get(DocumentMapper::class);
+            // Adjusting the document data according to the new document type
+            $documentForm = $documentMapper->getDocumentForm($document);
+            $document = $documentMapper->getDocument($documentForm);
+
             $this->updateDocument($document, '', null);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         } else {
