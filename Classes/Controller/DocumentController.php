@@ -527,6 +527,12 @@ class DocumentController extends AbstractController
             $internalFormat->setDocumentType($documentType->getName());
             $document->setXmlData($internalFormat->getXml());
 
+            /** @var DocumentMapper $documentMapper */
+            $documentMapper = $this->objectManager->get(DocumentMapper::class);
+            // Adjusting the document data according to the new document type
+            $documentForm = $documentMapper->getDocumentForm($document);
+            $document = $documentMapper->getDocument($documentForm);
+
             $this->updateDocument($document, '', null);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
         } else {
@@ -715,14 +721,14 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-        
+
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
 
         /** @var Notifier $notifier */
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendReleasePublishNotification($document);
     }
-    
+
     /**
      * releaseActivateAction
      *
@@ -738,11 +744,11 @@ class DocumentController extends AbstractController
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
             return FALSE;
         }
-        
+
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
-        
+
     }
-    
+
     /**
      * action register
      *
@@ -839,7 +845,7 @@ class DocumentController extends AbstractController
     {
         $this->redirectToDocumentList();
     }
-    
+
     /**
      * action suggest restore
      *
