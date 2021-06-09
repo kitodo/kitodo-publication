@@ -318,4 +318,38 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         );
         return $query->execute();
     }
+
+    /**
+     * @param string $identifier
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function searchForIdentifier(string $identifier)
+    {
+        $identifier = str_replace("*", "%", $identifier);
+
+        $query = $this->createQuery();
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('uid', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('object_identifier', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('process_number', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+        $query->matching($query->logicalOr($constraints));
+
+        return $query->execute();
+    }
 }

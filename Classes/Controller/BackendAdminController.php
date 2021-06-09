@@ -123,14 +123,20 @@ class BackendAdminController extends ActionController
 
             $this->documentRepository->crossClient(true);
 
-            /** @var Document $document */
-            $document = $this->documentRepository->findByIdentifier($identifier);
+            $documents = $this->documentRepository->searchForIdentifier($identifier);
 
-            if ($document) {
-                /** @var Client $client */
-                $client = $this->clientRepository->findAllByPid($document->getPid())->current();
-                $this->view->assign('document', $document);
-                $this->view->assign('clientName', $client->getClient());
+            if ($documents) {
+
+                $clientNames = [];
+                foreach ($documents as $document) {
+                    /** @var Client $client */
+                    $client = $this->clientRepository->findAllByPid($document->getPid())->current();
+                    $clientNames[$document->getUid()] = $client->getClient();
+                }
+
+                $this->view->assign('documents', $documents);
+                $this->view->assign('clientNames', $clientNames);
+
             } else {
                 $this->flashMessage(
                     'nothing_found',
@@ -150,7 +156,7 @@ class BackendAdminController extends ActionController
     public function chooseNewClientAction(Document $document, string $identifier)
     {
         if ($document) {
-            if ($this->canChangeClient($document)) {
+            if ($document->isClientChangeable()) {
                 /** @var Client $currentClient */
                 $currentClient = $this->clientRepository->findAllByPid($document->getPid())->current();
 
@@ -168,7 +174,7 @@ class BackendAdminController extends ActionController
                     }
                 }
 
-                $this->view->assign('canMoveDocument', $this->canChangeClient($document));
+                $this->view->assign('canMoveDocument', $document->isClientChangeable());
                 $this->view->assign('document', $document);
                 $this->view->assign('clients', $clients);
                 $this->view->assign('documentTypes', $documentTypes);
@@ -204,7 +210,7 @@ class BackendAdminController extends ActionController
     public function changeClientAction(Document $document, Client $client, string $identifier, DocumentType $documentType = null)
     {
         if ($documentType instanceof DocumentType) {
-            if ($this->canChangeClient($document)) {
+            if ($document->isClientChangeable()) {
 
                 /** @var Client $currentClient */
                 $currentClient = $this->clientRepository->findAllByPid($document->getPid())->current();
@@ -298,24 +304,6 @@ class BackendAdminController extends ActionController
               ]
             );
        }
-    }
-
-    /**
-     * @param Document $document
-     */
-    protected function canChangeClient(Document $document)
-    {
-        return (
-            in_array(
-             $document->getState(),
-             [
-                 DocumentWorkflow::STATE_REGISTERED_NONE,
-                 DocumentWorkflow::STATE_IN_PROGRESS_NONE,
-                 DocumentWorkflow::STATE_POSTPONED_NONE,
-                 DocumentWorkflow::STATE_DISCARDED_NONE
-             ]
-            )
-        );
     }
 
     /**

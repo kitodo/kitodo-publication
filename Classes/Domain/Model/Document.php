@@ -1077,4 +1077,22 @@ class Document extends AbstractEntity
         $date = new \DateTime();
         $this->setCreationDate($date->format(\DateTimeInterface::RFC3339_EXTENDED));
     }
+
+    /**
+     * @return bool
+     */
+    public function isClientChangeable()
+    {
+        return (
+            in_array(
+                $this->getState(),
+                [
+                    DocumentWorkflow::STATE_REGISTERED_NONE,
+                    DocumentWorkflow::STATE_IN_PROGRESS_NONE,
+                    DocumentWorkflow::STATE_POSTPONED_NONE,
+                    DocumentWorkflow::STATE_DISCARDED_NONE
+                ]
+            ) && !$this->stateChange
+        );
+    }
 }
