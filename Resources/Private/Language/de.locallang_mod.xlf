@@ -7,84 +7,111 @@
 		<body>
 			<trans-unit id="admin_module.name" approved="yes">
 				<source>Kitodo</source>
+				<target>Kitodo</target>
 			</trans-unit>
 			<trans-unit id="admin_module.document_client" approved="yes">
 				<source>Document client</source>
+				<target>Dokumenten-Mandant</target>
 			</trans-unit>
 			<trans-unit id="admin_module.change_document_client" approved="yes">
 				<source>Change document client</source>
+				<target>Dokumenten-Mandant ändern</target>
 			</trans-unit>
 			<trans-unit id="admin_module.change_client" approved="yes">
 				<source>Change client</source>
+				<target>Mandanten ändern</target>
 			</trans-unit>
 			<trans-unit id="admin_module.change_client_to" approved="yes">
 				<source>Change client to ...</source>
+				<target>Mandanten ändern in ...</target>
 			</trans-unit>
 			<trans-unit id="admin_module.search_document" approved="yes">
             	<source>Search document</source>
+            	<target>Document suchen</target>
 			</trans-unit>
 			<trans-unit id="admin_module.document_identifier" approved="yes">
             	<source>Document identifier</source>
+            	<target>Dokument-Identifikator</target>
 			</trans-unit>
 			<trans-unit id="admin_module.cancel_button" approved="yes">
             	<source>Cancel</source>
+            	<target>Abbrechen</target>
 			</trans-unit>
 			<trans-unit id="admin_module.close_button" approved="yes">
                 <source>Close</source>
+                <target>Schließen</target>
 			</trans-unit>
 			<trans-unit id="admin_module.title_column" approved="yes">
             	<source>Title</source>
+            	<target>Titel</target>
 			</trans-unit>
 			<trans-unit id="admin_module.uid_column" approved="yes">
             	<source>UID</source>
+            	<target>UID</target>
 			</trans-unit>
 			<trans-unit id="admin_module.process_number_column" approved="yes">
             	<source>Process number </source>
+            	<target>Vorgangsnummer</target>
 			</trans-unit>
 			<trans-unit id="admin_module.object_identifier_column" approved="yes">
             	<source>Object identifier</source>
+            	<target>Objekt-Identifikator</target>
 			</trans-unit>
 			<trans-unit id="admin_module.client_column" approved="yes">
             	<source>Client</source>
+            	<target>Mandant</target>
 			</trans-unit>
 			<trans-unit id="admin_module.current_client_column" approved="yes">
             	<source>Current client</source>
+            	<target>Aktueller Mandant</target>
 			</trans-unit>
 			<trans-unit id="admin_module.new_client_column" approved="yes">
             	<source>Target client</source>
+            	<target>Ziel-Mandant</target>
 			</trans-unit>
 			<trans-unit id="admin_module.target_document_type" approved="yes">
             	<source>Target document type</source>
+            	<target>Ziel-Dokumenttyp</target>
 			</trans-unit>
 			<trans-unit id="admin_module.nothing_found" approved="yes">
             	<source>No document found.</source>
+            	<target>Kein Dokument gefunden.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.nothing_found_message" approved="yes">
             	<source>Unfortunately, the search for "%s" returned no results.</source>
+            	<target>Die Suche nach "%s" lieferte leider keine Treffer.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.change_client_forbidden" approved="yes">
             	<source>Change of client not possible.</source>
+            	<target>Mandantenwechsel nicht möglich.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.change_client_forbidden_message" approved="yes">
             	<source>A client change is only possible for local documents, i.e. documents not yet published in the repository, which are in the state "Registered", "In progress", "Postponed" or "Discarded".</source>
+            	<target>Ein Mandantwechsel ist nur für lokale, d.h. noch nicht im Repository publizierte, Dokumente möglich, die sich im Zustand "Angemeldet", "In Bearbeitung", "Zurückgestellt" oder  "Verworfen" befinden.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.missing_document_type" approved="yes">
             	<source>Missing document type.</source>
+            	<target>Fehlender Dokumenttyp.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.missing_document_type_message" approved="yes">
             	<source>Please select a target document type.</source>
+            	<target>Bitte wählen Sie einen Ziel-Dokumenttyp aus.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.client_changed" approved="yes">
             	<source>Client successfully changed.</source>
+            	<target>Mandant erfolgreich geändert.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.client_changed_message" approved="yes">
             	<source>The client of the selected document has been changed.</source>
+            	<target>Der Mandat des ausgewählten Dokuments wurde geändert.</target>
 			</trans-unit>
 			<trans-unit id="admin_module.document_type_change_note" approved="yes">
 				<source>Please note!</source>
+				<target>Bitte beachten Sie!</target>
 			</trans-unit>
 			<trans-unit id="admin_module.document_type_change_note_message" approved="yes">
             	<source>Please select a suitable document type from the target client. By changing the document type, content from fields that are not available in the target document type may be lost. This cannot be undone.</source>
+            	<target>Bitte wählen Sie einen geeigneten Dokumenttyp aus dem Ziel-Mandanten aus. Durch Ändern des Dokumenttyps können Inhalte aus Feldern verloren gehen, die im Zieldokumenttyp nicht verfügbar sind. Dies kann nicht rückgängig gemacht werden.</target>
 			</trans-unit>
 		</body>
 	</file>
