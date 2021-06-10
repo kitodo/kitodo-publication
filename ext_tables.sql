@@ -777,7 +777,7 @@ CREATE TABLE tx_dpf_domain_model_bookmark (
 #  KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 #  KEY language (l10n_parent,sys_language_uid),
 
-  UNIQUE KEY uc_bookmark (fe_user_uid,document_identifier)
+  UNIQUE KEY uc_bookmark (pid,fe_user_uid,document_identifier)
 
 );
 

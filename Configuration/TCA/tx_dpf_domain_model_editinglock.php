@@ -37,12 +37,12 @@ return array(
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, 
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
         document_identifier, editor_uid',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
-        document_identifier, editor_uid,        
+        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,
+        document_identifier, editor_uid,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -77,6 +77,7 @@ return array(
                 ),
                 'foreign_table'       => 'tx_dpf_domain_model_editinglock',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_editinglock.pid=###CURRENT_PID### AND tx_dpf_domain_model_editinglock.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ),
         ),
         'l10n_diffsource'            => array(
