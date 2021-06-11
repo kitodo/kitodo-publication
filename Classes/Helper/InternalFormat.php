@@ -46,7 +46,7 @@ class InternalFormat
      * @param string $xml
      * @param int $clientPid
      */
-    public function __construct(string $xml, int $clientPid = 0)
+    public function __construct(string $xml, $clientPid = 0)
     {
         $this->clientPid = $clientPid;
 
