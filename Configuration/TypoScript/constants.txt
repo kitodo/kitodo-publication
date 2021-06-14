@@ -1,13 +1,13 @@
 # -------------------------------------------------------------------
 # This file is part of the TYPO3 CMS project.
-# 
+#
 # It is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License, either version 2
 # of the License, or any later version.
-# 
+#
 # For the full copyright and license information, please read the
 # LICENSE.txt file that was distributed with this source code.
-# 
+#
 # The TYPO3 project - inspiring people to share!
 # -------------------------------------------------------------------
 
@@ -113,5 +113,21 @@ plugin.tx_dpf {
 
         # cat=plugin.tx_dpf/api; type=string; label= no reply email address
         noReplyAddress = noreply@qucosa.de
+    }
+}
+
+module.tx_dpf {
+    view {
+        # cat=module.tx_dpf/file; type=string; label=Path to template root (BE)
+        templateRootPath = EXT:dpf/Resources/Private/Backend/Templates/
+        # cat=module.tx_dpf/file; type=string; label=Path to template partials (BE)
+        partialRootPath = EXT:dpf/Resources/Private/Backend/Partials/
+        # cat=module.tx_dpf/file; type=string; label=Path to template layouts (BE)
+        layoutRootPath = EXT:dpf/Resources/Private/Backend/Layouts/
+    }
+
+    persistence {
+        # cat=module.tx_dpf//a; type=string; label=Default storage PID
+        storagePid =
     }
 }

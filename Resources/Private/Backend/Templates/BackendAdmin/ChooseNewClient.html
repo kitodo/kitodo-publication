@@ -1,0 +1,87 @@
+{namespace be = TYPO3\CMS\Backend\ViewHelpers}
+{namespace bu = TYPO3\CMS\Beuser\ViewHelpers}
+{namespace core = TYPO3\CMS\Core\ViewHelpers}
+
+<f:layout name="BackendAdmin" />
+
+<f:section name="header">
+    <h1>
+        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.change_document_client" />
+    </h1>
+</f:section>
+
+<f:section name="content">
+
+    <div class="callout callout-warning">
+        <div class="media">
+            <div class="media-left">
+                <span class="fa-stack fa-lg callout-icon">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-info fa-stack-1x"></i>
+                </span>
+            </div>
+            <div class="media-body">
+                <h4 class="callout-title">
+                    <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.document_type_change_note" />
+                </h4>
+                <div class="callout-body">
+                    <p>
+                        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.document_type_change_note_message" />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <f:if condition="{document}">
+        <f:render partial="Document" arguments="{_all}" />
+    </f:if>
+
+    <div class="panel panel-space panel-default recordlist table-responsive">
+        <table id="workspace-list" class="tx_dpf table table-striped table-manager table-condensed">
+            <thead>
+            <tr>
+                <th class="xcol-md-1">
+                    <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.new_client_column" />
+                </th>
+                <th class="xcol-md-1">
+                    <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.target_document_type" />
+                </th>
+                <th class="xcol-md-1"></th>
+            </tr>
+            </thead>
+            <f:for each="{clients}" as="newClient">
+                <f:form action="changeClient" name="changeClient" class="form-bulk-import" method="post">
+            <tr client-id="{client.uid}">
+                <td>{newClient.client}</td>
+                <td>
+                    <f:form.select name="documentType">
+                        <f:form.select.option value="0">-</f:form.select.option>
+                        <f:alias map="{clientDocumentTypes: '{documentTypes.{newClient.pid}}'}">
+                            <f:for each="{clientDocumentTypes}" as="clientDocumentType">
+                                <f:form.select.option value="{clientDocumentType.uid}">
+                                    {clientDocumentType.displayName}
+                                </f:form.select.option>
+                            </f:for>
+                        </f:alias>
+                    </f:form.select>
+                </td>
+                <td>
+                    <f:form.button name="changeClientSubmit" id="changeClientSubmit" class="btn btn-xm btn-danger">
+                        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.change_client" />
+                    </f:form.button>
+                    <f:form.hidden name="identifier" value="{identifier}" />
+                    <f:form.hidden name="client" value="{newClient}" />
+                    <f:form.hidden name="document" value="{document}" />
+                </td>
+            </tr>
+                </f:form>
+            </f:for>
+        </table>
+    </div>
+
+    <f:link.action action="searchDocument" arguments="{identifier:identifier}" class="btn btn-xm btn-default">
+        <f:translate key="LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.cancel_button" />
+    </f:link.action>
+
+</f:section>

@@ -31,7 +31,8 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
      * @param int $creatorUid
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function findAllDocumentSuggestions($role, $creatorUid) {
+    public function findAllDocumentSuggestions($role, $creatorUid)
+    {
         $query = $this->createQuery();
 
         switch ($role) {
@@ -60,20 +61,21 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
      * @param boolean $temporary
      * @return array
      */
-    public function getObjectIdentifiers($temporary = FALSE)
+    public function getObjectIdentifiers($temporary = false)
     {
         $query = $this->createQuery();
 
         $constraints = array(
             $query->logicalNot($query->equals('object_identifier', '')),
-            $query->logicalNot($query->equals('object_identifier', NULL)));
+            $query->logicalNot($query->equals('object_identifier', null))
+        );
 
         if (count($constraints)) {
             $constraints[] = $query->logicalAnd(
                 $query->logicalNot(
                     $query->logicalOr(
-                        $query->equals('temporary', TRUE),
-                        $query->equals('suggestion', TRUE)
+                        $query->equals('temporary', true),
+                        $query->equals('suggestion', true)
                     )
                 )
             );
@@ -100,16 +102,16 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     public function findDocumentsWithoutProcessNumber()
     {
         $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(FALSE);
+        $query->getQuerySettings()->setRespectStoragePage(false);
 
         $constraints = array();
-        $constraints[] =  $query->equals('process_number', '');
-        $constraints[] =  $query->equals('process_number', NULL);
+        $constraints[] = $query->equals('process_number', '');
+        $constraints[] = $query->equals('process_number', null);
 
         if (count($constraints)) {
             $query->matching(
                 $query->logicalAnd(
-                    $query->equals('temporary', FALSE),
+                    $query->equals('temporary', false),
                     $query->logicalOr($constraints)
                 )
             );
@@ -128,15 +130,15 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     {
         $query = $this->createQuery();
 
-        $dateTimeObj= new \DateTime();
-        $dateTimeObj->sub(new \DateInterval("PT".$timeout."S"));
+        $dateTimeObj = new \DateTime();
+        $dateTimeObj->sub(new \DateInterval("PT" . $timeout . "S"));
 
         $constraints = array();
         $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
 
         $query->matching(
             $query->logicalAnd(
-                $query->equals('temporary', TRUE),
+                $query->equals('temporary', true),
                 $query->logicalOr($constraints)
             )
         );
@@ -154,8 +156,8 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     {
         $query = $this->createQuery();
 
-        $dateTimeObj= new \DateTime();
-        $dateTimeObj->sub(new \DateInterval("PT".$timeout."S"));
+        $dateTimeObj = new \DateTime();
+        $dateTimeObj->sub(new \DateInterval("PT" . $timeout . "S"));
 
         $constraints = array();
         $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
@@ -181,8 +183,8 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
         $constraints = array(
             $query->equals('object_identifier', $objectIdentifier),
-            $query->logicalNot($query->equals('temporary', TRUE)),
-            $query->logicalNot($query->equals('suggestion', TRUE))
+            $query->logicalNot($query->equals('temporary', true)),
+            $query->logicalNot($query->equals('suggestion', true))
         );
 
         $query->matching($query->logicalAnd($constraints));
@@ -285,21 +287,21 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     }
 
 
-
     public function updateCreator()
     {
 
         $query = $this->createQuery();
-        $query->statement( "update tx_dpf_domain_model_document set creator = owner");
+        $query->statement("update tx_dpf_domain_model_document set creator = owner");
         $query->execute();
 
     }
-    
+
     /**
      * Finds all records with embargo date
      * @return mixed
      */
-    public function crossClientEmbargoFindAll() {
+    public function crossClientEmbargoFindAll()
+    {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
         $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $querySettings->setRespectStoragePage(false);
@@ -314,6 +316,40 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
                 )
             )
         );
+        return $query->execute();
+    }
+
+    /**
+     * @param string $identifier
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function searchForIdentifier(string $identifier)
+    {
+        $identifier = str_replace("*", "%", $identifier);
+
+        $query = $this->createQuery();
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('uid', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('object_identifier', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+            $constraints[] =
+                $query->logicalAnd(
+                    $query->like('process_number', $identifier),
+                    $query->equals('suggestion', false)
+                );
+
+        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+        $query->matching($query->logicalOr($constraints));
+
         return $query->execute();
     }
 }

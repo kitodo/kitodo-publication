@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Domain\Repository;
+namespace EWW\Dpf\Exceptions;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,23 +14,10 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-/**
- * The repository for Clients
- */
-class ClientRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
+class ElasticSearchMissingIndexNameException extends \Exception implements DPFExceptionInterface
 {
-
-    /**
-     * findAllByPid
-     *
-     * @return
-     */
-    public function findAllByPid($pid)
+    public function messageLanguageKey()
     {
-        $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(false);
-        $query->matching($query->equals('pid', $pid));
-        return $query->execute();
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.elasticsearch_indexname_error';
     }
-
 }

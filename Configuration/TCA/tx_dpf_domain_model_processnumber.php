@@ -74,6 +74,7 @@ return array(
                 ),
                 'foreign_table'       => 'tx_dpf_domain_model_processnumber',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_processnumber.pid=###CURRENT_PID### AND tx_dpf_domain_model_processnumber.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ),
         ),
         'l10n_diffsource'    => array(

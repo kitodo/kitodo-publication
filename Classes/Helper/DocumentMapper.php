@@ -87,6 +87,18 @@ class DocumentMapper
     protected $depositLicenseRepository = null;
 
     /**
+     * clientPid
+     *
+     * @var int
+     */
+    protected $clientPid = 0;
+
+    /**
+     * @var bool
+     */
+    protected $customClientPid = false;
+
+    /**
      * Get typoscript settings
      *
      * @return mixed
@@ -135,7 +147,7 @@ class DocumentMapper
 
         $documentForm->setFedoraPid($fedoraPid);
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
 
         $excludeGroupAttributes = array();
 
@@ -353,8 +365,11 @@ class DocumentMapper
         /** @var Document $document */
 
         if ($documentForm->getDocumentUid()) {
+            if ($this->isCustomClientPid()) {
+                $this->documentRepository->crossClient(true);
+            }
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-            $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
             $fobIdentifiers = $tempInternalFormat->getPersonFisIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
@@ -382,7 +397,7 @@ class DocumentMapper
 
         $formMetaData = $this->getMetadata($documentForm);
 
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
+        $exporter = new \EWW\Dpf\Services\ParserGenerator($this->clientPid);
 
         $exporter->setFileData($document->getFileData());
 
@@ -393,7 +408,7 @@ class DocumentMapper
         $exporter->buildXmlFromForm($documentData);
 
         $internalXml = $exporter->getXmlData();
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml);
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml, $this->clientPid);
 
         // set static xml
         $internalFormat->setDocumentType($documentType->getName());
@@ -502,6 +517,31 @@ class DocumentMapper
 
         return $form;
 
+    }
+
+    /**
+     * @return int
+     */
+    public function getClientPid(): int
+    {
+        return $this->clientPid;
+    }
+
+    /**
+     * @param int $clientPid
+     */
+    public function setClientPid(int $clientPid): void
+    {
+        $this->customClientPid = true;
+        $this->clientPid = $clientPid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCustomClientPid(): bool
+    {
+        return $this->customClientPid;
     }
 
 }

@@ -59,6 +59,9 @@
         <trans-unit id="elastic_search_port.description">
             <source>Port</source>
         </trans-unit>
+		<trans-unit id="elastic_search_index_name.description" approved="yes">
+			<source>Index name</source>
+		</trans-unit>
         <trans-unit id="upload_directory.description">
             <source>Directory path</source>
         </trans-unit>

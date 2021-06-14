@@ -23,11 +23,10 @@ class QueryBuilder
 {
     /**
      *
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $configurationManager;
-
+    protected $clientConfigurationManager;
 
     /**
      * documentTypeRepository
@@ -44,21 +43,6 @@ class QueryBuilder
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
-
-
-    /**
-     * Get typoscript settings
-     *
-     * @return mixed
-     */
-    public function getSettings()
-    {
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(
-            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
-        return $frameworkConfiguration['settings'];
-    }
-
 
     /**
      * Builds the document list query.
@@ -181,7 +165,8 @@ class QueryBuilder
                                 'lang' => 'painless',
                                 'source' =>
                                     "for (int i = 0; i < doc['collections'].length; ++i) {".
-                                    "    if(doc['collections'][i] =='".$this->getSettings()['universityCollection']."') {".
+                                    "    if(doc['collections'][i] =='".
+                                    $this->clientConfigurationManager->getUniversityCollection() ."') {".
                                     "        return 'true';".
                                     "    }".
                                     "}".
@@ -257,14 +242,14 @@ class QueryBuilder
                     if ($key == 'universityCollection') {
                         if ($filterValues && is_array($filterValues)) {
                             if (in_array("true", $filterValues)) {
-                                $filterValue = $this->getSettings()['universityCollection'];
+                                $filterValue = $this->clientConfigurationManager->getUniversityCollection();
                                 $queryFilterPart['bool']['should'][] = [
                                     'term' => [
                                         'collections' => $filterValue
                                     ]
                                 ];
                             } else {
-                                $filterValue = $this->getSettings()['universityCollection'];
+                                $filterValue = $this->clientConfigurationManager->getUniversityCollection();
                                 $queryFilterPart['bool']['should'][] = [
                                     'bool' => [
                                         'must_not' => [
@@ -437,7 +422,8 @@ class QueryBuilder
         if ($sortField == "aliasState") {
             $script = $this->getSortScriptState();
         } elseif ($sortField == "universityCollection") {
-            $script = $this->getSortScriptUniversityCollection($this->getSettings()['universityCollection']);
+            $script = $this->getSortScriptUniversityCollection(
+                $this->clientConfigurationManager->getUniversityCollection());
         } elseif ($sortField == "hasFiles") {
             $script = $this->getSortScriptHasFiles();
         } elseif ($sortField == "creatorRole") {

@@ -40,8 +40,8 @@ return array(
         'showRecordFieldList' => 'name, query',
     ),
     'types'     => array(
-        '1' => array('showitem' => ',--palette--;;1, 
-        name, query,      
+        '1' => array('showitem' => ',--palette--;;1,
+        name, query,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access'),
     ),
     'palettes'  => array(
@@ -76,6 +76,7 @@ return array(
                 ),
                 'foreign_table'       => 'tx_dpf_domain_model_storedsearch',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_storedsearch.pid=###CURRENT_PID### AND tx_dpf_domain_model_storedsearch.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ),
         ),
         'l10n_diffsource'            => array(

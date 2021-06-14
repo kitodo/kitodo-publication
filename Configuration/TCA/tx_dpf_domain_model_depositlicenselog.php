@@ -41,8 +41,8 @@ return array(
         username, licence_uri, title, object_identifier, process_number, urn, file_names',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1, 
-        username, licence_uri, title, object_identifier, process_number, urn, file_names                 
+        '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,
+        username, licence_uri, title, object_identifier, process_number, urn, file_names
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -77,6 +77,7 @@ return array(
                 ),
                 'foreign_table'       => 'tx_dpf_domain_model_depositlicenselog',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_depositlicenselog.pid=###CURRENT_PID### AND tx_dpf_domain_model_depositlicenselog.sys_language_uid IN (-1,0)',
+                'default' => 0,
             ),
         ),
         'l10n_diffsource'            => array(

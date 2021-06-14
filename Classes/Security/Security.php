@@ -38,7 +38,7 @@ class Security
     const ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     const ROLE_RESEARCHER = "ROLE_RESEARCHER";
     const ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
-
+    const ROLE_ADMIN = "ROLE_ADMIN";
 
     /**
      * Gets the current logged in frontend user
