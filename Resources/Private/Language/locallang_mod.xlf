@@ -53,6 +53,9 @@
 			<trans-unit id="admin_module.new_client_column" approved="yes">
             	<source>Target client</source>
 			</trans-unit>
+			<trans-unit id="admin_module.document_type_column" approved="yes">
+            	<source>Document type</source>
+			</trans-unit>
 			<trans-unit id="admin_module.target_document_type" approved="yes">
             	<source>Target document type</source>
 			</trans-unit>

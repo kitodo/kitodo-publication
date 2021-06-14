@@ -27,7 +27,7 @@
 			</trans-unit>
 			<trans-unit id="admin_module.search_document" approved="yes">
             	<source>Search document</source>
-            	<target>Document suchen</target>
+            	<target>Dokument suchen</target>
 			</trans-unit>
 			<trans-unit id="admin_module.document_identifier" approved="yes">
             	<source>Document identifier</source>
@@ -60,6 +60,10 @@
 			<trans-unit id="admin_module.client_column" approved="yes">
             	<source>Client</source>
             	<target>Mandant</target>
+			</trans-unit>
+			<trans-unit id="admin_module.document_type_column" approved="yes">
+            	<source>Document type</source>
+            	<target>Dokumenttyp</target>
 			</trans-unit>
 			<trans-unit id="admin_module.current_client_column" approved="yes">
             	<source>Current client</source>
