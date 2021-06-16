@@ -14,6 +14,7 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\MetadataObject;
@@ -332,7 +333,7 @@ class FormDataReader
                                 }
 
                                 if ($metadataObject->isUploadField() ) {
-                                    if ($object &&
+                                    if ($object && is_array($object) &&
                                         array_key_exists('error', $object) &&
                                         $object['error'] != UPLOAD_ERR_NO_FILE)
                                     {
@@ -352,12 +353,11 @@ class FormDataReader
                                         }
 
                                         $documentFormField->setValue($file->getUrl());
+                                        $fileIdentifier = $file->getFileIdentifier();
+                                        $documentForm->addFile($file);
 
-                                    } elseif ($object && !array_key_exists('error', $object)) {
+                                    } elseif ($object && !is_array($object)) {
                                         $documentFormField->setFile($file);
-                                    }
-
-                                    if ($file) {
                                         $fileIdentifier = $file->getFileIdentifier();
                                         $documentForm->addFile($file);
                                     }

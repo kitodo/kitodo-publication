@@ -313,8 +313,8 @@ class ElasticSearch
                 $data->notes = array();
             }
 
-            $files = $document->getFile();
-            if ($files->count() > 0) {
+
+            if ($document->hasFiles()) {
                 $data->hasFiles = true;
             } else {
                 $data->hasFiles = false;

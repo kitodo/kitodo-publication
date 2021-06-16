@@ -25,7 +25,7 @@ class DocumentForm extends AbstractFormElement
     /**
      * @var string CSRF token for this form
      */
-    private $csrfToken;
+    protected $csrfToken;
 
     /**
      *

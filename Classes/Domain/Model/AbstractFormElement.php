@@ -92,7 +92,11 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     public function getItems()
     {
-        return $this->items;
+        if (is_array($this->items)) {
+            return $this->items;
+        } else {
+            return [];
+        }
     }
 
     public function addItem($item)

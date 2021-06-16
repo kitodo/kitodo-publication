@@ -595,24 +595,30 @@ class DocumentMapper
         }
         // Add or update files
         /** @var File $file */
-        foreach ($files as $file) {
-            if ($file->getUid()) {
-                $this->fileRepository->update($file);
-            } else {
-                $this->fileRepository->add($file);
-                $document->addFile($file);
-            }
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                if ($file->getUid()) {
+                    $this->fileRepository->update($file);
+                } else {
+                    $this->fileRepository->add($file);
+                    $document->addFile($file);
+                }
 
-            if (array_key_exists($file->getFileIdentifier(), $filesToBeDeleted)) {
-                unset($filesToBeDeleted[$file->getFileIdentifier()]);
+                if (array_key_exists($file->getFileIdentifier(), $filesToBeDeleted)) {
+                    unset($filesToBeDeleted[$file->getFileIdentifier()]);
+                }
             }
         }
 
         // Delete files
         /** @var File $deleteFile */
         foreach ($filesToBeDeleted as $fileToBeDeleted) {
-            $fileToBeDeleted->setStatus(File::STATUS_DELETED);
-            $this->fileRepository->update($fileToBeDeleted);
+            if (trim($fileToBeDeleted->getDatastreamIdentifier())) {
+                $fileToBeDeleted->setStatus(File::STATUS_DELETED);
+                $this->fileRepository->update($fileToBeDeleted);
+            } else {
+                $document->removeFile($fileToBeDeleted);
+            }
         }
 
         return $document;
