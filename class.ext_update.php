@@ -26,12 +26,14 @@ use EWW\Dpf\Security\Security;
 class ext_update {
 
     // Ideally the version corresponds with the extension version
-    const VERSION = "v4.0.0";
+    const NEW_VERSION = "v5.0.0";
+
+    // The version
+    const VERSION_4_0_0 = "v4.0.0";
 
     public function access() {
         $registry = GeneralUtility::makeInstance(Registry::class);
-        $version = $registry->get('tx_dpf','updatescript-'.self::VERSION);
-
+        $version = $registry->get('tx_dpf','updatescript-'.self::NEW_VERSION);
         // If the version has already been registered in the table sys_register the updatscript will be blocked.
         if ($version) {
             return FALSE;
@@ -43,25 +45,23 @@ class ext_update {
     public function main() {
         // This script registers itself into the sys_registry table to prevent a re-run with the same version number.
         $registry = GeneralUtility::makeInstance(Registry::class);
-        $version = $registry->get('tx_dpf','updatescript-'.self::VERSION);
-        if ($version) {
+        $newVersion = $registry->get('tx_dpf','updatescript-'.self::NEW_VERSION);
+
+        if ($newVersion) {
             return FALSE;
         } else {
-
             try {
                 // The necessary updates.
-                (new UpdateState)->execute();
-                (new UpdateAccessRestrictions)->execute();
-                (new UpdateVirtualType)->execute();
-                //$GLOBALS['TYPO3_DB']->sql_query("update tx_dpf_domain_model_document set creator = owner");
+                // 3->4: (new UpdateState)->execute();
+                // 3->4: (new UpdateAccessRestrictions)->execute();
+                // 3->4: (new UpdateVirtualType)->execute();
+                (new UpdateMetadataObjectValidator)->execute();
             } catch (\Throwable $throwable) {
                 return "Error while updating the extension: ".($throwable->getMessage());
             }
-
-            $registry->set('tx_dpf','updatescript-'.self::VERSION,TRUE);
+            $registry->set('tx_dpf','updatescript-'.self::NEW_VERSION, TRUE);
+            return "The extension has been successfully updated.";
         }
-
-        return "The extension has been successfully updated.";
     }
 }
 
@@ -148,5 +148,22 @@ class UpdateVirtualType
 
        // $GLOBALS['TYPO3_DB']->sql_query("ALTER TABLE tx_dpf_domain_model_documenttype CHANGE virtual zzz_deleted_virtual SMALLINT UNSIGNED DEFAULT 0 NOT NULL");
 
+    }
+}
+
+class UpdateMetadataObjectValidator
+{
+    public function execute() {
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $repository = $objectManager->get(\EWW\Dpf\Domain\Repository\MetadataObjectRepository::class);
+
+        foreach ($repository->crossClientFindAll() as $record) {
+            if ($record['data_type']) {
+                $recordObject = $repository->findByUid($record['uid']);
+                $recordObject->setValidator($record['data_type']);
+                $repository->update($recordObject);
+            }
+        }
     }
 }

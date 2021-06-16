@@ -260,7 +260,7 @@ class JsonToDocumentMapper
                                 $value = implode("; ", $fieldItem);
                             }
 
-                            if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
+                            if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE) {
                                 $date = date_create_from_format('d.m.Y', trim($value));
                                 if ($date) {
                                     $value = date_format($date, 'Y-m-d');
