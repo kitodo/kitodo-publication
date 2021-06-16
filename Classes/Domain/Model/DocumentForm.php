@@ -191,6 +191,14 @@ class DocumentForm extends AbstractFormElement
         return $this->files;
     }
 
+    /**
+     * @return bool
+     */
+    public function hasFiles()
+    {
+        return is_array($this->files) && !empty($this->files);
+    }
+
     public function setFiles($files)
     {
         $this->files = $files;
