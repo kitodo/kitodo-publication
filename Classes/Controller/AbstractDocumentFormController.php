@@ -245,7 +245,7 @@ abstract class AbstractDocumentFormController extends AbstractController
             $depositLicenseLog->setUrn($newDocument->getPrimaryUrn());
             $depositLicenseLog->setLicenceUri($newDocument->getDepositLicense());
 
-            if ($newDocument->getHasFiles()) {
+            if ($newDocument->hasFiles()) {
                 $fileList = [];
                 foreach ($newDocument->getFile() as $file) {
                     if (!$file->isFileGroupDeleted()) {
