@@ -15,6 +15,13 @@
 {namespace eww=EWW\Dpf\ViewHelpers}
 
 <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
+    <f:if condition="{fieldItem.helpTextShort}">
+        <a data-toggle="collapse" href="#collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}">
+                <span data-toggle="tooltip" title="" data-original-title="{fieldItem.helpTextShort}">
+                    <i class="fas fa-question-circle"></i>
+                </span>
+        </a>
+    </f:if>
     <f:if condition="{fieldItem.mandatory}">
         <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
     </f:if>
