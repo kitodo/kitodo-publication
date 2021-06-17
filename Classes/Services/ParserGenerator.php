@@ -271,7 +271,7 @@ class ParserGenerator
                 $path = $newPath[0];
             }
 
-            if (!empty($value)) {
+            if (isset($value) === true && $value !== '') {
                 $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 

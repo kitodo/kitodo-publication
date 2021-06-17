@@ -326,13 +326,25 @@ class InternalFormat
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCreator()
     {
         $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
-        return $this->getValue($creatorXpath);
+        $creator = $this->getValue($creatorXpath);
+
+        if (isset($creator) === true && $creator !== '') {
+            return $creator;
+        }
+
+        return '0';
     }
 
-    public function setCreator($creator)
+    /**
+     * @param string $creator
+     */
+    public function setCreator(string $creator)
     {
         $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
         $this->setValue($creatorXpath, $creator);
@@ -619,13 +631,13 @@ class InternalFormat
      * @param string $xpathString
      * @param string $value
      */
-    protected function setValue($xpathString, $value)
+    protected function setValue(string $xpathString, string $value)
     {
         $xpath = $this->getXpath();
         $nodes = $xpath->query(self::rootNode . $xpathString);
         if ($nodes->length > 0) {
             $nodes->item(0)->nodeValue = $value;
-        } elseif(!empty($value)) {
+        } elseif(isset($value) === true && $value !== '') {
             $parserGenerator = new ParserGenerator($this->clientPid);
             $parserGenerator->setXml($this->xml->saveXML());
             $parserGenerator->customXPath($xpathString,true, $value);
