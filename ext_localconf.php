@@ -40,13 +40,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,remoteFileExists',
-        'Gnd'              => 'search',
+        'DataServiceAjax' => 'searchGndKeyword, autocomplete',
     ),
     // non-cacheable actions
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,remoteFileExists',
-        'Gnd'              => 'search',
+        'DataServiceAjax' => 'searchGndKeyword, autocomplete',
     )
 );
 
@@ -111,8 +111,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
             .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
             .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
-        'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
+        'DataServiceAjax'  => 'searchGndKeyword, autocomplete',
     ),
     // non-cacheable actions
     array(
@@ -136,8 +136,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
             .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
             .'generateApiToken, removeApiToken',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
-        'Gnd'              => 'search',
         'User'             => 'settings, saveSettings',
+        'DataServiceAjax'  => 'searchGndKeyword, autocomplete',
     )
 );
 

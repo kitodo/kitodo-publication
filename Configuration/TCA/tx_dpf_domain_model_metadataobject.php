@@ -372,6 +372,7 @@ return array(
                     array('', 0),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.fill_out_service.urn', \EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_URN),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.fill_out_service.gnd', \EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_GND),
+                    array('AUTOCOMPLETE', \EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_AUTOCOMPLETE),
                 ),
                 'size'     => 1,
                 'maxitems' => 1,
@@ -380,7 +381,12 @@ return array(
             'onChange' => 'reload',
         ),
         'gnd_field_uid' => array(
-            'displayCond' => 'FIELD:fill_out_service:=:'.\EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_GND,
+            'displayCond' => array(
+                'OR' => array(
+                    'FIELD:fill_out_service:=:'.\EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_SERVICE_GND,
+                    'FIELD:fill_out_service:=:'.\EWW\Dpf\Domain\Model\MetadataObject::FILL_OUT_AUTOCOMPLETE
+                )
+            ),
             'exclude'   => 0,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.gnd_field_uid',
             'config'  => array(

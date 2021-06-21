@@ -1119,6 +1119,7 @@ var addGroup = function(target, fileGroup = false) {
     jQuery(target).attr("data-groupIndex", groupIndex);
     var ajaxURL = jQuery(target).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
+
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(group) {
         var group = jQuery(group).find("fieldset");
@@ -1220,6 +1221,7 @@ var deleteFile = function() {
     });
     return false;
 }
+
 */
 function buildAjaxParams(ajaxURL, indexName, index) {
     var res = ajaxURL.match(/(tx\w+?)%/); // get param name
@@ -1231,6 +1233,7 @@ function buildAjaxParams(ajaxURL, indexName, index) {
     }
     return params;
 }
+
 var fillOutServiceUrn = function() {
     // Get the field uid
     var fieldUid = jQuery(this).attr("data-field");
@@ -1400,65 +1403,69 @@ function addRemoveFileButton() {
 }
 
 
-function gndNothingFound(fieldId, groupIndex) {
-        var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
+function autocompleteNothingFound(fieldId, groupIndex) {
+        var autocompleteInputField = $('.autocomplete[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
 
-        if (gndInputField.data("old_gnd_field_value")) {
-            gndInputField.val(gndInputField.data("old_gnd_field_value"));
+        if (autocompleteInputField.data("old_autocomplete_field_value")) {
+          autocompleteInputField.val(gndInputField.data("old_autocomplete_field_value"));
         } else {
-            gndInputField.val();
+          autocompleteInputField.val();
         }
 
-        var gndFieldId = gndInputField.data("gndfield");
-        var linkedGroupIndex = gndInputField.data("groupindex");
-        var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
+        var autocompleteFieldId = autocompleteInputField.data("autocompletefield");
+        var linkedGroupIndex = autocompleteInputField.data("groupindex");
+        var autocompleteLinkedInputField = $('input[data-field="' + autocompleteFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
 
-        if (gndLinkedInputField.data("old_gnd_field_id")) {
-            gndLinkedInputField.val(gndLinkedInputField.data("old_gnd_field_id"));
+        if (autocompleteLinkedInputField.data("old_autocomplete_field_id")) {
+          autocompleteLinkedInputField.val(autocompleteLinkedInputField.data("old_autocomplete_field_id"));
         } else {
-            gndLinkedInputField.val();
+          autocompleteLinkedInputField.val();
         }
 
         /** global: form_error_msg_nothing_found */
-        jQuery('<div id="gnd-nothing-found" class="alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(gndInputField.closest(".form-container"));
+        jQuery('<div id="autocomplete-nothing-found" class="alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(autocompleteInputField.closest(".form-container"));
 
-        gndInputField.bind("keypress click", function () {
-            jQuery("#gnd-nothing-found").remove();
+        autocompleteInputField.bind("keypress click", function () {
+            jQuery("#autocomplete-nothing-found").remove();
         });
 
-    gndLinkedInputField.bind("keypress click", function () {
-        jQuery("#gnd-nothing-found").remove();
+    autocompleteLinkedInputField.bind("keypress click", function () {
+        jQuery("#autocomplete-nothing-found").remove();
     });
 
 }
 
-function setGndAutocomplete(fieldId, groupIndex) {
-    // GND autocomplete
-    var ajaxURL = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').attr("data-ajax");
+function setAutocomplete(fieldId, groupIndex) {
+    // autocomplete
+    var ajaxURL = $('.autocomplete[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').attr("data-ajax");
 
-    var gndInputField = $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
-    var gndFieldId = gndInputField.data("gndfield");
-    var linkedGroupIndex = gndInputField.data("groupindex");
-    var gndLinkedInputField = $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
+    var autocompleteInputField = $('.autocomplete[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]');
+    var autocompleteFieldId = autocompleteInputField.data("autocompletefield");
+    var linkedGroupIndex = autocompleteInputField.data("groupindex");
+    var autocompleteLinkedInputField = $('input[data-field="' + autocompleteFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]');
 
-    gndInputField.attr("data-old_gnd_field_value",gndInputField.val());
-    gndLinkedInputField.attr("data-old_gnd_field_id",gndLinkedInputField.val());
+    autocompleteInputField.attr("data-old_autocomplete_field_value",autocompleteInputField.val());
+    autocompleteLinkedInputField.attr("data-old_autocomplete_field_id",autocompleteLinkedInputField.val());
 
     // Get the name of the parameter array (tx_dpf_...),
     // the name depends on whether the call is from the frontend or the backend
     var res = ajaxURL.match(/(tx_dpf\w+?)%/);
-    var paramName = "tx_dpf_kitodopublicationform[search]";
+    var paramName = "tx_dpf_kitodopublicationform[searchTerm]";
     if (res && res[1]) {
-        paramName = res[1]+"[search]";
+        paramName = res[1]+"[searchTerm]";
     }
 
-    $('.gnd[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').autocomplete({
+    $('.autocomplete[data-field="' + fieldId + '"][data-groupindex="' + groupIndex + '"]').autocomplete({
         source: function (request, response) {
 
-            $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val("");
+            $('input[data-field="' + autocompleteFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val("");
 
             var requestData = {};
             requestData[paramName] = request.term.replace(" ", "+");
+
+         // console.log(ajaxURL);
+        //  console.log(params);
+
             $.ajax({
                 type: 'POST',
                 url: ajaxURL,
@@ -1467,28 +1474,30 @@ function setGndAutocomplete(fieldId, groupIndex) {
                 timeout: 10000,
                 success: function (data) {
                    if (data) {
-                       response(data);
+                     response(data);
                    } else {
-                       gndNothingFound(fieldId, groupIndex);
-                       response([]);
+                      autocompleteNothingFound(fieldId, groupIndex);
+                      response([]);
                    }
                 },
-                error: function () {
-                    gndNothingFound(fieldId, groupIndex);
+                error: function (xhr, ajaxOptions, thrownError) {
+                  console.log(xhr.status);
+                  console.log(thrownError);
+                    autocompleteNothingFound(fieldId, groupIndex);
                     response([]);
                 }
             });
         },
         minLength: 3,
         select: function (event, ui) {
-            gndFieldId = jQuery(event.target).data("gndfield");
+            autocompleteFieldId = jQuery(event.target).data("autocompletefield");
             linkedGroupIndex = jQuery(event.target).data("groupindex");
-            $('input[data-field="' + gndFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val(ui.item.gnd);
+            $('input[data-field="' + autocompleteFieldId + '"][data-groupindex="' + linkedGroupIndex + '"]').val(ui.item.key);
         },
     }).autocomplete( "instance" )._renderItem = function( ul, item ) {
         return $( "<li>" )
-            .append( "<div class='gnd-autocomplete'><span class='gnd-value' style='display:none;'>" + item.value + "</span>" +
-                "<span class='gnd-label'>" + item.label + "</span></div>"
+            .append( "<div class='autocomplete'><span class='autocomplete-value' style='display:none;'>" + item.value + "</span>" +
+                "<span class='autocomplete-label'>" + item.label + "</span></div>"
             )
             .appendTo( ul );
     };
@@ -2104,10 +2113,10 @@ $(document).ready(function() {
 
     previousNextFormPage();
 
-    var gnd = jQuery(".gnd");
-    if(gnd.length > 0) {
-        gnd.each(function() {
-            setGndAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
+    var autocomplete = jQuery(".autocomplete");
+    if(autocomplete.length > 0) {
+        autocomplete.each(function() {
+            setAutocomplete(jQuery(this).data("field"),  jQuery(this).data("groupindex"));
         });
     }
 

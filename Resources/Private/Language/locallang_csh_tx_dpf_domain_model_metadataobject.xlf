@@ -33,7 +33,7 @@
 			<source>Checkbox value</source>
 		</trans-unit>
 		<trans-unit id="gnd_field_uid.description">
-			<source>UID of the metadata object record which configures the GND No. field</source>
+			<source>UID of the metadata object record which configures the linked field</source>
 		</trans-unit>
 		<trans-unit id="input_option_list.description">
 			<source>Input option list</source>

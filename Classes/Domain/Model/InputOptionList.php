@@ -155,15 +155,23 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getInputOptions()
     {
+        $valueList = $this->getValueList();
+        $valueLabelList = $this->getValueLabelList();
 
-        $values = explode("|", $this->getValueList());
-        $labels = explode("|", $this->getValueLabelList());
+        if (!empty($valueList) && !empty($valueLabelList)) {
+            $values = explode("|", $valueList);
+            $labels = explode("|", $valueLabelList);
 
-        if (sizeof($values) != sizeof($labels)) {
-            throw new \Exception('Invalid input option list configuration.');
+            if (sizeof($values) != sizeof($labels)) {
+                throw new \Exception('Invalid input option list configuration.');
+            }
+
+            return array_combine($values, $labels);
+        } elseif($valueList) {
+            return explode("|", $valueList);;
+        } else {
+            return explode("|", $valueLabelList);
         }
-
-        return array_combine($values, $labels);
     }
 
     public function setL10nParent($l10nParent)

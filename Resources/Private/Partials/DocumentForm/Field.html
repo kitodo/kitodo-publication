@@ -82,22 +82,28 @@
                     }"/>
                 </f:then>
                 <f:else>
-                    <f:if condition="{fieldItem.fillOutService} == 'gnd'">
-                        <f:then>
+                    <f:switch expression="{fieldItem.fillOutService}">
+                        <f:case value="gnd">
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
-                        </f:then>
-                        <f:else>
+                                              value="{fieldItem.value}" class="input-field form-control autocomplete"
+                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'searchGndKeyword',controller:'DataServiceAjax', pageType:settings.ajaxTypeNum)}\", data-autocompletefield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                        </f:case>
+                        <f:case value="autocomplete">
+                            <f:form.textfield id="inp_{fieldItem.uid}"
+                                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                                              value="{fieldItem.value}" class="input-field form-control autocomplete"
+                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'autocomplete',controller:'DataServiceAjax',  arguments:'{\'inputOptionList\': fieldItem.inputOptionList}', pageType:settings.ajaxTypeNum)}\", data-autocompletefield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                        </f:case>
+                        <f:defaultCase>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                                               readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'readonly')}"
                             />
-                        </f:else>
-                    </f:if>
+                        </f:defaultCase>
+                    </f:switch>
                 </f:else>
             </f:if>
         </f:case>

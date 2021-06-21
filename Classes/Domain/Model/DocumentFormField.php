@@ -24,8 +24,6 @@ class DocumentFormField extends AbstractFormElement
 
     protected $selectOptions;
 
-    protected $inputOptions;
-
     protected $fillOutService;
 
     protected $defaultInputOption;
@@ -35,6 +33,11 @@ class DocumentFormField extends AbstractFormElement
     protected $validation;
 
     protected $depositLicense = null;
+
+    /**
+     * @var \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
+     */
+    protected $inputOptionList;
 
     /**
      * @var string
@@ -128,27 +131,35 @@ class DocumentFormField extends AbstractFormElement
      */
     public function getInputOptions()
     {
-        return $this->inputOptions;
+        $inputOptions = array();
+
+        if ($this->inputOptionList) {
+            $inputOptions[''] = '';
+            foreach ($this->inputOptionList->getInputOptions() as $option => $label) {
+                $this->inputOptions[$option] = $label;
+            }
+
+            $this->defaultInputOption = trim($this->inputOptionList->getDefaultValue());
+        }
+
+        return $inputOptions;
+    }
+
+    /**
+     * @return \EWW\Dpf\Domain\Model\InputOptionList
+     */
+    public function getInputOptionList()
+    {
+        return $this->inputOptionList;
     }
 
     /**
      *
      * @param \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
      */
-    public function setInputOptions(\EWW\Dpf\Domain\Model\InputOptionList $inputOptionList = null)
+    public function setInputOptionList(\EWW\Dpf\Domain\Model\InputOptionList $inputOptionList = null)
     {
-
-        $this->inputOptions = array();
-
-        if ($inputOptionList) {
-            $this->inputOptions[''] = '';
-            foreach ($inputOptionList->getInputOptions() as $option => $label) {
-                $this->inputOptions[$option] = $label;
-            }
-
-            $this->defaultInputOption = trim($inputOptionList->getDefaultValue());
-        }
-
+        $this->inputOptionList = $inputOptionList;
     }
 
     /**
