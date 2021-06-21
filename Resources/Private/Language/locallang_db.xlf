@@ -597,7 +597,7 @@
             <source>GND</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_metadataobject.gnd_field_uid">
-            <source>GND No. field UID</source>
+            <source>Fillout service: Linked key field (UID)</source>
         </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field">
 			<source>Input Field</source>

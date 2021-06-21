@@ -122,6 +122,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
 
     const FILL_OUT_SERVICE_URN = 'urn';
     const FILL_OUT_SERVICE_GND = 'gnd';
+    const FILL_OUT_AUTOCOMPLETE = 'autocomplete';
 
     /**
      * @var string
