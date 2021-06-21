@@ -266,6 +266,7 @@ return array(
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_field',
             'config'    => array(
+                'onChange' => 'reload',
                 'type'     => 'select',
                 'renderType' => 'selectSingle',
                 'items'    => array(
@@ -276,6 +277,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.hidden', \EWW\Dpf\Domain\Model\MetadataObject::hidden),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.inputDropdown', \EWW\Dpf\Domain\Model\MetadataObject::INPUTDROPDOWN),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.markdownTextarea', \EWW\Dpf\Domain\Model\MetadataObject::textareaMarkdown),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.fileUpload', \EWW\Dpf\Domain\Model\MetadataObject::FILE_UPLOAD)
                 ),
                 'size'     => 1,
                 'maxitems' => 1,
@@ -465,6 +467,9 @@ return array(
                     ['Surname', 'surname'],
                     ['FIS-Person-ID', 'fispersonid'],
                     ['UnpaywallDoi', 'unpaywallDoi'],
+                    ['File label', 'fileLabel'],
+                    ['File download', 'fileDownload'],
+                    ['File archive', 'fileArchive'],
                 ],
             ],
         ],

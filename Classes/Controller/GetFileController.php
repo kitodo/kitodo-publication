@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Controller;
 
 /*
@@ -41,6 +42,9 @@ namespace EWW\Dpf\Controller;
  * @author Florian Rügamer <florian.ruegamer@slub-dresden.de>
  */
 
+use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Helper\XSLTransformator;
+use EWW\Dpf\Services\ParserGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -83,11 +87,12 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         switch ($piVars['action']) {
             case 'mets':
-                $path = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'/methods/'.$fedoraNamespace.':SDef/getMETSDissemination?supplement=yes';
+                $path = rtrim('http://' . $fedoraHost,
+                        "/") . '/fedora/objects/' . $piVars['qid'] . '/methods/' . $fedoraNamespace . ':SDef/getMETSDissemination?supplement=yes';
                 break;
 
             case 'preview':
-
+                // Fixme: Can be removed due to the details page.
                 $document = $this->documentRepository->findByUid($piVars['qid']);
 
                 if ($document) {
@@ -114,24 +119,25 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     // qid is local uid
                     $document = $this->documentRepository->findByUid($piVars['qid']);
 
-                    $files = $document->getCurrentFileData();
-
-                    foreach ($files['download'] as $id => $file) {
-
-                        if ($file['id'] == $attachment) {
-
-                            $path = $file['path'];
-
-                            $contentType = $file['type'];
-
-                            break;
-
+                    /** @var File $file */
+                    if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+                        foreach ($document->getFile() as $file) {
+                            if (!$file->isFileGroupDeleted()) {
+                                if ($file->getDownload()) {
+                                    if ($file->getDatastreamIdentifier() == $attachment) {
+                                        $path = $file->getUrl();
+                                        $contentType = $file->getContentType();
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
 
                 } else {
 
-                    $path = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
+                    $path = rtrim('http://' . $fedoraHost,
+                            "/") . '/fedora/objects/' . $qid . '/datastreams/' . $attachment . '/content';
 
                 }
 
@@ -148,7 +154,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $source = explode(':', $qid);
                 if ($source[0] == $fedoraNamespace) {
 
-                    $path = rtrim('http://' . $fedoraHost, "/").'/fedora/objects/'.$piVars['qid'].'/methods/'.$fedoraNamespace.':SDef/getMETSDissemination?supplement=yes';
+                    $path = rtrim('http://' . $fedoraHost,
+                            "/") . '/fedora/objects/' . $piVars['qid'] . '/methods/' . $fedoraNamespace . ':SDef/getMETSDissemination?supplement=yes';
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
                     $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
 
@@ -167,7 +174,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 $dom->loadXML($dataCiteXml);
                 $title = $dom->getElementsByTagName('title')[0];
 
-                $this->response->setHeader('Content-Disposition', 'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
+                $this->response->setHeader('Content-Disposition',
+                    'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
                 $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                 return $dataCiteXml;
 
@@ -191,21 +199,22 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // allow dissemination if a request parameter 'deliverInactive' has the secret
         // TYPOScript configuration value 'deliverInactiveSecretKey'
 
-        $restrictToActiveDocuments = TRUE;
+        $restrictToActiveDocuments = true;
         $deliverInactiveSecretKey = $this->settings['deliverInactiveSecretKey'];
 
         if ($deliverInactiveSecretKey == $piVars['deliverInactive']) {
-            $restrictToActiveDocuments = FALSE;
+            $restrictToActiveDocuments = false;
         }
 
-        if (TRUE === $isRepositoryObject) {
-            if (TRUE === $restrictToActiveDocuments) {
+        if (true === $isRepositoryObject) {
+            if (true === $restrictToActiveDocuments) {
                 // if restriction applies, check object state before dissemination
-                $objectProfileURI = rtrim('http://' . $fedoraHost,"/").'/fedora/objects/'.$piVars['qid'].'?format=XML';
+                $objectProfileURI = rtrim('http://' . $fedoraHost,
+                        "/") . '/fedora/objects/' . $piVars['qid'] . '?format=XML';
                 $objectProfileXML = file_get_contents($objectProfileURI);
-                if (FALSE !== $objectProfileXML) {
+                if (false !== $objectProfileXML) {
                     $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-                    if (TRUE === $objectProfileDOM->loadXML($objectProfileXML)) {
+                    if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
                         $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
                         if ('I' === $objectState->nodeValue) {
                             $this->response->setStatus(403);
@@ -226,7 +235,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         // get remote header and set it before passtrough
         $headers = get_headers($path);
 
-        if (FALSE === $headers) {
+        if (false === $headers) {
             $this->response->setStatus(500);
             return 'Error while fetching headers';
         }
@@ -236,19 +245,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         foreach ($headers as $value) {
 
-            if (FALSE !== stripos($value, 'Content-Disposition')) {
+            if (false !== stripos($value, 'Content-Disposition')) {
                 header($value);
                 $contentDispFlag = true;
                 continue;
             }
 
-            if (FALSE !== stripos($value, 'Content-Type')) {
+            if (false !== stripos($value, 'Content-Type')) {
                 header($value);
                 $contentTypeFlag = true;
                 continue;
             }
 
-            if (FALSE !== stripos($value, 'Content-Length')) {
+            if (false !== stripos($value, 'Content-Length')) {
                 header($value);
                 continue;
             }
@@ -299,21 +308,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function buildMetsXml($document)
     {
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
-        $fileData = $document->getCurrentFileData();
-        $exporter->setFileData($fileData);
-        $exporter->setXML($document->getXmlData());
+        $parserGenerator = new ParserGenerator();
+        $parserGenerator->setXML($document->getXmlData());
 
         if (empty($document->getObjectIdentifier())) {
-            $exporter->setObjId($document->getUid());
+            $parserGenerator->setObjId($document->getUid());
         } else {
-            $exporter->setObjId($document->getObjectIdentifier());
+            $parserGenerator->setObjId($document->getObjectIdentifier());
         }
 
-        $document->setXmlData($exporter->getXMLData());
-        $transformedXml = $exporter->getTransformedOutputXML($document);
+        $document->setXmlData($parserGenerator->getXMLData());
 
-        return $transformedXml;
+        $XSLTransformator = new XSLTransformator();
+        return $XSLTransformator->getTransformedOutputXML($document);
     }
 
     private function isForbidden($action)

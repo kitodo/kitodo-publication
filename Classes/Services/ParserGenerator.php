@@ -136,23 +136,6 @@ class ParserGenerator
         return $xml;
     }
 
-    public function transformInputXML($xml)
-    {
-        $XSLTransformator = new XSLTransformator();
-        return $XSLTransformator->transformInputXML($xml);
-    }
-
-    /**
-     * @param $document
-     * @return string The transformed xml
-     */
-    public function getTransformedOutputXML($document)
-    {
-        $XSLTransformator = new XSLTransformator();
-        return $XSLTransformator->getTransformedOutputXML($document);
-    }
-
-
     /**
      * build mods from form array
      * @param array $array structured form data array
@@ -192,13 +175,14 @@ class ParserGenerator
             $i                   = 0;
             // loop each object
             if (!empty($values)) {
+                //$values = empty($values)? [] : $values;
                 foreach ($values as $value) {
 
                     if ($value['modsExtension']) {
                         $existsExtensionFlag = true;
                         // mods extension
-                        $counter            = sprintf("%'03d", $this->counter);
-                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="'.$fedoraNamespace.'_' . $counter . '"]';
+                        $counter = sprintf("%'03d", $this->counter);
+                        $referenceAttribute = $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="' . $fedoraNamespace . '_' . $counter . '"]';
 
                         $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
@@ -212,8 +196,8 @@ class ParserGenerator
                             $newGroupFlag = false;
                         }
 
-                    $this->customXPath($path, $newGroupFlag, $value['value']);
-                    $i++;
+                        $this->customXPath($path, $newGroupFlag, $value['value']);
+                        $i++;
 
                     }
 
@@ -232,8 +216,6 @@ class ParserGenerator
                 $this->counter++;
             }
         }
-
-        $this->files = $array['files'];
     }
 
     /**
@@ -289,7 +271,7 @@ class ParserGenerator
                 $path = $newPath[0];
             }
 
-            if (!empty($value)) {
+            if (isset($value) === true && $value !== '') {
                 $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
@@ -461,38 +443,4 @@ class ParserGenerator
         }
         $this->xmlData = $domDocument;
     }
-
-    /**
-     * sets the file data and generates file xml
-     * @param string $value
-     */
-    public function setFileData($value = '')
-    {
-        $this->files = $value;
-        $this->generateFileXML();
-    }
-
-    /**
-     * generates the internal xml format for files
-     */
-    public function generateFileXML() {
-
-        $fileXpathConfiguration = $this->clientConfigurationManager->getFileXpath();
-
-        foreach ($this->files as $key => $fileGrp) {
-            foreach ($fileGrp as $file) {
-
-                $this->customXPath($fileXpathConfiguration . '/href', true, $file["path"]);
-                $this->customXPath($fileXpathConfiguration . '%mimetype', false, $file["type"]);
-                $this->customXPath($fileXpathConfiguration . '%title', false, $file["title"]);
-                $this->customXPath($fileXpathConfiguration . '%download', false, $file["download"]);
-                $this->customXPath($fileXpathConfiguration . '%archive', false, $file["archive"]);
-                $this->customXPath($fileXpathConfiguration . '%use', false, $file["use"]);
-                $this->customXPath($fileXpathConfiguration . '%id', false, $file["id"]);
-                $this->customXPath($fileXpathConfiguration . '%hasFLocat', false, $file["hasFLocat"]);
-
-            }
-        }
-    }
-
 }

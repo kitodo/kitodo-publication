@@ -387,4 +387,47 @@ class ClientConfigurationManager
         return $settings;
     }
 
+    public function getFileIdXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileIdXpath", "fileIdXpath"));
+    }
+
+    public function getFileMimetypeXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileMimetypeXpath", "fileMimetypeXpath"));
+    }
+
+    public function getFileHrefXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileHrefXpath", "fileHrefXpath"));
+    }
+
+    public function getFileDownloadXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileDownloadXpath", "fileDownloadXpath"));
+    }
+
+    public function getFileArchiveXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileArchiveXpath", "fileArchiveXpath"));
+    }
+
+    public function getFileDeletedXpath()
+    {
+        return$this->trimFileXpath($this->getSetting("fileDeletedXpath", "fileDeletedXpath"));
+    }
+
+    public function getFileTitleXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("fileTitleXpath", "fileTitleXpath"));
+    }
+
+    /**
+     * @param string $xpath
+     * @return string
+     */
+    protected function trimFileXpath(string $xpath): ?string
+    {
+        return trim($xpath, "@/ ");
+    }
 }

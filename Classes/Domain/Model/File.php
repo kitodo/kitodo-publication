@@ -83,6 +83,14 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $primaryFile;
 
+
+    /**
+     * fileIdentifier
+     *
+     * @var string
+     */
+    protected $fileIdentifier = '';
+
     /**
      * datastreamIdentifier
      *
@@ -387,5 +395,38 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         }
 
         return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileIdentifier(): string
+    {
+        return $this->fileIdentifier;
+    }
+
+    /**
+     * @param string $fileIdentifier
+     */
+    public function setFileIdentifier(string $fileIdentifier): void
+    {
+        $this->fileIdentifier = $fileIdentifier;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNewFileHref(): bool
+    {
+        return $this->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_ADDED ||
+            $this->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_CHANGED;
+    }
+
+    /**
+     * @return string
+     */
+    public function isDeleted(): string
+    {
+        return $this->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED;
     }
 }

@@ -13,6 +13,8 @@
     -->
 </f:comment>
 
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
 <f:if condition="{fieldItem.inputOptions}">
     <f:then>
         {fieldItem.inputOptions.{fieldItem.value}}
@@ -33,6 +35,11 @@
                 <div id="markdown_preview_{fieldItemIterator.index}">
                     <f:form.textarea id="inp_{fieldItem.uid}" value="{fieldItem.value}" name="md-preview"/>
                 </div>
+            </f:else>
+            <f:else if="{fieldItem.inputField} == 200">
+                <f:link.external uri="{dpf:fileUrl(uri:'{fieldItem.value}')}" target="_blank" class="file_link">
+                    {fieldItem.file.title}
+                </f:link.external>
             </f:else>
             <f:else>
                 {fieldItem.value}

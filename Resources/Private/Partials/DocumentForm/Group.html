@@ -14,22 +14,34 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-<fieldset class="fs_group" data-optionalgroups="{formGroup.0.optionalGroups}" data-requiredgroups="{formGroup.0.requiredGroups}" data-group="{formGroupUid}" data-groupindex="{groupIndex}" data-mandatory="{groupItem.mandatory}" data-emptygroup="{groupItem.emptyGroup}">
-    <legend>
-        <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
-        {formGroupDisplayName}
-        <f:if condition="{groupIndex}">
-            <button type="submit" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
-                <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
-            </button>
-        </f:if>
-    </legend>
-    <div class="group-info-text">
-        <f:format.raw>{groupItem.infoText}</f:format.raw>
-    </div>
+<fieldset
+    id="{f:if(condition: '{groupItem.groupType} == \'primary_file\' || {groupItem.groupType} == \'secondary_file\'', then: '{groupItem.groupType}', else:'')}"
+    class="{f:if(condition: '{groupItem.groupType} == primary_file || {groupItem.groupType} == secondary_file', then: 'fs_file_group', else:'fs_group')}"
+    data-optionalgroups="{formGroup.0.optionalGroups}"
+    data-requiredgroups="{formGroup.0.requiredGroups}"
+    data-group="{formGroupUid}"
+    data-groupindex="{groupIndex}"
+    data-mandatory="{groupItem.mandatory}"
+    data-emptygroup="{groupItem.emptyGroup}"
+    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPageUid,groupUid:formGroupUid})}">
 
+    <f:if condition="{groupItem.groupType} != 'primary_file' && {groupItem.groupType} != 'secondary_file'">
+        <legend>
+            <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
+            {formGroupDisplayName}
+            <f:if condition="{groupIndex}">
+                <button type="submit" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
+                    <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
+                </button>
+            </f:if>
+            <div class="group-info-text">
+                <f:format.raw>{groupItem.infoText}</f:format.raw>
+            </div>
+        </legend>
+    </f:if>
+    
     <f:for each="{eww:explodeString(string:'{groupItem.groupType}', glue:',')}" as="api" iteration="iterator">
-        <f:if condition="{api}">
+        <f:if condition="{api} && {api} != 'primary_file' && {api} != 'secondary_file'">
             <f:then>
                 <f:if condition="{api} == 'Person'">
                     <f:then>

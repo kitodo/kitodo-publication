@@ -129,6 +129,12 @@ class DocumentFormGroup extends AbstractFormElement
         $this->requiredGroups = $requiredGroups;
     }
 
-
+    /**
+     * @param mixed $groupType
+     */
+    public function isPrimaryFileGroup()
+    {
+        return $this->groupType == 'primary_file';
+    }
 
 }

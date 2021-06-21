@@ -87,6 +87,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     const hidden   = 4;
     const textareaMarkdown = 10;
     const INPUTDROPDOWN = 100;
+    const FILE_UPLOAD = 200;
 
     const INPUT_DATA_TYPE_REGEXP = "REGEXP";
     const INPUT_DATA_TYPE_DATE   = "DATE";
@@ -279,7 +280,10 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function getMaxIteration()
     {
-        return $this->maxIteration;
+        if ($this->isRepeatable()) {
+            return $this->maxIteration;
+        }
+        return 1;
     }
 
     /**
@@ -290,7 +294,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      */
     public function setMaxIteration($maxIteration)
     {
-        $this->maxIteration = $maxIteration;
+        if ($this->isRepeatable()) {
+            $this->maxIteration = $maxIteration;
+        } else {
+            $this->maxIteration = 1;
+        }
     }
 
     /**
@@ -807,5 +815,42 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     public function setHelpText(string $helpText): void
     {
         $this->helpText = $helpText;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUploadField()
+    {
+        return $this->getInputField() == self::FILE_UPLOAD;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFileLabelField()
+    {
+        return $this->getObjectType() == 'fileLabel';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFileDownloadField()
+    {
+        return $this->getObjectType() == 'fileDownload';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFileArchiveField()
+    {
+        return $this->getObjectType() == 'fileArchive';
+    }
+
+    protected function isRepeatable() {
+        return !in_array($this->getObjectType(), ['fileDownload','fileArchive','fileLabel'])
+            && $this->getInputField() != self::FILE_UPLOAD;
     }
 }

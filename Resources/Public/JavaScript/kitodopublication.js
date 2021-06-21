@@ -209,7 +209,7 @@ var saveExtendedSearch = {
         jQuery("button").on("click", function () {
             jQuery(".alert-save-extended-search-success").hide();
         });
-        
+
     },
 
     show: function() {
@@ -777,7 +777,7 @@ var itemsPerPageHandler = {
             if (itemsPerPage !== items.toString() || items < 1) {
                 items = 10;
             }
-            
+
             var res = ajaxURL.match(/(tx\w+?)%/); // get param name
             var params = {};
             var indexParam = {};
@@ -1054,16 +1054,16 @@ var checkFilledInputs = function(fieldset) {
     });
     return filledInputs < 1;
 }
-var addGroup = function(target) {
+var addGroup = function(target, fileGroup = false) {
 
     var element = jQuery(target);
 
     var dataGroup = jQuery(target).attr("data-group");
 
     // Number of the next group item
-    var groupIndex = parseInt(jQuery(target).attr("data-index")) + 1;
+    var groupIndex = parseInt(jQuery(target).attr("data-groupIndex")) + 1;
 
-    jQuery(target).attr("data-index", groupIndex);
+    jQuery(target).attr("data-groupIndex", groupIndex);
     var ajaxURL = jQuery(target).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "groupIndex", groupIndex);
     //do the ajax-call
@@ -1094,6 +1094,11 @@ var addGroup = function(target) {
             setGndAutocomplete(gndField.data("field"),gndField.data("groupindex"));
         }
         loadMdEditor();
+
+        if (fileGroup) {
+          jQuery(target).remove();
+          //jQuery(".tx-dpf").on("click", ".rem_file_group", deleteFile);
+        }
     });
     return false;
 }
@@ -1106,6 +1111,7 @@ var addField = function() {
     jQuery(this).attr("data-index", fieldIndex);
     var ajaxURL = jQuery(this).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "fieldIndex", fieldIndex);
+
     //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
@@ -1124,18 +1130,43 @@ var addField = function() {
     });
     return false;
 }
+
 var deleteFile = function() {
+    var fileGroup = jQuery(this).parents(".fs_file_group");
+
+    var dataGroup = fileGroup.attr("data-group");
+    var dataPage = fileGroup.parent().attr("data-page");
+
+    var numFileGroups = fileGroup.parent().children('.fs_file_group[data-group=' + dataGroup + ']').length;
+
+    var groupIndex = fileGroup.attr("data-groupIndex");
+
+    if (numFileGroups == 1) {
+      addGroup(fileGroup, true);
+    } else {
+      fileGroup.fadeOut(300, function () {
+        jQuery(this).remove();
+      });
+    }
+
+    //var dataIndex = jQuery(this).data("index");
+    return false;
+}
+
+/*
+var deleteFile = function() {
+
     var fileGroup = jQuery(this).parent().parent();
     var ajaxURL = jQuery(this).attr("data-ajax");
     var params = {}
-        //do the ajax-call
+    //do the ajax-call
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
         jQuery(fileGroup).replaceWith(field);
     });
     return false;
 }
-
+*/
 function buildAjaxParams(ajaxURL, indexName, index) {
     var res = ajaxURL.match(/(tx\w+?)%/); // get param name
     var params = {};
@@ -1992,13 +2023,6 @@ $(document).ready(function() {
         return false;
     });
     jQuery(".tx-dpf").on("click", ".rem_file_group", deleteFile);
-    jQuery(".tx-dpf").on("click", ".rem_secondary_upload", function() {
-        var dataIndex = jQuery(this).data("index");
-        jQuery(this).parents(".fs_file_group").fadeOut(300, function() {
-            jQuery(this).remove();
-        });
-        return false;
-    });
     jQuery(".tx-dpf").on("click", ".rem_field", function() {
         var dataIndex = jQuery(this).data("index");
         var dataField = jQuery(this).data("field");

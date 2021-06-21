@@ -16,7 +16,12 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Services\ParserGenerator;
+use EWW\Dpf\Services\Transfer\FileId;
+use EWW\Dpf\Services\XPathXMLGenerator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Domain\Model\File;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use DOMNode;
 
 class InternalFormat
 {
@@ -152,14 +157,57 @@ class InternalFormat
         $xpath = $this->getXpath();
 
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
+        $fileIdXpath = $this->clientConfigurationManager->getFileIdXpath();
+        $fileMimetypeXpath = $this->clientConfigurationManager->getFileMimetypeXpath();
+        $fileHrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
+        $fileDownloadXpath = $this->clientConfigurationManager->getFileDownloadXpath();
+        $fileArchiveXpath = $this->clientConfigurationManager->getFileArchiveXpath();
+        $fileDeletedXpath = $this->clientConfigurationManager->getFileDeletedXpath();
+        $fileTitleXpath = $this->clientConfigurationManager->getFileTitleXpath();
 
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
         $files = [];
 
         foreach ($fileNodes as $file) {
-            $fileAttrArray = [];
+            $fileAttrArray = [
+                'id' => '',
+                'mimetype' => '',
+                'href' => '',
+                'title' => '',
+                'download' => false,
+                'archive' => false,
+                'deleted' => false
+            ];
             foreach ($file->childNodes as $fileAttributes) {
-                $fileAttrArray[$fileAttributes->tagName] = $fileAttributes->nodeValue;
+                switch ($fileAttributes->tagName) {
+                    case $fileIdXpath:
+                        $fileAttrArray['id'] = $fileAttributes->nodeValue;
+                        break;
+
+                    case $fileMimetypeXpath:
+                        $fileAttrArray['mimetype'] = $fileAttributes->nodeValue;
+                        break;
+
+                    case $fileHrefXpath:
+                        $fileAttrArray['href'] = $fileAttributes->nodeValue;
+                        break;
+
+                    case $fileTitleXpath:
+                        $fileAttrArray['title'] = $fileAttributes->nodeValue;
+                        break;
+
+                    case $fileDownloadXpath:
+                        $fileAttrArray['download'] = !empty($fileAttributes->nodeValue);
+                        break;
+
+                    case $fileArchiveXpath:
+                        $fileAttrArray['archive'] = !empty($fileAttributes->nodeValue);
+                        break;
+
+                    case $fileDeletedXpath:
+                        $fileAttrArray['deleted'] = !empty($fileAttributes->nodeValue);
+                        break;
+                }
             }
             $files[] = $fileAttrArray;
         }
@@ -278,13 +326,25 @@ class InternalFormat
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCreator()
     {
         $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
-        return $this->getValue($creatorXpath);
+        $creator = $this->getValue($creatorXpath);
+
+        if (isset($creator) === true && $creator !== '') {
+            return $creator;
+        }
+
+        return '0';
     }
 
-    public function setCreator($creator)
+    /**
+     * @param string $creator
+     */
+    public function setCreator(string $creator)
     {
         $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
         $this->setValue($creatorXpath, $creator);
@@ -571,13 +631,13 @@ class InternalFormat
      * @param string $xpathString
      * @param string $value
      */
-    protected function setValue($xpathString, $value)
+    protected function setValue(string $xpathString, string $value)
     {
         $xpath = $this->getXpath();
         $nodes = $xpath->query(self::rootNode . $xpathString);
         if ($nodes->length > 0) {
             $nodes->item(0)->nodeValue = $value;
-        } elseif(!empty($value)) {
+        } elseif(isset($value) === true && $value !== '') {
             $parserGenerator = new ParserGenerator($this->clientPid);
             $parserGenerator->setXml($this->xml->saveXML());
             $parserGenerator->customXPath($xpathString,true, $value);
@@ -586,4 +646,109 @@ class InternalFormat
         }
     }
 
+    /**
+     * Removes all file nodes from the internal xml
+     */
+    public function removeAllFiles() {
+        $xpath = $this->getXpath();
+        $fileXpath = $this->clientConfigurationManager->getFileXpath();
+        $fileNodes = $xpath->query(self::rootNode . $fileXpath);
+        foreach ($fileNodes as $fileNode) {
+            $fileNode->parentNode->removeChild($fileNode);
+        }
+    }
+
+    /**
+     * @param DOMNode $fileNode
+     * @param string $nodeXpath
+     * @param string $value
+     */
+    public function setFileData(DOMNode $fileNode, string $nodeXpath, string $value)
+    {
+        $xpath = $this->getXpath();
+
+        if ($fileNode) {
+            $nodes = $xpath->query($nodeXpath, $fileNode);
+
+            if ($nodes->length > 0) {
+                $nodes->item(0)->nodeValue = $value;
+            } else {
+                /** @var XPathXMLGenerator $xPathXMLGenerator */
+                $xPathXMLGenerator = new XPathXMLGenerator();
+                $xPathXMLGenerator->generateXmlFromXPath($nodeXpath . "='" . $value . "'");
+
+                // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                // since it is about child elements that are then added to the overall XML.
+                libxml_use_internal_errors(true);
+                $dom = new \DOMDocument();
+                $domLoaded = $dom->loadXML($xPathXMLGenerator->getXML());
+                libxml_use_internal_errors(false);
+
+                if ($domLoaded) {
+                    $newField = $this->xml->importNode($dom->firstChild, true);
+                    $fileNode->appendChild($newField);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param ObjectStorage<File> $files
+     * @throws \Exception
+     */
+    public function completeFileData(ObjectStorage $files)
+    {
+        $fileId = new FileId($files);
+
+        $xpath = $this->getXpath();
+
+        $fileXpath = $this->clientConfigurationManager->getFileXpath();
+        $mimeTypeXpath = $this->clientConfigurationManager->getFileMimetypeXpath();
+        $idXpath = $this->clientConfigurationManager->getFileIdXpath();
+        $deletedXpath = $this->clientConfigurationManager->getFileDeletedXpath();
+
+        /** @var File $file */
+        foreach ($files as $file) {
+
+            $dataStreamIdentifier = $file->getDatastreamIdentifier();
+
+            if (!$file->isFileGroupDeleted()) {
+
+                if ($file->isDeleted()) {
+
+                    if (!empty($dataStreamIdentifier)) {
+                        /** @var XPathXMLGenerator $xPathXMLGenerator */
+                        $xPathXMLGenerator = new XPathXMLGenerator();
+                        $xPathXMLGenerator->generateXmlFromXPath($fileXpath);
+
+                        // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                        // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                        // since it is about child elements that are then added to the overall XML.
+                        libxml_use_internal_errors(true);
+                        $dom = new \DOMDocument();
+                        $domLoaded = $dom->loadXML($xPathXMLGenerator->getXML());
+                        libxml_use_internal_errors(false);
+
+                        if ($domLoaded) {
+                            $newFile = $this->xml->importNode($dom->firstChild, true);
+                            $newFile->setAttribute('usage', 'delete');
+                            $this->setFileData($newFile, $idXpath, $file->getDatastreamIdentifier());
+                            $this->setFileData($newFile, $deletedXpath, 'yes');
+                            $this->xml->firstChild->appendChild($newFile);
+                        }
+                    }
+                } else {
+                    $fileNodes = $xpath->query(
+                        self::rootNode . $fileXpath . '[./'.trim($idXpath, '@/ ').'="'.$file->getFileIdentifier().'"]'
+                    );
+
+                    if ($fileNodes->length > 0) {
+                        $this->setFileData($fileNodes->item(0), $idXpath, $fileId->getId($file));
+                        $this->setFileData($fileNodes->item(0), $mimeTypeXpath, $file->getContentType());
+                    }
+                }
+            }
+        }
+    }
 }

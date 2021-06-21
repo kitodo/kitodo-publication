@@ -47,15 +47,15 @@ class DocumentFormController extends AbstractDocumentFormController
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-        foreach ($newDocumentForm->getNewFiles() as $newFile) {
-            $uid = $newFile->getUID();
+        foreach ($newDocumentForm->getFiles() as $file) {
+            $uid = $file->getUID();
             if (empty($uid)) {
-                $newFile->setDownload(true);
+                $file->setDownload(true);
             }
-            $files[] = $newFile;
+            $files[] = $file;
         }
 
-        $newDocumentForm->setNewFiles($files);
+        $newDocumentForm->setFiles($files);
 
         try {
             parent::createAction($newDocumentForm);

@@ -173,6 +173,7 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mapping_for_reading',
+            'displayCond' => 'FIELD:group_type:!IN:file',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
@@ -183,6 +184,7 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mapping',
+           // 'displayCond' => 'FIELD:group_type:!IN:file',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
@@ -193,6 +195,7 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mods_extension_mapping',
+            'displayCond' => 'FIELD:group_type:!IN:file',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
@@ -203,6 +206,7 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.mods_extension_reference',
+            'displayCond' => 'FIELD:group_type:!IN:file',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
@@ -213,6 +217,7 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadatagroup.json_mapping',
+            'displayCond' => 'FIELD:group_type:!IN:file',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
@@ -294,8 +299,11 @@ return array(
                     ['Zdb', 'Zdb'],
                     ['Unpaywall', 'Unpaywall'],
                     ['ORCID', 'Orcid'],
+                    ['Primary File', 'primary_file'],
+                    ['Secondary File', 'secondary_file'],
                 ],
             ],
+            'onChange' => 'reload',
         ],
         'optional_groups' => [
             'exclude' => 0,

@@ -146,6 +146,27 @@
         <trans-unit id="tx_dpf_domain_model_client.file_xpath" approved="yes">
             <source>File xpath</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_id_xpath" approved="yes">
+            <source>File id xpath, relative to the file xpath </source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_mimetype_xpath" approved="yes">
+            <source>File mimetype xpath, relative to the file xpath</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_href_xpath" approved="yes">
+            <source>File href xpath, relative to the file xpath </source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_download_xpath" approved="yes">
+            <source>File download xpath, relative to the file xpath </source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_archive_xpath" approved="yes">
+            <source>File archive xpath, relative to the file xpath </source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_deleted_xpath" approved="yes">
+            <source>File deleted xpath, relative to the file xpath </source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_title_xpath" approved="yes">
+            <source>File title xpath, relative to the file xpath </source>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.type_xpath" approved="yes">
             <source>Type xpath</source>
         </trans-unit>
@@ -607,6 +628,9 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.markdownTextarea">
 			<source>textarea with markdown</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.fileUpload">
+			<source>file upload</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 			<source>Mandatory</source>

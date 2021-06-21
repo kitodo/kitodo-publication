@@ -15,6 +15,7 @@ namespace EWW\Dpf\Helper;
  */
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use TYPO3\CMS\Core\Core\Environment;
@@ -97,10 +98,11 @@ class XSLTransformator
     }
 
     /**
-     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @param Document $document
+     * @param string $xmlData
      * @return string The transformed xml
      */
-    public function getTransformedOutputXML($document, $xmlData = false)
+    public function getTransformedOutputXML(Document $document, $xmlData = null): string
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
@@ -136,13 +138,13 @@ class XSLTransformator
                 );
             } else {
                 $transformedXml = $documentTransformer->transform(
-                    Environment::getPublicPath(). '/fileadmin' . $filePath, $document->getXmlData(), $transformParams
+                    Environment::getPublicPath(). '/fileadmin' . $filePath, $document->publicXml(), $transformParams
                 );
             }
 
         } else {
             // return generated xml if no transformation file is present
-            $transformedXml = $document->getXmlData();
+            $transformedXml = $document->publicXml();
 
             /** @var $logger Logger */
             $logger = GeneralUtility::makeInstance(

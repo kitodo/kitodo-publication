@@ -258,7 +258,7 @@ class ApiController extends ActionController
                 $doc->setProcessNumber($processNumber);
             }
 
-            if ($this->documentManager->update($doc, null, [], [], true)) {
+            if ($this->documentManager->update($doc, null,true)) {
                 return '{"success": "Document '.$document.' added '.$id.'"}';
             } else {
                 return '{"failed": Could not update the Document"}';

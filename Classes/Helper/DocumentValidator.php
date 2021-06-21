@@ -147,16 +147,6 @@ class DocumentValidator
         return TRUE;
     }
 
-
-    /**
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
-     */
-    protected function hasFiles(\EWW\Dpf\Domain\Model\DocumentForm $documentForm)
-    {
-        return $documentForm->getPrimaryFile() || $documentForm->getSecondaryFiles();
-    }
-
-
     /**
      * @param Document $document
      * @param bool $validateInvisableFields : If false, invisible form fields and groups are not validated.
@@ -168,9 +158,7 @@ class DocumentValidator
         /** @var  \EWW\Dpf\Domain\Model\DocumentForm $docForm */
         $docForm = $this->documentMapper->getDocumentForm($document);
 
-        $hasFiles = $this->hasFiles($docForm);
-
-        if ($checkPrimaryFile && !$hasFiles) return FALSE;
+        if ($checkPrimaryFile && !$docForm->hasFiles()) return FALSE;
 
         $pages = $docForm->getItems();
         foreach ($pages as $page) {
@@ -178,8 +166,7 @@ class DocumentValidator
                 /** @var  \EWW\Dpf\Domain\Model\DocumentFormGroup $groupItem */
 
                 foreach ($groups as $groupItem) {
-                    if (!$this->hasAllMandatoryGroupValues($groupItem, $hasFiles, $validateInvisableFields)) {
-                        //die();
+                    if (!$this->hasAllMandatoryGroupValues($groupItem, $docForm->hasFiles(), $validateInvisableFields)) {
                         return FALSE;
                     }
                 }

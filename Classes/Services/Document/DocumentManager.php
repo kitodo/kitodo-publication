@@ -191,8 +191,6 @@ class DocumentManager
      *
      * @param Document $document
      * @param string $workflowTransition
-     * @param array $deletedFiles
-     * @param array $newFiles
      * @param bool $addedFisIdOnly
      * @return string|false
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
@@ -200,7 +198,7 @@ class DocumentManager
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function update(
-        Document $document, $workflowTransition = null, $deletedFiles = [], $newFiles = [], $addedFisIdOnly = false
+        Document $document, $workflowTransition = null, $addedFisIdOnly = false
     )
     {
         // xml data fields are limited to 64 KB
@@ -227,7 +225,7 @@ class DocumentManager
         } elseif ($document->isTemporaryCopy()) {
 
             // if temporary working copy
-            $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
+            $updateResult = $this->updateRemotely($document, $workflowTransition);
 
         } elseif (
             $document->isWorkingCopy() &&
@@ -238,12 +236,11 @@ class DocumentManager
             )
         ) {
             // if local working copy with state change
-            $updateResult = $this->updateRemotely($document, $workflowTransition, $deletedFiles, $newFiles);
+            $updateResult = $this->updateRemotely($document, $workflowTransition);
 
         } elseif ($document->isWorkingCopy()) {
 
             // if local working copy with no state change
-            $this->updateFiles($document, $deletedFiles, $newFiles);
             $this->documentRepository->update($document);
             $updateResult = $document->getDocumentIdentifier();
 
@@ -274,7 +271,6 @@ class DocumentManager
                 $updateResult = false;
             }
         } else {
-            $this->updateFiles($document, $deletedFiles, $newFiles);
             $this->documentRepository->update($document);
             $updateResult = $document->getDocumentIdentifier();
         }
@@ -324,38 +320,6 @@ class DocumentManager
         return $documentTransferManager;
     }
 
-
-    /**
-     * Adds and delete file model objects attached to the document.
-     *
-     * @param Document $document
-     * @param array $deletedFiles
-     * @param array $newFiles
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     */
-    protected function updateFiles(Document $document, $deletedFiles, $newFiles)
-    {
-        // Delete files
-        /** @var File $deleteFile */
-        foreach ($deletedFiles as $deleteFile) {
-            $deleteFile->setStatus(File::STATUS_DELETED);
-            $this->fileRepository->update($deleteFile);
-        }
-
-        // Add or update files
-        /** @var File $newFile */
-        foreach ($newFiles as $newFile) {
-
-            if ($newFile->getUID()) {
-                $this->fileRepository->update($newFile);
-            } else {
-                $document->addFile($newFile);
-            }
-
-        }
-    }
-
     /**
      * Removes the document from the local database.
      *
@@ -371,18 +335,14 @@ class DocumentManager
         $this->documentRepository->remove($document);
     }
 
-
-
     /**
      * @param Document $document
      * @param string $workflowTransition
-     * @param array $deletedFiles
-     * @param array $newFiles
      * @return string
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    protected function updateRemotely($document, $workflowTransition = null, $deletedFiles = [], $newFiles = [])
+    protected function updateRemotely($document, $workflowTransition = null)
     {
         $lastModDate = $this->getDocumentTransferManager()->getLastModDate($document->getObjectIdentifier());
         $docLastModDate = $document->getRemoteLastModDate();
@@ -391,7 +351,6 @@ class DocumentManager
             return false;
         }
 
-        $this->updateFiles($document, $deletedFiles, $newFiles);
         $this->documentRepository->update($document);
 
         switch ($workflowTransition) {
@@ -446,11 +405,6 @@ class DocumentManager
             $suggestionDocument->setTemporary(false);
         }
 
-        if (empty($suggestionDocument->getFileData())) {
-            // no files are linked to the document
-            $hasFilesFlag = false;
-        }
-
         if ($editDocument->getObjectIdentifier()) {
             $suggestionDocument->setLinkedUid($editDocument->getObjectIdentifier());
         } else {
@@ -466,25 +420,7 @@ class DocumentManager
             $suggestionDocument->setTransferStatus("RESTORE");
         }
 
-//        if (!$hasFilesFlag) {
-//            // Add or update files
-//            foreach ($documentForm->getNewFiles() as $newFile) {
-//                if ($newFile->getUID()) {
-//                    $this->fileRepository->update($newFile);
-//                } else {
-//                    $newFile->setDocument($suggestionDocument);
-//                    $this->fileRepository->add($newFile);
-//                }
-//
-//                $suggestionDocument->addFile($newFile);
-//            }
-//        } else {
-//            // remove files for suggest object
-//            $suggestionDocument->setFile($this->objectManager->get(ObjectStorage::class));
-//        }
-
         try {
-//            $suggestionDocument->setCreator($this->security->getUser()->getUid());
             $this->documentRepository->add($suggestionDocument);
         } catch (\Throwable $t) {
             return null;

@@ -27,7 +27,9 @@
                 </f:then>
             </f:if>
         </f:for>
-        <li class="nav-item"><a class="nav-link {f:if(condition: '{activeFileTab}', then: 'active', else:'')}" href="#tab-file-upload" data-toggle="tab">{f:translate(key: 'form_page.files')}</a></li>
+        <f:comment>
+          <li class="nav-item"><a class="nav-link {f:if(condition: '{activeFileTab}', then: 'active', else:'')}" href="#tab-file-upload" data-toggle="tab">{f:translate(key: 'form_page.files')}</a></li>
+        </f:comment>
     </ul>
 </div>
 
@@ -47,13 +49,13 @@
                                     <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
                                     <f:variable name="groupIndex">{groupItemIterator.index}</f:variable>
                                     <f:render partial="DocumentForm/Group" arguments="{_all}"/>
-                                    <f:if condition="{groupItem.maxIteration} == 0">
+                                    <f:if condition="{groupItem.maxIteration} == 0 && {groupItem.primaryFileGroup} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
                                             <button type="submit" name="add_group"
                                                     class="btn btn-sm btn-secondary add_group"
                                                     data-group="{groupItem.uid}"
                                                     data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
-                                                    data-index="{groupItemIterator.index}">
+                                                    data-groupIndex="{groupItemIterator.index}">
                                                 <i class="fas fa-plus"></i>
                                                 {f:translate(key: 'form_button.add_item', arguments: {0:
                                                 groupItem.displayName})}
@@ -69,6 +71,7 @@
         </f:if>
     </f:for>
 
+    <f:comment>
     <div id="tab-file-upload" class="fs_page tab-pane {f:if(condition: '{activeFileTab}', then: 'active', else:'')}">
 
         <f:if condition="{suggestMod}">
@@ -77,8 +80,6 @@
             </p>
         </f:if>
 
-        <f:render partial="DocumentForm/PrimaryFileGroup"
-                  arguments="{file:documentForm.primaryFile,primaryFileMandatory:documentForm.primaryFileMandatory}"/>
         <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
         <button type="submit" name="add_file_group" class="btn btn-sm btn-secondary add_file_group"
                 data-group="file-upload"
@@ -88,6 +89,7 @@
             {f:translate(key: 'form_button.addFile')}
         </button>
     </div>
+    </f:comment>
 </div>
 <div class="prev-next-buttons">
     <button id="next-form-page" class="btn btn-s btn-primary">

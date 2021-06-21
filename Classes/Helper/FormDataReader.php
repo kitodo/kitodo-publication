@@ -14,7 +14,10 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\MetadataObject;
 use TYPO3\CMS\Core\Core\Environment;
 
 class FormDataReader
@@ -168,100 +171,11 @@ class FormDataReader
         return $deletedFiles;
     }
 
-    protected function getNewAndUpdatedFiles()
-    {
-
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-        $fullTextLabel          = $frameworkConfiguration['settings']['defaultValue']['fullTextLabel'];
-
-        $newFiles = array();
-
-        // Primary file
-        if ($this->formData['primaryFile'] && $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE) {
-
-            // Use the existing file entry
-            $file     = null;
-            $document = $this->documentRepository->findByUid($this->formData['documentUid']);
-            if ($document) {
-                $file = $this->fileRepository->getPrimaryFileByDocument($document);
-            }
-
-            $newPrimaryFile = $this->getUploadedFile($this->formData['primaryFile'], true, $file);
-            $newPrimaryFile->setLabel($fullTextLabel);
-
-            $newFiles[] = $newPrimaryFile;
-        }
-
-        if (is_array($this->formData['primFile'])) {
-
-            foreach ($this->formData['primFile'] as $fileId => $fileData) {
-
-                $file       = $this->fileRepository->findByUID($fileId);
-                $fileStatus = $file->getStatus();
-
-                if (empty($fileData['label'])) {
-                    $fileData['label'] = $fullTextLabel;
-                }
-
-                if ($file->getLabel() != $fileData['label'] ||
-                    $file->getDownload() != !empty($fileData['download']) ||
-                    $file->getArchive() != !empty($fileData['archive'])) {
-
-                    $file->setLabel($fileData['label']);
-                    $file->setDownload(!empty($fileData['download']));
-                    $file->setArchive(!empty($fileData['archive']));
-
-                    if (empty($fileStatus)) {
-                        $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
-                    }
-
-                    $newFiles[] = $file;
-                }
-            }
-
-        }
-
-        // Secondary files
-        if (is_array($this->formData['secondaryFiles'])) {
-            foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
-                    $f          = $this->getUploadedFile($tmpFile);
-                    $newFiles[] = $f;
-                }
-            }
-        }
-
-        if (is_array($this->formData['secFiles'])) {
-
-            foreach ($this->formData['secFiles'] as $fileId => $fileData) {
-
-                $file       = $this->fileRepository->findByUID($fileId);
-                $fileStatus = $file->getStatus();
-
-                if ($file->getLabel() != $fileData['label'] ||
-                    $file->getDownload() != !empty($fileData['download']) ||
-                    $file->getArchive() != !empty($fileData['archive'])) {
-
-                    $file->setLabel($fileData['label']);
-                    $file->setDownload(!empty($fileData['download']));
-                    $file->setArchive(!empty($fileData['archive']));
-
-                    if (empty($fileStatus)) {
-                        $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
-                    }
-
-                    $newFiles[] = $file;
-                }
-            }
-
-        }
-
-        return $newFiles;
-
-    }
-
     public function uploadError()
     {
+        // todo: To be updated or implemented elsewhere
+        return false;
+
         if (
             $this->formData['primaryFile'] &&
             $this->formData['primaryFile']['error'] != UPLOAD_ERR_OK &&
@@ -299,11 +213,9 @@ class FormDataReader
         $file->setContentType($contentType);
 
         $file->setTitle($tmpFile['name']);
-        $file->setLabel($tmpFile['label']);
-        $file->setDownload(!empty($tmpFile['download']));
-        $file->setArchive(!empty($tmpFile['archive']));
         $file->setLink($fileName);
         $file->setPrimaryFile($primary);
+        $file->setFileIdentifier(uniqid(time(), true));
 
         if ($primary) {
             if ($file->getDatastreamIdentifier()) {
@@ -320,7 +232,6 @@ class FormDataReader
 
     public function getDocumentForm()
     {
-
         $fields = $this->getFields();
 
         $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();
@@ -370,9 +281,23 @@ class FormDataReader
 
                     $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
+                    $fileLabel = "";
+                    $fileDownload = "";
+                    $fileArchive = "";
+
+                    $fileIdentifier = '';
+                    if (array_key_exists('fileIdentifier', $group)) {
+                        $fileIdentifier = array_shift($group['fileIdentifier']);
+                        unset($group['fileIdentifier']);
+                    }
+
                     foreach ($group as $objectUid => $objectItem) {
+
                         foreach ($objectItem as $objectItem => $object) {
+                            /** @var MetadataObject $metadataObject */
                             $metadataObject    = $this->metadataObjectRepository->findByUid($objectUid);
+
+                            /** @var DocumentForm $documentFormField */
                             $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
                             $documentFormField->setUid($metadataObject->getUid());
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
@@ -393,21 +318,82 @@ class FormDataReader
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
 
                             $documentFormGroup->addItem($documentFormField);
+
+                            if ($metadataGroup->isFileGroup()) {
+
+                                // Use the existing file entry
+                                $file = null;
+                                $document = $this->documentRepository->findByUid($this->formData['documentUid']);
+                                if ($document) {
+                                    if ($metadataGroup->isPrimaryFileGroup()) {
+                                        $file = $document->getPrimaryFile();
+                                    } else {
+                                        $file = $document->getFileByFileIdentifier($fileIdentifier);
+                                    }
+                                }
+
+                                if ($metadataObject->isUploadField() ) {
+                                    if ($object && is_array($object) &&
+                                        array_key_exists('error', $object) &&
+                                        $object['error'] != UPLOAD_ERR_NO_FILE)
+                                    {
+                                        if (empty($file)) {
+                                            $file = $this->objectManager->get(File::class);
+                                            $file = $this->getUploadedFile(
+                                                $object,
+                                                $metadataGroup->isPrimaryFileGroup(),
+                                                $file);
+                                            $documentFormField->setFile($file);
+                                        } else {
+                                            $file = $this->getUploadedFile(
+                                                $object,
+                                                $metadataGroup->isPrimaryFileGroup(),
+                                                $file);
+                                            $documentFormField->setFile($file);
+                                        }
+
+                                        $documentFormField->setValue($file->getUrl());
+                                        $fileIdentifier = $file->getFileIdentifier();
+                                        $documentForm->addFile($file);
+
+                                    } elseif ($object && !is_array($object)) {
+                                        $documentFormField->setFile($file);
+                                        $fileIdentifier = $file->getFileIdentifier();
+                                        $documentForm->addFile($file);
+                                    }
+                                } else {
+                                    if ($metadataObject->isFileLabelField()) {
+                                        $fileLabel = $object;
+                                    }
+
+                                    if ($metadataObject->isFileDownloadField()) {
+                                        $fileDownload = !empty($object);
+                                    }
+
+                                    if ($metadataObject->isFileArchiveField()) {
+                                        $fileArchive = !empty($object);
+                                    }
+
+                                }
+
+                                if ($file) {
+                                    $file->setLabel($fileLabel);
+                                    $file->setDownload($fileDownload);
+                                    $file->setArchive($fileArchive);
+                                }
+                            }
                         }
                     }
 
-                    $documentFormPage->addItem($documentFormGroup);
+                    if (!$metadataGroup->isFileGroup() || $fileIdentifier) {
+                        $documentFormPage->addItem($documentFormGroup);
+                    }
                 }
             }
 
             $documentForm->addItem($documentFormPage);
         }
 
-        $documentForm->setDeletedFiles($this->getDeletedFiles());
-
-        $documentForm->setNewFiles($this->getNewAndUpdatedFiles());
-
         return $documentForm;
     }
-
 }

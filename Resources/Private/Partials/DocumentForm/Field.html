@@ -40,19 +40,6 @@
 </f:if>
 
 <div class="form-group">
-    <label for="inp_{fieldItem.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">{fieldItem.displayName}
-        <f:if condition="{fieldItem.helpTextShort}">
-            <a data-toggle="collapse" href="#collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}">
-                <span data-toggle="tooltip" title="" data-original-title="{fieldItem.helpTextShort}">
-                    <i class="fas fa-question-circle"></i>
-                </span>
-            </a>
-        </f:if>
-        <f:if condition="{fieldItem.mandatory}">
-            <span class="mandatory" data-index="{fieldIndex}" data-field="{fieldItem.uid}">*</span>
-        </f:if>
-    </label>
-
     <f:if condition="{fieldItem.dataType}=='DATE'">
         <div class="input-group datetimepicker">
     </f:if>
@@ -72,6 +59,7 @@
 
     <f:switch expression="{fieldItem.inputField}">
         <f:case value="0">
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <f:if condition="{fieldItem.dataType}=='DATE'">
                 <f:then>
                     <f:form.textfield id="inp_{fieldItem.uid}"
@@ -113,6 +101,7 @@
             </f:if>
         </f:case>
         <f:case value="1">
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <f:form.textarea id="inp_{fieldItem.uid}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
@@ -121,6 +110,7 @@
             />
         </f:case>
         <f:case value="2">
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <div class="form-control has-select">
                 <f:form.select id="inp_{fieldItem.uid}"
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
@@ -132,6 +122,7 @@
             </div>
         </f:case>
         <f:case value="3">
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <f:if condition="{fieldItem.consent}">
                 <f:then>
                     <f:form.checkbox id="inp_{fieldItem.uid}"
@@ -151,14 +142,11 @@
                                      value="yes" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{f:if(condition: '{fieldItem.value}', then: 'true')}"/>
-                    <f:form.hidden
-                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                            value="{fieldItem.value}"/>
                 </f:else>
             </f:if>
         </f:case>
         <f:case value="10">
-
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <div id="markdown_area_{formPageUid}_{formGroupUid}_{groupIndex}_{fieldItem.uid}_{fieldIndex}">
                 <f:form.textarea id="inp_{formPageUid}_{formGroupUid}_{groupIndex}_{fieldItem.uid}_{fieldIndex}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
@@ -169,6 +157,7 @@
             </div>
         </f:case>
         <f:case value="100">
+            <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
             <div class="dropdown-options input-group">
                 <f:form.textfield id="inp_{fieldItem.uid}"
                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
@@ -188,6 +177,9 @@
                     </f:for>
                 </ul>
             </div>
+        </f:case>
+        <f:case value="200">
+            <f:render partial="DocumentForm/FileUploadField" arguments="{_all}"/>
         </f:case>
     </f:switch>
 

@@ -278,6 +278,45 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fileXpath = '';
 
     /**
+     * fileIdXpath
+     *
+     * @var string
+     */
+    protected $fileIdXpath = '';
+
+    /**
+     * fileMimetypeXpath
+     *
+     * @var string
+     */
+    protected $fileMimetypeXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fileHrefXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fileDownloadXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fileArchiveXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fileDeletedXpath = '';
+
+    /**
+     * @var string
+     */
+    protected $fileTitleXpath = '';
+
+    /**
      * stateXpath
      *
      * @var string
@@ -1618,7 +1657,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getFileXpath(): string
+    public function getFileXpath(): ?string
     {
         return $this->fileXpath;
     }
@@ -2208,4 +2247,115 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->elasticSearchTransformation = $elasticSearchTransformation;
     }
 
+    /**
+     * @return string
+     */
+    public function getFileIdXpath(): ?string
+    {
+        return $this->fileIdXpath;
+    }
+
+    /**
+     * @param string $fileIdXpath
+     */
+    public function setFileIdXpath(string $fileIdXpath): void
+    {
+        $this->fileIdXpath = $fileIdXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileMimetypeXpath(): ?string
+    {
+        return $this->fileMimetypeXpath;
+    }
+
+    /**
+     * @param string $fileMimetypeXpath
+     */
+    public function setFileMimetypeXpath(string $fileMimetypeXpath): void
+    {
+        $this->fileMimetypeXpath = $fileMimetypeXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileHrefXpath(): string
+    {
+        return $this->fileHrefXpath;
+    }
+
+    /**
+     * @param string $fileHrefXpath
+     */
+    public function setFileHrefXpath(string $fileHrefXpath): void
+    {
+        $this->fileHrefXpath = $fileHrefXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileDownloadXpath(): string
+    {
+        return $this->fileDownloadXpath;
+    }
+
+    /**
+     * @param string $fileDownloadXpath
+     */
+    public function setFileDownloadXpath(string $fileDownloadXpath): void
+    {
+        $this->fileDownloadXpath = $fileDownloadXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileArchiveXpath(): string
+    {
+        return $this->fileArchiveXpath;
+    }
+
+    /**
+     * @param string $fileArchiveXpath
+     */
+    public function setFileArchiveXpath(string $fileArchiveXpath): void
+    {
+        $this->fileArchiveXpath = $fileArchiveXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileDeletedXpath(): string
+    {
+        return $this->fileDeletedXpath;
+    }
+
+    /**
+     * @param string $fileDeletedXpath
+     */
+    public function setFileDeletedXpath(string $fileDeletedXpath): void
+    {
+        $this->fileDeletedXpath = $fileDeletedXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileTitleXpath(): string
+    {
+        return $this->fileTitleXpath;
+    }
+
+    /**
+     * @param string $fileTitleXpath
+     */
+    public function setFileTitleXpath(string $fileTitleXpath): void
+    {
+        $this->fileTitleXpath = $fileTitleXpath;
+    }
 }
