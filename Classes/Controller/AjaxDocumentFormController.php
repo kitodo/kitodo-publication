@@ -18,6 +18,7 @@ use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
+use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * DocumentFormController
@@ -250,6 +251,60 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             );
         }
 
+    }
+
+    /**
+     * @return bool
+     */
+    public function fileUploadAction()
+    {
+    //    $uploadedFile = $_FILES['file'];
+
+        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
+
+        $uploadBaseUrl = $uploadFileUrl->getUploadUrl() . "/";
+
+        $uploadPath = Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() . "/";
+
+        $fileName = uniqid(time(), true)."test";
+
+        if(is_writable(".") && isset($_FILES['file'])) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($_FILES['file']['filename'], $this->uploadPath . $fileName);
+        }
+
+        return $uploadedFile;
+
+       // $file = $this->objectManager->get(File::class);
+
+/*
+        $uniqfileName = uniqid(time(), true);
+
+        \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
+
+        $finfo       = finfo_open(FILEINFO_MIME_TYPE);
+        $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
+        finfo_close($finfo);
+
+        $file->setContentType($contentType);
+
+        $file->setTitle($tmpFile['name']);
+        $file->setLink($fileName);
+        $file->setPrimaryFile($primary);
+        $file->setFileIdentifier(uniqid(time(), true));
+
+        if ($primary) {
+            if ($file->getDatastreamIdentifier()) {
+                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
+            } else {
+                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
+            }
+        } else {
+            $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
+        }
+
+        return $file;
+*/
+        return true;
     }
 
 }

@@ -14,14 +14,13 @@
 </f:comment>
 {namespace eww=EWW\Dpf\ViewHelpers}
 
-
     <f:link.external uri="{eww:fileUrl(uri:'{fieldItem.value}')}" target="_blank" class="file_link">{fieldItem.file.title}
     </f:link.external>
 
     <f:form.hidden id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                    additionalAttributes = "{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                    class="input-field form-control input_file_upload"
-                   value="{f:if(condition:'{fieldItem.file.fileIdentifier}', then:'{fieldItem.file.url}', else:'{fieldItem.value}')}" />
+                   value="{f:if(condition:'{fieldItem.file.fileIdentifier}', then:'{fieldItem.value}', else:'')}" />
 
     <f:form.hidden property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-fileIdentifier-0" value="{fieldItem.file.fileIdentifier}" />
 

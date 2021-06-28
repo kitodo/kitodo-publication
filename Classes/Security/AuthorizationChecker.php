@@ -71,6 +71,7 @@ class AuthorizationChecker
      * @return bool
      */
     public function isGranted($attribute, $subject = NULL) {
+
         $voters = Voter::getVoters();
 
         foreach ($voters as $voter) {

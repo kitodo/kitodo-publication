@@ -150,6 +150,11 @@
     margin: 0 0 10px 0;
 }
 
+.tx-dpf .document-form-main .input-group {
+    margin-bottom: 1em;
+}
+
+
 .tx-dpf .document-form-main .form-group {
     position: relative;
     display: table;
@@ -212,6 +217,9 @@
     width: auto;
 }
 
+.tx-dpf .document-form-main .form-group .file-input-toggle {
+    float: left;
+}
 
 .tx-dpf .document-form-main .form-group button.rem_field, .tx-dpf .form-container button.add_field, .tx-dpf .form-container button.fill_out_service_urn {
     position: absolute;
@@ -270,6 +278,14 @@
     height: 24px;
     padding: 3px 4px;
     margin-bottom: 6px;
+}
+
+.tx-dpf .input-group input[type="file"] {
+    height: auto;
+   /* display: inline-block; */
+    width: auto;
+    margin: 0;
+    border: 1px solid #ced4da;
 }
 
 .tx-dpf input[type="file"] {
