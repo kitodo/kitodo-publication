@@ -39,13 +39,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
     'KitodoPublicationForm',
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
-        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,fileUpload',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
-        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut',
+        'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,fileUpload',
         'Gnd'              => 'search',
     )
 );

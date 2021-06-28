@@ -12,6 +12,18 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+var fileInputToggle = function() {
+  $('.file-input-toggle').unbind("click");
+  $('.file-input-toggle').bind("click", function (evt) {
+    evt.preventDefault();
+    $(this).parent().find(".input_file_upload").toggleClass("d-none");
+    $(this).parent().find(".input_file_url").toggleClass("d-none");
+    $(this).parent().find(".input_file_url_label").toggleClass("d-none");
+    $(this).parent().find(".input_file_upload").prop("disabled", (_, val) => !val);
+    $(this).parent().find(".input_file_url").prop("disabled", (_, val) => !val);
+  })
+}
+
 var userNotifcationSettings = {
     init: function() {
 
@@ -1084,6 +1096,7 @@ var addGroup = function(target, fileGroup = false) {
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
+        fileInputToggle();
         userSearch(group);
         userSearchModalFillout();
         addMyUserData();
@@ -2046,6 +2059,7 @@ $(document).ready(function() {
     }
 
     addRemoveFileButton();
+    fileInputToggle();
 
     previousNextFormPage();
 
@@ -2094,4 +2108,5 @@ $(document).ready(function() {
     });
 
     $('.double-scroll').doubleScroll();
+
 });

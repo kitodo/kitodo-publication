@@ -39,7 +39,7 @@
     </div>
 </f:if>
 
-<div class="form-group">
+<div class="{f:if(condition:'{fieldItem.inputField} == 200', then: 'input-group', else: 'form-group')}">
     <f:if condition="{fieldItem.validator}=='DATE'">
         <div class="input-group datetimepicker">
     </f:if>
