@@ -91,6 +91,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
 
     const VALIDATOR_REGEXP = "REGEXP";
     const VALIDATOR_DATE   = "DATE";
+    const VALIDATOR_REMOTE_FILE_EXISTS = "REMOTE_FILE_EXISTS";
 
     /**
      * validator

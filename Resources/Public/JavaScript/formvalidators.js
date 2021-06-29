@@ -56,3 +56,35 @@ var regexpValidator = {
     }
   }
 }
+
+var remoteFileExistsValidator = {
+  type: 'REMOTE_FILE_EXISTS',
+  validate(value, validationExpression = null) {
+    if (validationExpression && validationExpression.length > 0) {
+      var ajaxURL = validationExpression;
+
+      var res = ajaxURL.match(/(tx\w+?)%/);
+      var params = {};
+      var indexParam = {};
+      if (res && res[1]) {
+        indexParam['fileUrl'] = value;
+        params[res[1]] = indexParam;
+      }
+
+      return new Promise(function(resolve) {
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: ajaxURL,
+          data: params,
+          success: function(data) {
+            resolve(data.return === "true")
+          },
+          error: function(data) {
+            resolve(false)
+          }
+        })
+      });
+    }
+  }
+}

@@ -808,24 +808,27 @@ var itemsPerPageHandler = {
     }
 }
 
-var validateFormAndSave = function() {
+var validateFormAndSave = function(e) {
+    e.preventDefault();
     jQuery("#validDocument").val("0");
-    if (validateForm()) {
+    validateForm().then(function(valid) {
+      if (valid) {
+        console.log(jQuery("#new-document-form"));
         jQuery("#validDocument").val("1");
-
         jQuery("#new-document-form #save").prop("disabled", true);
-
-        jQuery("#new-document-form").submit();
-
-        return true;
-    }
-    return false;
+        jQuery(".document-form-main").submit();
+      }
+    });
 }
-var validateFormOnly = function() {
-    if (validateForm()) {
+
+var validateFormOnly = function(e) {
+    e.preventDefault();
+
+   validateForm().then(function(valid) {
+      if (valid) {
         showFormSuccess();
-    }
-    return false;
+      }
+   });
 }
 
 var changeMandatory = function (selector, newValue, oldValue) {
@@ -847,7 +850,8 @@ var changeMandatory = function (selector, newValue, oldValue) {
 }
 
 var validateForm = function() {
-    var error = false;
+    let error = false;
+    let promises = [];
     jQuery("span.mandatory-error").remove();
     jQuery("div.alert").remove();
     jQuery(".tx-dpf-tabs li a").each(function() {
@@ -940,37 +944,66 @@ var validateForm = function() {
           }
 
           // Validators
-          var validationError = false;
           var validator = jQuery(this).attr("data-validator");
           var validationExpression = jQuery(this).attr("data-validationExpression");
-          var validationErrorMessage = jQuery(this).attr("data-validationErrorMessage");
-
-          if (!validationErrorMessage || validationErrorMessage.length == 0) {
-            validationErrorMessage = form_error_msg_field_invalid;
-          }
+          var field = jQuery(this);
 
           switch (validator) {
             case dateValidator.type:
-              validationError = !dateValidator.validate(jQuery(this).val());
+              if (!dateValidator.validate(field.val())) {
+                showFieldValidationError(field, fieldset)
+                error = true;
+              }
               break;
             case regexpValidator.type:
-              validationError = !regexpValidator.validate(jQuery(this).val(), validationExpression);
+              if (!regexpValidator.validate(field.val(), validationExpression)) {
+                showFieldValidationError(field, fieldset)
+                error = true;
+              }
               break;
-          }
-
-          if (validationError) {
-            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
-            jQuery(this).addClass("invalid-error");
-            showFormError();
-            markPage(fieldset, true);
-            error = true;
-          }
-
+            case remoteFileExistsValidator.type:
+              if (!field.prop('disabled') && field.val().length > 0) {
+                  // validationError = !remoteFileExistsValidator.validate(jQuery(this).val(), jQuery(this).attr('data-ajax'));
+                let prom = new Promise((resolve, reject) => {
+                  remoteFileExistsValidator.validate(field.val(), field.attr('data-ajax')).then(function(valid) {
+                    if (valid) {
+                      resolve(true);
+                    } else {
+                      showFieldValidationError(field, fieldset);
+                      resolve(false);
+                    }
+                  });
+                });
+                promises.push(prom);
+              }
+              break;
+            }
         });
     });
 
-    return !error;
+    return new Promise((resolve, reject) => {
+       Promise.all(promises).then(function (valid) {
+         jQuery.each(valid, function (index, value) {
+           error = error || !value;
+         });
+         resolve(!error);
+       });
+     });
 }
+
+var showFieldValidationError = function(field, fieldset) {
+  var validationErrorMessage = field.attr("data-validationErrorMessage");
+
+  if (!validationErrorMessage || validationErrorMessage.length == 0) {
+    validationErrorMessage = form_error_msg_field_invalid;
+  }
+  jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + field.attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+  field.addClass("invalid-error");
+  showFormError();
+  markPage(fieldset, true);
+  jQuery('.alert-success').remove();
+}
+
 var showFormError = function() {
     jQuery(".tx-dpf div.alert-danger").remove();
     jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
@@ -998,6 +1031,12 @@ var hasFiles = function() {
         if (jQuery(this).attr("href")) {
             $hasFiles++;
         }
+    });
+
+    jQuery(".input_file_url").each(function() {
+      if (jQuery(this).val()) {
+        $hasFiles++;
+      }
     });
 
     return $hasFiles > 0;

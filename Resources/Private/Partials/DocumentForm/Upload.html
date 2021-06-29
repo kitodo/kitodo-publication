@@ -24,11 +24,11 @@
                   property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}.url"
                   value="{fieldItem.value}"
                   class="input-field form-control {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex} input_file_url d-none"
-                  additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype,disabled:'disabled'}"
+                  additionalAttributes="{data-ajax: \"{f:uri.action(action:'remoteFileExists',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum)}\",data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:'REMOTE_FILE_EXISTS',data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype,disabled:'disabled'}"
 />
 
 <f:form.upload id="inp_{fieldItem.uid}" property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}.file"
-               additionalAttributes = "{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+               additionalAttributes = "{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                class="input-field form-control input_file_upload"/>
 
 <f:form.hidden property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-fileIdentifier-0" value="{fieldItem.file.fileIdentifier}" />

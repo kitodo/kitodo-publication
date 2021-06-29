@@ -254,57 +254,17 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
     }
 
     /**
-     * @return bool
+     * @param string $fileUrl
+     * @return false|string
      */
-    public function fileUploadAction()
+    public function remoteFileExistsAction(string $fileUrl)
     {
-    //    $uploadedFile = $_FILES['file'];
-
-        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
-
-        $uploadBaseUrl = $uploadFileUrl->getUploadUrl() . "/";
-
-        $uploadPath = Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() . "/";
-
-        $fileName = uniqid(time(), true)."test";
-
-        if(is_writable(".") && isset($_FILES['file'])) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($_FILES['file']['filename'], $this->uploadPath . $fileName);
-        }
-
-        return $uploadedFile;
-
-       // $file = $this->objectManager->get(File::class);
-
-/*
-        $uniqfileName = uniqid(time(), true);
-
-        \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
-
-        $finfo       = finfo_open(FILEINFO_MIME_TYPE);
-        $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
-        finfo_close($finfo);
-
-        $file->setContentType($contentType);
-
-        $file->setTitle($tmpFile['name']);
-        $file->setLink($fileName);
-        $file->setPrimaryFile($primary);
-        $file->setFileIdentifier(uniqid(time(), true));
-
-        if ($primary) {
-            if ($file->getDatastreamIdentifier()) {
-                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
-            } else {
-                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
-            }
+        $handle = @fopen($fileUrl, 'r');
+        if($handle){
+            return json_encode(['return' => 'true']);
         } else {
-            $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
+            return json_encode(['return' => 'false']);
         }
-
-        return $file;
-*/
-        return true;
     }
 
 }
