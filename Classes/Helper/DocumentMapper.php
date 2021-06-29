@@ -17,6 +17,7 @@ namespace EWW\Dpf\Helper;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\MetadataObject;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -299,7 +300,7 @@ class DocumentMapper
 
                                     $objectValue = $value->nodeValue;
 
-                                    if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE_DATE) {
+                                    if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE) {
                                         $dateStr = explode('T', $objectValue);
                                         $date    = date_create_from_format('Y-m-d', trim($dateStr[0]));
                                         if ($date) {

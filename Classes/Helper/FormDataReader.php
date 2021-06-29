@@ -208,13 +208,19 @@ class FormDataReader
 
         $fileName = uniqid(time(), true);
 
-//        $finfo       = finfo_open(FILEINFO_MIME_TYPE);
-//        $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
-//        finfo_close($finfo);
+        # get remote mimetype
+        $ch = curl_init($fileUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-//        $file->setContentType($contentType);
+        $file->setContentType($contentType);
 
-//        $file->setTitle($tmpFile['name']);
+        $path_parts = pathinfo($fileUrl);
+        $origFilename = $path_parts['filename']? $path_parts['filename'] : 'unknown-file-name';
+        $origFilename .= $path_parts['extension']? '.'.$path_parts['extension'] : '';
+        $file->setTitle($origFilename);
+
         $file->setLink($fileUrl);
         $file->setPrimaryFile($primary);
         $file->setFileIdentifier(uniqid(time(), true));
