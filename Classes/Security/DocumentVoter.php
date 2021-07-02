@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Log\LogManager;
 class DocumentVoter extends Voter
 {
     const CREATE = "DOCUMENT_CREATE";
-    const CREATE_REGISTER = "DOCUMENT_CREATE_REGISTER";
+    const CREATE_ANONYMOUSLY = "DOCUMENT_CREATE_ANONYMOUSLY";
     const UPDATE = "DOCUMENT_UPDATE";
     const LIST = "DOCUMENT_LIST";
     const LIST_REGISTERED = "DOCUMENT_LIST_REGISTERED";
@@ -48,6 +48,9 @@ class DocumentVoter extends Voter
     const SUGGEST_RESTORE = "DOCUMENT_SUGGEST_RESTORE";
     const SUGGEST_MODIFICATION = "DOCUMENT_SUGGEST_MODIFICATION";
     const SUGGESTION_ACCEPT = "DOCUMENT_SUGGESTION_ACCEPT";
+    const EDIT_ANONYMOUSLY = "DOCUMENT_EDIT_ANONYMOUSLY";
+    const REGISTER_ANONYMOUSLY = "DOCUMENT_REGISTER_ANONYMOUSLY";
+    const DELETE_ANONYMOUSLY = "DOCUMENT_DELETE_ANONYMOUSLY";
 
     /**
      * editingLockService
@@ -79,7 +82,7 @@ class DocumentVoter extends Voter
     {
         return array(
             self::CREATE,
-            self::CREATE_REGISTER,
+            self::CREATE_ANONYMOUSLY,
             self::UPDATE,
             self::LIST,
             self::LIST_REGISTERED,
@@ -99,7 +102,10 @@ class DocumentVoter extends Voter
             self::DOUBLET_CHECK,
             self::SUGGEST_RESTORE,
             self::SUGGEST_MODIFICATION,
-            self::SUGGESTION_ACCEPT
+            self::SUGGESTION_ACCEPT,
+            self::EDIT_ANONYMOUSLY,
+            self::REGISTER_ANONYMOUSLY,
+            self::DELETE_ANONYMOUSLY
         );
     }
 
@@ -143,8 +149,8 @@ class DocumentVoter extends Voter
                 return $this->defaultAccess();
                 break;
 
-            case self::CREATE_REGISTER:
-                return $this->canCreateRegister($subject);
+            case self::CREATE_ANONYMOUSLY:
+                return $this->canCreateAnonymously($subject);
                 break;
 
             case self::UPDATE:
@@ -193,6 +199,9 @@ class DocumentVoter extends Voter
 
             case self::SHOW_DETAILS:
                 return $this->canShowDetails($subject);
+
+            case self::EDIT_ANONYMOUSLY:
+                return $this->canEditAnonymously($subject);
                 break;
 
             case self::CANCEL_LIST_TASK:
@@ -225,6 +234,14 @@ class DocumentVoter extends Voter
 
             case self::SUGGESTION_ACCEPT:
                 return $this->canSuggestionAccept($subject);
+                break;
+
+            case self::REGISTER_ANONYMOUSLY:
+                return $this->canRegisterAnonymously($subject);
+                break;
+
+            case self::DELETE_ANONYMOUSLY:
+                return $this->canEditAnonymously($subject);
                 break;
         }
 
@@ -552,17 +569,13 @@ class DocumentVoter extends Voter
      * @param \EWW\Dpf\Domain\Model\Document $document
      * @return bool
      */
-    protected function canCreateRegister($document)
+    protected function canCreateAnonymously($document)
     {
         if ($this->security->getUserRole()) {
             return FALSE;
         }
 
-        if ($this->workflow->can($document, \EWW\Dpf\Domain\Workflow\DocumentWorkflow::TRANSITION_CREATE_REGISTER)) {
-            return TRUE;
-        }
-
-        return FALSE;
+        return TRUE;
     }
 
     /**
@@ -596,6 +609,47 @@ class DocumentVoter extends Voter
     {
         $identifier = $document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid();
         return $this->editingLockService->isLocked($identifier, $this->security->getUser()->getUid());
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canEditAnonymously($document)
+    {
+        if ($this->security->getUserRole()) {
+            return FALSE;
+        }
+
+        return (
+            $document->getCreator() === 0
+            && $document->isTemporary()
+            && $document->getState() === DocumentWorkflow::STATE_NEW_NONE
+        );
+
+        return FALSE;
+    }
+
+    /**
+     * @param \EWW\Dpf\Domain\Model\Document $document
+     * @return bool
+     */
+    protected function canRegisterAnonymously($document)
+    {
+        if ($this->security->getUserRole()) {
+            return FALSE;
+        }
+
+        return (
+            $this->workflow->can(
+                $document, DocumentWorkflow::TRANSITION_REGISTER
+            )
+            && $document->getCreator() === 0
+            && $document->isTemporary()
+            && $document->getState() === DocumentWorkflow::STATE_NEW_NONE
+        );
+
+        return FALSE;
     }
 
 }

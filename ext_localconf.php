@@ -38,13 +38,15 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
     'EWW.' . $_EXTKEY,
     'KitodoPublicationForm',
     array(
-        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,summary,register,delete',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,remoteFileExists',
         'Gnd'              => 'search',
     ),
     // non-cacheable actions
     array(
         'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,ajaxGroup,ajaxFileGroup,ajaxField',
+        'DocumentForm'     => 'list,new,create,edit,update,delete,cancel,summary,register,delete,'
+            . 'ajaxGroup,ajaxFileGroup,ajaxField',
         'AjaxDocumentForm' => 'group,fileGroup,field,deleteFile,primaryUpload,secondaryUpload,fillOut,remoteFileExists',
         'Gnd'              => 'search',
     )

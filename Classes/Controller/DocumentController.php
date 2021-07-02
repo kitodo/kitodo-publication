@@ -941,32 +941,6 @@ class DocumentController extends AbstractController
     }
 
     /**
-     *
-     * @param \EWW\Dpf\Domain\Model\Document $document
-     * @param string $key
-     * @param string $severity
-     * @param string $defaultMessage
-     */
-    protected function flashMessage(\EWW\Dpf\Domain\Model\Document $document, $key, $severity, $defaultMessage = "")
-    {
-        // Show success or failure of the action in a flash message
-        if ($document) {
-            $args[] = $document->getTitle();
-            $args[] = $document->getObjectIdentifier();
-        }
-
-        $message = LocalizationUtility::translate($key, 'dpf', $args);
-        $message = empty($message) ? $defaultMessage : $message;
-
-        $this->addFlashMessage(
-            $message,
-            '',
-            $severity,
-            true
-        );
-    }
-
-    /**
      * Updates the document in combination with a state transition.
      *
      * @param Document $document
