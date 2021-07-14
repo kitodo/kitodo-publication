@@ -29,6 +29,13 @@ use Exception;
  */
 abstract class AbstractDocumentFormController extends AbstractController
 {
+    /**
+     * documentManager
+     *
+     * @var \EWW\Dpf\Services\Document\DocumentManager
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentManager = null;
 
     /**
      * documentRepository
@@ -95,6 +102,11 @@ abstract class AbstractDocumentFormController extends AbstractController
     protected $fisDataService = null;
 
     /**
+     * @var Document
+     */
+    protected $newDocument = null;
+
+    /**
      * action list
      *
      * @return void
@@ -137,6 +149,13 @@ abstract class AbstractDocumentFormController extends AbstractController
             $docForm = $mapper->getDocumentForm($document);
         } elseif (array_key_exists('newDocumentForm', $requestArguments)) {
             $docForm = $this->request->getArgument('newDocumentForm');
+            if (is_numeric($docForm)) {
+                $sessionData = $this->session->getData();
+                $docForm = null;
+                if (array_key_exists('newDocumentForm', $sessionData)) {
+                    $docForm = unserialize($sessionData['newDocumentForm']);
+                }
+            }
         }
 
         $requestArguments['newDocumentForm'] = $docForm;
@@ -167,36 +186,7 @@ abstract class AbstractDocumentFormController extends AbstractController
 
     public function initializeCreateAction()
     {
-
-        $requestArguments = $this->request->getArguments();
-
-        if ($this->request->hasArgument('documentData')) {
-            $documentData = $this->request->getArgument('documentData');
-
-            $formDataReader = $this->objectManager->get(FormDataReader::class);
-            $formDataReader->setFormData($documentData);
-
-            $docForm = $formDataReader->getDocumentForm();
-
-            if (!$docForm->hasValidCsrfToken()) {
-                throw new Exception("Invalid CSRF Token");
-            }
-
-            $requestArguments['newDocumentForm'] = $docForm;
-
-            $docTypeUid = $documentData['type'];
-            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
-            $virtualType = $documentType->getVirtualType();
-
-            if (!$formDataReader->uploadError() || $virtualType === true) {
-                $this->request->setArguments($requestArguments);
-            } else {
-                $t = $docForm->getFileNames();
-                $this->redirect('list', 'DocumentForm', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
-            }
-        } else {
-            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
-        }
+        $this->documentFormMapping();
     }
 
     /**
@@ -211,14 +201,19 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
+        $this->newDocument = $newDocument;
 
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 
+        $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE);
+
         if ($this->request->getPluginName() === "Backoffice") {
             $newDocument->setCreator($this->security->getUser()->getUid());
-            $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE);
+            //$workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE);
         } else {
-            $workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE_REGISTER);
+            $newDocument->setCreator(0);
+            $newDocument->setTemporary(true);
+            //$workflow->apply($newDocument, DocumentWorkflow::TRANSITION_CREATE_REGISTER);
         }
 
         // xml data fields are limited to 64 KB
@@ -257,9 +252,11 @@ abstract class AbstractDocumentFormController extends AbstractController
 
             $this->depositLicenseLogRepository->add($depositLicenseLog);
 
-            /** @var Notifier $notifier */
-            $notifier = $this->objectManager->get(Notifier::class);
-            $notifier->sendDepositLicenseNotification($newDocument);
+            if (!$newDocument->isTemporary()) {
+                /** @var Notifier $notifier */
+                $notifier = $this->objectManager->get(Notifier::class);
+                $notifier->sendDepositLicenseNotification($newDocument);
+            }
         }
 
         // Add or update files
@@ -280,9 +277,10 @@ abstract class AbstractDocumentFormController extends AbstractController
         }
         $this->persistenceManager->persistAll();
 
-        // index the document
-        $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$newDocument]);
-
+        if (!$newDocument->isTemporary()) {
+            // index the document
+            $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$newDocument]);
+        }
     }
 
     public function initializeEditAction()
@@ -292,8 +290,7 @@ abstract class AbstractDocumentFormController extends AbstractController
         if (array_key_exists('document', $requestArguments)) {
 
             $document = $this->documentManager->read(
-                $this->request->getArgument('document'),
-                $this->security->getUser()->getUID()
+                $this->request->getArgument('document')
             );
 
             if ($document) {
@@ -363,39 +360,6 @@ abstract class AbstractDocumentFormController extends AbstractController
     }
 
     /**
-     * action update
-     *
-     * @param \EWW\Dpf\Domain\Model\DocumentForm $documentForm
-     * @return void
-     */
-    public function updateAction(DocumentForm $documentForm)
-    {
-        $documentMapper = $this->objectManager->get(DocumentMapper::class);
-
-        /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
-        $updateDocument = $documentMapper->getDocument($documentForm);
-
-        // xml data fields are limited to 64 KB
-        if (strlen($updateDocument->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
-            throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
-        }
-
-        // add document to local es index
-        $elasticsearchMapper = $this->objectManager->get(ElasticsearchMapper::class);
-        $json                = $elasticsearchMapper->getElasticsearchJson($updateDocument);
-
-        $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-        // send document to index
-        $elasticsearchRepository->add($updateDocument, $json);
-
-        $updateDocument->setChanged(true);
-        $this->documentRepository->update($updateDocument);
-
-        // index the document
-        $this->signalSlotDispatcher->dispatch(AbstractController::class, 'indexDocument', [$updateDocument]);
-    }
-
-    /**
      * action cancel
      *
      * @return void
@@ -413,6 +377,44 @@ abstract class AbstractDocumentFormController extends AbstractController
     protected function redirectToList($message = null)
     {
         $this->redirect('list');
+    }
+
+    protected function documentFormMapping()
+    {
+        $requestArguments = $this->request->getArguments();
+
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($requestArguments, null, 20);
+
+
+        if ($this->request->hasArgument('documentData')) {
+            $documentData = $this->request->getArgument('documentData');
+
+            $formDataReader = $this->objectManager->get(FormDataReader::class);
+            $formDataReader->setFormData($documentData);
+
+            $docForm = $formDataReader->getDocumentForm();
+
+            if (!$docForm->hasValidCsrfToken()) {
+                throw new Exception("Invalid CSRF Token");
+            }
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($docForm, null, 20);
+
+
+            $requestArguments['newDocumentForm'] = $docForm;
+
+            $docTypeUid = $documentData['type'];
+            $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
+            $virtualType = $documentType->getVirtualType();
+
+            if (!$formDataReader->uploadError() || $virtualType === true) {
+                $this->request->setArguments($requestArguments);
+            } else {
+                $t = $docForm->getFileNames();
+                $this->redirect('list', 'DocumentForm', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+            }
+        } else {
+            $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
+        }
     }
 
 }

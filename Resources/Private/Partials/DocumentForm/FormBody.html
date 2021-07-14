@@ -163,7 +163,8 @@
             <f:form.button name="save" id="{f:if(condition: '{backoffice}', then: 'saveCreate', else: 'save')}"
                            class="btn btn-lg btn-success"
                            disabled="{f:if(condition: '{dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE\')} ||
-                   {dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE_REGISTER\')}', then: '', else: 'disabled')}">
+                   {dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_CREATE_ANONYMOUSLY\')} ||
+                   {dpf:isAccessGranted(subject:\'{documentForm.documentUid}\', attribute:\'DOCUMENT_EDIT_ANONYMOUSLY\')}', then: '', else: 'disabled')}">
                 <i class="fas fa-check"></i>
                 {f:translate(key: 'form_button.save')}
             </f:form.button>

@@ -317,6 +317,9 @@
 			<trans-unit id="form_button.showOriginalDocument">
 				<source>Current version</source>
 			</trans-unit>
+			<trans-unit id="form_button.discard">
+				<source>discard</source>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 			</trans-unit>
@@ -1569,6 +1572,9 @@ Date: ###DATE###
             </trans-unit>
 			<trans-unit id="elasticsearch.notRunning" approved="yes">
                 <source>No ElasticSearch server running or missing configuration</source>
+            </trans-unit>
+            <trans-unit id="summary.header" approved="yes">
+                <source>Summary</source>
             </trans-unit>
 		</body>
 	</file>
