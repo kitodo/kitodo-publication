@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Services\FeUser\GndDataService;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
@@ -74,7 +75,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setMandatory($object->getMandatory());
             $field->setAccessRestrictionRoles($object->getAccessRestrictionRoles());
             $field->setInputField($object->getInputField());
-            $field->setInputOptions($object->getInputOptionList());
+            $field->setInputOptionList($object->getInputOptionList());
             $field->setMaxIteration($object->getMaxIteration());
             $field->setFillOutService($object->getFillOutService());
             $field->setValidation($object->getValidation());
@@ -128,7 +129,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setMandatory($field->getMandatory());
         $fieldItem->setAccessRestrictionRoles($field->getAccessRestrictionRoles());
         $fieldItem->setInputField($field->getInputField());
-        $fieldItem->setInputOptions($field->getInputOptionList());
+        $fieldItem->setInputOptionList($field->getInputOptionList());
         $fieldItem->setMaxIteration($field->getMaxIteration());
         $fieldItem->setFillOutService($field->getFillOutService());
         $fieldItem->setValidation($field->getValidation());
@@ -249,5 +250,4 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         }
 
     }
-
 }

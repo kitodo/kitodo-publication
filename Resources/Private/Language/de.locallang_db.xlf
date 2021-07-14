@@ -798,8 +798,8 @@
             <target>GND</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_metadataobject.gnd_field_uid" approved="yes">
-            <source>GND No. field UID</source>
-			<target>GND-Nr. Feld-UID</target>
+            <source>Fillout service: Linked key field (UID)</source>
+			<target>Fillout service: Verknüpftes Schlüssel-Feld (UID)</target>
         </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_field" approved="yes">
 			<source>Input Field</source>

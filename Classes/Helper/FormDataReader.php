@@ -310,7 +310,7 @@ class FormDataReader
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setDataType($metadataObject->getDataType());
                             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
-                            $documentFormField->setInputOptions($metadataObject->getInputOptionList());
+                            $documentFormField->setInputOptionList($metadataObject->getInputOptionList());
                             $documentFormField->setInputField($metadataObject->getInputField());
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
