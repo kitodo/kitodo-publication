@@ -874,14 +874,14 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         if (hasMandatoryInputs(fieldset)) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
             }
         } else {
             if (checkFilledInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
@@ -892,7 +892,7 @@ var validateForm = function() {
     jQuery("fieldset[id=primary_file]").each(function() {
         var fieldset = jQuery(this);
         if (checkPrimaryFile(fieldset)) {
-            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
+            jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
             showFormError();
             error = true;
             markPage(fieldset, true);
@@ -919,7 +919,7 @@ var validateForm = function() {
         // are relevant.
         if (filledInputs) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 markPage(fieldset, true);
                 error = true;
@@ -1068,8 +1068,10 @@ var checkMandatoryInputs = function(fieldset) {
     fieldset.find(search).each(function() {
         var id = jQuery(this).attr("id");
         if ((jQuery(this).attr("type") != "checkbox" && !jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
-            mandatoryError = mandatoryError || true;
-            jQuery(this).addClass("mandatory-error");
+            if (!jQuery(this).prop('disabled')) {
+              mandatoryError = mandatoryError || true;
+              jQuery(this).addClass("mandatory-error");
+            }
         } else {
             jQuery(this).removeClass("mandatory-error");
         }
