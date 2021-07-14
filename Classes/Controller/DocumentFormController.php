@@ -61,18 +61,6 @@ class DocumentFormController extends AbstractDocumentFormController
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-        // Replaced by the form configuration (download/archive)
-        /*
-           foreach ($newDocumentForm->getFiles() as $file) {
-               $uid = $file->getUID();
-               if (empty($uid)) {
-                   $file->setDownload(true);
-               }
-               $files[] = $file;
-           }
-           $newDocumentForm->setFiles($files);
-        */
-
         try {
             parent::createAction($newDocumentForm);
             $this->redirect(
