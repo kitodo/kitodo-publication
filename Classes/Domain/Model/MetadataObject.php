@@ -89,15 +89,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     const INPUTDROPDOWN = 100;
     const FILE_UPLOAD = 200;
 
-    const INPUT_DATA_TYPE_REGEXP = "REGEXP";
-    const INPUT_DATA_TYPE_DATE   = "DATE";
+    const VALIDATOR_REGEXP = "REGEXP";
+    const VALIDATOR_DATE   = "DATE";
 
     /**
-     * dataType
+     * validator
      *
      * @var string
      */
-    protected $dataType;
+    protected $validator;
 
     /**
      * modsExtension
@@ -155,6 +155,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
      * @var string
      */
     protected $validation = '';
+
+    /**
+     * @var string
+     */
+    protected $validationErrorMessage = '';
 
     /**
      * max input length
@@ -546,24 +551,40 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     }
 
     /**
-     * Returns the dataType
-     *
-     * @return string $dataType
+     * @return string
      */
-    public function getDataType()
+    public function getValidationErrorMessage(): string
     {
-        return $this->dataType;
+        return $this->validationErrorMessage;
     }
 
     /**
-     * Sets the dataType
+     * @param string $validationErrorMessage
+     */
+    public function setValidationErrorMessage(string $validationErrorMessage): void
+    {
+        $this->validationErrorMessage = $validationErrorMessage;
+    }
+
+    /**
+     * Returns the validator
      *
-     * @param string $dataType
+     * @return string $validator
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
+     * Sets the validator
+     *
+     * @param string $validator
      * @return void
      */
-    public function setDataType($dataType)
+    public function setValidator($validator)
     {
-        $this->dataType = $dataType;
+        $this->validator = $validator;
     }
 
     /**

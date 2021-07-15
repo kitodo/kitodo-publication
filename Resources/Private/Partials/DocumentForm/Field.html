@@ -40,7 +40,7 @@
 </f:if>
 
 <div class="form-group">
-    <f:if condition="{fieldItem.dataType}=='DATE'">
+    <f:if condition="{fieldItem.validator}=='DATE'">
         <div class="input-group datetimepicker">
     </f:if>
 
@@ -60,21 +60,22 @@
     <f:switch expression="{fieldItem.inputField}">
         <f:case value="0">
             <f:render partial="DocumentForm/FieldLabel" arguments="{_all}"/>
-            <f:if condition="{fieldItem.dataType}=='DATE'">
+            <f:if condition="{fieldItem.validator}=='DATE'">
                 <f:then>
                     <f:form.textfield id="inp_{fieldItem.uid}"
                                       property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                       value="{fieldItem.value}"
                                       class="form-control input-field"
                                       additionalAttributes="{
-                                        data-datatype: 'DATE',
+                                        data-validator:fieldItem.validator,
                                         data-field:fieldItem.uid,
                                         data-index:fieldIndex,
                                         data-mandatory:fieldItem.mandatory,
                                         data-group:formGroupUid,
                                         data-groupindex:groupIndex,
                                         data-default:fieldItem.hasDefaultValue,
-                                        data-regexp:fieldItem.validation,
+                                        data-validationExpression:fieldItem.validation,
+                                        data-validationErrorMessage:fieldItem.validationErrorMessage,
                                         data-label:fieldItem.displayName,
                                         data-maxlength:fieldItem.maxInputLength,
                                         data-objecttype:fieldItem.objecttype
@@ -86,13 +87,13 @@
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
+                                              additionalAttributes="{data-ajax: \"{f:uri.action(action:'search',controller:'Gnd',pageType:427590)}\" data-gndfield: fieldItem.gndFieldUid,data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"/>
                         </f:then>
                         <f:else>
                             <f:form.textfield id="inp_{fieldItem.uid}"
                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                               value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                                               readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'readonly')}"
                             />
                         </f:else>
@@ -105,7 +106,7 @@
             <f:form.textarea id="inp_{fieldItem.uid}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                              readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'readonly')}"
             />
         </f:case>
@@ -115,7 +116,7 @@
                 <f:form.select id="inp_{fieldItem.uid}"
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
-                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
+                               additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                options="{fieldItem.inputOptions}"
                                disabled="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'disabled')}"
                 />
@@ -128,7 +129,7 @@
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                      value="{fieldItem.depositLicense.uri}" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
+                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{eww:isValidDepositLicense(uri:'{fieldItem.value}')}" disabled="{f:if(condition:'{eww:isValidDepositLicense(uri:\'{fieldItem.value}\')}', then: 'true', else:'')}"/>
                     <f:if condition="{eww:isValidDepositLicense(uri: '{fieldItem.value}')}">
                         <f:form.hidden
@@ -140,7 +141,7 @@
                     <f:form.checkbox id="inp_{fieldItem.uid}"
                                      property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                      value="yes" class="input-field form-control input-field-checkbox"
-                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
+                                     additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{f:if(condition: '{fieldItem.value}', then: 'true')}"/>
                 </f:else>
             </f:if>
@@ -151,7 +152,7 @@
                 <f:form.textarea id="inp_{formPageUid}_{formGroupUid}_{groupIndex}_{fieldItem.uid}_{fieldIndex}"
                              property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                              value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                             additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                              readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'readonly')}"
                 />
             </div>
@@ -162,7 +163,7 @@
                 <f:form.textfield id="inp_{fieldItem.uid}"
                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                               value="{fieldItem.value}" class="input-field form-control dropdown-options-input {fieldItem.fillOutService}"
-                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
+                              additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-maxlength:fieldItem.maxInputLength,data-objecttype:fieldItem.objecttype}"
                               readonly="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'readonly')}"
                 />
 
@@ -191,7 +192,7 @@
         </button>
     </f:if>
 
-    <f:if condition="{fieldItem.dataType}=='DATE'">
+    <f:if condition="{fieldItem.validator}=='DATE'">
         <button type="button" class="btn btn-secondary fill_out_service_urn input-group-addon">
             <i class="fas fa-calendar-alt"></i>
         </button>

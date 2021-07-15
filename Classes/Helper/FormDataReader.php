@@ -308,7 +308,8 @@ class FormDataReader
 
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
-                            $documentFormField->setDataType($metadataObject->getDataType());
+                            $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
+                            $documentFormField->setValidator($metadataObject->getValidator());
                             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                             $documentFormField->setInputField($metadataObject->getInputField());

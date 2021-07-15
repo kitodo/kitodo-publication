@@ -78,7 +78,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setMaxIteration($object->getMaxIteration());
             $field->setFillOutService($object->getFillOutService());
             $field->setValidation($object->getValidation());
-            $field->setDataType($object->getDataType());
+            $field->setValidationErrorMessage($object->getValidationErrorMessage());
+            $field->setValidator($object->getValidator());
             $field->setGndFieldUid($object->getGndFieldUid());
             $field->setMaxInputLength($object->getMaxInputLength());
             $field->setValue("", $object->getDefaultValue());
@@ -132,7 +133,8 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setMaxIteration($field->getMaxIteration());
         $fieldItem->setFillOutService($field->getFillOutService());
         $fieldItem->setValidation($field->getValidation());
-        $fieldItem->setDataType($field->getDataType());
+        $fieldItem->setValidationErrorMessage($field->getValidationErrorMessage());
+        $fieldItem->setValidator($field->getValidator());
         $fieldItem->setGndFieldUid($field->getGndFieldUid());
         $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());

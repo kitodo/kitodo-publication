@@ -11,8 +11,8 @@
 		<trans-unit id="consent.description">
 			<source>Consent field</source>
 		</trans-unit>
-		<trans-unit id="data_type.description">
-			<source>Data type</source>
+		<trans-unit id="validator.description">
+			<source>Validator</source>
 		</trans-unit>
 		<trans-unit id="default_value.description">
 			<source>Default value</source>

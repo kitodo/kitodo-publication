@@ -8,6 +8,7 @@
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
+ *
  * The TYPO3 project - inspiring people to share!
  */
 
@@ -913,47 +914,46 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         fieldset.find(".input-field").each(function() {
             jQuery(this).removeClass("invalid-error");
-            var validation = jQuery(this).attr("data-regexp");
-            if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {
-                try {
-                    var regexp = new RegExp(validation);
-                    var res = jQuery(this).val().match(regexp);
-                    if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
-                        jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                        jQuery(this).addClass("invalid-error");
-                        showFormError();
-                        markPage(fieldset, true);
-                        error = true;
-                    }
-                } catch (err) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
-            } else {
-                var validateDate = jQuery(this).attr("data-datatype") == 'DATE';
-                if (jQuery(this).val() && jQuery(this).val().length > 0 && validateDate && !isDate(jQuery(this).val())) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
-            }
 
-            var maxLength = jQuery(this).attr("data-maxlength");
-            if (maxLength && maxLength > 0) {
-                if (jQuery(this).val().length > maxLength) {
-                    var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
+          var maxLength = jQuery(this).attr("data-maxlength");
+          if (maxLength && maxLength > 0) {
+            if (jQuery(this).val().length > maxLength) {
+              var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
+              jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+              jQuery(this).addClass("invalid-error");
+              showFormError();
+              markPage(fieldset, true);
+              error = true;
             }
+          }
+
+          // Validators
+          var validationError = false;
+          var validator = jQuery(this).attr("data-validator");
+          var validationExpression = jQuery(this).attr("data-validationExpression");
+          var validationErrorMessage = jQuery(this).attr("data-validationErrorMessage");
+
+          if (!validationErrorMessage || validationErrorMessage.length == 0) {
+            validationErrorMessage = form_error_msg_field_invalid;
+          }
+
+          switch (validator) {
+            case dateValidator.type:
+              validationError = !dateValidator.validate(jQuery(this).val());
+              break;
+            case regexpValidator.type:
+              validationError = !regexpValidator.validate(jQuery(this).val(), validationExpression);
+              break;
+          }
+
+          if (validationError) {
+            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+            jQuery(this).addClass("invalid-error");
+            showFormError();
+            markPage(fieldset, true);
+            error = true;
+          }
+
         });
     });
 
@@ -1293,27 +1293,7 @@ var datepicker = function() {
         }
     });
 }
-var isDate = function(value) {
-    if (value == "") return false;
-    var rxDatePattern = /^(\d{1,2})(\.)(\d{1,2})(\.)(\d{4})$/; //Declare Regex
-    var dtArray = value.match(rxDatePattern); // is format OK?
-    if (dtArray == null) return false;
-    //Checks for mm/dd/yyyy format.
-    var dtMonth = dtArray[3];
-    var dtDay = dtArray[1];
-    var dtYear = dtArray[5];
-    if (dtMonth < 1 || dtMonth > 12) {
-        return false;
-    } else if (dtDay < 1 || dtDay > 31) {
-        return false;
-    } else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31) {
-        return false;
-    } else if (dtMonth == 2) {
-        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-        if (dtDay > 29 || (dtDay == 29 && !isleap)) return false;
-    }
-    return true;
-}
+
 var documentListConfirmDialog = function(dialogId) {
 
     var title = '%s';
