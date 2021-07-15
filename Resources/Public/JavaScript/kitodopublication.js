@@ -8,6 +8,7 @@
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
+ *
  * The TYPO3 project - inspiring people to share!
  */
 
@@ -946,7 +947,7 @@ var validateForm = function() {
           }
 
           if (validationError) {
-            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
             jQuery(this).addClass("invalid-error");
             showFormError();
             markPage(fieldset, true);
