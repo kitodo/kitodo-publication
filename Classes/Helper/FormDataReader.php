@@ -211,10 +211,11 @@ class FormDataReader
         # get remote mimetype
         $ch = curl_init($fileUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_exec($ch);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-        $file->setContentType($contentType);
+        $file->setContentType($contentType? $contentType : 'application/octet-stream');
 
         $path_parts = pathinfo($fileUrl);
         $origFilename = $path_parts['filename']? $path_parts['filename'] : 'unknown-file-name';
