@@ -919,7 +919,7 @@ var validateForm = function() {
           if (maxLength && maxLength > 0) {
             if (jQuery(this).val().length > maxLength) {
               var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
-              jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
+              jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
               jQuery(this).addClass("invalid-error");
               showFormError();
               markPage(fieldset, true);
