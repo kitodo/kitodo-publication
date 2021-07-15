@@ -259,7 +259,12 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
      */
     public function remoteFileExistsAction(string $fileUrl)
     {
+        $timeout = 5;
+        $old = ini_set('default_socket_timeout', $timeout);
         $handle = @fopen($fileUrl, 'r');
+        ini_set('default_socket_timeout', $old);
+        stream_set_timeout($handle, $timeout);
+        stream_set_blocking($handle, 0);
         if($handle){
             return json_encode(['return' => 'true']);
         } else {
