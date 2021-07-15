@@ -566,13 +566,13 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.consent">
 			<source>Consent field</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type">
-			<source>Data type</source>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator">
+			<source>Validator</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date">
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator.date">
 			<source>date</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type.regexp">
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator.regexp">
 			<source>regexp</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.default_value">
@@ -657,7 +657,10 @@
 			<source>Name</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.validation">
-			<source>Validation</source>
+			<source>Validation expression</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validation_error_message" approved="yes">
+			<source>Validation error message</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.max_input_length">
 			<source>Max input length</source>

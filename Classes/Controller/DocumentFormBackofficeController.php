@@ -519,18 +519,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
-        /** @var \EWW\Dpf\Helper\DocumentMapper $documentMapper */
-        $documentMapper = $this->objectManager->get(DocumentMapper::class);
-
-        /** @var \EWW\Dpf\Domain\Model\Document $document */
-        $document = $documentMapper->getDocument($newDocumentForm);
-
-        if (!$this->authorizationChecker->isGranted(DocumentVoter::CREATE, $document)) {
+        if (!$this->authorizationChecker->isGranted(DocumentVoter::CREATE, new Document())) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:documentForm.create.accessDenied';
-            $args[] = $document->getTitle();
-            $message = LocalizationUtility::translate($key, 'dpf', $args);
+            $message = LocalizationUtility::translate($key, 'dpf', []);
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            $this->redirect('list', 'Document');
             return FALSE;
         }
 

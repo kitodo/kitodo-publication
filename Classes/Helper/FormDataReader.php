@@ -137,13 +137,18 @@ class FormDataReader
 
     protected function getFields()
     {
-
         $fields = array();
 
         if (is_array($this->formData['metadata'])) {
+
             foreach ($this->formData['metadata'] as $key => $value) {
-                $formField = new \EWW\Dpf\Helper\FormField($key, $value);
-                $fields[]  = $formField;
+                if (is_array($value)) {
+                    $formField = new \EWW\Dpf\Helper\FormField($key, array_shift($value));
+                    $fields[]  = $formField;
+                } else {
+                    $formField = new \EWW\Dpf\Helper\FormField($key, $value);
+                    $fields[]  = $formField;
+                }
             }
         }
 
@@ -193,6 +198,44 @@ class FormDataReader
         }
 
         return false;
+    }
+
+    protected function getUrlFile($fileUrl, $primary = false, \EWW\Dpf\Domain\Model\File $file = null)
+    {
+        if (empty($file)) {
+            $file = $this->objectManager->get(File::class);
+        }
+
+        $fileName = uniqid(time(), true);
+
+        # get remote mimetype
+        $ch = curl_init($fileUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+        $file->setContentType($contentType);
+
+        $path_parts = pathinfo($fileUrl);
+        $origFilename = $path_parts['filename']? $path_parts['filename'] : 'unknown-file-name';
+        $origFilename .= $path_parts['extension']? '.'.$path_parts['extension'] : '';
+        $file->setTitle($origFilename);
+
+        $file->setLink($fileUrl);
+        $file->setPrimaryFile($primary);
+        $file->setFileIdentifier(uniqid(time(), true));
+
+        if ($primary) {
+            if ($file->getDatastreamIdentifier()) {
+                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
+            } else {
+                $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
+            }
+        } else {
+            $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
+        }
+
+        return $file;
     }
 
     protected function getUploadedFile($tmpFile, $primary = false, \EWW\Dpf\Domain\Model\File $file = null)
@@ -308,7 +351,8 @@ class FormDataReader
 
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
-                            $documentFormField->setDataType($metadataObject->getDataType());
+                            $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
+                            $documentFormField->setValidator($metadataObject->getValidator());
                             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
                             $documentFormField->setInputField($metadataObject->getInputField());
@@ -352,11 +396,16 @@ class FormDataReader
                                             $documentFormField->setFile($file);
                                         }
 
-                                        $documentFormField->setValue($file->getUrl());
+                                        $documentFormField->setValue($file->getLink());
                                         $fileIdentifier = $file->getFileIdentifier();
                                         $documentForm->addFile($file);
 
                                     } elseif ($object && !is_array($object)) {
+                                        $file = $this->getUrlFile(
+                                            $object,
+                                            $metadataGroup->isPrimaryFileGroup(),
+                                            $file
+                                        );
                                         $documentFormField->setFile($file);
                                         $fileIdentifier = $file->getFileIdentifier();
                                         $documentForm->addFile($file);
@@ -381,6 +430,7 @@ class FormDataReader
                                     $file->setDownload($fileDownload);
                                     $file->setArchive($fileArchive);
                                 }
+
                             }
                         }
                     }

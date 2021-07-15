@@ -757,15 +757,15 @@
 			<source>Consent field</source>
 			<target>Einwilligungsfeld</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type" approved="yes">
-			<source>Data type</source>
-			<target>Datentyp</target>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator" approved="yes">
+			<source>Validator</source>
+			<target>Validator</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type.date" approved="yes">
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator.date" approved="yes">
 			<source>date</source>
 			<target>Datum</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_metadataobject.data_type.regexp" approved="yes">
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validator.regexp" approved="yes">
 			<source>regexp</source>
 			<target>Regulärer Ausdruck</target>
 		</trans-unit>
@@ -882,8 +882,12 @@
 			<target>Name</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.validation" approved="yes">
-			<source>Validation</source>
-			<target>Überprüfung</target>
+			<source>Validation expression</source>
+			<target>Validierungsausdruck</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.validation_error_message" approved="yes">
+			<source>Validation error message</source>
+			<target>Validierungs-Fehlermeldung </target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadatapage" approved="yes">
 			<source>Metadata Page</source>

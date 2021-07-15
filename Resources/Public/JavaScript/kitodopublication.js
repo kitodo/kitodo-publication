@@ -8,8 +8,21 @@
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
+ *
  * The TYPO3 project - inspiring people to share!
  */
+
+var fileInputToggle = function() {
+  $('.file-input-toggle').unbind("click");
+  $('.file-input-toggle').bind("click", function (evt) {
+    evt.preventDefault();
+    $(this).parent().find(".input_file_upload").toggleClass("d-none");
+    $(this).parent().find(".input_file_url").toggleClass("d-none");
+    $(this).parent().find(".input_file_url_label").toggleClass("d-none");
+    $(this).parent().find(".input_file_upload").prop("disabled", (_, val) => !val);
+    $(this).parent().find(".input_file_url").prop("disabled", (_, val) => !val);
+  })
+}
 
 var userNotifcationSettings = {
     init: function() {
@@ -795,24 +808,27 @@ var itemsPerPageHandler = {
     }
 }
 
-var validateFormAndSave = function() {
+var validateFormAndSave = function(e) {
+    e.preventDefault();
     jQuery("#validDocument").val("0");
-    if (validateForm()) {
+    validateForm().then(function(valid) {
+      if (valid) {
+        console.log(jQuery("#new-document-form"));
         jQuery("#validDocument").val("1");
-
         jQuery("#new-document-form #save").prop("disabled", true);
-
-        jQuery("#new-document-form").submit();
-
-        return true;
-    }
-    return false;
+        jQuery(".document-form-main").submit();
+      }
+    });
 }
-var validateFormOnly = function() {
-    if (validateForm()) {
+
+var validateFormOnly = function(e) {
+    e.preventDefault();
+
+   validateForm().then(function(valid) {
+      if (valid) {
         showFormSuccess();
-    }
-    return false;
+      }
+   });
 }
 
 var changeMandatory = function (selector, newValue, oldValue) {
@@ -834,7 +850,8 @@ var changeMandatory = function (selector, newValue, oldValue) {
 }
 
 var validateForm = function() {
-    var error = false;
+    let error = false;
+    let promises = [];
     jQuery("span.mandatory-error").remove();
     jQuery("div.alert").remove();
     jQuery(".tx-dpf-tabs li a").each(function() {
@@ -857,14 +874,14 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         if (hasMandatoryInputs(fieldset)) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
             }
         } else {
             if (checkFilledInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
@@ -875,7 +892,7 @@ var validateForm = function() {
     jQuery("fieldset[id=primary_file]").each(function() {
         var fieldset = jQuery(this);
         if (checkPrimaryFile(fieldset)) {
-            jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
+            jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
             showFormError();
             error = true;
             markPage(fieldset, true);
@@ -902,7 +919,7 @@ var validateForm = function() {
         // are relevant.
         if (filledInputs) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 markPage(fieldset, true);
                 error = true;
@@ -913,52 +930,80 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         fieldset.find(".input-field").each(function() {
             jQuery(this).removeClass("invalid-error");
-            var validation = jQuery(this).attr("data-regexp");
-            if (jQuery(this).val() && jQuery(this).val().length > 0 && validation && validation.length > 0) {
-                try {
-                    var regexp = new RegExp(validation);
-                    var res = jQuery(this).val().match(regexp);
-                    if (!(res && res.length == 1 && res[0] == jQuery(this).val())) {
-                        jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                        jQuery(this).addClass("invalid-error");
-                        showFormError();
-                        markPage(fieldset, true);
-                        error = true;
-                    }
-                } catch (err) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
-            } else {
-                var validateDate = jQuery(this).attr("data-datatype") == 'DATE';
-                if (jQuery(this).val() && jQuery(this).val().length > 0 && validateDate && !isDate(jQuery(this).val())) {
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_field_invalid + ': ' + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
-            }
 
-            var maxLength = jQuery(this).attr("data-maxlength");
-            if (maxLength && maxLength > 0) {
-                if (jQuery(this).val().length > maxLength) {
-                    var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
-                    jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + jQuery(this).attr("data-label") + '</div>').insertAfter(fieldset.find("legend").last());
-                    jQuery(this).addClass("invalid-error");
-                    showFormError();
-                    markPage(fieldset, true);
-                    error = true;
-                }
+          var maxLength = jQuery(this).attr("data-maxlength");
+          if (maxLength && maxLength > 0) {
+            if (jQuery(this).val().length > maxLength) {
+              var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
+              jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+              jQuery(this).addClass("invalid-error");
+              showFormError();
+              markPage(fieldset, true);
+              error = true;
+            }
+          }
+
+          // Validators
+          var validator = jQuery(this).attr("data-validator");
+          var validationExpression = jQuery(this).attr("data-validationExpression");
+          var field = jQuery(this);
+
+          switch (validator) {
+            case dateValidator.type:
+              if (!dateValidator.validate(field.val())) {
+                showFieldValidationError(field, fieldset)
+                error = true;
+              }
+              break;
+            case regexpValidator.type:
+              if (!regexpValidator.validate(field.val(), validationExpression)) {
+                showFieldValidationError(field, fieldset)
+                error = true;
+              }
+              break;
+            case remoteFileExistsValidator.type:
+              if (!field.prop('disabled') && field.val().length > 0) {
+                  // validationError = !remoteFileExistsValidator.validate(jQuery(this).val(), jQuery(this).attr('data-ajax'));
+                let prom = new Promise((resolve, reject) => {
+                  remoteFileExistsValidator.validate(field.val(), field.attr('data-ajax')).then(function(valid) {
+                    if (valid) {
+                      resolve(true);
+                    } else {
+                      showFieldValidationError(field, fieldset);
+                      resolve(false);
+                    }
+                  });
+                });
+                promises.push(prom);
+              }
+              break;
             }
         });
     });
 
-    return !error;
+    return new Promise((resolve, reject) => {
+       Promise.all(promises).then(function (valid) {
+         jQuery.each(valid, function (index, value) {
+           error = error || !value;
+         });
+         resolve(!error);
+       });
+     });
 }
+
+var showFieldValidationError = function(field, fieldset) {
+  var validationErrorMessage = field.attr("data-validationErrorMessage");
+
+  if (!validationErrorMessage || validationErrorMessage.length == 0) {
+    validationErrorMessage = form_error_msg_field_invalid;
+  }
+  jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + field.attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+  field.addClass("invalid-error");
+  showFormError();
+  markPage(fieldset, true);
+  jQuery('.alert-success').remove();
+}
+
 var showFormError = function() {
     jQuery(".tx-dpf div.alert-danger").remove();
     jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
@@ -986,6 +1031,12 @@ var hasFiles = function() {
         if (jQuery(this).attr("href")) {
             $hasFiles++;
         }
+    });
+
+    jQuery(".input_file_url").each(function() {
+      if (jQuery(this).val()) {
+        $hasFiles++;
+      }
     });
 
     return $hasFiles > 0;
@@ -1017,8 +1068,10 @@ var checkMandatoryInputs = function(fieldset) {
     fieldset.find(search).each(function() {
         var id = jQuery(this).attr("id");
         if ((jQuery(this).attr("type") != "checkbox" && !jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
-            mandatoryError = mandatoryError || true;
-            jQuery(this).addClass("mandatory-error");
+            if (!jQuery(this).prop('disabled')) {
+              mandatoryError = mandatoryError || true;
+              jQuery(this).addClass("mandatory-error");
+            }
         } else {
             jQuery(this).removeClass("mandatory-error");
         }
@@ -1084,6 +1137,7 @@ var addGroup = function(target, fileGroup = false) {
         buttonFillOutServiceUrn();
         datepicker();
         addRemoveFileButton();
+        fileInputToggle();
         userSearch(group);
         userSearchModalFillout();
         addMyUserData();
@@ -1293,27 +1347,7 @@ var datepicker = function() {
         }
     });
 }
-var isDate = function(value) {
-    if (value == "") return false;
-    var rxDatePattern = /^(\d{1,2})(\.)(\d{1,2})(\.)(\d{4})$/; //Declare Regex
-    var dtArray = value.match(rxDatePattern); // is format OK?
-    if (dtArray == null) return false;
-    //Checks for mm/dd/yyyy format.
-    var dtMonth = dtArray[3];
-    var dtDay = dtArray[1];
-    var dtYear = dtArray[5];
-    if (dtMonth < 1 || dtMonth > 12) {
-        return false;
-    } else if (dtDay < 1 || dtDay > 31) {
-        return false;
-    } else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31) {
-        return false;
-    } else if (dtMonth == 2) {
-        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-        if (dtDay > 29 || (dtDay == 29 && !isleap)) return false;
-    }
-    return true;
-}
+
 var documentListConfirmDialog = function(dialogId) {
 
     var title = '%s';
@@ -2066,6 +2100,7 @@ $(document).ready(function() {
     }
 
     addRemoveFileButton();
+    fileInputToggle();
 
     previousNextFormPage();
 
@@ -2114,4 +2149,5 @@ $(document).ready(function() {
     });
 
     $('.double-scroll').doubleScroll();
+
 });

@@ -140,7 +140,7 @@ class DocumentVoter extends Voter
         switch ($attribute) {
 
             case self::CREATE:
-                return $this->defaultAccess($subject);
+                return $this->defaultAccess();
                 break;
 
             case self::CREATE_REGISTER:

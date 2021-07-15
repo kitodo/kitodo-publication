@@ -91,7 +91,7 @@
         <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
             <f:if condition="{fieldItem.inputField}!=4">
                 <f:then>
-                    <div class="form-container {f:if(condition: '{fieldItem.dataType} == \'DATE\'', then: 'hasDatepicker', else: '')}">
+                    <div class="form-container {f:if(condition: '{fieldItem.validator} == \'DATE\'', then: 'hasDatepicker', else: '')}">
                         <f:if condition="{eww:IsElementAllowed(condition:'{fieldItem.accessRestrictionRoles}')}">
                             <f:then>
                                 <f:variable name="fieldIndex">{fieldItemIterator.index}</f:variable>
@@ -116,7 +116,7 @@
                     <f:form.hidden id="inp_{fieldItem.uid}"
                                    property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIterator.index}"
                                    value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
-                                   additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName}"/>
+                                   additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validator:fieldItem.validator,data-label:fieldItem.displayName}"/>
                 </f:else>
             </f:if>
         </f:for>

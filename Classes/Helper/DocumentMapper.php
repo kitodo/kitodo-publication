@@ -17,6 +17,7 @@ namespace EWW\Dpf\Helper;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\MetadataObject;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -242,7 +243,8 @@ class DocumentMapper
 
                             $documentFormField->setConsent($metadataObject->getConsent());
                             $documentFormField->setValidation($metadataObject->getValidation());
-                            $documentFormField->setDataType($metadataObject->getDataType());
+                            $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
+                            $documentFormField->setValidator($metadataObject->getValidator());
                             $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
                             $documentFormField->setInputField($metadataObject->getInputField());
                             $documentFormField->setInputOptions($metadataObject->getInputOptionList());
@@ -298,7 +300,7 @@ class DocumentMapper
 
                                     $objectValue = $value->nodeValue;
 
-                                    if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
+                                    if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE) {
                                         $dateStr = explode('T', $objectValue);
                                         $date    = date_create_from_format('Y-m-d', trim($dateStr[0]));
                                         if ($date) {
@@ -353,7 +355,8 @@ class DocumentMapper
 
                         $documentFormField->setConsent($metadataObject->getConsent());
                         $documentFormField->setValidation($metadataObject->getValidation());
-                        $documentFormField->setDataType($metadataObject->getDataType());
+                        $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
+                        $documentFormField->setValidator($metadataObject->getValidator());
                         $documentFormField->setMaxIteration($metadataObject->getMaxIteration());
                         $documentFormField->setInputField($metadataObject->getInputField());
                         $documentFormField->setInputOptions($metadataObject->getInputOptionList());
@@ -487,7 +490,7 @@ class DocumentMapper
 
                             $value = $fieldItem->getValue();
 
-                            if ($metadataObject->getDataType() == \EWW\Dpf\Domain\Model\MetadataObject::INPUT_DATA_TYPE_DATE) {
+                            if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE) {
                                 $date = date_create_from_format('d.m.Y', trim($value));
                                 if ($date) {
                                     $value = date_format($date, 'Y-m-d');

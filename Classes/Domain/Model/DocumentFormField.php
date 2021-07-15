@@ -39,7 +39,12 @@ class DocumentFormField extends AbstractFormElement
     /**
      * @var string
      */
-    protected $dataType;
+    protected $validationErrorMessage = '';
+
+    /**
+     * @var string
+     */
+    protected $validator;
 
     /**
      * @var int
@@ -208,20 +213,20 @@ class DocumentFormField extends AbstractFormElement
      *
      * @return string
      */
-    public function getDataType()
+    public function getValidator()
     {
-        return $this->dataType;
+        return $this->validator;
     }
 
     /**
      * Sets the data type of the field, e.g. DATE
      *
-     * @param string $dataType
+     * @param string $validator
      * @return void
      */
-    public function setDataType($dataType)
+    public function setValidator($validator)
     {
-        $this->dataType = $dataType;
+        $this->validator = $validator;
     }
 
     /**
@@ -352,6 +357,22 @@ class DocumentFormField extends AbstractFormElement
     public function setFile($file): void
     {
         $this->file = $file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationErrorMessage(): string
+    {
+        return $this->validationErrorMessage;
+    }
+
+    /**
+     * @param string $validationErrorMessage
+     */
+    public function setValidationErrorMessage(string $validationErrorMessage): void
+    {
+        $this->validationErrorMessage = $validationErrorMessage;
     }
 
 }

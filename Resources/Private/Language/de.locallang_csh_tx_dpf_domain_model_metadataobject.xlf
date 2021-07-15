@@ -13,9 +13,9 @@
 			<source>Consent field</source>
 			<target>Einwilligungsfeld</target>
 		</trans-unit>
-		<trans-unit id="data_type.description" approved="yes">
-			<source>Data type</source>
-			<target>Datentyp</target>
+		<trans-unit id="validator.description" approved="yes">
+			<source>Valdator</source>
+			<target>Validator</target>
 		</trans-unit>
 		<trans-unit id="default_value.description" approved="yes">
 			<source>Default value</source>
@@ -74,8 +74,8 @@
 			<target>Name</target>
 		</trans-unit>
 		<trans-unit id="validation.description" approved="yes">
-			<source>Validation</source>
-			<target>Überprüfung</target>
+			<source>Data type validation</source>
+			<target>Datentyp-Validierung</target>
 		</trans-unit>
 		<trans-unit id="max_input_length.description" approved="yes">
 			<source>Max input length: If set to 0 then the length is limited to 255 for input fields and to 2048 for textarea fields. If a value > 0 is specified, this value is used for the limitation.</source>
