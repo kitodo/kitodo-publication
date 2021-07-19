@@ -71,6 +71,7 @@
     "prefer-stable": true,
     "require-dev": {
         "phpunit/phpunit": "^7",
-        "nimut/testing-framework": "^5.0"
+        "nimut/testing-framework": "^5.0",
+        "phpmetrics/phpmetrics": "^2.7"
     }
 }

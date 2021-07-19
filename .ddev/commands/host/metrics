@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## Description: Run phpmetrics to analyze the source code. Opens a browser to view it.
+## Usage: metrics
+
+executable="vendor/phpmetrics/phpmetrics/bin/phpmetrics"
+sourcedir="/var/www/kitodo-publication"
+options="$@ --report-html=$DDEV_DOCROOT/phpmetrics \
+            --exclude=.ddev"
+
+ddev exec rm -rf $DDEV_DOCROOT/phpmetrics && \
+ddev exec $executable $options $sourcedir && \
+ddev launch phpmetrics
