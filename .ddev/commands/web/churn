@@ -1,0 +1,10 @@
+#!/bin/bash
+
+## Description: Identify PHP files in your project that could be good candidates for refactoring.
+## Usage: churn
+
+src=/var/www/kitodo-publication
+
+echo "Checking $src"
+
+git -C $src status >/dev/null && vendor/bin/churn run $src
