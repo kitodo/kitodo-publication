@@ -212,10 +212,17 @@ class FormDataReader
         $ch = curl_init($fileUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch,CURLOPT_MAXREDIRS,4);
+        curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
         curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-        $file->setContentType($contentType? $contentType : 'application/octet-stream');
+        if ($httpCode == 200) {
+            $file->setContentType($contentType);
+        } else {
+            $file->setContentType('application/octet-stream');
+        }
 
         $path_parts = pathinfo($fileUrl);
         $origFilename = $path_parts['filename']? $path_parts['filename'] : 'unknown-file-name';
