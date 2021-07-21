@@ -23,7 +23,6 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use Exception;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * DocumentFormController
