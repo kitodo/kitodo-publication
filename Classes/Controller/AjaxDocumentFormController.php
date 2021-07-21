@@ -18,6 +18,7 @@ use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
+use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * DocumentFormController
@@ -250,6 +251,27 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             );
         }
 
+    }
+
+    /**
+     * @param string $fileUrl
+     * @return false|string
+     */
+    public function remoteFileExistsAction(string $fileUrl)
+    {
+        $ch = curl_init($fileUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch,CURLOPT_MAXREDIRS,4);
+        curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
+        curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        
+        if($httpCode == 200){
+            return json_encode(['return' => 'true']);
+        } else {
+            return json_encode(['return' => 'false']);
+        }
     }
 
 }

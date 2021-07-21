@@ -242,6 +242,7 @@ page.includeCSS.select2 = EXT:dpf/Resources/Public/JavaScript/select2/select2.mi
 page.includeCSS.fontawesome = EXT:dpf/Resources/Public/CSS/fontawesome/css/all.css
 page.includeCSS.markdown = EXT:dpf/Resources/Public/JavaScript/editormd/css/editormd.css
 
+page.includeJS.babel = https://unpkg.com/@babel/standalone/babel.min.js
 page.includeJS.tx_dpf_jquery = EXT:dpf/Resources/Public/JavaScript/jQuery.min.js
 page.includeJS.tx_dpf_jquery_ui = EXT:dpf/Resources/Public/JavaScript/jquery-ui.min.js
 page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-with-locales.min.js
