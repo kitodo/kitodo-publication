@@ -14,9 +14,9 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\FileValidationResults;
 use EWW\Dpf\Domain\Model\MetadataObject;
 use TYPO3\CMS\Core\Core\Environment;
 
@@ -238,6 +238,7 @@ class FormDataReader
         $file->setTitle($origFilename);
 
         $file->setLink($fileUrl);
+        $file->setValidationResults(new FileValidationResults());
         $file->setPrimaryFile($primary);
         $file->setFileIdentifier(uniqid(time(), true));
 
@@ -273,6 +274,7 @@ class FormDataReader
 
         $file->setTitle($tmpFile['name']);
         $file->setLink($fileName);
+        $file->setValidationResults(new FileValidationResults());
         $file->setPrimaryFile($primary);
         $file->setFileIdentifier(uniqid(time(), true));
 
@@ -421,11 +423,15 @@ class FormDataReader
                                         $documentForm->addFile($file);
 
                                     } elseif ($object && !is_array($object)) {
-                                        $file = $this->getUrlFile(
-                                            $object,
-                                            $metadataGroup->isPrimaryFileGroup(),
-                                            $file
-                                        );
+
+                                        if (empty($file) || $object != $file->getLink()) {
+                                            $file = $this->getUrlFile(
+                                                $object,
+                                                $metadataGroup->isPrimaryFileGroup(),
+                                                $file
+                                            );
+                                        }
+
                                         $documentFormField->setFile($file);
                                         $fileIdentifier = $file->getFileIdentifier();
                                         $documentForm->addFile($file);

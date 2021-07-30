@@ -461,6 +461,18 @@
 				<source>URN service unavailable.</source>
 				<target>URN-Service nicht verfügbar.</target>
 			</trans-unit>
+			<trans-unit id="form_error_msg.file.no_pdfa" approved="yes">
+				<source>File must be a PDF/A file.</source>
+				<target>Die Datei muss im Format PDF/A sein.</target>
+			</trans-unit>
+			<trans-unit id="form_error_msg.file.successfully_validated" approved="yes">
+				<source>File successfully validated.</source>
+				<target>Die Dateiprüfung war erfolgreich.</target>
+			</trans-unit>
+			<trans-unit id="form_error_msg.file.validation_pending" approved="yes">
+				<source>Validation pending.</source>
+				<target>Dateiprüfung ausstehend.</target>
+			</trans-unit>
 			<trans-unit id="form_info_msg.personid_added" approved="yes">
 				<source>We have added you as the author of this publication. Please check the information and confirm the change.</source>
 				<target>Wir haben Sie als Autor*in für diese Publikation hinzugefügt. Bitte prüfen Sie die Angaben und bestätigen Sie die Änderung.</target>

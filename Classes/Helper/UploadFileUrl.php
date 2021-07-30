@@ -27,9 +27,16 @@ class UploadFileUrl
      */
     protected $clientConfigurationManager;
 
-    public function __construct() {
+    /**
+     * UploadFileUrl constructor.
+     * @param int $clientPid
+     */
+    public function __construct($clientPid = 0) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+        if ($clientPid) {
+            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+        }
     }
 
 

@@ -853,7 +853,7 @@ var validateForm = function() {
     let error = false;
     let promises = [];
     jQuery("span.mandatory-error").remove();
-    jQuery("div.alert").remove();
+    jQuery("div.alert").not(".file-error").remove();
     jQuery(".tx-dpf-tabs li a").each(function() {
         jQuery(this).removeClass("mandatory-error");
     });

@@ -347,6 +347,15 @@
 			<trans-unit id="form_error_msg.filloutservice_urn" approved="yes">
 				<source>URN service unavailable.</source>
 			</trans-unit>
+			<trans-unit id="form_error_msg.file.no_pdfa" approved="yes">
+				<source>File must be a PDF/A file.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.file.successfully_validated" approved="yes">
+				<source>File successfully validated.</source>
+			</trans-unit>
+			<trans-unit id="form_error_msg.file.validation_pending" approved="yes">
+				<source>Validation pending.</source>
+			</trans-unit>
 			<trans-unit id="form_info_msg.personid_added" approved="yes">
 				<source>We have added you as the author of this publication. Please check the information and confirm the change.</source>
 			</trans-unit>
