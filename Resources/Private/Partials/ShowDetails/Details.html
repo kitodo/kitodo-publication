@@ -16,13 +16,19 @@
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
 <f:if condition="{dpf:showDocumentType(docType:'{document.documentType.name}')} != '-'">
-    <span class="badge badge-pill badge-dark">{dpf:showDocumentType(docType:'{document.documentType.name}')}</span>
+    <span class="badge badge-pill badge-dark" data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.publicationType.tooltip')}">{dpf:showDocumentType(docType:'{document.documentType.name}')}</span>
 </f:if>
 
-<span class="badge badge-pill badge-{dpf:getStatusColor(status:'{document.state}')}">{dpf:showStatus(status:'{document.state}')}</span>
+<span class="badge badge-pill badge-{dpf:getStatusColor(status:'{document.state}')}" data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.documentState.tooltip')}">{dpf:showStatus(status:'{document.state}')}</span>
+
+<f:if condition="{document.processNumber}">
+    <span class="badge badge-pill badge-secondary" data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.processNumber.tooltip')}">{document.processNumber}</span>
+</f:if>
 
 <f:if condition="{document.creationDate}">
-    <span class="badge badge-pill badge-secondary">{f:translate(key: 'manager.workspace.creationDate')}: <f:format.date format="d.m.Y">{document.creationDate}</f:format.date></span>
+    <span class="badge badge-pill badge-secondary" data-toggle="tooltip" title="{f:translate(key: 'manager.workspace.creationDate.tooltip')}">
+        {f:format.date(format:'d.m.Y', date:'{document.creationDate}')}
+    </span>
 </f:if>
 
 <ul>
