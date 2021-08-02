@@ -705,7 +705,7 @@
 				<source>Unknown</source>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication" approved="yes">
-				<source>UL publication</source>
+				<source>Institutional bibliography</source>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
 				<source>Originated from scientific work at the UL</source>
@@ -978,7 +978,7 @@
 				<source>State</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.universityPublication" approved="yes">
-				<source>University publication</source>
+				<source>Institutional bibliography</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.withFile" approved="yes">
 				<source>With file (Fulltext)</source>
