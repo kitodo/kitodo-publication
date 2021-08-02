@@ -22,7 +22,7 @@
         <i class="fas fa-trash-alt"></i>
         {f:translate(key: 'form_button.remove_file', arguments: {0: ''})}
     </button>
-    <f:if condition="{eww:getTypo3Mode()} == 'BE'">
+    <f:if condition="{eww:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
         <f:then>
             <div class="form-group">
                 <label for="inp_primaryFile" data-index="{}">Display name</label>
