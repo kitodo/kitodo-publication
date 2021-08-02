@@ -2,7 +2,6 @@
 <xliff version="1.0">
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-09-19T09:24:17Z">
 		<header>
-			<generator>LFEditor</generator>
 		</header>
 		<body>
 			<trans-unit id="config.elasticSearchHost" approved="yes">
@@ -926,8 +925,8 @@
 				<target>Unbekannt</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication" approved="yes">
-				<source>UL publication</source>
-				<target>UL-Publikation</target>
+				<source>Institutional bibliography</source>
+				<target>Institutionelle Bibliografie</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
 				<source>Originated from scientific work at the UL</source>
@@ -1314,8 +1313,8 @@
 				<target>Status</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.universityPublication" approved="yes">
-				<source>University publication</source>
-				<target>UL-Publikation</target>
+				<source>Institutional bibliography</source>
+				<target>Institutionelle Bibliografie</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.withFile" approved="yes">
 				<source>With file (Fulltext)</source>
