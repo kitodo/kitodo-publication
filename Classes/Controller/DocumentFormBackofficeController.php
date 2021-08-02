@@ -22,6 +22,7 @@ use EWW\Dpf\Security\Security;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
@@ -301,7 +302,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         }
 
         $backToList = $this->request->getArgument('documentData')['backToList'];
-        
+
         if ($this->request->hasArgument('saveAndUpdate')) {
             $saveMode = 'saveAndUpdate';
         } elseif ($this->request->hasArgument('saveWorkingCopy')) {
@@ -371,6 +372,13 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
             $updateDocument = $documentMapper->getDocument($documentForm);
+
+            $processNumber = $updateDocument->getProcessNumber();
+            if (empty($processNumber)) {
+                $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+                $processNumber = $processNumberGenerator->getProcessNumber();
+                $updateDocument->setProcessNumber($processNumber);
+            }
 
             $saveWorkingCopy = false;
             $workflowTransition = null;

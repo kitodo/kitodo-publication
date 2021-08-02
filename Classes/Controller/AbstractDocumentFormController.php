@@ -23,6 +23,7 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use Exception;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 
 /**
  * DocumentFormController
@@ -207,6 +208,10 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
+
+        $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+        $processNumber = $processNumberGenerator->getProcessNumber();
+        $newDocument->setProcessNumber($processNumber);
 
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 

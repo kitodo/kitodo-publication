@@ -353,11 +353,6 @@ class DocumentMapper
         }
 
         $processNumber = $document->getProcessNumber();
-        if (empty($processNumber)) {
-            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-            $processNumber = $processNumberGenerator->getProcessNumber();
-            $document->setProcessNumber($processNumber);
-        }
 
         $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());
 

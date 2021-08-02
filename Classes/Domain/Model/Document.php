@@ -712,8 +712,10 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setProcessNumber($processNumber)
     {
         $this->processNumber = trim($processNumber);
+        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($this->getXmlData());
+        $internalFormat->setProcessNumber($this->processNumber);
+        $this->setXmlData($internalFormat->getXml());
     }
-
 
     /**
      * Gets the submitter name of the document
