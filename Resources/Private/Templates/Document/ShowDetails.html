@@ -18,18 +18,20 @@
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
-
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
         <h1 class="h2">Details</h1>
+
+        <span id="ajaxState" style="display:hidden;" data-ajaxState="{f:uri.action(action:'isDocumentEditable',controller:'AjaxBackoffice', arguments: '{identifier: \'{document.documentIdentifier}\'}', pageType:settings.ajaxTypeNum)}" />
+
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_ACTIVATE')}">
                     <f:if condition="{document.state} != 'NONE:ACTIVE' || {document.workingCopy} == 1">
                         <f:link.action action="releaseActivate" arguments="{document : document, tstamp : document.tstamp}"
-                                       class="btn
+                                       class="isDocumentEditable btn
                                             {f:if(condition: '{document.state} == \'IN_PROGRESS:ACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}
                                             {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
-                                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
+                                       additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmReleasePublish'}">
                             <i class="fas fa-check"></i>
                             {f:translate(key: 'manager.releasePublish')}
                         </f:link.action>
@@ -38,8 +40,8 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_RELEASE_PUBLISH')}">
                     <f:link.action action="releasePublish" arguments="{document : document, tstamp : document.tstamp}"
-                                   class="btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
-                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmReleasePublish'}">
+                                   class="isDocumentEditable btn btn-sm {f:if(condition: '{document.valid}', then: 'btn-success', else: 'btn-success')}"
+                                   additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmReleasePublish'}">
                         <i class="fas fa-check"></i>
                         {f:translate(key: 'manager.releasePublish')}
                     </f:link.action>
@@ -47,11 +49,11 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGEST_MODIFICATION')}">
                     <f:link.action
-                            action="suggestModification"
-                            controller="Document"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-secondary"
-                            additionalAttributes="{data-documenttitle: document.title}">
+                        action="suggestModification"
+                        controller="Document"
+                        arguments="{document:document}"
+                        class="btn btn-sm btn-secondary"
+                        additionalAttributes="{data-documenttitle: document.title}">
                         <i class="fas fa-sticky-note"></i>
                         {f:translate(key: 'form_button.suggestion')}
                     </f:link.action>
@@ -59,12 +61,12 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_REGISTER')}">
                     <f:link.action
-                            action="register"
-                            controller="Document"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-success
+                        action="register"
+                        controller="Document"
+                        arguments="{document:document}"
+                        class="btn btn-sm btn-success
                                         {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_REGISTER\')}', then: '', else: 'disabled')}"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRegister'}">
+                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmRegister'}">
                         <i class="fas fa-share"></i>
                         {f:translate(key: 'form_button.register')}
                     </f:link.action>
@@ -73,12 +75,12 @@
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_POSTPONE')}">
                     <f:if condition="{document.state} != 'NONE:INACTIVE' || {document.workingCopy} == 1">
                         <f:link.action
-                                action="postpone"
-                                controller="Document"
-                                arguments="{document:document, tstamp:document.tstamp}"
-                                class="btn btn-info
+                            action="postpone"
+                            controller="Document"
+                            arguments="{document:document, tstamp:document.tstamp}"
+                            class="isDocumentEditable btn btn-info
                                     {f:if(condition: '{document.state} == \'IN_PROGRESS:INACTIVE\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
-                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmPostpone'}">
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmPostpone'}">
                             <i class="fas fa-pause-circle"></i>
                             {f:translate(key: 'manager.postpone')}
                         </f:link.action>
@@ -87,12 +89,12 @@
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DISCARD')}">
                     <f:if condition="{document.state} != 'NONE:DELETED' || {document.workingCopy} == 1">
                         <f:link.action
-                                action="discard"
-                                controller="Document"
-                                arguments="{document:document, tstamp:document.tstamp}"
-                                class="btn btn-warning
+                            action="discard"
+                            controller="Document"
+                            arguments="{document:document, tstamp:document.tstamp}"
+                            class="isDocumentEditable btn btn-warning
                                     {f:if(condition: '{document.state} == \'IN_PROGRESS:DELETED\' && {document.workingCopy} == 1', then: 'btn-m', else: 'btn-sm')}"
-                                additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDiscard'}">
+                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmDiscard'}">
                             <i class="fas fa-ban"></i>
                             {f:translate(key: 'manager.discard')}
                         </f:link.action>
@@ -101,10 +103,11 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_EDIT')}">
                     <f:link.action
-                            action="edit"
-                            controller="DocumentFormBackoffice"
-                            arguments="{document:document}"
-                            class="btn btn-sm btn-primary">
+                        action="edit"
+                        controller="DocumentFormBackoffice"
+                        arguments="{document:document}"
+                        class="isDocumentEditable btn btn-sm btn-primary"
+                        additionalAttributes="{data-toggle: 'modal', data-confirmTarget: ''}">
                         <i class="fas fa-edit"></i>
                         {f:translate(key: 'form_button.edit')}
                     </f:link.action>
@@ -112,11 +115,11 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_WORKING_COPY')}">
                     <f:link.action
-                            action="deleteLocally"
-                            controller="Document"
-                            arguments="{document:document, tstamp:document.tstamp}"
-                            class="btn btn-sm btn-danger"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteWorkingCopy'}">
+                        action="deleteLocally"
+                        controller="Document"
+                        arguments="{document:document, tstamp:document.tstamp}"
+                        class="isDocumentEditable btn btn-sm btn-danger"
+                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmDeleteWorkingCopy'}">
                         <i class="fas fa-trash-alt"></i>
                         {f:translate(key: 'form_button.deleteWorkingCopy')}
                     </f:link.action>
@@ -124,21 +127,21 @@
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
                     <f:link.action
-                            action="deleteLocally"
-                            controller="Document"
-                            arguments="{document:document, tstamp:document.tstamp}"
-                            class="btn btn-sm btn-danger"
-                            additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocally'}">
+                        action="deleteLocally"
+                        controller="Document"
+                        arguments="{document:document, tstamp:document.tstamp}"
+                        class="isDocumentEditable btn btn-sm btn-danger"
+                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmDeleteLocally'}">
                         <i class="fas fa-trash-alt"></i>
                         {f:translate(key: 'form_button.deleteLocally')}
                     </f:link.action>
                 </f:if>
 
                 <f:link.action
-                        action="duplicate"
-                        controller="Document"
-                        arguments="{document:document}"
-                        class="btn btn-sm btn-secondary">
+                    action="duplicate"
+                    controller="Document"
+                    arguments="{document:document}"
+                    class="btn btn-sm btn-secondary">
                     <i class="far fa-copy"></i>
 
                     {f:translate(key: 'form_button.duplicate')}
@@ -149,17 +152,17 @@
                         action="changeDocumentType"
                         controller="Document"
                         arguments="{document:document}"
-                        class="btn btn-sm btn-secondary"
-                        additionalAttributes="{data-toggle: 'modal', data-target:'#confirmDoctypeChange'}">
+                        class="isDocumentEditable btn btn-sm btn-secondary"
+                        additionalAttributes="{data-toggle: 'modal', data-confirmTarget:'#confirmDoctypeChange'}">
                         <i class="fas fa-exchange-alt"></i>
                         {f:translate(key: 'form_button.changeDocumentType')}
                     </f:link.action>
                 </f:if>
 
                 <f:link.action
-                        action="cancelListTask"
-                        controller="Document"
-                        class="btn btn-sm btn-outline-secondary">
+                    action="cancelListTask"
+                    controller="Document"
+                    class="btn btn-sm btn-outline-secondary">
                     <i class="fas fa-times"></i>
                     {f:translate(key: 'manager.documentDetails.cancel')}
                 </f:link.action>
@@ -216,6 +219,8 @@
         </div>
     </div>
 
-
+    <f:render partial="Document/AlertModal" arguments="{name: 'documentState'}" />
+    <f:render partial="Document/AlertModal" arguments="{name: 'documentLocked'}" />
+    <f:render partial="Document/AlertModal" arguments="{name: 'unexpected'}" />
 
 </f:section>

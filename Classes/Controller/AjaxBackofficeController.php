@@ -14,6 +14,7 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\FeUser\FisDataService;
@@ -62,6 +63,22 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $externalMetadataRepository = null;
+
+    /**
+     * documentManager
+     *
+     * @var \EWW\Dpf\Services\Document\DocumentManager
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentManager = null;
+
+    /**
+     * editingLockService
+     *
+     * @var \EWW\Dpf\Services\Document\EditingLockService
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $editingLockService = null;
 
     /**
      * Adds a the given document identifier to the bookmark list of the current fe user.
@@ -579,6 +596,33 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
             return json_encode(['failed' => 'wrong user id']);
         }
 
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function isDocumentEditableAction($identifier)
+    {
+        $document = $this->documentManager->read($identifier);
+        $currentDocument = $this->session->getCurrenDocument();
+
+        $currentUser = $this->security->getUser();
+
+        if ( $this->editingLockService->isLocked($identifier, $currentUser->getUid()) ) {
+            return json_encode(['allowed' => false, 'reason' => 'isLocked']);
+        }
+
+        if ($document instanceof Document && $currentDocument instanceof Document) {
+            return json_encode(
+                [
+                    'allowed' => $currentDocument->getState() === $document->getState(),
+                    'reason' => $currentDocument->getState() === $document->getState()? 'isOk' : 'hasChanged'
+                ]
+            );
+        }
+
+        return json_encode(['allowed' => false, 'reason' => 'unknown']);
     }
 
 }

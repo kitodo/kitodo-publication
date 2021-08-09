@@ -12,6 +12,81 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+var isDocumentEditable = {
+  init: function () {
+
+    var self = this;
+
+    $('.isDocumentEditable').on('click', function(e) {
+      var button = $(this);
+      var buttonIcon = button.find("i");
+      var confirmDialog = button.attr('data-confirmTarget');
+
+      button.attr('data-target', '');
+      button.find("i").replaceWith(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+      var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
+      var params = {};
+
+      jQuery.post(ajaxURL, params, function(data) {
+        button.find(".spinner-border").replaceWith(buttonIcon);
+        if (data.allowed !== true) {
+          self.showAlert(data.reason);
+        } else {
+          if (confirmDialog) {
+            button.attr('data-target', confirmDialog);
+            jQuery(confirmDialog).modal({
+              show: true,
+              backdrop: 'static'
+            });
+          } else {
+            window.location.href = button.attr("href");
+          }
+        }
+      }, "json");
+
+      e.preventDefault();
+
+    });
+
+    $(".modal [type='submit']").on('click', function(e){
+      var button = $(this);
+      button.html(
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> '+button.html());
+
+      var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
+      var params = {};
+
+      jQuery.post(ajaxURL, params, function(data) {
+        button.find(".spinner-border").remove();
+        if (data.allowed !== true) {
+          button.closest('.modal').modal('hide');
+          self.showAlert(data.reason);
+        } else {
+          button.parent().parent().find('form').submit();
+
+        }
+      }, "json");
+
+      e.preventDefault();
+
+    });
+  },
+  showAlert: function(reason) {
+    switch (reason) {
+      case 'isLocked':
+        $('#alertDocumentLocked').modal('show');
+        break;
+      case 'hasChanged':
+        $('#alertDocumentState').modal('show');
+        break;
+      default:
+        $('#alertDocument').modal('show');
+        break;
+    }
+  }
+}
+
 var fileInputToggle = function() {
   $('.file-input-toggle').unbind("click");
   $('.file-input-toggle').bind("click", function (evt) {
@@ -813,7 +888,6 @@ var validateFormAndSave = function(e) {
     jQuery("#validDocument").val("0");
     validateForm().then(function(valid) {
       if (valid) {
-        console.log(jQuery("#new-document-form"));
         jQuery("#validDocument").val("1");
         jQuery("#new-document-form #save").prop("disabled", true);
         jQuery(".document-form-main").submit();
@@ -1361,7 +1435,7 @@ var documentListConfirmDialog = function(dialogId) {
     });
     jQuery(dialogId).on("show.bs.modal", function(e) {
         //jQuery(this).find(dialogId+"Document").attr("href", jQuery(e.relatedTarget).attr("href"));
-        jQuery(this).find(dialogId+"Document").attr("action", jQuery(e.relatedTarget).attr("href"));
+        jQuery(this).find(dialogId+"Document").attr("action", jQuery("[data-target="+dialogId+"]").attr("href"));
         var bodyText = jQuery(this).find(".modal-body p").html();
         title = jQuery(e.relatedTarget).attr("data-documenttitle");
         jQuery(this).find(".modal-body p").html(bodyText.replace("%s", title));
@@ -2158,5 +2232,7 @@ $(document).ready(function() {
     });
 
     $('.double-scroll').doubleScroll();
+
+    isDocumentEditable.init();
 
 });

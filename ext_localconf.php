@@ -117,7 +117,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
             .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
             .'searchFis, getFisData, searchGnd, getGndData, searchRor, getRorData, searchZdb, getZdbData, searchUnpaywall, getUnpaywallData, searchOrcid, getOrcidData, '
             .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
-            .'generateApiToken, removeApiToken',
+            .'generateApiToken, removeApiToken, isDocumentEditable',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'User'             => 'settings, saveSettings',
         'DataServiceAjax'  => 'searchGndKeyword, autocomplete',
@@ -142,7 +142,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
             .'setWorkspaceItemsPerPage, saveExtendedSearch, loadExtendedSearchList, loadExtendedSearch, '
             .'searchFis, getFisData, searchGnd, getGndData, searchRor, getRorData, searchZdb, getZdbData, searchUnpaywall, getUnpaywallData, searchOrcid, getOrcidData, '
             .'toggleBulkImportRecord, toggleBulkImportAuthorSearch, '
-            .'generateApiToken, removeApiToken',
+            .'generateApiToken, removeApiToken, isDocumentEditable',
         'Search'           => 'search, extendedSearch, batch, batchBookmark, doubletCheck, latest',
         'User'             => 'settings, saveSettings',
         'DataServiceAjax'  => 'searchGndKeyword, autocomplete',
