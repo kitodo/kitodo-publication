@@ -433,7 +433,7 @@ ul.error-files-backbutton li {
     list-style: none;
 }
 
-.tx-dpf form .alert {
+.tx-dpf form .alert-danger {
     position: relative;
     top: 60px;
 }
