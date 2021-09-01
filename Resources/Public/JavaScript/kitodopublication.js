@@ -51,25 +51,30 @@ var isDocumentEditable = {
 
     $(".modal [type='submit']").on('click', function(e){
       var button = $(this);
+      button.find(".spinner-border").remove();
       button.html(
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> '+button.html());
 
       var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
       var params = {};
 
-      jQuery.post(ajaxURL, params, function(data) {
-        button.find(".spinner-border").remove();
-        if (data.allowed !== true) {
-          button.closest('.modal').modal('hide');
-          self.showAlert(data.reason);
-        } else {
-          button.parent().parent().find('form').submit();
+      if (jQuery("#ajaxState").length > 0) {
 
-        }
-      }, "json");
+        console.log("dsfdsfs");
 
-      e.preventDefault();
 
+
+        jQuery.post(ajaxURL, params, function(data) {
+          button.find(".spinner-border").remove();
+          if (data.allowed !== true) {
+            button.closest('.modal').modal('hide');
+            self.showAlert(data.reason);
+          } else {
+            button.parent().parent().find('form').submit();
+          }
+        }, "json");
+        e.preventDefault();
+      }
     });
   },
   showAlert: function(reason) {
