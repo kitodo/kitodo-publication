@@ -66,7 +66,7 @@
                         arguments="{document:document}"
                         class="btn btn-sm btn-success
                                         {f:if(condition: '{dpf:isAccessGranted(subject:\'{document}\', attribute:\'DOCUMENT_REGISTER\')}', then: '', else: 'disabled')}"
-                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmRegister'}">
+                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRegister'}">
                         <i class="fas fa-share"></i>
                         {f:translate(key: 'form_button.register')}
                     </f:link.action>
