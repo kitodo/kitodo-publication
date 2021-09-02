@@ -150,6 +150,13 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $elasticSearchPort = '';
 
     /**
+     * elasticSearchIndexName
+     *
+     * @var string
+     */
+    protected $elasticSearchIndexName = '';
+
+    /**
      * uploadDirectory
      *
      * @var string
@@ -204,7 +211,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $submitterIngestNotificationBody = '';
-    
+
     /**
      * adminRegisterDocumentNotificationSubject
      *
@@ -342,7 +349,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $titleXpath = '';
-    
+
     /**
      * process number xpath
      *
@@ -861,7 +868,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->swordPassword;
     }
-    
+
     /**
      * Sets the swordPassword
      *
@@ -997,6 +1004,22 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setElasticSearchPort($elasticSearchPort)
     {
         $this->elasticSearchPort = $elasticSearchPort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getElasticSearchIndexName(): string
+    {
+        return $this->elasticSearchIndexName;
+    }
+
+    /**
+     * @param string $elasticSearchIndexName
+     */
+    public function setElasticSearchIndexName(string $elasticSearchIndexName): void
+    {
+        $this->elasticSearchIndexName = $elasticSearchIndexName;
     }
 
     /**

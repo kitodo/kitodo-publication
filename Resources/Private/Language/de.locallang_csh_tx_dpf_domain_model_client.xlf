@@ -77,6 +77,10 @@
             <source>Port</source>
             <target>Port</target>
         </trans-unit>
+		<trans-unit id="elastic_search_index_name.description" approved="yes">
+			<source>Index name</source>
+			<target>Index-Name</target>
+		</trans-unit>
         <trans-unit id="upload_directory.description" approved="yes">
             <source>Directory path</source>
             <target>Verzeichnispfad</target>

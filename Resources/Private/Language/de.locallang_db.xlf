@@ -41,6 +41,10 @@
 			<source>Port</source>
 			<target>Port</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.elastic_search_index_name" approved="yes">
+			<source>Index name</source>
+			<target>Index-Name</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.fedora_host" approved="yes">
 			<source>Host address</source>
 			<target>Hostadresse</target>

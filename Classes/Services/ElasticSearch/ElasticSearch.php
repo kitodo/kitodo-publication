@@ -70,6 +70,7 @@ class ElasticSearch
 
         $this->server = $clientConfigurationManager->getElasticSearchHost();
         $this->port = $clientConfigurationManager->getElasticSearchPort();
+        $this->indexName = $clientConfigurationManager->getElasticSearchIndexName();
 
         $hosts = array(
             $this->server . ':' . $this->port,
