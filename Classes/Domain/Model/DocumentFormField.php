@@ -136,7 +136,7 @@ class DocumentFormField extends AbstractFormElement
         if ($this->inputOptionList) {
             $inputOptions[''] = '';
             foreach ($this->inputOptionList->getInputOptions() as $option => $label) {
-                $this->inputOptions[$option] = $label;
+                $inputOptions[$option] = $label;
             }
 
             $this->defaultInputOption = trim($this->inputOptionList->getDefaultValue());
