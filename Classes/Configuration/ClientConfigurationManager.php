@@ -168,6 +168,11 @@ class ClientConfigurationManager
         return $this->getSetting("elasticSearchPort", "elasticSearchPort");
     }
 
+    public function getElasticSearchIndexName()
+    {
+        return $this->getSetting("elasticSearchIndexName", "elasticSearchIndexName");
+    }
+
     public function getUploadDirectory()
     {
         return $this->getSetting("uploadDirectory", "uploadDirectory");
