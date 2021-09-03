@@ -50,4 +50,11 @@ class GndDataService
         return $response->body;
     }
 
+    public function searchKeywordRequest($searchTerm) {
+        $response = Request::get($this->apiUrl . 'search?filter=type:SubjectHeading&format=json:suggest&size=100&q=' . $this->searchTermReplacement($searchTerm))
+            ->send();
+
+        return $response->body;
+    }
+
 }

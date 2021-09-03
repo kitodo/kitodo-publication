@@ -34,8 +34,8 @@
 			<target>Fillout Service</target>
 		</trans-unit>
 		<trans-unit id="gnd_field_uid.description" approved="yes">
-			<source>UID of the metadata object record which configures the GND No. field</source>
-			<target>UID des Metadatenobjekt-Datensatzes, der das Feld GND No. konfiguriert</target>
+			<source>UID of the metadata object record which configures the linked field</source>
+			<target>UID des Metadatenobjekt-Datensatzes, der das verknüpfte Feld konfiguriert</target>
 		</trans-unit>
 		<trans-unit id="input_field.description" approved="yes">
 			<source>Input field</source>

@@ -16,7 +16,6 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentForm;
-use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;

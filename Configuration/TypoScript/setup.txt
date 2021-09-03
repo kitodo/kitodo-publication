@@ -196,24 +196,6 @@ plugin.tx_dpf_backoffice {
 	}
 }
 
-
-// pi1 = GndAjax
-// PAGE object for Ajax call:
-search_page = PAGE
-search_page {
-	typeNum = 427590
-
-	config {
-		disableAllHeaderCode = 1
-		additionalHeaders = Content-type:application/json
-		debug = 0
-		no_cache = 1
-		admPanel = 0
-	}
-
-	10 < tt_content.list.20.dpf_kitodopublicationform
-}
-
 # Actions, only allowed for developers and configured hosts
 [IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
 	plugin.tx_dpf.settings.allowedActions {
@@ -249,6 +231,7 @@ page.includeJSFooter.tx_dpf_moment = EXT:dpf/Resources/Public/JavaScript/moment-
 page.includeJSFooter.tx_dpf_pooper = https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 page.includeJSFooter.tx_dpf_bootstrap = EXT:dpf/Resources/Public/JavaScript/bootstrap.min.js
 page.includeJSFooter.tx_dpf_bootstrap_datepicker = EXT:dpf/Resources/Public/JavaScript/bootstrap-datetimepicker-4_17_47.min.js
+#page.includeJSFooter.tx_dpf_bootstrap_autocomplete = https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js
 page.includeJSFooter.tx_dpf_custom_file_input = EXT:dpf/Resources/Public/JavaScript/bs-custom-file-input.min.js
 page.includeJSFooter.tx_dpfFilesaver = EXT:dpf/Resources/Public/JavaScript/FileSaver/FileSaver.min.js
 
