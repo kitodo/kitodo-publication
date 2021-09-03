@@ -14,9 +14,11 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
@@ -195,6 +197,34 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         $controllerName = end(explode('\\', get_Class($this)));
         return str_replace('Controller', '', $controllerName);
+    }
+
+
+    /**
+     *
+     * @param Document $document
+     * @param string $key
+     * @param int $severity
+     * @param string $defaultMessage
+     */
+    protected function flashMessage(Document $document, string $key, int $severity, $defaultMessage = "")
+    {
+        // Show success or failure of the action in a flash message
+        $args = [];
+        if ($document) {
+            $args[] = $document->getTitle();
+            $args[] = $document->getObjectIdentifier();
+        }
+
+        $message = LocalizationUtility::translate($key, 'dpf', $args);
+        $message = empty($message) ? $defaultMessage : $message;
+
+        $this->addFlashMessage(
+            $message,
+            '',
+            $severity,
+            true
+        );
     }
 
 

@@ -421,6 +421,10 @@
 				<source>Current version</source>
 				<target>Aktuelle Version</target>
 			</trans-unit>
+			<trans-unit id="form_button.discard" approved="yes">
+				<source>discard</source>
+				<target>Verwerfen</target>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 				<target>Dateien</target>
@@ -2136,6 +2140,10 @@ Datum: ###DATE###
             <trans-unit id="elasticsearch.invalidConfiguration" approved="yes">
                 <source>No ElasticSearch server running or missing configuration</source>
                 <target>ElasticSearch-Server wurde nicht gefunden oder die Konfiguration fehlt</target>
+            </trans-unit>
+            <trans-unit id="summary.header" approved="yes">
+                <source>Summary</source>
+                <target>Zusammenfassung</target>
             </trans-unit>
 		</body>
 	</file>

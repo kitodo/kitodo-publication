@@ -32,6 +32,13 @@
 
     <f:flashMessages />
     <f:variable name="backoffice">1</f:variable>
-    <f:render partial="DocumentForm/New" arguments="{_all}"/>
+
+    <f:form action="create" class="document-form-main" id="new-document-form" name="documentData" object="{documentData}" enctype="multipart/form-data" noCacheHash="TRUE">
+        <f:form.hidden id="csrfToken" property="csrfToken" value="{documentForm.csrfToken}"/>
+        <f:form.hidden property="type" value="{documentForm.uid}"/>
+        <f:form.hidden id="fedorapid" property="fedoraPid" value="{documentForm.fedoraPid}"/>
+        <f:form.hidden id="primaryUrn" property="primaryUrn" value="{documentForm.primaryUrn}"/>
+        <f:render partial="DocumentForm/FormBody" arguments="{_all}"/>
+    </f:form>
 
 </f:section>

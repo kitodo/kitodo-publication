@@ -87,6 +87,14 @@ class FormDataReader
     protected $configurationManager;
 
     /**
+     * depositLicenseRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $depositLicenseRepository = null;
+
+    /**
      * formData
      *
      * @var array
@@ -330,6 +338,8 @@ class FormDataReader
 
                     $documentFormGroup->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
 
+                    $documentFormGroup->setInfoText($metadataGroup->getInfoText());
+                    $documentFormGroup->setGroupType($metadataGroup->getGroupType());
                     $documentFormGroup->setMaxIteration($metadataGroup->getMaxIteration());
 
                     $fileLabel = "";
@@ -368,6 +378,8 @@ class FormDataReader
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
+                            $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
+                            $documentFormField->setDepositLicense($depositLicense);
 
                             $documentFormGroup->addItem($documentFormField);
 

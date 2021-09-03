@@ -1,0 +1,103 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'summary.header')}</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="mr-2">
+                <f:link.action
+                    action="register"
+                    controller="DocumentForm"
+                    arguments="{document:document}"
+                    class="btn btn-sm btn-success">
+                    <i class="fas fa-share"></i>
+                    {f:translate(key: 'form_button.register')}
+                </f:link.action>
+
+                <f:link.action
+                    action="edit"
+                    controller="DocumentForm"
+                    arguments="{document:document}"
+                    class="btn btn-sm btn-primary">
+                    <i class="fas fa-edit"></i>
+                    {f:translate(key: 'form_button.edit')}
+                </f:link.action>
+
+                <f:link.action
+                    action="delete"
+                    controller="DocumentForm"
+                    arguments="{document:document}"
+                    class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-times"></i>
+                    {f:translate(key: 'form_button.discard')}
+                </f:link.action>
+            </div>
+        </div>
+    </div>
+
+    <f:flashMessages />
+
+    <div class="details-view">
+        <f:render partial="ShowDetails/Details" arguments="{_all}"/>
+    </div>
+
+    <f:comment>
+        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmRegister'}">
+        <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
+    </f:comment>
+
+    <div class="modal" tabindex="-1" role="dialog" id="confirmDoctypeChange">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {f:translate(key: 'manager.confirmDoctypeChange.header')}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <f:form id="changeDocumentTypeForm" action="changeDocumentType" method="post" name="document" object="{document}" enctype="multipart/form-data">
+                        <label for="documentTypeUid">{f:translate(key: 'manager.confirmDoctypeChange.newDocumentType')}</label>
+                        <f:form.select name="documentTypeUid" class="custom-select form-control" options="{documentTypes}" value="" additionalAttributes="{required: 1}"/>
+                        <br /><br />
+                    </f:form>
+
+                    {f:translate(key: 'manager.confirmDoctypeChange.message')}
+
+                    <div class="details-view">
+                        <f:render partial="ShowDetails/Details" arguments="{_all}"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary saveDocumentSummary">{f:translate(key: 'manager.confirmDoctypeChange.saveSummary')}</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key: 'manager.confirmDoctypeChange.cancel')}</button>
+                    <button type="submit" form="changeDocumentTypeForm" class="btn btn-danger submitChangeDocumentType">{f:translate(key: 'manager.confirmDoctypeChange.submit')}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</f:section>
