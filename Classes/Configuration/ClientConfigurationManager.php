@@ -14,6 +14,7 @@ namespace EWW\Dpf\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Client;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -83,6 +84,10 @@ class ClientConfigurationManager
                 \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
             );
 
+        }
+
+        if (Client::$storagePid > 0) {
+            $this->setConfigurationPid(Client::$storagePid);
         }
 
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
