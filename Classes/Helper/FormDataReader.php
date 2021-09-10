@@ -320,7 +320,6 @@ class FormDataReader
         $fields = $this->getFields();
 
         $documentForm = new \EWW\Dpf\Domain\Model\DocumentForm();
-        $documentForm->setCsrfToken($this->formData['csrfToken']);
         $documentForm->setUid($this->documentType->getUid());
         $documentForm->setDisplayName($this->documentType->getDisplayName());
         $documentForm->setName($this->documentType->getName());

@@ -1,10 +1,5 @@
 <?php
-
 namespace EWW\Dpf\Domain\Model;
-
-use Exception;
-use TypeError;
-use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -21,11 +16,6 @@ use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 
 class DocumentForm extends AbstractFormElement
 {
-
-    /**
-     * @var string CSRF token for this form
-     */
-    protected $csrfToken;
 
     /**
      *
@@ -104,59 +94,6 @@ class DocumentForm extends AbstractFormElement
      * @var string
      */
     protected $processNumber;
-
-    /**
-     * Assign and persist CSRF token for later form validation.
-     *
-     * @param string $csrfToken
-     */
-    public function generateCsrfToken()
-    {
-        $formProtection = FormProtectionFactory::get();
-        $this->csrfToken = $formProtection->generateToken('DocumentForm', 'construct', 'DocumentForm');
-        $formProtection->persistSessionToken();
-    }
-
-    /**
-     * Set the CSRF token for this form
-     *
-     * Used when creating a new instance from request form data.
-     *
-     * @param string $csrfToken CSRF token to set
-     * @throws Exception if the given string is empty.
-     * @throws TypeError if the given string is null
-     */
-    public function setCsrfToken(string $csrfToken)
-    {
-        if ($csrfToken === "")
-        {
-            throw new Exception("A forms CSRF token cannot be empty");
-        }
-        $this->csrfToken = $csrfToken;
-    }
-
-
-    /**
-     * Returns the CSRF token of this form
-     *
-     * @return string CSRF token for this form
-     */
-    public function getCsrfToken()
-    {
-        return $this->csrfToken;
-    }
-
-
-    /**
-     * Validates this forms assigned CSRF token with token stored in the TYPO3 session.
-     *
-     * @return bool True, is CSRF token is considered valid. False if the token is invalid or missing.
-     */
-    public function hasValidCsrfToken()
-    {
-        $formProtection = FormProtectionFactory::get();
-        return $formProtection->validateToken($this->csrfToken, 'DocumentForm', 'construct', 'DocumentForm');
-    }
 
     /**
      *
