@@ -99,6 +99,11 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $datastreamIdentifier;
 
     /**
+     * @var string
+     */
+    protected $validationResults;
+
+    /**
      * document
      *
      * @var \EWW\Dpf\Domain\Model\Document
@@ -177,7 +182,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the arcive
+     * Returns the archive
      *
      * @return boolean $archive
      */
@@ -385,10 +390,11 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $url = $this->getLink();
 
-        // FIXME: Checking for "datastreams" in the URL is Fedora 3 specific, for Fedora 4 we need a better solution.
-        if (strpos(strtolower($url), "datastreams") === false) {
-            // File is a locally uploaded file, therefor we need to
-            // determine the path
+        if (
+            strpos(strtolower($url), "http://") === false &&
+            strpos(strtolower($url), "https://") === false
+        ) {
+            // File is a locally uploaded file, therefore we need to determine the path.
             $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
             $fileName = pathInfo($url, PATHINFO_BASENAME);
             $url = $uploadFileUrl->getUploadUrl() . "/" . $fileName;
@@ -428,5 +434,25 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isDeleted(): string
     {
         return $this->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED;
+    }
+
+    /**
+     * @return FileValidationResults
+     */
+    public function getValidationResults(): FileValidationResults
+    {
+        if (empty($this->validationResults)) {
+            return new FileValidationResults();
+        }
+
+        return unserialize($this->validationResults);
+    }
+
+    /**
+     * @param FileValidationResults $validationResults
+     */
+    public function setValidationResults(FileValidationResults $validationResults): void
+    {
+        $this->validationResults = serialize($validationResults);
     }
 }

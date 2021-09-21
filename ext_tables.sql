@@ -322,6 +322,7 @@ CREATE TABLE tx_dpf_domain_model_file (
   datastream_identifier varchar(255) DEFAULT '' NOT NULL,
   primary_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
   file_identifier varchar(255) DEFAULT '' NOT NULL,
+  validation_results text,
   document int(11) unsigned default '0',
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,

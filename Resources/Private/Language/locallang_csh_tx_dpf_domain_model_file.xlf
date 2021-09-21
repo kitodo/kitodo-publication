@@ -35,6 +35,12 @@
 		<trans-unit id="title.description">
 			<source>title</source>
 		</trans-unit>
+		<trans-unit id="file_identifier.description" approved="yes">
+			<source>File identifier</source>
+		</trans-unit>
+		<trans-unit id="validation_result.description" approved="yes">
+			<source>Validation result</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

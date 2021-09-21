@@ -309,6 +309,10 @@
     margin-right: 10px;
 }
 
+.tx-dpf .rem_file_group {
+    margin-left: 10px;
+}
+
 .prev-next-buttons {
     padding-bottom: 100px;
 }
@@ -505,6 +509,21 @@ ul.error-files-backbutton li {
     margin-bottom: 0;
 }
 
+.alert i,
+.file-error i {
+    line-height: unset;
+    margin-right: 10px;
+}
+
+.alert ul,
+.file-error ul {
+    padding-left: 0;
+    margin: 0;
+}
+
+.file-error li {
+    list-style: none;
+}
     /* -- search form--------------------------------------------------- */
 
 #tx-dpf-backoffice.document-manager .searchForm .form-group {

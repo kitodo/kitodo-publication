@@ -45,6 +45,14 @@
 			<source>title</source>
 			<target>Titel</target>
 		</trans-unit>
+		<trans-unit id="file_identifier.description" approved="yes">
+			<source>File identifier</source>
+			<target>Datei-Identifikator</target>
+		</trans-unit>
+		<trans-unit id="validation_result.description" approved="yes">
+			<source>Validation result</source>
+			<target>Prüfergebnis</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

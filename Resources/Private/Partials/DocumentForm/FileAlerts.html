@@ -1,0 +1,85 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace eww=EWW\Dpf\ViewHelpers}
+
+<f:if condition="{fieldItem.file.archive}">
+
+<f:if condition="{fieldItem.file.validationResults.allResults}">
+    <f:then>
+        <f:if condition="{fieldItem.file.validationResults.everythingOk} == 0">
+            <f:debug>{fieldItem.file.validationResults}</f:debug>
+
+            <f:then>
+
+                <f:if condition="{fieldItem.file.validationResults.warnings}">
+                    <div class="alert alert-warning input-group file-error" role="alert">
+                        <i class="fas fa-exclamation-triangle pull-right"></i>
+                        <ul>
+                            <f:for each="{fieldItem.file.validationResults.warnings}" as="warning">
+                                <li>
+                                    <f:if condition="{warnings.code}">
+                                        <f:then>
+                                            {f:translate(key: 'form_error_msg.file.{warning.code}', default: '{warning.message}')}
+                                        </f:then>
+                                        <f:else>
+                                            {warning.message}
+                                        </f:else>
+                                    </f:if>
+                                </li>
+                            </f:for>
+                        </ul>
+                    </div>
+                </f:if>
+
+                <f:if condition="{fieldItem.file.validationResults.errors}">
+                    <div class="alert alert-danger input-group file-error" role="alert">
+                        <i class="fas fa-times-circle pull-right"></i>
+                        <ul>
+                            <f:for each="{fieldItem.file.validationResults.errors}" as="error">
+                                <li>
+                                    <f:if condition="{error.code}">
+                                        <f:then>
+                                            {f:translate(key: 'form_error_msg.file.{error.code}', default: '{error.message}')}
+                                        </f:then>
+                                        <f:else>
+                                            {error.message}
+                                        </f:else>
+                                    </f:if>
+                                </li>
+                            </f:for>
+                        </ul>
+                    </div>
+                </f:if>
+
+            </f:then>
+            <f:else>
+                <div class="alert alert-success input-group" role="alert">
+                    <i class="fas fa-check-circle pull-right"></i>
+                    {f:translate(key: 'form_error_msg.file.successfully_validated')}
+                </div>
+            </f:else>
+
+        </f:if>
+
+    </f:then>
+    <f:else>
+        <div class="alert alert-secondary input-group" role="alert">
+            <i class="fas fa-exclamation-triangle pull-right"></i>
+            {f:translate(key: 'form_error_msg.file.validation_pending')}
+        </div>
+    </f:else>
+</f:if>
+</f:if>

@@ -637,6 +637,14 @@
 			<source>Title</source>
 			<target>Titel</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_file.file_identifier" approved="yes">
+			<source>File identifier</source>
+			<target>Datei-Identifikator</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_file.validation_results" approved="yes">
+			<source>Validation results</source>
+			<target>Prüfergebnisse</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_inputoption" approved="yes">
 			<source>Input Option</source>
 			<target>Eingabeoption</target>

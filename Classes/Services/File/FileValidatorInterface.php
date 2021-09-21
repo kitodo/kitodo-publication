@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Domain\Repository;
+namespace EWW\Dpf\Services\File;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,11 +14,16 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use EWW\Dpf\Domain\Model\FileValidationResults;
 
-/**
- * The repository for Files
- */
-class FileRepository extends AbstractRepository
+interface FileValidatorInterface
 {
+    /**
+     * @param string $url
+     * @param string $mimeType
+     * @param bool $download
+     * @param bool $archive
+     * @return FileValidationResults
+     */
+    public function validate(string $url, string $mimeType, bool $download, bool $archive);
 }

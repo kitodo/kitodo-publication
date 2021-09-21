@@ -41,4 +41,15 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $querySettings->setRespectStoragePage(!$active);
         $this->setDefaultQuerySettings($querySettings);
     }
+
+    /**
+     * @param int $pid
+     */
+    public function setStoragePid(int $storagePid)
+    {
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setStoragePageIds(array($storagePid));
+        $this->setDefaultQuerySettings($querySettings);
+    }
+
 }

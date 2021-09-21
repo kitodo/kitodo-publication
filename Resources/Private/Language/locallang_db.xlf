@@ -476,6 +476,12 @@
 		<trans-unit id="tx_dpf_domain_model_file.title">
 			<source>Title</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_file.file_identifier">
+			<source>File identifier</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_file.validation_results">
+			<source>Validation results</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_inputoption">
 			<source>Input Option</source>
 		</trans-unit>

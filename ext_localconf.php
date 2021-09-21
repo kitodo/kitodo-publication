@@ -34,6 +34,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\E
     'description' => 'Embargo task for sending information to admins or publish files automatically if the embargo date is expired',
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\FileValidationTask'] = array(
+    'extension' => $_EXTKEY,
+    'title' => 'Kitodo.Publication File validation Task',
+    'description' => 'File validation task for the uploaded files, using an external validation api.',
+);
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
     'KitodoPublicationForm',
