@@ -172,6 +172,12 @@
 
     <f:flashMessages />
 
+    <div style="margin-bottom: 20px;">
+        <span class="documentLocked alert alert-warning" style="display:none;">
+            {f:translate(key: 'manager.alertDocumentLocked.message')}
+        </span>
+    </div>
+
     <div class="details-view">
         <f:render partial="ShowDetails/Details" arguments="{_all}"/>
     </div>

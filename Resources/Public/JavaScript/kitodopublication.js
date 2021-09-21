@@ -49,6 +49,15 @@ var isDocumentEditable = {
 
     });
 
+    // show message "document is locked"
+    var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
+    jQuery.post(ajaxURL, function(data) {
+        var obj = JSON.parse(data);
+        if (obj.allowed === false && obj.reason == 'isLocked') {
+            $('.documentLocked').show();
+        }
+    });
+
     $(".modal [type='submit']").on('click', function(e){
       var button = $(this);
       button.find(".spinner-border").remove();
