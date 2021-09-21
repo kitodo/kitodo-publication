@@ -188,7 +188,7 @@ return array(
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim',
+                'eval' => 'required,trim',
             ),
         ),
         'mods_extension_mapping'   => array(
