@@ -363,7 +363,7 @@ class ClientConfigurationManager
         return $this->getSetting("validationXpath", "validationXpath");
     }
 
-    public function fisIdXpath()
+    public function getFisIdXpath()
     {
         return $this->getSetting("fisIdXpath", "fisIdXpath");
     }

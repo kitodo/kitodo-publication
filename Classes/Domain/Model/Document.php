@@ -246,7 +246,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = empty($title)? '': $title;
         //htmlspecialchars_decode($title,ENT_QUOTES);
     }
 

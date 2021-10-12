@@ -532,6 +532,15 @@ class InternalFormat
     }
 
     /**
+     * @return string
+     */
+    public function getFisId()
+    {
+        $fisIdXpath =  $this->clientConfigurationManager->getFisIdXpath();
+        return $this->getValue($fisIdXpath);
+    }
+
+    /**
      * @param string $xpathString
      * @return string
      */
