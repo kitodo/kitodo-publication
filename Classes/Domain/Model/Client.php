@@ -19,6 +19,10 @@ namespace EWW\Dpf\Domain\Model;
  */
 class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
+    /**
+     * @var int
+     */
+    public static $storagePid = 0;
 
     /**
      * project

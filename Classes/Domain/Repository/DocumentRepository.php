@@ -294,7 +294,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query->execute();
 
     }
-    
+
     /**
      * Finds all records with embargo date
      * @return mixed

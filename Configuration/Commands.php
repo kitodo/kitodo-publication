@@ -1,6 +1,4 @@
 <?php
-namespace EWW\Dpf\Domain\Repository;
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -14,22 +12,18 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-/**
- * The repository for Clients
- */
-class ClientRepository extends AbstractRepository
-{
-    /**
-     * findAllByPid
-     *
-     * @return
-     */
-    public function findAllByPid($pid)
-    {
-        $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(false);
-        $query->matching($query->equals('pid', $pid));
-        return $query->execute();
-    }
+use EWW\Dpf\Command\IndexByDatabase;
+use EWW\Dpf\Command\IndexByFile;
 
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
 }
+
+return [
+    'dpf:indexByFile' => [
+        'class' => IndexByFile::class
+    ],
+    'dpf:indexByDatabase' => [
+        'class' => IndexByDatabase::class
+    ],
+];
