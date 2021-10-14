@@ -236,6 +236,9 @@
         <trans-unit id="tx_dpf_domain_model_client.source_details_xpaths" approved="yes">
             <source>Source details xpaths (Semicolon separated)</source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.collection_xpath" approved="yes">
+            <source>Collection xpath</source>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_author_role" approved="yes">
             <source>Person author role</source>
         </trans-unit>
@@ -850,6 +853,9 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
 			<source>FIS Mapping (json)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fis_collections" approved="yes">
+			<source>Fis collections (comma separated list)</source>
 		</trans-unit>
 		</body>
 	</file>

@@ -15,6 +15,7 @@ namespace EWW\Dpf\Services\Email;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Helper\InternalFormat;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -177,7 +178,7 @@ class Notifier
         $author = array_shift($document->getAuthors());
         $args['###AUTHOR###'] = $author['name'];
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat = new InternalFormat($document->getXmlData());
         $args['###SUBMITTER_NAME###'] = $internalFormat->getSubmitterName();
         $args['###SUBMITTER_EMAIL###'] = $internalFormat->getSubmitterEmail();
         $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
@@ -241,7 +242,7 @@ class Notifier
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 
@@ -280,7 +281,7 @@ class Notifier
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
@@ -314,7 +315,7 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
 
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
@@ -351,7 +352,7 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
 
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
@@ -361,11 +362,13 @@ class Notifier
             if ($client->getActiveMessagingNewDocumentUrl()) {
                 $fisId = $internalFormat->getFisId();
                 if (empty($fisId)) {
-                    $request = Request::post($client->getActiveMessagingNewDocumentUrl());
-                    if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
-                        $request->body($this->replaceMarkers($body, $args));
+                    if ($this->isFisRelevant($document)) {
+                        $request = Request::post($client->getActiveMessagingNewDocumentUrl());
+                        if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
+                            $request->body($this->replaceMarkers($body, $args));
+                        }
+                        $request->send();
                     }
-                    $request->send();
                 }
             }
 
@@ -390,7 +393,7 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
@@ -454,7 +457,7 @@ class Notifier
 
         try {
             $client = $this->clientRepository->findAll()->current();
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
@@ -752,4 +755,30 @@ class Notifier
         $message->send();
     }
 
+    /**
+     * Checks if the document is relevant for the FIS.
+     *
+     * @param Document $document
+     * @return bool
+     */
+    protected function isFisRelevant(Document $document)
+    {
+        $collectionXpath = $this->clientConfigurationManager->getCollectionXpath();
+        $internalFormat = new InternalFormat($document->getXmlData());
+        $collections = $internalFormat->getCollections();
+
+        $fisCollections = $this->clientConfigurationManager->getFisCollections();
+
+        if (empty($fisCollections) || empty($collectionXpath)) {
+            return true;
+        }
+
+        foreach ($fisCollections as $fisCollection) {
+            if (in_array(strtolower($fisCollection), array_map('strtolower', $collections))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
