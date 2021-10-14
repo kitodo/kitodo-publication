@@ -278,12 +278,13 @@ class ElasticSearch
             }
 
 
+            $data->creatorRole = '';
             if ($document->getCreator()) {
                 /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */
                 $creatorFeUser = $this->frontendUserRepository->findByUid($document->getCreator());
-                $data->creatorRole = $creatorFeUser->getUserRole();
-            } else {
-                $data->creatorRole = '';
+                if ($creatorFeUser) {
+                    $data->creatorRole = $creatorFeUser->getUserRole();
+                }
             }
 
             $creationDate = new \DateTime($document->getCreationDate());
