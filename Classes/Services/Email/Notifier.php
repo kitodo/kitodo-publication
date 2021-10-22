@@ -232,13 +232,16 @@ class Notifier
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        // Active messaging: Suggestion accept
-        $this->sendActiveMessage(
-            $document,
-            $client->getActiveMessagingSuggestionAcceptUrl(),
-            $client->getActiveMessagingSuggestionAcceptUrlBody(),
-            __FUNCTION__
-        );
+        $internalFormat = new InternalFormat($document->getXmlData());
+        if ($internalFormat->getFisId()) {
+            // Active messaging: Suggestion accept
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingSuggestionAcceptUrl(),
+                $client->getActiveMessagingSuggestionAcceptUrlBody(),
+                __FUNCTION__
+            );
+        }
     }
 
     /**
@@ -250,14 +253,17 @@ class Notifier
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        // Active messaging: Suggestion decline
-        $this->sendActiveMessage(
-            $document,
-            $client->getActiveMessagingSuggestionDeclineUrl(),
-            $client->getActiveMessagingSuggestionDeclineUrlBody(),
-            __FUNCTION__,
-            $reason
-        );
+        $internalFormat = new InternalFormat($document->getXmlData());
+        if ($internalFormat->getFisId()) {
+            // Active messaging: Suggestion decline
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingSuggestionDeclineUrl(),
+                $client->getActiveMessagingSuggestionDeclineUrlBody(),
+                __FUNCTION__,
+                $reason
+            );
+        }
     }
 
     public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false)
@@ -265,8 +271,10 @@ class Notifier
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
 
+        $internalFormat = new InternalFormat($document->getXmlData());
+
         // Active messaging: Document changed
-        if (!$addedFisIdOnly) {
+        if (!$addedFisIdOnly && $internalFormat->getFisId()) {
             $this->sendActiveMessage(
                 $document,
                 $client->getActiveMessagingChangedDocumentUrl(),
@@ -678,18 +686,16 @@ class Notifier
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
             if ($url) {
-               if ($internalFormat->getFisId()) {
-                    $request = Request::post($url);
-                    if ($body) {
-                        $request->body($this->replaceMarkers($body, $args));
-                    }
+                $request = Request::post($url);
+                if ($body) {
+                    $request->body($this->replaceMarkers($body, $args));
+                }
 
-                    $request->timeout(10);
-                    $res = $request->send();
-                    if ($res->hasErrors() || $res->code != 200) {
-                        throw new ConnectionErrorException('Unable to connect to "' . $url . '"');
-                    }
-               }
+                $request->timeout(10);
+                $res = $request->send();
+                if ($res->hasErrors() || $res->code != 200) {
+                    throw new ConnectionErrorException('Unable to connect to "' . $url . '"');
+                }
             }
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
