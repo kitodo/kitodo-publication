@@ -298,15 +298,15 @@ class Notifier
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        $internalFormat = new InternalFormat($document->getXmlData());
-
-        // Active messaging: New document (Release publish)
-        $this->sendActiveMessage(
-            $document,
-            $client->getActiveMessagingNewDocumentUrl(),
-            $client->getActiveMessagingNewDocumentUrlBody(),
-            __FUNCTION__
-        );
+        if ($this->isFisRelevant($document)) {
+            // Active messaging: New document (Release publish)
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingNewDocumentUrl(),
+                $client->getActiveMessagingNewDocumentUrlBody(),
+                __FUNCTION__
+            );
+        }
     }
 
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
