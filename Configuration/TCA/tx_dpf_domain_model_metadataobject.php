@@ -72,6 +72,7 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_metadataobject',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_metadataobject.pid=###CURRENT_PID### AND tx_dpf_domain_model_metadataobject.sys_language_uid IN (-1,0)',
             ),

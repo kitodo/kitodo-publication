@@ -72,10 +72,10 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_metadatagroup',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_metadatagroup.pid=###CURRENT_PID### AND tx_dpf_domain_model_metadatagroup.sys_language_uid IN (-1,0)',
             ),
-            'default' => 0,
         ),
         'l10n_diffsource'          => array(
             'config' => array(
