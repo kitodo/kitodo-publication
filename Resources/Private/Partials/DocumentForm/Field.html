@@ -127,9 +127,6 @@
                                      value="yes" class="input-field form-control input-field-checkbox"
                                      additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-regexp:fieldItem.validation,data-datatype:fieldItem.dataType,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                      checked="{f:if(condition: '{fieldItem.value}', then: 'true')}"/>
-                    <f:form.hidden
-                            property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                            value="{fieldItem.value}"/>
                 </f:else>
             </f:if>
         </f:case>
