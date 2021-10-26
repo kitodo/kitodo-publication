@@ -761,7 +761,7 @@ class Document extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setCreator($creator)
     {
-        $this->creator = $creator;
+        $this->creator = intval($creator);
     }
 
     public function getState()
