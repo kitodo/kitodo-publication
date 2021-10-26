@@ -36,7 +36,7 @@ class IndexByDatabase extends AbstractIndexCommand
      */
     protected function configure()
     {
-        $this->setDescription('Indexing: ');
+        $this->setDescription('Reindex all local documents for the given client');
         $this->addArgument('client', InputArgument::REQUIRED, 'The UID of the client.');
     }
 
@@ -57,7 +57,7 @@ class IndexByDatabase extends AbstractIndexCommand
         $client = $this->clientRepository->findByUid($clientUid);
 
         if ($client) {
-            $io->title($this->getDescription()."'".$client->getClient()."'");
+            $io->title("Indexing: '" . $client->getClient() . "'");
 
             // Set the client storagePid
             Client::$storagePid = $client->getPid();
