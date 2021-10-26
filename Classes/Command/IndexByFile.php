@@ -35,7 +35,7 @@ class IndexByFile extends AbstractIndexCommand
      */
     protected function configure()
     {
-        $this->setDescription('Indexing: ');
+        $this->setDescription('Index METS/MODS file as document of the given client');
         $this->addArgument('client', InputArgument::REQUIRED, 'The UID of the client.');
         $this->addArgument('filename', InputArgument::REQUIRED, 'The full path to the file containing the METS/MODS-Data.');
     }
@@ -54,7 +54,7 @@ class IndexByFile extends AbstractIndexCommand
         $clientUid = $input->getArgument('client');
         $filename = $input->getArgument('filename');
 
-        $io->title($this->getDescription()."'".$filename."'");
+        $io->title("Indexing: '" . $filename . "'");
 
         /** @var Client $client */
         $client = $this->clientRepository->findByUid($clientUid);
