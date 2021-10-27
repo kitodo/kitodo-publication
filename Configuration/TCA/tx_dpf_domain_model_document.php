@@ -81,6 +81,7 @@ return array(
                 'items'               => array(
                     array('', 0),
                 ),
+                'default' => 0,
                 'foreign_table'       => 'tx_dpf_domain_model_document',
                 'foreign_table_where' => 'AND tx_dpf_domain_model_document.pid=###CURRENT_PID### AND tx_dpf_domain_model_document.sys_language_uid IN (-1,0)',
             ),
