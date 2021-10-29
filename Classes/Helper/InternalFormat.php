@@ -143,7 +143,7 @@ class InternalFormat
         foreach ($fileNodes as $file) {
             $fileAttrArray = [];
             foreach ($file->childNodes as $fileAttributes) {
-                $fileAttrArray[$fileAttributes->tagName] = $fileAttributes->nodeValue;
+                $fileAttrArray[$fileAttributes->localName] = $fileAttributes->nodeValue;
             }
             $files[] = $fileAttrArray;
         }
