@@ -74,6 +74,11 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $depositLicense = '';
 
     /**
+     * @var string
+     */
+    protected $licenceOptions = '';
+
+    /**
      * JSON mapping
      *
      * @var string
@@ -88,6 +93,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     const textareaMarkdown = 10;
     const INPUTDROPDOWN = 100;
     const FILE_UPLOAD = 200;
+    const LICENCE_CONSENT = 300;
 
     const VALIDATOR_REGEXP = "REGEXP";
     const VALIDATOR_DATE   = "DATE";
@@ -875,5 +881,21 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected function isRepeatable() {
         return !in_array($this->getObjectType(), ['fileDownload','fileArchive','fileLabel'])
             && $this->getInputField() != self::FILE_UPLOAD;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLicenceOptions(): string
+    {
+        return $this->licenceOptions;
+    }
+
+    /**
+     * @param string $licenceOptions
+     */
+    public function setLicenceOptions(string $licenceOptions): void
+    {
+        $this->licenceOptions = $licenceOptions;
     }
 }

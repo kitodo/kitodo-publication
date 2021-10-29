@@ -19,5 +19,22 @@ namespace EWW\Dpf\Domain\Repository;
  */
 class DepositLicenseRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
+    /**
+     * @param array $uids
+     *
+     * @return array
+     */
+    public function findByUidList(array $uids)
+    {
+        $licences = [];
 
+        foreach ($uids as $uid) {
+            $depositLicense = $this->findByUid($uid);
+            if ($depositLicense) {
+                $licences[] = $depositLicense;
+            }
+        }
+
+        return $licences;
+    }
 }

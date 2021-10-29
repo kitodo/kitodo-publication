@@ -861,6 +861,10 @@
 			<source>file upload</source>
 			<source>Dateiupload</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.licenceConsent" approved="yes">
+			<source>Licence consent</source>
+			<target>Lizenz-Einwilligung</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory" approved="yes">
 			<source>Mandatory</source>
 			<target>Pflicht</target>

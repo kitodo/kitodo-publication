@@ -209,6 +209,24 @@
     border-radius: 0 4px 4px 0;
 }
 
+.tx-dpf .document-form-main .form-group .form-control-consent {
+    width: 1.5em;
+}
+.tx-dpf .document-form-main .form-group-consent {
+    display: table;
+}
+
+.tx-dpf .document-form-main .form-group-consent label {
+    background: none;
+    border: none;
+    width: auto;
+}
+
+
+.tx-dpf .document-form-main .form-group-consent .alert {
+
+}
+
 .tx-dpf .form-metadata-import .form-group .form-control {
     border-radius: 4px;
 }

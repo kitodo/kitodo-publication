@@ -35,6 +35,11 @@ class DocumentFormField extends AbstractFormElement
     protected $depositLicense = null;
 
     /**
+     * @var array
+     */
+    protected $licenceOptions = [];
+
+    /**
      * @var \EWW\Dpf\Domain\Model\InputOptionList $inputOptionList
      */
     protected $inputOptionList;
@@ -386,4 +391,37 @@ class DocumentFormField extends AbstractFormElement
         $this->validationErrorMessage = $validationErrorMessage;
     }
 
+    /**
+     * @return array
+     */
+    public function getLicenceOptions(): array
+    {
+        return $this->licenceOptions;
+    }
+
+    /**
+     * @param array $licenceOptions
+     */
+    public function setLicenceOptions(array $licenceOptions): void
+    {
+        $this->licenceOptions = $licenceOptions;
+    }
+
+    /**
+     * Checks if the current field value is in the list of configured licence options
+     *
+     * @return bool
+     */
+    public function isActiveLicenceOption(): bool
+    {
+        if (is_array($this->licenceOptions)) {
+            foreach($this->licenceOptions as $licenceOption) {
+                if ($licenceOption->getUri() === $this->value) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

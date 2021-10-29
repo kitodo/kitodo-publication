@@ -1155,7 +1155,11 @@ var checkMandatoryInputs = function(fieldset) {
     }
     fieldset.find(search).each(function() {
         var id = jQuery(this).attr("id");
-        if ((jQuery(this).attr("type") != "checkbox" && !jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
+        if (
+          (jQuery(this).attr("type") != "checkbox" && !jQuery(this).val())
+          || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))
+          || (jQuery(this).attr("type") == "radio" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))
+        ) {
             if (!jQuery(this).prop('disabled')) {
               mandatoryError = mandatoryError || true;
               jQuery(this).addClass("mandatory-error");

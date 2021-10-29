@@ -207,6 +207,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   mods_extension tinyint(1) unsigned DEFAULT '0' NOT NULL,
   json_mapping varchar(1024) DEFAULT '' NOT NULL,
   input_field int(11) DEFAULT '0' NOT NULL,
+  licence_options tinytext DEFAULT '' NOT NULL,
   deposit_license int(11) DEFAULT '0' NOT NULL,
   input_option_list int(11) unsigned default '0',
   default_value text NOT NULL,
