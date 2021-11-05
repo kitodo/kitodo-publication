@@ -14,13 +14,12 @@
 </f:comment>
 
 {namespace eww=EWW\Dpf\ViewHelpers}
-
 <div class="form-group-consent">
     <f:form.radio id="inp_{fieldItem.uid}_{licenceOption.uid}"
                   property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                   value="{licenceOption.uri}" class="input-field form-control form-control-consent"
                   additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
-                  checked="{f:if(condition:'{fieldItem.value} == {licenceOption.uri}', then: 'true', else:'')}" disabled="{f:if(condition:'{eww:isValidDepositLicense(uri:\'{fieldItem.value}\')}', then: 'true', else:'')}"
+                  checked="{f:if(condition:'{fieldItem.value} == {licenceOption.uri}', then: 'true', else:'')}" disabled="{f:if(condition:'{eww:isValidDepositLicense(uri:\'{fieldItem.value}\')} && {document.state} != \'NEW:NONE\'}', then: 'true', else:'')}"
     />
 
     <label for="inp_{fieldItem.uid}_{licenceOption.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">

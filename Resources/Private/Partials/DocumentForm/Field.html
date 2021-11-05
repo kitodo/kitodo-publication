@@ -186,7 +186,7 @@
                     </f:if>
                 </f:if>
             </f:for>
-            <f:if condition="{fieldItem.value}">
+            <f:if condition="{eww:isValidDepositLicense(uri:'{fieldItem.value}')} && {document.state} != 'NEW:NONE'}">
                 <f:form.hidden
                     property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                     value="{fieldItem.value}"/>

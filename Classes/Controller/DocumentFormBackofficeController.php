@@ -387,11 +387,17 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ($this->documentManager->update($updateDocument, $workflowTransition)) {
 
                 $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($document->getProcessNumber());
-                if (empty($depositLicenseLog) && $updateDocument->getDepositLicense()) {
+                if (
+                    (empty($depositLicenseLog) || $document->getState() == "NEW:NONE")
+                    && $updateDocument->getDepositLicense()
+                ) {
                     // Only if there was no deposit license a notification may be sent
 
-                    /** @var DepositLicenseLog $depositLicenseLog */
-                    $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                    if (empty($depositLicenseLog)) {
+                        /** @var DepositLicenseLog $depositLicenseLog */
+                        $depositLicenseLog = $this->objectManager->get(DepositLicenseLog::class);
+                    }
+
                     $depositLicenseLog->setUsername($this->security->getUsername());
                     $depositLicenseLog->setObjectIdentifier($document->getObjectIdentifier());
                     $depositLicenseLog->setProcessNumber($document->getProcessNumber());
@@ -407,8 +413,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                         $depositLicenseLog->setFileNames(implode(", ", $fileList));
                     }
 
-
-                    $this->depositLicenseLogRepository->add($depositLicenseLog);
+                    if ($depositLicenseLog->getUid()) {
+                        $this->depositLicenseLogRepository->update($depositLicenseLog);
+                    } else {
+                        $this->depositLicenseLogRepository->add($depositLicenseLog);
+                    }
 
                     /** @var Notifier $notifier */
                     $notifier = $this->objectManager->get(Notifier::class);
@@ -491,6 +500,8 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             // A redirect always throws this exception, but in this case, however,
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
+
+            throw $exception;
             $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
