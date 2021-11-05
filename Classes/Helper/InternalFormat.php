@@ -619,7 +619,7 @@ class InternalFormat
     public function getFisId()
     {
         $fisIdXpath =  $this->clientConfigurationManager->getFisIdXpath();
-        $this->getValue($fisIdXpath);
+        return $this->getValue($fisIdXpath);
     }
 
     /**
