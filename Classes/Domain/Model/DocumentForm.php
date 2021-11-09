@@ -2,12 +2,15 @@
 
 namespace EWW\Dpf\Domain\Model;
 
+use EWW\Dpf\Services\Suggestion\DocumentChanges;
+use EWW\Dpf\Services\Suggestion\FieldChange;
+use EWW\Dpf\Services\Suggestion\GroupChange;
 use Exception;
 use TypeError;
 use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 
 /*
- * This file is part of the TYPO3 CMS project.
+ * This file is part of the TYPO3 CMS project.(
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -215,6 +218,23 @@ class DocumentForm extends AbstractFormElement
     }
 
     /**
+     * @param string $fileIdentifier
+     * @return File
+     */
+    public function getFileByFileIdentifier(string $fileIdentifier)
+    {
+        if (is_array($this->files)) {
+            /** @var File $file */
+            foreach ($this->files as $file) {
+                if ($file->getFileIdentifier() === $fileIdentifier) {
+                    return $file;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return bool
      */
     public function hasFiles()
@@ -310,5 +330,185 @@ class DocumentForm extends AbstractFormElement
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @param DocumentForm $targetForm
+     * @return DocumentChanges
+     */
+    public function diff(DocumentForm $targetForm)
+    {
+        $documentChanges = new DocumentChanges($this, $targetForm);
+
+        // pages
+        foreach ($this->getItems() as $keyPage => $valuePage) {
+            foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+
+                // groups
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+
+                    $currentGroups = [];
+                    foreach ($valueGroup as $keyRepeatGroup => $valueRepeatGroup) {
+                        $currentGroups[$valueRepeatGroup->getId()] = $valueRepeatGroup;
+                    }
+
+                    $targetGroups = [];
+                    $targetValueGroups = $targetForm->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup];
+                    foreach ($targetValueGroups as $keyRepeatGroup => $valueRepeatGroup) {
+                        $targetGroups[$valueRepeatGroup->getId()] = $valueRepeatGroup;
+                    }
+
+                    foreach ($currentGroups as $currentGroupId => $currentGroup) {
+                        // @var GroupChange $groupChange
+                        $groupChange = null;
+
+                        if (array_key_exists($currentGroupId, $targetGroups)) {
+                            if ($currentGroup->isEmptyGroup() && !$targetGroups[$currentGroupId]->isEmptyGroup()) {
+                                $groupChange = new GroupChange(null, ($targetGroups[$currentGroupId]));
+                                $groupChange->setAdded();
+                                break;
+                            } else {
+                                $groupChange = new GroupChange($currentGroup, $targetGroups[$currentGroupId]);
+                            }
+
+                            $currentFields = [];
+                            foreach ($currentGroup->getItems() as $keyField => $valueField) {
+                                foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                                    $currentFields[$valueRepeatField->getId()] = $valueRepeatField;
+                                }
+                            }
+
+                            $targetFields = [];
+                            foreach ($targetGroups[$currentGroupId]->getItems() as $keyField => $valueField) {
+                                foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                                    $targetFields[$valueRepeatField->getId()] = $valueRepeatField;
+                                }
+                            }
+
+                            foreach ($currentFields as $currentFieldId => $currentField) {
+                                if (array_key_exists($currentFieldId, $targetFields)) {
+                                    $currentValue = trim($currentField->getValue());
+                                    $targetValue = trim($targetFields[$currentFieldId]->getValue());
+                                    if ($currentValue !== $targetValue) {
+                                        // @var FieldChange $fieldChange
+                                        $fieldChange = new FieldChange($currentField, $targetFields[$currentFieldId]);
+                                        $groupChange->addFieldChange($fieldChange);
+                                    }
+                                    unset($targetFields[$currentFieldId]);
+                                } else {
+                                    // @var FieldChange $fieldChange
+                                    $fieldChange = new FieldChange($currentField, null);
+                                    $fieldChange->setDeleted();
+                                    $groupChange->addFieldChange($fieldChange);
+                                }
+                            }
+
+                            foreach ($targetFields as $targetFieldId => $targetField) {
+                                // @var FieldChange $fieldChange
+                                $fieldChange = new FieldChange(null, $targetField);
+                                $fieldChange->setAdded();
+                                $groupChange->addFieldChange($fieldChange);
+                            }
+
+                            if ($groupChange->hasFieldChanges()) {
+                                $documentChanges->addChange($groupChange);
+                            }
+
+                            unset($targetGroups[$currentGroupId]);
+                        } else {
+                            // @var GroupChange $groupChange
+                            $groupChange = new GroupChange($currentGroup, null);
+                            $groupChange->setDeleted();
+                            $documentChanges->addChange($groupChange);
+                        }
+                    }
+
+                    foreach ($targetGroups as $targetGroupId => $targetGroup) {
+                        // @var GroupChange $groupChange
+                        $groupChange = new GroupChange(null, $targetGroup);
+                        $groupChange->setAdded();
+                        $documentChanges->addChange($groupChange);
+                    }
+                }
+            }
+        }
+
+        return $documentChanges;
+    }
+
+    /**
+     * Applies the given changes to the documentForm
+     *
+     * @param DocumentChanges $docuemntChanges
+     */
+    public function applyChanges(DocumentChanges $documentChanges)
+    {
+        /** @var GroupChange $groupChange */
+        foreach ($documentChanges->getChanges() as $groupChange) {
+            if ($groupChange->isAccepted()) {
+                // pages
+                foreach ($this->getItems() as $keyPage => $valuePage) {
+                    foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+                        // groups
+                        foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                            if ($keyGroup === $groupChange->getGroup()->getUid()) {
+                                $valueRepeatPage->applyGroupChange($groupChange);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                $group = $groupChange->getNewGroup();
+                if ($group instanceof DocumentFormGroup && $group->isFileGroup() && $groupChange->hasAcceptedFieldChanges()) {
+                    $file = $group->getFile();
+                    if ($file instanceof File) {
+                        $origFile = $this->getFileByFileIdentifier($file->getFileIdentifier());
+                        if ($origFile instanceof File) {
+                            $origFile->copy($file);
+                        } else {
+                            $newFile = new File();
+                            $newFile->copy($file);
+                            $this->addFile($newFile);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    /**
+     * @param DocumentFormGroup $groupItem
+     */
+    protected function addGroupItem(DocumentFormGroup $groupItem)
+    {
+        foreach ($this->getItems() as $keyPage => $valuePage) {
+            foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                    if ($keyGroup === $groupItem->getUid()) {
+                        $valueRepeatPage->addItem($groupItem);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param DocumentFormGroup $groupItem
+     */
+    protected function removeGroupItem(DocumentFormGroup $groupItem)
+    {
+        foreach ($this->getItems() as $keyPage => $valuePage) {
+            foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                    if ($keyGroup === $groupItem->getUid()) {
+                        $valueRepeatPage->removeItem($groupItem);
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

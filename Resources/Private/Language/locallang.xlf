@@ -230,6 +230,9 @@
 			<trans-unit id="document_suggestRestore.accessDenied" approved="yes">
 				<source>Suggesting restore of %s failed, access denied.</source>
 			</trans-unit>
+			<trans-unit id="document_suggestChange.missingValues" approved="yes">
+				<source>Suggestion for %s failed, missing Information. Please fill in all required fields.</source>
+			</trans-unit>
 			<trans-unit id="document_save.max_size_error" approved="yes">
 				<source>Maximum document size exceeded.</source>
 			</trans-unit>
@@ -414,7 +417,7 @@
 				<source>Here you can submit suggestions for changes to existing records. You can upload related files and recover from discarded records. Please enter your changes directly in the appropriate fields.</source>
 			</trans-unit>
 			<trans-unit id="manager.control.suggestionFileUploadInfo">
-                <source>For data sets for which no file is available yet, you can upload a file for publication here. Please also accept the declaration of consent. It is not possible to exchange or remove existing files here. If you wish so, please contact us.</source>
+                <source>Here you can upload new or additional files for publication. It is not possible to exchange or remove existing files here. If you wish, please explain it in the comment field above.</source>
 			</trans-unit>
 			<trans-unit id="manager.control.createNewDocument">
 				<source>Add manually</source>
@@ -593,14 +596,35 @@
 			<trans-unit id="manager.document.suggestionDetails" approved="yes">
 				<source>Suggestion details.</source>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.field" approved="yes">
-				<source>Field</source>
+			<trans-unit id="manager.document.suggestionDetails.acceptAll" approved="yes">
+				<source>Accept all</source>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.before" approved="yes">
-				<source>Before</source>
+			<trans-unit id="manager.document.suggestionDetails.acceptSuggested" approved="yes">
+				<source>Accept selection</source>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.after" approved="yes">
-				<source>After</source>
+			<trans-unit id="manager.document.suggestionDetails.deleteLocallySuggestion" approved="yes">
+				<source>Reject all</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.add" approved="yes">
+				<source>add</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.change" approved="yes">
+				<source>change</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.remove" approved="yes">
+				<source>remove</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnGroupField" approved="yes">
+				<source>Group/Field</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnOriginal" approved="yes">
+				<source>Original</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnSuggestion" approved="yes">
+				<source>Suggestion</source>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnAccept" approved="yes">
+				<source>Accept</source>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new">
 				<source>New</source>
@@ -661,6 +685,9 @@
 			</trans-unit>
 			<trans-unit id="manager.documentDetails.cancel" approved="yes">
 				<source>Back</source>
+			</trans-unit>
+			<trans-unit id="manager.documentDetails.suggestionWarning" approved="yes">
+				<source>There is a suggestion document for this document.</source>
 			</trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
@@ -1271,7 +1298,7 @@ Date: ###DATE###
 				<source>Deposit license</source>
 			</trans-unit>
 			<trans-unit id="message.suggestion_flashmessage">
-				<source>Suggestion successfully saved</source>
+				<source>Suggestion successfully saved.</source>
 			</trans-unit>
 			<trans-unit id="message.suggestion_accepted.workingcopy_info">
 				<source>Status not changed. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>

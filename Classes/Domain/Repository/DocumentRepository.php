@@ -329,27 +329,40 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
         $query = $this->createQuery();
 
-            $constraints[] =
-                $query->logicalAnd(
-                    $query->like('uid', $identifier),
-                    $query->equals('suggestion', false)
-                );
+        $constraints[] =
+            $query->logicalAnd(
+                $query->like('uid', $identifier),
+                $query->equals('suggestion', false)
+            );
 
-            $constraints[] =
-                $query->logicalAnd(
-                    $query->like('object_identifier', $identifier),
-                    $query->equals('suggestion', false)
-                );
+        $constraints[] =
+            $query->logicalAnd(
+                $query->like('object_identifier', $identifier),
+                $query->equals('suggestion', false)
+            );
 
-            $constraints[] =
-                $query->logicalAnd(
-                    $query->like('process_number', $identifier),
-                    $query->equals('suggestion', false)
-                );
+        $constraints[] =
+            $query->logicalAnd(
+                $query->like('process_number', $identifier),
+                $query->equals('suggestion', false)
+            );
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
         $query->matching($query->logicalOr($constraints));
 
         return $query->execute();
+    }
+
+    /**
+     * @param Document $document
+     */
+    public function findSuggestionByDocument(Document $document)
+    {
+        $query = $this->createQuery();
+
+        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+        $query->matching($query->equals('linked_uid', $document->getUid()));
+
+        return $query->execute()->getFirst();
     }
 }

@@ -39,7 +39,7 @@
             </div>
         </legend>
     </f:if>
-    
+
     <f:for each="{eww:explodeString(string:'{groupItem.groupType}', glue:',')}" as="api" iteration="iterator">
         <f:if condition="{api} && {api} != 'primary_file' && {api} != 'secondary_file'">
             <f:then>
@@ -88,13 +88,13 @@
     <div style="clear: both;"></div>
 
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
-        <f:for each="{formField}" as="fieldItem" iteration="fieldItemIterator">
+        <f:for each="{formField}" key="fieldItemIndex" as="fieldItem" iteration="fieldItemIterator">
             <f:if condition="{fieldItem.inputField}!=4">
                 <f:then>
                     <div class="form-container {f:if(condition: '{fieldItem.validator} == \'DATE\'', then: 'hasDatepicker', else: '')}">
                         <f:if condition="{eww:IsElementAllowed(condition:'{fieldItem.accessRestrictionRoles}')}">
                             <f:then>
-                                <f:variable name="fieldIndex">{fieldItemIterator.index}</f:variable>
+                                <f:variable name="fieldIndex">{fieldItemIndex}</f:variable>
                                 <f:render partial="DocumentForm/Field" arguments="{_all}"/>
                                 <f:if condition="{fieldItem.maxIteration} == 0">
                                     <f:if condition="{fieldItemIterator.isLast}">
@@ -102,7 +102,7 @@
                                                 title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                                                 name="add_field" class="btn btn-secondary add_field" data-field="{fieldItem.uid}"
                                                 data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:ajaxTypeNum,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
-                                                data-index="{fieldItemIterator.index}">
+                                                data-index="{fieldItemIndex}">
                                             <i class="fas fa-plus"></i>
                                             <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
                                         </button>
@@ -114,7 +114,7 @@
                 </f:then>
                 <f:else>
                     <f:form.hidden id="inp_{fieldItem.uid}"
-                                   property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIterator.index}"
+                                   property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIndex}"
                                    value="{fieldItem.value}" class="input-field form-control {fieldItem.fillOutService}"
                                    additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validator:fieldItem.validator,data-label:fieldItem.displayName}"/>
                 </f:else>

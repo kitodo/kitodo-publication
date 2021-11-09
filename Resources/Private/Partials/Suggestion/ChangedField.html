@@ -1,0 +1,33 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:for each="{fieldChanges}" as="fieldChange">
+    <f:if condition="{fieldChange.oldField.id} == {field.id}">
+        <f:if condition="{fieldChange.deleted}">
+            <f:then>
+                DELETED
+            </f:then>
+            <f:else>
+                {fieldChange.newField.value}
+            </f:else>
+        </f:if>
+    </f:if>
+</f:for>
+
+<f:for each="{fieldChanges}" as="fieldChange">
+    <f:if condition="{fieldChange.oldField.id} != {field.id}">
+        {field.value}
+    </f:if>
+</f:for>

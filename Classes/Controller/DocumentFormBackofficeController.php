@@ -26,8 +26,6 @@ use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-
 class DocumentFormBackofficeController extends AbstractDocumentFormController
 {
     /**
@@ -61,6 +59,14 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
+
+    /**
+     * documentValidator
+     *
+     * @var \EWW\Dpf\Helper\DocumentValidator
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentValidator;
 
     public function arrayRecursiveDiff($aArray1, $aArray2) {
         $aReturn = array();
@@ -152,24 +158,26 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      */
     public function createSuggestionDocumentAction(\EWW\Dpf\Domain\Model\DocumentForm $documentForm, $restore = FALSE)
     {
+        /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        $workingCopy = $this->documentRepository->findByUid($documentForm->getDocumentUid());
+        /* @var $document \EWW\Dpf\Domain\Model\Document */
+        $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
-        if ($workingCopy->isTemporary()) {
-            $workingCopy->setTemporary(false);
+        if ($document->isTemporary()) {
+            $document->setTemporary(false);
         }
 
+        /** @var Document $newDocument */
         $newDocument = $this->objectManager->get(Document::class);
-
+        $newDocument->setSuggestion(true);
         $this->documentRepository->add($newDocument);
         $this->persistenceManager->persistAll();
 
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
-        $document = $documentMapper->getDocument($documentForm);
-
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument = $newDocument->copy($document);
+        $documentForm->setDocumentUid($newDocument->getUid());
+        $newDocument = $documentMapper->getDocument($documentForm);
 
         if ($document->getObjectIdentifier()) {
             $newDocument->setLinkedUid($document->getObjectIdentifier());
@@ -177,32 +185,19 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $newDocument->setLinkedUid($document->getUid());
         }
 
-        $newDocument->setSuggestion(true);
-        $newDocument->setComment($document->getComment());
+        if (!$this->documentValidator->validate($newDocument, false)) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_suggestChange.missingValues';
+            $newDocument->setLinkedUid('');
+            $this->documentRepository->update($newDocument);
+            $this->documentRepository->remove($newDocument);
+            $this->persistenceManager->persistAll();
+            $this->flashMessage($newDocument, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails','Document',NULL, ['document' => $document]);
+        }
 
         if ($restore) {
             $newDocument->setTransferStatus("RESTORE");
         }
-
-        if ($workingCopy->hasFiles()) {
-            // Add or update files
-            // TODO: Is this still necessary?
-            foreach ($documentForm->getFiles() as $file) {
-                // TODO: Is this still necessary?
-                if ($file->getUID()) {
-                    $this->fileRepository->update($file);
-                } else {
-                    $file->setDocument($newDocument);
-                    $this->fileRepository->add($file);
-                }
-
-                $newDocument->addFile($file);
-            }
-        } else {
-            // remove files for suggest object
-            $newDocument->setFile($this->objectManager->get(ObjectStorage::class));
-        }
-
 
         try {
             $newDocument->setCreator($this->security->getUser()->getUid());

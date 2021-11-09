@@ -14,6 +14,10 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Suggestion\FieldChange;
+use EWW\Dpf\Services\Suggestion\GroupChange;
+use PhpParser\Comment\Doc;
+
 class DocumentFormGroup extends AbstractFormElement
 {
 
@@ -43,6 +47,11 @@ class DocumentFormGroup extends AbstractFormElement
      * @var string
      */
     protected $requiredGroups = '';
+
+    /**
+     * string
+     */
+    protected $id = '';
 
     /**
      * Returns the infoText
@@ -130,11 +139,109 @@ class DocumentFormGroup extends AbstractFormElement
     }
 
     /**
-     * @param mixed $groupType
+     * @return bool
      */
     public function isPrimaryFileGroup()
     {
         return $this->groupType == 'primary_file';
     }
 
+    /**
+     * @return bool
+     */
+    public function isFileGroup()
+    {
+        return strpos($this->groupType, 'file') !== false;
+    }
+
+    public function getFile() {
+        foreach ($this->getItems() as $fieldItems) {
+            /** @var DocumentFormField $fieldItem */
+            foreach ($fieldItems as $field) {
+                $file = $field->getFile();
+                if ($file instanceof File) {
+                    return $file;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function addItem($item)
+    {
+        $uid = $item->getUid();
+
+        if ($item->getId()) {
+            $id = explode('-', $item->getId());
+            $index = $id[3];
+        } else {
+            $index = 0;
+        }
+
+        $this->items[$uid][$index] = $item;
+    }
+
+    /**
+     * @param GroupChange $GroupChange
+     */
+    public function applyChanges(GroupChange $groupChange)
+    {
+        /** @var FieldChange $fieldChange */
+        foreach ($groupChange->getFieldChanges() as $fieldChange) {
+            if ($fieldChange->isAccepted()) {
+                $this->applyFieldChange($fieldChange);
+            }
+        }
+    }
+
+    /**
+     * @param FieldChange $fieldChange
+     */
+    protected function applyFieldChange(FieldChange $fieldChange)
+    {
+            if ($fieldChange->isAdded()) {
+                foreach ($this->getItems() as $keyField => $valueField) {
+                    foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                        if ($keyField === $fieldChange->getNewField()->getUid()) {
+                            $this->addItem($fieldChange->getNewField());
+                            return;
+                        }
+                    }
+                }
+            } elseif ($fieldChange->isDeleted()) {
+                foreach ($this->getItems() as $keyField => $valueField) {
+                    foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                        if ($valueRepeatField->getId() === $fieldChange->getFieldId()) {
+                            $this->removeItem($fieldChange->getOldField());
+                            return;
+                        }
+                    }
+                }
+            } else {
+                foreach ($this->getItems() as $keyField => $valueField) {
+                    foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                        if ($valueRepeatField->getId() === $fieldChange->getFieldId()) {
+                            $this->replaceItem($fieldChange->getNewField());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 }

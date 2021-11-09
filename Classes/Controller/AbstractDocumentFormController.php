@@ -381,9 +381,6 @@ abstract class AbstractDocumentFormController extends AbstractController
     {
         $requestArguments = $this->request->getArguments();
 
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($requestArguments, null, 20);
-
-
         if ($this->request->hasArgument('documentData')) {
             $documentData = $this->request->getArgument('documentData');
 
@@ -395,8 +392,6 @@ abstract class AbstractDocumentFormController extends AbstractController
             if (!$docForm->hasValidCsrfToken()) {
                 throw new Exception("Invalid CSRF Token");
             }
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($docForm, null, 20);
-
 
             $requestArguments['newDocumentForm'] = $docForm;
 

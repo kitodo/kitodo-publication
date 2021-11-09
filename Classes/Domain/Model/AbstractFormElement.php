@@ -105,6 +105,28 @@ class AbstractFormElement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->items[$uid][] = $item;
     }
 
+    public function removeItem($item)
+    {
+        $uid = $item->getUid();
+
+        foreach ($this->items[$uid] as $key => $value) {
+            if ($item->getId() === $value->getId()) {
+                unset($this->items[$uid][$key]);
+            }
+        }
+    }
+
+    public function replaceItem($item)
+    {
+        $uid = $item->getUid();
+
+        foreach ($this->items[$uid] as $key => $value) {
+            if ($item->getId() === $value->getId()) {
+                $this->items[$uid][$key] = $item;
+            }
+        }
+    }
+
     public function getMandatory()
     {
         return $this->mandatory;

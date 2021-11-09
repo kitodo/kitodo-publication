@@ -373,7 +373,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         foreach ($availableProperties as $propertyName) {
             if (\TYPO3\CMS\Extbase\Reflection\ObjectAccess::isPropertySettable($newFile, $propertyName)
-                && !in_array($propertyName, array('uid','pid'))) {
+                && !in_array($propertyName, array('uid', 'pid', 'document'))) {
 
                 $propertyValue = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::getProperty($fileToCopy, $propertyName);
                 \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($newFile, $propertyName, $propertyValue);
