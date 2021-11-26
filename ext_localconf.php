@@ -97,6 +97,30 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'EWW.' . $_EXTKEY,
+    'BackofficeDocumentTypes',
+    array(
+        'DocumentType'     => 'list',
+    ),
+    // non-cacheable actions
+    array(
+        'DocumentType'     => 'list',
+    )
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
+    'InputAssistantDocumentTypes',
+    array(
+        'DocumentType'     => 'list',
+    ),
+    // non-cacheable actions
+    array(
+        'DocumentType'     => 'list',
+    )
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'EWW.' . $_EXTKEY,
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
@@ -148,7 +172,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
         'DataServiceAjax'  => 'searchGndKeyword, autocomplete',
     )
 );
-
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($_EXTKEY, 'Classes/Plugins/MetaTags/MetaTags.php', '_metatags', 'list_type', true);
 $overrideSetup = 'plugin.tx_dpf_metatags.userFunc = EWW\Dpf\Plugins\MetaTags\MetaTags->main';

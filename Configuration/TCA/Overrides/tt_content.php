@@ -33,7 +33,35 @@ if (!defined('TYPO3_MODE')) {
     'Backoffice',
     'DPF: Backoffice'
 );
+$pluginSignature = 'dpf_backoffice';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:dpf/Configuration/FlexForms/backoffice_plugin.xml');
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'EWW.Dpf',
+    'BackofficeDocumentTypes',
+    'DPF: BackofficeDocumentTypes'
+);
+
+$pluginSignature = 'dpf_backofficedocumenttypes';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:dpf/Configuration/FlexForms/backofficedocumenttypes_plugin.xml');
+// TODO: Find a solution to avoid the neede configuration in Page TSConfig:
+// TCEFORM.tt_content.pi_flexform.dpf_backofficedocumenttypes.sDEF.settings\.documentTypes.PAGE_TSCONFIG_ID = [storagePid]
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'EWW.Dpf',
+    'InputAssistantDocumentTypes',
+    'DPF: InputAssistantDocumentTypes'
+);
+$pluginSignature = 'dpf_inputassistantdocumenttypes';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:dpf/Configuration/FlexForms/inputassistantdocumenttypes_plugin.xml');
+// TODO: Find a solution to avoid the neede configuration in Page TSConfig:
+// TCEFORM.tt_content.pi_flexform.dpf_inputassistantdocumenttypes.sDEF.settings\.documentTypes.PAGE_TSCONFIG_ID = [storagePid]
 
 // frontendsearch plugin configuration: additional fields
 $pluginSignature = 'dpf_frontendsearch';
@@ -44,8 +72,9 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 
 // KitodoPublicationForm plugin configuration: additional fields
 $pluginSignature = 'dpf_kitodopublicationform';
-
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,pages,recursive,categories';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature]     = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:dpf/Configuration/FlexForms/kitodopublicationform_plugin.xml');
 // end of KitodoPublicationForm plugin configuration
 
 // Plugin "MetaTags".
