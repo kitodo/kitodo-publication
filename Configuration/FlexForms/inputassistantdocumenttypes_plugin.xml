@@ -16,13 +16,13 @@
         <sDEF>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>efsdfds</sheetTitle>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_kitodopublicationform.options</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
                     <settings.documentTypes>
                         <TCEforms>
-                            <label>Document types</label>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.documentTypes</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>

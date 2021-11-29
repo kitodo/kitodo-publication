@@ -1965,6 +1965,14 @@ Datum: ###DATE###
 				<source>Filter Search Results by Submitter</source>
 				<target>Suchergebnisse nach Einreicher filtern</target>
 			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.documentTypes" approved="yes">
+				<source>Document types</source>
+				<target>Dokumenttypen</target>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.documentTypePage" approved="yes">
+				<source>PID of the document type page</source>
+				<target>PID der Dokumenttyp-Seite</target>
+			</trans-unit>
 			<trans-unit id="tx_dpf_domain_model_document.xml_data" approved="yes">
 				<source>Xml Data</source>
 				<target>Xml Daten</target>
