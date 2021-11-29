@@ -12,14 +12,14 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
-<f:layout name="Default"/>
 
-<f:section name="main">
-    <h1>New DocumentType</h1>
-    <f:flashMessages />
-    <f:render partial="FormErrors" arguments="{object:DocumentType}"/>
-    <f:form action="create" name="newDocumentType" object="{newDocumentType}">
-        <f:render partial="DocumentType/FormFields"/>
-        <f:form.submit value="Create new"/>
-    </f:form>
-</f:section>
+<ol>
+    <f:for each="{documentTypes}" as="documentType">
+        <f:if condition="{documentType.hiddenInList} == 0">
+            <li>
+                <f:link.action action="new" controller="{controller}" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
+                </f:link.action>
+            </li>
+        </f:if>
+    </f:for>
+</ol>

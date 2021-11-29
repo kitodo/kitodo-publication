@@ -56,8 +56,15 @@
         </div>
     </f:if>
 
-    <f:if condition="{settings.documentTypeListPage}">
-        <v:content.render pageUid="{settings.documentTypeListPage}"/>
-    </f:if>
+    <div class="document-type-list">
+        <f:if condition="{settings.documentTypeListPage}">
+            <f:then>
+                <v:content.render pageUid="{settings.documentTypeListPage}"/>
+            </f:then>
+            <f:else>
+                <f:render partial="DocumentType/List" arguments="{_all}" />
+            </f:else>
+        </f:if>
+    </div>
 
 </f:section>

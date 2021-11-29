@@ -15,14 +15,5 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-    <ol>
-        <f:for each="{documentTypes}" as="documentType">
-            <f:if condition="{documentType.hiddenInList} == 0">
-                <li>
-                    <f:link.action action="new" controller="{controller}" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
-                    </f:link.action>
-                </li>
-            </f:if>
-        </f:for>
-    </ol>
+    <f:render partial="DocumentType/List" arguments="{_all}" />
 </f:section>
