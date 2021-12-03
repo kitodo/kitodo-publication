@@ -593,6 +593,12 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.inputDropdown">
 			<source>input with dropdown</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.input_type.licenceConsent">
+			<source>License consent</source>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.depositLicense">
+			<source>Deposit license</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.mandatory">
 			<source>Mandatory</source>
 		</trans-unit>

@@ -269,6 +269,7 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.checkbox', \EWW\Dpf\Domain\Model\MetadataObject::checkbox),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.hidden', \EWW\Dpf\Domain\Model\MetadataObject::hidden),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.inputDropdown', \EWW\Dpf\Domain\Model\MetadataObject::INPUTDROPDOWN),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.licenceConsent', \EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT),
                 ),
                 'size'     => 1,
                 'maxitems' => 1,
@@ -279,12 +280,12 @@ return array(
             'displayCond' => array(
                 'OR' => array(
                     'FIELD:input_field:REQ:false',
-                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::checkbox,
+                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT,
                 ),
             ),
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
-            'label'     => 'Checkbox Value',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.depositLicense',
             'config'    => array(
                 'type'     => 'select',
                 'renderType' => 'selectSingle',
