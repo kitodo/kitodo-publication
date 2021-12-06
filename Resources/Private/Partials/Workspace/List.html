@@ -100,6 +100,17 @@
 
             </th>
             </f:if>
+
+            <th class="xcol-md-2">
+                {f:translate(key: 'manager.workspace.processNumber.tooltip')}
+
+                <f:render partial="Workspace/SortColumn"
+                          arguments="{workspaceListAction: workspaceListAction, sortField: 'process_number'}"
+                />
+
+                <div class="workspace-filter">&nbsp;</div>
+            </th>
+
             <th class="xcol-md-2"><!-- ACTIONS --></th>
         </tr>
         </thead>
@@ -260,6 +271,10 @@
                        </f:if>
                     </td>
                 </f:if>
+
+                <td>
+                    {document._source.process_number}
+                </td>
 
                 <td class="table_col_function">
                     <f:render partial="Workspace/ListItemActions"
