@@ -158,6 +158,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
+        if ($filters && $results['hits']['total']['value'] < 1) {
+            $workspaceSessionData->clearSort();
+            $workspaceSessionData->clearFilters();
+            $this->session->setWorkspaceData($workspaceSessionData);
+            list($redirectAction, $redirectController) = $this->session->getStoredAction();
+            $this->redirect(
+                $redirectAction, $redirectController, null,
+                array('message' => [], 'checkedDocumentIdentifiers' => [])
+            );
+        }
 
         $this->view->assign('documentCount', $results['hits']['total']['value']);
         $this->view->assign('documents', $results['hits']['hits']);

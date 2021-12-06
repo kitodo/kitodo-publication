@@ -69,12 +69,9 @@ class ElasticsearchMapper
         // xslt
         $xsl = new \DOMDocument;
         $xsl->load($xsltDoc);
-
-        $XSLTransformator = new XSLTransformator();
-        $transformedXml = $XSLTransformator->getTransformedOutputXML($document);
-
+        
         $xml = new \DOMDocument;
-        $xml->loadXML($transformedXml);
+        $xml->loadXML($document->getXmlData());
 
         // xslt processing
         $proc = new \XSLTProcessor;
