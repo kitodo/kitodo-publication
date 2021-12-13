@@ -292,7 +292,13 @@ class FormDataReader
         \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
 
         $finfo       = finfo_open(FILEINFO_MIME_TYPE);
-        $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
+
+        $contentType = '';
+
+        if (file_exists($this->uploadPath . $fileName)) {
+            $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
+        }
+
         finfo_close($finfo);
 
         $file->setContentType($contentType);

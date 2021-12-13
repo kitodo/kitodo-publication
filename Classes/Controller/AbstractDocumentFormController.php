@@ -113,6 +113,10 @@ abstract class AbstractDocumentFormController extends AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
+
         $this->view->assign('documentTypes', $docTypes);
         $this->view->assign('documents', $documents);
     }
@@ -189,7 +193,7 @@ abstract class AbstractDocumentFormController extends AbstractController
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
-                $this->redirect('list', 'DocumentForm', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+                $this->redirectToList("UPLOAD_MAX_FILESIZE_ERROR", $t);
             }
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
@@ -352,7 +356,7 @@ abstract class AbstractDocumentFormController extends AbstractController
                 $this->request->setArguments($requestArguments);
             } else {
                 $t = $docForm->getNewFileNames();
-                $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+                $this->redirectToList("UPLOAD_MAX_FILESIZE_ERROR", $t);
             }
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
@@ -425,9 +429,21 @@ abstract class AbstractDocumentFormController extends AbstractController
         $this->redirect('list');
     }
 
-    protected function redirectToList($message = null)
+    /**
+     * Redirects to the document list.
+     *
+     * @param null $message
+     * @param array $errorFiles
+     * @return mixed
+     */
+    protected function redirectToList($message = null, $errorFiles = [])
     {
-        $this->redirect('list');
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
+        $this->redirect($action, $controller, null,
+            [
+                'message' => $message,
+                'errorFiles' => $errorFiles,
+            ]
+        );
     }
-
 }
