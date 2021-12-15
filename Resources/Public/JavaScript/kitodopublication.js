@@ -172,7 +172,7 @@ var documentFormGroupSelector = {
                                 //var context = jQuery('#userSearchModal-'+activeGroupIndex).find('input');
                                 var context = activeGroupElement.find('.addMyData').first();
                                 setDataRequest(context.data('ajax'), jQuery('form').data('fispersid'), context);
-                                jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
+                                jQuery('<div class="validation-alert alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_info_msg_personid_added + '</div>').insertAfter(activeGroupElement.find('legend').last());
                                 jQuery('html, body').animate({
                                     scrollTop: jQuery(activeGroupElement).offset().top - 150
                                 }, 0);
@@ -941,7 +941,7 @@ var validateForm = function() {
     let error = false;
     let promises = [];
     jQuery("span.mandatory-error").remove();
-    jQuery("div.alert").not(".file-error").remove();
+    jQuery("div.validation-alert").not(".file-error").remove();
     jQuery(".tx-dpf-tabs li a").each(function() {
         jQuery(this).removeClass("mandatory-error");
     });
@@ -962,14 +962,14 @@ var validateForm = function() {
         var fieldset = jQuery(this);
         if (hasMandatoryInputs(fieldset)) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="validation-alert alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
             }
         } else {
             if (checkFilledInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="validation-alert alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_one_required + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 error = true;
                 markPage(fieldset, true);
@@ -980,7 +980,7 @@ var validateForm = function() {
     jQuery("fieldset[id=primary_file]").each(function() {
         var fieldset = jQuery(this);
         if (checkPrimaryFile(fieldset)) {
-            jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
+            jQuery('<div class="validation-alert alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertBefore(fieldset.find("legend").last());
             showFormError();
             error = true;
             markPage(fieldset, true);
@@ -1007,7 +1007,7 @@ var validateForm = function() {
         // are relevant.
         if (filledInputs) {
             if (checkMandatoryInputs(fieldset)) {
-                jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
+                jQuery('<div class="validation-alert alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + form_error_msg_group_mandatory + '</div>').insertAfter(fieldset.find("legend").last());
                 showFormError();
                 markPage(fieldset, true);
                 error = true;
@@ -1023,7 +1023,7 @@ var validateForm = function() {
           if (maxLength && maxLength > 0) {
             if (jQuery(this).val().length > maxLength) {
               var max_lengrth_msg = form_error_msg_field_max_length.replace(/%s/gi, maxLength);
-              jQuery('<div class="alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+              jQuery('<div class="validation-alert alert alert-warning" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + max_lengrth_msg + ' (' + jQuery(this).attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
               jQuery(this).addClass("invalid-error");
               showFormError();
               markPage(fieldset, true);
@@ -1085,7 +1085,7 @@ var showFieldValidationError = function(field, fieldset) {
   if (!validationErrorMessage || validationErrorMessage.length == 0) {
     validationErrorMessage = form_error_msg_field_invalid;
   }
-  jQuery('<div class="alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + field.attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
+  jQuery('<div class="validation-alert alert alert-warning input-group" role="alert"><i class="fas fa-exclamation-triangle pull-right"></i>' + validationErrorMessage + ' (' + field.attr("data-label") + ')</div>').insertAfter(fieldset.find("legend").last());
   field.addClass("invalid-error");
   showFormError();
   markPage(fieldset, true);
@@ -1094,14 +1094,14 @@ var showFieldValidationError = function(field, fieldset) {
 
 var showFormError = function() {
     jQuery(".tx-dpf div.alert-danger").remove();
-    jQuery('<div class="alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
+    jQuery('<div class="validation-alert alert alert-danger" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
 }
 var showFormSuccess = function() {
     jQuery(".tx-dpf div.alert-danger").remove();
-    jQuery('<div class="alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
+    jQuery('<div class="validation-alert alert alert-success" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_success_msg + '</div>').insertBefore(jQuery(".tx-dpf form.document-form-main").first());
     jQuery("html, body").animate({
         scrollTop: 0
     }, 200);
@@ -1155,7 +1155,13 @@ var checkMandatoryInputs = function(fieldset) {
     }
     fieldset.find(search).each(function() {
         var id = jQuery(this).attr("id");
-        if ((jQuery(this).attr("type") != "checkbox" && !jQuery(this).val()) || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))) {
+        var field = jQuery(this).data("field");
+
+        if (
+          (jQuery(this).attr("type") != "checkbox" && !jQuery(this).val())
+          || (jQuery(this).attr("type") == "checkbox" && (jQuery("#" + id + ":checked").length != 1 || !jQuery("#" + id + ":checked")))
+          || (jQuery(this).attr("type") == "radio" && (jQuery("[data-field='" + field + "']" + ":checked").length != 1 || !jQuery("[data-field=" + field + "]" + ":checked")))
+        ) {
             if (!jQuery(this).prop('disabled')) {
               mandatoryError = mandatoryError || true;
               jQuery(this).addClass("mandatory-error");
@@ -1345,7 +1351,7 @@ var fillOutServiceUrn = function() {
         group.find(".alert-filloutservice-urn").remove();
 
         if (element.error) {
-            var errorMsg = $('<div class="alert alert-danger alert-filloutservice-urn" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_filloutservice + '</div>');
+            var errorMsg = $('<div class="validation-alert alert alert-danger alert-filloutservice-urn" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_filloutservice + '</div>');
             errorMsg.insertAfter(group.find("legend"));
             $("html, body").animate({scrollTop: group.offset().top}, 200);
         } else {
@@ -1511,7 +1517,7 @@ function autocompleteNothingFound(fieldId, groupIndex) {
         }
 
         /** global: form_error_msg_nothing_found */
-        jQuery('<div id="autocomplete-nothing-found" class="alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(autocompleteInputField.closest(".form-container"));
+        jQuery('<div id="autocomplete-nothing-found" class="validation-alert alert alert-warning" role="alert"><i class="fab fa-gripfire pull-right"></i>' + form_error_msg_nothing_found + '</div>').insertBefore(autocompleteInputField.closest(".form-container"));
 
         autocompleteInputField.bind("keypress click", function () {
             jQuery("#autocomplete-nothing-found").remove();

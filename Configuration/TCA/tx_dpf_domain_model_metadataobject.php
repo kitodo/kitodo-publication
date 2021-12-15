@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -287,11 +287,33 @@ return array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.hidden', \EWW\Dpf\Domain\Model\MetadataObject::hidden),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.inputDropdown', \EWW\Dpf\Domain\Model\MetadataObject::INPUTDROPDOWN),
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.markdownTextarea', \EWW\Dpf\Domain\Model\MetadataObject::textareaMarkdown),
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.fileUpload', \EWW\Dpf\Domain\Model\MetadataObject::FILE_UPLOAD)
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.fileUpload', \EWW\Dpf\Domain\Model\MetadataObject::FILE_UPLOAD),
+                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.input_type.licenceConsent', \EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT)
                 ),
                 'size'     => 1,
                 'maxitems' => 1,
                 'eval'     => '',
+            ),
+        ),
+        'licence_options' => array(
+            'displayCond' => array(
+                'OR' => array(
+                    'FIELD:input_field:REQ:false',
+                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT,
+                ),
+            ),
+            'exclude' => 1,
+            'label'   => 'Lizenzen',
+            'config'  => array(
+                'type'                => 'select',
+                'renderType'          => 'selectMultipleSideBySide',
+                'items'               => array(
+                ),
+                'foreign_table'       => 'tx_dpf_domain_model_depositlicense',
+                'foreign_table_where' => ' AND (tx_dpf_domain_model_depositlicense.pid=###CURRENT_PID###) AND (tx_dpf_domain_model_depositlicense.sys_language_uid = 0)',
+                'minitems'            => 1,
+                'maxitems'            => 99,
+                'default'             => 0,
             ),
         ),
         'deposit_license'       => array(

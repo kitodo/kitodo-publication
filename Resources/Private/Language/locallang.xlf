@@ -320,6 +320,9 @@
 			<trans-unit id="form_button.discard">
 				<source>discard</source>
 			</trans-unit>
+			<trans-unit id="form_button.moreInfo">
+				<source>More info ...</source>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 			</trans-unit>

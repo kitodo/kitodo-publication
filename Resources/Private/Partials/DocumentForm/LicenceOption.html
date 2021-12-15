@@ -1,0 +1,46 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+{namespace eww=EWW\Dpf\ViewHelpers}
+<div class="form-group-consent">
+    <f:form.radio id="inp_{fieldItem.uid}_{licenceOption.uid}"
+                  property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
+                  value="{licenceOption.uri}" class="input-field form-control form-control-consent"
+                  additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
+                  checked="{f:if(condition:'{fieldItem.value} == {licenceOption.uri}', then: 'true', else:'')}" disabled="{f:if(condition:'{eww:isValidDepositLicense(uri:\'{fieldItem.value}\')} && {document} && {document.state} != \'NEW:NONE\'}', then: 'true', else:'')}"
+    />
+
+    <label for="inp_{fieldItem.uid}_{licenceOption.uid}" data-index="{fieldIndex}" data-field="{fieldItem.uid}">
+        {licenceOption.title}
+        <a data-toggle="collapse" href="#collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}-{licenceOption.uid}">
+            <span data-toggle="tooltip" title="" data-original-title="{f:translate(key: 'form_button.moreInfo')}">
+                <i class="fas fa-question-circle"></i>
+            </span>
+        </a>
+    </label>
+</div>
+
+<div class="collapse" id="collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}-{licenceOption.uid}">
+    <div class="alert alert-primary" role="alert">
+        <a class="close" href="#collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}-{licenceOption.uid}" data-toggle="collapse" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+        <f:format.raw>
+            <p>
+                {licenceOption.text}
+            </p>
+        </f:format.raw>
+    </div>
+</div>

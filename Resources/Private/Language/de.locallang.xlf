@@ -425,6 +425,10 @@
 				<source>discard</source>
 				<target>Verwerfen</target>
 			</trans-unit>
+			<trans-unit id="form_button.moreInfo" approved="yes">
+				<source>More info ...</source>
+				<target>Mehr erfahren ...</target>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 				<target>Dateien</target>

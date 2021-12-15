@@ -256,6 +256,13 @@ class DocumentMapper
                             $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                             $documentFormField->setDepositLicense($depositLicense);
 
+                            if ($metadataObject->getLicenceOptions()) {
+                                $licenceOptions = $this->depositLicenseRepository->findByUidList(
+                                    explode(",", $metadataObject->getLicenceOptions())
+                                );
+                                $documentFormField->setLicenceOptions($licenceOptions);
+                            }
+
                             $documentFormField->setHelpText($metadataObject->getHelpText());
 
                             $objectMapping = "";
@@ -368,6 +375,13 @@ class DocumentMapper
 
                         $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                         $documentFormField->setDepositLicense($depositLicense);
+
+                        if ($metadataObject->getLicenceOptions()) {
+                            $licenceOptions = $this->depositLicenseRepository->findByUidList(
+                                explode(",", $metadataObject->getLicenceOptions())
+                            );
+                            $documentFormField->setLicenceOptions($licenceOptions);
+                        }
 
                         $documentFormField->setHelpText($metadataObject->getHelpText());
 
