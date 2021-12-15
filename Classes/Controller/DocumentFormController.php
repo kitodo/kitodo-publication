@@ -20,12 +20,6 @@ use EWW\Dpf\Services\Email\Notifier;
 
 class DocumentFormController extends AbstractDocumentFormController
 {
-
-    protected function redirectToList($message = null)
-    {
-        $this->redirect('list', 'DocumentForm', null, array('message' => $message));
-    }
-
     /**
      * action new
      *

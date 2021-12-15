@@ -1107,6 +1107,7 @@ var deleteFile = function() {
     jQuery.post(ajaxURL, params, function(element) {
         var field = jQuery(element).find("#new-element").children();
         jQuery(fileGroup).replaceWith(field);
+        addRemoveFileButton();
     });
     return false;
 }
@@ -1306,6 +1307,7 @@ function addRemoveFileButton() {
     $(".rem_file").bind("click", function (evt) {
         evt.preventDefault();
         $(this).siblings(".input_file_upload").val("");
+        jQuery("#new-document-form #save").prop("disabled", false);
     })
 }
 
@@ -1972,8 +1974,14 @@ $(document).ready(function() {
         jQuery(this).parents(".fs_file_group").fadeOut(300, function() {
             jQuery(this).remove();
         });
+        jQuery("#new-document-form #save").prop("disabled", false);
         return false;
     });
+
+    jQuery(".tx-dpf").on("click", ".input_file_upload", function() {
+        jQuery("#new-document-form #save").prop("disabled", false);
+    });
+
     jQuery(".tx-dpf").on("click", ".rem_field", function() {
         var dataIndex = jQuery(this).data("index");
         var dataField = jQuery(this).data("field");
