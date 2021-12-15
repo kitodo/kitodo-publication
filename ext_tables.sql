@@ -471,6 +471,8 @@ CREATE TABLE tx_dpf_domain_model_client (
   validation_xpath tinytext NOT NULL,
   fis_id_xpath tinytext NOT NULL,
   source_details_xpaths text NOT NULL,
+  collection_xpath tinytext NOT NULL,
+  fis_collections tinytext NOT NULL,
 
   sword_host tinytext NOT NULL,
   sword_user tinytext NOT NULL,

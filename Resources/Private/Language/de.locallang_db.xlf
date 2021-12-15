@@ -317,6 +317,10 @@
             <source>Source details xpaths (Semicolon separated)</source>
             <target>Quellen-Angaben (XPath, Semikolon separiert)</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.collection_xpath" approved="yes">
+            <source>Collection xpath</source>
+            <target>Kollektionen (XPath)</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_author_role" approved="yes">
             <source>Person author role</source>
             <target>Person-Autor-Rolle</target>
@@ -1128,6 +1132,10 @@
 		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
 			<source>FIS Mapping (json)</source>
 			<target>FIS Mapping (json)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fis_collections" approved="yes">
+			<source>FIS collections (comma separated list)</source>
+			<target>FIS-Kollektionen (kommagetrennte List)</target>
 		</trans-unit>
 		</body>
 	</file>

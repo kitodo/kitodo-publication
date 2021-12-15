@@ -261,6 +261,7 @@ class ElasticSearch
         }
 
         if (!$data) {
+            $data = new \stdClass();
             $data->title[] = $document->getTitle();
             $data->doctype = $document->getDocumentType()->getName();
         }

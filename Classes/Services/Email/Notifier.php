@@ -15,6 +15,8 @@ namespace EWW\Dpf\Services\Email;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Helper\InternalFormat;
+use Httpful\Exception\ConnectionErrorException;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -177,7 +179,7 @@ class Notifier
         $author = array_shift($document->getAuthors());
         $args['###AUTHOR###'] = $author['name'];
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat = new InternalFormat($document->getXmlData());
         $args['###SUBMITTER_NAME###'] = $internalFormat->getSubmitterName();
         $args['###SUBMITTER_EMAIL###'] = $internalFormat->getSubmitterEmail();
         $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
@@ -234,37 +236,19 @@ class Notifier
         return $args;
     }
 
-    public function sendSuggestionAcceptNotification(\EWW\Dpf\Domain\Model\Document $document) {
+    public function sendSuggestionAcceptNotification(\EWW\Dpf\Domain\Model\Document $document)
+    {
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
 
-        try {
-            /** @var Client $client */
-            $client = $this->clientRepository->findAll()->current();
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType);
-
+        $internalFormat = new InternalFormat($document->getXmlData());
+        if ($internalFormat->getFisId()) {
             // Active messaging: Suggestion accept
-            if ($client->getActiveMessagingSuggestionAcceptUrl()) {
-                if ($internalFormat->getFisId()) {
-                    $request = Request::post($client->getActiveMessagingSuggestionAcceptUrl());
-                    if ($body = $client->getActiveMessagingSuggestionAcceptUrlBody()) {
-                        $request->body($this->replaceMarkers($body, $args));
-                    }
-                    $request->send();
-                }
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendSuggestionAcceptNotification failed",
-                array(
-                    'document' => $document
-                )
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingSuggestionAcceptUrl(),
+                $client->getActiveMessagingSuggestionAcceptUrlBody(),
+                __FUNCTION__
             );
         }
     }
@@ -273,124 +257,65 @@ class Notifier
      * @param Document $document
      * @param string $reason
      */
-    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document, $reason = "") {
+    public function sendSuggestionDeclineNotification(\EWW\Dpf\Domain\Model\Document $document, $reason = "")
+    {
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
 
-        try {
-            /** @var Client $client */
-            $client = $this->clientRepository->findAll()->current();
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
-
-            // Active messaging: Suggestion accept
-            if ($client->getActiveMessagingSuggestionDeclineUrl()) {
-                if ($internalFormat->getFisId()) {
-                    $request = Request::post($client->getActiveMessagingSuggestionDeclineUrl());
-                    if ($body = $client->getActiveMessagingSuggestionDeclineUrlBody()) {
-                        $request->body($this->replaceMarkers($body, $args));
-                    }
-                    $request->send();
-                }
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendSuggestionDeclineNotification failed",
-                array(
-                    'document' => $document
-                )
+        $internalFormat = new InternalFormat($document->getXmlData());
+        if ($internalFormat->getFisId()) {
+            // Active messaging: Suggestion decline
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingSuggestionDeclineUrl(),
+                $client->getActiveMessagingSuggestionDeclineUrlBody(),
+                __FUNCTION__,
+                $reason
             );
         }
     }
 
-    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false) {
+    public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false)
+    {
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
 
-        try {
-            /** @var Client $client */
-            $client = $this->clientRepository->findAll()->current();
+        $internalFormat = new InternalFormat($document->getXmlData());
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType);
-
-            // Active messaging: Suggestion accept
-            if (!$addedFisIdOnly && $client->getActiveMessagingChangedDocumentUrl()) {
-                if ($internalFormat->getFisId()) {
-                    $request = Request::post($client->getActiveMessagingChangedDocumentUrl());
-                    if ($body = $client->getActiveMessagingChangedDocumentUrlBody()) {
-                        $request->body($this->replaceMarkers($body,$args));
-                    }
-                    $request->send();
-                }
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendChangedDocumentNotification failed",
-                array(
-                    'document' => $document
-                )
+        // Active messaging: Document changed
+        if (!$addedFisIdOnly && $internalFormat->getFisId()) {
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingChangedDocumentUrl(),
+                $client->getActiveMessagingChangedDocumentUrlBody(),
+                __FUNCTION__
             );
         }
     }
-
 
     public function sendReleasePublishNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
-        try {
-            /** @var Client $client */
-            $client = $this->clientRepository->findAll()->current();
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-
-            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-
-            $args = $this->getMailMarkerArray($document, $client, $documentType);
-
+        if ($this->isFisRelevant($document)) {
             // Active messaging: New document (Release publish)
-            if ($client->getActiveMessagingNewDocumentUrl()) {
-                $fisId = $internalFormat->getFisId();
-                if (empty($fisId)) {
-                    $request = Request::post($client->getActiveMessagingNewDocumentUrl());
-                    if ($body = $client->getActiveMessagingNewDocumentUrlBody()) {
-                        $request->body($this->replaceMarkers($body, $args));
-                    }
-                    $request->send();
-                }
-            }
-
-        } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR, "sendReleasePublishNotification failed",
-                array(
-                    'document' => $document
-                )
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingNewDocumentUrl(),
+                $client->getActiveMessagingNewDocumentUrlBody(),
+                __FUNCTION__
             );
         }
     }
 
-
     public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
     {
-
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $authors = $document->getAuthors();
@@ -454,7 +379,7 @@ class Notifier
 
         try {
             $client = $this->clientRepository->findAll()->current();
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
@@ -752,4 +677,82 @@ class Notifier
         $message->send();
     }
 
+    /**
+     * Checks if the document is relevant for the FIS.
+     *
+     * @param Document $document
+     * @return bool
+     */
+    protected function isFisRelevant(Document $document)
+    {
+        $collectionXpath = $this->clientConfigurationManager->getCollectionXpath();
+        $internalFormat = new InternalFormat($document->getXmlData());
+        $collections = $internalFormat->getCollections();
+
+        $fisCollections = $this->clientConfigurationManager->getFisCollections();
+
+        if (empty($fisCollections) || empty($collectionXpath)) {
+            return true;
+        }
+
+        foreach ($fisCollections as $fisCollection) {
+            if (in_array(strtolower($fisCollection), array_map('strtolower', $collections))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Document $document
+     * @param string $url
+     * @param string $body
+     * @param string $functionName
+     * @param string $reason
+     * @throws ConnectionErrorException
+     */
+    protected function sendActiveMessage(
+        Document $document, string $url, string $body, string $functionName, string $reason = ""
+    )
+    {
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
+
+        try {
+            $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
+            $internalFormat = new InternalFormat($document->getXmlData());
+            $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
+
+            if ($url) {
+                $request = Request::post($url);
+                if ($body) {
+                    $request->body($this->replaceMarkers($body, $args));
+                }
+
+                $request->timeout(10);
+                $res = $request->send();
+
+                if ($res->hasErrors() || $res->code != 200) {
+                    throw new ConnectionErrorException('Unable to connect to "' . $url . '"');
+                }
+            }
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
+            $logger->log(
+                LogLevel::ERROR,
+                $functionName." failed: "
+                .$e->getMessage()
+                ." - Client: ".$client->getClient()
+                .", Document: ".$document->getProcessNumber(),
+                array(
+                    'client' => $client->getClient(),
+                    'document' => $document,
+                    'exception' => $e->getMessage()
+                )
+            );
+        }
+    }
 }

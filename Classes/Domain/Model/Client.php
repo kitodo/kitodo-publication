@@ -669,6 +669,20 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fisMapping = '';
 
     /**
+     * Collection xpath
+     *
+     * @var string
+     */
+    protected $collectionXpath  = '';
+
+    /**
+     * Fis collections
+     *
+     * @var string
+     */
+    protected $fisCollections  = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -2357,5 +2371,37 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setFileTitleXpath(string $fileTitleXpath): void
     {
         $this->fileTitleXpath = $fileTitleXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCollectionXpath(): string
+    {
+        return $this->collectionXpath;
+    }
+
+    /**
+     * @param string $collectionXpath
+     */
+    public function setCollectionXpath(string $collectionXpath): void
+    {
+        $this->collectionXpath = $collectionXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisCollections(): string
+    {
+        return $this->fisCollections;
+    }
+
+    /**
+     * @param string $fisCollections
+     */
+    public function setFisCollections(string $fisCollections): void
+    {
+        $this->fisCollections = $fisCollections;
     }
 }

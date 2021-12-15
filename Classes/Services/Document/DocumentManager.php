@@ -277,7 +277,7 @@ class DocumentManager
 
         if ($updateResult) {
 
-            if (DocumentWorkflow::TRANSITION_RELEASE_PUBLISH) {
+            if ($workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_PUBLISH) {
                 // delete local document from index
                 $this->signalSlotDispatcher->dispatch(
                     AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]

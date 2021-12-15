@@ -354,7 +354,7 @@ class ClientConfigurationManager
         return $this->getSetting("validationXpath", "validationXpath");
     }
 
-    public function fisIdXpath()
+    public function getFisIdXpath()
     {
         return $this->getSetting("fisIdXpath", "fisIdXpath");
     }
@@ -420,6 +420,18 @@ class ClientConfigurationManager
     public function getFileTitleXpath()
     {
         return $this->trimFileXpath($this->getSetting("fileTitleXpath", "fileTitleXpath"));
+    }
+
+    public function getCollectionXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("collectionXpath", "collectionXpath"));
+    }
+
+    public function getFisCollections()
+    {
+        $fisCollectionsConfig =  $this->getSetting("fisCollections", "fisCollections");
+        $fisCollections = explode(",", $fisCollectionsConfig);
+        return array_filter($fisCollections, 'strlen' );
     }
 
     /**

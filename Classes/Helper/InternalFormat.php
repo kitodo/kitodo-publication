@@ -614,6 +614,38 @@ class InternalFormat
     }
 
     /**
+     * @return string
+     */
+    public function getFisId()
+    {
+        $fisIdXpath =  $this->clientConfigurationManager->getFisIdXpath();
+        return $this->getValue($fisIdXpath);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCollections()
+    {
+        $collectionXpath = $this->clientConfigurationManager->getCollectionXpath();
+
+        $xpath = $this->getXpath();
+
+        if ($collectionXpath) {
+            $collectionNodes = $xpath->query(self::rootNode . $collectionXpath);
+        }
+
+        $collections = array();
+
+        for ($i=0; $i < $collectionNodes->length; $i++)
+        {
+            $collections[] = $collectionNodes->item($i)->nodeValue;
+        }
+
+        return $collections;
+    }
+
+    /**
      * @param string $xpathString
      * @return string
      */
