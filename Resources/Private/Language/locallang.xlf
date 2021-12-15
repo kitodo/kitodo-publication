@@ -533,6 +533,33 @@
 			<trans-unit id="manager.confirmPostpone.messageHeader" approved="yes">
 				<source>Do you really want to postpone the document processing?</source>
 			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.message" approved="yes">
+				<source><![CDATA[The status of this record has changed. Click <a href="">here</a> to update.]]></source>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.messageHeader" approved="yes">
+				<source>Action not possible</source>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.cancel" approved="yes">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.message" approved="yes">
+				<source>This record is currently being edited by someone else.</source>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.messageHeader" approved="yes">
+				<source>Action not possible.</source>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.cancel" approved="yes">
+				<source>Close</source>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.message" approved="yes">
+				<source>An unexpected error occurred.</source>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.messageHeader" approved="yes">
+				<source>Action not possible.</source>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.cancel" approved="yes">
+				<source>Close</source>
+			</trans-unit>
 			<trans-unit id="manager.document.authors" approved="yes">
 				<source>Authors</source>
 			</trans-unit>

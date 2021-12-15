@@ -693,6 +693,42 @@
 				<source>Do you really want to postpone the document processing?</source>
 				<target>Möchten Sie die Dokument-Bearbeitung wirklich zurückstellen?</target>
 			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.message" approved="yes">
+				<source><![CDATA[The status of this record has changed. Click <a href="">here</a> to update.]]></source>
+				<target><![CDATA[Der Status dieses Datensatzes hat sich geändert. Zum Aktualisieren <a href="">hier</a> klicken.]]></target>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.messageHeader" approved="yes">
+				<source>Action not possible</source>
+				<target>Ausgewählte Aktion ist nicht möglich.</target>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentState.cancel" approved="yes">
+				<source>Close</source>
+				<target>Schließen</target>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.message" approved="yes">
+				<source>This record is currently being edited by someone else.</source>
+				<target>Dieser Datensatz wird gerade von jemand anderem bearbeitet.</target>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.messageHeader" approved="yes">
+				<source>Action not possible.</source>
+				<target>Ausgewählte Aktion ist nicht möglich.</target>
+			</trans-unit>
+			<trans-unit id="manager.alertDocumentLocked.cancel" approved="yes">
+				<source>Close</source>
+				<target>Schließen</target>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.message" approved="yes">
+				<source>An unexpected error occurred.</source>
+				<target>Ein unerwarteter Fehler ist aufgetreten.</target>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.messageHeader" approved="yes">
+				<source>Action not possible.</source>
+				<target>Ausgewählte Aktion ist nicht möglich.</target>
+			</trans-unit>
+			<trans-unit id="manager.alertUnexpected.cancel" approved="yes">
+				<source>Close</source>
+				<target>Schließen</target>
+			</trans-unit>
 			<trans-unit id="manager.document.authors" approved="yes">
 				<source>Authors</source>
 				<target>Autoren</target>

@@ -14,12 +14,15 @@ namespace EWW\Dpf\Session;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Document;
+
 class Session
 {
     const ROOT_KEY = "tx_dpf";
     const LIST_ACTION_KEY = "list_action";
     const WORKSPACE = "workspace";
     const BULKIMPORT = "bulkimport";
+    const CURRENT_DOCUMENT = "current_document";
 
 
     /**
@@ -40,6 +43,7 @@ class Session
      */
     public function setWorkspaceData(SearchSessionData $data)
     {
+        $sessionData = $this->getData();
         $sessionData[self::WORKSPACE] = serialize($data);
         $this->setData($sessionData);
     }
@@ -93,6 +97,29 @@ class Session
             return $sessionData[self::LIST_ACTION_KEY];
         }
         return [];
+    }
+
+    /**
+     * @return Document|null $data
+     */
+    public function getCurrenDocument()
+    {
+        $sessionData = $this->getData();
+        if (array_key_exists(self::CURRENT_DOCUMENT, $sessionData)) {
+            return unserialize($sessionData[self::CURRENT_DOCUMENT]);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Document $data
+     */
+    public function setCurrenDocument(Document $data)
+    {
+        $sessionData = $this->getData();
+        $sessionData[self::CURRENT_DOCUMENT] = serialize($data);
+        $this->setData($sessionData);
     }
 
 

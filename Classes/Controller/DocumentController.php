@@ -25,6 +25,7 @@ use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Session\SearchSessionData;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Domain\Model\File;
@@ -809,11 +810,8 @@ class DocumentController extends AbstractController
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirectToDocumentList();
         }
-
-        $this->editingLockService->lock(
-            ($document->getObjectIdentifier()? $document->getObjectIdentifier() : $document->getUid()),
-            $this->security->getUser()->getUid()
-        );
+        
+        $this->session->setCurrenDocument($document);
 
         $postponeOptions = $this->inputOptionListRepository->findOneByName($this->settings['postponeOptionListName']);
         if ($postponeOptions) {
