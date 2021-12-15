@@ -47,7 +47,7 @@
 
                                     <f:if condition="{groupItem.maxIteration} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
-                                            <button type="submit" name="add_group"
+                                            <button type="button" name="add_group"
                                                     class="btn btn-sm btn-secondary add_group"
                                                     data-group="{groupItem.uid}"
                                                     data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
