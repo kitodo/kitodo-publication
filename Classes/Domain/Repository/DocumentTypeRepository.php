@@ -14,6 +14,7 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\DocumentType;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
@@ -66,4 +67,21 @@ class DocumentTypeRepository extends AbstractRepository
         return $query->execute()->getFirst();
     }
 
+    /**
+     * Finds all document types of by the given uid list.
+     *
+     * @param $uidList
+     * @return array
+     */
+    public function findByUidList($uidList) {
+        $uids = explode(',', $uidList);
+        $result = [];
+        foreach ($uids as $id) {
+            $docType = $this->findByUid($id);
+            if ($docType instanceof DocumentType) {
+                $result[] = $docType;
+            }
+        }
+        return $result;
+    }
 }

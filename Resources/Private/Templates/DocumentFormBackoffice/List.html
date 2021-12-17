@@ -12,6 +12,9 @@
     The TYPO3 project - inspiring people to share!
     -->
 </f:comment>
+
+{namespace v= FluidTYPO3\Vhs\ViewHelpers}
+
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
@@ -57,14 +60,15 @@
         </div>
     </f:if>
 
-    <ol>
-        <f:for each="{documentTypes}" as="documentType">
-            <f:if condition="{documentType.hiddenInList} == 0">
-                <li>
-                    <f:link.action action="new" controller="DocumentFormBackoffice" arguments="{documentType:documentType}" noCacheHash="TRUE">{documentType.displayName}
-                    </f:link.action>
-                </li>
-            </f:if>
-        </f:for>
-    </ol>
+    <div class="document-type-list">
+        <f:if condition="{settings.documentTypeListPage}">
+            <f:then>
+                <v:content.render pageUid="{settings.documentTypeListPage}"/>
+            </f:then>
+            <f:else>
+                <f:render partial="DocumentType/List" arguments="{_all}" />
+            </f:else>
+        </f:if>
+    </div>
+
 </f:section>

@@ -15,39 +15,5 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-    <h1>Listing for DocumentType</h1>
-    <f:flashMessages />
-
-    <table class="tx_dpf">
-        <tr>
-            <th>
-                <f:translate key="tx_dpf_domain_model_documenttype.name"/>
-            </th>
-            <th>
-                <f:translate key="tx_dpf_domain_model_documenttype.display_name"/>
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        <f:for each="{documentTypes}" as="documentType">
-            <tr>
-                <td>
-                    <f:link.action action="show" arguments="{documentType : documentType}"> {documentType.name}
-                    </f:link.action>
-                </td>
-                <td>
-                    <f:link.action action="show" arguments="{documentType : documentType}"> {documentType.displayName}
-                    </f:link.action>
-                </td>
-                <td>
-                    <f:link.action action="edit" arguments="{documentType : documentType}">Edit</f:link.action>
-                </td>
-                <td>
-                    <f:link.action action="delete" arguments="{documentType : documentType}">Delete</f:link.action>
-                </td>
-            </tr>
-        </f:for>
-    </table>
-    <f:link.action action="new">New DocumentType</f:link.action>
+    <f:render partial="DocumentType/List" arguments="{_all}" />
 </f:section>

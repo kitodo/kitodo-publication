@@ -85,7 +85,12 @@
 }
 
 .tx-dpf h2 {
-    display: none;
+     display: none;
+}
+
+.tx-dpf .document-type-list h2 {
+    font-size: 1.5rem;
+    display: block;
 }
 
 #h2-h2 {
@@ -361,6 +366,10 @@
 
 .tx-dpf ol li {
     list-style: none;
+}
+
+.tx-dpf .document-type-list ol {
+    padding-left: 0 !important;
 }
 
 .btn-edit-discard {

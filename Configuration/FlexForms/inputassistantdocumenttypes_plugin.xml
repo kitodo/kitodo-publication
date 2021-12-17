@@ -1,0 +1,44 @@
+<!--
+  This file is part of the TYPO3 CMS project.
+
+  It is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License, either version 2
+  of the License, or any later version.
+
+  For the full copyright and license information, please read the
+  LICENSE.txt file that was distributed with this source code.
+
+  The TYPO3 project - inspiring people to share!
+-->
+
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tx_dpf_kitodopublicationform.options</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.documentTypes>
+                        <TCEforms>
+                            <label>LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:tt_content.pi_flexform.documentTypes</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectMultipleSideBySide</renderType>
+                                <foreign_table>tx_dpf_domain_model_documenttype</foreign_table>
+                                <foreign_table_where>AND tx_dpf_domain_model_documenttype.pid = ###PAGE_TSCONFIG_ID### ORDER BY tx_dpf_domain_model_documenttype.display_name</foreign_table_where>
+                                <minitems>1</minitems>
+                                <maxitems>1000</maxitems>
+                                <multiple>1</multiple>
+                                <size>5</size>
+                                <autoSizeMax>10</autoSizeMax>
+                                <itemListStyle>Width:250px</itemListStyle>
+                            </config>
+                        </TCEforms>
+                    </settings.documentTypes>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>
