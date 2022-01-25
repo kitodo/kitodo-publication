@@ -1335,8 +1335,9 @@ var fillOutServiceUrn = function() {
     var groupUid = jQuery(this).attr("data-group");
     var groupIndex = jQuery(this).attr("data-groupindex");
     var ajaxURL = jQuery(this).attr("data-ajax");
-    var fedoraPid = jQuery("#fedorapid").val();
+    var fedoraPid = jQuery("#fedoraPid").val();
     var params = {};
+
     if (fedoraPid) {
         params = buildAjaxParams(ajaxURL, "fedoraPid", fedoraPid);
     } else {
@@ -1355,7 +1356,10 @@ var fillOutServiceUrn = function() {
             errorMsg.insertAfter(group.find("legend"));
             $("html, body").animate({scrollTop: group.offset().top}, 200);
         } else {
-            jQuery("#fedorapid").val(element.fedoraPid);
+            if (typeof element.reservedFedoraPid !== 'undefined' && element.reservedFedoraPid) {
+              jQuery("#reservedFedoraPid").val(element.reservedFedoraPid);
+              jQuery("#fedoraPid").val(element.reservedFedoraPid);
+            }
             jQuery("#primaryUrn").val(element.value);
             var inputField = jQuery('.input-field[data-field="' + fieldUid + '"][data-index="' + fieldIndex + '"][data-group="' + groupUid + '"][data-groupindex="' + groupIndex + '"]');
             inputField.val(element.value);

@@ -14,6 +14,11 @@ namespace EWW\Dpf\Services\Transfer;
  * The TYPO3 project - inspiring people to share!
  */
 
+/**
+ * Interface Repository
+ * @package EWW\Dpf\Services\Transfer
+ * @deprecated
+ */
 interface Repository
 {
 

@@ -72,6 +72,7 @@ class Document extends AbstractEntity
      * reservedObjectIdentifier
      *
      * @var string
+     * @deprecated
      */
     protected $reservedObjectIdentifier;
 
@@ -384,6 +385,7 @@ class Document extends AbstractEntity
      * Returns the reservedObjectIdentifier
      *
      * @return string
+     * @deprecated
      */
     public function getReservedObjectIdentifier()
     {
@@ -395,6 +397,7 @@ class Document extends AbstractEntity
      *
      * @param string $reservedObjectIdentifier
      * @return void
+     * @deprecated
      */
     public function setReservedObjectIdentifier($reservedObjectIdentifier)
     {

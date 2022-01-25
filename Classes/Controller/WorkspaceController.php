@@ -120,6 +120,13 @@ class WorkspaceController extends AbstractController
      */
     protected $fisDataService = null;
 
+    /**
+     * documentStorage
+     *
+     * @var \EWW\Dpf\Services\Storage\DocumentStorage
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentStorage = null;
 
     public function initializeAction()
     {
@@ -722,28 +729,22 @@ class WorkspaceController extends AbstractController
         );
     }
 
-
     /**
      * A temporary solution to initialize the index.
      *
      * @param int $start
      * @param int $stop
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @deprecated
      */
     public function initIndexAction($start = 1, $stop = 100)
     {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = $this->objectManager->get(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
 
-        /** @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager */
-        $documentTransferManager = $this->objectManager->get(\EWW\Dpf\Services\Transfer\DocumentTransferManager::class);
-
-        $fedoraRepository = $this->objectManager->get(\EWW\Dpf\Services\Transfer\FedoraRepository::class);
-        $documentTransferManager->setRemoteRepository($fedoraRepository);
-
         for ($i = $start; $i < $stop; $i++) {
             try {
-                $document = $documentTransferManager->retrieve(
+                $document = $this->documentStorage->retrieve(
                     $this->settings['fedoraPidNamespace'].':' . $i
                 );
 

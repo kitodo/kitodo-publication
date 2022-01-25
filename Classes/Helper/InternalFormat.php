@@ -16,7 +16,7 @@ namespace EWW\Dpf\Helper;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Services\ParserGenerator;
-use EWW\Dpf\Services\Transfer\FileId;
+use EWW\Dpf\Services\Storage\FileId;
 use EWW\Dpf\Services\XPathXMLGenerator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Domain\Model\File;
@@ -102,12 +102,14 @@ class InternalFormat
         $this->setValue($typeXpath, $type);
     }
 
+    // TODO: deprecated
     public function getRepositoryState()
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
         return $this->getValue($stateXpath);
     }
 
+    // TODO: deprecated
     public function setRepositoryState($state)
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
@@ -152,6 +154,11 @@ class InternalFormat
         $this->setValue($titleXpath, $title);
     }
 
+    /**
+     * Gets all file data found in the xml data file node. Usage attribute will be ignored.
+     *
+     * @return array
+     */
     public function getFiles()
     {
         $xpath = $this->getXpath();
@@ -362,12 +369,14 @@ class InternalFormat
         $this->setValue($xpath, $creationDate);
     }
 
+    // TODO: deprecated
     public function getRepositoryCreationDate()
     {
         $xpath = $this->clientConfigurationManager->getRepositoryCreationDateXpath();
         return $this->getValue($xpath);
     }
 
+    // TODO: deprecated
     public function getRepositoryLastModDate()
     {
         $xpath = $this->clientConfigurationManager->getRepositoryLastModDateXpath();
@@ -736,9 +745,13 @@ class InternalFormat
         $xpath = $this->getXpath();
 
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
+        $hrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
+        $titleXpath = $this->clientConfigurationManager->getFileTitleXpath();
         $mimeTypeXpath = $this->clientConfigurationManager->getFileMimetypeXpath();
         $idXpath = $this->clientConfigurationManager->getFileIdXpath();
         $deletedXpath = $this->clientConfigurationManager->getFileDeletedXpath();
+        $downloadXpath = $this->clientConfigurationManager->getFileDownloadXpath();
+        $archiveXpath = $this->clientConfigurationManager->getFileArchiveXpath();
 
         /** @var File $file */
         foreach ($files as $file) {
@@ -766,7 +779,11 @@ class InternalFormat
                             $newFile = $this->xml->importNode($dom->firstChild, true);
                             $newFile->setAttribute('usage', 'delete');
                             $this->setFileData($newFile, $idXpath, $file->getDatastreamIdentifier());
+                            $this->setFileData($newFile, $hrefXpath, $file->getLink());
+                            $this->setFileData($newFile, $titleXpath, $file->getLabel());
                             $this->setFileData($newFile, $deletedXpath, 'yes');
+                            $this->setFileData($newFile, $archiveXpath, $file->getArchive());
+                            $this->setFileData($newFile, $mimeTypeXpath, $file->getContentType());
                             $this->xml->firstChild->appendChild($newFile);
                         }
                     }
@@ -780,6 +797,30 @@ class InternalFormat
                         $this->setFileData($fileNodes->item(0), $mimeTypeXpath, $file->getContentType());
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * @param ObjectStorage<File> $files
+     * @throws \Exception
+     */
+    public function updateFileHrefs(ObjectStorage $files)
+    {
+        $xpath = $this->getXpath();
+        $fileXpath = $this->clientConfigurationManager->getFileXpath();
+        $idXpath = $this->clientConfigurationManager->getFileIdXpath();
+        $fileHrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
+
+        /** @var File $file */
+        foreach ($files as $file) {
+
+            $fileNodes = $xpath->query(
+                self::rootNode . $fileXpath . '[./'.trim($idXpath, '@/ ').'="'.$file->getFileIdentifier().'"]'
+            );
+
+            if ($fileNodes->length > 0) {
+                $this->setFileData($fileNodes->item(0), $fileHrefXpath, $file->getLink());
             }
         }
     }

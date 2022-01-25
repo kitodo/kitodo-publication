@@ -22,6 +22,11 @@ $extpath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
 use \EWW\Dpf\Services\Logger\TransferLogger;
 use \Httpful\Request;
 
+/**
+ * Class FedoraRepository
+ * @package EWW\Dpf\Services\Transfer
+ * @deprecated
+ */
 class FedoraRepository implements Repository
 {
 

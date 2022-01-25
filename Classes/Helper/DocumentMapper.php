@@ -153,7 +153,7 @@ class DocumentMapper
         $fedoraPid = $document->getObjectIdentifier();
 
         if (empty($fedoraPid)) {
-            $fedoraPid = $document->getReservedObjectIdentifier();
+            $fedoraPid = $document->getProcessNumber();
         }
 
         $documentForm->setFedoraPid($fedoraPid);
@@ -416,16 +416,19 @@ class DocumentMapper
 
         $processNumber = $document->getProcessNumber();
         if (empty($processNumber)) {
-            $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
-            $processNumber = $processNumberGenerator->getProcessNumber();
-            $document->setProcessNumber($processNumber);
+            $reservedFedoraPid = $documentForm->getReservedFedoraPid();
+            if (empty($reservedFedoraPid)) {
+                $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+                $processNumber = $processNumberGenerator->getProcessNumber();
+                $document->setProcessNumber($processNumber);
+            } else {
+                $document->setProcessNumber($reservedFedoraPid);
+            }
         }
 
         $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());
 
         $document->setDocumentType($documentType);
-
-        $document->setReservedObjectIdentifier($documentForm->getFedoraPid());
 
         $document->setValid($documentForm->getValid());
 
