@@ -105,6 +105,14 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $metadataGroupRepository;
 
+    /**
+     * documentStorage
+     *
+     * @var \EWW\Dpf\Services\Storage\DocumentStorage
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentStorage = null;
+
     const RESULT_COUNT      = 500;
     const NEXT_RESULT_COUNT = 500;
 
@@ -494,14 +502,10 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
      */
     public function importAction($documentObjectIdentifier, $objectState)
     {
-        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-        $remoteRepository        = $this->objectManager->get(FedoraRepository::class);
-        $documentTransferManager->setRemoteRepository($remoteRepository);
-
         $args = array();
 
         try {
-            if ($documentTransferManager->retrieve($documentObjectIdentifier)) {
+            if ($this->documentStorage->retrieve($documentObjectIdentifier)) {
                 $key      = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.success';
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::OK;
                 $document = $this->documentRepository->findOneByObjectIdentifier($documentObjectIdentifier);

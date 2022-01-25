@@ -21,6 +21,11 @@ use EWW\Dpf\Domain\Model\RemoteDocumentStatus;
 use EWW\Dpf\Helper\XSLTransformator;
 use EWW\Dpf\Domain\Model\File;
 
+/**
+ * Class DocumentTransferManager
+ * @package EWW\Dpf\Services\Transfer
+ * @deprecated
+ */
 class DocumentTransferManager
 {
     const DELETE = "delete";

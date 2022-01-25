@@ -134,7 +134,6 @@ abstract class AbstractDocumentFormController extends AbstractController
      */
     public function initializeNewAction()
     {
-
         $requestArguments = $this->request->getArguments();
 
         if (array_key_exists('documentData', $requestArguments)) {

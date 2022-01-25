@@ -194,6 +194,7 @@ class ClientConfigurationManager
         return $this->getSetting("fileXpath", "fileXpath");
     }
 
+    // TODO: deprecated
     public function getStateXpath()
     {
         return $this->getSetting("stateXpath", "stateXpath");
@@ -274,11 +275,13 @@ class ClientConfigurationManager
         return $this->getSetting("creationDateXpath", "creationDateXpath");
     }
 
+    // TODO: deprecated
     public function getRepositoryCreationDateXpath()
     {
         return $this->getSetting("repositoryCreationDateXpath", "repositoryCreationDateXpath");
     }
 
+    // TODO: deprecated
     public function getRepositoryLastModDateXpath()
     {
         return $this->getSetting("repositoryLastModDateXpath", "repositoryLastModDateXpath");

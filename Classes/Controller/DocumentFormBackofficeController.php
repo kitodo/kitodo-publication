@@ -22,8 +22,6 @@ use EWW\Dpf\Security\Security;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -32,20 +30,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 class DocumentFormBackofficeController extends AbstractDocumentFormController
 {
-    /**
-     * documentTransferManager
-     *
-     * @var \EWW\Dpf\Services\Transfer\DocumentTransferManager $documentTransferManager
-     */
-    protected $documentTransferManager;
-
-    /**
-     * fedoraRepository
-     *
-     * @var \EWW\Dpf\Services\Transfer\FedoraRepository $fedoraRepository
-     */
-    protected $fedoraRepository;
-
     /**
      * editingLockService
      *
@@ -77,19 +61,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
-
-    /**
-     * DocumentController constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-        $this->documentTransferManager = $objectManager->get(DocumentTransferManager::class);
-        $this->fedoraRepository = $objectManager->get(FedoraRepository::class);
-        $this->documentTransferManager->setRemoteRepository($this->fedoraRepository);
-    }
 
     public function arrayRecursiveDiff($aArray1, $aArray2) {
         $aReturn = array();
@@ -352,13 +323,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                     null,
                     ['documentUid' => $document->getUid(), 'backToList' => $backToList]
                 );
-                /*
-                $this->redirect(
-                    'showDetails', 'Document',
-                    null, ['document' => $document]
-                );
-                */
-
             }
 
             /** @var  \EWW\Dpf\Helper\DocumentMapper $documentMapper */
@@ -501,7 +465,6 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             // redirection is desired and should not lead to an exception handling
         } catch (\Exception $exception) {
 
-            throw $exception;
             $severity = AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -511,12 +474,10 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             }
 
             $exceptionMsg[] = LocalizationUtility::translate(
-                'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure',
+                $key,
                 'dpf',
-                array($updateDocument->getTitle())
+                array((isset($updateDocument) ? $updateDocument->getTitle() : ''))
             );
-
-            $exceptionMsg[] = LocalizationUtility::translate($key, 'dpf');
 
             $this->addFlashMessage(implode(" ", $exceptionMsg), '', $severity, true);
             $this->redirect('cancelEdit',

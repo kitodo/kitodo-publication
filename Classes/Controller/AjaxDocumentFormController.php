@@ -17,6 +17,8 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\FeUser\GndDataService;
 use EWW\Dpf\Services\Identifier\Urn;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Services\Storage\FileId;
 use EWW\Dpf\Services\Transfer\DocumentTransferManager;
 use EWW\Dpf\Services\Transfer\FedoraRepository;
 use TYPO3\CMS\Core\Core\Environment;
@@ -221,23 +223,20 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         try {
             $urnService = $this->objectManager->get(Urn::class);
 
+            $reservedFedoraPid = null;
+
             if (!empty($fedoraPid)) {
                 $urn = $urnService->getUrn($fedoraPid);
             } else {
-                $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-                $remoteRepository = $this->objectManager->get(FedoraRepository::class);
-                $documentTransferManager->setRemoteRepository($remoteRepository);
-
-                $fedoraPid = $documentTransferManager->getNextDocumentId();
-
-                $urn = $urnService->getUrn($fedoraPid);
-
+                $processNumberGenerator = $this->objectManager->get(ProcessNumberGenerator::class);
+                $reservedFedoraPid = $processNumberGenerator->getProcessNumber();
+                $urn = $urnService->getUrn($reservedFedoraPid);
             }
 
             return json_encode(
                 array(
                     'error' => false,
-                    'fedoraPid' => $fedoraPid,
+                    'reservedFedoraPid' => $reservedFedoraPid,
                     'value'    => $urn,
                 )
             );
@@ -246,7 +245,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             return json_encode(
                 array(
                     'error' =>  true,
-                    'fedoraPid' => null,
+                    'reservedFedoraPid' => null,
                     'value'    => null,
                 )
             );

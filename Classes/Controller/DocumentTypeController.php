@@ -19,8 +19,6 @@ use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Helper\InternalFormat;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;

@@ -185,6 +185,9 @@
 			<trans-unit id="document_retrieve.failure" approved="yes">
 				<source>Importing dataset %s failed.</source>
 			</trans-unit>
+			<trans-unit id="document_retrieve.notFoundFailure" approved="yes">
+				<source>Importing dataset %s failed. Nothing found.</source>
+			</trans-unit>
 			<trans-unit id="document_retrieve.success" approved="yes">
 				<source>Dataset %s successfully imported.</source>
 			</trans-unit>

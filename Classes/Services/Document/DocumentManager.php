@@ -1,19 +1,14 @@
 <?php
 namespace EWW\Dpf\Services\Document;
 
+use Exception;
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\FrontendUser;
-use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
+use EWW\Dpf\Services\Storage\Fedora\FedoraTransaction;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Controller\AbstractController;
 use EWW\Dpf\Services\Email\Notifier;
-use Symfony\Component\Workflow\Workflow;
-use Httpful\Request;
 
 class DocumentManager
 {
@@ -106,6 +101,14 @@ class DocumentManager
     protected $queryBuilder = null;
 
     /**
+     * documentStorage
+     *
+     * @var \EWW\Dpf\Services\Storage\DocumentStorage
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentStorage = null;
+
+    /**
      * Returns the localized document identifiers (uid/objectIdentifier).
      *
      * @param $identifier
@@ -170,7 +173,7 @@ class DocumentManager
         if (array_key_exists('objectIdentifier', $localizedIdentifiers)) {
             try {
                 /** @var \EWW\Dpf\Domain\Model\Document $document */
-                $document = $this->getDocumentTransferManager()->retrieve($localizedIdentifiers['objectIdentifier']);
+                $document = $this->documentStorage->retrieve($localizedIdentifiers['objectIdentifier']);
 
                 // index the document
                 $this->signalSlotDispatcher->dispatch(
@@ -179,6 +182,7 @@ class DocumentManager
 
                 return $document;
             } catch (\Exception $exception) {
+                throw $exception;
                 return null;
             }
         }
@@ -196,6 +200,8 @@ class DocumentManager
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
+     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      */
     public function update(
         Document $document, $workflowTransition = null, $addedFisIdOnly = false
@@ -245,9 +251,9 @@ class DocumentManager
             $updateResult = $document->getDocumentIdentifier();
 
         } elseif ($workflowTransition == DocumentWorkflow::TRANSITION_RELEASE_PUBLISH) {
-            // Fedora ingest
-            if ($ingestedDocument = $this->getDocumentTransferManager()->ingest($document)) {
 
+            // Fedora ingest
+            if ($ingestedDocument = $this->documentStorage->ingest($document)) {
                 // After ingest all related bookmarks need an update of the identifier into an fedora object identifier.
                 if ($ingestedDocument instanceof Document) {
                     /** @var Bookmark $bookmark */
@@ -305,22 +311,6 @@ class DocumentManager
     }
 
     /**
-     * @return DocumentTransferManager
-     */
-    protected function getDocumentTransferManager()
-    {
-        /** @var DocumentTransferManager $documentTransferManager */
-        $documentTransferManager = $this->objectManager->get(DocumentTransferManager::class);
-
-        /** @var  FedoraRepository $remoteRepository */
-        $remoteRepository = $this->objectManager->get(FedoraRepository::class);
-
-        $documentTransferManager->setRemoteRepository($remoteRepository);
-
-        return $documentTransferManager;
-    }
-
-    /**
      * Removes the document from the local database.
      *
      * @param $document
@@ -338,56 +328,50 @@ class DocumentManager
     /**
      * @param Document $document
      * @param string $workflowTransition
-     * @return string
+     * @return string|bool
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    protected function updateRemotely($document, $workflowTransition = null)
+    protected function updateRemotely(Document $document, $workflowTransition = null)
     {
-        $lastModDate = $this->getDocumentTransferManager()->getLastModDate($document->getObjectIdentifier());
-        $docLastModDate = $document->getRemoteLastModDate();
-        if ($lastModDate !== $docLastModDate && !empty($docLastModDate)) {
-            // There is a newer version in the fedora repository.
-            return false;
-        }
-
-        $this->documentRepository->update($document);
-
         switch ($workflowTransition) {
             case DocumentWorkflow::TRANSITION_POSTPONE:
-                $transferState = DocumentTransferManager::INACTIVATE;
+                $state = FedoraTransaction::STATE_INACTIVE;
                 break;
 
             case DocumentWorkflow::TRANSITION_DISCARD:
-                $transferState = DocumentTransferManager::DELETE;
+                $state = FedoraTransaction::STATE_DELETED;
                 break;
 
             case DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE:
-                $transferState = DocumentTransferManager::REVERT;
+                $state = FedoraTransaction::STATE_ACTIVE;
                 break;
 
             default:
-                $transferState = null;
+                $state = null;
                 break;
         }
 
-        if ($transferState) {
-            if (!$this->getDocumentTransferManager()->delete($document, $transferState)) {
-                return false;
-            }
-        }
-
-        if ($this->getDocumentTransferManager()->update($document)) {
+        try {
+            $this->documentStorage->update($document, $state);
 
             if(!$this->hasActiveEmbargo($document)){
                 $this->removeDocument($document);
             } else {
                 $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+                $this->documentRepository->update($document);
             }
+
             return $document->getDocumentIdentifier();
+
+        } catch (Exception $exception) {
+
+            throw $exception;
+
+            // TODO: Log?
+            return false;
         }
 
-        return false;
     }
 
     public function addSuggestion($editDocument, $restore = false, $comment = '') {

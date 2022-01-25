@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Exceptions;
+namespace EWW\Dpf\Services\Storage\Exception;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,10 +14,15 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class RetrieveDocumentErrorException extends \Exception implements DPFExceptionInterface
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
+
+class ConnectionException extends \Exception implements DPFExceptionInterface
 {
-    public function messageLanguageKey()
+    /**
+     * @return string
+     */
+    public function messageLanguageKey() : string
     {
-        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_retrieve.failure';
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.repository_connection_error';
     }
 }
