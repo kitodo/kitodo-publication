@@ -30,3 +30,9 @@ Run all the extensions unit tests simply by executing `ddev test`.
 * https://ddev.readthedocs.io/en/stable/
 * https://www.kitodo.org/
 * http://www.b-i-t-online.de/sponsored/Kitodo
+
+## Funding
+
+Funded by European Regional Development Fund (EFRE)
+
+![EFRE LOGO](./EFRE_EU.jpg)
