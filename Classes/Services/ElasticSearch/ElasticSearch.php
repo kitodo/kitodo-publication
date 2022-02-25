@@ -254,11 +254,8 @@ class ElasticSearch
      */
     public function index($document)
     {
-        try {
-            $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
-        } catch (\Throwable $throwable) {
-            // Fixme: The solution via json_decode and the XSLT file needs to be replaced.
-        }
+        // Fixme: The solution via json_decode and the XSLT file needs to be replaced.
+        $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
 
         if (!$data) {
             $data = new \stdClass();

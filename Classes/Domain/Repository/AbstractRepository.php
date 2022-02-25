@@ -14,6 +14,9 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\Client;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 /**
  * The abstract repository
  */
@@ -48,8 +51,7 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function setStoragePid(int $storagePid)
     {
         $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
-        $querySettings->setStoragePageIds(array($storagePid));
+        $querySettings->setStoragePageIds([$storagePid]);
         $this->setDefaultQuerySettings($querySettings);
     }
-
 }
