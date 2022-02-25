@@ -15,6 +15,7 @@ namespace EWW\Dpf\Configuration;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use EWW\Dpf\Domain\Model\Client;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -69,6 +70,10 @@ class ClientConfigurationManager
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
             );
 
+        }
+
+        if (Client::$storagePid > 0) {
+            $this->setConfigurationPid(Client::$storagePid);
         }
 
         $this->extensionConfiguration = GeneralUtility::makeInstance(
