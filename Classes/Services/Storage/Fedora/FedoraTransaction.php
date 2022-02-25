@@ -855,7 +855,7 @@ class FedoraTransaction
      */
     public function baseUri()
     {
-        $uri  = 'http://' . $this->clientConfigurationManager->getFedoraHost();
+        $uri  = $this->clientConfigurationManager->getFedoraHost();
         $uri .= $this->clientConfigurationManager->getFedoraEndpoint() ? '/' . $this->clientConfigurationManager->getFedoraEndpoint() : '';
         $uri .= $this->clientConfigurationManager->getFedoraRootContainer() ? '/' . $this->clientConfigurationManager->getFedoraRootContainer() : '';
         $uri .= '/';
