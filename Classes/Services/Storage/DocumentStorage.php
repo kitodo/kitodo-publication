@@ -262,7 +262,7 @@ class DocumentStorage
                                 $transactionUri, $containerId, $dataStreamIdentifier
                             );
 
-                            $fileTuple->setValue('kp:state', FedoraTransaction::STATE_DELETED);
+                            $fileTuple->setValue('kp:state', DocumentWorkflow::REMOTE_STATE_DELETED);
                             $this->fedoraTransaction->updateResourceTuple(
                                 $transactionUri, $fileTuple, $containerId, $dataStreamIdentifier
                             );
@@ -389,13 +389,13 @@ class DocumentStorage
                 $document = $this->objectManager->get(Document::class);
 
                 switch (strtoupper($state)) {
-                    case "ACTIVE":
+                    case DocumentWorkflow::REMOTE_STATE_ACTIVE:
                         $document->setState(DocumentWorkflow::STATE_NONE_ACTIVE);
                         break;
-                    case "INACTIVE":
+                    case DocumentWorkflow::REMOTE_STATE_INACTIVE:
                         $document->setState(DocumentWorkflow::STATE_NONE_INACTIVE);
                         break;
-                    case "DELETED":
+                    case DocumentWorkflow::REMOTE_STATE_DELETED:
                         $document->setState(DocumentWorkflow::STATE_NONE_DELETED);
                         break;
                     default:

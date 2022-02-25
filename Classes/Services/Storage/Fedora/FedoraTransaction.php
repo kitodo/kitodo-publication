@@ -16,6 +16,7 @@ namespace EWW\Dpf\Services\Storage\Fedora;
  *
  */
 
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Storage\Fedora\Exception\FedoraException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException as GuzzleConnectException;
@@ -25,10 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FedoraTransaction
 {
-    const STATE_ACTIVE   = "active";
-    const STATE_INACTIVE = "inactive";
-    const STATE_DELETED  = "deleted";
-
     /**
      * clientConfigurationManager
      *
@@ -68,7 +65,7 @@ class FedoraTransaction
      * @throws FedoraException
      */
     public function createContainer(
-        string $transactionUri, string $containerIdentifier, string $state = FedoraTransaction::STATE_ACTIVE
+        string $transactionUri, string $containerIdentifier, string $state = DocumentWorkflow::REMOTE_STATE_ACTIVE
     )
     {
         $requestUri = $this->baseUri() . $containerIdentifier;
@@ -156,7 +153,7 @@ class FedoraTransaction
      */
     public function createBinary(
         string $transactionUri, string $containerIdentifier, string $binaryIdentifier, string $contentType,
-        string $fileName, string $fileSrc, string $state = FedoraTransaction::STATE_ACTIVE
+        string $fileName, string $fileSrc, string $state = DocumentWorkflow::REMOTE_STATE_ACTIVE
     )
     {
         $requestUri = $this->baseUri() . $containerIdentifier . '/' . $binaryIdentifier;
@@ -473,7 +470,6 @@ class FedoraTransaction
         $errorMessage = 'Error while reading resource tuple "' . $requestUri. '". ';
 
         try {
-
             $client = new Client(['base_uri' => $requestUri]);
 
             $response = $client->request('GET', '',
@@ -859,7 +855,10 @@ class FedoraTransaction
      */
     public function baseUri()
     {
-        return 'http://'.$this->clientConfigurationManager->getFedoraHost()
-        . '/'. $this->clientConfigurationManager->getSwordCollectionNamespace() . '/';
+        $uri  = 'http://' . $this->clientConfigurationManager->getFedoraHost();
+        $uri .= $this->clientConfigurationManager->getFedoraEndpoint() ? '/' . $this->clientConfigurationManager->getFedoraEndpoint() : '';
+        $uri .= $this->clientConfigurationManager->getFedoraRootContainer() ? '/' . $this->clientConfigurationManager->getFedoraRootContainer() : '';
+        $uri .= '/';
+        return $uri;
     }
 }
