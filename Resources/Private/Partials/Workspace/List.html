@@ -214,7 +214,7 @@
 
                 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
                     <td>
-                        <f:if condition="{document._source.collections}">
+                        <f:if condition="{dpf:inArray(needle:'{settings.universityCollection}', array:'{document._source.collections}')}">
                             <f:then>
                                 <span
                                    data-toggle="tooltip"
