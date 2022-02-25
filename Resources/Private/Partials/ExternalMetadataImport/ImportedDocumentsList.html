@@ -42,8 +42,10 @@
                             </f:if>
                         </f:link.action>
                         <f:if condition="{document._source.originalSourceTitle}">
-                            <br />
-                            in: <em>{document._source.originalSourceTitle}</em>
+                            <f:if condition="{document._source.originalSourceTitle} != {document._source.title.0}">
+                                <br />
+                                in: <em>{document._source.originalSourceTitle}</em>
+                            </f:if>
                         </f:if>
                         <br />
                         <dpf:showDocumentType docType="{document._source.doctype}" />
