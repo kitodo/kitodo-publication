@@ -761,6 +761,18 @@
 			<trans-unit id="manager.workspace.creationDate">
 				<source>Created</source>
 			</trans-unit>
+			<trans-unit id="manager.workspace.creationDate.tooltip" approved="yes">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.processNumber.tooltip" approved="yes">
+				<source>Process number</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.publicationType.tooltip" approved="yes">
+				<source>Publication type</source>
+			</trans-unit>
+			<trans-unit id="manager.workspace.documentState.tooltip" approved="yes">
+				<source>Workflow state</source>
+			</trans-unit>
 			<trans-unit id="manager.workspace.noTitle">
 				<source>No title</source>
 			</trans-unit>
