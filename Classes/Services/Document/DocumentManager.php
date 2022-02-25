@@ -336,15 +336,15 @@ class DocumentManager
     {
         switch ($workflowTransition) {
             case DocumentWorkflow::TRANSITION_POSTPONE:
-                $state = FedoraTransaction::STATE_INACTIVE;
+                $state = DocumentWorkflow::REMOTE_STATE_INACTIVE;
                 break;
 
             case DocumentWorkflow::TRANSITION_DISCARD:
-                $state = FedoraTransaction::STATE_DELETED;
+                $state = DocumentWorkflow::REMOTE_STATE_DELETED;
                 break;
 
             case DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE:
-                $state = FedoraTransaction::STATE_ACTIVE;
+                $state = DocumentWorkflow::REMOTE_STATE_ACTIVE;
                 break;
 
             default:

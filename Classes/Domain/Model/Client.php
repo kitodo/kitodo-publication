@@ -87,34 +87,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $replaceNissPart = false;
 
     /**
-     * swordHost
-     *
-     * @var string
-     */
-    protected $swordHost = '';
-
-    /**
-     * swordUser
-     *
-     * @var string
-     */
-    protected $swordUser = '';
-
-    /**
-     * swordPassword
-     *
-     * @var string
-     */
-    protected $swordPassword = '';
-
-    /**
-     * swordCollectionNamespace
-     *
-     * @var string
-     */
-    protected $swordCollectionNamespace = '';
-
-    /**
      * fedoraHost
      *
      * @var string
@@ -134,6 +106,27 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $fedoraPassword = '';
+
+    /**
+     * fedoraEndpoint
+     *
+     * @var string
+     */
+    protected $fedoraEndpoint = '';
+
+    /**
+     * fedoraRootContainer
+     *
+     * @var string
+     */
+    protected $fedoraRootContainer = '';
+
+    /**
+     * fedoraCollectionNamespace
+     *
+     * @var string
+     */
+    protected $fedoraCollectionNamespace = '';
 
     /**
      * elasticSearchHost
@@ -871,90 +864,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the swordHost
-     *
-     * @return string $swordHost
-     */
-    public function getSwordHost()
-    {
-        return $this->swordHost;
-    }
-
-    /**
-     * Sets the swordHost
-     *
-     * @var string $swordHost
-     * @return void
-     */
-    public function setSwordHost($swordHost)
-    {
-        $this->swordHost = $swordHost;
-    }
-
-    /**
-     * Returns the swordUser
-     *
-     * @return string $swordUser
-     */
-    public function getSwordUser()
-    {
-        return $this->swordUser;
-    }
-
-    /**
-     * Sets the swordUser
-     *
-     * @var string $swordUser
-     * @return void
-     */
-    public function setSwordUser($swordUser)
-    {
-        $this->swordUser = $swordUser;
-    }
-
-    /**
-     * Returns the swordPassword
-     *
-     * @return string $swordPassword
-     */
-    public function getSwordPassword()
-    {
-        return $this->swordPassword;
-    }
-
-    /**
-     * Sets the swordPassword
-     *
-     * @var string $swordPassword
-     * @return void
-     */
-    public function setSwordPassword($swordPassword)
-    {
-        $this->swordPassword = $swordPassword;
-    }
-
-    /**
-     * Returns the swordCollectionNamespace
-     *
-     * @return string $swordCollectionNamespace
-     */
-    public function getSwordCollectionNamespace()
-    {
-        return $this->swordCollectionNamespace;
-    }
-
-    /**
-     * Sets the swordCollectionNamespace
-     *
-     * @var string $swordCollectionNamespace
-     * @return void
-     */
-    public function setSwordCollectionNamespace($swordCollectionNamespace)
-    {
-        $this->swordCollectionNamespace = $swordCollectionNamespace;
-    }
-
-    /**
      * Returns the fedoraHost
      *
      * @return string $fedoraHost
@@ -1015,6 +924,54 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setFedoraPassword($fedoraPassword)
     {
         $this->fedoraPassword = $fedoraPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFedoraEndpoint(): string
+    {
+        return $this->fedoraEndpoint;
+    }
+
+    /**
+     * @param string $fedoraEndpoint
+     */
+    public function setFedoraEndpoint(string $fedoraEndpoint): void
+    {
+        $this->fedoraEndpoint = $fedoraEndpoint;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFedoraRootContainer(): string
+    {
+        return $this->fedoraRootContainer;
+    }
+
+    /**
+     * @param string $fedoraRootContainer
+     */
+    public function setFedoraRootContainer(string $fedoraRootContainer): void
+    {
+        $this->fedoraRootContainer = $fedoraRootContainer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFedoraCollectionNamespace(): string
+    {
+        return $this->fedoraCollectionNamespace;
+    }
+
+    /**
+     * @param string $fedoraCollectionNamespace
+     */
+    public function setFedoraCollectionNamespace(string $fedoraCollectionNamespace): void
+    {
+        $this->fedoraCollectionNamespace = $fedoraCollectionNamespace;
     }
 
     /**

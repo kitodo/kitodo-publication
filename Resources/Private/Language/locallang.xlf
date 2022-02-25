@@ -20,6 +20,15 @@
 			<trans-unit id="config.fedoraUser" approved="yes">
 				<source>Username</source>
 			</trans-unit>
+			<trans-unit id="config.fedoraEndpoint" approved="yes">
+            	<source>Endpoint</source>
+            </trans-unit>
+			<trans-unit id="config.fedoraRootContainer" approved="yes">
+				<source>Root container</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraCollectionNamespace" approved="yes">
+				<source>Collection namespace</source>
+			</trans-unit>
 			<trans-unit id="config.swordCollectionNamespace" approved="yes">
 				<source>Collection namespace</source>
 			</trans-unit>

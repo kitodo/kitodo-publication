@@ -129,7 +129,8 @@ class XSLTransformator
                 'record_state' => $remoteState,
                 'agent_name' => $ownerId,
                 'document_type' => $document->getDocumentType()->getName(),
-                'process_number' => $document->getProcessNumber()
+                'process_number' => $document->getProcessNumber(),
+                'collection_namespace' => $this->clientConfigurationManager->getFedraCollectionNamespace(),
             ];
 
             if ($xmlData) {

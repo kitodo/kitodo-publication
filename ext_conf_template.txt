@@ -1,15 +1,3 @@
-# cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordHost
-swordHost = localhost
-
-# cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordUser
-swordUser = user
-
-# cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordPassword
-swordPassword = password
-
-# cat=SWORD; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.swordCollectionNamespace
-swordCollectionNamespace = qucosa
-
 # cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraHost
 fedoraHost = localhost
 
@@ -18,6 +6,15 @@ fedoraUser = user
 
 # cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraPassword
 fedoraPassword = password
+
+# cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraEndpoint
+fedoraEndpoint = fcrepo
+
+# cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraRootContainer
+fedoraRootContainer = rest
+
+# cat=Fedora; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.fedoraCollectionNamespace
+fedoraCollectionNamespace = qucosa:all
 
 # cat=Elastic Search; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.elasticSearchHost
 elasticSearchHost = localhost
@@ -29,4 +26,4 @@ elasticSearchPort = 9200
 uploadDirectory = uploads/tx_dpf
 
 # cat=Upload; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.uploadDomain
-uploadDomain = 
+uploadDomain =
