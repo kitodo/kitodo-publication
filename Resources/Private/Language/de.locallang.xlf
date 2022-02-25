@@ -1000,6 +1000,22 @@
 				<source>Created</source>
 				<target>Erstellt</target>
 			</trans-unit>
+			<trans-unit id="manager.workspace.creationDate.tooltip" approved="yes">
+				<source>Creation date</source>
+				<target>Erstellungsdatum</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.processNumber.tooltip" approved="yes">
+				<source>Process number</source>
+				<target>Vorgangsnummer</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.publicationType.tooltip" approved="yes">
+				<source>Publication type</source>
+				<target>Publikationstyp</target>
+			</trans-unit>
+			<trans-unit id="manager.workspace.documentState.tooltip" approved="yes">
+				<source>Workflow state</source>
+				<target>Workflow-Status</target>
+			</trans-unit>
 			<trans-unit id="manager.workspace.noTitle" approved="yes">
 				<source>No title</source>
 				<target>kein Titel</target>

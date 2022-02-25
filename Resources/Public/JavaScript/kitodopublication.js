@@ -2225,6 +2225,7 @@ $(document).ready(function() {
     selectFilter('hasFiles-filter');
     selectFilter('universityCollection-filter');
     selectFilter('creatorRole-filter');
+    selectFilter('process_number-filter');
 
     // Remove the title hover for the filter elements.
     jQuery(".select2-selection__rendered").each(function(){
