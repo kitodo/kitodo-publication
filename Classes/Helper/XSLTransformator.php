@@ -137,6 +137,7 @@ class XSLTransformator
                 'document_type' => $document->getDocumentType()->getName(),
                 'process_number' => $document->getProcessNumber(),
                 'collection_namespace' => $this->clientConfigurationManager->getFedraCollectionNamespace(),
+                'date_issued' => $document->getDateIssued(),
             ];
 
             if ($xmlData) {

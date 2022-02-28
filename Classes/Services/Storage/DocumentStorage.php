@@ -129,8 +129,12 @@ class DocumentStorage
             $internalFormat = new InternalFormat($document->getXmlData());
 
             // Set current date as publication date
-            $dateIssued = (new DateTime)->format(DateTime::ISO8601);
-            $internalFormat->setDateIssued($dateIssued);
+            if ($document->isFullTextPublication()) {
+                $dateIssued = (new DateTime)->format(DateTime::ISO8601);
+                $internalFormat->setDateIssued($dateIssued);
+                $document->setDateIssued($dateIssued);
+            }
+
             $internalFormat->setCreator($document->getCreator());
             $internalFormat->setCreationDate($document->getCreationDate());
 
@@ -218,6 +222,10 @@ class DocumentStorage
 
             $containerTuple = $this->fedoraTransaction->getResourceTuple($transactionUri, $containerId);
 
+            if (empty($state)) {
+                $state = $containerTuple->getValue('kp:state');
+            }
+
             $lastModDate = $containerTuple->getValue('fedora:lastModified');
             $docLastModDate = $document->getRemoteLastModDate();
             if ($lastModDate !== $docLastModDate && !empty($docLastModDate)) {
@@ -235,14 +243,24 @@ class DocumentStorage
                 );
             }
 
-            // Update binary tuple to change lastModified
-            if (empty($state)) {
-                $state = $containerTuple->getValue('kp:state');
+            $internalFormat = new InternalFormat($document->getXmlData());
+
+            $dateIssued = $document->getDateIssued();
+
+            if (
+                empty($dateIssued)
+                && $document->isFullTextPublication()
+                && $state === DocumentWorkflow::REMOTE_STATE_ACTIVE
+            ) {
+                $dateIssued = (new DateTime)->format(DateTime::ISO8601);
+                $internalFormat->setDateIssued($dateIssued);
+                $document->setDateIssued($dateIssued);
             }
+
+            // Update binary tuple to force change of lastModified
             $containerTuple->setValue('kp:state', $state);
             $this->fedoraTransaction->updateResourceTuple($transactionUri, $containerTuple, $containerId);
 
-            $internalFormat = new InternalFormat($document->getXmlData());
             $internalFormat->setCreator($document->getCreator());
             $internalFormat->setCreationDate($document->getCreationDate());
 

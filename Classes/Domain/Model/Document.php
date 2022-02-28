@@ -1061,4 +1061,19 @@ class Document extends AbstractEntity
             ) && !$this->stateChange
         );
     }
+
+    /**
+     * @return bool
+     */
+    public function isFullTextPublication()
+    {
+        /** @var File $file */
+        foreach ($this->getFile() as $file) {
+            if ($file->getDownload()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
