@@ -543,13 +543,13 @@ class FedoraTransaction
         $errorMessage = 'Error while updating resource tuple "'. $requestUri .'". ';
 
         try {
-            $client = new Client(['base_uri' => $requestUri]);
+            $client = new Client(['base_uri' => $this->baseUri()]);
 
             $changedValues = $resourceTuple->getModifiedValues();
 
             // To avoid multiple entries of the same field we need to delete all existing entries of each changed field.
             foreach ($changedValues as $key => $value) {
-                 $response = $client->request('PATCH', '',
+                 $response = $client->request('PATCH', $path,
                     [
                         'auth' => [
                             $this->clientConfigurationManager->getFedoraUser(),
@@ -581,7 +581,7 @@ class FedoraTransaction
                 $insert[] = '<> <' . $value['uri'] . '> "' . $value['value'] . '"';
             }
 
-            $insertResponse = $client->request('PATCH', $requestUri,
+            $insertResponse = $client->request('PATCH', $path,
                 [
                     'auth' => [
                         $this->clientConfigurationManager->getFedoraUser(),
