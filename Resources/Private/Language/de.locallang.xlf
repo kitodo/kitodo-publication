@@ -276,6 +276,10 @@
 				<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
 				<target>Anmeldung von %s fehlgeschlagen, es fehlen noch Angaben. Bitte füllen Sie alle Pflichtfelder aus.</target>
 			</trans-unit>
+			<trans-unit id="document_release.missingValues" approved="yes">
+				<source>Releasing '%s' failed, missing Information. Please fill in all required fields.</source>
+				<target>Freigeben von '%s' fehlgeschlagen, es fehlen noch Angaben. Bitte füllen Sie alle Pflichtfelder aus.</target>
+			</trans-unit>
 			<trans-unit id="document_showDetails.accessDenied" approved="yes">
 				<source>Can not show %s, access denied.</source>
 				<target>%s kann nicht angezeigt werden, der Zugriff wurde verweigert.</target>

@@ -221,6 +221,9 @@
 			<trans-unit id="document_register.missingValues" approved="yes">
 				<source>Registering %s failed, missing Information. Please fill in all required fields.</source>
 			</trans-unit>
+			<trans-unit id="document_release.missingValues" approved="yes">
+				<source>Releasing '%s' failed, missing Information. Please fill in all required fields.</source>
+			</trans-unit>
 			<trans-unit id="document_showDetails.accessDenied" approved="yes">
 				<source>Can not show %s, access denied.</source>
 			</trans-unit>
