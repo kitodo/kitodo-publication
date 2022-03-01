@@ -432,6 +432,10 @@
 				<source>More info ...</source>
 				<target>Mehr erfahren ...</target>
 			</trans-unit>
+			<trans-unit id="form_button.unselectAll" approved="yes">
+				<source>Deselect</source>
+				<target>Auswahl aufheben</target>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 				<target>Dateien</target>

@@ -319,6 +319,16 @@
     width: auto;
 }
 
+.tx-dpf .unselect-licence {
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.tx-dpf .unselect-licence:hover {
+    color: #ffffff;
+}
+
+
 .tx-dpf textarea {
     resize: vertical;
     min-height: 220px;
