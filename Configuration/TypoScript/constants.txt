@@ -70,6 +70,9 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/development; type=boolean; label=Activates the the process number column in researcher workspace/search lists.
         showProcessnumberColumnInResearcherWorkspaceLists = 1
 
+        # cat=plugin.tx_dpf/activateAlwaysSetDateIssued; type=boolean; label=Activates the generation of "date issued" only for documents with a fulltext.
+        activateAlwaysSetDateIssued = 0
+        
         development {
             # cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
             docker = 0

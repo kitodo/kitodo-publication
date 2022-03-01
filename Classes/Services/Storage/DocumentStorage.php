@@ -129,7 +129,7 @@ class DocumentStorage
             $internalFormat = new InternalFormat($document->getXmlData());
 
             // Set current date as publication date
-            if ($document->isFullTextPublication()) {
+            if ($this->clientConfigurationManager->isAlwaysSetDateIssued() || $document->isFullTextPublication()) {
                 $dateIssued = (new DateTime)->format(DateTime::ISO8601);
                 $internalFormat->setDateIssued($dateIssued);
                 $document->setDateIssued($dateIssued);
@@ -247,14 +247,15 @@ class DocumentStorage
 
             $dateIssued = $document->getDateIssued();
 
-            if (
-                empty($dateIssued)
-                && $document->isFullTextPublication()
-                && $state === DocumentWorkflow::REMOTE_STATE_ACTIVE
-            ) {
-                $dateIssued = (new DateTime)->format(DateTime::ISO8601);
-                $internalFormat->setDateIssued($dateIssued);
-                $document->setDateIssued($dateIssued);
+            if (empty($dateIssued)) {
+                if (
+                    $this->clientConfigurationManager->isAlwaysSetDateIssued()
+                    || ($document->isFullTextPublication() && $state === DocumentWorkflow::REMOTE_STATE_ACTIVE)
+                ) {
+                    $dateIssued = (new DateTime)->format(DateTime::ISO8601);
+                    $internalFormat->setDateIssued($dateIssued);
+                    $document->setDateIssued($dateIssued);
+                }
             }
 
             // Update binary tuple to force change of lastModified
