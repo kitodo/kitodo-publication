@@ -77,14 +77,6 @@
         </f:then>
     </f:if>
 
-    <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_RESEARCHER' || {dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
-        <f:then>
-            <a href="#" id="batchButtonBatchExport" class="btn btn-sm btn-secondary disabled">
-                {f:translate(key: 'manger.workspace.batch.buttonExport', default: 'Exportieren')}
-            </a>
-        </f:then>
-    </f:if>
-
     <f:if condition="{dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
         <f:then>
             <a href="#" id="batchButtonBatchRemove" class="btn btn-sm btn-secondary disabled">
