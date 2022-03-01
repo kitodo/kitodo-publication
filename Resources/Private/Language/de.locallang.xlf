@@ -741,8 +741,8 @@
 				<target>Autoren</target>
 			</trans-unit>
 			<trans-unit id="manager.document.datasetIdentifier" approved="yes">
-				<source>Dateset Identifier</source>
-				<target>Dateset Identifier</target>
+				<source>Identifier</source>
+				<target>Identifier</target>
 			</trans-unit>
 			<trans-unit id="manager.document.publishedDate" approved="yes">
 				<source>Published Date</source>

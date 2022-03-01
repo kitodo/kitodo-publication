@@ -582,7 +582,7 @@
 				<source>Authors</source>
 			</trans-unit>
 			<trans-unit id="manager.document.datasetIdentifier" approved="yes">
-				<source>Dateset Identifier</source>
+				<source>Identifier</source>
 			</trans-unit>
 			<trans-unit id="manager.document.publishedDate" approved="yes">
 				<source>Published Date</source>
