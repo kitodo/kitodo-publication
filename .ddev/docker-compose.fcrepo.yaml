@@ -1,0 +1,22 @@
+version: '3.6'
+services:
+  fcrepo:
+    container_name: ddev-${DDEV_SITENAME}-fcrepo
+    hostname: ${DDEV_SITENAME}-fcrepo
+    image: fcrepo/fcrepo:6.1.1
+    ports:
+      - "8080"
+      - "61616"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    volumes:
+      - fcrepo:/usr/local/tomcat/fcrepo-home
+    environment:
+      - CATALINA_OPTS="-Dfcrepo.jms.baseUrl=http://fcrepo:8080"
+  web:
+    links:
+      - fcrepo:fcrepo
+
+volumes:
+  fcrepo:
