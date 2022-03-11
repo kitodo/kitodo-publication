@@ -57,6 +57,15 @@ class FisDataService
                 ->body($this->getOrgaRequestBody($id))
                 ->send();
 
+            $titleKitodo = $this->mergeOrganisationTitleAndId(
+               $response->body->data->organisationalUnit->titleDe,
+               $response->body->data->organisationalUnit->id
+            );
+
+            if ($titleKitodo) {
+                $response->body->data->organisationalUnit->kitodoOrgaTitle = $titleKitodo;
+            }
+
             return $response->body->data->organisationalUnit;
         } catch (\Throwable $e) {
             return null;
@@ -77,7 +86,7 @@ class FisDataService
 
     protected function getPersonRequestBody($id) {
         $graphQl = '{
-            person (id:"'.$id.'") 
+            person (id:"'.$id.'")
             {
                 _createDate
                 _createUser
@@ -91,8 +100,8 @@ class FisDataService
                 surname
                 title
                 organisationalUnits
-                { 
-                    titleDe 
+                {
+                    titleDe
                     id
                 }
             }
@@ -102,14 +111,14 @@ class FisDataService
     }
 
     protected function getSearchPersonBody($searchTerm) {
-        $graphQl = '{   
-            staff(filter: {fullName: "'.$searchTerm.'"}, pageSize: 100) 
-            {     
-                entries 
+        $graphQl = '{
+            staff(filter: {fullName: "'.$searchTerm.'"}, pageSize: 100)
+            {
+                entries
                 {
-                ... on Person 
+                ... on Person
                     {
-                        organisationalUnits 
+                        organisationalUnits
                         {
                             titleDe
                         }
@@ -118,16 +127,16 @@ class FisDataService
                         givenName
                         surname
                         title
-                    }     
-                }   
-            } 
+                    }
+                }
+            }
         }';
 
         return $graphQl;
     }
 
     protected function getOrgaRequestBody($id) {
-        $graphQl = '{   
+        $graphQl = '{
             organisationalUnit(id:'.$id.') {
                 titleDe
                 id
@@ -138,22 +147,41 @@ class FisDataService
     }
 
     protected function getSearchOrgaBody($searchTerm) {
-        $graphQl = '{   
-            organisationalUnits(filter: {text: "'.$searchTerm.'"}) 
-            {     
-                entries 
+        $graphQl = '{
+            organisationalUnits(filter: {text: "'.$searchTerm.'"})
+            {
+                entries
                 {
-                ... on OrganisationalUnit 
-                    {         
+                ... on OrganisationalUnit
+                    {
                         titleDe
                         id
                         parentOrgaName
-                    }     
-                }   
-            } 
+                    }
+                }
+            }
         }';
 
         return $graphQl;
+    }
+
+    /**
+     * @param string|null $titleDe
+     * @param string|null $id
+     */
+    protected function mergeOrganisationTitleAndId(string $titleDe = null, string $id = null)
+    {
+        $titleKitodo = [];
+
+        if ($titleDe) {
+            $titleKitodo[] = $titleDe;
+        }
+
+        if ($id) {
+            $titleKitodo[] = '[fis:' . $id . ']';
+        }
+
+        return implode(' - ', $titleKitodo);
     }
 
 }
