@@ -28,7 +28,7 @@
 
 <div class="{f:if(condition:'{fieldItem.inputField} == 200', then: 'input-group', else: 'form-group')}">
     <f:if condition="{fieldItem.validator}=='DATE'">
-        <div class="input-group datetimepicker">
+        <div class="form-group input-group datetimepicker">
     </f:if>
 
     <f:if condition="{fieldItem.fillOutService} == 'urn'">
@@ -206,6 +206,7 @@
         <button type="button" class="btn btn-secondary fill_out_service_urn input-group-addon">
             <i class="fas fa-calendar-alt"></i>
         </button>
+        </div>
     </f:if>
 </div>
 
