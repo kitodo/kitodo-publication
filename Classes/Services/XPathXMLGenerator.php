@@ -1,6 +1,5 @@
 <?php
 namespace EWW\Dpf\Services;
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,6 +12,9 @@ namespace EWW\Dpf\Services;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use DOMDocument;
+use Exception;
 
 /**
  * Class XPathXMLGenerator
@@ -173,5 +175,38 @@ class XPathXMLGenerator
     function getXML()
     {
         return $this->xmlWriter->outputMemory();
+    }
+
+    /**
+     * Return the generated XML as DOM document.
+     *
+     * @param Array $namespaceConfiguration Optional namespace prefix declarations in of the form
+     *                                      "prefix=uri".
+     * @return Generated XML DOM
+     * @throws Exception if the generated XML could not be parsed
+     */
+    function getDocument($namespaceConfiguration = null):DOMDocument {
+        $oldErrorValue = libxml_use_internal_errors(true);
+        $dom = new \DOMDocument();
+        $xml = $this->getXML();
+        $domLoaded = $dom->loadXML($xml);
+        libxml_use_internal_errors($oldErrorValue);
+
+        // fabricate namespace declarations if specified
+        if ($namespaceConfiguration) {
+            /** @var DOMElement $element */
+            $element = $dom->documentElement;
+            foreach ($namespaceConfiguration as $value) {
+                $nsDeclaration = explode("=", $value);
+                $prefix = $nsDeclaration[0];
+                $nsuri  = $nsDeclaration[1];
+                $element->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $nsuri);
+            }
+        }
+
+        if ($domLoaded === FALSE) {
+            throw new Exception("Failed to parse generated XML.");
+        }
+        return $dom;
     }
 }
