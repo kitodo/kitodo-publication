@@ -21,9 +21,10 @@ use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Log\Logger;
 use \TYPO3\CMS\Core\Log\LogLevel;
 use \TYPO3\CMS\Core\Log\LogManager;
+use Exception;
+
 
 class XSLTransformator
 {
@@ -53,16 +54,21 @@ class XSLTransformator
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
-        $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
-
         $domDocument = new \DOMDocument();
         $domDocument->loadXML($xml);
 
         $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
 
+        $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
+
         $documentTypeName = $domXPath->query('//' . $docTypeInput)->item(0)->nodeValue;
 
         $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
+
+        if ($documentType == null) {
+            throw new Exception("Unknown document type `" . $documentTypeName . "` in given XML."
+                . " Requested XPath was `" . $docTypeInput . "`");
+        }
 
         $transformationFile = $documentType->getTransformationFileInput()->current();
         if (!$transformationFile) {
