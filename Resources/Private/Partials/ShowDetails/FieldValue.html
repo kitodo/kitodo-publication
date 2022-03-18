@@ -37,7 +37,7 @@
                 </div>
             </f:else>
             <f:else if="{fieldItem.inputField} == 200">
-                <f:link.external uri="{dpf:fileUrl(uri:'{fieldItem.value}')}" target="_blank" class="file_link">
+                <f:link.external uri="{dpf:fileUrl(uri:'{fieldItem.value}', processNumber:'{document.processNumber}')}" target="_blank" class="file_link">
                     <f:if condition="{fieldItem.file.title}">
                         <f:then>{fieldItem.file.title}</f:then>
                         <f:else>{fieldItem.file.fileIdentifier}</f:else>

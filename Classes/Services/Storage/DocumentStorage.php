@@ -143,9 +143,7 @@ class DocumentStorage
                         'http') === false ? $file->getFilePath() : $file->getLink();
                     $dataStreamIdentifier = $fileId->getId($file);
                     $file->setDatastreamIdentifier($dataStreamIdentifier);
-                    $file->setLink(
-                        $this->fedoraTransaction->baseUri() . $containerId . '/' . $dataStreamIdentifier
-                    );
+                    $file->setLink($dataStreamIdentifier);
 
                     $this->fedoraTransaction->createBinary(
                         $transactionUri,
@@ -271,9 +269,7 @@ class DocumentStorage
                         $fileSrc = strpos(strtolower($file->getLink()), 'http') === false ? $file->getFilePath() : $file->getLink();
                         $dataStreamIdentifier = $fileId->getId($file);
                         $file->setDatastreamIdentifier($dataStreamIdentifier);
-                        $file->setLink(
-                            $this->fedoraTransaction->baseUri() . $containerId . '/' . $dataStreamIdentifier
-                        );
+                        $file->setLink($dataStreamIdentifier);
 
                         if ($file->getStatus() === File::STATUS_ADDED) {
                             $this->fedoraTransaction->createBinary(
