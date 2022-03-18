@@ -296,12 +296,7 @@ return array(
             ),
         ),
         'licence_options' => array(
-            'displayCond' => array(
-                'OR' => array(
-                    'FIELD:input_field:REQ:false',
-                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT,
-                ),
-            ),
+            'displayCond' => 'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::LICENCE_CONSENT,
             'exclude' => 1,
             'label'   => 'Lizenzen',
             'config'  => array(
@@ -317,12 +312,7 @@ return array(
             ),
         ),
         'deposit_license'       => array(
-            'displayCond' => array(
-                'OR' => array(
-                    'FIELD:input_field:REQ:false',
-                    'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::checkbox,
-                ),
-            ),
+            'displayCond' => 'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::checkbox,
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'Checkbox Value',
@@ -342,7 +332,6 @@ return array(
         'max_input_length'       => array(
             'displayCond' => array(
                 'OR' => array(
-                    'FIELD:input_field:REQ:false',
                     'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::input,
                     'FIELD:input_field:=:'.\EWW\Dpf\Domain\Model\MetadataObject::textarea,
                 ),
