@@ -24,21 +24,17 @@
 				<source>Username</source>
 				<target>Benutzername</target>
 			</trans-unit>
-			<trans-unit id="config.swordCollectionNamespace" approved="yes">
+			<trans-unit id="config.fedoraEndpoint" approved="yes">
+            	<source>Endpoint</source>
+            	<target>Endpunkt</target>
+            </trans-unit>
+			<trans-unit id="config.fedoraRootContainer" approved="yes">
+				<source>Root container</source>
+				<target>root-Container</target>
+			</trans-unit>
+			<trans-unit id="config.fedoraCollectionNamespace" approved="yes">
 				<source>Collection namespace</source>
 				<target>Kollektionsnamensraum</target>
-			</trans-unit>
-			<trans-unit id="config.swordHost" approved="yes">
-				<source>Host address</source>
-				<target>Hostadresse</target>
-			</trans-unit>
-			<trans-unit id="config.swordPassword" approved="yes">
-				<source>Password</source>
-				<target>Passwort</target>
-			</trans-unit>
-			<trans-unit id="config.swordUser" approved="yes">
-				<source>Username</source>
-				<target>Benutzername</target>
 			</trans-unit>
 			<trans-unit id="config.uploadDirectory" approved="yes">
 				<source>Directory path</source>
@@ -244,6 +240,10 @@
 				<source>Importing dataset %s failed.</source>
 				<target>Import des Datensatzes %s fehlgeschlagen.</target>
 			</trans-unit>
+			<trans-unit id="document_retrieve.notFoundFailure" approved="yes">
+            	<source>Importing dataset %s failed. Nothing found.</source>
+            	<target>Import des Datensatzes %s fehlgeschlagen. Der Datensatz wurde nicht gefunden.</target>
+            </trans-unit>
 			<trans-unit id="document_retrieve.success" approved="yes">
 				<source>Dataset %s successfully imported.</source>
 				<target>Datensatz %s erfolgreich importiert.</target>

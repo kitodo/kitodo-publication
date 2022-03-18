@@ -44,6 +44,15 @@
 		<trans-unit id="tx_dpf_domain_model_client.fedora_user">
 			<source>Username</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_endpoint">
+			<source>Endpoint</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_root_container">
+			<source>Root container</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_collection_namespace">
+			<source>Collection namespace</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.library_identifier">
 			<source>Library identifier</source>
 		</trans-unit>

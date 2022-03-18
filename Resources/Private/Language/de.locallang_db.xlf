@@ -57,6 +57,18 @@
 			<source>Username</source>
 			<target>Benutzername</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_endpoint" approved="yes">
+			<source>Endpoint</source>
+			<target>Endpunkt</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_root_container" approved="yes">
+			<source>Root container</source>
+			<target>Root-Container</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.fedora_collection_namespace" approved="yes">
+			<source>Collection namespace</source>
+			<target>Kollektionsnamensraum</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.library_identifier" approved="yes">
 			<source>Library identifier</source>
 			<target>Bibliothekskennung</target>

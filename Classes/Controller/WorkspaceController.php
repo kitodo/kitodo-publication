@@ -120,6 +120,13 @@ class WorkspaceController extends AbstractController
      */
     protected $fisDataService = null;
 
+    /**
+     * documentStorage
+     *
+     * @var \EWW\Dpf\Services\Storage\DocumentStorage
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentStorage = null;
 
     public function initializeAction()
     {

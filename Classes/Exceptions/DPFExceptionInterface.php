@@ -16,5 +16,8 @@ namespace EWW\Dpf\Exceptions;
 
 interface DPFExceptionInterface
 {
-  public function messageLanguageKey();
+    /**
+     * @return string
+     */
+    public function messageLanguageKey() : string;
 }

@@ -23,7 +23,8 @@
     <f:form action="create" class="document-form-main" id="new-document-form" name="documentData" object="{documentData}" enctype="multipart/form-data" noCacheHash="TRUE">
         <f:form.hidden id="csrfToken" property="csrfToken" value="{documentForm.csrfToken}"/>
         <f:form.hidden property="type" value="{documentForm.uid}"/>
-        <f:form.hidden id="fedorapid" property="fedoraPid" value="{documentForm.fedoraPid}"/>
+        <f:form.hidden id="reservedFedoraPid" property="reservedFedoraPid" value=""/>
+        <f:form.hidden id="fedoraPid" property="fedoraPid" value=""/>
         <f:form.hidden id="primaryUrn" property="primaryUrn" value="{documentForm.primaryUrn}"/>
         <f:render partial="DocumentForm/FormBody" arguments="{_all}"/>
     </f:form>
@@ -36,3 +37,4 @@
     </f:form>
 
 </f:section>
+

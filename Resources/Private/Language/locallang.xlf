@@ -20,6 +20,15 @@
 			<trans-unit id="config.fedoraUser" approved="yes">
 				<source>Username</source>
 			</trans-unit>
+			<trans-unit id="config.fedoraEndpoint" approved="yes">
+            	<source>Endpoint</source>
+            </trans-unit>
+			<trans-unit id="config.fedoraRootContainer" approved="yes">
+				<source>Root container</source>
+			</trans-unit>
+			<trans-unit id="config.fedoraCollectionNamespace" approved="yes">
+				<source>Collection namespace</source>
+			</trans-unit>
 			<trans-unit id="config.swordCollectionNamespace" approved="yes">
 				<source>Collection namespace</source>
 			</trans-unit>
@@ -184,6 +193,9 @@
 			</trans-unit>
 			<trans-unit id="document_retrieve.failure" approved="yes">
 				<source>Importing dataset %s failed.</source>
+			</trans-unit>
+			<trans-unit id="document_retrieve.notFoundFailure" approved="yes">
+				<source>Importing dataset %s failed. Nothing found.</source>
 			</trans-unit>
 			<trans-unit id="document_retrieve.success" approved="yes">
 				<source>Dataset %s successfully imported.</source>

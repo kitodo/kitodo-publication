@@ -14,6 +14,8 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Core\Environment;
+
 /**
  * File
  */
@@ -401,6 +403,18 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         }
 
         return $url;
+    }
+
+    /**
+     * Gets the local path url of the file.
+     *
+     * @return string
+     */
+    public function getFilePath()
+    {
+        $fileName = $this->getLink();
+        $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
+        return Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() . "/" . $fileName;
     }
 
     /**

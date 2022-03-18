@@ -40,6 +40,11 @@ class DocumentForm extends AbstractFormElement
     protected $primaryFileMandatory;
 
     /**
+     * @var string
+     */
+    protected $reservedFedoraPid;
+
+    /**
      *
      * @var string
      */
@@ -171,6 +176,24 @@ class DocumentForm extends AbstractFormElement
     /**
      *
      * @return string
+     */
+    public function getReservedFedoraPid()
+    {
+        return $this->reservedFedoraPid;
+    }
+
+    /**
+     *
+     * @param string $reservedFedoraPid
+     */
+    public function setReservedFedoraPid($reservedFedoraPid)
+    {
+        $this->reservedFedoraPid = $reservedFedoraPid;
+    }
+
+    /**
+     *
+     * @param string
      */
     public function getFedoraPid()
     {

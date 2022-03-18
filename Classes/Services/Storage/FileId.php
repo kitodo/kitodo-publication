@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Services\Transfer;
+namespace EWW\Dpf\Services\Storage;
 
 /*
  * This file is part of the TYPO3 CMS project.

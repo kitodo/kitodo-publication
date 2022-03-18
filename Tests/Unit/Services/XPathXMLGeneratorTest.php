@@ -14,7 +14,9 @@ namespace EWW\Dpf\Tests\Unit\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DOMDocument;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use PhpParser\Node\Expr\Cast\Array_;
 
 class XPathXMLGeneratorTest extends UnitTestCase
 {
@@ -108,6 +110,21 @@ class XPathXMLGeneratorTest extends UnitTestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function returnsDOMDocumentWithNamespaces() {
+        $nsConfig = ["kp=https://www.kitodo.org/publication/"];
+        $xpath = "kp:file";
 
+        $this->xpathGenerator->generateXmlFromXPath($xpath);
+        /** @var DOMDocument $doc */
+        $doc = $this->xpathGenerator->getDocument($nsConfig);
 
+        $this->assertInstanceOf("DOMDocument", $doc, "Expect DOMDocument object");
+        $this->assertEquals(
+            "https://www.kitodo.org/publication/",
+            $doc->lookupNamespaceUri("kp"),
+            "Expected declared namespace in DOMDocument");
+    }
 }

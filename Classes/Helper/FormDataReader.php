@@ -302,6 +302,7 @@ class FormDataReader
         $documentForm->setName($this->documentType->getName());
         $documentForm->setDocumentUid($this->formData['documentUid']);
         $documentForm->setFedoraPid($this->formData['fedoraPid']);
+        $documentForm->setReservedFedoraPid($this->formData['reservedFedoraPid']);
         $documentForm->setValid(!empty($this->formData['validDocument']));
         if ($this->formData['comment']) {
             $documentForm->setComment($this->formData['comment']);
