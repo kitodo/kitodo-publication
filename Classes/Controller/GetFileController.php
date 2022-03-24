@@ -15,11 +15,16 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DOMDocument;
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Repository\DocumentRepository;
+use EWW\Dpf\Helper\DataCiteXml;
 use EWW\Dpf\Helper\XSLTransformator;
 use EWW\Dpf\Services\ParserGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Provides endpoint controller to access METS dissemination and Attachments and
@@ -57,7 +62,7 @@ class GetFileController extends AbstractController
     /**
      * documentRepository
      *
-     * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+     * @var DocumentRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentRepository;
@@ -65,7 +70,7 @@ class GetFileController extends AbstractController
     /**
      * clientConfigurationManager
      *
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @var ClientConfigurationManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
@@ -74,6 +79,8 @@ class GetFileController extends AbstractController
      * Here shit happens
      *
      * @return string|void
+     * @noinspection PhpPossiblePolymorphicInvocationInspection TYPO3 API has no proper interfaces
+     * @noinspection HttpUrlsUsage
      */
     public function attachmentAction()
     {
@@ -125,16 +132,14 @@ class GetFileController extends AbstractController
                     $document = $this->documentRepository->findByUid($piVars['qid']);
 
                     /** @var File $file */
-                    if (is_a($document->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+                    if (is_a($document->getFile(), ObjectStorage::class)) {
                         foreach ($document->getFile() as $file) {
-                            if (!$file->isFileGroupDeleted()) {
-                                if ($file->getDownload()) {
-                                    if ($file->getDatastreamIdentifier() == $attachment) {
-                                        $path = $file->getUrl();
-                                        $contentType = $file->getContentType();
-                                        break;
-                                    }
-                                }
+                            if (!$file->isFileGroupDeleted()
+                                && $file->getDownload()
+                                && $file->getDatastreamIdentifier() == $attachment) {
+                                $path = $file->getUrl();
+                                $contentType = $file->getContentType();
+                                break;
                             }
                         }
                     }
@@ -157,17 +162,17 @@ class GetFileController extends AbstractController
 
                 $qid = $piVars['qid'];
                 $source = explode(':', $qid);
-                if ($source[0] == $fedoraNamespace) {
+                if ($source[0] === $fedoraNamespace) {
 
                     $path = rtrim('http://' . $fedoraHost,
                             "/") . '/fedora/objects/' . $piVars['qid'] . '/methods/' . $fedoraNamespace . ':SDef/getMETSDissemination?supplement=yes';
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
-                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
 
                 } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
 
                     $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
-                    $dataCiteXml = \EWW\Dpf\Helper\DataCiteXml::convertFromMetsXml($metsXml);
+                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
 
                 } else {
 
@@ -175,7 +180,7 @@ class GetFileController extends AbstractController
                     return 'No such document';
 
                 }
-                $dom = new \DOMDocument('1.0', 'UTF-8');
+                $dom = new DOMDocument('1.0', 'UTF-8');
                 $dom->loadXML($dataCiteXml);
                 $title = $dom->getElementsByTagName('title')[0];
 
@@ -183,8 +188,6 @@ class GetFileController extends AbstractController
                     'attachment; filename="' . self::sanitizeFilename($title->nodeValue) . '.DataCite.xml"');
                 $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                 return $dataCiteXml;
-
-                break;
 
             case 'zip':
                 // FIXME Service locations on Fedora host are hard coded
@@ -207,33 +210,31 @@ class GetFileController extends AbstractController
         $restrictToActiveDocuments = true;
         $deliverInactiveSecretKey = $this->settings['deliverInactiveSecretKey'];
 
-        if ($deliverInactiveSecretKey == $piVars['deliverInactive']) {
+        if ($deliverInactiveSecretKey === $piVars['deliverInactive']) {
             $restrictToActiveDocuments = false;
         }
 
-        if (true === $isRepositoryObject) {
-            if (true === $restrictToActiveDocuments) {
-                // if restriction applies, check object state before dissemination
-                $objectProfileURI = rtrim('http://' . $fedoraHost,
-                        "/") . '/fedora/objects/' . $piVars['qid'] . '?format=XML';
-                $objectProfileXML = file_get_contents($objectProfileURI);
-                if (false !== $objectProfileXML) {
-                    $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-                    if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
-                        $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
-                        if ('I' === $objectState->nodeValue) {
-                            $this->response->setStatus(403);
-                            return 'Forbidden';
-                        }
-                        if ('D' === $objectState->nodeValue) {
-                            $this->response->setStatus(404);
-                            return 'Not Found';
-                        }
+        if ((true === $isRepositoryObject) && true === $restrictToActiveDocuments) {
+            // if restriction applies, check object state before dissemination
+            $objectProfileURI = rtrim('http://' . $fedoraHost,
+                    "/") . '/fedora/objects/' . $piVars['qid'] . '?format=XML';
+            $objectProfileXML = file_get_contents($objectProfileURI);
+            if (false !== $objectProfileXML) {
+                $objectProfileDOM = new DOMDocument('1.0', 'UTF-8');
+                if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
+                    $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
+                    if ('I' === $objectState->nodeValue) {
+                        $this->response->setStatus(403);
+                        return 'Forbidden';
                     }
-                } else {
-                    $this->response->setStatus(500);
-                    return 'Internal Server Error';
+                    if ('D' === $objectState->nodeValue) {
+                        $this->response->setStatus(404);
+                        return 'Not Found';
+                    }
                 }
+            } else {
+                $this->response->setStatus(500);
+                return 'Internal Server Error';
             }
         }
 
@@ -264,7 +265,6 @@ class GetFileController extends AbstractController
 
             if (false !== stripos($value, 'Content-Length')) {
                 header($value);
-                continue;
             }
         }
 
@@ -272,11 +272,11 @@ class GetFileController extends AbstractController
             header('Content-Disposition: attachment');
         }
 
-        if (!$contentTypeFlag) {
+        if (!$contentTypeFlag && $contentType) {
             header('Content-Type: ' . $contentType);
         }
 
-        if ($stream = fopen($path, 'r')) {
+        if ($stream = fopen($path, 'rb')) {
 
             // close active session if any
             session_write_close();
@@ -291,10 +291,10 @@ class GetFileController extends AbstractController
             // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
             exit;
 
-        } else {
-            $this->response->setStatus(500);
-            return 'Error while opening stream';
         }
+
+        $this->response->setStatus(500);
+        return 'Error while opening stream';
 
     }
 
@@ -311,7 +311,10 @@ class GetFileController extends AbstractController
         return $filename;
     }
 
-    private function buildMetsXml($document)
+    /**
+     * @throws \Exception
+     */
+    private function buildMetsXml($document): string
     {
         $parserGenerator = new ParserGenerator();
         $parserGenerator->setXML($document->getXmlData());
@@ -324,16 +327,15 @@ class GetFileController extends AbstractController
 
         $document->setXmlData($parserGenerator->getXMLData());
 
-        $XSLTransformator = new XSLTransformator();
-        return $XSLTransformator->getTransformedOutputXML($document);
+        return (new XSLTransformator())->getTransformedOutputXML($document);
     }
 
-    private function isForbidden($action)
+    private function isForbidden($action): bool
     {
         $allowed =
             array_key_exists('allowedActions', $this->settings)
             && is_array($this->settings['allowedActions'])
-            && in_array($action, $this->settings['allowedActions']);
+            && in_array($action, $this->settings['allowedActions'], true);
         return !$allowed;
     }
 }
