@@ -22,14 +22,13 @@ use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Helper\DataCiteXml;
 use EWW\Dpf\Helper\XSLTransformator;
-use EWW\Dpf\Services\ParserGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Provides endpoint controller to access METS dissemination and Attachments and
  * other dissemination services for a configured Fedora repository.
- * Also renders METS XML for preview and DataCite XML.
+ *
  * Structure of the endpoint URIs totally depend on proper RealURL configuration.
  *
  * Examples:
@@ -44,12 +43,9 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  * 2. Attachment from Fedora
  *   http://localhost/api/qucosa-1234/attachment/ATT-0/
  *
- * 3. METS from Kitodo.Publication (this extension)
- *   http://localhost/api/3/preview/
+ * 3. DataCite from Kitodo.Publication (this extension)
  *
- * 4. DataCite from Kitodo.Publication (this extension)
- *
- * 5. ZIP file with allowed attachments for a given object
+ * 4. ZIP file with allowed attachments for a given object
  *    http://localhost/api/3/preview/
  *
  * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
@@ -104,21 +100,6 @@ class GetFileController extends AbstractController
                         "/") . '/fedora/objects/' . $piVars['qid'] . '/methods/' . $fedoraNamespace . ':SDef/getMETSDissemination?supplement=yes';
                 break;
 
-            case 'preview':
-                // Fixme: Can be removed due to the details page.
-                $document = $this->documentRepository->findByUid($piVars['qid']);
-
-                if ($document) {
-
-                    $metsXml = $this->buildMetsXml($document);
-                    $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                    return $metsXml;
-
-                }
-
-                $this->response->setStatus(404);
-                return 'No such document';
-
             case 'attachment':
 
                 $qid = $piVars['qid'];
@@ -169,17 +150,22 @@ class GetFileController extends AbstractController
                     $metsXml = str_replace('&', '&amp;', file_get_contents($path));
                     $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
 
-                } elseif ($document = $this->documentRepository->findByUid($piVars['qid'])) {
-
-                    $metsXml = str_replace('&', '&amp;', $this->buildMetsXml($document));
-                    $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
-
                 } else {
+                    /** @var Document $document */
+                    if ($document = $this->documentRepository->findByUid($piVars['qid'])) {
 
-                    $this->response->setStatus(404);
-                    return 'No such document';
+                        $transformedOutputXML = (new XSLTransformator())->getTransformedOutputXML($document);
+                        $metsXml = str_replace('&', '&amp;', $transformedOutputXML);
+                        $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
 
+                    } else {
+
+                        $this->response->setStatus(404);
+                        return 'No such document';
+
+                    }
                 }
+
                 $dom = new DOMDocument('1.0', 'UTF-8');
                 $dom->loadXML($dataCiteXml);
                 $title = $dom->getElementsByTagName('title')[0];
@@ -238,7 +224,7 @@ class GetFileController extends AbstractController
             }
         }
 
-        // get remote header and set it before passtrough
+        // get remote header and set it before pass trough
         $headers = get_headers($path);
 
         if (false === $headers) {
@@ -309,25 +295,6 @@ class GetFileController extends AbstractController
         $filename = preg_replace('/\s+/', '_', $filename);
 
         return $filename;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function buildMetsXml($document): string
-    {
-        $parserGenerator = new ParserGenerator();
-        $parserGenerator->setXML($document->getXmlData());
-
-        if (empty($document->getObjectIdentifier())) {
-            $parserGenerator->setObjId($document->getUid());
-        } else {
-            $parserGenerator->setObjId($document->getObjectIdentifier());
-        }
-
-        $document->setXmlData($parserGenerator->getXMLData());
-
-        return (new XSLTransformator())->getTransformedOutputXML($document);
     }
 
     private function isForbidden($action): bool
