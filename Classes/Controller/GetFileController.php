@@ -125,7 +125,7 @@ class GetFileController extends AbstractController
                     $document = $this->documentRepository->findByUid($piVars['qid']);
 
                     /** @var File $file */
-                    if (is_a($this->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
+                    if (is_a($document->getFile(), '\TYPO3\CMS\Extbase\Persistence\ObjectStorage')) {
                         foreach ($document->getFile() as $file) {
                             if (!$file->isFileGroupDeleted()) {
                                 if ($file->getDownload()) {
