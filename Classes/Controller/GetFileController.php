@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace EWW\Dpf\Controller;
 
@@ -15,42 +15,43 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-/**
- * API to return METS dissemination and Attachments from Fedora.
- * Also renders METS XML for preview. Structure of the URIs totally
- * depend on proper RealURL configuration.
- *
- * Example:
- *
- * 1. METS from Fedora
- *   http://localhost/api/qucosa:1234/mets/
- *
- *   This always returns METS which is supplemented with additional information.
- *   The embedded MODS record is not the original MODS as it is stored in the
- *   repository datastream.
- *
- * 2. Attachment from Fedora
- *   http://localhost/api/qucosa:1234/attachment/ATT-0/
- *
- * 3. METS from Kitodo.Publication (this extension)
- *   http://localhost/api/3/preview/
- *
- * 4. DataCite from Kitodo.Publication (this extension)
- *
- * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
- * @author Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
- * @author Florian Rügamer <florian.ruegamer@slub-dresden.de>
- */
-
+use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Helper\XSLTransformator;
 use EWW\Dpf\Services\ParserGenerator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * GetFileController
+ * Provides endpoint controller to access METS dissemination and Attachments and
+ * other dissemination services for a configured Fedora repository.
+ * Also renders METS XML for preview and DataCite XML.
+ * Structure of the endpoint URIs totally depend on proper RealURL configuration.
+ *
+ * Examples:
+ *
+ * 1. METS from Fedora
+ *   http://localhost/api/qucosa-1234/mets/
+ *
+ *   This always returns METS which is supplemented with additional information.
+ *   The embedded MODS record is not the original MODS as it is stored in the
+ *   repository datastream.
+ *
+ * 2. Attachment from Fedora
+ *   http://localhost/api/qucosa-1234/attachment/ATT-0/
+ *
+ * 3. METS from Kitodo.Publication (this extension)
+ *   http://localhost/api/3/preview/
+ *
+ * 4. DataCite from Kitodo.Publication (this extension)
+ *
+ * 5. ZIP file with allowed attachments for a given object
+ *    http://localhost/api/3/preview/
+ *
+ * @author Alexander Bigga <alexander.bigga@slub-dresden.de>
+ * @author Ralf Claussnitzer <ralf.claussnitzer@slub-dresden.de>
+ * @author Florian Rügamer <florian.ruegamer@slub-dresden.de>
  */
-class GetFileController extends \EWW\Dpf\Controller\AbstractController
+class GetFileController extends AbstractController
 {
 
     /**
@@ -69,10 +70,15 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
      */
     protected $clientConfigurationManager;
 
+    /**
+     * Here shit happens
+     *
+     * @return string|void
+     */
     public function attachmentAction()
     {
 
-        $piVars = GeneralUtility::_GP('tx_dpf'); // get GET params from powermail
+        $piVars = GeneralUtility::_GP('tx_dpf');
 
         $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
 
@@ -101,12 +107,10 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     $this->response->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                     return $metsXml;
 
-                } else {
-
-                    $this->response->setStatus(404);
-                    return 'No such document';
-
                 }
+
+                $this->response->setStatus(404);
+                return 'No such document';
 
             case 'attachment':
 
@@ -117,6 +121,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 if (is_numeric($piVars['qid'])) {
 
                     // qid is local uid
+                    /** @var Document $document */
                     $document = $this->documentRepository->findByUid($piVars['qid']);
 
                     /** @var File $file */
