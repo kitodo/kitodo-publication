@@ -177,6 +177,9 @@ class ParserGenerator
             if (!empty($values)) {
                 //$values = empty($values)? [] : $values;
                 foreach ($values as $value) {
+                    if ($value['mapping'] != '.') {
+                        $value['mapping'] .= '[@metadata-item-id='. '"' . $value['id'] . '"' .']';
+                    }
 
                     if ($value['modsExtension']) {
                         $existsExtensionFlag = true;
@@ -188,6 +191,7 @@ class ParserGenerator
 
                         $xml = $this->customXPath($path, false, $value['value']);
                     } else {
+
                         $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
 
                         if ($i == 0) {

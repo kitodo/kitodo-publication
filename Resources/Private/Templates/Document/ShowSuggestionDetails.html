@@ -18,20 +18,20 @@
 <f:layout name="Backoffice"/>
 
 <f:section name="main">
-
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
         <h1 class="h2">{f:translate(key: 'manager.document.suggestionDetails')}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="mr-2">
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_SUGGESTION_ACCEPT')}">
-                    <f:link.action
-                            action="acceptSuggestion"
-                            controller="Document"
-                            arguments="{document:document, acceptAll:1}"
-                            class="btn btn-sm btn-success">
+                    <button id="acceptSuggestionAll" type="submit" form="documentChanges" value="" class="btn btn-sm btn-success">
                         <i class="fas fa-check-circle"></i>
-                        {f:translate(key: 'form_button.acceptSuggest')}
-                    </f:link.action>
+                        {f:translate(key: 'manager.document.suggestionDetails.acceptAll')}
+                    </button>
+
+                    <button id="acceptSuggestionSelection" type="submit" form="documentChanges" value="" class="btn btn-sm btn-success">
+                        <i class="fas fa-check-circle"></i>
+                        {f:translate(key: 'manager.document.suggestionDetails.acceptSuggested')}
+                    </button>
                 </f:if>
 
                 <f:if condition="{dpf:isAccessGranted(subject:'{document}', attribute:'DOCUMENT_DELETE_LOCALLY')}">
@@ -42,7 +42,7 @@
                             class="btn btn-sm btn-danger"
                             additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-target: '#confirmDeleteLocallySuggestion'}">
                         <i class="fas fa-trash-alt"></i>
-                        {f:translate(key: 'form_button.deleteLocallySuggestion')}
+                        {f:translate(key: 'manager.document.suggestionDetails.deleteLocallySuggestion')}
                     </f:link.action>
                 </f:if>
 
@@ -71,7 +71,11 @@
         </f:link.action>
     </p>
 
-    {documentCreator}: <f:format.date date="{document.tstamp}" format="d.m.Y"/>
+
+    <p>
+        <span class="badge badge-pill badge-primary">{f:translate(key: 'manager.workspace.creator')}: {documentCreator}</span>
+        <span class="badge badge-pill badge-secondary">{f:translate(key: 'manager.workspace.creationDate')}: <f:format.date format="d.m.Y">{document.tstamp}</f:format.date></span>
+    </p>
 
     <div class="card" style="margin-bottom:10px;">
         <div class="card-body">
@@ -82,104 +86,175 @@
         </div>
     </div>
 
-    <f:if condition="{document.transferStatus}=='RESTORE'">
-        <div class="card" style="margin-bottom:10px;">
-            <div class="card-body">
-                {f:translate(key: 'documentForm.restoreDocument')}
-            </div>
-        </div>
-    </f:if>
+    <f:form id="documentChanges" controller="Document" action="acceptSuggestion" name="acceptedChanges">
+        <f:form.hidden name="document" value="{document}" />
 
-    <f:form controller="document" action="acceptSuggestion" name="test">
-        <f:form.hidden name="document" value="{document}"/>
-        <f:form.hidden name="acceptAll" value="0"/>
-        <table class="table">
-            <tr>
-                <th>
-                    {f:translate(key: 'manager.document.suggestionDetails.field')}
-                </th>
-                <th>
-                    {f:translate(key: 'manager.document.suggestionDetails.before')}
-                </th>
-                <th>
-                    {f:translate(key: 'manager.document.suggestionDetails.after')}
-                </th>
-            </tr>
-            <f:for each="{diff.changed.old}" as="changedOld" iteration="iteratorChanged">
-                <tr>
-                    <td>
-                        <f:if condition="{changedOld.displayName}">
-                            <f:then>
-                                {changedOld.displayName}:
-                            </f:then>
-                            <f:else>
-                                {diff.changed.groupDisplayName}:
-                            </f:else>
-                        </f:if>
-                    </td>
-                    <td>{changedOld.value}</td>
-                    <td>{diff.changed.new.{iteratorChanged.index}.value}</td>
-                </tr>
-            </f:for>
+        <f:form.hidden id="acceptMode" name="acceptMode" value="" />
 
-            <f:for each="{diff.added}" as="added" iteration="iteratorAdded">
-                <f:if condition="{added}">
-                    <tr>
-                        <td>{added.displayName}:</td>
-                        <td>-</td>
-                        <td>
-                            <f:if condition="{added.value}=='' && {f:count(subject: {added.items})}>0">
-                                <f:then>
-                                    <f:for each="{added.items}" as="item" iteration="iterator">
-                                        {item.0.displayName}: <span style="color:#16ca16;">{item.0.value}</span><br/>
-                                    </f:for>
-                                </f:then>
-                                <f:else>
-                                    {added.value}
-                                </f:else>
-                            </f:if>
-
-                        </td>
-                    </tr>
-                </f:if>
-            </f:for>
-
-            <f:for each="{diff.deleted}" as="deleted" iteration="iteratorDeleted">
-                <f:if condition="{deleted}">
-                    <tr>
-                        <td>{deleted.displayName}:</td>
-                        <td>
-                            <f:if condition="{deleted.value}=='' && {f:count(subject: {deleted.items})}>0">
-                                <f:then>
-                                    <f:for each="{deleted.items}" as="item" iteration="iterator">
-                                        {item.0.displayName}: <span style="color:#ff0000;">{item.0.value}</span><br/>
-                                    </f:for>
-                                </f:then>
-                                <f:else>
-                                    {deleted.value}
-                                </f:else>
-                            </f:if>
-                        </td>
-                        <td>-</td>
-                    </tr>
-                </f:if>
-            </f:for>
-        </table>
-
-        <f:if condition="{document.file}">
+        <f:if condition="{document.transferStatus}=='RESTORE'">
             <div class="card" style="margin-bottom:10px;">
                 <div class="card-body">
-                    {f:translate(key: 'documentForm.newFiles')} <br/>
-                    <f:for each="{document.file}" as="newFile" iteration="fileIterator">
-                        <a href="{newFile.link}">{newFile.title}</a>
-                    </f:for>
+                    <f:form.checkbox class="suggestion-checkbox suggestion-checkbox-restore" property="acceptRestore" value="1" />
+                    {f:translate(key: 'documentForm.restoreDocument')}
                 </div>
             </div>
         </f:if>
 
-
+        <table class="table">
+            <tr>
+                <th>{f:translate(key: 'manager.document.suggestionDetails.columnGroupField')}</th>
+                <th>{f:translate(key: 'manager.document.suggestionDetails.columnOriginal')}</th>
+                <th>{f:translate(key: 'manager.document.suggestionDetails.columnSuggestion')}</th>
+                <th>{f:translate(key: 'manager.document.suggestionDetails.columnAccept')}</th>
+            </tr>
+            <f:for each="{documentChanges.changes}" as="groupChange">
+                <tr style="background-color: lightgrey;">
+                    <td>
+                        {groupChange.group.displayName}
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <f:form.checkbox
+                            class="suggestion-checkbox suggestion-checkbox-group"
+                            property="changes.{groupChange.group.id}.accept"
+                            value="1"
+                            additionalAttributes="{data-group:'{groupChange.group.id}'}"
+                        />
+                        <f:if condition="{groupChange.deleted}">
+                            <span class="badge badge-pill badge-danger">
+                                {f:translate(key: 'manager.document.suggestionDetails.remove')}
+                            </span>
+                        </f:if>
+                        <f:if condition="{groupChange.added}">
+                            <span class="badge badge-pill badge-info">{f:translate(key: 'manager.document.suggestionDetails.add')}</span>
+                        </f:if>
+                        <f:if condition="{groupChange.fieldChanges}">
+                            <span class="badge badge-pill badge-warning">{f:translate(key: 'manager.document.suggestionDetails.change')}</span>
+                        </f:if>
+                    </td>
+                </tr>
+                <f:for each="{groupChange.group.items}" as="fields">
+                    <f:for each="{fields}" as="field" iteration="fieldIterator">
+                        <dpf:suggestion.findFieldChange id="{field.id}" groupChange="{groupChange}" as="fieldChange" />
+                        <tr>
+                            <td>
+                                <f:if condition="{fields.0.displayName}">
+                                    <f:then>
+                                        {fields.0.displayName}
+                                    </f:then>
+                                    <f:else>
+                                        -
+                                    </f:else>
+                                </f:if>
+                            </td>
+                            <td>
+                                <f:if condition="{groupChange.added} == 0">
+                                    <f:if condition="{field.file} && {field.file.title}">
+                                        <f:then>
+                                            {field.file.title}
+                                        </f:then>
+                                        <f:else>
+                                            {field.displayValue}
+                                        </f:else>
+                                    </f:if>
+                                </f:if>
+                            </td>
+                            <td>
+                                <f:if condition="{fieldChange}">
+                                    <f:then>
+                                        {fieldChange.newField.displayValue}
+                                    </f:then>
+                                    <f:else>
+                                        <f:if condition="{groupChange.deleted} == 0">
+                                            <f:if condition="{field.file} && {field.file.title}">
+                                                <f:then>
+                                                    {field.file.title}
+                                                </f:then>
+                                                <f:else>
+                                                    {field.displayValue}
+                                                </f:else>
+                                            </f:if>
+                                        </f:if>
+                                    </f:else>
+                                </f:if>
+                            </td>
+                            <td>
+                                <f:if condition="{fieldChange}">
+                                    <f:then>
+                                        <f:form.checkbox
+                                            class="suggestion-checkbox suggestion-checkbox-field"
+                                            property="changes.{groupChange.group.id}.fieldChanges.{fieldChange.fieldId}.accept"
+                                            value="1"
+                                            additionalAttributes="{data-group:'{groupChange.group.id}'}"
+                                        />
+                                        <f:if condition="{fieldChange.deleted}">
+                                                <f:then>
+                                                    <span class="badge badge-pill badge-danger">{f:translate(key: 'manager.document.suggestionDetails.remove')}</span>
+                                                </f:then>
+                                                <f:else>
+                                                    <span class="badge badge-pill badge-warning">{f:translate(key: 'manager.document.suggestionDetails.change')}</span>
+                                                </f:else>
+                                        </f:if>
+                                    </f:then>
+                                </f:if>
+                            </td>
+                        </tr>
+                        <f:if condition="{fieldIterator.isLast}">
+                            <f:for each="{groupChange.fieldChanges}" as="fieldChange">
+                                <f:if condition="{fieldChange.added} && {fieldChange.newField.uid} == {fields.0.uid}">
+                                    <tr>
+                                        <td>
+                                            {fieldChange.newField.displayName}
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            {fieldChange.newField.displayValue}
+                                        </td>
+                                        <td>
+                                            <f:form.checkbox
+                                                class="suggestion-checkbox suggestion-checkbox-field suggestion-checkbox-group-{groupChange.group.id}"
+                                                property="changes.{groupChange.group.id}.fieldChanges.{fieldChange.fieldId}.accept"
+                                                value="1"
+                                                additionalAttributes="{data-group:'{groupChange.group.id}'}"
+                                            />
+                                            <span class="badge badge-pill badge-info">{f:translate(key: 'manager.document.suggestionDetails.add')}</span>
+                                        </td>
+                                    </tr>
+                                </f:if>
+                            </f:for>
+                        </f:if>
+                    </f:for>
+                </f:for>
+            </f:for>
+        </table>
     </f:form>
 
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocallySuggestion', reasonRequired: '1', reasonOptions:'{}', destructiveAction: '1'}" />
+
+    <div id="suggestion-nothing-selected" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Fehlende Auswahl</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Sie haben keine Elemente des Änderungsvorschlags ausgewählt.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </f:section>

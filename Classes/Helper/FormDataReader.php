@@ -331,7 +331,7 @@ class FormDataReader
             $documentFormPage->setAccessRestrictionRoles($metadataPage->getAccessRestrictionRoles());
 
             foreach ($page as $groupUid => $groupItem) {
-                foreach ($groupItem as $group) {
+                foreach ($groupItem as $groupItemIndex => $group) {
                     $metadataGroup     = $this->metadataGroupRepository->findByUid($groupUid);
                     $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
                     $documentFormGroup->setUid($metadataGroup->getUid());
@@ -355,9 +355,13 @@ class FormDataReader
                         unset($group['fileIdentifier']);
                     }
 
+                    // Needed for the suggestion compare feature
+                    $documentFormGroup->setId($groupUid."-".$groupItemIndex);
+
                     foreach ($group as $objectUid => $objectItem) {
 
-                        foreach ($objectItem as $objectItem => $object) {
+                        foreach ($objectItem as $objectItemIndex => $object) {
+
                             /** @var MetadataObject $metadataObject */
                             $metadataObject    = $this->metadataObjectRepository->findByUid($objectUid);
 
@@ -383,6 +387,8 @@ class FormDataReader
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
                             $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                             $documentFormField->setDepositLicense($depositLicense);
+
+                            $documentFormField->setId($groupUid . "-" . $groupItemIndex . "-" . $objectUid . "-" . $objectItemIndex);
 
                             $documentFormGroup->addItem($documentFormField);
 

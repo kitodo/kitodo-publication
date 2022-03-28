@@ -288,6 +288,10 @@
 				<source>Suggesting restore of %s failed, access denied.</source>
 				<target>Wiederherstellungsvorschlag für %s fehlgeschlagen, der Zugriff wurde verweigert.</target>
 			</trans-unit>
+			<trans-unit id="document_suggestChange.missingValues" approved="yes">
+				<source>Suggestion for %s failed, missing Information. Please fill in all required fields.</source>
+				<target>Änderungsvorschlag von %s fehlgeschlagen, es fehlen noch Angaben. Bitte füllen Sie alle Pflichtfelder aus.</target>
+			</trans-unit>
 			<trans-unit id="document_save.max_size_error" approved="yes">
 				<source>Maximum document size exceeded.</source>
 				<target>Maximale Größe des Dokuments überschritten.</target>
@@ -533,8 +537,8 @@
 				<target>Hier können Sie Vorschläge für Änderungen an bestehenden Datensätzen einreichen. Sie können zugehörige Dateien hochladen und bei verworfenen Datensätzen die Wiederherstellung vorschlagen. Bitte geben Sie Ihre Änderungen direkt in die entsprechenden Felder ein.</target>
 			</trans-unit>
 			<trans-unit id="manager.control.suggestionFileUploadInfo">
-                <source>For data sets for which no file is available yet, you can upload a file for publication here. Please also accept the declaration of consent. It is not possible to exchange or remove existing files here. If you wish so, please contact us.</source>
-                <target>Für Datensätze, zu denen noch keine Datei vorliegt, können Sie hier eine Datei zur Veröffentlichung hochladen. Bitte akzeptieren Sie dafür auch die Einverständniserklärung. Es ist hier nicht möglich bestehende Dateien auszutauschen oder zu entfernen. Sollten Sie das wünschen, kontaktieren Sie uns bitte.</target>
+                <source>Here you can upload new or additional files for publication. It is not possible to exchange or remove existing files here. If you wish, please explain it in the comment field above.</source>
+                <target>Hier können Sie neue bzw. ergänzende Dateien zur Veröffentlichung hochladen. Es ist hier nicht möglich, bestehende Dateien auszutauschen oder zu entfernen. Sollten Sie das wünschen, erläutern Sie es bitte im Kommentarfeld oben</target>
 			</trans-unit>
 			<trans-unit id="manager.control.myPublications" approved="yes">
 				<source>My publications</source>
@@ -756,17 +760,45 @@
 				<source>Suggestion details.</source>
 				<target>Details zum Änderungsvorschlag</target>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.field" approved="yes">
-				<source>Field</source>
-				<target>Feld</target>
+			<trans-unit id="manager.document.suggestionDetails.acceptAll" approved="yes">
+				<source>Accept all</source>
+				<target>Alles annehmen</target>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.before" approved="yes">
-				<source>Before</source>
-				<target>Bisher</target>
+			<trans-unit id="manager.document.suggestionDetails.acceptSuggested" approved="yes">
+				<source>Accept selection</source>
+				<target>Nur Auswahl annehmen</target>
 			</trans-unit>
-			<trans-unit id="manager.document.suggestionDetails.after" approved="yes">
-				<source>After</source>
-				<target>Neu</target>
+			<trans-unit id="manager.document.suggestionDetails.deleteLocallySuggestion" approved="yes">
+				<source>Reject all</source>
+				<target>Alles ablehnen</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnGroupField" approved="yes">
+				<source>Group/Field</source>
+				<target>Gruppe/Feld</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnOriginal" approved="yes">
+				<source>Original</source>
+				<target>Original</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnSuggestion" approved="yes">
+				<source>Suggestion</source>
+				<target>Vorschlag</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.columnAccept" approved="yes">
+				<source>Accept</source>
+				<target>Übernahme</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.add" approved="yes">
+				<source>add</source>
+				<target>hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.change" approved="yes">
+				<source>change</source>
+				<target>ändern</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.remove" approved="yes">
+				<source>remove</source>
+				<target>löschen</target>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new" approved="yes">
 				<source>New</source>
@@ -851,6 +883,10 @@
 			<trans-unit id="manager.documentDetails.cancel" approved="yes">
 				<source>Back</source>
 				<target>Zurück</target>
+			</trans-unit>
+			<trans-unit id="manager.documentDetails.suggestionWarning" approved="yes">
+				<source>There is a suggestion document for this document.</source>
+				<target>Zu diesem Datensatz liegt ein Änderungsvorschlag vor.</target>
 			</trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
@@ -1725,8 +1761,8 @@ Datum: ###DATE###
 				<target>Einverständniserklärung</target>
 			</trans-unit>
 			<trans-unit id="message.suggestion_flashmessage" approved="yes">
-				<source>Suggestion successfully saved</source>
-				<target>Änderungs-/Wiederherstellungsvorgang erfolgreich gespeichert</target>
+				<source>Suggestion successfully saved.</source>
+				<target>Änderungs-/Wiederherstellungsvorschlag erfolgreich gespeichert.</target>
 			</trans-unit>
 			<trans-unit id="message.suggestion_accepted.workingcopy_info" approved="yes">
 				<source>Status not changed. If you want to complete the processing, choose a status ('Approved', 'Postponed' or 'Discard').</source>

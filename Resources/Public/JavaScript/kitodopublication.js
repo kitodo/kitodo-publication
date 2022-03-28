@@ -17,7 +17,7 @@ var isDocumentEditable = {
 
     var self = this;
 
-    $('.isDocumentEditable').on('click', function(e) {
+    $('.isDocumentEditable').on('click', function (e) {
       var button = $(this);
       var buttonIcon = button.find("i");
       var confirmDialog = button.attr('data-confirmTarget');
@@ -28,7 +28,7 @@ var isDocumentEditable = {
       var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
       var params = {};
 
-      jQuery.post(ajaxURL, params, function(data) {
+      jQuery.post(ajaxURL, params, function (data) {
         button.find(".spinner-border").replaceWith(buttonIcon);
         if (data.allowed !== true) {
           self.showAlert(data.reason);
@@ -51,18 +51,18 @@ var isDocumentEditable = {
 
     // show message "document is locked"
     var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
-    jQuery.post(ajaxURL, function(data) {
-        var obj = JSON.parse(data);
-        if (obj.allowed === false && obj.reason == 'isLocked') {
-            $('.documentLocked').show();
-        }
+    jQuery.post(ajaxURL, function (data) {
+      var obj = JSON.parse(data);
+      if (obj.allowed === false && obj.reason == 'isLocked') {
+        $('.documentLocked').show();
+      }
     });
 
-    $(".modal [type='submit']").on('click', function(e){
+    $(".modal [type='submit']").on('click', function (e) {
       var button = $(this);
       button.find(".spinner-border").remove();
       button.html(
-        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> '+button.html());
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + button.html());
 
       var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
       var params = {};
@@ -72,8 +72,7 @@ var isDocumentEditable = {
         console.log("dsfdsfs");
 
 
-
-        jQuery.post(ajaxURL, params, function(data) {
+        jQuery.post(ajaxURL, params, function (data) {
           button.find(".spinner-border").remove();
           if (data.allowed !== true) {
             button.closest('.modal').modal('hide');
@@ -86,7 +85,7 @@ var isDocumentEditable = {
       }
     });
   },
-  showAlert: function(reason) {
+  showAlert: function (reason) {
     switch (reason) {
       case 'isLocked':
         $('#alertDocumentLocked').modal('show');
@@ -99,6 +98,64 @@ var isDocumentEditable = {
         break;
     }
   }
+}
+
+var acceptSuggestionChangeChecbbox = function() {
+
+  $('form#documentChanges .suggestion-checkbox').bind("click", function (evt) {
+    //evt.preventDefault();
+
+    if ($(this).hasClass('suggestion-checkbox-group')) {
+      var group = $(this).data('group');
+
+      if ($(this).prop("checked")) {
+        $('form#documentChanges .suggestion-checkbox-field[data-group='+group+']').prop('checked', true);
+      } else {
+        $('form#documentChanges .suggestion-checkbox-field[data-group='+group+']').prop('checked', false);
+      }
+    }
+
+    if ($(this).hasClass('suggestion-checkbox-field')) {
+      var group = $(this).data('group');
+
+      if ($(this).prop("checked")) {
+        $('form#documentChanges .suggestion-checkbox-group[data-group='+group+']').prop('checked', true);
+      } else {
+        if ($('form#documentChanges .suggestion-checkbox-field[data-group='+group+']:checked').length < 1) {
+          $('form#documentChanges .suggestion-checkbox-group[data-group='+group+']').prop('checked', false);
+        }
+      }
+    }
+  });
+
+}
+
+var acceptSuggestionSelectionModal = function() {
+
+  jQuery('#suggestion-nothing-selected').modal({
+    show: false,
+    backdrop: 'static'
+  });
+
+  $('#acceptSuggestionSelection').bind("click", function (evt) {
+    var checked = 0;
+    $("form#documentChanges .suggestion-checkbox:checked").each(function() {
+        checked = $(this).length;
+    });
+
+    if (checked < 1) {
+      evt.preventDefault();
+      jQuery("#suggestion-nothing-selected").modal('show');
+    } else {
+      $('form#documentChanges #acceptMode').val('ACCEPT_SELECTION');
+    }
+  });
+}
+
+var acceptSuggestionAll = function() {
+  $('#acceptSuggestionAll').bind("click", function (evt) {
+    $('form#documentChanges #acceptMode').val('ACCEPT_ALL');
+  });
 }
 
 var fileInputToggle = function() {
@@ -2196,6 +2253,8 @@ $(document).ready(function() {
         jQuery(".form-submit").on("click", "#saveCreate", validateFormAndSave);
     }
 
+    jQuery(".form-submit").on("click", "#saveSuggestion", validateFormAndSave);
+
     jQuery(".form-submit").on("click", "#validate", validateFormOnly);
 
     // hide 'more results' link
@@ -2208,6 +2267,10 @@ $(document).ready(function() {
 
     addRemoveFileButton();
     fileInputToggle();
+
+    acceptSuggestionSelectionModal();
+    acceptSuggestionChangeChecbbox();
+    acceptSuggestionAll();
 
     previousNextFormPage();
 

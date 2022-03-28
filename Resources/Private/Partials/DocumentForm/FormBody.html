@@ -15,7 +15,6 @@
 {namespace dpf=EWW\Dpf\ViewHelpers}
 
 <f:render partial="DocumentForm/Validation.html" />
-
 <div class="tx-dpf-tab-container">
     <ul class="tx-dpf-tabs nav nav-tabs">
         <f:for each="{documentForm.items}" as="formPage" iteration="pageIterator">
@@ -27,9 +26,6 @@
                 </f:then>
             </f:if>
         </f:for>
-        <f:comment>
-          <li class="nav-item"><a class="nav-link {f:if(condition: '{activeFileTab}', then: 'active', else:'')}" href="#tab-file-upload" data-toggle="tab">{f:translate(key: 'form_page.files')}</a></li>
-        </f:comment>
     </ul>
 </div>
 
@@ -40,14 +36,23 @@
                 <div id="tab-{pageIterator.cycle}"
                      class="fs_page tab-pane {f:if(condition: '{activeFileTab} != 1 && {pageIterator.isFirst}', then: 'active', else:'')}"
                      data-page="{formPage.0.uid}">
+
+                    <f:if condition="{formPage.0.filePage}">
+                        <f:if condition="{suggestMod}">
+                            <p class="suggestion-file-info">
+                                {f:translate(key: 'manager.control.suggestionFileUploadInfo')}
+                            </p>
+                        </f:if>
+                    </f:if>
+
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
-                        <f:for each="{formGroup}" as="groupItem" iteration="groupItemIterator">
+                        <f:for each="{formGroup}" key="groupItemIndex" as="groupItem" iteration="groupItemIterator">
                             <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
                                     <f:variable name="formPageUid">{formPage.0.uid}</f:variable>
                                     <f:variable name="formGroupUid">{groupItem.uid}</f:variable>
                                     <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
-                                    <f:variable name="groupIndex">{groupItemIterator.index}</f:variable>
+                                    <f:variable name="groupIndex">{groupItemIndex}</f:variable>
                                     <f:render partial="DocumentForm/Group" arguments="{_all}"/>
                                     <f:if condition="{groupItem.maxIteration} == 0 && {groupItem.primaryFileGroup} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
@@ -55,7 +60,7 @@
                                                     class="btn btn-sm btn-secondary add_group"
                                                     data-group="{groupItem.uid}"
                                                     data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPage.0.uid,groupUid:groupItem.uid})}"
-                                                    data-groupIndex="{groupItemIterator.index}">
+                                                    data-groupIndex="{groupItemIndex}">
                                                 <i class="fas fa-plus"></i>
                                                 {f:translate(key: 'form_button.add_item', arguments: {0:
                                                 groupItem.displayName})}
@@ -70,26 +75,6 @@
             </f:then>
         </f:if>
     </f:for>
-
-    <f:comment>
-    <div id="tab-file-upload" class="fs_page tab-pane {f:if(condition: '{activeFileTab}', then: 'active', else:'')}">
-
-        <f:if condition="{suggestMod}">
-            <p class="suggestion-file-info">
-                {f:translate(key: 'manager.control.suggestionFileUploadInfo')}
-            </p>
-        </f:if>
-
-        <f:render partial="DocumentForm/SecondaryFileGroup" arguments="{files:documentForm.secondaryFiles}"/>
-        <button type="submit" name="add_file_group" class="btn btn-sm btn-secondary add_file_group"
-                data-group="file-upload"
-                data-ajax="{f:uri.action(action:'secondaryUpload',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum)}"
-                data-index="0">
-            <i class="fas fa-plus"></i>
-            {f:translate(key: 'form_button.addFile')}
-        </button>
-    </div>
-    </f:comment>
 </div>
 <div class="prev-next-buttons">
     <button id="next-form-page" class="btn btn-s btn-primary">

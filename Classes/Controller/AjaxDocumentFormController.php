@@ -15,13 +15,8 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\MetadataGroup;
-use EWW\Dpf\Services\FeUser\GndDataService;
 use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
-use EWW\Dpf\Services\Storage\FileId;
-use EWW\Dpf\Services\Transfer\DocumentTransferManager;
-use EWW\Dpf\Services\Transfer\FedoraRepository;
-use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * DocumentFormController

@@ -178,6 +178,18 @@
         </span>
     </div>
 
+    <f:if condition="{suggestion} && {dpf:security.kitodoRole()} == 'ROLE_LIBRARIAN'">
+        <ul class="typo3-messages">
+            <li class="alert alert-warning">
+                <p class="alert-message">
+                    <f:link.action action="showSuggestionDetails" controller="Document" arguments="{document:suggestion}">
+                        <f:translate key="manager.documentDetails.suggestionWarning" />
+                    </f:link.action>
+                </p>
+            </li>
+        </ul>
+    </f:if>
+
     <div class="details-view">
         <f:render partial="ShowDetails/Details" arguments="{_all}"/>
     </div>
@@ -224,6 +236,7 @@
             </div>
         </div>
     </div>
+
 
     <f:render partial="Document/AlertModal" arguments="{name: 'documentState'}" />
     <f:render partial="Document/AlertModal" arguments="{name: 'documentLocked'}" />

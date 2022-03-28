@@ -14,6 +14,8 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Suggestion\GroupChange;
+
 class DocumentFormField extends AbstractFormElement
 {
     protected $file;
@@ -77,6 +79,11 @@ class DocumentFormField extends AbstractFormElement
      * @var string
      */
     protected $helpText = '';
+
+    /**
+     * @var string
+     */
+    protected $id = '';
 
     /**
      * @var string
@@ -415,7 +422,7 @@ class DocumentFormField extends AbstractFormElement
     public function isActiveLicenceOption(): bool
     {
         if (is_array($this->licenceOptions)) {
-            foreach($this->licenceOptions as $licenceOption) {
+            foreach ($this->licenceOptions as $licenceOption) {
                 if ($licenceOption->getUri() === $this->value) {
                     return true;
                 }
@@ -423,5 +430,53 @@ class DocumentFormField extends AbstractFormElement
         }
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getDisplayValue()
+    {
+        if ($this->inputOptionList) {
+            foreach ($this->inputOptionList->getInputOptions() as $option => $label) {
+                $inputOptions[$option] = $label;
+            }
+            if ($this->getValue()) {
+                return $inputOptions[$this->getValue()];
+            }
+        }
+
+        return $this->getValue();
+    }
+
+    /**
+     * Applies the given field change
+     *
+     * @param FieldChange $fieldChange
+     */
+    public function applyFieldChange(GroupChange $fieldChange)
+    {
+        foreach ($this->getItems() as $keyField => $valueField) {
+            foreach ($valueField as $keyRepeatField => $valueRepeatField) {
+                if ($valueRepeatField->getId() === $fieldChange->getGroup()->getId()) {
+                    $valueRepeatField->applyChange($fieldChange->getFieldChanges());
+                    return;
+                }
+
+            }
+        }
     }
 }
