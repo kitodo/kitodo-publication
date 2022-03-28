@@ -27,11 +27,6 @@ plugin.tx_dpf {
 	}
 
     settings {
-        api {
-            # cat=plugin.tx_dpf/api; type=string; label=Comma separated list of hosts allowed to access internal actions
-            allowedHosts = localhost
-        }
-
         defaultValue {
             fullTextLabel = Volltext (PDF)
         }

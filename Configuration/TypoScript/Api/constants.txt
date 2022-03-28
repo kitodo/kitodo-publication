@@ -1,0 +1,14 @@
+plugin.tx_dpf.settings.api {
+    # cat=plugin.tx_dpf/api; type=string; label=Comma separated list of hosts allowed to access internal actions
+    allowedHosts = localhost
+
+    # cat=plugin.tx_dpf/api; type=string; label=Secret key for delivering inactive documents via API
+    deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
+
+    # cat=plugin.tx_dpf/api; type=string; label=METS dissemination URI: Format string. Use $pid as identifier placeholder.
+    metsDisseminationUri = http://localhost:8080/mets?pid=$pid
+
+    # cat=plugin.tx_dpf/api; type=string; label=ZIP dissemination URI: Format string. Use $metsUri as METS dissemination placeholder.
+    zipDisseminationUri = http://localhost:8080/zip?xmdpfilter=true&metsurl=$metsUri
+}
+

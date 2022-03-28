@@ -25,6 +25,8 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 class ClientConfigurationManager
 {
+    // FIXME Make Fedora https connection scheme configurable
+
     /**
      * settings
      *

@@ -196,23 +196,6 @@ plugin.tx_dpf_backoffice {
 	}
 }
 
-# Actions, only allowed for developers and configured hosts
-[IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
-	plugin.tx_dpf.settings.allowedActions {
-		1 = mets
-	}
-[end]
-
-# Actions which are always allowed
-plugin.tx_dpf.settings.allowedActions {
-	3 = dataCite
-	4 = attachment
-	5 = zip
-}
-
-# !!ChangeThis!! Secret key for delivering inactive documents via API
-plugin.tx_dpf.settings.deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
-
 page.includeCSS.tx_dpf = EXT:dpf/Resources/Public/CSS/kitodopublication.css
 page.includeCSS.tx_dpf_backoffice = EXT:dpf/Resources/Public/CSS/backoffice.css
 page.includeCSS.tx_dpf_jquery_ui_css = EXT:dpf/Resources/Public/CSS/jquery-ui.css

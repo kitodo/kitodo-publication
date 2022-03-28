@@ -75,11 +75,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
     'EWW.' . $_EXTKEY,
     'Getfile',
     array(
-        'GetFile'     => 'attachment',
+        'GetFile'     => 'index, mets, dataCite, attachment, zip',
     ),
     // non-cacheable actions
     array(
-        'GetFile'     => 'attachment',
+        'GetFile'     => 'index, mets, dataCite, attachment, zip',
     )
 );
 

@@ -21,3 +21,9 @@ if (!defined('TYPO3_MODE')) {
     'Configuration/TypoScript',
     'Kitodo Publication'
 );
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+    'dpf',
+    'Configuration/TypoScript/Api',
+    'Kitodo Publication API'
+);

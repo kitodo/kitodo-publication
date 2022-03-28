@@ -1,0 +1,35 @@
+api = PAGE
+api {
+    typeNum = 0
+    config {
+        disableAllHeaderCode = 1
+        disableCharsetHeader = 1
+        additionalHeaders >
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+        no_cache = 1
+    }
+    10 < tt_content.list.20.dpf_getfile
+}
+
+plugin.tx_dpf.settings.api {
+    allowedHosts = {$plugin.tx_dpf.settings.api.allowedHosts}
+    deliverInactiveSecretKey = {$plugin.tx_dpf.settings.api.deliverInactiveSecretKey}
+    metsDisseminationUri = {$plugin.tx_dpf.settings.api.metsDisseminationUri}
+    zipDisseminationUri = {$plugin.tx_dpf.settings.api.zipDisseminationUri}
+}
+
+# Actions, only allowed for developers and configured hosts
+[IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
+    plugin.tx_dpf.settings.allowedActions {
+        1 = mets
+    }
+[end]
+
+# Actions which are always allowed
+plugin.tx_dpf.settings.allowedActions {
+    3 = dataCite
+    4 = attachment
+    5 = zip
+}
