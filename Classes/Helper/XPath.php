@@ -19,7 +19,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class XPath
 {
-
     /**
      * clientConfigurationManager
      *
@@ -33,15 +32,18 @@ class XPath
      * all required namespaces are already registered.
      *
      * @param \DOMDocument $dom
+     * @param string $namespaces
      * @return \DOMXPath
      */
-    public static function create($dom)
+    public static function create(\DOMDocument $dom, string $namespaces = '') : \DOMXPath
     {
-
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-        $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
-
-        $namespaceConfiguration = explode(";",$clientConfigurationManager->getNamespaces());
+        if (empty($namespaces)) {
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+            $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+            $namespaceConfiguration = explode(";", $clientConfigurationManager->getNamespaces());
+        } else {
+            $namespaceConfiguration = explode(";", $namespaces);
+        }
 
         $xpath = new \DOMXPath($dom);
 
