@@ -69,6 +69,12 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/deactivateMandatoryCheckOnSave; type=string; label=Deactivate the mandatory check on save locally.
         deactivateMandatoryCheckOnSaveLocally =
 
+        # cat=plugin.tx_dpf/development; type=boolean; label=Activates the the process number column in librarian workspace/search lists.
+        showProcessnumberColumnInLibrarianWorkspaceLists = 1
+
+        # cat=plugin.tx_dpf/development; type=boolean; label=Activates the the process number column in researcher workspace/search lists.
+        showProcessnumberColumnInResearcherWorkspaceLists = 1
+
         development {
             # cat=plugin.tx_dpf/development; type=boolean; label=Whether in a Docker development environment or not.
             docker = 0
