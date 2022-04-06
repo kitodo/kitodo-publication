@@ -29,7 +29,7 @@ class Identifier
      * @return bool
      */
     public static function isFedoraPid($identifier) {
-        return preg_match("/^[a-zA-Z]+:\d+$/", $identifier, $matches) > 0;
+        return preg_match("/^[a-zA-Z]+([:-]\d+)+$/", $identifier, $matches) > 0;
     }
 
     /**
