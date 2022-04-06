@@ -14,6 +14,11 @@ services:
       - fcrepo:/usr/local/tomcat/fcrepo-home
     environment:
       - CATALINA_OPTS="-Dfcrepo.jms.baseUrl=http://fcrepo:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/fcrepo" ]
+      timeout: 5s
+      start_period: 40s
+
   web:
     links:
       - fcrepo:fcrepo
