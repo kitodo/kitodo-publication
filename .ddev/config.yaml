@@ -18,3 +18,6 @@ hooks:
   post-import-db:
     - exec: "vendor/bin/typo3cms database:updateschema"
     - exec: "vendor/bin/typo3cms cleanup:updatereferenceindex"
+  pre-stop:
+    - exec: rm fcrepo-home/data/*.lock.db
+      service: fcrepo
