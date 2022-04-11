@@ -166,6 +166,9 @@ plugin.tx_dpf {
 		deactivatePrimaryFileMandatoryCheck = {$plugin.tx_dpf.settings.deactivatePrimaryFileMandatoryCheck}
 		deactivateMandatoryCheckOnSaveLocally = {$plugin.tx_dpf.settings.deactivateMandatoryCheckOnSaveLocally}
 
+        showProcessnumberColumnInLibrarianWorkspaceLists  = {$plugin.tx_dpf.settings.showProcessnumberColumnInLibrarianWorkspaceLists}
+        showProcessnumberColumnInResearcherWorkspaceLists = {$plugin.tx_dpf.settings.showProcessnumberColumnInResearcherWorkspaceLists}
+
         # The uid of the destination document type for imported metadata
         defaultImportDocumentType {
             crossref = {$plugin.tx_dpf.settings.defaultImportDocumentType.crossref}

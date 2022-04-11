@@ -101,15 +101,17 @@
             </th>
             </f:if>
 
-            <th class="xcol-md-2">
-                {f:translate(key: 'manager.workspace.processNumber.tooltip')}
+            <f:if condition="({settings.showProcessnumberColumnInLibrarianWorkspaceLists} && {dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}) || ({settings.showProcessnumberColumnInResearcherWorkspaceLists} && {dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')}">
+                <th class="xcol-md-2">
+                    {f:translate(key: 'manager.workspace.processNumber.tooltip')}
 
-                <f:render partial="Workspace/SortColumn"
-                          arguments="{workspaceListAction: workspaceListAction, sortField: 'process_number'}"
-                />
+                    <f:render partial="Workspace/SortColumn"
+                              arguments="{workspaceListAction: workspaceListAction, sortField: 'process_number'}"
+                    />
 
-                <div class="workspace-filter">&nbsp;</div>
-            </th>
+                    <div class="workspace-filter">&nbsp;</div>
+                </th>
+            </f:if>
 
             <th class="xcol-md-2"><!-- ACTIONS --></th>
         </tr>
@@ -272,9 +274,11 @@
                     </td>
                 </f:if>
 
-                <td>
-                    {document._source.process_number}
-                </td>
+                <f:if condition="({settings.showProcessnumberColumnInLibrarianWorkspaceLists} && {dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}) || ({settings.showProcessnumberColumnInResearcherWorkspaceLists} && {dpf:IsElementAllowed(condition:'{0:\'ROLE_RESEARCHER\'}')})">
+                    <td>
+                        {document._source.process_number}
+                    </td>
+                </f:if>
 
                 <td class="table_col_function">
                     <f:render partial="Workspace/ListItemActions"
