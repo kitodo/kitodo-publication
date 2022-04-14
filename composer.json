@@ -39,7 +39,7 @@
 		"ext-iconv": "*",
 		"typo3/cms-core": "^9.5.0",
 		"nategood/httpful": "^0.3.2",
-		"guzzlehttp/guzzle": "^7.4",
+		"guzzlehttp/guzzle": "^6.3",
 		"elasticsearch/elasticsearch": "^7.6",
 		"symfony/workflow": "4.3.*",
 		"symfony/serializer": "^5.0",
