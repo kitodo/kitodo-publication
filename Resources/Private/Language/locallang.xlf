@@ -875,9 +875,6 @@
 			<trans-unit id="manger.workspace.batch.buttonRegister" approved="yes">
 				<source>Register</source>
 			</trans-unit>
-			<trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
-				<source>Export</source>
-			</trans-unit>
 			<trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
 				<source>Remove from "Workspace"</source>
 			</trans-unit>
