@@ -1136,10 +1136,6 @@
 				<source>Register</source>
 				<target>Eingestellte melden</target>
 			</trans-unit>
-			<trans-unit id="manger.workspace.batch.buttonExport" approved="yes">
-				<source>Export</source>
-				<target>Exportieren</target>
-			</trans-unit>
 			<trans-unit id="manger.workspace.batch.buttonRemove" approved="yes">
 				<source>Remove from "Workspace"</source>
 				<target>Aus "Arbeitsbereich" entfernen</target>
