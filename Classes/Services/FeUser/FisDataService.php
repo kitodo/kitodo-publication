@@ -33,6 +33,18 @@ class FisDataService
                 ->body($this->getPersonRequestBody($id))
                 ->send();
 
+            foreach ($response->body->data->person->organisationalUnits as $key => $organisationalUnit) {
+                $titleKitodo = $this->mergeOrganisationTitleAndId(
+                    $organisationalUnit->titleDe,
+                    $organisationalUnit->id
+                );
+
+                if ($titleKitodo) {
+                    $response->body->data->person->organisationalUnits[$key]->kitodoOrgaTitle = $titleKitodo;
+                }
+
+            }
+
             return $response->body->data->person;
         } catch (\Throwable $e) {
             return null;
