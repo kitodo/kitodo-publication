@@ -338,6 +338,9 @@
 			<trans-unit id="form_button.moreInfo">
 				<source>More info ...</source>
 			</trans-unit>
+			<trans-unit id="form_button.unselectAll">
+				<source>Deselect</source>
+			</trans-unit>
 			<trans-unit id="form_page.files">
 				<source>Files</source>
 			</trans-unit>

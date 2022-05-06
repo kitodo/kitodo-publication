@@ -176,6 +176,9 @@
             <f:render partial="DocumentForm/FileUploadField" arguments="{_all}"/>
         </f:case>
         <f:case value="300">
+            <f:if condition="{document} == 0 || {document.state} == 'NEW:NONE' || {eww:isValidDepositLicense(uri:'{fieldItem.value}')} != 1">
+                <a class="btn btn-s btn-info unselect-licence">{f:translate(key: 'form_button.unselectAll')}</a>
+            </f:if>
             <f:for each="{fieldItem.licenceOptions}" as="licenceOption" iteration="licenceIterator">
                 <f:render partial="DocumentForm/LicenceOption" arguments="{_all}"/>
                 <f:if condition="{licenceIterator.isLast}">

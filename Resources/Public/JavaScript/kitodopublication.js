@@ -2323,4 +2323,10 @@ $(document).ready(function() {
 
     isDocumentEditable.init();
 
+    $('.unselect-licence').on('click', function(event) {
+      event.preventDefault();
+      $('.form-control-consent').each(function() {
+        $(this).prop('checked', false);
+      });
+    });
 });
