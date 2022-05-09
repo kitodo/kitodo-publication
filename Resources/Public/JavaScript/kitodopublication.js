@@ -2231,11 +2231,12 @@ $(document).ready(function() {
     });
     // Add metadata group
     jQuery(".tx-dpf").on("click", ".add_group", function(e) {
-        addGroup(e.target);
+        addGroup(jQuery(e.target).closest("button"));
         return false;
     });
+
     jQuery(".tx-dpf").on("click", ".add_file_group", function(e) {
-        addGroup(e.target);
+        addGroup(jQuery(e.target).closest("button"));
         return false;
     });
 
