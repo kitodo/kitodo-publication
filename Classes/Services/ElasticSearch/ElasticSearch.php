@@ -263,6 +263,10 @@ class ElasticSearch
             $data->doctype = $document->getDocumentType()->getName();
         }
 
+        if (is_array($data->distribution_date) && empty($data->distribution_date[0])) {
+            $data->distribution_date = null;
+        }
+
         if ($data) {
 
             $data->state = $document->getState();

@@ -634,7 +634,13 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
+        if (!$this->documentValidator->validate($document)) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_release.missingValues';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        } else {
+            $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_PUBLISH, null);
+        }
 
         /** @var Notifier $notifier */
         $notifier = $this->objectManager->get(Notifier::class);
@@ -659,8 +665,13 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
-
+        if (!$this->documentValidator->validate($document)) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_release.missingValues';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+        } else {
+            $this->updateDocument($document, DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE, null);
+        }
     }
 
     /**

@@ -343,6 +343,22 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
             }
 
+            if (
+                $workflowTransition === DocumentWorkflow::TRANSITION_REMOTE_UPDATE
+                && $document->getRemoteState() === DocumentWorkflow::REMOTE_STATE_ACTIVE
+            ) {
+                if (!$this->documentValidator->validate($document)) {
+                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_release.missingValues';
+                    $message = LocalizationUtility::translate(
+                        $key,
+                        'dpf',
+                        array($document->getTitle())
+                    );
+                    $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+                    $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+                }
+            }
+
             if ($this->documentManager->update($updateDocument, $workflowTransition)) {
 
                 $depositLicenseLog = $this->depositLicenseLogRepository->findOneByProcessNumber($document->getProcessNumber());
