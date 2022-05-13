@@ -18,6 +18,8 @@
 
 <f:section name="main">
 
+    <f:render partial="Workspace/UploadError" arguments="{message:message, errorFiles:errorFiles}"/>
+
     <f:render partial="Search/SearchControl" arguments="{searchList: searchList}"/>
 
     <f:flashMessages />

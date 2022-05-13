@@ -123,6 +123,10 @@ abstract class AbstractDocumentFormController extends AbstractController
             $this->view->assign('errorFiles', $this->request->getArgument('errorFiles'));
         }
 
+        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
+            $this->uriBuilder->getRequest()->getRequestUri()
+        );
+
         $this->view->assign('documentTypes', $docTypes);
         $this->view->assign('documents', $documents);
     }
@@ -345,12 +349,11 @@ abstract class AbstractDocumentFormController extends AbstractController
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
             $virtualType = $documentType->getVirtualType();
 
-
-            if (!$formDataReader->uploadError() || $virtualType === true) {
+            $errorFiles = $formDataReader->uploadErrors();
+            if (empty($errorFiles) || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
-                $t = $docForm->getFileNames();
-                $this->redirect('list', 'Document', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+                $this->redirectToList("UPLOAD_MAX_FILESIZE_ERROR", $errorFiles);
             }
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");
@@ -372,9 +375,22 @@ abstract class AbstractDocumentFormController extends AbstractController
         $this->redirect('list');
     }
 
-    protected function redirectToList($message = null)
+    /**
+     * Redirects to the document list.
+     *
+     * @param null $message
+     * @param array $errorFiles
+     * @return mixed
+     */
+    protected function redirectToList($message = null, $errorFiles = [])
     {
-        $this->redirect('list');
+        list($action, $controller, $redirectUri) = $this->session->getStoredAction();
+        $this->redirect($action, $controller, null,
+            [
+                'message' => $message,
+                'errorFiles' => $errorFiles,
+            ]
+        );
     }
 
     protected function documentFormMapping()
@@ -399,11 +415,11 @@ abstract class AbstractDocumentFormController extends AbstractController
             $documentType = $this->documentTypeRepository->findByUid($docTypeUid);
             $virtualType = $documentType->getVirtualType();
 
-            if (!$formDataReader->uploadError() || $virtualType === true) {
+            $errorFiles = $formDataReader->uploadErrors();
+            if (empty($errorFiles) || $virtualType === true) {
                 $this->request->setArguments($requestArguments);
             } else {
-                $t = $docForm->getFileNames();
-                $this->redirect('list', 'DocumentForm', null, array('message' => 'UPLOAD_MAX_FILESIZE_ERROR', 'errorFiles' => $t));
+                $this->redirectToList("UPLOAD_MAX_FILESIZE_ERROR", $errorFiles);
             }
         } else {
             $this->redirectToList("UPLOAD_POST_SIZE_ERROR");

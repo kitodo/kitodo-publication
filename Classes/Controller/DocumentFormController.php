@@ -35,11 +35,6 @@ class DocumentFormController extends AbstractDocumentFormController
      */
     protected $documentMapper= null;
 
-    protected function redirectToList($message = null)
-    {
-        $this->redirect('list', 'DocumentForm', null, array('message' => $message));
-    }
-
     /**
      * action new
      *

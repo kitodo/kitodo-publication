@@ -80,6 +80,10 @@
 
 /* -- basic setup ------------------------------------------------------------------------ */
 
+.tx-dpf .hidden {
+    display: none;
+}
+
 .tx-dpf {
     position: relative;
 }

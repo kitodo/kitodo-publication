@@ -68,10 +68,6 @@ var isDocumentEditable = {
       var params = {};
 
       if (jQuery("#ajaxState").length > 0) {
-
-        console.log("dsfdsfs");
-
-
         jQuery.post(ajaxURL, params, function (data) {
           button.find(".spinner-border").remove();
           if (data.allowed !== true) {
@@ -1551,11 +1547,16 @@ var documentListConfirmDialog = function(dialogId) {
 }
 
 function addRemoveFileButton() {
-    $(".rem_file").unbind("click");
-    $(".rem_file").bind("click", function (evt) {
+    $(".rem_file_group").unbind("click");
+    $(".rem_file_group").bind("click", function (evt) {
         evt.preventDefault();
         $(this).siblings(".input_file_upload").val("");
+        jQuery("#new-document-form #save").prop("disabled", false);
     })
+
+    jQuery('.input_file_url, .input_file_upload').on('change', function(){
+      jQuery(this).parent().find('.rem_file_group').removeClass('hidden');
+    });
 }
 
 
@@ -2239,6 +2240,10 @@ $(document).ready(function() {
     jQuery(".tx-dpf").on("click", ".add_file_group", function(e) {
         addGroup(jQuery(e.target).closest("button"));
         return false;
+    });
+
+    jQuery(".tx-dpf").on("click", ".input_file_upload", function() {
+      jQuery("#new-document-form #save").prop("disabled", false);
     });
 
     jQuery(".tx-dpf").on("click", ".add_field", addField);
