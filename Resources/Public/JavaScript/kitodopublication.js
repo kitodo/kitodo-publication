@@ -1518,7 +1518,8 @@ var documentListConfirmDialog = function(dialogId) {
         //jQuery(this).find(dialogId+"Document").attr("href", jQuery(e.relatedTarget).attr("href"));
         jQuery(this).find(dialogId+"Document").attr("action", jQuery("[data-target="+dialogId+"]").attr("href"));
         var bodyText = jQuery(this).find(".modal-body p").html();
-        title = jQuery(e.relatedTarget).attr("data-documenttitle");
+
+        title =  jQuery("[data-target="+dialogId+"]").attr("data-documenttitle");
         jQuery(this).find(".modal-body p").html(bodyText.replace("%s", title));
         jQuery(e.relatedTarget).parent().parent().addClass("danger marked-for-removal");
     });
