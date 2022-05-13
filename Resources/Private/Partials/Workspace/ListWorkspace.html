@@ -14,7 +14,7 @@
 </f:comment>
 {namespace dpf = EWW\Dpf\ViewHelpers}
 
-<f:render partial="Workspace/UploadError" arguments="{message:message}"/>
+<f:render partial="Workspace/UploadError" arguments="{message:message, errorFiles:errorFiles}"/>
 
 <f:if condition="{client}">
     <f:render partial="Workspace/Header" arguments="{

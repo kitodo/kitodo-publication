@@ -19,6 +19,7 @@ use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\FileValidationResults;
 use EWW\Dpf\Domain\Model\MetadataObject;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class FormDataReader
 {
@@ -184,28 +185,27 @@ class FormDataReader
         return $deletedFiles;
     }
 
-    public function uploadError()
+    /**
+     * @return array
+     */
+    public function uploadErrors()
     {
-        // todo: To be updated or implemented elsewhere
-        return false;
+        $errorFiles = [];
 
-        if (
-            $this->formData['primaryFile'] &&
-            $this->formData['primaryFile']['error'] != UPLOAD_ERR_OK &&
-            $this->formData['primaryFile']['error'] != UPLOAD_ERR_NO_FILE
-        ) {
-            return true;
-        }
-
-        if (is_array($this->formData['secondaryFiles'])) {
-            foreach ($this->formData['secondaryFiles'] as $tmpFile) {
-                if ($tmpFile['error'] != UPLOAD_ERR_OK && $tmpFile['error'] != UPLOAD_ERR_NO_FILE) {
-                    return true;
+        if (is_array($this->formData) && array_key_exists('metadata', $this->formData)) {
+            foreach ($this->formData['metadata'] as $metadata) {
+                if (is_array($metadata) && array_key_exists('file', $metadata)) {
+                    if (
+                        $metadata['file']['error'] != UPLOAD_ERR_OK &&
+                        $metadata['file']['error'] != UPLOAD_ERR_NO_FILE
+                    ) {
+                        $errorFiles[] = $metadata['file']['name'];
+                    }
                 }
             }
         }
 
-        return false;
+        return $errorFiles;
     }
 
     protected function getUrlFile($fileUrl, $primary = false, \EWW\Dpf\Domain\Model\File $file = null)
@@ -267,7 +267,13 @@ class FormDataReader
         \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
 
         $finfo       = finfo_open(FILEINFO_MIME_TYPE);
-        $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
+
+        $contentType = '';
+
+        if (file_exists($this->uploadPath . $fileName)) {
+            $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
+        }
+
         finfo_close($finfo);
 
         $file->setContentType($contentType);
