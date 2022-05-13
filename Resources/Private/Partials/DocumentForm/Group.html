@@ -98,7 +98,7 @@
                                 <f:render partial="DocumentForm/Field" arguments="{_all}"/>
                                 <f:if condition="{fieldItem.maxIteration} == 0">
                                     <f:if condition="{fieldItemIterator.isLast}">
-                                        <button type="submit"
+                                        <button type="button"
                                                 title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                                                 name="add_field" class="btn btn-secondary add_field" data-field="{fieldItem.uid}"
                                                 data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:ajaxTypeNum,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
