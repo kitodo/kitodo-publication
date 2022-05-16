@@ -381,6 +381,12 @@ class ClientConfigurationManager
         return $settings['universityCollection'];
     }
 
+    public function isAlwaysSetDateIssued()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return !empty($settings['activateAlwaysSetDateIssued']);
+    }
+
     public function getTypoScriptSettings()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);

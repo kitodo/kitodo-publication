@@ -151,6 +151,8 @@ plugin.tx_dpf {
 
         universityCollection = {$plugin.tx_dpf.settings.universityCollection}
 
+        activateAlwaysSetDateIssued = {$plugin.tx_dpf.settings.activateAlwaysSetDateIssued}
+
         indexName = kitodo_publication
 
         timezone = Europe/Berlin
