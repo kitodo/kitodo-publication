@@ -16,6 +16,7 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Services\Api\InvalidJson;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
@@ -265,6 +266,13 @@ class ApiController extends ActionController
                 $processNumber = $processNumberGenerator->getProcessNumber();
                 $doc->setProcessNumber($processNumber);
             }
+
+            /** @var DocumentMapper $documentMapper */
+            $documentMapper = $this->objectManager->get(DocumentMapper::class);
+            // Fixme: Since the JsonToDocumentMapper does not handle the metadata-item-id for groups and fields
+            // this ensures we have metadata-item-ids in the resulting xml data.
+            $documentForm = $documentMapper->getDocumentForm($doc);
+            $doc = $documentMapper->getDocument($documentForm);
 
             if ($this->documentManager->update($doc, null,true)) {
                 return '{"success": "Document '.$document.' added '.$id.'"}';

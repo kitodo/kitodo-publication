@@ -220,6 +220,15 @@ class JsonToDocumentMapper
 
         $document->setXmlData($internalFormat->getXml());
 
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+        // Fixme: Due to some php xml/xpath limitations the document xml needs to be ordered,
+        // so that the same groups stand one behind the other in the xml.
+        // Since the JsonToDocumentMapper does not handle the metadata-item-id for groups and fields
+        // this also ensures we have metadata-item-ids in the resulting xml data.
+        $documentForm = $documentMapper->getDocumentForm($document);
+        $document = $documentMapper->getDocument($documentForm);
+
         $document->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_REGISTERED_NONE);
 
         return $document;
