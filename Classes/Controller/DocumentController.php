@@ -280,9 +280,7 @@ class DocumentController extends AbstractController
 
             $recipients = $this->documentManager->getNewPublicationNotificationRecipients($originDocument);
             $notifier->sendMyPublicationNewNotification($originDocument, $recipients);
-
-            $notifier->sendChangedDocumentNotification($originDocument);
-
+            
             $notifier->sendSuggestionAcceptNotification($originDocument);
 
             // index the document

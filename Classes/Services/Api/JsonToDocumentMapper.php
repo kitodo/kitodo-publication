@@ -15,6 +15,11 @@ namespace EWW\Dpf\Services\Api;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentType;
+use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Domain\Model\MetadataObject;
+use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Services\ParserGenerator;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use JsonPath\JsonObject;
 
@@ -37,6 +42,22 @@ class JsonToDocumentMapper
     protected $documentTypeRepository = null;
 
     /**
+     * MetadataGroupRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataGroupRepository
+     * @inject
+     */
+    protected $metadataGroupRepository = null;
+
+    /**
+     * MetadataObjectRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MetadataObjectRepository
+     * @inject
+     */
+    protected $metadataObjectRepository = null;
+
+    /**
      * documentRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentRepository
@@ -45,81 +66,59 @@ class JsonToDocumentMapper
     protected $documentRepository = null;
 
     /**
+     * @var InternalXml
+     */
+    protected $internalXml = null;
+
+    /**
      * Replaces the data from the document with the data from the json
      * @param Document $document
      * @param $jsonData
      * @return Document
+     * @throws InvalidJson
+     * @throws \JsonPath\InvalidJsonException
      */
     public function editDocument(Document $document, $jsonData)
     {
-        $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
+        $this->internalXml = new InternalXml();
         $xmlData = $document->getXmlData();
+        $this->internalXml->setXml($xmlData);
 
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML($xmlData);
+        $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
 
-        $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+        $this->checkMetadata($metaData);
 
-        foreach ($metaData as $groupKey => $group) {
-            $groupMapping = $group['mapping'];
-            $groupNode = $xpath->query($groupMapping);
-            if ($group['values']) {
-                if ($groupNode->length > 0) {
-                    foreach ($groupNode as $nodeItem) {
-                        $domDocument->documentElement->removeChild($nodeItem);
+        foreach (['update', 'add', 'remove'] as $action) {
+            foreach ($metaData as $group) {
+                $metaDataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
+                foreach ($group['items'] as $groupItem) {
+                    if (array_key_exists('_action', $groupItem) && $groupItem['_action'] === $action) {
+                        switch ($groupItem['_action']) {
+                            case 'update':
+                                $this->updateGroup($metaDataGroup, $groupItem);
+                                break;
+
+                            case 'add':
+                                $this->addGroup($metaDataGroup, $groupItem);
+                                break;
+
+                            case 'remove':
+                                $this->removeGroup($metaDataGroup, $groupItem);
+                                break;
+                        }
                     }
-                }
-            } else {
-                foreach ($groupNode as $nodeItem) {
-                    $domDocument->documentElement->removeChild($nodeItem);
                 }
             }
         }
 
-        foreach ($metaData['mods'] as $groupKey => $group) {
-            $groupMapping = $group['mapping'];
-            $groupChild = null;
-            //if ($group['values']) {
-                $parent = $domDocument->childNodes->item(0);
-                $path = $this->parseXpathString($groupMapping);
-                foreach ($path as $pathItem) {
-                    $groupChild = $domDocument->createElement($pathItem['node']);
-                    foreach ($pathItem['attributes'] as $attrName => $attrValue) {
-                        $attributeElement = $domDocument->createAttribute($attrName);
-                        $attributeElement->nodeValue = $attrValue;
-                        $groupChild->appendChild($attributeElement);
-                    }
-                    $parent->appendChild($groupChild);
-                    $parent = $groupChild;
-                }
+        $document->setXmlData($this->internalXml->getXml());
 
-                if ($groupChild) {
-                    if ($group['values']) {
-                        foreach ($group['values'] as $fieldKey => $field) {
-                            $parent = $groupChild;
-                            $path = $this->parseXpathString($field['mapping']);
-                            foreach ($path as $pathItem) {
-                                $child = $domDocument->createElement($pathItem['node']);
-                                foreach ($pathItem['attributes'] as $attrName => $attrValue) {
-                                    $attributeElement = $domDocument->createAttribute($attrName);
-                                    $attributeElement->nodeValue = $attrValue;
-                                    $child->appendChild($attributeElement);
-                                }
-                                $parent->appendChild($child);
-                                $parent = $child;
-                            }
-                            if ($field['value']) {
-                                $child->nodeValue = $field['value'];
-                            }
-
-                        }
-                    }
-                }
-            //}
-        }
-
-        $xmlData = $domDocument->saveXML();
-        $document->setXmlData($xmlData);
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+        // Fixme: Due to some php xml/xpath limitations the document xml needs to be ordered,
+        // so that the same groups stand one behind the other in the xml.
+        $documentForm = $documentMapper->getDocumentForm($document);
+        $document = $documentMapper->getDocument($documentForm);
 
         return $document;
     }
@@ -129,6 +128,8 @@ class JsonToDocumentMapper
      *
      * @param string $jsonData
      * @return Document $document
+     * @throws InvalidJson
+     * @throws \JsonPath\InvalidJsonException
      */
     public function getDocument($jsonData)
     {
@@ -144,6 +145,9 @@ class JsonToDocumentMapper
             return null;
         }
 
+        $metaData = $this->getMetadataFromJson($jsonData);
+        $this->checkMetadata($metaData, false, false);
+
         /** @var Document $document */
         $document = $this->objectManager->get(Document::class);
 
@@ -153,13 +157,51 @@ class JsonToDocumentMapper
         $processNumber = $processNumberGenerator->getProcessNumber();
         $document->setProcessNumber($processNumber);
 
-        $metaData = $this->getMetadataFromJson($jsonData);
+        $meta = [];
+
+        foreach ($metaData as $group) {
+            $metadataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
+
+            foreach ($group['items'] as $groupItem) {
+               $goupData = [
+                    'groupUid' => $metadataGroup->getUid(),
+                    'mapping' => $metadataGroup->getRelativeMapping(),
+                    'modsExtensionMapping' => $metadataGroup->getRelativeModsExtensionMapping(),
+                    'modsExtensionReference' => trim(
+                        $metadataGroup->getModsExtensionReference(),
+                        " /"
+                    ),
+                   'values' => [],
+                   'attributes' => []
+                ];
+
+                foreach ($groupItem['objects'] as $object) {
+                    $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+                    $fieldMapping = $metadataObject->getRelativeMapping();
+                    foreach ($object['items'] as $objectItemKey => $objectItem) {
+                        $objectData = [
+                            'modsExtension' => $metadataObject->getModsExtension(),
+                            'mapping' => $fieldMapping,
+                            'value' => $objectItem['_value']
+                        ];
+
+                        if (strpos($fieldMapping, "@") === 0) {
+                            $goupData['attributes'][] = $objectData;
+                        } else {
+                            $goupData['values'][] = $objectData;
+                        }
+                    }
+                }
+
+                $meta[] = $goupData;
+            }
+        }
 
         $exporter = new \EWW\Dpf\Services\ParserGenerator();
 
         $documentData['documentUid'] = 0;
-        $documentData['metadata']    = $metaData;
-        $documentData['files']       = array();
+        $documentData['metadata'] = $meta;
+        $documentData['files'] = array();
 
         $exporter->buildXmlFromForm($documentData);
 
@@ -178,118 +220,121 @@ class JsonToDocumentMapper
 
         $document->setXmlData($internalFormat->getXml());
 
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+        // Fixme: Due to some php xml/xpath limitations the document xml needs to be ordered,
+        // so that the same groups stand one behind the other in the xml.
+        // Since the JsonToDocumentMapper does not handle the metadata-item-id for groups and fields
+        // this also ensures we have metadata-item-ids in the resulting xml data.
+        $documentForm = $documentMapper->getDocumentForm($document);
+        $document = $documentMapper->getDocument($documentForm);
+
         $document->setState(\EWW\Dpf\Domain\Workflow\DocumentWorkflow::STATE_REGISTERED_NONE);
 
         return $document;
     }
 
-
-    public function getMetadataFromJson($jsonData, $documentType = null)
+    /**
+     * @param array $jsonData
+     * @param DocumentType $documentType
+     * @return array
+     * @throws \JsonPath\InvalidJsonException
+     */
+    public function getMetadataFromJson($jsonData, DocumentType $documentType = null)
     {
-        $jsonData = empty($jsonData)? null: $jsonData;
+        $jsonData = empty($jsonData) ? null : $jsonData;
+
+        // Normalizing JSON data
+        $arrayFromJson = json_decode($jsonData, true);
+        foreach ($arrayFromJson as $groupKey => $groupData) {
+            if (is_array($groupData) && array_key_first($groupData) !== 0) {
+                $arrayFromJson[$groupKey] = [$groupData];
+            }
+        }
+        foreach ($arrayFromJson as $groupKey => $groupData) {
+            foreach ($arrayFromJson[$groupKey] as $groupIndex => $groupItem) {
+                foreach ($groupItem as $objectKey => $objectData) {
+                    if (substr($objectKey, 0, 1) !== '_') {
+                        if (is_array($objectData) && array_key_first($objectData) !== 0) {
+                            $arrayFromJson[$groupKey][$groupIndex][$objectKey] = [$objectData];
+                        }
+                    }
+                }
+            }
+        }
+        $jsonData = json_encode($arrayFromJson);
+        // End of normalizing JSON data
+
         $jsonObject = new JsonObject($jsonData);
 
-        if ($documentType) {
-            $publicationType = $documentType;
-        } else {
+        if (empty($documentType)) {
             $publicationType = $jsonObject->get('$.publicationType');
             if ($publicationType && is_array($publicationType)) {
                 $publicationType = $publicationType[0];
             }
-
             /** @var \EWW\Dpf\Domain\Model\DocumentType $documentType */
             $documentType = $this->documentTypeRepository->findOneByName($publicationType);
         }
 
-        $resultData = [];
-
-        if (empty($documentType)) {
-            // default type
-            $documentType = $this->documentTypeRepository->findOneByName('article');
-        }
+        $metaData = [];
 
         foreach ($documentType->getMetadataPage() as $metadataPage) {
 
+            /** @var MetadataGroup $metadataGroup */
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
 
-                // Group mapping
-                $jsonDataObject = new JsonObject($jsonData);
-                $jsonGroupMapping = $metadataGroup->getJsonMapping();
-                $groupItems = [];
-                if ($jsonGroupMapping) {
-                    $groupItems = $jsonDataObject->get($jsonGroupMapping);
-                }
+                $jsonGroupMapping = trim($metadataGroup->getJsonMapping(), "$.*");
 
-                if (empty($groupItems)) {
-                    $groupItems = [];
-                }
+                if (!empty($jsonGroupMapping)) {
 
-                foreach ($groupItems as $groupItem) {
+                    $jsonGroupItems = $jsonObject->get("$." . $jsonGroupMapping . ".*");
 
-                    $resultGroup = [
-                        'attributes' => [],
-                        'values' => []
-                    ];
-                    $resultGroup['mapping'] = $metadataGroup->getRelativeMapping();
-                    $resultGroup['modsExtensionMapping'] = $metadataGroup->getRelativeModsExtensionMapping();
-                    $resultGroup['modsExtensionReference'] = trim($metadataGroup->getModsExtensionReference(), " /");
-                    $resultGroup['groupUid'] = $metadataGroup->getUid();
+                    if (is_array($jsonGroupItems) && sizeof($jsonGroupItems) > 0) {
 
-                    foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
+                        $groupMetaData = [];
+                        $groupMetaData['jsonGroupName'] = $jsonGroupMapping;
+                        $groupMetaData['metadataGroup'] = $metadataGroup->getUid();
+                        $groupMetaData['items'] = [];
 
-                        $json = json_encode($groupItem);
+                        $groupMetaDataObjects = [];
 
-                        $jsonObject = new JsonObject($json);
+                        foreach ($jsonGroupItems as $jsonGroupItem) {
 
-                        $fieldItems = [];
-                        $jsonFieldMapping = $metadataObject->getJsonMapping();
+                            $tempJson = json_encode($jsonGroupItem);
+                            $tempJsonObject = new JsonObject($tempJson);
+                            $groupMetaDataObjects['_index'] = $tempJsonObject->get("$._index")[0];
+                            $groupMetaDataObjects['_action'] = $tempJsonObject->get("$._action")[0];
 
-                        if ($jsonFieldMapping) {
-                            $fieldItems = $jsonObject->get($jsonFieldMapping);
-                            if (empty($fieldItems)) {
-                                $fieldItems = [];
-                            }
-                        }
+                            /** @var MetadataObject $metadataObject */
+                            foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
+                                $jsonObjectMapping = trim($metadataObject->getJsonMapping(), "$.*");
+                                if (!empty($jsonObjectMapping)) {
+                                    $jsonObjectItems = $tempJsonObject->get("$." . $jsonObjectMapping . ".*");
 
-                        foreach ($fieldItems as $fieldItem) {
-                            $resultField = [];
+                                    if (is_array($jsonObjectItems) && sizeof($jsonObjectItems) > 0) {
+                                        $objectMetaData = [];
+                                        $objectMetaData['jsonObjectName'] = $jsonObjectMapping;
+                                        $objectMetaData['metadataObject'] = $metadataObject->getUid();
+                                        $objectMetaData['items'] = [];
+                                        foreach ($jsonObjectItems as $jsonObjectItem) {
+                                            $objectMetaData['items'][] = $jsonObjectItem;
+                                        }
 
-                            if (!is_array($fieldItem)) {
-                                $value = $fieldItem;
-                            } else {
-                                $value = implode("; ", $fieldItem);
-                            }
-
-                            if ($metadataObject->getValidator() == \EWW\Dpf\Domain\Model\MetadataObject::VALIDATOR_DATE) {
-                                $date = date_create_from_format('d.m.Y', trim($value));
-                                if ($date) {
-                                    $value = date_format($date, 'Y-m-d');
+                                        $groupMetaDataObjects['objects'][] = $objectMetaData;
+                                    }
                                 }
                             }
-
-                            //if ($value) {
-                                $value = str_replace('"', "'", $value);
-                                $fieldMapping = $metadataObject->getRelativeMapping();
-                                $resultField['modsExtension'] = $metadataObject->getModsExtension();
-                                $resultField['mapping'] = $fieldMapping;
-                                $resultField['value']   = $value;
-
-                                if (strpos($fieldMapping, "@") === 0) {
-                                    $resultGroup['attributes'][] = $resultField;
-                                } else {
-                                    $resultGroup['values'][] = $resultField;
-                                }
-                            //}
+                            $groupMetaData['items'][] = $groupMetaDataObjects;
+                            $groupMetaDataObjects = [];
                         }
+
+                        $metaData[] = $groupMetaData;
                     }
-
-                    $resultData[] = $resultGroup;;
                 }
-
             }
         }
 
-        return $resultData;
+        return $metaData;
     }
 
     protected function parseXpathString($xpathString)
@@ -322,6 +367,172 @@ class JsonToDocumentMapper
         }
 
         return $result;
+    }
+
+    /**
+     * @param $metaDataGroup
+     * @param $groupItem
+     */
+    protected function updateGroup($metaDataGroup, $groupItem)
+    {
+        $groupIndex = 0;
+        if (array_key_exists('_index', $groupItem)) {
+            $groupIndex = $groupItem['_index'];
+        }
+
+        /** @var GroupNode $groupNode */
+        $groupNode = $this->internalXml->findGroup($metaDataGroup, $groupIndex);
+
+        if ($groupNode instanceof GroupNode) {
+            if (is_array($groupItem['objects'])) {
+
+                foreach (['update', 'add', 'remove'] as $action) {
+
+                    foreach ($groupItem['objects'] as $object) {
+                    $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+
+                        foreach ($object['items'] as $objectItem) {
+
+                            $objectIndex = 0;
+                            if (array_key_exists('_index', $objectItem)) {
+                                $objectIndex = intval($objectItem['_index']);
+                            }
+
+                            if (array_key_exists('_action', $objectItem) && $objectItem['_action'] === $action) {
+                                switch ($objectItem['_action']) {
+                                    case 'add':
+                                        $this->internalXml->addField($groupNode, $metadataObject, $objectItem['_value']);
+                                        break;
+
+                                    case 'update':
+                                        $this->internalXml->setField(
+                                            $groupNode, $metadataObject, $objectIndex,
+                                            $objectItem['_value']
+                                        );
+                                        break;
+
+                                    case 'remove':
+                                        $this->internalXml->removeField($groupNode, $metadataObject, $objectIndex);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $metaDataGroup
+     * @param $groupItem
+     */
+    protected function addGroup($metaDataGroup, $groupItem)
+    {
+        $fieldData = [];
+        foreach ($groupItem['objects'] as $object) {
+            $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+            foreach ($object['items'] as $objectItem) {
+                $fieldData[] = [
+                    'metadataObject' => $metadataObject,
+                    'value' => $objectItem['_value']
+                ];
+            }
+        }
+
+        /** @var GroupNode $groupNode */
+        $this->internalXml->addGroup($metaDataGroup, $fieldData);
+    }
+
+    /**
+     * @param $metaDataGroup
+     * @param $groupItem
+     */
+    protected function removeGroup($metaDataGroup, $groupItem)
+    {
+        $groupIndex = 0;
+        if (array_key_exists('_index', $groupItem)) {
+            $groupIndex = $groupItem['_index'];
+        }
+
+        $this->internalXml->removeGroup($metaDataGroup, $groupIndex);
+    }
+
+    /**
+     * @param $metaData
+     * @param bool $checkIndex
+     * @param bool $checkAction
+     * @throws InvalidJson
+     */
+    protected function checkMetadata($metaData, $checkIndex = true, $checkAction = true) {
+
+      foreach ($metaData as $data) {
+
+          $jsonGroupName = $data['jsonGroupName'];
+
+          if (is_array($data['items'])) {
+              foreach ($data['items'] as $groupItem) {
+
+                  if (
+                      $checkIndex && (
+                        !array_key_exists('_index', $groupItem)
+                        || is_null($groupItem['_index'])
+                        || !is_numeric($groupItem['_index'])
+                      )
+                  ) {
+                      throw new InvalidJson("Group $jsonGroupName, invalid or missing parameter _index");
+                  }
+                  if (
+                      $checkAction && (
+                        !array_key_exists('_action', $groupItem)
+                        || is_null($groupItem['_action'])
+                        || !in_array($groupItem['_action'], ['add','remove','update'])
+                      )
+                  ) {
+                      throw new InvalidJson("Group $jsonGroupName, invalid or missing parameter _action");
+                  }
+
+                  if (is_array($groupItem['objects'])) {
+                      foreach ($groupItem['objects'] as $object) {
+                          $jsonObjectName = $object['jsonObjectName'];
+                          if (is_array($object['items'])) {
+                              foreach ($object['items'] as $objectItem) {
+                                  if (
+                                      $checkIndex && (
+                                          !array_key_exists('_index', $objectItem)
+                                          || is_null($objectItem['_index'])
+                                          || !is_numeric($objectItem['_index'])
+                                      )
+                                  ) {
+                                      throw new InvalidJson(
+                                          "Field $jsonObjectName, invalid or missing parameter _index"
+                                      );
+                                  }
+                                  if (
+                                      $checkAction && (
+                                        !array_key_exists('_action', $objectItem)
+                                        || is_null($objectItem['_action'])
+                                        || !in_array($objectItem['_action'], ['add', 'remove', 'update'])
+                                      )
+                                  ) {
+                                      throw new InvalidJson(
+                                          "Field $jsonObjectName, invalid or missing parameter _action"
+                                      );
+                                  }
+                                  if (
+                                      !array_key_exists('_value', $objectItem)
+                                      || is_null($objectItem['_value'])
+                                  ) {
+                                      throw new InvalidJson("Field $jsonObjectName, invalid or missing parameter _value");
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
     }
 
 }

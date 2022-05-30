@@ -227,15 +227,23 @@ class DocumentMapper
                 }
 
                 if ($groupData->length > 0) {
+
+                    $groupItemIdIndex = -1;
+
                     foreach ($groupData as $key => $data) {
 
                         $documentFormGroupItem = clone ($documentFormGroup);
 
                         // Needed for the suggestion compare feature
                         $groupItemId = $data->getAttribute("metadata-item-id");
+
                         if (empty($groupItemId)) {
-                            $groupItemId = $metadataGroup->getUid() . '-' . 0;
+                            $groupItemId = $metadataGroup->getUid() . '-' . ($groupItemIdIndex+1);
+                        } else {
+                            $groupItemIdParts = explode('-', $groupItemId);
+                            $groupItemIdIndex = $groupItemIdParts[1];
                         }
+
                         $documentFormGroupItem->setId($groupItemId);
 
                         foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
@@ -308,6 +316,8 @@ class DocumentMapper
 
                             if ($objectData->length > 0) {
 
+                                $fieldItemIdIndex = -1;
+
                                 foreach ($objectData as $key => $value) {
 
                                     $documentFormFieldItem = clone ($documentFormField);
@@ -333,7 +343,15 @@ class DocumentMapper
                                         if ($objectMapping == '.') {
                                             $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . 0;
                                         }
-                                        $documentFormFieldItem->setId($fieldItemId);
+
+                                       if (empty($fieldItemId)) {
+                                           $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . ($fieldItemIdIndex + 1);
+                                       } else {
+                                           $fieldItemIdParts = explode('-', $fieldItemId);
+                                           $fieldItemIdIndex = $fieldItemIdParts[3];
+                                       }
+
+                                       $documentFormFieldItem->setId($fieldItemId);
                                     }
 
                                     if ($metadataGroup->isFileGroup() && $metadataObject->isUploadField()) {
