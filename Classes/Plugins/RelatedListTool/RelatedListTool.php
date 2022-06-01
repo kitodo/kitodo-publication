@@ -59,9 +59,9 @@ class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
 
         // Load template file.
         if (!empty($this->conf['templateFile'])) {
-            $this->template = $this->templateService->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
+            $this->template = $this->templateService->getSubpart(file_get_contents($this->conf['templateFile']), '###TEMPLATE###');
         } else {
-            $this->template = $this->templateService->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/RelatedListTool/template.tmpl'), '###TEMPLATE###');
+            $this->template = $this->templateService->getSubpart(file_get_contents($GLOBALS['TSFE']->tmpl->getFileName('EXT:dpf/Classes/Plugins/RelatedListTool/template.tmpl')), '###TEMPLATE###');
         }
         $subpartArray['items'] = $this->templateService->getSubpart($this->template, '###ITEMS###');
 
@@ -101,10 +101,10 @@ class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
                 $title = $value['title'] ? $value['title'] : $value['docId'];
                 // replace uid with URI to dpf API
                 $markerArray['###ITEM###'] = $this->cObj->typoLink($title, $conf);
-                $content .= $this->cObj->substituteMarkerArray($subpartArray['items'], $markerArray);
+                $content .= $this->templateService->substituteMarkerArray($subpartArray['items'], $markerArray);
             }
         }
-        return $this->cObj->substituteSubpart($this->template, '###ITEMS###', $content, true);
+        return $this->templateService->substituteSubpart($this->template, '###ITEMS###', $content, true);
     }
 
     private function compareByOrderVolumeTitle($a, $b)

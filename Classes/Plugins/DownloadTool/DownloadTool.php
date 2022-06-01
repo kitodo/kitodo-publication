@@ -59,9 +59,9 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
 
         // Load template file.
         if (!empty($this->conf['templateFile'])) {
-            $this->template = $this->templateService->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
+            $this->template = $this->templateService->getSubpart(file_get_contents($this->conf['templateFile']), '###TEMPLATE###');
         } else {
-            $this->template = $this->templateService->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl'), '###TEMPLATE###');
+            $this->template = $this->templateService->getSubpart(file_get_contents($GLOBALS['TSFE']->tmpl->getFileName('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl')), '###TEMPLATE###');
         }
 
         $subpartArray['downloads'] = $this->templateService->getSubpart($this->template, '###DOWNLOADS###');
@@ -86,10 +86,10 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
                 } else {
                     $markerArray['###VGWORT###'] = "";
                 }
-                $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
+                $content .= $this->templateService->substituteMarkerArray($subpartArray['downloads'], $markerArray);
             }
         }
-        return $this->cObj->substituteSubpart($this->template, '###DOWNLOADS###', $content, true);
+        return $this->templateService->substituteSubpart($this->template, '###DOWNLOADS###', $content, true);
     }
 
     /**
