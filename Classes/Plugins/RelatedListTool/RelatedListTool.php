@@ -74,7 +74,7 @@ class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
                     $confApi = array(
                         'useCacheHash'     => 0,
                         'parameter'        => $this->conf['apiPid'],
-                        'additionalParams' => '&tx_dpf[qid]=' . $value['docId'] . '&tx_dpf[action]=mets',
+                        'additionalParams' => '&tx_dpf_getfile[qid]=' . $value['docId'] . '&tx_dpf_getfile[action]=mets',
                         'forceAbsoluteUrl' => true,
                     );
 

@@ -75,7 +75,7 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
                 $conf = array(
                     'useCacheHash'     => 0,
                     'parameter'        => $this->conf['apiPid'] . ' - piwik_download',
-                    'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
+                    'additionalParams' => '&tx_dpf_getfile[qid]=' . $this->doc->recordId . '&tx_dpf_getfile[action]=attachment' . '&tx_dpf_getfile[attachment]=' . $file['ID'],
                     'forceAbsoluteUrl' => true,
                 );
                 $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];

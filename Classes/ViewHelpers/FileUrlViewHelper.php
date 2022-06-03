@@ -67,7 +67,7 @@ class FileUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
 
         // pass configured API secret key parameter to enable dissemination for inactive documents
         if (isset($this->secretKey)) {
-            $fileUri .= '?tx_dpf[deliverInactive]=' . $this->secretKey;
+            $fileUri .= '?tx_dpf_getfile[deliverInactive]=' . $this->secretKey;
         }
 
         return $fileUri;
