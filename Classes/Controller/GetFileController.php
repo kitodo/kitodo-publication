@@ -223,8 +223,12 @@ class GetFileController extends ActionController
                 'Accept' => 'application/ld+json'
             ]
         ]);
-        return ResourceTuple::create($response->getBody()->getContents())
-            ->getValue('kp:state');
+
+        $remoteState = ResourceTuple::create($response->getBody()->getContents())->getValue('kp:state');
+        if ($remoteState == NULL) {
+            throw new Exception("Failed to read state property from remote resource `$uri`");
+        }
+        return $remoteState;
     }
 
     /**
