@@ -515,17 +515,11 @@
 			<trans-unit id="manager.confirmBatchRemove.message" approved="yes" xml:space="preserve">
 				<source>The selected documents will be removed from your workspace.</source>
 			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader" approved="yes">
-				<source>Do you really want to release and validate the selected documents?</source>
+			<trans-unit id="manager.confirmBatchRelease.messageHeader" approved="yes">
+				<source>Do you really want to release the selected documents?</source>
 			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseValidated.message" approved="yes" xml:space="preserve">
-				<source>The selected documents will be released and validated.</source>
-			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader" approved="yes">
-				<source>Do you really want to release but not validate the selected documents?</source>
-			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" approved="yes" xml:space="preserve">
-				<source>The selected documents will be released but not validated.</source>
+			<trans-unit id="manager.confirmBatchRelease.message" approved="yes" xml:space="preserve">
+				<source>The selected documents will be released.</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmBatchBookmark.messageHeader" approved="yes">
 				<source>Do you really want to bookmark the selected documents?</source>

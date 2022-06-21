@@ -365,11 +365,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $validationXpath = '';
-
-    /**
-     * @var string
-     */
     protected $fisIdXpath = '';
 
     /**
@@ -2200,22 +2195,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPersonPublisherRole(string $personPublisherRole)
     {
         $this->personPublisherRole = $personPublisherRole;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValidationXpath(): string
-    {
-        return $this->validationXpath;
-    }
-
-    /**
-     * @param string $validationXpath
-     */
-    public function setValidationXpath(string $validationXpath)
-    {
-        $this->validationXpath = $validationXpath;
     }
 
     /**

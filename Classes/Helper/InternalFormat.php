@@ -650,25 +650,6 @@ class InternalFormat
     }
 
     /**
-     * @return bool
-     */
-    public function getValidation()
-    {
-        $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
-        $validation = $this->getValue($validationXpath);
-        return (strtolower($validation) === 'true')? true : false;
-    }
-
-    /**
-     * @param bool $validated
-     */
-    public function setValidation($validated)
-    {
-        $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
-        $this->setValue($validationXpath, ($validated? 'true' : 'false'));
-    }
-
-    /**
      * @param string $fisId
      */
     public function setFisId($fisId)

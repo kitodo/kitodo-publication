@@ -317,10 +317,6 @@
             <source>Person affiliation identifier xpath</source>
             <target>Person-Zugehörigkeits-ID (XPath)</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.validation_xpath" approved="yes">
-            <source>Validation xpath</source>
-            <target>Validation (XPath)</target>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
             <source>Fis id xpath</source>
             <target>Fis-ID (XPath)</target>

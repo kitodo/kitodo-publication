@@ -113,6 +113,21 @@
                         {f:translate(key: 'manager.search.searchField.comment')}
                     </a>
 
+                    <a class="dropdown-item" data-field="dateIssued" data-form-group="date-range" data-type="date-range" href="#">
+                        <f:if condition="{settings.activateAlwaysSetDateIssued}">
+                            <f:then>
+                                {f:translate(key: 'manager.search.searchField.dateIssuedAlwaysSet')}
+                            </f:then>
+                            <f:else>
+                                {f:translate(key: 'manager.search.searchField.dateIssued')}
+                            </f:else>
+                        </f:if>
+                    </a>
+
+                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="phrase" href="#">
+                        {f:translate(key: 'manager.search.searchField.comment')}
+                    </a>
+
                     <a class="dropdown-item" data-field="frameworkAgreementId" data-form-group="default" data-type="value" href="#">
                         {f:translate(key: 'manager.search.searchField.frameworkAgreementId')}
                     </a>
