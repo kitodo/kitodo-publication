@@ -50,7 +50,7 @@
                 <a class="dropdown-item" data-field="source" data-form-group="default" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.source')}
                 </a>
-                <a class="dropdown-item" data-field="year" data-form-group="year-range" data-type="year-range" href="#">
+                <a class="dropdown-item" data-field="searchYear" data-form-group="year-range" data-type="year-range" href="#">
                     {f:translate(key: 'manager.search.searchField.year')}
                 </a>
                 <a class="dropdown-item" data-field="publisher" data-form-group="default" data-type="value" href="#">
@@ -58,6 +58,22 @@
                 </a>
                 <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.language')}
+                </a>
+
+                <a class="dropdown-item" data-field="textType" data-form-group="textType" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.textType')}
+                </a>
+
+                <a class="dropdown-item" data-field="openAccess" data-form-group="bool" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.openAccess')}
+                </a>
+
+                <a class="dropdown-item" data-field="peerReview" data-form-group="ternary" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.peerReview')}
+                </a>
+
+                <a class="dropdown-item" data-field="license" data-form-group="license" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.license')}
                 </a>
 
                 <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
@@ -79,6 +95,23 @@
                     <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">
                         {f:translate(key: 'manager.search.searchField.comment')}
                     </a>
+
+                    <a class="dropdown-item" data-field="validation" data-form-group="bool" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.validation')}
+                    </a>
+
+                    <a class="dropdown-item" data-field="dateIssued" data-form-group="date-range" data-type="date-range" href="#">
+                        {f:translate(key: 'manager.search.searchField.dateIssued')}
+                    </a>
+
+                    <a class="dropdown-item" data-field="frameworkAgreementId" data-form-group="default" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.frameworkAgreementId')}
+                    </a>
+
+                    <a class="dropdown-item" data-field="collections" data-form-group="collections" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.collection')}
+                    </a>
+
                 </f:if>
             </div>
         </div>

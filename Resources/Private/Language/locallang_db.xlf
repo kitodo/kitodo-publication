@@ -242,9 +242,6 @@
         <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
             <source>Fis id xpath</source>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.source_details_xpaths" approved="yes">
-            <source>Source details xpaths (Semicolon separated)</source>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.collection_xpath" approved="yes">
             <source>Collection xpath</source>
         </trans-unit>
@@ -869,6 +866,78 @@
 		<trans-unit id="tx_dpf_domain_model_client.fis_collections" approved="yes">
 			<source>Fis collections (comma separated list)</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.source_details.label" approved="yes">
+            <source>Source details fields</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.source_details.xpath" approved="yes">
+			<source>XPath espressions of all source details related fields (Semicolon separated list).</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.text_type.label" approved="yes">
+			<source>Document Type / Text Type</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.text_type.xpath" approved="yes">
+            <source>XPath expressions for the text type field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.label" approved="yes">
+			<source>Open access</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.xpath" approved="yes">
+            <source>XPath expressions for the open access field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.other_version_xpath" approved="yes">
+            <source>XPath expressions for the open access other version field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.label" approved="yes">
+			<source>Peer review</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.xpath" approved="yes">
+            <source>XPath expressions for the peer review field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.other_version_xpath" approved="yes">
+            <source>XPath expressions for the peer review other version field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.license.label" approved="yes">
+			<source>License</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.license.xpath" approved="yes">
+            <source>XPath expressions for the license field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.validation.label" approved="yes">
+			<source>Validation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.validation.xpath" approved="yes">
+            <source>XPath expressions for the validation field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.label" approved="yes">
+			<source>Date issued Qucosa</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.xpath" approved="yes">
+            <source>XPath expressions for the date issued Qucosa field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.label" approved="yes">
+			<source>Framework agreement id</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.xpath" approved="yes">
+            <source>XPath expressions for the framework agreement id field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.label" approved="yes">
+			<source>Collection</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.xpath" approved="yes">
+            <source>XPath expressions for the collection field</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_year.label" approved="yes">
+        	<source>Year</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_year.xpath" approved="yes">
+			<source>XPath espressions of all year fields to be search (Semicolon separated list).</source>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.publisher.label" approved="yes">
+        	<source>Publisher</source>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.search_field_xml.publisher.xpath" approved="yes">
+			<source>XPath espressions of all publisher fields to be searched (Semicolon separated list).</source>
+        </trans-unit>
 		</body>
 	</file>
 </xliff>

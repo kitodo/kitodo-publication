@@ -673,6 +673,51 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $collectionXpath  = '';
 
     /**
+     * @var string
+     */
+    protected $textTypeXpath;
+
+    /**
+     * @var string
+     */
+    protected $openAccessXpath;
+
+    /**
+     * @var string
+     */
+    protected $openAccessOtherVersionXpath;
+
+    /**
+     * @var string
+     */
+    protected $peerReviewXpath;
+
+    /**
+     * @var string
+     */
+    protected $peerReviewOtherVersionXpath;
+
+    /**
+     * @var string
+     */
+    protected $licenseXpath;
+
+    /**
+     * @var string
+     */
+    protected $frameworkAgreementIdXpath;
+
+    /**
+     * @var string
+     */
+    protected $searchYearXpaths;
+
+    /**
+     * @var string
+     */
+    protected $publisherXpaths;
+
+    /**
      * Fis collections
      *
      * @var string
@@ -2364,5 +2409,149 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setFisCollections(string $fisCollections): void
     {
         $this->fisCollections = $fisCollections;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextTypeXpath(): string
+    {
+        return $this->textTypeXpath;
+    }
+
+    /**
+     * @param string $textTypeXpath
+     */
+    public function setTextTypeXpath(string $textTypeXpath): void
+    {
+        $this->textTypeXpath = $textTypeXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpenAccessXpath(): string
+    {
+        return $this->openAccessXpath;
+    }
+
+    /**
+     * @param string $openAccessXpath
+     */
+    public function setOpenAccessXpath(string $openAccessXpath): void
+    {
+        $this->openAccessXpath = $openAccessXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpenAccessOtherVersionXpath(): string
+    {
+        return $this->openAccessOtherVersionXpath;
+    }
+
+    /**
+     * @param string $openAccessOtherVersionXpath
+     */
+    public function setOpenAccessOtherVersionXpath(string $openAccessOtherVersionXpath): void
+    {
+        $this->openAccessOtherVersionXpath = $openAccessOtherVersionXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPeerReviewXpath(): string
+    {
+        return $this->peerReviewXpath;
+    }
+
+    /**
+     * @param string $peerReviewXpath
+     */
+    public function setPeerReviewXpath(string $peerReviewXpath): void
+    {
+        $this->peerReviewXpath = $peerReviewXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPeerReviewOtherVersionXpath(): string
+    {
+        return $this->peerReviewOtherVersionXpath;
+    }
+
+    /**
+     * @param string $peerReviewOtherVersionXpath
+     */
+    public function setPeerReviewOtherVersionXpath(string $peerReviewOtherVersionXpath): void
+    {
+        $this->peerReviewOtherVersionXpath = $peerReviewOtherVersionXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLicenseXpath(): string
+    {
+        return $this->licenseXpath;
+    }
+
+    /**
+     * @param string $licenseXpath
+     */
+    public function setLicenseXpath(string $licenseXpath): void
+    {
+        $this->licenseXpath = $licenseXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrameworkAgreementIdXpath(): string
+    {
+        return $this->frameworkAgreementIdXpath;
+    }
+
+    /**
+     * @param string $frameworkAgreementIdXpath
+     */
+    public function setFrameworkAgreementIdXpath(string $frameworkAgreementIdXpath): void
+    {
+        $this->frameworkAgreementIdXpath = $frameworkAgreementIdXpath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSearchYearXpaths(): string
+    {
+        return $this->searchYearXpaths;
+    }
+
+    /**
+     * @param string $searchYearXpaths
+     */
+    public function setSearchYearXpaths(string $searchYearXpaths): void
+    {
+        $this->searchYearXpaths = $searchYearXpaths;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublisherXpaths(): string
+    {
+        return $this->publisherXpaths;
+    }
+
+    /**
+     * @param string $publisherXpaths
+     */
+    public function setPublisherXpaths(string $publisherXpaths): void
+    {
+        $this->publisherXpaths = $publisherXpaths;
     }
 }

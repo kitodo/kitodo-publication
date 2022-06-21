@@ -1432,6 +1432,38 @@
 				<source>Comment</source>
 				<target>Kommentar</target>
 			</trans-unit>
+			<trans-unit id="manager.search.searchField.textType" approved="yes">
+				<source>Document Type / Text Type</source>
+				<target>Dokumenttyp/Textsorte</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.openAccess" approved="yes">
+				<source>Open Access</source>
+				<target>Open Access</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.peerReview" approved="yes">
+				<source>Peer Review</source>
+				<target>Peer Review</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.license" approved="yes">
+				<source>Lizenz</source>
+				<target>Lizenz</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.validation" approved="yes">
+				<source>Validation</source>
+				<target>Validierung</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.dateIssued" approved="yes">
+				<source>Date issued Qucosa</source>
+				<target>Veröffentlichungsdatum Qucosa</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.frameworkAgreementId" approved="yes">
+				<source>FrameworkaAgreement ID</source>
+				<target>ID des Rahmenvertrags</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.collection" approved="yes">
+				<source>Collection</source>
+				<target>Kollektion</target>
+			</trans-unit>
 			<trans-unit id="manager.search.addSearchField" approved="yes">
 				<source>Add search field</source>
 				<target>Suchfeld hinzufügen</target>
@@ -1479,6 +1511,10 @@
 			<trans-unit id="manager.search.addSearchFieldDialog.no" approved="yes">
 				<source>No</source>
 				<target>Nein</target>
+			</trans-unit>
+			<trans-unit id="manager.search.addSearchFieldDialog.unknown" approved="yes">
+				<source>Unknown</source>
+				<target>Unbekannt</target>
 			</trans-unit>
 			<trans-unit id="manager.search.addSearchFieldDialog.documentType" approved="yes">
 				<source>Document type</source>

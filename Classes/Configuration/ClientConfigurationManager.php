@@ -227,6 +227,16 @@ class ClientConfigurationManager
         return $this->getSetting("publishingYearXpath", "publishingYearXpath");
     }
 
+    public function getSearchYearXpaths()
+    {
+        return $this->getSetting("searchYearXpaths", "searchYearXpaths");
+    }
+
+    public function getPublisherXpaths()
+    {
+        return $this->getSetting("publisherXpaths", "publisherXpaths");
+    }
+
     public function getNamespaces()
     {
         return $this->getSetting("namespaces", "namespaces");
@@ -387,6 +397,24 @@ class ClientConfigurationManager
         return !empty($settings['activateAlwaysSetDateIssued']);
     }
 
+    public function getPeerReviewValues()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['peerReviewValues'];
+    }
+
+    public function getOpenAccessValues()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['openAccessValues'];
+    }
+
+    public function getValidationValues()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['validationValues'];
+    }
+
     public function getTypoScriptSettings()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -436,6 +464,41 @@ class ClientConfigurationManager
     public function getCollectionXpath()
     {
         return $this->trimFileXpath($this->getSetting("collectionXpath", "collectionXpath"));
+    }
+
+    public function getTextTypeXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("textTypeXpath", "textTypeXpath"));
+    }
+
+    public function getOpenAccessXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("openAccessXpath", "openAccessXpath"));
+    }
+
+    public function getOpenAccessOtherVersionXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("openAccessOtherVersionXpath", "openAccessOtherVersionXpath"));
+    }
+
+    public function getPeerReviewXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("peerReviewXpath", "peerReviewXpath"));
+    }
+
+    public function getPeerReviewOtherVersionXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("peerReviewOtherVersionXpath", "peerReviewOtherVersionXpath"));
+    }
+
+    public function getLicenseXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("licenseXpath", "licenseXpath"));
+    }
+
+    public function getFrameworkAgreementIdXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("frameworkAgreementIdXpath", "frameworkAgreementIdXpath"));
     }
 
     public function getFisCollections()
