@@ -19,6 +19,6 @@
 <select class="custom-select search-field-value" id="search-field-inputOptionList-value">
     <option value=""></option>
     <f:for each="{dpf:inputOptionList(uid:'{listUid}')}" key="value" as="label">
-        <option value="{value}">{label}</option>
+        <option value='"{value}"'>{label}</option>
     </f:for>
 </select>
