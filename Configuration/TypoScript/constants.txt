@@ -128,29 +128,29 @@ plugin.tx_dpf {
         searchCollectionOptions =
 
         validationValues {
-            # cat=plugin.tx_dpf/link; type=int+; label=Validation value for 'yes'
+            # cat=plugin.tx_dpf/link; type=string; label=Validation value for 'yes'
             true = yes
 
-            # cat=plugin.tx_dpf/link; type=int+; label=Validation value for 'no'
+            # cat=plugin.tx_dpf/link; type=string; label=Validation value for 'no'
             false = no
         }
 
         peerReviewValues {
-            # cat=plugin.tx_dpf/link; type=int+; label=Peer review value for 'yes'
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'yes'
             true = ja
 
-            # cat=plugin.tx_dpf/link; type=int+; label=Peer review value for 'no'
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'no'
             false = nein
 
-            # cat=plugin.tx_dpf/link; type=int+; label=Peer review value for 'unknown'
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'unknown'
             unknown = unbekannt
         }
 
         openAccessValues {
-            # cat=plugin.tx_dpf/link; type=int+; label=Open access value for yes
+            # cat=plugin.tx_dpf/link; type=string; label=Open access value for yes
             true = Open access
 
-            # cat=plugin.tx_dpf/link; type=int+; label=Open access uri value for yes
+            # cat=plugin.tx_dpf/link; type=string; label=Open access uri value for yes
             trueUri = http://purl.org/coar/access_right/c_abf2
         }
     }
