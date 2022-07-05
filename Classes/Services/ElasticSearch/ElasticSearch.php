@@ -234,6 +234,10 @@ class ElasticSearch
                             'type' =>  'date',
                             'format'=>  "yyyy-MM-dd"
                         ],
+                        'dateIssued' => [
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
+                        ],
                         'embargoDate' => [
                             'type' =>  'date',
                             'format'=>  "yyyy-MM-dd"
@@ -376,7 +380,13 @@ class ElasticSearch
             $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
 
             // TODO: Is dateIssued the same as distribution date?
-            $data->dateIssued           = $internalFormat->getDateIssued();
+            $dateIssued = $internalFormat->getDateIssued();
+            if ($dateIssued) {
+                $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
+            } else {
+                $data->dateIssued = null;
+            }
+
             $data->textType             = $internalFormat->getTextType();
             $data->openAccess           = $internalFormat->getOpenAccessForSearch();
             $data->peerReview           = $internalFormat->getPeerReviewForSearch();
