@@ -394,7 +394,7 @@ class ElasticSearch
             $data->validation           = $internalFormat->getValidationForSearch();
             $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
             $data->searchYear           = $internalFormat->getSearchYear();
-            $data->publisher[]          = $internalFormat->getPublishingYear();
+            $data->publisher[]          = $internalFormat->getPublishers();
             $data->collections          = $internalFormat->getCollections();
 
             $this->client->index([
