@@ -1049,8 +1049,11 @@
 			<trans-unit id="manager.search.searchField.persons" approved="yes">
 				<source>Persons</source>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.organisation" approved="yes">
-				<source>Organisation</source>
+			<trans-unit id="manager.search.searchField.corporation" approved="yes">
+				<source>Institution</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.affiliation" approved="yes">
+				<source>Affiliation</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.title" approved="yes">
 				<source>Title</source>

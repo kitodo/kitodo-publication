@@ -1376,9 +1376,13 @@
 				<source>Persons</source>
 				<target>Personen</target>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.organisation" approved="yes">
-				<source>Organisation</source>
-				<target>Organisation</target>
+			<trans-unit id="manager.search.searchField.corporation" approved="yes">
+				<source>Institution</source>
+				<target>Institution</target>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.affiliation" approved="yes">
+				<source>Affiliation</source>
+				<target>Affiliation</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.title" approved="yes">
 				<source>Title</source>
