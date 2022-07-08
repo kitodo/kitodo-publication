@@ -650,20 +650,13 @@ class InternalFormat
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getValidationForSearch()
+    public function getValidation()
     {
         $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
-        $validation =  $this->getValue($validationXpath);
-
-        $validationValues = $this->clientConfigurationManager->getValidationValues();
-
-        if (strtolower($validation) === strtolower($validationValues['true'])) {
-            return self::VALUE_TRUE;
-        }
-
-        return self::VALUE_FALSE;
+        $validation = $this->getValue($validationXpath);
+        return (strtolower($validation) === 'true')? true : false;
     }
 
     /**
@@ -671,14 +664,8 @@ class InternalFormat
      */
     public function setValidation($validated)
     {
-        $validationXpath  = $this->clientConfigurationManager->getValidationXpath();
-        $validationValues = $this->clientConfigurationManager->getValidationValues();
-
-        if ($validated) {
-            $this->setValue($validationXpath, $validationValues['true']);
-        } else {
-            $this->setValue($validationXpath, $validationValues['false']);
-        }
+        $validationXpath =  $this->clientConfigurationManager->getValidationXpath();
+        $this->setValue($validationXpath, ($validated? 'true' : 'false'));
     }
 
     /**

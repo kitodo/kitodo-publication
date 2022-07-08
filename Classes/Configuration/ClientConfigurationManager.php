@@ -409,12 +409,6 @@ class ClientConfigurationManager
         return $settings['openAccessValues'];
     }
 
-    public function getValidationValues()
-    {
-        $settings = $this->getTypoScriptSettings();
-        return $settings['validationValues'];
-    }
-
     public function getTypoScriptSettings()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);

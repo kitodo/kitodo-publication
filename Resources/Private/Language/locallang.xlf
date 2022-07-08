@@ -1106,9 +1106,6 @@
 			<trans-unit id="manager.search.searchField.license" approved="yes">
 				<source>Lizense</source>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.validation" approved="yes">
-				<source>Validation</source>
-			</trans-unit>
 			<trans-unit id="manager.search.searchField.dateIssued" approved="yes">
 				<source>Date issued Qucosa</source>
 			</trans-unit>

@@ -1452,10 +1452,6 @@
 				<source>Lizenz</source>
 				<target>Lizenz</target>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.validation" approved="yes">
-				<source>Validation</source>
-				<target>Validierung</target>
-			</trans-unit>
 			<trans-unit id="manager.search.searchField.dateIssued" approved="yes">
 				<source>Date issued Qucosa</source>
 				<target>Veröffentlichungsdatum Qucosa</target>

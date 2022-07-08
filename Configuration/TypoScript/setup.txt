@@ -196,11 +196,6 @@ plugin.tx_dpf {
         searchLicensOptions = {$plugin.tx_dpf.settings.searchLicensOptions}
         searchCollectionOptions = {$plugin.tx_dpf.settings.searchCollectionOptions}
 
-        validationValues {
-            true = {$plugin.tx_dpf.settings.validationValues.true}
-            false = {$plugin.tx_dpf.settings.validationValues.false}
-        }
-
         peerReviewValues {
             true = {$plugin.tx_dpf.settings.peerReviewValues.true}
             false = {$plugin.tx_dpf.settings.peerReviewValues.false}

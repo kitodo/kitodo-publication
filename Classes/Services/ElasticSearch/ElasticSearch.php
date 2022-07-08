@@ -391,7 +391,6 @@ class ElasticSearch
             $data->openAccess           = $internalFormat->getOpenAccessForSearch();
             $data->peerReview           = $internalFormat->getPeerReviewForSearch();
             $data->license              = $internalFormat->getLicense();
-            $data->validation           = $internalFormat->getValidationForSearch();
             $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
             $data->searchYear           = $internalFormat->getSearchYear();
             $data->publisher[]          = $internalFormat->getPublishers();

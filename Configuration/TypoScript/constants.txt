@@ -127,14 +127,6 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=int+; label=Collection search input option list (UID)
         searchCollectionOptions =
 
-        validationValues {
-            # cat=plugin.tx_dpf/link; type=string; label=Validation value for 'yes'
-            true = yes
-
-            # cat=plugin.tx_dpf/link; type=string; label=Validation value for 'no'
-            false = no
-        }
-
         peerReviewValues {
             # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'yes'
             true = ja
