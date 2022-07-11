@@ -1046,8 +1046,8 @@
 			<trans-unit id="manager.search.saveQuery.successfully">
 				<source>Search query has been saved.</source>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.persons" approved="yes">
-				<source>Persons</source>
+			<trans-unit id="manager.search.searchField.person" approved="yes">
+				<source>Person</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.corporation" approved="yes">
 				<source>Institution</source>

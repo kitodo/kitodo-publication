@@ -1372,9 +1372,9 @@
 				<source>Search query has been saved.</source>
 				<target>Die Suche wurde gespeichert.</target>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.persons" approved="yes">
-				<source>Persons</source>
-				<target>Personen</target>
+			<trans-unit id="manager.search.searchField.person" approved="yes">
+				<source>Person</source>
+				<target>Person</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.corporation" approved="yes">
 				<source>Institution</source>
