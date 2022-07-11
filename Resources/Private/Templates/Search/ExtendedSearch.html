@@ -50,6 +50,9 @@
                 <a class="dropdown-item" data-field="doctype" data-form-group="doctype" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.publicationType')}
                 </a>
+                <a class="dropdown-item" data-field="textType" data-form-group="textType" data-type="value" href="#">
+                    {f:translate(key: 'manager.search.searchField.textType')}
+                </a>
                 <a class="dropdown-item" data-field="source" data-form-group="default" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.source')}
                 </a>
@@ -61,10 +64,6 @@
                 </a>
                 <a class="dropdown-item" data-field="language" data-form-group="language" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.language')}
-                </a>
-
-                <a class="dropdown-item" data-field="textType" data-form-group="textType" data-type="value" href="#">
-                    {f:translate(key: 'manager.search.searchField.textType')}
                 </a>
 
                 <a class="dropdown-item" data-field="openAccess" data-form-group="bool" data-type="value" href="#">
@@ -86,6 +85,9 @@
                     <a class="dropdown-item" data-field="universityCollection" data-form-group="bool" data-type="value" href="#">
                         {f:translate(key: 'manager.search.searchField.universityPublication')}
                     </a>
+                    <a class="dropdown-item" data-field="collections" data-form-group="collections" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.collection')}
+                    </a>
                     <a class="dropdown-item" data-field="hasFiles" data-form-group="bool" data-type="value" href="#">
                         {f:translate(key: 'manager.search.searchField.withFile')}
                     </a>
@@ -94,9 +96,6 @@
                     </a>
                     <a class="dropdown-item" data-field="creationDate" data-form-group="date-range" data-type="date-range" href="#">
                         {f:translate(key: 'manager.search.searchField.creationDate')}
-                    </a>
-                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="value" href="#">
-                        {f:translate(key: 'manager.search.searchField.comment')}
                     </a>
 
                     <a class="dropdown-item" data-field="dateIssued" data-form-group="date-range" data-type="date-range" href="#">
@@ -110,12 +109,12 @@
                         </f:if>
                     </a>
 
-                    <a class="dropdown-item" data-field="frameworkAgreementId" data-form-group="default" data-type="value" href="#">
-                        {f:translate(key: 'manager.search.searchField.frameworkAgreementId')}
+                    <a class="dropdown-item" data-field="notes" data-form-group="default" data-type="phrase" href="#">
+                        {f:translate(key: 'manager.search.searchField.comment')}
                     </a>
 
-                    <a class="dropdown-item" data-field="collections" data-form-group="collections" data-type="value" href="#">
-                        {f:translate(key: 'manager.search.searchField.collection')}
+                    <a class="dropdown-item" data-field="frameworkAgreementId" data-form-group="default" data-type="value" href="#">
+                        {f:translate(key: 'manager.search.searchField.frameworkAgreementId')}
                     </a>
 
                 </f:if>
