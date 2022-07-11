@@ -1107,6 +1107,9 @@
 				<source>Lizense</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.dateIssued" approved="yes">
+				<source>Date issued file (Full Text)</source>
+			</trans-unit>
+			<trans-unit id="manager.search.searchField.dateIssuedAlwaysSet" approved="yes">
 				<source>Date issued Qucosa</source>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.frameworkAgreementId" approved="yes">

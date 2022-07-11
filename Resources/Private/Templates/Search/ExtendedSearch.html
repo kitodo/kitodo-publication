@@ -33,7 +33,7 @@
             </button>
             <div class="dropdown-menu scrollable-menu" id="search-field-selection" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" data-field="persons" data-form-group="default" data-type="value" href="#">
-                    {f:translate(key: 'manager.search.searchField.persons')}
+                    {f:translate(key: 'manager.search.searchField.person')}
                 </a>
                 <a class="dropdown-item" data-field="affiliation" data-form-group="default" data-type="value" href="#">
                     {f:translate(key: 'manager.search.searchField.affiliation')}
@@ -100,7 +100,14 @@
                     </a>
 
                     <a class="dropdown-item" data-field="dateIssued" data-form-group="date-range" data-type="date-range" href="#">
-                        {f:translate(key: 'manager.search.searchField.dateIssued')}
+                        <f:if condition="{settings.activateAlwaysSetDateIssued}">
+                            <f:then>
+                                {f:translate(key: 'manager.search.searchField.dateIssuedAlwaysSet')}
+                            </f:then>
+                            <f:else>
+                                {f:translate(key: 'manager.search.searchField.dateIssued')}
+                            </f:else>
+                        </f:if>
                     </a>
 
                     <a class="dropdown-item" data-field="frameworkAgreementId" data-form-group="default" data-type="value" href="#">
