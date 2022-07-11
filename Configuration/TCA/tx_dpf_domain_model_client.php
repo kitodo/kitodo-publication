@@ -115,7 +115,6 @@ return array(
             --pallette--;;pallette_open_access_xpath,
             --pallette--;;pallette_peer_review_xpath,
             --pallette--;;pallette_license_xpath,
-            --pallette--;;pallette_dateIssued_xpath,
             --pallette--;;pallette_frameworkAgreementId_xpath,
         --div--;Fedora, fedora_host, fedora_user, fedora_password, fedora_endpoint, fedora_root_container,  fedora_collection_namespace,
         --div--;Elastic search, elastic_search_host, elastic_search_port, elastic_search_index_name,
