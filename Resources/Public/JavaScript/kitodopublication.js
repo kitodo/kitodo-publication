@@ -886,11 +886,9 @@ var batchSelectHandler = {
         var countCheckedReleased = jQuery('#workspace-list [data-alias-state="released"] .batch-checkbox:checked').length;
 
         if (countChecked - (countCheckedNew + countCheckedReleased) > 0) {
-            jQuery("#batchButtonBatchReleaseUnvalidated").removeClass("disabled");
-            jQuery("#batchButtonBatchReleaseValidated").removeClass("disabled");
+            jQuery("#batchButtonBatchRelease").removeClass("disabled");
         } else {
-            jQuery("#batchButtonBatchReleaseUnvalidated").addClass("disabled");
-            jQuery("#batchButtonBatchReleaseValidated").addClass("disabled");
+            jQuery("#batchButtonBatchRelease").addClass("disabled");
         }
     }
 }
@@ -2161,8 +2159,7 @@ $(document).ready(function() {
     batchConfirmDialog("BatchSetInProgress");
     batchConfirmDialog("BatchRegister");
     batchConfirmDialog("BatchRemove");
-    batchConfirmDialog("BatchReleaseValidated");
-    batchConfirmDialog("BatchReleaseUnvalidated");
+    batchConfirmDialog("BatchRelease");
     batchConfirmDialog("BatchBookmark");
 
     removeBookmarkHandler.init();

@@ -652,21 +652,13 @@
 				<source>The selected documents will be removed from your workspace.</source>
 				<target>Die ausgewählten Dokumente werden aus Ihrem Arbeitsbereich entfernt. </target>
 			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseValidated.messageHeader" approved="yes">
-				<source>Do you really want to release and validate the selected documents?</source>
-				<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben und validieren?</target>
+			<trans-unit id="manager.confirmBatchRelease.messageHeader" approved="yes">
+				<source>Do you really want to release the selected documents?</source>
+				<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben?</target>
 			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseValidated.message" approved="yes" xml:space="preserve">
-				<source>The selected documents will be released and validated.</source>
-				<target>Die ausgewählten Dokumente werden freigegeben und validiert.</target>
-			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseUnvalidated.messageHeader" approved="yes">
-				<source>Do you really want to release but not validate the selected documents?</source>
-				<target>Möchten Sie die ausgewählten Dokumente wirklich freigeben aber nicht validieren?</target>
-			</trans-unit>
-			<trans-unit id="manager.confirmBatchReleaseUnvalidated.message" approved="yes" xml:space="preserve">
-				<source>The selected documents will be released but not validated.</source>
-				<target>Die ausgewählten Dokumente werden freigegeben aber nicht validiert.</target>
+			<trans-unit id="manager.confirmBatchRelease.message" approved="yes" xml:space="preserve">
+				<source>The selected documents will be released.</source>
+				<target>Die ausgewählten Dokumente werden freigegeben.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmBatchBookmark.messageHeader" approved="yes">
 				<source>Do you really want to bookmark the selected documents?</source>

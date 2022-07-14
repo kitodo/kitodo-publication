@@ -364,11 +364,6 @@ class ClientConfigurationManager
         return $this->getSetting("personPublisherRole", "personPublisherRole");
     }
 
-    public function getValidationXpath()
-    {
-        return $this->getSetting("validationXpath", "validationXpath");
-    }
-
     public function getFisIdXpath()
     {
         return $this->getSetting("fisIdXpath", "fisIdXpath");

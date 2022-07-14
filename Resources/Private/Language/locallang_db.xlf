@@ -236,9 +236,6 @@
         <trans-unit id="tx_dpf_domain_model_client.person_affiliation_identifier_xpath" approved="yes">
             <source>Person affiliation identifier xpath</source>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.validation_xpath" approved="yes">
-            <source>Validation xpath</source>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
             <source>Fis id xpath</source>
         </trans-unit>

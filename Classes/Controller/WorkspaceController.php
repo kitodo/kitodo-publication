@@ -481,34 +481,11 @@ class WorkspaceController extends AbstractController
             array('message' => $message, 'checkedDocumentIdentifiers' =>  $checkedDocumentIdentifiers));
     }
 
-
     /**
      * Batch operation, release documents.
      * @param array $listData
      */
-    public function batchReleaseValidatedAction($listData)
-    {
-        $this->batchRelease($listData, true);
-    }
-
-    /**
-     * Batch operation, release as unvalidated documents.
-     * @param array $listData
-     */
-    public function batchReleaseUnvalidatedAction($listData)
-    {
-        $this->batchRelease($listData, false);
-    }
-
-
-
-
-    /**
-     * Batch operation, release documents.
-     * @param array $listData
-     * @param bool $validated
-     */
-    protected function batchRelease($listData, $validated)
+    public function batchReleaseAction($listData)
     {
         $successful = [];
         $checkedDocumentIdentifiers = [];
@@ -548,7 +525,6 @@ class WorkspaceController extends AbstractController
                 if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
                     $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
-                    $internalFormat->setValidation($validated);
                     $document->setXmlData($internalFormat->getXml());
 
                     if ($this->documentManager->update($document, $documentWorkflowTransition)) {

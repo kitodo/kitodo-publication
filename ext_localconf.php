@@ -123,7 +123,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
     'Backoffice',
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
+            .'batch, batchRegister, batchRemove, batchRelease, editDocument, batchSetInProgress',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '
@@ -148,7 +148,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
     // non-cacheable actions
     array(
         'Workspace'        => 'listWorkspace, initIndex, '
-            .'batch, batchRegister, batchRemove, batchReleaseValidated, batchReleaseUnvalidated, editDocument, batchSetInProgress',
+            .'batch, batchRegister, batchRemove, batchRelease, editDocument, batchSetInProgress',
         'Document'         => 'logout, showDetails, discard, postpone, deleteLocally, deleteLocallySuggestion, register, releasePublish, '
             . 'duplicate, deleteConfirm, activateConfirm, inactivateConfirm, deleteConfirm, discardConfirm, '
             . 'releaseActivate, cancelListTask, '

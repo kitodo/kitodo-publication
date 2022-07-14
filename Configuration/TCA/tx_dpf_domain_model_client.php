@@ -58,7 +58,7 @@ return array(
             repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,
             person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
             person_author_role, person_publisher_role,
-            validation_xpath, fis_id_xpath, source_details_xpaths, collection_xpath,
+            fis_id_xpath, source_details_xpaths, collection_xpath,
             text_type_xpath, open_access_xpath, open_access_other_version_xpath,
             peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
             date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths',
@@ -91,7 +91,7 @@ return array(
         repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,
         person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
         person_author_role, person_publisher_role,
-        validation_xpath, fis_id_xpath, source_details_xpaths, collection_xpath,
+        fis_id_xpath, source_details_xpaths, collection_xpath,
         text_type_xpath, open_access_xpath, open_access_other_version_xpath,
         peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
         date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths'
@@ -106,7 +106,7 @@ return array(
         repository_last_mod_date_xpath, deposit_license_xpath, all_notes_xpath, private_notes_xpath,
         person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
         person_author_role, person_publisher_role,
-        --pallette--;;pallette_validation_xpath, fis_id_xpath, --pallette--;;pallette_collection_xpath,
+        fis_id_xpath, --pallette--;;pallette_collection_xpath,
         --div--;Search field XML,
             --pallette--;;pallette_source_details_xpath,
             --pallette--;;pallette_search_year_xpath,
@@ -985,16 +985,6 @@ return array(
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-        'validation_xpath' => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.validation.xpath',
-            'config'    => array(
-                'type' => 'input',
-                'size' => 80,
                 'eval' => 'trim',
             ),
         ),
