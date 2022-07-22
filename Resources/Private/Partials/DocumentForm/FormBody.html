@@ -47,12 +47,12 @@
 
                     <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
                         <f:for each="{formGroup}" key="groupItemIndex" as="groupItem" iteration="groupItemIterator">
+                            <f:variable name="formPageUid">{formPage.0.uid}</f:variable>
+                            <f:variable name="formGroupUid">{groupItem.uid}</f:variable>
+                            <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
+                            <f:variable name="groupIndex">{groupItemIndex}</f:variable>
                             <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
-                                    <f:variable name="formPageUid">{formPage.0.uid}</f:variable>
-                                    <f:variable name="formGroupUid">{groupItem.uid}</f:variable>
-                                    <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
-                                    <f:variable name="groupIndex">{groupItemIndex}</f:variable>
                                     <f:render partial="DocumentForm/Group" arguments="{_all}"/>
                                     <f:if condition="{groupItem.maxIteration} == 0 && {groupItem.primaryFileGroup} == 0">
                                         <f:if condition="{groupItemIterator.isLast}">
@@ -68,11 +68,41 @@
                                         </f:if>
                                     </f:if>
                                 </f:then>
+                                <f:else>
+                                    <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+                                        <f:for each="{formField}" key="fieldItemIndex" as="fieldItem" iteration="fieldItemIterator">
+                                            <f:form.hidden id="inp_{fieldItem.uid}"
+                                                           property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIndex}"
+                                                           value="{fieldItem.value}" />
+                                        </f:for>
+                                    </f:for>
+                                </f:else>
                             </f:if>
                         </f:for>
                     </f:for>
                 </div>
             </f:then>
+            <f:else>
+                <f:for each="{formPage.0.items}" as="formGroup" iteration="groupIterator">
+                    <f:for each="{formGroup}" key="groupItemIndex" as="groupItem" iteration="groupItemIterator">
+                        <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
+                            <f:then>
+                                <f:variable name="formPageUid">{formPage.0.uid}</f:variable>
+                                <f:variable name="formGroupUid">{groupItem.uid}</f:variable>
+                                <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
+                                <f:variable name="groupIndex">{groupItemIndex}</f:variable>
+                                <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+                                    <f:for each="{formField}" key="fieldItemIndex" as="fieldItem" iteration="fieldItemIterator">
+                                        <f:form.hidden id="inp_{fieldItem.uid}"
+                                                       property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIndex}"
+                                                       value="{fieldItem.value}" />
+                                    </f:for>
+                                </f:for>
+                            </f:then>
+                        </f:if>
+                    </f:for>
+                </f:for>
+            </f:else>
         </f:if>
     </f:for>
 </div>

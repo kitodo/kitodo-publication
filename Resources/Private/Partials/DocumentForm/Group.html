@@ -109,6 +109,11 @@
                                     </f:if>
                                 </f:if>
                             </f:then>
+                            <f:else>
+                                <f:form.hidden id="inp_{fieldItem.uid}"
+                                               property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldItemIndex}"
+                                               value="{fieldItem.value}" />
+                            </f:else>
                         </f:if>
                     </div>
                 </f:then>
