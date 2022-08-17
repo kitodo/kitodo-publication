@@ -325,10 +325,6 @@
             <source>Fis id xpath</source>
             <target>Fis-ID (XPath)</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.source_details_xpaths" approved="yes">
-            <source>Source details xpaths (Semicolon separated)</source>
-            <target>Quellen-Angaben (XPath, Semikolon separiert)</target>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.collection_xpath" approved="yes">
             <source>Collection xpath</source>
             <target>Kollektionen (XPath)</target>
@@ -1153,6 +1149,102 @@
 			<source>FIS collections (comma separated list)</source>
 			<target>FIS-Kollektionen (kommagetrennte List)</target>
 		</trans-unit>
-		</body>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.source_details.label" approved="yes">
+            <source>Source details</source>
+			<target>Quellen-Angaben</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.source_details.xpath" approved="yes">
+			<source>XPath expressions of all source details related fields (Semicolon separated list).</source>
+			<target>XPath-Ausdrücke aller Quelldetails-bezogenen Felder (Semikolon-getrennte Liste).</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.text_type.label" approved="yes">
+			<source>Document Type / Text Type</source>
+			<target>Dokumenttyp/Textsorte</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.text_type.xpath" approved="yes">
+            <source>XPath expressions for the text type field</source>
+			<target>XPath-Ausdruck für das Dokumenttyp-/Textsorte-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.label" approved="yes">
+			<source>Open access</source>
+			<target>Open access</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.xpath" approved="yes">
+            <source>XPath expressions for the open access field</source>
+			<target>XPath-Ausdruck für das Open-Access-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.other_version_xpath" approved="yes">
+            <source>XPath expressions for the open access other version field</source>
+			<target>XPath-Ausdruck für das Open-Access-Feld anderer Versionen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.label" approved="yes">
+			<source>Peer review</source>
+			<target>Peer review</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.xpath" approved="yes">
+            <source>XPath expressions for the peer review field</source>
+			<target>XPath-Ausdruck für das Peer-Review-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.other_version_xpath" approved="yes">
+            <source>XPath expressions for the peer review other version field</source>
+			<target>XPath-Ausdruck für das Peer-Review-Feld anderer Versionen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.license.label" approved="yes">
+			<source>License</source>
+			<target>Lizenz</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.license.xpath" approved="yes">
+            <source>XPath expressions for the license field</source>
+			<target>XPath-Ausdruck für das Lizenz-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.validation.label" approved="yes">
+			<source>Validation</source>
+			<target>Validierung</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.validation.xpath" approved="yes">
+            <source>XPath expressions for the validation field</source>
+			<target>XPath-Ausdruck für das Validierungs-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.label" approved="yes">
+			<source>Date issued Qucosa</source>
+			<target>Veröffentlichungsdatum Qucosa</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.xpath" approved="yes">
+            <source>XPath expressions for the date issued Qucosa field</source>
+			<target>XPath-Ausdruck für das Veröffentlichungsdatum-Qucosa-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.label" approved="yes">
+			<source>Framework agreement id</source>
+			<target>ID des Rahmenvertrags</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.xpath" approved="yes">
+            <source>XPath expressions for the framework agreement id field</source>
+			<target>XPath-Ausdruck für das Feld der ID des Rahmenvertrags</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.label" approved="yes">
+			<source>Collection</source>
+			<target>Kollektion</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.xpath" approved="yes">
+            <source>XPath expressions for the collection field</source>
+			<target>XPath-Ausdruck für das Kollektions-Feld</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_year.label" approved="yes">
+        	<source>Year</source>
+        	<target>Jahr</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_year.xpath" approved="yes">
+			<source>XPath espressions of all year fields to be searched (Semicolon separated list).</source>
+			<target>XPath-Ausdrücke aller zu durchsuchenden Jahresfelder (Semikolon-getrennte Liste).</target>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.publisher.label" approved="yes">
+        	<source>Publisher</source>
+        	<target>Verlag</target>
+        </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.search_field_xml.publisher.xpath" approved="yes">
+			<source>XPath espressions of all publisher fields to be searched (Semicolon separated list).</source>
+			<target>XPath-Ausdrücke aller zu durchsuchenden Verlagsfelder (Semikolon-getrennte Liste).</target>
+        </trans-unit>
+        </body>
 	</file>
 </xliff>

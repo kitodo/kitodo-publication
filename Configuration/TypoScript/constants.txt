@@ -117,6 +117,34 @@ plugin.tx_dpf {
 
         # cat=plugin.tx_dpf/api; type=string; label= no reply email address
         noReplyAddress = noreply@qucosa.de
+
+        # cat=plugin.tx_dpf/link; type=int+; label=Text type search input option list (UID)
+        searchTextTypeOptions =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=License search input option list (UID)
+        searchLicensOptions =
+
+        # cat=plugin.tx_dpf/link; type=int+; label=Collection search input option list (UID)
+        searchCollectionOptions =
+
+        peerReviewValues {
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'yes'
+            true = ja
+
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'no'
+            false = nein
+
+            # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'unknown'
+            unknown = unbekannt
+        }
+
+        openAccessValues {
+            # cat=plugin.tx_dpf/link; type=string; label=Open access value for yes
+            true = Open access
+
+            # cat=plugin.tx_dpf/link; type=string; label=Open access uri value for yes
+            trueUri = http://purl.org/coar/access_right/c_abf2
+        }
     }
 }
 

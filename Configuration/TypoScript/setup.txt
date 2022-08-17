@@ -191,6 +191,21 @@ plugin.tx_dpf {
 		riswosMandatoryFields = {$plugin.tx_dpf.settings.riswosMandatoryFields}
 		fedoraNamespace = {$plugin.tx_dpf.settings.fedoraNamespace}
 		noReplyAddress = {$plugin.tx_dpf.settings.noReplyAddress}
+
+        searchTextTypeOptions = {$plugin.tx_dpf.settings.searchTextTypeOptions}
+        searchLicensOptions = {$plugin.tx_dpf.settings.searchLicensOptions}
+        searchCollectionOptions = {$plugin.tx_dpf.settings.searchCollectionOptions}
+
+        peerReviewValues {
+            true = {$plugin.tx_dpf.settings.peerReviewValues.true}
+            false = {$plugin.tx_dpf.settings.peerReviewValues.false}
+            unknown = {$plugin.tx_dpf.settings.peerReviewValues.unknown}
+        }
+
+        openAccessValues {
+            true = {$plugin.tx_dpf.settings.openAccessValues.true}
+            trueUri = {$plugin.tx_dpf.settings.openAccessValues.trueUri}
+        }
     }
 }
 

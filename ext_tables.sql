@@ -473,6 +473,16 @@ CREATE TABLE tx_dpf_domain_model_client (
   fis_id_xpath tinytext NOT NULL,
   source_details_xpaths text NOT NULL,
   collection_xpath tinytext NOT NULL,
+  text_type_xpath tinytext NOT NULL,
+  open_access_xpath tinytext NOT NULL,
+  open_access_other_version_xpath tinytext NOT NULL,
+  peer_review_xpath tinytext NOT NULL,
+  peer_review_other_version_xpath tinytext NOT NULL,
+  license_xpath tinytext NOT NULL,
+  framework_agreement_id_xpath tinytext NOT NULL,
+  search_year_xpaths tinytext NOT NULL,
+  publisher_xpaths tinytext NOT NULL,
+
   fis_collections tinytext NOT NULL,
 
   fedora_host tinytext NOT NULL,

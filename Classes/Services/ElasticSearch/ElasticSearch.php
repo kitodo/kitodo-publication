@@ -21,6 +21,7 @@ use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
 use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
+use EWW\Dpf\Helper\InternalFormat;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
@@ -224,12 +225,16 @@ class ElasticSearch
                             ]
                         ],
                         'affiliation' => [
-                            'type' => 'keyword'
+                            'type' => 'text'
                         ],
                         'process_number' => [
                             'type' => 'keyword'
                         ],
                         'creationDate' => [
+                            'type' =>  'date',
+                            'format'=>  "yyyy-MM-dd"
+                        ],
+                        'dateIssued' => [
                             'type' =>  'date',
                             'format'=>  "yyyy-MM-dd"
                         ],
@@ -315,7 +320,6 @@ class ElasticSearch
                 $data->notes = array();
             }
 
-
             if ($document->hasFiles()) {
                 $data->hasFiles = true;
             } else {
@@ -324,7 +328,6 @@ class ElasticSearch
 
             $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
 
-            //$persons = array_merge($internalFormat->getAuthors(), $internalFormat->getPublishers());
             $persons = $internalFormat->getPersons();
 
             $fobIdentifiers = [];
@@ -375,6 +378,23 @@ class ElasticSearch
             $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
 
             $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
+
+            // TODO: Is dateIssued the same as distribution date?
+            $dateIssued = $internalFormat->getDateIssued();
+            if ($dateIssued) {
+                $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
+            } else {
+                $data->dateIssued = null;
+            }
+
+            $data->textType             = $internalFormat->getTextType();
+            $data->openAccess           = $internalFormat->getOpenAccessForSearch();
+            $data->peerReview           = $internalFormat->getPeerReviewForSearch();
+            $data->license              = $internalFormat->getLicense();
+            $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
+            $data->searchYear           = $internalFormat->getSearchYear();
+            $data->publisher[]          = $internalFormat->getPublishers();
+            $data->collections          = $internalFormat->getCollections();
 
             $this->client->index([
                 'refresh' => 'wait_for',

@@ -27,6 +27,10 @@ class InternalFormat
 {
     const rootNode = '//data/';
 
+    const VALUE_TRUE = 'true';
+    const VALUE_FALSE = 'false';
+    const VALUE_UNKNOWN = 'unknown';
+
     /**
      * clientConfigurationManager
      *
@@ -389,6 +393,57 @@ class InternalFormat
         return $this->getValue($publishingYearXpath);
     }
 
+    /**
+     * @return array
+     */
+    public function getSearchYear()
+    {
+        $yearXpath     = $this->clientConfigurationManager->getSearchYearXpaths();
+        $yearXpathList = explode(";", trim($yearXpath," ;"));
+        $xpath         = $this->getXpath();
+        $values        = [];
+
+        foreach ($yearXpathList as $yearXpathItem) {
+            $elements = $xpath->query(self::rootNode . trim($yearXpathItem));
+            if (!is_null($elements)) {
+                foreach ($elements as $element) {
+                    $year = trim($element->nodeValue);
+                    if (strlen($year) <= 4) {
+                        $values[] = $year;
+                    } else {
+                        if ($timeStamp = strtotime($year)) {
+                            $values[] = date("Y",$timeStamp);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPublishers()
+    {
+        $publisherXpath     = $this->clientConfigurationManager->getPublisherXpaths();
+        $publisherXpathList = explode(";", trim($publisherXpath," ;"));
+        $xpath              = $this->getXpath();
+        $values             = [];
+
+        foreach ($publisherXpathList as $publisherXpathItem) {
+            $elements = $xpath->query(self::rootNode . trim($publisherXpathItem));
+            if (!is_null($elements)) {
+                foreach ($elements as $element) {
+                    $values[] = trim($element->nodeValue);
+                }
+            }
+        }
+
+        return $values;
+    }
+
     public function getOriginalSourceTitle()
     {
         $originalSourceTitleXpath = $this->clientConfigurationManager->getOriginalSourceTitleXpath();
@@ -500,7 +555,7 @@ class InternalFormat
         return $this->getPersons($this->clientConfigurationManager->getPersonAuthorRole());
     }
 
-    public function getPublishers()
+    public function getPersonPublishers()
     {
         return $this->getPersons($this->clientConfigurationManager->getPersonPublisherRole());
     }
@@ -652,6 +707,113 @@ class InternalFormat
         }
 
         return $collections;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTextType()
+    {
+        $textTypeXpath =  $this->clientConfigurationManager->getTextTypeXpath();
+        return $this->getValue($textTypeXpath);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpenAccessForSearch()
+    {
+        $xpath = $this->getXpath();
+
+        $openAccessXpath = $this->clientConfigurationManager->getOpenAccessXpath();
+        $openAccess = $this->getValue($openAccessXpath);
+
+        $openAccessOtherVersionXpath    = $this->clientConfigurationManager->getOpenAccessOtherVersionXpath();
+        $openAccessOtherVersionElements = $xpath->query(self::rootNode . trim($openAccessOtherVersionXpath));
+
+        $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
+
+        if (!is_null($openAccessOtherVersionElements)) {
+            foreach ($openAccessOtherVersionElements as $element) {
+                if (
+                    strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['true']) ||
+                    strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['trueUri'])
+                ) {
+                    return self::VALUE_TRUE;
+                }
+            }
+        }
+
+        if (
+            strtolower($openAccess) === strtolower($openAccessValues['true']) ||
+            strtolower($openAccess) === strtolower($openAccessValues['trueUri'])
+        ) {
+            return self::VALUE_TRUE;
+        }
+
+        return self::VALUE_FALSE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPeerReviewForSearch()
+    {
+        $xpath = $this->getXpath();
+
+        $peerReviewOtherVersionXpath    = $this->clientConfigurationManager->getPeerReviewOtherVersionXpath();
+        $peerReviewOtherVersionElements = $xpath->query(self::rootNode . trim($peerReviewOtherVersionXpath));
+
+        $peerReviewXpath = $this->clientConfigurationManager->getPeerReviewXpath();
+
+        $peerReviewValues = $this->clientConfigurationManager->getPeerReviewValues();
+
+        $peerReview = $this->getValue($peerReviewXpath);
+
+        if (!is_null($peerReviewOtherVersionElements)) {
+            foreach ($peerReviewOtherVersionElements as $element) {
+                if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['true']))) {
+                    return self::VALUE_TRUE;
+                }
+            }
+        }
+
+        if (strtolower($peerReview) === strtolower($peerReviewValues['true'])) {
+            return self::VALUE_TRUE;
+        }
+
+        if (!is_null($peerReviewOtherVersionElements)) {
+            foreach ($peerReviewOtherVersionElements as $element) {
+                if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['false']))) {
+                    return self::VALUE_FALSE;
+                }
+            }
+        }
+
+        if (strtolower($peerReview) === strtolower($peerReviewValues['false'])) {
+            return self::VALUE_FALSE;
+        }
+
+        return self::VALUE_UNKNOWN;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLicense()
+    {
+        $licenseXpath = $this->clientConfigurationManager->getLicenseXpath();
+        return $this->getValue($licenseXpath);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrameworkAgreementId()
+    {
+        $xpath = $this->clientConfigurationManager->getFrameworkAgreementIdXpath();
+        return $this->getValue($xpath);
     }
 
     /**

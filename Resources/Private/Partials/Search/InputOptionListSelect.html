@@ -1,0 +1,24 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+{namespace dpf = EWW\Dpf\ViewHelpers}
+
+<label for="search-field-inputOptionList-value" class="col-form-label">{listName}</label>
+
+<select class="custom-select search-field-value" id="search-field-inputOptionList-value">
+    <option value=""></option>
+    <f:for each="{dpf:inputOptionList(uid:'{listUid}')}" key="value" as="label">
+        <option value='"{value}"'>{label}</option>
+    </f:for>
+</select>
