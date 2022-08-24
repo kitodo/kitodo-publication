@@ -1217,12 +1217,12 @@
                 <target>Eine Publikation mit diesem Identifikator ist bereits im System. Sie wurde zu „Meine Publikationen“ hinzugefügt. Bitte prüfen Sie den Eintrag dort.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
-                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
-                <target>Die Publikation wurde importiert. Bitte prüfen Sie, ob alle Angaben korrekt sind, und identifizieren Sie Personen, die zur Universität Leipzig gehören.</target>
+                <source>The publication was imported. Please check that all information is correct and identify others involved by clicking on Edit -> Persons -> Search in FIS.</source>
+                <target>Die Publikation wurde importiert. Bitte identifizieren Sie jetzt sich selbst und ggf. auch andere Forschende mit Klick auf Bearbeiten > Personen > Suche in FIS.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
-                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
-                <target>Die Publikation wurde importiert. Bitte prüfen Sie, ob alle Angaben korrekt sind, und identifizieren Sie Personen, die zur Universität Leipzig gehören.</target>
+                <source>The publication was imported. Please check that all information is correct and identify others involved by clicking on Edit -> Persons -> Search in FIS.</source>
+                <target>Die Publikation wurde importiert. Bitte identifizieren Sie jetzt sich selbst und ggf. auch andere Forschende mit Klick auf Bearbeiten > Personen > Suche in FIS.</target>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
                 <source>Could not import the publication.</source>

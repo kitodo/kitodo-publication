@@ -936,10 +936,10 @@
                 <source>A publication with this identifier is already in the system. It has been added to „My Publications”. Please check the entry there.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToMyPublications" approved="yes">
-                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+                <source>The publication was imported. Please check that all information is correct and identify others involved with the publication.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationAddedToWorkspace" approved="yes">
-                <source>The publication was imported. Please check that all information is correct and identify people who belong to the university of Leipzig.</source>
+                <source>The publication was imported. Please check that all information is correct and identify others involved with the publication.</source>
             </trans-unit>
             <trans-unit id="manager.importMetadata.publicationNotImported" approved="yes">
                 <source>Could not import the publication.</source>
