@@ -317,7 +317,7 @@ module.tx_dpf {
     view {
         templateRootPaths.0 = {$module.tx_dpf.view.templateRootPath}
         partialRootPaths.0 = {$module.tx_dpf.view.partialRootPath}
-        layoutRootPaths .0 = {$module.tx_dpf.view.layoutRootPath}
+        layoutRootPaths.0 = {$module.tx_dpf.view.layoutRootPath}
     }
 
     persistence < plugin.tx_dpf.persistence
