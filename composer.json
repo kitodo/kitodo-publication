@@ -41,11 +41,11 @@
 		"nategood/httpful": "^0.3.2",
 		"guzzlehttp/guzzle": "^6.3",
 		"elasticsearch/elasticsearch": "^7.6",
-		"symfony/workflow": "4.3.*",
+		"symfony/workflow": "~4.3.11",
 		"symfony/serializer": "^5.0",
-		"renanbr/bibtex-parser": "*",
+		"renanbr/bibtex-parser": "~2.1.2",
 		"galbar/jsonpath": "^1.1",
-		"fluidtypo3/vhs": "^6.0.5"
+		"fluidtypo3/vhs": "~6.0.5"
 	},
     "require-dev": {
 		"roave/security-advisories": "dev-latest",
