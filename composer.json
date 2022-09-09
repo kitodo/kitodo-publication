@@ -48,7 +48,6 @@
 		"fluidtypo3/vhs": "~6.0.5"
 	},
     "require-dev": {
-		"roave/security-advisories": "dev-latest",
 		"phpunit/phpunit": "^7",
 		"nimut/testing-framework": "^5.0"
 	},
