@@ -792,7 +792,7 @@
 				<source>Institutional bibliography</source>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
-				<source>Originated from scientific work at the UL</source>
+				<source>Originated from scientific work at this institution</source>
 			</trans-unit>
 			<trans-unit id="manager.workspace.fulltextMedia" approved="yes">
 				<source>Fulltext</source>
