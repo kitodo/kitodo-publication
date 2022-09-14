@@ -1333,8 +1333,8 @@
                 <target>Es wurden %s %s importiert.</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.importNote" approved="yes">
-                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
-                <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
+                <source>Please identify yourself and other researchers if necessary. To do this, click on names that have not yet been marked with the [Person] symbol. If your own name is missing, click on the [+] symbol.</source>
+                <target>Bitte identifizieren Sie jetzt sich selbst und ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht mit dem Symbol [Person] markiert sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.incompleteData" approved="yes">
                 <source>Could not import publication number %s%s, because the following fields are empty: %s</source>
