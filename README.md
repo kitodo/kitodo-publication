@@ -25,6 +25,14 @@ Steps 1–3 are mandatory after the initial checkout to set up the virtual envir
 
 Run all the extensions unit tests simply by executing `ddev test`.
 
+### Debugging
+
+You need to enable XDebug in the web container with `ddev xdebug on`. The web container XDebug will try to connect with the PHP debugger on you host on port 9003.
+
+For debug to work you must define the proper path mappings from the web container to your host project directory. There is a ready For Visual Studio Code users under `.vscode/launch.json`.
+
+Running XDebug comes with some performance impact. To disable XDebug type `ddev xdebug off`.
+
 ## More information
 
 * https://ddev.readthedocs.io/en/stable/
