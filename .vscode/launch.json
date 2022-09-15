@@ -1,0 +1,18 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+	  {
+		"name": "Listen for XDebug 3",
+		"type": "php",
+		"request": "launch",
+		"port": 9003,
+		"pathMappings": {
+		  "/var/www/kitodo-publication": "${workspaceRoot}"
+		},
+		"ignore": [
+		  "**/vendor/**/*.php",
+		  "**/typo3temp/**/*.php"
+		]
+	  }
+	]
+  }
