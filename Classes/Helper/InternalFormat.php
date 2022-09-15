@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Helper;
 
 /*
@@ -22,6 +23,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Domain\Model\File;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use DOMNode;
+use Exception;
 
 class InternalFormat
 {
@@ -85,7 +87,8 @@ class InternalFormat
         return $this->xml->saveXML();
     }
 
-    public function getDocument() {
+    public function getDocument()
+    {
         return $this->xml;
     }
 
@@ -117,7 +120,7 @@ class InternalFormat
     public function setRepositoryState($state)
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
-        $this->setValue($stateXpath,$state);
+        $this->setValue($stateXpath, $state);
     }
 
     public function getProcessNumber()
@@ -140,13 +143,10 @@ class InternalFormat
     {
         $titleXpath = $this->clientConfigurationManager->getTitleXpath();
         $xpath = $this->getXpath();
-
-        if (!$titleXpath) {
-            $titleXpath = "titleInfo/title";
-        }
-
         $stateList = $xpath->query(self::rootNode . $titleXpath);
-        return $stateList->item(0)->nodeValue;
+        if ($stateList) {
+            return $stateList->item(0)->nodeValue;
+        }
     }
 
     /**
@@ -179,7 +179,7 @@ class InternalFormat
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
         $files = [];
 
-        foreach ($fileNodes as $file) {
+        if ($fileNodes) foreach ($fileNodes as $file) {
             $fileAttrArray = [
                 'id' => '',
                 'mimetype' => '',
@@ -224,15 +224,16 @@ class InternalFormat
         }
 
         return $files;
-
     }
 
-    public function setDateIssued($date) {
+    public function setDateIssued($date)
+    {
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
         $this->setValue($dateXpath, $date);
     }
 
-    public function getDateIssued() {
+    public function getDateIssued()
+    {
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
         return $this->getValue($dateXpath);
     }
@@ -243,10 +244,9 @@ class InternalFormat
         $dateXpath = $this->clientConfigurationManager->getDateXpath();
 
         $dateNodes = $xpath->query(self::rootNode . $dateXpath);
-        if ($dateNodes->length > 0) {
+        if ($dateNodes && $dateNodes->length > 0) {
             $dateNodes->item(0)->parentNode->removeChild($dateNodes->item(0));
         }
-
     }
 
     public function hasPrimaryUrn()
@@ -268,7 +268,7 @@ class InternalFormat
         $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
-        if ($urnNodes->length > 0) {
+        if ($urnNodes && $urnNodes->length > 0) {
             return $urnNodes->item(0)->nodeValue;
         } else {
             return false;
@@ -288,53 +288,41 @@ class InternalFormat
         $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
 
         $urnNodes = $xpath->query(self::rootNode . $urnXpath);
-        foreach ($urnNodes as $urnNode) {
+        if ($urnNodes) foreach ($urnNodes as $urnNode) {
             $urnNode->parentNode->removeChild($urnNode);
         }
 
         $primaryUrnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
-        foreach ($primaryUrnNodes as $primaryUrnNode) {
+        if ($primaryUrnNodes) foreach ($primaryUrnNodes as $primaryUrnNode) {
             $primaryUrnNode->parentNode->removeChild($primaryUrnNode);
         }
     }
 
-    public function getSubmitterEmail() {
+    public function getSubmitterEmail()
+    {
         $xpath = $this->getXpath();
-        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterEmailXpath();
+        $submitterXpath = $this->clientConfigurationManager->getSubmitterEmailXpath();
 
-        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
-        if (!$dateNodes) {
-            return '';
-        } else {
-            return $dateNodes->item(0)->nodeValue;
-        }
-
+        $nodes = $xpath->query(self::rootNode . $submitterXpath);
+        return ($nodes) ? $nodes->item(0)->nodeValue : '';
     }
 
-    public function getSubmitterName() {
+    public function getSubmitterName()
+    {
         $xpath = $this->getXpath();
-        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterNameXpath();
+        $submitterXpath = $this->clientConfigurationManager->getSubmitterNameXpath();
 
-        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
-
-        if (!$dateNodes) {
-            return '';
-        } else {
-            return $dateNodes->item(0)->nodeValue;
-        }
+        $nodes = $xpath->query(self::rootNode . $submitterXpath);
+        return ($nodes) ? $nodes->item(0)->nodeValue : '';
     }
 
-    public function getSubmitterNotice() {
+    public function getSubmitterNotice()
+    {
         $xpath = $this->getXpath();
-        $submitterXpath = $urnXpath = $this->clientConfigurationManager->getSubmitterNoticeXpath();
+        $submitterXpath  = $this->clientConfigurationManager->getSubmitterNoticeXpath();
 
-        $dateNodes = $xpath->query(self::rootNode . $submitterXpath);
-
-        if (!$dateNodes) {
-            return '';
-        } else {
-            return $dateNodes->item(0)->nodeValue;
-        }
+        $nodes = $xpath->query(self::rootNode . $submitterXpath);
+        return ($nodes) ? $nodes->item(0)->nodeValue : '';
     }
 
     /**
@@ -399,21 +387,19 @@ class InternalFormat
     public function getSearchYear()
     {
         $yearXpath     = $this->clientConfigurationManager->getSearchYearXpaths();
-        $yearXpathList = explode(";", trim($yearXpath," ;"));
+        $yearXpathList = explode(";", trim($yearXpath, " ;"));
         $xpath         = $this->getXpath();
         $values        = [];
 
         foreach ($yearXpathList as $yearXpathItem) {
             $elements = $xpath->query(self::rootNode . trim($yearXpathItem));
-            if (!is_null($elements)) {
-                foreach ($elements as $element) {
-                    $year = trim($element->nodeValue);
-                    if (strlen($year) <= 4) {
-                        $values[] = $year;
-                    } else {
-                        if ($timeStamp = strtotime($year)) {
-                            $values[] = date("Y",$timeStamp);
-                        }
+            if ($elements) foreach ($elements as $element) {
+                $year = trim($element->nodeValue);
+                if (strlen($year) <= 4) {
+                    $values[] = $year;
+                } else {
+                    if ($timeStamp = strtotime($year)) {
+                        $values[] = date("Y", $timeStamp);
                     }
                 }
             }
@@ -428,16 +414,14 @@ class InternalFormat
     public function getPublishers()
     {
         $publisherXpath     = $this->clientConfigurationManager->getPublisherXpaths();
-        $publisherXpathList = explode(";", trim($publisherXpath," ;"));
+        $publisherXpathList = explode(";", trim($publisherXpath, " ;"));
         $xpath              = $this->getXpath();
         $values             = [];
 
         foreach ($publisherXpathList as $publisherXpathItem) {
             $elements = $xpath->query(self::rootNode . trim($publisherXpathItem));
-            if (!is_null($elements)) {
-                foreach ($elements as $element) {
-                    $values[] = trim($element->nodeValue);
-                }
+            if ($elements) foreach ($elements as $element) {
+                $values[] = trim($element->nodeValue);
             }
         }
 
@@ -462,7 +446,7 @@ class InternalFormat
         $xpath = $this->getXpath();
         $data = [];
         $sourceDetailsXpaths = $this->clientConfigurationManager->getSourceDetailsXpaths();
-        $sourceDetailsXpathList = explode(";", trim($sourceDetailsXpaths," ;"));
+        $sourceDetailsXpathList = explode(";", trim($sourceDetailsXpaths, " ;"));
         $dataNodes = [];
 
         foreach ($sourceDetailsXpathList as $sourceDetailsXpathItem) {
@@ -470,15 +454,13 @@ class InternalFormat
         }
 
         foreach ($dataNodes as $dataNode) {
-            if (is_iterable($dataNode)) {
-                foreach ($dataNode as $node) {
-                    if ($node->hasChildNodes()) {
-                        foreach ($node->childNodes as $n) {
-                            $data[] = preg_replace('/\s+/', ' ', $n->textContent);
-                        }
-                    } else {
-                        $data[] = preg_replace('/\s+/', ' ', $node->textContent);
+            if (is_iterable($dataNode)) foreach ($dataNode as $node) {
+                if ($node->hasChildNodes()) {
+                    foreach ($node->childNodes as $n) {
+                        $data[] = preg_replace('/\s+/', ' ', $n->textContent);
                     }
+                } else {
+                    $data[] = preg_replace('/\s+/', ' ', $node->textContent);
                 }
             }
         }
@@ -500,7 +482,7 @@ class InternalFormat
         $fisIdentifierXpath =  $this->clientConfigurationManager->getPersonFisIdentifierXpath();
         $personNodes = $xpath->query(self::rootNode . $personXpath);
         $identifiers = [];
-        foreach ($personNodes as $key => $node) {
+        if ($personNodes) foreach ($personNodes as $node) {
             $identifierNodes = $xpath->query($fisIdentifierXpath, $node);
             if ($identifierNodes->length > 0) {
                 $identifiers[] = $identifierNodes->item(0)->nodeValue;
@@ -528,11 +510,9 @@ class InternalFormat
 
         $xpath = $this->getXpath();
         $notesNodes = $xpath->query(self::rootNode . $notesXpath);
-
         $notes = array();
 
-        for ($i=0; $i < $notesNodes->length; $i++)
-        {
+        if ($notesNodes) for ($i = 0; $i < $notesNodes->length; $i++) {
             $notes[] = $notesNodes->item($i)->nodeValue;
         }
 
@@ -545,7 +525,7 @@ class InternalFormat
 
         $parserGenerator = new ParserGenerator($this->clientPid);
         $parserGenerator->setXml($this->xml->saveXML());
-        $parserGenerator->customXPath($notesXpath,true, $noteContent);
+        $parserGenerator->customXPath($notesXpath, true, $noteContent);
         $this->xml = new \DOMDocument();
         $this->xml->loadXML($parserGenerator->getXMLData());
     }
@@ -581,7 +561,7 @@ class InternalFormat
 
         $persons = [];
 
-        foreach ($personNodes as $key => $personNode) {
+        if ($personNodes) foreach ($personNodes as $key => $personNode) {
             $familyNodes = $xpath->query($familyXpath, $personNode);
             $givenNodes = $xpath->query($givenXpath, $personNode);
             $roleNodes = $xpath->query($roleXpath, $personNode);
@@ -590,12 +570,12 @@ class InternalFormat
             $affiliationIdentifierNodes = $xpath->query($affiliationIdentifierXpath, $personNode);
 
             $person['affiliations'] = [];
-            foreach ($affiliationNodes as $key => $affiliationNode) {
+            if ($affiliationIdentifierNodes) foreach ($affiliationNodes as $key => $affiliationNode) {
                 $person['affiliations'][] = $affiliationNode->nodeValue;
             }
 
             $person['affiliationIdentifiers'] = [];
-            foreach ($affiliationIdentifierNodes as $key => $affiliationIdentifierNode) {
+            if ($affiliationIdentifierNodes) foreach ($affiliationIdentifierNodes as $key => $affiliationIdentifierNode) {
                 $person['affiliationIdentifiers'][] = $affiliationIdentifierNode->nodeValue;
             }
 
@@ -682,8 +662,7 @@ class InternalFormat
 
         $collections = array();
 
-        for ($i=0; $i < $collectionNodes->length; $i++)
-        {
+        if ($collectionNodes) for ($i = 0; $i < $collectionNodes->length; $i++) {
             $collections[] = $collectionNodes->item($i)->nodeValue;
         }
 
@@ -705,34 +684,31 @@ class InternalFormat
      */
     public function getOpenAccessForSearch()
     {
-        $xpath = $this->getXpath();
-
-        $openAccessXpath = $this->clientConfigurationManager->getOpenAccessXpath();
-        $openAccess = $this->getValue($openAccessXpath);
-
-        $openAccessOtherVersionXpath    = $this->clientConfigurationManager->getOpenAccessOtherVersionXpath();
-        $openAccessOtherVersionElements = $xpath->query(self::rootNode . trim($openAccessOtherVersionXpath));
-
-        $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
-
-        if (!is_null($openAccessOtherVersionElements)) {
-            foreach ($openAccessOtherVersionElements as $element) {
-                if (
-                    strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['true']) ||
-                    strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['trueUri'])
-                ) {
-                    return self::VALUE_TRUE;
+        $openAccessOtherVersionXpath = $this->clientConfigurationManager->getOpenAccessOtherVersionXpath();
+        if ($openAccessOtherVersionXpath !== '') {
+            $xpath = $this->getXpath();
+            $openAccessOtherVersionElements = $xpath->query(self::rootNode . trim($openAccessOtherVersionXpath));
+            if ($openAccessOtherVersionElements) {
+                $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
+                foreach ($openAccessOtherVersionElements as $element) {
+                    if (
+                        strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['true']) ||
+                        strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['trueUri'])
+                    ) {
+                        return self::VALUE_TRUE;
+                    }
                 }
             }
-        }
 
-        if (
-            strtolower($openAccess) === strtolower($openAccessValues['true']) ||
-            strtolower($openAccess) === strtolower($openAccessValues['trueUri'])
-        ) {
-            return self::VALUE_TRUE;
+            $openAccessXpath = $this->clientConfigurationManager->getOpenAccessXpath();
+            $openAccess = $this->getValue($openAccessXpath);
+            if (
+                strtolower($openAccess) === strtolower($openAccessValues['true']) ||
+                strtolower($openAccess) === strtolower($openAccessValues['trueUri'])
+            ) {
+                return self::VALUE_TRUE;
+            }
         }
-
         return self::VALUE_FALSE;
     }
 
@@ -752,7 +728,7 @@ class InternalFormat
 
         $peerReview = $this->getValue($peerReviewXpath);
 
-        if (!is_null($peerReviewOtherVersionElements)) {
+        if ($peerReviewOtherVersionElements) {
             foreach ($peerReviewOtherVersionElements as $element) {
                 if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['true']))) {
                     return self::VALUE_TRUE;
@@ -764,7 +740,7 @@ class InternalFormat
             return self::VALUE_TRUE;
         }
 
-        if (!is_null($peerReviewOtherVersionElements)) {
+        if ($peerReviewOtherVersionElements) {
             foreach ($peerReviewOtherVersionElements as $element) {
                 if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['false']))) {
                     return self::VALUE_FALSE;
@@ -804,11 +780,11 @@ class InternalFormat
     protected function getValue($xpathString)
     {
         $xpath = $this->getXpath();
-        $nodeList = $xpath->query(self::rootNode . $xpathString);
-        if ($nodeList->length > 0) {
-            return $nodeList->item(0)->nodeValue;
+        if ($xpathString === '') {
+            return '';
         }
-        return '';
+        $nodeList = $xpath->query(self::rootNode . $xpathString);
+        return ($nodeList && $nodeList->length > 0) ? $nodeList->item(0)->nodeValue : '';
     }
 
     /**
@@ -818,13 +794,16 @@ class InternalFormat
     protected function setValue(string $xpathString, string $value)
     {
         $xpath = $this->getXpath();
+        if ($xpathString === '') {
+            return;
+        }
         $nodes = $xpath->query(self::rootNode . $xpathString);
         if ($nodes->length > 0) {
             $nodes->item(0)->nodeValue = $value;
-        } elseif(isset($value) === true && $value !== '') {
+        } elseif (isset($value) === true && $value !== '') {
             $parserGenerator = new ParserGenerator($this->clientPid);
             $parserGenerator->setXml($this->xml->saveXML());
-            $parserGenerator->customXPath($xpathString,true, $value);
+            $parserGenerator->customXPath($xpathString, true, $value);
             $this->xml = new \DOMDocument();
             $this->xml->loadXML($parserGenerator->getXMLData());
         }
@@ -833,11 +812,12 @@ class InternalFormat
     /**
      * Removes all file nodes from the internal xml
      */
-    public function removeAllFiles() {
+    public function removeAllFiles()
+    {
         $xpath = $this->getXpath();
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
-        foreach ($fileNodes as $fileNode) {
+        if ($fileNodes) foreach ($fileNodes as $fileNode) {
             $fileNode->parentNode->removeChild($fileNode);
         }
     }
@@ -849,12 +829,11 @@ class InternalFormat
      */
     public function setFileData(DOMNode $fileNode, string $nodeXpath, string $value)
     {
-        $xpath = $this->getXpath();
-
-        if ($fileNode) {
+        if ($fileNode && $nodeXpath) {
+            $xpath = $this->getXpath();
             $nodes = $xpath->query($nodeXpath, $fileNode);
 
-            if ($nodes->length > 0) {
+            if ($nodes && $nodes->length > 0) {
                 $nodes->item(0)->nodeValue = $value;
             } else {
                 /** @var XPathXMLGenerator $xPathXMLGenerator */
@@ -883,17 +862,12 @@ class InternalFormat
      */
     public function completeFileData(ObjectStorage $files)
     {
-        $fileId = new FileId($files);
-
-        $xpath = $this->getXpath();
-
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
         $hrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
         $titleXpath = $this->clientConfigurationManager->getFileTitleXpath();
         $mimeTypeXpath = $this->clientConfigurationManager->getFileMimetypeXpath();
         $idXpath = $this->clientConfigurationManager->getFileIdXpath();
         $deletedXpath = $this->clientConfigurationManager->getFileDeletedXpath();
-        $downloadXpath = $this->clientConfigurationManager->getFileDownloadXpath();
         $archiveXpath = $this->clientConfigurationManager->getFileArchiveXpath();
 
         /** @var File $file */
@@ -920,6 +894,7 @@ class InternalFormat
 
                         if ($domLoaded) {
                             $newFile = $this->xml->importNode($dom->firstChild, true);
+                            // FIXME DOMNode has no such function. Is this even working?
                             $newFile->setAttribute('usage', 'delete');
                             $this->setFileData($newFile, $idXpath, $file->getDatastreamIdentifier());
                             $this->setFileData($newFile, $hrefXpath, $file->getLink());
@@ -931,11 +906,13 @@ class InternalFormat
                         }
                     }
                 } else {
+                    $xpath = $this->getXpath();
                     $fileNodes = $xpath->query(
-                        self::rootNode . $fileXpath . '[./'.trim($idXpath, '@/ ').'="'.$file->getFileIdentifier().'"]'
+                        self::rootNode . $fileXpath . '[./' . trim($idXpath, '@/ ') . '="' . $file->getFileIdentifier() . '"]'
                     );
 
-                    if ($fileNodes->length > 0) {
+                    if ($fileNodes && $fileNodes->length > 0) {
+                        $fileId = new FileId($files);
                         $this->setFileData($fileNodes->item(0), $idXpath, $fileId->getId($file));
                         $this->setFileData($fileNodes->item(0), $mimeTypeXpath, $file->getContentType());
                     }
@@ -959,10 +936,10 @@ class InternalFormat
         foreach ($files as $file) {
 
             $fileNodes = $xpath->query(
-                self::rootNode . $fileXpath . '[./'.trim($idXpath, '@/ ').'="'.$file->getFileIdentifier().'"]'
+                self::rootNode . $fileXpath . '[./' . trim($idXpath, '@/ ') . '="' . $file->getFileIdentifier() . '"]'
             );
 
-            if ($fileNodes->length > 0) {
+            if ($fileNodes && $fileNodes->length > 0) {
                 $this->setFileData($fileNodes->item(0), $fileHrefXpath, $file->getLink());
             }
         }
