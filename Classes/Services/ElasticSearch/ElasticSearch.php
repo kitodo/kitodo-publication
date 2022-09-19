@@ -387,7 +387,6 @@ class ElasticSearch
                 $data->dateIssued = null;
             }
 
-            $data->dateIssued           = $internalFormat->getDateIssued();
             $data->textType             = $internalFormat->getTextType();
             $data->openAccess           = $internalFormat->getOpenAccessForSearch();
             $data->peerReview           = $internalFormat->getPeerReviewForSearch();
