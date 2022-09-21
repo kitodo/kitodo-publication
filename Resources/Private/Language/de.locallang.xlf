@@ -1449,8 +1449,8 @@
 				<target>Veröffentlichungsdatum Datei (Volltext)</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.dateIssuedAlwaysSet" approved="yes">
-				<source>Date issued Qucosa</source>
-				<target>Veröffentlichungsdatum Qucosa</target>
+				<source>Server date issued</source>
+				<target>Server Veröffentlichungsdatum</target>
 			</trans-unit>
 			<trans-unit id="manager.search.searchField.frameworkAgreementId" approved="yes">
 				<source>FrameworkaAgreement ID</source>
@@ -1582,19 +1582,19 @@
 				</source>
 				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
-	die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver Qucosa ist erfolgt:
+	die Veröffentlichung des folgenden elektronischen Dokuments auf dem Dokumenten- und Publikationsserver ist erfolgt:
 
 	Titel: ###TITLE###
 	Erste/r AutorIn: ###AUTHOR###
 	Das Dokument ist unter der URL ###URL### online verfügbar und zitierfähig. Die Funktion des Links wird in Kürze bereitgestellt.
 
 	Mit freundlichen Grüßen
-	Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+	Ihre Bibliothek
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.ingestDocument.submitter.subject" approved="yes">
 				<source>Document published</source>
-				<target>Ihre Veröffentlichung auf Qucosa – Freigabebestätigung</target>
+				<target>Ihre Veröffentlichung – Freigabebestätigung</target>
 			</trans-unit>
 			<trans-unit id="notification.newDocument.admin.body" approved="yes" xml:space="preserve">
 				<source>A new document has been registered:
@@ -1626,19 +1626,19 @@ Date: ###DATE###
 				</source>
 				<target>Sehr geehrte/r ###SUBMITTER_NAME###,
 
-wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver Qucosa.
+wir bestätigen Ihnen die Anmeldung des folgenden elektronischen Dokuments und der zugehörigen Metadaten auf dem Dokumenten- und Publikationsserver.
 
 Titel: ###TITLE###
 Erste/r AutorIn: ###AUTHOR###
 Ihre Anmeldung wird schnellstmöglich bearbeitet. Bitte übermitteln Sie uns - falls noch nicht geschehen - die unterschriebene Einverständniserklärung. Sobald Ihr Dokument online verfügbar ist, benachrichtigen wir Sie per E-Mail.
 
 Mit freundlichen Grüßen
-Sächsische Landesbibliothek- Staats- und Universitätsbibliothek Dresden
+Ihre Bibliothek
 				</target>
 			</trans-unit>
 			<trans-unit id="notification.newDocument.submitter.subject" approved="yes">
 				<source>You have registered a document</source>
-				<target>Ihre Veröffentlichung auf Qucosa – Anmeldebestätigung</target>
+				<target>Ihre Veröffentlichung auf – Anmeldebestätigung</target>
 			</trans-unit>
 			<trans-unit id="notification.registerDocument.admin.body" approved="yes" xml:space="preserve">
 				<source>A document has been registered:

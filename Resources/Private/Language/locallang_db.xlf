@@ -906,10 +906,10 @@
             <source>XPath expressions for the validation field</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.label" approved="yes">
-			<source>Date issued Qucosa</source>
+			<source>Server date issued</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.xpath" approved="yes">
-            <source>XPath expressions for the date issued Qucosa field</source>
+            <source>XPath expressions for the server date issued field</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.label" approved="yes">
 			<source>Framework agreement id</source>
