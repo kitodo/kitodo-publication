@@ -720,13 +720,14 @@ class InternalFormat
         $xpath = $this->getXpath();
 
         $peerReviewOtherVersionXpath    = $this->clientConfigurationManager->getPeerReviewOtherVersionXpath();
+
+        if (!$peerReviewOtherVersionXpath) {
+            return self::VALUE_UNKNOWN;
+        }
+
         $peerReviewOtherVersionElements = $xpath->query(self::rootNode . trim($peerReviewOtherVersionXpath));
 
-        $peerReviewXpath = $this->clientConfigurationManager->getPeerReviewXpath();
-
         $peerReviewValues = $this->clientConfigurationManager->getPeerReviewValues();
-
-        $peerReview = $this->getValue($peerReviewXpath);
 
         if ($peerReviewOtherVersionElements) {
             foreach ($peerReviewOtherVersionElements as $element) {
@@ -736,6 +737,8 @@ class InternalFormat
             }
         }
 
+        $peerReviewXpath = $this->clientConfigurationManager->getPeerReviewXpath();
+        $peerReview = $this->getValue($peerReviewXpath);
         if (strtolower($peerReview) === strtolower($peerReviewValues['true'])) {
             return self::VALUE_TRUE;
         }
