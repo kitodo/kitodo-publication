@@ -16,7 +16,7 @@ namespace EWW\Dpf\Exceptions;
 
 class ElasticSearchMissingIndexNameException extends \Exception implements DPFExceptionInterface
 {
-    public function messageLanguageKey()
+    public function messageLanguageKey(): string
     {
         return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.elasticsearch_indexname_error';
     }
