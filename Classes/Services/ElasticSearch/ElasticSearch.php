@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Services\ElasticSearch;
 
 /*
@@ -21,7 +22,7 @@ use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
 use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
-use EWW\Dpf\Helper\InternalFormat;
+use Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
@@ -53,27 +54,16 @@ class ElasticSearch
     protected $elasticsearchMapper;
 
     /**
-     * @var int
-     */
-    protected $clientPid = 0;
-
-    /**
      * elasticsearch client constructor
-     * @param int|null $clientPid
      * @throws ElasticSearchMissingIndexNameException
      */
-    public function __construct($clientPid = null)
+    public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
         $this->elasticsearchMapper = $objectManager->get(ElasticsearchMapper::class);
 
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
-
-        if ($clientPid) {
-            $this->clientConfigurationManager->setConfigurationPid($clientPid);
-            $this->clientPid = $clientPid;
-        }
 
         $this->server = $this->clientConfigurationManager->getElasticSearchHost();
         $this->port = $this->clientConfigurationManager->getElasticSearchPort();
@@ -95,7 +85,8 @@ class ElasticSearch
             $this->initializeIndex($this->indexName);
         } catch (\Throwable $e) {
             $message = LocalizationUtility::translate(
-                'elasticsearch.notRunning', 'dpf'
+                'elasticsearch.notRunning',
+                'dpf'
             );
             die($message);
         }
@@ -232,15 +223,15 @@ class ElasticSearch
                         ],
                         'creationDate' => [
                             'type' =>  'date',
-                            'format'=>  "yyyy-MM-dd"
+                            'format' =>  "yyyy-MM-dd"
                         ],
                         'dateIssued' => [
                             'type' =>  'date',
-                            'format'=>  "yyyy-MM-dd"
+                            'format' =>  "yyyy-MM-dd"
                         ],
                         'embargoDate' => [
                             'type' =>  'date',
-                            'format'=>  "yyyy-MM-dd"
+                            'format' =>  "yyyy-MM-dd"
                         ]
                     ]
                 ]
@@ -326,7 +317,10 @@ class ElasticSearch
                 $data->hasFiles = false;
             }
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
+            $internalFormat = new \EWW\Dpf\Helper\InternalFormat(
+                $document->getXmlData(),
+                $this->clientConfigurationManager->getClientPid()
+            );
 
             $persons = $internalFormat->getPersons();
 
@@ -402,9 +396,7 @@ class ElasticSearch
                 'id' => $document->getDocumentIdentifier(),
                 'body' => $data
             ]);
-
         }
-
     }
 
 
@@ -424,11 +416,11 @@ class ElasticSearch
             ];
 
             $this->client->delete($params);
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-            $logger->warning('Document could not be deleted from the index.',
+            $logger->warning(
+                'Document could not be deleted from the index.',
                 [
                     'Document identifier' => $identifier
                 ]
