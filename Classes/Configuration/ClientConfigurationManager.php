@@ -54,25 +54,12 @@ class ClientConfigurationManager
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $clientRepository = $objectManager->get(ClientRepository::class);
 
-        if (TYPO3_MODE === 'BE') {
-            $selectedPageId = (int)GeneralUtility::_GP('id');
-            if ($selectedPageId) {
-                $this->client = $clientRepository->findAll()->current();
+        $this->client = $clientRepository->findAll()->current();
 
-                $configurationManager = $objectManager->get(BackendConfigurationManager::class);
-                $settings = $configurationManager->getConfiguration(null, null);
-                $this->settings = $settings; //['settings'];
-            }
-
-        } else {
-            $this->client = $clientRepository->findAll()->current();
-
-            $configurationManager = $objectManager->get(ConfigurationManager::class);
-            $this->settings = $configurationManager->getConfiguration(
-                ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
-            );
-
-        }
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+        $this->settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
 
         if (Client::$storagePid > 0) {
             $this->setConfigurationPid(Client::$storagePid);
