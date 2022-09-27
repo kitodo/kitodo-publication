@@ -61,22 +61,10 @@ class ClientConfigurationManager
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
         );
 
-        if (Client::$storagePid > 0) {
-            $this->setConfigurationPid(Client::$storagePid);
-        }
-
         $this->extensionConfiguration = GeneralUtility::makeInstance(
             ExtensionConfiguration::class
         )->get('dpf');
 
-    }
-
-    public function setConfigurationPid($pid)
-    {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $clientRepository = $objectManager->get(ClientRepository::class);
-
-        $this->client = $clientRepository->findAllByPid($pid)->current();
     }
 
     /**
