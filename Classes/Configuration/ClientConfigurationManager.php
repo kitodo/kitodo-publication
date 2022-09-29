@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Configuration;
 
 /*
@@ -64,7 +65,6 @@ class ClientConfigurationManager
         $this->extensionConfiguration = GeneralUtility::makeInstance(
             ExtensionConfiguration::class
         )->get('dpf');
-
     }
 
     /**
@@ -80,7 +80,7 @@ class ClientConfigurationManager
      *
      * @var array
      */
-    public function getSetting($settingName, $extConfig = null)
+    public function getSetting($settingName)
     {
         $setting = null;
         if ($this->client) {
@@ -88,8 +88,8 @@ class ClientConfigurationManager
         }
 
         // use global extConfig if client settings is empty
-        if (empty($setting) && $extConfig) {
-            $setting = trim($this->extensionConfiguration[$extConfig]);
+        if (empty($setting)) {
+            $setting = trim($this->extensionConfiguration[$settingName]);
         }
 
         return $setting;
@@ -103,185 +103,185 @@ class ClientConfigurationManager
 
     public function getFedoraHost()
     {
-        return $this->getSetting("fedoraHost", "fedoraHost");
+        return $this->getSetting("fedoraHost");
     }
 
     public function getFedoraUser()
     {
-        return $this->getSetting("fedoraUser", "fedoraUser");
+        return $this->getSetting("fedoraUser");
     }
 
     public function getFedoraPassword()
     {
-        return $this->getSetting("fedoraPassword", "fedoraPassword");
+        return $this->getSetting("fedoraPassword");
     }
 
     public function getFedoraEndpoint()
     {
-        return $this->getSetting("fedoraEndpoint", "fedoraEndpoint");
+        return $this->getSetting("fedoraEndpoint");
     }
 
     public function getFedoraRootContainer()
     {
-        return $this->getSetting("fedoraRootContainer", "fedoraRootContainer");
+        return $this->getSetting("fedoraRootContainer");
     }
 
     public function getFedraCollectionNamespace()
     {
-        return $this->getSetting("fedoraCollectionNamespace", "fedoraCollectionNamespace");
+        return $this->getSetting("fedoraCollectionNamespace");
     }
 
     public function getElasticSearchHost()
     {
-        return $this->getSetting("elasticSearchHost", "elasticSearchHost");
+        return $this->getSetting("elasticSearchHost");
     }
 
     public function getElasticSearchPort()
     {
-        return $this->getSetting("elasticSearchPort", "elasticSearchPort");
+        return $this->getSetting("elasticSearchPort");
     }
 
     public function getElasticSearchIndexName()
     {
-        return $this->getSetting("elasticSearchIndexName", "elasticSearchIndexName");
+        return $this->getSetting("elasticSearchIndexName");
     }
 
     public function getUploadDirectory()
     {
-        return $this->getSetting("uploadDirectory", "uploadDirectory");
+        return $this->getSetting("uploadDirectory");
     }
 
     public function getUploadDomain()
     {
-        return $this->getSetting("uploadDomain", "uploadDomain");
+        return $this->getSetting("uploadDomain");
     }
 
     public function getSuggestionFlashMessage()
     {
-        return $this->getSetting("suggestionFlashmessage", "suggestionFlashmessage");
+        return $this->getSetting("suggestionFlashmessage");
     }
 
     public function getFileXpath()
     {
-        return $this->getSetting("fileXpath", "fileXpath");
+        return $this->getSetting("fileXpath");
     }
 
     // TODO: deprecated
     public function getStateXpath()
     {
-        return $this->getSetting("stateXpath", "stateXpath");
+        return $this->getSetting("stateXpath");
     }
 
     public function getTypeXpath()
     {
-        return $this->getSetting("typeXpath", "typeXpath");
+        return $this->getSetting("typeXpath");
     }
 
     public function getTypeXpathInput()
     {
-        return $this->getSetting("typeXpathInput", "typeXpathInput");
+        return $this->getSetting("typeXpathInput");
     }
 
     public function getUrnXpath()
     {
-        return $this->getSetting("urnXpath", "urnXpath");
+        return $this->getSetting("urnXpath");
     }
 
     public function getPrimaryUrnXpath()
     {
-        return $this->getSetting("primaryUrnXpath", "primaryUrnXpath");
+        return $this->getSetting("primaryUrnXpath");
     }
 
     public function getDateXpath()
     {
-        return $this->getSetting("dateXpath", "dateXpath");
+        return $this->getSetting("dateXpath");
     }
 
     public function getPublishingYearXpath()
     {
-        return $this->getSetting("publishingYearXpath", "publishingYearXpath");
+        return $this->getSetting("publishingYearXpath");
     }
 
     public function getSearchYearXpaths()
     {
-        return $this->getSetting("searchYearXpaths", "searchYearXpaths");
+        return $this->getSetting("searchYearXpaths");
     }
 
     public function getPublisherXpaths()
     {
-        return $this->getSetting("publisherXpaths", "publisherXpaths");
+        return $this->getSetting("publisherXpaths");
     }
 
     public function getNamespaces()
     {
-        return $this->getSetting("namespaces", "namespaces");
+        return $this->getSetting("namespaces");
     }
 
     public function getTitleXpath()
     {
-        return $this->getSetting("titleXpath", "titleXpath");
+        return $this->getSetting("titleXpath");
     }
 
     public function getOriginalSourceTitleXpath()
     {
-        return $this->getSetting("originalSourceTitleXpath", "originalSourceTitleXpath");
+        return $this->getSetting("originalSourceTitleXpath");
     }
 
     public function getProcessNumberXpath()
     {
-        return $this->getSetting("processnumberXpath", "processnumberXpath");
+        return $this->getSetting("processnumberXpath");
     }
 
     public function getSubmitterNameXpath()
     {
-        return $this->getSetting("submitterNameXpath", "submitterNameXpath");
+        return $this->getSetting("submitterNameXpath");
     }
 
     public function getSubmitterEmailXpath()
     {
-        return $this->getSetting("submitterEmailXpath", "submitterEmailXpath");
+        return $this->getSetting("submitterEmailXpath");
     }
 
     public function getSubmitterNoticeXpath()
     {
-        return $this->getSetting("submitterNoticeXpath", "submitterNoticeXpath");
+        return $this->getSetting("submitterNoticeXpath");
     }
 
     public function getCreatorXpath()
     {
-        return $this->getSetting("creatorXpath", "creatorXpath");
+        return $this->getSetting("creatorXpath");
     }
 
     public function getCreationDateXpath()
     {
-        return $this->getSetting("creationDateXpath", "creationDateXpath");
+        return $this->getSetting("creationDateXpath");
     }
 
     // TODO: deprecated
     public function getRepositoryCreationDateXpath()
     {
-        return $this->getSetting("repositoryCreationDateXpath", "repositoryCreationDateXpath");
+        return $this->getSetting("repositoryCreationDateXpath");
     }
 
     // TODO: deprecated
     public function getRepositoryLastModDateXpath()
     {
-        return $this->getSetting("repositoryLastModDateXpath", "repositoryLastModDateXpath");
+        return $this->getSetting("repositoryLastModDateXpath");
     }
 
     public function getDepositLicenseXpath()
     {
-        return $this->getSetting("depositLicenseXpath", "depositLicenseXpath");
+        return $this->getSetting("depositLicenseXpath");
     }
 
     public function getAllNotesXpath()
     {
-        return $this->getSetting("allNotesXpath", "allNotesXpath");
+        return $this->getSetting("allNotesXpath");
     }
 
     public function getPrivateNotesXpath()
     {
-        return $this->getSetting("privateNotesXpath", "privateNotesXpath");
+        return $this->getSetting("privateNotesXpath");
     }
 
     public function getInputTransformation()
@@ -296,57 +296,57 @@ class ClientConfigurationManager
 
     public function getPersonXpath()
     {
-        return $this->getSetting("personXpath", "personXpath");
+        return $this->getSetting("personXpath");
     }
 
     public function getPersonFamilyXpath()
     {
-        return $this->getSetting("personFamilyXpath", "personFamilyXpath");
+        return $this->getSetting("personFamilyXpath");
     }
 
     public function getPersonGivenXpath()
     {
-        return $this->getSetting("personGivenXpath", "personGivenXpath");
+        return $this->getSetting("personGivenXpath");
     }
 
     public function getPersonRoleXpath()
     {
-        return $this->getSetting("personRoleXpath", "personRoleXpath");
+        return $this->getSetting("personRoleXpath");
     }
 
     public function getPersonFisIdentifierXpath()
     {
-        return $this->getSetting("personFisIdentifierXpath", "personFisIdentifierXpath");
+        return $this->getSetting("personFisIdentifierXpath");
     }
 
     public function getPersonAffiliationXpath()
     {
-        return $this->getSetting("personAffiliationXpath", "personAffiliationXpath");
+        return $this->getSetting("personAffiliationXpath");
     }
 
     public function getPersonAffiliationIdentifierXpath()
     {
-        return $this->getSetting("personAffiliationIdentifierXpath", "personAffiliationIdentifierXpath");
+        return $this->getSetting("personAffiliationIdentifierXpath");
     }
 
     public function getPersonAuthorRole()
     {
-        return $this->getSetting("personAuthorRole", "personAuthorRole");
+        return $this->getSetting("personAuthorRole");
     }
 
     public function getPersonPublisherRole()
     {
-        return $this->getSetting("personPublisherRole", "personPublisherRole");
+        return $this->getSetting("personPublisherRole");
     }
 
     public function getFisIdXpath()
     {
-        return $this->getSetting("fisIdXpath", "fisIdXpath");
+        return $this->getSetting("fisIdXpath");
     }
 
     public function getSourceDetailsXpaths()
     {
-        return $this->getSetting("sourceDetailsXpaths", "sourceDetailsXpaths");
+        return $this->getSetting("sourceDetailsXpaths");
     }
 
     public function getFedoraNamespace()
@@ -392,84 +392,84 @@ class ClientConfigurationManager
 
     public function getFileIdXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileIdXpath", "fileIdXpath"));
+        return $this->trimFileXpath($this->getSetting("fileIdXpath"));
     }
 
     public function getFileMimetypeXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileMimetypeXpath", "fileMimetypeXpath"));
+        return $this->trimFileXpath($this->getSetting("fileMimetypeXpath"));
     }
 
     public function getFileHrefXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileHrefXpath", "fileHrefXpath"));
+        return $this->trimFileXpath($this->getSetting("fileHrefXpath"));
     }
 
     public function getFileDownloadXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileDownloadXpath", "fileDownloadXpath"));
+        return $this->trimFileXpath($this->getSetting("fileDownloadXpath"));
     }
 
     public function getFileArchiveXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileArchiveXpath", "fileArchiveXpath"));
+        return $this->trimFileXpath($this->getSetting("fileArchiveXpath"));
     }
 
     public function getFileDeletedXpath()
     {
-        return$this->trimFileXpath($this->getSetting("fileDeletedXpath", "fileDeletedXpath"));
+        return $this->trimFileXpath($this->getSetting("fileDeletedXpath"));
     }
 
     public function getFileTitleXpath()
     {
-        return $this->trimFileXpath($this->getSetting("fileTitleXpath", "fileTitleXpath"));
+        return $this->trimFileXpath($this->getSetting("fileTitleXpath"));
     }
 
     public function getCollectionXpath()
     {
-        return $this->trimFileXpath($this->getSetting("collectionXpath", "collectionXpath"));
+        return $this->trimFileXpath($this->getSetting("collectionXpath"));
     }
 
     public function getTextTypeXpath()
     {
-        return $this->trimFileXpath($this->getSetting("textTypeXpath", "textTypeXpath"));
+        return $this->trimFileXpath($this->getSetting("textTypeXpath"));
     }
 
     public function getOpenAccessXpath()
     {
-        return $this->trimFileXpath($this->getSetting("openAccessXpath", "openAccessXpath"));
+        return $this->trimFileXpath($this->getSetting("openAccessXpath"));
     }
 
     public function getOpenAccessOtherVersionXpath()
     {
-        return $this->trimFileXpath($this->getSetting("openAccessOtherVersionXpath", "openAccessOtherVersionXpath"));
+        return $this->trimFileXpath($this->getSetting("openAccessOtherVersionXpath"));
     }
 
     public function getPeerReviewXpath()
     {
-        return $this->trimFileXpath($this->getSetting("peerReviewXpath", "peerReviewXpath"));
+        return $this->trimFileXpath($this->getSetting("peerReviewXpath"));
     }
 
     public function getPeerReviewOtherVersionXpath()
     {
-        return $this->trimFileXpath($this->getSetting("peerReviewOtherVersionXpath", "peerReviewOtherVersionXpath"));
+        return $this->trimFileXpath($this->getSetting("peerReviewOtherVersionXpath"));
     }
 
     public function getLicenseXpath()
     {
-        return $this->trimFileXpath($this->getSetting("licenseXpath", "licenseXpath"));
+        return $this->trimFileXpath($this->getSetting("licenseXpath"));
     }
 
     public function getFrameworkAgreementIdXpath()
     {
-        return $this->trimFileXpath($this->getSetting("frameworkAgreementIdXpath", "frameworkAgreementIdXpath"));
+        return $this->trimFileXpath($this->getSetting("frameworkAgreementIdXpath"));
     }
 
     public function getFisCollections()
     {
-        $fisCollectionsConfig =  $this->getSetting("fisCollections", "fisCollections");
+        $fisCollectionsConfig =  $this->getSetting("fisCollections");
         $fisCollections = explode(",", $fisCollectionsConfig);
-        return array_filter($fisCollections, 'strlen' );
+        return array_filter($fisCollections, 'strlen');
     }
 
     /**
