@@ -16,8 +16,6 @@ namespace EWW\Dpf\Configuration;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use EWW\Dpf\Domain\Model\Client;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -57,6 +55,9 @@ class ClientConfigurationManager
 
         $this->client = $clientRepository->findAll()->current();
 
+        // FIXME Backend setting retrievel removed in commit f3f178a47c9d7f22e086b49634cefa454f2a950f
+        // This might have broken Backend handover module
+
         $configurationManager = $objectManager->get(ConfigurationManager::class);
         $this->settings = $configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
@@ -65,6 +66,23 @@ class ClientConfigurationManager
         $this->extensionConfiguration = GeneralUtility::makeInstance(
             ExtensionConfiguration::class
         )->get('dpf');
+    }
+
+    /**
+     * Switch to specific client configuration
+     *
+     * Sort of hack to select client records from backend module
+     * since TYPOScript storagePid configuration is not avalable in
+     * TYPO3 backend.
+     *
+     * @param int $pid PID of client record to switch to
+     */
+    public function switchToClient($pid)
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $clientRepository = $objectManager->get(ClientRepository::class);
+
+        $this->client = $clientRepository->findAllByPid($pid)->current();
     }
 
     /**

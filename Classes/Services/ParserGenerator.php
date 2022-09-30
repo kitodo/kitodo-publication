@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Services;
 
 /*
@@ -99,19 +100,19 @@ class ParserGenerator
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         if ($clientPid) {
-            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+            $this->clientConfigurationManager->switchToClient($clientPid);
         }
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
 
         $namespaceConfigurationString = $this->clientConfigurationManager->getNamespaces();
         if (!empty($namespaceConfigurationString)) {
-                        $namespaceConfiguration = explode(";", $namespaceConfigurationString);
-                        foreach ($namespaceConfiguration as $value) {
-                                $namespace = explode("=", $value);
-                                $this->namespaceString .= ' xmlns:' . $namespace[0] . '="' . $namespace[1] . '"';
-                            }
-         }
+            $namespaceConfiguration = explode(";", $namespaceConfigurationString);
+            foreach ($namespaceConfiguration as $value) {
+                $namespace = explode("=", $value);
+                $this->namespaceString .= ' xmlns:' . $namespace[0] . '="' . $namespace[1] . '"';
+            }
+        }
 
         $this->xmlHeader = '<data' . $this->namespaceString . '></data>';
 
@@ -162,13 +163,12 @@ class ParserGenerator
                 } else {
                     $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
                 }
-
             }
 
             // mods extension
             if ($group['modsExtensionMapping']) {
                 $counter = sprintf("%'03d", $this->counter);
-                $attributeXPath .= '[@ID="'.$fedoraNamespace.'_' . $counter . '"]';
+                $attributeXPath .= '[@ID="' . $fedoraNamespace . '_' . $counter . '"]';
             }
 
             $existsExtensionFlag = false;
@@ -178,7 +178,7 @@ class ParserGenerator
                 //$values = empty($values)? [] : $values;
                 foreach ($values as $value) {
                     if ($value['mapping'] != '.') {
-                        $value['mapping'] .= '[@metadata-item-id='. '"' . $value['id'] . '"' .']';
+                        $value['mapping'] .= '[@metadata-item-id=' . '"' . $value['id'] . '"' . ']';
                     }
 
                     if ($value['modsExtension']) {
@@ -202,9 +202,7 @@ class ParserGenerator
 
                         $this->customXPath($path, $newGroupFlag, $value['value']);
                         $i++;
-
                     }
-
                 }
             } else {
                 if (!empty($attributeXPath)) {
@@ -213,7 +211,7 @@ class ParserGenerator
                 }
             }
             if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
-                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="'.$fedoraNamespace.'_' . $counter . '"]';
+                $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="' . $fedoraNamespace . '_' . $counter . '"]';
                 $xml   = $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {
@@ -298,10 +296,9 @@ class ParserGenerator
                     $nestedXml = $this->parseXPath($nested);
 
                     // object xpath without nested element []
-                    $newPath[1] = str_replace('['.$match[2].']', '', $newPath[1]);
+                    $newPath[1] = str_replace('[' . $match[2] . ']', '', $newPath[1]);
 
                     $xml = $this->parseXPath($newPath[1]);
-
                 }
 
                 // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
@@ -368,7 +365,7 @@ class ParserGenerator
                     $nestedXml = $this->parseXPathWrapped($nested);
 
                     // object xpath without nested element []
-                    $newPath[1] = str_replace('['.$match[2].']', '', $newPath[1]);
+                    $newPath[1] = str_replace('[' . $match[2] . ']', '', $newPath[1]);
 
                     $xml2 = $this->parseXPathWrapped($path . $newPath[1]);
                 }
@@ -378,7 +375,7 @@ class ParserGenerator
 
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
 
-                  // second part nested xpath
+                // second part nested xpath
                 if ($match[2] && $secondMatch[2]) {
                     // import node from nested
                     $docXMLNested = new \DOMDocument();
@@ -440,7 +437,8 @@ class ParserGenerator
         return $this->xmlData->saveXML();
     }
 
-    public function setXML($value = '') {
+    public function setXML($value = '')
+    {
         $domDocument = new \DOMDocument();
         if (is_null(@$domDocument->loadXML($value))) {
             throw new \Exception("Couldn't load MODS data");

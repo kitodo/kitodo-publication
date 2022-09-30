@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Helper;
 
 /*
@@ -31,11 +32,12 @@ class UploadFileUrl
      * UploadFileUrl constructor.
      * @param int $clientPid
      */
-    public function __construct($clientPid = 0) {
+    public function __construct($clientPid = 0)
+    {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
         if ($clientPid) {
-            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+            $this->clientConfigurationManager->switchToClient($clientPid);
         }
     }
 
@@ -69,5 +71,4 @@ class UploadFileUrl
     {
         return $this->getBaseUrl() . "/" . $this->getDirectory();
     }
-
 }

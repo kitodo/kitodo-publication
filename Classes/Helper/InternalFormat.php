@@ -65,7 +65,7 @@ class InternalFormat
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         if ($clientPid) {
-            $this->clientConfigurationManager->setConfigurationPid($clientPid);
+            $this->clientConfigurationManager->switchToClient($clientPid);
         }
 
         $this->setXml($xml);
