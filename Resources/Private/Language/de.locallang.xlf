@@ -570,7 +570,7 @@
 			</trans-unit>
 			<trans-unit id="manager.confirmDelete.message" approved="yes" xml:space="preserve">
 				<source>The document &quot;%s&quot; will be removed from the local list and therefore all changes are rejected. Documents in the repository remain unchanged.</source>
-				<target>Das Dokument &quot;%s&quot; wird aus der lokalen Liste entfernt und daher alle Änderungen verworfen. Dokumente im Repository bleiben uverändert.</target>
+				<target>Das Dokument &quot;%s&quot; wird aus der lokalen Liste entfernt und daher alle Änderungen verworfen. Dokumente im Repository bleiben unverändert.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmDelete.messageHeader" approved="yes">
 				<source>Do you really want to delete the document?</source>
@@ -1025,8 +1025,8 @@
 				<target>Institutionelle Bibliografie</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.universityPublication.tooltip" approved="yes">
-				<source>Originated from scientific work at the UL</source>
-				<target>Hervorgegangen aus wissenschaftlicher Tätigkeit an der UL</target>
+				<source>Originated from scientific work at this institution</source>
+				<target>Hervorgegangen aus wissenschaftlicher Tätigkeit an dieser Einrichtung</target>
 			</trans-unit>
 			<trans-unit id="manager.workspace.fulltextMedia" approved="yes">
 				<source>Fulltext</source>
@@ -1333,8 +1333,8 @@
                 <target>Es wurden %s %s importiert.</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.importNote" approved="yes">
-                <source>To complete the import, please check whether your own name has been correctly recognized and, if necessary, identify other researchers. To do this, click on names that are not yet highlighted in color. If your own name is missing, click on the [+] symbol.</source>
-                <target>Um den Import abzuschließen, prüfen Sie bitte, ob Ihr eigener Name richtig erkannt wurde, und identifizieren Sie ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht farbig hinterlegt sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
+                <source>Please identify yourself and other researchers if necessary. To do this, click on names that have not yet been marked with the [Person] symbol. If your own name is missing, click on the [+] symbol.</source>
+                <target>Bitte identifizieren Sie jetzt sich selbst und ggf. auch andere Forschende. Klicken Sie dazu auf Namen, die noch nicht mit dem Symbol [Person] markiert sind. Fehlt Ihr eigener Name, klicken Sie auf das [+]-Symbol.</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.incompleteData" approved="yes">
                 <source>Could not import publication number %s%s, because the following fields are empty: %s</source>
@@ -1358,7 +1358,7 @@
             </trans-unit>
             <trans-unit id="manager.uploadImport.uploadError" approved="yes">
                 <source>Import failed. An error occurred while uploading the file.</source>
-                <target>Import fehlgeschlagen. Die Datei konnte nicht hochgeladen wercden.</target>
+                <target>Import fehlgeschlagen. Die Datei konnte nicht hochgeladen werden.</target>
             </trans-unit>
 			<trans-unit id="manager.search.saveQuery.successfully" approved="yes">
 				<source>Search query has been saved.</source>
@@ -1830,7 +1830,7 @@ Datum: ###DATE###
 			</trans-unit>
 			<trans-unit id="search.doubletCheck.foundMessage" approved="yes">
 				<source>The following possible duplicates were found:</source>
-				<target>Folgende mögliche doubletten wurden gefunden:</target>
+				<target>Folgende mögliche Doubletten wurden gefunden:</target>
 			</trans-unit>
 			<trans-unit id="search.doubletCheck.identifier" approved="yes">
 				<source>URN</source>
