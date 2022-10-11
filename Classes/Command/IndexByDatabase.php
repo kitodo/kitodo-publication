@@ -56,13 +56,15 @@ class IndexByDatabase extends AbstractIndexCommand
         /** @var Client $client */
         $client = $this->clientRepository->findByUid($clientUid);
 
+        // setup client configuration manager for later dependency injection
+        $this->clientConfigurationManager->switchToClient($clientUid);
+
         if ($client) {
             $io->title("Indexing: '" . $client->getClient() . "'");
 
-            // Set the client storagePid
-            Client::$storagePid = $client->getPid();
-            $this->documentTypeRepository->setStoragePid(Client::$storagePid);
-            $this->documentRepository->setStoragePid(Client::$storagePid);
+            // Use the storagePid of client record on other repositories
+            $this->documentTypeRepository->setStoragePid($client->getPid());
+            $this->documentRepository->setStoragePid($client->getPid());
 
             $numFailures = 0;
             $numSuccess = 0;
@@ -82,14 +84,13 @@ class IndexByDatabase extends AbstractIndexCommand
                         /** @var ElasticSearch $es */
                         $es = $this->objectManager->get(ElasticSearch::class);
                         $es->index($document);
-                        $io->writeln($document->getUid().': Successfull');
+                        $io->writeln($document->getUid() . ': Successful');
                         $io->writeln('');
                         ++$numSuccess;
                     }
                 } catch(\Throwable $e) {
-                    $failures = true;
-                    $io->writeln($document->getUid().': Failed');
-                    $io->writeln($e->getMessage().': Failed');
+                    $io->writeln($document->getUid() . ': Failed');
+                    $io->writeln($e->getMessage());
                     $io->writeln('');
                     ++$numFailures;
                 }

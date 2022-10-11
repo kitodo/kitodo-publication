@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace EWW\Dpf\Configuration;
 
@@ -15,24 +15,18 @@ namespace EWW\Dpf\Configuration;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Repository\ClientRepository;
+use Exception;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\ClientRepository;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
-class ClientConfigurationManager
+class ClientConfigurationManager implements SingletonInterface
 {
     // FIXME Make Fedora https connection scheme configurable
-
-    /**
-     * settings
-     *
-     * @var array
-     */
-    protected $settings = array();
-
 
     /**
      * settings
@@ -50,22 +44,27 @@ class ClientConfigurationManager
 
     public function __construct()
     {
+        // FIXME Backend setting retrieval removed in commit f3f178a47c9d7f22e086b49634cefa454f2a950f
+        // This might have broken Backend handover module
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+
+        $this->extensionConfiguration =
+            GeneralUtility::makeInstance(ExtensionConfiguration::class)
+                ->get('dpf');
+
+        // best-effort in finding the client configuration record
+        // requires TYPOScript setup to specify storage PID
         $clientRepository = $objectManager->get(ClientRepository::class);
 
-        $this->client = $clientRepository->findAll()->current();
+        // Assuming that storagePID for ClientRepository is set correctly
+        // get the first available client record
+        $this->client = $clientRepository->findAll()->getFirst();
 
-        // FIXME Backend setting retrievel removed in commit f3f178a47c9d7f22e086b49634cefa454f2a950f
-        // This might have broken Backend handover module
-
-        $configurationManager = $objectManager->get(ConfigurationManager::class);
-        $this->settings = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
-        );
-
-        $this->extensionConfiguration = GeneralUtility::makeInstance(
-            ExtensionConfiguration::class
-        )->get('dpf');
+        // FIXME Deprecated mode check
+        if (TYPO3_MODE == "FE" && !$this->client) {
+            throw new Exception("Cannot obtain client record although in frontend mode. Is the storage PID set?");
+        }
     }
 
     /**
@@ -75,15 +74,39 @@ class ClientConfigurationManager
      * since TYPOScript storagePid configuration is not avalable in
      * TYPO3 backend.
      *
-     * @param int $pid PID of client record to switch to
+     * @param int $uid Switch to client record with given UID
      */
-    public function switchToClient($pid)
+    public function switchToClient($uid)
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $clientRepository = $objectManager->get(ClientRepository::class);
-
-        $this->client = $clientRepository->findAllByPid($pid)->current();
+        $client = $clientRepository->findByUid($uid);
+        if (!$client) {
+            throw new Exception("Unable to find client with UID `{$uid}`");
+        }
+        $this->client = $client;
     }
+
+    /**
+     * Switch to first client configuration given a storage PID
+     *
+     * Sort of hack to select client records from backend module
+     * since TYPOScript storagePid configuration is not avalable in
+     * TYPO3 backend.
+     *
+     * @param int $pid Storage PID of client records
+     */
+    public function switchToClientStorage($pid)
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $clientRepository = $objectManager->get(ClientRepository::class);
+        $client = $clientRepository->findAllByPid($pid)->getFirst();
+        if (!$client) {
+            throw new Exception("Unable to find client record in storage with PID `{$pid}`");
+        }
+        $this->client = $client;
+    }
+
 
     /**
      * @return int|null
@@ -497,5 +520,10 @@ class ClientConfigurationManager
     protected function trimFileXpath(string $xpath): ?string
     {
         return trim($xpath, "@/ ");
+    }
+
+    public function getClient()
+    {
+        return $this->client;
     }
 }

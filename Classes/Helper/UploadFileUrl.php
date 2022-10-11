@@ -37,7 +37,7 @@ class UploadFileUrl
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
         if ($clientPid) {
-            $this->clientConfigurationManager->switchToClient($clientPid);
+            $this->clientConfigurationManager->switchToClientStorage($clientPid);
         }
     }
 

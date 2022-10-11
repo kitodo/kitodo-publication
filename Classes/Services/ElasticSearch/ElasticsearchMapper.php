@@ -30,8 +30,8 @@ class ElasticsearchMapper
 
     /**
      * clientConfigurationManager
-     * 
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager 
+     *
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
@@ -51,12 +51,8 @@ class ElasticsearchMapper
      */
     public function getElasticsearchJson($document)
     {
-        if (Client::$storagePid > 0) {
-            $this->clientRepository->setStoragePid(Client::$storagePid);
-        }
-
         /** @var \EWW\Dpf\Domain\Model\Client $client */
-        $client = $this->clientRepository->findAll()->current();
+        $client = $this->clientConfigurationManager->getClient();
 
         /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
         $xsltTransformationFile = $client->getElasticSearchTransformation()->current();
@@ -71,7 +67,7 @@ class ElasticsearchMapper
         // xslt
         $xsl = new \DOMDocument;
         $xsl->load($xsltDoc);
-        
+
         $xml = new \DOMDocument;
         $xml->loadXML($document->getXmlData());
 

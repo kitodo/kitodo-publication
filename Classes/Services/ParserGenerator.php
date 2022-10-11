@@ -100,7 +100,7 @@ class ParserGenerator
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         if ($clientPid) {
-            $this->clientConfigurationManager->switchToClient($clientPid);
+            $this->clientConfigurationManager->switchToClientStorage($clientPid);
         }
 
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);

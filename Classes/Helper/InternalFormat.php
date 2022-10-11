@@ -65,7 +65,7 @@ class InternalFormat
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         if ($clientPid) {
-            $this->clientConfigurationManager->switchToClient($clientPid);
+            $this->clientConfigurationManager->switchToClientStorage($clientPid);
         }
 
         $this->setXml($xml);
@@ -142,7 +142,7 @@ class InternalFormat
     public function getTitle()
     {
         $titleXpath = $this->clientConfigurationManager->getTitleXpath();
-        if (empty($titleXpath)) return;
+        if (empty($titleXpath)) return "";
 
         $xpath = $this->getXpath();
         $stateList = $xpath->query(self::rootNode . $titleXpath);

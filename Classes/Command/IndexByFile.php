@@ -84,10 +84,9 @@ class IndexByFile extends AbstractIndexCommand
             return false;
         }
 
-        // Set the client storagePid
-        Client::$storagePid = $client->getPid();
-        $this->documentTypeRepository->setStoragePid(Client::$storagePid);
-        $this->documentRepository->setStoragePid(Client::$storagePid);
+        // Use the storagePid of client record on other repositories
+        $this->documentTypeRepository->setStoragePid($client->getPid());
+        $this->documentRepository->setStoragePid($client->getPid());
 
         $result = true;
 
@@ -97,7 +96,7 @@ class IndexByFile extends AbstractIndexCommand
             while (!feof($fn)) {
                 $uri = trim(fgets($fn));
                 if ($uri) {
-                    $result = $this->indexHttpDocument($uri, $io, $httpClient, $credentials) 
+                    $result = $this->indexHttpDocument($uri, $io, $httpClient, $credentials)
                         && $result;
                 }
             }
@@ -117,7 +116,7 @@ class IndexByFile extends AbstractIndexCommand
 
     /**
      * Index a particular file
-     * 
+     *
      * @param string $file URI or path to METS/MODS file to index
      * @param OutputInterface $io IO object for printing messages
      * @return bool False on error, true on success
@@ -141,7 +140,7 @@ class IndexByFile extends AbstractIndexCommand
 
     /**
      * Index a particular web document
-     * 
+     *
      * @param string URI to METS/MODS file to index
      * @param OutputInterface $io IO object for printing messages
      * @param string|null Credentials string as "user:password"
@@ -172,7 +171,7 @@ class IndexByFile extends AbstractIndexCommand
             $contentType = $response->getHeader('Content-Type')[0];
 
             if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
-                return $this->indexXml($response->getBody()->getContents());    
+                return $this->indexXml($response->getBody()->getContents());
             } else {
                 $io->writeln("Invalid data format. Expected XML but found `$contentType`.");
                 return false;
@@ -185,7 +184,7 @@ class IndexByFile extends AbstractIndexCommand
 
     /**
      * Index a METS/MODS XML document
-     * 
+     *
      * @param string $xml XML document data
      * @return bool False on error, true on success
      */

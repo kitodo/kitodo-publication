@@ -14,6 +14,7 @@ namespace EWW\Dpf\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Repository\ClientRepository;
@@ -57,6 +58,10 @@ class AbstractIndexCommand extends Command
      * @var ObjectManager
      */
     protected $objectManager = null;
+    /**
+     * @var ClientConfigurationManager
+     */
+    protected $clientConfigurationManager;
 
     public function __construct(string $name = null)
     {
@@ -65,6 +70,7 @@ class AbstractIndexCommand extends Command
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->objectManager = $objectManager;
         $this->clientRepository = $objectManager->get(ClientRepository::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
         $this->fileRepository = $objectManager->get(FileRepository::class);
         $this->documentTypeRepository = $objectManager->get(DocumentTypeRepository::class);
         $this->documentRepository = $objectManager->get(DocumentRepository::class);
