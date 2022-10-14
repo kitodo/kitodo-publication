@@ -267,6 +267,11 @@ class ElasticSearch
             $data->state = $document->getState();
             $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
 
+            if (!$data->doctype) {
+                // set document type from database if it has not yet been extracted from XML data
+                $data->doctype = $document->getDocumentType()->getName();
+            }
+
             if (!$data->process_number) {
                 // set process number from database if it has not yet been extracted from XML data
                 $data->process_number = $document->getProcessNumber();
