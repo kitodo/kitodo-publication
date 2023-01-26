@@ -509,6 +509,7 @@ return array(
                 'rows' => 15,
                 'eval' => 'trim',
                 'enableRichtext' => true,
+                'default' => '',
             ),
         ),
     ),
