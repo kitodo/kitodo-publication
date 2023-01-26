@@ -834,28 +834,28 @@
 			<source>API Token</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url" approved="yes">
-			<source>Active messaging suggestion accept url</source>
+			<source>Active messaging: suggestion accept url</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url" approved="yes">
-			<source>Active messaging suggestion decline url</source>
+			<source>Active messaging: suggestion decline url</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
-			<source>Active messaging new document url</source>
+			<source>Active messaging: new document url</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url" approved="yes">
-			<source>Active messaging changed document url</source>
+			<source>Active messaging: changed document url</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_accept_url_body" approved="yes">
-			<source>Active messaging suggestion accept url body</source>
+			<source>Active messaging: suggestion accept body</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
-			<source>Active messaging suggestion decline url body</source>
+			<source>Active messaging: suggestion decline body</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
-			<source>Active messaging new document url body</source>
+			<source>Active messaging: new document body</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_changed_document_url_body" approved="yes">
-			<source>Active messaging changed document url</source>
+			<source>Active messaging: changed document url</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.fis_mapping" approved="yes">
 			<source>FIS Mapping (json)</source>
