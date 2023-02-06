@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Helper;
 
 /*
@@ -14,10 +15,11 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentForm;
 use EWW\Dpf\Domain\Model\DocumentFormGroup;
 use EWW\Dpf\Domain\Model\MetadataMandatoryInterface;
-use EWW\Dpf\Security\Security;
 
 
 class DocumentValidator
@@ -87,6 +89,7 @@ class DocumentValidator
             foreach ($fields as $field) {
 
                 $isFieldVisible = !(
+                    $this->security !== null &&
                     $field->getAccessRestrictionRoles() &&
                     !in_array($this->security->getUserRole(), $group->getAccessRestrictionRoles())
                 );
@@ -121,6 +124,7 @@ class DocumentValidator
     protected function hasAllMandatoryGroupValues(DocumentFormGroup $group, $hasFiles, $validateInvisableFields)
     {
         $isGroupVisible = !(
+            $this->security !== null &&
             $group->getAccessRestrictionRoles() &&
             !in_array($this->security->getUserRole(), $group->getAccessRestrictionRoles())
         );
@@ -148,25 +152,20 @@ class DocumentValidator
     }
 
     /**
-     * @param Document $document
-     * @param bool $validateInvisableFields : If false, invisible form fields and groups are not validated.
-     * @param bool $checkPrimaryFile
-     * @return bool
+     * Validate a given document form
+     *
+     * @param DocumentForm $documentForm Form to validate
+     * @param bool $validateInvisableFields If false, invisible form fields and groups are not validated. Default true.
+     *
+     * @return bool True, if the form is valid
      */
-    public function validate(Document $document, $validateInvisableFields = true, $checkPrimaryFile = false) {
-
-        /** @var  \EWW\Dpf\Domain\Model\DocumentForm $docForm */
-        $docForm = $this->documentMapper->getDocumentForm($document);
-
-        if ($checkPrimaryFile && !$docForm->hasFiles()) return FALSE;
-
-        $pages = $docForm->getItems();
+    public function validateForm(DocumentForm $documentForm, $validateInvisableFields = true): bool
+    {
+        $pages = $documentForm->getItems();
         foreach ($pages as $page) {
             foreach ($page[0]->getItems() as $groups) {
-                /** @var  \EWW\Dpf\Domain\Model\DocumentFormGroup $groupItem */
-
                 foreach ($groups as $groupItem) {
-                    if (!$this->hasAllMandatoryGroupValues($groupItem, $docForm->hasFiles(), $validateInvisableFields)) {
+                    if (!$this->hasAllMandatoryGroupValues($groupItem, $documentForm->hasFiles(), $validateInvisableFields)) {
                         return FALSE;
                     }
                 }
@@ -176,4 +175,22 @@ class DocumentValidator
         return TRUE;
     }
 
+    /**
+     * Validate given Document
+     *
+     * @param Document $document
+     * @param bool $validateInvisableFields If false, invisible form fields and groups are not validated. Default true.
+     * @param bool $checkPrimaryFile If true, check if the document has any files. Default false.
+     *
+     * @return bool
+     */
+    public function validate(Document $document, $validateInvisableFields = true, $checkPrimaryFile = false)
+    {
+        /** @var  \EWW\Dpf\Domain\Model\DocumentForm $docForm */
+        $docForm = $this->documentMapper->getDocumentForm($document);
+
+        if ($checkPrimaryFile && !$docForm->hasFiles()) return FALSE;
+
+        return $this->validateForm($docForm, $validateInvisableFields);
+    }
 }

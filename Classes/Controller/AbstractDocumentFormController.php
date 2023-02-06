@@ -21,6 +21,7 @@ use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Domain\Model\DepositLicenseLog;
+use EWW\Dpf\Helper\DocumentValidator;
 use Exception;
 
 /**
@@ -199,6 +200,12 @@ abstract class AbstractDocumentFormController extends AbstractController
      */
     public function createAction(DocumentForm $newDocumentForm)
     {
+        $documentValidator = new DocumentValidator();
+        if (!$documentValidator->validateForm($newDocumentForm)) {
+            // break out immediately if the form is not valid
+            throw new \Exception("Submitted form is not valid");
+        }
+
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
@@ -317,6 +324,12 @@ abstract class AbstractDocumentFormController extends AbstractController
      */
     public function editAction(DocumentForm $documentForm)
     {
+        $documentValidator = new DocumentValidator();
+        if (!$documentValidator->validateForm($documentForm)) {
+            // break out immediately if the form is not valid
+            throw new \Exception("Submitted form is not valid");
+        }
+
         $this->view->assign('documentForm', $documentForm);
 
         if (!empty($this->security->getUserAccessToGroups())) {
