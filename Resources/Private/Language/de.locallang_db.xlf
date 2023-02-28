@@ -14,16 +14,16 @@
 			<target>Admin E-Mail</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_body" approved="yes">
-			<source>New document body</source>
-			<target>Neuer Dokument Body</target>
+			<source>New document: Email text</source>
+			<<target>Dokument gemeldet via Eingabeassistent: Mailtext</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_subject" approved="yes">
-			<source>New document subject</source>
-			<target>Neues Dokumententhema</target>
+			<source>New document: Email subject</source>
+			<target>Dokument gemeldet via Eingabeassistent: Email Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_body" approved="yes">
-			<source>Document registration body</source>
-			<target>Dokumentanmeldung Body</target>
+			<source>Document registration: Email text</source>
+			<target>Dokument gemeldet: Mailtext</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_subject" approved="yes">
 			<source>Document registration subject</source>
@@ -136,18 +136,16 @@
 			</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_subject" approved="yes">
-			<source>New suggestion</source>
-			<target>Neuer Änderungsvorschlag</target>
+			<source>New suggestion: Email subject</source>
+			<target>Neuer Änderungsvorschlag: Email Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_body" approved="yes">
-			<source>Embargo expired body
-			</source>
-			<target>Embargo abgelaufen Mailtext
-			</target>
+			<source>Embargo expired: Email text</source>
+			<target>Embargo abgelaufen: Mailtext</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject" approved="yes">
-			<source>Embargo expired</source>
-			<target>Embargo abgelaufen</target>
+			<source>Embargo expired: Email subject</source>
+			<target>Embargo abgelaufen: Email Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject" approved="yes">
 			<source>Deposit license subject</source>

@@ -90,36 +90,36 @@
             <target>Domain</target>
         </trans-unit>
         <trans-unit id="admin_new_document_notification_subject.description" approved="yes">
-            <source>New document subject</source>
-            <target>Neues Dokumententhema</target>
+            <source>New document: Email subject</source>
+            <target>Dokument gemeldet via Eingabeassistent: Email Betreff</target>
         </trans-unit>
         <trans-unit id="admin_new_document_notification_body.description" approved="yes">
-            <source>New document body</source>
-            <target>Neuer Dokument Body</target>
+            <source>New document: Email text</source>
+            <target>Dokument gemeldet via Eingabeassistent: Mailtext</target>
         </trans-unit>
         <trans-unit id="admin_register_document_notification_subject.description" approved="yes">
-            <source>Document registration subject</source>
-            <target>Dokumentanmeldung Thema</target>
+            <source>Document registration: Email subject</source>
+            <target>Dokument gemeldet: Email Betreff</target>
         </trans-unit>
         <trans-unit id="admin_register_document_notification_body.description" approved="yes">
-            <source>Document registration body</source>
-            <target>Dokumentanmeldung Body</target>
+            <source>Document registration: Email text</source>
+            <target>Dokument gemeldet: Mailtext</target>
         </trans-unit>
         <trans-unit id="submitter_new_document_notification_subject.description" approved="yes">
-            <source>New document subject</source>
-            <target>Neues Dokumententhema</target>
+            <source>New document: Email subject</source>
+            <target>Neues Dokument: Email text</target>
         </trans-unit>
         <trans-unit id="submitter_new_document_notification_body.description" approved="yes">
-            <source>New document body</source>
-            <target>Neuer Dokument Body</target>
+            <source>New document: Email text</source>
+            <target>Neuer Dokument: Mailtext</target>
         </trans-unit>
         <trans-unit id="submitter_ingest_notification_subject.description" approved="yes">
-            <source>Ingest subject</source>
-            <target>Aufnahme Thema</target>
+            <source>Document published: Email subject</source>
+            <target>Dokument publiziert: Email Betreff</target>
         </trans-unit>
         <trans-unit id="submitter_ingest_notification_body.description" approved="yes">
-            <source>Ingest body</source>
-            <target>Aufnahme Body</target>
+            <source>Document published: Email text</source>
+            <target>Dokument publiziert: Mailtext</target>
         </trans-unit>
 		</body>
 	</file>
