@@ -15,7 +15,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_body" approved="yes">
 			<source>New document: Email text</source>
-			<<target>Dokument gemeldet via Eingabeassistent: Mailtext</target>
+			<target>Dokument gemeldet via Eingabeassistent: Mailtext</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_subject" approved="yes">
 			<source>New document: Email subject</source>
