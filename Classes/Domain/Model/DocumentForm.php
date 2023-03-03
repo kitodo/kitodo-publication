@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Domain\Model;
 
 /*
@@ -274,4 +275,17 @@ class DocumentForm extends AbstractFormElement
         $this->processNumber = $processNumber;
     }
 
+    /**
+     * Check whether this form has plausible values is not just scam.
+     *
+     * Checks for the value of $this->valid which is set to TRUE by FormDataReader::getDocumentForm()
+     * in case of a hidden form field `validDocument` with value of `1` exists. The latter gets set
+     * via JavaScript on the form page.
+     *
+     * @return True, if deemed plausible. False otherwise.
+     */
+    public function isPlausible()
+    {
+        return $this->valid === TRUE;
+    }
 }

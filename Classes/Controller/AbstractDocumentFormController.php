@@ -210,6 +210,9 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
      */
     public function createAction(\EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm)
     {
+        if (!$newDocumentForm->isPlausible()) {
+            throw new \Exception("Document form failed plausibility check.");
+        }
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
