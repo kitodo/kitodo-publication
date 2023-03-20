@@ -238,7 +238,8 @@ class DocumentMapper
                         $groupItemId = $data->getAttribute("metadata-item-id");
 
                         if (empty($groupItemId)) {
-                            $groupItemId = $metadataGroup->getUid() . '-' . ($groupItemIdIndex+1);
+                            $groupItemIdIndex++;
+                            $groupItemId = $metadataGroup->getUid() . '-' . ($groupItemIdIndex);
                         } else {
                             $groupItemIdParts = explode('-', $groupItemId);
                             $groupItemIdIndex = $groupItemIdParts[1];
@@ -345,7 +346,8 @@ class DocumentMapper
                                         }
 
                                        if (empty($fieldItemId)) {
-                                           $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . ($fieldItemIdIndex + 1);
+                                           $fieldItemIdIndex++;
+                                           $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . ($fieldItemIdIndex);
                                        } else {
                                            $fieldItemIdParts = explode('-', $fieldItemId);
                                            $fieldItemIdIndex = $fieldItemIdParts[3];
