@@ -19,7 +19,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_document_notification_subject" approved="yes">
 			<source>New document: Email subject</source>
-			<target>Dokument gemeldet via Eingabeassistent: Email Betreff</target>
+			<target>Dokument gemeldet via Eingabeassistent: E-Mail Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_body" approved="yes">
 			<source>Document registration: Email text</source>
@@ -27,7 +27,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_register_document_notification_subject" approved="yes">
 			<source>Document registration subject</source>
-			<target>Dokumentanmeldung Thema</target>
+			<target>Dokument gemeldet: E-Mail Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.client" approved="yes">
 			<source>Client name</source>
@@ -137,7 +137,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_new_suggestion_subject" approved="yes">
 			<source>New suggestion: Email subject</source>
-			<target>Neuer Änderungsvorschlag: Email Betreff</target>
+			<target>Neuer Änderungsvorschlag: E-Mail Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_body" approved="yes">
 			<source>Embargo expired: Email text</source>
@@ -145,7 +145,7 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_embargo_subject" approved="yes">
 			<source>Embargo expired: Email subject</source>
-			<target>Embargo abgelaufen: Email Betreff</target>
+			<target>Embargo abgelaufen: E-Mail Betreff</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.admin_deposit_license_notification_subject" approved="yes">
 			<source>Deposit license subject</source>
@@ -337,7 +337,7 @@
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.submitter_email" approved="yes">
             <source>Submitter email</source>
-            <target>Email des Erstellers</target>
+            <target>E-Mail des Erstellers</target>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.submitter_notice" approved="yes">
             <source>Submitter notice</source>

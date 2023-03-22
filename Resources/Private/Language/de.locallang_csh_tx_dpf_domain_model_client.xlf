@@ -91,7 +91,7 @@
         </trans-unit>
         <trans-unit id="admin_new_document_notification_subject.description" approved="yes">
             <source>New document: Email subject</source>
-            <target>Dokument gemeldet via Eingabeassistent: Email Betreff</target>
+            <target>Dokument gemeldet via Eingabeassistent: E-Mail Betreff</target>
         </trans-unit>
         <trans-unit id="admin_new_document_notification_body.description" approved="yes">
             <source>New document: Email text</source>
@@ -99,7 +99,7 @@
         </trans-unit>
         <trans-unit id="admin_register_document_notification_subject.description" approved="yes">
             <source>Document registration: Email subject</source>
-            <target>Dokument gemeldet: Email Betreff</target>
+            <target>Dokument gemeldet: E-Mail Betreff</target>
         </trans-unit>
         <trans-unit id="admin_register_document_notification_body.description" approved="yes">
             <source>Document registration: Email text</source>
@@ -107,7 +107,7 @@
         </trans-unit>
         <trans-unit id="submitter_new_document_notification_subject.description" approved="yes">
             <source>New document: Email subject</source>
-            <target>Neues Dokument: Email text</target>
+            <target>Neues Dokument: E-Mail text</target>
         </trans-unit>
         <trans-unit id="submitter_new_document_notification_body.description" approved="yes">
             <source>New document: Email text</source>
@@ -115,7 +115,7 @@
         </trans-unit>
         <trans-unit id="submitter_ingest_notification_subject.description" approved="yes">
             <source>Document published: Email subject</source>
-            <target>Dokument publiziert: Email Betreff</target>
+            <target>Dokument publiziert: E-Mail Betreff</target>
         </trans-unit>
         <trans-unit id="submitter_ingest_notification_body.description" approved="yes">
             <source>Document published: Email text</source>
