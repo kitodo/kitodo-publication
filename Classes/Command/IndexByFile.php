@@ -77,6 +77,9 @@ class IndexByFile extends AbstractIndexCommand
             return false;
         }
 
+        // setup client configuration manager for later dependency injection
+        $this->clientConfigurationManager->switchToClient($clientUid);
+
         if (!file_exists($filename)) {
             $io->write('Failed: ');
             $io->writeln("File `$filename` not found.");
