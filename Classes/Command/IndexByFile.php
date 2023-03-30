@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Command;
 
 /*
@@ -62,30 +63,21 @@ class IndexByFile extends AbstractIndexCommand
         $linklist = $input->getOption('linklist');
         $credentials = $input->getOption('user');
 
-        $io->title("Indexing: '" . $filename . "'");
-        if ($linklist) {
-            $io->writeln("Assuming the file contains URIs...");
-        }
-
-        /** @var Client $client */
-        $client = $this->clientRepository->findByUid($clientUid);
-
-        if (!$client) {
-            $io->write('Failed: ');
-            $io->writeln("Unknown client '" . $clientUid ."'");
-            $io->writeln('');
-            return false;
+        if (!file_exists($filename)) {
+            $io->error("File `$filename` not found.");
+            return 1;
         }
 
         // setup client configuration manager for later dependency injection
+        /** @var Client $client */
+        $client = $this->clientRepository->findByUid($clientUid);
+        if (!$client) {
+            $io->error("Unknown client '" . $clientUid . "'");
+            return 1;
+        }
         $this->clientConfigurationManager->switchToClient($clientUid);
 
-        if (!file_exists($filename)) {
-            $io->write('Failed: ');
-            $io->writeln("File `$filename` not found.");
-            $io->writeln('');
-            return false;
-        }
+        $io->title("Indexing: '" . $filename . "' for client '" . $client->getClient() . "'");
 
         // Use the storagePid of client record on other repositories
         $this->documentTypeRepository->setStoragePid($client->getPid());
@@ -110,10 +102,10 @@ class IndexByFile extends AbstractIndexCommand
 
         if ($result === true) {
             $io->writeln("Successfully indexed contents of `$filename`");
-            return true;
+            return 0;
         } else {
-            $io->writeln("There where errors.");
-            return false;
+            $io->error("There where errors.");
+            return 1;
         }
     }
 
@@ -126,7 +118,7 @@ class IndexByFile extends AbstractIndexCommand
      */
     protected function indexFile(string $path, OutputInterface $io): bool
     {
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             $mimeType = mime_content_type($path);
             if ($mimeType != 'text/xml') {
                 $io->writeln("Invalid data format. Expected XML but found `$mimeType`.");
@@ -153,34 +145,52 @@ class IndexByFile extends AbstractIndexCommand
         string $uri,
         OutputInterface $io,
         HttpClient $httpClient,
-        string $credentials = null)
-    {
-        if (str_starts_with($uri, 'http')) {
-            $requestConfig = ['http_errors' => false];
-            if ($credentials) {
-                $requestConfig['auth'] = explode(':', $credentials);
-            }
+        string $credentials = null
+    ) {
+        if (!str_starts_with($uri, 'http')) {
+            $io->writeln("Unrecognized URI scheme: `$uri`");
+            return false;
+        }
 
-            /** @var ResponseInterface */
-            $response = $httpClient->get($uri, $requestConfig);
+        $requestConfig = ['http_errors' => false];
+        if ($credentials) {
+            $requestConfig['auth'] = explode(':', $credentials);
+        }
 
-            if ($response->getStatusCode() !== 200) {
-                $statusCode = $response->getStatusCode();
-                $reasonPhrase = $response->getReasonPhrase();
-                $io->writeln("Could not get contents from `$uri`: $statusCode $reasonPhrase");
-                return false;
-            }
+        $io->write("Indexing $uri... ");
 
-            $contentType = $response->getHeader('Content-Type')[0];
+        /** @var ResponseInterface */
+        $response = $httpClient->get($uri, $requestConfig);
 
-            if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
-                return $this->indexXml($response->getBody()->getContents());
-            } else {
-                $io->writeln("Invalid data format. Expected XML but found `$contentType`.");
+        if ($response->getStatusCode() !== 200) {
+            $statusCode = $response->getStatusCode();
+            $reasonPhrase = $response->getReasonPhrase();
+            $io->writeln("Error");
+            $io->writeln("\tHTTP response was `$statusCode $reasonPhrase`");
+            return false;
+        }
+
+        $contentType = $response->getHeader('Content-Type')[0];
+
+        if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
+            try {
+                $error = $this->indexXml($response->getBody()->getContents());
+                if ($error) {
+                    $io->writeln("Error");
+                    $io->writeln($error);
+                    return false;
+                } else {
+                    $io->writeln("OK");
+                    return true;
+                }
+            } catch (\Exception $e) {
+                $io->writeln("Error");
+                $io->writeln($e->getMessage());
                 return false;
             }
         } else {
-            $io->writeln("Unrecognized URI scheme: `$uri`");
+            $io->writeln("Error");
+            $io->writeln("\tExpected XML content type at `$uri` but was `$contentType`.");
             return false;
         }
     }
@@ -189,17 +199,17 @@ class IndexByFile extends AbstractIndexCommand
      * Index a METS/MODS XML document
      *
      * @param string $xml XML document data
-     * @return bool False on error, true on success
+     * @return string Error message
      */
     protected function indexXml(string $xml)
     {
         $document = $this->createDocument($xml);
-        if ($document) {
-            /** @var ElasticSearch $es */
-            $es = $this->objectManager->get(ElasticSearch::class);
-            $es->index($document);
+        if ($document === FALSE) {
+            return "Could not create document from XML";
         }
+        /** @var ElasticSearch $es */
+        $es = $this->objectManager->get(ElasticSearch::class);
+        $es->index($document);
         return true;
     }
-
 }

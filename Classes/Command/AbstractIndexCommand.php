@@ -24,6 +24,7 @@ use EWW\Dpf\Domain\Repository\FileRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\InternalFormat;
 use EWW\Dpf\Helper\XSLTransformator;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -87,7 +88,11 @@ class AbstractIndexCommand extends Command
             $domDocument = new \DOMDocument();
             $domDocument->loadXML($xml);
             $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
+
             $objectIdentifier = $domXPath->query('@OBJID')->item(0)->nodeValue;
+            if (empty($objectIdentifier)) {
+                throw new \Exception("Missing object identifier");
+            }
 
             $XSLTransformator = new XSLTransformator();
             $inputTransformedXML = $XSLTransformator->transformInputXML($xml);
@@ -95,13 +100,16 @@ class AbstractIndexCommand extends Command
             $internalFormat = new InternalFormat($inputTransformedXML);
 
             $title = $internalFormat->getTitle();
+            if (empty($title)) {
+                throw new \Exception("No title");
+            }
+
             $authors = $internalFormat->getPersons();
 
             $documentTypeName = $internalFormat->getDocumentType();
             $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
-
-            if (empty($title) || empty($documentType) || empty($objectIdentifier)) {
-                return false;
+            if (empty($documentType)) {
+                throw new \Exception("Unrecognizable document type: `$documentTypeName`");
             }
 
             $state = $internalFormat->getRepositoryState();
