@@ -519,11 +519,13 @@ CREATE TABLE tx_dpf_domain_model_client (
 
   active_messaging_suggestion_accept_url tinytext NOT NULL,
   active_messaging_suggestion_decline_url tinytext NOT NULL,
+	active_messaging_document_deleted_url tinytext NOT NULL,
   active_messaging_new_document_url tinytext NOT NULL,
   active_messaging_changed_document_url tinytext NOT NULL,
 
   active_messaging_suggestion_accept_url_body text NOT NULL,
   active_messaging_suggestion_decline_url_body text NOT NULL,
+	active_messaging_document_deleted_url_body text NOT NULL,
   active_messaging_new_document_url_body text NOT NULL,
   active_messaging_changed_document_url_body text NOT NULL,
 

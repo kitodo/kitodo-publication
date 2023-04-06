@@ -623,6 +623,16 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
+    protected $activeMessagingDocumentDeletedUrl = '';
+
+    /**
+     * @var string
+     */
+    protected $activeMessagingDocumentDeletedUrlBody = '';
+
+    /**
+     * @var string
+     */
     protected $activeMessagingNewDocumentUrl = '';
 
     /**
@@ -1550,6 +1560,38 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setActiveMessagingSuggestionDeclineUrl(string $activeMessagingSuggestionDeclineUrl): void
     {
         $this->activeMessagingSuggestionDeclineUrl = $activeMessagingSuggestionDeclineUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingDocumentDeletedUrl(): string
+    {
+        return $this->activeMessagingDocumentDeletedUrl;
+    }
+
+    /**
+     * @param string $activeMessagingDocumentDeletedUrl
+     */
+    public function setActiveMessagingDocumentDeletedUrl(string $activeMessagingDocumentDeletedUrl): void
+    {
+        $this->activeMessagingDocumentDeletedUrl = $activeMessagingDocumentDeletedUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActiveMessagingDocumentDeletedUrlBody(): string
+    {
+        return $this->activeMessagingDocumentDeletedUrlBody;
+    }
+
+    /**
+     * @param string $activeMessagingDocumentDeletedUrlBody
+     */
+    public function setActiveMessagingDocumentDeletedUrlBody(string $activeMessagingDocumentDeletedUrlBody): void
+    {
+        $this->activeMessagingDocumentDeletedUrlBody = $activeMessagingDocumentDeletedUrlBody;
     }
 
     /**
