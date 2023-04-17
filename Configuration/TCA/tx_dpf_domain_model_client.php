@@ -48,7 +48,7 @@ return array(
             crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
             admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
             suggestion_flashmessage,
-            fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
+            fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_document_deleted_url, active_messaging_document_deleted_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
             fis_mapping,
             file_xpath, file_id_xpath, file_mimetype_xpath,
             file_href_xpath, file_download_xpath, file_archive_xpath, file_deleted_xpath ,file_title_xpath,
@@ -81,7 +81,7 @@ return array(
         crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
         admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
         suggestion_flashmessage,
-        fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
+        fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_document_deleted_url, active_messaging_document_deleted_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         fis_mapping,
         file_xpath, file_id_xpath, file_mimetype_xpath,
         file_href_xpath, file_download_xpath, file_archive_xpath, file_deleted_xpath ,file_title_xpath,
@@ -124,7 +124,7 @@ return array(
         --div--;My Publications Notification, mypublications_update_notification_subject, mypublications_update_notification_body, mypublications_new_notification_subject, mypublications_new_notification_body,
         --div--;Deposit License Notification, send_admin_deposit_license_notification, admin_deposit_license_notification_subject, admin_deposit_license_notification_body,
         --div--;Messages, suggestion_flashmessage,
-        --div--;Active Messaging, fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
+        --div--;Active Messaging, fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_document_deleted_url, active_messaging_document_deleted_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         --div--;FIS, fis_mapping,
         --div--;Default Import-XSLT, crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
         --div--;Default internal format XSLT, input_transformation, output_transformation,  elastic_search_transformation,
@@ -1249,6 +1249,15 @@ return array(
                 'eval' => 'trim',
             ),
         ),
+        'active_messaging_document_deleted_url' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_document_deleted_url',
+            'config'  => array(
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
+            ),
+        ),
         'active_messaging_new_document_url' => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_new_document_url',
@@ -1280,6 +1289,16 @@ return array(
         'active_messaging_suggestion_decline_url_body' => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body',
+            'config'  => array(
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 15,
+                'eval' => 'trim',
+            ),
+        ),
+        'active_messaging_document_deleted_url_body' => array(
+            'exclude' => 1,
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.active_messaging_document_deleted_url_body',
             'config'  => array(
                 'type' => 'text',
                 'cols' => 40,

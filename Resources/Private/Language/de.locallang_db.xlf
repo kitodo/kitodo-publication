@@ -1111,6 +1111,10 @@
 			<source>Active messaging: suggestion decline url</source>
 			<target>Aktive Benachrichtigung: Vorschlag abgelehnt URL</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_document_deleted_url" approved="yes">
+			<source>Active messaging: document deleted url</source>
+			<target>Aktive Benachrichtigung: Dokument gelöscht URL</target>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
 			<source>Active messaging: new document url</source>
 			<target>Aktive Benachrichtigung: neues Dokument URL</target>
@@ -1126,6 +1130,10 @@
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
 			<source>Active messaging: suggestion decline body</source>
 			<target>Aktive Benachrichtigung: Vorschlag abgelehnt Nachricht</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_document_deleted_url_body" approved="yes">
+			<source>Active messaging: document deleted body</source>
+			<target>Aktive Benachrichtigung: Dokument gelöscht Nachricht</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
 			<source>Active messaging: new document body</source>
