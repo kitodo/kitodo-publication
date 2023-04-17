@@ -839,6 +839,9 @@
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url" approved="yes">
 			<source>Active messaging: suggestion decline url</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_document_deleted_url" approved="yes">
+			<source>Active messaging: document deleted url</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url" approved="yes">
 			<source>Active messaging: new document url</source>
 		</trans-unit>
@@ -850,6 +853,9 @@
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_suggestion_decline_url_body" approved="yes">
 			<source>Active messaging: suggestion decline body</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.active_messaging_document_deleted_url_body" approved="yes">
+			<source>Active messaging: document deleted body</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.active_messaging_new_document_url_body" approved="yes">
 			<source>Active messaging: new document body</source>

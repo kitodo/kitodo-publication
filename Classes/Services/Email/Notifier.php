@@ -275,6 +275,28 @@ class Notifier
         }
     }
 
+    /**
+     * @param Document $document
+     * @param string $reason
+     */
+    public function sendDocumentDeletedNotification(\EWW\Dpf\Domain\Model\Document $document, $reason = "")
+    {
+        /** @var Client $client */
+        $client = $this->clientRepository->findAll()->current();
+
+        $internalFormat = new InternalFormat($document->getXmlData());
+        if ($internalFormat->getFisId()) {
+            // Active messaging: Suggestion decline
+            $this->sendActiveMessage(
+                $document,
+                $client->getActiveMessagingDocumentDeletedUrl(),
+                $client->getActiveMessagingDocumentDeletedUrlBody(),
+                __FUNCTION__,
+                $reason
+            );
+        }
+    }
+
     public function sendChangedDocumentNotification(\EWW\Dpf\Domain\Model\Document $document, $addedFisIdOnly = false)
     {
         /** @var Client $client */

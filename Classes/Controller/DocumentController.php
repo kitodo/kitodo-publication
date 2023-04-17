@@ -280,7 +280,7 @@ class DocumentController extends AbstractController
 
             $recipients = $this->documentManager->getNewPublicationNotificationRecipients($originDocument);
             $notifier->sendMyPublicationNewNotification($originDocument, $recipients);
-            
+
             $notifier->sendSuggestionAcceptNotification($originDocument);
 
             // index the document
@@ -550,6 +550,9 @@ class DocumentController extends AbstractController
             /** @var Notifier $notifier */
             $notifier = $this->objectManager->get(Notifier::class);
             $notifier->sendSuggestionDeclineNotification($document, $reason);
+
+            // TODO: Check for the type of the deleted document, suggestion or document.
+            // TODO: In case of a document  $notifier->ssendDocumentDeletedNotification($document, $reason) should be used.
 
             $this->redirectToDocumentList();
         } else {
