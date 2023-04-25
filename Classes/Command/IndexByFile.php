@@ -174,15 +174,9 @@ class IndexByFile extends AbstractIndexCommand
 
         if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
             try {
-                $error = $this->indexXml($response->getBody()->getContents());
-                if ($error) {
-                    $io->writeln("Error");
-                    $io->writeln($error);
-                    return false;
-                } else {
-                    $io->writeln("OK");
-                    return true;
-                }
+                $this->indexXml($response->getBody()->getContents());
+                $io->writeln("OK");
+                return TRUE;
             } catch (\Exception $e) {
                 $io->writeln("Error");
                 $io->writeln($e->getMessage());
@@ -199,17 +193,16 @@ class IndexByFile extends AbstractIndexCommand
      * Index a METS/MODS XML document
      *
      * @param string $xml XML document data
-     * @return string Error message
+     * @throws \Exception on error
      */
     protected function indexXml(string $xml)
     {
         $document = $this->createDocument($xml);
-        if ($document === FALSE) {
-            return "Could not create document from XML";
+        if (!$document) {
+            throw new \Exception("Could not create document from XML");
         }
         /** @var ElasticSearch $es */
         $es = $this->objectManager->get(ElasticSearch::class);
         $es->index($document);
-        return true;
     }
 }
