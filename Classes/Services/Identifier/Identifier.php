@@ -17,24 +17,21 @@ namespace EWW\Dpf\Services\Identifier;
 class Identifier
 {
     /**
-     * @param mixed $identifier
-     * @return bool
+     * Check if the given identfier is an integer and as such
+     * could be an Extbase record UID.
+     *
+     * @param mixed $identifier Identifier literal
+     * @return bool True, if the given ID could be a UID.
      */
     public static function isUid($identifier) {
         return is_numeric($identifier);
     }
 
     /**
-     * @param mixed $identifier
-     * @return bool
-     */
-    public static function isFedoraPid($identifier) {
-        return preg_match("/^[a-zA-Z]+([:-]\d+)+$/", $identifier, $matches) > 0;
-    }
-
-    /**
-     * @param mixed $identifier
-     * @return bool
+     * Check if the given identifier literal matches the process number format.
+     *
+     * @param mixed $identifier Identifier literal
+     * @return bool True, is the literal matches a process number string
      */
     public static function isProcessNumber($identifier) {
         return preg_match("/^.+?-\d{1,2}-\d+$/", $identifier, $matches) > 0;

@@ -837,7 +837,8 @@ class DocumentController extends AbstractController
 
 
     /**
-     * initializeAction
+     * Translate query parameter `document` into a domain model Document object before
+     * routing to the called action.
      */
     public function initializeAction()
     {
@@ -848,23 +849,15 @@ class DocumentController extends AbstractController
         $this->workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();
 
         if ($this->request->hasArgument('document')) {
-            $document = $this->request->getArgument('document');
+            $documentParam = $this->request->getArgument('document');
 
-            if (is_array($document) && key_exists("__identity", $document)) {
-                $document = $document["__identity"];
+            if (is_array($documentParam) && key_exists("__identity", $documentParam)) {
+                $documentIdentifier = $documentParam["__identity"];
+            } else {
+                $documentIdentifier = $documentParam;
             }
 
-            $documentIdentifier = $document;
-
-            try {
-                $document = $this->documentManager->read($document, $this->security->getUser()->getUID());
-            } catch (DPFExceptionInterface $exception) {
-                $messageKey = $exception->messageLanguageKey();
-                die(LocalizationUtility::translate($messageKey, 'dpf', [$documentIdentifier]));
-            } catch (\Exception $exception) {
-                throw $exception;
-                die(LocalizationUtility::translate('error.unexpected', 'dpf'));
-            }
+            $document = $this->documentManager->read($documentIdentifier, $this->security->getUser()->getUID());
 
             if (!$document) {
                 $this->redirectToDocumentList();
