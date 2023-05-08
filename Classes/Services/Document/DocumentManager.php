@@ -183,7 +183,6 @@ class DocumentManager
                 return $document;
             } catch (\Exception $exception) {
                 throw $exception;
-                return null;
             }
         }
 
