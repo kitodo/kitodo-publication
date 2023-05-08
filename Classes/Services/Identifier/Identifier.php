@@ -28,14 +28,6 @@ class Identifier
     }
 
     /**
-     * @param mixed $identifier Identifier literal
-     * @return bool
-     */
-    public static function isFedoraPid($identifier) {
-        return preg_match("/^[a-zA-Z]+([:-]\d+)+$/", $identifier, $matches) > 0;
-    }
-
-    /**
      * Check if the given identifier literal matches the process number format.
      *
      * @param mixed $identifier Identifier literal

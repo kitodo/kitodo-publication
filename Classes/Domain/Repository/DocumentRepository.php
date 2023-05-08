@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Domain\Repository;
 
 /*
@@ -193,8 +194,13 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     }
 
     /**
-     * @param string $identifier
-     * @return Document
+     * Find a document by the given identifier.
+     * This can be either the UID of a local document, a process number
+     * of a remote or local document. If it appears to be neither one nor
+     * the other it's treated as a remote Fedora identifier.
+     *
+     * @param mixed $identifier Identifier literal
+     * @return Document Local document or null
      */
     public function findByIdentifier($identifier)
     {
@@ -204,13 +210,6 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             $constraints = [
                 $query->equals('uid', $identifier)
             ];
-        } elseif (Identifier::isFedoraPid($identifier)) {
-            $constraints = [
-                $query->logicalAnd(
-                    $query->equals('object_identifier', $identifier),
-                    $query->equals('suggestion', false)
-                )
-            ];
         } elseif (Identifier::isProcessNumber($identifier)) {
             $constraints = [
                 $query->logicalAnd(
@@ -219,7 +218,12 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
                 )
             ];
         } else {
-            return null;
+            $constraints = [
+                $query->logicalAnd(
+                    $query->equals('object_identifier', $identifier),
+                    $query->equals('suggestion', false)
+                )
+            ];
         }
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
@@ -293,7 +297,6 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
         $query->statement("update tx_dpf_domain_model_document set creator = owner");
         $query->execute();
-
     }
 
     /**
