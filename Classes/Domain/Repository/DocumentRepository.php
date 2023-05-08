@@ -16,9 +16,8 @@ namespace EWW\Dpf\Domain\Repository;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use \EWW\Dpf\Security\Security;
-use \EWW\Dpf\Services\Identifier\Identifier;
+use EWW\Dpf\Security\Security;
+use EWW\Dpf\Services\Identifier\Identifier;
 
 /**
  * The repository for Documents
