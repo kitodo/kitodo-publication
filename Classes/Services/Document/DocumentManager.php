@@ -5,7 +5,6 @@ use Exception;
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
-use EWW\Dpf\Services\Storage\Fedora\FedoraTransaction;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Controller\AbstractController;
 use EWW\Dpf\Services\Email\Notifier;
@@ -109,50 +108,6 @@ class DocumentManager
     protected $documentStorage = null;
 
     /**
-     * Returns the localized document identifiers (uid/objectIdentifier).
-     *
-     * @param $identifier
-     * @return array
-     */
-    public function resolveIdentifier($identifier) {
-
-        $localizedIdentifiers = [];
-
-        $document = $this->documentRepository->findByIdentifier($identifier);
-
-        if ($document instanceof Document) {
-
-            if ($document->getObjectIdentifier()) {
-                $localizedIdentifiers['objectIdentifier'] = $document->getObjectIdentifier();
-            }
-
-            if ($document->getUid()) {
-                $localizedIdentifiers['uid'] = $document->getUid();
-            }
-        } else {
-
-            $query = $this->queryBuilder->buildQuery(
-                1, [], 0,
-                [], [], [], null, null,
-                'identifier:"'.$identifier.'"'
-            );
-
-            try {
-                $results =  $this->elasticSearch->search($query, 'object');
-                if (is_array($results) && $results['hits']['total']['value'] > 0) {
-                    $localizedIdentifiers['objectIdentifier'] = $results['hits']['hits'][0]['_id'];
-                }
-            } catch (\Exception $e) {
-                return [];
-            }
-
-        }
-
-        return $localizedIdentifiers;
-    }
-
-
-    /**
      * Returns a document specified by repository object identifier, a typo3 uid or a process number.
      *
      * @param string $identifier
@@ -164,29 +119,32 @@ class DocumentManager
             return null;
         }
 
-        $localizedIdentifiers = $this->resolveIdentifier($identifier);
-
-        if (array_key_exists('uid', $localizedIdentifiers)) {
-            return $this->documentRepository->findByUid($localizedIdentifiers['uid']);
+        /** @var \EWW\Dpf\Domain\Model\Document */
+        $document = $this->documentRepository->findByIdentifier($identifier);
+        if ($document instanceof Document) {
+            return $document;
         }
 
-        if (array_key_exists('objectIdentifier', $localizedIdentifiers)) {
-            try {
-                /** @var \EWW\Dpf\Domain\Model\Document $document */
-                $document = $this->documentStorage->retrieve($localizedIdentifiers['objectIdentifier']);
-
-                // index the document
-                $this->signalSlotDispatcher->dispatch(
-                    AbstractController::class, 'indexDocument', [$document]
-                );
-
-                return $document;
-            } catch (\Exception $exception) {
-                throw $exception;
-            }
+        $query = $this->queryBuilder->buildQuery(
+            1, [], 0,
+            [], [], [], null, null,
+            'identifier:"'.$identifier.'"'
+        );
+        $results =  $this->elasticSearch->search($query, 'object');
+        if (is_array($results) && $results['hits']['total']['value'] > 0) {
+            $remoteIdentifier = $results['hits']['hits'][0]['_id'];
         }
 
-        return null;
+        if ($remoteIdentifier) {
+            $document = $this->documentStorage->retrieve($remoteIdentifier);
+
+            // issue document reindex
+            $this->signalSlotDispatcher->dispatch(
+                AbstractController::class, 'indexDocument', [$document]
+            );
+
+        }
+        return $document;
     }
 
     /**
