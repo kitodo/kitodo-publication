@@ -324,12 +324,6 @@ abstract class AbstractDocumentFormController extends AbstractController
      */
     public function editAction(DocumentForm $documentForm)
     {
-        $documentValidator = new DocumentValidator();
-        if (!$documentValidator->validateForm($documentForm)) {
-            // break out immediately if the form is not valid
-            throw new \Exception("Submitted form is not valid");
-        }
-
         $this->view->assign('documentForm', $documentForm);
 
         if (!empty($this->security->getUserAccessToGroups())) {
