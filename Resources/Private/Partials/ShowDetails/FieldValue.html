@@ -13,11 +13,13 @@
     -->
 </f:comment>
 
-{namespace dpf = EWW\Dpf\ViewHelpers}
+{namespace dpf=EWW\Dpf\ViewHelpers}
 
-<f:if condition="{fieldItem.inputOptions}">
+<f:variable name="array">{fieldItem.inputOptions}</f:variable>
+
+<f:if condition="{array}">
     <f:then>
-        {fieldItem.inputOptions.{fieldItem.value}}
+        {dpf:array(key: '{fieldItem.value}', array: array)}
     </f:then>
     <f:else>
         <f:if condition="{fieldItem.inputField} == 3">
