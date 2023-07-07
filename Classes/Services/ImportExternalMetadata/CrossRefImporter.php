@@ -79,30 +79,32 @@ class CrossRefImporter extends AbstractImporter implements Importer
     public function findByIdentifier($identifier)
     {
         try {
-            /** @var Request $response */
-            $response = Request::get($this->apiUrl . $this->resource . "/".$identifier)->send();
+            /** @var Response $response */
+            $response = Request::get($this->apiUrl . $this->resource . "/" . $identifier)
+                // CrossRef API  bug breaks autoparsing
+                // see https://crossref.atlassian.net/jira/software/c/projects/CR/issues/CR-1013
+                ->autoParse(false)
+                ->send();
 
-            if (!$response->hasErrors() && $response->code == 200) {
-                $jsonString = $response->__toString();
-                if ($jsonString) {
-                    $data = json_decode($response->__toString(),true);
-                    $encoder = new XmlEncoder();
+            $isJsonResponse = preg_match('/application\/json/i', $response->content_type);
 
-                    /** @var CrossRefMetadata $crossRefMetadata */
-                    $crossRefMetadata = $this->objectManager->get(CrossRefMetadata::class);
+            if ($response->code == 200 && $isJsonResponse) {
+                $data = json_decode($response->raw_body, true);
 
-                    $crossRefMetadata->setSource(get_class($this));
-                    $crossRefMetadata->setFeUser($this->security->getUser()->getUid());
-                    $crossRefMetadata->setData($encoder->encode($data, 'xml'));
-                    $crossRefMetadata->setPublicationIdentifier($identifier);
+                $encoder = new XmlEncoder();
 
-                    return $crossRefMetadata;
-                }
+                /** @var CrossRefMetadata $crossRefMetadata */
+                $crossRefMetadata = $this->objectManager->get(CrossRefMetadata::class);
 
+                $crossRefMetadata->setSource(get_class($this));
+                $crossRefMetadata->setFeUser($this->security->getUser()->getUid());
+                $crossRefMetadata->setData($encoder->encode($data, 'xml'));
+                $crossRefMetadata->setPublicationIdentifier($identifier);
+
+                return $crossRefMetadata;
             } else {
                 return null;
             }
-
         } catch (\Throwable $throwable) {
             $this->logger->log(\TYPO3\CMS\Core\Log\LogLevel::ERROR, $throwable->getMessage());
             throw $throwable;
