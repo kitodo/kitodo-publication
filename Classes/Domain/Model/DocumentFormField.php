@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Domain\Model;
 
 /*
@@ -27,8 +28,6 @@ class DocumentFormField extends AbstractFormElement
     protected $selectOptions;
 
     protected $fillOutService;
-
-    protected $defaultInputOption;
 
     protected $hasDefaultValue = false;
 
@@ -95,36 +94,36 @@ class DocumentFormField extends AbstractFormElement
         return $this->value;
     }
 
-    public function setValue($value, $defaultValue = '')
+    /**
+     * Set value or default for this form field.
+     *
+     * @param $value   mixed Value for the form field, if present
+     * @param $default mixed Default value to set if no $value is present
+     */
+    public function setValue($value = '', $default = '')
     {
-
-        $this->hasDefaultValue = !empty($defaultValue);
+        $this->hasDefaultValue = !empty($default);
 
         if (empty($value)) {
-            switch ($this->inputField) {
-                case \EWW\Dpf\Domain\Model\MetadataObject::select:
-                    if (!empty($defaultValue)) {
-                        $this->value = $this->defaultInputOption;
-                    } else {
-                        $this->value = '';
-                    }
-                    break;
+            if ($this->hasDefaultValue) {
+                // start with the given default
+                $value = $default;
 
-                case \EWW\Dpf\Domain\Model\MetadataObject::checkbox:
-                    if (!empty($defaultValue)) {
-                        $this->value = 'yes';
-                    } else {
-                        $this->value = '';
+                // change default value according to field type
+                if ($this->inputField == MetadataObject::select) {
+                    if ($this->inputOptionList) {
+                        if ($default === InputOptionList::DEFAULT_TRIGGER) {
+                            // use option list default instead of given default
+                            $value = $this->inputOptionList->getDefaultValue();
+                        }
                     }
-                    break;
-
-                default:
-                    $this->value = $defaultValue;
-                    break;
+                } elseif ($this->inputField == MetadataObject::checkbox) {
+                    $value = 'yes';
+                }
             }
-        } else {
-            $this->value = $value;
         }
+
+        $this->value = $value;
     }
 
     public function getInputField()
@@ -138,8 +137,11 @@ class DocumentFormField extends AbstractFormElement
     }
 
     /**
+     * Return a list of input options for select fields.
+     * Adds empty option as first item.
+     * Used in view helpers.
      *
-     * @return array
+     * @return array Array of strings.
      */
     public function getInputOptions()
     {
@@ -150,8 +152,6 @@ class DocumentFormField extends AbstractFormElement
             foreach ($this->inputOptionList->getInputOptions() as $option => $label) {
                 $inputOptions[$option] = $label;
             }
-
-            $this->defaultInputOption = trim($this->inputOptionList->getDefaultValue());
         }
 
         return $inputOptions;
@@ -258,7 +258,8 @@ class DocumentFormField extends AbstractFormElement
      *
      * @return int
      */
-    public function getGndFieldUid() {
+    public function getGndFieldUid()
+    {
         return $this->gndFieldUid;
     }
 
@@ -269,7 +270,8 @@ class DocumentFormField extends AbstractFormElement
      * @param int $fieldId
      * @return void
      */
-    public function setGndFieldUid($fieldId) {
+    public function setGndFieldUid($fieldId)
+    {
         $this->gndFieldUid = $fieldId;
     }
 
@@ -278,7 +280,8 @@ class DocumentFormField extends AbstractFormElement
      *
      * @return int
      */
-    public function getMaxInputLength() {
+    public function getMaxInputLength()
+    {
         return $this->maxInputLength;
     }
 
@@ -287,7 +290,8 @@ class DocumentFormField extends AbstractFormElement
      *
      * @return int
      */
-    public function setMaxInputLength($maxInputLength) {
+    public function setMaxInputLength($maxInputLength)
+    {
         $this->maxInputLength = $maxInputLength;
     }
 
@@ -343,12 +347,12 @@ class DocumentFormField extends AbstractFormElement
     {
         if ($this->helpText) {
             $domDocument = new \DOMDocument();
-            $domDocument->loadXML("<html>".$this->helpText."</html>");
+            $domDocument->loadXML("<html>" . $this->helpText . "</html>");
             $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
             $nodes = $xpath->query("//p");
             if ($nodes->length > 1) {
                 $domDocument->firstChild->removeChild($nodes->item(0));
-                return str_replace(['<html>','</html>'], '', $domDocument->saveHTML());
+                return str_replace(['<html>', '</html>'], '', $domDocument->saveHTML());
             }
         }
     }
@@ -475,7 +479,6 @@ class DocumentFormField extends AbstractFormElement
                     $valueRepeatField->applyChange($fieldChange->getFieldChanges());
                     return;
                 }
-
             }
         }
     }

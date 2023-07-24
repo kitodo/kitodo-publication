@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Domain\Model;
 
 /*
@@ -14,11 +15,14 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * InputOptionList
  */
-class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class InputOptionList extends AbstractEntity
 {
+    public const DEFAULT_TRIGGER = '--default-trigger';
 
     /**
      * name
@@ -167,7 +171,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
 
             return array_combine($values, $labels);
-        } elseif($valueList) {
+        } elseif ($valueList) {
             return explode("|", $valueList);;
         } else {
             return explode("|", $valueLabelList);
@@ -191,7 +195,7 @@ class InputOptionList extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getDefaultValue()
     {
-        return $this->defaultValue;
+        return trim($this->defaultValue);
     }
 
     /**
