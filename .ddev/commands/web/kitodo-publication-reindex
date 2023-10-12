@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Description: Rebuild Kitodo.Publication Index
+## Usage: kitodo-publication-reindex [client-id (default 1)]
+
+clientId="${1:-1}"
+
+# Index local documents
+vendor/bin/typo3cms dpf:indexByDatabase $clientId
+
+# List Fedora documents
+auth="-ufedoraAdmin:fedoraAdmin"
+accept="-H'Accept:text/turtle'"
+url="http://fcrepo:8080/fcrepo/rest/qucosa"
+out="/tmp/fcrepo.urls.txt"
+curl -s $auth $accept $url | grep -o "$url/[a-z0-9-]*" | sed 's/$/\/METS/' >$out
+
+# Index URL list
+vendor/bin/typo3cms dpf:indexByFile -L -u $auth $clientId $out
