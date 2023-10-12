@@ -5,6 +5,9 @@
 
 clientId="${1:-1}"
 
+# Purge Elasticsearch Index
+curl -XDELETE http://elasticsearch:9200/index1
+
 # Index local documents
 vendor/bin/typo3cms dpf:indexByDatabase $clientId
 
