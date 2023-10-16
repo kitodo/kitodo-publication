@@ -3,7 +3,7 @@ services:
   fcrepo:
     container_name: ddev-${DDEV_SITENAME}-fcrepo
     hostname: ${DDEV_SITENAME}-fcrepo
-    image: fcrepo/fcrepo:6.1.1
+    image: fcrepo/fcrepo:6.4.0
     ports:
       - "8080"
       - "61616"
