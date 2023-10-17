@@ -277,6 +277,13 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fileIdXpath = '';
 
     /**
+     * On XPath match element describes a primary file.
+     *
+     * @var string XPath expression
+     */
+    protected $filePrimaryXpath = '';
+
+    /**
      * fileMimetypeXpath
      *
      * @var string
@@ -2297,6 +2304,16 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setFileIdXpath(string $fileIdXpath): void
     {
         $this->fileIdXpath = $fileIdXpath;
+    }
+
+    public function getFilePrimaryXpath(): ?string
+    {
+        return $this->filePrimaryXpath;
+    }
+
+    public function setFilePrimaryXpath(string $filePrimaryXpath): void
+    {
+        $this->filePrimaryXpath = $filePrimaryXpath;
     }
 
     /**

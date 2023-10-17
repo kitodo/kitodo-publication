@@ -215,6 +215,10 @@
             <source>File id xpath, relative to the file xpath </source>
             <target>Datei-ID (XPath), relativ zum Datei-XPath</target>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_primary_xpath" approved="yes">
+            <source>XPath to identify the primary file - relative to the file xpath </source>
+            <target>XPath zur Identifikation der Primärdatei - relativ zum Datei-XPath</target>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.file_mimetype_xpath" approved="yes">
             <source>File mimetype xpath, relative to the file xpath</source>
             <target>Datei-MimeType (XPath), relativ zum Datei-XPath</target>

@@ -433,6 +433,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   niss_part_replace tinytext NOT NULL,
   file_xpath tinytext NOT NULL,
   file_id_xpath tinytext NOT NULL,
+  file_primary_xpath tinytext NOT NULL,
   file_mimetype_xpath tinytext NOT NULL,
   file_href_xpath tinytext NOT NULL,
   file_download_xpath tinytext NOT NULL,

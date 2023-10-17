@@ -158,6 +158,9 @@
         <trans-unit id="tx_dpf_domain_model_client.file_id_xpath" approved="yes">
             <source>File id xpath, relative to the file xpath </source>
         </trans-unit>
+        <trans-unit id="tx_dpf_domain_model_client.file_primary_xpath" approved="yes">
+            <source>XPath to identify the primary file - relative to the file xpath </source>
+        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.file_mimetype_xpath" approved="yes">
             <source>File mimetype xpath, relative to the file xpath</source>
         </trans-unit>
