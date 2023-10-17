@@ -15,15 +15,15 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DOMNode;
+use DOMXPath;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Services\ParserGenerator;
 use EWW\Dpf\Services\Storage\FileId;
 use EWW\Dpf\Services\XPathXMLGenerator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Model\File;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use DOMNode;
-use Exception;
 
 class InternalFormat
 {
@@ -161,23 +161,27 @@ class InternalFormat
     }
 
     /**
-     * Gets all file data found in the xml data file node. Usage attribute will be ignored.
+     * Gets all file data found in the xml data file node.
      *
      * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         $files = [];
 
         $fileXpath = $this->clientConfigurationManager->getFileXpath();
-        if (empty($fileXpath)) return [];
+        if (empty($fileXpath)) {
+            return [];
+        }
 
         $xpath = $this->getXpath();
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
 
-        if ($fileNodes) foreach ($fileNodes as $file) {
-            $fileAttrArray = [
+        if ($fileNodes) foreach ($fileNodes as $fileNode) {
+            // set defaults
+            $fileAttributes = [
                 'id' => '',
+                'primary' => false,
                 'mimetype' => '',
                 'href' => '',
                 'title' => '',
@@ -187,6 +191,7 @@ class InternalFormat
             ];
 
             $fileIdXpath = $this->clientConfigurationManager->getFileIdXpath();
+            $filePrimaryXpath = $this->clientConfigurationManager->getFilePrimaryXpath();
             $fileMimetypeXpath = $this->clientConfigurationManager->getFileMimetypeXpath();
             $fileHrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
             $fileDownloadXpath = $this->clientConfigurationManager->getFileDownloadXpath();
@@ -194,38 +199,44 @@ class InternalFormat
             $fileDeletedXpath = $this->clientConfigurationManager->getFileDeletedXpath();
             $fileTitleXpath = $this->clientConfigurationManager->getFileTitleXpath();
 
-            foreach ($file->childNodes as $fileAttributes) {
-                switch ($fileAttributes->tagName) {
+            if (!empty($filePrimaryXpath)) {
+                $nl = $xpath->query($filePrimaryXpath, $fileNode);
+                $fileAttributes['primary'] = ($nl->count() != 0);
+            }
+
+            // FIXME This is madness! THIS! IS! XPATH!!!
+            foreach ($fileNode->childNodes as $childNode) {
+                switch ($childNode->tagName) {
                     case $fileIdXpath:
-                        $fileAttrArray['id'] = $fileAttributes->nodeValue;
+                        $fileAttributes['id'] = $childNode->nodeValue;
                         break;
 
                     case $fileMimetypeXpath:
-                        $fileAttrArray['mimetype'] = $fileAttributes->nodeValue;
+                        $fileAttributes['mimetype'] = $childNode->nodeValue;
                         break;
 
                     case $fileHrefXpath:
-                        $fileAttrArray['href'] = $fileAttributes->nodeValue;
+                        $fileAttributes['href'] = $childNode->nodeValue;
                         break;
 
                     case $fileTitleXpath:
-                        $fileAttrArray['title'] = $fileAttributes->nodeValue;
+                        $fileAttributes['title'] = $childNode->nodeValue;
                         break;
 
                     case $fileDownloadXpath:
-                        $fileAttrArray['download'] = !empty($fileAttributes->nodeValue);
+                        $fileAttributes['download'] = !empty($childNode->nodeValue);
                         break;
 
                     case $fileArchiveXpath:
-                        $fileAttrArray['archive'] = !empty($fileAttributes->nodeValue);
+                        $fileAttributes['archive'] = !empty($childNode->nodeValue);
                         break;
 
                     case $fileDeletedXpath:
-                        $fileAttrArray['deleted'] = !empty($fileAttributes->nodeValue);
+                        $fileAttributes['deleted'] = !empty($childNode->nodeValue);
                         break;
                 }
             }
-            $files[] = $fileAttrArray;
+            $files[] = $fileAttributes;
         }
 
         return $files;

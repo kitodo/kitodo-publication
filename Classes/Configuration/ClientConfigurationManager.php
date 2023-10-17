@@ -436,6 +436,11 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->trimFileXpath($this->getSetting("fileIdXpath"));
     }
 
+    public function getFilePrimaryXpath()
+    {
+        return $this->trimFileXpath($this->getSetting("filePrimaryXpath"));
+    }
+
     public function getFileMimetypeXpath()
     {
         return $this->trimFileXpath($this->getSetting("fileMimetypeXpath"));
@@ -519,7 +524,7 @@ class ClientConfigurationManager implements SingletonInterface
      */
     protected function trimFileXpath(string $xpath): ?string
     {
-        return trim($xpath, "@/ ");
+        return trim($xpath, "/ ");
     }
 
     public function getClient()
