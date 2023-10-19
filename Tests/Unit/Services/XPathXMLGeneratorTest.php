@@ -15,8 +15,9 @@ namespace EWW\Dpf\Tests\Unit\Services;
  */
 
 use DOMDocument;
+use EWW\Dpf\Services\XPathXMLGenerator;
+use Exception;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PhpParser\Node\Expr\Cast\Array_;
 
 class XPathXMLGeneratorTest extends UnitTestCase
 {
@@ -27,7 +28,7 @@ class XPathXMLGeneratorTest extends UnitTestCase
     private $xpathGenerator = null;
 
     protected function setUp() {
-        $this->xpathGenerator = new \EWW\Dpf\Services\XPathXMLGenerator();
+        $this->xpathGenerator = new XPathXMLGenerator();
     }
 
     /**
@@ -126,5 +127,15 @@ class XPathXMLGeneratorTest extends UnitTestCase
             "https://www.kitodo.org/publication/",
             $doc->lookupNamespaceUri("kp"),
             "Expected declared namespace in DOMDocument");
+    }
+
+    /**
+     * @test
+     * @throws Exception
+     */
+    public function returnsDOMNode() {
+        $this->xpathGenerator->generateXmlFromXPath("hello");
+        $node = $this->xpathGenerator->getDOMNode();
+        $this->assertEquals("hello", $node->nodeName);
     }
 }

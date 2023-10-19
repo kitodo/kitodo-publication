@@ -17,6 +17,7 @@ namespace EWW\Dpf\Services;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
+use EWW\Dpf\Helper\XPath;
 use EWW\Dpf\Helper\XSLTransformator;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Services\Transformer\DocumentTransformer;
@@ -246,20 +247,19 @@ class ParserGenerator
 
     /**
      * Customized xPath parser
-     * @param  xpath  $xPath xpath expression
-     * @param  string $value form value
-     * @return xml    created xml
+     * @param string $xPath xpath expression
+     * @param string $value form value
+     * @return string created xml
      */
-    public function customXPath($xPath, $newGroupFlag = false, $value = '', $attributeOnly = false)
+    public function customXPath(string $xPath, $newGroupFlag = false, string $value = '', $attributeOnly = false): string
     {
         if (!$attributeOnly) {
             // Explode xPath
             $newPath = explode('%', $xPath);
 
-            $praedicateFlag = false;
             $explodedXPath  = explode('[', $newPath[0]);
             if (count($explodedXPath) > 1) {
-                // praedicate is given
+                // predicate is given
                 if (substr($explodedXPath[1], 0, 1) == "@") {
                     // attribute
                     $path = $newPath[0];
@@ -267,8 +267,6 @@ class ParserGenerator
                     // path
                     $path = $explodedXPath[0];
                 }
-
-                $praedicateFlag = true;
             } else {
                 $path = $newPath[0];
             }
@@ -277,7 +275,7 @@ class ParserGenerator
                 $newPath[1] = $newPath[1] . '="' . $value . '"';
             }
 
-            $modsDataXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+            $modsDataXPath = XPath::create($this->xmlData);
 
             if (!$newGroupFlag && $modsDataXPath->query('/data/' . $newPath[0])->length > 0) {
                 // first xpath path exist
@@ -309,7 +307,7 @@ class ParserGenerator
                 $docXML->loadXML($xml);
                 libxml_use_internal_errors(false);
 
-                $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+                $domXPath = XPath::create($this->xmlData);
 
                 // second part nested xpath
                 if ($match[2] && $secondMatch[2]) {
@@ -323,7 +321,7 @@ class ParserGenerator
                     $docXMLNested->loadXML($nestedXml);
                     libxml_use_internal_errors(false);
 
-                    $xPath = \EWW\Dpf\Helper\XPath::create($docXML);
+                    $xPath = XPath::create($docXML);
 
                     $nodeList = $xPath->query($match[1]);
                     $node = $nodeList->item(0);
@@ -346,7 +344,7 @@ class ParserGenerator
                 $doc1 = new \DOMDocument();
                 $doc1->loadXML($xml1);
 
-                $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
+                $domXPath = XPath::create($doc1);
 
                 $domNode = $domXPath->query('//' . $path);
 
@@ -373,7 +371,7 @@ class ParserGenerator
                 $doc2 = new \DOMDocument();
                 $doc2->loadXML($xml2);
 
-                $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
+                $domXPath2 = XPath::create($doc2);
 
                 // second part nested xpath
                 if ($match[2] && $secondMatch[2]) {
@@ -381,7 +379,7 @@ class ParserGenerator
                     $docXMLNested = new \DOMDocument();
                     $docXMLNested->loadXML($nestedXml);
 
-                    $xPath = \EWW\Dpf\Helper\XPath::create($doc2);
+                    $xPath = XPath::create($doc2);
                     $nodeList = $xPath->query('//' . $path . $match[1]);
                     $node = $nodeList->item(0);
 
@@ -423,7 +421,7 @@ class ParserGenerator
             $docXML->loadXML($xml);
             libxml_use_internal_errors(false);
 
-            $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
+            $domXPath = XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/data');
 
             $node = $docXML->documentElement;

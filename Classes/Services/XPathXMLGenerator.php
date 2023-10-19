@@ -14,22 +14,25 @@ namespace EWW\Dpf\Services;
  */
 
 use DOMDocument;
+use DOMElement;
+use DOMNode;
 use Exception;
+use XMLWriter;
 
 /**
  * Class XPathXMLGenerator
  * Generates XML elements for a given xpath
- * Notice: Not all sytax from the original xpath is implemented
+ * Notice: Not all syntax from the original xpath is implemented
  */
 class XPathXMLGenerator
 {
-    protected $regex = '/[a-zA-Z:]+|[<=>]|[@][a-zA-Z][a-zA-Z0-9_\-\:\.]*|\[|\'.*?\'|".*?"|\]|\//';
+    protected $regex = '/[a-zA-Z:]+|[<=>]|[@][a-zA-Z][a-zA-Z0-9_\-:.]*|\[|\'.*?\'|".*?"|]|\//';
 
     private $xmlWriter;
 
     public function __construct()
     {
-        $this->xmlWriter = new \XMLWriter();
+        $this->xmlWriter = new XMLWriter();
         $this->xmlWriter->openMemory();
     }
 
@@ -45,14 +48,12 @@ class XPathXMLGenerator
     {
         // split xpath to find predicates, attributes and texts
         preg_match_all($this->regex, $this->replaceLineBreaks($xpath), $matches);
-        $i = 0;
         $predicateStack = 0;
-        $tokenStack = 0;
         $insidePredicate = false;
         $predicateString = "";
         $loopStack = array();
 
-        foreach ($matches[0] as $key => $value) {
+        foreach ($matches[0] as $value) {
             $firstChar = substr($value, 0, 1);
 
             if ($firstChar === '[' || $insidePredicate) {
@@ -90,26 +91,20 @@ class XPathXMLGenerator
                 $this->endAttribute();
                 array_pop($loopStack);
                 $predicateStack--;
-            } else if ($firstChar !== '=' && $firstChar !== '[' && $firstChar !== '@' && $firstChar !== '/' && $firstChar!== '.') {
+            } else if (($firstChar !== '=') && ($firstChar !== '/') && ($firstChar !== '.')) {
                 $this->startToken($value);
                 $loopStack[] = 'token';
-                if ($predicateStack > 0) {
-                    $tokenStack++;
-                }
             }
-            $i++;
         }
 
         // end all open token and attributes in stacked order
-        foreach (array_reverse($loopStack) as $key => $value) {
+        foreach (array_reverse($loopStack) as $value) {
             if ($value === "attribute") {
                 $this->endAttribute();
             } else if ($value === "token") {
                 $this->endToken();
             }
         }
-        $this->stack = array();
-
     }
 
     /**
@@ -172,22 +167,30 @@ class XPathXMLGenerator
      * @return string
      * Returns the created XML
      */
-    function getXML()
+    function getXML(): string
     {
         return $this->xmlWriter->outputMemory();
     }
 
     /**
+     * @throws Exception
+     */
+    function getDOMNode(): ?DOMNode
+    {
+        return $this->getDocument()->firstChild;
+    }
+
+    /**
      * Return the generated XML as DOM document.
      *
-     * @param Array $namespaceConfiguration Optional namespace prefix declarations in of the form
-     *                                      "prefix=uri".
-     * @return Generated XML DOM
+     * @param array|null $namespaceConfiguration Optional namespace prefix declarations in of the form "prefix=uri".
+     * @return DOMDocument XML DOM
      * @throws Exception if the generated XML could not be parsed
      */
-    function getDocument($namespaceConfiguration = null):DOMDocument {
+    function getDocument(array $namespaceConfiguration = null): DOMDocument
+    {
         $oldErrorValue = libxml_use_internal_errors(true);
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $xml = $this->getXML();
         $domLoaded = $dom->loadXML($xml);
         libxml_use_internal_errors($oldErrorValue);
