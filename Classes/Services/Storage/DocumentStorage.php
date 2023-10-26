@@ -366,6 +366,10 @@ class DocumentStorage
     public function retrieve(string $documentIdentifier) : ?Document
     {
         try {
+
+            // FIXME Assuming the Fedora resource URL equals the lower case process number
+            $documentIdentifier = strtolower($documentIdentifier);
+
             /** @var ResourceTuple $resourceTuple */
             $resourceTuple = $this->fedoraTransaction->getResourceTuple(null, $documentIdentifier);
 
