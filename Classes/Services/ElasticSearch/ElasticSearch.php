@@ -402,7 +402,7 @@ class ElasticSearch
             $this->client->index([
                 'refresh' => 'wait_for',
                 'index' => $this->getIndexName(),
-                'id' => $document->getDocumentIdentifier(),
+                'id' => strtolower($document->getDocumentIdentifier()),
                 'body' => $data
             ]);
         }
