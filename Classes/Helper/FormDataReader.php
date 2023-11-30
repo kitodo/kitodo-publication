@@ -371,7 +371,7 @@ class FormDataReader
                             /** @var MetadataObject $metadataObject */
                             $metadataObject    = $this->metadataObjectRepository->findByUid($objectUid);
 
-                            /** @var DocumentForm $documentFormField */
+                            /** @var DocumentFormField $documentFormField */
                             $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
                             $documentFormField->setUid($metadataObject->getUid());
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
