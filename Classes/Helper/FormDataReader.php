@@ -14,12 +14,11 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\DocumentForm;
+use EWW\Dpf\Domain\Model\DocumentFormField;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Model\FileValidationResults;
 use EWW\Dpf\Domain\Model\MetadataObject;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class FormDataReader
 {
@@ -152,10 +151,10 @@ class FormDataReader
 
             foreach ($this->formData['metadata'] as $key => $value) {
                 if (is_array($value)) {
-                    $formField = new \EWW\Dpf\Helper\FormField($key, array_shift($value));
+                    $formField = new FormField($key, array_shift($value));
                     $fields[]  = $formField;
                 } else {
-                    $formField = new \EWW\Dpf\Helper\FormField($key, $value);
+                    $formField = new FormField($key, $value);
                     $fields[]  = $formField;
                 }
             }
@@ -371,8 +370,7 @@ class FormDataReader
                             /** @var MetadataObject $metadataObject */
                             $metadataObject    = $this->metadataObjectRepository->findByUid($objectUid);
 
-                            /** @var DocumentFormField $documentFormField */
-                            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                            $documentFormField = new DocumentFormField();
                             $documentFormField->setUid($metadataObject->getUid());
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());

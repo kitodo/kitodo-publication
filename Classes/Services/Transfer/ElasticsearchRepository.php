@@ -18,9 +18,9 @@ $extpath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
 
 \Httpful\Bootstrap::init();
 
-use \Httpful\Request;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use Httpful\Request;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class ElasticsearchRepository

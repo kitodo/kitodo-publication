@@ -14,12 +14,12 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use EWW\Dpf\Domain\Repository\BookmarkRepository;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Security\Security;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use \EWW\Dpf\Security\Security;
-use \EWW\Dpf\Domain\Repository\BookmarkRepository;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IsDocumentBookmarkableViewHelper extends AbstractViewHelper
 {

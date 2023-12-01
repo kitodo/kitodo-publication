@@ -14,9 +14,6 @@ namespace EWW\Dpf\Security;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\FrontendUser;
-use EWW\Dpf\Domain\Model\FrontendUserGroup;
-
 class Security
 {
     /**

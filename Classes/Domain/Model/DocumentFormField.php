@@ -15,7 +15,9 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Suggestion\FieldChange;
 use EWW\Dpf\Services\Suggestion\GroupChange;
+use EWW\Dpf\Services\Xml\XPath;
 
 class DocumentFormField extends AbstractFormElement
 {
@@ -348,7 +350,7 @@ class DocumentFormField extends AbstractFormElement
         if ($this->helpText) {
             $domDocument = new \DOMDocument();
             $domDocument->loadXML("<html>" . $this->helpText . "</html>");
-            $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+            $xpath = XPath::create($domDocument);
             $nodes = $xpath->query("//p");
             if ($nodes->length > 1) {
                 $domDocument->firstChild->removeChild($nodes->item(0));
@@ -362,7 +364,7 @@ class DocumentFormField extends AbstractFormElement
         if ($this->helpText) {
             $domDocument = new \DOMDocument();
             $domDocument->loadXML("<html>" . $this->helpText . "</html>");
-            $xpath = \EWW\Dpf\Helper\XPath::create($domDocument);
+            $xpath = XPath::create($domDocument);
             $nodes = $xpath->query("//p");
             if ($nodes->length > 0) {
                 return $nodes->item(0)->nodeValue;

@@ -37,6 +37,7 @@
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-iconv": "*",
+		"ext-xsl": "*",
 		"typo3/cms-core": "^9.5.0",
 		"nategood/httpful": "^0.3.2",
 		"guzzlehttp/guzzle": "^6.3",

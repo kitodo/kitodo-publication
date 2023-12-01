@@ -14,15 +14,14 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Exceptions\AccessDeniedExcepion;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Exceptions\DPFExceptionInterface;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 

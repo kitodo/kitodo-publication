@@ -17,7 +17,6 @@ namespace EWW\Dpf\Services\Storage\Fedora\Exception;
  */
 
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 
 class FedoraException extends Exception
 {

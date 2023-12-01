@@ -13,7 +13,7 @@ namespace EWW\Dpf\Helper;
  *
  * The TYPO3 project - inspiring people to share!
  */
- 
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DataCiteXml
@@ -120,7 +120,7 @@ class DataCiteXml
 
         // language
         $metsLanguage = $metsXml->xpath("//mods:language/mods:languageTerm[@authority='iso639-2b'][@type='code']");
-        $dataCiteLanguage = \EWW\Dpf\Helper\LanguageCode::convertFrom6392Bto6391($metsLanguage[0]);
+        $dataCiteLanguage = LanguageCode::convertFrom6392Bto6391($metsLanguage[0]);
 
         // resource type
         $slubResourceType = $metsXml->xpath("//slub:documentType");

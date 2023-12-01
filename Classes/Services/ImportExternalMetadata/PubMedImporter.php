@@ -16,13 +16,10 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 \Httpful\Bootstrap::init();
 
-use \Httpful\Request;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use EWW\Dpf\Services\Transformer\DocumentTransformer;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
-use EWW\Dpf\Domain\Model\DocumentType;
-use EWW\Dpf\Domain\Model\PubMedMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
+use EWW\Dpf\Domain\Model\PubMedMetadata;
+use EWW\Dpf\Services\Xml\XPath;
+use Httpful\Request;
 
 class PubMedImporter extends AbstractImporter implements Importer
 {
@@ -127,7 +124,7 @@ class PubMedImporter extends AbstractImporter implements Importer
                 if (is_null(@$dom->loadXML($response))) {
                     throw new \Exception("Invalid XML: " . get_class($this));
                 }
-                $xmlDataXpath = \EWW\Dpf\Helper\XPath::create($dom);
+                $xmlDataXpath = XPath::create($dom);
 
                 $node = $xmlDataXpath->query('/eSearchResult/ERROR');
                 if ($node->length > 0) {
@@ -211,7 +208,7 @@ class PubMedImporter extends AbstractImporter implements Importer
                 if (is_null(@$dom->loadXML($response))) {
                     throw new \Exception("Invalid XML: " . get_class($this));
                 }
-                $xmlDataXpath = \EWW\Dpf\Helper\XPath::create($dom);
+                $xmlDataXpath = XPath::create($dom);
 
                 $node = $xmlDataXpath->query('/eSummaryResult/ERROR');
                 if ($node->length > 0) {

@@ -21,7 +21,6 @@ use EWW\Dpf\Services\Storage\Fedora\Exception\FedoraException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException as GuzzleConnectException;
 use GuzzleHttp\Exception\GuzzleException;
-use PhpParser\Node\Expr\Cast\String_;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -856,9 +855,9 @@ class FedoraTransaction
      * Return the URI of the Fedora endpoint where transactions can
      * be startet, stopped and committed.
      *
-     * @return URI of the Fedora transactions endpoint
+     * @return string URI of the Fedora transactions endpoint
      */
-    public function transactionUri():string
+    public function transactionUri(): string
     {
         $uri  = $this->clientConfigurationManager->getFedoraHost();
         $uri .= $this->clientConfigurationManager->getFedoraEndpoint() ? '/' . $this->clientConfigurationManager->getFedoraEndpoint() : '';

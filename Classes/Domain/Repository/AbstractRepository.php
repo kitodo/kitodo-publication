@@ -14,9 +14,6 @@ namespace EWW\Dpf\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Client;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-
 /**
  * The abstract repository
  */

@@ -1,7 +1,7 @@
 <?php
 namespace EWW\Dpf\Services\FeUser;
 
-use \Httpful\Request;
+use Httpful\Request;
 
 class ZdbDataService
 {
@@ -32,7 +32,7 @@ class ZdbDataService
     public function getDataRequest($zdbId) {
         $response = Request::get($this->apiUrl . 'resource/' . $zdbId .'/')
             ->send();
-        
+
         return $response->body;
     }
 

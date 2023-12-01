@@ -14,11 +14,11 @@ namespace EWW\Dpf\Services\ProcessNumber;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\ProcessNumberRepository;
 use EWW\Dpf\Domain\Model\ProcessNumber;
 use EWW\Dpf\Domain\Repository\ClientRepository;
+use EWW\Dpf\Domain\Repository\ProcessNumberRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 class ProcessNumberGenerator
 {

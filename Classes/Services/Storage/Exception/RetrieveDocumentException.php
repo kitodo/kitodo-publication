@@ -15,6 +15,7 @@ namespace EWW\Dpf\Services\Storage\Exception;
  */
 
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use Throwable;
 
 class RetrieveDocumentException extends \Exception implements DPFExceptionInterface
 {
@@ -24,7 +25,7 @@ class RetrieveDocumentException extends \Exception implements DPFExceptionInterf
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
-     * @return UpdateDocumentException
+     * @return RetrieveDocumentException
      */
     public static function create($message = "", $code = 0, Throwable $previous = null) : RetrieveDocumentException
     {
@@ -35,7 +36,7 @@ class RetrieveDocumentException extends \Exception implements DPFExceptionInterf
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
-     * @return UpdateDocumentException
+     * @return RetrieveDocumentException
      */
     public static function createNotFound($message = "", $code = 0, Throwable $previous = null) : RetrieveDocumentException
     {

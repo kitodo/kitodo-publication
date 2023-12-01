@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Helper;
+namespace EWW\Dpf\Services\Xml;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,6 +14,8 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DOMDocument;
+use DOMXPath;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -22,7 +24,7 @@ class XPath
     /**
      * clientConfigurationManager
      *
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @var ClientConfigurationManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
@@ -31,11 +33,11 @@ class XPath
      * Returns a new XPath object for the given DOMDocument,
      * all required namespaces are already registered.
      *
-     * @param \DOMDocument $dom
+     * @param DOMDocument $dom
      * @param string $namespaces
-     * @return \DOMXPath
+     * @return DOMXPath
      */
-    public static function create(\DOMDocument $dom, string $namespaces = '') : \DOMXPath
+    public static function create(DOMDocument $dom, string $namespaces = '') : DOMXPath
     {
         if (empty($namespaces)) {
             $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
@@ -45,7 +47,7 @@ class XPath
             $namespaceConfiguration = explode(";", $namespaces);
         }
 
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
 
         foreach ($namespaceConfiguration as $key => $value) {
             $namespace = explode("=", $value);

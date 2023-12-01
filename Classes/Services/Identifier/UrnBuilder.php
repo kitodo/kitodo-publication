@@ -14,6 +14,8 @@ namespace EWW\Dpf\Services\Identifier;
  * The TYPO3 project - inspiring people to share!
  */
 
+use InvalidArgumentException;
+
 class UrnBuilder
 {
 
@@ -50,11 +52,11 @@ class UrnBuilder
     {
 
         if (0 === preg_match('/^[a-zA-Z]+$/', $snid1)) {
-            throw new \InvalidArgumentException('Used invalid first subnamespace identifier.');
+            throw new InvalidArgumentException('Used invalid first subnamespace identifier.');
         }
 
         if (0 === preg_match('/^[a-zA-Z0-9]+$/', $snid2)) {
-            throw new \InvalidArgumentException('Used invalid second subnamespace identifier.');
+            throw new InvalidArgumentException('Used invalid second subnamespace identifier.');
         }
 
         $this->nbnUrnString = self::NBN_URN_PREFIX . ':' . $snid1 . ':' . $snid2 . '-';
@@ -72,7 +74,7 @@ class UrnBuilder
 
         // regexp pattern for valid niss
         if (0 === preg_match('/^[a-zA-Z0-9\-]+$/', $niss)) {
-            throw new \InvalidArgumentException('Used invalid namespace specific string.');
+            throw new InvalidArgumentException('Used invalid namespace specific string.');
         }
 
         // calculate matching check digit
@@ -94,7 +96,7 @@ class UrnBuilder
 
         // regexp pattern for valid niss
         if (0 === preg_match('/^[a-zA-Z0-9\-]+$/', $niss)) {
-            throw new \InvalidArgumentException('Used invalid namespace specific string.');
+            throw new InvalidArgumentException('Used invalid namespace specific string.');
         }
 
         // compose urn with niss

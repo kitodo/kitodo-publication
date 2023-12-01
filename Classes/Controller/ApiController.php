@@ -26,11 +26,10 @@ use EWW\Dpf\Services\ImportExternalMetadata\FileImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
 use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Core\Log\LogManager;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * DocumentController
@@ -256,7 +255,7 @@ class ApiController extends ActionController
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($doc->getXmlData());
+            $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($doc->getXmlData());
             $internalFormat->setFisId($id);
             $doc->setXmlData($internalFormat->getXml());
 

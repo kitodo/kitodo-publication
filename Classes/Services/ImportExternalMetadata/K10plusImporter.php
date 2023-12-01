@@ -16,14 +16,9 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 \Httpful\Bootstrap::init();
 
-use EWW\Dpf\Domain\Model\K10plusMetadata;
-use \Httpful\Request;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use EWW\Dpf\Services\Transformer\DocumentTransformer;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
-use EWW\Dpf\Domain\Model\DocumentType;
-use EWW\Dpf\Domain\Model\CrossRefMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
+use EWW\Dpf\Domain\Model\K10plusMetadata;
+use Httpful\Request;
 
 class K10plusImporter extends AbstractImporter implements Importer
 {

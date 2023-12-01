@@ -1,6 +1,6 @@
 <?php
 
-namespace EWW\Dpf\Services;
+namespace EWW\Dpf\Services\Xml;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,12 +15,12 @@ namespace EWW\Dpf\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DOMDocument;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
-use EWW\Dpf\Helper\XPath;
-use EWW\Dpf\Helper\XSLTransformator;
+use Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Services\Transformer\DocumentTransformer;
 
 /**
  * ParserGenerator
@@ -30,7 +30,7 @@ class ParserGenerator
     /**
      * clientConfigurationManager
      *
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @var ClientConfigurationManager
      *
      */
     protected $clientConfigurationManager;
@@ -38,16 +38,9 @@ class ParserGenerator
     /**
      * documentTypeRepository
      *
-     * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
+     * @var DocumentTypeRepository
      */
     protected $documentTypeRepository = null;
-
-    /**
-     * formData
-     *
-     * @var array
-     */
-    protected $formData = array();
 
     /**
      * files from form
@@ -56,29 +49,10 @@ class ParserGenerator
     protected $files = array();
 
     /**
-     * metsData
-     *
-     * @var  DOMDocument
-     */
-    protected $metsData = '';
-
-    /**
      * xml data
      * @var DOMDocument
      */
-    protected $xmlData = '';
-
-    /**
-     * xml header
-     * @var string
-     */
-    protected $xmlHeader = '';
-
-    /**
-     * xPathXMLGenerator
-     * @var object
-     */
-    protected $parser = null;
+    protected $xmlData = null;
 
     /**
      * ref id counter
@@ -93,11 +67,13 @@ class ParserGenerator
 
     /**
      * ParserGenerator constructor.
+     *
      * @param int $clientPid
+     * @throws Exception
      */
-    public function __construct($clientPid = 0)
+    public function __construct(int $clientPid = 0)
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         if ($clientPid) {
@@ -115,15 +91,8 @@ class ParserGenerator
             }
         }
 
-        $this->xmlHeader = '<data' . $this->namespaceString . '></data>';
-
-        $this->xmlData =  new \DOMDocument();
-        $this->xmlData->loadXML($this->xmlHeader);
-
-        // Parser
-        include_once 'XPathXMLGenerator.php';
-
-        $this->parser = new XPathXMLGenerator();
+        $this->xmlData = new DOMDocument();
+        $this->xmlData->loadXML("<data $this->namespaceString></data>");
     }
 
     /**
@@ -133,30 +102,28 @@ class ParserGenerator
     public function getXMLData()
     {
         $xml = $this->xmlData->saveXML();
-        $xml = preg_replace("/eww=\"\d-\d-\d\"/", '${1}${2}${3}', $xml);
-
-        return $xml;
+        // FIXME What in all heavens is replaced here and why?
+        return preg_replace("/eww=\"\d-\d-\d\"/", '${1}${2}${3}', $xml);
     }
 
     /**
      * build mods from form array
      * @param array $array structured form data array
      */
-    public function buildXmlFromForm($array)
+    public function buildXmlFromForm(array $array)
     {
         $fedoraNamespace = $this->clientConfigurationManager->getFedoraNamespace();
 
-        $this->xmlData = $this->xmlData;
         // Build xml mods from form fields
         // loop each group
         foreach ($array['metadata'] as $key => $group) {
             //groups
             $mapping = $group['mapping'];
 
-            $values     = $group['values'];
+            $values = $group['values'];
             $attributes = $group['attributes'];
 
-            $attributeXPath     = '';
+            $attributeXPath = '';
             $extensionAttribute = '';
             foreach ($attributes as $attribute) {
                 if (!$attribute["modsExtension"]) {
@@ -173,7 +140,7 @@ class ParserGenerator
             }
 
             $existsExtensionFlag = false;
-            $i                   = 0;
+            $i = 0;
             // loop each object
             if (!empty($values)) {
                 //$values = empty($values)? [] : $values;
@@ -190,7 +157,7 @@ class ParserGenerator
 
                         $path = $group['modsExtensionMapping'] . $referenceAttribute . '%/' . $value['mapping'];
 
-                        $xml = $this->customXPath($path, false, $value['value']);
+                        $this->customXPath($path, false, $value['value']);
                     } else {
 
                         $path = $mapping . $attributeXPath . '%/' . $value['mapping'];
@@ -212,37 +179,14 @@ class ParserGenerator
                 }
             }
             if (!$existsExtensionFlag && $group['modsExtensionMapping']) {
+                $counter = sprintf("%'03d", $this->counter);
                 $xPath = $group['modsExtensionMapping'] . $extensionAttribute . '[@' . $group['modsExtensionReference'] . '="' . $fedoraNamespace . '_' . $counter . '"]';
-                $xml   = $this->customXPath($xPath, true, '', true);
+                $this->customXPath($xPath, true, '', true);
             }
             if ($group['modsExtensionMapping']) {
                 $this->counter++;
             }
         }
-    }
-
-    /**
-     * get xml from xpath
-     * @param  xpath $xPath xPath expression
-     * @return xml
-     */
-    public function parseXPath($xPath)
-    {
-
-        $this->parser->generateXmlFromXPath($xPath);
-        $xml = $this->parser->getXML();
-
-        return $xml;
-    }
-
-    public function parseXPathWrapped($xPath)
-    {
-        $this->parser->generateXmlFromXPath($xPath);
-        $xml = $this->parser->getXML();
-
-        $xml = '<data' . $this->namespaceString . '>' . $xml . '</data>';
-
-        return $xml;
     }
 
     /**
@@ -257,7 +201,7 @@ class ParserGenerator
             // Explode xPath
             $newPath = explode('%', $xPath);
 
-            $explodedXPath  = explode('[', $newPath[0]);
+            $explodedXPath = explode('[', $newPath[0]);
             if (count($explodedXPath) > 1) {
                 // predicate is given
                 if (substr($explodedXPath[1], 0, 1) == "@") {
@@ -272,7 +216,9 @@ class ParserGenerator
             }
 
             if (isset($value) === true && $value !== '') {
-                $newPath[1] = $newPath[1] . '="' . $value . '"';
+                // Escape quotes for use in XPath expression
+                $escapedValue = str_ireplace('"', '\"', $value);
+                $newPath[1] = $newPath[1] . '="' . $escapedValue . '"';
             }
 
             $modsDataXPath = XPath::create($this->xmlData);
@@ -281,29 +227,29 @@ class ParserGenerator
                 // first xpath path exist
 
                 // build xml from second xpath part
-                $xml = $this->parseXPath($newPath[1]);
+                $xml = XMLFragmentGenerator::fragmentFor($newPath[1]);
 
                 // check if xpath [] are nested
-                $search = '/(\/\w*:\w*)\[(.*)\]/';
+                $search = '/(\/\w*:\w*)\[(.*)]/';
                 preg_match($search, $newPath[1], $match);
                 preg_match($search, $match[2], $secondMatch);
                 // first part nested xpath
                 if ($match[2] && $secondMatch[2]) {
                     $nested = $match[2];
 
-                    $nestedXml = $this->parseXPath($nested);
+                    $nestedXml = XMLFragmentGenerator::fragmentFor($nested);
 
                     // object xpath without nested element []
                     $newPath[1] = str_replace('[' . $match[2] . ']', '', $newPath[1]);
 
-                    $xml = $this->parseXPath($newPath[1]);
+                    $xml = XMLFragmentGenerator::fragmentFor($newPath[1]);
                 }
 
-                // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                // FIXME: XMLFragmentGenerator does not generate namespace declarations,
                 // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
                 // since it is about child elements that are then added to the overall XML.
                 libxml_use_internal_errors(true);
-                $docXML = new \DOMDocument();
+                $docXML = new DOMDocument();
                 $docXML->loadXML($xml);
                 libxml_use_internal_errors(false);
 
@@ -313,11 +259,11 @@ class ParserGenerator
                 if ($match[2] && $secondMatch[2]) {
 
                     // import node from nested
-                    // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+                    // FIXME: XMLFragmentGenerator does not generate namespace declarations,
                     // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
                     // since it is about child elements that are then added to the overall XML.
                     libxml_use_internal_errors(true);
-                    $docXMLNested = new \DOMDocument();
+                    $docXMLNested = new DOMDocument();
                     $docXMLNested->loadXML($nestedXml);
                     libxml_use_internal_errors(false);
 
@@ -339,9 +285,9 @@ class ParserGenerator
             } else {
                 // first xpath doesn't exist
                 // parse first xpath part
-                $xml1 = $this->parseXPathWrapped($newPath[0]);
+                $xml1 = '<data' . $this->namespaceString . '>' . XMLFragmentGenerator::fragmentFor($newPath[0]) . '</data>';
 
-                $doc1 = new \DOMDocument();
+                $doc1 = new DOMDocument();
                 $doc1->loadXML($xml1);
 
                 $domXPath = XPath::create($doc1);
@@ -349,10 +295,10 @@ class ParserGenerator
                 $domNode = $domXPath->query('//' . $path);
 
                 // parse second xpath part
-                $xml2 = $this->parseXPathWrapped($path . $newPath[1]);
+                $xml2 = '<data' . $this->namespaceString . '>' . XMLFragmentGenerator::fragmentFor($path . $newPath[1]) . '</data>';
 
                 // check if xpath [] are nested
-                $search = '/(\/\w*:?\w*)\[(.*)\]/';
+                $search = '/(\/\w*:?\w*)\[(.*)]/';
                 preg_match($search, $newPath[1], $match);
                 preg_match($search, $match[2], $secondMatch);
 
@@ -360,15 +306,15 @@ class ParserGenerator
                 if ($match[2] && $secondMatch[2]) {
                     $nested = $match[2];
 
-                    $nestedXml = $this->parseXPathWrapped($nested);
+                    $nestedXml = '<data' . $this->namespaceString . '>' . XMLFragmentGenerator::fragmentFor($nested) . '</data>';
 
                     // object xpath without nested element []
                     $newPath[1] = str_replace('[' . $match[2] . ']', '', $newPath[1]);
 
-                    $xml2 = $this->parseXPathWrapped($path . $newPath[1]);
+                    $xml2 = '<data' . $this->namespaceString . '>' . XMLFragmentGenerator::fragmentFor($path . $newPath[1]) . '</data>';
                 }
 
-                $doc2 = new \DOMDocument();
+                $doc2 = new DOMDocument();
                 $doc2->loadXML($xml2);
 
                 $domXPath2 = XPath::create($doc2);
@@ -376,7 +322,7 @@ class ParserGenerator
                 // second part nested xpath
                 if ($match[2] && $secondMatch[2]) {
                     // import node from nested
-                    $docXMLNested = new \DOMDocument();
+                    $docXMLNested = new DOMDocument();
                     $docXMLNested->loadXML($nestedXml);
 
                     $xPath = XPath::create($doc2);
@@ -402,27 +348,28 @@ class ParserGenerator
                         break;
                     }
                 }
-                //$firstChild = $this->xmlData->childNodes->item(0);
                 $firstItem = $doc1->documentElement->firstChild;
                 $nodeAppendModsData = $this->xmlData->importNode($firstItem, true);
-                $firstChild->appendChild($nodeAppendModsData);
+                if (isset($firstChild)) {
+                    $firstChild->appendChild($nodeAppendModsData);
+                }
 
                 return $doc1->saveXML();
             }
         } else {
             // attribute only
-            $xml = $this->parseXPath($xPath);
+            $xml = XMLFragmentGenerator::fragmentFor($xPath);
 
-            // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+            // FIXME: XMLFragmentGenerator does not generate namespace declarations,
             // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
             // since it is about child elements that are then added to the overall XML.
             libxml_use_internal_errors(true);
-            $docXML = new \DOMDocument();
+            $docXML = new DOMDocument();
             $docXML->loadXML($xml);
             libxml_use_internal_errors(false);
 
             $domXPath = XPath::create($this->xmlData);
-            $domNode  = $domXPath->query('/data');
+            $domNode = $domXPath->query('/data');
 
             $node = $docXML->documentElement;
 
@@ -435,12 +382,9 @@ class ParserGenerator
         return $this->xmlData->saveXML();
     }
 
-    public function setXML($value = '')
+    public function setDomDocument(DOMDocument $document)
     {
-        $domDocument = new \DOMDocument();
-        if (is_null(@$domDocument->loadXML($value))) {
-            throw new \Exception("Couldn't load MODS data");
-        }
-        $this->xmlData = $domDocument;
+        $this->xmlData = $document;
     }
+
 }

@@ -15,7 +15,6 @@ namespace EWW\Dpf\Domain\Repository;
  */
 
 use EWW\Dpf\Domain\Model\DocumentType;
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
  * The repository for DocumentTypes

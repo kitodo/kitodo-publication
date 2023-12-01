@@ -15,8 +15,8 @@ namespace EWW\Dpf\ViewHelpers\Link;
  */
 
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class PreviewViewHelper extends AbstractViewHelper
 {

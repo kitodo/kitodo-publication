@@ -1,5 +1,5 @@
 <?php
-namespace EWW\Dpf\Helper;
+namespace EWW\Dpf\Services\Transformer;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -17,13 +17,14 @@ namespace EWW\Dpf\Helper;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
-use EWW\Dpf\Services\Transformer\DocumentTransformer;
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Log\LogLevel;
-use \TYPO3\CMS\Core\Log\LogManager;
+use EWW\Dpf\Services\Xml\XPath;
 use Exception;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 class XSLTransformator
@@ -57,7 +58,7 @@ class XSLTransformator
         $domDocument = new \DOMDocument();
         $domDocument->loadXML($xml);
 
-        $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
+        $domXPath = XPath::create($domDocument);
 
         $docTypeInput = $this->clientConfigurationManager->getTypeXpathInput();
 

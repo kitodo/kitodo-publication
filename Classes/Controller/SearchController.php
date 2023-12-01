@@ -14,14 +14,18 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
+use EWW\Dpf\Services\ElasticSearch\ElasticsearchMapper;
+use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
+use EWW\Dpf\Session\SearchSessionData;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use EWW\Dpf\Session\SearchSessionData;
 
 /**
  * SearchController
@@ -384,7 +388,6 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $args = $this->request->getArguments();
 
-        /** @var SearchSessionData $workspaceSessionData */
         $workspaceSessionData = $this->session->getWorkspaceData();
 
         if ($args['query'] && array_key_exists('fulltext', $args['query'])) {

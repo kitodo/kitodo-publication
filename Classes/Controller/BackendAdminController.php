@@ -18,16 +18,15 @@ use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Helper\InternalFormat;
+use EWW\Dpf\Services\Api\InternalFormat;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
 * Backend module user/group action controller

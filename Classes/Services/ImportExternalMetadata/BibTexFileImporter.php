@@ -2,13 +2,11 @@
 
 namespace EWW\Dpf\Services\ImportExternalMetadata;
 
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use EWW\Dpf\Domain\Model\BibTexMetadata;
-use EWW\Dpf\Domain\Model\ExternalMetadata;
-
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class BibTexFileImporter extends AbstractImporter implements FileImporter
 {

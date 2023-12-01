@@ -16,10 +16,11 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 \Httpful\Bootstrap::init();
 
-use \Httpful\Request;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use EWW\Dpf\Domain\Model\CrossRefMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
+use Httpful\Request;
+use Httpful\Response;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class CrossRefImporter extends AbstractImporter implements Importer
 {
@@ -79,7 +80,6 @@ class CrossRefImporter extends AbstractImporter implements Importer
     public function findByIdentifier($identifier)
     {
         try {
-            /** @var Response $response */
             $response = Request::get($this->apiUrl . $this->resource . "/" . $identifier)
                 // CrossRef API  bug breaks autoparsing
                 // see https://crossref.atlassian.net/jira/software/c/projects/CR/issues/CR-1013

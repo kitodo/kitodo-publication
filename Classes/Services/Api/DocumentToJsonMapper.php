@@ -52,7 +52,7 @@ class DocumentToJsonMapper
      */
     public function getJson(Document $document)
     {
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
         $this->xpath = $internalFormat->getXpath();
         $mapping = json_decode($this->getMapping(), true);
         $data = $this->crawl($mapping);

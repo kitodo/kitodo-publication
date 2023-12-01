@@ -16,10 +16,10 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 \Httpful\Bootstrap::init();
 
-use \Httpful\Request;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use EWW\Dpf\Domain\Model\DataCiteMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
+use Httpful\Request;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
 class DataCiteImporter extends AbstractImporter implements Importer
 {

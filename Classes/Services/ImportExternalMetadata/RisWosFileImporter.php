@@ -3,7 +3,6 @@
 namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 use EWW\Dpf\Domain\Model\RisWosMetadata;
-use EWW\Dpf\Domain\Model\ExternalMetadata;
 
 class RisWosFileImporter extends AbstractImporter implements FileImporter
 {

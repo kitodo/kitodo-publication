@@ -22,9 +22,9 @@ use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use EWW\Dpf\Domain\Repository\FileRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\InternalFormat;
-use EWW\Dpf\Helper\XSLTransformator;
-use Exception;
+use EWW\Dpf\Services\Api\InternalFormat;
+use EWW\Dpf\Services\Transformer\XSLTransformator;
+use EWW\Dpf\Services\Xml\XPath;
 use Symfony\Component\Console\Command\Command;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -87,7 +87,7 @@ class AbstractIndexCommand extends Command
         if ($xml) {
             $domDocument = new \DOMDocument();
             $domDocument->loadXML($xml);
-            $domXPath = \EWW\Dpf\Helper\XPath::create($domDocument);
+            $domXPath = XPath::create($domDocument);
 
             $objectIdentifier = $domXPath->query('@OBJID')->item(0)->nodeValue;
             if (empty($objectIdentifier)) {

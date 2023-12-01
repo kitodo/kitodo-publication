@@ -2,11 +2,11 @@
 
 namespace EWW\Dpf\Tasks;
 
+use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\DocumentRepository;
 
 
 class EmbargoTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask
