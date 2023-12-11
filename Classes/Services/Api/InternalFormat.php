@@ -18,6 +18,7 @@ namespace EWW\Dpf\Services\Api;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
+use DOMXPath;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Services\Storage\FileId;
@@ -57,6 +58,10 @@ class InternalFormat
      * @var int
      */
     protected $clientPid = 0;
+    /**
+     * @var DOMXPath
+     */
+    private $preconfiguredDomXPath;
 
     /**
      * InternalFormat constructor.
@@ -65,7 +70,7 @@ class InternalFormat
      * @param $clientPid
      * @throws Exception
      */
-    public function __construct(string $xml,$clientPid = 0)
+    public function __construct(string $xml, $clientPid = 0)
     {
         $this->clientPid = $clientPid;
 
@@ -79,6 +84,11 @@ class InternalFormat
         $this->setXml($xml);
     }
 
+    public function getXml()
+    {
+        return $this->xml->saveXML();
+    }
+
     public function setXml($xml)
     {
         if (empty($xml)) {
@@ -90,25 +100,40 @@ class InternalFormat
         $this->xml = $dom;
     }
 
-    public function getXml()
-    {
-        return $this->xml->saveXML();
-    }
-
     public function getDocument(): DOMDocument
     {
         return $this->xml;
-    }
-
-    public function getXpath(): \DOMXPath
-    {
-        return XPath::create($this->xml);
     }
 
     public function getDocumentType(): string
     {
         $typeXpath = $this->clientConfigurationManager->getTypeXpath();
         return $this->getValue($typeXpath);
+    }
+
+    /**
+     * Get value from XML using an XPath expression
+     *
+     * @param string $xpathString XPath literal
+     * @param mixed $default Default value when $xpathString is empty or no value could be found. Defaults to empty string.
+     * @return mixed Value of the specified XML element
+     */
+    private function getValue(string $xpathString, $default = '')
+    {
+        $xpath = $this->getXpath();
+        if (empty($xpathString)) {
+            return $default;
+        }
+        $nodeList = $xpath->query(self::rootNode . $xpathString);
+        return ($nodeList && $nodeList->length > 0) ? $nodeList->item(0)->nodeValue : $default;
+    }
+
+    public function getXpath(): DOMXPath
+    {
+        if ($this->preconfiguredDomXPath == null) {
+            $this->preconfiguredDomXPath = XPath::create($this->xml);
+        }
+        return $this->preconfiguredDomXPath;
     }
 
     /**
@@ -120,6 +145,29 @@ class InternalFormat
         $this->setValue($typeXpath, $type);
     }
 
+    /**
+     * @param string $xpathString
+     * @param string $value
+     * @throws Exception
+     */
+    protected function setValue(string $xpathString, string $value)
+    {
+        $xpath = $this->getXpath();
+        if ($xpathString === '') {
+            return;
+        }
+        $nodes = $xpath->query(self::rootNode . $xpathString);
+        if ($nodes->length > 0) {
+            $nodes->item(0)->nodeValue = $value;
+        } elseif ($value !== '') {
+            $parserGenerator = new ParserGenerator($this->clientPid);
+            $parserGenerator->setDomDocument($this->xml);
+            $parserGenerator->customXPath($xpathString, true, $value);
+            $this->xml = new DOMDocument();
+            $this->xml->loadXML($parserGenerator->getXMLData());
+        }
+    }
+
     public function getRepositoryState(): string
     {
         $stateXpath = $this->clientConfigurationManager->getStateXpath();
@@ -128,12 +176,7 @@ class InternalFormat
 
     public function getProcessNumber(): string
     {
-        $processNumberXpath = $this->clientConfigurationManager->getProcessNumberXpath();
-        if ($processNumberXpath) {
-            return $this->getValue($processNumberXpath);
-        } else {
-            return "";
-        }
+        return $this->getValue($this->clientConfigurationManager->getProcessNumberXpath());
     }
 
     /**
@@ -148,17 +191,7 @@ class InternalFormat
     public function getTitle(): string
     {
         $titleXpath = $this->clientConfigurationManager->getTitleXpath();
-        if (empty($titleXpath)) {
-            return "";
-        } else {
-            $xpath = $this->getXpath();
-            $titles = $xpath->query(self::rootNode . $titleXpath);
-            if ($titles) {
-                return $titles->item(0)->nodeValue;
-            }
-
-        }
-        return "";
+        return $this->getValue($titleXpath);
     }
 
     /**
@@ -280,13 +313,8 @@ class InternalFormat
      */
     public function getPrimaryUrn(): bool
     {
-        $xpath = $this->getXpath();
-        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
-        if (empty($primaryUrnXpath)) {
-            return false;
-        }
-        $urnNodes = $xpath->query(self::rootNode . $primaryUrnXpath);
-        return $urnNodes && $urnNodes->length > 0 ? $urnNodes->item(0)->nodeValue : false;
+        $value = $this->getValue($this->clientConfigurationManager->getPrimaryUrnXpath());
+        return !empty($value);
     }
 
     public function clearAllUrn()
@@ -319,50 +347,26 @@ class InternalFormat
 
     public function getSubmitterEmail(): string
     {
-        $xpath = $this->getXpath();
-        $submitterXpath = $this->clientConfigurationManager->getSubmitterEmailXpath();
-        if ($submitterXpath) {
-            $nodes = $xpath->query(self::rootNode . $submitterXpath);
-            return ($nodes) ? $nodes->item(0)->nodeValue : '';
-        }
-        return '';
+        return $this->getValue($this->clientConfigurationManager->getSubmitterEmailXpath());
     }
 
     public function getSubmitterName(): string
     {
-        $xpath = $this->getXpath();
-        $submitterXpath = $this->clientConfigurationManager->getSubmitterNameXpath();
-        if (!$submitterXpath) {
-            return '';
-        }
-        $nodes = $xpath->query(self::rootNode . $submitterXpath);
-        return ($nodes) ? $nodes->item(0)->nodeValue : '';
+        return $this->getValue($this->clientConfigurationManager->getSubmitterNameXpath());
     }
 
     public function getSubmitterNotice(): string
     {
-        $xpath = $this->getXpath();
-        $submitterXpath = $this->clientConfigurationManager->getSubmitterNoticeXpath();
-        if (!$submitterXpath) {
-            return '';
-        }
-        $nodes = $xpath->query(self::rootNode . $submitterXpath);
-        return ($nodes) ? $nodes->item(0)->nodeValue : '';
+        return $this->getValue($this->clientConfigurationManager->getSubmitterNoticeXpath());
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCreator(): string
+    public function getCreator(): int
     {
         $creatorXpath = $this->clientConfigurationManager->getCreatorXpath();
-        $creator = $this->getValue($creatorXpath);
-
-        if (isset($creator) === true && $creator !== '') {
-            return $creator;
-        }
-
-        return '0';
+        return intval($this->getValue($creatorXpath, 0));
     }
 
     /**
@@ -694,7 +698,6 @@ class InternalFormat
         return $collections;
     }
 
-
     /**
      * @return string
      */
@@ -802,43 +805,6 @@ class InternalFormat
     }
 
     /**
-     * @param string $xpathString
-     * @return string
-     */
-    protected function getValue(string $xpathString): string
-    {
-        $xpath = $this->getXpath();
-        if (empty($xpathString)) {
-            return '';
-        }
-        $nodeList = $xpath->query(self::rootNode . $xpathString);
-        return ($nodeList && $nodeList->length > 0) ? $nodeList->item(0)->nodeValue : '';
-    }
-
-    /**
-     * @param string $xpathString
-     * @param string $value
-     * @throws Exception
-     */
-    protected function setValue(string $xpathString, string $value)
-    {
-        $xpath = $this->getXpath();
-        if ($xpathString === '') {
-            return;
-        }
-        $nodes = $xpath->query(self::rootNode . $xpathString);
-        if ($nodes->length > 0) {
-            $nodes->item(0)->nodeValue = $value;
-        } elseif ($value !== '') {
-            $parserGenerator = new ParserGenerator($this->clientPid);
-            $parserGenerator->setDomDocument($this->xml);
-            $parserGenerator->customXPath($xpathString, true, $value);
-            $this->xml = new DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
-        }
-    }
-
-    /**
      * Removes all file nodes from the internal xml
      */
     public function removeAllFiles()
@@ -849,38 +815,6 @@ class InternalFormat
         $fileNodes = $xpath->query(self::rootNode . $fileXpath);
         if ($fileNodes) foreach ($fileNodes as $fileNode) {
             $fileNode->parentNode->removeChild($fileNode);
-        }
-    }
-
-    /**
-     * Add or update a child node to a parent node, selected by the given XPath expression.
-     *
-     * @param DOMNode $parent Parent node
-     * @param string $xpath An XPath expression describing the child node
-     * @param string $value Value of the newly created node
-     */
-    public function updateChildNode(DOMNode $parent, string $xpath, string $value)
-    {
-        if (empty($xpath)) {
-            return;
-        }
-
-        $nodes = $this->getXpath()->query($xpath, $parent);
-
-        if ($nodes && $nodes->length > 0) {
-            $nodes->item(0)->nodeValue = $value;
-        } else {
-            $fragment = XMLFragmentGenerator::fragmentFor($xpath . "='" . $value . "'");
-
-            libxml_use_internal_errors(true);
-            $dom = new DOMDocument();
-            $domLoaded = $dom->loadXML($fragment);
-            libxml_use_internal_errors(false);
-
-            if ($domLoaded) {
-                $newField = $this->xml->importNode($dom->firstChild, true);
-                $parent->appendChild($newField);
-            }
         }
     }
 
@@ -940,6 +874,38 @@ class InternalFormat
                     $this->updateChildNode($fileNodes->item(0), $idXpath, $fileId->getId($file));
                     $this->updateChildNode($fileNodes->item(0), $mimeTypeXpath, $file->getContentType());
                 }
+            }
+        }
+    }
+
+    /**
+     * Add or update a child node to a parent node, selected by the given XPath expression.
+     *
+     * @param DOMNode $parent Parent node
+     * @param string $xpath An XPath expression describing the child node
+     * @param string $value Value of the newly created node
+     */
+    public function updateChildNode(DOMNode $parent, string $xpath, string $value)
+    {
+        if (empty($xpath)) {
+            return;
+        }
+
+        $nodes = $this->getXpath()->query($xpath, $parent);
+
+        if ($nodes && $nodes->length > 0) {
+            $nodes->item(0)->nodeValue = $value;
+        } else {
+            $fragment = XMLFragmentGenerator::fragmentFor($xpath . "='" . $value . "'");
+
+            libxml_use_internal_errors(true);
+            $dom = new DOMDocument();
+            $domLoaded = $dom->loadXML($fragment);
+            libxml_use_internal_errors(false);
+
+            if ($domLoaded) {
+                $newField = $this->xml->importNode($dom->firstChild, true);
+                $parent->appendChild($newField);
             }
         }
     }
