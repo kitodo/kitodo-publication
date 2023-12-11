@@ -18,16 +18,16 @@ namespace EWW\Dpf\Services\ElasticSearch;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
 use Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException;
+use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
 use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
 use Exception;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Configuration\ClientConfigurationManager;
-use EWW\Dpf\Domain\Model\Document;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class ElasticSearch
@@ -326,7 +326,7 @@ class ElasticSearch
                 $data->hasFiles = false;
             }
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat(
+            $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat(
                 $document->getXmlData(),
                 $this->clientConfigurationManager->getClientPid()
             );

@@ -19,7 +19,6 @@ use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Services\FeUser\FisDataService;
 use EWW\Dpf\Services\FeUser\GndDataService;
-
 use EWW\Dpf\Services\FeUser\OrcidDataService;
 use EWW\Dpf\Services\FeUser\RorDataService;
 use EWW\Dpf\Services\FeUser\UnpaywallDataService;

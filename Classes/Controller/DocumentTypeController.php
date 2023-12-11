@@ -14,23 +14,6 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\DocumentType;
-use EWW\Dpf\Helper\InternalFormat;
-use EWW\Dpf\Security\DocumentVoter;
-use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
-use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Exceptions\DPFExceptionInterface;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Domain\Model\File;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-
 
 /**
  * DocumentTypeController

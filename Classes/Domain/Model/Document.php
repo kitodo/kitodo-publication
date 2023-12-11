@@ -14,9 +14,9 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Helper\InternalFormat;
+use EWW\Dpf\Services\Api\InternalFormat;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Document

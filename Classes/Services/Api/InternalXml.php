@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Services\Api;
 
 /*
@@ -14,10 +15,14 @@ namespace EWW\Dpf\Services\Api;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Helper\XPath;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
+use DOMXPath;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Domain\Model\MetadataObject;
-use EWW\Dpf\Services\XPathXMLGenerator;
+use EWW\Dpf\Services\Xml\XMLFragmentGenerator;
+use EWW\Dpf\Services\Xml\XPath;
 
 class InternalXml
 {
@@ -29,7 +34,7 @@ class InternalXml
     /**
      * xml
      *
-     * @var \DOMDocument
+     * @var DOMDocument
      */
     protected $xml;
 
@@ -48,7 +53,7 @@ class InternalXml
 
     public function setXml($xml)
     {
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($xml);
@@ -63,12 +68,12 @@ class InternalXml
         $this->namespaces = $namespaces;
     }
 
-    public function getXpath()
+    public function getXpath(): DOMXPath
     {
-        return $domXPath = XPath::create($this->xml, $this->namespaces);
+        return XPath::create($this->xml, $this->namespaces);
     }
 
-    public function getNextReference()
+    public function getNextReference(): string
     {
         $references = [];
 
@@ -81,7 +86,7 @@ class InternalXml
             ksort($references);
             $key = explode("_", array_key_last($references));
             $referenceCounter = intval($key[1]);
-            return sprintf("QUCOSA_%03d", $referenceCounter+1);
+            return sprintf("QUCOSA_%03d", $referenceCounter + 1);
         }
         return "QUCOSA_000";
     }
@@ -91,17 +96,17 @@ class InternalXml
      * @param int $groupIndex
      * @return GroupNode|null
      */
-    public function findGroup(MetadataGroup $metadataGroup, $groupIndex = 0)
+    public function findGroup(MetadataGroup $metadataGroup, int $groupIndex = 0): ?GroupNode
     {
         $groupMapping = $metadataGroup->getMapping();
         $groupMappingForReading = trim($metadataGroup->getMappingForReading(), '/ ');
-        $extensionMapping =  trim($metadataGroup->getModsExtensionMapping(), '/ ');
+        $extensionMapping = trim($metadataGroup->getModsExtensionMapping(), '/ ');
         $extensionReference = trim($metadataGroup->getModsExtensionReference());
 
         $xpath = $this->getXpath();
 
         $nodes = $xpath->query(
-            $this->getRootNode() . ($groupMappingForReading? $groupMappingForReading : $groupMapping)
+            $this->getRootNode() . ($groupMappingForReading ? $groupMappingForReading : $groupMapping)
         );
 
         if ($nodes->length - $groupIndex > 0) {
@@ -110,11 +115,13 @@ class InternalXml
             $group->setMainNode($nodes->item($groupIndex));
 
             if ($extensionMapping && $extensionReference) {
-                $reference = $group->getMainNode()->getAttribute('ID');
+                /** @var DOMElement $mainNode */
+                $mainNode = $group->getMainNode();
+                $reference = $mainNode->getAttribute('ID');
                 if ($reference) {
                     $extensionNodes = $xpath->query(
-                        $this->getRootNode()  .
-                        '/'. $extensionMapping . '[@' . $extensionReference . '="'.$reference.'"]'
+                        $this->getRootNode() .
+                        '/' . $extensionMapping . '[@' . $extensionReference . '="' . $reference . '"]'
                     );
                     if ($extensionNodes->length > 0) {
                         $group->setExtensionNode($extensionNodes->item(0));
@@ -131,21 +138,21 @@ class InternalXml
      * @param GroupNode $group
      * @param MetadataObject $metadataObject
      * @param int $fieldIndex
-     * @return \DOMElement|bool
+     * @return DOMNode|false|null
      */
-    public function findField(GroupNode $group, MetadataObject $metadataObject, $fieldIndex = 0)
+    public function findField(GroupNode $group, MetadataObject $metadataObject, int $fieldIndex = 0)
     {
         $fieldMapping = $metadataObject->getMapping();
 
         $xpath = $this->getXpath();
 
         if ($group->getMainNode()) {
-            $nodes = $xpath->query(trim($fieldMapping,"/"), $group->getMainNode());
+            $nodes = $xpath->query(trim($fieldMapping, "/"), $group->getMainNode());
             if ($nodes->length - $fieldIndex > 0) {
                 return $nodes->item($fieldIndex);
             } else {
                 if ($group->getExtensionNode()) {
-                    $extensionNodes = $xpath->query(trim($fieldMapping,"/"), $group->getExtensionNode());
+                    $extensionNodes = $xpath->query(trim($fieldMapping, "/"), $group->getExtensionNode());
                     if ($extensionNodes->length - $fieldIndex > 0) {
                         return $extensionNodes->item($fieldIndex);
                     }
@@ -161,46 +168,43 @@ class InternalXml
      * @param array $fieldData
      * @return GroupNode|null
      */
-    public function addGroup(MetadataGroup $metadataGroup, $fieldData = [])
+    public function addGroup(MetadataGroup $metadataGroup, array $fieldData = []): ?GroupNode
     {
         $groupMapping = $metadataGroup->getMapping();
 
-        /** @var  XPathXMLGenerator $xPathXMLGenerator */
-        $xPathXMLGenerator = new XPathXMLGenerator();
+        $fragment = XMLFragmentGenerator::fragmentFor($groupMapping);
 
-        $xPathXMLGenerator->generateXmlFromXPath($groupMapping);
-
-        // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
+        // FIXME: XMLFragmentGenerator does not generate namespace declarations,
         // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
         // since it is about child elements that are then added to the overall XML.
         libxml_use_internal_errors(true);
-        $dom = new \DOMDocument();
-        $domLoaded = $dom->loadXML($xPathXMLGenerator->getXML());
+        $dom = new DOMDocument();
+        $domLoaded = $dom->loadXML($fragment);
         libxml_use_internal_errors(false);
 
         if ($domLoaded) {
-                $newGroup = new GroupNode();
-                $newGroup->setMetadataGroup($metadataGroup);
+            $newGroup = new GroupNode();
+            $newGroup->setMetadataGroup($metadataGroup);
 
-                $tempNode = $dom->firstChild;
-                $importedNode = $this->xml->importNode($tempNode);
-                $importedParentNode = $importedNode;
-                while($tempNode->hasChildNodes()) {
-                    $tempNode = $tempNode->firstChild;
-                    $importedChildNode = $this->xml->importNode($tempNode);
-                    $importedParentNode->appendChild($importedChildNode);
-                    $importedParentNode = $importedChildNode;
+            $tempNode = $dom->firstChild;
+            $importedNode = $this->xml->importNode($tempNode);
+            $importedParentNode = $importedNode;
+            while ($tempNode->hasChildNodes()) {
+                $tempNode = $tempNode->firstChild;
+                $importedChildNode = $this->xml->importNode($tempNode);
+                $importedParentNode->appendChild($importedChildNode);
+                $importedParentNode = $importedChildNode;
+            }
+
+            $this->xml->documentElement->appendChild($importedNode);
+            $newGroup->setMainNode($importedParentNode);
+
+            if ($newGroup->getMainNode()) {
+                foreach ($fieldData as $fieldItem) {
+                    $this->addField($newGroup, $fieldItem["metadataObject"], $fieldItem["value"]);
                 }
-
-                $this->xml->documentElement->appendChild($importedNode);
-                $newGroup->setMainNode($importedParentNode);
-
-                if ($newGroup->getMainNode()) {
-                    foreach ($fieldData as $fieldItem) {
-                        $this->addField($newGroup, $fieldItem["metadataObject"], $fieldItem["value"]);
-                    }
-                    return $newGroup;
-                }
+                return $newGroup;
+            }
         }
 
         return null;
@@ -212,72 +216,72 @@ class InternalXml
      * @param string $value
      * @return bool
      */
-    public function addField(GroupNode $group, MetadataObject $metadataObject, $value = '')
+    public function addField(GroupNode $group, MetadataObject $metadataObject, string $value = ''): bool
     {
         $fieldMapping = $metadataObject->getMapping();
 
-        /** @var XPathXMLGenerator $xPathXMLGenerator */
-        $xPathXMLGenerator = new XPathXMLGenerator();
+        /** @var DOMElement $mainNode */
+        $mainNode = $group->getMainNode();
 
-        if ($group->getMainNode()) {
-
+        if ($mainNode) {
             if (str_starts_with(trim($fieldMapping, "/"), "@")) {
-                $group->getMainNode()->setAttribute(trim($fieldMapping, "/@"), $value);
+                $mainNode->setAttribute(trim($fieldMapping, "/@"), $value);
                 return true;
             } else {
-                    $xPathXMLGenerator->generateXmlFromXPath($fieldMapping . "='" . $value . "'");
+                $fragment = XMLFragmentGenerator::fragmentFor("$fieldMapping='$value'");
 
-                    // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
-                    // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
-                    // since it is about child elements that are then added to the overall XML.
-                    libxml_use_internal_errors(true);
-                    $dom = new \DOMDocument();
-                    $domLoaded = $dom->loadXML($xPathXMLGenerator->getXML());
-                    libxml_use_internal_errors(false);
+                // FIXME: XMLFragmentGenerator does not generate namespace declarations,
+                // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                // since it is about child elements that are then added to the overall XML.
+                libxml_use_internal_errors(true);
+                $dom = new DOMDocument();
+                $domLoaded = $dom->loadXML($fragment);
+                libxml_use_internal_errors(false);
 
-                    if ($domLoaded) {
-                        $newField = $this->xml->importNode($dom->firstChild, true);
+                if ($domLoaded) {
+                    $newField = $this->xml->importNode($dom->firstChild, true);
 
-                        if ($metadataObject->getModsExtension()) {
-                            if ($group->getExtensionNode()) {
-                                $group->getExtensionNode()->appendChild($newField);
-                            } else {
-                                // Extension node needs to be created.
-                                $reference = $group->getMainNode()->getAttribute("ID");
-
-                                if (empty($reference)) {
-                                    $reference =  $this->getNextReference();
-                                }
-
-                                $xPathXMLGenerator->generateXmlFromXPath(
-                                    $group->getMetadataGroup()->getModsExtensionMapping() .
-                                    '[@' . $group->getMetadataGroup()->getModsExtensionReference() .
-                                    '="' . $reference . '"]'
-                                );
-
-                                // FIXME: XPATHXmlGenerator XPATH does not generate any namespaces,
-                                // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
-                                // since it is about child elements that are then added to the overall XML.
-                                libxml_use_internal_errors(true);
-                                $domExtension = new \DOMDocument();
-                                $domExtensionLoaded = $domExtension->loadXML($xPathXMLGenerator->getXML());
-                                libxml_use_internal_errors(false);
-
-                                if ($domExtensionLoaded) {
-                                    $newExtension = $this->xml->importNode($domExtension->firstChild, true);
-                                    $newExtension->firstChild->appendChild($newField);
-                                    $group->setExtensionNode(
-                                        $group->getMainNode()->parentNode->appendChild($newExtension)
-                                    );
-                                    $group->getMainNode()->setAttribute('ID', $reference);
-                                }
-                            }
-                            return true;
+                    if ($metadataObject->getModsExtension()) {
+                        if ($group->getExtensionNode()) {
+                            $group->getExtensionNode()->appendChild($newField);
                         } else {
-                            $group->getMainNode()->appendChild($newField);
-                            return true;
+                            // Extension node needs to be created.
+                            $reference = $mainNode->getAttribute("ID");
+
+                            if (empty($reference)) {
+                                $reference = $this->getNextReference();
+                            }
+
+                            $fragment = XMLFragmentGenerator::fragmentFor(
+                                sprintf("%s[@%s=\"%s\"]",
+                                    $group->getMetadataGroup()->getModsExtensionMapping(),
+                                    $group->getMetadataGroup()->getModsExtensionReference(),
+                                    $reference)
+                            );
+
+                            // FIXME: XMLFragmentGenerator does not generate namespace declarations,
+                            // which DOMDocument cannot cope with. Actually, namespaces should not be necessary here,
+                            // since it is about child elements that are then added to the overall XML.
+                            libxml_use_internal_errors(true);
+                            $domExtension = new DOMDocument();
+                            $domExtensionLoaded = $domExtension->loadXML($fragment);
+                            libxml_use_internal_errors(false);
+
+                            if ($domExtensionLoaded) {
+                                $newExtension = $this->xml->importNode($domExtension->firstChild, true);
+                                $newExtension->firstChild->appendChild($newField);
+                                $group->setExtensionNode(
+                                    $mainNode->parentNode->appendChild($newExtension)
+                                );
+                                $mainNode->setAttribute('ID', $reference);
+                            }
                         }
+                        return true;
+                    } else {
+                        $mainNode->appendChild($newField);
+                        return true;
                     }
+                }
             }
         }
 
@@ -291,13 +295,16 @@ class InternalXml
      * @param string $value
      * @return bool
      */
-    public function setField(GroupNode $group, MetadataObject $metadataObject, $fieldIndex, $value)
+    public function setField(GroupNode $group, MetadataObject $metadataObject, int $fieldIndex, string $value): bool
     {
         $fieldMapping = $metadataObject->getMapping();
 
-        if ($group->getMainNode()) {
-            if (str_starts_with(trim($fieldMapping, "/"),"@")) {
-                $group->getMainNode()->setAttribute(trim($fieldMapping, "/@"), $value);
+        /** @var DOMElement $mainNode */
+        $mainNode = $group->getMainNode();
+
+        if ($mainNode) {
+            if (str_starts_with(trim($fieldMapping, "/"), "@")) {
+                $mainNode->setAttribute(trim($fieldMapping, "/@"), $value);
             } else {
                 $field = $this->findField($group, $metadataObject, $fieldIndex);
                 if ($field) {
@@ -318,13 +325,16 @@ class InternalXml
      * @param int $fieldIndex
      * @return bool
      */
-    public function removeField(GroupNode $group, MetadataObject $metadataObject, $fieldIndex = 0)
+    public function removeField(GroupNode $group, MetadataObject $metadataObject, int $fieldIndex = 0): bool
     {
         $fieldMapping = $metadataObject->getMapping();
 
-        if ($group->getMainNode()) {
-            if (str_starts_with(trim($fieldMapping, "/"),"@")) {
-                $group->getMainNode()->removeAttribute(trim($fieldMapping, "/@"));
+        /** @var DOMElement $mainNode */
+        $mainNode = $group->getMainNode();
+
+        if ($mainNode) {
+            if (str_starts_with(trim($fieldMapping, "/"), "@")) {
+                $mainNode->removeAttribute(trim($fieldMapping, "/@"));
             } else {
                 $field = $this->findField($group, $metadataObject, $fieldIndex);
                 if ($field) {
@@ -333,7 +343,7 @@ class InternalXml
                         $this->removeNode($field, $group->getExtensionNode()->nodeName);
                     } else {
                         //$group->getMainNode()->removeChild($field);
-                        $this->removeNode($field, $group->getMainNode()->nodeName);
+                        $this->removeNode($field, $mainNode->nodeName);
                     }
                 }
             }
@@ -346,16 +356,15 @@ class InternalXml
     /**
      * @param MetadataGroup $metadataGroup
      * @param int $groupIndex
-     * @return bool
      */
-    public function removeGroup(MetadataGroup $metadataGroup, $groupIndex = 0)
+    public function removeGroup(MetadataGroup $metadataGroup, int $groupIndex = 0)
     {
         $group = $this->findGroup($metadataGroup, $groupIndex);
         if ($group instanceof GroupNode) {
 
             $this->removeNode($group->getMainNode(), $group->getMainNode()->parentNode->nodeName);
 
-            if ($group->getExtensionNode() instanceof \DOMNode) {
+            if ($group->getExtensionNode() instanceof DOMNode) {
                 $outerExtensionNode = $group->getExtensionNode()->parentNode;
                 $this->removeNode($group->getExtensionNode(), $outerExtensionNode->nodeName);
 
@@ -383,10 +392,10 @@ class InternalXml
     }
 
     /**
-     * @param \DOMNode $node
+     * @param DOMNode $node
      * @param string $outerNode
      */
-    protected function removeNode(\DOMNode $node, string $outerNode)
+    protected function removeNode(DOMNode $node, string $outerNode)
     {
         $innerGroupNode = $node;
         $outerGroupNode = $node;
@@ -394,7 +403,7 @@ class InternalXml
         while ($parentNode && $parentNode->nodeName != trim($outerNode, '/')) {
             $innerGroupNode = $outerGroupNode;
             $outerGroupNode = $parentNode;
-            $parentNode =  $outerGroupNode->parentNode;
+            $parentNode = $outerGroupNode->parentNode;
         }
 
         $innerGroupNode->parentNode->removeChild($innerGroupNode);

@@ -16,12 +16,12 @@ namespace EWW\Dpf\Tasks;
 
 use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Repository\ClientRepository;
+use EWW\Dpf\Domain\Repository\FileRepository;
 use EWW\Dpf\Services\File\FileValidator;
 use EWW\Dpf\Services\File\FileValidatorInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\ClientRepository;
-use EWW\Dpf\Domain\Repository\FileRepository;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 

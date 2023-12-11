@@ -14,7 +14,6 @@ namespace EWW\Dpf\Services\ElasticSearch;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Elasticsearch\ClientBuilder;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Security\Security;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;

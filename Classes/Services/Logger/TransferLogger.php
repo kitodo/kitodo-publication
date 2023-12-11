@@ -14,9 +14,9 @@ namespace EWW\Dpf\Services\Logger;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Domain\Repository\DocumentTransferLogRepository;
 use EWW\Dpf\Domain\Model\DocumentTransferLog;
+use EWW\Dpf\Domain\Repository\DocumentTransferLogRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class TransferLogger
 {

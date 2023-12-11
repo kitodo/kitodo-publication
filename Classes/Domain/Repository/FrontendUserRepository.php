@@ -1,9 +1,6 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
-use EWW\Dpf\Domain\Model\Document;
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-
 class FrontendUserRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
 {
     /**

@@ -14,7 +14,6 @@ namespace EWW\Dpf\ViewHelpers\Suggestion;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Services\Suggestion\FieldChange;
 use EWW\Dpf\Services\Suggestion\GroupChange;
 
 class FindFieldChangeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper

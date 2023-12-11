@@ -16,7 +16,6 @@ namespace EWW\Dpf\Services\Suggestion;
  */
 
 use EWW\Dpf\Domain\Model\DocumentForm;
-use EWW\Dpf\Domain\Model\DocumentFormField;
 use EWW\Dpf\Domain\Model\DocumentFormGroup;
 
 class DocumentChanges

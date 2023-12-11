@@ -16,17 +16,17 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 
 \Httpful\Bootstrap::init();
 
-use EWW\Dpf\Domain\Model\ExternalMetadata;
-use EWW\Dpf\Services\Transformer\DocumentTransformer;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
+use EWW\Dpf\Domain\Model\ExternalMetadata;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Services\Transformer\DocumentTransformer;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Log\LogManager;
 
 
 abstract class AbstractImporter
@@ -182,7 +182,7 @@ abstract class AbstractImporter
         /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
         $newDocument    =  $this->objectManager->get(Document::class);
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($xmlData);
+        $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($xmlData);
 
         // xml data fields are limited to 64 KB
         if (strlen($internalFormat->getXml()) >= Document::XML_DATA_SIZE_LIMIT) {
@@ -271,7 +271,7 @@ abstract class AbstractImporter
                 );
             }
         }
-        
+
         return $documentType;
     }
 

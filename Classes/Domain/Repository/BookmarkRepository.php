@@ -16,8 +16,6 @@ namespace EWW\Dpf\Domain\Repository;
 
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
-use \EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use \EWW\Dpf\Security\Security;
 
 /**
  * The repository for Bookmarks

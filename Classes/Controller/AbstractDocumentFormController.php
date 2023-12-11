@@ -14,14 +14,14 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Model\DepositLicenseLog;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentForm;
-use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Helper\FormDataReader;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Domain\Model\DepositLicenseLog;
+use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Helper\DocumentValidator;
+use EWW\Dpf\Helper\FormDataReader;
+use EWW\Dpf\Services\Email\Notifier;
 use Exception;
 
 /**

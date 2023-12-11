@@ -14,9 +14,9 @@ namespace EWW\Dpf\Services\ElasticSearch;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Client;
-use EWW\Dpf\Helper\XSLTransformator;
+use EWW\Dpf\Domain\Model\Document;
 use TYPO3\CMS\Core\Core\Environment;
+use XSLTProcessor;
 
 class ElasticsearchMapper
 {
@@ -47,7 +47,7 @@ class ElasticsearchMapper
     /**
      * document2json
      * @param  Document $document [description]
-     * @return json Elasticsearch json format
+     * @return false|string|null Elasticsearch json format
      */
     public function getElasticsearchJson($document)
     {
@@ -72,7 +72,7 @@ class ElasticsearchMapper
         $xml->loadXML($document->getXmlData());
 
         // xslt processing
-        $proc = new \XSLTProcessor;
+        $proc = new XSLTProcessor();
         $proc->importStyleSheet($xsl); // XSL Document importieren
 
         $json = $proc->transformToXML($xml);

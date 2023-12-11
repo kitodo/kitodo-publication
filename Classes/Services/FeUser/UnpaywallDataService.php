@@ -2,8 +2,8 @@
 namespace EWW\Dpf\Services\FeUser;
 
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use Httpful\Request;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use \Httpful\Request;
 
 class UnpaywallDataService
 {

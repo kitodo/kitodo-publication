@@ -14,6 +14,8 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Services\Xml\XPath;
+
 /**
  * ExternalMetadata
  */
@@ -138,6 +140,6 @@ abstract class ExternalMetadata extends \TYPO3\CMS\Extbase\DomainObject\Abstract
         if (is_null(@$dom->loadXML($this->data))) {
             throw new \Exception("Invalid XML: ".get_class($this));
         }
-        return \EWW\Dpf\Helper\XPath::create($dom);
+        return XPath::create($dom);
     }
 }

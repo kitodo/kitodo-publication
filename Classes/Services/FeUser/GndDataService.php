@@ -1,7 +1,7 @@
 <?php
 namespace EWW\Dpf\Services\FeUser;
 
-use \Httpful\Request;
+use Httpful\Request;
 
 class GndDataService
 {

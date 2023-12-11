@@ -19,8 +19,8 @@ use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Domain\Model\MetadataObject;
 use EWW\Dpf\Helper\DocumentMapper;
-use EWW\Dpf\Services\ParserGenerator;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Services\Xml\ParserGenerator;
 use JsonPath\JsonObject;
 
 class JsonToDocumentMapper
@@ -197,7 +197,7 @@ class JsonToDocumentMapper
             }
         }
 
-        $exporter = new \EWW\Dpf\Services\ParserGenerator();
+        $exporter = new ParserGenerator();
 
         $documentData['documentUid'] = 0;
         $documentData['metadata'] = $meta;
@@ -208,7 +208,7 @@ class JsonToDocumentMapper
         $internalXml = $exporter->getXMLData();
         $document->setXmlData($internalXml);
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml);
+        $internalFormat = new InternalFormat($internalXml);
 
         $document->setTitle($internalFormat->getTitle());
         $document->setAuthors($internalFormat->getAuthors());

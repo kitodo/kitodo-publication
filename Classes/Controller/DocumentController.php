@@ -17,18 +17,18 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\DocumentType;
-use EWW\Dpf\Helper\InternalFormat;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Exceptions\DPFExceptionInterface;
+use EWW\Dpf\Helper\DocumentMapper;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
-use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Services\Api\InternalFormat;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Exceptions\DPFExceptionInterface;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use EWW\Dpf\Helper\DocumentMapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 /**
@@ -439,7 +439,7 @@ class DocumentController extends AbstractController
         if ($documentType instanceof DocumentType) {
             $document->setDocumentType($documentType);
 
-            $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+            $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
             $internalFormat->setDocumentType($documentType->getName());
             $document->setXmlData($internalFormat->getXml());
 
@@ -620,7 +620,7 @@ class DocumentController extends AbstractController
         $processNumber = $processNumberGenerator->getProcessNumber();
         $newDocument->setProcessNumber($processNumber);
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+        $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
         $internalFormat->clearAllUrn();
         $internalFormat->setDateIssued('');
         $internalFormat->setTitle($copyTitle);
@@ -943,7 +943,7 @@ class DocumentController extends AbstractController
                     );
                 }
 
-                $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
                 $internalFormat->addNote($note);
                 $document->setXmlData($internalFormat->getXml());
             }

@@ -15,9 +15,9 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
-use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 

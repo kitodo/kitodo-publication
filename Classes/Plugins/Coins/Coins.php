@@ -62,7 +62,6 @@ class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
             }
         }
 
-        $metadata = array();
         $metadata = $this->doc->getTitleData($this->conf['pages']);
 
         $metadata['_id'] = $this->doc->toplevelId;
@@ -245,7 +244,7 @@ class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
      * @param String $format Target string format
      * @param String $date   Date string to format
      *
-     * @return Formatted date
+     * @return false|String date
      */
      protected function safelyFormatDate($format, $date)
     {

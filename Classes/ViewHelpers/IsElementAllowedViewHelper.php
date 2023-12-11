@@ -14,11 +14,11 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use \TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use EWW\Dpf\Security\Security;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use \EWW\Dpf\Security\Security;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IsElementAllowedViewHelper extends AbstractViewHelper
 {

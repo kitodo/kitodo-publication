@@ -194,7 +194,7 @@ class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
      * @param String $format Target string format
      * @param String $date   Date string to format
      *
-     * @return Formatted date
+     * @return string Formatted date
      */
     protected function safelyFormatDate($format, $date)
     {

@@ -14,8 +14,8 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
 
 interface Importer

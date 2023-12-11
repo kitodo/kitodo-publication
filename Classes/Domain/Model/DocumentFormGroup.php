@@ -16,7 +16,6 @@ namespace EWW\Dpf\Domain\Model;
 
 use EWW\Dpf\Services\Suggestion\FieldChange;
 use EWW\Dpf\Services\Suggestion\GroupChange;
-use PhpParser\Comment\Doc;
 
 class DocumentFormGroup extends AbstractFormElement
 {

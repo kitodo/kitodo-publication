@@ -1,13 +1,13 @@
 <?php
 namespace EWW\Dpf\Services\Document;
 
-use Exception;
+use EWW\Dpf\Controller\AbstractController;
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use EWW\Dpf\Controller\AbstractController;
 use EWW\Dpf\Services\Email\Notifier;
+use Exception;
 
 class DocumentManager
 {

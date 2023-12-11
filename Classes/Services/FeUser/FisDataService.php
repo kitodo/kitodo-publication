@@ -1,7 +1,7 @@
 <?php
 namespace EWW\Dpf\Services\FeUser;
 
-use \Httpful\Request;
+use Httpful\Request;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 

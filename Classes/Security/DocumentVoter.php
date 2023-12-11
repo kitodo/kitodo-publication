@@ -15,11 +15,11 @@ namespace EWW\Dpf\Security;
  */
 
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 class DocumentVoter extends Voter

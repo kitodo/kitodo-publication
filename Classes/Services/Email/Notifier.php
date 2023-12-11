@@ -14,16 +14,15 @@ namespace EWW\Dpf\Services\Email;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Helper\InternalFormat;
-use Httpful\Exception\ConnectionErrorException;
-use \TYPO3\CMS\Core\Log\LogLevel;
-use \TYPO3\CMS\Core\Log\LogManager;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\Client;
-use \Httpful\Request;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Services\Api\InternalFormat;
+use Httpful\Exception\ConnectionErrorException;
+use Httpful\Request;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Notifier
 {

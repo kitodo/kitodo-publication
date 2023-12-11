@@ -14,10 +14,10 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use EWW\Dpf\Security\AuthorizationChecker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use EWW\Dpf\Security\AuthorizationChecker;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IsAccessGrantedViewHelper extends AbstractViewHelper
 {
@@ -78,7 +78,7 @@ class IsAccessGrantedViewHelper extends AbstractViewHelper
 
         if ($subject instanceof $class) {
             $authorizationChecker = $objectManager->get(AuthorizationChecker::class);
-            
+
             return $authorizationChecker->isGranted($attribute, $subject);
         }
 

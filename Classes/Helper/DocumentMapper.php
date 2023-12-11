@@ -14,14 +14,16 @@ namespace EWW\Dpf\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\MetadataGroup;
-use EWW\Dpf\Domain\Model\DocumentForm;
-use EWW\Dpf\Domain\Model\File;
-use EWW\Dpf\Domain\Model\MetadataObject;
-use EWW\Dpf\Services\Identifier\Urn;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Domain\Model\DocumentForm;
+use EWW\Dpf\Domain\Model\DocumentFormField;
+use EWW\Dpf\Domain\Model\DocumentFormGroup;
+use EWW\Dpf\Domain\Model\DocumentFormPage;
+use EWW\Dpf\Domain\Model\File;
+use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Services\Api\InternalFormat;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
+use EWW\Dpf\Services\Xml\ParserGenerator;
 
 class DocumentMapper
 {
@@ -158,12 +160,12 @@ class DocumentMapper
 
         $documentForm->setFedoraPid($fedoraPid);
 
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
+        $internalFormat = new InternalFormat($document->getXmlData(), $this->clientPid);
 
         $excludeGroupAttributes = array();
 
         foreach ($document->getDocumentType()->getMetadataPage() as $metadataPage) {
-            $documentFormPage = new \EWW\Dpf\Domain\Model\DocumentFormPage();
+            $documentFormPage = new DocumentFormPage();
             $documentFormPage->setUid($metadataPage->getUid());
             $documentFormPage->setDisplayName($metadataPage->getDisplayName());
             $documentFormPage->setName($metadataPage->getName());
@@ -173,7 +175,7 @@ class DocumentMapper
             foreach ($metadataPage->getMetadataGroup() as $metadataGroup) {
                 /** @var MetadataGroup $metadataGroup */
 
-                $documentFormGroup = new \EWW\Dpf\Domain\Model\DocumentFormGroup();
+                $documentFormGroup = new DocumentFormGroup();
                 $documentFormGroup->setUid($metadataGroup->getUid());
                 $documentFormGroup->setDisplayName($metadataGroup->getDisplayName());
                 $documentFormGroup->setName($metadataGroup->getName());
@@ -249,7 +251,7 @@ class DocumentMapper
 
                         foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
 
-                            $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                            $documentFormField = new DocumentFormField();
                             $documentFormField->setUid($metadataObject->getUid());
                             $documentFormField->setDisplayName($metadataObject->getDisplayName());
                             $documentFormField->setName($metadataObject->getName());
@@ -333,8 +335,6 @@ class DocumentMapper
                                         }
                                     }
 
-                                    $objectValue = str_replace('"', "'", $objectValue);
-
                                     $documentFormFieldItem->setValue($objectValue, $metadataObject->getDefaultValue());
 
                                     if ($value instanceof \DOMAttr) {
@@ -393,7 +393,7 @@ class DocumentMapper
                     $documentFormGroup->setId($metadataGroup->getUid() . '-' . 0);
 
                     foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
-                        $documentFormField = new \EWW\Dpf\Domain\Model\DocumentFormField();
+                        $documentFormField = new DocumentFormField();
                         $documentFormField->setUid($metadataObject->getUid());
                         $documentFormField->setDisplayName($metadataObject->getDisplayName());
                         $documentFormField->setName($metadataObject->getName());
@@ -452,7 +452,7 @@ class DocumentMapper
                 $this->documentRepository->crossClient(true);
             }
             $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
-            $tempInternalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData(), $this->clientPid);
+            $tempInternalFormat = new InternalFormat($document->getXmlData(), $this->clientPid);
             $fobIdentifiers = $tempInternalFormat->getPersonFisIdentifiers();
         } else {
             $document = $this->objectManager->get(Document::class);
@@ -483,7 +483,7 @@ class DocumentMapper
 
         $formMetaData = $this->getMetadata($documentForm);
 
-        $exporter = new \EWW\Dpf\Services\ParserGenerator($this->clientPid);
+        $exporter = new ParserGenerator($this->clientPid);
 
         $documentData['documentUid'] = $documentForm->getDocumentUid();
         $documentData['metadata']    = $formMetaData['mods'];
@@ -491,7 +491,7 @@ class DocumentMapper
         $exporter->buildXmlFromForm($documentData);
 
         $internalXml = $exporter->getXmlData();
-        $internalFormat = new \EWW\Dpf\Helper\InternalFormat($internalXml, $this->clientPid);
+        $internalFormat = new InternalFormat($internalXml, $this->clientPid);
 
         // set static xml
         $internalFormat->setDocumentType($documentType->getName());
@@ -515,7 +515,7 @@ class DocumentMapper
      * @return array
      * @throws \Exception
      */
-    public function getMetadata(DocumentForm $documentForm)
+    private function getMetadata(DocumentForm $documentForm)
     {
         foreach ($documentForm->getItems() as $page) {
 
@@ -582,7 +582,7 @@ class DocumentMapper
                             }
 
                             $file = $fieldItem->getFile();
-                            $value = str_replace('"', "'", $value);
+
                             if ($value || $file) {
                                 $formField['modsExtension'] = $metadataObject->getModsExtension();
 

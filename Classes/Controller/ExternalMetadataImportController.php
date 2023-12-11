@@ -14,26 +14,23 @@ namespace EWW\Dpf\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use EWW\Dpf\Domain\Model\CrossRefMetadata;
 use EWW\Dpf\Domain\Model\Document;
-use EWW\Dpf\Domain\Model\PubMedMetadata;
-use EWW\Dpf\Security\Security;
+use EWW\Dpf\Domain\Model\ExternalMetadata;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Security\Security;
+use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\FileImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\Importer;
+use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\PublicationIdentifier;
+use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
+use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
+use EWW\Dpf\Session\BulkImportSessionData;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use EWW\Dpf\Domain\Model\ExternalMetadata;
-use EWW\Dpf\Services\ImportExternalMetadata\Importer;
-use EWW\Dpf\Services\ImportExternalMetadata\FileImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\CrossRefImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\DataCiteImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\PubMedImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\K10plusImporter;
-use EWW\Dpf\Session\BulkImportSessionData;
-use EWW\Dpf\Services\ImportExternalMetadata\BibTexFileImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\RisWosFileImporter;
-use EWW\Dpf\Services\ImportExternalMetadata\RisReader;
-use EWW\Dpf\Services\ImportExternalMetadata\PublicationIdentifier;
 
 /**
  * ExternalDataImportController
@@ -1028,7 +1025,7 @@ class ExternalMetadataImportController extends AbstractController
                     $importNoteMessage, '', AbstractMessage::INFO
                 );
             }
-            
+
             $this->showImportedDocuments($importCounter);
         } else {
             $severity = AbstractMessage::WARNING;

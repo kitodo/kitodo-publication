@@ -16,13 +16,13 @@ namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Bookmark;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Email\Notifier;
-use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Session\SearchSessionData;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use EWW\Dpf\Session\SearchSessionData;
 
 /**
  * Controller for the "workspace"/"my publications" area.
@@ -524,7 +524,7 @@ class WorkspaceController extends AbstractController
 
                 if ($this->authorizationChecker->isGranted($documentVoterAttribute, $document)) {
 
-                    $internalFormat = new \EWW\Dpf\Helper\InternalFormat($document->getXmlData());
+                    $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
                     $document->setXmlData($internalFormat->getXml());
 
                     if ($this->documentManager->update($document, $documentWorkflowTransition)) {

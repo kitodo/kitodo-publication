@@ -14,8 +14,8 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use \EWW\Dpf\Security\Security;
-use \EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Security\Security;
 
 class CreatorRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {

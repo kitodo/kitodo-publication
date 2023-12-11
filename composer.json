@@ -30,13 +30,14 @@
         "source": "https://github.com/kitodo/kitodo-publication"
     },
     "require": {
-		"php": "^7.2",
+		"php": ">=7.2 <=7.4",
 		"ext-curl": "*",
 		"ext-dom": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-iconv": "*",
+		"ext-xsl": "*",
 		"typo3/cms-core": "^9.5.0",
 		"nategood/httpful": "^0.3.2",
 		"guzzlehttp/guzzle": "^6.3",
@@ -49,7 +50,8 @@
 	},
     "require-dev": {
 		"phpunit/phpunit": "^7",
-		"nimut/testing-framework": "^5.0"
+		"nimut/testing-framework": "^5.0",
+		"kitodo/presentation": "~v3.3"
 	},
     "replace": {
         "typo3-ter/dpf": "self.version"

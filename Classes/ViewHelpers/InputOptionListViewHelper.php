@@ -14,8 +14,6 @@ namespace EWW\Dpf\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 class InputOptionListViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
