@@ -98,6 +98,7 @@ class InternalFormat
         $dom = new DOMDocument();
         $dom->loadXML($xml);
         $this->xml = $dom;
+        $this->preconfiguredDomXPath = XPath::create($this->xml);
     }
 
     public function getDocument(): DOMDocument
