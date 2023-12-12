@@ -21,9 +21,8 @@ use EWW\Dpf\Exceptions\DPFExceptionInterface;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
-use EWW\Dpf\Services\ElasticSearch\ElasticsearchMapper;
-use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Session\SearchSessionData;
+use Exception;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -152,7 +151,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         try {
             $results = $this->elasticSearch->search($query, 'object');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $workspaceSessionData->clearSort();
             $workspaceSessionData->clearFilters();
             $this->session->setWorkspaceData($workspaceSessionData);
@@ -468,7 +467,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $type = 'object';
 
             $results = $this->getResultList($query, $type);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -517,7 +516,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
                 $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
                 $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.retrieve_failed';
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
@@ -543,21 +542,16 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
     /**
      *
-     * @param  string $documentObjectIdentifier
+     * @param string $documentObjectIdentifier
      * @return void
+     * @throws Exception
      */
     public function updateIndexAction($documentObjectIdentifier)
     {
         $document = $this->documentRepository->findByObjectIdentifier($documentObjectIdentifier);
-
         if (is_a($document, Document::class)) {
-            $elasticsearchRepository = $this->objectManager->get(ElasticsearchRepository::class);
-            $elasticsearchMapper     = $this->objectManager->get(ElasticsearchMapper::class);
-            $json                    = $elasticsearchMapper->getElasticsearchJson($document);
-            // send document to index
-            $elasticsearchRepository->add($document, $json);
+            $this->elasticSearch->index($document);
         }
-
         $this->redirect('search');
     }
 
@@ -625,7 +619,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
             $this->view->assign('searchList', $searchList);
             $this->view->assign('alreadyImported', $objectIdentifiers);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR;
 
             if ($exception instanceof DPFExceptionInterface) {
