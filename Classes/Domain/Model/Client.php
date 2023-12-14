@@ -612,12 +612,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $outputTransformation = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
-     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
-     */
-    protected $elasticSearchTransformation = null;
-
-    /**
      * @var string
      */
     protected $activeMessagingSuggestionAcceptUrl = '';
@@ -2271,23 +2265,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setSourceDetailsXpaths(string $sourceDetailsXpaths)
     {
         $this->sourceDetailsXpaths = $sourceDetailsXpaths;
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-     */
-    public function getElasticSearchTransformation(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
-    {
-        return $this->elasticSearchTransformation;
-    }
-
-    /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $elasticSearchTransformation
-     */
-    public function setElasticSearchTransformation(
-        ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage $elasticSearchTransformation
-    ): void {
-        $this->elasticSearchTransformation = $elasticSearchTransformation;
     }
 
     /**

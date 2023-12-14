@@ -44,7 +44,7 @@ return array(
             admin_embargo_subject,admin_embargo_body,
             mypublications_update_notification_subject, mypublications_update_notification_body,
             mypublications_new_notification_subject, mypublications_new_notification_body,
-            input_transformation, output_transformation, elastic_search_transformation,
+            input_transformation, output_transformation,
             crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
             admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
             suggestion_flashmessage,
@@ -77,7 +77,7 @@ return array(
         admin_embargo_subject,admin_embargo_body,
         mypublications_update_notification_subject, mypublications_update_notification_body,
         mypublications_new_notification_subject, mypublications_new_notification_body,
-        input_transformation, output_transformation, elastic_search_transformation,
+        input_transformation, output_transformation,
         crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
         admin_deposit_license_notification_subject, admin_deposit_license_notification_body, send_admin_deposit_license_notification,
         suggestion_flashmessage,
@@ -127,7 +127,7 @@ return array(
         --div--;Active Messaging, fis_collections, active_messaging_suggestion_accept_url, active_messaging_suggestion_accept_url_body, active_messaging_suggestion_decline_url, active_messaging_suggestion_decline_url_body, active_messaging_document_deleted_url, active_messaging_document_deleted_url_body, active_messaging_new_document_url, active_messaging_new_document_url_body, active_messaging_changed_document_url, active_messaging_changed_document_url_body,
         --div--;FIS, fis_mapping,
         --div--;Default Import-XSLT, crossref_transformation, datacite_transformation, k10plus_transformation, pubmed_transformation, bibtex_transformation, riswos_transformation,
-        --div--;Default internal format XSLT, input_transformation, output_transformation,  elastic_search_transformation,
+        --div--;Default internal format XSLT, input_transformation, output_transformation,
         --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
@@ -1108,22 +1108,6 @@ return array(
             'exclude' => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.input_transformation',
-            'config'    => [
-                'items' => array(
-                    array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)
-                ),
-                'type'           => 'select',
-                'renderType'     => 'selectSingle',
-                'foreign_table'  => 'tx_dpf_domain_model_transformationfile',
-                'maxitems'       => 1,
-                'minitems' => 0,
-                'default' => 0,
-            ],
-        ],
-        'elastic_search_transformation' => [
-            'exclude' => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.elastic_search_transformation',
             'config'    => [
                 'items' => array(
                     array('LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.choose_transformation',0)

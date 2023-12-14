@@ -15,16 +15,21 @@ namespace EWW\Dpf\Services\ElasticSearch;
  * The TYPO3 project - inspiring people to share!
  */
 
+use DateTime;
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
 use Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
-use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
+use EWW\Dpf\Exceptions\ElasticSearchMissingConfigurationException;
+use EWW\Dpf\Services\Api\InternalFormat;
 use Exception;
+use Throwable;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -33,62 +38,58 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class ElasticSearch
 {
     /**
-     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @var ClientConfigurationManager
      */
     protected $clientConfigurationManager;
 
     /**
-     * @var \Elasticsearch\Client
+     * @var Client
      */
     protected $client;
 
-    protected $server = 'host.docker.internal'; //127.0.0.1';
+    protected $server;
 
-    protected $port = '9200';
+    protected $port;
 
-    protected $indexName = 'kitodo_publication';
+    protected $indexName;
 
     protected $results;
 
 
-    protected $elasticsearchMapper;
-
     /**
      * elasticsearch client constructor
-     * @throws ElasticSearchMissingIndexNameException
+     * @throws ElasticSearchMissingConfigurationException
+     * @throws ElasticSearchConnectionErrorException
      */
     public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
-        $this->elasticsearchMapper = $objectManager->get(ElasticsearchMapper::class);
-
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         $this->server = $this->clientConfigurationManager->getElasticSearchHost();
-        $this->port = $this->clientConfigurationManager->getElasticSearchPort();
-        $this->indexName = $this->clientConfigurationManager->getElasticSearchIndexName();
-
-        if (empty($this->indexName)) {
-            throw new ElasticSearchMissingIndexNameException('Missing search index name.');
+        if (empty($this->server)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search server host.');
         }
 
-        $hosts = array(
-            $this->server . ':' . $this->port,
-        );
+        $this->port = $this->clientConfigurationManager->getElasticSearchPort();
+        if (empty($this->port)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search server port.');
+        }
+
+        $this->indexName = $this->clientConfigurationManager->getElasticSearchIndexName();
+        if (empty($this->indexName)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search index name.');
+        }
 
         $clientBuilder = ClientBuilder::create();
-        $clientBuilder->setHosts($hosts);
+        $clientBuilder->setHosts([$this->server . ':' . $this->port]);
         $this->client = $clientBuilder->build();
 
         try {
             $this->initializeIndex($this->indexName);
-        } catch (\Throwable $e) {
-            $message = LocalizationUtility::translate(
-                'elasticsearch.notRunning',
-                'dpf'
-            );
-            die($message);
+        } catch (Throwable $e) {
+            $message = LocalizationUtility::translate('elasticsearch.notRunning','dpf');
+            throw new ElasticSearchConnectionErrorException($message);
         }
     }
 
@@ -244,168 +245,156 @@ class ElasticSearch
     }
 
     /**
-     * Adds an document to the index.
+     * Adds a document to the index.
      *
      * @param Document $document
+     * @throws Exception
      */
-    public function index($document)
+    public function index(Document $document)
     {
-        // Fixme: The solution via json_decode and the XSLT file needs to be replaced.
-        $data = json_decode($this->elasticsearchMapper->getElasticsearchJson($document));
+        $internalFormat = new InternalFormat($document->getXmlData());
 
-        if (!$data) {
-            $data = new \stdClass();
-            $data->title[] = $document->getTitle();
+        $data = new \stdClass();
+        $data->title[] = $document->getTitle();
+        $data->doctype = $document->getDocumentType()->getName();
+        $data->distribution_date = $internalFormat->getPublishingYear();
+
+        $data->state = $document->getState();
+        $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
+
+        if (!$data->doctype) {
+            // set document type from database if it has not yet been extracted from XML data
             $data->doctype = $document->getDocumentType()->getName();
         }
 
-        if (is_array($data->distribution_date) && empty($data->distribution_date[0])) {
-            $data->distribution_date = null;
+        if (!$data->process_number) {
+            // set process number from database if it has not yet been extracted from XML data
+            $data->process_number = $document->getProcessNumber();
         }
 
-        if ($data) {
-            $data->state = $document->getState();
-            $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
+        $data->objectIdentifier = $document->getObjectIdentifier();
 
-            if (!$data->doctype) {
-                // set document type from database if it has not yet been extracted from XML data
-                $data->doctype = $document->getDocumentType()->getName();
-            }
+        if (!$data->identifier || !is_array($data->identifier)) {
+            $data->identifier = [];
+        }
+        $data->identifier[] = $document->getObjectIdentifier();
+        $data->identifier[] = $document->getProcessNumber();
 
-            if (!$data->process_number) {
-                // set process number from database if it has not yet been extracted from XML data
-                $data->process_number = $document->getProcessNumber();
-            }
+        if ($document->getCreator()) {
+            $data->creator = $document->getCreator();
+        } else {
+            $data->creator = null;
+        }
 
-            $data->objectIdentifier = $document->getObjectIdentifier();
+        if ($document->getCreator()) {
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $frontendUserRepository = $objectManager->get(FrontendUserRepository::class);
 
-            if (!$data->identifier || !is_array($data->identifier)) {
-                $data->identifier = [];
-            }
-            $data->identifier[] = $document->getObjectIdentifier();
-            $data->identifier[] = $document->getProcessNumber();
-
-            if ($document->getCreator()) {
-                $data->creator = $document->getCreator();
-            } else {
-                $data->creator = null;
-            }
-
-            if ($document->getCreator()) {
-                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                $frontendUserRepository = $objectManager->get(FrontendUserRepository::class);
-
-                /** @var \EWW\Dpf\Domain\Model\FrontendUser $creatorFeUser */
-                $creatorFeUser = $frontendUserRepository->findByUid($document->getCreator());
-                if ($creatorFeUser) {
-                    $data->creatorRole = $creatorFeUser->getUserRole();
-                } else {
-                    $data->creatorRole = '';
-                }
+            /** @var FrontendUser $creatorFeUser */
+            $creatorFeUser = $frontendUserRepository->findByUid($document->getCreator());
+            if ($creatorFeUser) {
+                $data->creatorRole = $creatorFeUser->getUserRole();
             } else {
                 $data->creatorRole = '';
             }
-
-            $creationDate = new \DateTime($document->getCreationDate());
-
-            $data->creationDate = $creationDate->format('Y-m-d');
-
-            $data->year = $document->getPublicationYear();
-
-            $notes = $document->getNotes();
-
-            if ($notes && is_array($notes)) {
-                $data->notes = $notes;
-            } else {
-                $data->notes = array();
-            }
-
-            if ($document->hasFiles()) {
-                $data->hasFiles = true;
-            } else {
-                $data->hasFiles = false;
-            }
-
-            $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat(
-                $document->getXmlData(),
-                $this->clientConfigurationManager->getClientPid()
-            );
-
-            $persons = $internalFormat->getPersons();
-
-            $fobIdentifiers = [];
-            $personData = [];
-            foreach ($persons as $person) {
-                $fobIdentifiers[] = $person['fobId'];
-                $personData[] = $person;
-                //$data->persons[] = $person['name'];
-                $data->persons[] = $person['fobId'];
-
-                foreach ($person['affiliations'] as $affiliation) {
-                    $data->affiliation[] = $affiliation;
-                }
-
-                foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
-                    $data->affiliation[] = $affiliationIdentifier;
-                }
-            }
-
-            $data->fobIdentifiers = $fobIdentifiers;
-            $data->personData = $personData;
-
-            if (sizeof($persons) > 0) {
-                if (array_key_exists('family', $persons[0])) {
-                    $data->personsSort = $persons[0]['family'];
-                }
-            }
-
-            $data->source = $document->getSourceDetails();
-
-            $data->universityCollection = false;
-            if ($data->collections && is_array($data->collections)) {
-                foreach ($data->collections as $collection) {
-                    if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
-                        $data->universityCollection = true;
-                        break;
-                    }
-                }
-            }
-
-            $embargoDate = $document->getEmbargoDate();
-            if ($embargoDate instanceof \DateTime) {
-                $data->embargoDate = $embargoDate->format("Y-m-d");
-            } else {
-                $data->embargoDate = null;
-            }
-
-            $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
-
-            $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
-
-            // TODO: Is dateIssued the same as distribution date?
-            $dateIssued = $internalFormat->getDateIssued();
-            if ($dateIssued) {
-                $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
-            } else {
-                $data->dateIssued = null;
-            }
-
-            $data->textType             = $internalFormat->getTextType();
-            $data->openAccess           = $internalFormat->getOpenAccessForSearch();
-            $data->peerReview           = $internalFormat->getPeerReviewForSearch();
-            $data->license              = $internalFormat->getLicense();
-            $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
-            $data->searchYear           = $internalFormat->getSearchYear();
-            $data->publisher[]          = $internalFormat->getPublishers();
-            $data->collections          = $internalFormat->getCollections();
-
-            $this->client->index([
-                'refresh' => 'wait_for',
-                'index' => $this->getIndexName(),
-                'id' => strtolower($document->getDocumentIdentifier()),
-                'body' => $data
-            ]);
+        } else {
+            $data->creatorRole = '';
         }
+
+        $creationDate = new DateTime($document->getCreationDate());
+
+        $data->creationDate = $creationDate->format('Y-m-d');
+
+        $data->year = $document->getPublicationYear();
+
+        $notes = $document->getNotes();
+
+        if ($notes && is_array($notes)) {
+            $data->notes = $notes;
+        } else {
+            $data->notes = array();
+        }
+
+        if ($document->hasFiles()) {
+            $data->hasFiles = true;
+        } else {
+            $data->hasFiles = false;
+        }
+
+        $persons = $internalFormat->getPersons();
+
+        $fobIdentifiers = [];
+        $personData = [];
+        foreach ($persons as $person) {
+            $fobIdentifiers[] = $person['fobId'];
+            $personData[] = $person;
+            //$data->persons[] = $person['name'];
+            $data->persons[] = $person['fobId'];
+
+            foreach ($person['affiliations'] as $affiliation) {
+                $data->affiliation[] = $affiliation;
+            }
+
+            foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
+                $data->affiliation[] = $affiliationIdentifier;
+            }
+        }
+
+        $data->fobIdentifiers = $fobIdentifiers;
+        $data->personData = $personData;
+
+        if (sizeof($persons) > 0) {
+            if (array_key_exists('family', $persons[0])) {
+                $data->personsSort = $persons[0]['family'];
+            }
+        }
+
+        $data->source = $document->getSourceDetails();
+
+        $data->universityCollection = false;
+        if ($data->collections && is_array($data->collections)) {
+            foreach ($data->collections as $collection) {
+                if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
+                    $data->universityCollection = true;
+                    break;
+                }
+            }
+        }
+
+        $embargoDate = $document->getEmbargoDate();
+        if ($embargoDate instanceof DateTime) {
+            $data->embargoDate = $embargoDate->format("Y-m-d");
+        } else {
+            $data->embargoDate = null;
+        }
+
+        $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
+
+        $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
+
+        // TODO: Is dateIssued the same as distribution date?
+        $dateIssued = $internalFormat->getDateIssued();
+        if ($dateIssued) {
+            $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
+        } else {
+            $data->dateIssued = null;
+        }
+
+        $data->textType             = $internalFormat->getTextType();
+        $data->openAccess           = $internalFormat->getOpenAccessForSearch();
+        $data->peerReview           = $internalFormat->getPeerReviewForSearch();
+        $data->license              = $internalFormat->getLicense();
+        $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
+        $data->searchYear           = $internalFormat->getSearchYear();
+        $data->publisher[]          = $internalFormat->getPublishers();
+        $data->collections          = $internalFormat->getCollections();
+
+        $this->client->index([
+            'refresh' => 'wait_for',
+            'index' => $this->getIndexName(),
+            'id' => strtolower($document->getDocumentIdentifier()),
+            'body' => $data
+        ]);
     }
 
 

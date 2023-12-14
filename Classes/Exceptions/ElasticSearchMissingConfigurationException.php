@@ -14,10 +14,10 @@ namespace EWW\Dpf\Exceptions;
  * The TYPO3 project - inspiring people to share!
  */
 
-class ElasticSearchMissingIndexNameException extends \Exception implements DPFExceptionInterface
+class ElasticSearchMissingConfigurationException extends \Exception implements DPFExceptionInterface
 {
     public function messageLanguageKey(): string
     {
-        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.elasticsearch_indexname_error';
+        return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_transfer.elasticsearch_config_error';
     }
 }
