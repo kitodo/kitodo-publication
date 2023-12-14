@@ -26,9 +26,10 @@ use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException;
-use EWW\Dpf\Exceptions\ElasticSearchMissingIndexNameException;
+use EWW\Dpf\Exceptions\ElasticSearchMissingConfigurationException;
 use EWW\Dpf\Services\Api\InternalFormat;
 use Exception;
+use Throwable;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -46,49 +47,49 @@ class ElasticSearch
      */
     protected $client;
 
-    protected $server = 'host.docker.internal'; //127.0.0.1';
+    protected $server;
 
-    protected $port = '9200';
+    protected $port;
 
-    protected $indexName = 'kitodo_publication';
+    protected $indexName;
 
     protected $results;
 
 
     /**
      * elasticsearch client constructor
-     * @throws ElasticSearchMissingIndexNameException
+     * @throws ElasticSearchMissingConfigurationException
+     * @throws ElasticSearchConnectionErrorException
      */
     public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
         $this->server = $this->clientConfigurationManager->getElasticSearchHost();
-        $this->port = $this->clientConfigurationManager->getElasticSearchPort();
-        $this->indexName = $this->clientConfigurationManager->getElasticSearchIndexName();
-
-        if (empty($this->indexName)) {
-            throw new ElasticSearchMissingIndexNameException('Missing search index name.');
+        if (empty($this->server)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search server host.');
         }
 
-        $hosts = array(
-            $this->server . ':' . $this->port,
-        );
+        $this->port = $this->clientConfigurationManager->getElasticSearchPort();
+        if (empty($this->port)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search server port.');
+        }
+
+        $this->indexName = $this->clientConfigurationManager->getElasticSearchIndexName();
+        if (empty($this->indexName)) {
+            throw new ElasticSearchMissingConfigurationException('Missing search index name.');
+        }
 
         $clientBuilder = ClientBuilder::create();
-        $clientBuilder->setHosts($hosts);
+        $clientBuilder->setHosts([$this->server . ':' . $this->port]);
         $this->client = $clientBuilder->build();
 
         try {
             $this->initializeIndex($this->indexName);
-        } catch (\Throwable $e) {
-            $message = LocalizationUtility::translate(
-                'elasticsearch.notRunning',
-                'dpf'
-            );
-            die($message);
+        } catch (Throwable $e) {
+            $message = LocalizationUtility::translate('elasticsearch.notRunning','dpf');
+            throw new ElasticSearchConnectionErrorException($message);
         }
     }
 
