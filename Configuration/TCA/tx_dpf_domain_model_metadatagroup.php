@@ -293,7 +293,8 @@ return array(
                 'items' => [
                     ['---', ''],
                     ['FIS add myself', 'Person'],
-                    ['FIS', 'Fis'],
+                    ['FIS Person', 'Fis'],
+                    ['FIS Project', 'FisProject'],
                     ['Gnd', 'Gnd'],
                     ['Ror', 'Ror'],
                     ['Zdb', 'Zdb'],

@@ -1247,6 +1247,22 @@
 			<source>XPath espressions of all publisher fields to be searched (Semicolon separated list).</source>
 			<target>XPath-Ausdrücke aller zu durchsuchenden Verlagsfelder (Semikolon-getrennte Liste).</target>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_id.label" approved="yes">
+			<source>Project id</source>
+			<target>Projekt-Id</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_id.xpath" approved="yes">
+			<source>XPath expressions for the project id field</source>
+			<target>XPath-Ausdruck für die Projekt-Id</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_title.label" approved="yes">
+			<source>Project title</source>
+			<target>Projekt-Titel</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_title.xpath" approved="yes">
+			<source>XPath expressions for the project title field (Multiple Xpath expressions can be concatenated using '|')</source>
+			<target>XPath-Ausdrücke für Projekt-Titel (Mehrere XPath-Ausdrücke können mit „|“ verkettet werden)</target>
+		</trans-unit>
         </body>
 	</file>
 </xliff>

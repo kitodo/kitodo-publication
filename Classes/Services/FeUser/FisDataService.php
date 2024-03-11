@@ -63,6 +63,33 @@ class FisDataService
         }
     }
 
+    public function getProjectData($id, $searchTerm) {
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getSearchProjectBody($searchTerm))
+                ->send();
+            foreach ($response->body->data->projekte->entries as $key => $value) {
+                if ($value->id === $id) {
+                    return $value;
+                }
+            }
+            return null;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    public function searchProjectRequest($searchTerm) {
+        try {
+            $response = Request::post($this->apiUrl)
+                ->body($this->getSearchProjectBody($searchTerm))
+                ->send();
+            return $response->body->data->projekte;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
     public function getOrganisationData($id) {
         try {
             $response = Request::post($this->apiUrl)
@@ -139,6 +166,29 @@ class FisDataService
                         givenName
                         surname
                         title
+                    }
+                }
+            }
+        }';
+
+        return $graphQl;
+    }
+
+    protected function getSearchProjectBody($searchTerm) {
+        $graphQl = '{
+            projekte(query:"'.$searchTerm.'", pageSize: 100)
+            {
+                entries
+                {
+                ... on Projektkern
+                    {
+                        id
+                        titelDe
+                        titelEn
+                        foerderkennzeichen
+                        foerderinstitutionen
+                        beginn
+                        ende
                     }
                 }
             }

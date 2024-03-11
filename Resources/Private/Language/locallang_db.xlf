@@ -941,6 +941,18 @@
         <trans-unit id="tx_dpf_domain_model_client.search_field_xml.publisher.xpath" approved="yes">
 			<source>XPath espressions of all publisher fields to be searched (Semicolon separated list).</source>
         </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_id.label" approved="yes">
+			<source>Project id</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_id.xpath" approved="yes">
+            <source>XPath expressions for the project id field</source>
+        </trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_title.label" approved="yes">
+            <source>Project title</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.project_title.xpath" approved="yes">
+            <source>XPath expressions for the project title field (Multiple Xpath expressions can be concatenated using '|')</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -265,9 +265,9 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @return false|string
      */
     public function searchFisAction($searchTerm, $type = 'person') {
-        $fisUserDataService = new FisDataService();
+        $fisDataService = new FisDataService();
         $methodName = 'search'.ucfirst($type).'Request';
-        $result = $fisUserDataService->{$methodName}($searchTerm);
+        $result = $fisDataService->{$methodName}($searchTerm);
 
         return json_encode($result);
     }
@@ -279,12 +279,13 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param int $fieldIndex
      * @param int $pageId
      * @param string $type
+     * @param string $searchTerm
      * @return false|string
      */
-    public function getFisDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person') {
+    public function getFisDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person', $searchTerm = '') {
         $fisDataService = new FisDataService();
         $methodName = 'get'.ucfirst($type).'Data';
-        $fisData = $fisDataService->{$methodName}($dataId);
+        $fisData = $fisDataService->{$methodName}($dataId, $searchTerm);
 
         $result = $this->getApiMappingArray($groupId, $fisData, $groupIndex, $fieldIndex, $pageId, 'getFis'.ucfirst($type).'Mapping');
 
@@ -464,7 +465,11 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
                     } else {
                         if (is_array($apiData)) {
                             foreach ($apiData as $fisArrayValue) {
-                                $apiDataArray[] = $fisArrayValue->{$mapping};
+                                if ($fisArrayValue->{$mapping}) {
+                                    $apiDataArray[] = $fisArrayValue->{$mapping};
+                                } else {
+                                    $apiDataArray[] = $fisArrayValue;
+                                }
                             }
                         } else {
                             $apiData = $apiData->{$mapping};
