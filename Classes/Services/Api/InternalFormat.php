@@ -661,6 +661,41 @@ class InternalFormat
     }
 
     /**
+     * Get project data for the index
+     *
+     * @return array
+     */
+    public function getProjects(): array
+    {
+        $xpath = $this->getXpath();
+        $projects = [];
+
+        $projectIdXpath = $this->clientConfigurationManager->getProjectIdXpath();
+        $projectTitleXpath = $this->clientConfigurationManager->getProjectTitleXpath();
+
+        $idNodes = $xpath->query(self::rootNode . $projectIdXpath);
+        if ($idNodes->length > 0) {
+            foreach ($idNodes as $idNode)
+            {
+                $projects[] = $idNode->nodeValue;
+            }
+        }
+
+        $projectTitleXpath = array_map('trim', explode('|', $projectTitleXpath));
+        foreach ($projectTitleXpath as $titleXpath) {
+            $titleNodes = $xpath->query(self::rootNode . $titleXpath);
+            if ($titleNodes->length > 0) {
+                foreach ($titleNodes as $titleNode)
+                {
+                    $projects[]  = $titleNode->nodeValue;
+                }
+            }
+        }
+
+        return $projects;
+    }
+
+    /**
      * @param string $fisId
      * @throws Exception
      */

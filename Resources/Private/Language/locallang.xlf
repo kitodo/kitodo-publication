@@ -1115,6 +1115,9 @@
 			<trans-unit id="manager.search.searchField.collection" approved="yes">
 				<source>Collection</source>
 			</trans-unit>
+			<trans-unit id="manager.search.searchField.project" approved="yes">
+				<source>Project</source>
+			</trans-unit>
 			<trans-unit id="manager.search.addSearchField" approved="yes">
 				<source>Add search field</source>
 			</trans-unit>
@@ -1695,6 +1698,15 @@ Date: ###DATE###
 			</trans-unit>
 			<trans-unit id="manager.apimodal.close" approved="yes">
                 <source>Close</source>
+            </trans-unit>
+			<trans-unit id="manager.apimodal.searchIn" approved="yes">
+                <source>Search in</source>
+            </trans-unit>
+			<trans-unit id="manager.apimodal.fisProject" approved="yes">
+                <source>FIS-Project</source>
+            </trans-unit>
+			<trans-unit id="manager.apimodal.fisProjectSearch" approved="yes">
+                <source>FIS-Project search</source>
             </trans-unit>
 			<trans-unit id="elasticsearch.notRunning" approved="yes">
                 <source>No ElasticSearch server running or missing configuration</source>

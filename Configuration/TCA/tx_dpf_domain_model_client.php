@@ -61,7 +61,8 @@ return array(
             fis_id_xpath, source_details_xpaths, collection_xpath,
             text_type_xpath, open_access_xpath, open_access_other_version_xpath,
             peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
-            date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths',
+            date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
+            project_id_xpath, project_title_xpath',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
@@ -94,7 +95,8 @@ return array(
         fis_id_xpath, source_details_xpaths, collection_xpath,
         text_type_xpath, open_access_xpath, open_access_other_version_xpath,
         peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
-        date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths'
+        date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
+        project_id_xpath, project_title_xpath'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -116,6 +118,8 @@ return array(
             --pallette--;;pallette_peer_review_xpath,
             --pallette--;;pallette_license_xpath,
             --pallette--;;pallette_frameworkAgreementId_xpath,
+            --pallette--;;pallette_project_id_xpath,
+            --pallette--;;pallette_project_title_xpath,
         --div--;Fedora, fedora_host, fedora_user, fedora_password, fedora_endpoint, fedora_root_container,  fedora_collection_namespace,
         --div--;Elastic search, elastic_search_host, elastic_search_port, elastic_search_index_name,
         --div--;Upload, upload_directory, upload_domain,
@@ -175,6 +179,14 @@ return array(
         'pallette_collection_xpath' =>  array(
             'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.collection.label',
             'showitem' => 'collection_xpath'
+        ),
+        'pallette_project_id_xpath' =>  array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.project_id.label',
+            'showitem' => 'project_id_xpath'
+        ),
+        'pallette_project_title_xpath' =>  array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.project_title.label',
+            'showitem' => 'project_title_xpath'
         ),
     ),
     'columns'   => array(
@@ -1423,6 +1435,26 @@ return array(
             'exclude'   => 1,
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.publisher.xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'project_id_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.project_id.xpath',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 80,
+                'eval' => 'trim',
+            ),
+        ),
+        'project_title_xpath' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.project_title.xpath',
             'config'    => array(
                 'type' => 'input',
                 'size' => 80,

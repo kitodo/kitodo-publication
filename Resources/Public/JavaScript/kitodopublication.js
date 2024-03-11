@@ -499,6 +499,7 @@ var extendedSearch = {
 
             jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").hide();
             jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").hide();
+            jQuery(".modal-footer").find("[data-target='#FisProjectSearchModal-project-0']").hide();
 
             if (field == 'persons') {
                 jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").show();
@@ -506,6 +507,10 @@ var extendedSearch = {
 
             if (field == 'affiliation') {
                 jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").show();
+            }
+
+            if (field == 'project') {
+              jQuery(".modal-footer").find("[data-target='#FisProjectSearchModal-project-0']").show();
             }
 
             jQuery("#add-searchfield-dialog").modal('show');
@@ -1285,7 +1290,7 @@ var addGroup = function(target, fileGroup = false) {
         addRemoveFileButton();
         fileInputToggle();
         userSearch(group);
-        userSearchModalFillout();
+        fisSearchModalFillout();
         addMyUserData();
 
         // gnd autocomplete for new groups
@@ -1772,6 +1777,8 @@ var userSearch = function(group) {
     if (group) {
         $(group.find('.fis-user-search-input')).on('focus', delay(searchInputKeyupHandler, 500));
         $(group.find('.fis-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
+        $(group.find('.fisproject-project-search-input')).on('focus', delay(searchInputKeyupHandler, 500));
+        $(group.find('.fisproject-project-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.fis-orga-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.gnd-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
         $(group.find('.ror-user-search-input')).on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1781,6 +1788,8 @@ var userSearch = function(group) {
     } else {
         $('.fis-user-search-input').on('focus', delay(searchInputKeyupHandler, 500));
         $('.fis-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
+        $('.fisproject-project-search-input').on('focus', delay(searchInputKeyupHandler, 500));
+        $('.fisproject-project-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.fis-orga-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.gnd-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
         $('.ror-user-search-input').on('keyup', delay(searchInputKeyupHandler, 500));
@@ -1808,10 +1817,13 @@ var searchInputKeyupHandler = function() {
         let url = $(this).data("searchrequest");
         let params = {};
         params['tx_dpf_backoffice[searchTerm]'] = searchValue;
-        // type person or organisation
-        params['tx_dpf_backoffice[type]'] = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
 
+        // type person or organisation of project
         var radioType = $(this).closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+        if (radioType === undefined) {
+          var radioType = $(this).closest('.modal').find('#fisSearchType').val();
+        }
+        params['tx_dpf_backoffice[type]'] = radioType;
 
         $.ajax({
             type: "POST",
@@ -1889,13 +1901,48 @@ var searchInputKeyupHandler = function() {
                         hitListElement.append(listHtml(value.title, value.doi, allData, value.best_oa_location.url_for_landing_page, value.oa_status));
                     } else if ($(that).attr('class') === 'orcid-user-search-input') {
                         hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], allData, value["orcid-id"]));
+                    } else if ($(that).attr('class') === 'fisproject-project-search-input') {
+                        hitListElement.append(listProjectHtml(value.id, allData));
                     }
 
                 });
                 addFoundUserData();
+                addFoundProjectData();
             }
         });
     }
+}
+
+var listProjectHtml = function (id, all = '') {
+  JSON.stringify(all).replace(/"/g, '');
+
+  var titleDe= (all.titelDe !== undefined && all.titelDe) ? all.titelDe : '';
+  var titleEn= (all.titelEn !== undefined && all.titelEn) ? all.titelEn : '';
+  var begin= (all.beginn !== undefined && all.beginn) ? all.beginn : '';
+  var end = (all.ende !== undefined && all.ende) ? all.ende : '';
+
+  var projectHtml= '<li style="margin-bottom:1rem;" class="container">' +
+    '<div class="row">' +
+    '<div class="col"><button style="margin-right:1rem;" class="btn btn-s btn-info found-project-add" type="button" data-id="' + id + '">' +
+    'Übernehmen' +
+    '</button></div>' +
+    '<div class="col-8">';
+
+     projectHtml += '<div class="projectTitle">' + (titleDe ? titleDe : titleEn) + '</div>';
+     if (titleDe && titleEn) {
+       projectHtml += '<div class="projectTitle mt-1">' + titleEn + '</div>';
+     }
+
+     projectHtml += '<div class="projectDuration mt-1">' + id
+     if (begin || end) {
+       projectHtml += ' | ' + (begin ? begin : 'N/A') + '&nbsp;&nbsp;&mdash;&nbsp;&nbsp;' + (end ? end : 'N/A') + '</div>';
+     }
+
+     projectHtml += '</div>' +
+     '</div>' +
+     '</li>';
+
+    return projectHtml;
 }
 
 var listHtml = function (name, id, all = '', optionalText = '', color = '') {
@@ -1952,15 +1999,37 @@ var addFoundUserData = function () {
     });
 }
 
+var addFoundProjectData = function () {
+  $('.found-project-add').on('click', function () {
+    var input = $(this).closest('.modal-body').find('input');
+    input.data('searchTerm', input.val())
+
+    // user setting modal
+    if (input.data('purpose') == 'extSearch') {
+      $('#search-field-default-value').val($(this).data('id'));
+      $(this).closest('.modal').modal('hide');
+    } else {
+      setDataRequest(input.data('datarequest'), $(this).data('id'), input);
+    }
+
+  });
+}
+
 var setDataRequest = function(url, dataId, context) {
 
     let params = {};
     params['tx_dpf_backoffice[dataId]'] = dataId;
+    params['tx_dpf_backoffice[searchTerm]'] = context.data('searchTerm') != undefined ? context.data('searchTerm') : '';
     params['tx_dpf_backoffice[groupId]'] = context.data('group');
     params['tx_dpf_backoffice[groupIndex]'] = context.data('groupindex');
     params['tx_dpf_backoffice[fieldIndex]'] = 0;
     params['tx_dpf_backoffice[pageId]'] = context.data('page');
-    params['tx_dpf_backoffice[type]'] = context.closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+
+    var type = context.closest('.modal').find("input[name^='searchTypeRadio']:checked").val();
+    if (type === undefined) {
+      var type = context.closest('.modal').find('#fisSearchType').val();
+    }
+    params['tx_dpf_backoffice[type]'] = type;
 
     $.ajax({
         type: "POST",
@@ -2081,11 +2150,16 @@ var searchAgain = function (context) {
     searchInputKeyupHandler.call(context);
 }
 
-var userSearchModalFillout = function() {
+var fisSearchModalFillout = function() {
 
     $('.FisSearchModal').on('hidden.bs.modal', function() {
-            jQuery(this).find('.fis-user-search-input').val('');
-            jQuery(this).find('.fis-search-results').html('');
+      jQuery(this).find('.fis-user-search-input').val('');
+      jQuery(this).find('.fis-search-results').html('');
+    });
+
+    $('.FisProjectSearchModal').on('hidden.bs.modal', function() {
+      jQuery(this).find('.fisproject-project-search-input').val('');
+      jQuery(this).find('.fisproject-search-results').html('');
     });
 
     $('.FisSearchModal').on('shown.bs.modal', function () {
@@ -2099,7 +2173,7 @@ var userSearchModalFillout = function() {
         }
     });
 
-    $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
+  $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
         var doiValue = $(this).closest('fieldset').find('*[data-objecttype="unpaywallDoi"]').val();
         $(this).find('.unpaywall-user-search-input').val(doiValue);
         searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
@@ -2311,7 +2385,8 @@ $(document).ready(function() {
 
     userSearch();
     addMyUserData();
-    userSearchModalFillout();
+    fisSearchModalFillout();
+
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('[autofocus]').focus();
         // new search if checkbox has changed

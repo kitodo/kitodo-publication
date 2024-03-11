@@ -221,6 +221,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   embargo tinyint(1) unsigned DEFAULT '0' NOT NULL,
   fis_person_mapping varchar(50) DEFAULT '' NOT NULL,
   fis_organisation_mapping varchar(50) DEFAULT '' NOT NULL,
+  fis_project_mapping varchar(50) DEFAULT '' NOT NULL,
   gnd_person_mapping varchar(50) DEFAULT '' NOT NULL,
   gnd_organisation_mapping varchar(50) DEFAULT '' NOT NULL,
   ror_mapping varchar(50) DEFAULT '' NOT NULL,
@@ -482,6 +483,8 @@ CREATE TABLE tx_dpf_domain_model_client (
   framework_agreement_id_xpath tinytext NOT NULL,
   search_year_xpaths tinytext NOT NULL,
   publisher_xpaths tinytext NOT NULL,
+  project_id_xpath tinytext NOT NULL,
+  project_title_xpath tinytext NOT NULL,
 
   fis_collections tinytext NOT NULL,
 

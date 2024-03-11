@@ -522,6 +522,20 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $sourceDetailsXpaths = '';
 
     /**
+     * Project ids xpath
+     *
+     * @var string
+     */
+    protected $projectIdXpath = '';
+
+    /**
+     * Project titles xpath (Multiple Xpath expressions can be concatenated using '|')
+     *
+     * @var string
+     */
+    protected $projectTitleXpath = '';
+
+    /**
      * Person author role
      *
      * @var string
@@ -2563,5 +2577,25 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPublisherXpaths(string $publisherXpaths): void
     {
         $this->publisherXpaths = $publisherXpaths;
+    }
+
+    public function getProjectIdXpath(): string
+    {
+        return $this->projectIdXpath;
+    }
+
+    public function setProjectIdXpath(string $projectIdXpath): void
+    {
+        $this->projectIdXpath = $projectIdXpath;
+    }
+
+    public function getProjectTitleXpath(): string
+    {
+        return $this->projectTitleXpath;
+    }
+
+    public function setProjectTitleXpath(string $projectTitleXpath): void
+    {
+        $this->projectTitleXpath = $projectTitleXpath;
     }
 }

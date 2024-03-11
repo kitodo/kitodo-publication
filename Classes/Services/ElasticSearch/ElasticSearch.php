@@ -233,6 +233,9 @@ class ElasticSearch
                         'embargoDate' => [
                             'type' =>  'date',
                             'format' =>  "yyyy-MM-dd"
+                        ],
+                        'project' => [
+                            'type' => 'text'
                         ]
                     ]
                 ]
@@ -388,6 +391,8 @@ class ElasticSearch
         $data->searchYear           = $internalFormat->getSearchYear();
         $data->publisher[]          = $internalFormat->getPublishers();
         $data->collections          = $internalFormat->getCollections();
+
+        $data->project = $internalFormat->getProjects();
 
         $this->client->index([
             'refresh' => 'wait_for',

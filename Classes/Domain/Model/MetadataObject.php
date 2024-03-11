@@ -198,6 +198,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $fisOrganisationMapping = '';
 
     /**
+     * fis mapping
+     *
+     * @var string
+     */
+    protected $fisProjectMapping = '';
+
+    /**
      * gnd mapping
      *
      * @var string
@@ -665,6 +672,22 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     public function setFisPersonMapping(string $fisPersonMapping): void
     {
         $this->fisPersonMapping = $fisPersonMapping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFisProjectMapping(): string
+    {
+        return $this->fisProjectMapping;
+    }
+
+    /**
+     * @param string $fisProjectMapping
+     */
+    public function setFisProjectMapping(string $fisProjectMapping): void
+    {
+        $this->fisProjectMapping = $fisProjectMapping;
     }
 
     /**

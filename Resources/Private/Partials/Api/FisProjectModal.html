@@ -1,0 +1,57 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:comment> MODAL SEARCH API </f:comment>
+
+<div class="user-search-div" style="float: left;margin-right: 1rem;">
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{formGroupUid}-{groupIndex}">
+        <f:translate key="manager.apimodal.searchIn"/>  <f:translate key="manager.apimodal.fisProject"/>
+    </button>
+</div>
+
+<div class="modal fade {api}SearchModal" id="{api}SearchModal-{formGroupUid}-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{formGroupUid}-{groupIndex}" aria-hidden="true">
+    <div class="modal-dialog project-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{api}SearchModalTitle-{formGroupUid}-{groupIndex}">
+                    <f:translate key="manager.apimodal.fisProjectSearch"/>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-check form-check-inline">
+                    <input style="margin-bottom: 1rem;" class="{api -> f:format.case(mode: 'lower')}-project-search-input" type="text"
+                           data-purpose="{purpose}"
+                           data-group="{formGroupUid}" data-page="{formPageUid}" data-groupindex="{groupIndex}"
+                           data-api="{api -> f:format.case(mode: 'lower')}"
+                           data-searchrequest="{f:uri.action(action:'searchFis',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}"
+                           data-datarequest="{f:uri.action(action:'getFisData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}" autofocus>
+                </div>
+
+                <input type="hidden" name="searchTypeRadio-{groupIndex}-{api -> f:format.case(mode: 'lower')}" id="fisSearchType" value="project">
+
+                <div class="{api -> f:format.case(mode: 'lower')}-search-list-{groupIndex}">
+                    <ul style="list-style-type: none;padding:0;" class="{api -> f:format.case(mode: 'lower')}-search-results">
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><f:translate key="manager.apimodal.close"/></button>
+            </div>
+        </div>
+    </div>
+</div>
