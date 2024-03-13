@@ -28,6 +28,8 @@
                           arguments="{aggregation: aggregations.doctype, filterName: 'doctype', filterValues: filters.doctype}"
                 />
             </th>
+            <th class="xcol-md-1">
+            </th>
             <th class="xcol-md-2">
                 {f:translate(key: 'manager.workspace.persons')}
                 <f:render partial="Workspace/SortColumn"
@@ -157,6 +159,12 @@
                     </f:if>
                     <br />
                     <dpf:showDocumentType docType="{document._source.doctype}" />
+                </td>
+                <td>
+                    <a href="{dpf:uri.preview(documentIdentifier:'{document._id}', apiPid='{settings.apiPid}', pageUid:'{settings.landingPage}')}"
+                       data-toggle="tooltip" class="btn btn-sm btn-outline-secondary" title="{f:translate(key: 'manager.tooltip.preview')}" target="child">
+                        <i class="fas fa-eye"></i>
+                    </a>
                 </td>
                 <td>
                     <span style="display:none;">{document._source.personsSort}</span>

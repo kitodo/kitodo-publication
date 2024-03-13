@@ -15,7 +15,6 @@ api {
 
 plugin.tx_dpf.settings.api {
     allowedHosts = {$plugin.tx_dpf.settings.api.allowedHosts}
-    deliverInactiveSecretKey = {$plugin.tx_dpf.settings.api.deliverInactiveSecretKey}
     metsDisseminationUri = {$plugin.tx_dpf.settings.api.metsDisseminationUri}
     zipDisseminationUri = {$plugin.tx_dpf.settings.api.zipDisseminationUri}
 }

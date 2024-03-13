@@ -689,6 +689,9 @@
 			<trans-unit id="manager.documentDetails.suggestionWarning" approved="yes">
 				<source>There is a suggestion document for this document.</source>
 			</trans-unit>
+			<trans-unit id="manager.documentDetails.preview" approved="yes">
+				<source>Preview</source>
+			</trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
 			</trans-unit>

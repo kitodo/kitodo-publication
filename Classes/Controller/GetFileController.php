@@ -206,7 +206,7 @@ class GetFileController extends ActionController
     private function isRemote(string $id): bool
     {
         // assuming that a Fedora PID references an remote resource and everything is local
-        return !(Identifier::isUid($id) || Identifier::isProcessNumber($id));
+        return !Identifier::isUid($id);
     }
 
     /**

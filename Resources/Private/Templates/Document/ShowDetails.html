@@ -159,6 +159,12 @@
                     </f:link.action>
                 </f:if>
 
+                <a href="{dpf:uri.preview(documentIdentifier:'{document}', apiPid='{settings.apiPid}', pageUid:'{settings.landingPage}')}"
+                    class="btn btn-sm btn-outline-secondary" target="child">
+                    <i class="fas fa-eye"></i>
+                    {f:translate(key: 'manager.documentDetails.preview')}
+                </a>
+
                 <f:link.action
                     action="cancelListTask"
                     controller="Document"

@@ -888,6 +888,10 @@
 				<source>There is a suggestion document for this document.</source>
 				<target>Zu diesem Datensatz liegt ein Änderungsvorschlag vor.</target>
 			</trans-unit>
+			<trans-unit id="manager.documentDetails.preview" approved="yes">
+				<source>Preview</source>
+				<target>Vorschau</target>
+			</trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
 				<target>Doubletten-Check</target>

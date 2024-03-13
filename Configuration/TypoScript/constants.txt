@@ -145,6 +145,11 @@ plugin.tx_dpf {
             # cat=plugin.tx_dpf/link; type=string; label=Open access uri value for yes
             trueUri = http://purl.org/coar/access_right/c_abf2
         }
+
+        api {
+            # cat=plugin.tx_dpf/api; type=string; label=Secret key for delivering inactive documents via API
+            deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
+        }
     }
 }
 
