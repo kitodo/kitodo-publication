@@ -206,6 +206,10 @@ plugin.tx_dpf {
             true = {$plugin.tx_dpf.settings.openAccessValues.true}
             trueUri = {$plugin.tx_dpf.settings.openAccessValues.trueUri}
         }
+
+        api {
+            deliverInactiveSecretKey = {$plugin.tx_dpf.settings.api.deliverInactiveSecretKey}
+        }
     }
 }
 
