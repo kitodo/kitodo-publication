@@ -168,7 +168,7 @@ class ElasticSearch
                             'type' => 'integer'
                         ],
                         'persons' => [
-                            'type' => 'keyword'
+                            'type' => 'text'
                         ],
                         'personsSort' => [
                             'type' => 'text',
@@ -328,7 +328,7 @@ class ElasticSearch
         foreach ($persons as $person) {
             $fobIdentifiers[] = $person['fobId'];
             $personData[] = $person;
-            //$data->persons[] = $person['name'];
+            $data->persons[] = $person['name'];
             $data->persons[] = $person['fobId'];
 
             foreach ($person['affiliations'] as $affiliation) {
