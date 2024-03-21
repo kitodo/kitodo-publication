@@ -802,6 +802,14 @@ class Document extends AbstractEntity
     }
 
     /**
+     * @param $tstamp integer
+     */
+    public function setTstamp($tstamp)
+    {
+        return $this->tstamp = $tstamp;
+    }
+
+    /**
      * @return integer
      */
     public function getPid()
