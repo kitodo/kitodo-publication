@@ -260,6 +260,9 @@
 			<trans-unit id="error.retrieve_failed" approved="yes">
 				<source>Retrieve failed. Title or document type wasn't found.</source>
 			</trans-unit>
+			<trans-unit id="error.documentNotFound" approved="yes">
+				<source>The document could not be found.</source>
+            </trans-unit>
 			<trans-unit id="form_button.addFile" approved="yes">
 				<source>add file</source>
 			</trans-unit>

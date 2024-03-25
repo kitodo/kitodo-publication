@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Services\Identifier\Identifier;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
@@ -70,6 +71,13 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      */
     protected $logger = null;
 
+    /**
+     * documentRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\DocumentRepository
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $documentRepository = null;
 
     public function __construct()
     {
@@ -185,8 +193,38 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
 
         $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
         $signalSlotDispatcher->dispatch(get_class($this), 'actionChange', [$this->actionMethodName, get_class($this)]);
-    }
 
+        // Check if a given document, documentUid or documentForm represents a valid and existing local document.
+        $reflectionMethod = new \ReflectionMethod($this->request->getControllerObjectName(), $this->actionMethodName);
+        $reflectionParameters = $reflectionMethod->getParameters();
+
+        foreach ($reflectionParameters as $reflectionParameter) {
+            if (in_array($reflectionParameter->getName(), ['document', 'documentUid', 'documentForm'])) {
+                if ($reflectionParameter->getName() === 'documentForm' && !$this->request->hasArgument('documentForm')) {
+                    $argumentName = 'document';
+                } else {
+                    $argumentName = $reflectionParameter->getName();
+                }
+
+                if (
+                    !$this->request->hasArgument($argumentName)
+                    || (
+                        Identifier::isUid($this->request->getArgument($argumentName))
+                            && !$this->documentRepository->findByUid($this->request->getArgument($argumentName))
+                        )
+                ) {
+                    if ($this->actionMethodName !== 'listWorkspaceAction') {
+                       $this->redirect(
+                           'listWorkspace',
+                           'Workspace',
+                           null,
+                           ['errorMessage' => LocalizationUtility::translate("error.documentNotFound", "dpf")]
+                       );
+                    }
+                }
+            }
+        }
+    }
 
     public function getCurrentAction()
     {

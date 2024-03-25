@@ -7,6 +7,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Services\Identifier\Identifier;
 use Exception;
 
 class DocumentManager
@@ -121,6 +122,14 @@ class DocumentManager
 
         /** @var \EWW\Dpf\Domain\Model\Document */
         $document = $this->documentRepository->findByIdentifier($identifier);
+
+        if ($document instanceof Document && $document->isTemporaryCopy()) {
+            // Set timestamp so the time until the temporary copy starts from now on.
+           $document->setTstamp(time());
+           $this->documentRepository->update($document);
+           $this->persistenceManager->persistAll();
+        }
+
         if ($document instanceof Document) {
             return $document;
         }

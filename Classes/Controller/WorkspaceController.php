@@ -234,6 +234,14 @@ class WorkspaceController extends AbstractController
 
             $this->session->setWorkspaceData($workspaceSessionData);
         }
+        if ($args['errorMessage']) {
+            $this->addFlashMessage(
+                $args['errorMessage'],
+                //LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"),
+                '',
+                AbstractMessage::ERROR
+            );
+        }
 
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
