@@ -28,6 +28,9 @@ use EWW\Dpf\Services\Xml\XPath;
 use Exception;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\String_;
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -64,6 +67,13 @@ class InternalFormat
     private $preconfiguredDomXPath;
 
     /**
+     * logger
+     *
+     * @var Logger
+     */
+    protected $logger = null;
+
+    /**
      * InternalFormat constructor.
      *
      * @param string $xml
@@ -72,6 +82,8 @@ class InternalFormat
      */
     public function __construct(string $xml, $clientPid = 0)
     {
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+
         $this->clientPid = $clientPid;
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -673,23 +685,37 @@ class InternalFormat
         $projectIdXpath = $this->clientConfigurationManager->getProjectIdXpath();
         $projectTitleXpath = $this->clientConfigurationManager->getProjectTitleXpath();
 
-        $idNodes = $xpath->query(self::rootNode . $projectIdXpath);
-        if ($idNodes->length > 0) {
-            foreach ($idNodes as $idNode)
-            {
-                $projects[] = $idNode->nodeValue;
+        if (! empty($projectIdXpath)) {
+            try {
+                $idNodes = $xpath->query(self::rootNode . $projectIdXpath);
+            } catch (\Throwable $throwable) {
+                $this->logger->log(LogLevel::ERROR, 'Invalid client configuration for ProjectIdXpath.');
             }
-        }
-
-        $projectTitleXpath = array_map('trim', explode('|', $projectTitleXpath));
-        foreach ($projectTitleXpath as $titleXpath) {
-            $titleNodes = $xpath->query(self::rootNode . $titleXpath);
-            if ($titleNodes->length > 0) {
-                foreach ($titleNodes as $titleNode)
-                {
-                    $projects[]  = $titleNode->nodeValue;
+            if ($idNodes->length > 0) {
+                foreach ($idNodes as $idNode) {
+                    $projects[] = $idNode->nodeValue;
                 }
             }
+        } else {
+            $this->logger->log(LogLevel::ERROR, 'Missing client configuration for ProjectIdXpath.');
+        }
+
+        if (! empty($projectTitleXpath)) {
+            try {
+                $projectTitleXpath = array_map('trim', explode('|', $projectTitleXpath));
+            } catch (\Throwable $throwable) {
+                $this->logger->log(LogLevel::ERROR, 'Invalid client configuration for ProjectTitleXpath.');
+            }
+            foreach ($projectTitleXpath as $titleXpath) {
+                $titleNodes = $xpath->query(self::rootNode . $titleXpath);
+                if ($titleNodes->length > 0) {
+                    foreach ($titleNodes as $titleNode) {
+                        $projects[] = $titleNode->nodeValue;
+                    }
+                }
+            }
+        } else {
+            $this->logger->log(LogLevel::ERROR, 'Missing client configuration for ProjectTitleXpath.');
         }
 
         return $projects;
