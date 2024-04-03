@@ -2297,8 +2297,8 @@ Datum: ###DATE###
                 <target>Suche in</target>
             </trans-unit>
 			<trans-unit id="manager.apimodal.fisProject" approved="yes">
-                <source>FIS-Project</source>
-                <target>FIS-Projekt</target>
+                <source>FIS</source>
+                <target>FIS</target>
             </trans-unit>
 			<trans-unit id="manager.apimodal.fisProjectSearch" approved="yes">
                 <source>FIS-Project search</source>

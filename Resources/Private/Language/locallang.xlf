@@ -1703,7 +1703,7 @@ Date: ###DATE###
                 <source>Search in</source>
             </trans-unit>
 			<trans-unit id="manager.apimodal.fisProject" approved="yes">
-                <source>FIS-Project</source>
+                <source>FIS</source>
             </trans-unit>
 			<trans-unit id="manager.apimodal.fisProjectSearch" approved="yes">
                 <source>FIS-Project search</source>
