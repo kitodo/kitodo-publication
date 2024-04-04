@@ -237,7 +237,6 @@ class WorkspaceController extends AbstractController
         if ($args['errorMessage']) {
             $this->addFlashMessage(
                 $args['errorMessage'],
-                //LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"),
                 '',
                 AbstractMessage::ERROR
             );
