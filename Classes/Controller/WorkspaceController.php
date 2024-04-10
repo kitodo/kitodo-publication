@@ -234,13 +234,6 @@ class WorkspaceController extends AbstractController
 
             $this->session->setWorkspaceData($workspaceSessionData);
         }
-        if ($args['errorMessage']) {
-            $this->addFlashMessage(
-                $args['errorMessage'],
-                '',
-                AbstractMessage::ERROR
-            );
-        }
 
         if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
             $this->view->assign('isWorkspace', true);
@@ -253,9 +246,19 @@ class WorkspaceController extends AbstractController
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
         }
 
-        $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
-            $this->uriBuilder->getRequest()->getRequestUri()
-        );
+        if ($args['documentNotFound']) {
+            $this->addFlashMessage(
+                    LocalizationUtility::translate("error.documentNotFound", "dpf"),
+                    $messageTitle = '',
+                    $severity = \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR,
+                    $storeInSession = true
+                );
+            $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController());
+        } else {
+            $this->session->setStoredAction($this->getCurrentAction(), $this->getCurrentController(),
+                $this->uriBuilder->getRequest()->getRequestUri()
+            );
+        }
 
         $currentPage = null;
         $pagination = $this->getParametersSafely('@widget_0');
