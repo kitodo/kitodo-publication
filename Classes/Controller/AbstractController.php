@@ -201,24 +201,25 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
         foreach ($reflectionParameters as $reflectionParameter) {
             if (in_array($reflectionParameter->getName(), ['document', 'documentUid', 'documentForm'])) {
                 if ($reflectionParameter->getName() === 'documentForm' && !$this->request->hasArgument('documentForm')) {
-                    $argumentName = 'document';
+                    if (!$this->request->hasArgument('documentData')) {
+                        $document = $this->request->getArgument('document');
+                    } else {
+                        $documentData = $this->request->getArgument('documentData');
+                        $document = array_key_exists(
+                            'documentUid', $documentData
+                        ) ? $documentData['documentUid'] : null;
+                    }
                 } else {
-                    $argumentName = $reflectionParameter->getName();
+                    $document = $this->request->getArgument($reflectionParameter->getName());
                 }
 
-                if (
-                    !$this->request->hasArgument($argumentName)
-                    || (
-                        Identifier::isUid($this->request->getArgument($argumentName))
-                            && !$this->documentRepository->findByUid($this->request->getArgument($argumentName))
-                        )
-                ) {
+                if ($document === null || (Identifier::isUid($document) && !$this->documentRepository->findByUid($document))) {
                     if ($this->actionMethodName !== 'listWorkspaceAction') {
-                       $this->redirect(
-                           'listWorkspace',
-                           'Workspace',
-                           null,
-                           ['errorMessage' => LocalizationUtility::translate("error.documentNotFound", "dpf")]
+                        $this->redirect(
+                            'listWorkspace',
+                            'Workspace',
+                            null,
+                            ['documentNotFound' => 1]
                        );
                     }
                 }

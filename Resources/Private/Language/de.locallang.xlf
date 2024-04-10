@@ -330,7 +330,7 @@
 			</trans-unit>
 			<trans-unit id="error.documentNotFound" approved="yes">
 				<source>The document could not be found.</source>
-				<target>Das Dokument konnte nicht gefunden weren.</target>
+				<target>Das Dokument konnte nicht gefunden werden.</target>
             </trans-unit>
 			<trans-unit id="form_button.addFile" approved="yes">
 				<source>add file</source>
