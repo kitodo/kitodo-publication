@@ -251,9 +251,10 @@ class ElasticSearch
      * Adds a document to the index.
      *
      * @param Document $document
+     * @param string $refresh Setting to control when changes are made visible to search
      * @throws Exception
      */
-    public function index(Document $document)
+    public function index(Document $document, $refresh = 'wait_for')
     {
         $internalFormat = new InternalFormat($document->getXmlData());
 
@@ -395,7 +396,7 @@ class ElasticSearch
         $data->project = $internalFormat->getProjects();
 
         $this->client->index([
-            'refresh' => 'wait_for',
+            'refresh' => $refresh,
             'index' => $this->getIndexName(),
             'id' => strtolower($document->getDocumentIdentifier()),
             'body' => $data

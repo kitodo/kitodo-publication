@@ -203,6 +203,6 @@ class IndexByFile extends AbstractIndexCommand
         }
         /** @var ElasticSearch $es */
         $es = $this->objectManager->get(ElasticSearch::class);
-        $es->index($document);
+        $es->index($document, 'false');
     }
 }
