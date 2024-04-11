@@ -83,7 +83,7 @@ class IndexByDatabase extends AbstractIndexCommand
                         // index the document
                         /** @var ElasticSearch $es */
                         $es = $this->objectManager->get(ElasticSearch::class);
-                        $es->index($document);
+                        $es->index($document, 'false');
                         $io->writeln($document->getUid() . ': Successful');
                         $io->writeln('');
                         ++$numSuccess;
