@@ -168,7 +168,13 @@ class ElasticSearch
                             'type' => 'integer'
                         ],
                         'persons' => [
-                            'type' => 'text'
+                            'type' => 'text',
+                            'fields' => [
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
+                                ]
+                            ]
                         ],
                         'personsSort' => [
                             'type' => 'text',

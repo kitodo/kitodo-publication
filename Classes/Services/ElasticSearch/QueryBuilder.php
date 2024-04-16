@@ -349,6 +349,10 @@ class QueryBuilder
                     } else {
                         if ($filterValues && is_array($filterValues)) {
                             foreach ($filterValues as $filterValue) {
+                                if ($key === 'persons') {
+                                    $key = $key . ".keyword";
+                                }
+
                                 $queryFilterPart['bool']['should'][] = [
                                     'term' => [
                                         $key => $filterValue
