@@ -190,7 +190,6 @@ abstract class AbstractImporter
         }
 
         $newDocument->setTitle($internalFormat->getTitle());
-        $newDocument->setAuthors($internalFormat->getAuthors());
         $newDocument->setDocumentType($documentType);
 
         $newDocument->setXmlData($internalFormat->getXml());

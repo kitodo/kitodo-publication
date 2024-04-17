@@ -290,9 +290,6 @@
 		<trans-unit id="tx_dpf_domain_model_document">
 			<source>Document</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.authors">
-			<source>Authors</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.date_issued">
 			<source>Date Issued</source>
 		</trans-unit>

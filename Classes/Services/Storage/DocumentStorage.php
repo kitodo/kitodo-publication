@@ -386,7 +386,6 @@ class DocumentStorage
                 $internalFormat = new InternalFormat($inputTransformedXML);
 
                 $title = $internalFormat->getTitle();
-                $authors = $internalFormat->getPersons();
 
                 $documentTypeName = $internalFormat->getDocumentType();
                 $documentType = $this->documentTypeRepository->findOneByName($documentTypeName);
@@ -433,7 +432,6 @@ class DocumentStorage
 
                 $document->setObjectIdentifier($documentIdentifier);
                 $document->setTitle($title);
-                $document->setAuthors($authors);
                 $document->setDocumentType($documentType);
 
                 $document->setXmlData($inputTransformedXML);

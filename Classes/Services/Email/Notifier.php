@@ -175,10 +175,11 @@ class Notifier
 
         $args['###TITLE###'] = $document->getTitle();
 
-        $author = array_shift($document->getAuthors());
+        $internalFormat = new InternalFormat($document->getXmlData());
+        $authors = $internalFormat->getAuthors();
+        $author = array_shift($authors);
         $args['###AUTHOR###'] = $author['name'];
 
-        $internalFormat = new InternalFormat($document->getXmlData());
         $args['###SUBMITTER_NAME###'] = $internalFormat->getSubmitterName();
         $args['###SUBMITTER_EMAIL###'] = $internalFormat->getSubmitterEmail();
         $args['###SUBMITTER_NOTICE###'] = $internalFormat->getSubmitterNotice();
@@ -339,7 +340,6 @@ class Notifier
             $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $authors = $document->getAuthors();
 
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 
@@ -532,7 +532,6 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $author = array_shift($document->getAuthors());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 
@@ -587,7 +586,6 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $author = array_shift($document->getAuthors());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 

@@ -395,10 +395,6 @@
 			<source>Document</source>
 			<target>Dokument</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_document.authors" approved="yes">
-			<source>Authors</source>
-			<target>Autoren</target>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.date_issued" approved="yes">
 			<source>Date Issued</source>
 			<target>Ausstellungsdatum</target>

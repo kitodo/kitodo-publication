@@ -211,7 +211,6 @@ class JsonToDocumentMapper
         $internalFormat = new InternalFormat($internalXml);
 
         $document->setTitle($internalFormat->getTitle());
-        $document->setAuthors($internalFormat->getAuthors());
         $document->setDateIssued($internalFormat->getDateIssued());
         //$document->setEmbargoDate($formMetaData['embargo']);
 

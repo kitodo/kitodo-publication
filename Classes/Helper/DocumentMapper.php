@@ -504,7 +504,6 @@ class DocumentMapper
 
         $document->setTitle($internalFormat->getTitle());
         $document->setEmbargoDate($formMetaData['embargo']);
-        $document->setAuthors($internalFormat->getAuthors());
         $document->setDateIssued($internalFormat->getDateIssued());
 
         return $document;
