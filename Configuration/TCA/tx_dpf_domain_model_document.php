@@ -33,20 +33,20 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'title, authors, xml_data, slub_info_data, document_type, date_issued,
+        'searchFields'             => 'title, xml_data, slub_info_data, document_type, date_issued,
         process_number, valid, changed, state, reserved_object_identifier, object_identifier,
         transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,
-        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        title, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
         transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date',
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,--palette--;;1,
-        title, authors, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
+        title, xml_data, slub_info_data, document_type, date_issued, process_number, valid, changed,
         state, reserved_object_identifier, object_identifier,
         transfer_status, file, creator, temporary, remote_last_mod_date, automatic_embargo, creation_date,
         --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
@@ -148,16 +148,6 @@ return array(
         'title'                      => array(
             'exclude' => 1,
             'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.title',
-            'config'  => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-
-        'authors'                    => array(
-            'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.authors',
             'config'  => array(
                 'type' => 'input',
                 'size' => 30,

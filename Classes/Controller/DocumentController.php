@@ -272,7 +272,6 @@ class DocumentController extends AbstractController
             }
 
             $internalFormat = new InternalFormat($document->getXmlData());
-            $originDocument->setAuthors($internalFormat->getPersons());
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
@@ -609,8 +608,6 @@ class DocumentController extends AbstractController
         $copyTitle = LocalizationUtility::translate("manager.workspace.title.copy", "dpf") . $document->getTitle();
 
         $newDocument->setTitle($copyTitle);
-
-        $newDocument->setAuthors($document->getAuthors());
 
         $newDocument->setCreator($this->security->getUser()->getUid());
 

@@ -104,8 +104,6 @@ class AbstractIndexCommand extends Command
                 throw new \Exception("No title");
             }
 
-            $authors = $internalFormat->getPersons();
-
             $documentTypeName = $internalFormat->getDocumentType();
             $documentType     = $this->documentTypeRepository->findOneByName($documentTypeName);
             if (empty($documentType)) {
@@ -135,7 +133,6 @@ class AbstractIndexCommand extends Command
             $document->setRemoteLastModDate($internalFormat->getRepositoryLastModDate());
             $document->setObjectIdentifier($objectIdentifier);
             $document->setTitle($title);
-            $document->setAuthors($authors);
             $document->setDocumentType($documentType);
 
             $document->setXmlData($inputTransformedXML);

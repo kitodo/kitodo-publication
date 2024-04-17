@@ -34,13 +34,6 @@ class Document extends AbstractEntity
     protected $title = '';
 
     /**
-     * authors
-     *
-     * @var string
-     */
-    protected $authors = '';
-
-    /**
      * xmlData
      *
      * @var string
@@ -260,23 +253,8 @@ class Document extends AbstractEntity
      */
     public function getAuthors()
     {
-        $authors = @unserialize($this->authors);
-        if (is_array($authors)) {
-            return $authors;
-        } else {
-            return [];
-        }
-    }
-
-    /**
-     * Sets the authors
-     *
-     * @param array $authors
-     * @return void
-     */
-    public function setAuthors($authors)
-    {
-        $this->authors = serialize($authors);
+        $internalFormat = new InternalFormat($this->getXmlData());
+        return $internalFormat->getAuthors();
     }
 
     /**
