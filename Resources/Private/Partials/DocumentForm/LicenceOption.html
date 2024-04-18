@@ -33,14 +33,10 @@
 </div>
 
 <div class="collapse" id="collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}-{licenceOption.uid}">
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-primary license-consent-text" role="alert">
         <a class="close" href="#collapse{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}-{licenceOption.uid}" data-toggle="collapse" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </a>
-        <f:format.raw>
-            <p>
-                {licenceOption.text}
-            </p>
-        </f:format.raw>
+        <f:format.html>{licenceOption.text}</f:format.html>
     </div>
 </div>

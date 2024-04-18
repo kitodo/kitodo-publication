@@ -231,9 +231,8 @@
     width: auto;
 }
 
-
-.tx-dpf .document-form-main .form-group-consent .alert {
-
+.tx-dpf .document-form-main .license-consent-text h2 {
+    display: revert;
 }
 
 .tx-dpf .form-metadata-import .form-group .form-control {
