@@ -282,10 +282,10 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * @param string $searchTerm
      * @return false|string
      */
-    public function getFisDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person', $searchTerm = '') {
+    public function getFisDataAction($dataId, $groupId, $groupIndex, $fieldIndex, $pageId, $type = 'person') {
         $fisDataService = new FisDataService();
         $methodName = 'get'.ucfirst($type).'Data';
-        $fisData = $fisDataService->{$methodName}($dataId, $searchTerm);
+        $fisData = $fisDataService->{$methodName}($dataId);
 
         $result = $this->getApiMappingArray($groupId, $fisData, $groupIndex, $fieldIndex, $pageId, 'getFis'.ucfirst($type).'Mapping');
 

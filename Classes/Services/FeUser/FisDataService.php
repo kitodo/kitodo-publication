@@ -63,15 +63,13 @@ class FisDataService
         }
     }
 
-    public function getProjectData($id, $searchTerm) {
+    public function getProjectData($id) {
         try {
             $response = Request::post($this->apiUrl)
-                ->body($this->getSearchProjectBody($searchTerm))
+                ->body($this->getProjectRequestBody($id))
                 ->send();
-            foreach ($response->body->data->projekte->entries as $key => $value) {
-                if ($value->id === $id) {
-                    return $value;
-                }
+            if (sizeof($response->body->data->projekte->entries) === 1) {
+                return $response->body->data->projekte->entries[0];
             }
             return null;
         } catch (\Throwable $e) {
@@ -166,6 +164,29 @@ class FisDataService
                         givenName
                         surname
                         title
+                    }
+                }
+            }
+        }';
+
+        return $graphQl;
+    }
+
+    protected function getProjectRequestBody($id) {
+        $graphQl = '{
+            projekte(query:"'.$id.'", pageSize: 1)
+            {
+                entries
+                {
+                ... on Projektkern
+                    {
+                        id
+                        titelDe
+                        titelEn
+                        foerderkennzeichen
+                        foerderinstitutionen
+                        beginn
+                        ende
                     }
                 }
             }
