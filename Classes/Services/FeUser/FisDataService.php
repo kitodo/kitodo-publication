@@ -125,12 +125,6 @@ class FisDataService
         $graphQl = '{
             person (id:"'.$id.'")
             {
-                _createDate
-                _createUser
-                _entityName
-                _stringRep
-                _updateDate
-                _updateUser
                 fisPersid
                 fullName
                 givenName
