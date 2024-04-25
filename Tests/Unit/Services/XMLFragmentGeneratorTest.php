@@ -70,6 +70,13 @@ class XMLFragmentGeneratorTest extends UnitTestCase
         $this->assertEquals($expectedXml, $fragment);
     }
 
+    public function testComplexPathWithAttributes()
+    {
+        $fragment = XMLFragmentGenerator::fragmentFor('mods:originInfo[@eventType="publication"]/mods:dateIssued[@encoding="iso8601"]');
+        $expectedXml = '<mods:originInfo eventType="publication"><mods:dateIssued encoding="iso8601"/></mods:originInfo>';
+        $this->assertEquals($expectedXml, $fragment);
+    }
+
     public function testValuesWithLinebreaks()
     {
         $fragment = XMLFragmentGenerator::fragmentFor("mods:originInfo[@eventType='publication']=\"A\nB\nC\n\"");
