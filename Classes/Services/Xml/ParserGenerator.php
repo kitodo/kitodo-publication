@@ -230,7 +230,7 @@ class ParserGenerator
                 $xml = XMLFragmentGenerator::fragmentFor($newPath[1]);
 
                 // check if xpath [] are nested
-                $search = '/(\/\w*:\w*)\[(.*)]/';
+                $search = '/(\/\w*:?\w*)\[(.*?)]/';
                 preg_match($search, $newPath[1], $match);
                 preg_match($search, $match[2], $secondMatch);
                 // first part nested xpath
@@ -298,7 +298,7 @@ class ParserGenerator
                 $xml2 = '<data' . $this->namespaceString . '>' . XMLFragmentGenerator::fragmentFor($path . $newPath[1]) . '</data>';
 
                 // check if xpath [] are nested
-                $search = '/(\/\w*:?\w*)\[(.*)]/';
+                $search = '/(\/\w*:?\w*)\[(.*?)]/';
                 preg_match($search, $newPath[1], $match);
                 preg_match($search, $match[2], $secondMatch);
 
