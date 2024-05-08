@@ -29,4 +29,7 @@ elasticSearchPort = 9200
 uploadDirectory = uploads/tx_dpf
 
 # cat=Upload; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.uploadDomain
-uploadDomain = 
+uploadDomain =
+
+# cat=eReader; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.ereaderUrl
+ereaderUrl =
