@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Plugins\DownloadTool;
 
 /*
@@ -27,7 +28,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
 {
-
     public $scriptRelPath = 'Classes/Plugins/DownloadTool.php';
 
     /**
@@ -42,74 +42,73 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
      */
     public function main($content, $conf)
     {
-	$this->init($conf);
+        $this->init($conf);
 
-	// get the tx_dpf.settings too
-	// Flexform wins over TS
-	$dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
-	if (is_array($dpfTSconfig['settings.'])) {
-	    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
-	    $this->conf = $dpfTSconfig['settings.'];
-	}
+        // get the tx_dpf.settings too
+        // Flexform wins over TS
+        $dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
+        if (is_array($dpfTSconfig['settings.'])) {
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
+            $this->conf = $dpfTSconfig['settings.'];
+        }
 
-	// Load current document.
-	$this->loadDocument();
-	if ($this->doc === null || empty($this->conf['fileGrpDownload'])) {
-	    // Quit without doing anything if required variables are not set.
-	    return $content;
-	}
+        // Load current document.
+        $this->loadDocument();
+        if ($this->doc === null || empty($this->conf['fileGrpDownload'])) {
+            // Quit without doing anything if required variables are not set.
+            return $content;
+        }
 
-	// Load template file.
-	if (!empty($this->conf['templateFile'])) {
-	    $this->template = $this->templateService->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
-	} else {
-	    $this->template = $this->templateService->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl'), '###TEMPLATE###');
-	}
+        // Load template file.
+        if (!empty($this->conf['templateFile'])) {
+            $this->template = $this->templateService->getSubpart($this->cObj->fileResource($this->conf['templateFile']), '###TEMPLATE###');
+        } else {
+            $this->template = $this->templateService->getSubpart($this->cObj->fileResource('EXT:dpf/Classes/Plugins/DownloadTool/template.tmpl'), '###TEMPLATE###');
+        }
 
-	$subpartArray['downloads'] = $this->templateService->getSubpart($this->template, '###DOWNLOADS###');
-	// Show all PDF documents in download filegroup
-	$attachments = $this->getAttachments();
-	// Get VG-Wort-Url
-	$vgwort = $this->getVGWortUrl();
-	$content = '';
-	if (is_array($attachments)) {
+        $subpartArray['downloads'] = $this->templateService->getSubpart($this->template, '###DOWNLOADS###');
+        // Show all PDF documents in download filegroup
+        $attachments = $this->getAttachments();
+        // Get VG-Wort-Url
+        $vgwort = $this->getVGWortUrl();
+        $content = '';
+        if (is_array($attachments)) {
+            $clientConfigurationManager = GeneralUtility::makeInstance(ClientConfigurationManager::class);
+            $ereaderUrl = $clientConfigurationManager->getEReaderUrl();
+            if (!empty($ereaderUrl) && substr($ereaderUrl, 0, -1) != '/') {
+                $ereaderUrl .= '/';
+            }
 
-	    $clientConfigurationManager = GeneralUtility::makeInstance(ClientConfigurationManager::class);
-	    $ereaderUrl = $clientConfigurationManager->getEReaderUrl();
-	    if (!empty($ereaderUrl) && substr($ereaderUrl, 0, -1) != '/') {
-		$ereaderUrl .= '/';
-	    }
+            foreach ($attachments as $id => $file) {
+                $conf = null;
 
-	    foreach ($attachments as $id => $file) {
-		$conf = null;
+                if ($file['MIMETYPE'] == 'application/epub+zip' && !empty($ereaderUrl)) {
+                    $conf = array(
+            'useCacheHash' => 0,
+            'parameter' => $ereaderUrl . "resolve?id=" . $this->doc->recordId,
+            'forceAbsoluteUrl' => true,
+            );
+                } else {
+                    $conf = array(
+            'useCacheHash' => 0,
+            'parameter' => $this->conf['apiPid'] . ' - piwik_download',
+            'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
+            'forceAbsoluteUrl' => true,
+            );
+                }
 
-		if ($file['MIMETYPE'] == 'application/epub+zip' && !empty($ereaderUrl)) {
-		    $conf = array(
-			'useCacheHash' => 0,
-			'parameter' => $ereaderUrl . "resolve?id=" . $this->doc->recordId,
-			'forceAbsoluteUrl' => true,
-		    );
-		} else {
-		    $conf = array(
-			'useCacheHash' => 0,
-			'parameter' => $this->conf['apiPid'] . ' - piwik_download',
-			'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment' . '&tx_dpf[attachment]=' . $file['ID'],
-			'forceAbsoluteUrl' => true,
-		    );
-		}
+                $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
+                $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
 
-		$title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
-		$markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
-
-		if (!empty($vgwort)) {
-		    $markerArray['###VGWORT###'] = "<div class='div_vgwpixel' data-url='" . $vgwort . "'></div>";
-		} else {
-		    $markerArray['###VGWORT###'] = "";
-		}
-		$content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
-	    }
-	}
-	return $this->cObj->substituteSubpart($this->template, '###DOWNLOADS###', $content, true);
+                if (!empty($vgwort)) {
+                    $markerArray['###VGWORT###'] = "<div class='div_vgwpixel' data-url='" . $vgwort . "'></div>";
+                } else {
+                    $markerArray['###VGWORT###'] = "";
+                }
+                $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
+            }
+        }
+        return $this->cObj->substituteSubpart($this->template, '###DOWNLOADS###', $content, true);
     }
 
     /**
@@ -119,43 +118,43 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
      */
     protected function getAttachments()
     {
-	// Get pdf documents
-	$xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file';
-	$files = $this->doc->mets->xpath($xPath);
-	if (!is_array($files)) {
-	    return array();
-	}
-	foreach ($files as $key => $file) {
-	    $singleFile = array();
-	    foreach ($file->attributes('mext', 1) as $attribute => $value) {
-		$singleFile[$attribute] = $value;
-	    }
-	    foreach ($file->attributes() as $attribute => $value) {
-		$singleFile[$attribute] = $value;
-	    }
-	    $attachments[(string) $singleFile['ID']] = $singleFile;
-	}
-	if (is_array($attachments) && count($attachments) > 1) {
-	    ksort($attachments);
-	}
-	return $attachments;
+        // Get pdf documents
+        $xPath = 'mets:fileSec/mets:fileGrp[@USE="' . $this->conf['fileGrpDownload'] . '"]/mets:file';
+        $files = $this->doc->mets->xpath($xPath);
+        if (!is_array($files)) {
+            return array();
+        }
+        foreach ($files as $key => $file) {
+            $singleFile = array();
+            foreach ($file->attributes('mext', 1) as $attribute => $value) {
+                $singleFile[$attribute] = $value;
+            }
+            foreach ($file->attributes() as $attribute => $value) {
+                $singleFile[$attribute] = $value;
+            }
+            $attachments[(string) $singleFile['ID']] = $singleFile;
+        }
+        if (is_array($attachments) && count($attachments) > 1) {
+            ksort($attachments);
+        }
+        return $attachments;
     }
 
     protected function getVGWortUrl()
     {
-	// Get VG-Wort-OpenKey for document
-	$this->doc->mets->registerXPathNamespace("slub", 'http://slub-dresden.de/');
-	$xPath = '//slub:info/slub:vgwortOpenKey';
-	$vgwortOpenKey = $this->doc->mets->xpath($xPath)[0];
+        // Get VG-Wort-OpenKey for document
+        $this->doc->mets->registerXPathNamespace("slub", 'http://slub-dresden.de/');
+        $xPath = '//slub:info/slub:vgwortOpenKey';
+        $vgwortOpenKey = $this->doc->mets->xpath($xPath)[0];
 
-	if (!empty($vgwortOpenKey) or $vgwortOpenKey != FALSE) {
-	    if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
-		$vgwortserver = 'https://ssl-vg03.met.vgwort.de/na/';
-	    } else {
-		$vgwortserver = 'http://vg08.met.vgwort.de/na/';
-	    }
-	    return $vgworturl = $vgwortserver . $vgwortOpenKey;
-	}
-	return FALSE;
+        if (!empty($vgwortOpenKey) or $vgwortOpenKey != false) {
+            if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
+                $vgwortserver = 'https://ssl-vg03.met.vgwort.de/na/';
+            } else {
+                $vgwortserver = 'http://vg08.met.vgwort.de/na/';
+            }
+            return $vgworturl = $vgwortserver . $vgwortOpenKey;
+        }
+        return false;
     }
 }

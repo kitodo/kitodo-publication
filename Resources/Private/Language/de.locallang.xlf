@@ -49,9 +49,9 @@
 			<source>Domain</source>
 			<target>Domain</target>
 		</trans-unit>
-    <trans-unit id="config.ereaderUrl">
+		<trans-unit id="config.ereaderUrl">
 			<source>URL</source>
-      <target>URL</target>
+		<target>URL</target>
 		</trans-unit>
 		<trans-unit id="documentForm.create.ok" approved="yes">
 			<source>Document successfully created.</source>

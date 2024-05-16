@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Configuration;
 
 /*
@@ -21,7 +22,6 @@ use EWW\Dpf\Domain\Repository\ClientRepository;
 
 class ClientConfigurationManager
 {
-
     /**
      * objectManager
      *
@@ -50,7 +50,7 @@ class ClientConfigurationManager
      *
      * @var \EWW\Dpf\Domain\Model\Client
      */
-    protected $client = NULL;
+    protected $client = null;
 
     /**
      * extensionConfiguration
@@ -61,28 +61,28 @@ class ClientConfigurationManager
 
     public function __construct()
     {
-	$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
-	$clientRepository = $objectManager->get(ClientRepository::class);
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
+        $clientRepository = $objectManager->get(ClientRepository::class);
 
-	if (TYPO3_MODE === 'BE') {
-	    $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
-	    if ($selectedPageId) {
-		$this->client = $clientRepository->findAll()->current();
+        if (TYPO3_MODE === 'BE') {
+            $selectedPageId = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+            if ($selectedPageId) {
+                $this->client = $clientRepository->findAll()->current();
 
-		$configurationManager = $objectManager->get(BackendConfigurationManager::class);
-		$settings = $configurationManager->getConfiguration(NULL, NULL);
-		$this->settings = $settings; //['settings'];
-	    }
-	} else {
-	    $this->client = $clientRepository->findAll()->current();
+                $configurationManager = $objectManager->get(BackendConfigurationManager::class);
+                $settings = $configurationManager->getConfiguration(null, null);
+                $this->settings = $settings; //['settings'];
+            }
+        } else {
+            $this->client = $clientRepository->findAll()->current();
 
-	    $configurationManager = $objectManager->get(ConfigurationManager::class);
-	    $this->settings = $configurationManager->getConfiguration(
-		    \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
-	    );
-	}
+            $configurationManager = $objectManager->get(ConfigurationManager::class);
+            $this->settings = $configurationManager->getConfiguration(
+                \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            );
+        }
 
-	$this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
+        $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dpf']);
     }
 
     /**
@@ -90,83 +90,83 @@ class ClientConfigurationManager
      *
      * @var array
      */
-    public function getSetting($settingName, $extConfig = NULL)
+    public function getSetting($settingName, $extConfig = null)
     {
-	$setting = NULL;
-	if ($this->client) {
-	    $setting = trim($this->client->{"get" . ucfirst($settingName)}());
-	}
+        $setting = null;
+        if ($this->client) {
+            $setting = trim($this->client->{"get" . ucfirst($settingName)}());
+        }
 
-	// use global extConfig if client settings is empty
-	if (empty($setting) && $extConfig) {
-	    $setting = trim($this->extensionConfiguration[$extConfig]);
-	}
+        // use global extConfig if client settings is empty
+        if (empty($setting) && $extConfig) {
+            $setting = trim($this->extensionConfiguration[$extConfig]);
+        }
 
-	return $setting;
+        return $setting;
     }
 
     public function getOwnerId()
     {
-	return $this->getSetting("ownerId");
+        return $this->getSetting("ownerId");
     }
 
     public function getSwordHost()
     {
-	return $this->getSetting("swordHost", "swordHost");
+        return $this->getSetting("swordHost", "swordHost");
     }
 
     public function getSwordUser()
     {
-	return $this->getSetting("swordUser", "swordUser");
+        return $this->getSetting("swordUser", "swordUser");
     }
 
     public function getSwordPassword()
     {
-	return $this->getSetting("swordPassword", "swordPassword");
+        return $this->getSetting("swordPassword", "swordPassword");
     }
 
     public function getSwordCollectionNamespace()
     {
-	return $this->getSetting("swordCollectionNamespace", "swordCollectionNamespace");
+        return $this->getSetting("swordCollectionNamespace", "swordCollectionNamespace");
     }
 
     public function getFedoraHost()
     {
-	return $this->getSetting("fedoraHost", "fedoraHost");
+        return $this->getSetting("fedoraHost", "fedoraHost");
     }
 
     public function getFedoraUser()
     {
-	return $this->getSetting("fedoraUser", "fedoraUser");
+        return $this->getSetting("fedoraUser", "fedoraUser");
     }
 
     public function getFedoraPassword()
     {
-	return $this->getSetting("fedoraPassword", "fedoraPassword");
+        return $this->getSetting("fedoraPassword", "fedoraPassword");
     }
 
     public function getElasticSearchHost()
     {
-	return $this->getSetting("elasticSearchHost", "elasticSearchHost");
+        return $this->getSetting("elasticSearchHost", "elasticSearchHost");
     }
 
     public function getElasticSearchPort()
     {
-	return $this->getSetting("elasticSearchPort", "elasticSearchPort");
+        return $this->getSetting("elasticSearchPort", "elasticSearchPort");
     }
 
     public function getUploadDirectory()
     {
-	return $this->getSetting("uploadDirectory", "uploadDirectory");
+        return $this->getSetting("uploadDirectory", "uploadDirectory");
     }
 
     public function getUploadDomain()
     {
-	return $this->getSetting("uploadDomain", "uploadDomain");
+        return $this->getSetting("uploadDomain", "uploadDomain");
     }
 
     public function getEReaderUrl()
     {
-	return $this->getSetting("ereaderUrl", "ereaderUrl");
+        return $this->getSetting("ereaderUrl", "ereaderUrl");
     }
 }

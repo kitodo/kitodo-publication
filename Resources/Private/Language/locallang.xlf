@@ -38,7 +38,7 @@
 		<trans-unit id="config.uploadDomain">
 			<source>Domain</source>
 		</trans-unit>
-    <trans-unit id="config.ereaderUrl">
+		<trans-unit id="config.ereaderUrl">
 			<source>URL</source>
 		</trans-unit>
 		<trans-unit id="documentForm.create.ok">
