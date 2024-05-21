@@ -15,8 +15,6 @@ class UnpaywallDataService
      */
     protected $clientConfigurationManager;
 
-    protected $apiUrl = 'https://api.unpaywall.org/v2/';
-
     public function __construct() {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
@@ -24,7 +22,7 @@ class UnpaywallDataService
 
     public function searchRequest($searchTerm) {
         $mail = $this->clientConfigurationManager->getSetting("adminEmail");
-        $response = Request::get($this->apiUrl . '' . $searchTerm .'?email=' . $mail)
+        $response = Request::get($this->getApiUrl() . '/' . $searchTerm .'?email=' . $mail)
             ->send();
         if ($response->body->HTTP_status_code == 404) {
             return ['entries' => ''];
@@ -37,7 +35,7 @@ class UnpaywallDataService
 
     public function getDataRequest($id) {
         $mail = $this->clientConfigurationManager->getSetting("adminEmail");
-        $response = Request::get($this->apiUrl . '' . $id .'?email=' . $mail)
+        $response = Request::get($this->getApiUrl() . '/' . $id .'?email=' . $mail)
             ->send();
 
         if ($response->body->HTTP_status_code == 404) {
@@ -70,5 +68,4 @@ class UnpaywallDataService
 
         return $response;
     }
-
 }

@@ -2,34 +2,12 @@
 namespace EWW\Dpf\Services\FeUser;
 
 use Httpful\Request;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class FisDataService
 {
-    /**
-     * @var string
-     */
-    protected $apiUrl = '';
-
-    public function __construct() {
-
-        $configurationManager = GeneralUtility::makeInstance(
-            'TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager'
-        );
-
-        $settings = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
-        );
-
-        if (isset($settings['plugin.']['tx_dpf.']['settings.']['fisDataServiceUrl'])) {
-            $this->apiUrl = $settings['plugin.']['tx_dpf.']['settings.']['fisDataServiceUrl'];
-        }
-    }
-
     public function getPersonData($id) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getPersonRequestBody($id))
                 ->send();
 
@@ -53,7 +31,7 @@ class FisDataService
 
     public function searchPersonRequest($searchTerm) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getSearchPersonBody($searchTerm))
                 ->send();
 
@@ -65,7 +43,7 @@ class FisDataService
 
     public function getProjectData($id) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getProjectRequestBody($id))
                 ->send();
             if (sizeof($response->body->data->projekte->entries) === 1) {
@@ -79,7 +57,7 @@ class FisDataService
 
     public function searchProjectRequest($searchTerm) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getSearchProjectBody($searchTerm))
                 ->send();
             return $response->body->data->projekte;
@@ -90,7 +68,7 @@ class FisDataService
 
     public function getOrganisationData($id) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getOrgaRequestBody($id))
                 ->send();
 
@@ -111,7 +89,7 @@ class FisDataService
 
     public function searchOrganisationRequest($searchTerm) {
         try {
-            $response = Request::post($this->apiUrl)
+            $response = Request::post($this->getApiUrl())
                 ->body($this->getSearchOrgaBody($searchTerm))
                 ->send();
 

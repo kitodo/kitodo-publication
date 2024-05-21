@@ -132,6 +132,11 @@ plugin.tx_dpf {
         }
         apiPid = {$plugin.tx_dpf.settings.apiPid}
 		fisDataServiceUrl = {$plugin.tx_dpf.settings.fisDataServiceUrl}
+        gndDataServiceUrl = {$plugin.tx_dpf.settings.gndDataServiceUrl}
+        orcidDataServiceUrl = {$plugin.tx_dpf.settings.orcidDataServiceUrl}
+        rorDataServiceUrl =  {$plugin.tx_dpf.settings.rorDataServiceUrl}
+        unpaywallDataServiceUrl = {$plugin.tx_dpf.settings.unpaywallDataServiceUrl}
+        zdbDataServiceUrl = {$plugin.tx_dpf.settings.zdbDataServiceUrl}
 
         landingPage = {$plugin.tx_dpf.settings.landingPage}
         searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
