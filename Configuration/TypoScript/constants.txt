@@ -37,6 +37,21 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=string; label=FIS Data Service (Persons, Organizational Units, Projects)
         fisDataServiceUrl =
 
+        # cat=plugin.tx_dpf/link; type=string; label=GND Data Service
+        gndDataServiceUrl = http://lobid.org/gnd
+
+        # cat=plugin.tx_dpf/link; type=string; label=ORCID Data Service
+        orcidDataServiceUrl = https://pub.orcid.org/v3.0
+
+        # cat=plugin.tx_dpf/link; type=string; label=ROR Data Service
+        rorDataServiceUrl =  https://api.ror.org/organizations
+
+        # cat=plugin.tx_dpf/link; type=string; label=Unpaywall Data Service
+        unpaywallDataServiceUrl = https://api.unpaywall.org/v2
+
+        # cat=plugin.tx_dpf/link; type=string; label=ZDB Data Service
+        zdbDataServiceUrl = https://zeitschriftendatenbank.de/api/tit.jsonld
+
         # cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
         landingPage =
 
