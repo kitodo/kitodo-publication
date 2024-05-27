@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use Httpful\Request;
 
-class OrcidDataService
+class OrcidDataService extends AbstractDataService
 {
     protected $params = '&start=0&rows=20';
 

@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use Httpful\Request;
 
-class GndDataService
+class GndDataService extends AbstractDataService
 {
     public function searchTermReplacement($searchTerm) {
         $searchTerm = str_replace('ä', 'ae', $searchTerm);

@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use Httpful\Request;
 
-class RorDataService
+class RorDataService extends AbstractDataService
 {
     public function searchTermReplacement($searchTerm) {
         return urlencode($searchTerm);

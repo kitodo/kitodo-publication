@@ -3,7 +3,7 @@ namespace EWW\Dpf\Services\FeUser;
 
 use Httpful\Request;
 
-class FisDataService
+class FisDataService extends AbstractDataService
 {
     public function getPersonData($id) {
         try {

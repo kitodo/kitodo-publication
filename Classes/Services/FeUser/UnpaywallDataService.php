@@ -5,7 +5,7 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
 use Httpful\Request;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
-class UnpaywallDataService
+class UnpaywallDataService extends AbstractDataService
 {
     /**
      * clientConfigurationManager
