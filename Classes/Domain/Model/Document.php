@@ -16,6 +16,7 @@ namespace EWW\Dpf\Domain\Model;
 
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Services\Api\InternalFormat;
+use EWW\Dpf\Helper\DateTimePrecision;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -768,7 +769,7 @@ class Document extends AbstractEntity
      */
     public function setRemoteLastModDate($remoteLastModDate)
     {
-        $this->remoteLastModDate = $remoteLastModDate;
+        $this->remoteLastModDate = DateTimePrecision::reducePrecision($remoteLastModDate);
     }
 
     /**
@@ -1018,7 +1019,7 @@ class Document extends AbstractEntity
      */
     public function setCreationDate(string $creationDate): void
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = DateTimePrecision::reducePrecision($creationDate);
     }
 
     /**
