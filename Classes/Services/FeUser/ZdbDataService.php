@@ -16,17 +16,17 @@ class ZdbDataService extends AbstractDataService
     }
 
     public function searchRequest($searchTerm) {
-        $response = Request::get($this->getApiUrl() . '?q=' . $this->searchTermReplacement($searchTerm))
+        $response = Request::get($this->getApiUrl() . '/tit.jsonld?q=' . $this->searchTermReplacement($searchTerm))
             ->send();
 
         return ['entries' => $response->body->member];
     }
 
     public function getDataRequest($zdbId) {
-        $response = Request::get($this->getApiUrl() . '/resource/' . $zdbId .'/')
+        $response = Request::get($this->getApiUrl() . '/tit/' . $zdbId .'.jsonld')
             ->send();
-
-        return $response->body;
+        
+        return $response->body->member[0];
     }
 
 }
