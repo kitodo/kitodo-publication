@@ -50,7 +50,7 @@ plugin.tx_dpf {
         unpaywallDataServiceUrl = https://api.unpaywall.org/v2
 
         # cat=plugin.tx_dpf/link; type=string; label=ZDB Data Service
-        zdbDataServiceUrl = https://zeitschriftendatenbank.de/api/tit.jsonld
+        zdbDataServiceUrl = https://zeitschriftendatenbank.de//api/tit.jsonld
 
         # cat=plugin.tx_dpf/link; type=int+; label=PID of the landing page
         landingPage =
