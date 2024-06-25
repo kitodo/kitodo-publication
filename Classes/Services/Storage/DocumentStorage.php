@@ -17,6 +17,7 @@ namespace EWW\Dpf\Services\Storage;
  */
 
 use DateTime;
+use EWW\Dpf\Helper\DateTimePrecision;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\File;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
@@ -225,7 +226,7 @@ class DocumentStorage
                 $state = $containerTuple->getValue('kp:state');
             }
 
-            $lastModDate = $containerTuple->getValue('fedora:lastModified');
+            $lastModDate = DateTimePrecision::reducePrecision($containerTuple->getValue('fedora:lastModified'));
             $docLastModDate = $document->getRemoteLastModDate();
             if ($lastModDate !== $docLastModDate && !empty($docLastModDate)) {
                 // There is a newer version in the fedora repository.
