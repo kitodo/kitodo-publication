@@ -489,13 +489,14 @@ class InternalFormat
      */
     public function getSourceDetails(): string
     {
+        $xpath = $this->getXpath();
+        $data = [];
+        $sourceDetailsXpaths = $this->clientConfigurationManager->getSourceDetailsXpaths();
+
         if (empty($sourceDetailsXpaths)) {
             return '';
         }
 
-        $xpath = $this->getXpath();
-        $data = [];
-        $sourceDetailsXpaths = $this->clientConfigurationManager->getSourceDetailsXpaths();
         $sourceDetailsXpathList = explode(";", trim($sourceDetailsXpaths, " ;"));
         $dataNodes = [];
 
