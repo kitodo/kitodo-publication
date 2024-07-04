@@ -486,11 +486,6 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->trimFileXpath($this->getSetting("openAccessXpath"));
     }
 
-    public function getOpenAccessOtherVersionXpath()
-    {
-        return $this->trimFileXpath($this->getSetting("openAccessOtherVersionXpath"));
-    }
-
     public function getPeerReviewXpath()
     {
         return $this->trimFileXpath($this->getSetting("peerReviewXpath"));
