@@ -15,7 +15,6 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\FrontendUser;
-use EWW\Dpf\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -26,7 +25,7 @@ class UserController  extends AbstractController
     /**
      * benutzerRepository
      *
-     * @var FrontendUserRepository
+     * @var \EWW\Dpf\Domain\Repository\FrontendUserRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $frontendUserRepository;
