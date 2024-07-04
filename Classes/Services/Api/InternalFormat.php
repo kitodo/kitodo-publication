@@ -774,29 +774,30 @@ class InternalFormat
      */
     public function getOpenAccessForSearch(): string
     {
-        $openAccessOtherVersionXpath = $this->clientConfigurationManager->getOpenAccessOtherVersionXpath();
-        if ($openAccessOtherVersionXpath !== '') {
-            $xpath = $this->getXpath();
-            $openAccessOtherVersionElements = $xpath->query(self::rootNode . trim($openAccessOtherVersionXpath));
-            if ($openAccessOtherVersionElements) {
-                $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
-                foreach ($openAccessOtherVersionElements as $element) {
-                    if (
-                        strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['true']) ||
-                        strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['trueUri'])
-                    ) {
-                        return self::VALUE_TRUE;
+        $openAccessXpaths = $this->clientConfigurationManager->getOpenAccessXpath();
+
+        if ($openAccessXpaths !== '') {
+            $xpath            = $this->getXpath();
+            $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
+
+            $openAccessXpathList = explode(";", trim($openAccessXpaths, " ;"));
+
+            foreach ($openAccessXpathList as $openAccessXpathItem) {
+                if (empty($openAccessXpathItem)) continue;
+
+                $openAccessElements = $xpath->query(self::rootNode . trim($openAccessXpathItem));
+
+                if ($openAccessElements) {
+                    foreach ($openAccessElements as $element) {
+                        if (
+                            strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['true']) ||
+                            strtolower(trim($element->nodeValue)) === strtolower($openAccessValues['trueUri'])
+                        ) {
+                            return self::VALUE_TRUE;
+                        }
                     }
                 }
-            }
 
-            $openAccessXpath = $this->clientConfigurationManager->getOpenAccessXpath();
-            $openAccess = $this->getValue($openAccessXpath);
-            if (
-                strtolower($openAccess) === strtolower($openAccessValues['true']) ||
-                strtolower($openAccess) === strtolower($openAccessValues['trueUri'])
-            ) {
-                return self::VALUE_TRUE;
             }
         }
         return self::VALUE_FALSE;

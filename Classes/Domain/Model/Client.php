@@ -700,11 +700,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $openAccessOtherVersionXpath;
-
-    /**
-     * @var string
-     */
     protected $peerReviewXpath;
 
     /**
@@ -2465,22 +2460,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setOpenAccessXpath(string $openAccessXpath): void
     {
         $this->openAccessXpath = $openAccessXpath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOpenAccessOtherVersionXpath(): string
-    {
-        return $this->openAccessOtherVersionXpath;
-    }
-
-    /**
-     * @param string $openAccessOtherVersionXpath
-     */
-    public function setOpenAccessOtherVersionXpath(string $openAccessOtherVersionXpath): void
-    {
-        $this->openAccessOtherVersionXpath = $openAccessOtherVersionXpath;
     }
 
     /**

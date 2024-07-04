@@ -1168,12 +1168,8 @@
 			<target>Open access</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.xpath" approved="yes">
-            <source>XPath expressions for the open access field</source>
-			<target>XPath-Ausdruck für das Open-Access-Feld</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.other_version_xpath" approved="yes">
-            <source>XPath expressions for the open access other version field</source>
-			<target>XPath-Ausdruck für das Open-Access-Feld anderer Versionen</target>
+            <source>XPath expressions for the open access related fields (Semicolon separated list).</source>
+			<target>XPath-Ausdrücke für Open-Access-bezogene Felder (Semikolon-getrennte Liste).</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.label" approved="yes">
 			<source>Peer review</source>

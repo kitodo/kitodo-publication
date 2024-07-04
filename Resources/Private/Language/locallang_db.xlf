@@ -882,10 +882,7 @@
 			<source>Open access</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.xpath" approved="yes">
-            <source>XPath expressions for the open access field</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.open_access.other_version_xpath" approved="yes">
-            <source>XPath expressions for the open access other version field</source>
+            <source>XPath expressions for the open access related fields (Semicolon separated list).</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.peer_review.label" approved="yes">
 			<source>Peer review</source>

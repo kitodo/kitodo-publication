@@ -59,7 +59,7 @@ return array(
             person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
             person_author_role, person_publisher_role,
             fis_id_xpath, source_details_xpaths, collection_xpath,
-            text_type_xpath, open_access_xpath, open_access_other_version_xpath,
+            text_type_xpath, open_access_xpath,
             peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
             date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
             project_id_xpath, project_title_xpath',
@@ -93,7 +93,7 @@ return array(
         person_xpath, person_family_xpath, person_given_xpath, person_role_xpath, person_fis_identifier_xpath, person_affiliation_xpath, person_affiliation_identifier_xpath,
         person_author_role, person_publisher_role,
         fis_id_xpath, source_details_xpaths, collection_xpath,
-        text_type_xpath, open_access_xpath, open_access_other_version_xpath,
+        text_type_xpath, open_access_xpath,
         peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
         date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
         project_id_xpath, project_title_xpath'
@@ -154,7 +154,7 @@ return array(
         ),
         'pallette_open_access_xpath' =>  array(
             'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.open_access.label',
-            'showitem' => 'open_access_xpath, --linebreak--, open_access_other_version_xpath'
+            'showitem' => 'open_access_xpath'
         ),
         'pallette_peer_review_xpath' =>  array(
             'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.peer_review.label',
@@ -1366,18 +1366,9 @@ return array(
             'l10n_mode' => 'exclude',
             'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.open_access.xpath',
             'config'    => array(
-                'type' => 'input',
-                'size' => 80,
-                'eval' => 'trim',
-            ),
-        ),
-        'open_access_other_version_xpath' => array(
-            'exclude'   => 1,
-            'l10n_mode' => 'exclude',
-            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.open_access.other_version_xpath',
-            'config'    => array(
-                'type' => 'input',
-                'size' => 80,
+                'type' => 'text',
+                'cols' => 80,
+                'rows' => 10,
                 'eval' => 'trim',
             ),
         ),
