@@ -17,6 +17,7 @@ namespace EWW\Dpf\Controller;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
 use EWW\Dpf\Domain\Model\MetadataGroup;
+use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\FeUser\FisDataService;
 use EWW\Dpf\Services\FeUser\GndDataService;
 use EWW\Dpf\Services\FeUser\OrcidDataService;
@@ -576,7 +577,10 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
             $string = md5(substr(md5(time()), 0, 14)).date("Y-m-dH:i:s");
             $hash = hash('sha256', $string);
 
-            $currentUser->setApiToken($hash);
+            if ($currentUser->getUserRole() == Security::ROLE_LIBRARIAN) {
+                $currentUser->setApiToken($hash);
+            }
+
             $this->frontendUserRepository->update($currentUser);
 
             return json_encode(['apiToken' => $hash]);

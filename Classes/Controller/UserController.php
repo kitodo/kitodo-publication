@@ -15,6 +15,7 @@ namespace EWW\Dpf\Controller;
  */
 
 use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Security\Security;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -54,6 +55,10 @@ class UserController  extends AbstractController
                     $severity,false
                 );
             }
+        }
+
+        if ($frontendUser->getUserRole() != Security::ROLE_LIBRARIAN) {
+            $frontendUser->setApiToken('');
         }
 
         $this->frontendUserRepository->update($frontendUser);
