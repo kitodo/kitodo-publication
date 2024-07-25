@@ -420,6 +420,12 @@ class ClientConfigurationManager implements SingletonInterface
         return $settings['openAccessValues'];
     }
 
+    public function getRestrictedAccessValues()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['restrictedAccessValues'];
+    }
+
     public function getTypoScriptSettings()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
