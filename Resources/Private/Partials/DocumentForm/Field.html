@@ -108,7 +108,7 @@
             <div class="form-control has-select">
                 <f:form.select id="inp_{fieldItem.uid}"
                                property="metadata.{formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
-                               value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService}"
+                               value="{fieldItem.value}" class="form-control input-field {fieldItem.fillOutService} {formPageUid}-{formGroupUid}-{groupIndex}-{fieldItem.uid}-{fieldIndex}"
                                additionalAttributes="{data-field:fieldItem.uid,data-index:fieldIndex,data-mandatory:fieldItem.mandatory,data-group:formGroupUid,data-groupindex:groupIndex,data-default:fieldItem.hasDefaultValue,data-validationExpression:fieldItem.validation,data-validationErrorMessage:fieldItem.validationErrorMessage,data-validator:fieldItem.validator,data-label:fieldItem.displayName,data-objecttype:fieldItem.objecttype}"
                                options="{fieldItem.inputOptions}"
                                disabled="{f:if(condition:'!{eww:inArray(needle:\'{groupItem.uid}\', array:\'{currentUserAccessToGroup}\')} && {currentUserAccessToGroup}', then: 'disabled')}"

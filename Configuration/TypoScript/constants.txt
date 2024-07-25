@@ -155,10 +155,18 @@ plugin.tx_dpf {
 
         openAccessValues {
             # cat=plugin.tx_dpf/link; type=string; label=Open access value for yes
-            true = Open access
+            true = Open Access
 
             # cat=plugin.tx_dpf/link; type=string; label=Open access uri value for yes
             trueUri = http://purl.org/coar/access_right/c_abf2
+        }
+
+        restrictedAccessValues {
+            # cat=plugin.tx_dpf/link; type=string; label=Restricted access value for yes
+            true = Restricted Access
+
+            # cat=plugin.tx_dpf/link; type=string; label=Restricted access uri value for yes
+            trueUri = http://purl.org/coar/access_right/c_16ec
         }
 
         api {

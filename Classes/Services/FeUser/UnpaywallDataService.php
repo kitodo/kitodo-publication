@@ -50,21 +50,23 @@ class UnpaywallDataService extends AbstractDataService
         $responseBody = $response->body;
 
         $is_oa = $responseBody->is_oa;
-        $journal_is_in_doaj = $responseBody->journal_is_in_doaj;
-        $host_type = $responseBody->best_oa_location->host_type;
+        
+        $response->body->kitodo = new \stdClass();
 
-        $color = '';
-        if ($is_oa == 'true' && $journal_is_in_doaj == 'false') {
-            $color = 'hybrid';
-        }
-        if ($is_oa == 'true' && $journal_is_in_doaj == 'true') {
-            $color = 'gold';
-        }
-        if ($host_type == 'repository') {
-            $color = 'green';
+        if ($response->body->oa_status === 'bronze' || $response->body->oa_status === 'closed') {
+            $response->body->kitodo->oa_variant = '-';
+        } else {
+            $response->body->kitodo->oa_variant = $response->body->oa_status;
         }
 
-        $response->body->color = $color;
+        $restrictedAccessValues = $this->clientConfigurationManager->getRestrictedAccessValues();
+        $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
+
+        if ($is_oa) {
+            $response->body->kitodo->accessStatus = $openAccessValues['trueUri'];
+        } else {
+            $response->body->kitodo->accessStatus = $restrictedAccessValues['trueUri'];
+        }
 
         return $response;
     }
