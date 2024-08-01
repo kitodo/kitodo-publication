@@ -561,12 +561,12 @@
 				<target>Suche</target>
 			</trans-unit>
 			<trans-unit id="manager.confirm.no" approved="yes">
-				<source>cancel</source>
-				<target>abbrechen</target>
+				<source>Cancel</source>
+				<target>Abbrechen</target>
 			</trans-unit>
 			<trans-unit id="manager.confirm.yes" approved="yes">
-				<source>continue</source>
-				<target>fortsetzen</target>
+				<source>Continue</source>
+				<target>Fortsetzen</target>
 			</trans-unit>
 			<trans-unit id="manager.delete" approved="yes">
 				<source>delete</source>
@@ -609,16 +609,16 @@
 				<target>Falls der Vorschlag aus dem FIS stammte, können Sie hier einen Grund für die Ablehnung angeben:</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" approved="yes" xml:space="preserve">
-				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
-				<target>Das Dokument &quot;%s&quot; wird vollständig gelöscht. Dies kann nicht rückgängig gemacht werden.</target>
+				<source>This cannot be undone. Your changes will be discarded. The document in the repository remains unchanged.</source>
+				<target>Das kann nicht rückgängig gemacht werden. Ihre Änderungen werden verworfen. Das Dokument im Repository bleibt unverändert.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader" approved="yes">
-				<source>Do you really want to delete the working copy completely?</source>
-				<target>Möchten Sie die Arbeitskopie wirklich vollständig löschen?</target>
+				<source>Do you really want to delete the working copy?</source>
+				<target>Möchten Sie die Arbeitskopie wirklich löschen?</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
-				<source>The document &quot;%s&quot; will be registered for publication.</source>
-				<target>Das Dokument &quot;%s&quot; wird zur Veröffentlichung angemeldet. </target>
+				<source>The document is handed over to the library for further processing.</source>
+				<target>Das Dokument wird zur weiteren Bearbeitung an die Bibliothek übergeben.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 				<source>Do you really want to register the document?</source>
@@ -697,12 +697,12 @@
 				<target>Zurückstellen</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmPostpone.message" approved="yes">
-				<source>The document &quot;%s&quot; will be marked as postponed.</source>
-				<target>Das Dokument &quot;%s&quot; wird als zurückgestellt markiert.</target>
+				<source>The document is marked as postponed.</source>
+				<target>Das Dokument wird als zurückgestellt markiert.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmPostpone.messageHeader" approved="yes">
-				<source>Do you really want to postpone the document processing?</source>
-				<target>Möchten Sie die Dokument-Bearbeitung wirklich zurückstellen?</target>
+				<source>Are you sure you want to put the document on postponed?</source>
+				<target>Möchten Sie das Dokument wirklich zurückstellen?</target>
 			</trans-unit>
 			<trans-unit id="manager.alertDocumentState.message" approved="yes">
 				<source><![CDATA[The status of this record has changed. Click <a href="">here</a> to update.]]></source>
@@ -925,12 +925,12 @@
 				<target>Freigeben</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmReleasePublish.message" approved="yes">
-				<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
-				<target>Das Dokument &quot;%s&quot; wird an das Repository gesendet und das lokale Dokument verworfen.</target>
+				<source>The document is sent to the repository.</source>
+				<target>Das Dokument wird an das Repository gesendet.</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmReleasePublish.messageHeader" approved="yes">
-				<source>Do you really want to publish the document?</source>
-				<target>Wollen Sie das Dokument wirklich veröffentlichen?</target>
+				<source>Are you sure you want to release the document?</source>
+				<target>Möchten Sie das Dokument wirklich freigeben?</target>
 			</trans-unit>
 			<trans-unit id="manager.confirmRestore.message" approved="yes">
 				<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
