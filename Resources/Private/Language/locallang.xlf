@@ -438,10 +438,10 @@
 				<source>Search</source>
 			</trans-unit>
 			<trans-unit id="manager.confirm.no" approved="yes">
-				<source>cancel</source>
+				<source>Cancel</source>
 			</trans-unit>
 			<trans-unit id="manager.confirm.yes" approved="yes">
-				<source>continue</source>
+				<source>Continue</source>
 			</trans-unit>
 			<trans-unit id="manager.delete" approved="yes">
 				<source>delete</source>
@@ -495,13 +495,13 @@
 				<source>If the suggestion came from the FIS, you can state a reason for the rejection here:</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.message" xml:space="preserve">
-				<source>The document &quot;%s&quot; will be deleted completely. This cannot be undone.</source>
+				<source>This cannot be undone. Your changes will be discarded. The document in the repository remains unchanged.</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader" approved="yes">
-				<source>Do you really want to delete the working copy completely?</source>
+				<source>Do you really want to delete the working copy?</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
-				<source>The document &quot;%s&quot; will be registered for publication.</source>
+				<source>The document is handed over to the library for further processing.</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmRegister.messageHeader" approved="yes">
 				<source>Do you really want to register the document?</source>
@@ -549,10 +549,10 @@
 				<source>postpone</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmPostpone.message" approved="yes">
-				<source>The document &quot;%s&quot; will be marked as postponed.</source>
+				<source>The document is marked as postponed.</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmPostpone.messageHeader" approved="yes">
-				<source>Do you really want to postpone the document processing?</source>
+				<source>Are you sure you want to put the document on postponed?</source>
 			</trans-unit>
 			<trans-unit id="manager.alertDocumentState.message" approved="yes">
 				<source><![CDATA[The status of this record has changed. Click <a href="">here</a> to update.]]></source>
@@ -717,10 +717,10 @@
 				<source>release</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmReleasePublish.message" approved="yes">
-				<source>The document &quot;%s&quot; will be sent to the repository and the local document will be discarded.</source>
+				<source>The document is sent to the repository.</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmReleasePublish.messageHeader" approved="yes">
-				<source>Do you really want to publish the document?</source>
+				<source>Are you sure you want to release the document?</source>
 			</trans-unit>
 			<trans-unit id="manager.confirmRestore.message" approved="yes">
 				<source>The document &quot;%s&quot; will be marked as inactive in the repository.</source>
