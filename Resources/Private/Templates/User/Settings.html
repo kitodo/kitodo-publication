@@ -84,19 +84,21 @@
             </div>
         </f:if>
 
-        <div class="form-group col-md-4">
-            <f:if condition="{frontendUser.apiToken}">
-                <button type="button" id="apiTokenRemove" class="btn btn-danger"
-                        data-removetoken="{f:uri.action(action:'removeApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">API Token löschen</button>
-            </f:if>
-        </div>
-        <div class="form-group col-md-4">
-            <div id="showApiToken"></div>
-            <button type="button" id="apiTokenGenerate" class="btn btn-secondary"
-                    data-generatetoken="{f:uri.action(action:'generateApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">
-                API Token generieren
-            </button>
-        </div>
+        <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+            <div class="form-group col-md-4">
+                <f:if condition="{frontendUser.apiToken}">
+                    <button type="button" id="apiTokenRemove" class="btn btn-danger"
+                            data-removetoken="{f:uri.action(action:'removeApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">API Token löschen</button>
+                </f:if>
+            </div>
+            <div class="form-group col-md-4">
+                <div id="showApiToken"></div>
+                <button type="button" id="apiTokenGenerate" class="btn btn-secondary"
+                        data-generatetoken="{f:uri.action(action:'generateApiToken',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum,arguments:{feUser:frontendUser.uid})}">
+                    API Token generieren
+                </button>
+            </div>
+        </f:if>
 
         <div class="form-group col-md-4">
             <f:form.submit value="{f:translate(key: 'manager.locallang.user.settings.save')}" class="btn btn-primary" />
