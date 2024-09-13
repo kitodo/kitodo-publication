@@ -23,7 +23,8 @@
     data-groupindex="{groupIndex}"
     data-mandatory="{groupItem.mandatory}"
     data-emptygroup="{groupItem.emptyGroup}"
-    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPageUid,groupUid:formGroupUid})}">
+    data-ajax="{f:uri.action(action:'group',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum,arguments:{pageUid:formPageUid,groupUid:formGroupUid})}"
+    data-grouptype="{groupItem.groupType}">
 
     <f:if condition="{groupItem.groupType} != 'primary_file' && {groupItem.groupType} != 'secondary_file'">
         <legend>
@@ -77,9 +78,11 @@
                                                 <f:render partial="Api/FisProjectModal" arguments="{_all}"/>
                                             </f:then>
                                             <f:else>
-                                                <f:alias map="{showOrgaSwitch:1}">
-                                                    <f:render partial="Api/ApiModal" arguments="{_all}"/>
-                                                </f:alias>
+                                                <f:if condition="{api} != 'UnpaywallDoi'">
+                                                    <f:alias map="{showOrgaSwitch:1}">
+                                                        <f:render partial="Api/ApiModal" arguments="{_all}"/>
+                                                    </f:alias>
+                                                </f:if>
                                             </f:else>
                                         </f:if>
                                     </f:else>

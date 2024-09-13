@@ -52,9 +52,13 @@ var isDocumentEditable = {
     // show message "document is locked"
     var ajaxURL = jQuery("#ajaxState").attr('data-ajaxState');
     jQuery.post(ajaxURL, function (data) {
-      var obj = JSON.parse(data);
-      if (obj.allowed === false && obj.reason == 'isLocked') {
-        $('.documentLocked').show();
+      try {
+        var obj = JSON.parse(data);
+        if (obj.allowed === false && obj.reason == 'isLocked') {
+          $('.documentLocked').show();
+        }
+      } catch(error) {
+        // Nothing to do
       }
     });
 
@@ -1898,7 +1902,24 @@ var searchInputKeyupHandler = function() {
                     } else if ($(that).attr('class') === 'zdb-user-search-input') {
                         hitListElement.append(listHtml(value.title, value.identifier, allData, value.publisher));
                     } else if ($(that).attr('class') === 'unpaywall-user-search-input') {
-                        hitListElement.append(listHtml(value.title, value.doi, allData, value.best_oa_location.url_for_landing_page, value.oa_status));
+                        let  optionalText = '';
+
+                        if (value.best_oa_location) {
+                          optionalText = value.best_oa_location.url_for_landing_page;
+                        }
+
+                        let color = value.oa_status ?  ' "' + value.oa_status + '"' : '';
+
+                        let status = ''
+
+                        if (value.is_oa) {
+                          status += 'Open Access' + color;
+                        } else {
+                          status += 'Restricted Access' + color;
+                        }
+
+                        hitListElement.append(listHtml(value.title, value.doi, allData, optionalText, status));
+
                     } else if ($(that).attr('class') === 'orcid-user-search-input') {
                         hitListElement.append(listHtml(value["given-names"] + ' ' + value["family-names"], value["orcid-id"], allData, value["orcid-id"]));
                     } else if ($(that).attr('class') === 'fisproject-project-search-input') {
@@ -1945,13 +1966,14 @@ var listProjectHtml = function (id, all = '') {
     return projectHtml;
 }
 
-var listHtml = function (name, id, all = '', optionalText = '', color = '') {
+var listHtml = function (name, id, all = '', optionalText = '', status = '') {
     JSON.stringify(all).replace(/"/g, '');
 
-    if (color) {
-        colorHtml = '('+color+')';
+    var statusHtml = '';
+    if (status) {
+        statusHtml = '('+status+')';
     } else {
-        colorHtml = '';
+        statusHtml = '';
     }
 
     var text = '';
@@ -1972,7 +1994,7 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
         'Übernehmen' +
         '</button></div>' +
         '<div class="col-6">' +
-        name + text + colorHtml +
+        name + text + statusHtml +
         '</div>' +
         '</div>' +
         '</li>';
@@ -1980,7 +2002,8 @@ var listHtml = function (name, id, all = '', optionalText = '', color = '') {
 
 var addFoundUserData = function () {
     $('.found-user-add').on('click', function () {
-        var input = $(this).closest('.modal-body').find('input');
+
+       var input = $(this).closest('.modal-body').find('input');
 
         // user setting modal
         if (input.data('usersettings') == '1') {
@@ -2047,7 +2070,7 @@ var setDataRequest = function(url, dataId, context) {
 
                 if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
                     // form field is empty and exists or form field is not empty and not repeatable, overwrite!
-                    $('.' + key).val(data[key]).change();
+                  $('.' + key).val(data[key]).change();
                 } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
                     // form field exists and is not empty
                     // add new form input
@@ -2174,10 +2197,31 @@ var fisSearchModalFillout = function() {
     });
 
   $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
-        var doiValue = $(this).closest('fieldset').find('*[data-objecttype="unpaywallDoi"]').val();
-        $(this).find('.unpaywall-user-search-input').val(doiValue);
+    // Find the first occurance of a DOI inside the groups marked as UnpaywallDoi
+    // and use this value to fill out the search field of the modal.
+
+    var doiList = [];
+    $(this).closest('.tab-pane').find('[data-grouptype="UnpaywallDoi"]').each(function(){
+      jQuery(this).find('[data-objecttype="unpaywallDoi"]').each(function(){
+        doiList.push(jQuery(this).val());
+      });
+    });
+
+    var index = 0;
+    var doiValue = '';
+    while(index < doiList.length && doiValue === '') {
+      const regex = /10\.[0-9]+\/.+/i;
+      const found = doiList[index].match(regex);
+      if (found) {
+        doiValue = doiList[index];
+      }
+      index++;
+    }
+
+    $(this).find('.unpaywall-user-search-input').val(doiValue);
         searchAgain($(this).closest('.modal').find("input[type=text]")[0]);
     });
+
 }
 
 // Call methods for API Token generation

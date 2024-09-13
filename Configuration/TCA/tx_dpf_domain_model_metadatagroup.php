@@ -299,6 +299,7 @@ return array(
                     ['Ror', 'Ror'],
                     ['Zdb', 'Zdb'],
                     ['Unpaywall', 'Unpaywall'],
+                    ['UnpaywallDoi', 'UnpaywallDoi'],
                     ['ORCID', 'Orcid'],
                     ['Primary File', 'primary_file'],
                     ['Secondary File', 'secondary_file'],
