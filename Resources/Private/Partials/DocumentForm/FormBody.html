@@ -107,16 +107,17 @@
     </f:for>
 </div>
 <div class="prev-next-buttons">
-    <button id="next-form-page" class="btn btn-s btn-primary">
+    <button id="next-form-page" class="btn btn-s btn-primary" type="button">
         {f:translate(key: 'form_button.nextPage')}
         <i class="fas fa-chevron-right"></i>
     </button>
-    <button id="prev-form-page" class="btn btn-s btn-primary">
+    <button id="prev-form-page" class="btn btn-s btn-primary" type="button">
         <i class="fas fa-chevron-left"></i>
         {f:translate(key: 'form_button.prevPage')}
     </button>
 </div>
 <div class="form-submit">
+    <button type="submit" disabled style="display: none" aria-hidden="true"></button>
 
     <f:if condition="{edit}">
         <f:then>
