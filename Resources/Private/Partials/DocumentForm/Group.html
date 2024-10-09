@@ -31,7 +31,7 @@
             <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
             {formGroupDisplayName}
             <f:if condition="{groupIndex}">
-                <button type="submit" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
+                <button type="button" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
                     <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
                 </button>
             </f:if>
