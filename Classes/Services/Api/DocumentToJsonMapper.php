@@ -90,10 +90,16 @@ class DocumentToJsonMapper
                     $nodes = $this->xpath->query($mapping, $parentNode);
 
                     if ($nodes->length == 1) {
-                        $branch[$index] = $this->crawl($items, $nodes->item(0));
+                        $itemCrawl = $this->crawl($items, $nodes->item(0));
+                        if (!empty($itemCrawl)) {
+                            $branch[$index] = $itemCrawl;
+                        }
                     } else {
                         foreach ($nodes as $node) {
-                            $branch[$index][] = $this->crawl($items, $node);
+                            $nodeCrawl = $this->crawl($items, $node);
+                            if (!empty($nodeCrawl)) {
+                                $branch[$index][] = $nodeCrawl;
+                            }
                         }
                     }
                 }
@@ -104,13 +110,18 @@ class DocumentToJsonMapper
                     $nodes = $this->xpath->query($mapping, $parentNode);
 
                     if ($nodes->length == 1) {
-                        $branch[$index] = trim($nodes->item(0)->nodeValue);
+                        $itemValue = trim($nodes->item(0)->nodeValue);
+                        if (!empty($itemValue)) {
+                            $branch[$index] = $itemValue;
+                        }
                     } else {
                         foreach ($nodes as $k => $node) {
-                            $branch[$index][] = trim($node->nodeValue);
+                            $nodeValue = trim($node->nodeValue);
+                            if (!empty($nodeValue)) {
+                                $branch[$index][] = $nodeValue;
+                            }
                         }
                     }
-
                 }
             }
         }
