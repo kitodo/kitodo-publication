@@ -173,6 +173,11 @@ plugin.tx_dpf {
             # cat=plugin.tx_dpf/api; type=string; label=Secret key for delivering inactive documents via API
             deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
         }
+
+        fisApi {
+            # cat=plugin.tx_dpf/fisApi; type=string; label=Name of the document workflow state to enrich the json of the Fis-Api.
+            workflowStateName = workflowState
+        }
     }
 }
 

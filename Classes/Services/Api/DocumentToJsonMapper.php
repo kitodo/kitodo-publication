@@ -14,7 +14,11 @@ namespace EWW\Dpf\Services\Api;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class DocumentToJsonMapper
 {
@@ -29,6 +33,16 @@ class DocumentToJsonMapper
     protected $xpath;
 
     /**
+     * @var ClientConfigurationManager
+     */
+    protected $clientConfigurationManager;
+
+    public function __construct()
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
+    }
+        /**
      * @return string
      */
     public function getMapping(): string
@@ -56,6 +70,13 @@ class DocumentToJsonMapper
         $this->xpath = $internalFormat->getXpath();
         $mapping = json_decode($this->getMapping(), true);
         $data = $this->crawl($mapping);
+
+        $aliasStateName = $this->clientConfigurationManager->getFisApiWorkflowStateName();
+
+        if ($aliasStateName) {
+            $data[$aliasStateName] = DocumentWorkflow::getAliasStateByLocalOrRepositoryState($document->getState());
+        }
+
         return json_encode($data);
     }
 

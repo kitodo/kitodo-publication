@@ -426,6 +426,12 @@ class ClientConfigurationManager implements SingletonInterface
         return $settings['restrictedAccessValues'];
     }
 
+    public function getFisApiWorkflowStateName()
+    {
+        $settings = $this->getTypoScriptSettings();
+        return $settings['fisApi']['workflowStateName'];
+    }
+
     public function getTypoScriptSettings()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
