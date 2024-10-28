@@ -362,6 +362,8 @@ class ElasticSearch
         $data->source = $document->getSourceDetails();
 
         $data->universityCollection = false;
+
+        $data->collections = $internalFormat->getCollections();
         if ($data->collections && is_array($data->collections)) {
             foreach ($data->collections as $collection) {
                 if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
@@ -397,7 +399,6 @@ class ElasticSearch
         $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
         $data->searchYear           = $internalFormat->getSearchYear();
         $data->publisher[]          = $internalFormat->getPublishers();
-        $data->collections          = $internalFormat->getCollections();
 
         $data->project = $internalFormat->getProjects();
 

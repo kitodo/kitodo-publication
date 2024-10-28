@@ -70,7 +70,7 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=int+; label=Workspace items per page (Backoffice)
         workspaceItemsPerPage = 30
 
-        # cat=plugin.tx_dpf/link; type=int+; label=University collection value (Backoffice)
+        # cat=plugin.tx_dpf/link; type=string; label=University collection value (Backoffice)
         universityCollection = epflicht
 
         # cat=plugin.tx_dpf/deactivatePrimaryFileMandatoryCheck; type=string; label=Deactivate the primary file mandatory check.
