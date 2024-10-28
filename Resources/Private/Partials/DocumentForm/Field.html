@@ -33,7 +33,7 @@
 
     <f:if condition="{fieldItem.fillOutService} == 'urn'">
         <f:then>
-            <button type="submit" name="fill_out_service_urn" class="btn btn-secondary fill_out_service_urn"
+            <button type="button" name="fill_out_service_urn" class="btn btn-secondary fill_out_service_urn"
                     title="{f:translate(key: 'form_button.create_value')} URN" data-field="{fieldItem.uid}"
                     data-ajax="{f:uri.action(action:'fillOut',controller:'AjaxDocumentForm',pageType:settings.ajaxTypeNum)}"
                     data-index="{fieldIndex}" data-group="{formGroupUid}" data-groupindex="{groupIndex}"
@@ -198,7 +198,7 @@
     </f:switch>
 
     <f:if condition="{fieldIndex}">
-        <button type="submit" name="rem_field" class="btn btn-secondary rem_field" data-index="{fieldIndex}"
+        <button type="button" name="rem_field" class="btn btn-secondary rem_field" data-index="{fieldIndex}"
                 data-field="{fieldItem.uid}">
             <i class="fas fa-times"></i>
             <span class="sr-only">{fieldItem.displayName} entfernen</span>
