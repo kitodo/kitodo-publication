@@ -217,6 +217,10 @@ plugin.tx_dpf {
             trueUri = {$plugin.tx_dpf.settings.restrictedAccessValues.trueUri}
         }
 
+        fisApi {
+            workflowStateName = {$plugin.tx_dpf.settings.fisApi.workflowStateName}
+        }
+
         api {
             deliverInactiveSecretKey = {$plugin.tx_dpf.settings.api.deliverInactiveSecretKey}
         }
