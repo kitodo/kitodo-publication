@@ -185,15 +185,21 @@ class DocumentFormGroup extends AbstractFormElement
     public function addItem($item)
     {
         $uid = $item->getUid();
+        $fieldId = 0;
 
         if ($item->getId()) {
             $id = explode('-', $item->getId());
+            $fieldId = $id[2];
             $index = $id[3];
         } else {
             $index = 0;
         }
 
-        $this->items[$uid][$index] = $item;
+        // $uid == $fieldId: Ensure that no values are added that were erroneously
+        // assigned to the field due to ambiguous mapping.
+        if ($uid == $fieldId) {
+            $this->items[$uid][$index] = $item;
+        }
     }
 
     /**
