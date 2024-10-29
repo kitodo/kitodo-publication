@@ -903,19 +903,6 @@ class Document extends AbstractEntity
         return $this->getObjectIdentifier() && $this->isTemporary() && !$this->isSuggestion();
     }
 
-
-    /**
-     * Gets the publication year out of the mods-xml data.
-     *
-     * @return string|null
-     */
-    public function getPublicationYear()
-    {
-        $internalFormat = new InternalFormat($this->getXmlData(), $this->getPid());
-        $year =  $internalFormat->getPublishingYear();
-        return $year? $year : "";
-    }
-
     /**
      * Gets the source information out of the mods-xml data.
      *

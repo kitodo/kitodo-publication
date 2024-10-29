@@ -267,7 +267,6 @@ class ElasticSearch
         $data = new \stdClass();
         $data->title[] = $document->getTitle();
         $data->doctype = $document->getDocumentType()->getName();
-        $data->distribution_date = $internalFormat->getPublishingYear();
 
         $data->state = $document->getState();
         $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
@@ -314,8 +313,6 @@ class ElasticSearch
         $creationDate = new DateTime($document->getCreationDate());
 
         $data->creationDate = $creationDate->format('Y-m-d');
-
-        $data->year = $document->getPublicationYear();
 
         $notes = $document->getNotes();
 
@@ -397,8 +394,19 @@ class ElasticSearch
         $data->peerReview           = $internalFormat->getPeerReviewForSearch();
         $data->license              = $internalFormat->getLicense();
         $data->frameworkAgreementId = $internalFormat->getFrameworkAgreementId();
-        $data->searchYear           = $internalFormat->getSearchYear();
         $data->publisher[]          = $internalFormat->getPublishers();
+
+        $data->searchYear           = $internalFormat->getSearchYear();
+
+        $data->year = "";
+        $years = $internalFormat->getSearchYear();
+
+        foreach ($years as $year) {
+            if (!empty($year)) {
+                $data->year = $year;
+                break;
+            }
+        }
 
         $data->project = $internalFormat->getProjects();
 

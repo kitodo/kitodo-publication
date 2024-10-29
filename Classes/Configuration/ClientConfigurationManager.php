@@ -238,11 +238,6 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->getSetting("dateXpath");
     }
 
-    public function getPublishingYearXpath()
-    {
-        return $this->getSetting("publishingYearXpath");
-    }
-
     public function getSearchYearXpaths()
     {
         return $this->getSetting("searchYearXpaths");

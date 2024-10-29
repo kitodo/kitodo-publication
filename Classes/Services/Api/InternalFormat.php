@@ -420,12 +420,6 @@ class InternalFormat
         return $this->getValue($xpath);
     }
 
-    public function getPublishingYear(): string
-    {
-        $publishingYearXpath = $this->clientConfigurationManager->getPublishingYearXpath();
-        return $this->getValue($publishingYearXpath);
-    }
-
     /**
      * @return array
      */

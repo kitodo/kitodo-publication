@@ -344,13 +344,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $dateXpath = '';
 
     /**
-     * publishingYearXpath
-     *
-     * @var string
-     */
-    protected $publishingYearXpath = '';
-
-    /**
      * urnXpath
      *
      * @var string
@@ -1954,22 +1947,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPrimaryUrnXpath(string $primaryUrnXpath)
     {
         $this->primaryUrnXpath = $primaryUrnXpath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPublishingYearXpath(): string
-    {
-        return $this->publishingYearXpath;
-    }
-
-    /**
-     * @param string $publishingYearXpath
-     */
-    public function setPublishingYearXpath(string $publishingYearXpath)
-    {
-        $this->publishingYearXpath = $publishingYearXpath;
     }
 
     /**
