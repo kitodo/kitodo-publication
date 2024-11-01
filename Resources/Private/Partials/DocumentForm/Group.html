@@ -111,6 +111,7 @@
                                         <button type="button"
                                                 title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                                                 name="add_field" class="btn btn-secondary add_field" data-field="{fieldItem.uid}"
+                                                data-group="{formGroupUid}"
                                                 data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:ajaxTypeNum,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
                                                 data-index="{fieldItemIndex}">
                                             <i class="fas fa-plus"></i>

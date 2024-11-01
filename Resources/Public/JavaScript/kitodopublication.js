@@ -2066,7 +2066,7 @@ var setDataRequest = function(url, dataId, context) {
                 var splitId = key.split("-");
                 // key without the last index (field index)
                 var keyWithoutFieldIndex = splitId[0] + '-' + splitId[1] + '-' + splitId[2] + '-' + splitId[3];
-                var isFieldRepeatable = $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').length;
+                var isFieldRepeatable = $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").length;
 
                 if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
                     // form field is empty and exists or form field is not empty and not repeatable, overwrite!
@@ -2074,7 +2074,7 @@ var setDataRequest = function(url, dataId, context) {
                 } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
                     // form field exists and is not empty
                     // add new form input
-                    $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+                    $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").click();
 
                     // count repeated fields if not counted already
                     var k = newKeyMapping.get(keyWithoutFieldIndex);
@@ -2106,7 +2106,7 @@ var setDataRequest = function(url, dataId, context) {
                             newKeyMapping.set(keyWithoutFieldIndex, (k + 1));
                         }
                         // add new form input
-                        $('.' + keyWithoutFieldIndex + '-' + '0').parent().parent().find('.add_field').click();
+                        $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").click();
                         isElementLoaded('.' + key, datakey, function (element, fieldKey) {
                             $(element).val(data[fieldKey]).change();
                         });
