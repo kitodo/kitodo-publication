@@ -293,9 +293,6 @@
 		<trans-unit id="tx_dpf_domain_model_document.date_issued">
 			<source>Date Issued</source>
 		</trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.publishing_year_xpath" approved="yes">
-            <source>Publishing year xpath</source>
-        </trans-unit>
 		<trans-unit id="tx_dpf_domain_model_document.document_type">
 			<source>Document Type</source>
 		</trans-unit>

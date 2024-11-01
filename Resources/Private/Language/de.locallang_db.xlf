@@ -199,10 +199,6 @@
             <source>Distribution date</source>
             <target>Datum der Veröffentlichung im Repository (Xpath)</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.publishing_year_xpath" approved="yes">
-            <source>Publishing year xpath</source>
-            <target>Publikationsjahr (XPath)</target>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.state_xpath" approved="yes">
             <source>State xpath</source>
             <target>Dokumentszustand (XPath)</target>
