@@ -728,6 +728,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $fisCollections  = '';
 
     /**
+     * @var string
+     */
+    protected $additionalSearchTitleXpaths = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -2553,5 +2558,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setProjectTitleXpath(string $projectTitleXpath): void
     {
         $this->projectTitleXpath = $projectTitleXpath;
+    }
+
+    public function getAdditionalSearchTitleXpaths(): string
+    {
+        return $this->additionalSearchTitleXpaths;
+    }
+
+    public function setAdditionalSearchTitleXpaths(string $additionalSearchTitleXpaths): void
+    {
+        $this->additionalSearchTitleXpaths = $additionalSearchTitleXpaths;
     }
 }

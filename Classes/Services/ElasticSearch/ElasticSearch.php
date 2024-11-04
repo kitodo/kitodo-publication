@@ -266,6 +266,10 @@ class ElasticSearch
 
         $data = new \stdClass();
         $data->title[] = $document->getTitle();
+        foreach ($internalFormat->getSearchTitles() as $searchTitle) {
+            $data->title[] = $searchTitle;
+        }
+
         $data->doctype = $document->getDocumentType()->getName();
 
         $data->state = $document->getState();

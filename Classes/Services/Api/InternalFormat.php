@@ -453,6 +453,29 @@ class InternalFormat
     /**
      * @return array
      */
+    public function getSearchTitles(): array
+    {
+        $searchTitleXpaths = $this->clientConfigurationManager->getAdditionalSearchTitleXpaths();
+        $searchTitleXpathList = explode(";", trim($searchTitleXpaths, " ;"));
+        $xpath = $this->getXpath();
+        $values = [];
+
+        foreach ($searchTitleXpathList as $searchTitleXpathItem) {
+            if (empty($searchTitleXpathItem)) continue;
+
+            $elements = $xpath->query(self::rootNode . trim($searchTitleXpathItem));
+
+            if ($elements) foreach ($elements as $element) {
+                $values[] = trim($element->nodeValue);
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @return array
+     */
     public function getPublishers(): array
     {
         $publisherXpath = $this->clientConfigurationManager->getPublisherXpaths();
