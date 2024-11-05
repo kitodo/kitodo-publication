@@ -68,6 +68,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
 
             $field = new \EWW\Dpf\Domain\Model\DocumentFormField();
 
+            $field->setId($groupUid . '-' . $groupIndex . '-' . $object->getUid() . '-0');
             $field->setUid($object->getUid());
             $field->setDisplayName($object->getDisplayName());
             $field->setMandatory($object->getMandatory());

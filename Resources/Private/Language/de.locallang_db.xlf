@@ -1251,6 +1251,14 @@
 			<source>XPath expressions for the project title field (Multiple Xpath expressions can be concatenated using '|')</source>
 			<target>XPath-Ausdrücke für Projekt-Titel (Mehrere XPath-Ausdrücke können mit „|“ verkettet werden)</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_search_title.label" approved="yes">
+             <source>Additional titles</source>
+             <target>Zusätzliche Titel</target
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_search_title.xpath" approved="yes">
+             <source>XPath expressions for additional titles (Multiple Xpath expressions can be concatenated using '|')</source>
+             <target>XPath-Ausdrücke für zusätzliche Titel(Mehrere XPath-Ausdrücke können mit „|“ verkettet werden)</target>
+		</trans-unit>
         </body>
 	</file>
 </xliff>

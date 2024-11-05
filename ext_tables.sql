@@ -482,6 +482,7 @@ CREATE TABLE tx_dpf_domain_model_client (
   publisher_xpaths text NOT NULL,
   project_id_xpath tinytext NOT NULL,
   project_title_xpath tinytext NOT NULL,
+	additional_search_title_xpaths text NOT NULL,
 
   fis_collections tinytext NOT NULL,
 
