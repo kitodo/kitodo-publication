@@ -69,8 +69,7 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
         $subpartArray['downloads'] = $this->templateService->getSubpart($this->template, '###DOWNLOADS###');
         // Show all PDF documents in download filegroup
         $attachments = $this->getAttachments();
-        // Get VG-Wort-Url
-        $vgwort = $this->getVGWortUrl();
+
         $content = '';
         if (is_array($attachments)) {
             $clientConfigurationManager = GeneralUtility::makeInstance(ClientConfigurationManager::class);
@@ -100,11 +99,6 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
                 $title = $file['LABEL'] ? $file['LABEL'] : $file['ID'];
                 $markerArray['###FILE###'] = $this->cObj->typoLink($title, $conf);
 
-                if (!empty($vgwort)) {
-                    $markerArray['###VGWORT###'] = "<div class='div_vgwpixel' data-url='" . $vgwort . "'></div>";
-                } else {
-                    $markerArray['###VGWORT###'] = "";
-                }
                 $content .= $this->cObj->substituteMarkerArray($subpartArray['downloads'], $markerArray);
             }
         }
@@ -138,23 +132,5 @@ class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
             ksort($attachments);
         }
         return $attachments;
-    }
-
-    protected function getVGWortUrl()
-    {
-        // Get VG-Wort-OpenKey for document
-        $this->doc->mets->registerXPathNamespace("slub", 'http://slub-dresden.de/');
-        $xPath = '//slub:info/slub:vgwortOpenKey';
-        $vgwortOpenKey = $this->doc->mets->xpath($xPath)[0];
-
-        if (!empty($vgwortOpenKey) or $vgwortOpenKey != false) {
-            if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
-                $vgwortserver = 'https://ssl-vg03.met.vgwort.de/na/';
-            } else {
-                $vgwortserver = 'http://vg08.met.vgwort.de/na/';
-            }
-            return $vgworturl = $vgwortserver . $vgwortOpenKey;
-        }
-        return false;
     }
 }
