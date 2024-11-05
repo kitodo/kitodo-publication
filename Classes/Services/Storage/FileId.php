@@ -31,7 +31,7 @@ class FileId
         $this->id = 0;
 
         if (is_a($documentFiles, ObjectStorage::class)) {
-            foreach ($documentFiles as $file) {
+            foreach ($documentFiles->toArray() as $file) {
                 $dsId = $file->getDatastreamIdentifier();
                 if (!empty($dsId) && $dsId != \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
                     $id       = explode("-", $dsId);
