@@ -1351,6 +1351,7 @@ var deleteFile = function() {
     var groupIndex = fileGroup.attr("data-groupIndex");
 
     if (numFileGroups == 1) {
+      fileGroup.attr("data-groupIndex", -1);
       addGroup(fileGroup, true);
     } else {
       fileGroup.fadeOut(300, function () {

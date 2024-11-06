@@ -176,8 +176,9 @@ class InternalFormat
             $parserGenerator = new ParserGenerator($this->clientPid);
             $parserGenerator->setDomDocument($this->xml);
             $parserGenerator->customXPath($xpathString, true, $value);
-            $this->xml = new DOMDocument();
-            $this->xml->loadXML($parserGenerator->getXMLData());
+            $xml = new DOMDocument();
+            $xml->loadXML($parserGenerator->getXMLData());
+            $this->setXml($xml->saveXML());
         }
     }
 
@@ -914,7 +915,7 @@ class InternalFormat
         $archiveXpath = $this->clientConfigurationManager->getFileArchiveXpath();
 
         /** @var File $file */
-        foreach ($files as $file) {
+        foreach ($files->toArray() as $file) {
             $dataStreamIdentifier = $file->getDatastreamIdentifier();
 
             if ($file->isFileGroupDeleted()) {
@@ -1003,7 +1004,7 @@ class InternalFormat
         $fileHrefXpath = $this->clientConfigurationManager->getFileHrefXpath();
 
         /** @var File $file */
-        foreach ($files as $file) {
+        foreach ($files->toArray() as $file) {
 
             $fileNodes = $xpath->query(
                 self::rootNode . $fileXpath . '[./' . trim($idXpath, '@/ ') . '="' . $file->getFileIdentifier() . '"]'
