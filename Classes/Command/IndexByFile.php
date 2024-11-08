@@ -175,6 +175,13 @@ class IndexByFile extends AbstractIndexCommand
         if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
             try {
                 $this->indexXml($response->getBody()->getContents());
+
+                // Closing content stream and killing the response variable.
+                // This should actually be happening when leaving the function
+                // scope. But there are weird issues with open files from Guzzle magic.
+                $response->getBody()->close();
+                unset($response);
+
                 $io->writeln("OK");
                 return TRUE;
             } catch (\Exception $e) {
