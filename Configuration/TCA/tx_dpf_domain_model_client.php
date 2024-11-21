@@ -37,8 +37,8 @@ return array(
             fedora_host, fedora_user, fedora_password, fedora_endpoint, fedora_root_container, fedora_collection_namespace,
             elastic_search_host, elastic_search_port, elastic_search_index_name, upload_directory, upload_domain,
             admin_new_document_notification_subject, admin_new_document_notification_body,
-            submitter_new_document_notification_subject, submitter_new_document_notification_body,
-            submitter_ingest_notification_subject, submitter_ingest_notification_body,
+            submitter_register_document_notification_subject, submitter_register_document_notification_body,
+            submitter_release_notification_subject, submitter_release_notification_body,
             admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
             admin_new_suggestion_body,
             admin_embargo_subject,admin_embargo_body,
@@ -71,8 +71,8 @@ return array(
         fedora_host, fedora_user, fedora_password, fedora_endpoint, fedora_root_container,  fedora_collection_namespace,
         elastic_search_host, elastic_search_port, elastic_search_index_name, upload_directory, upload_domain,
         admin_new_document_notification_subject, admin_new_document_notification_body,
-        submitter_new_document_notification_subject, submitter_new_document_notification_body,
-        submitter_ingest_notification_subject, submitter_ingest_notification_body,
+        submitter_register_document_notification_subject, submitter_register_document_notification_body,
+        submitter_release_notification_subject, submitter_release_notification_body,
         admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,
         admin_new_suggestion_body,
         admin_embargo_subject,admin_embargo_body,
@@ -125,7 +125,7 @@ return array(
         --div--;Elastic search, elastic_search_host, elastic_search_port, elastic_search_index_name,
         --div--;Upload, upload_directory, upload_domain,
         --div--;Admin Notification, admin_new_document_notification_subject, admin_new_document_notification_body,admin_register_document_notification_subject, admin_register_document_notification_body,admin_new_suggestion_subject,admin_new_suggestion_body,admin_embargo_subject,admin_embargo_body,
-        --div--;Submitter Notification, submitter_new_document_notification_subject, submitter_new_document_notification_body, submitter_ingest_notification_subject, submitter_ingest_notification_body,
+        --div--;Submitter Notification, submitter_register_document_notification_subject, submitter_register_document_notification_body, submitter_release_notification_subject, submitter_release_notification_body,
         --div--;My Publications Notification, mypublications_update_notification_subject, mypublications_update_notification_body, mypublications_new_notification_subject, mypublications_new_notification_body,
         --div--;Deposit License Notification, send_admin_deposit_license_notification, admin_deposit_license_notification_subject, admin_deposit_license_notification_body,
         --div--;Messages, suggestion_flashmessage,
@@ -535,18 +535,18 @@ return array(
                 'enableRichtext' => true,
             ),
         ),
-        'submitter_new_document_notification_subject' => array(
+        'submitter_register_document_notification_subject' => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_new_document_notification_subject',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_register_document_notification_subject',
             'config'  => array(
                 'type' => 'input',
                 'size' => 50,
                 'eval' => 'trim',
             ),
         ),
-        'submitter_new_document_notification_body' => array(
+        'submitter_register_document_notification_body' => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_new_document_notification_body',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_register_document_notification_body',
             'config'  => array(
                 'type' => 'text',
                 'cols' => 40,
@@ -555,18 +555,18 @@ return array(
                 'enableRichtext' => true,
             ),
         ),
-        'submitter_ingest_notification_subject' => array(
+        'submitter_release_notification_subject' => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_ingest_notification_subject',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_release_notification_subject',
             'config'  => array(
                 'type' => 'input',
                 'size' => 50,
                 'eval' => 'trim',
             ),
         ),
-        'submitter_ingest_notification_body' => array(
+        'submitter_release_notification_body' => array(
             'exclude' => 1,
-            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_ingest_notification_body',
+            'label'   => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.submitter_release_notification_body',
             'config'  => array(
                 'type' => 'text',
                 'cols' => 40,

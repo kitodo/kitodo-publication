@@ -177,32 +177,32 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminNewDocumentNotificationBody = '';
 
     /**
-     * submitterNewDocumentNotificationSubject
+     * submitterRegisterDocumentNotificationSubject
      *
      * @var string
      */
-    protected $submitterNewDocumentNotificationSubject = '';
+    protected $submitterRegisterDocumentNotificationSubject = '';
 
     /**
-     * submitterNewDocumentNotificationBody
+     * submitterRegisterDocumentNotificationBody
      *
      * @var string
      */
-    protected $submitterNewDocumentNotificationBody = '';
+    protected $submitterRegisterDocumentNotificationBody = '';
 
     /**
-     * submitterIngestNotificationSubject
+     * submitterReleaseNotificationSubject
      *
      * @var string
      */
-    protected $submitterIngestNotificationSubject = '';
+    protected $submitterReleaseNotificationSubject = '';
 
     /**
-     * submitterIngestNotificationBody
+     * submitterReleaseNotificationBody
      *
      * @var string
      */
-    protected $submitterIngestNotificationBody = '';
+    protected $submitterReleaseNotificationBody = '';
 
     /**
      * adminRegisterDocumentNotificationSubject
@@ -1133,87 +1133,87 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
 
     /**
-     * Gets the submitterIngestNotificationSubject
+     * Gets the submitterReleaseNotificationSubject
      *
      * @return string
      */
-    public function getSubmitterIngestNotificationSubject()
+    public function getSubmitterReleaseNotificationSubject()
     {
-        return $this->submitterIngestNotificationSubject;
+        return $this->submitterReleaseNotificationSubject;
     }
 
     /**
-     * Sets the submitterIngestNotificationSubject
+     * Sets the submitterReleaseNotificationSubject
      *
-     * @var string $submitterIngestNotificationSubject
+     * @var string $submitterReleaseNotificationSubject
      * @return void
      */
-    public function setSubmitterIngestNotificationSubject($submitterIngestNotificationSubject)
+    public function setSubmitterReleaseNotificationSubject($submitterReleaseNotificationSubject)
     {
-        $this->submitterIngestNotificationSubject = $submitterIngestNotificationSubject;
+        $this->submitterReleaseNotificationSubject = $submitterReleaseNotificationSubject;
     }
 
     /**
-     * Gets the submitterIngestNotificationBody
+     * Gets the submitterReleaseNotificationBody
      *
      * @return string
      */
-    public function getSubmitterIngestNotificationBody()
+    public function getSubmitterReleaseNotificationBody()
     {
-        return $this->submitterIngestNotificationBody;
+        return $this->submitterReleaseNotificationBody;
     }
 
     /**
-     * Sets the submitterIngestNotificationBody
+     * Sets the submitterReleaseNotificationBody
      *
-     * @var string $submitterIngestNotificationBody
+     * @var string $submitterReleaseNotificationBody
      * @return void
      */
-    public function setSubmitterIngestNotificationBody($submitterIngestNotificationBody)
+    public function setSubmitterReleaseNotificationBody($submitterReleaseNotificationBody)
     {
-        $this->submitterIngestNotificationBody = $submitterIngestNotificationBody;
+        $this->submitterReleaseNotificationBody = $submitterReleaseNotificationBody;
     }
 
     /**
-     * Gets the submitterNewDocumentNotificationSubject
+     * Gets the submitterRegisterDocumentNotificationSubject
      *
      * @return string
      */
-    public function getSubmitterNewDocumentNotificationSubject()
+    public function getSubmitterRegisterDocumentNotificationSubject()
     {
-        return $this->submitterNewDocumentNotificationSubject;
+        return $this->submitterRegisterDocumentNotificationSubject;
     }
 
     /**
-     * Sets the submitterNewDocumentNotificationSubject
+     * Sets the submitterRegisterDocumentNotificationSubject
      *
-     * @var string $submitterNewDocumentNotificationSubject
+     * @var string $submitterRegisterDocumentNotificationSubject
      * @return void
      */
-    public function setSubmitterNewDocumentNotificationSubject($submitterNewDocumentNotificationSubject)
+    public function setSubmitterRegisterDocumentNotificationSubject($submitterRegisterDocumentNotificationSubject)
     {
-        $this->submitterNewDocumentNotificationSubject = $submitterNewDocumentNotificationSubject;
+        $this->submitterRegisterDocumentNotificationSubject = $submitterRegisterDocumentNotificationSubject;
     }
 
     /**
-     * Gets the submitterNewDocumentNotificationBody
+     * Gets the submitterRegisterDocumentNotificationBody
      *
      * @return string
      */
-    public function getSubmitterNewDocumentNotificationBody()
+    public function getSubmitterRegisterDocumentNotificationBody()
     {
-        return $this->submitterNewDocumentNotificationBody;
+        return $this->submitterRegisterDocumentNotificationBody;
     }
 
     /**
-     * Sets the submitterNewDocumentNotificationBody
+     * Sets the submitterRegisterDocumentNotificationBody
      *
-     * @var string $submitterNewDocumentNotificationBody
+     * @var string $submitterRegisterDocumentNotificationBody
      * @return void
      */
-    public function setSubmitterNewDocumentNotificationBody($submitterNewDocumentNotificationBody)
+    public function setSubmitterRegisterDocumentNotificationBody($submitterRegisterDocumentNotificationBody)
     {
-        $this->submitterNewDocumentNotificationBody = $submitterNewDocumentNotificationBody;
+        $this->submitterRegisterDocumentNotificationBody = $submitterRegisterDocumentNotificationBody;
     }
 
     /**

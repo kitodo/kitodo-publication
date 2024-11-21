@@ -331,42 +331,24 @@ class Notifier
         }
     }
 
-    public function sendNewDocumentNotification(\EWW\Dpf\Domain\Model\Document $document)
+    /*
+     * Email notification to an email address submitted with the document form when a document is published.
+     */
+    public function sendRegisterNotificationToSubmitter(\EWW\Dpf\Domain\Model\Document $document)
     {
         try {
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
-            $clientAdminEmail = $client->getAdminEmail();
             $internalFormat = new InternalFormat($document->getXmlData());
             $submitterEmail = $internalFormat->getSubmitterEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
 
             $args = $this->getMailMarkerArray($document, $client, $documentType);
 
-            // Notify client admin
-            if ($clientAdminEmail) {
-                $subject = $client->getAdminNewDocumentNotificationSubject();
-                $body = $client->getAdminNewDocumentNotificationBody();
-                $mailType = 'text/html';
-
-                if (empty($subject)) {
-                    $subject = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.subject', 'dpf');
-                }
-
-                if (empty($body)) {
-                    $body = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:notification.newDocument.admin.body', 'dpf');
-                    $mailType = 'text/plain';
-                }
-
-                $this->sendMail($clientAdminEmail, $subject, $body, $args, $mailType);
-
-            }
-
-
             // Notify submitter
             if ($submitterEmail) {
-                $subject = $client->getSubmitterNewDocumentNotificationSubject();
-                $body = $client->getSubmitterNewDocumentNotificationBody();
+                $subject = $client->getSubmitterRegisterDocumentNotificationSubject();
+                $body = $client->getSubmitterRegisterDocumentNotificationBody();
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
@@ -386,7 +368,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendNewDocumentNotification failed",
+                LogLevel::ERROR, "sendRegisterNotificationToSubmitter failed",
                 array(
                     'document' => $document
                 )
@@ -395,7 +377,11 @@ class Notifier
 
     }
 
-    public function sendIngestNotification(\EWW\Dpf\Domain\Model\Document $document)
+    /*
+     * Email notification to an email address submitted with the document form when a document is published.
+     *
+     */
+    public function sendReleasePublishNotificationToSubmitter(\EWW\Dpf\Domain\Model\Document $document)
     {
 
         try {
@@ -408,8 +394,8 @@ class Notifier
 
             // Notify submitter
             if ($submitterEmail) {
-                $subject = $client->getSubmitterIngestNotificationSubject();
-                $body = $client->getSubmitterIngestNotificationBody();
+                $subject = $client->getSubmitterReleaseNotificationSubject();
+                $body = $client->getSubmitterReleaseNotificationBody();
                 $mailType = 'text/html';
 
                 if (empty($subject)) {
@@ -428,7 +414,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendIngestNotification failed",
+                LogLevel::ERROR, "sendReleasePublishNotificationToSubmitter failed",
                 array(
                     'document' => $document
                 )
@@ -470,7 +456,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendRegisterNotification failed",
+                LogLevel::ERROR, "sendEmbargoNotification failed",
                 array(
                     'document' => $document
                 )
@@ -565,7 +551,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendRegisterNotification failed",
+                LogLevel::ERROR, "sendMyPublicationUpdateNotification failed",
                 array(
                     'document' => $document
                 )
@@ -619,7 +605,7 @@ class Notifier
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
-                LogLevel::ERROR, "sendRegisterNotification failed",
+                LogLevel::ERROR, "sendMyPublicationNewNotification failed",
                 array(
                     'document' => $document
                 )

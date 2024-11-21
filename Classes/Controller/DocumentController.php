@@ -667,6 +667,8 @@ class DocumentController extends AbstractController
         /** @var Notifier $notifier */
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendReleasePublishNotification($document);
+
+        $notifier->sendReleasePublishNotificationToSubmitter($document);
     }
 
     /**
@@ -727,6 +729,9 @@ class DocumentController extends AbstractController
         // admin register notification
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
+
+        // submitter register notification
+        $notifier->sendRegisterNotificationToSubmitter($document);
 
         // index the document
         $this->signalSlotDispatcher->dispatch(\EWW\Dpf\Controller\AbstractController::class, 'indexDocument', [$document]);

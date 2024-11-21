@@ -194,6 +194,9 @@ class DocumentFormController extends AbstractDocumentFormController
         $notifier = $this->objectManager->get(Notifier::class);
         $notifier->sendRegisterNotification($document);
 
+        // submitter register notification
+        $notifier->sendRegisterNotificationToSubmitter($document);
+
         // document updated notification
         $recipients = $this->documentManager->getUpdateNotificationRecipients($document);
         $notifier->sendMyPublicationUpdateNotification($document, $recipients);
