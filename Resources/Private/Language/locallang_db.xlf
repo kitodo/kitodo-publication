@@ -74,17 +74,17 @@
 		<trans-unit id="tx_dpf_domain_model_client.replace_niss_part">
 			<source>Replace NISS part: Workaround to ensure clear URNs for local generation in the frontend</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_body">
-			<source>Ingest body</source>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_release_notification_body">
+			<source>Released document body</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_subject">
-			<source>Ingest subject</source>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_release_notification_subject">
+			<source>Released document subject</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_body">
-			<source>New document body</source>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_register_document_notification_body">
+			<source>Registered document body</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_subject">
-			<source>New document subject</source>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_register_document_notification_subject">
+			<source>Registered document subject</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_subject" approved="yes">
 			<source>Update publication subject</source>

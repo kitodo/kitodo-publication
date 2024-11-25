@@ -97,20 +97,20 @@
 			<source>Replace NISS part: Workaround to ensure clear URNs for local generation in the frontend</source>
 			<target>Replace NISS part: Workaround zur Sicherstellung eindeutiger URNs bei lokaler Generierung im Frontend</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_body" approved="yes">
-			<source>Ingest body</source>
-			<target>Aufnahme Body</target>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_release_notification_body" approved="yes">
+			<source>Document released body</source>
+			<target>Dokument freigegeben: Mailtext</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_ingest_notification_subject" approved="yes">
-			<source>Ingest subject</source>
-			<target>Aufnahme Thema</target>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_release_notification_subject" approved="yes">
+			<source>Document released subject</source>
+			<target>Dokument freigegeben: E-Mail Betreff</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_body" approved="yes">
-			<source>New document body</source>
-			<target>Neuer Dokument Body</target>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_register_document_notification_body" approved="yes">
+			<source>Registered document body</source>
+			<target>Dokument gemeldet: Mailtext</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.submitter_new_document_notification_subject" approved="yes">
-			<source>New document subject</source>
+		<trans-unit id="tx_dpf_domain_model_client.submitter_register_document_notification_subject" approved="yes">
+			<source>Registered document subject</source>
 			<target>Neues Dokumententhema</target>
 		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.mypublications_update_notification_subject" approved="yes">

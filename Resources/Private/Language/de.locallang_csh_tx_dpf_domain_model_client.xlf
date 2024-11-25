@@ -105,19 +105,19 @@
             <source>Document registration: Email text</source>
             <target>Dokument gemeldet: Mailtext</target>
         </trans-unit>
-        <trans-unit id="submitter_new_document_notification_subject.description" approved="yes">
-            <source>New document: Email subject</source>
-            <target>Neues Dokument: E-Mail text</target>
+        <trans-unit id="submitter_registered_document_notification_subject.description" approved="yes">
+            <source>New Document registered: Email subject</source>
+            <target>Neues Dokument angemeldet: E-Mail text</target>
         </trans-unit>
-        <trans-unit id="submitter_new_document_notification_body.description" approved="yes">
-            <source>New document: Email text</source>
-            <target>Neuer Dokument: Mailtext</target>
+        <trans-unit id="submitter_registered_document_notification_body.description" approved="yes">
+            <source>New Document registered: Email text</source>
+            <target>Neues Dokument angemeldet: Mailtext</target>
         </trans-unit>
-        <trans-unit id="submitter_ingest_notification_subject.description" approved="yes">
-            <source>Document published: Email subject</source>
-            <target>Dokument publiziert: E-Mail Betreff</target>
+        <trans-unit id="submitter_release_notification_subject.description" approved="yes">
+            <source>Document released: Email subject</source>
+            <target>Dokument freigegeben: E-Mail Betreff</target>
         </trans-unit>
-        <trans-unit id="submitter_ingest_notification_body.description" approved="yes">
+        <trans-unit id="submitter_release_notification_body.description" approved="yes">
             <source>Document published: Email text</source>
             <target>Dokument publiziert: Mailtext</target>
         </trans-unit>

@@ -80,17 +80,17 @@
         <trans-unit id="admin_register_document_notification_body.description">
             <source>Document registration: Email text</source>
         </trans-unit>
-        <trans-unit id="submitter_new_document_notification_subject.description">
-            <source>New document: Email subject</source>
+        <trans-unit id="submitter_register_document_notification_subject.description">
+            <source>Document registered: Email subject</source>
         </trans-unit>
-        <trans-unit id="submitter_new_document_notification_body.description">
-            <source>New document: Email text</source>
+        <trans-unit id="submitter_register_document_notification_body.description">
+            <source>Document registered: Email text</source>
         </trans-unit>
-        <trans-unit id="submitter_ingest_notification_subject.description">
-            <source>Document published: Email subject</source>
+        <trans-unit id="submitter_release_notification_subject.description">
+            <source>Document released Email subject</source>
         </trans-unit>
-        <trans-unit id="submitter_ingest_notification_body.description">
-            <source>Document published: Email text</source>
+        <trans-unit id="submitter_release_notification_body.description">
+            <source>Document released: Email text</source>
         </trans-unit>
 		</body>
 	</file>

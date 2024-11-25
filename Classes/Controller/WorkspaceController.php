@@ -329,6 +329,8 @@ class WorkspaceController extends AbstractController
                                 $notifier = $this->objectManager->get(Notifier::class);
                                 $notifier->sendRegisterNotification($document);
 
+                                $notifier->sendRegisterNotificationToSubmitter($document);
+
                                 // index the document
                                 $this->signalSlotDispatcher->dispatch(
                                     \EWW\Dpf\Controller\AbstractController::class,
@@ -546,6 +548,9 @@ class WorkspaceController extends AbstractController
 
                         //$notifier = $this->objectManager->get(Notifier::class);
                         //$notifier->sendRegisterNotification($document);
+
+                        $notifier = $this->objectManager->get(Notifier::class);
+                        $notifier->sendRegisterNotificationToSubmitter($document);
                     }
                 }
             }
