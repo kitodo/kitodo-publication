@@ -1317,6 +1317,15 @@ var addField = function() {
     var dataField = jQuery(this).attr("data-field");
     // Number of the next field item
     var fieldIndex = parseInt(jQuery(this).attr("data-index")) + 1;
+
+    // Needed for the fill out via fis api search, since the field index is not always strictly ascending
+    // and the fill out service needs the correct last index.
+    var keyName = jQuery(this).data('page')
+      + "-" + jQuery(this).data('group') + "-"
+      + jQuery(this).data('groupindex') + "-"
+      + jQuery(this).data('field');
+   localStorage.setItem(keyName, fieldIndex)
+
     jQuery(this).attr("data-index", fieldIndex);
     var ajaxURL = jQuery(this).attr("data-ajax");
     var params = buildAjaxParams(ajaxURL, "fieldIndex", fieldIndex);
@@ -2072,46 +2081,17 @@ var setDataRequest = function(url, dataId, context) {
                 if($('.' + key).length != 0 && $('.' + key).val() == '' || $('.' + key).length != 0 && $('.' + key).val() != '' && !isFieldRepeatable) {
                     // form field is empty and exists or form field is not empty and not repeatable, overwrite!
                   $('.' + key).val(data[key]).change();
-                } else if ($('.' + key).length != 0 && $('.' + key).val() != '' && isFieldRepeatable) {
-                    // form field exists and is not empty
+                } else if (isFieldRepeatable) {
                     // add new form input
                     $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").click();
 
-                    // count repeated fields if not counted already
-                    var k = newKeyMapping.get(keyWithoutFieldIndex);
-                    if (typeof k == 'undefined') {
-                        var i = 0;
-                        while ($('.' + keyWithoutFieldIndex + '-' + i).length) {
-                            i++;
-                        }
-                    } else {
-                        i = k + 1;
-                    }
-
-                    var newKey = keyWithoutFieldIndex + '-' + i;
-                    newKeyMapping.set(keyWithoutFieldIndex, i);
+                    var index = localStorage.getItem(keyWithoutFieldIndex);
+                    var newKey = keyWithoutFieldIndex + '-' + index;
 
                     isElementLoaded('.' + newKey, key, function (element, fieldKey) {
                         $(element).val(data[fieldKey]).change();
                     });
 
-                } else {
-                    // if key does not exist check if field is repeatable
-                    splitId = key.split("-");
-                    var datakey = key;
-                    if (splitId[4] > 0) {
-                        var k = newKeyMapping.get(keyWithoutFieldIndex);
-                        if (typeof k != 'undefined') {
-                            datakey = key;
-                            key = keyWithoutFieldIndex + '-' + (k + 1);
-                            newKeyMapping.set(keyWithoutFieldIndex, (k + 1));
-                        }
-                        // add new form input
-                        $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").click();
-                        isElementLoaded('.' + key, datakey, function (element, fieldKey) {
-                            $(element).val(data[fieldKey]).change();
-                        });
-                    }
                 }
             }
         }
