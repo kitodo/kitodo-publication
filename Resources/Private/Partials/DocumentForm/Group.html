@@ -98,6 +98,7 @@
     <div style="clear: both;"></div>
 
     <f:for each="{groupItem.items}" as="formField" iteration="fieldIterator">
+        <f:variable name="maxFieldIndex">0</f:variable>
         <f:for each="{formField}" key="fieldItemIndex" as="fieldItem" iteration="fieldItemIterator">
             <f:if condition="{fieldItem.inputField}!=4">
                 <f:then>
@@ -107,13 +108,20 @@
                                 <f:variable name="fieldIndex">{fieldItemIndex}</f:variable>
                                 <f:render partial="DocumentForm/Field" arguments="{_all}"/>
                                 <f:if condition="{fieldItem.maxIteration} == 0">
+                                    <f:if condition="{fieldItemIndex} > {maxFieldIndex}">
+                                        <f:then>
+                                            <f:variable name="maxFieldIndex">{fieldItemIndex}</f:variable>
+                                        </f:then>
+                                    </f:if>
                                     <f:if condition="{fieldItemIterator.isLast}">
                                         <button type="button"
                                                 title="{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}"
                                                 name="add_field" class="btn btn-secondary add_field" data-field="{fieldItem.uid}"
                                                 data-group="{formGroupUid}"
+                                                data-groupindex="{groupIndex}"
                                                 data-ajax="{f:uri.action(action:'field',controller:'AjaxDocumentForm',pageType:ajaxTypeNum,arguments:{pageUid: formPageUid,groupUid: formGroupUid,groupIndex: groupIndex,fieldUid: fieldItem.uid})}"
-                                                data-index="{fieldItemIndex}">
+                                                data-index="{maxFieldIndex}"
+                                                data-page="{formPageUid}">
                                             <i class="fas fa-plus"></i>
                                             <span class="sr-only">{f:translate(key: 'form_button.add_item', arguments: {0: fieldItem.displayName})}</span>
                                         </button>
