@@ -212,6 +212,11 @@ plugin.tx_dpf {
             trueUri = {$plugin.tx_dpf.settings.openAccessValues.trueUri}
         }
 
+        unpaywallOAValues {
+            openAccessTrue = {$plugin.tx_dpf.settings.unpaywallOAValues.openAccessTrue}
+            restrictedAccessTrue = {$plugin.tx_dpf.settings.unpaywallOAValues.restrictedAccessTrue}
+        }
+
         restrictedAccessValues {
             true = {$plugin.tx_dpf.settings.restrictedAccessValues.true}
             trueUri = {$plugin.tx_dpf.settings.restrictedAccessValues.trueUri}

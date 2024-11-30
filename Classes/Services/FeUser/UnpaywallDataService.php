@@ -59,13 +59,12 @@ class UnpaywallDataService extends AbstractDataService
             $response->body->kitodo->oa_variant = $response->body->oa_status;
         }
 
-        $restrictedAccessValues = $this->clientConfigurationManager->getRestrictedAccessValues();
-        $openAccessValues = $this->clientConfigurationManager->getOpenAccessValues();
+        $unpaywallOAValues = $this->clientConfigurationManager->getUnpaywallOAValues();
 
         if ($is_oa) {
-            $response->body->kitodo->accessStatus = $openAccessValues['trueUri'];
+            $response->body->kitodo->accessStatus = $unpaywallOAValues['openAccessTrue'];
         } else {
-            $response->body->kitodo->accessStatus = $restrictedAccessValues['trueUri'];
+            $response->body->kitodo->accessStatus = $unpaywallOAValues['restrictedAccessTrue'];
         }
 
         return $response;
