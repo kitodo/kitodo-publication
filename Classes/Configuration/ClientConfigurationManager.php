@@ -420,10 +420,10 @@ class ClientConfigurationManager implements SingletonInterface
         return $settings['openAccessValues'];
     }
 
-    public function getRestrictedAccessValues()
+    public function getUnpaywallOAValues()
     {
         $settings = $this->getTypoScriptSettings();
-        return $settings['restrictedAccessValues'];
+        return $settings['unpaywallOAValues'];
     }
 
     public function getFisApiWorkflowStateName()
