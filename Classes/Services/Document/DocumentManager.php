@@ -156,6 +156,38 @@ class DocumentManager
         return $document;
     }
 
+
+    /**
+     * Returns a document specified by repository object identifier, no local copy will be created.
+     * Due to FIS-Api requirement for released documents with state in_progress (local working copy exists).
+     *
+     * @param string $identifier
+     * @return Document|null
+     */
+    public function readRemoteData($identifier)
+    {
+        if (!$identifier) {
+            return null;
+        }
+
+        $query = $this->queryBuilder->buildQuery(
+            1, [], 0,
+            [], [], [], null, null,
+            'identifier:"' . $identifier . '"'
+        );
+        $results = $this->elasticSearch->search($query, 'object');
+        if (is_array($results) && $results['hits']['total']['value'] > 0) {
+            $remoteIdentifier = $results['hits']['hits'][0]['_id'];
+        }
+
+        if ($remoteIdentifier) {
+            $document = $this->documentStorage->retrieve($identifier, false);
+            return $document;
+        }
+
+        return null;
+    }
+
     /**
      * Updates a document locally or remotely.
      *
