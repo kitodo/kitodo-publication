@@ -269,6 +269,7 @@ class DocumentManager
                     $this->removeDocument($document);
                 } else {
                     $document->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
+                    $this->documentRepository->update($document);
                 }
                 $updateResult = $document->getDocumentIdentifier();
             } else {
@@ -359,6 +360,7 @@ class DocumentManager
                 $this->removeDocument($document);
             } else {
                 $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+                $document->setTemporary(false);
                 $this->documentRepository->update($document);
             }
 
