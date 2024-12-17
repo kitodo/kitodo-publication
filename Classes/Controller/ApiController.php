@@ -155,6 +155,19 @@ class ApiController extends ActionController
             /** @var Document $doc */
             $doc = $this->documentManager->read($document);
 
+            if ($doc->getState() === DocumentWorkflow::STATE_NEW_NONE) {
+                return '{"error": "workflowState: \'new\' - No data is provided for documents in this workflowState."}';
+            }
+
+            if ($doc->getLocalState() === DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+                if ($doc->getRemoteState() === DocumentWorkflow::REMOTE_STATE_NONE) {
+                    return '{"error": "workflowState: \'in_progress\' - No data is provided for documents in this workflowState."}';
+                }
+
+                // Return the remote document instead of the local working copy.
+                $doc = $this->documentManager->readRemoteData($document);
+            }
+
             if ($doc) {
                 $this->security->getUser()->getUid();
 

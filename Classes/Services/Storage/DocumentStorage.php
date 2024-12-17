@@ -358,12 +358,13 @@ class DocumentStorage
 
     /**
      * @param string $documentIdentifier
+     * @param bool $createLocalCopy
      * @return Document|null
      * @throws ConnectionException
      * @throws IllegalObjectTypeException
      * @throws RetrieveDocumentException
      */
-    public function retrieve(string $documentIdentifier) : ?Document
+    public function retrieve(string $documentIdentifier, bool $createLocalCopy = true) : ?Document
     {
         try {
 
@@ -451,35 +452,40 @@ class DocumentStorage
 
                 $document->setTemporary(true);
 
-                $this->documentRepository->add($document);
-                $this->persistenceManager->persistAll();
+                // $createLocalCopy = false is needed for the Fis api to be able to return only the
+                // remote version of the document metadata in case of a local workingcopy.
+                if ($createLocalCopy) {
+                    $this->documentRepository->add($document);
+                    $this->persistenceManager->persistAll();
 
-                foreach ($internalFormat->getFiles() as $attachment) {
 
-                    /** @var File $file */
-                    $file = $this->objectManager->get(File::class);
-                    $file->setContentType($attachment['mimetype']);
-                    $file->setDatastreamIdentifier($attachment['id']);
-                    $file->setFileIdentifier($attachment['id']);
-                    $file->setLink($attachment['href']);
-                    $file->setTitle($attachment['title']);
-                    $file->setLabel($attachment['title']);
-                    $file->setDownload($attachment['download']);
-                    $file->setArchive($attachment['archive']);
-                    $file->setFileGroupDeleted($attachment['deleted']);
+                    foreach ($internalFormat->getFiles() as $attachment) {
 
-                    if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
-                        $file->setPrimaryFile(true);
+                        /** @var File $file */
+                        $file = $this->objectManager->get(File::class);
+                        $file->setContentType($attachment['mimetype']);
+                        $file->setDatastreamIdentifier($attachment['id']);
+                        $file->setFileIdentifier($attachment['id']);
+                        $file->setLink($attachment['href']);
+                        $file->setTitle($attachment['title']);
+                        $file->setLabel($attachment['title']);
+                        $file->setDownload($attachment['download']);
+                        $file->setArchive($attachment['archive']);
+                        $file->setFileGroupDeleted($attachment['deleted']);
+
+                        if ($attachment['id'] == \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
+                            $file->setPrimaryFile(true);
+                        }
+
+                        $file->setDocument($document);
+
+                        $this->fileRepository->add($file);
+                        $document->addFile($file);
                     }
 
-                    $file->setDocument($document);
-
-                    $this->fileRepository->add($file);
-                    $document->addFile($file);
+                    $this->documentRepository->update($document);
+                    $this->persistenceManager->persistAll();
                 }
-
-                $this->documentRepository->update($document);
-                $this->persistenceManager->persistAll();
 
                 return $document;
 
