@@ -616,6 +616,20 @@
 				<source>Do you really want to delete the working copy?</source>
 				<target>Möchten Sie die Arbeitskopie wirklich löschen?</target>
 			</trans-unit>
+			<trans-unit id="manager.confirmDeleteEmbargoWorkingCopy.message" approved="yes" xml:space="preserve">
+				<source><![CDATA[You are about to delete the working copy of an embargoed document. If you continue, embargo notifications for this document will no longer work and the associated full-text file in the repository may be lost.
+				<strong>This cannot be undone.</strong><br /><br />
+				To disable embargo notifications for this document, delete the embargo end date from the metadata. To discard the document, use the “Discard” button.]]>
+				</source>
+				<target><![CDATA[Sie sind dabei, die Arbeitskopie eines Dokuments zu löschen, das unter Embargo steht. Wenn Sie fortfahren, funktionieren Embargo-Benachrichtigungen für dieses Dokument nicht mehr und die zugehörige Volltext-Datei im Repository kann verloren gehen.
+				<strong>Das kann nicht rückgängig gemacht werden.</strong><br /><br />
+				Um Embargo-Benachrichtigungen für dieses Dokument zu deaktivieren, löschen Sie das Embargo-Enddatum aus den Metadaten. Um das Dokument zu verwerfen, nutzen Sie den Button "Verwerfen".]]>
+				</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteEmbargoWorkingCopy.messageHeader" approved="yes">
+				<source>This action is not recommended!</source>
+				<target>Diese Aktion ist nicht empfohlen!</target>
+			</trans-unit>
 			<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
 				<source>The document is handed over to the library for further processing.</source>
 				<target>Das Dokument wird zur weiteren Bearbeitung an die Bibliothek übergeben.</target>

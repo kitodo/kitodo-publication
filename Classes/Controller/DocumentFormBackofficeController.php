@@ -332,6 +332,11 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             if ( $updateDocument->isTemporaryCopy() && $saveMode == 'saveWorkingCopy') {
                 $saveWorkingCopy = true;
                 $updateDocument->setTemporary(false);
+
+                if ($updateDocument->isActiveEmbargo()) {
+                    $updateDocument->setEmbargoWorkingCopy(true);
+                }
+
                 $workflowTransition = DocumentWorkflow::TRANSITION_IN_PROGRESS;
             } elseif ($updateDocument->isTemporaryCopy() && $saveMode == 'saveAndUpdate') {
                 $workflowTransition = DocumentWorkflow::TRANSITION_REMOTE_UPDATE;
