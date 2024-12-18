@@ -293,6 +293,10 @@ class ElasticSearch
         $data->identifier[] = $document->getObjectIdentifier();
         $data->identifier[] = $document->getProcessNumber();
 
+        foreach ($internalFormat->getSearchIdentifiers() as $searchIdentifier) {
+            $data->identifier[] = $searchIdentifier;
+        }
+        
         if ($document->getCreator()) {
             $data->creator = $document->getCreator();
         } else {

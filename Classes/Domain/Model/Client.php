@@ -733,6 +733,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $additionalSearchTitleXpaths = '';
 
     /**
+     * @var string
+     */
+    protected $additionalIdentifierXpaths = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -2568,5 +2573,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setAdditionalSearchTitleXpaths(string $additionalSearchTitleXpaths): void
     {
         $this->additionalSearchTitleXpaths = $additionalSearchTitleXpaths;
+    }
+
+    public function getAdditionalIdentifierXpaths(): string
+    {
+        return $this->additionalIdentifierXpaths;
+    }
+
+    public function setIdentifierXpaths(string $additionalIdentifierXpaths): void
+    {
+        $this->additionalIdentifierXpaths = $additionalIdentifierXpaths;
     }
 }

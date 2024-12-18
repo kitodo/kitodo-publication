@@ -477,6 +477,30 @@ class InternalFormat
     /**
      * @return array
      */
+    public function getSearchIdentifiers(): array
+    {
+        $additionalIdentifierXpaths = $this->clientConfigurationManager->getAdditionalIdentifierXpaths();
+        $additionalIdentifierXpathList = explode(";", trim($additionalIdentifierXpaths, " ;"));
+        $xpath = $this->getXpath();
+        $values = [];
+
+        foreach ($additionalIdentifierXpathList as $additionalIdentifierXpathItem) {
+            if (empty($additionalIdentifierXpathItem)) continue;
+
+            $elements = $xpath->query(self::rootNode . trim($additionalIdentifierXpathItem));
+
+            if ($elements) foreach ($elements as $element) {
+                $values[] = trim($element->nodeValue);
+            }
+        }
+
+        return $values;
+    }
+
+
+    /**
+     * @return array
+     */
     public function getPublishers(): array
     {
         $publisherXpath = $this->clientConfigurationManager->getPublisherXpaths();
