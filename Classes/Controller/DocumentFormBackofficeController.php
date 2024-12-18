@@ -411,7 +411,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
                 $this->addFlashMessage($message, '', AbstractMessage::OK);
 
                 if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
-                    if ($saveWorkingCopy) {
+                    if ($saveWorkingCopy || $document->isActiveEmbargo()) {
                         if (
                             $this->bookmarkRepository->addBookmark(
                                 $updateDocument,
