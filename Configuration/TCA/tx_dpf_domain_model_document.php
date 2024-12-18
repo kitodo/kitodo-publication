@@ -400,6 +400,17 @@ return array(
                 'default'  => time(),
             ),
         ),
+
+        'embargo_working_copy'    => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_document.embargo_working_copy',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
+            ),
+        ),
+
         'pid' => array(
             'config' => array(
                 'type' => 'passthrough',

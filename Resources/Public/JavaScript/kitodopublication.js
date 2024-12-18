@@ -2252,6 +2252,7 @@ $(document).ready(function() {
     documentListConfirmDialog("#confirmDeleteLocally");
     documentListConfirmDialog("#confirmDeleteLocallySuggestion");
     documentListConfirmDialog("#confirmDeleteWorkingCopy");
+    documentListConfirmDialog("#confirmDeleteEmbargoWorkingCopy");
     documentListConfirmDialog("#confirmRegister");
     documentListConfirmDialog("#confirmPostpone");
 

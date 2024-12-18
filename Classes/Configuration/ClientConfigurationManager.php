@@ -535,6 +535,17 @@ class ClientConfigurationManager implements SingletonInterface
         return array_filter($fisCollections, 'strlen');
     }
 
+    public function getNoReplyAddress()
+    {
+        $settings = $this->getTypoScriptSettings();
+
+        if (isset($settings['noReplyAddress']) && $settings['noReplyAddress']) {
+            return $settings['noReplyAddress'];
+        }
+
+        return trim($this->extensionConfiguration['noReplyAddress']);
+    }
+
     /**
      * @param string $xpath
      * @return string

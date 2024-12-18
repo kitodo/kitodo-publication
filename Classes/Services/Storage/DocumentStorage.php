@@ -182,6 +182,17 @@ class DocumentStorage
 
             $this->fedoraTransaction->commit($transactionUri);
 
+            $containerTuple = $this->fedoraTransaction->getResourceTuple(null, $containerId);
+            $repositoryLastModified = $containerTuple->getValue('fedora:lastModified');
+
+            $document->setRemoteLastModDate($repositoryLastModified);
+
+            // Reset file states to indicate that the files correspond to the ones in fedora
+            foreach ($document->getFile() as $file) {
+                $file->setStatus('');
+                $this->fileRepository->update($file);
+            }
+
             // TODO: Is this really needed inside ingest?
             $this->documentRepository->update($document);
 
@@ -290,26 +301,31 @@ class DocumentStorage
                         $file->setDatastreamIdentifier($dataStreamIdentifier);
                         $file->setLink($dataStreamIdentifier);
 
-                        if ($file->getStatus() === File::STATUS_ADDED) {
-                            $this->fedoraTransaction->createBinary(
-                                $transactionUri,
-                                $containerId,
-                                $dataStreamIdentifier,
-                                $file->getContentType(),
-                                $file->getTitle(),
-                                $fileSrc
-                            );
-
-                        } elseif ($file->getStatus() === File::STATUS_CHANGED) {
-                            $this->fedoraTransaction->updateContent(
-                                $transactionUri,
-                                $containerId,
-                                $dataStreamIdentifier,
-                                $file->getContentType(),
-                                $file->getTitle(),
-                                $fileSrc
-                            );
+                        if ($file->getStatus() === File::STATUS_ADDED || $file->getStatus() === File::STATUS_CHANGED) {
+                            if ($this->fedoraTransaction->isResourceExist($containerId, $dataStreamIdentifier)) {
+                                $this->fedoraTransaction->updateContent(
+                                    $transactionUri,
+                                    $containerId,
+                                    $dataStreamIdentifier,
+                                    $file->getContentType(),
+                                    $file->getTitle(),
+                                    $fileSrc,
+                                    DocumentWorkflow::REMOTE_STATE_ACTIVE
+                                );
+                            } else {
+                                $this->fedoraTransaction->createBinary(
+                                    $transactionUri,
+                                    $containerId,
+                                    $dataStreamIdentifier,
+                                    $file->getContentType(),
+                                    $file->getTitle(),
+                                    $fileSrc
+                                );
+                            }
                         }
+
+                        // Reset file state to indicate that the file corresponds to the one in fedora
+                        $file->setStatus('');
                     }
                 }
             }
@@ -334,13 +350,11 @@ class DocumentStorage
 
             unlink($tmpFilePath);
 
-            $this->documentRepository->update($document);
+            $containerTuple = $this->fedoraTransaction->getResourceTuple($transactionUri, $containerId);
+            $lastModDate = $containerTuple->getValue('fedora:lastModified');
+            $document->setRemoteLastModDate($lastModDate);
 
-            // TODO:
-            //  Why is the document removed?
-            //  Could this lead to an error or inconsistency in case of an embargo.
-            //  See method updateRemotely() in the DocumentManager.
-            $this->documentRepository->remove($document);
+            $this->documentRepository->update($document);
 
             $this->fedoraTransaction->commit($transactionUri);
 

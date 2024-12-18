@@ -671,11 +671,11 @@ class Notifier
 
     protected function sendMail($reveiver, $subject, $body, $args, $mailType)
     {
-        $settings = $this->clientConfigurationManager->getTypoScriptSettings();
+        $noReplyAddress = $this->clientConfigurationManager->getNoReplyAddress();
         $emailReceiver = array();
         $emailReceiver[$reveiver] = $reveiver;
         $message = (new \TYPO3\CMS\Core\Mail\MailMessage())
-            ->setFrom(array($settings['noReplyAddress'] => $settings['noReplyAddress']))
+            ->setFrom([$noReplyAddress => $noReplyAddress])
             ->setTo($emailReceiver)
             ->setSubject($this->replaceMarkers($subject,$args))
             ->setBody($this->replaceMarkers($body,$args),$mailType);

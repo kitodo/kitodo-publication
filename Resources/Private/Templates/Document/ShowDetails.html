@@ -119,7 +119,7 @@
                         controller="Document"
                         arguments="{document:document, tstamp:document.tstamp}"
                         class="isDocumentEditable btn btn-sm btn-danger"
-                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '#confirmDeleteWorkingCopy'}">
+                        additionalAttributes="{data-documenttitle: document.title,data-toggle: 'modal',data-confirmTarget: '{f:if(condition:\'{document.embargoWorkingCopy}\', then:\'#confirmDeleteEmbargoWorkingCopy\', else:\'#confirmDeleteWorkingCopy\')}'}">
                         <i class="fas fa-trash-alt"></i>
                         {f:translate(key: 'form_button.deleteWorkingCopy')}
                     </f:link.action>
@@ -204,6 +204,7 @@
     <f:render partial="Document/ConfirmAction" arguments="{action: 'postpone', reasonRequired: '1', reasonOptions:postponeOptions, destructiveAction: '1'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteLocally', destructiveAction: '1'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteWorkingCopy', destructiveAction: '1'}" />
+    <f:render partial="Document/ConfirmAction" arguments="{action: 'deleteEmbargoWorkingCopy', destructiveAction: '1'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'register'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releasePublish'}" />
     <f:render partial="Document/ConfirmAction" arguments="{action: 'releaseActivate'}" />
