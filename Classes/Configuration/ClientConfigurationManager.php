@@ -253,6 +253,11 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->getSetting("additionalSearchTitleXpaths");
     }
 
+    public function getAdditionalIdentifierXpaths()
+    {
+        return $this->getSetting("additionalIdentifierXpaths");
+    }
+
     public function getNamespaces()
     {
         return $this->getSetting("namespaces");

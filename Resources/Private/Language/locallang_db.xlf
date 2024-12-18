@@ -950,6 +950,12 @@
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_search_title.xpath" approved="yes">
             <source>XPath expressions for additional title information (Multiple Xpath expressions can be concatenated using ';')</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_identifiers.label" approved="yes">
+             <source>Additional identifiers</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_identifiers.xpath" approved="yes">
+             <source>XPath expressions for additional identifiers (Multiple Xpath expressions can be concatenated using ';')</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>
