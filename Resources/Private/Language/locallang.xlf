@@ -500,6 +500,15 @@
 			<trans-unit id="manager.confirmDeleteWorkingCopy.messageHeader" approved="yes">
 				<source>Do you really want to delete the working copy?</source>
 			</trans-unit>
+			<trans-unit id="manager.confirmDeleteEmbargoWorkingCopy.message" xml:space="preserve">
+				<source><![CDATA[You are about to delete the working copy of an embargoed document. If you continue, embargo notifications for this document will no longer work and the associated full-text file in the repository may be lost.
+				<strong>This cannot be undone.</strong><br /><br />
+				To disable embargo notifications for this document, delete the embargo end date from the metadata. To discard the document, use the “Discard” button.]]>
+				</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmDeleteEmbargoWorkingCopy.messageHeader" approved="yes">
+				<source>This action is not recommended!</source>
+			</trans-unit>
 			<trans-unit id="manager.confirmRegister.message" approved="yes" xml:space="preserve">
 				<source>The document is handed over to the library for further processing.</source>
 			</trans-unit>

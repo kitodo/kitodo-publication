@@ -581,29 +581,31 @@ class FedoraTransaction
                 $insert[] = '<> <' . $value['uri'] . '> "' . $value['value'] . '"';
             }
 
-            $insertResponse = $client->request('PATCH', $path,
-                [
-                    'auth' => [
-                        $this->clientConfigurationManager->getFedoraUser(),
-                        $this->clientConfigurationManager->getFedoraPassword()
-                    ],
-                    'headers' => [
-                        'Atomic-ID' => $transactionUri,
-                        'Content-Typ' => 'application/sparql-update'
-                    ],
-                    'body' => 'INSERT {' .  implode(' . ', $insert) .'} WHERE {}'
-                ]
-            );
-
-            if ($insertResponse->getStatusCode() !== 204) {
-                $this->logger->warning(
-                    $errorMessage . 'Unexpected http response: ' . $insertResponse->getStatusCode()
-                    . '. Update aborted.'
+            if (!empty($insert)) {
+                $insertResponse = $client->request('PATCH', $path,
+                    [
+                        'auth' => [
+                            $this->clientConfigurationManager->getFedoraUser(),
+                            $this->clientConfigurationManager->getFedoraPassword()
+                        ],
+                        'headers' => [
+                            'Atomic-ID' => $transactionUri,
+                            'Content-Typ' => 'application/sparql-update'
+                        ],
+                        'body' => 'INSERT {' .  implode(' . ', $insert) .'} WHERE {}'
+                    ]
                 );
 
-                throw FedoraException::create('Update resource tuple failed. Unexpected http response.',
-                    FedoraException::UNEXPECTED_RESPONSE, $requestUri, $insertResponse->getStatusCode()
-                );
+                if ($insertResponse->getStatusCode() !== 204) {
+                    $this->logger->warning(
+                        $errorMessage . 'Unexpected http response: ' . $insertResponse->getStatusCode()
+                        . '. Update aborted.'
+                    );
+
+                    throw FedoraException::create('Update resource tuple failed. Unexpected http response.',
+                        FedoraException::UNEXPECTED_RESPONSE, $requestUri, $insertResponse->getStatusCode()
+                    );
+                }
             }
 
         } catch (GuzzleConnectException $guzzleConnectException) {
@@ -639,7 +641,7 @@ class FedoraTransaction
      * @return bool
      * @throws GuzzleException
      */
-    protected function isResourceExist(string $containerIdentifier, string $binaryIdentifier = null) : bool
+    public function isResourceExist(string $containerIdentifier, string $binaryIdentifier = null) : bool
     {
         $path = $containerIdentifier . ($binaryIdentifier? '/' . $binaryIdentifier : '');
 

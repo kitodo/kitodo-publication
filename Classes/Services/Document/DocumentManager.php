@@ -243,6 +243,9 @@ class DocumentManager
             $updateResult = $this->updateRemotely($document, $workflowTransition);
 
         } elseif ($document->isWorkingCopy()) {
+            if ($this->hasActiveEmbargo($document)) {
+                $document->setEmbargoWorkingCopy(true);
+            }
 
             // if local working copy with no state change
             $this->documentRepository->update($document);
@@ -269,6 +272,8 @@ class DocumentManager
                     $this->removeDocument($document);
                 } else {
                     $document->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
+                    $document->setEmbargoWorkingCopy(true);
+                    $this->documentRepository->update($document);
                 }
                 $updateResult = $document->getDocumentIdentifier();
             } else {
@@ -359,6 +364,8 @@ class DocumentManager
                 $this->removeDocument($document);
             } else {
                 $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
+                $document->setTemporary(false);
+                $document->setEmbargoWorkingCopy(true);
                 $this->documentRepository->update($document);
             }
 

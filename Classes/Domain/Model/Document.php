@@ -182,6 +182,13 @@ class Document extends AbstractEntity
     protected $embargoDate = null;
 
     /**
+     * date
+     *
+     * @var bool
+     */
+    protected $embargoWorkingCopy = false;
+
+    /**
      * newlyAssignedFobIdentifiers
      *
      * @var array
@@ -929,6 +936,34 @@ class Document extends AbstractEntity
     public function setEmbargoDate(?\DateTime $embargoDate)
     {
         $this->embargoDate = $embargoDate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmbargoWorkingCopy(): bool
+    {
+        return $this->embargoWorkingCopy;
+    }
+
+    /**
+     * @param bool $embargoWorkingCopy
+     * @return void
+     */
+    public function setEmbargoWorkingCopy(bool $embargoWorkingCopy): void
+    {
+        $this->embargoWorkingCopy = $embargoWorkingCopy;
+    }
+
+    public function isActiveEmbargo(): bool
+    {
+        $currentDate = new \DateTime('now');
+        if($currentDate > $this->getEmbargoDate()){
+            // embargo is expired
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
