@@ -497,6 +497,28 @@ class InternalFormat
         return $values;
     }
 
+    /**
+     * @return array
+     */
+    public function getSearchLanguage(): array
+    {
+        $searchLanguageXpaths = $this->clientConfigurationManager->getSearchLanguageXpaths();
+        $searchLanguageXpathList = explode(";", trim($searchLanguageXpaths, " ;"));
+        $xpath = $this->getXpath();
+        $values = [];
+
+        foreach ($searchLanguageXpathList as $searchLanguageXpathItem) {
+            if (empty($searchLanguageXpathItem)) continue;
+
+            $elements = $xpath->query(self::rootNode . trim($searchLanguageXpathItem));
+
+            if ($elements) foreach ($elements as $element) {
+                $values[] = trim($element->nodeValue);
+            }
+        }
+
+        return $values;
+    }
 
     /**
      * @return array
