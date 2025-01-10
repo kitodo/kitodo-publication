@@ -296,7 +296,7 @@ class ElasticSearch
         foreach ($internalFormat->getSearchIdentifiers() as $searchIdentifier) {
             $data->identifier[] = $searchIdentifier;
         }
-        
+
         if ($document->getCreator()) {
             $data->creator = $document->getCreator();
         } else {
@@ -417,6 +417,8 @@ class ElasticSearch
         }
 
         $data->project = $internalFormat->getProjects();
+
+        $data->language = $internalFormat->getSearchLanguage();
 
         $this->client->index([
             'refresh' => $refresh,

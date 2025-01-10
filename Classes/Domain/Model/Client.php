@@ -738,6 +738,11 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $additionalIdentifierXpaths = '';
 
     /**
+     * @var string
+     */
+    protected $searchLanguageXpaths = '';
+
+    /**
      * Returns the project
      *
      * @return string $project
@@ -2583,5 +2588,15 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setIdentifierXpaths(string $additionalIdentifierXpaths): void
     {
         $this->additionalIdentifierXpaths = $additionalIdentifierXpaths;
+    }
+
+    public function getSearchLanguageXpaths(): string
+    {
+        return $this->searchLanguageXpaths;
+    }
+
+    public function setSearchLanguageXpaths(string $searchLanguageXpaths): void
+    {
+        $this->searchLanguageXpaths = $searchLanguageXpaths;
     }
 }

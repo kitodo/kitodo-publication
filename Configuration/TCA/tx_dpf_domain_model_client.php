@@ -62,7 +62,7 @@ return array(
             text_type_xpath, open_access_xpath,
             peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
             date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
-            project_id_xpath, project_title_xpath, additional_search_title_xpaths, additional_identifier_xpaths',
+            project_id_xpath, project_title_xpath, additional_search_title_xpaths, additional_identifier_xpaths, search_language_xpaths',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
@@ -96,7 +96,7 @@ return array(
         text_type_xpath, open_access_xpath,
         peer_review_xpath, peer_review_other_version_xpath, license_xpath, validation_xpath,
         date_issued_xpath, framework_agreement_id_xpath, search_year_xpaths, publisher_xpaths,
-        project_id_xpath, project_title_xpath, additional_search_title_xpaths, additional_identifier_xpaths'
+        project_id_xpath, project_title_xpath, additional_search_title_xpaths, additional_identifier_xpaths, search_language_xpaths'
     ),
     'types'     => array(
         '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1,
@@ -122,6 +122,7 @@ return array(
             --pallette--;;pallette_project_title_xpath,
             --pallette--;;pallette_additional_search_title_xpaths,
             --pallette--;;pallette_additional_identifier_xpaths,
+            --pallette--;;pallette_search_language_xpaths,
         --div--;Fedora, fedora_host, fedora_user, fedora_password, fedora_endpoint, fedora_root_container,  fedora_collection_namespace,
         --div--;Elastic search, elastic_search_host, elastic_search_port, elastic_search_index_name,
         --div--;Upload, upload_directory, upload_domain,
@@ -197,6 +198,10 @@ return array(
         'pallette_additional_identifier_xpaths' =>  array(
             'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.additional_identifiers.label',
             'showitem' => 'additional_identifier_xpaths'
+        ),
+        'pallette_search_language_xpaths' =>  array(
+            'label' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.search_language.label',
+            'showitem' => 'search_language_xpaths'
         ),
     ),
     'columns'   => array(
@@ -1477,5 +1482,17 @@ return array(
                 'eval' => 'trim',
             ),
         ),
+        'search_language_xpaths' => array(
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_client.search_field_xml.search_language.xpath',
+            'config'    => array(
+                'type' => 'text',
+                'cols' => 80,
+                'rows' => 10,
+                'eval' => 'trim',
+            ),
+        ),
+
     ),
 );

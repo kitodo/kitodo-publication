@@ -956,6 +956,12 @@
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.additional_identifiers.xpath" approved="yes">
              <source>XPath expressions for additional identifiers (Multiple Xpath expressions can be concatenated using ';')</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_language.label" approved="yes">
+             <source>Language</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_language.xpath" approved="yes">
+             <source>XPath expressions for the language (Multiple Xpath expressions can be concatenated using ';')</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>
