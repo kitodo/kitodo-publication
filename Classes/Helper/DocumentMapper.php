@@ -260,6 +260,7 @@ class DocumentMapper
                             $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
 
                             $documentFormField->setConsent($metadataObject->getConsent());
+                            $documentFormField->setDisplayDoiLink($metadataObject->isDisplayDoiLink());
                             $documentFormField->setValidation($metadataObject->getValidation());
                             $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
                             $documentFormField->setValidator($metadataObject->getValidator());
@@ -402,6 +403,7 @@ class DocumentMapper
                         $documentFormField->setAccessRestrictionRoles($metadataObject->getAccessRestrictionRoles());
 
                         $documentFormField->setConsent($metadataObject->getConsent());
+                        $documentFormField->setDisplayDoiLink($metadataObject->isDisplayDoiLink());
                         $documentFormField->setValidation($metadataObject->getValidation());
                         $documentFormField->setValidationErrorMessage($metadataObject->getValidationErrorMessage());
                         $documentFormField->setValidator($metadataObject->getValidator());

@@ -252,6 +252,13 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     protected $helpText = '';
 
     /**
+     * Display DOI as link option
+     *
+     * @var boolean
+     */
+    protected $displayDoiLink;
+
+    /**
      * Returns the name
      *
      * @return string $name
@@ -920,5 +927,15 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     public function setLicenceOptions(string $licenceOptions): void
     {
         $this->licenceOptions = $licenceOptions;
+    }
+
+    public function isDisplayDoiLink(): bool
+    {
+        return $this->displayDoiLink;
+    }
+
+    public function setDisplayDoiLink(bool $displayDoiLink): void
+    {
+        $this->displayDoiLink = $displayDoiLink;
     }
 }

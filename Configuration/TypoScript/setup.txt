@@ -229,6 +229,8 @@ plugin.tx_dpf {
         api {
             deliverInactiveSecretKey = {$plugin.tx_dpf.settings.api.deliverInactiveSecretKey}
         }
+
+        doiBaseUri = https://doi.org/
     }
 }
 

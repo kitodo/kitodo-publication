@@ -593,6 +593,9 @@
 		<trans-unit id="tx_dpf_domain_model_metadataobject.embargo">
 			<source>Embargo</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_metadataobject.display_doi_link">
+			<source>Display DOI as link</source>
+		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_metadataobject.fill_out_service">
 			<source>Fill out service</source>
 		</trans-unit>
