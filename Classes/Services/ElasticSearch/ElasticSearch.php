@@ -349,10 +349,6 @@ class ElasticSearch
             foreach ($person['affiliations'] as $affiliation) {
                 $data->affiliation[] = $affiliation;
             }
-
-            foreach ($person['affiliationIdentifiers'] as $affiliationIdentifier) {
-                $data->affiliation[] = $affiliationIdentifier;
-            }
         }
 
         $data->fobIdentifiers = $fobIdentifiers;

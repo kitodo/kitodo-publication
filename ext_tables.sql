@@ -467,7 +467,6 @@ CREATE TABLE tx_dpf_domain_model_client (
   person_role_xpath tinytext NOT NULL,
   person_fis_identifier_xpath tinytext NOT NULL,
   person_affiliation_xpath tinytext NOT NULL,
-  person_affiliation_identifier_xpath tinytext NOT NULL,
   person_author_role tinytext NOT NULL,
   person_publisher_role tinytext NOT NULL,
   fis_id_xpath tinytext NOT NULL,
