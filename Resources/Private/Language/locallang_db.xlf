@@ -962,6 +962,12 @@
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_language.xpath" approved="yes">
              <source>XPath expressions for the language (Multiple Xpath expressions can be concatenated using ';')</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_corporation.label" approved="yes">
+			 <source>Corporation</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_corporation.xpath" approved="yes">
+			 <source>XPath expressions for the corporation (Multiple Xpath expressions can be concatenated using ';')</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

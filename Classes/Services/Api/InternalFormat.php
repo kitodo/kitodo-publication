@@ -502,15 +502,30 @@ class InternalFormat
      */
     public function getSearchLanguage(): array
     {
-        $searchLanguageXpaths = $this->clientConfigurationManager->getSearchLanguageXpaths();
-        $searchLanguageXpathList = explode(";", trim($searchLanguageXpaths, " ;"));
+        return $this->getSearchValues('searchLanguageXpaths');
+    }
+
+    public function getSearchCorporation(): array
+    {
+        return $this->getSearchValues('SearchCorporationXpaths');
+    }
+
+    /**
+     * @param $xpathConfigName
+     * @return array
+     */
+    private function getSearchValues($xpathConfigName): array
+    {
+        $searchXpaths = $this->clientConfigurationManager->{"get" . ucfirst($xpathConfigName)}();
+
+        $searchXpathList = explode(";", trim($searchXpaths, " ;"));
         $xpath = $this->getXpath();
         $values = [];
 
-        foreach ($searchLanguageXpathList as $searchLanguageXpathItem) {
-            if (empty($searchLanguageXpathItem)) continue;
+        foreach ($searchXpathList as $searchXpathItem) {
+            if (empty($searchXpathItem)) continue;
 
-            $elements = $xpath->query(self::rootNode . trim($searchLanguageXpathItem));
+            $elements = $xpath->query(self::rootNode . trim($searchXpathItem));
 
             if ($elements) foreach ($elements as $element) {
                 $values[] = trim($element->nodeValue);
