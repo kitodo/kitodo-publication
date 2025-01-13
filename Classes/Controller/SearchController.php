@@ -403,13 +403,13 @@ class SearchController extends \EWW\Dpf\Controller\AbstractController
 
         $simpleSearch = $workspaceSessionData->getSimpleQuery();
 
-        $documentTypes = $this->documentTypeRepository->findAll();
+        $documentTypes = $this->documentTypeRepository->findAllSorted();
 
         $docTypes = [];
         foreach ($documentTypes as $documentType) {
             $docTypes[$documentType->getName()] = $documentType->getDisplayName();
         }
-        asort($docTypes, SORT_LOCALE_STRING);
+
         $this->view->assign('documentTypes', $docTypes);
 
         $states[DocumentWorkflow::ALIAS_STATE_NEW] = LocalizationUtility::translate(
