@@ -91,9 +91,14 @@ class DocumentFormField extends AbstractFormElement
      */
     protected $objectType = '';
 
+    /**
+     * @var bool
+     */
+    protected $displayDoiLink = false;
+
     public function getValue()
     {
-        return $this->value;
+        return trim($this->value);
     }
 
     /**
@@ -453,6 +458,24 @@ class DocumentFormField extends AbstractFormElement
     {
         $this->id = $id;
     }
+
+    /**
+     * @return bool
+     */
+    public function isDisplayDoiLink(): bool
+    {
+        return $this->displayDoiLink;
+    }
+
+    /**
+     * @param bool $displayDoiLink
+     * @return void
+     */
+    public function setDisplayDoiLink(bool $displayDoiLink): void
+    {
+        $this->displayDoiLink = $displayDoiLink;
+    }
+
 
     public function getDisplayValue()
     {

@@ -229,6 +229,7 @@ CREATE TABLE tx_dpf_domain_model_metadataobject (
   unpaywall_mapping varchar(50) DEFAULT '' NOT NULL,
   orcid_person_mapping varchar(50) DEFAULT '' NOT NULL,
   object_type varchar(20) DEFAULT '' NOT NULL,
+	display_doi_link tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

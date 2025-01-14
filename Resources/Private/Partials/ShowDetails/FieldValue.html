@@ -47,7 +47,14 @@
                 </f:link.external>
             </f:else>
             <f:else>
-                {fieldItem.value}
+                <f:if condition="{fieldItem.displayDoiLink} && {dpf:isDoi(value:'{fieldItem.value}')}">
+                    <f:then>
+                        <a href="{settings.doiBaseUri}{fieldItem.value}" target="_blank">{fieldItem.value}</a>
+                    </f:then>
+                    <f:else>
+                        {fieldItem.value}
+                    </f:else>
+                </f:if>
             </f:else>
         </f:if>
     </f:else>

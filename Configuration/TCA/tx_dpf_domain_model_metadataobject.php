@@ -33,14 +33,14 @@ return array(
             'starttime' => 'starttime',
             'endtime'   => 'endtime',
         ),
-        'searchFields'             => 'name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
+        'searchFields'             => 'name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, display_doi_link',
         'iconfile'                 => 'EXT:dpf/Resources/Public/Icons/default.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, display_doi_link',
     ),
     'types'     => array(
-        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, display_name, max_iteration, mandatory, validator, validation, validation_error_message, mapping, mods_extension, json_mapping, input_field, licence_options, deposit_license, max_input_length, input_option_list, fill_out_service, gnd_field_uid, default_value, access_restriction_roles, consent, embargo, fis_person_mapping, fis_organisation_mapping, fis_project_mapping, gnd_person_mapping, gnd_organisation_mapping, ror_mapping, zdb_mapping, unpaywall_mapping, orcid_person_mapping, help_text, object_type, display_doi_link, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'palettes'  => array(
         '1' => array('showitem' => ''),
@@ -518,6 +518,16 @@ return array(
                 'eval' => 'trim',
                 'enableRichtext' => true,
                 'default' => '',
+            ),
+        ),
+        'display_doi_link'    => array(
+            'displayCond' => 'FIELD:input_field:=:0',
+            'exclude'   => 1,
+            'l10n_mode' => 'exclude',
+            'label'     => 'LLL:EXT:dpf/Resources/Private/Language/locallang_db.xlf:tx_dpf_domain_model_metadataobject.display_doi_link',
+            'config'    => array(
+                'type'    => 'check',
+                'default' => 0,
             ),
         ),
     ),
