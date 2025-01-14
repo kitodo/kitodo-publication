@@ -2434,4 +2434,11 @@ $(document).ready(function() {
         $(this).prop('checked', false);
       });
     });
+
+    // Start advanced search with “Enter”.
+    $('#extended-search-query').keypress(function(e){
+      if (!e.shiftKey && e.keyCode == 13) {
+          $(this).closest('form').submit();
+      }
+    });
 });
