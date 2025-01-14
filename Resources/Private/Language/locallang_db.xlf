@@ -222,22 +222,19 @@
             <source>Person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_family_xpath" approved="yes">
-            <source>Person family xpath</source>
+            <source>Person family xpath, relative to the person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_given_xpath" approved="yes">
-            <source>Person given xpath</source>
+            <source>Person given xpath, relative to the person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_role_xpath" approved="yes">
-            <source>Person role xpath</source>
+            <source>Person role xpath, relative to the person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_fis_identifier_xpath" approved="yes">
-            <source>Person fis identifier xpath</source>
+            <source>Person fis identifier xpath, relative to the person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_affiliation_xpath" approved="yes">
-            <source>Person affiliation xpath</source>
-        </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.person_affiliation_identifier_xpath" approved="yes">
-            <source>Person affiliation identifier xpath</source>
+            <source>Person affiliation xpath, relative to the person xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.fis_id_xpath" approved="yes">
             <source>Fis id xpath</source>
@@ -246,10 +243,10 @@
             <source>Collection xpath</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_author_role" approved="yes">
-            <source>Person author role</source>
+            <source>Person author role, value of the role, e.g. 'aut'</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.person_publisher_role" approved="yes">
-            <source>Person publisher role</source>
+            <source>Person publisher role, value of the role, e.g. 'pub'</source>
         </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
             <source>Submitter name</source>

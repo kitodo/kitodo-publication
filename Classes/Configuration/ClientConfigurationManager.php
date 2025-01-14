@@ -380,11 +380,6 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->getSetting("personAffiliationXpath");
     }
 
-    public function getPersonAffiliationIdentifierXpath()
-    {
-        return $this->getSetting("personAffiliationIdentifierXpath");
-    }
-
     public function getPersonAuthorRole()
     {
         return $this->getSetting("personAuthorRole");

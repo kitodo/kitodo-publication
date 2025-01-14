@@ -686,19 +686,12 @@ class InternalFormat
         $roleXpath = $this->clientConfigurationManager->getPersonRoleXpath();
         $fisIdentifierXpath = $this->clientConfigurationManager->getPersonFisIdentifierXpath();
         $affiliationXpath = $this->clientConfigurationManager->getPersonAffiliationXpath();
-        $affiliationIdentifierXpath = $this->clientConfigurationManager->getPersonAffiliationIdentifierXpath();
 
         if ($personNodes) foreach ($personNodes as $key => $personNode) {
             $person['affiliations'] = [];
             $affiliationNodes = empty($affiliationXpath) ? [] : $xpath->query($affiliationXpath, $personNode);
             foreach ($affiliationNodes as $affiliationNode) {
                 $person['affiliations'][] = $affiliationNode->nodeValue;
-            }
-
-            $person['affiliationIdentifiers'] = [];
-            $affiliationIdentifierNodes = empty($affiliationIdentifierXpath) ? [] : $xpath->query($affiliationIdentifierXpath, $personNode);
-            if ($affiliationIdentifierNodes) foreach ($affiliationIdentifierNodes as $affiliationIdentifierNode) {
-                $person['affiliationIdentifiers'][] = $affiliationIdentifierNode->nodeValue;
             }
 
             $given = '';

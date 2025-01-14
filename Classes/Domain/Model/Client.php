@@ -501,13 +501,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $personAffiliationXpath  = '';
 
     /**
-     * Person affiliation identifier xpath
-     *
-     * @var string
-     */
-    protected $personAffiliationIdentifierXpath  = '';
-
-    /**
      * Source details xpaths (Semicolon separated)
      *
      * @var string
@@ -2191,22 +2184,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPersonAffiliationXpath(string $personAffiliationXpath)
     {
         $this->personAffiliationXpath = $personAffiliationXpath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPersonAffiliationIdentifierXpath(): string
-    {
-        return $this->personAffiliationIdentifierXpath;
-    }
-
-    /**
-     * @param string $personAffiliationIdentifierXpath
-     */
-    public function setPersonAffiliationIdentifierXpath(string $personAffiliationIdentifierXpath)
-    {
-        $this->personAffiliationIdentifierXpath = $personAffiliationIdentifierXpath;
     }
 
     /**
