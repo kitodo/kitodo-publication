@@ -420,6 +420,8 @@ class ElasticSearch
 
         $data->language = $internalFormat->getSearchLanguage();
 
+        $data->corporation = $internalFormat->getSearchCorporation();
+
         $this->client->index([
             'refresh' => $refresh,
             'index' => $this->getIndexName(),

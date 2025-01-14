@@ -263,6 +263,11 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->getSetting("searchLanguageXpaths");
     }
 
+    public function getSearchCorporationXpaths()
+    {
+        return $this->getSetting("searchCorporationXpaths");
+    }
+
     public function getNamespaces()
     {
         return $this->getSetting("namespaces");

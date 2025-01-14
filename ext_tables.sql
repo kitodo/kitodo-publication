@@ -486,6 +486,7 @@ CREATE TABLE tx_dpf_domain_model_client (
 	additional_search_title_xpaths text NOT NULL,
 	additional_identifier_xpaths text NOT NULL,
 	search_language_xpaths text NOT NULL,
+	search_corporation_xpaths text NOT NULL,
 
   fis_collections tinytext NOT NULL,
 

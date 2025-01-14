@@ -1275,6 +1275,14 @@
              <source>XPath expressions for the language (Multiple Xpath expressions can be concatenated using ';')</source>
 			 <target>XPath-Ausdrücke für die Sprache (Mehrere XPath-Ausdrücke können mit „;“ verkettet werden</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_corporation.label" approved="yes">
+			 <source>Corporation</source>
+			 <target>Institution</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_corporation.xpath" approved="yes">
+			 <source>XPath expressions for the corporation (Multiple Xpath expressions can be concatenated using ';')</source>
+			 <target>XPath-Ausdrücke für die Institution (Mehrere XPath-Ausdrücke können mit „;“ verkettet werden</target>
+		</trans-unit>
         </body>
 	</file>
 </xliff>
