@@ -83,4 +83,14 @@ class DocumentTypeRepository extends AbstractRepository
         }
         return $result;
     }
+
+    /**
+     * @return array|object[]|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findAllSorted()
+    {
+        $query = $this->createQuery();
+        $query->setOrderings(array("sorting" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING));
+        return $query->execute();
+    }
 }
