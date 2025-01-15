@@ -1121,9 +1121,6 @@
 			<trans-unit id="manager.search.searchField.dateIssuedAlwaysSet" approved="yes">
 				<source>Server date issued</source>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.frameworkAgreementId" approved="yes">
-				<source>FrameworkaAgreement ID</source>
-			</trans-unit>
 			<trans-unit id="manager.search.searchField.collection" approved="yes">
 				<source>Collection</source>
 			</trans-unit>

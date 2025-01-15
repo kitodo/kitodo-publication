@@ -523,11 +523,6 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->trimFileXpath($this->getSetting("licenseXpath"));
     }
 
-    public function getFrameworkAgreementIdXpath()
-    {
-        return $this->trimFileXpath($this->getSetting("frameworkAgreementIdXpath"));
-    }
-
     public function getProjectIdXpath()
     {
         return $this->trimFileXpath($this->getSetting("projectIdXpath"));

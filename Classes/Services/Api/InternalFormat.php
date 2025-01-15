@@ -932,15 +932,6 @@ class InternalFormat
     }
 
     /**
-     * @return string
-     */
-    public function getFrameworkAgreementId(): string
-    {
-        $xpath = $this->clientConfigurationManager->getFrameworkAgreementIdXpath();
-        return $this->getValue($xpath);
-    }
-
-    /**
      * Removes all file nodes from the internal xml
      */
     public function removeAllFiles()
