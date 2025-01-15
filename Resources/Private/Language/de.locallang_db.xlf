@@ -323,10 +323,6 @@
             <source>Person author role, value of the role, e.g. 'aut'</source>
             <target>Person-Autor-Rolle, Wert der Rolle, z.B. 'aut'</target>
         </trans-unit>
-        <trans-unit id="tx_dpf_domain_model_client.person_publisher_role" approved="yes">
-            <source>Person publisher role, value of the role, e.g. 'pub'</source>
-            <target>Person-Publisher-Rolle, Wert der Rolle, z.B. 'pub'</target>
-        </trans-unit>
         <trans-unit id="tx_dpf_domain_model_client.submitter_name" approved="yes">
             <source>Submitter name</source>
             <target>Name des Erstellers</target>

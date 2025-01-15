@@ -385,11 +385,6 @@ class ClientConfigurationManager implements SingletonInterface
         return $this->getSetting("personAuthorRole");
     }
 
-    public function getPersonPublisherRole()
-    {
-        return $this->getSetting("personPublisherRole");
-    }
-
     public function getFisIdXpath()
     {
         return $this->getSetting("fisIdXpath");

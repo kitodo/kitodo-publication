@@ -529,13 +529,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $personAuthorRole = '';
 
     /**
-     * Person publisher role
-     *
-     * @var string
-     */
-    protected $personPublisherRole = '';
-
-    /**
      * $mypublicationsUpdateNotificationSubject
      *
      * @var string
@@ -2200,22 +2193,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPersonAuthorRole(string $personAuthorRole)
     {
         $this->personAuthorRole = $personAuthorRole;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPersonPublisherRole(): string
-    {
-        return $this->personPublisherRole;
-    }
-
-    /**
-     * @param string $personPublisherRole
-     */
-    public function setPersonPublisherRole(string $personPublisherRole)
-    {
-        $this->personPublisherRole = $personPublisherRole;
     }
 
     /**
