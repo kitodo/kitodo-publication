@@ -477,6 +477,9 @@ var extendedSearch = {
     init: function () {
         this.showAddFieldDialog();
         this.addField();
+        jQuery("#add-searchfield-dialog").on('hidden.bs.modal', function(){
+          jQuery("#extended-search-query").focus();
+        });
     },
 
     showAddFieldDialog: function () {
