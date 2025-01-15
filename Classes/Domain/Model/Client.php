@@ -701,11 +701,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $frameworkAgreementIdXpath;
-
-    /**
-     * @var string
-     */
     protected $searchYearXpaths;
 
     /**
@@ -2482,22 +2477,6 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setLicenseXpath(string $licenseXpath): void
     {
         $this->licenseXpath = $licenseXpath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFrameworkAgreementIdXpath(): string
-    {
-        return $this->frameworkAgreementIdXpath;
-    }
-
-    /**
-     * @param string $frameworkAgreementIdXpath
-     */
-    public function setFrameworkAgreementIdXpath(string $frameworkAgreementIdXpath): void
-    {
-        $this->frameworkAgreementIdXpath = $frameworkAgreementIdXpath;
     }
 
     /**

@@ -1474,10 +1474,6 @@
 				<source>Server date issued</source>
 				<target>Server Veröffentlichungsdatum</target>
 			</trans-unit>
-			<trans-unit id="manager.search.searchField.frameworkAgreementId" approved="yes">
-				<source>FrameworkaAgreement ID</source>
-				<target>ID des Rahmenvertrags</target>
-			</trans-unit>
 			<trans-unit id="manager.search.searchField.collection" approved="yes">
 				<source>Collection</source>
 				<target>Kollektion</target>

@@ -1203,14 +1203,6 @@
             <source>XPath expressions for the server date issued field</source>
 			<target>XPath-Ausdruck für das Server-Veröffentlichungsdatum-Feld</target>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.label" approved="yes">
-			<source>Framework agreement id</source>
-			<target>ID des Rahmenvertrags</target>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.xpath" approved="yes">
-            <source>XPath expressions for the framework agreement id field</source>
-			<target>XPath-Ausdruck für das Feld der ID des Rahmenvertrags</target>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.label" approved="yes">
 			<source>Collection</source>
 			<target>Kollektion</target>

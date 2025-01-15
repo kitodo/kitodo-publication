@@ -480,7 +480,6 @@ CREATE TABLE tx_dpf_domain_model_client (
   peer_review_xpath tinytext NOT NULL,
   peer_review_other_version_xpath tinytext NOT NULL,
   license_xpath tinytext NOT NULL,
-  framework_agreement_id_xpath tinytext NOT NULL,
   search_year_xpaths text NOT NULL,
   publisher_xpaths text NOT NULL,
   project_id_xpath tinytext NOT NULL,

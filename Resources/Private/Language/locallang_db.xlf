@@ -908,12 +908,6 @@
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.dateIssued.xpath" approved="yes">
             <source>XPath expressions for the server date issued field</source>
 		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.label" approved="yes">
-			<source>Framework agreement id</source>
-		</trans-unit>
-		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.frameworkAgreementId.xpath" approved="yes">
-            <source>XPath expressions for the framework agreement id field</source>
-		</trans-unit>
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.collection.label" approved="yes">
 			<source>Collection</source>
 		</trans-unit>
