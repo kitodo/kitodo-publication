@@ -137,7 +137,7 @@ class DocumentManager
         $query = $this->queryBuilder->buildQuery(
             1, [], 0,
             [], [], [], null, null,
-            'identifier:"'.$identifier.'"'
+            'identifier.keyword:"'.$identifier.'"'
         );
         $results =  $this->elasticSearch->search($query, 'object');
         if (is_array($results) && $results['hits']['total']['value'] > 0) {
@@ -173,7 +173,7 @@ class DocumentManager
         $query = $this->queryBuilder->buildQuery(
             1, [], 0,
             [], [], [], null, null,
-            'identifier:"' . $identifier . '"'
+            'identifier.keyword:"' . $identifier . '"'
         );
         $results = $this->elasticSearch->search($query, 'object');
         if (is_array($results) && $results['hits']['total']['value'] > 0) {
