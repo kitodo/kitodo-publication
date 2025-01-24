@@ -34,7 +34,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class IndexByFile extends AbstractIndexCommand
 {
-
     /**
      * Configure the command by defining arguments
      */
@@ -176,7 +175,7 @@ class IndexByFile extends AbstractIndexCommand
             try {
                 $this->indexXml($response->getBody()->getContents());
                 $io->writeln("OK");
-                return TRUE;
+                return true;
             } catch (\Exception $e) {
                 $io->writeln("Error");
                 $io->writeln($e->getMessage());
