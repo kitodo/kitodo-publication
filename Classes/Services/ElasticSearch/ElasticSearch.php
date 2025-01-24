@@ -228,6 +228,15 @@ class ElasticSearch
                         'process_number' => [
                             'type' => 'keyword'
                         ],
+                        'identifier' => [
+                            'type' => 'text',
+                            'fields' => [
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                    'normalizer' => 'lowercase_normalizer'
+                                ]
+                            ]
+                        ],
                         'creationDate' => [
                             'type' =>  'date',
                             'format' =>  "yyyy-MM-dd"
