@@ -85,16 +85,26 @@ class IndexByFile extends AbstractIndexCommand
         $result = true;
 
         if ($linklist) {
-            $fn = fopen($filename, "r");
-            $httpClient = new HttpClient();
-            while (!feof($fn)) {
-                $uri = trim(fgets($fn));
-                if ($uri) {
-                    $result = $this->indexHttpDocument($uri, $io, $httpClient, $credentials)
-                        && $result;
+            $fn = null;
+            try {
+                $fn = fopen($filename, "r");
+                if ($fn === false) {
+                    $io->error("Could not open file: " . $filename);
+                    return 1;
+                }
+                $httpClient = new HttpClient();
+                while (!feof($fn)) {
+                    $uri = trim(fgets($fn));
+                    if ($uri) {
+                        $result = $this->indexHttpDocument($uri, $io, $httpClient, $credentials)
+                            && $result;
+                    }
+                }
+            } finally {
+                if ($fn) {
+                    fclose($fn);
                 }
             }
-            fclose($fn);
         } else {
             $result = $this->indexFile($filename, $io);
         }
@@ -181,12 +191,11 @@ class IndexByFile extends AbstractIndexCommand
                 $io->writeln($e->getMessage());
                 return false;
             } finally {
-                if (isset($response)) {
-                    // Closing content stream and killing the response variable.
-                    // This should actually be happening when leaving the function
-                    // scope. But there are weird issues with open files from Guzzle magic.
+                // Closing content stream
+                // This should actually be happening when leaving the function
+                // scope. But there are weird issues with open files from Guzzle magic.
+                if (isset($response) && $response instanceof ResponseInterface) {
                     $response->getBody()->close();
-                    unset($response);
                 }
             }
         } else {
