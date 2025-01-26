@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Exceptions;
 
 /*

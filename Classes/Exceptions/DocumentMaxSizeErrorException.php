@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Exceptions;
 
 /*
@@ -16,7 +17,7 @@ namespace EWW\Dpf\Exceptions;
 
 class DocumentMaxSizeErrorException extends \Exception implements DPFExceptionInterface
 {
-    public function messageLanguageKey()
+    public function messageLanguageKey(): string
     {
         return 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_save.max_size_error';
     }
