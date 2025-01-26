@@ -1,0 +1,44 @@
+name: PHP Code Scanning
+
+on:
+  push:
+    branches:
+      - '*'  # Trigger on commits to any branch
+  pull_request:
+    branches:
+      - 'master'  # Trigger for PRs targeting the 'master' branch
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up PHP 7.4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      # Install dependencies (including PHPStan)
+      - name: Install dependencies
+        run: |
+          composer install --no-interaction --prefer-dist
+
+      # Run PHPStan with the github error format
+      - name: Run PHPStan (Errors Only)
+        run: |
+          vendor/bin/phpstan --error-format=github --no-progress
+        continue-on-error: true  # Continue even if PHPStan finds warnings
+
+      # Check if PHPStan found errors and fail if so
+      - name: Fail on Errors (if any)
+        run: |
+          if grep -q 'ERROR' phpstan.log; then
+            echo "PHPStan found errors, failing the job!";
+            exit 1;
+          fi
+        continue-on-error: false  # This step will fail the job if errors are found
