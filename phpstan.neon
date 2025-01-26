@@ -1,0 +1,8 @@
+parameters:
+    level: 5
+    paths:
+        - Classes
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    ignoreErrors:
+        - '#Variable .+ might not be defined#'
