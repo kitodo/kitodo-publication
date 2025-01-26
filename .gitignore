@@ -1,3 +1,9 @@
-composer.lock
+# Ignore PHP dependencies (always installed via Composer)
+vendor/
+
+# Public folder for TYPO3 core (if it's part of the repo for testing)
+public/
+
+# IDE-specific files
 .vscode/
-!/.vscode/launch.json
+.idea/
