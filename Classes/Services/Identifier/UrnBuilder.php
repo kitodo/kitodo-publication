@@ -129,11 +129,10 @@ class UrnBuilder
         $quotient = (string) $quotient;
 
         // identify last digit, which is the check digit
-        $check_digit = ($quotient{mb_strlen($quotient) - 1});
+        $check_digit = ($quotient[mb_strlen($quotient) - 1]);
 
         // return check digit
         return $check_digit;
-
     }
 
     /**
