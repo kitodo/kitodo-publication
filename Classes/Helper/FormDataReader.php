@@ -244,6 +244,7 @@ class FormDataReader
         if ($primary) {
             if ($file->getDatastreamIdentifier()) {
                 $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
+                $file->setFileGroupDeleted(false);
             } else {
                 $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
             }
@@ -286,6 +287,7 @@ class FormDataReader
         if ($primary) {
             if ($file->getDatastreamIdentifier()) {
                 $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
+                $file->setFileGroupDeleted(false);
             } else {
                 $file->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_ADDED);
             }

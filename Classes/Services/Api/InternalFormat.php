@@ -963,11 +963,7 @@ class InternalFormat
         foreach ($files->toArray() as $file) {
             $dataStreamIdentifier = $file->getDatastreamIdentifier();
 
-            if ($file->isFileGroupDeleted()) {
-                continue;
-            }
-
-            if ($file->isDeleted()) {
+            if ($file->isDeleted() || $file->isFileGroupDeleted()) {
                 if (!empty($dataStreamIdentifier)) {
                     $fragment = XMLFragmentGenerator::fragmentFor($fileXpath);
 
