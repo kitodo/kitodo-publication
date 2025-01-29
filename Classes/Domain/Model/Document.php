@@ -24,8 +24,8 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class Document extends AbstractEntity
 {
-    // xml data size ist limited to 64 KB
-    const XML_DATA_SIZE_LIMIT = 64 * 1024;
+    // xml data size ist limited to 4GB
+    const XML_DATA_SIZE_LIMIT = 4 * 1024 * 1024 * 1024;
 
     /**
      * title

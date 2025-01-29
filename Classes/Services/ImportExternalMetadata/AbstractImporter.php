@@ -184,7 +184,7 @@ abstract class AbstractImporter
 
         $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($xmlData);
 
-        // xml data fields are limited to 64 KB
+        // xml data fields are limited
         if (strlen($internalFormat->getXml()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");
         }
