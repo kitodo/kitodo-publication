@@ -205,7 +205,7 @@ class DocumentManager
         Document $document, $workflowTransition = null, $addedFisIdOnly = false
     )
     {
-        // xml data fields are limited to 64 KB
+        // xml data fields are limited
         // FIXME: Code duplication should be removed and it should be encapsulated or made configurable.
         if (strlen($document->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
             throw new \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException("Maximum document size exceeded.");

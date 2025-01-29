@@ -224,7 +224,7 @@ class ApiController extends ActionController
                 $document->setCreator($this->security->getUser()->getUid());
             }
 
-            // xml data fields are limited to 64 KB
+            // xml data fields are limited
             if (strlen($document->getXmlData()) >= Document::XML_DATA_SIZE_LIMIT) {
                 return '{"error": "Maximum document size exceeded"}';
             }
