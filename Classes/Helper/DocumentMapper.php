@@ -461,7 +461,7 @@ class DocumentMapper
             $fobIdentifiers = [];
         }
 
-        $processNumber = $document->getProcessNumber();
+        $processNumber = $document->getProcessNumber() ?  $document->getProcessNumber() : $documentForm->getProcessNumber();
         if (empty($processNumber)) {
             $reservedFedoraPid = $documentForm->getReservedFedoraPid();
             if (empty($reservedFedoraPid)) {
@@ -471,7 +471,10 @@ class DocumentMapper
             } else {
                 $document->setProcessNumber($reservedFedoraPid);
             }
+        } else {
+            $document->setProcessNumber($processNumber);
         }
+
 
         $documentType = $this->documentTypeRepository->findByUid($documentForm->getUid());
 
@@ -497,7 +500,7 @@ class DocumentMapper
 
         // set static xml
         $internalFormat->setDocumentType($documentType->getName());
-        $internalFormat->setProcessNumber($processNumber);
+        $internalFormat->setProcessNumber($document->getProcessNumber());
 
         $document = $this->updateFiles($document, $documentForm->getFiles());
         $document->setXmlData($internalFormat->getXml());

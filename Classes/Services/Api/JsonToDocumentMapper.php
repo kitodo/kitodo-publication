@@ -175,23 +175,26 @@ class JsonToDocumentMapper
                    'attributes' => []
                 ];
 
-                foreach ($groupItem['objects'] as $object) {
-                    $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
-                    $fieldMapping = $metadataObject->getRelativeMapping();
-                    foreach ($object['items'] as $objectItemKey => $objectItem) {
-                        $objectData = [
-                            'modsExtension' => $metadataObject->getModsExtension(),
-                            'mapping' => $fieldMapping,
-                            'value' => $objectItem['_value']
-                        ];
+               if (isset($groupItem['objects'])) {
+                   foreach ($groupItem['objects'] as $object) {
+                       $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+                       $fieldMapping = $metadataObject->getRelativeMapping();
 
-                        if (strpos($fieldMapping, "@") === 0) {
-                            $goupData['attributes'][] = $objectData;
-                        } else {
-                            $goupData['values'][] = $objectData;
+                        foreach ($object['items'] as $objectItemKey => $objectItem) {
+                            $objectData = [
+                                'modsExtension' => $metadataObject->getModsExtension(),
+                                'mapping' => $fieldMapping,
+                                'value' => $objectItem['_value']
+                            ];
+
+                            if (strpos($fieldMapping, "@") === 0) {
+                                $goupData['attributes'][] = $objectData;
+                            } else {
+                                $goupData['values'][] = $objectData;
+                            }
                         }
                     }
-                }
+               }
 
                 $meta[] = $goupData;
             }
@@ -319,6 +322,18 @@ class JsonToDocumentMapper
                                             $objectMetaData['items'][] = $jsonObjectItem;
                                         }
 
+                                        $groupMetaDataObjects['objects'][] = $objectMetaData;
+                                    }
+                                } else {
+                                    if (
+                                        $metadataObject->getInputField() === \EWW\Dpf\Domain\Model\MetadataObject::hidden
+                                        && $metadataObject->getDefaultValue()
+                                    ) {
+                                        $objectMetaData = [];
+                                        $objectMetaData['jsonObjectName'] = "";
+                                        $objectMetaData['metadataObject'] = $metadataObject->getUid();
+                                        $objectMetaData['items'] = [];
+                                        $objectMetaData['items'][] = ["_value" => $metadataObject->getDefaultValue()];
                                         $groupMetaDataObjects['objects'][] = $objectMetaData;
                                     }
                                 }
