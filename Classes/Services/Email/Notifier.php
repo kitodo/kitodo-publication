@@ -285,7 +285,7 @@ class Notifier
         $client = $this->clientRepository->findAll()->current();
 
         $internalFormat = new InternalFormat($document->getXmlData());
-        if ($internalFormat->getFisId()) {
+        if ($internalFormat->getFisId() && $this->isFisRelevant($document)) {
             // Active messaging: Suggestion decline
             $this->sendActiveMessage(
                 $document,
@@ -305,7 +305,7 @@ class Notifier
         $internalFormat = new InternalFormat($document->getXmlData());
 
         // Active messaging: Document changed
-        if (!$addedFisIdOnly && $internalFormat->getFisId()) {
+        if (!$addedFisIdOnly && $internalFormat->getFisId() && $this->isFisRelevant($document)) {
             $this->sendActiveMessage(
                 $document,
                 $client->getActiveMessagingChangedDocumentUrl(),
