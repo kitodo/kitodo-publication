@@ -86,19 +86,33 @@ class ClientConfigurationManager
     }
 
     /**
-     * Get setting from client or extension configuration.
+     * Get a setting value.
      *
-     * @var array
+     * Checks TypoScript settings first, then client object, and finally extension configuration.
+     *
+     * @param string $settingName The name of the setting to retrieve
+     * @param string|null $extConfig Optional extension configuration key fallback
+     * @return string|null The setting value or null if not found
      */
     public function getSetting($settingName, $extConfig = null)
     {
         $setting = null;
-        if ($this->client) {
-            $setting = trim($this->client->{"get" . ucfirst($settingName)}());
+
+        // 1. Try to get from TypoScript settings if available
+        if (is_array($this->settings) && isset($this->settings[$settingName])) {
+            $setting = trim($this->settings[$settingName]);
         }
 
-        // use global extConfig if client settings is empty
-        if (empty($setting) && $extConfig) {
+        // 2. If TypoScript setting is empty, try client object
+        if (empty($setting) && $this->client) {
+            $method = 'get' . ucfirst($settingName);
+            if (method_exists($this->client, $method)) {
+                $setting = trim($this->client->{$method}());
+            }
+        }
+
+        // 3. If still empty, use extension configuration
+        if (empty($setting) && $extConfig && isset($this->extensionConfiguration[$extConfig])) {
             $setting = trim($this->extensionConfiguration[$extConfig]);
         }
 
