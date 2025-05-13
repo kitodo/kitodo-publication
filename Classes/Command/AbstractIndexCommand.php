@@ -89,8 +89,8 @@ class AbstractIndexCommand extends Command
             $domDocument->loadXML($xml);
             $domXPath = XPath::create($domDocument);
 
-            $objectIdentifier = $domXPath->query('@OBJID')->item(0)->nodeValue;
-            if (empty($objectIdentifier)) {
+            $xmlObjID = $domXPath->query('@OBJID')->item(0)->nodeValue;
+            if (empty($xmlObjID)) {
                 throw new \Exception("Missing object identifier");
             }
 
@@ -131,7 +131,7 @@ class AbstractIndexCommand extends Command
             }
 
             $document->setRemoteLastModDate($internalFormat->getRepositoryLastModDate());
-            $document->setObjectIdentifier($objectIdentifier);
+            $document->setObjectIdentifier(strtolower($xmlObjID));
             $document->setTitle($title);
             $document->setDocumentType($documentType);
 
