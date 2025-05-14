@@ -149,11 +149,11 @@
             </div>
             <div class="modal-footer">
 
-                <f:alias map="{showOrgaSwitch:0, removePersonSwitch:0, api:'Fis', usersetting:'extSearch', groupIndex: 'persons'}">
+                <f:alias map="{showOrgaSwitch:0, removePersonSwitch:0, api:'Fis', usersetting:'extSearch', formGroupUid: 'persons', groupIndex: '0'}">
                     <f:render partial="Api/ApiModal" arguments="{_all}"/>
                 </f:alias>
 
-                <f:alias map="{showOrgaSwitch:1, removePersonSwitch:1, api:'Fis', usersetting:'extSearch', groupIndex: 'affiliation'}">
+                <f:alias map="{showOrgaSwitch:1, removePersonSwitch:1, api:'Fis', usersetting:'extSearch', formGroupUid: 'affiliation', groupIndex: '0'}">
                     <f:render partial="Api/ApiModal" arguments="{_all}"/>
                 </f:alias>
 

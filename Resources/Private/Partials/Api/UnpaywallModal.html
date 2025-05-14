@@ -1,15 +1,15 @@
 <div class="user-search-div" style="float: left;margin-right: 1rem;">
-    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#unpaywallSearchModal-{groupIndex}"
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#unpaywallSearchModal-{formGroupUid}-{groupIndex}"
             data-buttonajax="{f:uri.action(action:'getUnpaywallData',controller:'AjaxBackoffice',pageType:settings.ajaxTypeNum)}">
         Suche in Unpaywall
     </button>
 </div>
 
-<div class="modal fade UnpaywallSearchModal" id="unpaywallSearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="unpaywallSearchModal-{groupIndex}" aria-hidden="true">
+<div class="modal fade UnpaywallSearchModal" id="unpaywallSearchModal-{formGroupUid}-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="unpaywallSearchModal-{formGroupUid}-{groupIndex}" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 50%;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="unpaywallSearchModalTitle-{groupIndex}">Unpaywall Suche</h5>
+                <h5 class="modal-title" id="unpaywallSearchModalTitle-{formGroupUid}-{groupIndex}">Unpaywall Suche</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
