@@ -2157,6 +2157,15 @@ var searchAgain = function (context) {
     searchInputKeyupHandler.call(context);
 }
 
+var resetFisSearchModalRadioButtons = function(context) {
+  if (context.find("#personRadio").length) {
+    context.find("#orgaRadio").prop('checked', false);
+    context.find("#personRadio").prop('checked', true);
+  } else {
+    context.find("#orgaRadio").prop('checked', true);
+  }
+}
+
 var fisSearchModalFillout = function() {
 
     $('.FisSearchModal').on('hidden.bs.modal', function() {
@@ -2170,8 +2179,9 @@ var fisSearchModalFillout = function() {
     });
 
     $('.FisSearchModal').on('shown.bs.modal', function () {
-        //jQuery(this).find("#orgaRadio").prop('checked', false);
-        //jQuery(this).find("#personRadio").prop('checked', true);
+
+        resetFisSearchModalRadioButtons(jQuery(this));
+
         var surname = jQuery(this).closest('fieldset').find('[data-objecttype=surname]').val();
         if (typeof surname !== 'undefined') {
             if (surname.length > 0) {
@@ -2179,6 +2189,10 @@ var fisSearchModalFillout = function() {
             }
         }
     });
+
+  $('.GndSearchModal').on('shown.bs.modal', function () {
+    resetFisSearchModalRadioButtons(jQuery(this));
+  });
 
   $('.UnpaywallSearchModal').on('shown.bs.modal', function () {
     // Find the first occurance of a DOI inside the groups marked as UnpaywallDoi
