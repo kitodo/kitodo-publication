@@ -16,7 +16,7 @@
 <f:comment> MODAL SEARCH API </f:comment>
 
 <div class="user-search-div" style="float: left;margin-right: 1rem;">
-    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{groupIndex}">
+    <button type="button" class="btn btn-s btn-info" data-toggle="modal" data-target="#{api}SearchModal-{formGroupUid}-{groupIndex}">
         <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
             <f:then>
                 Suche in {api -> f:format.case(mode: 'capital')}
@@ -28,11 +28,11 @@
     </button>
 </div>
 
-<div class="modal fade {api}SearchModal" id="{api}SearchModal-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{groupIndex}" aria-hidden="true">
+<div class="modal fade {api}SearchModal" id="{api}SearchModal-{formGroupUid}-{groupIndex}" tabindex="-1" role="dialog" aria-labelledby="{api}SearchModal-{formGroupUid}-{groupIndex}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="{api}SearchModalTitle-{groupIndex}">
+                <h5 class="modal-title" id="{api}SearchModalTitle-{formGroupUid}-{groupIndex}">
                     <f:if condition="{api -> f:format.case(mode: 'lower')}=='unpaywall'">
                         <f:then>
                             {api -> f:format.case(mode: 'capital')}-Suche

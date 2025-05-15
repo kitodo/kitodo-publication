@@ -504,16 +504,16 @@ var extendedSearch = {
             // Reset field values
             jQuery("#add-searchfield-dialog .search-field-value").val("");
 
-            jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").hide();
-            jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").hide();
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons-0']").hide();
+            jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation-0']").hide();
             jQuery(".modal-footer").find("[data-target='#FisProjectSearchModal-project-0']").hide();
 
             if (field == 'persons') {
-                jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons']").show();
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-persons-0']").show();
             }
 
             if (field == 'affiliation') {
-                jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation']").show();
+                jQuery(".modal-footer").find("[data-target='#FisSearchModal-affiliation-0']").show();
             }
 
             if (field == 'project') {
