@@ -322,13 +322,20 @@ class InternalFormat
     }
 
     /**
-     *
-     * @return bool
+     * @return mixed
      */
-    public function getPrimaryUrn(): bool
+    public function getPrimaryUrn()
     {
-        $value = $this->getValue($this->clientConfigurationManager->getPrimaryUrnXpath());
-        return !empty($value);
+        return $this->getValue($this->clientConfigurationManager->getPrimaryUrnXpath());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function setPrimaryUrn($primaryUrn)
+    {
+        $primaryUrnXpath = $this->clientConfigurationManager->getPrimaryUrnXpath();
+        $this->setValue($primaryUrnXpath, $primaryUrn);
     }
 
     public function clearAllUrn()
