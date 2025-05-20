@@ -73,6 +73,9 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=string; label=University collection value (Backoffice)
         universityCollection = epflicht
 
+        # cat=plugin.tx_dpf/link; type=string; label=Collections to automatically generate primary URNs when releasing to the repository (comma-separated list, leave empty to apply to all)
+        primaryUrnCollections =
+
         # cat=plugin.tx_dpf/deactivatePrimaryFileMandatoryCheck; type=string; label=Deactivate the primary file mandatory check.
         deactivatePrimaryFileMandatoryCheck =
 

@@ -156,6 +156,8 @@ plugin.tx_dpf {
 
         universityCollection = {$plugin.tx_dpf.settings.universityCollection}
 
+        primaryUrnCollections = {$plugin.tx_dpf.settings.primaryUrnCollections}
+
         activateAlwaysSetDateIssued = {$plugin.tx_dpf.settings.activateAlwaysSetDateIssued}
 
         indexName = kitodo_publication

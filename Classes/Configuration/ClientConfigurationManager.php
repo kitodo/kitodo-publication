@@ -407,6 +407,16 @@ class ClientConfigurationManager implements SingletonInterface
         return $settings['universityCollection'];
     }
 
+    public function getPrimaryUrnCollections()
+    {
+        $settings = $this->getTypoScriptSettings();
+        $primaryUrnCollectionsConfig =  $settings["primaryUrnCollections"];
+        $primaryUrnCollections = array_map(
+            'trim', explode(",", $primaryUrnCollectionsConfig)
+        );
+        return array_filter($primaryUrnCollections, 'strlen');
+    }
+
     public function isAlwaysSetDateIssued()
     {
         $settings = $this->getTypoScriptSettings();
