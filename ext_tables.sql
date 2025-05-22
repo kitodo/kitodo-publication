@@ -61,9 +61,9 @@ CREATE TABLE tx_dpf_domain_model_document (
   uid int(11) NOT NULL auto_increment,
   pid int(11) DEFAULT '0' NOT NULL,
 
-  title varchar(1024) DEFAULT '' NOT NULL,
-  authors varchar(2048) DEFAULT '' NOT NULL,
-  xml_data text NOT NULL,
+  title text DEFAULT '' NOT NULL,
+  authors text DEFAULT '' NOT NULL,
+  xml_data longtext NOT NULL,
   slub_info_data text NOT NULL,
   document_type int(11) unsigned default '0',
   object_identifier varchar(255) DEFAULT '' NOT NULL,
@@ -76,7 +76,6 @@ CREATE TABLE tx_dpf_domain_model_document (
   changed tinyint(1) unsigned DEFAULT '0' NOT NULL,
   valid tinyint(1) unsigned DEFAULT '0' NOT NULL,
   is_template tinyint(1) unsigned DEFAULT '0' NOT NULL,
-
 
   file int(11) unsigned DEFAULT '0' NOT NULL,
 
