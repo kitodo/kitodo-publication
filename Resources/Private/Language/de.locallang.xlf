@@ -520,6 +520,14 @@
 				<source>Do you really want to activate the document?</source>
 				<target>Wollen Sie das Dokument wirklich aktivieren?</target>
 			</trans-unit>
+			<trans-unit id="manager.confirmRemoveMessage.message" approved="yes">
+				<source>The message will be removed from the list. Re-sending attempts will then no longer be possible.</source>
+				<target>Die Nachricht wird aus der Liste entfernt. Ein erneuter Sendeversuch ist dann nicht mehr möglich.</target>
+			</trans-unit>
+			<trans-unit id="manager.confirmRemoveMessage.messageHeader" approved="yes">
+				<source>Do you really want to remove the message?</source>
+				<target>Soll die Nachricht wirklich aus der Liste entfernt werden?</target>
+			</trans-unit>
 			<trans-unit id="manager.client" approved="yes">
 				<source>Client</source>
 				<target>Mandant</target>
@@ -909,6 +917,46 @@
 			<trans-unit id="manager.documentDetails.preview" approved="yes">
 				<source>Preview</source>
 				<target>Vorschau</target>
+			</trans-unit>
+			<trans-unit id="manager.message.fisMessages" approved="yes">
+				<source>FIS Messages</source>
+				<target>FIS-Benachrichtigungen</target>
+			</trans-unit>
+		    <trans-unit id="manager.message.failedFisMessages" approved="yes">
+				<source>Failed FIS messages</source>
+				<target>Fehlgeschlagenen FIS-Benachrichtigungen</target>
+            </trans-unit>
+			<trans-unit id="manager.message.crdate" approved="yes">
+				<source>Creation date</source>
+				<target>Erstellungsdatum</target>
+			</trans-unit>
+		    <trans-unit id="manager.message.document" approved="yes">
+				<source>Document</source>
+				<target>Dokument</target>
+            </trans-unit>
+			<trans-unit id="manager.message.function" approved="yes">
+				<source>Function</source>
+				<target>Funktion</target>
+			</trans-unit>
+		    <trans-unit id="manager.message.retry" approved="yes">
+				<source>retry sending</source>
+				<target>erneut versuchen</target>
+            </trans-unit>
+		    <trans-unit id="manager.message.remove" approved="yes">
+				<source>remove</source>
+				<target>entfernen</target>
+            </trans-unit>
+		    <trans-unit id="manager.message.noMessages" approved="yes">
+				<source>No failed messages.</source>
+				<target>Keine fehlgeschlagenen Nachrichten vorhanden.</target>
+            </trans-unit>
+			<trans-unit id="manager.message.retryFailed" approved="yes">
+				<source>The message resend has failed.</source>
+				<target>Das erneute Senden der Nachricht ist fehlgeschlagen.</target>
+			</trans-unit>
+			<trans-unit id="manager.message.retrySuccessfull" approved="yes">
+				<source>The message was successfully resent.</source>
+				<target>Die Nachricht wurde erfolgreich erneut gesendet.</target>
 			</trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>

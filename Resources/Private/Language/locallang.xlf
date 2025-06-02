@@ -404,6 +404,12 @@
 			<trans-unit id="manager.confirmActivate.messageHeader" approved="yes">
 				<source>Do you really want to activate the document?</source>
 			</trans-unit>
+			<trans-unit id="manager.confirmRemoveMessage.message" approved="yes">
+				<source>The message will be removed from the list. Re-sending attempts will then no longer be possible.</source>
+			</trans-unit>
+			<trans-unit id="manager.confirmRemoveMessage.messageHeader" approved="yes">
+				<source>Do you really want to remove the message?</source>
+			</trans-unit>
 			<trans-unit id="manager.client" approved="yes">
 				<source>Client</source>
 			</trans-unit>
@@ -704,6 +710,39 @@
 			<trans-unit id="manager.documentDetails.preview" approved="yes">
 				<source>Preview</source>
 			</trans-unit>
+			<trans-unit id="manager.message.fisMessages" approved="yes">
+				<source>FIS Messages</source>
+			</trans-unit>
+		    <trans-unit id="manager.message.failedFisMessages" approved="yes">
+				<source>Failed FIS messages</source>
+            </trans-unit>
+			<trans-unit id="manager.message.crdate" approved="yes">
+				<source>Creation date</source>
+			</trans-unit>
+		    <trans-unit id="manager.message.document" approved="yes">
+				<source>Document</source>
+            </trans-unit>
+			<trans-unit id="manager.message.function" approved="yes">
+				<source>Function</source>
+			</trans-unit>
+		    <trans-unit id="manager.message.retry" approved="yes">
+				<source>retry sending</source>
+            </trans-unit>
+ 			<trans-unit id="manager.message.remove" approved="yes">
+				<source>remove</source>
+            </trans-unit>
+		    <trans-unit id="manager.message.noMessages" approved="yes">
+				<source>No failed messages.</source>
+            </trans-unit>
+		    <trans-unit id="manager.message.retryFailed" approved="yes">
+			    <source>The message resend has failed.</source>
+            </trans-unit>
+		    <trans-unit id="manager.message.retrySuccessfull" approved="yes">
+			    <source>The message was successfully resent.</source>
+            </trans-unit>
+		    <trans-unit id="manager.message.removeSuccessfull" approved="yes">
+			    <source>The message was successfully removed.</source>
+            </trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
 			</trans-unit>

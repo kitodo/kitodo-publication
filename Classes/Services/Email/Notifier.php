@@ -14,15 +14,25 @@ namespace EWW\Dpf\Services\Email;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Configuration\ClientConfigurationManager;
 use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Model\FrontendUser;
+use EWW\Dpf\Domain\Model\Message;
+use EWW\Dpf\Domain\Repository\ClientRepository;
+use EWW\Dpf\Domain\Repository\DepositLicenseRepository;
+use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
+use EWW\Dpf\Domain\Repository\MessageRepository;
+use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Api\InternalFormat;
+use EWW\Dpf\Services\Logger\LoggerOld;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
+use phpDocumentor\Reflection\Types\Static_;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 class Notifier
 {
@@ -30,7 +40,6 @@ class Notifier
      * clientRepository
      *
      * @var \EWW\Dpf\Domain\Repository\ClientRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientRepository = null;
 
@@ -38,7 +47,6 @@ class Notifier
      * documentTypeRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $documentTypeRepository = null;
 
@@ -46,7 +54,6 @@ class Notifier
      * depositLicenseRepository
      *
      * @var \EWW\Dpf\Domain\Repository\DepositLicenseRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $depositLicenseRepository = null;
 
@@ -54,7 +61,6 @@ class Notifier
      * security
      *
      * @var \EWW\Dpf\Security\Security
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $security = null;
 
@@ -62,10 +68,42 @@ class Notifier
      * clientConfigurationManager
      *
      * @var \EWW\Dpf\Configuration\ClientConfigurationManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $clientConfigurationManager;
 
+    /**
+     * MessageRepository
+     *
+     * @var \EWW\Dpf\Domain\Repository\MessageRepository
+     */
+    protected $messageRepository = null;
+
+    /**
+     * PersistenceManager
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
+     */
+    protected $persistenceManager;
+
+
+    public function __construct(
+        ClientRepository $clientRepository,
+        DocumentTypeRepository $documentTypeRepository,
+        DepositLicenseRepository $depositLicenseRepository,
+        Security $security,
+        ClientConfigurationManager $clientConfigurationManager,
+        MessageRepository $messageRepository,
+        PersistenceManagerInterface $persistenceManager
+    )
+    {
+        $this->clientRepository = $clientRepository;
+        $this->documentTypeRepository = $documentTypeRepository;
+        $this->depositLicenseRepository = $depositLicenseRepository;
+        $this->security = $security;
+        $this->clientConfigurationManager = $clientConfigurationManager;
+        $this->messageRepository = $messageRepository;
+        $this->persistenceManager = $persistenceManager;
+    }
 
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
@@ -242,7 +280,7 @@ class Notifier
         $client = $this->clientRepository->findAll()->current();
 
         $internalFormat = new InternalFormat($document->getXmlData());
-        if ($internalFormat->getFisId()) {
+        if ($internalFormat->getFisId() || true) {
             // Active messaging: Suggestion accept
             $this->sendActiveMessage(
                 $document,
@@ -715,21 +753,23 @@ class Notifier
      * @param string $body
      * @param string $functionName
      * @param string $reason
+     * @param bool   $retry
+     * @return bool
      * @throws ConnectionErrorException
      */
     protected function sendActiveMessage(
-        Document $document, string $url, string $body, string $functionName, string $reason = ""
-    )
+        Document $document, string $url, string $body, string $functionName, string $reason = "", $retry = false
+    ): bool
     {
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
 
         try {
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
-            $internalFormat = new InternalFormat($document->getXmlData());
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
             if ($url) {
+
                 $request = Request::post($url);
                 if ($body) {
                     $request->body($this->replaceMarkers($body, $args));
@@ -739,25 +779,104 @@ class Notifier
                 $res = $request->send();
 
                 if ($res->hasErrors() || $res->code != 200) {
-                    throw new ConnectionErrorException('Unable to connect to "' . $url . '"');
+                    throw new ConnectionErrorException(
+                        sprintf(
+                            'Connection to "%s" failed. Status code: %d.',
+                            $url,
+                            $res->code
+                        )
+                    );
                 }
+
+                return true;
             }
+
+            return false;
+
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-            $logger->log(
-                LogLevel::ERROR,
-                $functionName." failed: "
-                .$e->getMessage()
-                ." - Client: ".$client->getClient()
-                .", Document: ".$document->getProcessNumber(),
-                array(
-                    'client' => $client->getClient(),
-                    'document' => $document,
-                    'exception' => $e->getMessage()
-                )
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->info(
+                $functionName." sent",
+                [
+                    'document' => $document->getProcessNumber()
+                ]
             );
+
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
+                $functionName." failed: " . $e->getMessage(),
+                [
+                    'document' => $document->getProcessNumber(),
+                    'exception' => $e->getMessage()
+                ]
+            );
+
+            if (!$retry) {
+                $this->saveFailedMessage($document, $url, $body, $functionName, $reason);
+            }
+
+           return false;
         }
+    }
+
+    /**
+     * Resend a failed message
+     *
+     * @param Message $message
+     * @return bool True if successfull, false if failed
+     */
+    public function retryActiveMessage(Message $message)
+    {
+        try {
+            if (
+                $this->sendActiveMessage(
+                    $message->getDocument(),
+                    $message->getUrl(),
+                    $message->getBody(),
+                    $message->getFunctionname(),
+                    $message->getReason(),
+                    true
+            )) {
+                // Delete from DB if sending was successful.
+                $this->messageRepository->remove($message);
+                $this->persistenceManager->persistAll();
+                return true;
+            }
+
+            return false;
+
+        } catch (\Exception $e) {
+            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
+                "Retry: " . $message->getFunctionname()." failed: " . $e->getMessage(),
+                [
+                    'document' => $message->getDocument()->getProcessNumber(),
+                    'exception' => $e->getMessage()
+                ]
+            );
+
+            return false;
+        }
+    }
+
+    /**
+     * @param Document $document
+     * @param string $url
+     * @param string $body
+     * @param string $functionName
+     * @param string $reason
+     * @return void
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    protected function saveFailedMessage(Document $document,string $url, string $body, string $functionName, string $reason = "") {
+        $message = new Message();
+        $message->setDocument($document);
+        $message->setUrl($url);
+        $message->setBody($body);
+        $message->setFunctionname($functionName);
+        $message->setReason($reason);
+
+        $this->messageRepository->add($message);
+        $this->persistenceManager->persistAll();
     }
 }

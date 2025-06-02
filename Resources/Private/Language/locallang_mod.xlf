@@ -89,6 +89,9 @@
 			<trans-unit id="admin_module.document_type_change_note_message" approved="yes">
             	<source>Please select a suitable document type from the target client. By changing the document type, content from fields that are not available in the target document type may be lost. This cannot be undone.</source>
 			</trans-unit>
+			<trans-unit id="admin_module.logs" approved="yes">
+				<source>Logs</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

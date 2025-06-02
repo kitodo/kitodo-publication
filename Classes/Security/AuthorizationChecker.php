@@ -65,6 +65,21 @@ class AuthorizationChecker
     }
 
 
+    public function denyAccessUnlessIsLibrarian()
+    {
+        $security = $this->objectManager->get(\EWW\Dpf\Security\Security::class);
+
+        if ($this->security->getUserRole() === Security::ROLE_LIBRARIAN) {
+            return;
+        } else {
+            header('Temporary-Header: True', true, 403);
+            header_remove('Temporary-Header');
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:error.access_denied';
+            $accessDeniedMessage = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'dpf');
+            die($accessDeniedMessage);
+        }
+    }
+
     /**
      * @param string $attribute
      * @param object $subject

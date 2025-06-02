@@ -1,0 +1,98 @@
+<f:comment>
+    <!--
+    This file is part of the TYPO3 CMS project.
+
+    It is free software; you can redistribute it and/or modify it under
+    the terms of the GNU General Public License, either version 2
+    of the License, or any later version.
+
+    For the full copyright and license information, please read the
+    LICENSE.txt file that was distributed with this source code.
+
+    The TYPO3 project - inspiring people to share!
+    -->
+</f:comment>
+
+<f:layout name="Backoffice"/>
+
+<f:section name="main">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom sticky-top pt-3">
+        <h1 class="h2">{f:translate(key: 'manager.message.failedFisMessages')}</h1>
+    </div>
+
+    <f:flashMessages />
+
+    <f:if condition="{messages}">
+        <f:then>
+            <table class="tx_dpf table table-striped table-manager table-condensed">
+                <thead>
+                    <tr>
+                        <th>{f:translate(key: 'manager.message.crdate')}</th>
+                        <th>{f:translate(key: 'manager.message.document')}</th>
+                        <th>{f:translate(key: 'manager.message.function')}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <f:for each="{messages}" as="message">
+                        <tr>
+                            <td><f:format.date format="d.m.Y H:i:s">{message.crdate}</f:format.date></td>
+                            <td>{message.document.processNumber}</td>
+                            <td>{message.functionname}</td>
+                            <td>
+                                <f:link.action
+                                    action="retry"
+                                    arguments="{message: message}"
+                                    class="btn btn-primary btn-sm"
+                                >
+                                    {f:translate(key: 'manager.message.retry')}
+                                </f:link.action>
+                                <button type="button"
+                                        class="btn btn-danger btn-sm"
+                                        data-action="{f:uri.action(action: 'remove', arguments: {message: message})}"
+                                        data-toggle="modal"
+                                        data-confirmTarget="#confirmRemoveMessage">
+                                    {f:translate(key: 'manager.message.remove')}
+                                </button>
+                            </td>
+                        </tr>
+                    </f:for>
+                </tbody>
+            </table>
+        </f:then>
+        <f:else>
+            <div class="alert alert-info">
+                {f:translate(key: 'manager.message.noMessages')}
+            </div>
+        </f:else>
+    </f:if>
+
+    <div class="modal fade confirmRemoveMessage" id="confirmRemoveMessage" tabindex="-1" aria-hidden="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{f:translate(key: 'manager.confirmRemoveMessage.messageHeader')}</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="{f:translate(key: 'manager.confirm.no')}"><span
+                        aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                    <p>{f:translate(key: 'manager.confirmRemoveMessage.message', arguments: {0: '%s'})}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{f:translate(key:
+                        'manager.confirm.no')}
+                    </button>
+
+                    <a href="#" class="btn btn-danger">
+                        {f:translate(key: 'manager.confirm.yes')}
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</f:section>

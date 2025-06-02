@@ -20,6 +20,7 @@ use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Security\DocumentVoter;
 use EWW\Dpf\Security\Security;
 use EWW\Dpf\Services\Email\Notifier;
+use EWW\Dpf\Services\Logger\LoggerOld;
 use EWW\Dpf\Session\SearchSessionData;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;

@@ -2251,12 +2251,33 @@ var apiTokenEvents = function() {
     });
 }
 
+
+var confirmRemoveMessage = function() {
+  $('#confirmRemoveMessage').on('show.bs.modal', function () {
+  });
+
+  $('[data-toggle="modal"]').on('click', function() {
+    var action = jQuery(this).data('action');
+    var message = jQuery(this).closest('tr').find('td:nth-child(1)').text()
+      + ", " + jQuery(this).closest('tr').find('td:nth-child(2)').text()
+      + ", " +jQuery(this).closest('tr').find('td:nth-child(3)').text();
+    $('#confirmRemoveMessage').find('.modal-body p').first().text(message);
+
+
+    var action = jQuery(this).data('action');
+    $('#confirmRemoveMessage').find('.modal-footer a').attr('href', action);
+    $('#confirmRemoveMessage').modal('show');
+  });
+}
+
 // -------------------------------------------------------
 // Document ready
 // -------------------------------------------------------
 $(document).ready(function() {
 
     bsCustomFileInput.init();
+
+    confirmRemoveMessage();
 
     jQuery("#new-document-form").trigger("reset");
     documentListConfirmDialog("#confirmDiscard");
