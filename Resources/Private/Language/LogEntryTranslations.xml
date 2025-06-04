@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2024-01-01T00:00:00Z">
+        <header/>
+        <body>
+            <trans-unit id="tx_dpf_log">
+                <source>Log Entry</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.request_id">
+                <source>Request ID</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.time_micro">
+                <source>Time (microseconds)</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.component">
+                <source>Component</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.level">
+                <source>Level</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.message">
+                <source>Message</source>
+            </trans-unit>
+            <trans-unit id="tx_dpf_log.data">
+                <source>Data</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -117,6 +117,10 @@
             	<source>Please select a suitable document type from the target client. By changing the document type, content from fields that are not available in the target document type may be lost. This cannot be undone.</source>
             	<target>Bitte wählen Sie einen geeigneten Dokumenttyp aus dem Ziel-Mandanten aus. Durch Ändern des Dokumenttyps können Inhalte aus Feldern verloren gehen, die im Zieldokumenttyp nicht verfügbar sind. Dies kann nicht rückgängig gemacht werden.</target>
 			</trans-unit>
+			<trans-unit id="admin_module.logs" approved="yes">
+				<source>Logs</source>
+				<target>Logs</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

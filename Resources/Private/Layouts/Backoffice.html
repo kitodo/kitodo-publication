@@ -112,6 +112,16 @@
                                     {f:translate(key: 'manager.uploadMetadata.header')}
                                 </f:link.action>
                             </li>
+                            <f:if condition="{dpf:IsElementAllowed(condition:'{0:\'ROLE_LIBRARIAN\'}')}">
+                                <li class="nav-item">
+                                    <f:link.action action="list" controller="Message"
+                                                   class="nav-link workspace-nav-link
+                                               {dpf:activeManagerMenu(controllerName:'Message', actionNames:{0:'list'})}">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        {f:translate(key: 'manager.message.fisMessages')} (<dpf:failedMessagesCount />)
+                                    </f:link.action>
+                                </li>
+                            </f:if>
                         </ul>
                     </div>
                 </nav>

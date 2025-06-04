@@ -962,3 +962,42 @@ CREATE TABLE tx_dpf_domain_model_depositlicenselog (
   KEY language (l10n_parent,sys_language_uid),
 
 );
+
+#
+# Table structure for table 'tx_dpf_domain_model_message'
+#
+CREATE TABLE tx_dpf_domain_model_message (
+	uid INT(11) UNSIGNED AUTO_INCREMENT,
+	pid INT(11) NOT NULL DEFAULT '0',
+	tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	cruser_id INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	document LONGTEXT NOT NULL,
+	url TEXT NOT NULL,
+	body TEXT NOT NULL,
+	functionname VARCHAR(255) NOT NULL,
+	reason TEXT NOT NULL,
+	deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+	hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
+	version INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+	language_uid INT(11) DEFAULT '0' NOT NULL,
+	PRIMARY KEY (uid)
+);
+
+#
+# Table structure for table 'tx_dpf_domain_model_log'
+#
+CREATE TABLE tx_dpf_domain_model_log (
+	uid INT(11) UNSIGNED AUTO_INCREMENT,
+  pid INT(11) NOT NULL DEFAULT '0',
+	request_id varchar(13) DEFAULT '' NOT NULL,
+	time_micro double(16,4) NOT NULL default '0.0000',
+	component varchar(255) DEFAULT '' NOT NULL,
+	level tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	message text,
+	data text,
+	client_id int(11) DEFAULT NULL,
+PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY request (request_id)
+);

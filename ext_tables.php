@@ -56,12 +56,11 @@ if (!defined('TYPO3_MODE')) {
     '',
     [],
     [
-        'access' => 'admin',
+        'access' => 'user,group',
         'icon' => 'EXT:dpf/ext_icon.gif',
         'labels' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.name',
     ]
 );
-
 
 // Module System > Backend Users
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
@@ -73,8 +72,24 @@ if (!defined('TYPO3_MODE')) {
         'BackendAdmin' => 'searchDocument, chooseNewClient, changeClient',
     ],
     [
-        'access' => 'admin',
+        'access' => 'user,group',
         'icon' => 'EXT:core/Resources/Public/Icons/T3Icons/mimetypes/mimetypes-open-document-text.svg',
         'labels' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.document_client',
+    ]
+);
+
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    'EWW.' . $_EXTKEY,
+    'kitodo_admin',
+    'kitodo_log',
+    'top',
+    [
+        'BackendLog' => 'list',
+    ],
+    [
+        'access' => 'user,group',
+        'icon' => 'EXT:belog/Resources/Public/Icons/module-belog.svg',
+        'labels' => 'LLL:EXT:dpf/Resources/Private/Language/locallang_mod.xlf:admin_module.logs',
     ]
 );
