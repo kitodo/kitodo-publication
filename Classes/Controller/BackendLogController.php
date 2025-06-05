@@ -117,15 +117,6 @@ class BackendLogController extends ActionController
             $accessibleClientIds[] = $client->getUid();
         }
 
-        $logs = [];
-        if ($clientId) {
-            if (in_array($clientId, $accessibleClientIds)) {
-                $clientIds = [$clientId];
-            }
-        } else {
-            $clientIds = $accessibleClientIds;
-        }
-
         $fromDateTime = $fromTime ? new \DateTime($fromTime) : null;
         $toDateTime = $toTime ? new \DateTime($toTime) : null;
         $fromTimestamp = $fromDateTime ? $fromDateTime->getTimestamp() : null;
@@ -147,7 +138,8 @@ class BackendLogController extends ActionController
             $component,
             $fromTimestamp,
             $toTimestamp,
-            $clientIds,
+            $clientId,
+            $accessibleClientIds,
             $level,
             $limit
         );
@@ -188,7 +180,7 @@ class BackendLogController extends ActionController
             if (
                 $beUser->isAdmin() || (
                     $page &&
-                    $beUser->doesUserHaveAccess($page, $client->getPid()) &&
+                    $beUser->doesUserHaveAccess($page, 1) &&
                     $beUser->isInWebMount($client->getPid())
                 )
             ) {

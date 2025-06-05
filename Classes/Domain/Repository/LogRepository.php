@@ -41,7 +41,8 @@ class LogRepository extends Repository
         ?string $component = null,
         ?float $fromTime = null,
         ?float $toTime = null,
-        ?array $clientIds = null,
+        ?int $clientId = null,
+        ?array $accessibleClientIds = null,
         ?int $level = null,
         ?int $limit = null
     ): array {
@@ -77,8 +78,15 @@ class LogRepository extends Repository
             $constraints[] = $query->lessThanOrEqual('timeMicro', $toTime);
         }
 
-        if (!empty($clientIds)) {
-            $constraints[] = $query->in('client_id', $clientIds);
+
+        if ($clientId !== null) {
+            $constraints[] = $query->equals('client_id', $clientId);
+        }
+
+        if (empty($accessibleClientIds)) {
+            return [];
+        } else {
+            $constraints[] = $query->in('client_id', $accessibleClientIds);
         }
 
         if ($level !== null) {
