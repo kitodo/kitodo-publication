@@ -16,10 +16,10 @@ return [
         'iconfile' => 'EXT:my_extension/Resources/Public/Icons/tx_dpf_domain_model_message.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'document,url,body,functionname,reason'
+        'showRecordFieldList' => 'document,url,body,functionname,reason,http_code,curl_code,changed_time'
     ],
     'types' => [
-        '1' => ['showitem' => 'document, url, body, functionname, reason']
+        '1' => ['showitem' => 'document, url, body, functionname, reason, http_code, curl_code, changed_time']
     ],
     'columns' => [
         'document' => [
@@ -68,16 +68,42 @@ return [
                 'max' => 255,
             ]
         ],
-        'tstamp' => array(
-            'config' => array(
+        'http_code' => [
+            'exclude' => 0,
+            'label' => 'Http status code',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'max' => 255,
+            ]
+        ],
+        'curl_code' => [
+            'exclude' => 0,
+            'label' => 'Curl code',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'max' => 255,
+            ]
+        ],
+        'changed_time' => [
+            'exclude' => 0,
+            'label' => 'Curl code',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'max' => 255,
+            ]
+        ],
+        'tstamp' => [
+            'config' => [
                 'type' => 'passthrough',
-            )
-        ),
-        'crdate' => array(
-            'config' => array(
+            ]
+        ],
+        'crdate' => [
+            'config' => [
                 'type' => 'passthrough',
-            )
-        ),
-
+            ]
+        ],
     ],
 ];

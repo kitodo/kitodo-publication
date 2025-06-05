@@ -77,7 +77,7 @@ class LogRepository extends Repository
             $constraints[] = $query->lessThanOrEqual('timeMicro', $toTime);
         }
 
-        if ($clientIds !== null) {
+        if (!empty($clientIds)) {
             $constraints[] = $query->in('client_id', $clientIds);
         }
 

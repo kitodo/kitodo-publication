@@ -37,12 +37,28 @@ class Message extends AbstractEntity
     /**
      * @var int
      */
-    protected $tstamp = 0;
+    protected $tstamp;
 
     /**
      * @var int
      */
-    protected $crdate = 0;
+    protected $crdate;
+
+    /**
+     * @var int
+     */
+    protected $httpCode;
+
+    /**
+     * @var int
+     */
+    protected $curlCode;
+
+
+    /**
+     * @var int
+     */
+    protected $changedTime;
 
     /**
      * Get document
@@ -172,5 +188,34 @@ class Message extends AbstractEntity
     public function setCrdate(int $crdate): void
     {
         $this->crdate = $crdate;
+    }
+
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
+    }
+
+    public function setHttpCode(int $httpCode): void
+    {
+        $this->httpCode = $httpCode;
+    }
+
+    public function getCurlCode(): int
+    {
+        return $this->curlCode;
+    }
+
+    public function setCurlCode(int $curlCode): void
+    {
+        $this->curlCode = $curlCode;
+    }
+
+    public function getChangedTime(): int
+    {
+        return $this->changedTime;
+    }
+    public function setChangedTime(int $changedTime): void
+    {
+        $this->changedTime = $changedTime;
     }
 }
