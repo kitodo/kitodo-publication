@@ -924,11 +924,11 @@
 			</trans-unit>
 		    <trans-unit id="manager.message.failedFisMessages" approved="yes">
 				<source>Failed FIS messages</source>
-				<target>Fehlgeschlagenen FIS-Benachrichtigungen</target>
+				<target>Fehlgeschlagene FIS-Benachrichtigungen</target>
             </trans-unit>
-			<trans-unit id="manager.message.crdate" approved="yes">
-				<source>Creation date</source>
-				<target>Erstellungsdatum</target>
+			<trans-unit id="manager.message.dateSent" approved="yes">
+				<source>Date sent</source>
+				<target>Sendedatum</target>
 			</trans-unit>
 		    <trans-unit id="manager.message.document" approved="yes">
 				<source>Document</source>
@@ -950,14 +950,22 @@
 				<source>No failed messages.</source>
 				<target>Keine fehlgeschlagenen Nachrichten vorhanden.</target>
             </trans-unit>
-			<trans-unit id="manager.message.retryFailed" approved="yes">
-				<source>The message resend has failed.</source>
-				<target>Das erneute Senden der Nachricht ist fehlgeschlagen.</target>
-			</trans-unit>
-			<trans-unit id="manager.message.retrySuccessfull" approved="yes">
-				<source>The message was successfully resent.</source>
-				<target>Die Nachricht wurde erfolgreich erneut gesendet.</target>
-			</trans-unit>
+		    <trans-unit id="manager.message.retryNotDelivered" approved="yes">
+			    <source>The message could not be delivered.</source>
+			    <target>Die Nachricht konnte nicht zugestellt werden.</target>
+            </trans-unit>
+		    <trans-unit id="manager.message.retryNotSent" approved="yes">
+			    <source>The message could not be sent.</source>
+			    <target>Die Nachricht konnte nicht gesendet werden.</target>
+            </trans-unit>
+		    <trans-unit id="manager.message.retryFailed" approved="yes">
+			    <source>Resending could not be started.</source>
+			    <target>Das erneute Senden konnte nicht gestartet werden.</target>
+            </trans-unit>
+		    <trans-unit id="manager.message.retrySuccessfull" approved="yes">
+			    <source>The message was sent successfully.</source>
+			    <target>Die Nachricht wurde erfolgreich gesendet.</target>
+            </trans-unit>
 			<trans-unit id="manager.doublet" approved="yes">
 				<source>Doublet Check</source>
 				<target>Doubletten-Check</target>

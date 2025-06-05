@@ -3,6 +3,7 @@
 namespace EWW\Dpf\Controller;
 
 use EWW\Dpf\Domain\Model\Message;
+use EWW\Dpf\Services\Email\Notifier;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -46,13 +47,25 @@ class MessageController extends AbstractController
      */
     public function retryAction(Message $message)
     {
-        $success = $this->notifier->retryActiveMessage($message);
+        $result = $this->notifier->retryActiveMessage($message);
 
-        if ($success) {
+        if ($result === true) {
             $this->addFlashMessage(
                 LocalizationUtility::translate('manager.message.retrySuccessfull', 'dpf'),
                 '',
                 \TYPO3\CMS\Core\Messaging\AbstractMessage::OK
+            );
+        } elseif (is_array($result) &&  $result['type'] === Notifier::ACTIVE_MESSAGE_ERROR_TYPE_HTTP) {
+            $this->addFlashMessage(
+                LocalizationUtility::translate('manager.message.retryNotDelivered', 'dpf'),
+                    '',
+                    \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
+            );
+        } elseif (is_array($result) &&  $result['type'] === Notifier::ACTIVE_MESSAGE_ERROR_TYPE_CURL) {
+            $this->addFlashMessage(
+                LocalizationUtility::translate('manager.message.retryNotSent', 'dpf'),
+                '',
+                \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
             );
         } else {
             $this->addFlashMessage(

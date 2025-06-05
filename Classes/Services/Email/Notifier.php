@@ -28,7 +28,6 @@ use EWW\Dpf\Services\Api\InternalFormat;
 use EWW\Dpf\Services\Logger\LoggerOld;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
-use phpDocumentor\Reflection\Types\Static_;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -36,6 +35,10 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 class Notifier
 {
+    const ACTIVE_MESSAGE_ERROR_TYPE_HTTP = 'http';
+    const ACTIVE_MESSAGE_ERROR_TYPE_CURL = 'curl';
+    const ACTIVE_MESSAGE_ERROR_TYPE_UNKNOWN = 'unknown';
+
     /**
      * clientRepository
      *
@@ -754,12 +757,13 @@ class Notifier
      * @param string $functionName
      * @param string $reason
      * @param bool   $retry
-     * @return bool
+     * @return bool|[] true if the message was sent successfully, false if nothing was sent, or array with error with infos.
+     * @throws ActiveMessageException
      * @throws ConnectionErrorException
      */
     protected function sendActiveMessage(
         Document $document, string $url, string $body, string $functionName, string $reason = "", $retry = false
-    ): bool
+    )
     {
         /** @var Client $client */
         $client = $this->clientRepository->findAll()->current();
@@ -768,6 +772,7 @@ class Notifier
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
 
+            $url = "http://www.effectddive-webwork.de";
             if ($url) {
 
                 $request = Request::post($url);
@@ -779,12 +784,13 @@ class Notifier
                 $res = $request->send();
 
                 if ($res->hasErrors() || $res->code != 200) {
-                    throw new ConnectionErrorException(
+                    throw new ActiveMessageException(
                         sprintf(
                             'Connection to "%s" failed. Status code: %d.',
                             $url,
                             $res->code
-                        )
+                        ),
+                        $res->code
                     );
                 }
 
@@ -793,7 +799,19 @@ class Notifier
 
             return false;
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+
+            $httpCode = -1;
+            $curlCode = -1;
+
+            if ($e instanceof ActiveMessageException) {
+                $httpCode = $e->getCode();
+            }
+
+            if ($e instanceof ConnectionErrorException) {
+                $curlCode = $e->getCurlErrorNumber();
+            }
+
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->info(
                 $functionName." sent",
@@ -812,10 +830,34 @@ class Notifier
             );
 
             if (!$retry) {
-                $this->saveFailedMessage($document, $url, $body, $functionName, $reason);
+                $message = new Message();
+                $message->setDocument($document);
+                $message->setUrl($url);
+                $message->setBody($body);
+                $message->setFunctionname($functionName);
+                $message->setReason($reason);
+                $message->setHttpCode($httpCode);
+                $message->setCurlCode($curlCode);
+
+                $this->messageRepository->add($message);
+                $this->persistenceManager->persistAll();
             }
 
-           return false;
+            $type = self::ACTIVE_MESSAGE_ERROR_TYPE_UNKNOWN;
+
+            if ($httpCode > 0) {
+                $type = self::ACTIVE_MESSAGE_ERROR_TYPE_HTTP;
+            }
+
+            if ($curlCode > 0) {
+                $type = self::ACTIVE_MESSAGE_ERROR_TYPE_CURL;
+            }
+
+            return [
+              'type' => $type,
+              'httpCode' => $httpCode,
+              'curlCode' => $curlCode
+            ];
         }
     }
 
@@ -823,27 +865,47 @@ class Notifier
      * Resend a failed message
      *
      * @param Message $message
-     * @return bool True if successfull, false if failed
+     * @return bool|int true if the message was sent successfully, false if failed, or error type (curl or http).
+     * @throws ActiveMessageException
+     * @throws ConnectionErrorException
      */
     public function retryActiveMessage(Message $message)
     {
         try {
-            if (
-                $this->sendActiveMessage(
+            /** @var Client $client */
+            $client = $this->clientRepository->findAll()->current();
+
+            $result = $this->sendActiveMessage(
                     $message->getDocument(),
-                    $message->getUrl(),
+                    $client->getActiveMessagingSuggestionAcceptUrl(),
                     $message->getBody(),
                     $message->getFunctionname(),
                     $message->getReason(),
                     true
-            )) {
+            );
+
+            if ($result === true) {
                 // Delete from DB if sending was successful.
                 $this->messageRepository->remove($message);
                 $this->persistenceManager->persistAll();
-                return true;
+            } else {
+                $message->setChangedTime(time());
+                $message->setUrl($client->getActiveMessagingSuggestionAcceptUrl());
+                $message->setBody($client->getActiveMessagingSuggestionAcceptUrlBody());
+                if (is_array($result)) {
+                    $message->setHttpCode($result['httpCode']);
+                    $message->setCurlCode($result['curlCode']);
+                } else {
+                    // Nothing sent due to empty URL in configuration.
+                    $message->setHttpCode(-1);
+                    $message->setCurlCode(-1);
+                }
+
+                $this->messageRepository->update($message);
+                $this->persistenceManager->persistAll();
             }
 
-            return false;
+            return $result;
 
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
@@ -855,28 +917,11 @@ class Notifier
                 ]
             );
 
-            return false;
+            return [
+                'type' => 'unknown',
+                'code' => 0
+            ];
         }
     }
 
-    /**
-     * @param Document $document
-     * @param string $url
-     * @param string $body
-     * @param string $functionName
-     * @param string $reason
-     * @return void
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     */
-    protected function saveFailedMessage(Document $document,string $url, string $body, string $functionName, string $reason = "") {
-        $message = new Message();
-        $message->setDocument($document);
-        $message->setUrl($url);
-        $message->setBody($body);
-        $message->setFunctionname($functionName);
-        $message->setReason($reason);
-
-        $this->messageRepository->add($message);
-        $this->persistenceManager->persistAll();
-    }
 }

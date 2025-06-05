@@ -716,8 +716,8 @@
 		    <trans-unit id="manager.message.failedFisMessages" approved="yes">
 				<source>Failed FIS messages</source>
             </trans-unit>
-			<trans-unit id="manager.message.crdate" approved="yes">
-				<source>Creation date</source>
+			<trans-unit id="manager.message.dateSent" approved="yes">
+				<source>Date sent</source>
 			</trans-unit>
 		    <trans-unit id="manager.message.document" approved="yes">
 				<source>Document</source>
@@ -734,11 +734,17 @@
 		    <trans-unit id="manager.message.noMessages" approved="yes">
 				<source>No failed messages.</source>
             </trans-unit>
+		    <trans-unit id="manager.message.retryNotDelivered" approved="yes">
+			    <source>The message could not be delivered.</source>
+            </trans-unit>
+		    <trans-unit id="manager.message.retryNotSent" approved="yes">
+			    <source>The message could not be sent.</source>
+            </trans-unit>
 		    <trans-unit id="manager.message.retryFailed" approved="yes">
-			    <source>The message resend has failed.</source>
+			    <source>Resending could not be started.</source>
             </trans-unit>
 		    <trans-unit id="manager.message.retrySuccessfull" approved="yes">
-			    <source>The message was successfully resent.</source>
+			    <source>The message was sent successfully.</source>
             </trans-unit>
 		    <trans-unit id="manager.message.removeSuccessfull" approved="yes">
 			    <source>The message was successfully removed.</source>

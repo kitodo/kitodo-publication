@@ -28,18 +28,32 @@
             <table class="tx_dpf table table-striped table-manager table-condensed">
                 <thead>
                     <tr>
-                        <th>{f:translate(key: 'manager.message.crdate')}</th>
+                        <th>{f:translate(key: 'manager.message.dateSent')}</th>
                         <th>{f:translate(key: 'manager.message.document')}</th>
                         <th>{f:translate(key: 'manager.message.function')}</th>
+                        <th>Http-Code</th>
+                        <th>Curl-Code</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <f:for each="{messages}" as="message">
                         <tr>
-                            <td><f:format.date format="d.m.Y H:i:s">{message.crdate}</f:format.date></td>
+                            <td><f:format.date format="d.m.Y H:i:s">{message.tstamp}</f:format.date></td>
                             <td>{message.document.processNumber}</td>
                             <td>{message.functionname}</td>
+                            <td>
+                                <f:if condition="{message.httpCode} >= 0">
+                                    <f:then>{message.httpCode}</f:then>
+                                    <f:else>-</f:else>
+                                </f:if>
+                            </td>
+                            <td>
+                                <f:if condition="{message.curlCode} >= 0">
+                                    <f:then>{message.curlCode}</f:then>
+                                    <f:else>-</f:else>
+                                </f:if>
+                            </td>
                             <td>
                                 <f:link.action
                                     action="retry"
