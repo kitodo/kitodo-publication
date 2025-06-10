@@ -771,8 +771,7 @@ class Notifier
         try {
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
-
-            $url = "http://www.effectddive-webwork.de";
+            
             if ($url) {
 
                 $request = Request::post($url);
