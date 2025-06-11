@@ -771,7 +771,7 @@ class Notifier
         try {
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
             $args = $this->getMailMarkerArray($document, $client, $documentType, $reason);
-            
+
             if ($url) {
 
                 $request = Request::post($url);
@@ -812,15 +812,9 @@ class Notifier
             }
 
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->info(
-                $functionName." sent",
-                [
-                    'document' => $document->getProcessNumber()
-                ]
-            );
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
+            $logger->error(
                 $functionName." failed: " . $e->getMessage(),
                 [
                     'document' => $document->getProcessNumber(),
@@ -874,10 +868,40 @@ class Notifier
             /** @var Client $client */
             $client = $this->clientRepository->findAll()->current();
 
+            switch ($message->getFunctionname()) {
+                case 'sendSuggestionAcceptNotification':
+                    $url  = $client->getActiveMessagingSuggestionAcceptUrl();
+                    $body = $client->getActiveMessagingSuggestionAcceptUrlBody();
+                    break;
+
+                case 'sendSuggestionDeclineNotification':
+                    $url  = $client->getActiveMessagingSuggestionDeclineUrl();
+                    $body = $client->getActiveMessagingSuggestionDeclineUrlBody();
+                    break;
+
+                case 'sendDocumentDeletedNotification':
+                    $url  = $client->getActiveMessagingDocumentDeletedUrl();
+                    $body = $client->getActiveMessagingDocumentDeletedUrlBody();
+                    break;
+
+                case 'sendChangedDocumentNotification':
+                    $url  = $client->getActiveMessagingChangedDocumentUrl();
+                    $body = $client->getActiveMessagingChangedDocumentUrlBody();
+                    break;
+
+                case 'sendReleasePublishNotification':
+                    $url  = $client->getActiveMessagingNewDocumentUrl();
+                    $body = $client->getActiveMessagingNewDocumentUrlBody();
+                    break;
+
+                default:
+                    throw new \Exception('Unknown active massage function: "' . $message->getFunctionname() . '"');
+            }
+
             $result = $this->sendActiveMessage(
                     $message->getDocument(),
-                    $client->getActiveMessagingSuggestionAcceptUrl(),
-                    $message->getBody(),
+                    $url,
+                    $body,
                     $message->getFunctionname(),
                     $message->getReason(),
                     true
@@ -889,13 +913,21 @@ class Notifier
                 $this->persistenceManager->persistAll();
             } else {
                 $message->setChangedTime(time());
-                $message->setUrl($client->getActiveMessagingSuggestionAcceptUrl());
-                $message->setBody($client->getActiveMessagingSuggestionAcceptUrlBody());
+                $message->setUrl($url);
+                $message->setBody($body);
                 if (is_array($result)) {
                     $message->setHttpCode($result['httpCode']);
                     $message->setCurlCode($result['curlCode']);
                 } else {
                     // Nothing sent due to empty URL in configuration.
+                    /** @var $logger \TYPO3\CMS\Core\Log\Logger */
+                    $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                    $logger->error(
+                        "Retry: " . $message->getFunctionname()." failed: No URL configured.",
+                        [
+                            'document' => $message->getDocument()->getProcessNumber()
+                        ]
+                    );
                     $message->setHttpCode(-1);
                     $message->setCurlCode(-1);
                 }
@@ -908,7 +940,8 @@ class Notifier
 
         } catch (\Exception $e) {
             /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__)->error(
+            $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+            $logger->error(
                 "Retry: " . $message->getFunctionname()." failed: " . $e->getMessage(),
                 [
                     'document' => $message->getDocument()->getProcessNumber(),
