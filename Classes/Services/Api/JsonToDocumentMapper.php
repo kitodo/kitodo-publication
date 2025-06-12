@@ -90,7 +90,32 @@ class JsonToDocumentMapper
 
         foreach (['update', 'add', 'remove'] as $action) {
             foreach ($metaData as $group) {
+                /** @var MetadataGroup $metaDataGroup */
                 $metaDataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
+
+                if ($action === 'add') {
+                    // Calculate the last index out of the metadata-item-id attribute for the group.
+                    $lastMetadataGroupItemIndex = -1;
+
+                    $internalFormat = new InternalFormat($this->internalXml->getXml());
+                    $xpath = $internalFormat->getXpath();
+
+                    if ($metaDataGroup->hasMappingForReading()) {
+                        $groupData = $xpath->query($metaDataGroup->getAbsoluteMappingForReading());
+                    } else {
+                        $groupData = $xpath->query($metaDataGroup->getAbsoluteMapping());;
+                    }
+
+                    foreach ($groupData as $groupDataNode) {
+                        if ($groupDataNode->hasAttribute('metadata-item-id')) {
+                            $metaDataId = $groupDataNode->getAttribute('metadata-item-id');
+                            $idParts = explode('-', $metaDataId);
+                            $id = (int)end($idParts);
+                            $lastMetadataGroupItemIndex = ($lastMetadataGroupItemIndex < $id) ? $id : $lastMetadataGroupItemIndex;
+                        }
+                    }
+                }
+
                 foreach ($group['items'] as $groupItem) {
                     if (array_key_exists('_action', $groupItem) && $groupItem['_action'] === $action) {
                         switch ($groupItem['_action']) {
@@ -99,7 +124,8 @@ class JsonToDocumentMapper
                                 break;
 
                             case 'add':
-                                $this->addGroup($metaDataGroup, $groupItem);
+                                $lastMetadataGroupItemIndex++;
+                                $this->addGroup($metaDataGroup, $groupItem, $lastMetadataGroupItemIndex);
                                 break;
 
                             case 'remove':
@@ -441,7 +467,7 @@ class JsonToDocumentMapper
      * @param $metaDataGroup
      * @param $groupItem
      */
-    protected function addGroup($metaDataGroup, $groupItem)
+    protected function addGroup($metaDataGroup, $groupItem, $index = 0)
     {
         $fieldData = [];
         foreach ($groupItem['objects'] as $object) {
@@ -455,7 +481,7 @@ class JsonToDocumentMapper
         }
 
         /** @var GroupNode $groupNode */
-        $this->internalXml->addGroup($metaDataGroup, $fieldData);
+        $this->internalXml->addGroup($metaDataGroup, $fieldData, $index);
     }
 
     /**
@@ -548,5 +574,4 @@ class JsonToDocumentMapper
       }
 
     }
-
 }

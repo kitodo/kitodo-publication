@@ -136,14 +136,15 @@
                         </f:if>
                     </td>
                 </tr>
+
                 <f:for each="{groupChange.group.items}" as="fields">
                     <f:for each="{fields}" as="field" iteration="fieldIterator">
                         <dpf:suggestion.findFieldChange id="{field.id}" groupChange="{groupChange}" as="fieldChange" />
                         <tr>
                             <td>
-                                <f:if condition="{fields.0.displayName}">
+                                <f:if condition="{field.displayName}">
                                     <f:then>
-                                        {fields.0.displayName}
+                                        {field.displayName}
                                     </f:then>
                                     <f:else>
                                         -
@@ -204,7 +205,7 @@
                         </tr>
                         <f:if condition="{fieldIterator.isLast}">
                             <f:for each="{groupChange.fieldChanges}" as="fieldChange">
-                                <f:if condition="{fieldChange.added} && {fieldChange.newField.uid} == {fields.0.uid}">
+                                <f:if condition="{fieldChange.added} && {fieldChange.newField.uid} == {field.uid}">
                                     <tr>
                                         <td>
                                             {fieldChange.newField.displayName}

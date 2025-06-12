@@ -168,7 +168,7 @@ class InternalXml
      * @param array $fieldData
      * @return GroupNode|null
      */
-    public function addGroup(MetadataGroup $metadataGroup, array $fieldData = []): ?GroupNode
+    public function addGroup(MetadataGroup $metadataGroup, array $fieldData = [], $index = 0): ?GroupNode
     {
         $groupMapping = $metadataGroup->getMapping();
 
@@ -192,6 +192,7 @@ class InternalXml
             while ($tempNode->hasChildNodes()) {
                 $tempNode = $tempNode->firstChild;
                 $importedChildNode = $this->xml->importNode($tempNode);
+                $importedChildNode->setAttribute("metadata-item-id", $metadataGroup->getUid() . '-' . $index);
                 $importedParentNode->appendChild($importedChildNode);
                 $importedParentNode = $importedChildNode;
             }

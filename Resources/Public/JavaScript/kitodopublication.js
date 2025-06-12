@@ -1300,6 +1300,24 @@ var addGroup = function(target, fileGroup = false) {
         fisSearchModalFillout();
         addMyUserData();
 
+        // activate the remove button
+        // determine the counter of the group
+        group.find('.rem_group').show();
+        var groupId = group.data('group');
+        var groups = group.parent().find('fieldset[data-group='+groupId+'] .groupCounter');
+        var groupCount = 0;
+
+        if (groups.length > 1) {
+          groupCount = jQuery(groups[groups.length - 2]).data('groupcount');
+        }
+
+        groupCount++;
+
+        // set the group counter
+        group.find('.groupCounter').text('+' + groupCount + ': ');
+        group.find('.groupCounter').data('groupcount', groupCount);
+
+
         // gnd autocomplete for new groups
         var gndField = jQuery(group).find(".gnd");
         if (gndField.length != 0) {
