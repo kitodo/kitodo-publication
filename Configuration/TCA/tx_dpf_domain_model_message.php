@@ -16,10 +16,10 @@ return [
         'iconfile' => 'EXT:my_extension/Resources/Public/Icons/tx_dpf_domain_model_message.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'document,url,body,functionname,reason,http_code,curl_code,changed_time'
+        'showRecordFieldList' => 'document,url,body,functionname,reason,http_code,curl_code'
     ],
     'types' => [
-        '1' => ['showitem' => 'document, url, body, functionname, reason, http_code, curl_code, changed_time']
+        '1' => ['showitem' => 'document, url, body, functionname, reason, http_code, curl_code']
     ],
     'columns' => [
         'document' => [
@@ -88,7 +88,7 @@ return [
         ],
         'changed_time' => [
             'exclude' => 0,
-            'label' => 'Curl code',
+            'label' => 'Internal change time',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
