@@ -51,6 +51,7 @@
                             <f:variable name="formGroupUid">{groupItem.uid}</f:variable>
                             <f:variable name="formGroupDisplayName">{groupItem.displayName}</f:variable>
                             <f:variable name="groupIndex">{groupItemIndex}</f:variable>
+                            <f:variable name="groupCount">{groupItemIterator.index}</f:variable>
                             <f:if condition="{dpf:IsElementAllowed(condition:'{groupItem.accessRestrictionRoles}')}">
                                 <f:then>
                                     <f:render partial="DocumentForm/Group" arguments="{_all}"/>

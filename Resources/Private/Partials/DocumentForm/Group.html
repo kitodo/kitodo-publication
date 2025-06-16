@@ -28,10 +28,12 @@
 
     <f:if condition="{groupItem.groupType} != 'primary_file' && {groupItem.groupType} != 'secondary_file'">
         <legend>
-            <f:if condition="{groupIndex}">+{groupIndex}:</f:if>
+            <span class="groupCounter" data-groupcount="{groupCount}"><f:if condition="{groupCount}">+{groupCount}:</f:if></span>
             {formGroupDisplayName}
             <f:if condition="{groupIndex}">
-                <button type="button" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}">
+                <button type="button" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}"
+                        {f:if(condition: '{groupCount} < 1' , then: 'style="display:none;"')} >
+
                     <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
                 </button>
             </f:if>
