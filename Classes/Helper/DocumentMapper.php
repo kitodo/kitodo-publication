@@ -294,13 +294,13 @@ class DocumentMapper
                                 // ensure that e.g. <mods:detail> and <mods:detail type="volume">
                                 // are not recognized as the same node
                                 if ((strpos($value, "@") === false) && ($value != '.')) {
-                                    $objectMappingPath[$key] .= "[not(@*) or @metadata-item-id]";
+                                    $objectMappingPath[$key] .= "[count(@*) = 0 or (count(@*) = 1 and @metadata-item-id)]";
                                 }
                             }
 
                             $objectMapping = implode("/", $objectMappingPath);
 
-                            if ($objectMapping == '[not(@*) or @metadata-item-id]' || empty($objectMappingPath)) {
+                            if ($objectMapping == '[count(@*) = 0 or (count(@*) = 1 and @metadata-item-id)]' || empty($objectMappingPath)) {
                                 $objectMapping = '.';
                             }
 
