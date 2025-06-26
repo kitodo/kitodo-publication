@@ -1063,4 +1063,39 @@ class InternalFormat
             }
         }
     }
+
+    /**
+     * Removes the 'metadata-item-id' attribute from all nodes in an XML document
+     *
+     * @param string $xmlString
+     * @return string
+     * @throws Exception
+     */
+    static public function removeMetadataItemIdAttribute(string $xmlString): string
+    {
+        $dom = new \DOMDocument();
+        $dom->preserveWhiteSpace = true;
+        $dom->formatOutput = false;
+
+        $previousUseErrors = libxml_use_internal_errors(true);
+        $loaded = $dom->loadXML($xmlString);
+
+        if (!$loaded) {
+            $errors = libxml_get_errors();
+            libxml_use_internal_errors($previousUseErrors);
+            throw new Exception('XML could not be parsed: ' . implode(', ', array_map(fn($e) => $e->message, $errors)));
+        }
+
+        libxml_use_internal_errors($previousUseErrors);
+
+        $xpath = new \DOMXPath($dom);
+        $nodes = $xpath->query('//*[@metadata-item-id]');
+
+        foreach ($nodes as $node) {
+            $node->removeAttribute('metadata-item-id');
+        }
+
+        return $dom->saveXML();
+    }
+
 }
