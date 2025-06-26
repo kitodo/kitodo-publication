@@ -279,15 +279,21 @@ class Document extends AbstractEntity
      * Sets the xmlData
      *
      * @param string $xmlData
+     * @param bool $filterMetadataItemIds
      * @return void
      */
-    public function setXmlData($xmlData)
+    public function setXmlData($xmlData, $filterMetadataItemIds = false)
     {
-        $this->xmlData = $xmlData;
+        if ($filterMetadataItemIds) {
+            $this->xmlData =InternalFormat::removeMetadataItemIdAttribute($xmlData);
+        } else {
+            $this->xmlData = $xmlData;
+        }
     }
 
     /**
-     * Returns the XML taking into account any existing embargo
+     * Returns the XML taking into account any existing embargo. Removes metadata-item-id attributes and
+     * removes all files that are not in the embargo period.
      *
      * @return string
      */
@@ -301,7 +307,7 @@ class Document extends AbstractEntity
             $internalFormat->completeFileData($this->getFile());
         }
 
-        return $internalFormat->getXml();
+        return InternalFormat::removeMetadataItemIdAttribute($internalFormat->getXml());
     }
 
     /**

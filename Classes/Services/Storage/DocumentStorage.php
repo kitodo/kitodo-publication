@@ -450,7 +450,7 @@ class DocumentStorage
                 $document->setTitle($title);
                 $document->setDocumentType($documentType);
 
-                $document->setXmlData($inputTransformedXML);
+                $document->setXmlData($inputTransformedXML, true);
 
                 $document->setDateIssued($internalFormat->getDateIssued());
 

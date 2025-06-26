@@ -238,16 +238,23 @@ class DocumentMapper
 
                         // Needed for the suggestion compare feature
                         $groupItemId = $data->getAttribute("metadata-item-id");
-
-                        if (empty($groupItemId)) {
+                        
+                        if (!$document->isSuggestion() || empty($groupItemId)) {
                             $groupItemIdIndex++;
-                            $groupItemId = $metadataGroup->getUid() . '-' . ($groupItemIdIndex);
+                            $groupMetadataItemId = new MetadataItemId($metadataGroup->getUid() . '-' . $groupItemIdIndex);;
                         } else {
-                            $groupItemIdParts = explode('-', $groupItemId);
-                            $groupItemIdIndex = $groupItemIdParts[1];
+                            $groupMetadataItemId = new MetadataItemId($groupItemId);
+
+                            if ($groupMetadataItemId->getGroupId() != $metadataGroup->getUid()) {
+                                $groupItemIdIndex++;
+                                $groupMetadataItemId = new MetadataItemId($metadataGroup->getUid() . '-' . $groupItemIdIndex);;
+                            } else {
+                                $groupItemIdIndex = $groupMetadataItemId->getGroupIndex();
+                            }
                         }
 
-                        $documentFormGroupItem->setId($groupItemId);
+                        $documentFormGroupItem->setId($groupMetadataItemId);
+
 
                         foreach ($metadataGroup->getMetadataObject() as $metadataObject) {
 
@@ -339,22 +346,28 @@ class DocumentMapper
                                     $documentFormFieldItem->setValue($objectValue, $metadataObject->getDefaultValue());
 
                                     if ($value instanceof \DOMAttr) {
-                                        $documentFormFieldItem->setId($groupItemId . '-' . $metadataObject->getUid(). '-' . 0);
+                                        $documentFormFieldItem->setId($groupMetadataItemId . '-' . $metadataObject->getUid(). '-' . 0);
                                     } else {
                                         $fieldItemId = $value->getAttribute("metadata-item-id");
                                         if ($objectMapping == '.') {
-                                            $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . 0;
+                                            $fieldItemId = $groupMetadataItemId . '-' . $metadataObject->getUid(). '-' . 0;
                                         }
 
-                                       if (empty($fieldItemId)) {
+                                        if (!$document->isSuggestion() || empty($fieldItemId)) {
                                            $fieldItemIdIndex++;
-                                           $fieldItemId = $groupItemId . '-' . $metadataObject->getUid(). '-' . ($fieldItemIdIndex);
-                                       } else {
-                                           $fieldItemIdParts = explode('-', $fieldItemId);
-                                           $fieldItemIdIndex = $fieldItemIdParts[3];
-                                       }
+                                           $fieldMetadataItemId = new MetadataItemId($groupMetadataItemId . '-' . $metadataObject->getUid(). '-' . $fieldItemIdIndex);
+                                        } else {
+                                            $fieldMetadataItemId = new MetadataItemId($fieldItemId);
 
-                                       $documentFormFieldItem->setId($fieldItemId);
+                                            if ($fieldMetadataItemId->getFieldId() != $metadataObject->getUid()) {
+                                                $fieldItemIdIndex++;
+                                                $fieldMetadataItemId = new MetadataItemId($groupMetadataItemId . '-' . $metadataObject->getUid(). '-' . $fieldItemIdIndex);
+                                            }
+
+                                            $fieldItemIdIndex = $fieldMetadataItemId->getFieldIndex();
+                                        }
+
+                                       $documentFormFieldItem->setId($fieldMetadataItemId);
                                     }
 
                                     if ($metadataGroup->isFileGroup() && $metadataObject->isUploadField()) {
@@ -378,7 +391,7 @@ class DocumentMapper
                                     $documentFormGroupItem->addItem($documentFormFieldItem);
                                 }
                             } else {
-                                $documentFormField->setId($groupItemId . '-' . $metadataObject->getUid(). '-' . 0);
+                                $documentFormField->setId($groupMetadataItemId . '-' . $metadataObject->getUid(). '-' . 0);
                                 $documentFormGroupItem->addItem($documentFormField);
                             }
 
