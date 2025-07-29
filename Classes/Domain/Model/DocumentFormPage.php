@@ -50,14 +50,8 @@ class DocumentFormPage extends AbstractFormElement
     public function applyGroupChange(GroupChange $groupChange)
     {
         if ($groupChange->isAdded()) {
-            foreach ($this->getItems() as $keyGroup => $valueGroup) {
-                foreach ($valueGroup as $keyRepeatGroup => $valueRepeatGroup) {
-                    if ($keyGroup === $groupChange->getGroup()->getUid()) {
-                        $this->addItem($groupChange->getGroup());
-                        return;
-                    }
-                }
-            }
+            $this->addItem($groupChange->getGroup());
+            return;
         } elseif ($groupChange->isDeleted()) {
             foreach ($this->getItems() as $keyGroup => $valueGroup) {
                 foreach ($valueGroup as $keyRepeatGroup => $valueRepeatGroup) {

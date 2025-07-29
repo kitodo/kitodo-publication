@@ -52,6 +52,29 @@ class DocumentFormGroup extends AbstractFormElement
      */
     protected $id = '';
 
+
+    /**
+     * @param MetadataGroup|null $metadataGroup
+     */
+    public function __construct(MetadataGroup $metadataGroup = null)
+    {
+        if ($metadataGroup) {
+            $this->setUid($metadataGroup->getUid());
+            $this->setDisplayName($metadataGroup->getDisplayName());
+            $this->setName($metadataGroup->getName());
+            $this->setMandatory($metadataGroup->getMandatory());
+
+            $this->setAccessRestrictionRoles($metadataGroup->getAccessRestrictionRoles());
+
+            $this->setInfoText($metadataGroup->getInfoText());
+            $this->setGroupType($metadataGroup->getGroupType());
+            $this->setMaxIteration($metadataGroup->getMaxIteration());
+
+            $this->setOptionalGroups($metadataGroup->getOptionalGroups());
+            $this->setRequiredGroups($metadataGroup->getRequiredGroups());
+        }
+    }
+
     /**
      * Returns the infoText
      *
@@ -216,11 +239,9 @@ class DocumentFormGroup extends AbstractFormElement
     {
             if ($fieldChange->isAdded()) {
                 foreach ($this->getItems() as $keyField => $valueField) {
-                    foreach ($valueField as $keyRepeatField => $valueRepeatField) {
-                        if ($keyField === $fieldChange->getNewField()->getUid()) {
-                            $this->addItem($fieldChange->getNewField());
-                            return;
-                        }
+                    if ($keyField === $fieldChange->getNewField()->getUid()) {
+                        $this->addItem($fieldChange->getNewField());
+                        return;
                     }
                 }
             } elseif ($fieldChange->isDeleted()) {
