@@ -15,10 +15,14 @@ namespace EWW\Dpf\Services\Api;
  */
 
 use EWW\Dpf\Domain\Model\Document;
+use EWW\Dpf\Domain\Model\DocumentForm;
+use EWW\Dpf\Domain\Model\DocumentFormField;
+use EWW\Dpf\Domain\Model\DocumentFormGroup;
 use EWW\Dpf\Domain\Model\DocumentType;
 use EWW\Dpf\Domain\Model\MetadataGroup;
 use EWW\Dpf\Domain\Model\MetadataObject;
 use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Helper\MetadataItemId;
 use EWW\Dpf\Services\ProcessNumber\ProcessNumberGenerator;
 use EWW\Dpf\Services\Xml\ParserGenerator;
 use JsonPath\JsonObject;
@@ -66,11 +70,6 @@ class JsonToDocumentMapper
     protected $documentRepository = null;
 
     /**
-     * @var InternalXml
-     */
-    protected $internalXml = null;
-
-    /**
      * Replaces the data from the document with the data from the json
      * @param Document $document
      * @param $jsonData
@@ -80,73 +79,56 @@ class JsonToDocumentMapper
      */
     public function editDocument(Document $document, $jsonData)
     {
-        $this->internalXml = new InternalXml();
-        $xmlData = $document->getXmlData();
-        $this->internalXml->setXml($xmlData);
-
         $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
-
         $this->checkMetadata($metaData);
 
-        foreach (['update', 'add', 'remove'] as $action) {
-            foreach ($metaData as $group) {
-                /** @var MetadataGroup $metaDataGroup */
-                $metaDataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
+        /** @var DocumentMapper $documentMapper */
+        $documentMapper = $this->objectManager->get(DocumentMapper::class);
+        $documentForm = $documentMapper->getDocumentForm($document);
 
-                if ($action === 'add') {
-                    // Calculate the last index out of the metadata-item-id attribute for the group.
-                    $lastMetadataGroupItemIndex = -1;
+        $documentGroupsToRemove = [];
 
-                    $internalFormat = new InternalFormat($this->internalXml->getXml());
-                    $xpath = $internalFormat->getXpath();
+        foreach ($metaData as $group) {
 
-                    if ($metaDataGroup->hasMappingForReading()) {
-                        $groupData = $xpath->query($metaDataGroup->getAbsoluteMappingForReading());
-                    } else {
-                        $groupData = $xpath->query($metaDataGroup->getAbsoluteMapping());;
-                    }
+            /** @var MetadataGroup $metaDataGroup */
+            $metadataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
+            $jsonGroupName = $group['jsonGroupName'];
 
-                    foreach ($groupData as $groupDataNode) {
-                        if ($groupDataNode->hasAttribute('metadata-item-id')) {
-                            $metaDataId = $groupDataNode->getAttribute('metadata-item-id');
-                            $idParts = explode('-', $metaDataId);
-                            $id = (int)end($idParts);
-                            $lastMetadataGroupItemIndex = ($lastMetadataGroupItemIndex < $id) ? $id : $lastMetadataGroupItemIndex;
-                        }
-                    }
-                }
+            foreach ($group['items'] as $groupItem) {
 
-                foreach ($group['items'] as $groupItem) {
-                    if (array_key_exists('_action', $groupItem) && $groupItem['_action'] === $action) {
-                        switch ($groupItem['_action']) {
-                            case 'update':
-                                $this->updateGroup($metaDataGroup, $groupItem);
-                                break;
+                $action = $groupItem['_action'];
 
-                            case 'add':
-                                $lastMetadataGroupItemIndex++;
-                                $this->addGroup($metaDataGroup, $groupItem, $lastMetadataGroupItemIndex);
-                                break;
+                if (array_key_exists('_action', $groupItem) && in_array($action, ['remove', 'update', 'add'])) {
+                    switch ($groupItem['_action']) {
+                        case 'update':
+                            $this->updateDocumentFormGroup($documentForm, $metadataGroup, $jsonGroupName, $groupItem);
+                            break;
 
-                            case 'remove':
-                                $this->removeGroup($metaDataGroup, $groupItem);
-                                break;
-                        }
+                        case 'add':
+                            $this->addDocumentFormGroup($documentForm, $metadataGroup, $jsonGroupName, $groupItem);
+                            break;
+
+                        case 'remove':
+                            if (array_key_exists('_index', $groupItem)) {
+                                $groupIndex = (int)$groupItem['_index'];
+                                $documentGroup = $this->findDocumentGroup($documentForm, $metadataGroup, $jsonGroupName, $groupIndex);
+                                if ($documentGroup) {
+                                    $documentGroupsToRemove[$groupIndex] = $documentGroup;
+                                }
+                            }
+                            break;
                     }
                 }
             }
         }
 
-        $document->setXmlData($this->internalXml->getXml());
+        if (krsort($documentGroupsToRemove)) {
+            foreach ($documentGroupsToRemove as $documentGroup) {
+                $documentForm->removeGroupItem($documentGroup);
+            }
+        }
 
-        /** @var DocumentMapper $documentMapper */
-        $documentMapper = $this->objectManager->get(DocumentMapper::class);
-        // Fixme: Due to some php xml/xpath limitations the document xml needs to be ordered,
-        // so that the same groups stand one behind the other in the xml.
-        $documentForm = $documentMapper->getDocumentForm($document);
-        $document = $documentMapper->getDocument($documentForm);
-
-        return $document;
+        return $documentMapper->getDocument($documentForm);
     }
 
     /**
@@ -356,10 +338,14 @@ class JsonToDocumentMapper
                                         && $metadataObject->getDefaultValue()
                                     ) {
                                         $objectMetaData = [];
-                                        $objectMetaData['jsonObjectName'] = "";
+                                        $objectMetaData['jsonObjectName'] = "__HIDDEN_UID" . $metadataObject->getUid() ;
                                         $objectMetaData['metadataObject'] = $metadataObject->getUid();
                                         $objectMetaData['items'] = [];
-                                        $objectMetaData['items'][] = ["_value" => $metadataObject->getDefaultValue()];
+                                        $objectMetaData['items'][] = [
+                                            "_value" => $metadataObject->getDefaultValue(),
+                                            "_index" => 0,
+                                            "_action" => "update"
+                                        ];
                                         $groupMetaDataObjects['objects'][] = $objectMetaData;
                                     }
                                 }
@@ -407,95 +393,6 @@ class JsonToDocumentMapper
         }
 
         return $result;
-    }
-
-    /**
-     * @param $metaDataGroup
-     * @param $groupItem
-     */
-    protected function updateGroup($metaDataGroup, $groupItem)
-    {
-        $groupIndex = 0;
-        if (array_key_exists('_index', $groupItem)) {
-            $groupIndex = $groupItem['_index'];
-        }
-
-        /** @var GroupNode $groupNode */
-        $groupNode = $this->internalXml->findGroup($metaDataGroup, $groupIndex);
-
-        if ($groupNode instanceof GroupNode) {
-            if (is_array($groupItem['objects'])) {
-
-                foreach (['update', 'add', 'remove'] as $action) {
-
-                    foreach ($groupItem['objects'] as $object) {
-                    $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
-
-                        foreach ($object['items'] as $objectItem) {
-
-                            $objectIndex = 0;
-                            if (array_key_exists('_index', $objectItem)) {
-                                $objectIndex = intval($objectItem['_index']);
-                            }
-
-                            if (array_key_exists('_action', $objectItem) && $objectItem['_action'] === $action) {
-                                switch ($objectItem['_action']) {
-                                    case 'add':
-                                        $this->internalXml->addField($groupNode, $metadataObject, $objectItem['_value']);
-                                        break;
-
-                                    case 'update':
-                                        $this->internalXml->setField(
-                                            $groupNode, $metadataObject, $objectIndex,
-                                            $objectItem['_value']
-                                        );
-                                        break;
-
-                                    case 'remove':
-                                        $this->internalXml->removeField($groupNode, $metadataObject, $objectIndex);
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @param $metaDataGroup
-     * @param $groupItem
-     */
-    protected function addGroup($metaDataGroup, $groupItem, $index = 0)
-    {
-        $fieldData = [];
-        foreach ($groupItem['objects'] as $object) {
-            $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
-            foreach ($object['items'] as $objectItem) {
-                $fieldData[] = [
-                    'metadataObject' => $metadataObject,
-                    'value' => $objectItem['_value']
-                ];
-            }
-        }
-
-        /** @var GroupNode $groupNode */
-        $this->internalXml->addGroup($metaDataGroup, $fieldData, $index);
-    }
-
-    /**
-     * @param $metaDataGroup
-     * @param $groupItem
-     */
-    protected function removeGroup($metaDataGroup, $groupItem)
-    {
-        $groupIndex = 0;
-        if (array_key_exists('_index', $groupItem)) {
-            $groupIndex = $groupItem['_index'];
-        }
-
-        $this->internalXml->removeGroup($metaDataGroup, $groupIndex);
     }
 
     /**
@@ -574,4 +471,329 @@ class JsonToDocumentMapper
       }
 
     }
+
+    protected function addDocumentFormGroup(DocumentForm $documentForm, $metadataGroup, $jsonGroupName, $groupItem)
+    {
+        $lastGroupIndex = $this->findLastGroupIndex($documentForm, $metadataGroup, $jsonGroupName);
+
+        if ($lastGroupIndex !== null) {
+            $documentFormGroup = new DocumentFormGroup($metadataGroup);
+            $newGroupIndex = $lastGroupIndex + 1;
+            $groupMetadataItemId = new MetadataItemId($metadataGroup->getUid() . '-' . $newGroupIndex);
+            $documentFormGroup->setId($groupMetadataItemId->__toString());
+
+            if (isset($groupItem['objects']) && is_array($groupItem['objects'])) {
+
+                foreach ($groupItem['objects'] as $object) {
+                    $fieldIndex = 0;
+
+                    if (isset($object['metadataObject'])) {
+                        /** @var MetadataObject $metadataObject */
+                        $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+                        $fieldMapping = trim($metadataObject->getMapping(), " /");
+
+                        foreach ($object['items'] as $objectItem) {
+                            if ($objectItem) {
+
+                                $itemMetadataItemId = new MetadataItemId(
+                                    $metadataGroup->getUid()
+                                    . '-' . $newGroupIndex
+                                    . '-' . $metadataObject->getUid()
+                                    . '-' . $fieldIndex
+                                );
+
+                                $documentFormField = new DocumentFormField();
+                                $documentFormField->setUid($metadataObject->getUid());
+                                $documentFormField->setId($itemMetadataItemId->__toString());
+
+                                if (isset($objectItem['_value'])) {
+                                    $documentFormField->setValue($objectItem['_value']);
+                                }
+
+                                $documentFormGroup->addItem($documentFormField);
+
+                                $fieldIndex++;
+                            }
+
+                            if (str_starts_with($fieldMapping, "@") || $fieldMapping === ".") {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $documentForm->addGroupItem($documentFormGroup);
+
+        }
+
+    }
+
+    /**
+     * @param DocumentForm $documentForm
+     * @param $metadataGroup
+     * @param $jsonGroupName
+     * @return int|null
+     * @throws \Exception
+     */
+    private function findLastGroupIndex(DocumentForm $documentForm, $metadataGroup, $jsonGroupName): ?int
+    {
+
+        $lastGroupIndex = -1;
+        $jsonGroupMapping = trim($metadataGroup->getJsonMapping(), "$.* ");
+
+        if (empty($jsonGroupMapping) || $jsonGroupName !== $jsonGroupMapping) {
+            return null;
+        }
+
+        foreach ($documentForm->getItems() as $formPages) {
+            foreach ($formPages as $formPageItem) {
+                foreach ($formPageItem->getItems() as $formGroup) {
+                    foreach ($formGroup as $formGroupItem) {
+                        if (!$formGroupItem->getId()) {
+                            throw new \Exception("Missing metadata-item-id");
+                        }
+
+                        $metadataItemId = new MetadataItemId($formGroupItem->getId());
+
+                        $existingMetadataGroup = $this->metadataGroupRepository->findByUid($formGroupItem->getUid());
+                        if ($existingMetadataGroup) {
+                            $existingJsonMapping = trim($existingMetadataGroup->getJsonMapping(), "$.* ");
+
+                            if ($existingJsonMapping === $jsonGroupName) {
+                                $currentGroupIndex = $metadataItemId->getGroupIndex();
+                                $lastGroupIndex = max($lastGroupIndex, $currentGroupIndex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $lastGroupIndex >= 0 ? $lastGroupIndex : null;
+    }
+
+    private function findDocumentGroup(DocumentForm $documentForm, $metadataGroup, $jsonGroupName, $index): ?DocumentFormGroup
+    {
+        foreach ($documentForm->getItems() as $formPages) {
+            foreach ($formPages as $formPageItem) {
+                foreach ($formPageItem->getItems() as $formGroup) {
+                    $groupIndex = 0;
+                    foreach ($formGroup as $formGroupItem) {
+                        $existingMetadataGroup = $this->metadataGroupRepository->findByUid($formGroupItem->getUid());
+                        if ($existingMetadataGroup) {
+                            $existingJsonMapping = trim($existingMetadataGroup->getJsonMapping(), "$.* ");
+
+                            if ($existingJsonMapping === $jsonGroupName && $groupIndex === $index) {
+                                return $formGroupItem;
+                            }
+                            $groupIndex++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function findDocumentFormField(DocumentFormGroup $documentFormGroup, $metadataObject, $jsonFieldName, $index): ?DocumentFormField
+    {
+        foreach ($documentFormGroup->getItems() as $field) {
+            $fieldIndex = 0;
+            foreach ($field as $fieldItem) {
+                $existingMetadataField = $this->metadataObjectRepository->findByUid($fieldItem->getUid());
+                if ($existingMetadataField) {
+
+                    $existingJsonMapping = trim($existingMetadataField->getJsonMapping(), "$.* ");
+
+                    if ($existingJsonMapping === $jsonFieldName && $fieldIndex === $index) {
+                        return $fieldItem;
+                    }
+
+                    $defaultFieldValue = trim($existingMetadataField->getDefaultValue());
+
+                    if (
+                        $existingMetadataField->getInputField() === \EWW\Dpf\Domain\Model\MetadataObject::hidden
+                        && $defaultFieldValue) {
+                        return $fieldItem;
+                    }
+
+                    $fieldIndex++;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    protected function updateDocumentFormGroup(DocumentForm $documentForm, $metadataGroup, $jsonGroupName, $groupItem)
+    {
+        if (!array_key_exists('_index', $groupItem) || !is_numeric($groupItem['_index'])) {
+            throw new InvalidJson("Group $jsonGroupName, invalid or missing parameter _index for update action");
+        }
+
+        $groupIndex = (int)$groupItem['_index'];
+        $documentFormGroup = $this->findDocumentGroup($documentForm, $metadataGroup, $jsonGroupName, $groupIndex);
+
+        if (!$documentFormGroup) {
+            throw new InvalidJson("Group $jsonGroupName with index $groupIndex not found for update");
+        }
+
+        if (!isset($groupItem['objects']) || !is_array($groupItem['objects'])) {
+            return;
+        }
+
+        foreach ($groupItem['objects'] as $object) {
+            if (!isset($object['metadataObject'])) {
+                continue;
+            }
+
+            /** @var MetadataObject $metadataObject */
+            $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+            if (!$metadataObject) {
+                continue;
+            }
+
+
+            /** @var MetadataObject $metadataObject */
+            $metadataObject = $this->metadataObjectRepository->findByUid($object['metadataObject']);
+            $jsonFieldName = $object['jsonObjectName'];
+
+            $fieldsToRemove = [];
+
+            if (!isset($object['items']) || !is_array($object['items'])) {
+                continue;
+            }
+
+            foreach ($object['items'] as $objectItem) {
+
+                $action = $objectItem['_action'];
+
+                if (!array_key_exists('_action', $objectItem) || !in_array($objectItem['_action'], ['remove', 'update', 'add'])) {
+                    continue;
+                }
+
+                switch ($action) {
+                    case 'update':
+                        $this->updateDocumentFormField($documentFormGroup, $metadataObject, $jsonFieldName, $objectItem);
+                        break;
+
+                    case 'add':
+                        $this->addDocumentFormField($documentFormGroup, $metadataObject, $jsonFieldName, $objectItem);
+                        break;
+
+                    case 'remove':
+                        if (array_key_exists('_index', $objectItem) && is_numeric($objectItem['_index'])) {
+                            $fieldIndex = (int)$objectItem['_index'];
+                            $documentFormField = $this->findDocumentFormField($documentFormGroup, $metadataGroup, $jsonFieldName, $fieldIndex);
+                            if ($documentFormField) {
+                                $fieldsToRemove[$fieldIndex] = $documentFormField;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            if (krsort($fieldsToRemove)) {
+                foreach ($fieldsToRemove as $fieldToRemove) {
+                    $documentFormGroup->removeItem($fieldToRemove);
+                }
+            }
+        }
+    }
+
+    private function updateDocumentFormField(DocumentFormGroup $documentFormGroup, MetadataObject $metadataObject, string $jsonFieldName, array $objectItem)
+    {
+        if (!array_key_exists('_index', $objectItem) || !is_numeric($objectItem['_index'])) {
+            throw new InvalidJson("Field $jsonFieldName update requires valid _index parameter");
+        }
+
+        if (!array_key_exists('_value', $objectItem)) {
+            throw new InvalidJson("Field $jsonFieldName update requires _value parameter");
+        }
+
+        $fieldIndex = (int)$objectItem['_index'];
+        $documentFormField = $this->findDocumentFormField($documentFormGroup, $metadataObject, $jsonFieldName, $fieldIndex);
+
+        if ($documentFormField) {
+            $documentFormField->setValue($objectItem['_value']);
+        } else {
+            throw new InvalidJson("Field $jsonFieldName with index $fieldIndex not found for update");
+        }
+    }
+
+    private function addDocumentFormField(DocumentFormGroup $documentFormGroup, MetadataObject $metadataObject, string $jsonFieldName, array $objectItem)
+    {
+        if (!array_key_exists('_value', $objectItem)) {
+            throw new InvalidJson("Field add requires _value parameter");
+        }
+
+        $lastFieldIndex = $this->findLastDocumentFormFieldIndex($documentFormGroup, $metadataObject, $jsonFieldName);
+
+        if ($lastFieldIndex !== null) {
+            $documentFormField = new DocumentFormField();
+            $documentFormField->setUid($metadataObject->getUid());
+
+            if ($this->isSingleField($metadataObject)) {
+                $newFieldIndex = 0;
+            } else {
+                $newFieldIndex = $lastFieldIndex + 1;
+            }
+
+            $groupMetadataItemId = new MetadataItemId($documentFormGroup->getId());
+            $fieldMetadataItemId = new MetadataItemId(
+                $groupMetadataItemId->getGroupId()
+                . '-' . $groupMetadataItemId->getGroupIndex()
+                . '-' . $metadataObject->getUid()
+                . '-' . $newFieldIndex
+            );
+
+
+            $documentFormField->setId($fieldMetadataItemId->__toString());
+            $documentFormField->setValue($objectItem['_value']);
+        }
+
+        $documentFormGroup->addItem($documentFormField);
+    }
+
+    private function findLastDocumentFormFieldIndex(DocumentFormGroup $documentFormGroup, MetadataObject $metadataObject, $jsonFieldName): ?int
+    {
+        $lastFieldIndex = -1;
+        $jsonFieldMapping = trim($metadataObject->getJsonMapping(), "$.* ");
+
+        if (empty($jsonFieldMapping) || $jsonFieldName !== $jsonFieldMapping) {
+            return null;
+        }
+
+        foreach ($documentFormGroup->getItems() as $field) {
+            /** @var DocumentFormField $fieldItem */
+            foreach ($field as $fieldItem) {
+                if (!$fieldItem->getId()) {
+                    throw new \Exception("Missing metadata-item-id");
+                }
+
+                $metadataItemId = new MetadataItemId($fieldItem->getId());
+                $existingMetadataField = $this->metadataObjectRepository->findByUid($fieldItem->getUid());
+                if ($existingMetadataField) {
+                    $existingJsonMapping = trim($existingMetadataField->getJsonMapping(), "$.* ");
+
+                    if ($existingJsonMapping === $jsonFieldName) {
+                        $currentFieldIndex = $metadataItemId->getFieldIndex();
+                        $lastFieldIndex = max($lastFieldIndex, $currentFieldIndex);
+                    }
+                }
+            }
+        }
+
+        return $lastFieldIndex >= 0 ? $lastFieldIndex : null;
+    }
+
+    private function isSingleField(MetadataObject $metadataObject)
+    {
+        $metadataObjectMapping = $metadataObject->mappping = trim($metadataObject->getMapping(), " /");
+        return str_starts_with($metadataObjectMapping, "@") || $metadataObjectMapping === ".";
+    }
+
 }

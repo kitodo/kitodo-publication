@@ -481,7 +481,7 @@ class DocumentForm extends AbstractFormElement
     /**
      * @param DocumentFormGroup $groupItem
      */
-    protected function addGroupItem(DocumentFormGroup $groupItem)
+    public function addGroupItem(DocumentFormGroup $groupItem)
     {
         foreach ($this->getItems() as $keyPage => $valuePage) {
             foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
@@ -498,7 +498,7 @@ class DocumentForm extends AbstractFormElement
     /**
      * @param DocumentFormGroup $groupItem
      */
-    protected function removeGroupItem(DocumentFormGroup $groupItem)
+    public function removeGroupItem(DocumentFormGroup $groupItem)
     {
         foreach ($this->getItems() as $keyPage => $valuePage) {
             foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
