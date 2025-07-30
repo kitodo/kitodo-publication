@@ -615,7 +615,9 @@ class JsonToDocumentMapper
 
                     if (
                         $existingMetadataField->getInputField() === \EWW\Dpf\Domain\Model\MetadataObject::hidden
-                        && $defaultFieldValue) {
+                        && $defaultFieldValue
+                        && $jsonFieldName == "__HIDDEN_UID" . $existingMetadataField->getUid()) {
+
                         return $fieldItem;
                     }
 
