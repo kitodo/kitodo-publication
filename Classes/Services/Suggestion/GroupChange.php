@@ -44,6 +44,11 @@ class GroupChange implements Change
     /**
      * @var bool
      */
+    protected $lost = false;
+
+    /**
+     * @var bool
+     */
     protected $accepted = false;
 
     /**
@@ -186,6 +191,16 @@ class GroupChange implements Change
     public function setAdded(bool $added = true): void
     {
         $this->added = $added;
+    }
+
+    public function isLost(): bool
+    {
+        return $this->lost;
+    }
+
+    public function setLost(bool $lost = true): void
+    {
+        $this->lost = $lost;
     }
 
     /**

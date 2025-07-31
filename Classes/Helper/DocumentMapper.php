@@ -521,7 +521,14 @@ class DocumentMapper
         $document->setNewlyAssignedFobIdentifiers(array_diff($internalFormat->getPersonFisIdentifiers(), $fobIdentifiers));
 
         $document->setTitle($internalFormat->getTitle());
-        $document->setEmbargoDate($formMetaData['embargo']);
+
+
+        if (isset($formMetaData['embargo']) && $formMetaData['embargo'] instanceof \DateTime) {
+            $document->setEmbargoDate($formMetaData['embargo']);
+        } else {
+            $document->setEmbargoDate(new \DateTime());
+        }
+
         $document->setDateIssued($internalFormat->getDateIssued());
 
         return $document;

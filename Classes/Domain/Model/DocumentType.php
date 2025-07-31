@@ -331,4 +331,33 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->hiddenInList = $hiddenInList;
     }
 
+    public function hasGroup($groupUid)
+    {
+        /** @var MetadataPage $page */
+        foreach ($this->getChildren() as $page) {
+            foreach ($page->getChildren() as $group) {
+                if ($group->getUid() == $groupUid) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function getGroupsWithEmbargoField() {
+        $embargoGroups = [];
+
+        /** @var MetadataPage $page */
+        foreach ($this->getChildren() as $page) {
+            foreach ($page->getChildren() as $group) {
+                foreach ($group->getChildren() as $field) {
+                    if ($field->getEmbargo()) {
+                        $embargoGroups[$group->getUid()] = $group;
+                    }
+                }
+            }
+        }
+        return $embargoGroups;
+    }
+
 }

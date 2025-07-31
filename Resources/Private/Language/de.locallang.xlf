@@ -96,6 +96,14 @@
 				<source>New files</source>
 				<target>Neue Dateien</target>
 			</trans-unit>
+			<trans-unit id="documentForm.suggestion.changeTypeWarning" approved="yes">
+				<source>The suggestion changes the document type. All data not included in the target type's configuration will be lost.</source>
+				<target>Durch den Vorschlag wird der Dokumenttyp geändert. Alle Daten, die in der Konfiguration des Zieltyps nicht enthalten sind, gehen dabei verloren.</target>
+			</trans-unit>
+			<trans-unit id="documentForm.suggestion.emabargoDataLossWarning" approved="yes">
+				<source>The original document uses an embargo field. When changing the document type, this information may be lost – depending on whether the new type supports this field.</source>
+				<target>Das Originaldokument verwendet ein Embargofeld. Beim Wechsel des Dokumenttyps könnten diese Informationen verloren gehen – je nachdem, ob der neue Typ dieses Feld unterstützt.</target>
+			</trans-unit>
 			<trans-unit id="document_activate.failure" approved="yes">
 				<source>Releasing %s failed.</source>
 				<target>Freigabe von %s fehlgeschlagen.</target>
@@ -825,6 +833,10 @@
 			<trans-unit id="manager.document.suggestionDetails.remove" approved="yes">
 				<source>remove</source>
 				<target>löschen</target>
+			</trans-unit>
+			<trans-unit id="manager.document.suggestionDetails.dataLoss" approved="yes">
+				<source>Data loss</source>
+				<target>Datenverlust</target>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new" approved="yes">
 				<source>New</source>

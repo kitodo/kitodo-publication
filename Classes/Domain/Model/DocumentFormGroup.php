@@ -14,8 +14,12 @@ namespace EWW\Dpf\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Domain\Repository\MetadataGroupRepository;
 use EWW\Dpf\Services\Suggestion\FieldChange;
 use EWW\Dpf\Services\Suggestion\GroupChange;
+use Solarium\Component\Debug;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class DocumentFormGroup extends AbstractFormElement
 {
@@ -51,6 +55,11 @@ class DocumentFormGroup extends AbstractFormElement
      * string
      */
     protected $id = '';
+
+    /**
+     * @var bool
+     */
+    protected $embargoGroup = false;
 
 
     /**
@@ -264,4 +273,18 @@ class DocumentFormGroup extends AbstractFormElement
                 }
             }
         }
+
+    /**
+     * @return bool
+     */
+    public function isEmbargoGroup()
+    {
+        $metadataGroupRepository = GeneralUtility::makeInstance(MetadataGroupRepository::class);
+        $metadataGroup = $metadataGroupRepository->findByUid($this->getUid());
+        if ($metadataGroup) {
+            return $metadataGroup->isEmbargoGroup();
+        }
+
+        return false;
+    }
 }
