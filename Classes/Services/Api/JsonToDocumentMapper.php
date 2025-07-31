@@ -79,12 +79,24 @@ class JsonToDocumentMapper
      */
     public function editDocument(Document $document, $jsonData)
     {
+        $documentType = $this->getDocumentTypeFromJsonData($jsonData);
         $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
         $this->checkMetadata($metaData);
 
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
-        $documentForm = $documentMapper->getDocumentForm($document);
+
+        if ($documentType && $documentType->getUid() !== $document->getDocumentType()->getUid()) {
+            $document->setDocumentType($documentType);
+            $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
+            $internalFormat->setDocumentType($documentType->getName());
+            $document->setXmlData($internalFormat->getXml());
+
+            // Adjusting the document data according to the new document type
+            $documentForm = $documentMapper->getDocumentForm($document);
+        } else {
+            $documentForm = $documentMapper->getDocumentForm($document);
+        }
 
         $documentGroupsToRemove = [];
 
@@ -141,14 +153,7 @@ class JsonToDocumentMapper
      */
     public function getDocument($jsonData)
     {
-        $jsonObject = new JsonObject($jsonData);
-        $publicationType = $jsonObject->get('$.publicationType');
-
-        if ($publicationType && is_array($publicationType)) {
-            $publicationType = $publicationType[0];
-        }
-
-        $documentType = $this->documentTypeRepository->findOneByName($publicationType);
+        $documentType = $this->getDocumentTypeFromJsonData($jsonData);
         if (!$documentType) {
             return null;
         }
@@ -278,12 +283,8 @@ class JsonToDocumentMapper
         $jsonObject = new JsonObject($jsonData);
 
         if (empty($documentType)) {
-            $publicationType = $jsonObject->get('$.publicationType');
-            if ($publicationType && is_array($publicationType)) {
-                $publicationType = $publicationType[0];
-            }
             /** @var \EWW\Dpf\Domain\Model\DocumentType $documentType */
-            $documentType = $this->documentTypeRepository->findOneByName($publicationType);
+            $documentType = $this->getDocumentTypeFromJsonData($jsonData);
         }
 
         $metaData = [];
@@ -796,6 +797,22 @@ class JsonToDocumentMapper
     {
         $metadataObjectMapping = $metadataObject->mappping = trim($metadataObject->getMapping(), " /");
         return str_starts_with($metadataObjectMapping, "@") || $metadataObjectMapping === ".";
+    }
+
+    /**
+     * @param $jsonData
+     * @return DocumentType|null
+     */
+    public function getDocumentTypeFromJsonData($jsonData)
+    {
+        $jsonObject = new JsonObject($jsonData);
+        $publicationType = $jsonObject->get('$.publicationType');
+
+        if ($publicationType && is_array($publicationType)) {
+            $publicationType = $publicationType[0];
+        }
+
+        return $this->documentTypeRepository->findOneByName($publicationType);
     }
 
 }

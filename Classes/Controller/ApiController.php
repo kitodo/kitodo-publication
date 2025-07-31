@@ -358,6 +358,10 @@ class ApiController extends ActionController
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
+            if (!$mapper->getDocumentTypeFromJsonData($json)) {
+                return '{"failed": "Invalid publication type."}';
+            }
+
             /** @var Document $editOrigDocument */
             try {
                 $editOrigDocument = $mapper->editDocument($doc, $json);

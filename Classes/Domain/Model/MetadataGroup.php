@@ -580,5 +580,15 @@ class MetadataGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity imple
         $this->requiredGroups = $requiredGroups;
     }
 
+    public function isEmbargoGroup()
+    {
+        foreach ($this->metadataObject as $metadataObject) {
+            if ($metadataObject->getEmbargo()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

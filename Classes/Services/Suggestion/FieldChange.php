@@ -40,6 +40,11 @@ class FieldChange implements Change
     protected $added = false;
 
     /**
+     * @var bool
+     */
+    protected $lost = false;
+
+    /**
      * FieldChange constructor.
      * @param DocumentFormField|null $oldField
      * @param DocumentFormField|null $newField
@@ -100,6 +105,16 @@ class FieldChange implements Change
     public function setAdded(bool $added = true): void
     {
         $this->added = $added;
+    }
+
+    public function isLost(): bool
+    {
+        return $this->lost;
+    }
+
+    public function setLost(bool $lost): void
+    {
+        $this->lost = $lost;
     }
 
     /**

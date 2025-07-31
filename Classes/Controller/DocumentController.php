@@ -271,7 +271,20 @@ class DocumentController extends AbstractController
                 }
             }
 
-            $internalFormat = new InternalFormat($document->getXmlData());
+            // Document type changed?
+            if ($document->getDocumentType()->getUid() != $originDocument->getDocumentType()->getUid()) {
+                $originDocument->setDocumentType($document->getDocumentType());
+                $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($originDocument->getXmlData());
+                $internalFormat->setDocumentType($document->getDocumentType()->getName());
+                $originDocument->setXmlData($internalFormat->getXml());
+
+                /** @var DocumentMapper $documentMapper */
+                $documentMapper = $this->objectManager->get(DocumentMapper::class);
+                // Adjusting the document data according to the new document type
+                $documentForm = $documentMapper->getDocumentForm($originDocument);
+                $originDocument = $documentMapper->getDocument($documentForm);
+            }
+
             $this->documentRepository->update($originDocument);
             $this->documentRepository->remove($document);
 
@@ -333,8 +346,17 @@ class DocumentController extends AbstractController
             $usernameString = $user->getUsername();
         }
 
+
+        $linkedDocumentEmbargoGroups     = $linkedDocument->getDocumentType()->getGroupsWithEmbargoField();
+        $suggestionDocumentEmbargoGroups = $document->getDocumentType()->getGroupsWithEmbargoField();
+        $this->view->assign('embargoMightBeLost',
+            array_diff($linkedDocumentEmbargoGroups, $suggestionDocumentEmbargoGroups)
+            !== array_diff($suggestionDocumentEmbargoGroups, $linkedDocumentEmbargoGroups)
+        );
+
         $this->view->assign('documentCreator', $usernameString);
 
+        $this->view->assign('originalDocument', $linkedDocument);
         $this->view->assign('document', $document);
         $this->view->assign('documentChanges', $documentChanges);
     }

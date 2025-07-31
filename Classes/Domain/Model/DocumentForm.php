@@ -2,12 +2,14 @@
 
 namespace EWW\Dpf\Domain\Model;
 
+use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Services\Suggestion\DocumentChanges;
 use EWW\Dpf\Services\Suggestion\FieldChange;
 use EWW\Dpf\Services\Suggestion\GroupChange;
 use Exception;
 use TypeError;
 use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*
  * This file is part of the TYPO3 CMS project.(
@@ -338,14 +340,34 @@ class DocumentForm extends AbstractFormElement
      */
     public function diff(DocumentForm $targetForm)
     {
+        $documentRepository = GeneralUtility::makeInstance(DocumentRepository::class);
+        $currentDocument = $documentRepository->findByUid($this->getDocumentUid());
+        $currentDocumentType = $currentDocument->getDocumentType();
+        $targetDocument = $documentRepository->findByUid($targetForm->getDocumentUid());
+        $targetDocumentType = $targetDocument->getDocumentType();
+
         $documentChanges = new DocumentChanges($this, $targetForm);
 
-        // pages
+        $groupItems = [];
         foreach ($this->getItems() as $keyPage => $valuePage) {
             foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                    $groupItems[$keyGroup] = $valueGroup;
+                }
+            }
+        }
+
+        $targetGroupItems = [];
+        foreach ($targetForm->getItems() as $keyPage => $valuePage) {
+            foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
+                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                    $targetGroupItems[$keyGroup] = $valueGroup;
+                }
+            }
+        }
 
                 // groups
-                foreach ($valueRepeatPage->getItems() as $keyGroup => $valueGroup) {
+                foreach ($groupItems as $keyGroup => $valueGroup) {
 
                     $currentGroups = [];
                     foreach ($valueGroup as $keyRepeatGroup => $valueRepeatGroup) {
@@ -353,9 +375,12 @@ class DocumentForm extends AbstractFormElement
                     }
 
                     $targetGroups = [];
-                    $targetValueGroups = $targetForm->getItems()[$keyPage][$keyRepeatPage]->getItems()[$keyGroup];
-                    foreach ($targetValueGroups as $keyRepeatGroup => $valueRepeatGroup) {
-                        $targetGroups[$valueRepeatGroup->getId()] = $valueRepeatGroup;
+                    $targetValueGroups = $targetGroupItems[$keyGroup];
+
+                    if ($targetValueGroups !== NULL) {
+                        foreach ($targetValueGroups as $keyRepeatGroup => $valueRepeatGroup) {
+                            $targetGroups[$valueRepeatGroup->getId()] = $valueRepeatGroup;
+                        }
                     }
 
                     foreach ($currentGroups as $currentGroupId => $currentGroup) {
@@ -416,10 +441,17 @@ class DocumentForm extends AbstractFormElement
 
                             unset($targetGroups[$currentGroupId]);
                         } else {
-                            // @var GroupChange $groupChange
-                            $groupChange = new GroupChange($currentGroup, null);
-                            $groupChange->setDeleted();
-                            $documentChanges->addChange($groupChange);
+                            if ($targetDocumentType->hasGroup($currentGroup->getUid())) {
+                                // @var GroupChange $groupChange
+                                $groupChange = new GroupChange($currentGroup, null);
+                                $groupChange->setDeleted();
+                                $documentChanges->addChange($groupChange);
+                            } else {
+                                // @var GroupChange $groupChange
+                                $groupChange = new GroupChange($currentGroup, null);
+                                $groupChange->setLost();
+                                $documentChanges->addChange($groupChange);
+                            }
                         }
                     }
 
@@ -430,8 +462,6 @@ class DocumentForm extends AbstractFormElement
                         $documentChanges->addChange($groupChange);
                     }
                 }
-            }
-        }
 
         return $documentChanges;
     }
@@ -445,7 +475,7 @@ class DocumentForm extends AbstractFormElement
     {
         /** @var GroupChange $groupChange */
         foreach ($documentChanges->getChanges() as $groupChange) {
-            if ($groupChange->isAccepted()) {
+            if ($groupChange->isAccepted() && !$groupChange->isLost()) {
                 // pages
                 foreach ($this->getItems() as $keyPage => $valuePage) {
                     foreach ($valuePage as $keyRepeatPage => $valueRepeatPage) {
