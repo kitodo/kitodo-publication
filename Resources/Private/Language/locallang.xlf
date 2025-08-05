@@ -87,7 +87,7 @@
 				<source>New files</source>
 			</trans-unit>
 			<trans-unit id="documentForm.suggestion.changeTypeWarning" approved="yes">
-				<source>The suggestion changes the document type. All data not included in the target type's configuration will be lost.</source>
+				<source>The suggestion changes the document type from "%s" to "%s". All data not included in the target type's configuration will be lost.</source>
 			</trans-unit>
 			<trans-unit id="documentForm.suggestion.emabargoDataLossWarning" approved="yes">
 				<source>The original document uses an embargo field. When changing the document type, this information may be lost – depending on whether the new type supports this field.</source>
