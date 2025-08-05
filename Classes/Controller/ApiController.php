@@ -358,7 +358,7 @@ class ApiController extends ActionController
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);
 
-            if (!$mapper->getDocumentTypeFromJsonData($json)) {
+            if ($mapper->getDocumentTypeFromJsonData($json) === false) {
                 return '{"failed": "Invalid publication type."}';
             }
 

@@ -801,18 +801,30 @@ class JsonToDocumentMapper
 
     /**
      * @param $jsonData
-     * @return DocumentType|null
+     * @return DocumentType|null|false
      */
     public function getDocumentTypeFromJsonData($jsonData)
     {
         $jsonObject = new JsonObject($jsonData);
         $publicationType = $jsonObject->get('$.publicationType');
 
+        // No document type in json data
+        if ($publicationType === false) {
+            return null;
+        }
+
         if ($publicationType && is_array($publicationType)) {
             $publicationType = $publicationType[0];
         }
 
-        return $this->documentTypeRepository->findOneByName($publicationType);
+        $docType = $this->documentTypeRepository->findOneByName($publicationType);
+
+        // Invalid document type
+        if ($docType === null) {
+            return false;
+        }
+
+        return $docType;
     }
 
 }
