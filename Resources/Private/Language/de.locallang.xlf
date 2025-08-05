@@ -97,8 +97,8 @@
 				<target>Neue Dateien</target>
 			</trans-unit>
 			<trans-unit id="documentForm.suggestion.changeTypeWarning" approved="yes">
-				<source>The suggestion changes the document type. All data not included in the target type's configuration will be lost.</source>
-				<target>Durch den Vorschlag wird der Dokumenttyp geändert. Alle Daten, die in der Konfiguration des Zieltyps nicht enthalten sind, gehen dabei verloren.</target>
+				<source>The suggestion changes the document type from "%s" to "%s". All data not included in the target type's configuration will be lost.</source>
+				<target>Durch den Vorschlag wird der Dokumenttyp geändert von "%s" zu "%s". Alle Daten, die in der Konfiguration des Zieltyps nicht enthalten sind, gehen dabei verloren.</target>
 			</trans-unit>
 			<trans-unit id="documentForm.suggestion.emabargoDataLossWarning" approved="yes">
 				<source>The original document uses an embargo field. When changing the document type, this information may be lost – depending on whether the new type supports this field.</source>

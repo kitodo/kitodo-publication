@@ -80,8 +80,6 @@ class JsonToDocumentMapper
     public function editDocument(Document $document, $jsonData)
     {
         $documentType = $this->getDocumentTypeFromJsonData($jsonData);
-        $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
-        $this->checkMetadata($metaData);
 
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
@@ -97,6 +95,9 @@ class JsonToDocumentMapper
         } else {
             $documentForm = $documentMapper->getDocumentForm($document);
         }
+
+        $metaData = $this->getMetadataFromJson($jsonData, $document->getDocumentType());
+        $this->checkMetadata($metaData);
 
         $documentGroupsToRemove = [];
 
@@ -343,7 +344,7 @@ class JsonToDocumentMapper
                                         $objectMetaData['metadataObject'] = $metadataObject->getUid();
                                         $objectMetaData['items'] = [];
                                         $objectMetaData['items'][] = [
-                                            "_value" => $metadataObject->getDefaultValue(),
+                                            "_value" => "",
                                             "_index" => 0,
                                             "_action" => "update"
                                         ];
@@ -508,7 +509,7 @@ class JsonToDocumentMapper
                                 $documentFormField->setId($itemMetadataItemId->__toString());
 
                                 if (isset($objectItem['_value'])) {
-                                    $documentFormField->setValue($objectItem['_value']);
+                                    $documentFormField->setValue($objectItem['_value'], $metadataObject->getDefaultValue());
                                 }
 
                                 $documentFormGroup->addItem($documentFormField);
@@ -721,7 +722,6 @@ class JsonToDocumentMapper
         $documentFormField = $this->findDocumentFormField($documentFormGroup, $metadataObject, $jsonFieldName, $fieldIndex);
 
         if ($documentFormField) {
-            $documentFormField->setValue($objectItem['_value']);
         } else {
             throw new InvalidJson("Field $jsonFieldName with index $fieldIndex not found for update");
         }
@@ -755,7 +755,7 @@ class JsonToDocumentMapper
 
 
             $documentFormField->setId($fieldMetadataItemId->__toString());
-            $documentFormField->setValue($objectItem['_value']);
+            $documentFormField->setValue($objectItem['_value'], $metadataObject->getDefaultValue());
         }
 
         $documentFormGroup->addItem($documentFormField);

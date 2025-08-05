@@ -87,9 +87,9 @@
     </div>
 
 
-    <f:if condition="{document.documentType.uid} != {originalDocument.documentType.uid}">
+    <f:if condition="{documentTypeChange}">
         <div class="alert alert-danger" role="alert">
-            {f:translate(key: 'documentForm.suggestion.changeTypeWarning')}
+            {f:translate(key: 'documentForm.suggestion.changeTypeWarning', arguments: {0: '{oldDocumentType}', 1: '{newDocumentType}'})}
         </div>
     </f:if>
 
@@ -122,7 +122,7 @@
             </tr>
             <f:for each="{documentChanges.changes}" as="groupChange">
 
-                <f:if condition="({groupChange.lost} && {groupChange.oldGroup.emptyGroup} == 0) || {groupChange.lost} == 0">
+                <f:if condition="{groupChange.lost} == 0">
 
                         <tr style="background-color: lightgrey;">
                             <td>
@@ -133,14 +133,12 @@
                             <td>
                             </td>
                             <td>
-                                <f:if condition="{groupChange.lost} == 0">
                                 <f:form.checkbox
                                     class="suggestion-checkbox suggestion-checkbox-group"
                                     property="changes.{groupChange.group.id}.accept"
                                     value="1"
                                     additionalAttributes="{data-group:'{groupChange.group.id}'}"
                                 />
-                                </f:if>
                                 <f:if condition="{groupChange.deleted}">
                                     <span class="badge badge-pill badge-danger">
                                         {f:translate(key: 'manager.document.suggestionDetails.remove')}
@@ -148,11 +146,6 @@
                                 </f:if>
                                 <f:if condition="{groupChange.added}">
                                     <span class="badge badge-pill badge-info">{f:translate(key: 'manager.document.suggestionDetails.add')}</span>
-                                </f:if>
-                                <f:if condition="{groupChange.lost}">
-                                    <span class="badge badge-pill badge-danger">
-                                        {f:translate(key: 'manager.document.suggestionDetails.dataLoss')}
-                                    </span>
                                 </f:if>
                                 <f:if condition="{groupChange.oldGroup.embargoGroup}">
                                     <span class="badge badge-pill badge-danger">EMBARGO</span>
@@ -195,7 +188,7 @@
                                                 {fieldChange.newField.displayValue}
                                             </f:then>
                                             <f:else>
-                                                <f:if condition="{groupChange.deleted} == 0 && {groupChange.lost} == 0">
+                                                <f:if condition="{groupChange.deleted} == 0">
                                                     <f:if condition="{field.file} && {field.file.title}">
                                                         <f:then>
                                                             {field.file.title}
@@ -258,6 +251,130 @@
                         </f:for>
                     </f:if>
             </f:for>
+
+
+            <f:for each="{documentChangesLostData.changes}" as="groupChange">
+
+                <f:if condition="({groupChange.lost} && {groupChange.oldGroup.emptyGroup} == 0)">
+
+                    <tr style="background-color: lightgrey;">
+                        <td>
+                            {groupChange.group.displayName}
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <f:if condition="{groupChange.lost}">
+                                <span class="badge badge-pill badge-danger">
+                                    {f:translate(key: 'manager.document.suggestionDetails.dataLoss')}
+                                </span>
+                            </f:if>
+                            <f:if condition="{groupChange.oldGroup.embargoGroup}">
+                                <span class="badge badge-pill badge-danger">EMBARGO</span>
+                            </f:if>
+                        </td>
+                    </tr>
+
+                    <f:for each="{groupChange.group.items}" as="fields">
+                        <f:for each="{fields}" as="field" iteration="fieldIterator">
+                            <dpf:suggestion.findFieldChange id="{field.id}" groupChange="{groupChange}" as="fieldChange" />
+                            <tr>
+                                <td>
+                                    <f:if condition="{field.displayName}">
+                                        <f:then>
+                                            {field.displayName}
+                                        </f:then>
+                                        <f:else>
+                                            -
+                                        </f:else>
+                                    </f:if>
+                                </td>
+                                <td>
+                                    <f:if condition="{groupChange.added} == 0">
+                                        <f:if condition="{field.file} && {field.file.title}">
+                                            <f:then>
+                                                {field.file.title}
+                                            </f:then>
+                                            <f:else>
+                                                {field.displayValue}
+                                            </f:else>
+                                        </f:if>
+                                    </f:if>
+                                </td>
+                                <td>
+                                    <f:if condition="{fieldChange}">
+                                        <f:then>
+                                            {fieldChange.newField.displayValue}
+                                        </f:then>
+                                        <f:else>
+                                            <f:if condition="{groupChange.deleted} == 0 && {groupChange.lost} == 0">
+                                                <f:if condition="{field.file} && {field.file.title}">
+                                                    <f:then>
+                                                        {field.file.title}
+                                                    </f:then>
+                                                    <f:else>
+                                                        {field.displayValue}
+                                                    </f:else>
+                                                </f:if>
+                                            </f:if>
+                                        </f:else>
+                                    </f:if>
+                                </td>
+                                <td>
+                                    <f:if condition="{fieldChange}">
+                                        <f:then>
+                                            <f:form.checkbox
+                                                class="suggestion-checkbox suggestion-checkbox-field"
+                                                property="changes.{groupChange.group.id}.fieldChanges.{fieldChange.fieldId}.accept"
+                                                value="1"
+                                                additionalAttributes="{data-group:'{groupChange.group.id}'}"
+                                            />
+                                            <f:if condition="{fieldChange.deleted}">
+                                                <f:then>
+                                                    <span class="badge badge-pill badge-danger">{f:translate(key: 'manager.document.suggestionDetails.remove')}</span>
+                                                </f:then>
+                                                <f:else>
+                                                    <span class="badge badge-pill badge-warning">{f:translate(key: 'manager.document.suggestionDetails.change')}</span>
+                                                </f:else>
+                                            </f:if>
+                                        </f:then>
+                                    </f:if>
+                                </td>
+                            </tr>
+                            <f:if condition="{fieldIterator.isLast}">
+                                <f:for each="{groupChange.fieldChanges}" as="fieldChange">
+                                    <f:if condition="{fieldChange.added} && {fieldChange.newField.uid} == {field.uid}">
+                                        <tr>
+                                            <td>
+                                                {fieldChange.newField.displayName}
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                {fieldChange.newField.displayValue}
+                                            </td>
+                                            <td>
+                                                <f:form.checkbox
+                                                    class="suggestion-checkbox suggestion-checkbox-field suggestion-checkbox-group-{groupChange.group.id}"
+                                                    property="changes.{groupChange.group.id}.fieldChanges.{fieldChange.fieldId}.accept"
+                                                    value="1"
+                                                    additionalAttributes="{data-group:'{groupChange.group.id}'}"
+                                                />
+                                                <span class="badge badge-pill badge-info">{f:translate(key: 'manager.document.suggestionDetails.add')}</span>
+                                            </td>
+                                        </tr>
+                                    </f:if>
+                                </f:for>
+                            </f:if>
+                        </f:for>
+                    </f:for>
+                </f:if>
+            </f:for>
+
+
+
         </table>
     </f:form>
 

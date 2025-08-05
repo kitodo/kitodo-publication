@@ -204,15 +204,19 @@ class DocumentController extends AbstractController
 
         $originDocument = $this->documentRepository->findWorkingCopy($linkedUid);
 
-        if ($originDocument) {
-            $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
-        } else {
+        if (!$originDocument) {
             // get remote document
             $originDocument = $this->documentStorage->retrieve($document->getLinkedUid());
-            $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
         }
 
+        if ($document->getDocumentType()->getUid() !== $originDocument->getDocumentType()->getUid()) {
+            $originDocument->setDocumentType($document->getDocumentType());
+        }
+
+        $linkedDocumentForm = $documentMapper->getDocumentForm($originDocument);
+
         $documentChanges = $linkedDocumentForm->diff($newDocumentForm);
+
 
         $acceptRestore = false;
 
@@ -327,17 +331,36 @@ class DocumentController extends AbstractController
         $linkedUid = $document->getLinkedUid();
         $linkedDocument = $this->documentRepository->findWorkingCopy($linkedUid);
 
-        if ($linkedDocument) {
-            // Existing working copy
-            $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
-        } else {
+        if (!$linkedDocument) {
             // No existing working copy, get remote document from fedora
-
             $linkedDocument = $this->documentStorage->retrieve($document->getLinkedUid());
-            $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
         }
 
         $newDocumentForm = $documentMapper->getDocumentForm($document);
+
+        $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+
+        $documentChangesLostData = null;
+
+        if ($document->getDocumentType()->getUid() !== $linkedDocument->getDocumentType()->getUid()) {
+
+            $this->view->assign('documentTypeChange', 1);
+            $this->view->assign('oldDocumentType', $linkedDocument->getDocumentType()->getDisplayName());
+            $this->view->assign('newDocumentType', $document->getDocumentType()->getDisplayName());
+
+            $linkedDocumentEmbargoGroups     = $linkedDocument->getDocumentType()->getGroupsWithEmbargoField();
+            $suggestionDocumentEmbargoGroups = $document->getDocumentType()->getGroupsWithEmbargoField();
+            $this->view->assign('embargoMightBeLost',
+                array_diff($linkedDocumentEmbargoGroups, $suggestionDocumentEmbargoGroups)
+                !== array_diff($suggestionDocumentEmbargoGroups, $linkedDocumentEmbargoGroups)
+            );
+            
+            $linkedDocumentFormOrig = $documentMapper->getDocumentForm($linkedDocument);
+            $documentChangesLostData = $linkedDocumentForm->diff($newDocumentForm);
+
+            $linkedDocument->setDocumentType($document->getDocumentType());
+            $linkedDocumentForm = $documentMapper->getDocumentForm($linkedDocument);
+        }
 
         $documentChanges = $linkedDocumentForm->diff($newDocumentForm);
 
@@ -346,19 +369,12 @@ class DocumentController extends AbstractController
             $usernameString = $user->getUsername();
         }
 
-
-        $linkedDocumentEmbargoGroups     = $linkedDocument->getDocumentType()->getGroupsWithEmbargoField();
-        $suggestionDocumentEmbargoGroups = $document->getDocumentType()->getGroupsWithEmbargoField();
-        $this->view->assign('embargoMightBeLost',
-            array_diff($linkedDocumentEmbargoGroups, $suggestionDocumentEmbargoGroups)
-            !== array_diff($suggestionDocumentEmbargoGroups, $linkedDocumentEmbargoGroups)
-        );
-
         $this->view->assign('documentCreator', $usernameString);
 
         $this->view->assign('originalDocument', $linkedDocument);
         $this->view->assign('document', $document);
         $this->view->assign('documentChanges', $documentChanges);
+        $this->view->assign('documentChangesLostData', $documentChangesLostData);
     }
 
     public function removeControlCharacterFromString($string)
