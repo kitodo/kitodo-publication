@@ -246,7 +246,7 @@ class DocumentManager
             $updateResult = $this->updateRemotely($document, $workflowTransition);
 
         } elseif ($document->isWorkingCopy()) {
-            if ($this->hasActiveEmbargo($document)) {
+            if ($document->isActiveEmbargo()) {
                 $document->setEmbargoWorkingCopy(true);
             }
 
@@ -274,7 +274,7 @@ class DocumentManager
                 }
 
                 // check embargo
-                if(!$this->hasActiveEmbargo($document)){
+                if(!$document->isActiveEmbargo()){
                     $this->removeDocument($document);
                 } else {
                     $document->setState(DocumentWorkflow::constructState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS, $document->getRemoteState()));
@@ -366,7 +366,7 @@ class DocumentManager
         try {
             $this->documentStorage->update($document, $state);
 
-            if(!$this->hasActiveEmbargo($document)){
+            if(!$document->isActiveEmbargo()) {
                 $this->removeDocument($document);
             } else {
                 $document->setState(DocumentWorkflow::LOCAL_STATE_IN_PROGRESS . ':' . $document->getRemoteState());
@@ -426,24 +426,6 @@ class DocumentManager
         return $suggestionDocument;
 
     }
-
-    /**
-     * @param $document
-     * @return bool (true: if no embargo is set or embargo is expired, false: embargo is active)
-     * @throws \Exception
-     */
-    protected function hasActiveEmbargo($document)
-    {
-        $currentDate = new \DateTime('now');
-        if($currentDate > $document->getEmbargoDate()){
-            // embargo is expired
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
 
     /**
      * @param Document $document
