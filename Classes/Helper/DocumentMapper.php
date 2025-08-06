@@ -593,7 +593,14 @@ class DocumentMapper
                             }
 
                             if ($metadataObject->getEmbargo()) {
-                                $form['embargo'] = new \DateTime($value);
+
+                                $value = trim($value);
+
+                                if (empty($value)) {
+                                    $form['embargo'] = null;
+                                } else {
+                                    $form['embargo'] = new \DateTime($value);
+                                }
                             }
 
                             $fieldCount++;

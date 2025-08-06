@@ -300,11 +300,12 @@ class Document extends AbstractEntity
     public function publicXml(): string
     {
         $internalFormat = new InternalFormat($this->getXmlData());
-        $currentDate = new \DateTime('now');
-        if ($currentDate < $this->getEmbargoDate()) {
-            $internalFormat->removeAllFiles();
-        } else {
+        $embargoDate = $this->getEmbargoDate();
+
+        if ($embargoDate === null) {
             $internalFormat->completeFileData($this->getFile());
+        } else {
+            $internalFormat->removeAllFiles();
         }
 
         return InternalFormat::removeMetadataItemIdAttribute($internalFormat->getXml());
@@ -933,7 +934,11 @@ class Document extends AbstractEntity
      */
     public function getEmbargoDate(): ?\DateTime
     {
-        return $this->embargoDate;
+        if ($this->embargoDate) {
+            return $this->embargoDate;
+        }
+
+        return null;
     }
 
     /**
@@ -941,7 +946,11 @@ class Document extends AbstractEntity
      */
     public function setEmbargoDate(?\DateTime $embargoDate)
     {
-        $this->embargoDate = $embargoDate;
+        if ($embargoDate) {
+            $this->embargoDate = $embargoDate;
+        } else {
+            $this->embargoDate = 0;
+        }
     }
 
     /**
@@ -963,13 +972,13 @@ class Document extends AbstractEntity
 
     public function isActiveEmbargo(): bool
     {
-        $currentDate = new \DateTime('now');
-        if($currentDate > $this->getEmbargoDate()){
-            // embargo is expired
+        $embargoDate = $this->getEmbargoDate();
+
+        if ($embargoDate === null) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
