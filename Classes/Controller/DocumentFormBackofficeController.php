@@ -178,11 +178,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $documentForm->setDocumentUid($newDocument->getUid());
         $newDocument = $documentMapper->getDocument($documentForm);
 
-        if ($document->getObjectIdentifier()) {
-            $newDocument->setLinkedUid($document->getObjectIdentifier());
-        } else {
-            $newDocument->setLinkedUid($document->getUid());
-        }
+        $newDocument->setLinkedUid($document->getProcessNumber());
 
         if (!$this->documentValidator->validate($newDocument, false)) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_suggestChange.missingValues';

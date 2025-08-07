@@ -347,13 +347,9 @@ class ApiController extends ActionController
                 return '{"failed": "Access denied. The document is private."}';
             }
 
-            $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getUid());
-            if (!$linkedDocument && $doc->getObjectIdentifier()) {
-                $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getObjectIdentifier());
-            }
-
+            $linkedDocument = $this->documentRepository->findOneByLinkedUid($doc->getProcessNumber());
             if ($linkedDocument) {
-                return '{"failed": "There is already a suggestion for the document: '.$linkedDocument->getUid().'"}';
+                return '{"failed": "There is already a suggestion for the document: '.$linkedDocument->getProcessNumber().'"}';
             }
 
             $mapper = $this->objectManager->get(\EWW\Dpf\Services\Api\JsonToDocumentMapper::class);

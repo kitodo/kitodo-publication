@@ -174,25 +174,6 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
 
     /**
-     * @param string $objectIdentifier
-     * @return array
-     */
-    public function findWorkingCopyByObjectIdentifier($objectIdentifier)
-    {
-        $query = $this->createQuery();
-
-        $constraints = array(
-            $query->equals('object_identifier', $objectIdentifier),
-            $query->logicalNot($query->equals('temporary', true)),
-            $query->logicalNot($query->equals('suggestion', true))
-        );
-
-        $query->matching($query->logicalAnd($constraints));
-
-        return $query->execute()->getFirst();
-    }
-
-    /**
      * Find a document by the given identifier.
      * This can be either the UID of a local document, a process number
      * of a remote or local document. If it appears to be neither one nor
@@ -226,34 +207,6 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         }
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
-        $query->matching($query->logicalAnd($constraints));
-
-        return $query->execute()->getFirst();
-    }
-
-    /**
-     * @param string $identifier
-     * @param bool $includeTemporary
-     * @param bool $includeSuggestion
-     * @return Document
-     */
-    public function findWorkingCopy($identifier, $includeTemporary = false, $includeSuggestion = false)
-    {
-        $query = $this->createQuery();
-
-        if (is_numeric($identifier)) {
-            $constraints = [
-                $query->equals('uid', $identifier)
-            ];
-        } else {
-            $constraints = [
-                $query->equals('object_identifier', $identifier)
-            ];
-        }
-
-        $constraints[] = $query->equals('temporary', $includeTemporary);
-        $constraints[] = $query->equals('suggestion', $includeSuggestion);
-
         $query->matching($query->logicalAnd($constraints));
 
         return $query->execute()->getFirst();
@@ -363,7 +316,7 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
-        $query->matching($query->equals('linked_uid', $document->getUid()));
+        $query->matching($query->equals('linked_uid', $document->getProcessNumber()));
 
         return $query->execute()->getFirst();
     }

@@ -402,11 +402,7 @@ class DocumentManager
             $suggestionDocument->setTemporary(false);
         }
 
-        if ($editDocument->getObjectIdentifier()) {
-            $suggestionDocument->setLinkedUid($editDocument->getObjectIdentifier());
-        } else {
-            $suggestionDocument->setLinkedUid($editDocument->getUid());
-        }
+        $suggestionDocument->setLinkedUid($editDocument->getProcessNumber());
 
         $suggestionDocument->setSuggestion(true);
         if ($comment) {

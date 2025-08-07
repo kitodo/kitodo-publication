@@ -491,11 +491,7 @@ class DocumentVoter extends Voter
             $objectManager =GeneralUtility::makeInstance(ObjectManager::class);
             $documentRepository = $objectManager->get(DocumentRepository::class);
 
-            $linkedDocument = $documentRepository->findOneByLinkedUid($document->getUid());
-
-            if (!$linkedDocument && $document->getObjectIdentifier()) {
-                $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
-            }
+            $linkedDocument = $documentRepository->findOneByLinkedUid($document->getProcessNumber());
 
             return (
                 $document->getState() === DocumentWorkflow::STATE_DISCARDED_NONE ||
@@ -515,10 +511,7 @@ class DocumentVoter extends Voter
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $documentRepository = $objectManager->get(DocumentRepository::class);
 
-        $linkedDocument = $documentRepository->findOneByLinkedUid($document->getUid());
-        if (!$linkedDocument && $document->getObjectIdentifier()) {
-            $linkedDocument = $documentRepository->findOneByLinkedUid($document->getObjectIdentifier());
-        }
+        $linkedDocument = $documentRepository->findOneByLinkedUid($document->getProcessNumber());
 
         if ($this->security->getUserRole() === Security::ROLE_RESEARCHER) {
             return (
