@@ -202,12 +202,8 @@ class DocumentController extends AbstractController
         $linkedUid = $document->getLinkedUid();
         $newDocumentForm = $documentMapper->getDocumentForm($document);
 
-        $originDocument = $this->documentRepository->findWorkingCopy($linkedUid);
-
-        if (!$originDocument) {
-            // get remote document
-            $originDocument = $this->documentStorage->retrieve($document->getLinkedUid());
-        }
+        /** @var Document $doc */
+        $originDocument = $this->documentManager->read($linkedUid);
 
         if ($document->getDocumentType()->getUid() !== $originDocument->getDocumentType()->getUid()) {
             $originDocument->setDocumentType($document->getDocumentType());
@@ -329,12 +325,9 @@ class DocumentController extends AbstractController
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
         $linkedUid = $document->getLinkedUid();
-        $linkedDocument = $this->documentRepository->findWorkingCopy($linkedUid);
 
-        if (!$linkedDocument) {
-            // No existing working copy, get remote document from fedora
-            $linkedDocument = $this->documentStorage->retrieve($document->getLinkedUid());
-        }
+        /** @var Document $doc */
+        $linkedDocument = $this->documentManager->read($linkedUid);
 
         $newDocumentForm = $documentMapper->getDocumentForm($document);
 
@@ -354,7 +347,7 @@ class DocumentController extends AbstractController
                 array_diff($linkedDocumentEmbargoGroups, $suggestionDocumentEmbargoGroups)
                 !== array_diff($suggestionDocumentEmbargoGroups, $linkedDocumentEmbargoGroups)
             );
-            
+
             $linkedDocumentFormOrig = $documentMapper->getDocumentForm($linkedDocument);
             $documentChangesLostData = $linkedDocumentForm->diff($newDocumentForm);
 
@@ -564,7 +557,7 @@ class DocumentController extends AbstractController
         // remove pending suggestions for the removed document
         // unless there is a corresponding remote copy
         if ($document->getRemoteState() == DocumentWorkflow::REMOTE_STATE_NONE) {
-            $suggestions = $this->documentRepository->findByLinkedUid($document->getDocumentIdentifier());
+            $suggestions = $this->documentRepository->findByLinkedUid($document->getProcessNumber());
             foreach ($suggestions as $suggestion) {
                 $this->documentRepository->remove($suggestion);
             }
