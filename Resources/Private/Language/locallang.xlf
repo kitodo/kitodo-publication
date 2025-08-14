@@ -639,8 +639,7 @@
 				<source>remove</source>
 			</trans-unit>
 			<trans-unit id="manager.document.suggestionDetails.dataLoss" approved="yes">
-				<source>Data loss</source>
-				<target>Datenverlust</target>
+				<source>Data loss possible</source>
 			</trans-unit>
 			<trans-unit id="manager.document.suggestionDetails.columnGroupField" approved="yes">
 				<source>Group/Field</source>
