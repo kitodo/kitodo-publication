@@ -835,8 +835,8 @@
 				<target>löschen</target>
 			</trans-unit>
 			<trans-unit id="manager.document.suggestionDetails.dataLoss" approved="yes">
-				<source>Data loss</source>
-				<target>Datenverlust</target>
+				<source>Data loss possible</source>
+				<target>Datenverlust möglich</target>
 			</trans-unit>
 			<trans-unit id="manager.document.localStatus.new" approved="yes">
 				<source>New</source>
