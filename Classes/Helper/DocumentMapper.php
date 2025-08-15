@@ -526,7 +526,7 @@ class DocumentMapper
         if (isset($formMetaData['embargo']) && $formMetaData['embargo'] instanceof \DateTime) {
             $document->setEmbargoDate($formMetaData['embargo']);
         } else {
-            $document->setEmbargoDate(new \DateTime());
+            $document->setEmbargoDate(null);
         }
 
         $document->setDateIssued($internalFormat->getDateIssued());
