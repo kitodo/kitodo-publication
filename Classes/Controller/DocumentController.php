@@ -255,6 +255,8 @@ class DocumentController extends AbstractController
                             $document->getRemoteState()
                         )
                     );
+                    $originDocument->setTemporary(false);
+
                     $this->addFlashMessage(
                         LocalizationUtility::translate("message.suggestion_accepted.new_workingcopy_info", "dpf"),
                         '',
@@ -479,8 +481,8 @@ class DocumentController extends AbstractController
             $documentForm = $documentMapper->getDocumentForm($document);
             $document = $documentMapper->getDocument($documentForm);
 
-            $this->updateDocument($document, '', null);
-            $this->redirect('showDetails', 'Document', null, ['document' => $document]);
+            $this->updateDocument($document, '', null, true);
+            $this->redirect('showDetails', 'Document', null, ['document' => $document->getProcessNumber()]);
         } else {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
@@ -937,7 +939,7 @@ class DocumentController extends AbstractController
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    protected function updateDocument(\EWW\Dpf\Domain\Model\Document $document, $workflowTransition, $reason)
+    protected function updateDocument(\EWW\Dpf\Domain\Model\Document $document, $workflowTransition, $reason, $docTypeChange = false)
     {
         switch ($workflowTransition) {
             case DocumentWorkflow::TRANSITION_DISCARD:
@@ -994,17 +996,19 @@ class DocumentController extends AbstractController
                         case DocumentWorkflow::STATE_NONE_ACTIVE:
                         case DocumentWorkflow::STATE_NONE_DELETED:
 
-                            if (
-                                $this->bookmarkRepository->removeBookmark(
-                                    $document,
-                                    $this->security->getUser()->getUid()
-                                )
-                            ) {
-                                $this->addFlashMessage(
-                                    LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"),
-                                    '',
-                                    AbstractMessage::INFO
-                                );
+                            if (!$docTypeChange) {
+                                if (
+                                    $this->bookmarkRepository->removeBookmark(
+                                        $document,
+                                        $this->security->getUser()->getUid()
+                                    )
+                                ) {
+                                    $this->addFlashMessage(
+                                        LocalizationUtility::translate("manager.workspace.bookmarkRemoved.singular", "dpf"),
+                                        '',
+                                        AbstractMessage::INFO
+                                    );
+                                }
                             }
 
                             break;
