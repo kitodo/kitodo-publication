@@ -213,6 +213,15 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
     }
 
     /**
+     * @param DocumentType $documentType
+     * @return \EWW\Dpf\Domain\Model\TransformationFile|null
+     */
+    protected function getXsltTransformationByDocumentType($documentType)
+    {
+        return $documentType->getBibtexTransformation()->current();
+    }
+
+    /**
      * @return string|void
      */
     protected function getImporterName()

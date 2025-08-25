@@ -218,12 +218,19 @@ abstract class AbstractImporter
 
     /**
      * @param DocumentType $documentType
+     * @return \EWW\Dpf\Domain\Model\TransformationFile|null
+     */
+    protected abstract function getXsltTransformationByDocumentType($documentType);
+
+
+    /**
+     * @param DocumentType $documentType
      * @return string
      */
     protected function getXsltFilePath(DocumentType $documentType)
     {
         /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
-        $xsltTransformationFile = $documentType->getCrossrefTransformation()->current();
+        $xsltTransformationFile = $this->getXsltTransformationByDocumentType($documentType);
 
         if (empty($xsltTransformationFile)) {
             $xsltTransformationFile = $this->getDefaultXsltTransformation();
