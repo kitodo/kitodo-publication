@@ -2104,7 +2104,7 @@ var setDataRequest = function(url, dataId, context) {
                   $('.' + key).val(data[key]).change();
                 } else if (isFieldRepeatable) {
                     // add new form input
-                    $("button.add_field[data-group=" + splitId[1] + "][data-field=" + splitId[3] + "]").click();
+                    $("button.add_field[data-group=" + splitId[1] + "][data-groupindex=" + splitId[2] + "][data-field=" + splitId[3] + "]").click();
 
                     var index = localStorage.getItem(keyWithoutFieldIndex);
                     var newKey = keyWithoutFieldIndex + '-' + index;
