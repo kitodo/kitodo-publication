@@ -191,10 +191,7 @@ abstract class AbstractImporter
 
         $newDocument->setTitle($internalFormat->getTitle());
         $newDocument->setDocumentType($documentType);
-
-        $newDocument->setXmlData($internalFormat->getXml());
         $newDocument->setCreator($this->security->getUser()->getUid());
-
         $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
 
         if ($this->generateProcessNumber) {
@@ -202,6 +199,11 @@ abstract class AbstractImporter
             $processNumber = $processNumberGenerator->getProcessNumber();
             $newDocument->setProcessNumber($processNumber);
         }
+
+        $internalFormat->setDocumentType($documentType->getName());
+        $internalFormat->setCreator($this->security->getUser()->getUid());
+        $internalFormat->setProcessNumber($newDocument->getProcessNumber());
+        $newDocument->setXmlData($internalFormat->getXml());
 
         return $newDocument;
     }

@@ -661,7 +661,7 @@ class Document extends AbstractEntity
      */
     public function getProcessNumber()
     {
-        return $this->processNumber;
+        return trim($this->processNumber);
     }
 
     /**

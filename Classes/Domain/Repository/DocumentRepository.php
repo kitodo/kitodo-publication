@@ -316,7 +316,13 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
-        $query->matching($query->equals('linked_uid', $document->getProcessNumber()));
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('linked_uid', $document->getProcessNumber()),
+                $query->logicalNot($query->equals('linked_uid', '')),
+                $query->logicalNot($query->equals('linked_uid', null)),
+            ])
+        );
 
         return $query->execute()->getFirst();
     }
