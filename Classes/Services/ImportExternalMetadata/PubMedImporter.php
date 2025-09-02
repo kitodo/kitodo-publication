@@ -185,6 +185,16 @@ class PubMedImporter extends AbstractImporter implements Importer
     }
 
     /**
+     * @param DocumentType $documentType
+     * @return \EWW\Dpf\Domain\Model\TransformationFile|null
+     */
+    protected function getXsltTransformationByDocumentType($documentType)
+    {
+        return $documentType->getPubmedTransformation()->current();
+    }
+
+
+    /**
      * @return string
      */
     protected function getImporterName()

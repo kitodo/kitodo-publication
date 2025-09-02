@@ -112,6 +112,29 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $pubmedTypes = '';
 
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
+     */
+    protected $bibtexTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $bibtexTypes = '';
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\TransformationFile>
+     * @TYPO3\CMS\Extbase\Annotation\ORM\Cascade("remove")
+     */
+    protected $riswosTransformation = null;
+
+    /**
+     * @var string
+     */
+    protected $riswosTypes = '';
+
+
 
     /**
      * __construct
@@ -314,6 +337,23 @@ class DocumentType extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->pubmedTransformation;
     }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getBibtexTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->bibtexTransformation;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getRiswosTransformation(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    {
+        return $this->riswosTransformation;
+    }
+
 
     /**
      * @return bool
