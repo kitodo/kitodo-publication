@@ -861,7 +861,7 @@ CREATE TABLE tx_dpf_domain_model_externalmetadata (
 
   fe_user int(11) unsigned default '0' NOT NULL,
   publication_identifier varchar(255) NOT NULL,
-  data text NOT NULL,
+  data mediumtext NOT NULL,
   source varchar(255) NOT NULL,
   record_type varchar(255) DEFAULT '' NOT NULL,
 
