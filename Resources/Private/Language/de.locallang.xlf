@@ -1435,12 +1435,12 @@
                 <target>BibTeX importieren</target>
             </trans-unit>
             <trans-unit id="manager.uploadImport.risWos.submitUpload" approved="yes">
-                <source>Import RIS (Web of Science)</source>
-                <target>RIS (Web of Science) importieren</target>
+                <source>Import Plain text (Web of Science)</source>
+                <target>Plain text (Web of Science) importieren</target>
             </trans-unit>
 			<trans-unit id="risReader.parseFailure" approved="yes">
-				<source>Error while reading ris data</source>
-				<target>Fehler beim Einlesen der RIS-Daten</target>
+				<source>Error while reading Plain text data</source>
+				<target>Fehler beim Einlesen der Plain-text-Daten</target>
 			</trans-unit>
             <trans-unit id="manager.uploadImport.invalidFormat" approved="yes">
                 <source>Import failed. Invalid file format</source>
