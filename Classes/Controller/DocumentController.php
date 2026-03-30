@@ -205,6 +205,12 @@ class DocumentController extends AbstractController
         /** @var Document $doc */
         $originDocument = $this->documentManager->read($linkedUid);
 
+        if (!$originDocument instanceof Document) {
+            $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
+            $this->flashMessage($document, $key, AbstractMessage::ERROR);
+            $this->redirectToDocumentList();
+        }
+
         if ($document->getDocumentType()->getUid() !== $originDocument->getDocumentType()->getUid()) {
             $originDocument->setDocumentType($document->getDocumentType());
         }
@@ -247,12 +253,12 @@ class DocumentController extends AbstractController
             /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
             $originDocument = $documentMapper->getDocument($linkedDocumentForm);
 
-            if ($document->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
-                if ($document->getLocalState() != DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
+            if ($originDocument->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
+                if ($originDocument->getLocalState() != DocumentWorkflow::LOCAL_STATE_IN_PROGRESS) {
                     $originDocument->setState(
                         DocumentWorkflow::constructState(
                             DocumentWorkflow::LOCAL_STATE_IN_PROGRESS,
-                            $document->getRemoteState()
+                            $originDocument->getRemoteState()
                         )
                     );
                     $originDocument->setTemporary(false);
@@ -287,8 +293,20 @@ class DocumentController extends AbstractController
                 $originDocument = $documentMapper->getDocument($documentForm);
             }
 
-            $this->documentRepository->update($originDocument);
-            $this->documentRepository->remove($document);
+            try {
+                $this->documentRepository->update($originDocument);
+                $this->documentRepository->remove($document);
+            } catch (\TYPO3\CMS\Extbase\Mvc\Exception\StopActionException $e) {
+                throw $e;
+            } catch (\Exception $exception) {
+                if ($exception instanceof DPFExceptionInterface) {
+                    $key = $exception->messageLanguageKey();
+                } else {
+                    $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
+                }
+                $this->flashMessage($originDocument, $key, AbstractMessage::ERROR);
+                $this->redirect('showSuggestionDetails', 'Document', null, ['document' => $document]);
+            }
 
             // Notify assigned users
             /** @var Notifier $notifier */
