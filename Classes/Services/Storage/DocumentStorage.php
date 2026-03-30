@@ -115,7 +115,7 @@ class DocumentStorage
      * @throws FedoraException
      * @throws IngestDocumentException
      */
-    public function ingest(Document $document) : ?Document
+    public function ingest(Document $document): ?Document
     {
         try {
             $transactionUri = $this->fedoraTransaction->start();
@@ -130,7 +130,7 @@ class DocumentStorage
 
             // Set current date as publication date
             if ($this->clientConfigurationManager->isAlwaysSetDateIssued() || $document->isFullTextPublication()) {
-                $dateIssued = (new DateTime)->format(DateTime::ISO8601);
+                $dateIssued = (new DateTime())->format(DateTime::ISO8601);
                 $internalFormat->setDateIssued($dateIssued);
                 $document->setDateIssued($dateIssued);
             }
@@ -143,8 +143,10 @@ class DocumentStorage
             /** @var File $file */
             foreach ($document->getFile() as $file) {
                 if (!$file->isDeleted()) {
-                    $fileSrc = strpos(strtolower($file->getLink()),
-                        'http') === false ? $file->getFilePath() : $file->getLink();
+                    $fileSrc = strpos(
+                        strtolower($file->getLink()),
+                        'http'
+                    ) === false ? $file->getFilePath() : $file->getLink();
                     $dataStreamIdentifier = $fileId->getId($file);
                     $file->setDatastreamIdentifier($dataStreamIdentifier);
                     $file->setLink($dataStreamIdentifier);
@@ -197,7 +199,6 @@ class DocumentStorage
             $this->documentRepository->update($document);
 
             return $document;
-
         } catch (FedoraException $fedoraException) {
             $this->logger->warning(
                 'Error while ingesting document "' . $document->getProcessNumber() . '". '
@@ -229,7 +230,7 @@ class DocumentStorage
             $transactionUri = $this->fedoraTransaction->start();
 
             $processNumber = $document->getProcessNumber();
-            $containerId = strtolower($processNumber);
+            $containerId = $document->getObjectIdentifier();
 
             $containerTuple = $this->fedoraTransaction->getResourceTuple($transactionUri, $containerId);
 
@@ -263,7 +264,7 @@ class DocumentStorage
                     $this->clientConfigurationManager->isAlwaysSetDateIssued()
                     || ($document->isFullTextPublication() && $state === DocumentWorkflow::REMOTE_STATE_ACTIVE)
                 ) {
-                    $dateIssued = (new DateTime)->format(DateTime::ISO8601);
+                    $dateIssued = (new DateTime())->format(DateTime::ISO8601);
                     $internalFormat->setDateIssued($dateIssued);
                     $document->setDateIssued($dateIssued);
                 }
@@ -287,12 +288,17 @@ class DocumentStorage
 
                         if ($dataStreamIdentifier) {
                             $fileTuple = $this->fedoraTransaction->getResourceTuple(
-                                $transactionUri, $containerId, $dataStreamIdentifier
+                                $transactionUri,
+                                $containerId,
+                                $dataStreamIdentifier
                             );
 
                             $fileTuple->setValue('kp:state', DocumentWorkflow::REMOTE_STATE_DELETED);
                             $this->fedoraTransaction->updateResourceTuple(
-                                $transactionUri, $fileTuple, $containerId, $dataStreamIdentifier
+                                $transactionUri,
+                                $fileTuple,
+                                $containerId,
+                                $dataStreamIdentifier
                             );
                         }
                     } else {
@@ -357,16 +363,17 @@ class DocumentStorage
             $this->documentRepository->update($document);
 
             $this->fedoraTransaction->commit($transactionUri);
-
         } catch (FedoraException $fedoraException) {
             $this->logger->warning(
-                'Error while updating document "' . $document->getProcessNumber() . '". ' . 'Update aborted.'
+                'Error while updating document "' . $document->getProcessNumber() . '". ' .
+                'Fedora error [' . $fedoraException->getCode() . ']: ' . $fedoraException->getMessage() . '. ' .
+                'Update aborted.'
             );
 
             if (isset($transactionUri)) {
                 $this->fedoraTransaction->rollback($transactionUri);
             }
-            throw UpdateDocumentException::create('Update document failed. Update aborted.');
+            throw UpdateDocumentException::create('Update document failed. Update aborted.', 0, $fedoraException);
         }
     }
 
@@ -378,7 +385,7 @@ class DocumentStorage
      * @throws IllegalObjectTypeException
      * @throws RetrieveDocumentException
      */
-    public function retrieve(string $documentIdentifier, bool $createLocalCopy = true) : ?Document
+    public function retrieve(string $documentIdentifier, bool $createLocalCopy = true): ?Document
     {
         try {
 
@@ -392,8 +399,11 @@ class DocumentStorage
             $repositoryLastModified = $resourceTuple->getValue('fedora:lastModified');
             $repositoryCreationDate = $resourceTuple->getValue('fedora:created');
 
-            $remoteXml = $this->fedoraTransaction->getContent(null, $documentIdentifier,
-                self::XML_BINARY_ID);
+            $remoteXml = $this->fedoraTransaction->getContent(
+                null,
+                $documentIdentifier,
+                self::XML_BINARY_ID
+            );
 
             if ($remoteXml) {
                 $XSLTransformator = new XSLTransformator();
@@ -438,7 +448,8 @@ class DocumentStorage
                         );
 
                         throw new RetrieveDocumentException(
-                            "Retrieve document failed. Invalid document state.");
+                            "Retrieve document failed. Invalid document state."
+                        );
                         break;
                 }
 
@@ -502,13 +513,11 @@ class DocumentStorage
                 }
 
                 return $document;
-
             } else {
                 return null;
             }
 
             return null;
-
         } catch (FedoraException $fedoraException) {
             $this->logger->warning(
                 'Error while retrieving document "' . $documentIdentifier . '". '
@@ -521,7 +530,8 @@ class DocumentStorage
 
             if ($fedoraException->getCode() === FedoraException::NOTHING_FOUND) {
                 throw RetrieveDocumentException::createNotFound(
-                    'Retrieve document failed. Nothing found.', FedoraException::NOTHING_FOUND
+                    'Retrieve document failed. Nothing found.',
+                    FedoraException::NOTHING_FOUND
                 );
             }
 
