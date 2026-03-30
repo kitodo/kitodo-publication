@@ -1,0 +1,19 @@
+FN Clarivate Analytics Web of Science
+VR 1.0
+PT J
+TI Ä Single-Centre Retrospective Analysis
+ER
+
+PT J
+TI Živković, Dušan: A Study
+ER
+
+PT J
+TI Abc — efg
+ER
+
+PT J
+TI A Süngle-Centre Retrospective Analysis
+ER
+
+EF

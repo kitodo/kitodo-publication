@@ -143,13 +143,6 @@ class RisReader
         if ($contentOnly) {
 
             while ($line !== false) {
-                if (mb_detect_encoding($line) == 'UTF-8') {
-                    $line = utf8_decode($line);
-                    if (strpos($line, '?') === 0) {
-                        $line = substr($line, 1);
-                    }
-                }
-
                 $tempTag = trim(substr($line, 0, 2));
                 if ($tempTag == 'EF') {
                     // End of file
@@ -176,13 +169,6 @@ class RisReader
 
         } else {
             foreach($lines as $line) {
-
-                if (mb_detect_encoding($line) == 'UTF-8') {
-                    $line = utf8_decode($line);
-                    if (strpos($line, '?') === 0) {
-                        $line = substr($line, 1);
-                    }
-                }
 
                 $tempTag = trim(substr($line, 0, 2));
                 if ($tempTag == 'EF') {
