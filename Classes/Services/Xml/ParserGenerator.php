@@ -21,6 +21,7 @@ use EWW\Dpf\Domain\Repository\DocumentTypeRepository;
 use Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use EWW\Dpf\Services\Xml\XPathValue;
 
 /**
  * ParserGenerator
@@ -126,10 +127,11 @@ class ParserGenerator
             $attributeXPath = '';
             $extensionAttribute = '';
             foreach ($attributes as $attribute) {
+                $escapedAttributeValue = XPathValue::escape($attribute['value']);
                 if (!$attribute["modsExtension"]) {
-                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
+                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $escapedAttributeValue . '"]';
                 } else {
-                    $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $attribute['value'] . '"]';
+                    $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $escapedAttributeValue . '"]';
                 }
             }
 
@@ -216,9 +218,7 @@ class ParserGenerator
             }
 
             if (isset($value) === true && $value !== '') {
-                // Escape quotes for use in XPath expression
-                $escapedValue = str_ireplace('"', '\"', $value);
-                $newPath[1] = $newPath[1] . '="' . $escapedValue . '"';
+                $newPath[1] = $newPath[1] . '="' . XPathValue::escape($value) . '"';
             }
 
             $modsDataXPath = XPath::create($this->xmlData);

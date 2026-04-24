@@ -90,4 +90,11 @@ class XMLFragmentGeneratorTest extends UnitTestCase
         $expectedXml = "<mods:originInfo xlink:href=\"test\"/>";
         $this->assertEquals($expectedXml, $fragment);
     }
+
+    public function testAttributePredicateWithEscapedQuotes()
+    {
+        $fragment = XMLFragmentGenerator::fragmentFor('mods:relatedItem[@type="host"][@projectTitle="My \"Special\" Project"]');
+        $expectedXml = '<mods:relatedItem type="host" projectTitle="My &quot;Special&quot; Project"/>';
+        $this->assertEquals($expectedXml, $fragment);
+    }
 }
