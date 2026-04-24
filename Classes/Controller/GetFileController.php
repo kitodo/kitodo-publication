@@ -190,12 +190,15 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
     private function attachmentAction(string $fedoraHost, string $qid, string $attachmentId, bool $isRepositoryObject)
     {
+        $document = null;
+
         if ($isRepositoryObject) {
             $contentUri = $this->buildAttachmentURI($fedoraHost, $qid, $attachmentId);
             $contentType = null; // use content type from remote resource
             if (empty($contentUri)) {
                 throw new Exception("No file found", 404);
             }
+            $document = $this->documentRepository->findByObjectIdentifier($qid);
         } else {
             $document = $this->documentRepository->findByUid($qid);
             if (!$document) {
@@ -219,6 +222,66 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Disposition', 'attachment');
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Type', $contentType);
         $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Length', null);
+
+        if ($document) {
+            $mimeType = $contentType;
+            if (empty($mimeType)) {
+                foreach ($resourceHeaders as $header) {
+                    if (stripos($header, 'Content-Type:') === 0) {
+                        $mimeType = trim(substr($header, 13));
+                        break;
+                    }
+                }
+            }
+
+            $allFiles = $document->getCurrentFileData();
+            $downloadFiles = array_values(isset($allFiles['download']) ? $allFiles['download'] : []);
+            $totalFiles = count($downloadFiles);
+            $fileIndex = 0;
+            foreach ($downloadFiles as $idx => $f) {
+                if ($f['id'] == $attachmentId) {
+                    $fileIndex = $idx;
+                    break;
+                }
+            }
+
+            $generator = GeneralUtility::makeInstance(\EWW\Dpf\Service\FilenameGenerator::class);
+            $swordNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();
+            $filename = $generator->generate(
+                $document->getXmlData(),
+                $document->getSlubInfoData(),
+                $swordNamespace,
+                $mimeType,
+                $fileIndex,
+                $totalFiles
+            );
+
+            if (!empty($filename)) {
+                $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+            }
+        } elseif ($isRepositoryObject) {
+            $mimeType = '';
+            foreach ($resourceHeaders as $header) {
+                if (stripos($header, 'Content-Type:') === 0) {
+                    $mimeType = trim(substr($header, 13));
+                    break;
+                }
+            }
+
+            $fedoraBase = rtrim('http://' . $fedoraHost, '/');
+            $modsXml = file_get_contents($fedoraBase . '/fedora/objects/' . $qid . '/datastreams/MODS/content');
+            $slubInfoXml = file_get_contents($fedoraBase . '/fedora/objects/' . $qid . '/datastreams/SLUB-INFO/content');
+
+            if (!empty($modsXml) && !empty($slubInfoXml)) {
+                $generator = GeneralUtility::makeInstance(\EWW\Dpf\Service\FilenameGenerator::class);
+                $swordNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();
+                $filename = $generator->generate($modsXml, $slubInfoXml, $swordNamespace, $mimeType, 0, 1);
+                if (!empty($filename)) {
+                    $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                }
+            }
+        }
+
         $this->streamAndExit($contentUri);
     }
 

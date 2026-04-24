@@ -86,6 +86,36 @@ class Mods
         return $authors;
     }
 
+    public function getEditors()
+    {
+        $xpath = $this->getModsXpath();
+
+        $editorNode = $xpath->query('/mods:mods/mods:name[mods:role/mods:roleTerm[@type="code"]="edt"]');
+
+        $editors = array();
+
+        foreach ($editorNode as $key => $editor) {
+
+            $familyNodes = $xpath->query('mods:namePart[@type="family"]', $editor);
+
+            $givenNodes = $xpath->query('mods:namePart[@type="given"]', $editor);
+
+            $name = array();
+
+            if ($givenNodes->length > 0) {
+                $name[] = $givenNodes->item(0)->nodeValue;
+            }
+
+            if ($familyNodes->length > 0) {
+                $name[] = $familyNodes->item(0)->nodeValue;
+            }
+
+            $editors[$key] = implode(" ", $name);
+        }
+
+        return $editors;
+    }
+
     public function setDateIssued($date)
     {
 

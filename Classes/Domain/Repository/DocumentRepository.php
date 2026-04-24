@@ -22,6 +22,13 @@ use \EWW\Dpf\Domain\Model\Document;
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
+    public function findByObjectIdentifier(string $objectIdentifier)
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('objectIdentifier', $objectIdentifier));
+        return $query->execute()->getFirst();
+    }
+
     public function getObjectIdentifiers()
     {
 

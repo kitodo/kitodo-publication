@@ -44,6 +44,16 @@ class Slub
         return $xpath;
     }
 
+    public function getCollections()
+    {
+        $collectionNodes = $this->getSlubXpath()->query("/slub:info/slub:collections/slub:collection");
+        $collections = array();
+        foreach ($collectionNodes as $node) {
+            $collections[] = $node->nodeValue;
+        }
+        return $collections;
+    }
+
     public function getDocumentType()
     {
         $documentTypeNode = $this->getSlubXpath()->query("/slub:info/slub:documentType");
