@@ -25,7 +25,6 @@ class FilenameGenerator
 {
     const MAX_NAME_LENGTH  = 15;
     const MAX_TITLE_LENGTH = 30;
-    const MAX_SUFFIX_LENGTH = 10;
 
     const MUSICONN_COLLECTION = 'fidmusik';
 
