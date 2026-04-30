@@ -51,6 +51,8 @@ plugin.tx_dpf {
 			redisConnectTimeout = 1.0
 			# cat=plugin.tx_dpf/redis; type=int+; label=METS cache TTL in seconds (86400 = 24h)
 			metsCacheTtl = 86400
+			# cat=plugin.tx_dpf/ereader; type=string; label=eReader URL
+			ereaderUrl =
         }
 }
 

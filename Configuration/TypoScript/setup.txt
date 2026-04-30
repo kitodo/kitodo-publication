@@ -61,6 +61,7 @@ plugin.tx_dpf {
 			redisDatabase = {$plugin.tx_dpf.settings.redisDatabase}
 			redisConnectTimeout = {$plugin.tx_dpf.settings.redisConnectTimeout}
 			metsCacheTtl = {$plugin.tx_dpf.settings.metsCacheTtl}
+			ereaderUrl = {$plugin.tx_dpf.settings.ereaderUrl}
         }
 }
 
