@@ -181,6 +181,10 @@ class ClientConfigurationManager
 
     public function getEReaderUrl()
     {
-        return $this->getSetting("ereaderUrl", "ereaderUrl");
+        $url = $this->getSetting("ereaderUrl", "ereaderUrl");
+        if (empty($url) && isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.']['settings.']['ereaderUrl'])) {
+            $url = trim($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.']['settings.']['ereaderUrl']);
+        }
+        return $url;
     }
 }
