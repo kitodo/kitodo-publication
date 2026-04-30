@@ -56,6 +56,11 @@ plugin.tx_dpf {
 			searchResultsPid = {$plugin.tx_dpf.settings.searchResultsPid}
 
 			afterDocSavedRedirectPage =
+			redisHost = {$plugin.tx_dpf.settings.redisHost}
+			redisPort = {$plugin.tx_dpf.settings.redisPort}
+			redisDatabase = {$plugin.tx_dpf.settings.redisDatabase}
+			redisConnectTimeout = {$plugin.tx_dpf.settings.redisConnectTimeout}
+			metsCacheTtl = {$plugin.tx_dpf.settings.metsCacheTtl}
         }
 }
 

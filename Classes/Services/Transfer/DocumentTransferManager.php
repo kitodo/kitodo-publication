@@ -62,6 +62,12 @@ class DocumentTransferManager
     protected $persistenceManager;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
+    /**
      * remoteRepository
      *
      * @var \EWW\Dpf\Services\Transfer\Repository
@@ -332,12 +338,48 @@ class DocumentTransferManager
             return false;
     }
 
+    private function getRedisSettings()
+    {
+        $settings = [];
+        if ($this->configurationManager !== null) {
+            $all = $this->configurationManager->getConfiguration(
+                \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+            );
+            if (is_array($all)) {
+                $settings = $all;
+            }
+        }
+
+        $host = '127.0.0.1';
+        if (isset($settings['redisHost']) && $settings['redisHost'] !== '') {
+            $host = $settings['redisHost'];
+        }
+
+        $port = 6379;
+        if (isset($settings['redisPort']) && (int)$settings['redisPort'] > 0) {
+            $port = (int)$settings['redisPort'];
+        }
+
+        $db = 4;
+        if (isset($settings['redisDatabase'])) {
+            $db = (int)$settings['redisDatabase'];
+        }
+
+        $timeout = 1.0;
+        if (isset($settings['redisConnectTimeout']) && $settings['redisConnectTimeout'] !== '') {
+            $timeout = (float)$settings['redisConnectTimeout'];
+        }
+
+        return ['host' => $host, 'port' => $port, 'db' => $db, 'timeout' => $timeout];
+    }
+
     private function invalidateMetsCache(string $pid): void
     {
         try {
+            $cfg = $this->getRedisSettings();
             $redis = new \Redis();
-            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
-                $redis->select(4);
+            if ($redis->connect($cfg['host'], $cfg['port'], $cfg['timeout'])) {
+                $redis->select($cfg['db']);
                 $redis->del('mets:' . $pid);
             }
         } catch (\Throwable $e) {

@@ -303,15 +303,36 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         $filename = $this->sanitizeFilename($pid . ".mets.xml");
         $cacheKey = 'mets:' . $pid;
+
         $ttl = 86400;
         if (isset($this->settings['metsCacheTtl'])) {
             $ttl = (int)$this->settings['metsCacheTtl'];
         }
 
+        $redisHost = '127.0.0.1';
+        if (isset($this->settings['redisHost']) && $this->settings['redisHost'] !== '') {
+            $redisHost = $this->settings['redisHost'];
+        }
+
+        $redisPort = 6379;
+        if (isset($this->settings['redisPort']) && (int)$this->settings['redisPort'] > 0) {
+            $redisPort = (int)$this->settings['redisPort'];
+        }
+
+        $redisDb = 4;
+        if (isset($this->settings['redisDatabase'])) {
+            $redisDb = (int)$this->settings['redisDatabase'];
+        }
+
+        $redisTimeout = 1.0;
+        if (isset($this->settings['redisConnectTimeout']) && $this->settings['redisConnectTimeout'] !== '') {
+            $redisTimeout = (float)$this->settings['redisConnectTimeout'];
+        }
+
         try {
             $redis = new \Redis();
-            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
-                $redis->select(4);
+            if ($redis->connect($redisHost, $redisPort, $redisTimeout)) {
+                $redis->select($redisDb);
                 $cached = $redis->get($cacheKey);
                 if ($cached !== false) {
                     $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
@@ -335,8 +356,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         try {
             $redis = new \Redis();
-            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
-                $redis->select(4);
+            if ($redis->connect($redisHost, $redisPort, $redisTimeout)) {
+                $redis->select($redisDb);
                 $redis->set($cacheKey, $metsXml, $ttl);
             }
         } catch (\Throwable $e) {

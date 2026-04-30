@@ -41,6 +41,16 @@ plugin.tx_dpf {
 			landingPage =
 			# cat=plugin.tx_dpf/link; type=int+; label=PID of the search results page
 			searchResultsPid =
+			# cat=plugin.tx_dpf/redis; type=string; label=Redis server host
+			redisHost = 127.0.0.1
+			# cat=plugin.tx_dpf/redis; type=int+; label=Redis server port
+			redisPort = 6379
+			# cat=plugin.tx_dpf/redis; type=int+; label=Redis database index
+			redisDatabase = 4
+			# cat=plugin.tx_dpf/redis; type=string; label=Redis connect timeout (seconds, float)
+			redisConnectTimeout = 1.0
+			# cat=plugin.tx_dpf/redis; type=int+; label=METS cache TTL in seconds (86400 = 24h)
+			metsCacheTtl = 86400
         }
 }
 
