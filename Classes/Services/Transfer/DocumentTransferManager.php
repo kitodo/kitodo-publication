@@ -170,6 +170,7 @@ class DocumentTransferManager
         $metsXml = $exporter->getMetsData();
 
         if ($this->remoteRepository->update($document, $metsXml)) {
+            $this->invalidateMetsCache($document->getObjectIdentifier());
             $document->setTransferStatus(Document::TRANSFER_SENT);
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
@@ -294,6 +295,7 @@ class DocumentTransferManager
             switch ($state) {
                 case "revert":
                     if ($this->remoteRepository->delete($document, $state)) {
+                        $this->invalidateMetsCache($document->getObjectIdentifier());
                         $document->setTransferStatus(Document::TRANSFER_SENT);
                         $document->setState(Document::OBJECT_STATE_ACTIVE);
                         $this->documentRepository->update($document);
@@ -302,6 +304,7 @@ class DocumentTransferManager
                     break;
                 case "inactivate":
                     if ($this->remoteRepository->delete($document, $state)) {
+                        $this->invalidateMetsCache($document->getObjectIdentifier());
                         $document->setTransferStatus(Document::TRANSFER_SENT);
                         $document->setState(Document::OBJECT_STATE_INACTIVE);
                         $this->documentRepository->update($document);
@@ -314,6 +317,7 @@ class DocumentTransferManager
                     $elasticsearchRepository->delete($document, $state);
 
                     if ($this->remoteRepository->delete($document, $state)) {
+                        $this->invalidateMetsCache($document->getObjectIdentifier());
                         $document->setTransferStatus(Document::TRANSFER_SENT);
                         $document->setState(Document::OBJECT_STATE_DELETED);
                         $this->documentRepository->update($document);
@@ -326,6 +330,19 @@ class DocumentTransferManager
             $document->setTransferStatus(Document::TRANSFER_ERROR);
             $this->documentRepository->update($document);
             return false;
+    }
+
+    private function invalidateMetsCache(string $pid): void
+    {
+        try {
+            $redis = new \Redis();
+            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
+                $redis->select(4);
+                $redis->del('mets:' . $pid);
+            }
+        } catch (\Throwable $e) {
+            // Redis ext missing, unavailable, or error — TTL expires stale entry
+        }
     }
 
     public function getNextDocumentId()

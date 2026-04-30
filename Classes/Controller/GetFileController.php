@@ -302,12 +302,55 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
 
         $filename = $this->sanitizeFilename($pid . ".mets.xml");
+        $cacheKey = 'mets:' . $pid;
+        $ttl = 86400;
+        if (isset($this->settings['metsCacheTtl'])) {
+            $ttl = (int)$this->settings['metsCacheTtl'];
+        }
 
-        $resourceHeaders = get_headers($contentUri);
+        try {
+            $redis = new \Redis();
+            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
+                $redis->select(4);
+                $cached = $redis->get($cacheKey);
+                if ($cached !== false) {
+                    $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                    $this->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+                    $this->setHeader('Content-Length', (string)strlen($cached));
+                    $this->setHeader('X-Cache', 'HIT');
+                    session_write_close();
+                    ob_end_clean();
+                    echo $cached;
+                    exit;
+                }
+            }
+        } catch (\Throwable $e) {
+            // Redis ext missing, unavailable, or error — continue to live Fedora fetch
+        }
+
+        $metsXml = file_get_contents($contentUri);
+        if ($metsXml === false) {
+            throw new Exception("Error while fetching METS content", 500);
+        }
+
+        try {
+            $redis = new \Redis();
+            if ($redis->connect('127.0.0.1', 6379, 1.0)) {
+                $redis->select(4);
+                $redis->set($cacheKey, $metsXml, $ttl);
+            }
+        } catch (\Throwable $e) {
+            // Redis ext missing, unavailable, or error — response still served without caching
+        }
+
         $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
-        $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Type', "text/xml; charset=UTF-8");
-        $this->copyHeaderOrSetDefault($resourceHeaders, 'Content-Length', null);
-        $this->streamAndExit($contentUri);
+        $this->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+        $this->setHeader('Content-Length', (string)strlen($metsXml));
+        $this->setHeader('X-Cache', 'MISS');
+        session_write_close();
+        ob_end_clean();
+        echo $metsXml;
+        exit;
     }
 
     private function assertAccessAllowed($isRepositoryObject, $givenKey, $secretKey, $fedoraHost, $pid, $dsid)
