@@ -381,6 +381,8 @@ class DocumentTransferManager
             if ($redis->connect($cfg['host'], $cfg['port'], $cfg['timeout'])) {
                 $redis->select($cfg['db']);
                 $redis->del('mets:' . $pid);
+                $redis->del('slub-info:' . $pid);
+                $redis->del('mods:' . $pid);
             }
         } catch (\Throwable $e) {
             // Redis ext missing, unavailable, or error — TTL expires stale entry

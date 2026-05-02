@@ -50,9 +50,9 @@
 
 namespace EWW\Dpf\Controller;
 
-use DOMXPath;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use EWW\Dpf\Helper\DataCiteXml;
+use EWW\Dpf\Helper\SlubInfoHelper;
 use EWW\Dpf\Services\MetsExporter;
 use Exception;
 
@@ -93,6 +93,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $qid = $params['qid'];
         $deliverInactiveKey = $params['deliverInactive'];
         $deliverInactiveKeySecretKey = $params['deliverInactiveSecretKey'];
+        $restrictToActive = !hash_equals((string)$deliverInactiveKeySecretKey, (string)$deliverInactiveKey);
 
         $allowedActions = $params['allowedActions'];
 
@@ -114,13 +115,18 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $fedoraHost = $this->clientConfigurationManager->getFedoraHost();
             $isRepositoryObject = !is_numeric($qid);
 
+            if ($isRepositoryObject && !SlubInfoHelper::isValidPid($qid)) {
+                throw new Exception("Invalid document identifier", 400);
+            }
+            if (!empty($attachmentId) && !SlubInfoHelper::isValidDsid($attachmentId)) {
+                throw new Exception("Invalid attachment identifier", 400);
+            }
+
             $this->assertAccessAllowed(
                 $isRepositoryObject,
-                $deliverInactiveKey,
-                $deliverInactiveKeySecretKey,
+                $restrictToActive,
                 $fedoraHost,
-                $qid,
-                $attachmentId
+                $qid
             );
 
             switch ($action) {
@@ -134,7 +140,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                     if (!$attachmentId) {
                         throw new Exception("Missing parameter `attachment`", 400);
                     }
-                    $this->attachmentAction($fedoraHost, $qid, $attachmentId, $isRepositoryObject);
+                    $this->attachmentAction($fedoraHost, $qid, $attachmentId, $isRepositoryObject, $restrictToActive);
                     break;
                 case 'dataCite':
                     return $this->dataCiteAction($fedoraHost, $qid, $isRepositoryObject);
@@ -158,7 +164,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         $contentUri = rtrim('http://' . $fedoraHost, "/")
             . '/zip?xmdpfilter=true&metsurl='
             . rawurlencode($metsUrl);
-        $resourceHeaders = get_headers($contentUri);
+        $headCtx = stream_context_create(['http' => ['method' => 'HEAD', 'timeout' => 90]]);
+        $resourceHeaders = get_headers($contentUri, false, $headCtx);
         $this->copyHeaders($resourceHeaders);
         header_remove("Location"); // don't communicate backend URL
         $this->streamAndExit($contentUri, "application/zip");
@@ -170,7 +177,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $metsUri = rtrim('http://' . $fedoraHost, "/")
                 . '/fedora/objects/' . $qid
                 . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
-            $metsXml = file_get_contents($metsUri);
+            $ctx = stream_context_create(['http' => ['timeout' => 90]]);
+            $metsXml = file_get_contents($metsUri, false, $ctx);
         } else {
             $metsXml = $this->buildPreviewDocument($qid);
         }
@@ -188,9 +196,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         return $dataCiteRecord['content'];
     }
 
-    private function attachmentAction(string $fedoraHost, string $qid, string $attachmentId, bool $isRepositoryObject)
+    private function attachmentAction(string $fedoraHost, string $qid, string $attachmentId, bool $isRepositoryObject, bool $restrictToActive)
     {
         $document = null;
+        $fedoraBase = rtrim('http://' . $fedoraHost, '/');
+        $slubInfoXml = null;
+
+        $redis = $this->createRedisConnection();
 
         if ($isRepositoryObject) {
             $contentUri = $this->buildAttachmentURI($fedoraHost, $qid, $attachmentId);
@@ -198,6 +210,20 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             if (empty($contentUri)) {
                 throw new Exception("No file found", 404);
             }
+
+            // Fetch SLUB-INFO once — used for both the downloadable check and filename generation
+            $slubInfoXml = $this->fetchFedoraDatastream(
+                $fedoraBase . '/fedora/objects/' . $qid . '/datastreams/SLUB-INFO/content',
+                'slub-info:' . $qid,
+                $redis
+            );
+            if ($slubInfoXml === false) {
+                throw new Exception("Cannot obtain datastream access conditions", 500);
+            }
+            if ($restrictToActive && !SlubInfoHelper::isDownloadable($slubInfoXml, $attachmentId)) {
+                throw new Exception("File is not accessible", 403);
+            }
+
             $document = $this->documentRepository->findByObjectIdentifier($qid);
         } else {
             $document = $this->documentRepository->findByUid($qid);
@@ -215,7 +241,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             $contentType = $file['type']; // override default content-type
         }
 
-        $resourceHeaders = get_headers($contentUri);
+        $headCtx = stream_context_create(['http' => ['method' => 'HEAD', 'timeout' => 90]]);
+        $resourceHeaders = get_headers($contentUri, false, $headCtx);
         if (!$resourceHeaders) {
             throw new Exception("Cannot fetch remote resource headers", 500);
         }
@@ -268,10 +295,13 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
             }
 
-            $fedoraBase = rtrim('http://' . $fedoraHost, '/');
-            $modsXml = file_get_contents($fedoraBase . '/fedora/objects/' . $qid . '/datastreams/MODS/content');
-            $slubInfoXml = file_get_contents($fedoraBase . '/fedora/objects/' . $qid . '/datastreams/SLUB-INFO/content');
+            $modsXml = $this->fetchFedoraDatastream(
+                $fedoraBase . '/fedora/objects/' . $qid . '/datastreams/MODS/content',
+                'mods:' . $qid,
+                $redis
+            );
 
+            // $slubInfoXml already fetched above for the access check — reused here
             if (!empty($modsXml) && !empty($slubInfoXml)) {
                 $generator = GeneralUtility::makeInstance(\EWW\Dpf\Service\FilenameGenerator::class);
                 $swordNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();
@@ -349,7 +379,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             // Redis ext missing, unavailable, or error — continue to live Fedora fetch
         }
 
-        $metsXml = file_get_contents($contentUri);
+        $ctx = stream_context_create(['http' => ['timeout' => 90]]);
+        $metsXml = file_get_contents($contentUri, false, $ctx);
         if ($metsXml === false) {
             throw new Exception("Error while fetching METS content", 500);
         }
@@ -374,27 +405,14 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         exit;
     }
 
-    private function assertAccessAllowed($isRepositoryObject, $givenKey, $secretKey, $fedoraHost, $pid, $dsid)
+    /**
+     * Check document-level access: object must be active unless the caller holds the bypass key.
+     * Attachment-level (datastream downloadable) check is handled in attachmentAction().
+     */
+    private function assertAccessAllowed(bool $isRepositoryObject, bool $restrictToActive, string $fedoraHost, string $pid)
     {
-        // if the given secret key matches the configured secret key, lift restriction
-        $restrictToActiveDocuments = ($secretKey !== $givenKey);
-
-        // if restriction applies, check object state before dissemination
-        if ($isRepositoryObject && $restrictToActiveDocuments) {
+        if ($isRepositoryObject && $restrictToActive) {
             $this->assertActiveFedoraObject($fedoraHost, $pid);
-        }
-
-        /*
-           If datastream id is given, check datastream download metadata.
-           Non-repository (local) files are directly checked in attachmentAction()
-           because the file handling is totally entangled and we want to avoid
-           code duplication for now.
-        */
-        if ($isRepositoryObject && !empty($dsid)) {
-            $downloadable = $this->datastreamDownloadCondition($fedoraHost, $pid, $dsid);
-            if (!$downloadable && $restrictToActiveDocuments) {
-                throw new Exception("File is not accessible", 403);
-            }
         }
     }
 
@@ -450,6 +468,88 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         exit; // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
     }
 
+    /**
+     * Fetch a Fedora datastream XML, returning a cached copy from Redis when available.
+     * Falls back to a live Fedora fetch on Redis miss or when Redis is unavailable.
+     *
+     * @param string $uri      Full URL of the Fedora datastream
+     * @param string $cacheKey Redis key (e.g. "slub-info:qucosa:1234")
+     * @param \Redis|null $redis Connected Redis instance selected to the correct DB, or null
+     * @return string|false XML string, or false on fetch failure
+     */
+    private function fetchFedoraDatastream(string $uri, string $cacheKey, $redis)
+    {
+        $ttl = 86400;
+        if (isset($this->settings['metsCacheTtl'])) {
+            $ttl = (int)$this->settings['metsCacheTtl'];
+        }
+
+        if ($redis !== null) {
+            try {
+                $cached = $redis->get($cacheKey);
+                if ($cached !== false) {
+                    return $cached;
+                }
+            } catch (\Throwable $e) {
+                // Redis error — fall through to live fetch
+            }
+        }
+
+        $ctx = stream_context_create(['http' => ['timeout' => 90]]);
+        $xml = file_get_contents($uri, false, $ctx);
+
+        if ($xml !== false && $redis !== null) {
+            try {
+                $redis->set($cacheKey, $xml, $ttl);
+            } catch (\Throwable $e) {
+                // Redis error — cached value lost, not critical
+            }
+        }
+
+        return $xml;
+    }
+
+    /**
+     * Create and return a Redis connection selected to the configured datastream cache DB.
+     * Returns null if Redis is unavailable or the extension is missing.
+     *
+     * @return \Redis|null
+     */
+    private function createRedisConnection()
+    {
+        $host = '127.0.0.1';
+        if (isset($this->settings['redisHost']) && $this->settings['redisHost'] !== '') {
+            $host = $this->settings['redisHost'];
+        }
+
+        $port = 6379;
+        if (isset($this->settings['redisPort']) && (int)$this->settings['redisPort'] > 0) {
+            $port = (int)$this->settings['redisPort'];
+        }
+
+        $db = 4;
+        if (isset($this->settings['redisDatabase'])) {
+            $db = (int)$this->settings['redisDatabase'];
+        }
+
+        $timeout = 1.0;
+        if (isset($this->settings['redisConnectTimeout']) && $this->settings['redisConnectTimeout'] !== '') {
+            $timeout = (float)$this->settings['redisConnectTimeout'];
+        }
+
+        try {
+            $redis = new \Redis();
+            if ($redis->connect($host, $port, $timeout)) {
+                $redis->select($db);
+                return $redis;
+            }
+        } catch (\Throwable $e) {
+            // Redis ext missing, unavailable, or error
+        }
+
+        return null;
+    }
+
     private function setHeader(string $header, string $value)
     {
         header(trim($header) . ": " . trim($value));
@@ -475,44 +575,11 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
         }
     }
 
-    /**
-     * Check if a datastream is downloadable.
-     *
-     * Loads SLUB-INFO metadata for the specified object and checks for appropriate
-     * metadata which grants download access to the specified datastream.
-     *
-     * @param string $fedoraHost Host of the Fedora system
-     * @param string $pid        Fedora object identifier
-     * @param string $dsid       Fedora object datastream identifier
-     * @return bool True if datastream is downloadable. False otherwise.
-     */
-    private function datastreamDownloadCondition(string $fedoraHost, string $pid, $dsid)
-    {
-        $slubInfoURI = rtrim('http://' . $fedoraHost, "/")
-            . '/fedora/objects/' . $pid
-            . '/datastreams/SLUB-INFO/content';
-        $slubInfoXML = file_get_contents($slubInfoURI);
-
-        if (false !== $slubInfoXML) {
-            $slubInfoDOM = new \DOMDocument('1.0', 'UTF-8');
-            if (true === $slubInfoDOM->loadXML($slubInfoXML)) {
-                $xpath = new DOMXPath($slubInfoDOM);
-                $xpath->registerNamespace('slub', 'http://slub-dresden.de/');
-
-                $query = '//slub:attachment[@ref="' . $dsid . '" and @isDownloadable="yes"]';
-                $match = $xpath->evaluate($query);
-
-                return ($match !== null) && ($match->length > 0);
-            }
-        }
-
-        throw new Exception("Cannot obtain datastream access conditions", 500);
-    }
-
     private function fedoraObjectState($fedoraHost, $pid)
     {
         $objectProfileURI = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $pid . '?format=XML';
-        $objectProfileXML = file_get_contents($objectProfileURI);
+        $ctx = stream_context_create(['http' => ['timeout' => 90]]);
+        $objectProfileXML = file_get_contents($objectProfileURI, false, $ctx);
 
         if (false !== $objectProfileXML) {
             $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
