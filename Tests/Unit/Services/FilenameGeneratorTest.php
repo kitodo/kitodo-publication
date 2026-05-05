@@ -171,7 +171,7 @@ XML;
         $filename = $this->generator->generate(
             $this->modsXml(), $this->slubInfoXml(), 'qucosa:fid-move', 'application/pdf', 0, 1
         );
-        $this->assertStringContainsString('FID-Move', $filename);
+        $this->assertStringContainsString('FIDmove', $filename);
     }
 
     public function testMonarchMandant(): void

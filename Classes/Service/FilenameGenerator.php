@@ -1,4 +1,5 @@
 <?php
+
 namespace EWW\Dpf\Service;
 
 /*
@@ -23,15 +24,15 @@ use EWW\Dpf\Helper\Slub;
  */
 class FilenameGenerator
 {
-    const MAX_NAME_LENGTH  = 15;
-    const MAX_TITLE_LENGTH = 30;
+    public const MAX_NAME_LENGTH  = 15;
+    public const MAX_TITLE_LENGTH = 30;
 
-    const MUSICONN_COLLECTION = 'fidmusik';
+    public const MUSICONN_COLLECTION = 'fidmusik';
 
-    const NAMESPACE_TO_LABEL = [
+    public const NAMESPACE_TO_LABEL = [
         'qucosa:slub'         => 'Qucosa-SLUB',
         'qucosa:ubl'          => 'Qucosa-UBL',
-        'qucosa:fid-move'     => 'FID-Move',
+        'qucosa:fid-move'     => 'FIDmove',
         'qucosa:tubaf'        => 'Qucosa-TUBAF',
         'qucosa:hzdr'         => 'Qucosa-HZDR',
         'qucosa:ubc'          => 'Monarch',
@@ -42,7 +43,7 @@ class FilenameGenerator
         'qucosa:si'           => 'Qucosa-SI',
     ];
 
-    const MIME_TO_EXT = [
+    public const MIME_TO_EXT = [
         'application/pdf'      => '.pdf',
         'application/epub+zip' => '.epub',
         'application/zip'      => '.zip',
