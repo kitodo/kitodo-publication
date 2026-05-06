@@ -120,7 +120,7 @@ class FilenameGenerator
             $base = strtolower($base);
         }
 
-        $ext = $this->mimeToExt($mimeType);
+        $ext = self::mimeToExtension($mimeType);
 
         return $base . $ext;
     }
@@ -212,7 +212,7 @@ class FilenameGenerator
         return $transliterated !== false ? $transliterated : $value;
     }
 
-    private function mimeToExt(string $mimeType): string
+    public static function mimeToExtension(string $mimeType): string
     {
         $mime = strtolower(trim(explode(';', $mimeType)[0]));
         return self::MIME_TO_EXT[$mime] ?? '';

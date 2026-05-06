@@ -39,6 +39,27 @@ class SlubInfoHelper
     }
 
     /**
+     * Sanitize a Fedora datastream label for use as a download filename.
+     * Strips any existing extension and OS-unsafe characters, then appends $extension.
+     * Returns empty string if the result would be empty after sanitization.
+     */
+    public static function sanitizeFilenameLabel(string $label, string $extension): string
+    {
+        // Strip any trailing extension so we always use the MIME-derived one
+        $name = pathinfo($label, PATHINFO_FILENAME) ?: $label;
+        $name = preg_replace('/[\/\\\\:*?"<>|\x00-\x1f]/', '_', $name);
+        $name = preg_replace('/\s+/', '_', $name);
+        $name = trim($name, '_');
+        if (empty($name)) {
+            return '';
+        }
+        if (empty($extension)) {
+            return $name;
+        }
+        return $name . '.' . ltrim($extension, '.');
+    }
+
+    /**
      * Check if a datastream is marked as downloadable in a SLUB-INFO XML document.
      *
      * @param string $slubInfoXml Raw XML content of the SLUB-INFO datastream

@@ -128,6 +128,64 @@ XML;
         $this->assertFalse(SlubInfoHelper::isDownloadable($this->slubInfoTwoAttachments(), '" or "1"="1'));
     }
 
+    // --- sanitizeFilenameLabel tests ----------------------------------------
+
+    public function testSanitizeFilenameLabelStripsUnsafeChars(): void
+    {
+        $result = SlubInfoHelper::sanitizeFilenameLabel('File/Name:With*Bad?Chars', 'pdf');
+        $this->assertStringNotContainsString('/', $result);
+        $this->assertStringNotContainsString(':', $result);
+        $this->assertStringNotContainsString('*', $result);
+        $this->assertStringNotContainsString('?', $result);
+        $this->assertStringEndsWith('.pdf', $result);
+    }
+
+    public function testSanitizeFilenameLabelEmptyInputReturnsEmpty(): void
+    {
+        $this->assertSame('', SlubInfoHelper::sanitizeFilenameLabel('', 'pdf'));
+        $this->assertSame('', SlubInfoHelper::sanitizeFilenameLabel('___', 'pdf'));
+        $this->assertSame('', SlubInfoHelper::sanitizeFilenameLabel('   ', 'pdf'));
+    }
+
+    public function testSanitizeFilenameLabelAppendsExtension(): void
+    {
+        $this->assertSame('Digitale_Signatur.txt', SlubInfoHelper::sanitizeFilenameLabel('Digitale Signatur', 'txt'));
+        $this->assertSame('Kapitel_1.pdf', SlubInfoHelper::sanitizeFilenameLabel('Kapitel 1', 'pdf'));
+    }
+
+    public function testSanitizeFilenameLabelReplacesSpacesWithUnderscores(): void
+    {
+        $this->assertSame('Volltext_(pdf).pdf', SlubInfoHelper::sanitizeFilenameLabel('Volltext (pdf)', 'pdf'));
+        $this->assertSame('multiple_spaces.txt', SlubInfoHelper::sanitizeFilenameLabel('multiple   spaces', 'txt'));
+    }
+
+    public function testSanitizeFilenameLabelStripsExistingExtension(): void
+    {
+        // Label already has extension — strip it, use MIME-derived one
+        $this->assertSame('dissertation.pdf', SlubInfoHelper::sanitizeFilenameLabel('dissertation.pdf', 'pdf'));
+        $this->assertSame('my.file.v2.pdf', SlubInfoHelper::sanitizeFilenameLabel('my.file.v2.pdf', 'pdf'));
+    }
+
+    public function testSanitizeFilenameLabelWithNoExtension(): void
+    {
+        $this->assertSame('Volltext_(pdf)', SlubInfoHelper::sanitizeFilenameLabel('Volltext (pdf)', ''));
+    }
+
+    public function testSanitizeFilenameLabelTrimsEdgeUnderscores(): void
+    {
+        $result = SlubInfoHelper::sanitizeFilenameLabel('/leading-slash', 'pdf');
+        $this->assertStringStartsNotWith('_', $result);
+        $this->assertStringEndsWith('.pdf', $result);
+    }
+
+    public function testSanitizeFilenameLabelStripsControlChars(): void
+    {
+        $result = SlubInfoHelper::sanitizeFilenameLabel("File\x00Name\x1f", 'pdf');
+        $this->assertStringNotContainsString("\x00", $result);
+        $this->assertStringNotContainsString("\x1f", $result);
+        $this->assertStringEndsWith('.pdf', $result);
+    }
+
     // --- isValidPid tests ---------------------------------------------------
 
     /** @dataProvider validPidProvider */

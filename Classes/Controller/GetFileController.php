@@ -272,6 +272,18 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
             }
 
+            if ($attachmentId !== \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER && isset($downloadFiles[$fileIndex])) {
+                $fileLabel = $downloadFiles[$fileIndex]['title'] ?? '';
+                if (!empty($fileLabel)) {
+                    $ext = \EWW\Dpf\Service\FilenameGenerator::mimeToExtension($mimeType);
+                    $filename = SlubInfoHelper::sanitizeFilenameLabel($fileLabel, $ext);
+                    if (!empty($filename)) {
+                        $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                        $this->streamAndExit($contentUri);
+                    }
+                }
+            }
+
             $generator = GeneralUtility::makeInstance(\EWW\Dpf\Service\FilenameGenerator::class);
             $swordNamespace = $this->clientConfigurationManager->getSwordCollectionNamespace();
             $filename = $generator->generate(
@@ -295,6 +307,19 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
                 }
             }
 
+            if ($attachmentId !== \EWW\Dpf\Domain\Model\File::PRIMARY_DATASTREAM_IDENTIFIER) {
+                $dsList = $this->fetchFedoraDatastreamList($fedoraBase, $qid, $redis);
+                if ($dsList !== null && isset($dsList[$attachmentId]) && !empty($dsList[$attachmentId]['label'])) {
+                    $ext = \EWW\Dpf\Service\FilenameGenerator::mimeToExtension($mimeType);
+                    $filename = SlubInfoHelper::sanitizeFilenameLabel($dsList[$attachmentId]['label'], $ext);
+                    if (!empty($filename)) {
+                        $this->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                        $this->streamAndExit($contentUri);
+                    }
+                }
+            }
+
+            // Primary file, or secondary with no usable label → FilenameGenerator
             $modsXml = $this->fetchFedoraDatastream(
                 $fedoraBase . '/fedora/objects/' . $qid . '/datastreams/MODS/content',
                 'mods:' . $qid,
@@ -466,6 +491,80 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
             throw $streamingException;
         }
         exit; // Hard exit PHP script to avoid sending TYPO3 framework HTTP artifacts
+    }
+
+    /**
+     * Fetch the Fedora datastream list for a PID, returning a cached result from Redis.
+     * Returns an associative array keyed by DSID with 'label' and 'mimeType', or null on failure.
+     *
+     * @param string $fedoraBase  Base Fedora URL (no trailing slash)
+     * @param string $pid         Fedora PID
+     * @param \Redis|null $redis  Connected Redis instance, or null
+     * @return array|null
+     */
+    private function fetchFedoraDatastreamList(string $fedoraBase, string $pid, $redis)
+    {
+        $cacheKey = 'dslist:' . $pid;
+        $ttl = 86400;
+        if (isset($this->settings['metsCacheTtl'])) {
+            $ttl = (int)$this->settings['metsCacheTtl'];
+        }
+
+        if ($redis !== null) {
+            try {
+                $cached = $redis->get($cacheKey);
+                if ($cached !== false) {
+                    $decoded = json_decode($cached, true);
+                    if (is_array($decoded)) {
+                        return $decoded;
+                    }
+                }
+            } catch (\Throwable $e) {
+                // Redis error — fall through to live fetch
+            }
+        }
+
+        $url = $fedoraBase . '/fedora/objects/' . $pid . '/datastreams?format=xml';
+        $ctx = stream_context_create(['http' => ['method' => 'GET', 'timeout' => 10]]);
+        $xml = @file_get_contents($url, false, $ctx);
+        if ($xml === false) {
+            return null;
+        }
+
+        $dom = new \DOMDocument();
+        $prevErrors = libxml_use_internal_errors(true);
+        $loaded = $dom->loadXML($xml);
+        libxml_use_internal_errors($prevErrors);
+        if (!$loaded) {
+            return null;
+        }
+
+        $result = [];
+        $ns = 'http://www.fedora.info/definitions/1/0/access/';
+        $nodes = $dom->getElementsByTagNameNS($ns, 'datastream');
+        if ($nodes->length === 0) {
+            $nodes = $dom->getElementsByTagName('datastream');
+        }
+        foreach ($nodes as $node) {
+            $dsid = $node->getAttribute('dsid');
+            if (empty($dsid)) {
+                continue;
+            }
+            $result[$dsid] = [
+                'label'    => $node->getAttribute('label'),
+                'mimeType' => $node->getAttribute('mimeType'),
+            ];
+        }
+
+        if (!empty($result) && $redis !== null) {
+            try {
+                $redis->set($cacheKey, json_encode($result), $ttl);
+            } catch (\Throwable $e) {
+                // Redis error — not critical
+            }
+        }
+
+        return !empty($result) ? $result : null;
     }
 
     /**
