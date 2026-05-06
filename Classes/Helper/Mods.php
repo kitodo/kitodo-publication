@@ -269,4 +269,20 @@ class Mods
         }
     }
 
+    /**
+     * Returns the PID of the host (parent) document, or null if none is set.
+     * The host PID is stored in relatedItem[@type="host"]/identifier[@type="local"].
+     */
+    public function getHostPid()
+    {
+        $node = $this->getModsXpath()->query(
+            '/mods:mods/mods:relatedItem[@type="host"]/mods:identifier[@type="local"]'
+        );
+        if ($node->length > 0) {
+            $value = trim($node->item(0)->nodeValue);
+            return $value !== '' ? $value : null;
+        }
+        return null;
+    }
+
 }

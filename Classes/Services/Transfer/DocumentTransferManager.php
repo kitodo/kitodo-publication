@@ -110,6 +110,8 @@ class DocumentTransferManager
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
         $mods->setDateIssued($dateIssued);
 
+        $hostPid = $mods->getHostPid();
+
         $exporter->setMods($mods->getModsXml());
 
         $exporter->setSlubInfo($document->getSlubInfoData());
@@ -132,6 +134,10 @@ class DocumentTransferManager
             $document->setTransferStatus(Document::TRANSFER_SENT);
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
+
+            if ($hostPid !== null) {
+                $this->invalidateMetsCache($hostPid);
+            }
 
             return true;
         } else {

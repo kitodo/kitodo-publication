@@ -7,6 +7,7 @@
         <testsuite name="Unit">
             <file>Tests/Unit/Services/FilenameGeneratorTest.php</file>
             <file>Tests/Unit/Controller/GetFileControllerTest.php</file>
+            <file>Tests/Unit/Helper/ModsTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
