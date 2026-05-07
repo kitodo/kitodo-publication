@@ -185,4 +185,64 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
+
+    // -- Fast list methods: raw SQL excludes xml_data / slub_info_data blobs --
+
+    protected function listColumns()
+    {
+        return 'uid, pid, tstamp, crdate, deleted, hidden, sys_language_uid, l10n_parent, t3ver_oid,'
+            . ' title, authors, document_type, object_identifier, reserved_object_identifier,'
+            . ' state, transfer_status, changed, valid, is_template, date_issued, process_number';
+    }
+
+    protected function storagePidList()
+    {
+        $query = $this->createQuery();
+        $pids = $query->getQuerySettings()->getStoragePageIds();
+        return implode(',', array_map('intval', $pids));
+    }
+
+    protected function findForList($where)
+    {
+        $cols = $this->listColumns();
+        $pidList = $this->storagePidList();
+        $sql = 'SELECT ' . $cols
+            . ' FROM tx_dpf_domain_model_document'
+            . ' WHERE ' . $where . ' AND pid IN (' . $pidList . ')'
+            . ' ORDER BY uid DESC';
+        $query = $this->createQuery();
+        return $query->statement($sql)->execute();
+    }
+
+    // All documents (excluding templates)
+
+    public function findAllForList()
+    {
+        return $this->findForList('is_template = 0 AND deleted = 0 AND hidden = 0');
+    }
+
+    // New documents (no object_identifier, not changed)
+
+    public function findNewForList()
+    {
+        return $this->findForList(
+            "object_identifier = '' AND changed = 0 AND is_template = 0 AND deleted = 0 AND hidden = 0"
+        );
+    }
+
+    // In-progress documents (submitted to Fedora or locally changed)
+
+    public function findInProgressForList()
+    {
+        return $this->findForList(
+            "(object_identifier LIKE 'qucosa%' OR changed = 1) AND is_template = 0 AND deleted = 0 AND hidden = 0"
+        );
+    }
+
+    // Templates
+
+    public function findTemplatesForList()
+    {
+        return $this->findForList('is_template = 1 AND deleted = 0 AND hidden = 0');
+    }
 }

@@ -53,7 +53,7 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
      */
     public function listAction()
     {
-        $documents = $this->documentRepository->getAllDocuments();
+        $documents = $this->documentRepository->findAllForList();
 
         if ($this->request->hasArgument('message')) {
             $this->view->assign('message', $this->request->getArgument('message'));
@@ -68,19 +68,19 @@ class DocumentController extends \EWW\Dpf\Controller\AbstractController
 
     public function listNewAction()
     {
-        $documents = $this->documentRepository->getNewDocuments();
+        $documents = $this->documentRepository->findNewForList();
         $this->view->assign('documents', $documents);
     }
 
     public function listEditAction()
     {
-        $documents = $this->documentRepository->getInProgressDocuments();
+        $documents = $this->documentRepository->findInProgressForList();
         $this->view->assign('documents', $documents);
     }
 
-     public function listTemplatesAction()
+    public function listTemplatesAction()
     {
-        $documents = $this->documentRepository->getTemplates();
+        $documents = $this->documentRepository->findTemplatesForList();
         $this->view->assign('documents', $documents);
     }
 
