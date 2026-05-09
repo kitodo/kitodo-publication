@@ -47,8 +47,12 @@ class DataCiteViewHelper extends AbstractBackendViewHelper
      */
     protected function getViewIcon($row, $pageUid, $apiPid, $insideText, $class)
     {
+        static $viewDomainCache = array();
+        if (!isset($viewDomainCache[$pageUid])) {
+            $viewDomainCache[$pageUid] = BackendUtility::getViewDomain($pageUid);
+        }
 
-        $dataCite = BackendUtility::getViewDomain($pageUid) . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
+        $dataCite = $viewDomainCache[$pageUid] . '/index.php?id='.$apiPid.'&tx_dpf[qid]=' . $row['uid'] . '&tx_dpf[action]=' . $row['action'];
 
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.datacite', 'dpf', $arguments = null);
         $icon  = '<a href="' . $dataCite . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';

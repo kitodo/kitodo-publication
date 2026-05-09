@@ -77,8 +77,13 @@ class PreviewViewHelper extends AbstractBackendViewHelper
      */
     protected function getViewIcon(array $row, $pageUid, $apiPid, $insideText, $class)
     {
+        static $viewDomainCache = array();
+        if (!isset($viewDomainCache[$pageUid])) {
+            $viewDomainCache[$pageUid] = BackendUtility::getViewDomain($pageUid);
+        }
+        $viewDomain = $viewDomainCache[$pageUid];
 
-        $previewMets = BackendUtility::getViewDomain($pageUid)
+        $previewMets = $viewDomain
             . '/index.php?id=' . $apiPid
             . '&tx_dpf[qid]=' . $row['uid']
             . '&tx_dpf[action]=' . $row['action'];
@@ -88,8 +93,11 @@ class PreviewViewHelper extends AbstractBackendViewHelper
         }
 
         $additionalGetVars = '&tx_dlf[id]=' . urlencode($previewMets) . '&no_cache=1';
+        $viewUrl = $viewDomain . '/index.php?id=' . $pageUid . $additionalGetVars;
+        $onclick = 'window.open(' . GeneralUtility::quoteJSvalue($viewUrl) . ');return false;';
+
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
-        $icon = '<a href="#" data-toggle="tooltip" class="' . $class . '" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($pageUid, $this->backPath, '', '', '', $additionalGetVars)) . '" title="' . $title . '">' .
+        $icon = '<a href="#" data-toggle="tooltip" class="' . $class . '" onclick="' . htmlspecialchars($onclick) . '" title="' . $title . '">' .
                           $insideText . '</a>';
 
         return $icon;
