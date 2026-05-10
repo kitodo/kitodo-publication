@@ -270,13 +270,17 @@ class Mods
     }
 
     /**
-     * Returns the PID of the host (parent) document, or null if none is set.
-     * The host PID is stored in relatedItem[@type="host"]/identifier[@type="local"].
+     * Returns the URN of the host (parent) document, or null if none is set.
+     * Legacy Qucosa convention stores the parent reference in
+     * relatedItem[@type="series"]/identifier[@type="urn"]. The returned value
+     * is a URN (e.g. urn:nbn:de:bsz:14-qucosa2-78923), not the parent's
+     * Fedora PID — callers that need the Fedora PID must resolve via
+     * findObjects.
      */
-    public function getHostPid()
+    public function getHostUrn()
     {
         $node = $this->getModsXpath()->query(
-            '/mods:mods/mods:relatedItem[@type="host"]/mods:identifier[@type="local"]'
+            '/mods:mods/mods:relatedItem[@type="series"]/mods:identifier[@type="urn"]'
         );
         if ($node->length > 0) {
             $value = trim($node->item(0)->nodeValue);

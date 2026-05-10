@@ -68,6 +68,12 @@ class DocumentTransferManager
     protected $configurationManager;
 
     /**
+     * @var \EWW\Dpf\Configuration\ClientConfigurationManager
+     * @inject
+     */
+    protected $clientConfigurationManager;
+
+    /**
      * remoteRepository
      *
      * @var \EWW\Dpf\Services\Transfer\Repository
@@ -110,7 +116,7 @@ class DocumentTransferManager
         $dateIssued = (new \DateTime)->format(\DateTime::ISO8601);
         $mods->setDateIssued($dateIssued);
 
-        $hostPid = $mods->getHostPid();
+        $hostUrn = $mods->getHostUrn();
 
         $exporter->setMods($mods->getModsXml());
 
@@ -135,9 +141,7 @@ class DocumentTransferManager
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
 
-            if ($hostPid !== null) {
-                $this->invalidateMetsCache($hostPid);
-            }
+            $this->invalidateHostCache($hostUrn);
 
             return true;
         } else {
@@ -183,6 +187,7 @@ class DocumentTransferManager
 
         if ($this->remoteRepository->update($document, $metsXml)) {
             $this->invalidateMetsCache($document->getObjectIdentifier());
+            $this->invalidateHostCache($mods->getHostUrn());
             $document->setTransferStatus(Document::TRANSFER_SENT);
             $this->documentRepository->update($document);
             $this->documentRepository->remove($document);
@@ -393,6 +398,66 @@ class DocumentTransferManager
             }
         } catch (\Throwable $e) {
             // Redis ext missing, unavailable, or error — TTL expires stale entry
+        }
+    }
+
+    /**
+     * Invalidates the cached parent METS for a child whose MODS references
+     * the parent via relatedItem[@type="series"]/identifier[@type="urn"].
+     *
+     * The legacy convention stores the parent reference as a URN, but the
+     * Fedora PID — under which GetFileController caches parent METS — is
+     * qucosa:NNNNN. We resolve URN → Fedora PID via findObjects, then drop
+     * both keys (the URN-keyed fallback covers any edge cache writes).
+     */
+    private function invalidateHostCache($hostUrn): void
+    {
+        if (!is_string($hostUrn) || $hostUrn === '') {
+            return;
+        }
+        $this->invalidateMetsCache($hostUrn);
+        $fedoraPid = $this->resolveFedoraPid($hostUrn);
+        if ($fedoraPid !== null && $fedoraPid !== $hostUrn) {
+            $this->invalidateMetsCache($fedoraPid);
+        }
+    }
+
+    private function resolveFedoraPid(string $urn): ?string
+    {
+        if ($this->clientConfigurationManager === null) {
+            return null;
+        }
+        $host = $this->clientConfigurationManager->getFedoraHost();
+        if (empty($host)) {
+            return null;
+        }
+        $url = rtrim('http://' . $host, '/')
+            . '/fedora/objects?terms=' . rawurlencode($urn)
+            . '&resultFormat=xml&pid=true&maxResults=2';
+        try {
+            $ctx = stream_context_create(['http' => ['timeout' => 5]]);
+            $xml = @file_get_contents($url, false, $ctx);
+            if ($xml === false || $xml === '') {
+                return null;
+            }
+            $doc = new \DOMDocument();
+            $previous = libxml_use_internal_errors(true);
+            $loaded = $doc->loadXML($xml);
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
+            if (!$loaded) {
+                return null;
+            }
+            $xpath = new \DOMXPath($doc);
+            $xpath->registerNamespace('t', 'http://www.fedora.info/definitions/1/0/types/');
+            $pids = $xpath->query('//t:pid');
+            if ($pids === false || $pids->length !== 1) {
+                return null;
+            }
+            $value = trim($pids->item(0)->nodeValue);
+            return $value !== '' ? $value : null;
+        } catch (\Throwable $e) {
+            return null;
         }
     }
 

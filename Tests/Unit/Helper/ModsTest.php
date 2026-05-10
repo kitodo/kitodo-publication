@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ModsTest extends TestCase
 {
-    private function modsWithHost(string $hostPid): string
+    private function modsWithHost(string $hostUrn): string
     {
         return <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -14,9 +14,8 @@ class ModsTest extends TestCase
     <mods:titleInfo>
         <mods:title>Test Article</mods:title>
     </mods:titleInfo>
-    <mods:relatedItem type="host">
-        <mods:identifier type="local">{$hostPid}</mods:identifier>
-        <mods:identifier type="urn">urn:nbn:de:bsz:14-qucosa-12345</mods:identifier>
+    <mods:relatedItem type="series">
+        <mods:identifier type="urn">{$hostUrn}</mods:identifier>
     </mods:relatedItem>
 </mods:mods>
 XML;
@@ -50,35 +49,68 @@ XML;
 XML;
     }
 
-    public function testGetHostPidReturnsParentPid()
+    public function testGetHostUrnReturnsParentUrn()
     {
-        $mods = new Mods($this->modsWithHost('qucosa:12345'));
-        $this->assertSame('qucosa:12345', $mods->getHostPid());
+        $mods = new Mods($this->modsWithHost('urn:nbn:de:bsz:14-qucosa2-78923'));
+        $this->assertSame('urn:nbn:de:bsz:14-qucosa2-78923', $mods->getHostUrn());
     }
 
-    public function testGetHostPidReturnsNullWhenNoHostRelation()
-    {
-        $mods = new Mods($this->modsWithoutHost());
-        $this->assertNull($mods->getHostPid());
-    }
-
-    public function testGetHostPidIgnoresConstituentRelation()
-    {
-        $mods = new Mods($this->modsWithConstituent());
-        $this->assertNull($mods->getHostPid());
-    }
-
-    public function testGetHostPidReturnsNullForEmptyIdentifier()
+    public function testGetHostUrnIgnoresUnrelatedIdentifiers()
     {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
-    <mods:relatedItem type="host">
-        <mods:identifier type="local"></mods:identifier>
+    <mods:relatedItem type="series">
+        <mods:titleInfo>
+            <mods:title>Series Title</mods:title>
+        </mods:titleInfo>
+        <mods:identifier type="issn">2199-5362</mods:identifier>
+        <mods:identifier type="urn">urn:nbn:de:bsz:ch1-qucosa-153040</mods:identifier>
+        <mods:identifier type="isbn">978-3-96100-262-7</mods:identifier>
     </mods:relatedItem>
 </mods:mods>
 XML;
         $mods = new Mods($xml);
-        $this->assertNull($mods->getHostPid());
+        $this->assertSame('urn:nbn:de:bsz:ch1-qucosa-153040', $mods->getHostUrn());
+    }
+
+    public function testGetHostUrnReturnsNullWhenNoHostRelation()
+    {
+        $mods = new Mods($this->modsWithoutHost());
+        $this->assertNull($mods->getHostUrn());
+    }
+
+    public function testGetHostUrnIgnoresConstituentRelation()
+    {
+        $mods = new Mods($this->modsWithConstituent());
+        $this->assertNull($mods->getHostUrn());
+    }
+
+    public function testGetHostUrnReturnsNullForEmptyIdentifier()
+    {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    <mods:relatedItem type="series">
+        <mods:identifier type="urn"></mods:identifier>
+    </mods:relatedItem>
+</mods:mods>
+XML;
+        $mods = new Mods($xml);
+        $this->assertNull($mods->getHostUrn());
+    }
+
+    public function testGetHostUrnReturnsNullWhenIdentifierTypeMismatched()
+    {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    <mods:relatedItem type="series">
+        <mods:identifier type="local">qucosa:12345</mods:identifier>
+    </mods:relatedItem>
+</mods:mods>
+XML;
+        $mods = new Mods($xml);
+        $this->assertNull($mods->getHostUrn());
     }
 }
