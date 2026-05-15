@@ -14,7 +14,6 @@ namespace EWW\Dpf\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Elasticsearch\ClientBuilder;
 use EWW\Dpf\Exceptions\RepositoryConnectionErrorException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
@@ -24,67 +23,50 @@ use EWW\Dpf\Configuration\ClientConfigurationManager;
  */
 class ElasticSearch
 {
-    protected $es;
-
-    protected $server = ''; //127.0.0.1';
-
-    protected $port = '9200';
+    protected $baseUrl = '';
 
     protected $index = 'fedora';
-
-    protected $type = 'object';
 
     protected $hits;
 
     protected $resultList;
 
-    /**
-     * elasticsearch client constructor
-     */
     public function __construct()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
-        $this->server = $clientConfigurationManager->getElasticSearchHost();
-        $this->port   = $clientConfigurationManager->getElasticSearchPort();
+        $host = $clientConfigurationManager->getElasticSearchHost();
+        $port = $clientConfigurationManager->getElasticSearchPort();
 
-        $this->es = ClientBuilder::create()
-            ->setHosts([$this->server . ':' . $this->port])
-            ->build();
-
+        $this->baseUrl = 'http://' . $host . ':' . $port;
     }
 
-    /**
-     * performs the
-     * @param  array $query search query
-     * @return array        result list
-     */
     public function search($query, $type)
     {
+        $index = !empty($query['index']) ? $query['index'] : $this->index;
+        $body  = isset($query['body']) ? $query['body'] : new \stdClass();
+        $url   = $this->baseUrl . '/' . $index . '/_search';
+
         try {
-            // define type and index
-            if (empty($query['index'])) {
-                $query['index'] = $this->index;
-            }
-            if (!empty($type)) {
-                $query['type'] = $type;
-                // $query['type'] = $this->type;
-            }
-
-            // Search request
-            $results = $this->es->search($query);
-
-            $this->hits = $results['hits']['total']['value'];
-
-            $this->resultList = $results['hits'];
-
-            return $this->resultList;
-        } catch ( \Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost $exception) {
-            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
-        } catch (\Elasticsearch\Common\Exceptions\Curl\CouldNotResolveHostException $exception) {
+            $response = \Httpful\Request::post($url)
+                ->sendsJson()
+                ->body(json_encode($body))
+                ->send();
+        } catch (\Exception $e) {
             throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
         }
+
+        if ($response->code === 0) {
+            throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");
+        }
+
+        $results = json_decode($response->raw_body, true);
+
+        $this->hits       = $results['hits']['total']['value'];
+        $this->resultList = $results['hits'];
+
+        return $this->resultList;
     }
 
     /**
