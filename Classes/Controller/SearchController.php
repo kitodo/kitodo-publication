@@ -408,7 +408,7 @@ class SearchController extends \EWW\Dpf\Controller\AbstractSearchController
 
         $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
 
-        $query['body']['query']['bool']['should'][1]['has_child']['child_type'] = "datastream"; // 1
+        $query['body']['query']['bool']['should'][1]['has_child']['type'] = "datastream";
 
         return $query;
     }

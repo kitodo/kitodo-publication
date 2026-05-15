@@ -37,8 +37,6 @@ class ElasticsearchRepository implements Repository
 
     protected $index;
 
-    protected $type;
-
     protected $url;
 
     public function __construct()
@@ -51,9 +49,7 @@ class ElasticsearchRepository implements Repository
 
         $this->index = 'fedora';
 
-        $this->type = 'local';
-
-        $this->url = $this->host . '/' . $this->index . '/' . $this->type . '/';
+        $this->url = $this->host . '/' . $this->index . '/_doc/';
 
     }
 
@@ -69,6 +65,7 @@ class ElasticsearchRepository implements Repository
         // build es json
         $esJson                               = array();
         $esJson['OWNER_ID']                   = $client->getOwnerId();
+        $esJson['join_field']                 = 'object';
         $esJson['_dissemination']             = array();
         $esJson['_dissemination']['_content'] = json_decode($json);
 

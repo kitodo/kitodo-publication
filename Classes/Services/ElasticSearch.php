@@ -14,7 +14,7 @@ namespace EWW\Dpf\Services;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Elasticsearch\Client as Client;
+use Elasticsearch\ClientBuilder;
 use EWW\Dpf\Exceptions\RepositoryConnectionErrorException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
@@ -49,15 +49,9 @@ class ElasticSearch
         $this->server = $clientConfigurationManager->getElasticSearchHost();
         $this->port   = $clientConfigurationManager->getElasticSearchPort();
 
-        // initialize elasticsearch lib
-        $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf');
-
-        $params['hosts'] = array(
-            $this->server . ':' . $this->port,
-        );
-
-        // $client = ClientBuilder::create()->build();
-        $this->es = new Client($params);
+        $this->es = ClientBuilder::create()
+            ->setHosts([$this->server . ':' . $this->port])
+            ->build();
 
     }
 
@@ -81,7 +75,7 @@ class ElasticSearch
             // Search request
             $results = $this->es->search($query);
 
-            $this->hits = $results['hits']['total'];
+            $this->hits = $results['hits']['total']['value'];
 
             $this->resultList = $results['hits'];
 
