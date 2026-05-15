@@ -69,9 +69,11 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
 
         $searchString = $this->escapeQuery(trim($searchString));
 
-        $query['body']['query']['bool']['should'][0]['query_string']['query']                       = $searchString;
-        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query'] = $searchString;
-        $query['body']['query']['bool']['minimum_should_match'] = "1"; // 1
+        $query['body']['query']['bool']['should'][0]['query_string']['query']                                    = $searchString;
+        $query['body']['query']['bool']['should'][0]['query_string']['default_operator']                       = 'AND';
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['query']            = $searchString;
+        $query['body']['query']['bool']['should'][1]['has_child']['query']['query_string']['default_operator'] = 'AND';
+        $query['body']['query']['bool']['minimum_should_match'] = "1";
         $query['body']['query']['bool']['should'][1]['has_child']['type'] = "datastream";
 
         $query = $this->resultsFilter($query, false);
