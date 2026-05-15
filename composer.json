@@ -29,6 +29,12 @@
         "issues": "https://github.com/kitodo/kitodo-publication/issues",
         "source": "https://github.com/kitodo/kitodo-publication"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/elastic/elasticsearch-php"
+        }
+    ],
     "require": {
         "php": "^7.0",
         "ext-curl": "*",
