@@ -63,8 +63,10 @@ class ElasticSearch
 
         $results = json_decode($response->raw_body, true);
 
-        $this->hits       = $results['hits']['total']['value'];
+        $this->hits = $results['hits']['total']['value'];
+
         $this->resultList = $results['hits'];
+        $this->resultList['total'] = $this->hits;
 
         return $this->resultList;
     }
