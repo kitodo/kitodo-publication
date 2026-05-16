@@ -23,7 +23,7 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
     private static $terms   = ['_id', 'OWNER_ID', 'submitter', 'project'];
 
     // search matches
-    private static $matches = ['title', 'abstract', 'author', 'language', 'tag', 'corporation', 'doctype', 'collections'];
+    private static $matches = ['title', 'subtitle', 'alternative_title', 'translated_title', 'abstract', 'author', 'language', 'tag', 'corporation', 'doctype', 'collections', 'contributor', 'translator', 'reviewer'];
 
 
     protected function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
