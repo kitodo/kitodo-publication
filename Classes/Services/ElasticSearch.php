@@ -46,6 +46,7 @@ class ElasticSearch
     {
         $index = !empty($query['index']) ? $query['index'] : $this->index;
         $body  = isset($query['body']) ? $query['body'] : new \stdClass();
+        $body['track_total_hits'] = true;
         $url   = $this->baseUrl . '/' . $index . '/_search';
 
         try {
