@@ -8,6 +8,7 @@
             <file>Tests/Unit/Services/FilenameGeneratorTest.php</file>
             <file>Tests/Unit/Controller/GetFileControllerTest.php</file>
             <file>Tests/Unit/Helper/ModsTest.php</file>
+            <file>Tests/Unit/Services/Transfer/DocumentTransferManagerTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
