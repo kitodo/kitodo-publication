@@ -67,7 +67,11 @@ abstract class AbstractSearchController extends \EWW\Dpf\Controller\AbstractCont
             return null;
         }
 
-        $searchString = $this->escapeQuery(trim($searchString));
+        $searchString = trim($searchString);
+        if (ctype_digit($searchString)) {
+            $searchString = 'qucosa:' . $searchString;
+        }
+        $searchString = $this->escapeQuery($searchString);
 
         $query['body']['query']['bool']['should'][0]['query_string']['query']                                    = $searchString;
         $query['body']['query']['bool']['should'][0]['query_string']['default_operator']                       = 'AND';
