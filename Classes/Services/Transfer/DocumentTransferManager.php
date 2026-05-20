@@ -422,7 +422,7 @@ class DocumentTransferManager
         }
     }
 
-    private function resolveFedoraPid(string $urn): ?string
+    protected function resolveFedoraPid(string $urn): ?string
     {
         if ($this->clientConfigurationManager === null) {
             return null;
@@ -433,10 +433,9 @@ class DocumentTransferManager
         }
         $url = rtrim('http://' . $host, '/')
             . '/fedora/objects?terms=' . rawurlencode($urn)
-            . '&resultFormat=xml&pid=true&maxResults=2';
+            . '&resultFormat=xml&pid=true&identifier=true&maxResults=20';
         try {
-            $ctx = stream_context_create(['http' => ['timeout' => 5]]);
-            $xml = @file_get_contents($url, false, $ctx);
+            $xml = $this->fetchFindObjectsXml($url);
             if ($xml === false || $xml === '') {
                 return null;
             }
@@ -450,15 +449,41 @@ class DocumentTransferManager
             }
             $xpath = new \DOMXPath($doc);
             $xpath->registerNamespace('t', 'http://www.fedora.info/definitions/1/0/types/');
-            $pids = $xpath->query('//t:pid');
-            if ($pids === false || $pids->length !== 1) {
+            // terms= is a full-text DC search — the parent URN also appears in children's
+            // DC records, so multiple PIDs are returned. Find the one whose identifier
+            // exactly equals the searched URN (i.e. the document that owns this URN).
+            $objectFields = $xpath->query('//t:objectFields');
+            if ($objectFields === false) {
                 return null;
             }
-            $value = trim($pids->item(0)->nodeValue);
-            return $value !== '' ? $value : null;
+            foreach ($objectFields as $obj) {
+                $identifiers = $xpath->query('t:identifier', $obj);
+                if ($identifiers === false) {
+                    continue;
+                }
+                foreach ($identifiers as $id) {
+                    if (trim($id->nodeValue) === $urn) {
+                        $pidNodes = $xpath->query('t:pid', $obj);
+                        if ($pidNodes !== false && $pidNodes->length > 0) {
+                            $value = trim($pidNodes->item(0)->nodeValue);
+                            return $value !== '' ? $value : null;
+                        }
+                    }
+                }
+            }
+            return null;
         } catch (\Throwable $e) {
             return null;
         }
+    }
+
+    /**
+     * @return string|false
+     */
+    protected function fetchFindObjectsXml(string $url)
+    {
+        $ctx = stream_context_create(['http' => ['timeout' => 5]]);
+        return @file_get_contents($url, false, $ctx);
     }
 
     public function getNextDocumentId()
