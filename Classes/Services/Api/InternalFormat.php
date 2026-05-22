@@ -366,6 +366,28 @@ class InternalFormat
         }
     }
 
+    public function removeDOI()
+    {
+        $xpath = $this->getXpath();
+        $nodes = $xpath->query(self::rootNode . 'mods:mods/mods:identifier[@type="doi"]');
+        if ($nodes) {
+            foreach ($nodes as $node) {
+                $node->parentNode->removeChild($node);
+            }
+        }
+    }
+
+    public function removePPN()
+    {
+        $xpath = $this->getXpath();
+        $nodes = $xpath->query(self::rootNode . 'mods:mods/mods:identifier[@type="swb-ppn"]');
+        if ($nodes) {
+            foreach ($nodes as $node) {
+                $node->parentNode->removeChild($node);
+            }
+        }
+    }
+
     public function getSubmitterEmail(): string
     {
         return $this->getValue($this->clientConfigurationManager->getSubmitterEmailXpath());

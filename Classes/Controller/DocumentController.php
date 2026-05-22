@@ -671,6 +671,8 @@ class DocumentController extends AbstractController
         $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
         $internalFormat->clearAllUrn();
         $internalFormat->setDateIssued('');
+        $internalFormat->removeDOI();
+        $internalFormat->removePPN();
         $internalFormat->setTitle($copyTitle);
         $internalFormat->setProcessNumber($processNumber);
 
