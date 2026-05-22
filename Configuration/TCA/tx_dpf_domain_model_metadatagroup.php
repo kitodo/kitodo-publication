@@ -229,6 +229,7 @@ return array(
                 'rows' => 15,
                 'eval' => 'trim',
                 'enableRichtext' => true,
+                'richtextConfiguration' => 'EXT:dpf/Configuration/RTE/InfoText.yaml',
             ),
         ),
         'metadata_object'          => array(
