@@ -39,13 +39,20 @@ class ElasticsearchRepository implements Repository
 
     protected $url;
 
+    protected $esUser = '';
+
+    protected $esPassword = '';
+
     public function __construct()
     {
 
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
         $clientConfigurationManager = $objectManager->get(ClientConfigurationManager::class);
 
-        $this->host = $clientConfigurationManager->getElasticSearchHost() . ':' . $clientConfigurationManager->getElasticSearchPort();
+        $this->esUser     = $clientConfigurationManager->getElasticSearchWriterUser();
+        $this->esPassword = $clientConfigurationManager->getElasticSearchWriterPassword();
+        $this->host = 'https://' . $clientConfigurationManager->getElasticSearchHost()
+            . ':' . $clientConfigurationManager->getElasticSearchPort();
 
         $this->index = 'fedora';
 
@@ -77,6 +84,7 @@ class ElasticsearchRepository implements Repository
             $response = Request::put($this->url . $document->getUid())
                 ->sendsJson()
                 ->body($esJson)
+                ->basicAuth($this->esUser, $this->esPassword)
                 ->send();
 
         } catch (\Exception $exception) {
@@ -101,6 +109,7 @@ class ElasticsearchRepository implements Repository
 
         try {
             $response = Request::delete($this->url . $document->getUid())
+                ->basicAuth($this->esUser, $this->esPassword)
                 ->send();
 
         } catch (\Exception $exception) {

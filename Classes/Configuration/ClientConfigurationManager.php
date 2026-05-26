@@ -169,6 +169,26 @@ class ClientConfigurationManager
         return $this->getSetting("elasticSearchPort", "elasticSearchPort");
     }
 
+    public function getElasticSearchUser()
+    {
+        return $this->getSetting("elasticSearchUser", "elasticSearchUser");
+    }
+
+    public function getElasticSearchPassword()
+    {
+        return $this->getSetting("elasticSearchPassword", "elasticSearchPassword");
+    }
+
+    public function getElasticSearchWriterUser()
+    {
+        return $this->getSetting("elasticSearchWriterUser", "elasticSearchWriterUser");
+    }
+
+    public function getElasticSearchWriterPassword()
+    {
+        return $this->getSetting("elasticSearchWriterPassword", "elasticSearchWriterPassword");
+    }
+
     public function getUploadDirectory()
     {
         return $this->getSetting("uploadDirectory", "uploadDirectory");

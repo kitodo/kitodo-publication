@@ -31,6 +31,10 @@ class ElasticSearch
 
     protected $resultList;
 
+    protected $esUser = '';
+
+    protected $esPassword = '';
+
     public function __construct()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class);
@@ -38,8 +42,10 @@ class ElasticSearch
 
         $host = $clientConfigurationManager->getElasticSearchHost();
         $port = $clientConfigurationManager->getElasticSearchPort();
+        $this->esUser     = $clientConfigurationManager->getElasticSearchUser();
+        $this->esPassword = $clientConfigurationManager->getElasticSearchPassword();
 
-        $this->baseUrl = 'http://' . $host . ':' . $port;
+        $this->baseUrl = 'https://' . $host . ':' . $port;
     }
 
     public function search($query, $type)
@@ -53,6 +59,7 @@ class ElasticSearch
             $response = \Httpful\Request::post($url)
                 ->sendsJson()
                 ->body(json_encode($body))
+                ->basicAuth($this->esUser, $this->esPassword)
                 ->send();
         } catch (\Exception $e) {
             throw new \EWW\Dpf\Exceptions\ElasticSearchConnectionErrorException("Could not connect to repository server.");

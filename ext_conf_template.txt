@@ -25,6 +25,18 @@ elasticSearchHost = localhost
 # cat=Elastic Search; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.elasticSearchPort
 elasticSearchPort = 9200
 
+# cat=Elastic Search; type=string; label=Elastic Search User (read-only, for search queries)
+elasticSearchUser =
+
+# cat=Elastic Search; type=string; label=Elastic Search Password (read-only user)
+elasticSearchPassword =
+
+# cat=Elastic Search; type=string; label=Elastic Search Writer User (read-write, for document indexing)
+elasticSearchWriterUser =
+
+# cat=Elastic Search; type=string; label=Elastic Search Writer Password (read-write user)
+elasticSearchWriterPassword =
+
 # cat=Upload; type=string; label=LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:config.uploadDirectory
 uploadDirectory = uploads/tx_dpf
 
