@@ -476,6 +476,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $streamingException = new Exception("Error while streaming content", 500);
 
+        ini_set('default_socket_timeout', 1800);
         $stream = fopen($contentUri, 'r');
         if ($stream === false) {
             throw $streamingException;
