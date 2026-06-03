@@ -464,6 +464,23 @@ class JsonToDocumentMapper
                                   ) {
                                       throw new InvalidJson("Field $jsonObjectName, invalid or missing parameter _value");
                                   }
+
+                                  $value = $objectItem['_value'];
+                                  if (!empty($value) && isset($object['metadataObject'])) {
+                                      $metadataObject = $this->metadataObjectRepository->findByUid(
+                                          $object['metadataObject']
+                                      );
+                                      if ($metadataObject && $metadataObject->getInputOptionList()) {
+                                          $allowedValues = array_keys(
+                                              $metadataObject->getInputOptionList()->getInputOptions()
+                                          );
+                                          if (!in_array($value, $allowedValues, true)) {
+                                              throw new InvalidJson(
+                                                  "Field $jsonObjectName, invalid value '$value'"
+                                              );
+                                          }
+                                      }
+                                  }
                               }
                           }
                       }
