@@ -159,7 +159,7 @@
                     </f:link.action>
                 </f:if>
 
-                <a href="{dpf:uri.preview(documentIdentifier:'{document}', apiPid='{settings.apiPid}', pageUid:'{settings.landingPage}')}"
+                <a href="{dpf:uri.preview(documentIdentifier:'{document.processNumber}', apiPid='{settings.apiPid}', pageUid:'{settings.landingPage}', action:'preview', deliverInactive:'{settings.api.deliverInactiveSecretKey}')}"
                     class="btn btn-sm btn-outline-secondary" target="child">
                     <i class="fas fa-eye"></i>
                     {f:translate(key: 'manager.documentDetails.preview')}

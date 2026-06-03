@@ -23,6 +23,7 @@ plugin.tx_dpf.settings.api {
 [IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
     plugin.tx_dpf.settings.allowedActions {
         1 = mets
+        2 = preview
     }
 [end]
 

@@ -14,18 +14,12 @@ namespace EWW\Dpf\ViewHelpers\Uri;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Security\PreviewToken;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class PreviewViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $configurationManager;
-
     /**
      * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
      * @TYPO3\CMS\Extbase\Annotation\Inject
@@ -41,32 +35,11 @@ class PreviewViewHelper extends AbstractViewHelper
     protected $documentRepository;
 
     /**
-     * Secret API key for delivering inactive documents.
-     * @var string
-     */
-    private $secretKey;
-
-
-    /**
      * escapeOutput, activates / deactivates HTML escaping.
      *
      * @var bool
      */
     protected $escapeOutput = false;
-
-
-    /**
-     * Initialize secret key from plugin TYPOScript configuration.
-     */
-    public function initialize() {
-        parent::initialize();
-
-        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-        if (isset($settings['plugin.']['tx_dpf.']['settings.']['api.']['deliverInactiveSecretKey'])) {
-            $this->secretKey = $settings['plugin.']['tx_dpf.']['settings.']['api.']['deliverInactiveSecretKey'];
-        }
-    }
 
     public function initializeArguments()
     {
@@ -74,7 +47,9 @@ class PreviewViewHelper extends AbstractViewHelper
 
         $this->registerArgument('documentIdentifier', 'string', '', true);
         $this->registerArgument('pageUid', 'int', '', true);
-        $this->registerArgument('apiPid', 'int', '', true);
+        $this->registerArgument('apiPid', 'int', 'Kept for template compatibility, unused', false);
+        $this->registerArgument('action', 'string', 'GetFile action (mets or preview)', false, 'mets');
+        $this->registerArgument('deliverInactive', 'string', 'Secret key for preview access', false, '');
     }
 
     /**
@@ -87,55 +62,34 @@ class PreviewViewHelper extends AbstractViewHelper
     {
         $documentIdentifier = $this->arguments['documentIdentifier'];
         $pageUid = $this->arguments['pageUid'];
-        $apiPid = $this->arguments['apiPid'];
-        $class = $this->arguments['class'];
+        $action = $this->arguments['action'];
+        $deliverInactive = $this->arguments['deliverInactive'];
 
-        if ($documentIdentifier) {
-
-            if (MathUtility::canBeInterpretedAsInteger($documentIdentifier)) {
-                $document = $this->documentRepository->findByUid($documentIdentifier);
-            } else {
-                $document = $this->documentRepository->findByIdentifier($documentIdentifier);
-            }
-
-            $row['action'] = 'mets';
-
-            if ($document) {
-                $row['qid'] = $document->getUid();
-            } else {
-                $row['qid'] = $documentIdentifier;
-            }
-
-            // pass configured API secret key parameter to enable dissemination of inactive documents
-            if (isset($this->secretKey)) {
-                $row['deliverInactive'] = $this->secretKey;
-            }
-
+        if (empty($documentIdentifier)) {
+            return '';
         }
 
-        $previewMets = $this->uriBuilder
-            ->reset()
-            ->setTargetPageUid($apiPid)
-            ->setArguments(array( 'tx_dpf_getfile' => $row))
-            ->setCreateAbsoluteUri(true)
-            ->setUseCacheHash(FALSE)
-            //->setNoCache(TRUE)
-            ->buildFrontendUri();
+        if (MathUtility::canBeInterpretedAsInteger($documentIdentifier)) {
+            $document = $this->documentRepository->findByUid($documentIdentifier);
+            $qid = $document ? $document->getProcessNumber() : $documentIdentifier;
+        } else {
+            $qid = $documentIdentifier;
+        }
 
-        $additionalGetVars = $this->uriBuilder
+        $args = ['qid' => $qid];
+        if ($action !== 'mets') {
+            $args['action'] = $action;
+        }
+        if (!empty($deliverInactive)) {
+            $args['deliverInactive'] = PreviewToken::generate($qid, $deliverInactive);
+        }
+
+        return $this->uriBuilder
             ->reset()
             ->setTargetPageUid($pageUid)
-            ->setUseCacheHash(TRUE)
-            ->setNoCache(TRUE)
-            ->setArguments(
-                array( 'tx_dlf' => array(
-                    'id' => urldecode($previewMets),
-                )
-                )
-            )
+            ->setArguments(['tx_dpf' => $args])
             ->setCreateAbsoluteUri(true)
+            ->setUseCacheHash(true)
             ->buildFrontendUri();
-
-        return $additionalGetVars;
     }
 }

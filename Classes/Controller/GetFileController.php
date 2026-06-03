@@ -19,6 +19,7 @@ namespace EWW\Dpf\Controller;
 
 use DOMDocument;
 use EWW\Dpf\Configuration\ClientConfigurationManager;
+use EWW\Dpf\Security\PreviewToken;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\DataCiteXml;
@@ -165,7 +166,7 @@ class GetFileController extends ActionController
     {
         if ($this->isRemote($qid)) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
-            if (!$this->canProceedWithState($state, $deliverInactive)) {
+            if (!$this->canProceedWithState($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
             $uri = $this->metsUriFor($qid);
@@ -190,7 +191,7 @@ class GetFileController extends ActionController
                 return;
             }
             $state = $document->getRemoteState();
-            if (!$this->canProceedWithState($state, $deliverInactive)) {
+            if (!$this->canProceedWithState($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
             $xml = (new XSLTransformator)->getTransformedOutputXML($document);
@@ -203,10 +204,35 @@ class GetFileController extends ActionController
         }
     }
 
-    private function isRemote(string $id): bool
+    public function previewAction(string $qid, string $deliverInactive = ""): void
     {
-        // assuming that a Fedora PID references an remote resource and everything is local
-        return !Identifier::isUid($id);
+        if (!$this->isValidToken($deliverInactive, $qid)) {
+            throw new ForbiddenException("Preview requires valid token", 403);
+        }
+        $document = $this->documentRepository->findByIdentifier($qid);
+        if ($document === null) {
+            $msg = "Document not found";
+            $this->response->setStatus(404, $msg);
+            $this->response->setContent($msg);
+            return;
+        }
+        $xml = (new XSLTransformator)->getTransformedOutputXML($document);
+        $this->response->setHeader(
+            'Content-Disposition',
+            'attachment; filename="' . str_replace([':'], "-", "$qid-mets.xml") . '"');
+        $this->response->setHeader('Content-Type', 'application/mets+xml');
+        $this->response->setHeader('Content-Length', mb_strlen($xml));
+        $this->response->setContent($xml);
+    }
+
+    private function isRemote(string $qid): bool
+    {
+        $document = $this->documentRepository->findByIdentifier($qid);
+        if ($document !== null) {
+            return !empty($document->getObjectIdentifier());
+        }
+        // Not in DB — fall back: numeric = local UID, anything else = remote Fedora PID
+        return !Identifier::isUid($qid);
     }
 
     /**
@@ -269,28 +295,35 @@ class GetFileController extends ActionController
 
     /**
      * Check whether the specified object is considered active in the
-     * Kitodo.Publication workflow. And if not if an inactive document should be
-     * delivered because of the matching secret key.
+     * Kitodo.Publication workflow. And if not, whether the request carries a
+     * valid preview token for this document.
      *
      * @param string $state State of a Kitodo.Publication object
-     * @param string|null $givenSecretKey Secret API key passed from the request
-     * @return bool True, if the given state and secret key combination allows delivery
+     * @param string $qid Document identifier the token must be bound to
+     * @param string $givenToken HMAC preview token from the request
+     * @return bool True if the state or token allows delivery
      */
-    private function canProceedWithState(string $state, string $givenSecretKey = null): bool
+    private function canProceedWithState(string $state, string $qid, string $givenToken = ''): bool
     {
         return $state === DocumentWorkflow::REMOTE_STATE_ACTIVE
-            || $this->canProceedWithSecretKey($givenSecretKey);
+            || $this->isValidToken($givenToken, $qid);
     }
 
     /**
-     * Check whether the given key matches the systems configured secret key.
+     * Validate an HMAC preview token against the document qid and configured secret.
      *
-     * @param string $givenSecretKey Secret API key passed from the request
-     * @return bool True, if the given state and secret key combination allows delivery
+     * Uses constant-time comparison to prevent timing attacks.
+     *
+     * @param string $token HMAC token from the request URL
+     * @param string $qid Document identifier the token must be bound to
+     * @return bool True if the token is valid and not expired
      */
-    private function canProceedWithSecretKey(string $givenSecretKey): bool
+    private function isValidToken(string $token, string $qid): bool
     {
-        return ($givenSecretKey !== null && $this->secretKey === $givenSecretKey);
+        if (empty($this->secretKey)) {
+            return false;
+        }
+        return PreviewToken::validate($token, $qid, $this->secretKey);
     }
 
 
@@ -362,7 +395,7 @@ class GetFileController extends ActionController
         }
 
         $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
-        if (!$this->canProceedWithState($state)) {
+        if (!$this->canProceedWithState($state, $qid)) {
             throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
         }
 
@@ -398,7 +431,7 @@ class GetFileController extends ActionController
     {
         if ($this->isRemote($qid)) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
-            if (!$this->canProceedWithState($state)) {
+            if (!$this->canProceedWithState($state, $qid)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
             $uri = $this->metsUriFor($qid);
@@ -418,7 +451,7 @@ class GetFileController extends ActionController
                 return;
             }
             $state = $document->getRemoteState();
-            if (!$this->canProceedWithState($state)) {
+            if (!$this->canProceedWithState($state, $qid)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
             $metsXml = (new XSLTransformator)->getTransformedOutputXML($document);
@@ -471,7 +504,7 @@ class GetFileController extends ActionController
     {
         if ($this->isRemote($qid)) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
-            if (!$this->canProceedWithState($state, $deliverInactive)) {
+            if (!$this->canProceedWithState($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
             $resourceUri = $this->resourcePathFor($qid, $attachment);
@@ -490,7 +523,7 @@ class GetFileController extends ActionController
             // FIXME This calls StreamInterface::__toString(). Is it buffering?
             $this->response->setContent($response->getBody());
         } else {
-            if (!$this->canProceedWithSecretKey($deliverInactive)) {
+            if (!$this->isValidToken($deliverInactive, $qid)) {
                 throw new ForbiddenException("Access is not permitted", 403);
             }
             $document = $this->documentRepository->findByIdentifier($qid);
@@ -558,6 +591,10 @@ class GetFileController extends ActionController
             $this->secretKey = $this->settings['api']['deliverInactiveSecretKey'];
             $this->metsUriTemplate = $this->settings['api']['metsDisseminationUri'];
             $this->zipUriTemplate = $this->settings['api']['zipDisseminationUri'];
+        }
+
+        if (empty($this->secretKey) || $this->secretKey === 'CHANGE-ME-IN-SITE-TEMPLATE') {
+            $this->secretKey = '';
         }
     }
 

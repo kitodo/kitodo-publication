@@ -14,18 +14,12 @@ namespace EWW\Dpf\ViewHelpers\Link;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Security\PreviewToken;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class PreviewViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $configurationManager;
-
     /**
      * @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder
      * @TYPO3\CMS\Extbase\Annotation\Inject
@@ -41,32 +35,11 @@ class PreviewViewHelper extends AbstractViewHelper
     protected $documentRepository;
 
     /**
-     * Secret API key for delivering inactive documents.
-     * @var string
-     */
-    private $secretKey;
-
-
-    /**
      * escapeOutput, activates / deactivates HTML escaping.
      *
      * @var bool
      */
     protected $escapeOutput = false;
-
-
-    /**
-     * Initialize secret key from plugin TYPOScript configuration.
-     */
-    public function initialize() {
-        parent::initialize();
-
-        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-        if (isset($settings['plugin.']['tx_dpf.']['settings.']['api.']['deliverInactiveSecretKey'])) {
-            $this->secretKey = $settings['plugin.']['tx_dpf.']['settings.']['api.']['deliverInactiveSecretKey'];
-        }
-    }
 
     /**
      * Returns the View Icon with link
@@ -80,35 +53,26 @@ class PreviewViewHelper extends AbstractViewHelper
      */
     protected function getViewIcon(array $row, $pageUid, $apiPid, $insideText, $class)
     {
+        $args = ['qid' => $row['qid']];
+        if (!empty($row['action'])) {
+            $args['action'] = $row['action'];
+        }
+        if (!empty($row['deliverInactive'])) {
+            $args['deliverInactive'] = $row['deliverInactive'];
+        }
 
-       $previewMets = $this->uriBuilder
-            ->reset()
-            ->setTargetPageUid($apiPid)
-            ->setArguments(array( 'tx_dpf' => $row))
-            ->setCreateAbsoluteUri(true)
-            ->setUseCacheHash(FALSE)
-            //->setNoCache(TRUE)
-            ->buildFrontendUri();
-
-        $additionalGetVars = $this->uriBuilder
+        $landingPageUri = $this->uriBuilder
             ->reset()
             ->setTargetPageUid($pageUid)
-            ->setUseCacheHash(TRUE)
-            //->setNoCache(TRUE)
-            ->setArguments(
-                array( 'tx_dlf' => array(
-                        'id' => urldecode($previewMets),
-                    )
-                )
-            )
+            ->setArguments(['tx_dpf' => $args])
             ->setCreateAbsoluteUri(true)
+            ->setUseCacheHash(true)
             ->buildFrontendUri();
 
         $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('manager.tooltip.preview', 'dpf', $arguments = null);
-        $icon = '<a href="'. $additionalGetVars . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';
+        $icon = '<a href="'. $landingPageUri . '" data-toggle="tooltip" class="' . $class . '" title="' . $title . '">' . $insideText . '</a>';
 
         return $icon;
-
     }
 
     public function initializeArguments()
@@ -119,6 +83,7 @@ class PreviewViewHelper extends AbstractViewHelper
         $this->registerArgument('pageUid', 'int', '', true);
         $this->registerArgument('apiPid', 'int', '', true);
         $this->registerArgument('class', 'string', '', true);
+        $this->registerArgument('deliverInactive', 'string', 'Master secret — converted to HMAC token before embedding in URL', false, '');
     }
 
     /**
@@ -133,6 +98,7 @@ class PreviewViewHelper extends AbstractViewHelper
         $pageUid = $this->arguments['pageUid'];
         $apiPid = $this->arguments['apiPid'];
         $class = $this->arguments['class'];
+        $deliverInactive = $this->arguments['deliverInactive'];
 
         if ($arguments['document']) {
 
@@ -150,9 +116,13 @@ class PreviewViewHelper extends AbstractViewHelper
             // we found a valid document
             if ($document) {
 
-                $row['qid'] = $document->getUid();
+                $row['qid'] = $document->getProcessNumber();
 
                 $row['action'] = 'preview';
+
+                if (!empty($deliverInactive)) {
+                    $row['deliverInactive'] = PreviewToken::generate($row['qid'], $deliverInactive);
+                }
 
             } else {
 
@@ -163,14 +133,7 @@ class PreviewViewHelper extends AbstractViewHelper
 
         } else if ($arguments['documentObjectIdentifier']) {
 
-            $row['action'] = 'mets';
-
             $row['qid'] = $arguments['documentObjectIdentifier'];
-
-            // pass configured API secret key parameter to enable dissemination of inactive documents
-            if (isset($this->secretKey)) {
-                $row['deliverInactive'] = $this->secretKey;
-            }
 
         }
 

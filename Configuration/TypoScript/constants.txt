@@ -174,7 +174,7 @@ plugin.tx_dpf {
 
         api {
             # cat=plugin.tx_dpf/api; type=string; label=Secret key for delivering inactive documents via API
-            deliverInactiveSecretKey = 6fc4d012-11ac-46bf-9bfc-82240628656b
+            deliverInactiveSecretKey = CHANGE-ME-IN-SITE-TEMPLATE
         }
 
         fisApi {
