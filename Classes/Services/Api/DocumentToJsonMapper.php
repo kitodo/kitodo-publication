@@ -98,7 +98,8 @@ class DocumentToJsonMapper
                 continue;
             }
 
-            if (array_key_exists(0, $items)) {
+            $isList = array_key_exists(0, $items);
+            if ($isList) {
                 $items = $items[0];
             }
 
@@ -113,7 +114,11 @@ class DocumentToJsonMapper
                     if ($nodes->length == 1) {
                         $itemCrawl = $this->crawl($items, $nodes->item(0));
                         if (!empty($itemCrawl)) {
-                            $branch[$index] = $itemCrawl;
+                            if ($isList) {
+                                $branch[$index][] = $itemCrawl;
+                            } else {
+                                $branch[$index] = $itemCrawl;
+                            }
                         }
                     } else {
                         foreach ($nodes as $node) {
@@ -133,7 +138,11 @@ class DocumentToJsonMapper
                     if ($nodes->length == 1) {
                         $itemValue = trim($nodes->item(0)->nodeValue);
                         if (!empty($itemValue)) {
-                            $branch[$index] = $itemValue;
+                            if ($isList) {
+                                $branch[$index][] = $itemValue;
+                            } else {
+                                $branch[$index] = $itemValue;
+                            }
                         }
                     } else {
                         foreach ($nodes as $k => $node) {
