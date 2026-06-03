@@ -236,6 +236,7 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
     {
         $results = [];
 
+        $persons = preg_replace('/\s+and\s+/', ' and ', $persons);
         $persons = array_map('trim', explode(' and ', $persons));
 
         foreach ($persons as $person) {
