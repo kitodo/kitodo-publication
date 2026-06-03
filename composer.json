@@ -45,7 +45,7 @@
 		"symfony/workflow": "~4.3.11",
 		"symfony/serializer": "^5.0",
 		"renanbr/bibtex-parser": "~2.1.2",
-		"galbar/jsonpath": "^1.1",
+		"galbar/jsonpath": "^3.0",
 		"fluidtypo3/vhs": "~6.0.5",
         "typo3/cms-scheduler": "^9.5"
 	},
