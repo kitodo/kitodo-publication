@@ -123,3 +123,14 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dpf_coins'] 
           'list_type',
           'dpf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_coins', 'FILE:EXT:dpf/Classes/Plugins/Coins/flexform.xml');
+
+// Plugin "Metadata" — DPF replacement for dlf_metadata using tx_dpf[qid] namespace.
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['dpf_metadata'] = 'layout,select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dpf_metadata'] = 'pi_flexform';
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    array('DPF: Metadata', 'dpf_metadata'),
+    'list_type',
+    'dpf'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_metadata', 'FILE:EXT:dlf/Configuration/Flexforms/Metadata.xml');

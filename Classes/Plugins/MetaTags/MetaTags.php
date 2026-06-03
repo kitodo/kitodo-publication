@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @subpackage    tx_dpf
  * @access    public
  */
-class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
+class MetaTags extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/MetaTags.php';
 
@@ -152,7 +152,7 @@ class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
                         $conf = array(
                             'useCacheHash'     => 0,
                             'parameter'        => $this->conf['apiPid'],
-                            'additionalParams' => '&tx_dpf[qid]=' . $this->doc->recordId . '&tx_dpf[action]=attachment&tx_dpf[attachment]=' . $attachment['ID'],
+                            'additionalParams' => '&tx_dpf_getfile[qid]=' . rawurlencode($this->piVars['qid'] ?? (string) $this->doc->recordId) . '&tx_dpf_getfile[action]=attachment&tx_dpf_getfile[attachment]=' . $attachment['ID'],
                             'forceAbsoluteUrl' => true,
                         );
                         $outArray['citation_pdf_url'][] = $this->cObj->typoLink_URL($conf);

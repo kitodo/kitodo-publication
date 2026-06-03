@@ -24,7 +24,7 @@ namespace EWW\Dpf\Plugins\RelatedListTool;
  * @subpackage    tx_dpf
  * @access    public
  */
-class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
+class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/RelatedListTool.php';
 
@@ -71,18 +71,10 @@ class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
             foreach ($relatedItems as $key => $value) {
                 // set link
                 if ($value['type'] == 'local') {
-                    $confApi = array(
-                        'useCacheHash'     => 0,
-                        'parameter'        => $this->conf['apiPid'],
-                        'additionalParams' => '&tx_dpf_getfile[qid]=' . $value['docId'] . '&tx_dpf_getfile[action]=mets',
-                        'forceAbsoluteUrl' => true,
-                    );
-
-                    $metsApiUrl = urlencode($this->cObj->typoLink_URL($confApi));
                     $conf = array(
                         'useCacheHash'     => 1,
-                        'parameter'        => $GLOBALS['TSFE']->page['uid'],
-                        'additionalParams' => '&tx_dlf[id]=' . $metsApiUrl,
+                        'parameter'        => $this->conf['landingPage'] ?: $GLOBALS['TSFE']->page['uid'],
+                        'additionalParams' => '&tx_dpf[qid]=' . rawurlencode(strtolower($value['docId'])),
                         'forceAbsoluteUrl' => true,
                     );
                 } elseif ($value['type'] == 'urn') {

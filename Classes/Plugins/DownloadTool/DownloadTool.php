@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @subpackage    tx_dpf
  * @access    public
  */
-class DownloadTool extends \Kitodo\Dlf\Common\AbstractPlugin
+class DownloadTool extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/DownloadTool.php';
 

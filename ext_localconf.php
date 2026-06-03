@@ -75,11 +75,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['EWW\Dpf\Tasks\F
     'EWW.' . $_EXTKEY,
     'Getfile',
     array(
-        'GetFile'     => 'index, mets, dataCite, attachment, zip',
+        'GetFile'     => 'index, mets, preview, dataCite, attachment, zip',
     ),
     // non-cacheable actions
     array(
-        'GetFile'     => 'index, mets, dataCite, attachment, zip',
+        'GetFile'     => 'index, mets, preview, dataCite, attachment, zip',
     )
 );
 
@@ -188,6 +188,10 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($_EXTKEY, 'Classes/Plugins/Coins/Coins.php', '_coins', 'list_type', true);
 $overrideSetup = 'plugin.tx_dpf_coins.userFunc = EWW\Dpf\Plugins\Coins\Coins->main';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($_EXTKEY, 'Classes/Plugin/Metadata.php', '_metadata', 'list_type', true);
+$overrideSetup = 'plugin.tx_dpf_metadata.userFunc = EWW\Dpf\Plugin\Metadata->main';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';

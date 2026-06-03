@@ -1777,6 +1777,9 @@ Date: ###DATE###
             <trans-unit id="summary.header" approved="yes">
                 <source>Summary</source>
             </trans-unit>
+            <trans-unit id="document_unavailable">
+                <source>The requested document could not be displayed.</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
