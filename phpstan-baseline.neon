@@ -43,6 +43,12 @@ parameters:
 			path: Classes/Command/IndexByFile.php
 
 		-
+			message: '#^Property Kitodo\\Dlf\\Common\\AbstractPlugin\:\:\$doc \(Kitodo\\Dlf\\Common\\Document\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Common/AbstractPlugin.php
+
+		-
 			message: '#^Loose comparison using \=\= between ''BE'' and ''FE'' will always evaluate to false\.$#'
 			identifier: equal.alwaysFalse
 			count: 1
@@ -489,13 +495,13 @@ parameters:
 		-
 			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Mvc\\Response\:\:setHeader\(\)\.$#'
 			identifier: method.notFound
-			count: 8
+			count: 11
 			path: Classes/Controller/GetFileController.php
 
 		-
 			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Mvc\\Response\:\:setStatus\(\)\.$#'
 			identifier: method.notFound
-			count: 5
+			count: 6
 			path: Classes/Controller/GetFileController.php
 
 		-
@@ -519,12 +525,6 @@ parameters:
 		-
 			message: '#^Property TYPO3\\CMS\\Extbase\\Mvc\\Controller\\ActionController\:\:\$view \(TYPO3\\CMS\\Extbase\\Mvc\\View\\ViewInterface\) does not accept null\.$#'
 			identifier: assign.propertyType
-			count: 1
-			path: Classes/Controller/GetFileController.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: Classes/Controller/GetFileController.php
 
@@ -1123,6 +1123,12 @@ parameters:
 			path: Classes/Helper/FormDataReader.php
 
 		-
+			message: '#^Property Kitodo\\Dlf\\Common\\AbstractPlugin\:\:\$doc \(Kitodo\\Dlf\\Common\\Document\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Plugin/Metadata.php
+
+		-
 			message: '#^Constant SYSLOG_SEVERITY_WARNING not found\.$#'
 			identifier: constant.notFound
 			count: 1
@@ -1443,12 +1449,6 @@ parameters:
 		-
 			message: '#^Call to method getBibtexTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
 			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
 
@@ -1789,12 +1789,6 @@ parameters:
 			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
 
 		-
-			message: '#^Property EWW\\Dpf\\ViewHelpers\\Link\\PreviewViewHelper\:\:\$secretKey \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1806,11 +1800,6 @@ parameters:
 			count: 1
 			path: Classes/ViewHelpers/Suggestion/FindFieldChangeViewHelper.php
 
-		-
-			message: '#^Property EWW\\Dpf\\ViewHelpers\\Uri\\PreviewViewHelper\:\:\$secretKey \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: Classes/ViewHelpers/Uri/PreviewViewHelper.php
 
 		-
 			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\) does not accept float\.$#'
