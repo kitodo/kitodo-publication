@@ -145,7 +145,7 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
                 }
             }
 
-            if (!$mandatoryErrors[$index]) {
+            if (empty($mandatoryErrors[$index])) {
 
                 $bibTexData = $bibTexItem;
 
