@@ -386,6 +386,7 @@ class DocumentTransferManager
 
     private function invalidateMetsCache(string $pid): void
     {
+        $logger = $this->getLogger();
         try {
             $cfg = $this->getRedisSettings();
             $redis = new \Redis();
@@ -395,9 +396,12 @@ class DocumentTransferManager
                 $redis->del('slub-info:' . $pid);
                 $redis->del('mods:' . $pid);
                 $redis->del('dslist:' . $pid);
+                if ($logger) $logger->info('invalidateMetsCache: cleared Redis keys for ' . $pid);
+            } else {
+                if ($logger) $logger->warning('invalidateMetsCache: Redis connect failed for ' . $pid);
             }
         } catch (\Throwable $e) {
-            // Redis ext missing, unavailable, or error — TTL expires stale entry
+            if ($logger) $logger->warning('invalidateMetsCache: exception for ' . $pid . ': ' . $e->getMessage());
         }
     }
 
@@ -412,23 +416,32 @@ class DocumentTransferManager
      */
     private function invalidateHostCache($hostUrn): void
     {
+        $logger = $this->getLogger();
         if (!is_string($hostUrn) || $hostUrn === '') {
+            if ($logger) $logger->info('invalidateHostCache: skipped — no host URN in child MODS');
             return;
         }
+        if ($logger) $logger->info('invalidateHostCache: invalidating parent URN ' . $hostUrn);
         $this->invalidateMetsCache($hostUrn);
         $fedoraPid = $this->resolveFedoraPid($hostUrn);
         if ($fedoraPid !== null && $fedoraPid !== $hostUrn) {
+            if ($logger) $logger->info('invalidateHostCache: resolved ' . $hostUrn . ' → ' . $fedoraPid . ', clearing PID cache');
             $this->invalidateMetsCache($fedoraPid);
+        } else {
+            if ($logger) $logger->warning('invalidateHostCache: could not resolve URN to Fedora PID — ' . $hostUrn . ' — only URN-keyed cache cleared');
         }
     }
 
     protected function resolveFedoraPid(string $urn): ?string
     {
+        $logger = $this->getLogger();
         if ($this->clientConfigurationManager === null) {
+            if ($logger) $logger->warning('resolveFedoraPid: clientConfigurationManager not injected');
             return null;
         }
         $host = $this->clientConfigurationManager->getFedoraHost();
         if (empty($host)) {
+            if ($logger) $logger->warning('resolveFedoraPid: fedoraHost not configured');
             return null;
         }
         $url = rtrim('http://' . $host, '/')
@@ -437,6 +450,7 @@ class DocumentTransferManager
         try {
             $xml = $this->fetchFindObjectsXml($url);
             if ($xml === false || $xml === '') {
+                if ($logger) $logger->warning('resolveFedoraPid: empty/false response from Fedora findObjects for URN ' . $urn . ' (url: ' . $url . ')');
                 return null;
             }
             $doc = new \DOMDocument();
@@ -445,6 +459,7 @@ class DocumentTransferManager
             libxml_clear_errors();
             libxml_use_internal_errors($previous);
             if (!$loaded) {
+                if ($logger) $logger->warning('resolveFedoraPid: XML parse failed for Fedora response, URN ' . $urn);
                 return null;
             }
             $xpath = new \DOMXPath($doc);
@@ -454,6 +469,7 @@ class DocumentTransferManager
             // exactly equals the searched URN (i.e. the document that owns this URN).
             $objectFields = $xpath->query('//t:objectFields');
             if ($objectFields === false) {
+                if ($logger) $logger->warning('resolveFedoraPid: XPath query failed for URN ' . $urn);
                 return null;
             }
             foreach ($objectFields as $obj) {
@@ -471,6 +487,7 @@ class DocumentTransferManager
                     }
                 }
             }
+            if ($logger) $logger->warning('resolveFedoraPid: no exact-match identifier found in Fedora results for URN ' . $urn . ' (maxResults=20, ' . $objectFields->length . ' objects returned)');
             return null;
         } catch (\Throwable $e) {
             return null;
@@ -480,10 +497,25 @@ class DocumentTransferManager
     /**
      * @return string|false
      */
+    private function getLogger()
+    {
+        if (!class_exists('TYPO3\CMS\Core\Utility\GeneralUtility')) {
+            return null;
+        }
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Log\LogManager::class
+        )->getLogger(__CLASS__);
+    }
+
     protected function fetchFindObjectsXml(string $url)
     {
         $ctx = stream_context_create(['http' => ['timeout' => 5]]);
-        return @file_get_contents($url, false, $ctx);
+        $result = @file_get_contents($url, false, $ctx);
+        if ($result === false) {
+            $logger = $this->getLogger();
+            if ($logger) $logger->warning('fetchFindObjectsXml: file_get_contents failed for ' . $url);
+        }
+        return $result;
     }
 
     public function getNextDocumentId()

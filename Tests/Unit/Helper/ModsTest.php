@@ -21,6 +21,21 @@ class ModsTest extends TestCase
 XML;
     }
 
+    private function modsWithHostTypeHost(string $hostUrn): string
+    {
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+    <mods:titleInfo>
+        <mods:title>Test Article</mods:title>
+    </mods:titleInfo>
+    <mods:relatedItem type="host">
+        <mods:identifier type="urn">{$hostUrn}</mods:identifier>
+    </mods:relatedItem>
+</mods:mods>
+XML;
+    }
+
     private function modsWithoutHost(): string
     {
         return <<<XML
@@ -53,6 +68,12 @@ XML;
     {
         $mods = new Mods($this->modsWithHost('urn:nbn:de:bsz:14-qucosa2-78923'));
         $this->assertSame('urn:nbn:de:bsz:14-qucosa2-78923', $mods->getHostUrn());
+    }
+
+    public function testGetHostUrnReturnsUrnFromHostRelation()
+    {
+        $mods = new Mods($this->modsWithHostTypeHost('urn:nbn:de:bsz:15-qucosa2-1048721'));
+        $this->assertSame('urn:nbn:de:bsz:15-qucosa2-1048721', $mods->getHostUrn());
     }
 
     public function testGetHostUrnIgnoresUnrelatedIdentifiers()

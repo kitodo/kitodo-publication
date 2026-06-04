@@ -271,16 +271,14 @@ class Mods
 
     /**
      * Returns the URN of the host (parent) document, or null if none is set.
-     * Legacy Qucosa convention stores the parent reference in
-     * relatedItem[@type="series"]/identifier[@type="urn"]. The returned value
-     * is a URN (e.g. urn:nbn:de:bsz:14-qucosa2-78923), not the parent's
-     * Fedora PID — callers that need the Fedora PID must resolve via
-     * findObjects.
+     * Checks relatedItem[@type="series"] (legacy Qucosa journal/series convention)
+     * and relatedItem[@type="host"] (MODS-canonical form used by newer documents).
+     * The returned value is a URN, not the parent's Fedora PID.
      */
     public function getHostUrn()
     {
         $node = $this->getModsXpath()->query(
-            '/mods:mods/mods:relatedItem[@type="series"]/mods:identifier[@type="urn"]'
+            '/mods:mods/mods:relatedItem[@type="series" or @type="host"]/mods:identifier[@type="urn"]'
         );
         if ($node->length > 0) {
             $value = trim($node->item(0)->nodeValue);
