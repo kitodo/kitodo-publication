@@ -28,7 +28,7 @@ class Mods
     {
         $modsDom = new \DOMDocument();
         if (!empty($modsXml)) {
-            if (is_null(@$modsDom->loadXML($modsXml))) {
+            if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($modsDom, $modsXml))) {
                 throw new \Exception("Couldn't load MODS data!");
             }
         }

@@ -279,7 +279,7 @@ class FedoraRepository implements Repository
 
         // Get repository ID and write into document
         $responseDom = new \DOMDocument();
-        $responseDom->loadXML($response->raw_body);
+        \EWW\Dpf\Helper\XPath::loadXml($responseDom, $response->raw_body);
         $responseXpath = new \DOMXPath($responseDom);
         $responseXpath->registerNamespace("atom", "http://www.w3.org/2005/Atom");
         $responseNodes = $responseXpath->query("/atom:entry/atom:id");

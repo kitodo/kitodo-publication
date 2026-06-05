@@ -455,7 +455,7 @@ class DocumentTransferManager
             }
             $doc = new \DOMDocument();
             $previous = libxml_use_internal_errors(true);
-            $loaded = $doc->loadXML($xml);
+            $loaded = \EWW\Dpf\Helper\XPath::loadXml($doc, $xml);
             libxml_clear_errors();
             libxml_use_internal_errors($previous);
             if (!$loaded) {
@@ -527,7 +527,7 @@ class DocumentTransferManager
         }
 
         $dom = new \DOMDocument();
-        $dom->loadXML($nextDocumentIdXML);
+        \EWW\Dpf\Helper\XPath::loadXml($dom, $nextDocumentIdXML);
         $xpath = new \DOMXpath($dom);
 
         $xpath->registerNamespace("management", "http://www.fedora.info/definitions/1/0/management/");

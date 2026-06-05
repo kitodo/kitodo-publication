@@ -32,7 +32,7 @@ class Mets
     public function setMetsXml($metsXml)
     {
         $metsDom = new \DOMDocument();
-        $metsDom->loadXML($metsXml);
+        \EWW\Dpf\Helper\XPath::loadXml($metsDom, $metsXml);
         $this->metsDom = $metsDom;
     }
 

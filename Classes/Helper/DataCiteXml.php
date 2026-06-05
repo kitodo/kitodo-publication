@@ -28,7 +28,7 @@ class DataCiteXml
     public static function convertFromMetsXml($metsXml)
     {
 
-        $metsXml = simplexml_load_string($metsXml, NULL, NULL, "http://www.w3.org/2001/XMLSchema-instance");
+        $metsXml = \EWW\Dpf\Helper\XPath::loadSimpleXml($metsXml, "http://www.w3.org/2001/XMLSchema-instance");
         $metsXml->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
         $metsXml->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
@@ -144,7 +144,7 @@ XML
         $dataCiteXml = new \DOMDocument('1.0', 'UTF-8');
         $dataCiteXml->preserveWhiteSpace = false;
         $dataCiteXml->formatOutput = true;
-        $dataCiteXml->loadXML($xml->asXML());
+        \EWW\Dpf\Helper\XPath::loadXml($dataCiteXml, $xml->asXML());
 
         return($dataCiteXml->saveXML());
     }

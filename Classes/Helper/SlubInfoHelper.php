@@ -71,7 +71,7 @@ class SlubInfoHelper
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $prevLibxmlErrors = libxml_use_internal_errors(true);
-        $loaded = $dom->loadXML($slubInfoXml);
+        $loaded = \EWW\Dpf\Helper\XPath::loadXml($dom, $slubInfoXml);
         libxml_use_internal_errors($prevLibxmlErrors);
         if (!$loaded) {
             throw new Exception("Cannot obtain datastream access conditions", 500);

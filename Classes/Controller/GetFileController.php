@@ -534,7 +534,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         $dom = new \DOMDocument();
         $prevErrors = libxml_use_internal_errors(true);
-        $loaded = $dom->loadXML($xml);
+        $loaded = \EWW\Dpf\Helper\XPath::loadXml($dom, $xml);
         libxml_use_internal_errors($prevErrors);
         if (!$loaded) {
             return null;
@@ -683,7 +683,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
 
         if (false !== $objectProfileXML) {
             $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
-            if (true === $objectProfileDOM->loadXML($objectProfileXML)) {
+            if (true === \EWW\Dpf\Helper\XPath::loadXml($objectProfileDOM, $objectProfileXML)) {
                 $objectState = $objectProfileDOM->getElementsByTagName('objState')[0];
                 return $objectState->nodeValue;
             }
@@ -696,7 +696,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $dataCiteXml = DataCiteXml::convertFromMetsXml($metsXml);
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->loadXML($dataCiteXml);
+        \EWW\Dpf\Helper\XPath::loadXml($dom, $dataCiteXml);
         $title = $dom->getElementsByTagName('title')[0];
         $filename = $this->sanitizeFilename($title->nodeValue) . '.DataCite.xml';
         return [

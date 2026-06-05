@@ -28,7 +28,7 @@ class Slub
     {
         $slubDom = new \DOMDocument();
         if (!empty($slubXml)) {
-            $slubDom->loadXML($slubXml);
+            \EWW\Dpf\Helper\XPath::loadXml($slubDom, $slubXml);
         }
         $this->slubDom = $slubDom;
     }

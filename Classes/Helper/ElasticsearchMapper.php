@@ -66,7 +66,7 @@ class ElasticsearchMapper
         $metsXml = $exporter->getMetsData();
 
         $xml = new \DOMDocument;
-        $xml->loadXML($metsXml);
+        \EWW\Dpf\Helper\XPath::loadXml($xml, $metsXml);
 
         // xslt processing
         $proc = new \XSLTProcessor;

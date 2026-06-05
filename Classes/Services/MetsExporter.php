@@ -376,7 +376,7 @@ class MetsExporter
                 }
                 
                 $docXML = new \DOMDocument();
-                $docXML->loadXML($this->wrapMods($xml));
+                \EWW\Dpf\Helper\XPath::loadXml($docXML, $this->wrapMods($xml));
 
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
 
@@ -384,7 +384,7 @@ class MetsExporter
                 if ($match[2] && $secondMatch[2]) {
                     // import node from nested
                     $docXMLNested = new \DOMDocument();
-                    $docXMLNested->loadXML($this->wrapMods($nestedXml));
+                    \EWW\Dpf\Helper\XPath::loadXml($docXMLNested, $this->wrapMods($nestedXml));
 
                     $xPath = \EWW\Dpf\Helper\XPath::create($docXML);
 
@@ -410,7 +410,7 @@ class MetsExporter
                 $xml1 = $this->parseXPath($newPath[0]);
 
                 $doc1 = new \DOMDocument();
-                $doc1->loadXML($this->wrapMods($xml1));
+                \EWW\Dpf\Helper\XPath::loadXml($doc1, $this->wrapMods($xml1));
 
                 $domXPath = \EWW\Dpf\Helper\XPath::create($doc1);
 
@@ -436,7 +436,7 @@ class MetsExporter
                 }
 
                 $doc2 = new \DOMDocument();
-                $doc2->loadXML($this->wrapMods($xml2));
+                \EWW\Dpf\Helper\XPath::loadXml($doc2, $this->wrapMods($xml2));
 
                 $domXPath2 = \EWW\Dpf\Helper\XPath::create($doc2);
 
@@ -444,7 +444,7 @@ class MetsExporter
                 if ($match[2] && $secondMatch[2]) {
                     // import node from nested
                     $docXMLNested = new \DOMDocument();
-                    $docXMLNested->loadXML($this->wrapMods($nestedXml));
+                    \EWW\Dpf\Helper\XPath::loadXml($docXMLNested, $this->wrapMods($nestedXml));
 
                     $xPath = \EWW\Dpf\Helper\XPath::create($doc2);
                     $nodeList = $xPath->query('/mods:mods/' . $path . $match[1]);
@@ -477,7 +477,7 @@ class MetsExporter
             $xml = $this->parseXPath($xPath);
 
             $docXML = new \DOMDocument();
-            $docXML->loadXML($this->wrapMods($xml));
+            \EWW\Dpf\Helper\XPath::loadXml($docXML, $this->wrapMods($xml));
 
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/mods:mods');
@@ -531,7 +531,7 @@ class MetsExporter
                 $xml = $this->parseXPath($newPath[1]);
 
                 $docXML = new \DOMDocument();
-                $docXML->loadXML($this->wrapSlub($xml));
+                \EWW\Dpf\Helper\XPath::loadXml($docXML, $this->wrapSlub($xml));
 
                 $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
                 $domNode  = $domXPath->query('/slub:info/' . $path);
@@ -548,7 +548,7 @@ class MetsExporter
                 $xml1 = $this->parseXPath($newPath[0]);
 
                 $doc1 = new \DOMDocument();
-                if (is_null(@$doc1->loadXML($this->wrapSlub($xml1)))) {
+                if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($doc1, $this->wrapSlub($xml1)))) {
                     throw new \Exception("Couldn't load xml in function customXPathSlub!");
                 }
 
@@ -559,7 +559,7 @@ class MetsExporter
                 $xml2 = $this->parseXPath($path . $newPath[1]);
 
                 $doc2 = new \DOMDocument();
-                if (is_null(@$doc2->loadXML($this->wrapSlub($xml2)))) {
+                if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($doc2, $this->wrapSlub($xml2)))) {
                     throw new \Exception("Couldn't load xml in customXPathSlub!");
                 }
 
@@ -589,7 +589,7 @@ class MetsExporter
             $xml = $this->parseXPath($xPath);
 
             $docXML = new \DOMDocument();
-            $docXML->loadXML($this->wrapSlub($xml));
+            \EWW\Dpf\Helper\XPath::loadXml($docXML, $this->wrapSlub($xml));
 
             $domXPath = \EWW\Dpf\Helper\XPath::create($this->xmlData);
             $domNode  = $domXPath->query('/slub:info');
@@ -664,7 +664,7 @@ class MetsExporter
     public function setMods($value = '')
     {
         $domDocument = new \DOMDocument();
-        if (is_null(@$domDocument->loadXML($value))) {
+        if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($domDocument, $value))) {
             throw new \Exception("Couldn't load MODS data");
         }
         $this->modsData = $domDocument;
@@ -809,7 +809,7 @@ class MetsExporter
     {
         // build DOMDocument with slub xml
         $domDocument = new \DOMDocument();
-        $domDocument->loadXML($value);
+        \EWW\Dpf\Helper\XPath::loadXml($domDocument, $value);
         $this->slubData = $domDocument;
     }
 

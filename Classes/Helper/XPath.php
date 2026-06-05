@@ -39,4 +39,20 @@ class XPath
         $xpath->registerNamespace('xlink', "http://www.w3.org/1999/xlink");
         return $xpath;
     }
+
+    public static function loadXml(\DOMDocument $dom, string $xml, int $options = 0)
+    {
+        $prev = libxml_disable_entity_loader(true);
+        $result = $dom->loadXML($xml, LIBXML_NONET | $options);
+        libxml_disable_entity_loader($prev);
+        return $result;
+    }
+
+    public static function loadSimpleXml(string $xml, string $ns = '')
+    {
+        $prev = libxml_disable_entity_loader(true);
+        $result = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NONET, $ns);
+        libxml_disable_entity_loader($prev);
+        return $result;
+    }
 }
