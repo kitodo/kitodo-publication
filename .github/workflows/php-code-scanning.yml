@@ -28,5 +28,20 @@ jobs:
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse --error-format=github --no-progress
 
+  phpunit:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
       - name: Run PHPUnit
         run: vendor/bin/phpunit Tests/Unit/
