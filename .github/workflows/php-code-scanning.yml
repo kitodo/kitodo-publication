@@ -1,0 +1,52 @@
+name: PHP Code Scanning
+
+on:
+  push:
+    branches:
+      - kitodo-publication-3x
+  pull_request:
+    branches:
+      - kitodo-publication-3x
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --error-format=github --no-progress
+
+  phpunit:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Download PHPUnit
+        run: |
+          curl -fsSL --proto '=https' --tlsv1.2 \
+            https://phar.phpunit.de/phpunit-9.6.22.phar -o phpunit.phar
+          echo "9618d52015c9b06b4979a8e481ca9567be6be20e711e98926c61378a400e1f2e  phpunit.phar" | sha256sum -c -
+
+      - name: Run PHPUnit
+        run: php phpunit.phar

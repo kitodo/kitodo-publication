@@ -1,0 +1,13 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    phpVersion: 70300
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - Classes
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    ignoreErrors:
+        - '#Variable .+ might not be defined#'

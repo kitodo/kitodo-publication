@@ -39,7 +39,9 @@
         "nategood/httpful": "^0.2.20"
     },
     "require-dev": {
-        "nimut/testing-framework": "*"
+        "nimut/testing-framework": "*",
+        "phpstan/phpstan": "^2.0",
+        "kitodo/presentation": "~v3.2.3"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"
@@ -53,6 +55,16 @@
         "typo3/cms": {
             "extension-key": "dpf"
         }
+    },
+    "config": {
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        },
+        "allow-plugins": {
+            "typo3/cms-composer-installers": false,
+            "typo3/class-alias-loader": false
+        }
     }
 }
-

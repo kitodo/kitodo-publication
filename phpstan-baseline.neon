@@ -1,0 +1,1075 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Constant PATH_site not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: Classes/Command/ReplaceFileCommand.php
+
+		-
+			message: '#^Parameter \#1 \$prefix of function uniqid expects string, int\<0, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Command/ReplaceFileCommand.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''BE'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: Classes/Configuration/ClientConfigurationManager.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\AbstractController\:\:filterSafelyParameters\(\) should return string but returns array\<string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Controller/AbstractController.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 82 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Controller/AbstractController.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''BE'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: Classes/Controller/AbstractController.php
+
+		-
+			message: '#^Parameter \#1 \$uid of method TYPO3\\CMS\\Extbase\\Persistence\\Repository\:\:findByUid\(\) expects int, array\|string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Classes/Controller/AbstractDocumentFormController.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Controller\\AbstractSearchController\:\:\$documentTypeRepository\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Call to method format\(\) on an unknown class EWW\\Dpf\\Controller\\DateTime\.$#'
+			identifier: class.notFound
+			count: 4
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\AbstractSearchController\:\:convertFormDate\(\) has invalid return type EWW\\Dpf\\Controller\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\AbstractSearchController\:\:convertFormDate\(\) should return EWW\\Dpf\\Controller\\DateTime but returns DateTime\.$#'
+			identifier: return.type
+			count: 2
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\AbstractSearchController\:\:convertFormDate\(\) should return EWW\\Dpf\\Controller\\DateTime but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\AbstractSearchController\:\:searchFulltext\(\) should return array but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array Elasticsearch query array\)\: Unexpected token "Elasticsearch", expected variable at offset 74 on line 3$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''BE'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: Classes/Controller/AbstractSearchController.php
+
+		-
+			message: '#^Parameter \#3 \$severity of method EWW\\Dpf\\Controller\\DocumentController\:\:flashMessage\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 7
+			path: Classes/Controller/DocumentController.php
+
+		-
+			message: '#^Parameter \#3 \$severity of method TYPO3\\CMS\\Extbase\\Mvc\\Controller\\AbstractController\:\:addFlashMessage\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Controller/DocumentController.php
+
+		-
+			message: '#^Constant DocumentFormBE not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Controller/DocumentFormBEController.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Mvc\\Response\:\:setStatus\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\GetFileController\:\:streamAndExit\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$uri$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Parameter \#1 \$uid of method TYPO3\\CMS\\Extbase\\Persistence\\Repository\:\:findByUid\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Parameter \#2 \$format of function get_headers expects int, false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Parameter \#2 \$newvalue of function ini_set expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: Classes/Controller/GetFileController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\GndController\:\:searchAction\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Controller/GndController.php
+
+		-
+			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentRepository\:\:findOneByObjectIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Controller/SearchController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Controller\\SearchController\:\:nextResultsAction\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Controller/SearchController.php
+
+		-
+			message: '#^Parameter \#2 \$data of method EWW\\Dpf\\Controller\\AbstractController\:\:setSessionData\(\) expects string, array\<string, array\<string, array\|int\>\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Controller/SearchFEController.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Controller\\SearchFEController\:\:\$query \(array\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Controller/SearchFEController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\Client\:\:setAdminEmail\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Domain/Model/Client.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 17
+			path: Classes/Domain/Model/Client.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferErrorCode\.$#'
+			identifier: property.notFound
+			count: 2
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferHttpStatus\.$#'
+			identifier: property.notFound
+			count: 2
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferResponse\.$#'
+			identifier: property.notFound
+			count: 2
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\Document\:\:setSlubInfoData\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string\)\: Unexpected token "\\n     \* ", expected variable at offset 62 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 3
+			path: Classes/Domain/Model/Document.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(type \\EWW\\Dpf\\Domain\\Model\\File \$primaryFile\)\: Unexpected token "\\\\EWW\\\\Dpf\\\\Domain\\\\Model\\\\File", expected variable at offset 30 on line 3$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Domain/Model/DocumentForm.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(True, if deemed plausible\. False otherwise\.\)\: Unexpected token ",", expected TOKEN_HORIZONTAL_WS at offset 349 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Domain/Model/DocumentForm.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setMaxInputLength\(\) should return int but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Domain/Model/DocumentFormField.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\File\:\:setFileGroupDeleted\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Domain/Model/File.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Domain\\Model\\File\:\:\$download \(bool\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Domain/Model/File.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\InputOptionList\:\:\$l10nParent\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Domain/Model/InputOptionList.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:getChildren\(\) should return iterable\<EWW\\Dpf\\Domain\\Model\\MetadataObject\>&TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Domain/Model/MetadataObject.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:setMaxInputLength\(\) should return int but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Domain/Model/MetadataObject.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should return string but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should return string but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Parameter \#1 \$pid \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:setPid\(\) should be compatible with parameter \$pid \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:setPid\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Parameter \#1 \$pid \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:setPid\(\) should be compatible with parameter \$pid \(int\|null\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:setPid\(\)$#'
+			identifier: method.childParameterType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:\$pid \(int\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:\$uid \(int\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:getPid\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:getPid\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:getUid\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:getUid\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: Classes/Domain/Model/SysLanguage.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 45 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Domain/Repository/ClientRepository.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:statement\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Domain/Repository/DocumentRepository.php
+
+		-
+			message: '#^Parameter \#2 \$operand of method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:like\(\) expects string, false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Domain/Repository/DocumentRepository.php
+
+		-
+			message: '#^Method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:logicalAnd\(\) invoked with 3 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: Classes/Domain/Repository/FileRepository.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Domain/Repository/ProcessNumberRepository.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Domain/Repository/ProcessNumberRepository.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 1
+			path: Classes/Domain/Repository/ProcessNumberRepository.php
+
+		-
+			message: '#^Call to function is_array\(\) with non\-empty\-array\<string, non\-falsy\-string\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Classes/Helper/DocumentMapper.php
+
+		-
+			message: '#^Parameter \#1 \$slubInfoData of method EWW\\Dpf\\Services\\MetsExporter\:\:buildSlubInfoFromForm\(\) expects string, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Helper/DocumentMapper.php
+
+		-
+			message: '#^Call to method getFileData\(\) on an unknown class EWW\\Dpf\\Helper\\Document\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Call to method getObjectIdentifier\(\) on an unknown class EWW\\Dpf\\Helper\\Document\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Call to method getSlubInfoData\(\) on an unknown class EWW\\Dpf\\Helper\\Document\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Call to method getXmlData\(\) on an unknown class EWW\\Dpf\\Helper\\Document\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Helper\\ElasticsearchMapper\:\:getElasticsearchJson\(\) has invalid return type EWW\\Dpf\\Helper\\json\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Helper\\ElasticsearchMapper\:\:getElasticsearchJson\(\) should return EWW\\Dpf\\Helper\\json but returns string\|false\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Parameter \$document of method EWW\\Dpf\\Helper\\ElasticsearchMapper\:\:getElasticsearchJson\(\) has invalid type EWW\\Dpf\\Helper\\Document\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Helper/ElasticsearchMapper.php
+
+		-
+			message: '#^Constant PATH_site not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 38 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 40 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
+			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 42 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
+			message: '#^Parameter \#1 \$prefix of function uniqid expects string, int\<1, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Helper/SlubInfoHelper.php
+
+		-
+			message: '#^Constant SYSLOG_SEVERITY_WARNING not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Constant TYPO3_DLOG not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\Coins\\Coins\:\:main\(\) should return string but empty return statement found\.$#'
+			identifier: return.empty
+			count: 2
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\Coins\\Coins\:\:safelyFormatDate\(\) has invalid return type EWW\\Dpf\\Plugins\\Coins\\Formatted\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\Coins\\Coins\:\:safelyFormatDate\(\) should return EWW\\Dpf\\Plugins\\Coins\\Formatted but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Parameter \#1 \$str of function urlencode expects string, EWW\\Dpf\\Plugins\\Coins\\Formatted given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Plugins/Coins/Coins.php
+
+		-
+			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Plugins/DownloadTool/DownloadTool.php
+
+		-
+			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Constant SYSLOG_SEVERITY_WARNING not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Constant TYPO3_DLOG not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\MetaTags\\MetaTags\:\:main\(\) should return string but empty return statement found\.$#'
+			identifier: return.empty
+			count: 2
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\MetaTags\\MetaTags\:\:safelyFormatDate\(\) has invalid return type EWW\\Dpf\\Plugins\\MetaTags\\Formatted\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Plugins\\MetaTags\\MetaTags\:\:safelyFormatDate\(\) should return EWW\\Dpf\\Plugins\\MetaTags\\Formatted but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Plugins/MetaTags/MetaTags.php
+
+		-
+			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Plugins/RelatedListTool/RelatedListTool.php
+
+		-
+			message: '#^Call to an undefined method Httpful\\Request\:\:sendsJson\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Services/ElasticSearch.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\[type\] \[description\]\)\: Unexpected token "\[", expected type at offset 50 on line 3$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Services/ElasticSearch.php
+
+		-
+			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByUid\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Classes/Services/Email/Notifier.php
+
+		-
+			message: '#^Binary operation "\*" between string and int\<1, max\> results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Classes/Services/Identifier/UrnBuilder.php
+
+		-
+			message: '#^Binary operation "/" between \(float\|int\) and string results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Classes/Services/Identifier/UrnBuilder.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\Identifier\\UrnBuilder\:\:getCheckDigit\(\) should return int but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/Identifier/UrnBuilder.php
+
+		-
+			message: '#^PHPDoc tag @throws with type EWW\\Dpf\\Services\\Identifier\\InvalidArgumentException is not subtype of Throwable$#'
+			identifier: throws.notThrowable
+			count: 3
+			path: Classes/Services/Identifier/UrnBuilder.php
+
+		-
+			message: '#^Parameter \#2 \$replace of function preg_replace expects array\<float\|int\|string\>\|string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Services/Identifier/UrnBuilder.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 83 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/Services/Logger/TransferLogger.php
+
+		-
+			message: '#^Access to property \$childNodes on an unknown class EWW\\Dpf\\Services\\DOMDocument\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Access to property \$encoding on an unknown class EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Access to property \$firstChild on an unknown class EWW\\Dpf\\Services\\DOMDocument\.$#'
+			identifier: class.notFound
+			count: 3
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Access to property \$firstChild on an unknown class EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 7
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Access to property \$formatOutput on an unknown class EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Call to method createElement\(\) on an unknown class EWW\\Dpf\\Services\\DOMDocument\.$#'
+			identifier: class.notFound
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Call to method importNode\(\) on an unknown class EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 4
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Call to method saveXML\(\) on an unknown class EWW\\Dpf\\Services\\DOMDocument\.$#'
+			identifier: class.notFound
+			count: 4
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildAmdSection\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildAmdSection\(\) should return EWW\\Dpf\\Services\\xml but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildFileSection\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildFileSection\(\) should return EWW\\Dpf\\Services\\xml but empty return statement found\.$#'
+			identifier: return.empty
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildFileSection\(\) should return EWW\\Dpf\\Services\\xml but returns DOMDocument\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildMets\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildMetsSlub\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildMetsSlub\(\) should return EWW\\Dpf\\Services\\xml but returns DOMDocument\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildModsWrap\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildModsWrap\(\) should return EWW\\Dpf\\Services\\xml but returns DOMDocument\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildStructureMap\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:buildStructureMap\(\) should return EWW\\Dpf\\Services\\xml but returns DOMDocument\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:customXPath\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:customXPath\(\) should return EWW\\Dpf\\Services\\xml but returns string\|false\.$#'
+			identifier: return.type
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:parseXPath\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:wrapMods\(\) has invalid return type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\MetsExporter\:\:wrapMods\(\) should return EWW\\Dpf\\Services\\xml but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Offset ''metadata'' does not exist on string\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$array$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \#1 \$xPath of method EWW\\Dpf\\Services\\MetsExporter\:\:customXPath\(\) expects EWW\\Dpf\\Services\\xpath, string given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \#1 \$xPath of method EWW\\Dpf\\Services\\MetsExporter\:\:parseXPath\(\) expects EWW\\Dpf\\Services\\xpath, string given\.$#'
+			identifier: argument.type
+			count: 10
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \#2 \$str of function explode expects string, EWW\\Dpf\\Services\\xpath given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \#2 \$xml of static method EWW\\Dpf\\Helper\\XPath\:\:loadXml\(\) expects string, EWW\\Dpf\\Services\\xml given\.$#'
+			identifier: argument.type
+			count: 6
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \$xPath of method EWW\\Dpf\\Services\\MetsExporter\:\:customXPath\(\) has invalid type EWW\\Dpf\\Services\\xpath\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \$xPath of method EWW\\Dpf\\Services\\MetsExporter\:\:parseXPath\(\) has invalid type EWW\\Dpf\\Services\\xpath\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Parameter \$xml of method EWW\\Dpf\\Services\\MetsExporter\:\:wrapMods\(\) has invalid type EWW\\Dpf\\Services\\xml\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$metsData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept EWW\\Dpf\\Services\\xml\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$metsData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept default value of type string\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$metsData has unknown class EWW\\Dpf\\Services\\DOMDocument as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$modsData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept DOMDocument\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$modsData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept default value of type string\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$modsData has unknown class EWW\\Dpf\\Services\\DOMDocument as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$slubData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept DOMDocument\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$slubData \(EWW\\Dpf\\Services\\DOMDocument\) does not accept default value of type string\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Property EWW\\Dpf\\Services\\MetsExporter\:\:\$slubData has unknown class EWW\\Dpf\\Services\\DOMDocument as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Classes/Services/MetsExporter.php
+
+		-
+			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentRepository\:\:findOneByObjectIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Cannot call method info\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Cannot call method warning\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 10
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\Transfer\\DocumentTransferManager\:\:getLogger\(\) should return string\|false but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: Classes/Services/Transfer/DocumentTransferManager.php
+
+		-
+			message: '#^Call to an undefined method Httpful\\Request\:\:sendsJson\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Services/Transfer/ElasticsearchRepository.php
+
+		-
+			message: '#^Call to an undefined method Httpful\\Request\:\:sendsXml\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Classes/Services/Transfer/FedoraRepository.php
+
+		-
+			message: '#^Method EWW\\Dpf\\Services\\Transfer\\FedoraRepository\:\:getRemoteDocumentId\(\) should return string but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/Services/Transfer/FedoraRepository.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$remoteId$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/Services/Transfer/FedoraRepository.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 8
+			path: Classes/Services/Transfer/FedoraRepository.php
+
+		-
+			message: '#^Access to an undefined property EWW\\Dpf\\Services\\XPathXMLGenerator\:\:\$stack\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Classes/Services/XPathXMLGenerator.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(int itemsPerPage\)\: Unexpected token "itemsPerPage", expected variable at offset 156 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/ViewHelpers/CalcIndexViewHelper.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$index$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/ViewHelpers/CalcIndexViewHelper.php
+
+		-
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\FileUrlViewHelper\:\:\$secretKey \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
+			count: 1
+			path: Classes/ViewHelpers/FileUrlViewHelper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsConsentFieldViewHelper\:\:render\(\) should return string but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/IsConsentFieldViewHelper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsConsentFieldViewHelper\:\:render\(\) should return string but returns true\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/IsConsentFieldViewHelper.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''BE'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: Classes/ViewHelpers/IsConsentFieldViewHelper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsElementAllowedViewHelper\:\:render\(\) should return string but returns true\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/IsElementAllowedViewHelper.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: Classes/ViewHelpers/IsElementAllowedViewHelper.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''BE'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: Classes/ViewHelpers/IsElementAllowedViewHelper.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: Classes/ViewHelpers/IsElementAllowedViewHelper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsUrnViewHelper\:\:render\(\) should return string but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/IsUrnViewHelper.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsUrnViewHelper\:\:render\(\) should return string but returns true\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/IsUrnViewHelper.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''BE'' and ''FE'' will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: Classes/ViewHelpers/LanguageViewHelper.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array\(\) \$arguments\)\: Unexpected token "\(", expected variable at offset 138 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/ViewHelpers/Link/DataCiteViewHelper.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$viewPage$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/ViewHelpers/Link/DataCiteViewHelper.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array\(\) \$arguments\)\: Unexpected token "\(", expected variable at offset 138 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$viewPage$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
+
+		-
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\Link\\PreviewViewHelper\:\:\$secretKey \(string\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
+			count: 1
+			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: Classes/ViewHelpers/ShowStateViewHelper.php
+
+		-
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\) does not accept float\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: Classes/ViewHelpers/Widget/Controller/PaginateController.php
+
+		-
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeStart \(int\) does not accept float\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: Classes/ViewHelpers/Widget/Controller/PaginateController.php
+
+		-
+			message: '#^Method EWW\\Dpf\\ViewHelpers\\Widget\\PaginateViewHelper\:\:render\(\) should return string but returns TYPO3\\CMS\\Extbase\\Mvc\\ResponseInterface\.$#'
+			identifier: return.type
+			count: 1
+			path: Classes/ViewHelpers/Widget/PaginateViewHelper.php
