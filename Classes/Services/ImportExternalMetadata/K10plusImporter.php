@@ -19,6 +19,7 @@ namespace EWW\Dpf\Services\ImportExternalMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
 use EWW\Dpf\Domain\Model\K10plusMetadata;
 use Httpful\Request;
+use EWW\Dpf\Domain\Model\DocumentType;
 
 class K10plusImporter extends AbstractImporter implements Importer
 {

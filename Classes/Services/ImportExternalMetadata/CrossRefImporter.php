@@ -21,6 +21,7 @@ use EWW\Dpf\Domain\Model\ExternalMetadata;
 use Httpful\Request;
 use Httpful\Response;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use EWW\Dpf\Domain\Model\DocumentType;
 
 class CrossRefImporter extends AbstractImporter implements Importer
 {

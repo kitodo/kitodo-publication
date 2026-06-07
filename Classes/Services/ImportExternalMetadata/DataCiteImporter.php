@@ -20,6 +20,7 @@ use EWW\Dpf\Domain\Model\DataCiteMetadata;
 use EWW\Dpf\Domain\Model\ExternalMetadata;
 use Httpful\Request;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use EWW\Dpf\Domain\Model\DocumentType;
 
 class DataCiteImporter extends AbstractImporter implements Importer
 {

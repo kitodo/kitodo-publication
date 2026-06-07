@@ -7,6 +7,7 @@ use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use EWW\Dpf\Domain\Model\DocumentType;
 
 class BibTexFileImporter extends AbstractImporter implements FileImporter
 {

@@ -20,6 +20,7 @@ use EWW\Dpf\Domain\Model\ExternalMetadata;
 use EWW\Dpf\Domain\Model\PubMedMetadata;
 use EWW\Dpf\Services\Xml\XPath;
 use Httpful\Request;
+use EWW\Dpf\Domain\Model\DocumentType;
 
 class PubMedImporter extends AbstractImporter implements Importer
 {
