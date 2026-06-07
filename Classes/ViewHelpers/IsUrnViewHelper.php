@@ -24,7 +24,7 @@ class IsUrnViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelp
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function render()
     {

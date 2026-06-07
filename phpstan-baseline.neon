@@ -523,24 +523,6 @@ parameters:
 			path: Classes/Controller/WorkspaceController.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\Bookmark\:\:getDocumentIdentifier\(\) should return int but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/Bookmark.php
-
-		-
-			message: '#^Property EWW\\Dpf\\Domain\\Model\\Bookmark\:\:\$documentIdentifier \(string\) does not accept int\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Domain/Model/Bookmark.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\Client\:\:setAdminEmail\(\) should return string but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: Classes/Domain/Model/Client.php
-
-		-
 			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferErrorCode\.$#'
 			identifier: property.notFound
 			count: 2
@@ -556,12 +538,6 @@ parameters:
 			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferResponse\.$#'
 			identifier: property.notFound
 			count: 2
-			path: Classes/Domain/Model/Document.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\Document\:\:setSlubInfoData\(\) should return string but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
 			path: Classes/Domain/Model/Document.php
 
 		-
@@ -589,12 +565,6 @@ parameters:
 			path: Classes/Domain/Model/DocumentForm.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setMaxInputLength\(\) should return int but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: Classes/Domain/Model/DocumentFormField.php
-
-		-
 			message: '#^PHPDoc tag @param for parameter \$fieldChange with type EWW\\Dpf\\Services\\Suggestion\\FieldChange is incompatible with native type EWW\\Dpf\\Services\\Suggestion\\GroupChange\.$#'
 			identifier: parameter.phpDocType
 			count: 1
@@ -607,52 +577,16 @@ parameters:
 			path: Classes/Domain/Model/DocumentFormGroup.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\EditingLock\:\:getDocumentIdentifier\(\) should return int but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/EditingLock.php
-
-		-
-			message: '#^Property EWW\\Dpf\\Domain\\Model\\EditingLock\:\:\$documentIdentifier \(string\) does not accept int\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Domain/Model/EditingLock.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\File\:\:isDeleted\(\) should return string but returns bool\.$#'
-			identifier: return.type
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\File\:\:setFileGroupDeleted\(\) has invalid return type EWW\\Dpf\\Domain\\Model\\voidean\.$#'
+			identifier: class.notFound
 			count: 1
 			path: Classes/Domain/Model/File.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\File\:\:setFileGroupDeleted\(\) should return bool but return statement is missing\.$#'
+			message: '#^Method EWW\\Dpf\\Domain\\Model\\File\:\:setFileGroupDeleted\(\) should return EWW\\Dpf\\Domain\\Model\\voidean but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
 			path: Classes/Domain/Model/File.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\FileValidationResult\:\:isError\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/FileValidationResult.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\FileValidationResult\:\:isOk\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/FileValidationResult.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\FileValidationResult\:\:isWarning\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/FileValidationResult.php
-
-		-
-			message: '#^PHPDoc tag @return with type bool is incompatible with native type string\.$#'
-			identifier: return.phpDocType
-			count: 3
-			path: Classes/Domain/Model/FileValidationResult.php
 
 		-
 			message: '#^Property EWW\\Dpf\\Domain\\Model\\FrontendUser\:\:\$notifyFulltextPublished \(bool\) does not accept default value of type int\.$#'
@@ -693,12 +627,6 @@ parameters:
 		-
 			message: '#^Method EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:getChildren\(\) should return iterable\<EWW\\Dpf\\Domain\\Model\\MetadataObject\>&TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage but returns null\.$#'
 			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/MetadataObject.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:setMaxInputLength\(\) should return int but return statement is missing\.$#'
-			identifier: return.missing
 			count: 1
 			path: Classes/Domain/Model/MetadataObject.php
 
@@ -937,12 +865,6 @@ parameters:
 			path: Classes/Plugins/Coins/Coins.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Plugins\\Coins\\Coins\:\:main\(\) should return string but empty return statement found\.$#'
-			identifier: return.empty
-			count: 2
-			path: Classes/Plugins/Coins/Coins.php
-
-		-
 			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
 			identifier: property.notFound
 			count: 3
@@ -958,12 +880,6 @@ parameters:
 			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
 			identifier: property.notFound
 			count: 1
-			path: Classes/Plugins/MetaTags/MetaTags.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Plugins\\MetaTags\\MetaTags\:\:main\(\) should return string but empty return statement found\.$#'
-			identifier: return.empty
-			count: 2
 			path: Classes/Plugins/MetaTags/MetaTags.php
 
 		-
@@ -1351,40 +1267,10 @@ parameters:
 			path: Classes/Services/Xml/ParserGenerator.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Session\\SearchSessionData\:\:clearFilters\(\) should return array but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: Classes/Session/SearchSessionData.php
-
-		-
 			message: '#^Call to an undefined method TYPO3Fluid\\Fluid\\Core\\Rendering\\RenderingContextInterface\:\:getControllerContext\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: Classes/ViewHelpers/ActiveManagerMenuViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\ArrayViewHelper\:\:render\(\) should return bool but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/ArrayViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\CreatorRoleViewHelper\:\:render\(\) should return string but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/CreatorRoleViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\FailedMessagesCountViewHelper\:\:render\(\) should return bool but returns int\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/FailedMessagesCountViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\FailedMessagesCountViewHelper\:\:render\(\) should return bool but returns int\<0, max\>\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/FailedMessagesCountViewHelper.php
 
 		-
 			message: '#^Property EWW\\Dpf\\ViewHelpers\\FileUrlViewHelper\:\:\$secretKey \(string\) in isset\(\) is not nullable\.$#'
@@ -1415,30 +1301,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 7
 			path: Classes/ViewHelpers/GetStatusColorViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsDoiViewHelper\:\:render\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/IsDoiViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsFisIdMissingViewHelper\:\:render\(\) should return string but returns bool\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/IsFisIdMissingViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsUrnViewHelper\:\:render\(\) should return string but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/IsUrnViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\IsUrnViewHelper\:\:render\(\) should return string but returns true\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/ViewHelpers/IsUrnViewHelper.php
 
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseRepository\:\:findOneByUri\(\)\.$#'
@@ -1477,13 +1339,13 @@ parameters:
 			path: Classes/ViewHelpers/Suggestion/FindFieldChangeViewHelper.php
 
 		-
-			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\) does not accept float\.$#'
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\|null\) does not accept float\.$#'
 			identifier: assign.propertyType
 			count: 2
 			path: Classes/ViewHelpers/Widget/Controller/PaginateController.php
 
 		-
-			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeStart \(int\) does not accept float\.$#'
+			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeStart \(int\|null\) does not accept float\.$#'
 			identifier: assign.propertyType
 			count: 2
 			path: Classes/ViewHelpers/Widget/Controller/PaginateController.php

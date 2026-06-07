@@ -88,12 +88,12 @@ class MetaTags extends \EWW\Dpf\Common\AbstractPlugin
                 $conf
             );
 
-            return;
+            return '';
         }
 
         ksort($metadata);
         $this->printMetaTags($metadata);
-        return;
+        return '';
     }
 
     /**

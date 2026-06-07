@@ -846,7 +846,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the adminEmail
      *
-     * @return string
+     * @return void
      */
     public function setAdminEmail($adminEmail)
     {

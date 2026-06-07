@@ -45,7 +45,7 @@ class CreatorRoleViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVi
     /**
      * Shows the frontend user name of the given frontenduser user id.
      *
-     * @return string
+     * @return string|null
      */
     public function render()
     {

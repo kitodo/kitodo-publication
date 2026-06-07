@@ -324,7 +324,7 @@ class Document extends AbstractEntity
     /**
      * Sets the slubInfoData
      *
-     * @return string $slubInfoData
+     * @return void
      */
     public function setSlubInfoData($slubInfoData)
     {

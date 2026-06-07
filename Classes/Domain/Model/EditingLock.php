@@ -26,7 +26,7 @@ class EditingLock extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * documentIdentifier : A document uid or a fedoraPid object identifier.
      *
-     * @var string
+     * @var string|int
      */
     protected $documentIdentifier = '';
 

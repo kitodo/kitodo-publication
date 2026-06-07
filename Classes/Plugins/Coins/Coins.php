@@ -54,7 +54,7 @@ class Coins extends \EWW\Dpf\Common\AbstractPlugin
 
         $this->loadDocument();
         if ($this->doc === null) {
-            return;
+            return '';
         } else {
             // Set default values if not set.
             if (!isset($this->conf['rootline'])) {
@@ -74,7 +74,7 @@ class Coins extends \EWW\Dpf\Common\AbstractPlugin
                     $conf
                 );
             }
-            return;
+            return '';
         }
 
         return $this->generateCoins($metadata);

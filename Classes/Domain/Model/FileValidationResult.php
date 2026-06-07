@@ -51,7 +51,7 @@ class FileValidationResult
     /**
      * @return bool
      */
-    public function isError(): string
+    public function isError(): bool
     {
         return $this->status === self::ERROR;
     }
@@ -59,7 +59,7 @@ class FileValidationResult
     /**
      * @return bool
      */
-    public function isWarning(): string
+    public function isWarning(): bool
     {
         return $this->status === self::WARNING;
     }
@@ -67,7 +67,7 @@ class FileValidationResult
     /**
      * @return bool
      */
-    public function isOk(): string
+    public function isOk(): bool
     {
         return $this->status === self::OK;
     }

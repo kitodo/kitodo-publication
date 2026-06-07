@@ -642,7 +642,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     }
 
     /**
-     * @return integer
+     * @return void
      */
     public function setMaxInputLength($maxInputLength)
     {

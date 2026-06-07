@@ -25,7 +25,7 @@ class Bookmark extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * documentIdentifier : A document uid or a fedoroPid object identifier.
      *
-     * @var string
+     * @var string|int
      */
     protected $documentIdentifier = '';
 

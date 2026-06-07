@@ -217,7 +217,7 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fileGroupDeleted
      *
-     * @return boolean $fileGroupDeleted
+     * @return voidean $fileGroupDeleted
      */
     public function setFileGroupDeleted($fileGroupDeleted)
     {
@@ -443,9 +443,9 @@ class File extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function isDeleted(): string
+    public function isDeleted(): bool
     {
         return $this->getStatus() == \EWW\Dpf\Domain\Model\File::STATUS_DELETED;
     }

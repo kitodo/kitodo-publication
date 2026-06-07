@@ -25,7 +25,7 @@ class ArrayViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelp
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
     public function render()
     {

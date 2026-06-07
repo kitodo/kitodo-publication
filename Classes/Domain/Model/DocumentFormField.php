@@ -295,7 +295,7 @@ class DocumentFormField extends AbstractFormElement
     /**
      * Sets the max length of characters for the input field.
      *
-     * @return int
+     * @return void
      */
     public function setMaxInputLength($maxInputLength)
     {

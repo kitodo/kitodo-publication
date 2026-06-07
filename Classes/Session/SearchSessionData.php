@@ -106,7 +106,7 @@ class SearchSessionData
     /**
      * Removes all filters
      *
-     * @return array
+     * @return void
      */
     public function clearFilters()
     {

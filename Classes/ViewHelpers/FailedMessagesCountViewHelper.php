@@ -23,7 +23,7 @@ use EWW\Dpf\Security\Security;
 class FailedMessagesCountViewHelper extends AbstractViewHelper
 {
     /**
-     * @return bool
+     * @return int
      */
     public function render()
     {

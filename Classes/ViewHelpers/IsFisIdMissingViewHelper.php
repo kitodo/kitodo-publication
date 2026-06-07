@@ -27,7 +27,7 @@ class IsFisIdMissingViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstrac
     protected $security = null;
 
     /**
-     * @return string
+     * @return bool
      */
     public function render()
     {
