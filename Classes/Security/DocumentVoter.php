@@ -244,8 +244,6 @@ class DocumentVoter extends Voter
                 return $this->canEditAnonymously($subject);
                 break;
         }
-
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
         $logger->warning('DocumentVoter::voteOnAttribute(): Unknown attribute. This code should not be reached!',
             [

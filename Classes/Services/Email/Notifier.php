@@ -110,7 +110,7 @@ class Notifier
 
     public function sendAdminNewSuggestionNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
-            /** @var $client \EWW\Dpf\Domain\Model\Client */
+            /** @var \EWW\Dpf\Domain\Model\Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
@@ -137,7 +137,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -152,7 +151,7 @@ class Notifier
 
     public function sendAdminEmbargoExpiredNotification(\EWW\Dpf\Domain\Model\Document $document) {
         try {
-            /** @var $client \EWW\Dpf\Domain\Model\Client */
+            /** @var \EWW\Dpf\Domain\Model\Client $client */
             $client = $this->clientRepository->findAll()->current();
             $clientAdminEmail = $client->getAdminEmail();
             $documentType = $this->documentTypeRepository->findOneByUid($document->getDocumentType());
@@ -179,7 +178,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -405,7 +403,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -451,7 +448,6 @@ class Notifier
                 $this->sendMail($submitterEmail, $subject, $body, $args, $mailType);
             }
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -493,7 +489,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -535,7 +530,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -588,7 +582,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -642,7 +635,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -686,7 +678,6 @@ class Notifier
             }
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->log(
@@ -757,7 +748,7 @@ class Notifier
      * @param string $functionName
      * @param string $reason
      * @param bool   $retry
-     * @return bool|[] true if the message was sent successfully, false if nothing was sent, or array with error with infos.
+     * @return bool|array true if the message was sent successfully, false if nothing was sent, or array with error info.
      * @throws ActiveMessageException
      * @throws ConnectionErrorException
      */
@@ -810,8 +801,6 @@ class Notifier
             if ($e instanceof ConnectionErrorException) {
                 $curlCode = $e->getCurlErrorNumber();
             }
-
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 
             $logger->error(
@@ -920,7 +909,6 @@ class Notifier
                     $message->setCurlCode($result['curlCode']);
                 } else {
                     // Nothing sent due to empty URL in configuration.
-                    /** @var $logger \TYPO3\CMS\Core\Log\Logger */
                     $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
                     $logger->error(
                         "Retry: " . $message->getFunctionname()." failed: No URL configured.",
@@ -939,7 +927,6 @@ class Notifier
             return $result;
 
         } catch (\Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
             $logger->error(
                 "Retry: " . $message->getFunctionname()." failed: " . $e->getMessage(),

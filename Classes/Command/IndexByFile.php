@@ -145,9 +145,9 @@ class IndexByFile extends AbstractIndexCommand
     /**
      * Index a particular web document
      *
-     * @param string URI to METS/MODS file to index
+     * @param string $uri URI to METS/MODS file to index
      * @param OutputInterface $io IO object for printing messages
-     * @param string|null Credentials string as "user:password"
+     * @param string|null $credentials Credentials string as "user:password"
      * @return bool False on error, true on success
      */
     protected function indexHttpDocument(

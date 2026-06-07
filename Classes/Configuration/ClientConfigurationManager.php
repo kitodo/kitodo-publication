@@ -119,7 +119,6 @@ class ClientConfigurationManager implements SingletonInterface
     /**
      * Get setting from client or extension configuration.
      *
-     * @var array
      */
     public function getSetting($settingName)
     {

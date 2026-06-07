@@ -103,7 +103,7 @@ class JsonToDocumentMapper
 
         foreach ($metaData as $group) {
 
-            /** @var MetadataGroup $metaDataGroup */
+            /** @var MetadataGroup $metadataGroup */
             $metadataGroup = $this->metadataGroupRepository->findByUid($group['metadataGroup']);
             $jsonGroupName = $group['jsonGroupName'];
 

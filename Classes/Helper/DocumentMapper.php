@@ -460,7 +460,6 @@ class DocumentMapper
 
     public function getDocument($documentForm)
     {
-        /** @var Document $document */
 
         if ($documentForm->getDocumentUid()) {
             if ($this->isCustomClientPid()) {
@@ -717,7 +716,6 @@ class DocumentMapper
             $filesToBeDeleted[$docFile->getFileIdentifier()] = $docFile;
         }
         // Add or update files
-        /** @var File $file */
         if (is_array($files)) {
             foreach ($files as $file) {
                 if ($file->getUid()) {
@@ -734,7 +732,6 @@ class DocumentMapper
         }
 
         // Delete files
-        /** @var File $deleteFile */
         foreach ($filesToBeDeleted as $fileToBeDeleted) {
             if (trim($fileToBeDeleted->getDatastreamIdentifier())) {
                 $fileToBeDeleted->setStatus(File::STATUS_DELETED);

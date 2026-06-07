@@ -208,7 +208,7 @@ abstract class AbstractDocumentFormController extends AbstractController
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $newDocument */
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
         $this->newDocument = $newDocument;
 

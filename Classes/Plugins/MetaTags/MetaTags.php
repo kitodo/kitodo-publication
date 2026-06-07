@@ -81,8 +81,6 @@ class MetaTags extends \EWW\Dpf\Common\AbstractPlugin
 
         $metadata['_id'] = $this->doc->toplevelId;
         if (empty($metadata)) {
-
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
             $logger->debug(
                 '[tx_dpf_metatags->main(' . $content .

@@ -120,7 +120,6 @@ class ApiController extends ActionController
 
     public function __construct()
     {
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -173,7 +172,7 @@ class ApiController extends ActionController
             if ($doc) {
                 $this->security->getUser()->getUid();
 
-                /** @var $client \EWW\Dpf\Domain\Model\Client */
+                /** @var \EWW\Dpf\Domain\Model\Client $client */
                 $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
                 $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
@@ -220,7 +219,6 @@ class ApiController extends ActionController
             }
 
 
-            /** @var Document $document */
             try {
                 $document = $mapper->getDocument($json);
             } catch (InvalidJson $throwable) {
@@ -367,7 +365,6 @@ class ApiController extends ActionController
                 return '{"failed": "Invalid publication type."}';
             }
 
-            /** @var Document $editOrigDocument */
             try {
                 $editOrigDocument = $mapper->editDocument($doc, $json);
             } catch (InvalidJson $throwable) {
@@ -427,7 +424,7 @@ class ApiController extends ActionController
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
-                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        /** @var \EWW\Dpf\Domain\Model\Client $client */
                         $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
@@ -479,7 +476,7 @@ class ApiController extends ActionController
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
-                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        /** @var \EWW\Dpf\Domain\Model\Client $client */
                         $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
@@ -531,7 +528,7 @@ class ApiController extends ActionController
                     /** @var Document $newDocument */
                     $newDocument = $importer->import($externalMetadata);
                     if ($newDocument) {
-                        /** @var $client \EWW\Dpf\Domain\Model\Client */
+                        /** @var \EWW\Dpf\Domain\Model\Client $client */
                         $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
                         $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
@@ -596,7 +593,7 @@ class ApiController extends ActionController
                         /** @var Document $newDocument */
                         $newDocument = $importer->import($externalMetadataItem);
                         if ($newDocument) {
-                            /** @var $client \EWW\Dpf\Domain\Model\Client */
+                            /** @var \EWW\Dpf\Domain\Model\Client $client */
                             $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
                             $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();
                             $mapper->setMapping($client->getFisMapping());
@@ -658,7 +655,7 @@ class ApiController extends ActionController
     public function importRisWithoutSavingAction($ris, $token, $force = false) {
 
         if ($this->checkToken($token)) {
-            /** @var FileImporter $fileImporter */
+            /** @var FileImporter $importer */
             $importer = $this->objectManager->get(RisWosFileImporter::class);
             $importer->deactivateProcessNumberGeneration();
 
@@ -677,7 +674,7 @@ class ApiController extends ActionController
                         /** @var Document $newDocument */
                         $newDocument = $importer->import($externalMetadataItem);
                         if ($newDocument) {
-                            /** @var $client \EWW\Dpf\Domain\Model\Client */
+                            /** @var \EWW\Dpf\Domain\Model\Client $client */
                             $client = $this->clientRepository->findAllByPid($this->frontendUser->getPid())->current();
 
                             $mapper = new \EWW\Dpf\Services\Api\DocumentToJsonMapper();

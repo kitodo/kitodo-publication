@@ -133,7 +133,6 @@ class DataCiteImporter extends AbstractImporter implements Importer
         /** @var \EWW\Dpf\Domain\Model\Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
         return $client->getDataciteTransformation()->current();
     }
 

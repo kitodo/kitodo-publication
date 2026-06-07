@@ -410,7 +410,6 @@ class Document extends AbstractEntity
     /**
      * Sets the transferStatus
      *
-     * @param string
      * @return void
      */
     public function setTransferStatus($transferStatus)
@@ -442,7 +441,6 @@ class Document extends AbstractEntity
     /**
      * Returns the transferErrorCode
      *
-     * @var integer
      */
     public function getTransferErrorCode()
     {
@@ -463,7 +461,6 @@ class Document extends AbstractEntity
     /**
      * Returns the transferResponse
      *
-     * @var string
      */
     public function getTransferResponse()
     {
@@ -484,7 +481,6 @@ class Document extends AbstractEntity
     /**
      * Returns the transferHttpStatus
      *
-     * @var integer
      */
     public function getTransferHttpStatus()
     {
@@ -990,7 +986,7 @@ class Document extends AbstractEntity
     }
 
     /**
-     * @param array newlyAssignedFobIdentifiers
+     * @param array $newlyAssignedFobIdentifiers
      */
     public function setNewlyAssignedFobIdentifiers(array $newlyAssignedFobIdentifiers): void
     {

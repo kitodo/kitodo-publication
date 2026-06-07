@@ -160,7 +160,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         /** @var DocumentMapper $documentMapper */
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /* @var $document \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentForm->getDocumentUid());
 
         if ($document->isTemporary()) {
@@ -173,7 +173,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
         $this->documentRepository->add($newDocument);
         $this->persistenceManager->persistAll();
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $newDocument */
         $newDocument = $newDocument->copy($document);
         $documentForm->setDocumentUid($newDocument->getUid());
         $newDocument = $documentMapper->getDocument($documentForm);
@@ -566,7 +566,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $this->redirectToDocumentList();
         }
 
-        /** @var $document \EWW\Dpf\Domain\Model\Document */
+        /** @var \EWW\Dpf\Domain\Model\Document $document */
         $document = $this->documentRepository->findByUid($documentUid);
         $this->redirect('showDetails', 'Document', null, ['document' => $document]);
     }

@@ -22,7 +22,6 @@ class ClientRepository extends AbstractRepository
     /**
      * findAllByPid
      *
-     * @return
      */
     public function findAllByPid($pid)
     {

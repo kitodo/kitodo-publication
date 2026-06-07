@@ -85,7 +85,6 @@ abstract class AbstractImporter
 
     public function __construct()
     {
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractImporter
      */
     protected function createDocument($xmlData, $documentType)
     {
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $newDocument */
         $newDocument    =  $this->objectManager->get(Document::class);
 
         $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($xmlData);

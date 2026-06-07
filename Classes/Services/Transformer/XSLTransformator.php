@@ -86,8 +86,6 @@ class XSLTransformator
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $xml;
-
-            /** @var $logger Logger */
             $logger = GeneralUtility::makeInstance(
                 LogManager::class)->getLogger(__CLASS__
             );
@@ -154,8 +152,6 @@ class XSLTransformator
         } else {
             // return generated xml if no transformation file is present
             $transformedXml = $document->publicXml();
-
-            /** @var $logger Logger */
             $logger = GeneralUtility::makeInstance(
                 LogManager::class)->getLogger(__CLASS__
             );

@@ -21,7 +21,7 @@ class DateTimePrecision
     /**
      * Reduce microsecond precision to value that can be handled by PHP 7.
      *
-     * @param String dateTimeString Datetime string
+     * @param string $dateTimeString Datetime string
      * @return String Precision reduced datetime string
      */
     public static function reducePrecision(String $dateTimeString)

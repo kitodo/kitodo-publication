@@ -35,7 +35,7 @@ class ProcessNumberRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Finds the highest case number of an owner id
      * for the current year
      *
-     * @var string ownerId
+     * @param string $ownerId
      * @return array The found ProcessNumber Object
      */
     public function getHighestProcessNumberByOwnerIdAndYear($ownerId,$year)

@@ -187,7 +187,6 @@ class DocumentFormGroup extends AbstractFormElement
 
     public function getFile() {
         foreach ($this->getItems() as $fieldItems) {
-            /** @var DocumentFormField $fieldItem */
             foreach ($fieldItems as $field) {
                 $file = $field->getFile();
                 if ($file instanceof File) {

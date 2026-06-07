@@ -476,7 +476,7 @@ class DocumentManager
 
         $users = [];
 
-        /** @var Bookmark $bookmark */
+        /** @var Bookmark $bookmarks */
         $bookmarks = $this->bookmarkRepository->findByDocumentIdentifier($document->getDocumentIdentifier());
         foreach ($bookmarks as $bookmark) {
             $feUser = $this->frontendUserRepository->findByUid($bookmark->getFeUserUid());

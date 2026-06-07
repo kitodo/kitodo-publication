@@ -24,7 +24,6 @@ class TransferLogger
     /**
      * Logs the response of a document repository transfer
      *
-     * @param
      * @return void
      */
     public static function log($action, $documentUid, $objectIdentifier, $response)

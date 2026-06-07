@@ -529,7 +529,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      */
     public function toggleBulkImportAuthorSearchAction($apiName)
     {
-        /** @var BulkImportSessionData $bulkImportData */
+        /** @var BulkImportSessionData $bulkImportSessionData */
         $bulkImportSessionData = $this->session->getBulkImportData();
 
         switch ($apiName) {

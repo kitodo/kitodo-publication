@@ -25,18 +25,6 @@ parameters:
 			path: Classes/Command/IndexByDatabase.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(string URI to METS/MODS file to index\)\: Unexpected token "URI", expected variable at offset 71 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Command/IndexByFile.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string\|null Credentials string as "user\:password"\)\: Unexpected token "Credentials", expected variable at offset 194 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Command/IndexByFile.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$file$#'
 			identifier: parameter.notFound
 			count: 1
@@ -51,12 +39,6 @@ parameters:
 		-
 			message: '#^Loose comparison using \=\= between ''BE'' and ''FE'' will always evaluate to false\.$#'
 			identifier: equal.alwaysFalse
-			count: 1
-			path: Classes/Configuration/ClientConfigurationManager.php
-
-		-
-			message: '#^PHPDoc tag @var above a method has no effect\.$#'
-			identifier: varTag.misplaced
 			count: 1
 			path: Classes/Configuration/ClientConfigurationManager.php
 
@@ -81,18 +63,6 @@ parameters:
 		-
 			message: '#^Method EWW\\Dpf\\Controller\\AbstractController\:\:filterSafelyParameters\(\) should return string but returns array\<string\>\.$#'
 			identifier: return.type
-			count: 1
-			path: Classes/Controller/AbstractController.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 82 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Controller/AbstractController.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: Classes/Controller/AbstractController.php
 
@@ -151,12 +121,6 @@ parameters:
 			path: Classes/Controller/AjaxBackofficeController.php
 
 		-
-			message: '#^Variable \$bulkImportData in PHPDoc tag @var does not match assigned variable \$bulkImportSessionData\.$#'
-			identifier: varTag.differentVariable
-			count: 1
-			path: Classes/Controller/AjaxBackofficeController.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setDataType\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -193,14 +157,8 @@ parameters:
 			path: Classes/Controller/ApiController.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$client \\EWW\\Dpf\\Domain\\Model\\Client\)\: Unexpected token "\$client", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 6
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
+			message: '#^Call to an undefined method EWW\\Dpf\\Services\\ImportExternalMetadata\\FileImporter\:\:deactivateProcessNumberGeneration\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: Classes/Controller/ApiController.php
 
@@ -208,24 +166,6 @@ parameters:
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 2
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^Variable \$document in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^Variable \$editOrigDocument in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^Variable \$fileImporter in PHPDoc tag @var does not match assigned variable \$importer\.$#'
-			identifier: varTag.differentVariable
-			count: 1
 			path: Classes/Controller/ApiController.php
 
 		-
@@ -259,8 +199,8 @@ parameters:
 			path: Classes/Controller/BackendAdminController.php
 
 		-
-			message: '#^Variable \$t in PHPDoc tag @var does not match assigned variable \$allClients\.$#'
-			identifier: varTag.differentVariable
+			message: '#^Argument of an invalid type EWW\\Dpf\\Domain\\Model\\Client supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: Classes/Controller/BackendLogController.php
 
@@ -337,12 +277,6 @@ parameters:
 			path: Classes/Controller/DocumentController.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$documentForm \\EWW\\Dpf\\Domain\\Model\\DocumentForm\)\: Unexpected token "\$documentForm", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
 			message: '#^Parameter \#1 \$name of static method TYPO3\\CMS\\Core\\Utility\\GeneralUtility\:\:implodeArrayForUrl\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -352,24 +286,6 @@ parameters:
 			message: '#^Parameter \#3 \$reason of method EWW\\Dpf\\Controller\\DocumentController\:\:updateDocument\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 3
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Variable \$doc in PHPDoc tag @var does not match assigned variable \$linkedDocument\.$#'
-			identifier: varTag.differentVariable
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Variable \$doc in PHPDoc tag @var does not match assigned variable \$originDocument\.$#'
-			identifier: varTag.differentVariable
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Variable \$updateDocument in PHPDoc tag @var does not match assigned variable \$originDocument\.$#'
-			identifier: varTag.differentVariable
-			count: 1
 			path: Classes/Controller/DocumentController.php
 
 		-
@@ -398,12 +314,6 @@ parameters:
 
 		-
 			message: '#^PHPDoc tag @param has invalid value \(string activeGroup\)\: Unexpected token "activeGroup", expected variable at offset 145 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Controller/DocumentFormBackofficeController.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$document \\EWW\\Dpf\\Domain\\Model\\Document\)\: Unexpected token "\$document", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: Classes/Controller/DocumentFormBackofficeController.php
@@ -483,12 +393,6 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$extensionName of static method TYPO3\\CMS\\Extbase\\Utility\\LocalizationUtility\:\:translate\(\) expects string\|null, array\<int, mixed\> given\.$#'
 			identifier: argument.type
-			count: 1
-			path: Classes/Controller/ExternalMetadataImportController.php
-
-		-
-			message: '#^Variable \$existingDocument in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
 			count: 1
 			path: Classes/Controller/ExternalMetadataImportController.php
 
@@ -637,12 +541,6 @@ parameters:
 			path: Classes/Domain/Model/Client.php
 
 		-
-			message: '#^PHPDoc tag @var above a method has no effect\.$#'
-			identifier: varTag.misplaced
-			count: 15
-			path: Classes/Domain/Model/Client.php
-
-		-
 			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\Document\:\:\$transferErrorCode\.$#'
 			identifier: property.notFound
 			count: 2
@@ -667,24 +565,6 @@ parameters:
 			path: Classes/Domain/Model/Document.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(array newlyAssignedFobIdentifiers\)\: Unexpected token "newlyAssignedFobIdentifiers", expected variable at offset 24 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Model/Document.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string\)\: Unexpected token "\\n     \* ", expected variable at offset 62 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Model/Document.php
-
-		-
-			message: '#^PHPDoc tag @var above a method has no effect\.$#'
-			identifier: varTag.misplaced
-			count: 3
-			path: Classes/Domain/Model/Document.php
-
-		-
 			message: '#^Property EWW\\Dpf\\Domain\\Model\\Document\:\:\$embargoDate \(DateTime\) does not accept int\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -693,12 +573,6 @@ parameters:
 		-
 			message: '#^Method EWW\\Dpf\\Domain\\Model\\DocumentForm\:\:getFileByFileIdentifier\(\) should return EWW\\Dpf\\Domain\\Model\\File but returns null\.$#'
 			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/DocumentForm.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string\)\: Unexpected token "\\n     ", expected variable at offset 31 on line 3$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: Classes/Domain/Model/DocumentForm.php
 
@@ -729,12 +603,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$GroupChange$#'
 			identifier: parameter.notFound
-			count: 1
-			path: Classes/Domain/Model/DocumentFormGroup.php
-
-		-
-			message: '#^Variable \$fieldItem in PHPDoc tag @var does not match any variable in the foreach loop\: \$fieldItems, \$field$#'
-			identifier: varTag.differentVariable
 			count: 1
 			path: Classes/Domain/Model/DocumentFormGroup.php
 
@@ -907,12 +775,6 @@ parameters:
 			path: Classes/Domain/Repository/AbstractRepository.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$querySettings \\TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings\)\: Unexpected token "\$querySettings", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 2
-			path: Classes/Domain/Repository/AbstractRepository.php
-
-		-
 			message: '#^Argument of an invalid type EWW\\Dpf\\Domain\\Model\\Bookmark supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
@@ -943,12 +805,6 @@ parameters:
 			path: Classes/Domain/Repository/BookmarkRepository.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 45 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Repository/ClientRepository.php
-
-		-
 			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:statement\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -967,12 +823,6 @@ parameters:
 			path: Classes/Domain/Repository/DocumentRepository.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$querySettings \\TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings\)\: Unexpected token "\$querySettings", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Repository/DocumentRepository.php
-
-		-
 			message: '#^Parameter \#1 \$uid of method TYPO3\\CMS\\Extbase\\Persistence\\Repository\:\:findByUid\(\) expects int, string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -985,18 +835,6 @@ parameters:
 			path: Classes/Domain/Repository/ExternalMetadataRepository.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$querySettings \\TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings\)\: Unexpected token "\$querySettings", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Repository/FrontendUserRepository.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$querySettings \\TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings\)\: Unexpected token "\$querySettings", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Domain/Repository/LogRepository.php
-
-		-
 			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns null\.$#'
 			identifier: return.type
 			count: 1
@@ -1005,12 +843,6 @@ parameters:
 		-
 			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: Classes/Domain/Repository/ProcessNumberRepository.php
-
-		-
-			message: '#^PHPDoc tag @var above a method has no effect\.$#'
-			identifier: varTag.misplaced
 			count: 1
 			path: Classes/Domain/Repository/ProcessNumberRepository.php
 
@@ -1045,12 +877,6 @@ parameters:
 			path: Classes/Helper/DataCiteXml.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(String dateTimeString Datetime string\)\: Unexpected token "dateTimeString", expected variable at offset 107 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Helper/DateTimePrecision.php
-
-		-
 			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
 			identifier: method.notFound
 			count: 3
@@ -1073,42 +899,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^Variable \$deleteFile in PHPDoc tag @var does not match any variable in the foreach loop\: \$filesToBeDeleted, \$fileToBeDeleted$#'
-			identifier: varTag.differentVariable
-			count: 1
-			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^Variable \$document in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^Variable \$file in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 38 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Helper/FormDataReader.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 40 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Helper/FormDataReader.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 42 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Helper/FormDataReader.php
 
 		-
 			message: '#^Parameter \#1 \$fieldId of method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setGndFieldUid\(\) expects int, string given\.$#'
@@ -1177,12 +967,6 @@ parameters:
 			path: Classes/Plugins/MetaTags/MetaTags.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Plugins/MetaTags/MetaTags.php
-
-		-
 			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1192,12 +976,6 @@ parameters:
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Workflow\\DocumentWorkflow\:\:can\(\)\.$#'
 			identifier: method.notFound
 			count: 9
-			path: Classes/Security/DocumentVoter.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
 			path: Classes/Security/DocumentVoter.php
 
 		-
@@ -1267,12 +1045,6 @@ parameters:
 			path: Classes/Services/Api/JsonToDocumentMapper.php
 
 		-
-			message: '#^Variable \$metaDataGroup in PHPDoc tag @var does not match assigned variable \$metadataGroup\.$#'
-			identifier: varTag.differentVariable
-			count: 1
-			path: Classes/Services/Api/JsonToDocumentMapper.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentRepository\:\:findByTemporary\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1283,6 +1055,12 @@ parameters:
 			identifier: parameter.notFound
 			count: 1
 			path: Classes/Services/Document/DocumentCleaner.php
+
+		-
+			message: '#^Argument of an invalid type EWW\\Dpf\\Domain\\Model\\Bookmark supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: Classes/Services/Document/DocumentManager.php
 
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\BookmarkRepository\:\:findByDocumentIdentifier\(\)\.$#'
@@ -1305,12 +1083,6 @@ parameters:
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
-			count: 1
-			path: Classes/Services/Document/DocumentManager.php
-
-		-
-			message: '#^Variable \$bookmark in PHPDoc tag @var does not match assigned variable \$bookmarks\.$#'
-			identifier: varTag.differentVariable
 			count: 1
 			path: Classes/Services/Document/DocumentManager.php
 
@@ -1345,12 +1117,6 @@ parameters:
 			path: Classes/Services/Document/EditingLockService.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/ElasticSearch/ElasticSearch.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -1378,24 +1144,6 @@ parameters:
 			message: '#^Offset ''\#\#\#FILE_LIST\#\#\#'' does not exist on array\{''\#\#\#CLIENT\#\#\#''\: mixed, ''\#\#\#PROCESS_NUMBER\#\#\#''\: string, ''\#\#\#DOCUMENT_IDENTIFIER\#\#\#''\: string, ''\#\#\#DOCUMENT_TYPE\#\#\#''\: mixed, ''\#\#\#TITLE\#\#\#''\: string, ''\#\#\#AUTHOR\#\#\#''\: mixed, ''\#\#\#SUBMITTER_NAME\#\#\#''\: string, ''\#\#\#SUBMITTER_EMAIL\#\#\#''\: string, \.\.\.\}\.$#'
 			identifier: offsetAccess.notFound
 			count: 1
-			path: Classes/Services/Email/Notifier.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(bool\|\[\] true if the message was sent successfully, false if nothing was sent, or array with error with infos\.\)\: Unexpected token "\[", expected type at offset 202 on line 8$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/Email/Notifier.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$client \\EWW\\Dpf\\Domain\\Model\\Client\)\: Unexpected token "\$client", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 2
-			path: Classes/Services/Email/Notifier.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 12
 			path: Classes/Services/Email/Notifier.php
 
 		-
@@ -1435,12 +1183,6 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/AbstractImporter.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/AbstractImporter.php
-
-		-
 			message: '#^Parameter \#1 \$creator of method EWW\\Dpf\\Services\\Api\\InternalFormat\:\:setCreator\(\) expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1455,12 +1197,6 @@ parameters:
 		-
 			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\BibTexFileImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
 			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
-
-		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
 
@@ -1483,12 +1219,6 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/CrossRefImporter.php
 
 		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/CrossRefImporter.php
-
-		-
 			message: '#^Call to method getDataciteTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
 			identifier: class.notFound
 			count: 1
@@ -1497,12 +1227,6 @@ parameters:
 		-
 			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\DataCiteImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
 			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/DataCiteImporter.php
-
-		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/DataCiteImporter.php
 
@@ -1525,12 +1249,6 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/K10plusImporter.php
 
 		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/K10plusImporter.php
-
-		-
 			message: '#^Call to method getPubmedTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
 			identifier: class.notFound
 			count: 1
@@ -1545,12 +1263,6 @@ parameters:
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/PubMedImporter.php
-
-		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/PubMedImporter.php
 
@@ -1573,38 +1285,14 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
 
 		-
-			message: '#^Variable \$xsltTransformationFile in PHPDoc tag @var does not exist\.$#'
-			identifier: varTag.variableNotFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
-
-		-
 			message: '#^Method EWW\\Dpf\\Services\\Logger\\Logger\:\:writeLog\(\) should return TYPO3\\CMS\\Core\\Log\\Writer\\WriterInterface but returns true\.$#'
 			identifier: return.type
 			count: 1
 			path: Classes/Services/Logger/Logger.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 83 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/Logger/TransferLogger.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: Classes/Services/Storage/DocumentStorage.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$document Document\)\: Unexpected token "\$document", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/Storage/DocumentStorage.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: Classes/Services/Storage/DocumentStorage.php
 
@@ -1633,12 +1321,6 @@ parameters:
 			path: Classes/Services/Storage/Fedora/FedoraTransaction.php
 
 		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger \\TYPO3\\CMS\\Core\\Log\\Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: Classes/Services/Storage/Fedora/FedoraTransaction.php
-
-		-
 			message: '#^Call to function is_a\(\) with TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage and ''TYPO3\\\\CMS\\\\Extbase\\\\Persistence\\\\ObjectStorage'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -1649,12 +1331,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: Classes/Services/Suggestion/GroupChange.php
-
-		-
-			message: '#^PHPDoc tag @var has invalid value \(\$logger Logger\)\: Unexpected token "\$logger", expected type at offset 9 on line 1$#'
-			identifier: phpDoc.parseError
-			count: 2
-			path: Classes/Services/Transformer/XSLTransformator.php
 
 		-
 			message: '#^Undefined variable\: \$documentTypeName$#'
@@ -1799,7 +1475,6 @@ parameters:
 			identifier: return.missing
 			count: 1
 			path: Classes/ViewHelpers/Suggestion/FindFieldChangeViewHelper.php
-
 
 		-
 			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\) does not accept float\.$#'

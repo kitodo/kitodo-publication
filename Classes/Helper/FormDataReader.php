@@ -104,21 +104,18 @@ class FormDataReader
     /**
      * documentType
      *
-     * @var
      */
     protected $documentType;
 
     /**
      * uploadPath
      *
-     * @var
      */
     protected $uploadPath;
 
     /**
      * basePath
      *
-     * @var
      */
     protected $uploadBaseUrl;
 

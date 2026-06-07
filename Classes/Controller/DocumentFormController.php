@@ -120,7 +120,7 @@ class DocumentFormController extends AbstractDocumentFormController
     {
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /* @var $updateDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $updateDocument */
         $updateDocument = $documentMapper->getDocument($documentForm);
 
         // xml data fields are limited

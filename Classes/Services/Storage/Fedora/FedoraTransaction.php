@@ -51,7 +51,6 @@ class FedoraTransaction
 
     public function __construct()
     {
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 

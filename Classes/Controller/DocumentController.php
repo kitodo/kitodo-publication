@@ -202,7 +202,7 @@ class DocumentController extends AbstractController
         $linkedUid = $document->getLinkedUid();
         $newDocumentForm = $documentMapper->getDocumentForm($document);
 
-        /** @var Document $doc */
+        /** @var Document $originDocument */
         $originDocument = $this->documentManager->read($linkedUid);
 
         if (!$originDocument instanceof Document) {
@@ -249,8 +249,6 @@ class DocumentController extends AbstractController
         if ($acceptMode === 'ACCEPT_ALL' || $acceptMode === 'ACCEPT_SELECTION') {
 
             $linkedDocumentForm->applyChanges($documentChanges);
-
-            /** @var \EWW\Dpf\Domain\Model\Document $updateDocument */
             $originDocument = $documentMapper->getDocument($linkedDocumentForm);
 
             if ($originDocument->getRemoteState() != DocumentWorkflow::REMOTE_STATE_NONE) {
@@ -346,7 +344,7 @@ class DocumentController extends AbstractController
 
         $linkedUid = $document->getLinkedUid();
 
-        /** @var Document $doc */
+        /** @var Document $linkedDocument */
         $linkedDocument = $this->documentManager->read($linkedUid);
 
         $newDocumentForm = $documentMapper->getDocumentForm($document);
@@ -651,7 +649,7 @@ class DocumentController extends AbstractController
             return FALSE;
         }
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $newDocument */
         $newDocument = $this->objectManager->get(Document::class);
 
         $newDocument->setState(DocumentWorkflow::STATE_NEW_NONE);
@@ -680,7 +678,7 @@ class DocumentController extends AbstractController
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /** @var $documentForm \EWW\Dpf\Domain\Model\DocumentForm */
+        /** @var \EWW\Dpf\Domain\Model\DocumentForm $newDocumentForm */
         $newDocumentForm = $documentMapper->getDocumentForm($newDocument);
 
         $this->forward(
@@ -883,7 +881,7 @@ class DocumentController extends AbstractController
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
 
-        /* @var $newDocument \EWW\Dpf\Domain\Model\Document */
+        /* @var \EWW\Dpf\Domain\Model\Document $newDocument */
         $documentForm = $documentMapper->getDocumentForm($document);
 
         $this->view->assign('suggestMod', true);

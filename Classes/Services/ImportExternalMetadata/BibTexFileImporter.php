@@ -198,7 +198,6 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
         /** @var \EWW\Dpf\Domain\Model\Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        /** @var \EWW\Dpf\Domain\Model\TransformationFile $xsltTransformationFile */
         return $client->getBibTexTransformation()->current();
     }
 

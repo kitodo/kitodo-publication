@@ -112,7 +112,7 @@ class AbstractIndexCommand extends Command
 
             $state = $internalFormat->getRepositoryState();
 
-            /* @var $document \EWW\Dpf\Domain\Model\Document */
+            /* @var \EWW\Dpf\Domain\Model\Document $document */
             $document = $this->objectManager->get(Document::class);
 
             switch ($state) {

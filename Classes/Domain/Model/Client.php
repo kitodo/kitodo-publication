@@ -929,7 +929,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fedoraHost
      *
-     * @var string $fedoraHost
+     * @param string $fedoraHost
      * @return void
      */
     public function setFedoraHost($fedoraHost)
@@ -950,7 +950,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fedoraUser
      *
-     * @var string $fedoraUser
+     * @param string $fedoraUser
      * @return void
      */
     public function setFedoraUser($fedoraUser)
@@ -971,7 +971,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the fedoraPassword
      *
-     * @var string $fedoraPassword
+     * @param string $fedoraPassword
      * @return void
      */
     public function setFedoraPassword($fedoraPassword)
@@ -1040,7 +1040,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the elasticSearchHost
      *
-     * @var string $elasticSearchHost
+     * @param string $elasticSearchHost
      * @return void
      */
     public function setElasticSearchHost($elasticSearchHost)
@@ -1061,7 +1061,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the elasticSearchPort
      *
-     * @var string $elasticSearchPort
+     * @param string $elasticSearchPort
      * @return void
      */
     public function setElasticSearchPort($elasticSearchPort)
@@ -1098,7 +1098,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the uploadDirectory
      *
-     * @var string $uploadDirectory
+     * @param string $uploadDirectory
      * @return void
      */
     public function setUploadDirectory($uploadDirectory)
@@ -1119,7 +1119,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the uploadDomain
      *
-     * @var string $uploadDomain
+     * @param string $uploadDomain
      * @return void
      */
     public function setUploadDomain($uploadDomain)
@@ -1141,7 +1141,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the submitterReleaseNotificationSubject
      *
-     * @var string $submitterReleaseNotificationSubject
+     * @param string $submitterReleaseNotificationSubject
      * @return void
      */
     public function setSubmitterReleaseNotificationSubject($submitterReleaseNotificationSubject)
@@ -1162,7 +1162,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the submitterReleaseNotificationBody
      *
-     * @var string $submitterReleaseNotificationBody
+     * @param string $submitterReleaseNotificationBody
      * @return void
      */
     public function setSubmitterReleaseNotificationBody($submitterReleaseNotificationBody)
@@ -1183,7 +1183,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the submitterRegisterDocumentNotificationSubject
      *
-     * @var string $submitterRegisterDocumentNotificationSubject
+     * @param string $submitterRegisterDocumentNotificationSubject
      * @return void
      */
     public function setSubmitterRegisterDocumentNotificationSubject($submitterRegisterDocumentNotificationSubject)
@@ -1204,7 +1204,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the submitterRegisterDocumentNotificationBody
      *
-     * @var string $submitterRegisterDocumentNotificationBody
+     * @param string $submitterRegisterDocumentNotificationBody
      * @return void
      */
     public function setSubmitterRegisterDocumentNotificationBody($submitterRegisterDocumentNotificationBody)
@@ -1225,7 +1225,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the adminNewDocumentNotificationSubject
      *
-     * @var string $adminNewDocumentNotificationSubject
+     * @param string $adminNewDocumentNotificationSubject
      * @return void
      */
     public function setAdminNewDocumentNotificationSubject($adminNewDocumentNotificationSubject)
@@ -1246,7 +1246,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the adminNewDocumentNotificationBody
      *
-     * @var string $adminNewDocumentNotificationBody
+     * @param string $adminNewDocumentNotificationBody
      * @return void
      */
     public function setAdminNewDocumentNotificationBody($adminNewDocumentNotificationBody)
@@ -1267,7 +1267,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the adminRegisterDocumentNotificationSubject
      *
-     * @var string $adminRegisterDocumentNotificationSubject
+     * @param string $adminRegisterDocumentNotificationSubject
      * @return void
      */
     public function setAdminRegisterDocumentNotificationSubject($adminRegisterDocumentNotificationSubject)
@@ -1288,7 +1288,7 @@ class Client extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the adminRegisterDocumentNotificationBody
      *
-     * @var string $adminRegisterDocumentNotificationBody
+     * @param string $adminRegisterDocumentNotificationBody
      * @return void
      */
     public function setAdminRegisterDocumentNotificationBody($adminRegisterDocumentNotificationBody)

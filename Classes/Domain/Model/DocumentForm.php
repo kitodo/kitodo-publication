@@ -198,7 +198,6 @@ class DocumentForm extends AbstractFormElement
 
     /**
      *
-     * @param string
      */
     public function getFedoraPid()
     {

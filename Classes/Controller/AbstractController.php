@@ -81,7 +81,6 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
 
     public function __construct()
     {
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -134,7 +133,6 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      *
      * @param string $key
      *
-     * @return
      */
     public function getSessionData($key)
     {

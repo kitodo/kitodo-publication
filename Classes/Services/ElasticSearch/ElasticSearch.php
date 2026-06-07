@@ -452,7 +452,6 @@ class ElasticSearch
 
             $this->client->delete($params);
         } catch (Exception $e) {
-            /** @var $logger \TYPO3\CMS\Core\Log\Logger */
             $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
             $logger->warning(
                 'Document could not be deleted from the index.',

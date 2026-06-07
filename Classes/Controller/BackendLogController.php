@@ -167,7 +167,7 @@ class BackendLogController extends ActionController
             return [];
         }
 
-        /** @var Client $t */
+        /** @var Client $allClients */
         $allClients = $this->clientRepository->crossClientFindAll(false)->toArray();
         if (empty($allClients)) {
             return [];

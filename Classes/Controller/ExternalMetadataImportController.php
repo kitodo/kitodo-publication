@@ -432,7 +432,6 @@ class ExternalMetadataImportController extends AbstractController
         }
 
         // Check if the document already exists in kitodo.
-        /** @var array $existingDocument */
         if ($existingDocument = $this->findDocumentInKitodo($identifier)) {
 
             $this->bookmarkRepository->addBookmark(

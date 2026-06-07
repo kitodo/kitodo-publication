@@ -13,6 +13,8 @@
         <exclude name="StaticAccess"/>
         <!-- too opinionated for existing codebase -->
         <exclude name="ElseExpression"/>
+        <!-- FQCNs resolved at runtime via autoloader; use statements are cosmetic only -->
+        <exclude name="MissingImport"/>
     </rule>
 
     <rule ref="rulesets/codesize.xml/CyclomaticComplexity">

@@ -26,7 +26,7 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function crossClientFindAll($returnRawQueryResult = TRUE) {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
         $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
@@ -36,7 +36,7 @@ class AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     public function crossClient($active = false)
     {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
         $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
         $querySettings->setRespectStoragePage(!$active);
         $this->setDefaultQuerySettings($querySettings);

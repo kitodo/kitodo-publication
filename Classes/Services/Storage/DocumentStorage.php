@@ -104,7 +104,6 @@ class DocumentStorage
 
     public function __construct()
     {
-        /** @var $logger \TYPO3\CMS\Core\Log\Logger */
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -428,7 +427,7 @@ class DocumentStorage
                 // TODO: repository state is no longer inside metsxml
                 //  => $state = $internalFormat->getRepositoryState();
 
-                /** @var $document Document */
+                /** @var Document $document */
                 $document = $this->objectManager->get(Document::class);
 
                 switch (strtoupper($state)) {
