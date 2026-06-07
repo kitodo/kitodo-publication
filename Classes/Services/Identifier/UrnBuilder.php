@@ -35,7 +35,7 @@ class UrnBuilder
 
     /**
      * Use standard URN parts given to build an URN generator applicable to document identifiers.
-     * A complete URN might look like "urn:nbn:de:bsz:14-qucosa-87650" having the component parts set to:
+     * A complete URN might look like "urn:nbn:de:bsz:14-qucosa-87654" having the component parts set to:
      *
      * $snid1    = bsz
      * $snid2    = 14
@@ -116,14 +116,14 @@ class UrnBuilder
 
         // calculate product sum
         for ($ii = 1; $ii <= $nbn_numbers_length; $ii++) {
-            $sum = ($sum + ($nbn_numbers_array[$ii] * $ii));
+            $sum = ($sum + ((int)$nbn_numbers_array[$ii] * $ii));
         }
 
         // identify last digit
         $last_digit = $nbn_numbers_array[$nbn_numbers_length];
 
         // calculate quotient, round down
-        $quotient = floor($sum / $last_digit);
+        $quotient = floor($sum / (int)$last_digit);
 
         // convert to string
         $quotient = (string) $quotient;
