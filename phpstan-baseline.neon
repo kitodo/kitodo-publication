@@ -801,14 +801,9 @@ parameters:
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\EditingLockRepository\:\:findOneByDocumentIdentifier\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 2
 			path: Classes/Services/Document/EditingLockService.php
 
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\EditingLockRepository\:\:findOneByDocumentIdentifyer\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Services/Document/EditingLockService.php
 
 		-
 			message: '#^If condition is always true\.$#'
@@ -841,70 +836,10 @@ parameters:
 			path: Classes/Services/Email/Notifier.php
 
 		-
-			message: '#^Binary operation "\*" between string and int\<1, max\> results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: Classes/Services/Identifier/UrnBuilder.php
-
-		-
-			message: '#^Binary operation "/" between \(float\|int\) and string results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: Classes/Services/Identifier/UrnBuilder.php
-
-		-
-			message: '#^Call to method getBibtexTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\BibTexFileImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/BibTexFileImporter.php
-
-		-
-			message: '#^Call to method getCrossrefTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/CrossRefImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\CrossRefImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/CrossRefImporter.php
-
-		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/CrossRefImporter.php
-
-		-
-			message: '#^Call to method getDataciteTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/DataCiteImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\DataCiteImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/DataCiteImporter.php
-
-		-
-			message: '#^Call to method getK10plusTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/K10plusImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\K10plusImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/K10plusImporter.php
 
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
@@ -913,38 +848,14 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/K10plusImporter.php
 
 		-
-			message: '#^Call to method getPubmedTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/PubMedImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\PubMedImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/PubMedImporter.php
-
-		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/PubMedImporter.php
-
-		-
-			message: '#^Call to method getRiswosTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
 
 		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
-
-		-
-			message: '#^Parameter \$documentType of method EWW\\Dpf\\Services\\ImportExternalMetadata\\RisWosFileImporter\:\:getXsltTransformationByDocumentType\(\) has invalid type EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
-			identifier: class.notFound
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
 

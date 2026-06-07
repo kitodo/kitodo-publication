@@ -66,7 +66,7 @@ class EditingLockService
     public function unlock($documentIdentifier)
     {
         /** @var \EWW\Dpf\Domain\Model\EditingLock $editingLock */
-        $editingLock = $this->editingLockRepository->findOneByDocumentIdentifyer($documentIdentifier);
+        $editingLock = $this->editingLockRepository->findOneByDocumentIdentifier($documentIdentifier);
         $this->editingLockRepository->remove($editingLock);
         $this->persistenceManager->persistAll();
     }
