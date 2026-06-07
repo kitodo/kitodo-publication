@@ -132,7 +132,7 @@ class UrnBuilder
         $check_digit = ($quotient[mb_strlen($quotient) - 1]);
 
         // return check digit
-        return $check_digit;
+        return (int) $check_digit;
     }
 
     /**
@@ -164,7 +164,7 @@ class UrnBuilder
         $nbn_numbers = preg_replace($search_pattern, $replacements, $nbn);
 
         // replace placeholder '_' with 41
-        $nbn_numbers = preg_replace('/_/', 41, $nbn_numbers);
+        $nbn_numbers = preg_replace('/_/', '41', $nbn_numbers);
 
         return $nbn_numbers;
     }

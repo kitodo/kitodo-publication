@@ -28,7 +28,7 @@ class FindFieldChangeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstra
     }
 
     /**
-     * @return bool
+     * @return void
      */
     public function render()
     {

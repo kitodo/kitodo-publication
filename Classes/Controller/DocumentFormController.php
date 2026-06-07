@@ -151,7 +151,7 @@ class DocumentFormController extends AbstractDocumentFormController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_register.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('summary', 'DocumentForm', null, ['document' => $document]);
-            return false;
+            return;
         }
 
         $workflow = $this->objectManager->get(DocumentWorkflow::class)->getWorkflow();

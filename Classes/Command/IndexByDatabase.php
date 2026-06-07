@@ -16,6 +16,7 @@ namespace EWW\Dpf\Command;
 
 use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -98,7 +99,7 @@ class IndexByDatabase extends AbstractIndexCommand
 
             $io->writeln('Documents successfully indexed: '.$numSuccess);
             $io->writeln('Documents failed to index: '.$numFailures);
-            return true;
+            return Command::SUCCESS;
         } else {
             $error = "Unknown client '" . $clientUid ."'";
         }
@@ -107,6 +108,6 @@ class IndexByDatabase extends AbstractIndexCommand
         $io->writeln($error);
         $io->writeln('');
 
-        return false;
+        return Command::FAILURE;
     }
 }

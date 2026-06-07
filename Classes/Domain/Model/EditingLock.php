@@ -40,7 +40,7 @@ class EditingLock extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets the document identifier
      *
-     * @return int
+     * @return string|int
      */
     public function getDocumentIdentifier()
     {
@@ -50,7 +50,7 @@ class EditingLock extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the document identifier
      *
-     * @param int $documentIdentifier
+     * @param string|int $documentIdentifier
      */
     public function setDocumentIdentifier($documentIdentifier)
     {

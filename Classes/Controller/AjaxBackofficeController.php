@@ -221,7 +221,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
      * Loads a stored extended search query.
      *
      * @param int $id
-     * @return bool
+     * @return string|bool
      */
     public function loadExtendedSearchAction($id)
     {
@@ -574,7 +574,7 @@ class AjaxBackofficeController extends \EWW\Dpf\Controller\AbstractController
     public function generateApiTokenAction($feUser) {
         $currentUser = $this->security->getUser();
         if ($currentUser->getUid() === $feUser) {
-            $string = md5(substr(md5(time()), 0, 14)).date("Y-m-dH:i:s");
+            $string = md5(substr(md5((string)time()), 0, 14)).date("Y-m-dH:i:s");
             $hash = hash('sha256', $string);
 
             if ($currentUser->getUserRole() == Security::ROLE_LIBRARIAN) {

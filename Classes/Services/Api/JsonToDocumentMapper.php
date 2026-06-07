@@ -148,7 +148,7 @@ class JsonToDocumentMapper
      * Creates a document from the given json data
      *
      * @param string $jsonData
-     * @return Document $document
+     * @return Document|null
      * @throws InvalidJson
      * @throws \JsonPath\InvalidJsonException
      */

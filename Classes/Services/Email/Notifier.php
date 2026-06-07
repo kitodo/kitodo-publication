@@ -847,7 +847,7 @@ class Notifier
      * Resend a failed message
      *
      * @param Message $message
-     * @return bool|int true if the message was sent successfully, false if failed, or error type (curl or http).
+     * @return bool|array true if the message was sent successfully, false if failed, or array with error info.
      * @throws ActiveMessageException
      * @throws ConnectionErrorException
      */

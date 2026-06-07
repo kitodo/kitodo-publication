@@ -13,14 +13,14 @@ parameters:
 			path: Classes/Command/AbstractIndexCommand.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Command\\IndexByDatabase\:\:execute\(\) should return int but returns false\.$#'
-			identifier: return.type
+			message: '#^Access to undefined constant Symfony\\Component\\Console\\Command\\Command\:\:FAILURE\.$#'
+			identifier: classConstant.notFound
 			count: 1
 			path: Classes/Command/IndexByDatabase.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Command\\IndexByDatabase\:\:execute\(\) should return int but returns true\.$#'
-			identifier: return.type
+			message: '#^Access to undefined constant Symfony\\Component\\Console\\Command\\Command\:\:SUCCESS\.$#'
+			identifier: classConstant.notFound
 			count: 1
 			path: Classes/Command/IndexByDatabase.php
 
@@ -61,12 +61,6 @@ parameters:
 			path: Classes/Controller/AbstractController.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Controller\\AbstractController\:\:filterSafelyParameters\(\) should return string but returns array\<string\>\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Controller/AbstractController.php
-
-		-
 			message: '#^Parameter \#1 \$array_arg of function end is passed by reference, so it expects variables only\.$#'
 			identifier: argument.byRef
 			count: 1
@@ -103,20 +97,8 @@ parameters:
 			path: Classes/Controller/AjaxBackofficeController.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Controller\\AjaxBackofficeController\:\:loadExtendedSearchAction\(\) should return bool but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Controller/AjaxBackofficeController.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$searchTerm$#'
 			identifier: parameter.notFound
-			count: 1
-			path: Classes/Controller/AjaxBackofficeController.php
-
-		-
-			message: '#^Parameter \#1 \$str of function md5 expects string, int\<1, max\> given\.$#'
-			identifier: argument.type
 			count: 1
 			path: Classes/Controller/AjaxBackofficeController.php
 
@@ -129,12 +111,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setInputOptions\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/AjaxDocumentFormController.php
-
-		-
-			message: '#^Parameter \#1 \$fieldId of method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setGndFieldUid\(\) expects int, string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: Classes/Controller/AjaxDocumentFormController.php
 
@@ -229,48 +205,6 @@ parameters:
 			path: Classes/Controller/DocumentController.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:changeDocumentTypeAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 2
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:deleteLocallyAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 2
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:discardAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:postponeAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:releaseActivateAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:releasePublishAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentController\:\:suggestRestoreAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
 			message: '#^Method EWW\\Dpf\\Services\\Document\\DocumentManager\:\:read\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -295,18 +229,6 @@ parameters:
 			path: Classes/Controller/DocumentFormBackofficeController.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentFormBackofficeController\:\:createAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentFormBackofficeController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentFormBackofficeController\:\:editAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
-			count: 1
-			path: Classes/Controller/DocumentFormBackofficeController.php
-
-		-
 			message: '#^PHPDoc tag @param has invalid value \(int activeGroupIndex\)\: Unexpected token "activeGroupIndex", expected variable at offset 175 on line 7$#'
 			identifier: phpDoc.parseError
 			count: 1
@@ -327,12 +249,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseLogRepository\:\:findOneByProcessNumber\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/DocumentFormController.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Controller\\DocumentFormController\:\:registerAction\(\) with return type void returns false but should not return anything\.$#'
-			identifier: return.void
 			count: 1
 			path: Classes/Controller/DocumentFormController.php
 
@@ -381,12 +297,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @var with type EWW\\Dpf\\Services\\ImportExternalMetadata\\Importer is not subtype of native type null\.$#'
 			identifier: varTag.nativeType
-			count: 1
-			path: Classes/Controller/ExternalMetadataImportController.php
-
-		-
-			message: '#^Parameter \#1 \$str of function md5 expects string, int given\.$#'
-			identifier: argument.type
 			count: 1
 			path: Classes/Controller/ExternalMetadataImportController.php
 
@@ -541,18 +451,6 @@ parameters:
 			path: Classes/Domain/Model/Document.php
 
 		-
-			message: '#^Property EWW\\Dpf\\Domain\\Model\\Document\:\:\$embargoDate \(DateTime\) does not accept int\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Domain/Model/Document.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\DocumentForm\:\:getFileByFileIdentifier\(\) should return EWW\\Dpf\\Domain\\Model\\File but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/DocumentForm.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$csrfToken$#'
 			identifier: parameter.notFound
 			count: 1
@@ -625,76 +523,10 @@ parameters:
 			path: Classes/Domain/Model/InputOptionList.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:getChildren\(\) should return iterable\<EWW\\Dpf\\Domain\\Model\\MetadataObject\>&TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/MetadataObject.php
-
-		-
 			message: '#^Property EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:\$depositLicense \(int\) does not accept default value of type string\.$#'
 			identifier: property.defaultValue
 			count: 1
 			path: Classes/Domain/Model/MetadataObject.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should return string but returns int\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should return string but returns int\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Parameter \#1 \$pid \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:setPid\(\) should be compatible with parameter \$pid \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:setPid\(\)$#'
-			identifier: method.childParameterType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Parameter \#1 \$pid \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:setPid\(\) should be compatible with parameter \$pid \(int\|null\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:setPid\(\)$#'
-			identifier: method.childParameterType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Property EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:\$pid \(int\) does not accept string\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Property EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:\$uid \(int\) does not accept string\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:getPid\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getPid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:getPid\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\AbstractDomainObject\:\:getUid\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
-
-		-
-			message: '#^Return type \(string\) of method EWW\\Dpf\\Domain\\Model\\SysLanguage\:\:getUid\(\) should be compatible with return type \(int\) of method TYPO3\\CMS\\Extbase\\DomainObject\\DomainObjectInterface\:\:getUid\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: Classes/Domain/Model/SysLanguage.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$pid$#'
@@ -763,18 +595,6 @@ parameters:
 			path: Classes/Domain/Repository/ExternalMetadataRepository.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Repository/ProcessNumberRepository.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Domain\\Repository\\ProcessNumberRepository\:\:getHighestProcessNumberByOwnerIdAndYear\(\) should return array but returns object\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Domain/Repository/ProcessNumberRepository.php
-
-		-
 			message: '#^Offset ''from'' on array\{from\: array\{''DISCARDED\:NONE''\}\|array\{''NEW\:NONE''\}\|array\{''NONE\:NONE''\}, to\: ''NEW\:NONE''\|''NONE\:NONE''\|''REGISTERED\:NONE''\}\|array\{from\: array\{''IN_PROGRESS\:ACTIVE'', ''IN_PROGRESS\:INACTIVE'', ''IN_PROGRESS\:DELETED'', ''NONE\:ACTIVE'', ''NONE\:INACTIVE'', ''NONE\:DELETED''\}\|array\{''IN_PROGRESS\:ACTIVE'', ''IN_PROGRESS\:INACTIVE'', ''IN_PROGRESS\:DELETED''\}\|array\{''REGISTERED\:NONE'', ''IN_PROGRESS\:NONE'', ''DISCARDED\:NONE'', ''POSTPONED\:NONE''\}, to\: ''NONE\:ACTIVE''\|array\{''NONE\:ACTIVE'', ''NONE\:INACTIVE'', ''NONE\:DELETED'', ''NONE\:ACTIVE'', ''NONE\:INACTIVE'', ''NONE\:DELETED''\}\|array\{''NONE\:ACTIVE'', ''NONE\:INACTIVE'', ''NONE\:DELETED''\}\}\|array\{from\: array\{''REGISTERED\:NONE'', ''IN_PROGRESS\:NONE'', ''DISCARDED\:NONE'', ''IN_PROGRESS\:ACTIVE'', ''IN_PROGRESS\:DELETED'', ''IN_PROGRESS\:INACTIVE'', ''NONE\:ACTIVE'', ''NONE\:DELETED'', \.\.\.\}, to\: array\{''POSTPONED\:NONE'', ''POSTPONED\:NONE'', ''POSTPONED\:NONE'', ''NONE\:INACTIVE'', ''NONE\:INACTIVE'', ''NONE\:INACTIVE'', ''NONE\:INACTIVE'', ''NONE\:INACTIVE'', \.\.\.\}\}\|array\{from\: array\{''REGISTERED\:NONE'', ''IN_PROGRESS\:NONE'', ''POSTPONED\:NONE'', ''IN_PROGRESS\:ACTIVE'', ''IN_PROGRESS\:INACTIVE'', ''IN_PROGRESS\:DELETED'', ''NONE\:ACTIVE'', ''NONE\:INACTIVE'', \.\.\.\}, to\: array\{''DISCARDED\:NONE'', ''DISCARDED\:NONE'', ''DISCARDED\:NONE'', ''NONE\:DELETED'', ''NONE\:DELETED'', ''NONE\:DELETED'', ''NONE\:DELETED'', ''NONE\:DELETED'', \.\.\.\}\}\|array\{from\: array\{''REGISTERED\:NONE'', ''NONE\:ACTIVE'', ''NONE\:INACTIVE'', ''NONE\:DELETED''\}, to\: array\{''IN_PROGRESS\:NONE'', ''IN_PROGRESS\:ACTIVE'', ''IN_PROGRESS\:INACTIVE'', ''IN_PROGRESS\:DELETED''\}\} in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.offset
 			count: 1
@@ -793,18 +613,6 @@ parameters:
 			path: Classes/Domain/Workflow/DocumentWorkflow.php
 
 		-
-			message: '#^Parameter \#2 \$class_name of function simplexml_load_string expects string, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Helper/DataCiteXml.php
-
-		-
-			message: '#^Parameter \#3 \$options of function simplexml_load_string expects int, null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Helper/DataCiteXml.php
-
-		-
 			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
 			identifier: method.notFound
 			count: 3
@@ -821,24 +629,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^Parameter \#1 \$fieldId of method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setGndFieldUid\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 2
-			path: Classes/Helper/DocumentMapper.php
-
-		-
-			message: '#^Parameter \#1 \$fieldId of method EWW\\Dpf\\Domain\\Model\\DocumentFormField\:\:setGndFieldUid\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Helper/FormDataReader.php
-
-		-
-			message: '#^Parameter \#1 \$prefix of function uniqid expects string, int\<1, max\> given\.$#'
-			identifier: argument.type
-			count: 4
-			path: Classes/Helper/FormDataReader.php
 
 		-
 			message: '#^Property Kitodo\\Dlf\\Common\\AbstractPlugin\:\:\$doc \(Kitodo\\Dlf\\Common\\Document\) does not accept null\.$#'
@@ -943,12 +733,6 @@ parameters:
 			path: Classes/Services/Api/JsonToDocumentMapper.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Services\\Api\\JsonToDocumentMapper\:\:getDocument\(\) should return EWW\\Dpf\\Domain\\Model\\Document but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Services/Api/JsonToDocumentMapper.php
-
-		-
 			message: '#^Parameter \#1 \$json of function json_decode expects string, array\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1027,12 +811,6 @@ parameters:
 			path: Classes/Services/Document/EditingLockService.php
 
 		-
-			message: '#^Parameter \#1 \$documentIdentifier of method EWW\\Dpf\\Domain\\Model\\EditingLock\:\:setDocumentIdentifier\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Services/Document/EditingLockService.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -1048,12 +826,6 @@ parameters:
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByUid\(\)\.$#'
 			identifier: method.notFound
 			count: 10
-			path: Classes/Services/Email/Notifier.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Services\\Email\\Notifier\:\:retryActiveMessage\(\) should return bool\|int but returns array\<string, int\|string\>\.$#'
-			identifier: return.type
-			count: 1
 			path: Classes/Services/Email/Notifier.php
 
 		-
@@ -1079,30 +851,6 @@ parameters:
 			identifier: binaryOp.invalid
 			count: 1
 			path: Classes/Services/Identifier/UrnBuilder.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Services\\Identifier\\UrnBuilder\:\:getCheckDigit\(\) should return int but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Services/Identifier/UrnBuilder.php
-
-		-
-			message: '#^Parameter \#2 \$replace of function preg_replace expects array\<float\|int\|string\>\|string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Services/Identifier/UrnBuilder.php
-
-		-
-			message: '#^Method EWW\\Dpf\\Services\\ImportExternalMetadata\\AbstractImporter\:\:import\(\) should return EWW\\Dpf\\Domain\\Model\\Document but returns null\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/AbstractImporter.php
-
-		-
-			message: '#^Parameter \#1 \$creator of method EWW\\Dpf\\Services\\Api\\InternalFormat\:\:setCreator\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/Services/ImportExternalMetadata/AbstractImporter.php
 
 		-
 			message: '#^Call to method getBibtexTransformation\(\) on an unknown class EWW\\Dpf\\Services\\ImportExternalMetadata\\DocumentType\.$#'
@@ -1201,21 +949,9 @@ parameters:
 			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
 
 		-
-			message: '#^Method EWW\\Dpf\\Services\\Logger\\Logger\:\:writeLog\(\) should return TYPO3\\CMS\\Core\\Log\\Writer\\WriterInterface but returns true\.$#'
-			identifier: return.type
-			count: 1
-			path: Classes/Services/Logger/Logger.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: Classes/Services/Storage/DocumentStorage.php
-
-		-
-			message: '#^Parameter \#1 \$creator of method EWW\\Dpf\\Services\\Api\\InternalFormat\:\:setCreator\(\) expects string, int given\.$#'
-			identifier: argument.type
-			count: 2
 			path: Classes/Services/Storage/DocumentStorage.php
 
 		-
@@ -1279,12 +1015,6 @@ parameters:
 			path: Classes/ViewHelpers/FileUrlViewHelper.php
 
 		-
-			message: '#^Parameter \#1 \$timestamp of method DateTime\:\:setTimestamp\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Classes/ViewHelpers/Format/MicrotimeViewHelper.php
-
-		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseRepository\:\:findOneByUri\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1331,12 +1061,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: Classes/ViewHelpers/ShowDocumentTypeViewHelper.php
-
-		-
-			message: '#^Method EWW\\Dpf\\ViewHelpers\\Suggestion\\FindFieldChangeViewHelper\:\:render\(\) should return bool but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: Classes/ViewHelpers/Suggestion/FindFieldChangeViewHelper.php
 
 		-
 			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\|null\) does not accept float\.$#'

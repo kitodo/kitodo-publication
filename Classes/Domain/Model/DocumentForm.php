@@ -220,7 +220,7 @@ class DocumentForm extends AbstractFormElement
 
     /**
      * @param string $fileIdentifier
-     * @return File
+     * @return File|null
      */
     public function getFileByFileIdentifier(string $fileIdentifier)
     {

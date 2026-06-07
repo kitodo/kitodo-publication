@@ -864,7 +864,7 @@ class ExternalMetadataImportController extends AbstractController
 
         $uploadFileUrl = new \EWW\Dpf\Helper\UploadFileUrl;
         $uploadFilePath = Environment::getPublicPath() . "/" . $uploadFileUrl->getDirectory() .
-            "/importFile.".md5($this->security->getUser()->getUid());
+            "/importFile.".md5((string)$this->security->getUser()->getUid());
 
         if ($uploadFile['error'] === UPLOAD_ERR_OK) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($uploadFile['tmp_name'], $uploadFilePath);

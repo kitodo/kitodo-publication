@@ -274,7 +274,7 @@ class DocumentFormField extends AbstractFormElement
      * Sets the uid of the field which is
      * linked with the gnd field
      *
-     * @param int $fieldId
+     * @param string|int $fieldId
      * @return void
      */
     public function setGndFieldUid($fieldId)

@@ -35,7 +35,7 @@ class MicrotimeViewHelper extends AbstractViewHelper
         $microseconds = sprintf("%06d", ($microtime - $seconds) * 1000000);
 
         $dateTime = new \DateTime();
-        $dateTime->setTimestamp($seconds);
+        $dateTime->setTimestamp((int)$seconds);
         return $dateTime->format(str_replace('u', $microseconds, $format));
     }
 }

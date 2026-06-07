@@ -134,7 +134,7 @@ class DocumentStorage
                 $document->setDateIssued($dateIssued);
             }
 
-            $internalFormat->setCreator($document->getCreator());
+            $internalFormat->setCreator((string)$document->getCreator());
             $internalFormat->setCreationDate($document->getCreationDate());
 
             $fileId = new FileId($document->getFile());
@@ -273,7 +273,7 @@ class DocumentStorage
             $containerTuple->setValue('kp:state', $state);
             $this->fedoraTransaction->updateResourceTuple($transactionUri, $containerTuple, $containerId);
 
-            $internalFormat->setCreator($document->getCreator());
+            $internalFormat->setCreator((string)$document->getCreator());
             $internalFormat->setCreationDate($document->getCreationDate());
 
             // Update files / attachments.

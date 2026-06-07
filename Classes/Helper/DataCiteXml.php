@@ -28,7 +28,7 @@ class DataCiteXml
     public static function convertFromMetsXml($metsXml)
     {
 
-        $metsXml = simplexml_load_string($metsXml, NULL, NULL, "http://www.w3.org/2001/XMLSchema-instance");
+        $metsXml = simplexml_load_string($metsXml, 'SimpleXMLElement', 0, "http://www.w3.org/2001/XMLSchema-instance");
         $metsXml->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
         $metsXml->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 

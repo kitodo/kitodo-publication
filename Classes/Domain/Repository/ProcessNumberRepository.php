@@ -36,7 +36,7 @@ class ProcessNumberRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * for the current year
      *
      * @param string $ownerId
-     * @return array The found ProcessNumber Object
+     * @return \EWW\Dpf\Domain\Model\ProcessNumber|null
      */
     public function getHighestProcessNumberByOwnerIdAndYear($ownerId,$year)
     {

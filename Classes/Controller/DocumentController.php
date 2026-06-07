@@ -418,7 +418,7 @@ class DocumentController extends AbstractController
             }
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_DISCARD, $reason);
@@ -449,7 +449,7 @@ class DocumentController extends AbstractController
             }
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         $this->updateDocument($document, DocumentWorkflow::TRANSITION_POSTPONE, $reason);
@@ -478,7 +478,7 @@ class DocumentController extends AbstractController
             }
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
 
@@ -503,7 +503,7 @@ class DocumentController extends AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_update.failure';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
     }
 
@@ -559,14 +559,14 @@ class DocumentController extends AbstractController
             }
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         if ($tstamp !== $document->getTstamp()) {
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_deleteLocally.failureNewVersion';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         // remove document
@@ -704,7 +704,7 @@ class DocumentController extends AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_ingest.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         if (!$this->documentValidator->validate($document)) {
@@ -737,7 +737,7 @@ class DocumentController extends AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_activate.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         if (!$this->documentValidator->validate($document)) {
@@ -864,7 +864,7 @@ class DocumentController extends AbstractController
             $key = 'LLL:EXT:dpf/Resources/Private/Language/locallang.xlf:document_suggestRestore.accessDenied';
             $this->flashMessage($document, $key, AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         $this->view->assign('document', $document);

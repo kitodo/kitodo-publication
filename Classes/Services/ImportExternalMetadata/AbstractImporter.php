@@ -109,7 +109,7 @@ abstract class AbstractImporter
     /**
      * @param ExternalMetadata $metadata
      * @param DocumentType $documentType
-     * @return Document
+     * @return Document|null
      * @throws \EWW\Dpf\Exceptions\DocumentMaxSizeErrorException
      */
     public function import($metadata, $documentType = null)
@@ -200,7 +200,7 @@ abstract class AbstractImporter
         }
 
         $internalFormat->setDocumentType($documentType->getName());
-        $internalFormat->setCreator($this->security->getUser()->getUid());
+        $internalFormat->setCreator((string)$this->security->getUser()->getUid());
         $internalFormat->setProcessNumber($newDocument->getProcessNumber());
         $newDocument->setXmlData($internalFormat->getXml());
 

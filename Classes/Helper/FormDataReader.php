@@ -210,7 +210,7 @@ class FormDataReader
             $file = $this->objectManager->get(File::class);
         }
 
-        $fileName = uniqid(time(), true);
+        $fileName = uniqid((string)time(), true);
 
         # get remote mimetype
         $ch = curl_init($fileUrl);
@@ -236,7 +236,7 @@ class FormDataReader
         $file->setLink($fileUrl);
         $file->setValidationResults(new FileValidationResults());
         $file->setPrimaryFile($primary);
-        $file->setFileIdentifier(uniqid(time(), true));
+        $file->setFileIdentifier(uniqid((string)time(), true));
 
         if ($primary) {
             if ($file->getDatastreamIdentifier()) {
@@ -259,7 +259,7 @@ class FormDataReader
             $file = $this->objectManager->get(File::class);
         }
 
-        $fileName = uniqid(time(), true);
+        $fileName = uniqid((string)time(), true);
 
         \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
 
@@ -279,7 +279,7 @@ class FormDataReader
         $file->setLink($fileName);
         $file->setValidationResults(new FileValidationResults());
         $file->setPrimaryFile($primary);
-        $file->setFileIdentifier(uniqid(time(), true));
+        $file->setFileIdentifier(uniqid((string)time(), true));
 
         if ($primary) {
             if ($file->getDatastreamIdentifier()) {

@@ -55,7 +55,7 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the uid
      *
-     * @return string $uid
+     * @return int $uid
      */
     public function getUid()
     {
@@ -65,7 +65,7 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the uid
      *
-     * @param string $uid
+     * @param int $uid
      */
     public function setUid($uid)
     {
@@ -75,7 +75,7 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the pid
      *
-     * @return string $pid
+     * @return int $pid
      */
     public function getPid()
     {
@@ -85,7 +85,7 @@ class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the pid
      *
-     * @param string $pid
+     * @param int $pid
      */
     public function setPid($pid)
     {

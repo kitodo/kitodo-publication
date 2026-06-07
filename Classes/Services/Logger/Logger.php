@@ -39,6 +39,6 @@ class Logger extends DatabaseWriter
             $fieldValues
         );
 
-        return true;
+        return $this;
     }
 }

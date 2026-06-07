@@ -134,7 +134,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
 
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('showDetails', 'Document', null, ['document' => $document]);
-            return FALSE;
+            return;
         }
 
         $this->view->assign('document', $document);
@@ -507,7 +507,7 @@ class DocumentFormBackofficeController extends AbstractDocumentFormController
             $message = LocalizationUtility::translate($key, 'dpf', []);
             $this->addFlashMessage($message, '', AbstractMessage::ERROR);
             $this->redirect('list', 'Document');
-            return FALSE;
+            return;
         }
 
         try {

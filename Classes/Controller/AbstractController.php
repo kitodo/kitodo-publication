@@ -169,7 +169,7 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
      *
      * @param mixed $param
      *
-     * @return string
+     * @return mixed
      */
     protected function filterSafelyParameters($param)
     {

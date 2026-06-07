@@ -177,7 +177,7 @@ class Document extends AbstractEntity
     /**
      * date
      *
-     * @var \DateTime
+     * @var \DateTime|int
      */
     protected $embargoDate = null;
 

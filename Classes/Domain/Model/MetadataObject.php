@@ -435,7 +435,7 @@ class MetadataObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity impl
     /**
      * Returns always NULL because an Object never has children.
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\EWW\Dpf\Domain\Model\MetadataObject> $metadataObject
+     * @return null
      */
     public function getChildren()
     {
