@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Command/AbstractIndexCommand.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/AbstractIndexCommand.php" method="createDocument"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Command/AbstractIndexCommand.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/IndexByFile.php" method="execute"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Command/IndexByFile.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Configuration/ClientConfigurationManager.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/AbstractController.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/AbstractController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/AbstractController.php" method="initializeAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/AbstractController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\ExitExpression" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/AbstractDocumentFormController.php" method="createAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/AbstractDocumentFormController.php" method="createAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/AjaxBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/AjaxBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/AjaxBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/AjaxBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/AjaxBackofficeController.php" method="getApiMappingArray"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/AjaxBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/AjaxDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/AjaxDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/ApiController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/ApiController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/ApiController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/ApiController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ApiController.php" method="createAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ApiController.php" method="suggestionAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/ApiController.php" method="suggestionAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Controller/ApiController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ApiController.php" method="importBibtexWithoutSavingAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ApiController.php" method="importRisWithoutSavingAction"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/BackendAdminController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/BackendAdminController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Controller/BackendAdminController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/BackendLogController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/BackendLogController.php" method="listAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/BackendLogController.php" method="listAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/BackendLogController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Controller/DataServiceAjaxController.php" method="autocompleteAction"/>
+  <violation rule="PHPMD\Rule\Design\LongClass" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/DocumentController.php" method="acceptSuggestionAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/DocumentController.php" method="acceptSuggestionAction"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Controller/DocumentController.php" method="acceptSuggestionAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/DocumentController.php" method="deleteLocallyAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/DocumentController.php" method="deleteLocallyAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/DocumentController.php" method="updateDocument"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/DocumentFormBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/DocumentFormBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Controller/DocumentFormBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/DocumentFormBackofficeController.php" method="createSuggestionDocumentAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/DocumentFormBackofficeController.php" method="updateDocumentAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/DocumentFormBackofficeController.php" method="updateDocumentAction"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Controller/DocumentFormBackofficeController.php" method="updateDocumentAction"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/DocumentFormBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/DocumentFormBackofficeController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/DocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/DocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/DocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/ExternalMetadataImportController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/ExternalMetadataImportController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/ExternalMetadataImportController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ExternalMetadataImportController.php" method="retrieveAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/ExternalMetadataImportController.php" method="retrieveAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Controller/ExternalMetadataImportController.php" method="retrieveAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/ExternalMetadataImportController.php" method="uploadImportFileAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Controller/ExternalMetadataImportController.php" method="uploadImportFileAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/ExternalMetadataImportController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/SearchController.php" method="list"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/SearchController.php" method="list"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/UserController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/WorkspaceController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/WorkspaceController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/WorkspaceController.php" method="list"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/WorkspaceController.php" method="list"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/WorkspaceController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/WorkspaceController.php" method="batchRegisterAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/WorkspaceController.php" method="batchReleaseAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/WorkspaceController.php" method="batchReleaseAction"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Controller/WorkspaceController.php" method="batchReleaseAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Controller/WorkspaceController.php"/>
+  <violation rule="PHPMD\Rule\Design\LongClass" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\Design\LongClass" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/DocumentForm.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Domain/Model/DocumentForm.php" method="diff"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Domain/Model/DocumentForm.php" method="diff"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Domain/Model/DocumentForm.php" method="diff"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Domain/Model/DocumentForm.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Domain/Model/DocumentForm.php" method="applyChanges"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/DocumentFormField.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/DocumentFormField.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/DocumentFormField.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Domain/Model/DocumentFormField.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Domain/Model/DocumentFormField.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Domain/Model/DocumentFormGroup.php" method="applyFieldChange"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Domain/Model/DocumentFormPage.php" method="applyGroupChange"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/DocumentType.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/DocumentType.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Domain/Model/ExternalMetadata.php" method="getDataXpath"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/ExternalMetadata.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/File.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/FrontendUser.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/InputOptionList.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/MetadataGroup.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/MetadataGroup.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/MetadataGroup.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/MetadataObject.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/MetadataObject.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/MetadataObject.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Model/MetadataPage.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Domain/Repository/AbstractRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Domain/Repository/BookmarkRepository.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Domain/Repository/DocumentRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Domain/Repository/DocumentRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Repository/DocumentRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Domain/Repository/DocumentRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Domain/Repository/EditingLockRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Domain/Repository/FrontendUserRepository.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Domain/Repository/LogRepository.php" method="findByFilters"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Domain/Repository/LogRepository.php" method="findByFilters"/>
+  <violation rule="PHPMD\Rule\Design\LongParameterList" file="Classes/Domain/Repository/LogRepository.php" method="findByFilters"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DataCiteXml.php" method="convertFromMetsXml"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/DataCiteXml.php" method="convertFromMetsXml"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/DataCiteXml.php" method="convertFromMetsXml"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Helper/DataCiteXml.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentMapper.php" method="getMetadata"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/DocumentMapper.php" method="getMetadata"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/DocumentMapper.php" method="getMetadata"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentMapper.php" method="updateFiles"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentValidator.php" method="hasAllMandatoryFieldValues"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentValidator.php" method="hasAllMandatoryGroupValues"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Helper/DocumentValidator.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/FormDataReader.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/FormDataReader.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/FormDataReader.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/MetadataItemId.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Helper/MetadataItemId.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Plugins/Coins/Coins.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Plugins/DownloadTool/DownloadTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/DownloadTool/DownloadTool.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/MetaTags/MetaTags.php" method="printMetaTags"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/MetaTags/MetaTags.php" method="printMetaTags"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/MetaTags/MetaTags.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/RelatedListTool/RelatedListTool.php" method="main"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Plugins/RelatedListTool/RelatedListTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/RelatedListTool/RelatedListTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedPrivateMethod" file="Classes/Plugins/RelatedListTool/RelatedListTool.php" method="compareByOrderVolumeTitle"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Security/AuthorizationChecker.php"/>
+  <violation rule="PHPMD\Rule\Design\ExitExpression" file="Classes/Security/AuthorizationChecker.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Security/DocumentVoter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Security/DocumentVoter.php" method="voteOnAttribute"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Security/DocumentVoter.php" method="voteOnAttribute"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Security/DocumentVoter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Security/Voter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Api/DocumentToJsonMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/DocumentToJsonMapper.php" method="crawl"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Api/DocumentToJsonMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\LongClass" file="Classes/Services/Api/InternalFormat.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Services/Api/InternalFormat.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Api/InternalFormat.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Api/InternalFormat.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/InternalFormat.php" method="getFiles"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Services/Api/InternalFormat.php" method="getSearchYear"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/InternalFormat.php" method="getPersons"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Api/InternalFormat.php" method="getPersons"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/InternalFormat.php" method="getProjects"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/InternalFormat.php" method="getPeerReviewForSearch"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Api/InternalFormat.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="editDocument"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="getMetadataFromJson"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="getMetadataFromJson"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Api/JsonToDocumentMapper.php" method="getMetadataFromJson"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="checkMetadata"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="checkMetadata"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="addDocumentFormGroup"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="findLastGroupIndex"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Services/Api/JsonToDocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="updateDocumentFormGroup"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Api/JsonToDocumentMapper.php" method="updateDocumentFormGroup"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Document/DocumentManager.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Document/DocumentManager.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Document/DocumentManager.php" method="update"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Document/DocumentManager.php" method="update"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Document/DocumentManager.php" method="update"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Services/Document/DocumentManager.php" method="update"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Document/DocumentManager.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Document/DocumentManager.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Document/DocumentManager.php" method="getUpdateNotificationRecipients"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Document/DocumentManager.php" method="getUpdateNotificationRecipients"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Document/DocumentManager.php" method="getUpdateNotificationRecipients"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/ElasticSearch/ElasticSearch.php"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="initializeIndex"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/ElasticSearch/ElasticSearch.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/ElasticSearch/QueryBuilder.php"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildQuery"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildFilterQueryPart"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildFilterQueryPart"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/ElasticSearch/QueryBuilder.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildSortQueryPart"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Email/Notifier.php" method="sendActiveMessage"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/FeUser/AbstractDataService.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/FeUser/UnpaywallDataService.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Identifier/Identifier.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Identifier/Urn.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/ImportExternalMetadata/AbstractImporter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/ImportExternalMetadata/AbstractImporter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/BibTexFileImporter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/BibTexFileImporter.php" method="loadFile"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/CrossRefImporter.php" method="search"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/ImportExternalMetadata/CrossRefImporter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/FileImporter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/ImportExternalMetadata/K10plusImporter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php" method="search"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php" method="search"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php" method="search"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php" method="findByIdentifierList"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Services/ImportExternalMetadata/PubMedImporter.php" method="findByIdentifierList"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/PublicationIdentifier.php" method="determineIdentifierType"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="readFile"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/RisReader.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="parseFile"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="risRecordToXML"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php" method="loadFile"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Logger/Logger.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Logger/TransferLogger.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/ProcessNumber/ProcessNumberGenerator.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Storage/DocumentStorage.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/DocumentStorage.php" method="ingest"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/DocumentStorage.php" method="ingest"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/DocumentStorage.php" method="update"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Storage/DocumentStorage.php" method="update"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/DocumentStorage.php" method="update"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Storage/DocumentStorage.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/DocumentStorage.php" method="retrieve"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/DocumentStorage.php" method="retrieve"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Storage/DocumentStorage.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Storage/Fedora/FedoraTransaction.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="createBinary"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="createBinary"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="updateContent"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="updateContent"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="updateResourceTuple"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/Fedora/FedoraTransaction.php" method="updateResourceTuple"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Suggestion/FieldChange.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Suggestion/GroupChange.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Transformer/DocumentTransformer.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Services/Transformer/XSLTransformator.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Transformer/XSLTransformator.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/Transformer/XSLTransformator.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Xml/ParserGenerator.php" method="buildXmlFromForm"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Xml/ParserGenerator.php" method="buildXmlFromForm"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Xml/ParserGenerator.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Xml/ParserGenerator.php" method="customXPath"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Xml/ParserGenerator.php" method="customXPath"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Xml/ParserGenerator.php" method="customXPath"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Xml/ParserGenerator.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Xml/XMLFragmentGenerator.php" method="generate"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Xml/XPath.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/Tasks/EmbargoTask.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/ViewHelpers/FileUrlViewHelper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="Classes/ViewHelpers/Format/MicrotimeViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/IsElementAllowedViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/Link/PreviewViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Link/PreviewViewHelper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/ViewHelpers/Link/PreviewViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/ShowStatusViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Suggestion/FindFieldChangeViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Widget/Controller/PaginateController.php"/>
+</phpmd-baseline>
