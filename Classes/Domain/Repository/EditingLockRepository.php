@@ -16,6 +16,10 @@ namespace EWW\Dpf\Domain\Repository;
 
 /**
  * The repository for editing lock objects
+ *
+ * @method \EWW\Dpf\Domain\Model\EditingLock|null findOneByDocumentIdentifier(string $documentIdentifier)
+ * @method \TYPO3\CMS\Extbase\Persistence\QueryResultInterface findByDocumentIdentifier(string $documentIdentifier)
+ * @method \TYPO3\CMS\Extbase\Persistence\QueryResultInterface findByEditorUid(int $editorUid)
  */
 class EditingLockRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {

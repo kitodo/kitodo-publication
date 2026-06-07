@@ -21,6 +21,9 @@ use EWW\Dpf\Services\Identifier\Identifier;
 
 /**
  * The repository for Documents
+ *
+ * @method \TYPO3\CMS\Extbase\Persistence\QueryResultInterface findByLinkedUid(string $linkedUid)
+ * @method \EWW\Dpf\Domain\Model\Document|null findOneByLinkedUid(string $linkedUid)
  */
 class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
@@ -73,10 +76,10 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         if (count($constraints)) {
             $constraints[] = $query->logicalAnd(
                 $query->logicalNot(
-                    $query->logicalOr(
+                    $query->logicalOr([
                         $query->equals('temporary', true),
-                        $query->equals('suggestion', true)
-                    )
+                        $query->equals('suggestion', true),
+                    ])
                 )
             );
             $query->matching($query->logicalAnd($constraints));
@@ -110,10 +113,10 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 
         if (count($constraints)) {
             $query->matching(
-                $query->logicalAnd(
+                $query->logicalAnd([
                     $query->equals('temporary', false),
-                    $query->logicalOr($constraints)
-                )
+                    $query->logicalOr($constraints),
+                ])
             );
         }
 
@@ -137,10 +140,10 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
 
         $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->equals('temporary', true),
-                $query->logicalOr($constraints)
-            )
+                $query->logicalOr($constraints),
+            ])
         );
 
         return $query->execute();
@@ -163,10 +166,10 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $constraints[] = $query->lessThan('tstamp', $dateTimeObj->getTimestamp());
 
         $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->logicalNot($query->equals('editor_uid', 0)),
-                $query->logicalOr($constraints)
-            )
+                $query->logicalOr($constraints),
+            ])
         );
 
         return $query->execute();
@@ -192,17 +195,17 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             ];
         } elseif (Identifier::isProcessNumber($identifier)) {
             $constraints = [
-                $query->logicalAnd(
+                $query->logicalAnd([
                     $query->equals('process_number', $identifier),
-                    $query->equals('suggestion', false)
-                )
+                    $query->equals('suggestion', false),
+                ])
             ];
         } else {
             $constraints = [
-                $query->logicalAnd(
+                $query->logicalAnd([
                     $query->equals('object_identifier', $identifier),
-                    $query->equals('suggestion', false)
-                )
+                    $query->equals('suggestion', false),
+                ])
             ];
         }
 
@@ -285,22 +288,22 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         $constraints[] =
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->like('uid', $identifier),
-                $query->equals('suggestion', false)
-            );
+                $query->equals('suggestion', false),
+            ]);
 
         $constraints[] =
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->like('object_identifier', $identifier),
-                $query->equals('suggestion', false)
-            );
+                $query->equals('suggestion', false),
+            ]);
 
         $constraints[] =
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->like('process_number', $identifier),
-                $query->equals('suggestion', false)
-            );
+                $query->equals('suggestion', false),
+            ]);
 
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
         $query->matching($query->logicalOr($constraints));

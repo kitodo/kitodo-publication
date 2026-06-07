@@ -1,6 +1,10 @@
 <?php
 namespace EWW\Dpf\Domain\Repository;
 
+/**
+ * @method \TYPO3\CMS\Extbase\Domain\Model\FrontendUser|null findOneByApiToken(string $apiToken)
+ * @method \TYPO3\CMS\Extbase\Domain\Model\FrontendUser|null findOneByUid(int $uid)
+ */
 class FrontendUserRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
 {
     /**

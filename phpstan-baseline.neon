@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Command/AbstractIndexCommand.php
-
-		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
 			identifier: deadCode.unreachable
 			count: 1
@@ -67,12 +61,6 @@ parameters:
 			path: Classes/Controller/AbstractController.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseLogRepository\:\:findOneByProcessNumber\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/AbstractDocumentFormController.php
-
-		-
 			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Mvc\\Request\:\:getRequestUri\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -89,12 +77,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: Classes/Controller/AbstractDocumentFormController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\ExternalMetadataRepository\:\:findOneByPublicationIdentifier\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/AjaxBackofficeController.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$searchTerm$#'
@@ -117,18 +99,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property EWW\\Dpf\\Controller\\ApiController\:\:\$tokenUserId\.$#'
 			identifier: property.notFound
-			count: 1
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentRepository\:\:findOneByLinkedUid\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/ApiController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\FrontendUserRepository\:\:findOneByApiToken\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: Classes/Controller/ApiController.php
 
@@ -157,12 +127,6 @@ parameters:
 			path: Classes/Controller/BackendAdminController.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findByPid\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/BackendAdminController.php
-
-		-
 			message: '#^Class EWW\\Dpf\\Services\\ElasticSearch\\ElasticSearch constructor invoked with 1 parameter, 0 required\.$#'
 			identifier: arguments.count
 			count: 2
@@ -179,24 +143,6 @@ parameters:
 			identifier: foreach.nonIterable
 			count: 1
 			path: Classes/Controller/BackendLogController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentRepository\:\:findByLinkedUid\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\FrontendUserRepository\:\:findOneByUid\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/DocumentController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\InputOptionListRepository\:\:findOneByName\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: Classes/Controller/DocumentController.php
 
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Workflow\\DocumentWorkflow\:\:apply\(\)\.$#'
@@ -223,12 +169,6 @@ parameters:
 			path: Classes/Controller/DocumentController.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseLogRepository\:\:findOneByProcessNumber\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: Classes/Controller/DocumentFormBackofficeController.php
-
-		-
 			message: '#^PHPDoc tag @param has invalid value \(int activeGroupIndex\)\: Unexpected token "activeGroupIndex", expected variable at offset 175 on line 7$#'
 			identifier: phpDoc.parseError
 			count: 1
@@ -245,12 +185,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: Classes/Controller/DocumentFormBackofficeController.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DepositLicenseLogRepository\:\:findOneByProcessNumber\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Controller/DocumentFormController.php
 
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\BookmarkRepository\:\:findByFeUserUid\(\)\.$#'
@@ -547,18 +481,6 @@ parameters:
 			path: Classes/Domain/Repository/BookmarkRepository.php
 
 		-
-			message: '#^Method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:logicalAnd\(\) invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: Classes/Domain/Repository/BookmarkRepository.php
-
-		-
-			message: '#^Method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:logicalOr\(\) invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 2
-			path: Classes/Domain/Repository/BookmarkRepository.php
-
-		-
 			message: '#^PHPDoc tag @var above foreach loop does not specify variable name\.$#'
 			identifier: varTag.noVariable
 			count: 1
@@ -567,18 +489,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:statement\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: Classes/Domain/Repository/DocumentRepository.php
-
-		-
-			message: '#^Method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:logicalAnd\(\) invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 8
-			path: Classes/Domain/Repository/DocumentRepository.php
-
-		-
-			message: '#^Method TYPO3\\CMS\\Extbase\\Persistence\\QueryInterface\:\:logicalOr\(\) invoked with 2 parameters, 1 required\.$#'
-			identifier: arguments.count
 			count: 1
 			path: Classes/Domain/Repository/DocumentRepository.php
 
@@ -691,8 +601,8 @@ parameters:
 			path: Classes/Security/DocumentVoter.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\FrontendUserRepository\:\:findOneByApiToken\(\)\.$#'
-			identifier: method.notFound
+			message: '#^Method EWW\\Dpf\\Security\\Security\:\:getUser\(\) should return EWW\\Dpf\\Domain\\Model\\FrontendUser\|null but returns TYPO3\\CMS\\Extbase\\Domain\\Model\\FrontendUser\|null\.$#'
+			identifier: return.type
 			count: 1
 			path: Classes/Security/Security.php
 
@@ -723,12 +633,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property EWW\\Dpf\\Domain\\Model\\MetadataObject\:\:\$mappping\.$#'
 			identifier: property.notFound
-			count: 1
-			path: Classes/Services/Api/JsonToDocumentMapper.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
-			identifier: method.notFound
 			count: 1
 			path: Classes/Services/Api/JsonToDocumentMapper.php
 
@@ -787,25 +691,6 @@ parameters:
 			path: Classes/Services/Document/DocumentManager.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\EditingLockRepository\:\:findByDocumentIdentifier\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Services/Document/EditingLockService.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\EditingLockRepository\:\:findByEditorUid\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: Classes/Services/Document/EditingLockService.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\EditingLockRepository\:\:findOneByDocumentIdentifier\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: Classes/Services/Document/EditingLockService.php
-
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -818,15 +703,15 @@ parameters:
 			path: Classes/Services/Email/Notifier.php
 
 		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByUid\(\)\.$#'
-			identifier: method.notFound
-			count: 10
-			path: Classes/Services/Email/Notifier.php
-
-		-
 			message: '#^Offset ''\#\#\#FILE_LIST\#\#\#'' does not exist on array\{''\#\#\#CLIENT\#\#\#''\: mixed, ''\#\#\#PROCESS_NUMBER\#\#\#''\: string, ''\#\#\#DOCUMENT_IDENTIFIER\#\#\#''\: string, ''\#\#\#DOCUMENT_TYPE\#\#\#''\: mixed, ''\#\#\#TITLE\#\#\#''\: string, ''\#\#\#AUTHOR\#\#\#''\: mixed, ''\#\#\#SUBMITTER_NAME\#\#\#''\: string, ''\#\#\#SUBMITTER_EMAIL\#\#\#''\: string, \.\.\.\}\.$#'
 			identifier: offsetAccess.notFound
 			count: 1
+			path: Classes/Services/Email/Notifier.php
+
+		-
+			message: '#^Parameter \#1 \$uid of method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByUid\(\) expects int, EWW\\Dpf\\Domain\\Model\\DocumentType given\.$#'
+			identifier: argument.type
+			count: 10
 			path: Classes/Services/Email/Notifier.php
 
 		-
@@ -858,12 +743,6 @@ parameters:
 			identifier: booleanNot.alwaysFalse
 			count: 1
 			path: Classes/Services/ImportExternalMetadata/RisWosFileImporter.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/Services/Storage/DocumentStorage.php
 
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'
@@ -966,12 +845,6 @@ parameters:
 			identifier: parameter.notFound
 			count: 1
 			path: Classes/ViewHelpers/Link/PreviewViewHelper.php
-
-		-
-			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Repository\\DocumentTypeRepository\:\:findOneByName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Classes/ViewHelpers/ShowDocumentTypeViewHelper.php
 
 		-
 			message: '#^Property EWW\\Dpf\\ViewHelpers\\Widget\\Controller\\PaginateController\:\:\$displayRangeEnd \(int\|null\) does not accept float\.$#'

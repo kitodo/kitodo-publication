@@ -16,6 +16,8 @@ namespace EWW\Dpf\Domain\Repository;
 
 /**
  * The repository for DepositLicenseLog
+ *
+ * @method \EWW\Dpf\Domain\Model\DepositLicenseLog|null findOneByProcessNumber(string $processNumber)
  */
 class DepositLicenseLogRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {

@@ -18,6 +18,10 @@ use EWW\Dpf\Domain\Model\DocumentType;
 
 /**
  * The repository for DocumentTypes
+ *
+ * @method \TYPO3\CMS\Extbase\Persistence\QueryResultInterface findByPid(int $pid)
+ * @method \EWW\Dpf\Domain\Model\DocumentType|null findOneByName(string $name)
+ * @method \EWW\Dpf\Domain\Model\DocumentType|null findOneByUid(int $uid)
  */
 class DocumentTypeRepository extends AbstractRepository
 {

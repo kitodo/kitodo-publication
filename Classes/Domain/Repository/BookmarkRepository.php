@@ -32,10 +32,10 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query = $this->createQuery();
 
         $query->matching(
-            $query->logicalAnd(
+            $query->logicalAnd([
                 $query->equals('document_identifier', $identifier),
-                $query->equals('fe_user_uid', $feUserUid)
-            )
+                $query->equals('fe_user_uid', $feUserUid),
+            ])
         );
 
         return $query->execute()->getFirst();
@@ -55,10 +55,10 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
             // A document can be identified (documentIdentifier) by its Fedora PID or the document UID in case it hasn't been
             // published (that means it exits only locally in the TYPO3  db).
             // In order to find a bookmark that belongs to a document, it is essential to search for both identifiers.
-            $constraintsAnd[] = $query->logicalOr(
+            $constraintsAnd[] = $query->logicalOr([
                 $query->equals('document_identifier', $document->getObjectIdentifier()),
-                $query->equals('document_identifier', $document->getUid())
-            );
+                $query->equals('document_identifier', $document->getUid()),
+            ]);
         } else {
             // In case $document already contains a plain identifier the above distinction is not necessary.
             $constraintsAnd[] = $query->equals('document_identifier', $document);
@@ -117,10 +117,10 @@ class BookmarkRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
     {
         $query = $this->createQuery();
 
-        $constraintsAnd[] = $query->logicalOr(
+        $constraintsAnd[] = $query->logicalOr([
             $query->equals('document_identifier', $document->getObjectIdentifier()),
-            $query->equals('document_identifier', $document->getUid())
-        );
+            $query->equals('document_identifier', $document->getUid()),
+        ]);
 
         $query->matching($query->logicalAnd($constraintsAnd));
         return $query->execute();

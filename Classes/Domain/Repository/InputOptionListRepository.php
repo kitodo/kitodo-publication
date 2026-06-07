@@ -16,6 +16,8 @@ namespace EWW\Dpf\Domain\Repository;
 
 /**
  * The repository for InputOptionLists
+ *
+ * @method \EWW\Dpf\Domain\Model\InputOptionList|null findOneByName(string $name)
  */
 class InputOptionListRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {

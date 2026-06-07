@@ -16,6 +16,8 @@ namespace EWW\Dpf\Domain\Repository;
 
 /**
  * The repository for to be imported external metadata
+ *
+ * @method \EWW\Dpf\Domain\Model\ExternalMetadata|null findOneByPublicationIdentifier(string $publicationIdentifier)
  */
 class ExternalMetadataRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
