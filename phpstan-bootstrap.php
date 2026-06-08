@@ -5,5 +5,7 @@ if (!defined('TYPO3_MODE')) {
     define('TYPO3_MODE', 'BE'); // Backend mode
 }
 
-// Load TYPO3's autoload file
-require_once __DIR__ . '/vendor/autoload.php';
+// In DDEV the full TYPO3 installation provides autoload; skip to avoid double-registration
+if (!getenv('IS_DDEV_PROJECT')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}

@@ -1,0 +1,8 @@
+#!/bin/bash
+#ddev-silent-no-warn
+
+## Description: Run PHPMD mess detection
+## Usage: mess
+
+cd /var/www/kitodo-publication
+/var/www/html/vendor/bin/phpmd Classes/ text phpmd.xml --baseline-file phpmd.baseline.xml $@

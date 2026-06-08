@@ -1,4 +1,4 @@
-version: "3.6"
+#ddev-silent-no-warn
 services:
     web:
         environment:
@@ -14,6 +14,7 @@ services:
             - TYPO3_INSTALL_SITE_NAME=EXT:dpf Dev Environment
             - TYPO3_INSTALL_SITE_SETUP_TYPE=site
             - TYPO3_INSTALL_WEB_SERVER_CONFIG=apache
+            - COMPOSER_NO_AUDIT=1
         volumes:
             - type: bind
               source: ../

@@ -64,6 +64,11 @@
             "EWW\\Dpf\\": "Classes/"
         }
     },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit Tests/Unit/",
+        "analyse": "@php vendor/bin/phpstan analyse --no-progress",
+        "mess": "@php vendor/bin/phpmd Classes/ text phpmd.xml --baseline-file phpmd.baseline.xml"
+    },
     "extra": {
         "typo3/cms": {
             "extension-key": "dpf"

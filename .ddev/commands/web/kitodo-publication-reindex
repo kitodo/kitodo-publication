@@ -1,4 +1,5 @@
 #!/bin/bash
+#ddev-silent-no-warn
 
 ## Description: Rebuild Kitodo.Publication Index
 ## Usage: kitodo-publication-reindex [client-id (default 1)]

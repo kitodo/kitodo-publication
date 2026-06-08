@@ -1,23 +1,24 @@
-name: ddev-kitodo-publication-typo3-9
+name: kitodo-publication-dpf
 type: php
 docroot: public
-php_version: "7.2"
+php_version: "7.4"
 webserver_type: apache-fpm
-router_http_port: "80"
-router_https_port: "443"
 xdebug_enabled: false
+no_project_mount: true
 additional_hostnames: []
 additional_fqdns: []
-mariadb_version: "10.2"
-mysql_version: ""
-provider: default
+database:
+    type: mariadb
+    version: "10.6"
+performance_mode: none
+hooks:
+    post-import-db:
+        - exec: vendor/bin/typo3cms database:updateschema
+        - exec: vendor/bin/typo3cms cleanup:updatereferenceindex
+    pre-stop:
+        - exec: rm fcrepo-home/data/*.lock.db
+          service: fcrepo
 use_dns_when_possible: true
 composer_version: ""
-no_project_mount: true
-hooks:
-  post-import-db:
-    - exec: "vendor/bin/typo3cms database:updateschema"
-    - exec: "vendor/bin/typo3cms cleanup:updatereferenceindex"
-  pre-stop:
-    - exec: rm fcrepo-home/data/*.lock.db
-      service: fcrepo
+web_environment: []
+corepack_enable: false

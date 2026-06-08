@@ -1,0 +1,20 @@
+includes:
+    - /var/www/kitodo-publication/phpstan-baseline.neon
+
+parameters:
+    level: 5
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - /var/www/kitodo-publication/Classes
+    bootstrapFiles:
+        - /var/www/html/vendor/autoload.php
+        - /var/www/kitodo-publication/phpstan-bootstrap.php
+    excludePaths:
+        analyse:
+            - /var/www/kitodo-publication/Classes/Plugin
+            - /var/www/kitodo-publication/Classes/Common/AbstractPlugin.php
+            - /var/www/kitodo-publication/Classes/Common/DpfDocumentLoader.php
+            - /var/www/kitodo-publication/Classes/Plugins
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Variable .+ might not be defined#'

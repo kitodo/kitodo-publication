@@ -1,0 +1,7 @@
+#!/bin/bash
+#ddev-silent-no-warn
+
+## Description: Run PHPStan static analysis
+## Usage: analyse
+
+/var/www/html/vendor/bin/phpstan analyse --no-progress -c /var/www/kitodo-publication/.ddev/phpstan-ddev.neon $@

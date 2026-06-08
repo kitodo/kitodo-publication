@@ -1,4 +1,5 @@
 #!/bin/bash
+#ddev-silent-no-warn
 
 ## Description: Run unit tests inside web container
 ## Usage: test [options]

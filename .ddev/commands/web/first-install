@@ -1,9 +1,19 @@
 #!/bin/bash
+#ddev-silent-no-warn
 
 ## Description: Install TYPO3 and the Extension using typo3cms command
 ## Usage: first-install
 
-composer install
+composer install --no-security-blocking
+rm -f public/typo3conf/LocalConfiguration.php
+
+# dpf's standalone vendor/ conflicts with TYPO3's class alias loader when present.
+# Move it to container-local /tmp for the duration of the TYPO3 setup commands.
+if [ -d /var/www/kitodo-publication/vendor ]; then
+    cp -r /var/www/kitodo-publication/vendor /tmp/dpf-vendor-backup
+    rm -rf /var/www/kitodo-publication/vendor
+fi
+
 vendor/bin/typo3cms install:setup -n  --use-existing-database --database-name db
 vendor/bin/typo3cms configuration:set 'BE/debug' 1
 vendor/bin/typo3cms configuration:set 'FE/debug' 1
@@ -18,3 +28,7 @@ vendor/bin/typo3cms configuration:set 'GFX/processor_path' '/usr/bin/'
 vendor/bin/typo3cms configuration:set 'GFX/processor_path_lzw' '/usr/bin/'
 vendor/bin/typo3cms install:generatepackagestates
 vendor/bin/typo3cms cache:flush
+
+if [ -d /tmp/dpf-vendor-backup ]; then
+    mv /tmp/dpf-vendor-backup /var/www/kitodo-publication/vendor
+fi
