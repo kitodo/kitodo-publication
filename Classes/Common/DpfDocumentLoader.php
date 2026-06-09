@@ -14,13 +14,11 @@ namespace EWW\Dpf\Common;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Kitodo\Dlf\Common\Document;
-
 /**
  * Shared loadDocument() implementation for all DPF landing page plugins.
  *
  * Reads tx_dpf[qid] from piVars, constructs an authenticated GetFileController
- * METS URL, and populates $this->doc via DLF Document::getInstance().
+ * METS URL, and populates $this->doc via MetsDocument::getInstance().
  *
  * For BE-authenticated users, inactive documents are accessible via the
  * deliverInactive mechanism — the backoffice generates a short-lived HMAC token
@@ -61,16 +59,12 @@ trait DpfDocumentLoader
         ];
         $metsUrl = $this->cObj->typoLink_URL($conf);
 
-        $pid = (!empty($this->conf['excludeOther']) && !empty($this->conf['pages']))
-            ? intval($this->conf['pages'])
-            : 0;
+        $this->doc = MetsDocument::getInstance($metsUrl);
 
-        $this->doc = Document::getInstance($metsUrl, $pid);
-
-        if (!$this->doc->ready) {
+        if ($this->doc === null || !$this->doc->ready) {
             $this->doc = null;
         } else {
-            $this->doc->cPid = $this->conf['pages'];
+            $this->doc->cPid = (int) $this->conf['pages'];
         }
     }
 }

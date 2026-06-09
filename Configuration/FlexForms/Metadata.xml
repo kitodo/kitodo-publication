@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!--
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * dpf-owned FlexForm for the "DPF: Metadata" plugin. Field names match the
+ * former EXT:dlf/Configuration/Flexforms/Metadata.xml so existing
+ * tt_content pi_flexform values keep working; IIIF-only fields are dropped.
+-->
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>General</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <pages>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.startingpoint</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </pages>
+                    <excludeOther>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Exclude documents from other pages</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </excludeOther>
+                    <linkTitle>
+                        <TCEforms>
+                            <onChange>reload</onChange>
+                            <exclude>1</exclude>
+                            <label>Link title to landing page</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </linkTitle>
+                    <targetPid>
+                        <TCEforms>
+                            <displayCond>FIELD:linkTitle:REQ:true</displayCond>
+                            <exclude>1</exclude>
+                            <label>Target page for title link</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </targetPid>
+                    <getTitle>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Get title of parent document if empty</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </getTitle>
+                    <showFull>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Show all metadata fields (not only listed ones)</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </showFull>
+                    <rootline>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Show metadata of</label>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">current structure</numIndex>
+                                        <numIndex index="1">0</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">all structures up to the root</numIndex>
+                                        <numIndex index="1">1</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2" type="array">
+                                        <numIndex index="0">title data only</numIndex>
+                                        <numIndex index="1">2</numIndex>
+                                    </numIndex>
+                                </items>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </rootline>
+                    <separator>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Separator for multi-value fields</label>
+                            <config>
+                                <type>input</type>
+                                <eval>required,trim</eval>
+                                <default>#</default>
+                            </config>
+                        </TCEforms>
+                    </separator>
+                    <templateFile>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>Template file</label>
+                            <config>
+                                <type>input</type>
+                                <eval>trim</eval>
+                            </config>
+                        </TCEforms>
+                    </templateFile>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

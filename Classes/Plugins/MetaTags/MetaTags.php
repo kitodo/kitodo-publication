@@ -215,7 +215,7 @@ class MetaTags extends \EWW\Dpf\Common\AbstractPlugin
         if (is_array($files)) {
             foreach ($files as $key => $file) {
                 $singleFile = array();
-                foreach ($file->attributes('mext', 1) as $attribute => $value) {
+                foreach ($file->attributes('mext', true) as $attribute => $value) {
                     $singleFile[$attribute] = $value;
                 }
                 foreach ($file->attributes() as $attribute => $value) {

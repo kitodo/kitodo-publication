@@ -133,4 +133,4 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dpf_metadata
     'list_type',
     'dpf'
 );
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_metadata', 'FILE:EXT:dlf/Configuration/Flexforms/Metadata.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('dpf_metadata', 'FILE:EXT:dpf/Configuration/FlexForms/Metadata.xml');

@@ -107,7 +107,7 @@ class DownloadTool extends \EWW\Dpf\Common\AbstractPlugin
         }
         foreach ($files as $key => $file) {
             $singleFile = array();
-            foreach ($file->attributes('mext', 1) as $attribute => $value) {
+            foreach ($file->attributes('mext', true) as $attribute => $value) {
                 $singleFile[$attribute] = $value;
             }
             foreach ($file->attributes() as $attribute => $value) {
