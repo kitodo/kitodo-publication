@@ -19,16 +19,9 @@ plugin.tx_dpf.settings.api {
     zipDisseminationUri = {$plugin.tx_dpf.settings.api.zipDisseminationUri}
 }
 
-# Actions, only allowed for developers and configured hosts
-[IP=devIP][hostname={$plugin.tx_dpf.settings.api.allowedHosts}]
-    plugin.tx_dpf.settings.allowedActions {
-        1 = mets
-        2 = preview
-    }
-[end]
-
-# Actions which are always allowed
-plugin.tx_dpf.settings.allowedActions {
+plugin.tx_dpf_getfile.settings.allowedActions {
+    1 = mets
+    2 = preview
     3 = dataCite
     4 = attachment
     5 = zip
