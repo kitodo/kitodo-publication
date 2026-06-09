@@ -25,12 +25,6 @@ parameters:
 			path: Classes/Command/IndexByFile.php
 
 		-
-			message: '#^Property Kitodo\\Dlf\\Common\\AbstractPlugin\:\:\$doc \(Kitodo\\Dlf\\Common\\Document\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Common/AbstractPlugin.php
-
-		-
 			message: '#^Loose comparison using \=\= between ''BE'' and ''FE'' will always evaluate to false\.$#'
 			identifier: equal.alwaysFalse
 			count: 1
@@ -541,52 +535,10 @@ parameters:
 			path: Classes/Helper/DocumentMapper.php
 
 		-
-			message: '#^Property Kitodo\\Dlf\\Common\\AbstractPlugin\:\:\$doc \(Kitodo\\Dlf\\Common\\Document\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: Classes/Plugin/Metadata.php
-
-		-
-			message: '#^Constant SYSLOG_SEVERITY_WARNING not found\.$#'
-			identifier: constant.notFound
-			count: 1
-			path: Classes/Plugins/Coins/Coins.php
-
-		-
-			message: '#^Constant TYPO3_DLOG not found\.$#'
-			identifier: constant.notFound
-			count: 1
-			path: Classes/Plugins/Coins/Coins.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
 			path: Classes/Plugins/Coins/Coins.php
-
-		-
-			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
-			identifier: property.notFound
-			count: 3
-			path: Classes/Plugins/DownloadTool/DownloadTool.php
-
-		-
-			message: '#^Loose comparison using \!\= between 0\|0\.0\|''''\|''0''\|array\{\}\|false\|null and false will always evaluate to false\.$#'
-			identifier: notEqual.alwaysFalse
-			count: 1
-			path: Classes/Plugins/DownloadTool/DownloadTool.php
-
-		-
-			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
-			identifier: property.notFound
-			count: 1
-			path: Classes/Plugins/MetaTags/MetaTags.php
-
-		-
-			message: '#^Access to an undefined property Kitodo\\Dlf\\Common\\Document\:\:\$mets\.$#'
-			identifier: property.notFound
-			count: 1
-			path: Classes/Plugins/RelatedListTool/RelatedListTool.php
 
 		-
 			message: '#^Call to an undefined method EWW\\Dpf\\Domain\\Workflow\\DocumentWorkflow\:\:can\(\)\.$#'
