@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           xmlns:slub="http://slub-dresden.de/"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           OBJID="qucosa:12345">
+    <mets:dmdSec ID="DMD_TEI">
+        <mets:mdWrap MDTYPE="TEIHDR">
+            <mets:xmlData>
+                <unsupported>ignored</unsupported>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:titleInfo>
+                        <mods:title>Ein Testdokument</mods:title>
+                        <mods:subTitle>Untertitel</mods:subTitle>
+                    </mods:titleInfo>
+                    <mods:name type="personal" valueURI="http://d-nb.info/gnd/123456789">
+                        <mods:namePart type="family">Musterfrau</mods:namePart>
+                        <mods:namePart type="given">Erika</mods:namePart>
+                        <mods:role>
+                            <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+                        </mods:role>
+                    </mods:name>
+                    <mods:name type="personal">
+                        <mods:displayForm>Mustermann, Max</mods:displayForm>
+                        <mods:role>
+                            <mods:roleTerm type="code" authority="marcrelator">aut</mods:roleTerm>
+                        </mods:role>
+                    </mods:name>
+                    <mods:originInfo eventType="publication">
+                        <mods:place>
+                            <mods:placeTerm type="text">Dresden,</mods:placeTerm>
+                        </mods:place>
+                        <mods:dateIssued keyDate="yes" encoding="iso8601">2020-05-12</mods:dateIssued>
+                    </mods:originInfo>
+                    <mods:identifier type="urn">urn:nbn:de:bsz:14-qucosa2-123456</mods:identifier>
+                    <mods:identifier type="doi">10.25366/2020.42</mods:identifier>
+                    <mods:abstract lang="ger">Deutsche Zusammenfassung.</mods:abstract>
+                    <mods:extension>
+                        <slub:info>
+                            <slub:project uid="P-1">Testprojekt</slub:project>
+                        </slub:info>
+                    </mods:extension>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:dmdSec ID="DMD_SLUB">
+        <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="SLUB">
+            <mets:xmlData>
+                <slub:info>
+                    <slub:documentType>article</slub:documentType>
+                </slub:info>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_TEI DMD_000" TYPE="article" LABEL="Testartikel" ORDER="1"/>
+    </mets:structMap>
+</mets:mets>
