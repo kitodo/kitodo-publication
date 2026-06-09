@@ -3,6 +3,7 @@
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Command/AbstractIndexCommand.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/AbstractIndexCommand.php" method="createDocument"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/IndexByFile.php" method="execute"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Common/AbstractPlugin.php"/>
   <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
   <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Configuration/ClientConfigurationManager.php"/>
@@ -150,6 +151,11 @@
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/FormDataReader.php" method="getDocumentForm"/>
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/FormDataReader.php" method="getDocumentForm"/>
   <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/MetadataItemId.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugin/Metadata.php" method="printMetadata"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugin/Metadata.php" method="printMetadata"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Plugin/Metadata.php" method="printMetadata"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Plugin/Metadata.php"/>
+  <violation rule="PHPMD\Rule\Design\CountInLoopExpression" file="Classes/Plugin/Metadata.php"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Plugins/Coins/Coins.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
@@ -244,6 +250,13 @@
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="risRecordToXML"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php" method="loadFile"/>
   <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Metadata/ModsCoreExtractor.php" method="extractMetadata"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Metadata/ModsCoreExtractor.php" method="extractMetadata"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Services/Metadata/ModsCoreExtractor.php" method="extractMetadata"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Storage/DocumentStorage.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Storage/DocumentStorage.php" method="ingest"/>
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Storage/DocumentStorage.php" method="ingest"/>

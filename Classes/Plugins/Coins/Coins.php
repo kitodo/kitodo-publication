@@ -14,8 +14,6 @@ namespace EWW\Dpf\Plugins\Coins;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * Plugin 'DPF: Coins' for the 'dlf / dpf' extension.
  *
@@ -66,14 +64,6 @@ class Coins extends \EWW\Dpf\Common\AbstractPlugin
 
         $metadata['_id'] = $this->doc->toplevelId;
         if (empty($metadata)) {
-            if (TYPO3_DLOG) {
-                GeneralUtility::devLog(
-                    '[tx_dpf_metatags->main(' . $content . ', [data])] No metadata found for document with UID "' . $this->doc->uid . '"',
-                    'tx_dpf',
-                    SYSLOG_SEVERITY_WARNING,
-                    $conf
-                );
-            }
             return '';
         }
 
