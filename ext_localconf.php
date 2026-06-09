@@ -260,3 +260,6 @@ $signalSlotDispatcher->connect(
     'delete',
     false
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMigrateDlfMetadata'] =
+    \EWW\Dpf\Updates\MigrateDlfMetadataUpdate::class;
