@@ -15,6 +15,9 @@ namespace EWW\Dpf\ViewHelpers\Uri;
  */
 
 use EWW\Dpf\Security\PreviewToken;
+use GuzzleHttp\Client as GuzzleClient;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -73,7 +76,7 @@ class PreviewViewHelper extends AbstractViewHelper
             $document = $this->documentRepository->findByUid($documentIdentifier);
             $qid = $document ? $document->getProcessNumber() : $documentIdentifier;
         } else {
-            $qid = $documentIdentifier;
+            $qid = $this->resolveToObjectIdentifier($documentIdentifier);
         }
 
         $args = ['qid' => $qid];
@@ -91,5 +94,34 @@ class PreviewViewHelper extends AbstractViewHelper
             ->setCreateAbsoluteUri(true)
             ->setUseCacheHash(true)
             ->buildFrontendUri();
+    }
+
+    private function resolveToObjectIdentifier(string $identifier): string
+    {
+        try {
+            $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('dpf');
+            $host = trim($extConf['elasticSearchHost'] ?? 'localhost');
+            $port = trim($extConf['elasticSearchPort'] ?? '9200');
+            if (empty($host)) {
+                return $identifier;
+            }
+            $url = "http://{$host}:{$port}/_all/_search";
+            $response = (new GuzzleClient(['timeout' => 2]))
+                ->post($url, [
+                    'json' => [
+                        'query' => ['term' => ['process_number' => $identifier]],
+                        '_source' => ['objectIdentifier'],
+                        'size' => 1,
+                    ],
+                ]);
+            $data = json_decode($response->getBody()->getContents(), true);
+            $objectIdentifier = $data['hits']['hits'][0]['_source']['objectIdentifier'] ?? null;
+            if (!empty($objectIdentifier)) {
+                return $objectIdentifier;
+            }
+        } catch (\Exception $e) {
+            // fall through to original identifier
+        }
+        return $identifier;
     }
 }
