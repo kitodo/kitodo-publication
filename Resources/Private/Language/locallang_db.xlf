@@ -959,6 +959,39 @@
 		<trans-unit id="tx_dpf_domain_model_client.search_field_xml.search_corporation.xpath" approved="yes">
 			 <source>XPath expressions for the corporation (Multiple Xpath expressions can be concatenated using ';')</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_metadata">
+			<source>Metadata field (landing page)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.index_name">
+			<source>Index name</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.label">
+			<source>Label</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.wrap">
+			<source>TypoScript wrap (key./value./all.)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.is_listed">
+			<source>Show in listing</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.is_sortable">
+			<source>Has sorting variant</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.format">
+			<source>Format (0 = default value only)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.format_type">
+			<source>Metadata format</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.xpath">
+			<source>XPath (relative to dmdSec content root)</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.xpath_sorting">
+			<source>XPath for sorting value</source>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.default_value">
+			<source>Default value</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

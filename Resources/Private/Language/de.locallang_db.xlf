@@ -1271,6 +1271,50 @@
 			 <source>XPath expressions for the corporation (Multiple Xpath expressions can be concatenated using ';')</source>
 			 <target>XPath-Ausdrücke für die Institution (Mehrere XPath-Ausdrücke können mit „;“ verkettet werden</target>
 		</trans-unit>
+		<trans-unit id="tx_dpf_metadata">
+			<source>Metadata field (landing page)</source>
+			<target>Metadatenfeld (Landing Page)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.index_name">
+			<source>Index name</source>
+			<target>Index-Name</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.label">
+			<source>Label</source>
+			<target>Bezeichnung</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.wrap">
+			<source>TypoScript wrap (key./value./all.)</source>
+			<target>TypoScript-Wrap (key./value./all.)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.is_listed">
+			<source>Show in listing</source>
+			<target>In Auflistung anzeigen</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.is_sortable">
+			<source>Has sorting variant</source>
+			<target>Hat Sortier-Variante</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.format">
+			<source>Format (0 = default value only)</source>
+			<target>Format (0 = nur Standardwert)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.format_type">
+			<source>Metadata format</source>
+			<target>Metadaten-Format</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.xpath">
+			<source>XPath (relative to dmdSec content root)</source>
+			<target>XPath (relativ zur dmdSec-Inhaltswurzel)</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.xpath_sorting">
+			<source>XPath for sorting value</source>
+			<target>XPath für Sortierwert</target>
+		</trans-unit>
+		<trans-unit id="tx_dpf_metadata.default_value">
+			<source>Default value</source>
+			<target>Standardwert</target>
+		</trans-unit>
         </body>
 	</file>
 </xliff>
