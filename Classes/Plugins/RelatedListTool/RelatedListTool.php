@@ -99,6 +99,23 @@ class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
         return $this->templateService->substituteSubpart($this->template, '###ITEMS###', $content, true);
     }
 
+    /**
+     * First string value of an XPath query, or '' when nothing matches —
+     * constituent relatedItem nodes may lack any of the optional children.
+     *
+     * @param \SimpleXMLElement $element
+     * @param string $xpath
+     * @return string
+     */
+    private function firstXPathValue(\SimpleXMLElement $element, $xpath)
+    {
+        $result = $element->xpath($xpath);
+        if (!empty($result)) {
+            return (string) $result[0];
+        }
+        return '';
+    }
+
     private function compareByOrderVolumeTitle($a, $b)
     {
         $s1 = join(' ', array($a['order'], $a['volume'], $a['title']));
@@ -116,11 +133,14 @@ class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
             $relatedItemXmlElement->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
             $relatedItemXmlElement->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
-            $type = (string) $relatedItemXmlElement->xpath('mods:identifier/@type')[0];
-            $title = (string) $relatedItemXmlElement->xpath('mods:titleInfo/mods:title')[0];
-            $docId = (string) $relatedItemXmlElement->xpath('mods:identifier[@type="' . $type . '"]')[0];
-            $order = (string) $relatedItemXmlElement->xpath('mods:extension/slub:info/slub:sortingKey')[0];
-            $volume = (string) $relatedItemXmlElement->xpath('mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number')[0];
+            $type = $this->firstXPathValue($relatedItemXmlElement, 'mods:identifier/@type');
+            $title = $this->firstXPathValue($relatedItemXmlElement, 'mods:titleInfo/mods:title');
+            $docId = '';
+            if ($type !== '') {
+                $docId = $this->firstXPathValue($relatedItemXmlElement, 'mods:identifier[@type="' . $type . '"]');
+            }
+            $order = $this->firstXPathValue($relatedItemXmlElement, 'mods:extension/slub:info/slub:sortingKey');
+            $volume = $this->firstXPathValue($relatedItemXmlElement, 'mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number');
 
             $element = array();
             $element['type'] = $type;

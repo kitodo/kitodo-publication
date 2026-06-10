@@ -91,7 +91,6 @@ class MigrateDlfMetadataUpdate implements UpgradeWizardInterface, RepeatableInte
         try {
             $connection->executeStatement('DELETE FROM tx_dpf_metadata');
 
-            $insertedCount = 0;
             foreach ($sourceRows as $sourceRow) {
                 $children = $connection->executeQuery(
                     'SELECT mf.xpath, mf.xpath_sorting, f.type AS format_type'
@@ -105,7 +104,6 @@ class MigrateDlfMetadataUpdate implements UpgradeWizardInterface, RepeatableInte
 
                 foreach ($this->mapRow($sourceRow, $children) as $targetRow) {
                     $connection->insert('tx_dpf_metadata', $targetRow);
-                    $insertedCount++;
                 }
             }
 
@@ -115,7 +113,9 @@ class MigrateDlfMetadataUpdate implements UpgradeWizardInterface, RepeatableInte
             throw $exception;
         }
 
-        return $insertedCount > 0;
+        // An empty source table is a valid, successful migration — only a
+        // thrown exception above means failure.
+        return true;
     }
 
     /**
