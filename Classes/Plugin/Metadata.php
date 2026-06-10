@@ -185,8 +185,8 @@ class Metadata extends \EWW\Dpf\Common\AbstractPlugin
 
     /**
      * Translate a metadata value via the TypoScript label map
-     * plugin.tx_dpf_metadata.labels.<index_name>.<value>; falls back to the
-     * raw value.
+     * plugin.tx_dpf_metadata.labels.<index_name>.<value>; language codes
+     * fall back to the ISO-639 lookup, everything else to the raw value.
      *
      * @param string $indexName
      * @param string $value
@@ -198,6 +198,38 @@ class Metadata extends \EWW\Dpf\Common\AbstractPlugin
         if (is_array($labels) && isset($labels[$value]) && is_string($labels[$value])) {
             return $labels[$value];
         }
+        if ($indexName === 'language') {
+            return $this->getLanguageName($value);
+        }
         return $value;
+    }
+
+    /**
+     * Get the localized full name for an ISO 639-1/639-2B language code —
+     * port of \Kitodo\Dlf\Common\Helper::getLanguageName() (v3.3.4, frontend
+     * path), reading the dpf-shipped ISO tables.
+     *
+     * @param string $code
+     * @return string The localized name or the unchanged code
+     */
+    protected function getLanguageName($code)
+    {
+        $isoCode = strtolower(trim($code));
+        if (preg_match('/^[a-z]{3}$/', $isoCode)) {
+            $file = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf') . 'Resources/Private/Data/iso-639-2b.xml';
+        } elseif (preg_match('/^[a-z]{2}$/', $isoCode)) {
+            $file = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dpf') . 'Resources/Private/Data/iso-639-1.xml';
+        } else {
+            // No ISO code, return unchanged.
+            return $code;
+        }
+        $iso639 = $GLOBALS['TSFE']->readLLfile($file);
+        if (!empty($iso639['default'][$isoCode])) {
+            $name = $GLOBALS['TSFE']->getLLL($isoCode, $iso639);
+            if (!empty($name)) {
+                return $name;
+            }
+        }
+        return $code;
     }
 }

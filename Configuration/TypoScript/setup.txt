@@ -349,3 +349,35 @@ module.tx_dpf {
 
     persistence < plugin.tx_dpf.persistence
 }
+
+# Document type labels for the landing-page Metadata plugin
+# (seeded from tx_dlf_structures; replaces DLF's table-based translation)
+plugin.tx_dpf_metadata.labels.type {
+    article = Artikel
+    bachelor_thesis = Bachelorarbeit
+    book = Buch
+    monograph = Buch
+    report = Bericht
+    contained_work = Buchbeitrag
+    in_book = Buchbeitrag
+    diploma_thesis = Diplomarbeit
+    doctoral_thesis = Dissertation
+    research_paper = Forschungsbericht
+    habilitation_thesis = Habilitation
+    musical_notation = Komposition
+    composition = Komposition
+    proceeding = Konferenzband
+    in_proceeding = Konferenzbeitrag
+    magister_thesis = Magisterarbeit
+    master_thesis = Masterarbeit / Staatsexamensarbeit
+    multivolume_work = Mehrbändiges Werk
+    preprint = Preprint
+    series = Schriftenreihe
+    text = Sonstige Veröffentlichung
+    study = Sonstige Veröffentlichung
+    paper = Studienarbeit
+    lecture = Vorlesung/Vortrag
+    journal = Zeitschrift/Zeitung
+    periodical = Zeitschrift / Periodikum
+    issue = Zeitschriftenheft / Teil eines Periodikums
+}
