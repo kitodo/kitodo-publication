@@ -26,13 +26,15 @@ class ReplaceFileCommand extends Command
              ->addOption('password', null, InputOption::VALUE_REQUIRED, 'HTTP password for download URL')
              ->addOption('label', null, InputOption::VALUE_REQUIRED, 'Display name shown to users')
              ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Physical filename shown in TYPO3 backend')
-             ->addOption('add', null, InputOption::VALUE_NONE, 'Add new secondary file instead of replacing existing');
+             ->addOption('add', null, InputOption::VALUE_NONE, 'Add new secondary file instead of replacing existing')
+             ->addOption('yes', 'y', InputOption::VALUE_NONE, 'Skip confirmation prompts (for non-interactive use)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
         $isAdd  = (bool) $input->getOption('add');
+        $skipConfirm = (bool) $input->getOption('yes');
 
         // --- Find document ---
         $processNumber = $input->getOption('process-number');
@@ -63,7 +65,7 @@ class ReplaceFileCommand extends Command
         $document = $documents->getFirst();
         $output->writeln('Found: "' . $document->getTitle() . '" (PID ' . $document->getPid() . ')');
 
-        if (!$helper->ask($input, $output, new ConfirmationQuestion('Correct document? [Y/n]: ', true))) {
+        if (!$skipConfirm && !$helper->ask($input, $output, new ConfirmationQuestion('Correct document? [Y/n]: ', true))) {
             $output->writeln('Aborted.');
             return 0;
         }
@@ -76,8 +78,10 @@ class ReplaceFileCommand extends Command
         }
 
         // --- Find target file (replace mode only) ---
-        $targetFile = null;
-        $diskPath   = null;
+        $targetFile   = null;
+        $diskPath     = null;
+        $isFedoraLink = false;
+        $newLink      = null;
         if (!$isAdd) {
             $datastreamId = $input->getOption('datastream') ?: 'ATT-0';
             if (!$input->getOption('datastream') && !$input->getOption('url')) {
@@ -104,12 +108,31 @@ class ReplaceFileCommand extends Command
             $output->writeln('Current label: "' . $targetFile->getLabel() . '"');
             $output->writeln('Current link:  ' . $targetFile->getLink());
 
-            $urlPath  = parse_url($targetFile->getLink(), PHP_URL_PATH);
-            $diskPath = rtrim(PATH_site, '/') . $urlPath;
+            $urlPath      = parse_url($targetFile->getLink(), PHP_URL_PATH);
+            $diskPath     = rtrim(PATH_site, '/') . $urlPath;
+            $isFedoraLink = !is_file($diskPath) && (parse_url($targetFile->getLink(), PHP_URL_HOST) !== null);
 
-            if (!is_file($diskPath)) {
+            if (!is_file($diskPath) && !$isFedoraLink) {
                 $output->writeln('<error>File not found on disk: ' . $diskPath . '</error>');
                 return 1;
+            }
+
+            if ($isFedoraLink) {
+                // Recalled document: link points to Fedora — place new file in upload directory
+                $conn      = GeneralUtility::makeInstance(ConnectionPool::class)
+                               ->getConnectionForTable('tx_dpf_domain_model_client');
+                $clientRow = $conn->select(['upload_domain', 'upload_directory'], 'tx_dpf_domain_model_client',
+                               ['pid' => $document->getPid()])->fetch();
+                $uploadDir    = !empty($clientRow['upload_directory']) ? trim($clientRow['upload_directory'], '/') : 'uploads/tx_dpf';
+                $domain       = !empty($clientRow['upload_domain']) ? rtrim($clientRow['upload_domain'], '/') : '';
+                $diskUploadDir = rtrim(PATH_site, '/') . '/' . $uploadDir . '/';
+                if (!is_dir($diskUploadDir)) {
+                    mkdir($diskUploadDir, 0775, true);
+                }
+                $uniqueName = time() . '_' . substr(md5(uniqid(mt_rand(), true)), 0, 8) . '.pdf';
+                $diskPath   = $diskUploadDir . $uniqueName;
+                $newLink    = $domain . '/' . $uploadDir . '/' . $uniqueName;
+                $output->writeln('Upload domain: ' . ($domain ?: '(none — relative URL will be used)'));
             }
         }
 
@@ -199,7 +222,7 @@ class ReplaceFileCommand extends Command
 
         // --- Confirm ---
         $action    = $isAdd ? 'Add file and update DB' : 'Replace file and update DB';
-        $confirmed = $helper->ask($input, $output, new ConfirmationQuestion($action . '? [y/N]: ', false));
+        $confirmed = $skipConfirm || $helper->ask($input, $output, new ConfirmationQuestion($action . '? [y/N]: ', false));
         if (!$confirmed) {
             unlink($tmpPath);
             $output->writeln('Aborted.');
@@ -247,10 +270,16 @@ class ReplaceFileCommand extends Command
             copy($tmpPath, $diskPath);
             unlink($tmpPath);
             chmod($diskPath, 0664);
-            $output->writeln('Replaced: ' . $diskPath);
+            $output->writeln('Placed: ' . $diskPath);
 
             $targetFile->setLabel($newLabel);
             $targetFile->setTitle($newTitle);
+            if ($isFedoraLink) {
+                $targetFile->setLink($newLink);
+                $targetFile->setStatus(\EWW\Dpf\Domain\Model\File::STATUS_CHANGED);
+                $output->writeln('Link updated: ' . $newLink);
+                $output->writeln('Status set to: changed (FLocat will be included on next publish)');
+            }
             $fileRepository->update($targetFile);
             $persistenceManager->persistAll();
             $output->writeln('Title: "' . $newTitle . '", Label: "' . $newLabel . '"');
