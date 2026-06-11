@@ -131,6 +131,7 @@ plugin.tx_dpf {
             fullTextLabel = {$plugin.tx_dpf.settings.defaultValue.fullTextLabel}
         }
         apiPid = {$plugin.tx_dpf.settings.apiPid}
+        fileGrpDownload = {$plugin.tx_dpf.settings.fileGrpDownload}
 		fisDataServiceUrl = {$plugin.tx_dpf.settings.fisDataServiceUrl}
         gndDataServiceUrl = {$plugin.tx_dpf.settings.gndDataServiceUrl}
         orcidDataServiceUrl = {$plugin.tx_dpf.settings.orcidDataServiceUrl}

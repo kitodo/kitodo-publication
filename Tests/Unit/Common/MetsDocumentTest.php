@@ -114,4 +114,30 @@ XML;
         $this->assertEquals('Testartikel', $info['label']);
         $this->assertEquals('', $info['orderlabel']);
     }
+
+    public function testGetTitleDataWithEmptyModsDoesNotCrash()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           OBJID="qucosa:empty">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods/>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="article"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $document = MetsDocument::fromXmlString($xml, 'http://example.org/empty');
+        $this->assertTrue($document->ready);
+        $data = $document->getTitleData(0);
+        $this->assertIsArray($data);
+        $this->assertArrayNotHasKey('language', $data);
+    }
 }

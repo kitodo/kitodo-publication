@@ -34,6 +34,9 @@ plugin.tx_dpf {
         # cat=plugin.tx_dpf/link; type=int+; label=Api PID
         apiPid =
 
+        # cat=plugin.tx_dpf/file; type=string; label=File group identifier for downloads (must match USE attribute in METS fileSec)
+        fileGrpDownload = DOWNLOAD
+
         # cat=plugin.tx_dpf/link; type=string; label=FIS Data Service (Persons, Organizational Units, Projects)
         fisDataServiceUrl =
 
