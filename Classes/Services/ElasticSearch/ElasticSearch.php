@@ -271,6 +271,37 @@ class ElasticSearch
      */
     public function index(Document $document, $refresh = 'wait_for')
     {
+        $this->client->index([
+            'refresh' => $refresh,
+            'index' => $this->getIndexName(),
+            'id' => strtolower($document->getDocumentIdentifier()),
+            'body' => $this->buildDocumentData($document),
+        ]);
+    }
+
+    /**
+     * Indexes a batch of documents using the ES bulk API.
+     *
+     * @param Document[] $documents
+     * @param string $refresh
+     */
+    public function indexBulk(array $documents, string $refresh = 'false'): void
+    {
+        $body = [];
+        foreach ($documents as $document) {
+            $body[] = ['index' => [
+                '_index' => $this->getIndexName(),
+                '_id' => strtolower($document->getDocumentIdentifier()),
+            ]];
+            $body[] = $this->buildDocumentData($document);
+        }
+        if (!empty($body)) {
+            $this->client->bulk(['refresh' => $refresh, 'body' => $body]);
+        }
+    }
+
+    protected function buildDocumentData(Document $document): \stdClass
+    {
         $internalFormat = new InternalFormat($document->getXmlData());
 
         $data = new \stdClass();
@@ -285,12 +316,10 @@ class ElasticSearch
         $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
 
         if (!$data->doctype) {
-            // set document type from database if it has not yet been extracted from XML data
             $data->doctype = $document->getDocumentType()->getName();
         }
 
         if (!$data->process_number) {
-            // set process number from database if it has not yet been extracted from XML data
             $data->process_number = $document->getProcessNumber();
         }
 
@@ -328,22 +357,16 @@ class ElasticSearch
         }
 
         $creationDate = new DateTime($document->getCreationDate());
-
         $data->creationDate = $creationDate->format('Y-m-d');
 
         $notes = $document->getNotes();
-
         if ($notes && is_array($notes)) {
             $data->notes = $notes;
         } else {
             $data->notes = array();
         }
 
-        if ($document->hasFiles()) {
-            $data->hasFiles = true;
-        } else {
-            $data->hasFiles = false;
-        }
+        $data->hasFiles = $document->hasFiles() ? true : false;
 
         $persons = $internalFormat->getPersons();
 
@@ -394,7 +417,6 @@ class ElasticSearch
 
         $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
 
-        // TODO: Is dateIssued the same as distribution date?
         $dateIssued = $internalFormat->getDateIssued();
         if ($dateIssued) {
             $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
@@ -402,36 +424,27 @@ class ElasticSearch
             $data->dateIssued = null;
         }
 
-        $data->textType             = $internalFormat->getTextType();
-        $data->openAccess           = $internalFormat->getOpenAccessForSearch();
-        $data->peerReview           = $internalFormat->getPeerReviewForSearch();
-        $data->license              = $internalFormat->getLicense();
-        $data->publisher[]          = $internalFormat->getPublishers();
+        $data->textType   = $internalFormat->getTextType();
+        $data->openAccess = $internalFormat->getOpenAccessForSearch();
+        $data->peerReview = $internalFormat->getPeerReviewForSearch();
+        $data->license    = $internalFormat->getLicense();
+        $data->publisher[] = $internalFormat->getPublishers();
 
-        $data->searchYear           = $internalFormat->getSearchYear();
+        $data->searchYear = $internalFormat->getSearchYear();
 
         $data->year = "";
-        $years = $internalFormat->getSearchYear();
-
-        foreach ($years as $year) {
+        foreach ($internalFormat->getSearchYear() as $year) {
             if (!empty($year)) {
                 $data->year = $year;
                 break;
             }
         }
 
-        $data->project = $internalFormat->getProjects();
-
-        $data->language = $internalFormat->getSearchLanguage();
-
+        $data->project     = $internalFormat->getProjects();
+        $data->language    = $internalFormat->getSearchLanguage();
         $data->corporation = $internalFormat->getSearchCorporation();
 
-        $this->client->index([
-            'refresh' => $refresh,
-            'index' => $this->getIndexName(),
-            'id' => strtolower($document->getDocumentIdentifier()),
-            'body' => $data
-        ]);
+        return $data;
     }
 
 

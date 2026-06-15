@@ -111,8 +111,8 @@ class PublicElasticSearch extends ElasticSearch
     }
 
     /**
-     * Indexes a batch of documents using the ES bulk API.
-     * Documents rejected by the mapper gate are silently skipped.
+     * Indexes a batch into the public index.
+     * Documents rejected by the mapper gate (non-active, suggestions) are skipped.
      *
      * @param Document[] $documents
      * @param string $refresh
@@ -121,7 +121,6 @@ class PublicElasticSearch extends ElasticSearch
     {
         $mapper = new PublicDocumentMapper();
         $body = [];
-
         foreach ($documents as $document) {
             $internalFormat = new InternalFormat($document->getXmlData());
             $data = $mapper->map($document, $internalFormat);
@@ -134,7 +133,6 @@ class PublicElasticSearch extends ElasticSearch
             ]];
             $body[] = $data;
         }
-
         if (!empty($body)) {
             $this->client->bulk(['refresh' => $refresh, 'body' => $body]);
         }

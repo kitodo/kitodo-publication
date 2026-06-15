@@ -43,6 +43,9 @@ class IndexByFile extends AbstractIndexCommand
     /** @var \EWW\Dpf\Domain\Model\Document[] */
     private $bulkBuffer = [];
 
+    /** @var ElasticSearch|null */
+    private $backofficeEs = null;
+
     /** @var PublicElasticSearch|null */
     private $publicEs = null;
 
@@ -234,14 +237,9 @@ class IndexByFile extends AbstractIndexCommand
             throw new \Exception("Could not create document from XML");
         }
 
-        if ($this->publicIndex) {
-            $this->bulkBuffer[] = $document;
-            if (count($this->bulkBuffer) >= self::BULK_SIZE) {
-                $this->flushBulkBuffer(null);
-            }
-        } else {
-            $es = $this->objectManager->get(ElasticSearch::class);
-            $es->index($document, 'false');
+        $this->bulkBuffer[] = $document;
+        if (count($this->bulkBuffer) >= self::BULK_SIZE) {
+            $this->flushBulkBuffer(null);
         }
     }
 
@@ -250,14 +248,21 @@ class IndexByFile extends AbstractIndexCommand
         if (empty($this->bulkBuffer)) {
             return;
         }
-        if ($this->publicEs === null) {
-            $this->publicEs = $this->objectManager->get(PublicElasticSearch::class);
+        if ($this->backofficeEs === null) {
+            $this->backofficeEs = $this->objectManager->get(ElasticSearch::class);
         }
         $count = count($this->bulkBuffer);
-        $this->publicEs->indexBulk($this->bulkBuffer);
+        $this->backofficeEs->indexBulk($this->bulkBuffer);
+        if ($this->publicIndex) {
+            if ($this->publicEs === null) {
+                $this->publicEs = $this->objectManager->get(PublicElasticSearch::class);
+            }
+            $this->publicEs->indexBulk($this->bulkBuffer);
+        }
         $this->bulkBuffer = [];
         if ($io !== null) {
-            $io->writeln("  → Flushed batch of $count documents to public index.");
+            $suffix = $this->publicIndex ? ' (backoffice + public)' : '';
+            $io->writeln("  → Flushed batch of $count documents$suffix.");
         }
     }
 }
