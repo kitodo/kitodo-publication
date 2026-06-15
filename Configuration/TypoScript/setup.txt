@@ -347,6 +347,22 @@ plugin.tx_dpf_frontendsearch {
     features.requireCHashArgumentForActionArguments = 0
 }
 
+tt_content.list.20.dpf_frontendsearch = USER_INT
+tt_content.list.20.dpf_frontendsearch {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Dpf
+    pluginName = Frontendsearch
+    vendorName = EWW
+    mvc {
+        requestHandlers {
+            TYPO3\CMS\Extbase\Mvc\Web\FrontendRequestHandler = TYPO3\CMS\Extbase\Mvc\Web\FrontendRequestHandler
+        }
+    }
+    features {
+        requireCHashArgumentForActionArguments = 0
+    }
+}
+
 module.tx_dpf {
     view {
         templateRootPaths.0 = {$module.tx_dpf.view.templateRootPath}
