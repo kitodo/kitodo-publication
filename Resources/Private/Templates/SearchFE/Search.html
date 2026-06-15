@@ -1,72 +1,11 @@
-<f:comment>
-    <!--
-    This file is part of the TYPO3 CMS project.
-
-    It is free software; you can redistribute it and/or modify it under
-    the terms of the GNU General Public License, either version 2
-    of the License, or any later version.
-
-    For the full copyright and license information, please read the
-    LICENSE.txt file that was distributed with this source code.
-
-    The TYPO3 project - inspiring people to share!
-    -->
-</f:comment>
-{namespace dpf = EWW\Dpf\ViewHelpers}
-
-<f:comment>obsolete template</f:comment>
-
 <f:layout name="Default"/>
-
 <f:section name="main">
-    <span class="btn btn-secondary btn-sm active" aria-pressed="true">
-        <i class="fas fa-search"></i>
-        <f:translate key="search.control.simpleSearch"/>
-    </span>
-
-    <f:link.action action="extendedSearch" class="btn btn-secondary btn-sm">
-        <i class="fas fa-search"></i>
-        <f:translate key="search.control.extendedSearch"/>
-    </f:link.action>
-    <div class="searchForm">
-
-        <f:form action="search" name="query" class="form-inline frontend-search-form" noCache="1" noCacheHash="1">
-            <div class="form-group fe-form-group">
-                <f:form.textfield property="fulltext" class="form-control"
-                    placeholder="{f:translate(key: 'search.form.label.query')}" id="query"
-                    value="{query.fulltext}"/>
-            </div>
-                <f:form.button class="btn btn-secondary" type="submit">
-                    <i class="fas fa-search"></i>
-                    {f:translate(key: 'search.form.button.search')}
-                </f:form.button>
-         </f:form>
-
-    </div>
-    <f:if condition="{query}">
-    <div class="search-results">
-        <f:if condition="{resultList.total} > 1">
-            <f:then>
-                <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
-            </f:then>
-            <f:else>
-                <f:if condition="{resultList.total} == 1">
-                    <f:then>
-                        <span>{resultList.total} <f:translate key="search.resultList.documentsFound"/></span>
-                    </f:then>
-                    <f:else>
-                        <span><f:translate key="search.resultList.nothingFound"/></span>
-                    </f:else>
-                </f:if>
-            </f:else>
+    <div class="dpf-public-search">
+        <f:render partial="SearchFE/SearchForm" arguments="{criteria: criteria, docTypes: docTypes, extended: false}"/>
+        <f:if condition="{documentCount}">
+            <p>{documentCount} Ergebnisse</p>
+            <f:render partial="SearchFE/ResultList" arguments="{documents: documents, docTypes: docTypes}"/>
+            <f:render partial="SearchFE/Pagination" arguments="{pagination: pagination, criteria: criteria}"/>
         </f:if>
-
-        <dpf:widget.paginate objects="{resultList.hits}" total="{resultList.total}" as="paginatedResults" currentPage="{currentPage}"
-                             configuration="{settings.list.paginate}">
-
-            <f:render partial="SearchFE/ResultList" arguments="{results: paginatedResults, currentPage: currentPage}"/>
-
-        </dpf:widget.paginate>
     </div>
-    </f:if>
 </f:section>

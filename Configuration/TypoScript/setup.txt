@@ -341,6 +341,12 @@ lib.feUsername {
 #plugin.tx_dpf_backoffice._LOCAL_LANG.de.manager.workspace.universityPublication.tooltip =
 #plugin.tx_dpf_backoffice._LOCAL_LANG.en.manager.workspace.universityPublication.tooltip =
 
+plugin.tx_dpf_frontendsearch {
+    persistence < plugin.tx_dpf.persistence
+    view < plugin.tx_dpf.view
+    features.requireCHashArgumentForActionArguments = 0
+}
+
 module.tx_dpf {
     view {
         templateRootPaths.0 = {$module.tx_dpf.view.templateRootPath}

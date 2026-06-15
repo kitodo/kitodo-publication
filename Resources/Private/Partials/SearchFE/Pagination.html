@@ -1,0 +1,25 @@
+<f:if condition="{pagination.totalPages} > 1">
+    <nav class="dpf-pagination" aria-label="Seitennavigation">
+        <ul class="dpf-pagination__list">
+            <f:if condition="{pagination.hasPrev}">
+                <li class="dpf-pagination__item">
+                    <f:link.action action="search" arguments="{criteria}" additionalArguments="{from: pagination.prevOffset}"
+                        class="dpf-pagination__link">&laquo;</f:link.action>
+                </li>
+            </f:if>
+            <f:for each="{pagination.pages}" as="page">
+                <li class="dpf-pagination__item{f:if(condition: '{page} == {pagination.currentPage}', then: ' dpf-pagination__item--active')}">
+                    <f:link.action action="search" arguments="{criteria}"
+                        additionalArguments="{from: pagination.offsetForPage.{page}}"
+                        class="dpf-pagination__link">{page}</f:link.action>
+                </li>
+            </f:for>
+            <f:if condition="{pagination.hasNext}">
+                <li class="dpf-pagination__item">
+                    <f:link.action action="search" arguments="{criteria}" additionalArguments="{from: pagination.nextOffset}"
+                        class="dpf-pagination__link">&raquo;</f:link.action>
+                </li>
+            </f:if>
+        </ul>
+    </nav>
+</f:if>

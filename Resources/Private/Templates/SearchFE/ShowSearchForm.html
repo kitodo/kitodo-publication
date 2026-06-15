@@ -1,38 +1,4 @@
-<f:comment>
-    <!--
-    This file is part of the TYPO3 CMS project.
-
-    It is free software; you can redistribute it and/or modify it under
-    the terms of the GNU General Public License, either version 2
-    of the License, or any later version.
-
-    For the full copyright and license information, please read the
-    LICENSE.txt file that was distributed with this source code.
-
-    The TYPO3 project - inspiring people to share!
-    -->
-</f:comment>
-
-<f:comment>obsolete template</f:comment>
-
 <f:layout name="Default"/>
-
 <f:section name="main">
-
-    <div class="searchbox">
-
-        <f:form action="search" name="query" pageUid="{settings.searchResultsPid}" id="smallsearch" noCache="1"
-                noCacheHash="1">
-
-            <f:form.textfield property="fulltext" placeholder="{f:translate(key: 'search.form.label.query')}"
-                              id="tx-dlf-search-query" value="{query.fulltext}"/>
-
-            <f:form.button id="submit" class="" type="submit">
-                {f:translate(key: 'search.form.button.search')}
-            </f:form.button>
-
-        </f:form>
-
-    </div>
-
+    <f:render partial="SearchFE/SearchForm" arguments="{criteria: {}, docTypes: docTypes, extended: false}"/>
 </f:section>

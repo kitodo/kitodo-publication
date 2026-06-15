@@ -1,0 +1,28 @@
+<f:form action="search" method="get" class="dpf-search-form">
+    <div class="dpf-search-form__query">
+        <f:form.textfield name="q" value="{criteria.q}" class="dpf-search-form__input"
+            placeholder="Suche..." id="dpf-search-q"/>
+        <f:form.button type="submit" class="dpf-search-form__submit">Suchen</f:form.button>
+    </div>
+    <f:if condition="{extended}">
+        <div class="dpf-search-form__extended">
+            <div class="dpf-search-form__field">
+                <label for="dpf-search-doctype">Dokumenttyp</label>
+                <f:form.select name="doctype" value="{criteria.doctype}" id="dpf-search-doctype"
+                    class="dpf-search-form__select"
+                    prependOptionLabel="Alle" prependOptionValue=""
+                    options="{docTypes}"/>
+            </div>
+            <div class="dpf-search-form__field">
+                <label for="dpf-search-year-from">Jahr von</label>
+                <f:form.textfield name="yearFrom" value="{criteria.yearFrom}" id="dpf-search-year-from"
+                    class="dpf-search-form__input--small" maxlength="4"/>
+            </div>
+            <div class="dpf-search-form__field">
+                <label for="dpf-search-year-to">bis</label>
+                <f:form.textfield name="yearTo" value="{criteria.yearTo}" id="dpf-search-year-to"
+                    class="dpf-search-form__input--small" maxlength="4"/>
+            </div>
+        </div>
+    </f:if>
+</f:form>

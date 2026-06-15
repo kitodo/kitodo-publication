@@ -1,59 +1,28 @@
-<f:comment>
-    <!--
-    This file is part of the TYPO3 CMS project.
-
-    It is free software; you can redistribute it and/or modify it under
-    the terms of the GNU General Public License, either version 2
-    of the License, or any later version.
-
-    For the full copyright and license information, please read the
-    LICENSE.txt file that was distributed with this source code.
-
-    The TYPO3 project - inspiring people to share!
-    -->
-</f:comment>
-{namespace dpf = EWW\Dpf\ViewHelpers}
-
-<f:comment>obsolete template</f:comment>
-
-<ol class="tx-dlf-listview-list">
-    <f:for each="{results}" as="entry" iteration="eIterator">
-        <f:if condition="{entry._source._dissemination}">
-            <f:then>
-                <li>
-                    <dl>
-                        <dd>
-                            <dpf:calcIndex currentIndex="{eIterator.cycle}" currentPage="{currentPage}"
-                                           itemsPerPage="{settings.list.paginate.itemsPerPage}"/>
-                            .
-                            <a href="{dpf:uri.preview(documentIdentifier: entry._source.PID, pageUid: settings.landingPage, apiPid: settings.apiPid)}">
-                            {entry._source._dissemination._content.title.0}
-                            <f:if condition="{entry._source._dissemination._content.issue}">-
-                                {entry._source._dissemination._content.issue}
-                            </f:if>
-                            </a>
-                        </dd>
-                        <dd class="author">
-                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
-                                <f:then>
-                                    {entry._source._dissemination._content.author.0}
-                                </f:then>
-                            </f:if>
-                        </dd>
-                        <dd class="date">
-                            <f:if condition="{entry._source._dissemination._content.distribution_date.0}">
-                                <f:then>
-                                    <f:format.date date="{entry._source._dissemination._content.distribution_date.0}"
-                                                   format="d.m.Y"/>
-                                </f:then>
-                                <f:else>
-                                    -
-                                </f:else>
-                            </f:if>
-                        </dd>
-                    </dl>
-                </li>
-            </f:then>
-        </f:if>
+<ol class="dpf-search-results">
+    <f:for each="{documents}" as="hit">
+        <li class="dpf-search-result">
+            <h3 class="dpf-search-result__title">
+                <f:if condition="{hit._source.objectIdentifier}">
+                    <f:then>
+                        <a href="/id/{hit._source.objectIdentifier}">{hit._source.title -> f:array.first()}</a>
+                    </f:then>
+                    <f:else>
+                        {hit._source.title -> f:array.first()}
+                    </f:else>
+                </f:if>
+            </h3>
+            <f:if condition="{hit._source.persons}">
+                <p class="dpf-search-result__persons">{hit._source.persons -> f:array.first()}</p>
+            </f:if>
+            <p class="dpf-search-result__meta">
+                <f:if condition="{docTypes.{hit._source.doctype}}">
+                    <f:then>{docTypes.{hit._source.doctype}}</f:then>
+                    <f:else>{hit._source.doctype}</f:else>
+                </f:if>
+                <f:if condition="{hit._source.year}">
+                    &ndash; {hit._source.year}
+                </f:if>
+            </p>
+        </li>
     </f:for>
 </ol>
