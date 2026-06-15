@@ -17,6 +17,7 @@ namespace EWW\Dpf\Command;
 
 use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
+use EWW\Dpf\Services\ElasticSearch\PublicElasticSearch;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,6 +35,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class IndexByFile extends AbstractIndexCommand
 {
+    /** @var bool */
+    protected $publicIndex = false;
+
     /**
      * Configure the command by defining arguments
      */
@@ -44,6 +48,7 @@ class IndexByFile extends AbstractIndexCommand
         $this->addArgument('filename', InputArgument::REQUIRED, 'The full path to the file containing the METS/MODS-Data.');
         $this->addOption('linklist', 'L', InputOption::VALUE_NONE, 'The given file contains URIs to METS/MODS documents.');
         $this->addOption('user', 'u', InputOption::VALUE_OPTIONAL, 'Specify the user name and password to use for server authentication.');
+        $this->addOption('public', null, InputOption::VALUE_NONE, 'Index into the public search index instead of the backoffice index.');
     }
 
     /**
@@ -61,6 +66,7 @@ class IndexByFile extends AbstractIndexCommand
         $filename = $input->getArgument('filename');
         $linklist = $input->getOption('linklist');
         $credentials = $input->getOption('user');
+        $this->publicIndex = (bool) $input->getOption('public');
 
         if (!file_exists($filename)) {
             $io->error("File `$filename` not found.");
@@ -217,8 +223,8 @@ class IndexByFile extends AbstractIndexCommand
         if (!$document) {
             throw new \Exception("Could not create document from XML");
         }
-        /** @var ElasticSearch $es */
-        $es = $this->objectManager->get(ElasticSearch::class);
+        $esClass = $this->publicIndex ? PublicElasticSearch::class : ElasticSearch::class;
+        $es = $this->objectManager->get($esClass);
         $es->index($document, 'false');
     }
 }

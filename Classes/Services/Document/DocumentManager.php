@@ -293,16 +293,34 @@ class DocumentManager
         if ($updateResult) {
 
             if ($workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_PUBLISH) {
-                // delete local document from index
+                // delete local document from backoffice + public index (UID changes to Fedora PID on first publish)
                 $this->signalSlotDispatcher->dispatch(
                     AbstractController::class, 'deleteDocumentFromIndex', [$document->getUid()]
                 );
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'deletePublicDocumentFromIndex', [(string) $document->getUid()]
+                );
             }
 
-            // index the document
+            // index the document in backoffice
             $this->signalSlotDispatcher->dispatch(
                 AbstractController::class, 'indexDocument', [$document]
             );
+
+            // public index: publish/activate → add; postpone/discard → remove
+            if ($workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_PUBLISH
+                || $workflowTransition === DocumentWorkflow::TRANSITION_RELEASE_ACTIVATE
+            ) {
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'indexPublicDocument', [$document]
+                );
+            } elseif ($workflowTransition === DocumentWorkflow::TRANSITION_POSTPONE
+                || $workflowTransition === DocumentWorkflow::TRANSITION_DISCARD
+            ) {
+                $this->signalSlotDispatcher->dispatch(
+                    AbstractController::class, 'deletePublicDocumentFromIndex', [strtolower($document->getDocumentIdentifier())]
+                );
+            }
 
             // Notify assigned users
             $recipients = $this->getUpdateNotificationRecipients($document);

@@ -261,5 +261,22 @@ $signalSlotDispatcher->connect(
     false
 );
 
+// Public ElasticSearch index
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\AbstractController::class,
+    'indexPublicDocument',
+    \EWW\Dpf\Services\ElasticSearch\PublicIndexer::class,
+    'indexPublicDocument',
+    false
+);
+
+$signalSlotDispatcher->connect(
+    \EWW\Dpf\Controller\AbstractController::class,
+    'deletePublicDocumentFromIndex',
+    \EWW\Dpf\Services\ElasticSearch\PublicIndexer::class,
+    'deletePublicDocument',
+    false
+);
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMigrateDlfMetadata'] =
     \EWW\Dpf\Updates\MigrateDlfMetadataUpdate::class;
