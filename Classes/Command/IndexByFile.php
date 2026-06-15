@@ -35,8 +35,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class IndexByFile extends AbstractIndexCommand
 {
+    private const BULK_SIZE = 500;
+
     /** @var bool */
     protected $publicIndex = false;
+
+    /** @var \EWW\Dpf\Domain\Model\Document[] */
+    private $bulkBuffer = [];
+
+    /** @var PublicElasticSearch|null */
+    private $publicEs = null;
 
     /**
      * Configure the command by defining arguments
@@ -111,8 +119,10 @@ class IndexByFile extends AbstractIndexCommand
                     fclose($fn);
                 }
             }
+            $this->flushBulkBuffer($io);
         } else {
             $result = $this->indexFile($filename, $io);
+            $this->flushBulkBuffer($io);
         }
 
         if ($result === true) {
@@ -223,8 +233,31 @@ class IndexByFile extends AbstractIndexCommand
         if (!$document) {
             throw new \Exception("Could not create document from XML");
         }
-        $esClass = $this->publicIndex ? PublicElasticSearch::class : ElasticSearch::class;
-        $es = $this->objectManager->get($esClass);
-        $es->index($document, 'false');
+
+        if ($this->publicIndex) {
+            $this->bulkBuffer[] = $document;
+            if (count($this->bulkBuffer) >= self::BULK_SIZE) {
+                $this->flushBulkBuffer(null);
+            }
+        } else {
+            $es = $this->objectManager->get(ElasticSearch::class);
+            $es->index($document, 'false');
+        }
+    }
+
+    private function flushBulkBuffer(?OutputInterface $io): void
+    {
+        if (empty($this->bulkBuffer)) {
+            return;
+        }
+        if ($this->publicEs === null) {
+            $this->publicEs = $this->objectManager->get(PublicElasticSearch::class);
+        }
+        $count = count($this->bulkBuffer);
+        $this->publicEs->indexBulk($this->bulkBuffer);
+        $this->bulkBuffer = [];
+        if ($io !== null) {
+            $io->writeln("  → Flushed batch of $count documents to public index.");
+        }
     }
 }

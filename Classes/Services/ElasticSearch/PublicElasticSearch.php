@@ -109,4 +109,34 @@ class PublicElasticSearch extends ElasticSearch
             'body' => $data,
         ]);
     }
+
+    /**
+     * Indexes a batch of documents using the ES bulk API.
+     * Documents rejected by the mapper gate are silently skipped.
+     *
+     * @param Document[] $documents
+     * @param string $refresh
+     */
+    public function indexBulk(array $documents, string $refresh = 'false'): void
+    {
+        $mapper = new PublicDocumentMapper();
+        $body = [];
+
+        foreach ($documents as $document) {
+            $internalFormat = new InternalFormat($document->getXmlData());
+            $data = $mapper->map($document, $internalFormat);
+            if ($data === null) {
+                continue;
+            }
+            $body[] = ['index' => [
+                '_index' => $this->getIndexName(),
+                '_id' => strtolower($document->getDocumentIdentifier()),
+            ]];
+            $body[] = $data;
+        }
+
+        if (!empty($body)) {
+            $this->client->bulk(['refresh' => $refresh, 'body' => $body]);
+        }
+    }
 }

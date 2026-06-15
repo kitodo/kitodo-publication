@@ -16,11 +16,16 @@ namespace EWW\Dpf\Services\Transformer;
 
 class DocumentTransformer
 {
+    /** @var \DOMDocument[] XSL DOMDocuments keyed by file path — loaded once per process */
+    private static $xslCache = [];
 
     public function transform($xslt, $xml, $params = [])
     {
-        $xslDoc = new \DOMDocument();
-        $xslDoc->load($xslt);
+        if (!isset(self::$xslCache[$xslt])) {
+            $xslDoc = new \DOMDocument();
+            $xslDoc->load($xslt);
+            self::$xslCache[$xslt] = $xslDoc;
+        }
 
         $xmlDoc = new \DOMDocument();
         $xmlDoc->loadXML($xml);
@@ -32,7 +37,7 @@ class DocumentTransformer
         }
 
         libxml_use_internal_errors(true);
-        $result = $processor->importStyleSheet($xslDoc);
+        $result = $processor->importStyleSheet(self::$xslCache[$xslt]);
         if (!$result) {
             foreach (libxml_get_errors() as $error) {
                 echo "Libxml error: {$error->message}\n";
