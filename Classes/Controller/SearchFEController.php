@@ -56,37 +56,77 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
     private function collectCriteria(): array
     {
-        $allowed = ['q', 'doctype', 'year', 'yearFrom', 'yearTo', 'sort'];
         $criteria = [];
-        foreach ($allowed as $key) {
-            if ($this->request->hasArgument($key)) {
+
+        // slub_web_qucosa form submits query[fulltext], query[doctype], query[from], query[till]
+        if ($this->request->hasArgument('query')) {
+            $queryArg = $this->request->getArgument('query');
+            if (is_array($queryArg)) {
+                $fulltext = trim($queryArg['fulltext'] ?? $queryArg['search'] ?? '');
+                if ($fulltext !== '') {
+                    $criteria['q'] = $fulltext;
+                }
+                if (!empty($queryArg['doctype'])) {
+                    $criteria['doctype'] = (string) $queryArg['doctype'];
+                }
+                if (!empty($queryArg['from'])) {
+                    $criteria['yearFrom'] = (string) $queryArg['from'];
+                }
+                if (!empty($queryArg['till'])) {
+                    $criteria['yearTo'] = (string) $queryArg['till'];
+                }
+            }
+        }
+
+        // Flat args from direct URL params or our own simple form
+        foreach (['q', 'doctype', 'year', 'yearFrom', 'yearTo', 'sort'] as $key) {
+            if (!isset($criteria[$key]) && $this->request->hasArgument($key)) {
                 $criteria[$key] = (string) $this->request->getArgument($key);
             }
         }
+
         return $criteria;
     }
 
     private function renderResults(array $criteria, int $from): void
     {
         $queryBuilder = new PublicQueryBuilder();
-        $query = $queryBuilder->buildQuery($criteria, self::PAGE_SIZE, $from);
-        $query['index'] = null;
+        $esQuery = $queryBuilder->buildQuery($criteria, self::PAGE_SIZE, $from);
+        $esQuery['index'] = null;
 
         $es = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PublicElasticSearch::class);
-        $results = $es->search($query);
+        $results = $es->search($esQuery);
 
         $totalHits = (int) ($results['hits']['total']['value'] ?? $results['hits']['total'] ?? 0);
+        $documents = $results['hits']['hits'] ?? [];
         $pagination = PaginationBuilder::build($totalHits, self::PAGE_SIZE, $from);
-
         $aggregations = $results['aggregations'] ?? [];
 
+        // Bridge vars for slub_web_qucosa Search.html template
+        $legacyQuery = [
+            'fulltext'    => $criteria['q'] ?? '',
+            'doctype'     => $criteria['doctype'] ?? '',
+            'title'       => '',
+            'author'      => '',
+            'abstract'    => '',
+            'tag'         => '',
+            'corporation' => '',
+            'from'        => $criteria['yearFrom'] ?? '',
+            'till'        => $criteria['yearTo'] ?? '',
+        ];
+
         $this->view->assignMultiple([
-            'criteria'     => $criteria,
-            'documents'    => $results['hits']['hits'] ?? [],
-            'documentCount'=> $totalHits,
-            'pagination'   => $pagination,
-            'aggregations' => $aggregations,
-            'docTypes'     => $this->getDocTypes(),
+            'criteria'        => $criteria,
+            'documents'       => $documents,
+            'documentCount'   => $totalHits,
+            'pagination'      => $pagination,
+            'aggregations'    => $aggregations,
+            'docTypes'        => $this->getDocTypes(),
+            // slub_web_qucosa template expects these names
+            'resultList'      => ['total' => $totalHits, 'hits' => $documents],
+            'paginatedResults' => $documents,
+            'currentPage'     => $pagination['currentPage'],
+            'query'           => $legacyQuery,
         ]);
     }
 
