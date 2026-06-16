@@ -29,10 +29,17 @@ class PublicElasticSearch extends ElasticSearch
             'body' => [
                 'settings' => [
                     'analysis' => [
+                        'char_filter' => [
+                            'strip_leading_punctuation' => [
+                                'type' => 'pattern_replace',
+                                'pattern' => '^[^\\p{L}\\p{N}]+',
+                                'replacement' => '',
+                            ],
+                        ],
                         'normalizer' => [
                             'lowercase_normalizer' => [
                                 'type' => 'custom',
-                                'char_filter' => [],
+                                'char_filter' => ['strip_leading_punctuation'],
                                 'filter' => ['lowercase', 'asciifolding'],
                             ],
                         ],
@@ -49,6 +56,10 @@ class PublicElasticSearch extends ElasticSearch
                                     'normalizer' => 'lowercase_normalizer',
                                 ],
                             ],
+                        ],
+                        'titleSort' => [
+                            'type' => 'keyword',
+                            'normalizer' => 'lowercase_normalizer',
                         ],
                         'state' => ['type' => 'keyword'],
                         'doctype' => ['type' => 'keyword'],

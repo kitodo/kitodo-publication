@@ -2,17 +2,20 @@
     <f:for each="{documents}" as="hit">
         <li class="dpf-search-result">
             <h3 class="dpf-search-result__title">
-                <f:if condition="{hit._source.objectIdentifier}">
+                <f:if condition="{hit._source.objectIdentifier} && {landingPage}">
                     <f:then>
-                        <a href="/id/{hit._source.objectIdentifier}">{hit._source.title -> f:array.first()}</a>
+                        <f:link.page pageUid="{landingPage}"
+                            additionalParams="{tx_dpf: {qid: hit._source.objectIdentifier}}">
+                            {hit._source.title.0}
+                        </f:link.page>
                     </f:then>
                     <f:else>
-                        {hit._source.title -> f:array.first()}
+                        {hit._source.title.0}
                     </f:else>
                 </f:if>
             </h3>
             <f:if condition="{hit._source.persons}">
-                <p class="dpf-search-result__persons">{hit._source.persons -> f:array.first()}</p>
+                <p class="dpf-search-result__persons">{hit._source.persons.0}</p>
             </f:if>
             <p class="dpf-search-result__meta">
                 <f:if condition="{docTypes.{hit._source.doctype}}">

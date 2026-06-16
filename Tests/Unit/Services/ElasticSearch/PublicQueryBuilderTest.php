@@ -68,9 +68,65 @@ class PublicQueryBuilderTest extends TestCase
     {
         $query = $this->builder->buildQuery(['q' => 'test+value']);
         $queryNode = $query['body']['query'];
-        $qs = $queryNode['bool']['must']['query_string']['query'];
+        $qs = $queryNode['bool']['must'][0]['query_string']['query'];
         $this->assertStringContainsString('\\+', $qs);
         $this->assertStringNotContainsString('test+value', $qs);
+    }
+
+    public function testTitleSearchTargetsTitleField(): void
+    {
+        $query = $this->builder->buildQuery(['title' => 'Leipzig']);
+        $queryNode = $query['body']['query'];
+        $clause = $queryNode['bool']['must'][0]['query_string'];
+        $this->assertSame(['title'], $clause['fields']);
+        $this->assertSame('Leipzig', $clause['query']);
+    }
+
+    public function testAuthorSearchTargetsPersonsField(): void
+    {
+        $query = $this->builder->buildQuery(['author' => 'Wünsche']);
+        $queryNode = $query['body']['query'];
+        $clause = $queryNode['bool']['must'][0]['query_string'];
+        $this->assertSame(['persons'], $clause['fields']);
+        $this->assertSame('Wünsche', $clause['query']);
+    }
+
+    public function testTitleAndAuthorCombineWithAnd(): void
+    {
+        $query = $this->builder->buildQuery(['title' => 'Leipzig', 'author' => 'Wünsche']);
+        $queryNode = $query['body']['query'];
+        $this->assertCount(2, $queryNode['bool']['must']);
+    }
+
+    public function testFieldQueryTargetsMappedField(): void
+    {
+        $query = $this->builder->buildQuery(['fieldQueries' => [['field' => 'author', 'value' => 'Wünsche']]]);
+        $clause = $query['body']['query']['bool']['must'][0]['query_string'];
+        $this->assertSame(['persons'], $clause['fields']);
+        $this->assertSame('Wünsche', $clause['query']);
+    }
+
+    public function testMultipleFieldQueriesCombineWithAnd(): void
+    {
+        $query = $this->builder->buildQuery(['fieldQueries' => [
+            ['field' => 'title', 'value' => 'Leipzig'],
+            ['field' => 'author', 'value' => 'Wünsche'],
+        ]]);
+        $this->assertCount(2, $query['body']['query']['bool']['must']);
+    }
+
+    public function testFieldQueryWithUnknownFieldIsIgnored(): void
+    {
+        $query = $this->builder->buildQuery(['fieldQueries' => [['field' => 'bogus', 'value' => 'x']]]);
+        $queryNode = $query['body']['query'];
+        $this->assertArrayNotHasKey('must', $queryNode['bool']);
+    }
+
+    public function testFieldQueryWithEmptyValueIsIgnored(): void
+    {
+        $query = $this->builder->buildQuery(['fieldQueries' => [['field' => 'title', 'value' => '']]]);
+        $queryNode = $query['body']['query'];
+        $this->assertArrayNotHasKey('must', $queryNode['bool']);
     }
 
     public function testDoctypeFilterApplied(): void
@@ -134,14 +190,18 @@ class PublicQueryBuilderTest extends TestCase
         $this->assertSame('_score', $query['body']['sort'][0]);
     }
 
-    public function testSortByTitleKeyword(): void
+    public function testSortByTitleSortAscending(): void
     {
-        $query = $this->builder->buildQuery(['sort' => 'title']);
-        $sort = $query['body']['sort'];
-        $this->assertTrue(
-            isset($sort[0]['title.keyword']) || (is_array($sort[0]) && array_key_exists('title.keyword', $sort[0])),
-            'title.keyword sort not found'
-        );
+        $query = $this->builder->buildQuery(['sort' => 'title_asc']);
+        $sort = $query['body']['sort'][0]['titleSort'];
+        $this->assertSame('asc', $sort['order']);
+    }
+
+    public function testSortByTitleSortDescending(): void
+    {
+        $query = $this->builder->buildQuery(['sort' => 'title_desc']);
+        $sort = $query['body']['sort'][0]['titleSort'];
+        $this->assertSame('desc', $sort['order']);
     }
 
     public function testUnknownSortFallsBackToScore(): void
@@ -159,6 +219,12 @@ class PublicQueryBuilderTest extends TestCase
         $this->assertArrayHasKey('year', $aggs);
         $this->assertArrayHasKey('openAccess', $aggs);
         $this->assertArrayHasKey('hasFiles', $aggs);
+    }
+
+    public function testTrackTotalHitsAlwaysTrue(): void
+    {
+        $query = $this->builder->buildQuery([]);
+        $this->assertTrue($query['body']['track_total_hits']);
     }
 
     // ── helpers ──────────────────────────────────────────────────────────────

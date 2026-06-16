@@ -35,6 +35,7 @@ class PublicDocumentMapper
         foreach ($internalFormat->getSearchTitles() as $searchTitle) {
             $data['title'][] = $searchTitle;
         }
+        $data['titleSort'] = $document->getTitle();
 
         $data['doctype'] = $document->getDocumentType() ? $document->getDocumentType()->getName() : '';
         $data['state'] = $document->getState();

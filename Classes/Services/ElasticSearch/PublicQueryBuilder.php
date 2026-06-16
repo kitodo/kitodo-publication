@@ -4,9 +4,23 @@ namespace EWW\Dpf\Services\ElasticSearch;
 class PublicQueryBuilder
 {
     private const ALLOWED_SORTS = [
-        'title'     => ['title.keyword' => ['order' => 'asc']],
-        'dateIssued'=> ['dateIssued' => ['order' => 'desc']],
-        'year'      => ['year' => ['order' => 'desc']],
+        'title_asc'  => ['titleSort' => ['order' => 'asc']],
+        'title_desc' => ['titleSort' => ['order' => 'desc']],
+        'dateIssued' => ['dateIssued' => ['order' => 'desc']],
+        'year'       => ['year' => ['order' => 'desc']],
+    ];
+
+    /**
+     * Maps user-facing field selector keys to ES fields. Some targets (abstract, tag,
+     * corporation) have no backing field in the index yet and will simply match nothing
+     * until they're wired up (planned follow-up).
+     */
+    private const SEARCHABLE_FIELDS = [
+        'title'       => 'title',
+        'author'      => 'persons',
+        'abstract'    => 'abstract',
+        'tag'         => 'tag',
+        'corporation' => 'corporation',
     ];
 
     private const MAX_SIZE = 100;
@@ -49,13 +63,34 @@ class PublicQueryBuilder
 
         $filter = ['bool' => ['must' => $mustFilters]];
 
+        $mustQueries = [];
         if (!empty($criteria['q'])) {
-            $escaped = $this->escapeQuery($criteria['q']);
+            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['q'])]];
+        }
+        if (!empty($criteria['title'])) {
+            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['title']), 'fields' => ['title']]];
+        }
+        if (!empty($criteria['author'])) {
+            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['author']), 'fields' => ['persons']]];
+        }
+        foreach ($criteria['fieldQueries'] ?? [] as $fieldQuery) {
+            $field = $fieldQuery['field'] ?? '';
+            $value = $fieldQuery['value'] ?? '';
+            if ($value === '' || !isset(self::SEARCHABLE_FIELDS[$field])) {
+                continue;
+            }
+            $mustQueries[] = [
+                'query_string' => [
+                    'query'  => $this->escapeQuery($value),
+                    'fields' => [self::SEARCHABLE_FIELDS[$field]],
+                ],
+            ];
+        }
+
+        if (!empty($mustQueries)) {
             $queryNode = [
                 'bool' => [
-                    'must' => [
-                        'query_string' => ['query' => $escaped],
-                    ],
+                    'must'   => $mustQueries,
                     'filter' => $filter,
                 ],
             ];
@@ -75,6 +110,7 @@ class PublicQueryBuilder
         return [
             'index' => null,
             'body'  => [
+                'track_total_hits' => true,
                 'from'  => $from,
                 'size'  => $size,
                 'sort'  => $sort,

@@ -345,6 +345,7 @@ plugin.tx_dpf_frontendsearch {
     persistence < plugin.tx_dpf.persistence
     view < plugin.tx_dpf.view
     features.requireCHashArgumentForActionArguments = 0
+    settings.landingPage = {$plugin.tx_dpf.settings.landingPage}
 }
 
 tt_content.list.20.dpf_frontendsearch = USER_INT

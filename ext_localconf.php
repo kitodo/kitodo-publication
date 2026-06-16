@@ -279,3 +279,29 @@ $signalSlotDispatcher->connect(
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMigrateDlfMetadata'] =
     \EWW\Dpf\Updates\MigrateDlfMetadataUpdate::class;
+
+// Public search results vary per request and are never page-cached (plugin runs as USER_INT),
+// so its GET parameters carry no caching risk and don't need a cHash.
+// CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
+$GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = array_merge(
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] ?? [],
+    [
+        'tx_dpf_frontendsearch[q]',
+        'tx_dpf_frontendsearch[from]',
+        'tx_dpf_frontendsearch[sort]',
+        'tx_dpf_frontendsearch[doctype]',
+        'tx_dpf_frontendsearch[year]',
+        'tx_dpf_frontendsearch[yearFrom]',
+        'tx_dpf_frontendsearch[yearTo]',
+        'tx_dpf_frontendsearch[query][search]',
+        'tx_dpf_frontendsearch[query][fulltext]',
+        'tx_dpf_frontendsearch[query][title]',
+        'tx_dpf_frontendsearch[query][author]',
+        'tx_dpf_frontendsearch[query][abstract]',
+        'tx_dpf_frontendsearch[query][tag]',
+        'tx_dpf_frontendsearch[query][corporation]',
+        'tx_dpf_frontendsearch[query][doctype]',
+        'tx_dpf_frontendsearch[query][from]',
+        'tx_dpf_frontendsearch[query][till]',
+    ]
+);

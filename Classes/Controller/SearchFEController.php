@@ -43,6 +43,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function extendedSearchAction(int $from = 0): void
     {
         $criteria = $this->collectCriteria();
+        $this->view->setTemplate('Search');
         $this->view->assign('extended', true);
         $this->renderResults($criteria, $from);
     }
@@ -66,6 +67,12 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 if ($fulltext !== '') {
                     $criteria['q'] = $fulltext;
                 }
+                if (!empty($queryArg['title'])) {
+                    $criteria['title'] = (string) $queryArg['title'];
+                }
+                if (!empty($queryArg['author'])) {
+                    $criteria['author'] = (string) $queryArg['author'];
+                }
                 if (!empty($queryArg['doctype'])) {
                     $criteria['doctype'] = (string) $queryArg['doctype'];
                 }
@@ -74,6 +81,27 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 }
                 if (!empty($queryArg['till'])) {
                     $criteria['yearTo'] = (string) $queryArg['till'];
+                }
+            }
+        }
+
+        // Dynamic field+value rows from the extended search repeater
+        if ($this->request->hasArgument('fields')) {
+            $fieldsArg = $this->request->getArgument('fields');
+            if (is_array($fieldsArg)) {
+                $fieldQueries = [];
+                foreach ($fieldsArg as $row) {
+                    if (!is_array($row)) {
+                        continue;
+                    }
+                    $field = (string) ($row['name'] ?? '');
+                    $value = trim((string) ($row['value'] ?? ''));
+                    if ($field !== '' && $value !== '') {
+                        $fieldQueries[] = ['field' => $field, 'value' => $value];
+                    }
+                }
+                if (!empty($fieldQueries)) {
+                    $criteria['fieldQueries'] = $fieldQueries;
                 }
             }
         }
@@ -90,6 +118,11 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
     private function renderResults(array $criteria, int $from): void
     {
+        if (empty($criteria)) {
+            $this->renderEmptyResults($criteria);
+            return;
+        }
+
         $queryBuilder = new PublicQueryBuilder();
         $esQuery = $queryBuilder->buildQuery($criteria, self::PAGE_SIZE, $from);
         $esQuery['index'] = null;
@@ -100,20 +133,33 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         $totalHits = (int) ($results['hits']['total']['value'] ?? $results['hits']['total'] ?? 0);
         $documents = $results['hits']['hits'] ?? [];
         $pagination = PaginationBuilder::build($totalHits, self::PAGE_SIZE, $from);
+        $pagination['prevArguments'] = array_merge($criteria, ['from' => $pagination['prevOffset']]);
+        $pagination['nextArguments'] = array_merge($criteria, ['from' => $pagination['nextOffset']]);
+        $pagination['pageArguments'] = [];
+        foreach ($pagination['offsetForPage'] as $page => $offset) {
+            $pagination['pageArguments'][$page] = array_merge($criteria, ['from' => $offset]);
+        }
         $aggregations = $results['aggregations'] ?? [];
 
         // Bridge vars for slub_web_qucosa Search.html template
         $legacyQuery = [
             'fulltext'    => $criteria['q'] ?? '',
             'doctype'     => $criteria['doctype'] ?? '',
-            'title'       => '',
-            'author'      => '',
+            'title'       => $criteria['title'] ?? '',
+            'author'      => $criteria['author'] ?? '',
             'abstract'    => '',
             'tag'         => '',
             'corporation' => '',
             'from'        => $criteria['yearFrom'] ?? '',
             'till'        => $criteria['yearTo'] ?? '',
         ];
+
+        $queryEmpty = [];
+        foreach (['title', 'author', 'abstract', 'tag', 'corporation'] as $field) {
+            $queryEmpty[$field] = $legacyQuery[$field] === '' ? 'true' : 'false';
+        }
+
+        $fieldQueries = $criteria['fieldQueries'] ?? [['field' => 'title', 'value' => '']];
 
         $this->view->assignMultiple([
             'criteria'        => $criteria,
@@ -122,11 +168,43 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             'pagination'      => $pagination,
             'aggregations'    => $aggregations,
             'docTypes'        => $this->getDocTypes(),
+            'landingPage'     => (int) ($this->settings['landingPage'] ?? 0),
             // slub_web_qucosa template expects these names
             'resultList'      => ['total' => $totalHits, 'hits' => $documents],
             'paginatedResults' => $documents,
             'currentPage'     => $pagination['currentPage'],
             'query'           => $legacyQuery,
+            'queryEmpty'      => $queryEmpty,
+            'fieldQueries'    => $fieldQueries,
+            'isLanding'       => false,
+        ]);
+    }
+
+    private function renderEmptyResults(array $criteria): void
+    {
+        $pagination = PaginationBuilder::build(0, self::PAGE_SIZE, 0);
+        $legacyQuery = [
+            'fulltext' => '', 'doctype' => '', 'title' => '', 'author' => '',
+            'abstract' => '', 'tag' => '', 'corporation' => '', 'from' => '', 'till' => '',
+        ];
+        $queryEmpty = array_fill_keys(['title', 'author', 'abstract', 'tag', 'corporation'], 'true');
+        $fieldQueries = $criteria['fieldQueries'] ?? [['field' => 'title', 'value' => '']];
+
+        $this->view->assignMultiple([
+            'criteria'         => $criteria,
+            'documents'        => [],
+            'documentCount'    => 0,
+            'pagination'       => $pagination,
+            'aggregations'     => [],
+            'docTypes'         => $this->getDocTypes(),
+            'landingPage'      => (int) ($this->settings['landingPage'] ?? 0),
+            'resultList'       => ['total' => 0, 'hits' => []],
+            'paginatedResults' => [],
+            'currentPage'      => $pagination['currentPage'],
+            'query'            => $legacyQuery,
+            'queryEmpty'       => $queryEmpty,
+            'fieldQueries'     => $fieldQueries,
+            'isLanding'        => true,
         ]);
     }
 
