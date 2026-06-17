@@ -21,6 +21,11 @@ use EWW\Dpf\Services\PaginationBuilder;
 class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
+     * @var \TYPO3\CMS\Fluid\View\TemplateView
+     */
+    protected $view;
+
+    /**
      * @var \EWW\Dpf\Domain\Repository\DocumentTypeRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
@@ -63,25 +68,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         if ($this->request->hasArgument('query')) {
             $queryArg = $this->request->getArgument('query');
             if (is_array($queryArg)) {
-                $fulltext = trim($queryArg['fulltext'] ?? $queryArg['search'] ?? '');
-                if ($fulltext !== '') {
-                    $criteria['q'] = $fulltext;
-                }
-                if (!empty($queryArg['title'])) {
-                    $criteria['title'] = (string) $queryArg['title'];
-                }
-                if (!empty($queryArg['author'])) {
-                    $criteria['author'] = (string) $queryArg['author'];
-                }
-                if (!empty($queryArg['doctype'])) {
-                    $criteria['doctype'] = (string) $queryArg['doctype'];
-                }
-                if (!empty($queryArg['from'])) {
-                    $criteria['yearFrom'] = (string) $queryArg['from'];
-                }
-                if (!empty($queryArg['till'])) {
-                    $criteria['yearTo'] = (string) $queryArg['till'];
-                }
+                $criteria = array_merge($criteria, $this->collectQueryArgCriteria($queryArg));
             }
         }
 
@@ -89,17 +76,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         if ($this->request->hasArgument('fields')) {
             $fieldsArg = $this->request->getArgument('fields');
             if (is_array($fieldsArg)) {
-                $fieldQueries = [];
-                foreach ($fieldsArg as $row) {
-                    if (!is_array($row)) {
-                        continue;
-                    }
-                    $field = (string) ($row['name'] ?? '');
-                    $value = trim((string) ($row['value'] ?? ''));
-                    if ($field !== '' && $value !== '') {
-                        $fieldQueries[] = ['field' => $field, 'value' => $value];
-                    }
-                }
+                $fieldQueries = $this->collectFieldCriteria($fieldsArg);
                 if (!empty($fieldQueries)) {
                     $criteria['fieldQueries'] = $fieldQueries;
                 }
@@ -114,6 +91,47 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         }
 
         return $criteria;
+    }
+
+    private function collectQueryArgCriteria(array $queryArg): array
+    {
+        $criteria = [];
+        $fulltext = trim($queryArg['fulltext'] ?? $queryArg['search'] ?? '');
+        if ($fulltext !== '') {
+            $criteria['q'] = $fulltext;
+        }
+        if (!empty($queryArg['title'])) {
+            $criteria['title'] = (string) $queryArg['title'];
+        }
+        if (!empty($queryArg['author'])) {
+            $criteria['author'] = (string) $queryArg['author'];
+        }
+        if (!empty($queryArg['doctype'])) {
+            $criteria['doctype'] = (string) $queryArg['doctype'];
+        }
+        if (!empty($queryArg['from'])) {
+            $criteria['yearFrom'] = (string) $queryArg['from'];
+        }
+        if (!empty($queryArg['till'])) {
+            $criteria['yearTo'] = (string) $queryArg['till'];
+        }
+        return $criteria;
+    }
+
+    private function collectFieldCriteria(array $fieldsArg): array
+    {
+        $fieldQueries = [];
+        foreach ($fieldsArg as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $field = (string) ($row['name'] ?? '');
+            $value = trim((string) ($row['value'] ?? ''));
+            if ($field !== '' && $value !== '') {
+                $fieldQueries[] = ['field' => $field, 'value' => $value];
+            }
+        }
+        return $fieldQueries;
     }
 
     private function renderResults(array $criteria, int $from): void

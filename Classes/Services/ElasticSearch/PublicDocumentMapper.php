@@ -50,31 +50,16 @@ class PublicDocumentMapper
             $data['identifier'][] = $id;
         }
 
-        $persons = $internalFormat->getPersons();
-        $data['persons'] = [];
-        foreach ($persons as $person) {
-            $data['persons'][] = $person['name'] ?? '';
-        }
-
-        if (!empty($persons) && array_key_exists('family', $persons[0])) {
-            $data['personsSort'] = $persons[0]['family'];
-        } else {
-            $data['personsSort'] = '';
-        }
+        $personsData = $this->mapPersonsData($internalFormat->getPersons());
+        $data['persons']     = $personsData['names'];
+        $data['personsSort'] = $personsData['sort'];
 
         $dateIssued = $internalFormat->getDateIssued();
         $data['dateIssued'] = !empty($dateIssued) ? date('Y-m-d', strtotime($dateIssued)) : null;
 
-        $years = $internalFormat->getSearchYear();
-        $data['year'] = '';
-        foreach ($years as $year) {
-            if (!empty($year)) {
-                $data['year'] = $year;
-                break;
-            }
-        }
+        $data['year'] = $this->findFirstYear($internalFormat->getSearchYear());
 
-        $data['collections'] = $internalFormat->getCollections() ?: [];
+        $data['collections'] = (array) $internalFormat->getCollections();
         $data['openAccess'] = $internalFormat->getOpenAccessForSearch();
         $data['license'] = $internalFormat->getLicense();
         $data['hasFiles'] = $document->hasFiles();
@@ -85,5 +70,28 @@ class PublicDocumentMapper
         $data['embargoDate'] = ($embargoDate instanceof DateTime) ? $embargoDate->format('Y-m-d') : null;
 
         return $data;
+    }
+
+    private function mapPersonsData(array $persons): array
+    {
+        $names = [];
+        foreach ($persons as $person) {
+            $names[] = $person['name'] ?? '';
+        }
+        $sort = '';
+        if (!empty($persons) && array_key_exists('family', $persons[0])) {
+            $sort = $persons[0]['family'];
+        }
+        return ['names' => $names, 'sort' => $sort];
+    }
+
+    private function findFirstYear(array $years): string
+    {
+        foreach ($years as $year) {
+            if (!empty($year)) {
+                return (string) $year;
+            }
+        }
+        return '';
     }
 }

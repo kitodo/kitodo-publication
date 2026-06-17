@@ -38,68 +38,13 @@ class PublicQueryBuilder
         $size = min(max(1, $size), self::MAX_SIZE);
         $from = max(0, $from);
 
-        $mustFilters = [
-            ['term' => ['state' => 'NONE:ACTIVE']],
-        ];
-
-        if (!empty($criteria['doctype'])) {
-            $mustFilters[] = ['term' => ['doctype' => $criteria['doctype']]];
-        }
-
-        if (!empty($criteria['year'])) {
-            $mustFilters[] = ['term' => ['year' => $criteria['year']]];
-        }
-
-        if (!empty($criteria['yearFrom']) || !empty($criteria['yearTo'])) {
-            $range = [];
-            if (!empty($criteria['yearFrom'])) {
-                $range['gte'] = $criteria['yearFrom'];
-            }
-            if (!empty($criteria['yearTo'])) {
-                $range['lte'] = $criteria['yearTo'];
-            }
-            $mustFilters[] = ['range' => ['year' => $range]];
-        }
-
-        $filter = ['bool' => ['must' => $mustFilters]];
-
-        $mustQueries = [];
-        if (!empty($criteria['q'])) {
-            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['q'])]];
-        }
-        if (!empty($criteria['title'])) {
-            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['title']), 'fields' => ['title']]];
-        }
-        if (!empty($criteria['author'])) {
-            $mustQueries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['author']), 'fields' => ['persons']]];
-        }
-        foreach ($criteria['fieldQueries'] ?? [] as $fieldQuery) {
-            $field = $fieldQuery['field'] ?? '';
-            $value = $fieldQuery['value'] ?? '';
-            if ($value === '' || !isset(self::SEARCHABLE_FIELDS[$field])) {
-                continue;
-            }
-            $mustQueries[] = [
-                'query_string' => [
-                    'query'  => $this->escapeQuery($value),
-                    'fields' => [self::SEARCHABLE_FIELDS[$field]],
-                ],
-            ];
-        }
+        $filter     = ['bool' => ['must' => $this->buildFilters($criteria)]];
+        $mustQueries = $this->buildTextQueries($criteria);
 
         if (!empty($mustQueries)) {
-            $queryNode = [
-                'bool' => [
-                    'must'   => $mustQueries,
-                    'filter' => $filter,
-                ],
-            ];
+            $queryNode = ['bool' => ['must' => $mustQueries, 'filter' => $filter]];
         } else {
-            $queryNode = [
-                'bool' => [
-                    'filter' => $filter,
-                ],
-            ];
+            $queryNode = ['bool' => ['filter' => $filter]];
         }
 
         $sort = ['_score'];
@@ -123,6 +68,68 @@ class PublicQueryBuilder
                 ],
             ],
         ];
+    }
+
+    private function buildFilters(array $criteria): array
+    {
+        $filters = [['term' => ['state' => 'NONE:ACTIVE']]];
+
+        if (!empty($criteria['doctype'])) {
+            $filters[] = ['term' => ['doctype' => $criteria['doctype']]];
+        }
+        if (!empty($criteria['year'])) {
+            $filters[] = ['term' => ['year' => $criteria['year']]];
+        }
+
+        $range = $this->buildYearRange($criteria);
+        if (!empty($range)) {
+            $filters[] = ['range' => ['year' => $range]];
+        }
+
+        return $filters;
+    }
+
+    private function buildYearRange(array $criteria): array
+    {
+        $range = [];
+        if (!empty($criteria['yearFrom'])) {
+            $range['gte'] = $criteria['yearFrom'];
+        }
+        if (!empty($criteria['yearTo'])) {
+            $range['lte'] = $criteria['yearTo'];
+        }
+        return $range;
+    }
+
+    private function buildTextQueries(array $criteria): array
+    {
+        $queries = [];
+
+        if (!empty($criteria['q'])) {
+            $queries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['q'])]];
+        }
+        if (!empty($criteria['title'])) {
+            $queries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['title']), 'fields' => ['title']]];
+        }
+        if (!empty($criteria['author'])) {
+            $queries[] = ['query_string' => ['query' => $this->escapeQuery($criteria['author']), 'fields' => ['persons']]];
+        }
+
+        foreach ($criteria['fieldQueries'] ?? [] as $fieldQuery) {
+            $field = $fieldQuery['field'] ?? '';
+            $value = $fieldQuery['value'] ?? '';
+            if ($value === '' || !isset(self::SEARCHABLE_FIELDS[$field])) {
+                continue;
+            }
+            $queries[] = [
+                'query_string' => [
+                    'query'  => $this->escapeQuery($value),
+                    'fields' => [self::SEARCHABLE_FIELDS[$field]],
+                ],
+            ];
+        }
+
+        return $queries;
     }
 
     private function escapeQuery(string $string): string

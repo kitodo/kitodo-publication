@@ -310,41 +310,63 @@ class ElasticSearch
             $data->title[] = $searchTitle;
         }
 
-        $data->doctype = $document->getDocumentType()->getName();
-
-        $data->state = $document->getState();
-        $data->aliasState = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
-
-        if (!$data->doctype) {
-            $data->doctype = $document->getDocumentType()->getName();
-        }
-
-        if (!$data->process_number) {
-            $data->process_number = $document->getProcessNumber();
-        }
-
+        $data->doctype          = $document->getDocumentType()->getName();
+        $data->state            = $document->getState();
+        $data->aliasState       = DocumentWorkflow::STATE_TO_ALIASSTATE_MAPPING[$document->getState()];
+        $data->process_number   = $document->getProcessNumber();
         $data->objectIdentifier = $document->getObjectIdentifier();
 
-        if (!$data->identifier || !is_array($data->identifier)) {
-            $data->identifier = [];
-        }
-        $data->identifier[] = $document->getObjectIdentifier();
-        $data->identifier[] = $document->getProcessNumber();
-
+        $data->identifier = [$document->getObjectIdentifier(), $document->getProcessNumber()];
         foreach ($internalFormat->getSearchIdentifiers() as $searchIdentifier) {
             $data->identifier[] = $searchIdentifier;
         }
 
+        $this->buildCreatorSection($document, $data);
+
+        $creationDate       = new DateTime($document->getCreationDate());
+        $data->creationDate = $creationDate->format('Y-m-d');
+
+        $notes        = $document->getNotes();
+        $data->notes  = is_array($notes) ? $notes : [];
+        $data->hasFiles = $document->hasFiles() ? true : false;
+
+        $this->buildPersonSection($internalFormat->getPersons(), $data);
+
+        $data->source      = $document->getSourceDetails();
+        $data->collections = $internalFormat->getCollections();
+        $data->universityCollection = $this->resolveUniversityCollection($data->collections ?: []);
+
+        $embargoDate       = $document->getEmbargoDate();
+        $data->embargoDate = ($embargoDate instanceof DateTime) ? $embargoDate->format('Y-m-d') : null;
+
+        $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
+        $data->fobIdentifiers      = $internalFormat->getPersonFisIdentifiers();
+
+        $dateIssued       = $internalFormat->getDateIssued();
+        $data->dateIssued = $dateIssued ? date('Y-m-d', strtotime($dateIssued)) : null;
+
+        $data->textType   = $internalFormat->getTextType();
+        $data->openAccess = $internalFormat->getOpenAccessForSearch();
+        $data->peerReview = $internalFormat->getPeerReviewForSearch();
+        $data->license    = $internalFormat->getLicense();
+        $data->publisher[] = $internalFormat->getPublishers();
+
+        $data->searchYear  = $internalFormat->getSearchYear();
+        $data->year        = $this->findFirstDocumentYear($internalFormat->getSearchYear());
+
+        $data->project     = $internalFormat->getProjects();
+        $data->language    = $internalFormat->getSearchLanguage();
+        $data->corporation = $internalFormat->getSearchCorporation();
+
+        return $data;
+    }
+
+    private function buildCreatorSection(Document $document, \stdClass $data): void
+    {
         if ($document->getCreator()) {
             $data->creator = $document->getCreator();
-        } else {
-            $data->creator = null;
-        }
-
-        if ($document->getCreator()) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             $frontendUserRepository = $objectManager->get(FrontendUserRepository::class);
-
             /** @var FrontendUser $creatorFeUser */
             $creatorFeUser = $frontendUserRepository->findByUid($document->getCreator());
             if ($creatorFeUser) {
@@ -353,98 +375,52 @@ class ElasticSearch
                 $data->creatorRole = '';
             }
         } else {
+            $data->creator     = null;
             $data->creatorRole = '';
         }
+    }
 
-        $creationDate = new DateTime($document->getCreationDate());
-        $data->creationDate = $creationDate->format('Y-m-d');
-
-        $notes = $document->getNotes();
-        if ($notes && is_array($notes)) {
-            $data->notes = $notes;
-        } else {
-            $data->notes = array();
-        }
-
-        $data->hasFiles = $document->hasFiles() ? true : false;
-
-        $persons = $internalFormat->getPersons();
-
+    private function buildPersonSection(array $persons, \stdClass $data): void
+    {
         $fobIdentifiers = [];
-        $personData = [];
+        $personData     = [];
         foreach ($persons as $person) {
-            $fobIdentifiers[] = $person['fobId'];
-            $personData[] = $person;
-            $data->persons[] = $person['name'];
-            $data->persons[] = $person['fobId'];
-
+            $fobIdentifiers[]    = $person['fobId'];
+            $personData[]        = $person;
+            $data->persons[]     = $person['name'];
+            $data->persons[]     = $person['fobId'];
             foreach ($person['affiliations'] as $affiliation) {
                 $data->affiliation[] = $affiliation;
             }
         }
-
         $data->fobIdentifiers = $fobIdentifiers;
-        $data->personData = $personData;
+        $data->personData     = $personData;
 
-        if (sizeof($persons) > 0) {
-            if (array_key_exists('family', $persons[0])) {
-                $data->personsSort = $persons[0]['family'];
+        if (sizeof($persons) > 0 && array_key_exists('family', $persons[0])) {
+            $data->personsSort = $persons[0]['family'];
+        } else {
+            $data->personsSort = '';
+        }
+    }
+
+    private function resolveUniversityCollection(array $collections): bool
+    {
+        foreach ($collections as $collection) {
+            if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
+                return true;
             }
         }
+        return false;
+    }
 
-        $data->source = $document->getSourceDetails();
-
-        $data->universityCollection = false;
-
-        $data->collections = $internalFormat->getCollections();
-        if ($data->collections && is_array($data->collections)) {
-            foreach ($data->collections as $collection) {
-                if ($collection == $this->clientConfigurationManager->getUniversityCollection()) {
-                    $data->universityCollection = true;
-                    break;
-                }
-            }
-        }
-
-        $embargoDate = $document->getEmbargoDate();
-        if ($embargoDate instanceof DateTime) {
-            $data->embargoDate = $embargoDate->format("Y-m-d");
-        } else {
-            $data->embargoDate = null;
-        }
-
-        $data->originalSourceTitle = $internalFormat->getOriginalSourceTitle();
-
-        $data->fobIdentifiers = $internalFormat->getPersonFisIdentifiers();
-
-        $dateIssued = $internalFormat->getDateIssued();
-        if ($dateIssued) {
-            $data->dateIssued = date('Y-m-d', strtotime($dateIssued));
-        } else {
-            $data->dateIssued = null;
-        }
-
-        $data->textType   = $internalFormat->getTextType();
-        $data->openAccess = $internalFormat->getOpenAccessForSearch();
-        $data->peerReview = $internalFormat->getPeerReviewForSearch();
-        $data->license    = $internalFormat->getLicense();
-        $data->publisher[] = $internalFormat->getPublishers();
-
-        $data->searchYear = $internalFormat->getSearchYear();
-
-        $data->year = "";
-        foreach ($internalFormat->getSearchYear() as $year) {
+    private function findFirstDocumentYear(array $years): string
+    {
+        foreach ($years as $year) {
             if (!empty($year)) {
-                $data->year = $year;
-                break;
+                return (string) $year;
             }
         }
-
-        $data->project     = $internalFormat->getProjects();
-        $data->language    = $internalFormat->getSearchLanguage();
-        $data->corporation = $internalFormat->getSearchCorporation();
-
-        return $data;
+        return '';
     }
 
 
