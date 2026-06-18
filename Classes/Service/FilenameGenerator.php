@@ -52,6 +52,23 @@ class FilenameGenerator
         'application/xml'      => '.xml',
         'image/jpeg'           => '.jpg',
         'image/png'            => '.png',
+        // Office formats
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'         => '.xlsx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'   => '.docx',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => '.pptx',
+        'application/vnd.ms-excel'       => '.xls',
+        'application/msword'             => '.doc',
+        'application/vnd.ms-powerpoint'  => '.ppt',
+        'application/vnd.oasis.opendocument.text'         => '.odt',
+        'application/vnd.oasis.opendocument.spreadsheet'  => '.ods',
+        'application/vnd.oasis.opendocument.presentation' => '.odp',
+        // fid-move and common attachments
+        'video/mp4'              => '.mp4',
+        'application/x-rar'     => '.rar',
+        'application/x-rar-compressed' => '.rar',
+        'application/x-gzip'    => '.gz',
+        'application/gzip'      => '.gz',
+        'text/csv'               => '.csv',
     ];
 
     /**

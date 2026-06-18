@@ -19,7 +19,8 @@ use PHPUnit\Framework\TestCase;
 
 class FilenameGeneratorTest extends TestCase
 {
-    private FilenameGenerator $generator;
+    /** @var FilenameGenerator */
+    private $generator;
 
     protected function setUp(): void
     {
@@ -263,5 +264,38 @@ XML;
             1
         );
         $this->assertStringStartsWith('2019_', $filename);
+    }
+
+    public function testMimeToExtensionOfficeFormats(): void
+    {
+        $this->assertSame('.xlsx', FilenameGenerator::mimeToExtension('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+        $this->assertSame('.docx', FilenameGenerator::mimeToExtension('application/vnd.openxmlformats-officedocument.wordprocessingml.document'));
+        $this->assertSame('.pptx', FilenameGenerator::mimeToExtension('application/vnd.openxmlformats-officedocument.presentationml.presentation'));
+        $this->assertSame('.xls',  FilenameGenerator::mimeToExtension('application/vnd.ms-excel'));
+        $this->assertSame('.doc',  FilenameGenerator::mimeToExtension('application/msword'));
+        $this->assertSame('.ppt',  FilenameGenerator::mimeToExtension('application/vnd.ms-powerpoint'));
+        $this->assertSame('.odt',  FilenameGenerator::mimeToExtension('application/vnd.oasis.opendocument.text'));
+        $this->assertSame('.ods',  FilenameGenerator::mimeToExtension('application/vnd.oasis.opendocument.spreadsheet'));
+        $this->assertSame('.odp',  FilenameGenerator::mimeToExtension('application/vnd.oasis.opendocument.presentation'));
+    }
+
+    public function testMimeToExtensionUnknownMimeReturnsEmpty(): void
+    {
+        $this->assertSame('', FilenameGenerator::mimeToExtension('application/x-custom-format'));
+        $this->assertSame('', FilenameGenerator::mimeToExtension(''));
+    }
+
+    public function testXlsxLabelStripsExtensionAndReappliesFromMime(): void
+    {
+        // Reproduces: Fedora label "File.xlsx" + MIME xlsx → should yield "File.xlsx", not "File"
+        $filename = $this->generator->generate(
+            $this->modsXml('Titel', '2024-01-01'),
+            $this->slubInfoXml(),
+            'qucosa:slub',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            1,
+            2
+        );
+        $this->assertStringEndsWith('.xlsx', $filename);
     }
 }
