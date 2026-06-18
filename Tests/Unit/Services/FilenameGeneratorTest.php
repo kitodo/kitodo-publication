@@ -279,6 +279,20 @@ XML;
         $this->assertSame('.odp',  FilenameGenerator::mimeToExtension('application/vnd.oasis.opendocument.presentation'));
     }
 
+    public function testMimeToExtensionVideoAudioFormats(): void
+    {
+        $this->assertSame('.mp4',  FilenameGenerator::mimeToExtension('video/mp4'));
+        $this->assertSame('.mpeg', FilenameGenerator::mimeToExtension('video/mpeg'));
+        $this->assertSame('.mov',  FilenameGenerator::mimeToExtension('video/quicktime'));
+        $this->assertSame('.webm', FilenameGenerator::mimeToExtension('video/webm'));
+        $this->assertSame('.avi',  FilenameGenerator::mimeToExtension('video/x-msvideo'));
+        $this->assertSame('.mkv',  FilenameGenerator::mimeToExtension('video/x-matroska'));
+        $this->assertSame('.mp3',  FilenameGenerator::mimeToExtension('audio/mpeg'));
+        $this->assertSame('.m4a',  FilenameGenerator::mimeToExtension('audio/mp4'));
+        $this->assertSame('.ogg',  FilenameGenerator::mimeToExtension('audio/ogg'));
+        $this->assertSame('.wav',  FilenameGenerator::mimeToExtension('audio/wav'));
+    }
+
     public function testMimeToExtensionUnknownMimeReturnsEmpty(): void
     {
         $this->assertSame('', FilenameGenerator::mimeToExtension('application/x-custom-format'));
