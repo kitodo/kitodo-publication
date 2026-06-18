@@ -3,13 +3,13 @@ parameters:
 		-
 			message: '#^Constant PATH_site not found\.$#'
 			identifier: constant.notFound
-			count: 2
+			count: 3
 			path: Classes/Command/ReplaceFileCommand.php
 
 		-
 			message: '#^Parameter \#1 \$prefix of function uniqid expects string, int\<0, max\> given\.$#'
 			identifier: argument.type
-			count: 1
+			count: 2
 			path: Classes/Command/ReplaceFileCommand.php
 
 		-
