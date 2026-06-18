@@ -22,11 +22,13 @@ class ReplaceFileCommand extends Command
              ->addOption('process-number', null, InputOption::VALUE_REQUIRED, 'Process number of the document')
              ->addOption('url', null, InputOption::VALUE_REQUIRED, 'Download URL for the file')
              ->addOption('datastream', null, InputOption::VALUE_REQUIRED, 'Datastream ID to replace (replace mode, default: ATT-0)', 'ATT-0')
+             ->addOption('file-uid', null, InputOption::VALUE_REQUIRED, 'tx_dpf_domain_model_file.uid to replace directly (overrides --datastream; needed for secondary files on draft documents, which have no DSID)')
              ->addOption('username', null, InputOption::VALUE_REQUIRED, 'HTTP username for download URL')
              ->addOption('password', null, InputOption::VALUE_REQUIRED, 'HTTP password for download URL')
              ->addOption('label', null, InputOption::VALUE_REQUIRED, 'Display name shown to users')
              ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Physical filename shown in TYPO3 backend')
              ->addOption('add', null, InputOption::VALUE_NONE, 'Add new secondary file instead of replacing existing')
+             ->addOption('content-type', null, InputOption::VALUE_REQUIRED, 'Expected MIME type of the downloaded file (default: application/pdf, or the replaced file\'s current type)')
              ->addOption('yes', 'y', InputOption::VALUE_NONE, 'Skip confirmation prompts (for non-interactive use)');
     }
 
@@ -83,25 +85,39 @@ class ReplaceFileCommand extends Command
         $isFedoraLink = false;
         $newLink      = null;
         if (!$isAdd) {
-            $datastreamId = $input->getOption('datastream') ?: 'ATT-0';
-            if (!$input->getOption('datastream') && !$input->getOption('url')) {
-                $datastreamId = $helper->ask($input, $output, new Question('Datastream to replace [ATT-0]: ', 'ATT-0'));
-            }
+            $fileUid = $input->getOption('file-uid');
+            if ($fileUid) {
+                foreach ($files as $f) {
+                    if ((int) $f->getUid() === (int) $fileUid) {
+                        $targetFile = $f;
+                        break;
+                    }
+                }
+                if ($targetFile === null) {
+                    $output->writeln('<error>File uid not found on this document: ' . $fileUid . '</error>');
+                    return 1;
+                }
+            } else {
+                $datastreamId = $input->getOption('datastream') ?: 'ATT-0';
+                if (!$input->getOption('datastream') && !$input->getOption('url')) {
+                    $datastreamId = $helper->ask($input, $output, new Question('Datastream to replace [ATT-0]: ', 'ATT-0'));
+                }
 
-            foreach ($files as $f) {
-                if ($f->getDatastreamIdentifier() === $datastreamId) {
-                    $targetFile = $f;
-                    break;
+                foreach ($files as $f) {
+                    if ($f->getDatastreamIdentifier() === $datastreamId) {
+                        $targetFile = $f;
+                        break;
+                    }
+                    // NEW documents have no DSID yet; ATT-0 maps to the primary file
+                    if ($datastreamId === 'ATT-0' && $f->isPrimaryFile() && !$f->getDatastreamIdentifier()) {
+                        $targetFile = $f;
+                        break;
+                    }
                 }
-                // NEW documents have no DSID yet; ATT-0 maps to the primary file
-                if ($datastreamId === 'ATT-0' && $f->isPrimaryFile() && !$f->getDatastreamIdentifier()) {
-                    $targetFile = $f;
-                    break;
+                if ($targetFile === null) {
+                    $output->writeln('<error>Datastream not found: ' . $datastreamId . '</error>');
+                    return 1;
                 }
-            }
-            if ($targetFile === null) {
-                $output->writeln('<error>Datastream not found: ' . $datastreamId . '</error>');
-                return 1;
             }
 
             $output->writeln('Current title: "' . $targetFile->getTitle() . '"');
@@ -129,7 +145,10 @@ class ReplaceFileCommand extends Command
                 if (!is_dir($diskUploadDir)) {
                     mkdir($diskUploadDir, 0775, true);
                 }
-                $uniqueName = time() . '_' . substr(md5(uniqid(mt_rand(), true)), 0, 8) . '.pdf';
+                $extension  = self::extensionForContentType(
+                    $input->getOption('content-type') ?: $targetFile->getContentType() ?: 'application/pdf'
+                );
+                $uniqueName = time() . '_' . substr(md5(uniqid(mt_rand(), true)), 0, 8) . '.' . $extension;
                 $diskPath   = $diskUploadDir . $uniqueName;
                 $newLink    = $domain . '/' . $uploadDir . '/' . $uniqueName;
                 $output->writeln('Upload domain: ' . ($domain ?: '(none — relative URL will be used)'));
@@ -187,14 +206,23 @@ class ReplaceFileCommand extends Command
         $size = filesize($tmpPath);
         $output->writeln('done (' . round($size / 1048576, 1) . ' MB)');
 
-        // --- Validate PDF ---
-        $header = file_get_contents($tmpPath, false, null, 0, 4);
-        if ($header !== '%PDF') {
-            unlink($tmpPath);
-            $output->writeln('<error>Not a PDF (magic bytes: ' . bin2hex($header) . ')</error>');
-            return 1;
+        // --- Validate content type ---
+        $expectedContentType = $input->getOption('content-type');
+        if (!$expectedContentType) {
+            $expectedContentType = (!$isAdd && $targetFile->getContentType())
+                ? $targetFile->getContentType() : 'application/pdf';
         }
-        $output->writeln('Validated: PDF');
+        if ($expectedContentType === 'application/pdf') {
+            $header = file_get_contents($tmpPath, false, null, 0, 4);
+            if ($header !== '%PDF') {
+                unlink($tmpPath);
+                $output->writeln('<error>Not a PDF (magic bytes: ' . bin2hex($header) . ')</error>');
+                return 1;
+            }
+            $output->writeln('Validated: PDF');
+        } else {
+            $output->writeln('Skipping PDF magic-byte check (expected content type: ' . $expectedContentType . ')');
+        }
 
         // --- Label ---
         $newLabel = $input->getOption('label');
@@ -287,5 +315,22 @@ class ReplaceFileCommand extends Command
 
         $output->writeln('Done.');
         return 0;
+    }
+
+    private static function extensionForContentType($contentType)
+    {
+        $map = [
+            'application/pdf'                                                        => 'pdf',
+            'video/mp4'                                                               => 'mp4',
+            'video/mpeg'                                                              => 'mpeg',
+            'application/zip'                                                         => 'zip',
+            'application/x-rar'                                                       => 'rar',
+            'application/x-gzip'                                                      => 'gz',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'       => 'xlsx',
+            'image/png'                                                               => 'png',
+            'text/csv'                                                                => 'csv',
+            'text/plain'                                                              => 'txt',
+        ];
+        return isset($map[$contentType]) ? $map[$contentType] : 'bin';
     }
 }
