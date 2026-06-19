@@ -709,12 +709,12 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $files = $document->getCurrentFileData();
 
-        foreach ($files['original'] as $file) {
+        foreach (($files['original'] ?? []) as $file) {
             if ($file['id'] == $attachmentId) {
                 return $file;
             }
         }
-        foreach ($files['download'] as $file) {
+        foreach (($files['download'] ?? []) as $file) {
             if ($file['id'] == $attachmentId) {
                 return $file;
             }
@@ -787,7 +787,7 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $result = [];
         foreach ($keys as $k) {
-            $result[$k] = (array_key_exists($k, $from)) ? $from[$k] : null;
+            $result[$k] = (is_array($from) && array_key_exists($k, $from)) ? $from[$k] : null;
         }
         return $result;
     }
