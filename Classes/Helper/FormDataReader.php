@@ -284,13 +284,20 @@ class FormDataReader
             $file = $this->objectManager->get(File::class);
         }
 
-        $fileName = uniqid(time(), true);
+        $fileName = explode('.', uniqid(time(), true))[0];
 
         \TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tmpFile['tmp_name'], $this->uploadPath . $fileName);
 
         $finfo       = finfo_open(FILEINFO_MIME_TYPE);
         $contentType = finfo_file($finfo, $this->uploadPath . $fileName);
         finfo_close($finfo);
+
+        $ext = \EWW\Dpf\Service\FilenameGenerator::mimeToExtension($contentType);
+        if ($ext !== '') {
+            $newFileName = $fileName . $ext;
+            rename($this->uploadPath . $fileName, $this->uploadPath . $newFileName);
+            $fileName = $newFileName;
+        }
 
         $file->setContentType($contentType);
 
