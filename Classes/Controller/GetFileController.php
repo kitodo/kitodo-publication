@@ -679,7 +679,8 @@ class GetFileController extends \EWW\Dpf\Controller\AbstractController
     {
         $objectProfileURI = rtrim('http://' . $fedoraHost, "/") . '/fedora/objects/' . $pid . '?format=XML';
         $ctx = stream_context_create(['http' => ['timeout' => 90]]);
-        $objectProfileXML = file_get_contents($objectProfileURI, false, $ctx);
+        // @ suppresses PHP warning on 404/410 — expected for deleted/inactive objects; false handled below
+        $objectProfileXML = @file_get_contents($objectProfileURI, false, $ctx);
 
         if (false !== $objectProfileXML) {
             $objectProfileDOM = new \DOMDocument('1.0', 'UTF-8');
