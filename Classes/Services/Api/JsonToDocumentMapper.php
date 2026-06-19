@@ -476,7 +476,7 @@ class JsonToDocumentMapper
                                           );
                                           if (!in_array($value, $allowedValues, true)) {
                                               throw new InvalidJson(
-                                                  "Field $jsonObjectName, invalid value '$value'"
+                                                  "Field '$jsonObjectName', invalid value '$value'"
                                               );
                                           }
                                       }
