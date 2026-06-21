@@ -55,6 +55,29 @@ class AbstractPlugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     protected $templateService = null;
 
     /**
+     * Override TYPO3's default to use class name as DLF does, producing e.g. tx-dlf-metadata.
+     *
+     * DLF AbstractPlugin line 291 uses Helper::getUnqualifiedClassName(get_class($this)).
+     * That produces tx-dlf-{ClassName}. CSS in slub_web_qucosa/content.css targets those classes.
+     *
+     * @param string $content
+     * @return string
+     */
+    public function pi_wrapInBaseClass($content)
+    {
+        if (!$GLOBALS['TSFE']->config['config']['disableWrapInBaseClass']) {
+            $className = strtolower(basename(str_replace('\\', '/', get_class($this))));
+            $content = '<div class="tx-dlf-' . $className . '">' . $content . '</div>';
+            if (!$GLOBALS['TSFE']->config['config']['disablePrefixComment']) {
+                $content = "\n\n<!-- BEGIN: " . get_class($this) . " -->\n\n"
+                    . $content
+                    . "\n\n<!-- END: " . get_class($this) . " -->\n\n";
+            }
+        }
+        return $content;
+    }
+
+    /**
      * Initialise plugin: merge FlexForm + TS conf, set piVar defaults, init templateService.
      *
      * Mirrors Kitodo\Dlf\Common\AbstractPlugin::init() but scoped to tx_dpf.

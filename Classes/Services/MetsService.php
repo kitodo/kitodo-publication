@@ -110,8 +110,10 @@ class MetsService
             $redis = null;
         }
 
+        // $pid is pre-validated by MetsDocument::getInstance() against /^[A-Za-z0-9][A-Za-z0-9._-]*:[A-Za-z0-9._-]+$/
+        // rawurlencode() intentionally omitted: Fedora 3 REST API requires the literal colon in namespace:id PIDs.
         $fedoraUrl = rtrim('http://' . $this->fedoraHost, '/')
-            . '/fedora/objects/' . rawurlencode($pid)
+            . '/fedora/objects/' . $pid
             . '/methods/qucosa:SDef/getMETSDissemination?supplement=yes';
 
         $ctx = stream_context_create(['http' => ['timeout' => $this->fedoraTimeout]]);

@@ -380,6 +380,9 @@
 		<trans-unit id="tx_dpf_domain_model_processnumber.year">
 			<source>Year</source>
 		</trans-unit>
+		<trans-unit id="tx_dpf_metadata">
+			<source>Metadata Configuration</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>
