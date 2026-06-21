@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @subpackage    tx_dpf
  * @access    public
  */
-class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
+class Coins extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/Coins.php';
 

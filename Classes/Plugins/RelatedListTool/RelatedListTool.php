@@ -24,7 +24,7 @@ namespace EWW\Dpf\Plugins\RelatedListTool;
  * @subpackage    tx_dpf
  * @access    public
  */
-class RelatedListTool extends \Kitodo\Dlf\Common\AbstractPlugin
+class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/RelatedListTool.php';
 

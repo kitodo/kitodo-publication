@@ -5,6 +5,8 @@
          colors="true">
     <testsuites>
         <testsuite name="Unit">
+            <file>Tests/Unit/Common/MetsDocumentTest.php</file>
+            <file>Tests/Unit/Services/MetsServiceTest.php</file>
             <file>Tests/Unit/Services/FilenameGeneratorTest.php</file>
             <file>Tests/Unit/Controller/GetFileControllerTest.php</file>
             <file>Tests/Unit/Helper/ModsTest.php</file>

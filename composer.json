@@ -40,8 +40,7 @@
     },
     "require-dev": {
         "nimut/testing-framework": "*",
-        "phpstan/phpstan": "^2.0",
-        "kitodo/presentation": "~v3.2.3"
+        "phpstan/phpstan": "^2.0"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"

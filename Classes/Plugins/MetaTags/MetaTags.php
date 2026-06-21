@@ -25,7 +25,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @subpackage    tx_dpf
  * @access    public
  */
-class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
+class MetaTags extends \EWW\Dpf\Common\AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugins/MetaTags.php';
 
