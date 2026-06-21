@@ -1,3 +1,7 @@
+# Override DLF Metadata plugin with dpf-native class (no HTTP self-loop).
+# tx_dlf_metadata content elements on landing pages pick this up automatically.
+plugin.tx_dlf_metadata.userFunc = EWW\Dpf\Plugin\Metadata->main
+
 # -------------------------------------------------------------------
 # This file is part of the TYPO3 CMS project.
 #

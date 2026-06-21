@@ -108,6 +108,47 @@ class AbstractPlugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     }
 
     /**
+     * Parse a TypoScript string into a setup array.
+     *
+     * Mirrors Kitodo\Dlf\Common\AbstractPlugin::parseTS().
+     *
+     * @param string $string
+     * @return array
+     */
+    protected function parseTS($string = '')
+    {
+        $parser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
+        $parser->parse($string);
+        return $parser->setup;
+    }
+
+    /**
+     * Load and cache the plugin template from conf['templateFile'] or a
+     * default path derived from the class name under EXT:dlf/... (DLF installed).
+     *
+     * Mirrors Kitodo\Dlf\Common\AbstractPlugin::getTemplate().
+     *
+     * @param string $part Subpart marker to extract
+     * @return void
+     */
+    protected function getTemplate($part = '###TEMPLATE###')
+    {
+        if (!empty($this->conf['templateFile'])) {
+            $templateFile = $this->conf['templateFile'];
+        } else {
+            $className = basename(str_replace('\\', '/', get_class($this)));
+            $templateFile = 'EXT:dlf/Resources/Private/Templates/Plugin/' . $className . '.tmpl';
+        }
+        $fileResource = $GLOBALS['TSFE']->tmpl->getFileName($templateFile);
+        if (!empty($fileResource) && file_exists($fileResource)) {
+            $this->template = $this->templateService->getSubpart(
+                file_get_contents($fileResource),
+                $part
+            );
+        }
+    }
+
+    /**
      * Load the document from the METS URL in tx_dlf[id] / piVars['id'].
      *
      * Replaces DLF Document::getInstance() HTTP call with direct Redis/Fedora fetch.
